@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.rmj.guanzongroup.authlibrary">
+
+    <application>
+        <activity
+            android:name=".Activity.Activity_Authenticate"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme"
+            android:windowSoftInputMode="adjustPan"/>
+    </application>
+
+</manifest>

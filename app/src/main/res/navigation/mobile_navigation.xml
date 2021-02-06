@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="org.rmj.guanzongroup.ghostrider.epacss.ui.HomeContainer.Fragment_HomeContainer"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_creditApp"
+        android:name="org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_IntroductoryQuestion"
+        android:label="Credit Application"
+        tools:layout="@layout/fragment_introductory_question"/>
+
+    <fragment
+        android:id="@+id/nav_application"
+        android:name="org.rmj.guanzongroup.ghostrider.epacss.ui.Fragment_Application"
+        android:label="Application"
+        tools:layout="@layout/fragment_application" />
+
+    <fragment
+        android:id="@+id/nav_promotions"
+        android:name="org.rmj.guanzongroup.promotions.Fragment_RaffleEntry"
+        android:label="Raffle Entry"
+        tools:layout="@layout/fragment_raffle_entry" />
+
+    <fragment
+        android:id="@+id/nav_reimbursement"
+        android:name="org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Reimbursement"
+        android:label="Reimbursement"
+        tools:layout="@layout/fragment_reimbursement" />
+
+    <fragment
+        android:id="@+id/nav_inventory"
+        android:name="org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Inventory"
+        android:label="Inventory"
+        tools:layout="@layout/fragment_inventory" />
+
+    <fragment
+        android:id="@+id/nav_samsungKnox"
+        android:name="org.rmj.guanzongroup.ghostrider.samsungknox.Fragment.Fragment_Knox"
+        android:label="Samsung Knox"
+        tools:layout="@layout/fragment_knox" />
+
+    <fragment
+        android:id="@+id/nav_appCode"
+        android:name="org.rmj.guanzongroup.ghostrider.approvalcode.Fragment.Fragment_ApprovalMenu"
+        android:label="Approval Code"
+        tools:layout="@layout/fragment_approval_menu" />
+
+    <fragment
+        android:id="@+id/nav_ahMonitoring"
+        android:name="org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_AreaMonitor"
+        android:label="Performance Monitoring"
+        tools:layout="@layout/fragment_area_monitor" />
+
+    <fragment
+        android:id="@+id/nav_cashcount"
+        android:name="org.rmj.guanzongroup.ghostrider.cashcount.Fragment_CashCounter"
+        android:label="Cash Count"
+        tools:layout="@layout/fragment_cash_counter" />
+</navigation>

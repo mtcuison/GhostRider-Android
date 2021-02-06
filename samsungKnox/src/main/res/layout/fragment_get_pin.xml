@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.Fragment_GetPin"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="10dp"
+    android:theme="@style/GhostRiderMaterialTheme">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_knox_unlock"
+        android:adjustViewBounds="true"
+        android:layout_margin="20dp"
+        tools:ignore="ContentDescription" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_knoxImei"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter device Imei here..."
+        tools:ignore="HardcodredText"
+        style="@style/TextInputStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_knoxImei"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_device_id"
+            android:drawableLeft="@drawable/ic_device_id"
+            android:inputType="number|none"
+            android:maxLength="16"
+            style="@style/TextInputStyle.Edittext"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <EditText
+            android:id="@+id/txt_KnoxPIN"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:maxLength="10"
+            android:letterSpacing="1.2"
+            android:gravity="center"
+            android:backgroundTint="@color/textColor_Orange"
+            android:textCursorDrawable="@null"
+            android:fontFamily="@font/roboto_medium"
+            android:enabled="false"
+            tools:ignore="UnusedAttribute" />
+
+        <ImageButton
+            android:id="@+id/btn_CopyToClipboard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".15"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:src="@drawable/ic_content_copy"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_knoxGetPIN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Unlock PIN"
+        android:textColor="@color/textColor_Black"
+        style="@style/MaterialButtonAccent"/>
+
+</LinearLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.rmj.guanzongroup.ghostrider.samsungknox">
+
+    <application>
+        <activity android:name=".Activity_Knox"
+            android:theme="@style/GhostRiderMaterialTheme"
+            android:label="Samsung Knox"/>
+    </application>
+
+</manifest>

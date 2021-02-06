@@ -1,0 +1,77 @@
+package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.ReimburseInfo;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
+
+import java.util.List;
+
+public class ReimbursementAdapter extends RecyclerView.Adapter<ReimbursementAdapter.ExpViewHolder> {
+
+    private final List<ReimburseInfo> plExpList;
+    private final OnExpButtonClickListener mListener;
+
+    public ReimbursementAdapter(List<ReimburseInfo> plExpList, OnExpButtonClickListener listener) {
+        this.plExpList = plExpList;
+        this.mListener = listener;
+    }
+
+    @NonNull
+    @Override
+    public ExpViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_expenses, parent, false);
+        return new ExpViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ExpViewHolder holder, int position) {
+        ReimburseInfo info = plExpList.get(position);
+        holder.lblDetail.setText(info.getsDetlInfo());
+        holder.lblAmount.setText("₱ " + String.valueOf(info.getsAmountxx()));
+        holder.btnEdit.setOnClickListener(view -> {
+            if(position != RecyclerView.NO_POSITION){
+                mListener.OnEdit(position, info.getsDetlInfo(), info.getsAmountxx());
+            }
+        });
+        holder.btnDlte.setOnClickListener(view -> {
+            if(position != RecyclerView.NO_POSITION){
+                mListener.OnDelete(position, info.getsDetlInfo(), info.getsAmountxx());
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return plExpList.size();
+    }
+
+    public static class ExpViewHolder extends RecyclerView.ViewHolder{
+
+        TextView lblDetail;
+        TextView lblAmount;
+        ImageButton btnEdit;
+        ImageButton btnDlte;
+
+        public ExpViewHolder(@NonNull View itemView) {
+            super(itemView);
+            lblDetail = itemView.findViewById(R.id.lbl_list_expDetail);
+            lblAmount = itemView.findViewById(R.id.lbl_list_expAmount);
+            btnEdit = itemView.findViewById(R.id.btn_item_edit);
+            btnDlte = itemView.findViewById(R.id.btn_item_delete);
+
+        }
+    }
+
+    public interface OnExpButtonClickListener{
+        void OnEdit(int position, String Detail, int Amount);
+        void OnDelete(int position, String Detail, int Amount);
+    }
+}

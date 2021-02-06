@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.home.Fragment_Home">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_centerInParent="true">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:cardCornerRadius="100dp"
+            app:cardPreventCornerOverlap="true"
+            android:layout_marginBottom="30dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/img_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_user_profile"
+                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/lbl_employeeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Garcia, Michael P."
+            android:textColor="@color/material_black"
+            android:textSize="28sp"
+            android:fontFamily="@font/roboto_black"
+            android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:id="@+id/lbl_employeeEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="mikegarcia8748@gmail.com"
+            android:textColor="@color/material_black"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:id="@+id/lbl_employeeMobileNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="091718700111"
+            android:textColor="@color/material_black"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:id="@+id/lbl_employeePosition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MIS Department"
+            android:textColor="@color/material_black"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:id="@+id/lbl_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="address"
+            android:textColor="@color/material_black"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginBottom="30dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_timeKeeper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login Timekeeper"
+            style="@style/MaterialButtonAccent"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_selfie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selfie Login"
+            style="@style/MaterialButtonAccent"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lbl_versionInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="@color/material_black"
+        android:text="Build version 1.0.0 - 1Vc"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"/>
+
+</RelativeLayout>

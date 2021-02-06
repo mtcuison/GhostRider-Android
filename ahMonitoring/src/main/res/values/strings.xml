@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sHintLeave">Leave</string>
+    <string name="sHintTransNox">Transaction No.</string>
+    <string name="sHintDate">Date</string>
+    <string name="sHintLeaveCredit">Leave Credits</string>
+    <string name="sHintEmploye">Employee</string>
+    <string name="sHintBranch">Branch</string>
+    <string name="sHintDepartment">Department</string>
+    <string name="sHintDateFrm">From Date:</string>
+    <string name="sHintDateTo">To Date:</string>
+    <string name="sHintPurpose">Purpose</string>
+    <string name="sBtnSubmitApp">Submit Application</string>
+    <string name="sHeaderBusTrip">Business Trip</string>
+    <string name="sLabelTransNox">Transaction No.</string>
+    <string name="sRbWithLog">With Log</string>
+    <string name="sRnWihtoutLog">Without Log</string>
+    <string name="sHintTimeInAM">Time In(AM)</string>
+    <string name="sHintTmeOutAM">Time Out(AM)</string>
+    <string name="sHintOvertime">Overtime</string>
+    <string name="sHintTimeInPM">Time In(PM)</string>
+    <string name="sHintTmeOutPM">Time Out(PM)</string>
+    <string name="sHintRemarks">Remarks</string>
+    <string name="sHintPrtclrPurpose">Particular Purpose</string>
+    <string name="sHintOrNo">Official Receipt Number/Report Detail</string>
+    <string name="sHintAmntExp">Total Amount of Expenses</string>
+    <string name="sApplicationLeave">Leave Application</string>
+    <string name="sApplicationBusTrip">OB Application</string>
+    <string name="sBtnSaveInventory">Save Inventory</string>
+    <string name="sHintAmntExps">Amount of expense</string>
+</resources>

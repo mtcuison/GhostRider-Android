@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="@string/menu_home" />
+
+        <item
+            android:id="@+id/nav_samsungKnox"
+            android:icon="@drawable/ic_menu_knox"
+            android:title="@string/menu_samsungKnox" />
+
+        <item
+            android:id="@+id/nav_creditApp"
+            android:icon="@drawable/ic_menu_creditapp"
+            android:title="@string/menu_creditApp" />
+        <item
+            android:id="@+id/nav_creditAppList"
+            android:icon="@drawable/ic_menu_applist"
+            android:title="@string/menu_creditAppLog" />
+        <item
+            android:id="@+id/nav_creditInvestigate"
+            android:icon="@drawable/ic_menu_credit_investigate"
+            android:title="@string/menu_creditInvestigation" />
+        <item
+            android:id="@+id/nav_creditEvaluationLog"
+            android:icon="@drawable/ic_menu_evaluation"
+            android:title="@string/menu_creditEvaluation" />
+        <item
+            android:id="@+id/nav_appCode"
+            android:icon="@drawable/ic_menu_approval"
+            android:title="@string/menu_appCode" />
+        <item
+            android:id="@+id/nav_ahMonitoring"
+            android:icon="@drawable/ic_menu_monitoring"
+            android:title="@string/menu_ahMonitoring" />
+        <item
+            android:id="@+id/nav_impounding"
+            android:icon="@drawable/ic_menu_impound"
+            android:title="@string/menu_mcImpound" />
+        <item
+            android:id="@+id/nav_reimbursement"
+            android:icon="@drawable/ic_menu_reimbursement"
+            android:title="@string/menu_reimbursement" />
+        <item
+            android:id="@+id/nav_application"
+            android:icon="@drawable/ic_menu_application"
+            android:title="@string/menu_application" />
+        <item
+            android:id="@+id/nav_inventory"
+            android:icon="@drawable/ic_menu_inventory"
+            android:title="@string/menu_inventory" />
+        <item
+            android:id="@+id/nav_promotions"
+            android:icon="@drawable/ic_menu_promo"
+            android:title="@string/menu_promotions" />
+        <item
+            android:id="@+id/nav_cashcount"
+            android:icon="@drawable/ic_menu_cashcount"
+            android:title="@string/menu_cashCount" />
+    </group>
+
+</menu>

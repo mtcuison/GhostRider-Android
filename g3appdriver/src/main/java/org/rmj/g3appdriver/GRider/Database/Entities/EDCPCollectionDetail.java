@@ -1,0 +1,327 @@
+package org.rmj.g3appdriver.GRider.Database.Entities;
+
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "LR_DCP_Collection_Detail")
+public class EDCPCollectionDetail {
+
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "sTransNox")
+    private String TransNox;
+    @ColumnInfo(name = "nEntryNox")
+    private String EntryNox;
+    @ColumnInfo(name = "sAcctNmbr")
+    private String AcctNmbr;
+    @ColumnInfo(name = "xFullName")
+    private String FullName;
+    @ColumnInfo(name = "sPRNoxxxx")
+    private String PRNoxxxx;
+    @ColumnInfo(name = "nTranAmtx")
+    private String TranAmtx;
+    @ColumnInfo(name = "nDiscount")
+    private String Discount;
+    @ColumnInfo(name = "nOthersxx")
+    private String Othersxx;
+    @ColumnInfo(name = "sRemarksx")
+    private String Remarksx;
+    @ColumnInfo(name = "dPromised")
+    private String Promised;
+    @ColumnInfo(name = "sRemCodex")
+    private String RemCodex;
+    @ColumnInfo(name = "cTranType")
+    private String TranType;
+    @ColumnInfo(name = "nTranTotl")
+    private String TranTotl;
+    @ColumnInfo(name = "sReferNox")
+    private String ReferNox;
+    @ColumnInfo(name = "cPaymForm")
+    private String PaymForm;
+    @ColumnInfo(name = "cIsDCPxxx")
+    private String IsDCPxxx;
+    @ColumnInfo(name = "sHouseNox")
+    private String HouseNox;
+    @ColumnInfo(name = "sAddressx")
+    private String Addressx;
+    @ColumnInfo(name = "sBrgyName")
+    private String BrgyName;
+    @ColumnInfo(name = "sTownName")
+    private String TownName;
+    @ColumnInfo(name = "nAmtDuexx")
+    private String AmtDuexx;
+    @ColumnInfo(name = "cApntUnit")
+    private String ApntUnit;
+    @ColumnInfo(name = "dDueDatex")
+    private String DueDatex;
+    @ColumnInfo(name = "nLongitud")
+    private String Longitud;
+    @ColumnInfo(name = "nLatitude")
+    private String Latitude;
+    @ColumnInfo(name = "sClientID")
+    private String ClientID;
+    @ColumnInfo(name = "sSerialID")
+    private String SerialID;
+    @ColumnInfo(name = "sSerialNo")
+    private String SerialNo;
+    @ColumnInfo(name = "cSendStat")
+    private String SendStat;
+    @ColumnInfo(name = "dSendDate")
+    private String SendDate;
+    @ColumnInfo(name = "dModified")
+    private String Modified;
+
+    public EDCPCollectionDetail() {
+    }
+
+    @NonNull
+    public String getTransNox() {
+        return TransNox;
+    }
+
+    public void setTransNox(@NonNull String transNox) {
+        TransNox = transNox;
+    }
+
+    public String getEntryNox() {
+        return EntryNox;
+    }
+
+    public void setEntryNox(String entryNox) {
+        EntryNox = entryNox;
+    }
+
+    public String getAcctNmbr() {
+        return AcctNmbr;
+    }
+
+    public void setAcctNmbr(String acctNmbr) {
+        AcctNmbr = acctNmbr;
+    }
+
+    public String getFullName() {
+        return FullName;
+    }
+
+    public void setFullName(String fullName) {
+        FullName = fullName;
+    }
+
+    public String getPRNoxxxx() {
+        return PRNoxxxx;
+    }
+
+    public void setPRNoxxxx(String PRNoxxxx) {
+        this.PRNoxxxx = PRNoxxxx;
+    }
+
+    public String getTranAmtx() {
+        return TranAmtx;
+    }
+
+    public void setTranAmtx(String tranAmtx) {
+        TranAmtx = tranAmtx;
+    }
+
+    public String getDiscount() {
+        return Discount;
+    }
+
+    public void setDiscount(String discount) {
+        Discount = discount;
+    }
+
+    public String getOthersxx() {
+        return Othersxx;
+    }
+
+    public void setOthersxx(String othersxx) {
+        Othersxx = othersxx;
+    }
+
+    public String getRemarksx() {
+        return Remarksx;
+    }
+
+    public void setRemarksx(String remarksx) {
+        Remarksx = remarksx;
+    }
+
+    public String getPromised() {
+        return Promised;
+    }
+
+    public void setPromised(String promised) {
+        Promised = promised;
+    }
+
+    public String getRemCodex() {
+        return RemCodex;
+    }
+
+    public void setRemCodex(String remCodex) {
+        RemCodex = remCodex;
+    }
+
+    public String getTranType() {
+        return TranType;
+    }
+
+    public void setTranType(String tranType) {
+        TranType = tranType;
+    }
+
+    public String getTranTotl() {
+        return TranTotl;
+    }
+
+    public void setTranTotl(String tranTotl) {
+        TranTotl = tranTotl;
+    }
+
+    public String getReferNox() {
+        return ReferNox;
+    }
+
+    public void setReferNox(String referNox) {
+        ReferNox = referNox;
+    }
+
+    public String getPaymForm() {
+        return PaymForm;
+    }
+
+    public void setPaymForm(String paymForm) {
+        PaymForm = paymForm;
+    }
+
+    public String getIsDCPxxx() {
+        return IsDCPxxx;
+    }
+
+    public void setIsDCPxxx(String isDCPxxx) {
+        IsDCPxxx = isDCPxxx;
+    }
+
+    public String getHouseNox() {
+        return HouseNox;
+    }
+
+    public void setHouseNox(String houseNox) {
+        HouseNox = houseNox;
+    }
+
+    public String getAddressx() {
+        return Addressx;
+    }
+
+    public void setAddressx(String addressx) {
+        Addressx = addressx;
+    }
+
+    public String getBrgyName() {
+        return BrgyName;
+    }
+
+    public void setBrgyName(String brgyName) {
+        BrgyName = brgyName;
+    }
+
+    public String getTownName() {
+        return TownName;
+    }
+
+    public void setTownName(String townName) {
+        TownName = townName;
+    }
+
+    public String getAmtDuexx() {
+        return AmtDuexx;
+    }
+
+    public void setAmtDuexx(String amtDuexx) {
+        AmtDuexx = amtDuexx;
+    }
+
+    public String getApntUnit() {
+        return ApntUnit;
+    }
+
+    public void setApntUnit(String apntUnit) {
+        ApntUnit = apntUnit;
+    }
+
+    public String getDueDatex() {
+        return DueDatex;
+    }
+
+    public void setDueDatex(String dueDatex) {
+        DueDatex = dueDatex;
+    }
+
+    public String getLongitud() {
+        return Longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        Longitud = longitud;
+    }
+
+    public String getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        Latitude = latitude;
+    }
+
+    public String getClientID() {
+        return ClientID;
+    }
+
+    public void setClientID(String clientID) {
+        ClientID = clientID;
+    }
+
+    public String getSerialID() {
+        return SerialID;
+    }
+
+    public void setSerialID(String serialID) {
+        SerialID = serialID;
+    }
+
+    public String getSerialNo() {
+        return SerialNo;
+    }
+
+    public void setSerialNo(String serialNo) {
+        SerialNo = serialNo;
+    }
+
+    public String getSendStat() {
+        return SendStat;
+    }
+
+    public void setSendStat(String sendStat) {
+        SendStat = sendStat;
+    }
+
+    public String getSendDate() {
+        return SendDate;
+    }
+
+    public void setSendDate(String sendDate) {
+        SendDate = sendDate;
+    }
+
+    public String getModified() {
+        return Modified;
+    }
+
+    public void setModified(String modified) {
+        Modified = modified;
+    }
+}

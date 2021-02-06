@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:baselineAligned="false"
+        android:layout_marginVertical="3dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/lbl_list_expDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reciept/Detail : 0000000000000"
+                android:textColor="@color/textColor_Black"
+                android:layout_marginBottom="10dp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/lbl_list_expAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Amount of Exp.: Php. 200.00"
+                android:textColor="@color/textColor_Black"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:orientation="vertical"
+            android:gravity="end">
+
+            <ImageButton
+                android:id="@+id/btn_item_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_exp_edit"
+                android:adjustViewBounds="true"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                tools:ignore="ContentDescription" />
+
+            <ImageButton
+                android:id="@+id/btn_item_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_exp_delete"
+                android:adjustViewBounds="true"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                tools:ignore="ContentDescription" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/guanzon_orange"/>
+
+</LinearLayout>

@@ -1,0 +1,66 @@
+package org.rmj.g3appdriver.GRider.Database.Repositories;
+
+import android.app.Application;
+import android.os.AsyncTask;
+
+import androidx.lifecycle.LiveData;
+
+import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
+import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationRecipient;
+import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationUser;
+
+import java.util.List;
+
+public class RNotificationInfo {
+    private final DNotifications notificationDao;
+    private final LiveData<List<DNotifications.ClientNotificationInfo>> clientNotificationList;
+    private final LiveData<List<DNotifications.UserNotificationInfo>> userNotificationList;
+
+    public RNotificationInfo(Application application){
+        AppDatabase appDatabase = AppDatabase.getInstance(application);
+        notificationDao = appDatabase.NotificationDao();
+        clientNotificationList = notificationDao.getClientNotificationList();
+        userNotificationList = notificationDao.getUserNotificationList();
+    }
+
+    public LiveData<List<DNotifications.ClientNotificationInfo>> getClientNotificationList() {
+        return clientNotificationList;
+    }
+
+    public LiveData<List<DNotifications.UserNotificationInfo>> getUserNotificationList() {
+        return userNotificationList;
+    }
+
+    public void insertNotificationInfo(ENotificationMaster notificationMaster,
+                                       ENotificationRecipient notificationRecipient,
+                                       ENotificationUser notificationUser){
+        new InsertNotificationTask(notificationDao, notificationMaster, notificationRecipient, notificationUser).execute();
+    }
+
+    private static class InsertNotificationTask extends AsyncTask<Void, Void, Void>{
+        private final DNotifications notificationDao;
+        private final ENotificationMaster notificationMaster;
+        private final ENotificationRecipient notificationRecipient;
+        private final ENotificationUser notificationUser;
+
+        public InsertNotificationTask(DNotifications notificationDao,
+                                      ENotificationMaster notificationMaster,
+                                      ENotificationRecipient notificationRecipient,
+                                      ENotificationUser notificationUser) {
+            this.notificationDao = notificationDao;
+            this.notificationMaster = notificationMaster;
+            this.notificationRecipient = notificationRecipient;
+            this.notificationUser = notificationUser;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            notificationDao.insert(notificationMaster);
+            notificationDao.insert(notificationRecipient);
+            notificationDao.insert(notificationUser);
+            return null;
+        }
+    }
+}

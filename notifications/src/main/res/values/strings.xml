@@ -1,0 +1,4 @@
+<resources>
+    <string name="slblRecipient">Recipient : </string>
+    <string name="slblDateTime">Date :</string>
+</resources>

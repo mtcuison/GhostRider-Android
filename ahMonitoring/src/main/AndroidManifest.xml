@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.rmj.guanzongroup.ghostrider.ahmonitoring">
+
+    <application>
+
+        <activity android:name=".Activity.Activity_Inventory"
+            android:theme="@style/GhostRiderMaterialTheme"
+            android:label="Inventory"
+            android:screenOrientation="userPortrait"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <activity
+            android:name=".Activity.Activity_Application"
+            android:theme="@style/GhostRiderMaterialTheme"
+            android:label="Application"
+            android:screenOrientation="userPortrait"
+            android:windowSoftInputMode="adjustPan"/>
+
+    </application>
+
+</manifest>

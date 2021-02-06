@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_authentication"
+    app:startDestination="@id/fragment_Login">
+
+    <fragment
+        android:id="@+id/fragment_Login"
+        android:name="org.rmj.guanzongroup.authlibrary.UserInterface.Login.Fragment_Login"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_fragment_Login_to_fragment_CreateAccount"
+            app:destination="@id/fragment_CreateAccount" />
+        <action
+            android:id="@+id/action_fragment_Login_to_fragment_ForgotPassword"
+            app:destination="@id/fragment_ForgotPassword" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_CreateAccount"
+        android:name="org.rmj.guanzongroup.authlibrary.UserInterface.CreateAccount.Fragment_CreateAccount"
+        android:label="fragment_create_account"
+        tools:layout="@layout/fragment_create_account" >
+        <action
+            android:id="@+id/action_fragment_CreateAccount_to_fragment_Login"
+            app:destination="@id/fragment_Login" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_ForgotPassword"
+        android:name="org.rmj.guanzongroup.authlibrary.UserInterface.ForgotPassword.Fragment_ForgotPassword"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" >
+        <action
+            android:id="@+id/action_fragment_ForgotPassword_to_fragment_Login"
+            app:destination="@id/fragment_Login" />
+    </fragment>
+</navigation>

@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">GhostRider_Android</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">GhostRider Android</string>
+    <string name="nav_header_subtitle">Electronic Personnel Access, Control, And Security</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_samsungKnox">Samsung Knox</string>
+    <string name="menu_creditAppLog">Credit Application List</string>
+    <string name="menu_appCode">Approval Code</string>
+    <string name="menu_ahMonitoring">Area Performance Monitoring</string>
+    <string name="menu_creditApp">Online Credit Application</string>
+    <string name="menu_mcImpound">MC Impounding</string>
+    <string name="menu_reimbursement">Reimbursement</string>
+    <string name="menu_application">Application</string>
+    <string name="menu_inventory">Inventory</string>
+    <string name="menu_promotions">Promotions</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sBtnLeaveApp">Apply Leave</string>
+    <string name="sBtnBusTrpApp">Apply Business Trip</string>
+    <string name="action_logout">Logout</string>
+    <string name="menu_cashCount">Cash Count</string>
+    <string name="menu_creditInvestigation">Online Credit Investigation</string>
+    <string name="menu_creditEvaluation">Credit Evaluation List</string>
+</resources>

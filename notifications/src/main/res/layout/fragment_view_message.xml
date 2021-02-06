@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="5dp"
+    tools:context=".Fragment.Fragment_ViewNotification">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/lbl_messageTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Employee Timesheet Report"
+            android:textSize="24sp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/material_black"
+            android:padding="5dp"
+            android:layout_marginBottom="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="4.5"
+                android:src="@drawable/ic_user_profile"/>
+
+            <TextView
+                android:id="@+id/lbl_messageSender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Employee Timesheet Report"
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/material_black"
+                android:padding="5dp"/>
+
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="3dp"
+            app:cardPreventCornerOverlap="true"
+            app:cardMaxElevation="5dp"
+            app:cardBackgroundColor="#F3F3F3"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/message_info_bg"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="@string/slblRecipient"
+                        android:fontFamily="@font/roboto_regular"/>
+
+                    <TextView
+                        android:id="@+id/lbl_messageRecipient"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="mikegarcia8748@gmail.com"
+                        android:textColor="@color/material_black"
+                        android:fontFamily="@font/roboto_regular"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="@string/slblDateTime"
+                        android:fontFamily="@font/roboto_regular"/>
+
+                    <TextView
+                        android:id="@+id/lbl_messageDateTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="14 December 2020, 2:39 PM"
+                        android:textColor="@color/material_black"
+                        android:fontFamily="@font/roboto_regular"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/lbl_messageBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Good day!\n
+        HDMF/Pag-Ibig in coordination with HCM is accepting applications for those who would like to avail of the new Loyalty Card Plus.Please fill up and send a hard copy of the application form together with your valid ID to Ms. Shirley Maynigo at HCM, GK bldg. before November 5, 2020.\n
+        For interested applicants, please prepare P125 to be paid on the actual date of registration.\n\n
+        The new Pag-Ibig loyalty card plus has a built-in EMV chip. You can use it as a cash card where you may conveniently receive your Pag-Ibig Multi-Purpose Loan (MPL) proceeds, MP2 saving dividends, and other benefits."
+            android:textColor="@color/material_black"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="20dp"
+            android:background="@drawable/message_info_bg"
+            android:layout_margin="5dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_messageReply"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Reply"
+                app:icon="@drawable/ic_message_reply"
+                app:iconGravity="textStart"
+                app:iconTint="@color/material_black"
+                style="@style/MaterialButtonLight"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Delete"
+                app:icon="@drawable/ic_message_delete"
+                app:iconGravity="textStart"
+                app:iconTint="@color/material_black"
+                style="@style/MaterialButtonLight"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

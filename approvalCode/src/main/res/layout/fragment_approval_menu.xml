@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.Fragment_ApprovalMenu"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="10dp"
+    android:theme="@style/GhostRiderMaterialTheme">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_dayToDay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sBtnDayToDay"
+        style="@style/MaterialButtonAccent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_manualLog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sBtnManualLog"
+        style="@style/MaterialButtonAccent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_byReference"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sBtnReference"
+        style="@style/MaterialButtonAccent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_byName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sBtnName"
+        style="@style/MaterialButtonAccent"/>
+
+</LinearLayout>
