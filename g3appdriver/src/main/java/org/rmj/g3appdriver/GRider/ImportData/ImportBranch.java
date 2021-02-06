@@ -40,14 +40,12 @@ public class ImportBranch implements ImportInstance{
     private final WebApi webApi;
     private final HttpHeaders headers;
     private final Application instance;
-    private final RBranch repository;
 
     public ImportBranch(Application application){
-        instance = application;
-        conn = new ConnectionUtil(instance);
-        webApi = new WebApi(instance.getApplicationContext());
-        headers = HttpHeaders.getInstance(instance);
-        repository = new RBranch(instance);
+        this.instance = application;
+        this.conn = new ConnectionUtil(instance);
+        this.webApi = new WebApi(instance.getApplicationContext());
+        this.headers = HttpHeaders.getInstance(instance);
     }
 
     @Override
@@ -68,12 +66,14 @@ public class ImportBranch implements ImportInstance{
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
         private final Application instance;
+        private final RBranch poBranchRp;
 
         public ImportBranchTask(ImportDataCallback callback, HttpHeaders headers, ConnectionUtil conn, Application instance) {
             this.instance = instance;
             this.callback = callback;
             this.headers = headers;
             this.conn = conn;
+            this.poBranchRp = new RBranch(instance);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -88,7 +88,7 @@ public class ImportBranch implements ImportInstance{
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
-                        saveDataToLocal(laJson);
+                        poBranchRp.insertBranchInfos(laJson);
                     } else {
                         JSONObject loError = loJson.getJSONObject("error");
                         String message = loError.getString("message");
@@ -124,126 +124,6 @@ public class ImportBranch implements ImportInstance{
             } catch (Exception e) {
                 e.printStackTrace();
                 callback.OnFailedImportData(e.getMessage());
-            }
-        }
-
-        void saveDataToLocal(JSONArray laJson) throws Exception{
-            List<EBranchInfo> branchInfos = new ArrayList<>();
-
-            GConnection loConn = doConnect();
-
-            if (loConn == null){
-                Log.e(TAG, "Connection was not initialized.");
-                return;
-            }
-
-            JSONObject loJson;
-            String lsSQL;
-            ResultSet loRS;
-
-            for(int x = 0; x < laJson.length(); x++){
-                loJson = new JSONObject(laJson.getString(x));
-
-                //check if record already exists on database
-                lsSQL = "SELECT dTimeStmp FROM Branch_Info" +
-                        " WHERE sBranchCd = " + SQLUtil.toSQL((String) loJson.get("sBranchCd"));
-                loRS = loConn.executeQuery(lsSQL);
-
-                lsSQL = "";
-                //record does not exists
-                if (!loRS.next()){
-                    //check if the record is active
-                    if ("1".equals((String) loJson.get("cRecdStat"))){
-                        //create insert statement
-                        lsSQL = "INSERT INTO Branch_Info" +
-                                    "(sBranchCd" +
-                                    ",sBranchNm" +
-                                    ",sDescript" +
-                                    ",sAddressx" +
-                                    ",sTownIDxx" +
-                                    ",sAreaCode" +
-                                    ",cDivision" +
-                                    ",cPromoDiv" +
-                                    ",cRecdStat" +
-                                    ",dTimeStmp)" +
-                                " VALUES" +
-                                    "(" + SQLUtil.toSQL(loJson.getString("sBranchCd")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("sBranchNm")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("sDescript")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("sAddressx")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("sTownIDxx")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("sAreaCode")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("cDivision")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("cPromoDiv")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("dTimeStmp")) + ")";
-                    }
-                } else { //record already exists
-                    Date ldDate1 = SQLUtil.toDate(loRS.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-
-                    //compare date if the record from API is newer than the database record
-                    if (!ldDate1.equals(ldDate2)){
-                        //create update statement
-                        lsSQL = "UPDATE Branch_Info SET" +
-                                    "   sBranchNm = " + SQLUtil.toSQL(loJson.getString("sBranchNm")) +
-                                    ",  sDescript = " + SQLUtil.toSQL(loJson.getString("sDescript")) +
-                                    ",  sAddressx = " + SQLUtil.toSQL(loJson.getString("sAddressx")) +
-                                    ",  sTownIDxx = " + SQLUtil.toSQL(loJson.getString("sTownIDxx")) +
-                                    ",  sAreaCode = " + SQLUtil.toSQL(loJson.getString("sAreaCode")) +
-                                    ",  cDivision = " + SQLUtil.toSQL(loJson.getString("cDivision")) +
-                                    ",  cPromoDiv = " + SQLUtil.toSQL(loJson.getString("cPromoDiv")) +
-                                    ",  cRecdStat = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
-                                    ",  dTimeStmp = " + SQLUtil.toSQL(loJson.getString("dTimeStmp")) +
-                                " WHERE sBranchCd = " + SQLUtil.toSQL(loJson.getString("sBranchCd"));
-                    }
-                }
-
-                if (!lsSQL.isEmpty()){
-                    Log.d(TAG, lsSQL);
-                    if (loConn.executeUpdate(lsSQL,  "", "" ,"") <= 0) {
-                        Log.e(TAG, loConn.getMessage());
-                    } else
-                        Log.d(TAG, "Branch saved successfully.");
-                } else
-                    Log.d(TAG, "No record to update. Branch maybe on its latest on local database.");
-            }
-            Log.e(TAG, "Branch info has been save to local.");
-
-            //terminate object connection
-            loConn = null;
-        }
-
-        private GConnection doConnect(){
-            try{
-                InputStream inputStream = instance.getAssets().open("GhostRiderXP.properties");
-
-                //initialize GProperty
-                GProperty loProperty = new GProperty(inputStream, "IntegSys");
-                if (loProperty.loadConfig()){
-                    Log.d(TAG, "Config File was loaded.");
-
-                    loProperty.setDBHost(instance.getPackageName());
-                } else {
-                    Log.e(TAG, "Unable to load config file.");
-                }
-                //initialize GCrypt
-                iGCrypt loCrypt = GCryptFactory.make(GCryptFactory.CrypType.AESCrypt);
-
-                GConnection loConn = new GConnection();
-                loConn.setGProperty(loProperty);
-                loConn.setGAESCrypt(loCrypt);
-
-                if (!loConn.connect()){
-                    Log.e("TAG", "Unable to initialize connection");
-                    return null;
-                } else {
-                    Log.d("TAG", "Connection was successful.");
-                    return loConn;
-                }
-            } catch (Exception ex){
-                Log.e("TAG", ex.getMessage());
-                return null;
             }
         }
     }

@@ -190,10 +190,12 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
 
     public void calculateMonthlyPayment(){
         try {
+            if(poMAInfo.getValue() != null) {
             poPrice.setPaymentTerm(psIntTerm.getValue());
             poPrice.setDownPayment(poPrice.getDownPayment());
-            BigDecimal price = new BigDecimal(String.valueOf(poPrice.getMonthlyAmort(poMAInfo.getValue())));
-            psMonthly.setValue(String.valueOf(currency_total.format(price)));
+                BigDecimal price = new BigDecimal(String.valueOf(poPrice.getMonthlyAmort(poMAInfo.getValue())));
+                psMonthly.setValue(String.valueOf(currency_total.format(price)));
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
