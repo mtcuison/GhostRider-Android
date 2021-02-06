@@ -37,7 +37,6 @@
                 android:id="@+id/lbl_headerBranch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="GMC Dagupan - Honda"
                 android:textSize="16sp"
                 android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/textColor_Black"
@@ -47,7 +46,14 @@
                 android:id="@+id/lbl_headerAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/textColor_Black"/>
+
+            <TextView
+                android:id="@+id/lbl_headerDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/textColor_Black"/>

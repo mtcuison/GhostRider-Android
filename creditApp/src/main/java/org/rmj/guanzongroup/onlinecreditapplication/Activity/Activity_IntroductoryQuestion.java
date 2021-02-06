@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +33,7 @@ import java.util.Objects;
     public class Activity_IntroductoryQuestion extends AppCompatActivity implements ViewModelCallBack {
     public static final String TAG = Activity_IntroductoryQuestion.class.getSimpleName();
     private VMIntroductoryQuestion mViewModel;
-
+    private TextView lblBranchNm, lblBrandAdd, lblDate;
     private AutoCompleteTextView txtBranchNm, txtBrandNm, txtModelNm;
     private TextInputEditText txtDownPymnt, txtAmort;
     private Spinner spnApplType, spnCustomerType, spnTerm;
@@ -54,6 +55,8 @@ import java.util.Objects;
         mViewModel.getCustomerType().observe(this, stringArrayAdapter -> spnCustomerType.setAdapter(stringArrayAdapter));
 
         mViewModel.getUserBranchInfo().observe(this, eBranchInfo -> {
+            lblBranchNm.setText(eBranchInfo.getBranchNm());
+            lblBrandAdd.setText(eBranchInfo.getAddressx());
             txtBranchNm.setText(eBranchInfo.getBranchNm());
             mViewModel.setBanchCde(eBranchInfo.getBranchCd());
         });
@@ -169,6 +172,9 @@ import java.util.Objects;
         Toolbar toolbar = findViewById(R.id.toolbar_introduction);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        lblBranchNm = findViewById(R.id.lbl_headerBranch);
+        lblBrandAdd = findViewById(R.id.lbl_headerAddress);
+        lblDate = findViewById(R.id.lbl_headerDate);
         txtBranchNm = findViewById(R.id.txt_branchName);
         txtBrandNm = findViewById(R.id.txt_brandName);
         txtModelNm = findViewById(R.id.txt_modelName);
