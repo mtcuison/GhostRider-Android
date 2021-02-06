@@ -56,7 +56,7 @@ public class ImportBranch implements ImportInstance{
             JSONObject loJson = new JSONObject();
             loJson.put("bsearch", true);
             loJson.put("descript", "All");
-            new ImportBranchTask(callback, headers, conn, instance).execute(loJson);
+            new ImportBranchTask(callback, headers, conn, instance, repository).execute(loJson);
             //loJson.put("dTimeStmp", lsTimeStmp);
         } catch (Exception e){
             e.printStackTrace();
@@ -68,12 +68,14 @@ public class ImportBranch implements ImportInstance{
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
         private final Application instance;
+        private final RBranch repository;
 
-        public ImportBranchTask(ImportDataCallback callback, HttpHeaders headers, ConnectionUtil conn, Application instance) {
+        public ImportBranchTask(ImportDataCallback callback, HttpHeaders headers, ConnectionUtil conn, Application instance, RBranch repository) {
             this.instance = instance;
             this.callback = callback;
             this.headers = headers;
             this.conn = conn;
+            this.repository = repository;
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -129,89 +131,23 @@ public class ImportBranch implements ImportInstance{
 
         void saveDataToLocal(JSONArray laJson) throws Exception{
             List<EBranchInfo> branchInfos = new ArrayList<>();
-
-            GConnection loConn = doConnect();
-
-            if (loConn == null){
-                Log.e(TAG, "Connection was not initialized.");
-                return;
-            }
-
-            JSONObject loJson;
-            String lsSQL;
-            ResultSet loRS;
-
             for(int x = 0; x < laJson.length(); x++){
-                loJson = new JSONObject(laJson.getString(x));
-
-                //check if record already exists on database
-                lsSQL = "SELECT dTimeStmp FROM Branch_Info" +
-                        " WHERE sBranchCd = " + SQLUtil.toSQL((String) loJson.get("sBranchCd"));
-                loRS = loConn.executeQuery(lsSQL);
-
-                lsSQL = "";
-                //record does not exists
-                if (!loRS.next()){
-                    //check if the record is active
-                    if ("1".equals((String) loJson.get("cRecdStat"))){
-                        //create insert statement
-                        lsSQL = "INSERT INTO Branch_Info" +
-                                    "(sBranchCd" +
-                                    ",sBranchNm" +
-                                    ",sDescript" +
-                                    ",sAddressx" +
-                                    ",sTownIDxx" +
-                                    ",sAreaCode" +
-                                    ",cDivision" +
-                                    ",cPromoDiv" +
-                                    ",cRecdStat" +
-                                    ",dTimeStmp)" +
-                                " VALUES" +
-                                    "(" + SQLUtil.toSQL(loJson.getString("sBranchCd")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("sBranchNm")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("sDescript")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("sAddressx")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("sTownIDxx")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("sAreaCode")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("cDivision")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("cPromoDiv")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
-                                    "," + SQLUtil.toSQL(loJson.getString("dTimeStmp")) + ")";
-                    }
-                } else { //record already exists
-                    Date ldDate1 = SQLUtil.toDate(loRS.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-
-                    //compare date if the record from API is newer than the database record
-                    if (!ldDate1.equals(ldDate2)){
-                        //create update statement
-                        lsSQL = "UPDATE Branch_Info SET" +
-                                    "   sBranchNm = " + SQLUtil.toSQL(loJson.getString("sBranchNm")) +
-                                    ",  sDescript = " + SQLUtil.toSQL(loJson.getString("sDescript")) +
-                                    ",  sAddressx = " + SQLUtil.toSQL(loJson.getString("sAddressx")) +
-                                    ",  sTownIDxx = " + SQLUtil.toSQL(loJson.getString("sTownIDxx")) +
-                                    ",  sAreaCode = " + SQLUtil.toSQL(loJson.getString("sAreaCode")) +
-                                    ",  cDivision = " + SQLUtil.toSQL(loJson.getString("cDivision")) +
-                                    ",  cPromoDiv = " + SQLUtil.toSQL(loJson.getString("cPromoDiv")) +
-                                    ",  cRecdStat = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
-                                    ",  dTimeStmp = " + SQLUtil.toSQL(loJson.getString("dTimeStmp")) +
-                                " WHERE sBranchCd = " + SQLUtil.toSQL(loJson.getString("sBranchCd"));
-                    }
-                }
-
-                if (!lsSQL.isEmpty()){
-                    Log.d(TAG, lsSQL);
-                    if (loConn.executeUpdate(lsSQL,  "", "" ,"") <= 0) {
-                        Log.e(TAG, loConn.getMessage());
-                    } else
-                        Log.d(TAG, "Branch saved successfully.");
-                } else
-                    Log.d(TAG, "No record to update. Branch maybe on its latest on local database.");
+                JSONObject loJson = new JSONObject(laJson.getString(x));
+                EBranchInfo branchInfo = new EBranchInfo();
+                branchInfo.setBranchCd(loJson.getString("sBranchCd"));
+                branchInfo.setBranchNm(loJson.getString("sBranchNm"));
+                branchInfo.setDescript(loJson.getString("sDescript"));
+                branchInfo.setAddressx(loJson.getString("sAddressx"));
+                branchInfo.setTownIDxx(loJson.getString("sTownIDxx"));
+                branchInfo.setAreaCode(loJson.getString("sAreaCode"));
+                branchInfo.setDivision(loJson.getString("cDivision"));
+                branchInfo.setPromoDiv(loJson.getString("cPromoDiv"));
+                branchInfo.setRecdStat(loJson.getString("cRecdStat"));
+                branchInfo.setTimeStmp(loJson.getString("dTimeStmp"));
+                branchInfos.add(branchInfo);
             }
+            repository.insertBulkData(branchInfos);
             Log.e(TAG, "Branch info has been save to local.");
-
-            //terminate object connection
-            loConn = null;
         }
 
         private GConnection doConnect(){
