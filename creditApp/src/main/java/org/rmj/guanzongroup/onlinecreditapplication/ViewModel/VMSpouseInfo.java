@@ -136,6 +136,8 @@ public class VMSpouseInfo extends AndroidViewModel {
                 // Contact?
                 poGoCas.SpouseInfo().PersonalInfo().setMobileNoQty(infoModel.getMobileNoQty());
                 for (int x = 0; x < infoModel.getMobileNoQty(); x++) {
+                    // Debugging purposes
+                    Log.e("NUMERO " + x , infoModel.getMobileNo(x));
                     poGoCas.SpouseInfo().PersonalInfo().setMobileNo(x, infoModel.getMobileNo(x));
                     poGoCas.SpouseInfo().PersonalInfo().IsMobilePostpaid(x, infoModel.getPostPaid(x));
                     poGoCas.SpouseInfo().PersonalInfo().setPostPaidYears(x, infoModel.getPostYear(x));
