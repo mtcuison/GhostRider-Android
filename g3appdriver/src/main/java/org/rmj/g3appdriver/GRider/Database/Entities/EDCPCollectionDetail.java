@@ -3,15 +3,15 @@ package org.rmj.g3appdriver.GRider.Database.Entities;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
-@Entity(tableName = "LR_DCP_Collection_Detail")
+@Entity(tableName = "LR_DCP_Collection_Detail", primaryKeys = {"sTransNox", "nEntryNox"})
 public class EDCPCollectionDetail {
 
-    @PrimaryKey
     @NonNull
     @ColumnInfo(name = "sTransNox")
     private String TransNox;
+
+    @NonNull
     @ColumnInfo(name = "nEntryNox")
     private String EntryNox;
     @ColumnInfo(name = "sAcctNmbr")

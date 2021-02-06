@@ -22,10 +22,8 @@
         app:layout_constraintHeight_percent="0.29"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.18"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.47"
-        />
+        app:layout_constraintWidth_percent="0.47" />
 
 
     <ProgressBar

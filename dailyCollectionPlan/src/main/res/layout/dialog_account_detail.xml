@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="true"
+    app:cardCornerRadius="10dp"
+    app:cardMaxElevation="5dp"
+    app:cardElevation="3dp">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/background_dialog">
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Account Detail"
+            android:textSize="20sp"
+            android:textColor="@color/textColor_Black"
+            android:fontFamily="@font/roboto_bold"
+            android:layout_marginTop="15dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange"
+            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="5dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_weight="1"
+                android:text="Reference No. :"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <TextView
+                android:id="@+id/lbl_dcpReferNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="end"
+                android:text="10000"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Transaction No. :"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <TextView
+                android:id="@+id/lbl_dcpTransNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="end"
+                android:text="10000"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Transaction Date :"
+                android:textColor="@color/textColor_Black" />
+
+            <TextView
+                android:id="@+id/lbl_dcpTranDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="end"
+                android:text="10000"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Account No. :"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <TextView
+                android:id="@+id/lbl_dcpAccNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="end"
+                android:text="10000"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="P.R No. :"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <TextView
+                android:id="@+id/lbl_dcpPRNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="end"
+                android:text="10000"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="5dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Amount :"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <TextView
+                android:id="@+id/lbl_dcpAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="end"
+                android:text="10000"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Discount :"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <TextView
+                android:id="@+id/lbl_dcpDiscount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="end"
+                android:text="10000"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Others:"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <TextView
+                android:id="@+id/lbl_dcpOthers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="end"
+                android:text="10000"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please select transaction type."
+            android:textSize="16sp"
+            android:textColor="@color/textColor_Black"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginTop="15dp"/>
+
+        <Spinner
+            android:id="@+id/spn_transaction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange"
+            android:layout_marginTop="10dp"/>
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm"
+            app:rippleColor="@color/guanzon_orange"
+            android:textColor="@color/material_black"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

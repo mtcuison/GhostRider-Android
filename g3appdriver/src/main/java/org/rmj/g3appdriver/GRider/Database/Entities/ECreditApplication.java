@@ -25,13 +25,13 @@ public class ECreditApplication {
     @ColumnInfo(name = "sGOCASNoF")
     private String GOCASNoF;
     @ColumnInfo(name = "cUnitAppl")
-    private char UnitAppl;
+    private String UnitAppl;
     @ColumnInfo(name = "sSourceCD")
     private String SourceCD;
     @ColumnInfo(name = "sDetlInfo")
-    private int DetlInfo;
+    private String DetlInfo;
     @ColumnInfo(name = "sCatInfox")
-    private char CatInfox;
+    private String CatInfox;
     @ColumnInfo(name = "sDesInfox")
     private String DesInfox;
     @ColumnInfo(name = "sQMatchNo")
@@ -41,7 +41,7 @@ public class ECreditApplication {
     @ColumnInfo(name = "nCrdtScrx")
     private int CrdtScrx;
     @ColumnInfo(name = "cWithCIxx")
-    private char WithCIxx;
+    private String WithCIxx;
     @ColumnInfo(name = "nDownPaym")
     private double DownPaym;
     @ColumnInfo(name = "nDownPayF")
@@ -55,7 +55,7 @@ public class ECreditApplication {
     @ColumnInfo(name = "dCreatedx")
     private String DateCreatedx;
     @ColumnInfo(name = "cSendStat")
-    private char SendStat;
+    private String SendStat;
     @ColumnInfo(name = "sVerified")
     private String Verified;
     @ColumnInfo(name = "dVerified")
@@ -63,11 +63,11 @@ public class ECreditApplication {
     @ColumnInfo(name = "dModified")
     private String Modified;
     @ColumnInfo(name = "cTranStat")
-    private char TranStat;
+    private String TranStat;
     @ColumnInfo(name = "cDivision")
-    private char Division;
+    private String Division;
     @ColumnInfo(name = "cApplStat")
-    private char ApplStat;
+    private String ApplStat;
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
 
@@ -131,11 +131,11 @@ public class ECreditApplication {
         this.GOCASNoF = GOCASNoF;
     }
 
-    public char getUnitAppl() {
+    public String getUnitAppl() {
         return UnitAppl;
     }
 
-    public void setUnitAppl(char unitAppl) {
+    public void setUnitAppl(String unitAppl) {
         UnitAppl = unitAppl;
     }
 
@@ -147,19 +147,19 @@ public class ECreditApplication {
         SourceCD = sourceCD;
     }
 
-    public int getDetlInfo() {
+    public String getDetlInfo() {
         return DetlInfo;
     }
 
-    public void setDetlInfo(int detlInfo) {
+    public void setDetlInfo(String detlInfo) {
         DetlInfo = detlInfo;
     }
 
-    public char getCatInfox() {
+    public String getCatInfox() {
         return CatInfox;
     }
 
-    public void setCatInfox(char catInfox) {
+    public void setCatInfox(String catInfox) {
         CatInfox = catInfox;
     }
 
@@ -195,11 +195,11 @@ public class ECreditApplication {
         CrdtScrx = crdtScrx;
     }
 
-    public char getWithCIxx() {
+    public String getWithCIxx() {
         return WithCIxx;
     }
 
-    public void setWithCIxx(char withCIxx) {
+    public void setWithCIxx(String withCIxx) {
         WithCIxx = withCIxx;
     }
 
@@ -251,11 +251,11 @@ public class ECreditApplication {
         DateCreatedx = dateCreatedx;
     }
 
-    public char getSendStat() {
+    public String getSendStat() {
         return SendStat;
     }
 
-    public void setSendStat(char sendStat) {
+    public void setSendStat(String sendStat) {
         SendStat = sendStat;
     }
 
@@ -283,27 +283,27 @@ public class ECreditApplication {
         Modified = modified;
     }
 
-    public char getTranStat() {
+    public String getTranStat() {
         return TranStat;
     }
 
-    public void setTranStat(char tranStat) {
+    public void setTranStat(String tranStat) {
         TranStat = tranStat;
     }
 
-    public char getDivision() {
+    public String getDivision() {
         return Division;
     }
 
-    public void setDivision(char division) {
+    public void setDivision(String division) {
         Division = division;
     }
 
-    public char getApplStat() {
+    public String getApplStat() {
         return ApplStat;
     }
 
-    public void setApplStat(char applStat) {
+    public void setApplStat(String applStat) {
         ApplStat = applStat;
     }
 

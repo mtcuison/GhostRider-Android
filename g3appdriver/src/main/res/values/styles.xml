@@ -23,6 +23,7 @@
         <item name="android:paddingBottom">15dp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="paddingStart">10dp</item>
+        <item name="maxLines">1</item>
     </style>
 
     <style name="MaterialButtonLight" parent="Widget.MaterialComponents.Button">

@@ -31,13 +31,13 @@ public interface DEmployeeInfo {
     void deleteAllEmployeeInfo();
 
     @Query("SELECT sUserIDxx FROM User_Info_Master")
-    String getUserID();
+    LiveData<String> getUserID();
 
     @Query("SELECT sLogNoxxx FROM User_Info_Master")
-    String getLogNumber();
+    LiveData<String> getLogNumber();
 
     @Query("SELECT sClientID FROM User_Info_Master")
-    String getClientID();
+    LiveData<String> getClientID();
 
     @Query("SELECT * FROM User_Info_Master")
     Cursor getUserInfo();

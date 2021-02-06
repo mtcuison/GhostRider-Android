@@ -42,6 +42,8 @@ public class HttpHeaders {
 
         Calendar calendar = Calendar.getInstance();
 
+
+        //TODO: Change Values on user testing and production
         String lsUserIDx = poSession.getUserID();
         String lsClientx = poSession.getClientId();
         String lsLogNoxx = poSession.getLogNumber();

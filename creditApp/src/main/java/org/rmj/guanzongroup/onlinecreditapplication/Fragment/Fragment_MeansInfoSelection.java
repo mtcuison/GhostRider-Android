@@ -1,13 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +8,20 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
+import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMMeansInfoSelection;
 
-public class Fragment_MeansInfoSelection extends Fragment {
+public class Fragment_MeansInfoSelection extends Fragment implements ViewModelCallBack {
 
+    private VMMeansInfoSelection.MeansInfo infoModel;
     private VMMeansInfoSelection mViewModel;
 
     private CheckBox cbEmployed;
@@ -42,6 +43,7 @@ public class Fragment_MeansInfoSelection extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_means_info_selection, container, false);
         TransNox = Activity_CreditApplication.getInstance().getTransNox();
+        infoModel = new VMMeansInfoSelection.MeansInfo();
         initWidgets(view);
 
         return view;
@@ -69,8 +71,19 @@ public class Fragment_MeansInfoSelection extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMMeansInfoSelection.class);
         mViewModel.setTransNox(TransNox);
+        
         mViewModel.getCreditApplicantInfo(TransNox).observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setGOCasDetailInfo(eCreditApplicantInfo.getDetlInfo()));
-        btnNext.setOnClickListener(view -> mViewModel.getMeansInfoPage().observe(getViewLifecycleOwner(), integer -> Activity_CreditApplication.getInstance().moveToPageNumber(integer)));
+        btnNext.setOnClickListener(view -> mViewModel.SaveMeansInfo(infoModel, Fragment_MeansInfoSelection.this));
+    }
+
+    @Override
+    public void onSaveSuccessResult(String args) {
+        Activity_CreditApplication.getInstance().moveToPageNumber(Integer.parseInt(args));
+    }
+
+    @Override
+    public void onFailedResult(String message) {
+        GToast.CreateMessage(getActivity(), message,GToast.ERROR).show();
     }
 
     private class OnMeansInfoCheckListener implements CompoundButton.OnCheckedChangeListener{
@@ -84,30 +97,38 @@ public class Fragment_MeansInfoSelection extends Fragment {
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             if(cb.getId() == R.id.cb_employed){
                 if(b){
+                    infoModel.setEmployed("1");
                     mViewModel.addMeansInfo("employed");
                 } else {
+                    infoModel.setEmployed("0");
                     mViewModel.removeMeansInfo("employed");
                 }
             }
             if(cb.getId() == R.id.cb_sEmployed){
                 if(b){
-                    mViewModel.addMeansInfo("self-employed");
+                    infoModel.setSelfEmployed("1");
+                    mViewModel.addMeansInfo("sEmplyed");
                 }else {
-                    mViewModel.removeMeansInfo("self-employed");
+                    infoModel.setSelfEmployed("0");
+                    mViewModel.removeMeansInfo("sEmplyed");
                 }
             }
             if(cb.getId() == R.id.cb_finance){
                 if(b){
-                    mViewModel.addMeansInfo("finance");
+                    infoModel.setFinance("1");
+                    mViewModel.addMeansInfo("Financex");
                 }else {
-                    mViewModel.removeMeansInfo("finance");
+                    infoModel.setFinance("0");
+                    mViewModel.removeMeansInfo("Financex");
                 }
             }
             if(cb.getId() == R.id.cb_pension){
                 if(b){
-                    mViewModel.addMeansInfo("pension");
+                    infoModel.setPension("1");
+                    mViewModel.addMeansInfo("Pensionx");
                 }else {
-                    mViewModel.removeMeansInfo("pension");
+                    infoModel.setPension("0");
+                    mViewModel.removeMeansInfo("Pensionx");
                 }
             }
         }

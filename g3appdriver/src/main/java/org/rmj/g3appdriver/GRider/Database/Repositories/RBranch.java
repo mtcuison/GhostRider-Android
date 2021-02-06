@@ -46,7 +46,11 @@ public class RBranch {
         return allBranchInfo;
     }
 
-    public String getPromoDivision(){
+    public LiveData<String> getPromoDivision(){
         return branchInfoDao.getPromoDivision();
+    }
+
+    public LiveData<EBranchInfo> getUserBranchInfo(){
+        return branchInfoDao.getUserBranchInfo();
     }
 }

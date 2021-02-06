@@ -15,6 +15,7 @@ public class REmployee {
     private final LiveData<EEmployeeInfo> employeeInfo;
     private final SessionManager poSession;
 
+
     public REmployee(Application application){
         AppDatabase database = AppDatabase.getInstance(application);
         employeeDao = database.EmployeeDao();
@@ -42,15 +43,15 @@ public class REmployee {
         return employeeInfo;
     }
 
-    public String getUserID(){
+    public LiveData<String> getUserID(){
         return employeeDao.getUserID();
     }
 
-    public String getClientID(){
+    public LiveData<String> getClientID(){
         return employeeDao.getClientID();
     }
 
-    public String getLogNumber(){
+    public LiveData<String> getLogNumber(){
         return employeeDao.getLogNumber();
     }
 

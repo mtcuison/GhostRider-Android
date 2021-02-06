@@ -111,6 +111,10 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
         }
     }
 
+    public LiveData<EBranchInfo> getUserBranchInfo(){
+        return RBranch.getUserBranchInfo();
+    }
+
     public void setLoMonthlyInfo(JSONObject loJson){
         this.poMAInfo.setValue(loJson);
         try{

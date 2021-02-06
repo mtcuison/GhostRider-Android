@@ -1,5 +1,3 @@
-include ':appdriver'
-include ':appdriver'
 include ':dailyCollectionPlan'
 include ':griderScanner'
 include ':openCVLibrary341'
@@ -17,4 +15,5 @@ include ':creditApp'
 include ':authLibrary'
 include ':g3appdriver'
 include ':app'
+include ':appdriver'
 rootProject.name = "GhostRider_Android"

@@ -1,10 +1,5 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,12 +12,16 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.simple.JSONObject;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.TextFormatter;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -44,21 +43,8 @@ import java.util.Objects;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_credit_application_introduction);
-        Toolbar toolbar = findViewById(R.id.toolbar_introduction);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        txtBranchNm = findViewById(R.id.txt_branchName);
-        txtBrandNm = findViewById(R.id.txt_brandName);
-        txtModelNm = findViewById(R.id.txt_modelName);
-        txtDownPymnt = findViewById(R.id.txt_downpayment);
-        txtAmort = findViewById(R.id.txt_monthlyAmort);
-
-        spnApplType = findViewById(R.id.spn_applicationType);
-        spnCustomerType = findViewById(R.id.spn_customerType);
-        spnTerm = findViewById(R.id.spn_installmentTerm);
-
-        btnCreate = findViewById(R.id.btn_createCreditApp);
+        setContentView(R.layout.activity_introductory_question);
+        initWidgets();
         txtDownPymnt.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(txtDownPymnt));
         btnCreate.setOnClickListener(view -> mViewModel.CreateNewApplication(Activity_IntroductoryQuestion.this));
         mViewModel = new ViewModelProvider(this).get(VMIntroductoryQuestion.class);
@@ -66,6 +52,11 @@ import java.util.Objects;
         mViewModel.getApplicationType().observe(this, stringArrayAdapter -> spnApplType.setAdapter(stringArrayAdapter));
 
         mViewModel.getCustomerType().observe(this, stringArrayAdapter -> spnCustomerType.setAdapter(stringArrayAdapter));
+
+        mViewModel.getUserBranchInfo().observe(this, eBranchInfo -> {
+            txtBranchNm.setText(eBranchInfo.getBranchNm());
+            mViewModel.setBanchCde(eBranchInfo.getBranchCd());
+        });
 
         mViewModel.getAllBranchNames().observe(this, strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
@@ -173,11 +164,29 @@ import java.util.Objects;
         mViewModel.getMonthlyAmort().observe(this, s -> txtAmort.setText(s));
     }
 
+    private void initWidgets(){
+        Toolbar toolbar = findViewById(R.id.toolbar_introduction);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        txtBranchNm = findViewById(R.id.txt_branchName);
+        txtBrandNm = findViewById(R.id.txt_brandName);
+        txtModelNm = findViewById(R.id.txt_modelName);
+        txtDownPymnt = findViewById(R.id.txt_downpayment);
+        txtAmort = findViewById(R.id.txt_monthlyAmort);
+
+        spnApplType = findViewById(R.id.spn_applicationType);
+        spnCustomerType = findViewById(R.id.spn_customerType);
+        spnTerm = findViewById(R.id.spn_installmentTerm);
+
+        btnCreate = findViewById(R.id.btn_createCreditApp);
+    }
+
     @Override
     public void onSaveSuccessResult(String args) {
         Intent loIntent = new Intent(this, Activity_CreditApplication.class);
         loIntent.putExtra("transno", args);
         startActivity(loIntent);
+        finish();
     }
 
     @Override
@@ -240,16 +249,13 @@ import java.util.Objects;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            MessageBox loMessage = new MessageBox(Activity_IntroductoryQuestion.this);
-            loMessage.setTitle("Credit Application");
-            loMessage.setMessage("Exit credit online application?");
-            loMessage.setPositiveButton("Yes", (view, dialog) -> {
-                dialog.dismiss();
-                finish();
-            });
-            loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
-            loMessage.show();
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
-}
+
+        @Override
+        public void onBackPressed() {
+            finish();
+        }
+    }

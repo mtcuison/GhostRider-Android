@@ -59,7 +59,7 @@ dependencies {
     implementation project(':notifications')
     implementation project(':imgCapture')
     implementation project(':griderScanner')
+    implementation project(':dailyCollectionPlan')
 //    implementation project(':documentScanner')
-
-    implementation project(':appdriver');
+    implementation project(':appdriver') //implement GhostRider Application Driver
 }

@@ -38,7 +38,4 @@ public interface DProvinceInfo {
 
     @Query("SELECT * FROM Province_Info WHERE sProvName LIKE:ProvinceName")
     LiveData<List<EProvinceInfo>> searchProvinceName(String ProvinceName);
-
-    @Query("SELECT sProvName FROM Province_Info WHERE sProvIDxx = :provID")
-    LiveData<String> getProvinceNameFromProvID(String provID);
 }

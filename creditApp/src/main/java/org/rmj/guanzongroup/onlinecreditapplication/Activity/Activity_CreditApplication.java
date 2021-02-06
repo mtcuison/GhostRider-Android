@@ -50,14 +50,12 @@ public class Activity_CreditApplication extends AppCompatActivity {
      *            <p>14 new Fragment_OtherInfo(),</p>
      *            <p>15 new Fragment_CoMaker()</p>
      */
-    public boolean moveToPageNumber(int fnPageNum){
+    public void moveToPageNumber(int fnPageNum){
         try {
             viewPager.setCurrentItem(fnPageNum);
         } catch (Exception e){
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
 
     @Override
@@ -93,5 +91,18 @@ public class Activity_CreditApplication extends AppCompatActivity {
             loMessage.show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        MessageBox loMessage = new MessageBox(Activity_CreditApplication.this);
+        loMessage.setTitle("Credit Application");
+        loMessage.setMessage("Exit credit online application?");
+        loMessage.setPositiveButton("Yes", (view, dialog) -> {
+            dialog.dismiss();
+            finish();
+        });
+        loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
+        loMessage.show();
     }
 }
