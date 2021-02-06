@@ -19,4 +19,5 @@
     <color name="footer_dark_grey">#393939</color>
 
     <color name="light_red">#ff3333</color>
+    <color name="hint_color">#808080</color>
 </resources>

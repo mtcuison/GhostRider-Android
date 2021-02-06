@@ -260,7 +260,6 @@ public class VMCoMaker extends AndroidViewModel {
 
     public void SubmitComaker(CoMakerModel infoModel, ViewModelCallBack callBack){
         try {
-
             if(infoModel.isCoMakerInfoValid()) {
                 poGoCas.CoMakerInfo().setLastName(infoModel.getCoLastName());
                 poGoCas.CoMakerInfo().setFirstName(infoModel.getCoFrstName());
@@ -283,13 +282,12 @@ public class VMCoMaker extends AndroidViewModel {
                 applicantInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
                 applicantInfo.setDetlInfo(poGoCas.toJSONString());
                 poApplcnt.updateGOCasData(applicantInfo);
-                Log.e(TAG, "Co-Maker info has been set." + poGoCas.CoMakerInfo().toJSONString());
-                ///callBack.onSaveSuccessResult(psTranNo.getValue());
+                Log.e(TAG, "Co-Maker info has been set." + poGoCas.toJSONString());
+                callBack.onSaveSuccessResult(psTranNo.getValue());
             } else {
-                //callBack.onFailedResult(infoModel.getMessage());
+                callBack.onFailedResult(infoModel.getMessage());
             }
         } catch (Exception e){
-            Log.e("Transnox value,  ",e.getLocalizedMessage());
             e.printStackTrace();
             callBack.onFailedResult(e.getMessage());
         }

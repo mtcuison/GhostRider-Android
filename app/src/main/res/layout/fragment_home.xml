@@ -21,13 +21,6 @@
             android:gravity="center"
             android:layout_marginHorizontal="5dp">
 
-            <ImageView
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_ghostrider_logo_day"
-                android:scaleType="centerCrop"
-                android:adjustViewBounds="true"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

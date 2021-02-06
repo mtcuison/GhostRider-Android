@@ -18,6 +18,7 @@ import org.rmj.guanzongroup.ghostrider.griderscanner.GriderScanner;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.CreditApplicationIntroduction;
 
 import static org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity.expListView;
 import static org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity.listAdapter;

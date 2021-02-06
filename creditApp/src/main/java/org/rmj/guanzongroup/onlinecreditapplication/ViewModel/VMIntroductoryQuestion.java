@@ -127,6 +127,9 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
         return RBranch.getAllMcBranchInfo();
     }
 
+    public LiveData<EBranchInfo> getUserBranchInfo(){
+        return RBranch.getUserBranchInfo();
+    }
     public LiveData<String[]> getAllBranchNames(){
         return paBranchNm;
     }
