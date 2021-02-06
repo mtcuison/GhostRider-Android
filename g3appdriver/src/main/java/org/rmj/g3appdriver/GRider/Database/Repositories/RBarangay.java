@@ -49,8 +49,4 @@ public class RBarangay {
     public LiveData<String[]> getBarangayNamesFromTown(String TownID){
         return barangayDao.getAllBarangayNameFromTown(TownID);
     }
-
-    public LiveData<String> getBarangayInfoFromID(String fsID) {
-        return barangayDao.getBarangayInfoFromID(fsID);
-    }
 }

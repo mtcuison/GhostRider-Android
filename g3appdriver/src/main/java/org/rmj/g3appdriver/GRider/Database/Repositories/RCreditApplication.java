@@ -35,4 +35,12 @@ public class RCreditApplication {
     public LiveData<List<ECreditApplication>> getAllCreditOnlineApplication(){
         return allCreditApplication;
     }
+
+    public LiveData<List<DCreditApplication.ApplicationLog>> getApplicationHistory(){
+        return creditApplicationDao.getApplicationHistory();
+    }
+
+    public void insertBulkData(List<ECreditApplication> creditApplications){
+        creditApplicationDao.insertBulkData(creditApplications);
+    }
 }

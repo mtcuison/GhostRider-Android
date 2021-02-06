@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,19 +17,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.imgcapture.ImageFileCreator;
 import com.example.imgcapture.database.DatabaseHelper;
-import com.google.android.material.button.MaterialButton;
 
-import org.rmj.appdriver.base.GConnection;
-import org.rmj.appdriver.base.GProperty;
-import org.rmj.appdriver.crypt.GCryptFactory;
-import org.rmj.appdriver.iface.iGCrypt;
-import org.rmj.g3appdriver.GRider.ImportData.ImportBranch;
-import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
-import org.rmj.guanzongroup.ghostrider.epacss.Dialog.DialogQrCode;
+import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-
-import java.io.InputStream;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -46,7 +36,6 @@ public class Fragment_Home extends Fragment {
 
     private ImageView imgProfile;
     private TextView lblUserNm, lblEmailx, lblPstion, lblMobile, lblAddrss;
-    private MaterialButton btnLoginx, btnSelfie;
 
     private String photoPath;
     private double latitude, longitude;
@@ -63,8 +52,6 @@ public class Fragment_Home extends Fragment {
         lblMobile = view.findViewById(R.id.lbl_employeeMobileNo);
         lblPstion = view.findViewById(R.id.lbl_employeePosition);
         lblAddrss = view.findViewById(R.id.lbl_location);
-        btnLoginx = view.findViewById(R.id.btn_timeKeeper);
-        btnSelfie = view.findViewById(R.id.btn_selfie);
         return view;
     }
 
@@ -85,15 +72,14 @@ public class Fragment_Home extends Fragment {
 
         lblAddrss.setText(poLocator.getAddress());
 
-        btnLoginx.setOnClickListener(view -> {
+        /*btnLoginx.setOnClickListener(view -> {
             DialogQrCode loDialog = new DialogQrCode(getActivity());
             //loDialog.setAddress(poLocator.getAddress());
             loDialog.setAddress(poLocator.getAddress() + "\n Longitude" + poLocator.getLongitude() + "\n Lattitude" +poLocator.getLattitude());
             loDialog.show();
-        });
+        });*/
 
-        btnSelfie.setOnClickListener(view -> {
-
+        /*btnSelfie.setOnClickListener(view -> {
             poFilexx.CreateFile((openCamera, camUsage, photPath, latitude, longitude) -> {
             photoPath = photPath;
             this.latitude = latitude;
@@ -104,7 +90,7 @@ public class Fragment_Home extends Fragment {
 
             startActivityForResult(openCamera, REQUEST_IMAGE_CAPTURE);
             });
-        });
+        });*/
     }
 
     @Override

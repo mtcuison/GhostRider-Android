@@ -3,15 +3,20 @@
     package="org.rmj.guanzongroup.onlinecreditapplication">
 
     <application>
-        <activity android:name=".Activity.Activity_IntroductoryQuestion"
-            android:label="Credit Online Application"
-            android:theme="@style/GhostRiderMaterialTheme"/>
+        <activity android:name=".Activity.Activity_ApplicationHistory"
+            android:theme="@style/GhostRiderMaterialTheme"
+            android:screenOrientation="userPortrait"/>
+        <activity
+            android:name=".Activity.Activity_IntroductoryQuestion"
+            android:theme="@style/GhostRiderMaterialTheme"
+            android:screenOrientation="userPortrait"/>
         <activity android:name=".Activity.Activity_McImpound" />
         <activity
             android:name=".Activity.Activity_CreditApplication"
             android:label="Credit Online Application"
             android:theme="@style/GhostRiderMaterialTheme"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="userPortrait"/>
     </application>
 
 </manifest>

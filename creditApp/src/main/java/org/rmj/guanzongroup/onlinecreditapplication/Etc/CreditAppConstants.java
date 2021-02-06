@@ -43,10 +43,6 @@ public class CreditAppConstants {
     public static Fragment[] APPLICATION_PAGES = {
             new Fragment_PersonalInfo(),
             new Fragment_ResidenceInfo(),
-            new Fragment_SpouseInfo(),
-            new Fragment_SpouseResidenceInfo(),
-            new Fragment_PersonalInfo(),
-            new Fragment_ResidenceInfo(),
             new Fragment_MeansInfoSelection(),
             new Fragment_EmploymentInfo(),
             new Fragment_SelfEmployedInfo(),
@@ -207,4 +203,9 @@ public class CreditAppConstants {
             "Small (Less than 300,000 Income/Month)",
             "Medium (Less than 1,000,000 Income/Month)",
             "Large (More than 1,000,000 Income/Month)"};
+
+    public static String[] PENSION_SECTOR = {
+            "Select Pension Sector",
+            "Government",
+            "Private"};
 }

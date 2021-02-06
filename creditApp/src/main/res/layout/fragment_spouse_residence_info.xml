@@ -18,18 +18,6 @@
             style="@style/HeaderLabelBlack"
             android:text="@string/sLabelPresAddress"/>
 
-        <CheckBox
-            android:id="@+id/cb_cap_livingWithSpouse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".7"
-            android:buttonTint="@color/guanzon_dark_grey"
-            android:fontFamily="@font/roboto_regular"
-            android:text="Living with spouse"
-            android:textColor="@color/textColor_Black"
-            tools:ignore="HardcodedText"
-            tools:targetApi="lollipop" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,11 +33,9 @@
                 style="@style/TextInputStyle">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_landmark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"
-                    android:inputType="textCapWords"/>
+                    android:maxLength="50"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -60,11 +46,9 @@
                 style="@style/TextInputStyle">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_houseNox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="10"
-                    android:inputType="number|none"/>
+                    android:maxLength="50"/>
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
@@ -84,11 +68,9 @@
                 style="@style/TextInputStyle">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"
-                    android:inputType="textCapWords"/>
+                    android:maxLength="50"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -99,11 +81,9 @@
                 style="@style/TextInputStyle">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_address2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"
-                    android:inputType="textCapWords"/>
+                    android:maxLength="50"/>
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
@@ -115,14 +95,10 @@
             android:hint="@string/sHintProvince"
             style="@style/TextInputStyle">
 
-            <AutoCompleteTextView
-                android:id="@+id/txt_province"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="50"
-                style="@style/AutoCompleteStyleTheme"
-                tools:ignore="LabelFor"
-                android:inputType="textCapWords|textAutoComplete"/>
+                android:maxLength="50"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -132,14 +108,10 @@
             android:hint="@string/sHintTown"
             style="@style/TextInputStyle">
 
-            <AutoCompleteTextView
-                android:id="@+id/txt_town"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="50"
-                style="@style/AutoCompleteStyleTheme"
-                tools:ignore="LabelFor"
-                android:inputType="textCapWords|textAutoComplete"/>
+                android:maxLength="50"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -149,48 +121,18 @@
             android:hint="@string/sHintBarangay"
             style="@style/TextInputStyle">
 
-            <AutoCompleteTextView
-                android:id="@+id/txt_barangay"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="50"
-                style="@style/AutoCompleteStyleTheme"
-                tools:ignore="LabelFor"
-                android:inputType="textCapWords|textAutoComplete"/>
+                android:maxLength="50"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_creditAppNext"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="350dp">
-
-            <Button
-                android:id="@+id/btn_creditAppPrvs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sbtnPrvs"
-                style="@style/NavigationButton"
-                android:drawableStart="@drawable/ic_nav_left"
-                android:drawableLeft="@drawable/ic_nav_left"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                tools:ignore="RelativeOverlap"  />
-
-            <Button
-                android:id="@+id/btn_creditAppNext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sbtnNext"
-                style="@style/NavigationButton"
-                android:drawableEnd="@drawable/ic_nav_right"
-                android:drawableRight="@drawable/ic_nav_right"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                tools:ignore="RelativeOverlap" />
-        </RelativeLayout>
+            android:text="@string/sbtnNext"
+            style="@style/MaterialButtonAccent"/>
     </LinearLayout>
 
 </ScrollView>

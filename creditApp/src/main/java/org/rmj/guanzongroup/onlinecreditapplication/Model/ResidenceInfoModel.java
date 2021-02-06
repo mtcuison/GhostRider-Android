@@ -280,15 +280,11 @@ public class ResidenceInfoModel {
 
     public double getLenghtofStay() {
         try{
-            if(!sLenghtSt.trim().isEmpty()) {
-                if (Integer.parseInt(cIsYearxx) == 0) {
-                    double ldValue = Double.parseDouble(sLenghtSt);
-                    return ldValue / 12;
-                } else {
-                    return Double.parseDouble(sLenghtSt);
-                }
+            if(Integer.parseInt(cIsYearxx) == 0) {
+                double ldValue = Double.parseDouble(sLenghtSt);
+                return ldValue / 12;
             } else {
-                return 0;
+                return Double.parseDouble(sLenghtSt);
             }
         } catch (Exception e){
             e.printStackTrace();

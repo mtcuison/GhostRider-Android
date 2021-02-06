@@ -26,9 +26,29 @@
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_businessNature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyle.Edittext"
+                android:maxLines="1"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/txt_businessName"
+                android:maxLength="100"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sHintBusinessNm"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txt_businessName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/txt_businessAddress"
                 android:maxLength="100"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -42,6 +62,9 @@
                 android:id="@+id/txt_businessAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/txt_province"
                 android:maxLength="150"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,6 +86,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/AutoCompleteStyleTheme"
+                    android:maxLines="1"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_town"
                     android:maxLength="50"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,6 +104,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/AutoCompleteStyleTheme"
+                    android:maxLines="1"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_lenghtService"
                     android:maxLength="50"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,6 +141,10 @@
                     android:id="@+id/txt_lenghtService"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:imeOptions="actionNext"
+                    android:inputType="number|none"
+                    android:nextFocusForward="@id/txt_monthlyInc"
                     android:maxLength="50"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -135,7 +168,11 @@
                 android:id="@+id/txt_monthlyInc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="50"/>
+                android:inputType="number|none"
+                android:maxLines="1"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/txt_monthlyExp"
+                android:maxLength="9"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -149,7 +186,10 @@
                 android:id="@+id/txt_monthlyExp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="50"/>
+                android:inputType="number|none"
+                android:maxLines="1"
+                android:imeOptions="actionDone"
+                android:maxLength="9"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout

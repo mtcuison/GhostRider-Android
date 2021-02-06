@@ -2,7 +2,6 @@ package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -70,7 +69,6 @@ public class RCreditApplicant {
         @Override
         protected Void doInBackground(ECreditApplicantInfo... eCreditApplicantInfos) {
             applicantInfo.update(eCreditApplicantInfos[0]);
-            Log.e("Repository", "Residence Info has been save.");
             return null;
         }
     }

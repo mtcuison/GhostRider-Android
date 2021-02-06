@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
 public class FinanceInfoModel {
 
+    private String sFRltnx;
     private String sFNamex;
     private String sFIncme;
     private String sFCntry;
@@ -18,6 +19,14 @@ public class FinanceInfoModel {
         return message;
     }
 
+    public String getFinancierRelation() {
+        return sFRltnx;
+    }
+
+    public void setFinancierRelation(String sFRltnx) {
+        this.sFRltnx = sFRltnx;
+    }
+
     public String getFinancierName() {
         return sFNamex;
     }
@@ -26,8 +35,8 @@ public class FinanceInfoModel {
         this.sFNamex = sFNamex;
     }
 
-    public String getRangeOfIncome() {
-        return sFIncme;
+    public long getRangeOfIncome() {
+        return Long.parseLong(sFIncme);
     }
 
     public void setRangeOfIncome(String sFIncme) {

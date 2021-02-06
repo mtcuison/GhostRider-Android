@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -26,7 +25,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class VMResidenceInfo extends AndroidViewModel {
-    private static final String TAG = VMResidenceInfo.class.getSimpleName();
     private final GOCASApplication poGoCas;
     private final RCreditApplicant RCreditApplicant;
     private final RProvince poProvnce;
@@ -185,8 +183,6 @@ public class VMResidenceInfo extends AndroidViewModel {
                 applicantInfo.setDetlInfo(poGoCas.toJSONString());
                 applicantInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
                 RCreditApplicant.updateGOCasData(applicantInfo);
-                Log.e(TAG, poGoCas.ResidenceInfo().toJSONString());
-                Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
                 callBack.onSaveSuccessResult("Success");
             } else {
                  callBack.onFailedResult(infoModel.getMessage());

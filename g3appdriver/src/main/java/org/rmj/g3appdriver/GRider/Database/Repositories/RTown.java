@@ -33,10 +33,4 @@ public class RTown {
     public void insertBulkData(List<ETownInfo> townInfoList){
         townDao.insertBulkData(townInfoList);
     }
-
-    public LiveData<ETownInfo> getTownNameAndProvID(String townID) {
-        return townDao.getTownNameAndProvID(townID);
-    }
-
-
 }
