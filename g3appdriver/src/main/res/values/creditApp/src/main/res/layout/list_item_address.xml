@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="#e2e2e2">
+
+    <TextView
+        android:id="@+id/lbl_itemList_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dagupan City"
+        android:textColor="#000"
+        android:fontFamily="@font/roboto_medium"
+        android:padding="5dp"/>
+
+</androidx.cardview.widget.CardView>
