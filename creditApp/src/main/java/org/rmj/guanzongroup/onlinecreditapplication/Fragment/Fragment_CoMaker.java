@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -23,6 +25,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.OnBirthSetListener;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
@@ -43,7 +46,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
     private String ProvID = "";
     private String TownID = "";
     private String spnIncomePosition = "0";
-    private String spnCoRelationPosition = "0";
+    private String spnCoRelationPosition = "-1";
     private String spnPrmryCntctPosition = "0";
     private String spnScndCntctPosition = "0";
     private String spnTrtCntctPosition = "0";
@@ -66,7 +69,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
     private TextInputEditText tieScnCntctPlan;
     private TextInputEditText tieTrtCntctPlan;
     private TextInputEditText tieFbAcctxx;
-//    private Spinner spnBrwrRltn;
+    //    private Spinner spnBrwrRltn;
     private LinearLayout linearPrmContact;
     private LinearLayout linearScnContact;
     private LinearLayout linearTrtContact;
@@ -124,10 +127,33 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
             spnScnCntct.setAdapter(stringArrayAdapter);
             spnTrtCntct.setAdapter(stringArrayAdapter);
         });
+        mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
+            tieBrthProv.setAdapter(adapter);
+        });
 
-//        mViewModel.getPrmryMobileNoType().observe(getViewLifecycleOwner(), stringArrayAdapter ->spnPrmCntct.setAdapter(stringArrayAdapter));
-//        mViewModel.getScndMobileNoType().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnScnCntct.setAdapter(stringArrayAdapter));
-//        mViewModel.getTrtMobileNoType().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnTrtCntct.setAdapter(stringArrayAdapter));
+        tieBrthProv.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getProvinceInfoList().observe(getViewLifecycleOwner(), provinceInfos -> {
+            for(int x = 0; x < provinceInfos.size(); x++){
+                if(tieBrthProv.getText().toString().equalsIgnoreCase(provinceInfos.get(x).getProvName())){
+                    mViewModel.setProvID(provinceInfos.get(x).getProvIDxx());
+                    break;
+                }
+            }
+
+            mViewModel.getAllTownNames().observe(getViewLifecycleOwner(), strings -> {
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
+                tieBrthTown.setAdapter(adapter);
+            });
+        }));
+
+        tieBrthTown.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getTownInfoList().observe(getViewLifecycleOwner(), townInfoList -> {
+            for(int x = 0; x < townInfoList.size(); x++){
+                if(tieBrthTown.getText().toString().equalsIgnoreCase(townInfoList.get(x).getTownName())){
+                    mViewModel.setTownID(townInfoList.get(x).getTownIDxx());
+                    break;
+                }
+            }
+        }));
         spnPrmCntct.setOnItemClickListener(new Fragment_CoMaker.OnItemClickListener(spnPrmCntct));
         spnScnCntct.setOnItemClickListener(new Fragment_CoMaker.OnItemClickListener(spnScnCntct));
         spnTrtCntct.setOnItemClickListener(new Fragment_CoMaker.OnItemClickListener(spnTrtCntct));
@@ -168,47 +194,51 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         tieBrthDate.addTextChangedListener(new OnBirthSetListener(tieBrthDate));
         btnNext = v.findViewById(R.id.btn_fragment_cmr_next);
         btnNext.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   infoModel.setCoFrstName(Objects.requireNonNull(tieFrstname.getText().toString()));
-                   infoModel.setCoMiddName(Objects.requireNonNull(tieMiddname.getText().toString()));
-                   infoModel.setCoSuffix(Objects.requireNonNull(tieSuffixxx.getText().toString()));
-                   infoModel.setCoNickName(Objects.requireNonNull(tieNickname.getText().toString()));
-                   infoModel.setcoBrthDate(Objects.requireNonNull(tieBrthDate.getText().toString()));
-                   infoModel.setcoBrthPlce(Objects.requireNonNull(tieBrthTown.getText().toString()));
-                   infoModel.setCoIncomeSource(Objects.requireNonNull(spnIncomePosition));
-                   infoModel.setCoBorrowerRel(Objects.requireNonNull(spnCoRelationPosition));
-                   infoModel.setCoFbAccntx(Objects.requireNonNull(tieLastname.getText().toString()));
-                   if(!Objects.requireNonNull(tiePrmCntct.getText()).toString().trim().isEmpty()) {
-                       if(Integer.parseInt(spnPrmryCntctPosition) == 1) {
-                           infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnPrmryCntctPosition, Integer.parseInt(Objects.requireNonNull(tiePrmCntctPlan.getText()).toString()));
-                       } else {
-                           infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnPrmryCntctPosition, 0);
-                       }
-                   }
-                   if(!Objects.requireNonNull(tieScnCntct.getText()).toString().trim().isEmpty()) {
-                       if(Integer.parseInt(spnScndCntctPosition) == 1) {
-                           infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnScndCntctPosition, Integer.parseInt(Objects.requireNonNull(tieScnCntctPlan.getText()).toString()));
-                       } else {
-                           infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnScndCntctPosition, 0);
-                       }
-                   }
-                   if(!Objects.requireNonNull(tiePrmCntct.getText()).toString().trim().isEmpty()) {
-                       if(Integer.parseInt(spnTrtCntctPosition)  == 1) {
-                           infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnTrtCntctPosition, Integer.parseInt(Objects.requireNonNull(tieTrtCntctPlan.getText()).toString()));
-                       } else {
-                           infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnTrtCntctPosition, 0);
-                       }
-                   }
-                   Log.e("Last Name", tieLastname.getText().toString());
-                   mViewModel.SubmitComaker(infoModel, Fragment_CoMaker.this);
-               }
-           });
+            @Override
+            public void onClick(View v) {
+                infoModel = new CoMakerModel(
+                        Objects.requireNonNull(tieLastname.getText().toString()),
+                        Objects.requireNonNull(tieFrstname.getText().toString()),
+                        Objects.requireNonNull(tieMiddname.getText().toString()),
+                        Objects.requireNonNull(tieSuffixxx.getText().toString()),
+                        Objects.requireNonNull(tieNickname.getText().toString()),
+                        Objects.requireNonNull(tieBrthDate.getText().toString()),
+                        Objects.requireNonNull(tieBrthTown.getText().toString()),
+                        Objects.requireNonNull(tieFbAcctxx.getText().toString()),
+                        Objects.requireNonNull(spnIncomePosition),
+                        Objects.requireNonNull(spnCoRelationPosition)
+                );
+                if(!Objects.requireNonNull(tiePrmCntct.getText()).toString().trim().isEmpty()) {
+                    if(Integer.parseInt(spnPrmryCntctPosition) == 1) {
+                        infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnPrmryCntctPosition, Integer.parseInt(Objects.requireNonNull(tiePrmCntctPlan.getText()).toString()));
+                    } else {
+                        infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnPrmryCntctPosition, 0);
+                    }
+                }
+                if(!Objects.requireNonNull(tieScnCntct.getText()).toString().trim().isEmpty()) {
+                    if(Integer.parseInt(spnScndCntctPosition) == 1) {
+                        infoModel.setCoMobileNo(tieScnCntct.getText().toString(), spnScndCntctPosition, Integer.parseInt(Objects.requireNonNull(tieScnCntctPlan.getText()).toString()));
+                    } else {
+                        infoModel.setCoMobileNo(tieScnCntct.getText().toString(), spnScndCntctPosition, 0);
+                    }
+                }
+                if(!Objects.requireNonNull(tieTrtCntct.getText()).toString().trim().isEmpty()) {
+                    if(Integer.parseInt(spnTrtCntctPosition)  == 1) {
+                        infoModel.setCoMobileNo(tieTrtCntct.getText().toString(), spnTrtCntctPosition, Integer.parseInt(Objects.requireNonNull(tieTrtCntctPlan.getText()).toString()));
+                    } else {
+                        infoModel.setCoMobileNo(tieTrtCntct.getText().toString(), spnTrtCntctPosition, 0);
+                    }
+                }
+                mViewModel.SubmitComaker(infoModel, Fragment_CoMaker.this);
+            }
+        });
     }
 
     @Override
     public void onSaveSuccessResult(String args) {
 //        Activity_CreditApplication.getInstance().moveToPageNumber(2);
+        startActivity(new Intent(getActivity(), Activity_ApplicationHistory.class));
+        getActivity().finish();
     }
 
     @Override

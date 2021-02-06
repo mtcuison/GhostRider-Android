@@ -29,15 +29,37 @@ public class CoMakerModel {
     public CoMakerModel() {
     }
 
+    public CoMakerModel(String coLastName,
+                        String coFrstName,
+                        String coMiddName,
+                        String coSuffix,
+                        String coNickName,
+                        String coBrthDate,
+                        String coBrthPlce,
+                        String coFbAccntx,
+                        String coIncomeSource,
+                        String coBorrowerRel) {
+        this.coLastName = coLastName;
+        this.coFrstName = coFrstName;
+        this.coMiddName = coMiddName;
+        this.coSuffix = coSuffix;
+        this.coNickName = coNickName;
+        this.coBrthDate = coBrthDate;
+        this.coBrthPlce = coBrthPlce;
+        this.coFbAccntx = coFbAccntx;
+        this.coIncomeSource = coIncomeSource;
+        this.coBorrowerRel = coBorrowerRel;
+    }
+
+
     public boolean isCoMakerInfoValid(){
-        return isLastNameValid() &&
+        return isBorrowerRel() &&
+                isLastNameValid() &&
                 isFrstNameValid() &&
                 isMiddNameValid() &&
                 isBirthdateValid() &&
                 isBirthPlaceValid() &&
-                isPrimaryContactValid() &&
-                isSecondaryContactValid() &&
-                isTertiaryContactValid();
+                isContactValid();
     }
 
 
@@ -137,7 +159,7 @@ public class CoMakerModel {
         CoMakerMobileNo mobileNo = new CoMakerMobileNo(MobileNo, Postpaid, PostYear);
         this.mobileNoList.add(mobileNo);
     }
-   
+
     public String getCoFbAccntx() {
         return coFbAccntx;
     }
@@ -146,10 +168,8 @@ public class CoMakerModel {
         this.coFbAccntx = coFbAccntx;
     }
 
-
-
     private boolean isLastNameValid(){
-        if(coLastName.trim().isEmpty()){
+        if(coLastName == null || coLastName.trim().isEmpty()){
             message = "Please enter last name";
             return false;
         }
@@ -157,7 +177,7 @@ public class CoMakerModel {
     }
 
     private boolean isFrstNameValid(){
-        if(coFrstName.trim().isEmpty()){
+        if(coFrstName == null || coFrstName.trim().isEmpty()){
             message = "Please enter first name";
             return false;
         }
@@ -165,7 +185,7 @@ public class CoMakerModel {
     }
 
     private boolean isMiddNameValid(){
-        if(coMiddName.trim().isEmpty()){
+        if(coMiddName == null || coMiddName.trim().isEmpty()){
             message = "Please enter middle name";
             return false;
         }
@@ -173,7 +193,7 @@ public class CoMakerModel {
     }
 
     private boolean isBirthdateValid(){
-        if(coBrthDate.trim().isEmpty()){
+        if(coBrthDate == null || coBrthDate.trim().isEmpty()){
             message = "Please enter birth date";
             return false;
         }
@@ -187,9 +207,25 @@ public class CoMakerModel {
         }
         return true;
     }
+    private boolean isBorrowerRel(){
+        if(Integer.parseInt(coBorrowerRel) < 0){
+            message = "Please enter Borrower Relationship!";
+            return false;
+        }
+        return true;
+    }
 
+    private boolean isContactValid(){
+        if(mobileNoList.size() == 0){
+            message = "Please enter primary contact.";
+            return false;
+        }else{
+            return isPrimaryContactValid() &&
+                    isSecondaryContactValid() &&
+                    isTertiaryContactValid();
+        }
+    }
 
-   
     private boolean isPrimaryContactValid(){
         if(mobileNoList.get(0).getMobileNo().trim().isEmpty()){
             message = "Please enter primary contact number";

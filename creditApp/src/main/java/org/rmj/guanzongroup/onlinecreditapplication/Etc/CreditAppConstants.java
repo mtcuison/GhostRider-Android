@@ -42,10 +42,6 @@ public class CreditAppConstants {
      */
     public static Fragment[] APPLICATION_PAGES = {
 
-            new Fragment_CoMaker(),
-            new Fragment_Dependent(),
-            new Fragment_OtherInfo(),
-            new Fragment_DisbursementInfo(),
             new Fragment_PersonalInfo(),
             new Fragment_ResidenceInfo(),
             new Fragment_MeansInfoSelection(),
@@ -57,7 +53,11 @@ public class CreditAppConstants {
             new Fragment_SpouseResidenceInfo(),
             new Fragment_SpouseEmploymentInfo(),
             new Fragment_SpouseSelfEmployedInfo(),
-            new Fragment_SpousePensionInfo()
+            new Fragment_SpousePensionInfo(),
+            new Fragment_DisbursementInfo(),
+            new Fragment_Dependent(),
+            new Fragment_OtherInfo(),
+            new Fragment_CoMaker()
     };
 
     public static String[] APPLICATION_TYPE = {
