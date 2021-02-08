@@ -73,7 +73,7 @@ public class ImportMcTermCategory implements ImportInstance{
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
-                        saveDataToLocal(laJson);
+                        repository.saveTermCategory(laJson);
                     }
                 } else {
                     response = AppConstants.NO_INTERNET();
@@ -107,22 +107,6 @@ public class ImportMcTermCategory implements ImportInstance{
                 e.printStackTrace();
                 callback.OnFailedImportData(e.getMessage());
             }
-        }
-
-        void saveDataToLocal(JSONArray laJson) throws Exception{
-            List<EMcTermCategory> categories = new ArrayList<>();
-            for(int x = 0; x < laJson.length(); x++){
-                JSONObject loJson = laJson.getJSONObject(x);
-                EMcTermCategory category = new EMcTermCategory();
-                category.setMCCatIDx(loJson.getString("sMCCatIDx"));
-                category.setAcctTerm(loJson.getString("nAcctTerm"));
-                category.setAcctThru(loJson.getString("nAcctThru"));
-                category.setFactorRt(loJson.getString("nFactorRt"));
-                category.setPricexxx(loJson.getString("dPricexxx"));
-                category.setTimeStmp(loJson.getString("dTimeStmp"));
-                categories.add(category);
-            }
-            repository.insertBulkData(categories);
         }
     }
 }

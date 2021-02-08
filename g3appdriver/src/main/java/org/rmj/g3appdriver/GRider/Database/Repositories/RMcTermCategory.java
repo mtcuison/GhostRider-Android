@@ -53,31 +53,28 @@ public class RMcTermCategory {
 
             //check if record already exists on database
             lsSQL = "SELECT dTimeStmp FROM MC_Term_Category" +
-                    " WHERE sMCCatIDx = " + SQLUtil.toSQL(loJson.getString("sModelIDx") +"" +
+                    " WHERE sMCCatIDx = " + SQLUtil.toSQL(loJson.getString("sMCCatIDx") +"" +
                     " AND nAcctTerm = " + SQLUtil.toSQL(loJson.getString("nAcctTerm")));
             loRS = loConn.executeQuery(lsSQL);
 
             lsSQL = "";
             //record does not exists
             if (!loRS.next()){
-                //check if the record is active
-                if ("1".equals(loJson.getString("cRecdStat"))){
-                    //create insert statement
-                    lsSQL = "INSERT INTO MC_Term_Category" +
-                            "(sMCCatIDx" +
-                            ",nAcctTerm" +
-                            ",nAcctThru" +
-                            ",nFactorRt" +
-                            ",dPricexxx" +
-                            ",dTimeStmp)" +
-                            " VALUES" +
-                            "(" + SQLUtil.toSQL(loJson.getString("sMCCatIDx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("nAcctTerm")) +
-                            "," + SQLUtil.toSQL(loJson.getString("nAcctThru")) +
-                            "," + SQLUtil.toSQL(loJson.getString("nFactorRt")) +
-                            "," + SQLUtil.toSQL(loJson.getString("dPricexxx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("dTimeStmp")) + ")";
-                }
+                //create insert statement
+                lsSQL = "INSERT INTO MC_Term_Category" +
+                        "(sMCCatIDx" +
+                        ",nAcctTerm" +
+                        ",nAcctThru" +
+                        ",nFactorRt" +
+                        ",dPricexxx" +
+                        ",dTimeStmp)" +
+                        " VALUES" +
+                        "(" + SQLUtil.toSQL(loJson.getString("sMCCatIDx")) +
+                        "," + SQLUtil.toSQL(loJson.getString("nAcctTerm")) +
+                        "," + SQLUtil.toSQL(loJson.getString("nAcctThru")) +
+                        "," + SQLUtil.toSQL(loJson.getString("nFactorRt")) +
+                        "," + SQLUtil.toSQL(loJson.getString("dPricexxx")) +
+                        "," + SQLUtil.toSQL(loJson.getString("dTimeStmp")) + ")";
             } else { //record already exists
                 Date ldDate1 = SQLUtil.toDate(loRS.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
                 Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
@@ -100,12 +97,12 @@ public class RMcTermCategory {
                 if (loConn.executeUpdate(lsSQL,  "", "" ,"") <= 0) {
                     Log.e(TAG, loConn.getMessage());
                 } else
-                    Log.d(TAG, "Model Price info saved successfully.");
+                    Log.d(TAG, "Mc Term Category info saved successfully.");
             } else {
-                Log.d(TAG, "No record to update. Model Price info maybe on its latest on local database.");
+                Log.d(TAG, "No record to update. Mc Term Category info maybe on its latest on local database.");
             }
         }
-        Log.e(TAG, "Model Price info has been save to local.");
+        Log.e(TAG, "Mc Term Category info has been save to local.");
 
         //terminate object connection
         loConn = null;
