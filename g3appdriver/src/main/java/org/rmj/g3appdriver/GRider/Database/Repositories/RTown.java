@@ -32,17 +32,21 @@ public class RTown {
         allTownInfo = townDao.getAllTownInfo();
     }
 
-        public LiveData<List<ETownInfo>> getTownInfoFromProvince(String ProvinceID){
-            return townDao.getAllTownInfoFromProvince(ProvinceID);
-        }
+    public LiveData<List<ETownInfo>> getTownInfoFromProvince(String ProvinceID){
+        return townDao.getAllTownInfoFromProvince(ProvinceID);
+    }
 
-        public LiveData<String[]> getTownNamesFromProvince(String ProvinceID){
-            return townDao.getTownNamesFromProvince(ProvinceID);
-        }
+    public LiveData<String[]> getTownNamesFromProvince(String ProvinceID){
+        return townDao.getTownNamesFromProvince(ProvinceID);
+    }
 
-        public void insertBulkData(List<ETownInfo> townInfoList){
-            townDao.insertBulkData(townInfoList);
-        }
+    public void insertBulkData(List<ETownInfo> townInfoList){
+        townDao.insertBulkData(townInfoList);
+    }
+
+    public LiveData<ETownInfo> getTownNameAndProvID(String fsID){
+        return townDao.getTownNameAndProvID(fsID);
+    }
 
     public void saveTownInfo(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
@@ -68,7 +72,7 @@ public class RTown {
             //record does not exists
             if (!loRS.next()){
                 //check if the record is active
-                if ("1".equals((String) loJson.get("cRecdStat"))){
+                if ("1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
                     //create insert statement
                     lsSQL = "INSERT INTO Town_Info" +
                             "(sTownIDxx" +

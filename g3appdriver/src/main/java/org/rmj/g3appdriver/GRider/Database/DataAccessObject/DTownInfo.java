@@ -36,9 +36,9 @@ public interface DTownInfo {
     @Query("SELECT * FROM Town_Info WHERE sProvIDxx = :ProvinceID")
     LiveData<List<ETownInfo>> getAllTownInfoFromProvince(String ProvinceID);
 
-        @Query("SELECT sTownName FROM Town_Info WHERE sProvIDxx = :ProvinceID")
-        LiveData<String[]> getTownNamesFromProvince(String ProvinceID);
+    @Query("SELECT sTownName FROM Town_Info WHERE sProvIDxx = :ProvinceID")
+    LiveData<String[]> getTownNamesFromProvince(String ProvinceID);
 
-        @Query("SELECT * FROM Town_Info WHERE sTownIDxx = :townID")
-        LiveData<ETownInfo> getTownNameAndProvID(String townID);
-    }
+    @Query("SELECT * FROM Town_Info WHERE sTownIDxx = :townID")
+    LiveData<ETownInfo> getTownNameAndProvID(String townID);
+}
