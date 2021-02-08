@@ -53,8 +53,8 @@ public class RMcTermCategory {
 
             //check if record already exists on database
             lsSQL = "SELECT dTimeStmp FROM MC_Term_Category" +
-                    " WHERE sMCCatIDx = " + SQLUtil.toSQL(loJson.getString("sMCCatIDx") +"" +
-                    " AND nAcctTerm = " + SQLUtil.toSQL(loJson.getString("nAcctTerm")));
+                    " WHERE sMCCatIDx = " + SQLUtil.toSQL(loJson.getString("sMCCatIDx")) + "" +
+                    " AND nAcctTerm = " + SQLUtil.toSQL(loJson.getString("nAcctTerm"));
             loRS = loConn.executeQuery(lsSQL);
 
             lsSQL = "";
