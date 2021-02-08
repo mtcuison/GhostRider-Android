@@ -63,20 +63,20 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERaffleBasis;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERaffleInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESCA_Request;
+import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 
-@Database(entities = {EEmployeeInfo.class,
-        EClientInfo.class,
-        EBarangayInfo.class,
-        ETownInfo.class,
-        EProvinceInfo.class,
-        ECountryInfo.class,
-        EMcCategory.class,
-        EMcTermCategory.class,
+@Database(entities = {
+        EBranchInfo.class,
         EMcBrand.class,
         EMcModel.class,
+        EMcCategory.class,
+        EProvinceInfo.class,
         EMcModelPrice.class,
-        EBranchInfo.class,
+        ETownInfo.class,
+        EBarangayInfo.class,
+        EMcTermCategory.class,
+        ECountryInfo.class,
         EOccupationInfo.class,
         ECreditApplication.class,
         ECreditApplicantInfo.class,
@@ -93,9 +93,12 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
         EDCPCollectionDetail.class,
         EAddressUpdate.class,
         EMobileUpdate.class,
-        EImageInfo.class}, version = 1)
+        EImageInfo.class,
+        EEmployeeInfo.class,
+        EClientInfo.class,
+        ETokenInfo.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
-    private static final String TAG = AppDatabase.class.getSimpleName();
+    private static final String TAG = "GhostRider_DB_Manager";
     private static AppDatabase instance;
 
     public abstract DEmployeeInfo EmployeeDao();
@@ -124,6 +127,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DAddressRequest AddressRequestDao();
     public abstract DMobileRequest MobileRequestDao();
     public abstract DImageInfo ImageInfoDao();
+
 
     public static synchronized AppDatabase getInstance(Context context){
         if(instance == null){
