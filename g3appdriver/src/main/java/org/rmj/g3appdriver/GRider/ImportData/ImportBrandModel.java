@@ -26,16 +26,10 @@ import java.util.List;
 
 public class ImportBrandModel implements ImportInstance {
     public static final String TAG = ImportBrandModel.class.getSimpleName();
-    private final RMcModel repository;
-    private final ConnectionUtil conn;
-    private final WebApi webApi;
-    private final HttpHeaders headers;
+    private final Application instance;
 
     public ImportBrandModel(Application application){
-        repository = new RMcModel(application);
-        conn = new ConnectionUtil(application);
-        webApi = new WebApi(application);
-        headers = HttpHeaders.getInstance(application);
+        this.instance = application;
     }
 
     @Override
@@ -44,7 +38,7 @@ public class ImportBrandModel implements ImportInstance {
             JSONObject loJson = new JSONObject();
             loJson.put("bsearch", true);
             loJson.put("descript", "All");
-            new ImportDataTask(repository, conn, webApi, headers, callback).execute(loJson);
+            new ImportDataTask(instance, callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -57,11 +51,11 @@ public class ImportBrandModel implements ImportInstance {
         private final HttpHeaders headers;
         private final ImportDataCallback callback;
 
-        public ImportDataTask(RMcModel repository, ConnectionUtil conn, WebApi webApi, HttpHeaders headers, ImportDataCallback callback) {
-            this.repository = repository;
-            this.conn = conn;
-            this.webApi = webApi;
-            this.headers = headers;
+        public ImportDataTask(Application instance, ImportDataCallback callback) {
+            this.repository = new RMcModel(instance);
+            this.conn = new ConnectionUtil(instance);
+            this.webApi = new WebApi(instance);
+            this.headers = HttpHeaders.getInstance(instance);
             this.callback = callback;
         }
 
@@ -77,7 +71,7 @@ public class ImportBrandModel implements ImportInstance {
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
-                        saveDataToLocal(laJson);
+                        repository.saveMcModelInfo(laJson);
                     }
                 } else {
                     response = AppConstants.NO_INTERNET();
@@ -109,27 +103,6 @@ public class ImportBrandModel implements ImportInstance {
                 e.printStackTrace();
                 callback.OnFailedImportData(e.getMessage());
             }
-        }
-
-        void saveDataToLocal(JSONArray laJson) throws Exception {
-            List<EMcModel> modelList = new ArrayList<>();
-            for(int x = 0; x < laJson.length(); x++){
-                JSONObject loJson = laJson.getJSONObject(x);
-                EMcModel model = new EMcModel();
-                model.setModelIDx(loJson.getString("sModelIDx"));
-                model.setModelCde(loJson.getString("sModelCde"));
-                model.setModelNme(loJson.getString("sModelNme"));
-                model.setBrandIDx(loJson.getString("sBrandIDx"));
-                model.setMotorTyp(loJson.getString("cMotorTyp"));
-                model.setRegisTyp(loJson.getString("cRegisTyp"));
-                model.setEndOfLfe(loJson.getString("cEndOfLfe"));
-                model.setEngineTp(loJson.getString("cEngineTp"));
-                model.setHotItemx(loJson.getString("cHotItemx"));
-                model.setRecdStat(loJson.getString("cRecdStat"));
-                model.setTimeStmp(loJson.getString("dTimeStmp"));
-                modelList.add(model);
-            }
-            repository.insertBulkData(modelList);
         }
     }
 }

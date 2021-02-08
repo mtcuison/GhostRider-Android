@@ -1,11 +1,13 @@
 package org.rmj.guanzongroup.ghostrider.epacss.Activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import androidx.annotation.NonNull;
@@ -105,12 +107,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.action_logout){
-            loMessage.setPositiveButton("No", (view, dialog) -> dialog.dismiss());
-            loMessage.setNegativeButton("Yes", (view, dialog) -> {
+            loMessage.setPositiveButton("Yes", (view, dialog) -> {
                 dialog.dismiss();
                 finish();
                 new REmployee(getApplication()).LogoutUserSession();
                 startActivity(new Intent(MainActivity.this, SplashScreenActivity.class));
+            });
+            loMessage.setNegativeButton("No", (view, dialog) -> {
+                dialog.dismiss();
             });
             loMessage.setTitle("GhostRider Session");
             loMessage.setMessage("Are you sure you want to end session/logout?");
@@ -121,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }else{
