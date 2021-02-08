@@ -53,14 +53,14 @@ public class RMcCategory {
 
             //check if record already exists on database
             lsSQL = "SELECT dTimeStmp FROM MC_Category" +
-                    " WHERE sMcCatIDx = " + SQLUtil.toSQL((String) loJson.get("sMcCatIDx"));
+                    " WHERE sMcCatIDx = " + SQLUtil.toSQL((String) loJson.get("sMCCatIDx"));
             loRS = loConn.executeQuery(lsSQL);
 
             lsSQL = "";
             //record does not exists
             if (!loRS.next()){
                 //check if the record is active
-                if ("1".equals((String) loJson.get("cRecdStat"))){
+                if ("1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
                     //create insert statement
                     lsSQL = "INSERT INTO MC_Category" +
                             "(sMcCatIDx" +
@@ -71,8 +71,8 @@ public class RMcCategory {
                             ",cRecdStat" +
                             ",dTimeStmp)" +
                             " VALUES" +
-                            "(" + SQLUtil.toSQL(loJson.getString("sMcCatIDx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("sMcCatNme")) +
+                            "(" + SQLUtil.toSQL(loJson.getString("sMCCatIDx")) +
+                            "," + SQLUtil.toSQL(loJson.getString("sMCCatNme")) +
                             "," + SQLUtil.toSQL(loJson.getString("nMiscChrg")) +
                             "," + SQLUtil.toSQL(loJson.getString("nRebatesx")) +
                             "," + SQLUtil.toSQL(loJson.getString("nEndMrtgg")) +
@@ -87,14 +87,14 @@ public class RMcCategory {
                 if (!ldDate1.equals(ldDate2)){
                     //create update statement
                     lsSQL = "UPDATE MC_Category SET" +
-                            "   sModelCde = " + SQLUtil.toSQL(loJson.getString("sMcCatIDx")) +
-                            ",  sModelNme = " + SQLUtil.toSQL(loJson.getString("sMcCatNme")) +
+                            "   sModelCde = " + SQLUtil.toSQL(loJson.getString("sMCCatIDx")) +
+                            ",  sModelNme = " + SQLUtil.toSQL(loJson.getString("sMCCatNme")) +
                             ",  sBrandIDx = " + SQLUtil.toSQL(loJson.getString("nMiscChrg")) +
                             ",  cMotorTyp = " + SQLUtil.toSQL(loJson.getString("nRebatesx")) +
                             ",  cRegisTyp = " + SQLUtil.toSQL(loJson.getString("nEndMrtgg")) +
                             ",  cEndOfLfe = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
                             ",  dTimeStmp = " + SQLUtil.toSQL(loJson.getString("dTimeStmp")) +
-                            " WHERE sMcCatIDx = " + SQLUtil.toSQL(loJson.getString("sMcCatIDx"));
+                            " WHERE sMcCatIDx = " + SQLUtil.toSQL(loJson.getString("sMCCatIDx"));
                 }
             }
 

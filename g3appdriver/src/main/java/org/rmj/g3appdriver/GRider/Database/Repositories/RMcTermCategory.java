@@ -53,36 +53,30 @@ public class RMcTermCategory {
 
             //check if record already exists on database
             lsSQL = "SELECT dTimeStmp FROM MC_Term_Category" +
-                    " WHERE sMCCatIDx = " + SQLUtil.toSQL((String) loJson.get("sModelIDx"));
+                    " WHERE sMCCatIDx = " + SQLUtil.toSQL(loJson.getString("sModelIDx") +"" +
+                    " AND nAcctTerm = " + SQLUtil.toSQL(loJson.getString("nAcctTerm")));
             loRS = loConn.executeQuery(lsSQL);
 
             lsSQL = "";
             //record does not exists
             if (!loRS.next()){
                 //check if the record is active
-                if ("1".equals((String) loJson.get("cRecdStat"))){
+                if ("1".equals(loJson.getString("cRecdStat"))){
                     //create insert statement
-                    lsSQL = "INSERT INTO Mc_Model_Price" +
-                            "(sModelIDx" +
-                            ",nSelPrice" +
-                            ",nLastPrce" +
-                            ",nDealrPrc" +
-                            ",nMinDownx" +
-                            ",sMCCatIDx" +
+                    lsSQL = "INSERT INTO MC_Term_Category" +
+                            "(sMCCatIDx" +
+                            ",nAcctTerm" +
+                            ",nAcctThru" +
+                            ",nFactorRt" +
                             ",dPricexxx" +
-                            ",dInsPrice" +
-                            ",cRecdStat" +
                             ",dTimeStmp)" +
                             " VALUES" +
-                            "(" + SQLUtil.toSQL(loJson.getString("sModelIDx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("nSelPrice")) +
-                            "," + SQLUtil.toSQL(loJson.getString("nLastPrce")) +
-                            "," + SQLUtil.toSQL(loJson.getString("nDealrPrc")) +
-                            "," + SQLUtil.toSQL(loJson.getString("nMinDownx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("sMCCatIDx")) +
+                            "(" + SQLUtil.toSQL(loJson.getString("sMCCatIDx")) +
+                            "," + SQLUtil.toSQL(loJson.getString("nAcctTerm")) +
+                            "," + SQLUtil.toSQL(loJson.getString("nAcctThru")) +
+                            "," + SQLUtil.toSQL(loJson.getString("nFactorRt")) +
                             "," + SQLUtil.toSQL(loJson.getString("dPricexxx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("dInsPrice")) +
-                            "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) + ")";
+                            "," + SQLUtil.toSQL(loJson.getString("dTimeStmp")) + ")";
                 }
             } else { //record already exists
                 Date ldDate1 = SQLUtil.toDate(loRS.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
@@ -91,16 +85,13 @@ public class RMcTermCategory {
                 //compare date if the record from API is newer than the database record
                 if (!ldDate1.equals(ldDate2)){
                     //create update statement
-                    lsSQL = "UPDATE MC_Category SET" +
-                            "  nSelPrice = " + SQLUtil.toSQL(loJson.getString("nSelPrice")) +
-                            ", nLastPrce = " + SQLUtil.toSQL(loJson.getString("nLastPrce")) +
-                            ", nDealrPrc = " + SQLUtil.toSQL(loJson.getString("nDealrPrc")) +
-                            ", nMinDownx = " + SQLUtil.toSQL(loJson.getString("nMinDownx")) +
-                            ", sMCCatIDx = " + SQLUtil.toSQL(loJson.getString("sMCCatIDx")) +
-                            ", dPricexxx = " + SQLUtil.toSQL(loJson.getString("dPricexxx")) +
-                            ", dInsPrice = " + SQLUtil.toSQL(loJson.getString("dInsPrice")) +
-                            ", cRecdStat = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
-                            " WHERE sModelIDx = " + SQLUtil.toSQL(loJson.getString("sModelIDx"));
+                    lsSQL = "UPDATE MC_Term_Category SET" +
+                            "  nSelPrice = " + SQLUtil.toSQL(loJson.getString("sMCCatIDx")) +
+                            ", nLastPrce = " + SQLUtil.toSQL(loJson.getString("nAcctTerm")) +
+                            ", nDealrPrc = " + SQLUtil.toSQL(loJson.getString("nAcctThru")) +
+                            ", nMinDownx = " + SQLUtil.toSQL(loJson.getString("nFactorRt")) +
+                            ", sMCCatIDx = " + SQLUtil.toSQL(loJson.getString("dPricexxx")) +
+                            " WHERE sModelIDx = " + SQLUtil.toSQL(loJson.getString("dTimeStmp"));
                 }
             }
 

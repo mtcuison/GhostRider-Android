@@ -58,18 +58,18 @@ public class RMcModelPrice {
             //record does not exists
             if (!loRS.next()){
                 //check if the record is active
-                if ("1".equals((String) loJson.get("cRecdStat"))){
+                if ("1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
                     //create insert statement
                     lsSQL = "INSERT INTO Mc_Model_Price" +
-                            "(sModelIDx" +
-                            ",nSelPrice" +
-                            ",nLastPrce" +
-                            ",nDealrPrc" +
-                            ",nMinDownx" +
-                            ",sMCCatIDx" +
-                            ",dPricexxx" +
-                            ",dInsPrice" +
-                            ",cRecdStat" +
+                            "(sModelIDx " +
+                            ",nSelPrice " +
+                            ",nLastPrce " +
+                            ",nDealrPrc " +
+                            ",nMinDownx " +
+                            ",sMCCatIDx " +
+                            ",dPricexxx " +
+                            ",dInsPrice " +
+                            ",cRecdStat " +
                             ",dTimeStmp)" +
                             " VALUES" +
                             "(" + SQLUtil.toSQL(loJson.getString("sModelIDx")) +
@@ -89,8 +89,8 @@ public class RMcModelPrice {
                 //compare date if the record from API is newer than the database record
                 if (!ldDate1.equals(ldDate2)){
                     //create update statement
-                    lsSQL = "UPDATE MC_Category SET" +
-                            "  nSelPrice = " + SQLUtil.toSQL(loJson.getString("nSelPrice")) +
+                    lsSQL = "UPDATE Mc_Model_Price SET" +
+                            " nSelPrice = " + SQLUtil.toSQL(loJson.getString("nSelPrice")) +
                             ", nLastPrce = " + SQLUtil.toSQL(loJson.getString("nLastPrce")) +
                             ", nDealrPrc = " + SQLUtil.toSQL(loJson.getString("nDealrPrc")) +
                             ", nMinDownx = " + SQLUtil.toSQL(loJson.getString("nMinDownx")) +
