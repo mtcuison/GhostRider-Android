@@ -80,7 +80,8 @@ public class RMcModelPrice {
                             "," + SQLUtil.toSQL(loJson.getString("sMCCatIDx")) +
                             "," + SQLUtil.toSQL(loJson.getString("dPricexxx")) +
                             "," + SQLUtil.toSQL(loJson.getString("dInsPrice")) +
-                            "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) + ")";
+                            "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
+                            "," + SQLUtil.toSQL(loJson.getString("dTimeStmp")) + ")";
                 }
             } else { //record already exists
                 Date ldDate1 = SQLUtil.toDate(loRS.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
