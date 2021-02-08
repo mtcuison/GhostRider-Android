@@ -110,19 +110,5 @@ public class ImportBrand implements ImportInstance{
                 callback.OnFailedImportData(e.getMessage());
             }
         }
-
-//        void saveDataToLocal(JSONArray laJson) throws Exception{
-//            List<EMcBrand> brandList = new ArrayList<>();
-//            for(int x = 0; x < laJson.length(); x++){
-//                JSONObject loJson = laJson.getJSONObject(x);
-//                EMcBrand brand = new EMcBrand();
-//                brand.setBrandIDx(loJson.getString("sBrandIDx"));
-//                brand.setBrandNme(loJson.getString("sBrandNme"));
-//                brand.setRecdStat(loJson.getString("cRecdStat"));
-//                brand.setTimeStmp(loJson.getString("dTimeStmp"));
-//                brandList.add(brand);
-//            }
-//            repository.insertBulkData(brandList);
-//        }
     }
 }
