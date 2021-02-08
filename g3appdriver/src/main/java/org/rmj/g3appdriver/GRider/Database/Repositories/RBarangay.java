@@ -1,23 +1,21 @@
-package org.rmj.g3appdriver.GRider.Database.Repositories;
+    package org.rmj.g3appdriver.GRider.Database.Repositories;
 
-import android.app.Application;
-import android.os.AsyncTask;
+    import android.app.Application;
+    import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
+    import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBarangayInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
+    import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+    import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBarangayInfo;
+    import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 
-import java.util.List;
+    import java.util.List;
 
 public class RBarangay {
     private final DBarangayInfo barangayDao;
     private final LiveData<List<EBarangayInfo>> allBarangayInfo;
-    private final Application application;
 
     public RBarangay(Application application){
-        this.application = application;
         AppDatabase appDatabase = AppDatabase.getInstance(application);
         barangayDao = appDatabase.BarangayDao();
         allBarangayInfo = barangayDao.getAllBarangayInfo();
@@ -31,32 +29,28 @@ public class RBarangay {
         barangayDao.insertBulkBarangayData(barangayInfos);
     }
 
-    public void insertBarangayData(){
-        try{
-
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
     public void updateBarangay(EBarangayInfo barangayInfo){
         //TODO: Create asyncktask class that will update data to local database on background thread.
     }
 
-    public void deleteBarangay(EBarangayInfo barangayInfo){
-        //TODO: Create asyncktask class that will delete data to local database on background thread.
-    }
+        public void deleteBarangay(EBarangayInfo barangayInfo){
+            //TODO: Create asyncktask class that will delete data to local database on background thread.
+        }
 
-    public LiveData<List<EBarangayInfo>> getAllBarangayInfo(){
-        return allBarangayInfo;
-    }
+        public LiveData<List<EBarangayInfo>> getAllBarangayInfo(){
+            return allBarangayInfo;
+        }
 
-    public LiveData<List<EBarangayInfo>> getAllBarangayFromTown(String TownID){
-        LiveData<List<EBarangayInfo>> allBarangayFromTown = barangayDao.getAllBarangayInfoFromTown(TownID);
-        return allBarangayFromTown;
-    }
+        public LiveData<List<EBarangayInfo>> getAllBarangayFromTown(String TownID){
+            LiveData<List<EBarangayInfo>> allBarangayFromTown = barangayDao.getAllBarangayInfoFromTown(TownID);
+            return allBarangayFromTown;
+        }
 
-    public LiveData<String[]> getBarangayNamesFromTown(String TownID){
-        return barangayDao.getAllBarangayNameFromTown(TownID);
+        public LiveData<String[]> getBarangayNamesFromTown(String TownID){
+            return barangayDao.getAllBarangayNameFromTown(TownID);
+        }
+
+        public LiveData<String> getBarangayInfoFromID(String fsID) {
+            return barangayDao.getBarangayInfoFromID(fsID);
+        }
     }
-}

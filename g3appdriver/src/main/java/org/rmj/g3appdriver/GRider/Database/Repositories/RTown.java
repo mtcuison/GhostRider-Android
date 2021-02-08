@@ -1,9 +1,9 @@
-package org.rmj.g3appdriver.GRider.Database.Repositories;
+    package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
+    import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,17 +32,17 @@ public class RTown {
         allTownInfo = townDao.getAllTownInfo();
     }
 
-    public LiveData<List<ETownInfo>> getTownInfoFromProvince(String ProvinceID){
-        return townDao.getAllTownInfoFromProvince(ProvinceID);
-    }
+        public LiveData<List<ETownInfo>> getTownInfoFromProvince(String ProvinceID){
+            return townDao.getAllTownInfoFromProvince(ProvinceID);
+        }
 
-    public LiveData<String[]> getTownNamesFromProvince(String ProvinceID){
-        return townDao.getTownNamesFromProvince(ProvinceID);
-    }
+        public LiveData<String[]> getTownNamesFromProvince(String ProvinceID){
+            return townDao.getTownNamesFromProvince(ProvinceID);
+        }
 
-    public void insertBulkData(List<ETownInfo> townInfoList){
-        townDao.insertBulkData(townInfoList);
-    }
+        public void insertBulkData(List<ETownInfo> townInfoList){
+            townDao.insertBulkData(townInfoList);
+        }
 
     public void saveTownInfo(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
