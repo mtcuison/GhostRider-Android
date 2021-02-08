@@ -11,7 +11,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMcBrand;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RMcBrand;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -77,7 +76,7 @@ public class ImportBrand implements ImportInstance{
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
-                        saveDataToLocal(laJson);
+                        repository.insertBrandInfo(laJson);
                     }
                 } else {
                     response = AppConstants.NO_INTERNET();
@@ -112,18 +111,18 @@ public class ImportBrand implements ImportInstance{
             }
         }
 
-        void saveDataToLocal(JSONArray laJson) throws Exception{
-            List<EMcBrand> brandList = new ArrayList<>();
-            for(int x = 0; x < laJson.length(); x++){
-                JSONObject loJson = laJson.getJSONObject(x);
-                EMcBrand brand = new EMcBrand();
-                brand.setBrandIDx(loJson.getString("sBrandIDx"));
-                brand.setBrandNme(loJson.getString("sBrandNme"));
-                brand.setRecdStat(loJson.getString("cRecdStat"));
-                brand.setTimeStmp(loJson.getString("dTimeStmp"));
-                brandList.add(brand);
-            }
-            repository.insertBulkData(brandList);
-        }
+//        void saveDataToLocal(JSONArray laJson) throws Exception{
+//            List<EMcBrand> brandList = new ArrayList<>();
+//            for(int x = 0; x < laJson.length(); x++){
+//                JSONObject loJson = laJson.getJSONObject(x);
+//                EMcBrand brand = new EMcBrand();
+//                brand.setBrandIDx(loJson.getString("sBrandIDx"));
+//                brand.setBrandNme(loJson.getString("sBrandNme"));
+//                brand.setRecdStat(loJson.getString("cRecdStat"));
+//                brand.setTimeStmp(loJson.getString("dTimeStmp"));
+//                brandList.add(brand);
+//            }
+//            repository.insertBulkData(brandList);
+//        }
     }
 }

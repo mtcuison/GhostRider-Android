@@ -41,10 +41,7 @@ public class CreditAppConstants {
      *            <p>15 new Fragment_CoMaker()</p>
      */
     public static Fragment[] APPLICATION_PAGES = {
-            new Fragment_PersonalInfo(),
-            new Fragment_ResidenceInfo(),
-            new Fragment_SpouseInfo(),
-            new Fragment_SpouseResidenceInfo(),
+
             new Fragment_PersonalInfo(),
             new Fragment_ResidenceInfo(),
             new Fragment_MeansInfoSelection(),
@@ -179,25 +176,24 @@ public class CreditAppConstants {
             "More than 10 Years"};
 
     public static String[] SCHOOL_LEVEL = {
-            "Select School Level (Required)",
+//            "Select School Level (Required)",
             "Primary",
             "High School",
             "Technical/Vocational",
             "College",
             "College Graduate"};
 
+    public static String[] SCHOOL_TYPE = {
+//            "Select School Type (Required)",
+            "Public",
+            "Private"};
+
     public static String[] EMPLOYMENT_STATUS = {
-            "Select Employment Status (Required)",
+//            "Select Employment Status (Required)",
             "Regular",
             "Probationary",
             "Contractual",
             "Seasonal"};
-
-    public static String[] BUSINESS_TYPE = {
-            "Select Type of Business (Required)",
-            "Sole",
-            "Partnership",
-            "Corporation"};
 
     public static String[] BUSINESS_SIZE = {
             "Select Size of Business (Required)",
@@ -207,4 +203,100 @@ public class CreditAppConstants {
             "Small (Less than 300,000 Income/Month)",
             "Medium (Less than 1,000,000 Income/Month)",
             "Large (More than 1,000,000 Income/Month)"};
+
+
+    public static String[] ACCOUNT_TYPE = {
+            "Select Account Type",
+            "Checkings",
+            "Savings",
+            "Payroll"};
+
+    public static String[] EMPLOYMENT_SECTOR = {
+//            "Select Employment Type",
+            "Private",
+            "Government",
+            "OFW"};
+    public static String[] STUDENT_YES_NO = {
+            "Select student status",
+            "Yes",
+            "No"};
+    public static String[] EMPLOYED_YES_NO = {
+            "Select employment status",
+            "Yes",
+            "No"};
+
+
+    public static String[] DEPENDENT_RELATIONSHIP = {
+//            "Select Relationship",
+            "Child",
+            "Parents",
+            "Siblings",
+            "Relatives"};
+//            "Others"};
+
+    public static String[] UNIT_USER = {
+            "Select Unit User",
+            "Principal Customer",
+            "Others"};
+
+    public static String[] UNIT_USER_OTHERS = {
+            "Select Other User",
+            "Children",
+            "Parents",
+            "Siblings",
+            "Relatives",
+            "Others",
+            "Spouse"};
+
+    public static String[] UNIT_PURPOSE = {
+            "Select Unit Purpose",
+            "Business",
+            "Personal Service",
+            "Raffle",
+            "Gift"};
+
+    public static String[] UNIT_PAYER = {
+            "Select other payer",
+            "Children",
+            "Parents",
+            "Siblings",
+            "Relatives",
+            "Spouse"};
+
+    public static  String[] UNIT_PAYER_NO_SPOUSE = {
+            "Select other payer",
+            "Children",
+            "Parents",
+            "Siblings",
+            "Relatives"};
+    public static String[] INTO_US = {
+            "Select company information source",
+            "Facebook",
+            "Branch",
+            "Friends",
+            "Relatives",
+            "Walk-In",
+            "Others"};
+
+    public static String[] INTO_US_NO_SPOUSE= {
+            "Select company information source",
+            "Facebook",
+            "Branch",
+            "Friends",
+            "Relatives",
+            "Walk-In",
+            "Others"};
+
+    public static String[] CO_MAKER_RELATIONSHIP= {
+            "Children",
+            "Parents",
+            "Siblings",
+            "Relatives",
+            "Other",
+            "Spouse"};
+    public static String[] CO_MAKER_INCOME_SOURCE= {
+            "Employed",
+            "Self-Employed",
+            "With-Financer",
+            "Pensioner"};
 }

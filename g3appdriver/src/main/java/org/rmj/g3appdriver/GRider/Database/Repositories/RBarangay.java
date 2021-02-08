@@ -14,8 +14,10 @@ import java.util.List;
 public class RBarangay {
     private final DBarangayInfo barangayDao;
     private final LiveData<List<EBarangayInfo>> allBarangayInfo;
+    private final Application application;
 
     public RBarangay(Application application){
+        this.application = application;
         AppDatabase appDatabase = AppDatabase.getInstance(application);
         barangayDao = appDatabase.BarangayDao();
         allBarangayInfo = barangayDao.getAllBarangayInfo();
@@ -27,6 +29,14 @@ public class RBarangay {
 
     public void insertBulkData(List<EBarangayInfo> barangayInfos){
         barangayDao.insertBulkBarangayData(barangayInfos);
+    }
+
+    public void insertBarangayData(){
+        try{
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void updateBarangay(EBarangayInfo barangayInfo){
@@ -48,9 +58,5 @@ public class RBarangay {
 
     public LiveData<String[]> getBarangayNamesFromTown(String TownID){
         return barangayDao.getAllBarangayNameFromTown(TownID);
-    }
-
-    public LiveData<String> getBarangayInfoFromID(String fsID) {
-        return barangayDao.getBarangayInfoFromID(fsID);
     }
 }

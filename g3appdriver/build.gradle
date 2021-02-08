@@ -41,5 +41,5 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.2.5'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
-    implementation project(':appdriver');
+    implementation project(':appdriver') //implement GhostRider Application Driver
 }

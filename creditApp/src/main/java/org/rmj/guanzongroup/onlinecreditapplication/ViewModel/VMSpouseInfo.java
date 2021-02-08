@@ -1,10 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
-import android.app.Application;
-import android.media.tv.TvTrackInfo;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import androidx.lifecycle.ViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -172,4 +168,5 @@ public class VMSpouseInfo extends AndroidViewModel {
             callBack.onFailedResult(e.getMessage());
         }
     }
+
 }

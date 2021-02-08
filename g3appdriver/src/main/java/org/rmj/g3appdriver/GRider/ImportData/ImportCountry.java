@@ -26,13 +26,13 @@ import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_COUNTRY;
 
 public class ImportCountry implements ImportInstance {
     public static final String TAG = ImportBarangay.class.getSimpleName();
-    private final RCountry repository;
     private final ConnectionUtil conn;
     private final WebApi webApi;
     private final HttpHeaders headers;
+    private final Application instance;
 
     public ImportCountry(Application application) {
-        repository = new RCountry(application);
+        this.instance = application;
         conn = new ConnectionUtil(application);
         webApi = new WebApi(application);
         headers = HttpHeaders.getInstance(application);
@@ -44,7 +44,7 @@ public class ImportCountry implements ImportInstance {
             JSONObject loJson = new JSONObject();
             loJson.put("bsearch", true);
             loJson.put("descript", "All");
-            new ImportDataTask(repository, conn, webApi, headers,callback).execute(loJson);
+            new ImportDataTask(instance, conn, webApi, headers,callback).execute(loJson);
             //loJson.put("dTimeStmp", lsTimeStmp);
         } catch (Exception e){
             e.printStackTrace();
@@ -52,18 +52,18 @@ public class ImportCountry implements ImportInstance {
     }
 
     private static class ImportDataTask extends AsyncTask<JSONObject, Void, String>{
-        private final RCountry repository;
         private final ConnectionUtil conn;
         private final WebApi webApi;
         private final HttpHeaders headers;
         private final ImportDataCallback callback;
+        private final RCountry poCountryRp;
 
-        public ImportDataTask(RCountry repository, ConnectionUtil conn, WebApi webApi, HttpHeaders headers, ImportDataCallback callback) {
-            this.repository = repository;
+        public ImportDataTask(Application instance, ConnectionUtil conn, WebApi webApi, HttpHeaders headers, ImportDataCallback callback) {
             this.conn = conn;
             this.webApi = webApi;
             this.headers = headers;
             this.callback = callback;
+            this.poCountryRp = new RCountry(instance);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -78,7 +78,7 @@ public class ImportCountry implements ImportInstance {
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
-                        saveDataToLocal(laJson);
+                        poCountryRp.insertCountryInfo(laJson);
                     }
                 } else {
                     response = AppConstants.NO_INTERNET();
@@ -110,21 +110,6 @@ public class ImportCountry implements ImportInstance {
                 e.printStackTrace();
                 callback.OnFailedImportData(e.getMessage());
             }
-        }
-
-        void saveDataToLocal(JSONArray laJson) throws Exception {
-            List<ECountryInfo> countryInfo = new ArrayList<>();
-            for(int x= 0; x < laJson.length(); x++){
-                JSONObject loJson = laJson.getJSONObject(x);
-                ECountryInfo info = new ECountryInfo();
-                info.setCntryCde(loJson.getString("sCntryCde"));
-                info.setCntryNme(loJson.getString("sCntryNme"));
-                info.setNational(loJson.getString("sNational"));
-                info.setRecdStat(loJson.getString("cRecdStat"));
-                info.setTimeStmp(loJson.getString("dTimeStmp"));
-                countryInfo.add(info);
-            }
-            repository.insertBulkData(countryInfo);
         }
     }
 }

@@ -21,6 +21,7 @@ import org.rmj.g3appdriver.GRider.ImportData.ImportProvinces;
 import org.rmj.g3appdriver.GRider.ImportData.ImportTown;
 import org.rmj.g3appdriver.GRider.ImportData.Import_AreaPerformance;
 import org.rmj.g3appdriver.GRider.ImportData.Import_BranchPerformance;
+import org.rmj.g3appdriver.GRider.ImportData.Import_LoanApplications;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SCARequest;
 
@@ -49,6 +50,7 @@ class DataImportService extends JobService {
 
     private void doBackgroundTask(JobParameters params) {
         ImportInstance[]  importInstances = {
+                new ImportBranch(getApplication()),
                 new ImportBrand(getApplication()),
                 new ImportBrandModel(getApplication()),
                 new ImportCategory(getApplication()),
@@ -62,7 +64,7 @@ class DataImportService extends JobService {
                 new Import_AreaPerformance(getApplication()),
                 new Import_Occupations(getApplication()),
                 new Import_BranchPerformance(getApplication()),
-                new ImportBranch(getApplication())};
+                new Import_LoanApplications(getApplication())};
 
         new Thread(() -> {
             for (ImportInstance importInstance : importInstances) {

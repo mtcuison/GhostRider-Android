@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".Fragment.Fragment_MeansInfoSelection">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please select the source of income of client. If client doesn't have any source of income you can skip this area."
+        android:textColor="@color/textColor_Black"
+        android:gravity="center"
+        tools:ignore="HardcodedText"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <CheckBox
+            android:id="@+id/cb_employed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Employed"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_margin="15dp"/>
+
+        <CheckBox
+            android:id="@+id/cb_finance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Finance"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_margin="15dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <CheckBox
+            android:id="@+id/cb_sEmployed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Self-Employed"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_margin="15dp"/>
+
+        <CheckBox
+            android:id="@+id/cb_pension"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Pension"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_margin="15dp"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_creditAppPrvs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sbtnPrvs"
+            style="@style/NavigationButton"
+            android:drawableStart="@drawable/ic_nav_left"
+            android:drawableLeft="@drawable/ic_nav_left"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            tools:ignore="RelativeOverlap"  />
+
+        <Button
+            android:id="@+id/btn_creditAppNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sbtnNext"
+            style="@style/NavigationButton"
+            android:drawableEnd="@drawable/ic_nav_right"
+            android:drawableRight="@drawable/ic_nav_right"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            tools:ignore="RelativeOverlap" />
+    </RelativeLayout>
+
+</LinearLayout>

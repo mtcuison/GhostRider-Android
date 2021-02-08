@@ -38,7 +38,4 @@ public interface DBarangayInfo {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBulkBarangayData(List<EBarangayInfo> barangayInfoList);
-
-    @Query("SELECT sBrgyName FROM Barangay_Info WHERE sBrgyIDxx = :fsID")
-    LiveData<String> getBarangayInfoFromID(String fsID);
 }

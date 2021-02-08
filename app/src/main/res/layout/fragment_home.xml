@@ -6,110 +6,192 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/bg_gradient_light"
     tools:context=".ui.home.Fragment_Home">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
         android:layout_centerInParent="true">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            app:cardCornerRadius="100dp"
-            app:cardPreventCornerOverlap="true"
-            android:layout_marginBottom="30dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginHorizontal="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GhostRider"
+                android:textColor="@color/material_black"
+                android:textSize="24sp"
+                android:fontFamily="@font/roboto_black"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Android Service Application\n for GuanzonGroup Of Companies"
+                android:textColor="@color/material_black"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="Guanzon Merchandising Corporation (Main Office)"
+                android:textColor="@color/material_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guanzon Bldg., Perez Blvd., \nDagupan City, Pangasinan 2400"
+                android:textColor="@color/material_black"
+                android:gravity="center"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginBottom="3dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tel No. : 75 522-1085, 522-1097, 515-6418, 515-2495"
+                android:textColor="@color/material_black"
+                android:gravity="center"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="www.guanzongroup.com.ph"
+                android:textColor="@color/material_black"
+                android:gravity="center"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginBottom="3dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:layout_marginVertical="10dp"
+                android:background="@color/guanzon_orange"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:gravity="center">
 
-                <ImageView
-                    android:id="@+id/img_profile"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_user_profile"
-                    android:scaleType="centerCrop"
-                    android:adjustViewBounds="true"/>
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardCornerRadius="90dp">
+
+                    <ImageView
+                        android:id="@+id/img_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_user_profile"
+                        android:adjustViewBounds="true"/>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp">
+
+                    <TextView
+                        android:id="@+id/lbl_employeeName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Garcia, Michael P."
+                        android:textColor="@color/material_black"
+                        android:textSize="24sp"
+                        android:fontFamily="@font/roboto_black"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView
+                        android:id="@+id/lbl_employeeEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="mikegarcia8748@gmail.com"
+                        android:textColor="@color/material_black"
+                        android:fontFamily="@font/roboto_medium"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView
+                        android:id="@+id/lbl_employeeMobileNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="091718700111"
+                        android:textColor="@color/material_black"
+                        android:fontFamily="@font/roboto_medium"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView
+                        android:id="@+id/lbl_employeePosition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MIS Department"
+                        android:textColor="@color/material_black"
+                        android:fontFamily="@font/roboto_medium"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView
+                        android:id="@+id/lbl_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="address"
+                        android:textColor="@color/material_black"
+                        android:fontFamily="@font/roboto_medium"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:layout_marginVertical="10dp"
+                android:background="@color/guanzon_orange"/>
 
-        <TextView
-            android:id="@+id/lbl_employeeName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Garcia, Michael P."
-            android:textColor="@color/material_black"
-            android:textSize="28sp"
-            android:fontFamily="@font/roboto_black"
-            android:layout_marginBottom="15dp"/>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/lbl_employeeEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="mikegarcia8748@gmail.com"
-            android:textColor="@color/material_black"
-            android:fontFamily="@font/roboto_medium"
-            android:layout_marginBottom="5dp"/>
+    </ScrollView>
 
-        <TextView
-            android:id="@+id/lbl_employeeMobileNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="091718700111"
-            android:textColor="@color/material_black"
-            android:fontFamily="@font/roboto_medium"
-            android:layout_marginBottom="5dp"/>
-
-        <TextView
-            android:id="@+id/lbl_employeePosition"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="MIS Department"
-            android:textColor="@color/material_black"
-            android:fontFamily="@font/roboto_medium"
-            android:layout_marginBottom="5dp"/>
-
-        <TextView
-            android:id="@+id/lbl_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="address"
-            android:textColor="@color/material_black"
-            android:fontFamily="@font/roboto_medium"
-            android:layout_marginBottom="30dp"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_timeKeeper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Login Timekeeper"
-            style="@style/MaterialButtonAccent"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_selfie"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Selfie Login"
-            style="@style/MaterialButtonAccent"/>
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tvCopyright"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/sLblCopyright"
+        android:textColor="@color/footer_dark_grey"
+        android:textSize="11sp"
+        android:layout_marginBottom="3dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/lbl_versionInfo"/>
 
     <TextView
         android:id="@+id/lbl_versionInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_regular"
-        android:textColor="@color/material_black"
-        android:text="Build version 1.0.0 - 1Vc"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/lblBuildVersion"
+        android:textColor="@color/footer_dark_grey"
+        android:textSize="11sp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"/>
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -49,5 +49,9 @@ public interface DBranchInfo {
     LiveData<List<EBranchInfo>> getAllBranchInfo();
 
     @Query("SELECT cPromoDiv FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
-    String getPromoDivision();
+    LiveData<String> getPromoDivision();
+
+    @Query("SELECT * FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
+    LiveData<EBranchInfo> getUserBranchInfo();
+
 }

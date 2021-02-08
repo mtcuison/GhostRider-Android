@@ -1,22 +1,14 @@
 package org.rmj.guanzongroup.ghostrider.epacss.adapter;
 
-import android.util.Log;
-import android.view.View;
-import android.webkit.WebView;
-import android.widget.ExpandableListView;
-
-import org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity.listDataChild;
 import static org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity.listDataHeader;
 
 public class PrepareData {
-
 
     public void prepareMenuData() {
         listDataHeader.clear();
@@ -46,6 +38,12 @@ public class PrepareData {
         childModelsList.add(childModel);
         if (menuModel.hasChildren) {
             listDataChild.put(menuModel, childModelsList);
+        }
+
+        menuModel = new MenuModel("Daily Collection Plan", R.drawable.ic_menu_dcp, true, false);
+        listDataHeader.add(menuModel);
+        if (menuModel.hasChildren) {
+            listDataChild.put(menuModel, null);
         }
 
         childModelsList = new ArrayList<>();

@@ -42,10 +42,6 @@ public class RProvince {
         return allProvinceNames;
     }
 
-    public LiveData<String> getProvinceNameFromProvID(String provID) {
-        return provinceDao.getProvinceNameFromProvID(provID);
-    }
-
     public static class InsertToProvince extends AsyncTask<EProvinceInfo, Void, Void> {
         private DProvinceInfo provinceInfo;
 

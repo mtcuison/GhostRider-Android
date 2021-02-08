@@ -11,8 +11,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.ImportData.ImportBranch;
-import org.rmj.g3appdriver.GRider.ImportData.ImportDataCallback;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.SessionManager;
 
@@ -20,9 +18,6 @@ public class VMHome extends AndroidViewModel {
 
     private final SessionManager poSession;
     private final REmployee poEmploye;
-
-    private final ImportBranch poImport;
-
     private MutableLiveData<String> psEmailxx = new MutableLiveData<>();
     private MutableLiveData<String> psUserNme = new MutableLiveData<>();
     private MutableLiveData<String> psBranchx = new MutableLiveData<>();
@@ -35,7 +30,6 @@ public class VMHome extends AndroidViewModel {
         poSession = new SessionManager(application);
         poEmploye = new REmployee(application);
         psMobleNo.setValue(new Telephony(application).getMobilNumbers());
-        this.poImport = new ImportBranch(application);
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){

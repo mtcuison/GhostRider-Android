@@ -40,14 +40,12 @@ public class ImportBranch implements ImportInstance{
     private final WebApi webApi;
     private final HttpHeaders headers;
     private final Application instance;
-    private final RBranch repository;
 
     public ImportBranch(Application application){
-        instance = application;
-        conn = new ConnectionUtil(instance);
-        webApi = new WebApi(instance.getApplicationContext());
-        headers = HttpHeaders.getInstance(instance);
-        repository = new RBranch(instance);
+        this.instance = application;
+        this.conn = new ConnectionUtil(instance);
+        this.webApi = new WebApi(instance.getApplicationContext());
+        this.headers = HttpHeaders.getInstance(instance);
     }
 
     @Override
@@ -70,12 +68,14 @@ public class ImportBranch implements ImportInstance{
         private final Application instance;
         private final RBranch repository;
 
+
         public ImportBranchTask(ImportDataCallback callback, HttpHeaders headers, ConnectionUtil conn, Application instance, RBranch repository) {
             this.instance = instance;
             this.callback = callback;
             this.headers = headers;
             this.conn = conn;
             this.repository = repository;
+
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -90,7 +90,7 @@ public class ImportBranch implements ImportInstance{
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
-                        saveDataToLocal(laJson);
+                        poBranchRp.insertBranchInfos(laJson);
                     } else {
                         JSONObject loError = loJson.getJSONObject("error");
                         String message = loError.getString("message");
