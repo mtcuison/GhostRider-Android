@@ -36,16 +36,10 @@ import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_BRANCHES;
 
 public class ImportBranch implements ImportInstance{
     private static final String TAG = ImportBranch.class.getSimpleName();
-    private final ConnectionUtil conn;
-    private final WebApi webApi;
-    private final HttpHeaders headers;
     private final Application instance;
 
     public ImportBranch(Application application){
         this.instance = application;
-        this.conn = new ConnectionUtil(instance);
-        this.webApi = new WebApi(instance.getApplicationContext());
-        this.headers = HttpHeaders.getInstance(instance);
     }
 
     @Override
@@ -54,8 +48,8 @@ public class ImportBranch implements ImportInstance{
             JSONObject loJson = new JSONObject();
             loJson.put("bsearch", true);
             loJson.put("descript", "All");
-            new ImportBranchTask(callback, headers, conn, instance, repository).execute(loJson);
-            //loJson.put("dTimeStmp", lsTimeStmp);
+            new ImportBranchTask(callback, instance).execute(loJson);
+
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -65,16 +59,14 @@ public class ImportBranch implements ImportInstance{
         private final ImportDataCallback callback;
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
-        private final Application instance;
         private final RBranch repository;
 
 
-        public ImportBranchTask(ImportDataCallback callback, HttpHeaders headers, ConnectionUtil conn, Application instance, RBranch repository) {
-            this.instance = instance;
+        public ImportBranchTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
-            this.headers = headers;
-            this.conn = conn;
-            this.repository = repository;
+            this.headers = HttpHeaders.getInstance(instance);
+            this.conn = new ConnectionUtil(instance);
+            this.repository = new RBranch(instance);
 
         }
 
@@ -90,7 +82,7 @@ public class ImportBranch implements ImportInstance{
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
-                        poBranchRp.insertBranchInfos(laJson);
+                        //poBranchRp.insertBranchInfos(laJson);
                     } else {
                         JSONObject loError = loJson.getJSONObject("error");
                         String message = loError.getString("message");
@@ -126,60 +118,6 @@ public class ImportBranch implements ImportInstance{
             } catch (Exception e) {
                 e.printStackTrace();
                 callback.OnFailedImportData(e.getMessage());
-            }
-        }
-
-        void saveDataToLocal(JSONArray laJson) throws Exception{
-            List<EBranchInfo> branchInfos = new ArrayList<>();
-            for(int x = 0; x < laJson.length(); x++){
-                JSONObject loJson = new JSONObject(laJson.getString(x));
-                EBranchInfo branchInfo = new EBranchInfo();
-                branchInfo.setBranchCd(loJson.getString("sBranchCd"));
-                branchInfo.setBranchNm(loJson.getString("sBranchNm"));
-                branchInfo.setDescript(loJson.getString("sDescript"));
-                branchInfo.setAddressx(loJson.getString("sAddressx"));
-                branchInfo.setTownIDxx(loJson.getString("sTownIDxx"));
-                branchInfo.setAreaCode(loJson.getString("sAreaCode"));
-                branchInfo.setDivision(loJson.getString("cDivision"));
-                branchInfo.setPromoDiv(loJson.getString("cPromoDiv"));
-                branchInfo.setRecdStat(loJson.getString("cRecdStat"));
-                branchInfo.setTimeStmp(loJson.getString("dTimeStmp"));
-                branchInfos.add(branchInfo);
-            }
-            repository.insertBulkData(branchInfos);
-            Log.e(TAG, "Branch info has been save to local.");
-        }
-
-        private GConnection doConnect(){
-            try{
-                InputStream inputStream = instance.getAssets().open("GhostRiderXP.properties");
-
-                //initialize GProperty
-                GProperty loProperty = new GProperty(inputStream, "IntegSys");
-                if (loProperty.loadConfig()){
-                    Log.d(TAG, "Config File was loaded.");
-
-                    loProperty.setDBHost(instance.getPackageName());
-                } else {
-                    Log.e(TAG, "Unable to load config file.");
-                }
-                //initialize GCrypt
-                iGCrypt loCrypt = GCryptFactory.make(GCryptFactory.CrypType.AESCrypt);
-
-                GConnection loConn = new GConnection();
-                loConn.setGProperty(loProperty);
-                loConn.setGAESCrypt(loCrypt);
-
-                if (!loConn.connect()){
-                    Log.e("TAG", "Unable to initialize connection");
-                    return null;
-                } else {
-                    Log.d("TAG", "Connection was successful.");
-                    return loConn;
-                }
-            } catch (Exception ex){
-                Log.e("TAG", ex.getMessage());
-                return null;
             }
         }
     }
