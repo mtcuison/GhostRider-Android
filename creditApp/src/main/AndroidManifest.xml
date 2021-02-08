@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.rmj.guanzongroup.onlinecreditapplication">
 
     <application>
         <activity android:name=".Activity.Activity_ApplicationHistory"
+            android:label="Credit Online Application"
+            android:theme="@style/GhostRiderMaterialTheme"></activity>
+        <activity android:name=".Activity.CreditApplicationIntroduction"
+            android:label="Credit Online Application"
+            android:theme="@style/GhostRiderMaterialTheme"/>
+        <activity android:name=".Activity.Activity_IntroductoryQuestion"
+            android:label="Credit Online Application"
             android:theme="@style/GhostRiderMaterialTheme"
-            android:screenOrientation="userPortrait"/>
-        <activity
-            android:name=".Activity.Activity_IntroductoryQuestion"
-            android:theme="@style/GhostRiderMaterialTheme"
-            android:screenOrientation="userPortrait"/>
+            tools:ignore="DuplicateActivity"/>
         <activity android:name=".Activity.Activity_McImpound" />
         <activity
             android:name=".Activity.Activity_CreditApplication"
             android:label="Credit Online Application"
             android:theme="@style/GhostRiderMaterialTheme"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="userPortrait"/>
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

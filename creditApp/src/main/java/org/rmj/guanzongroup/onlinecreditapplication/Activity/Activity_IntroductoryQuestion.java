@@ -61,6 +61,7 @@ import java.util.Objects;
             mViewModel.setBanchCde(eBranchInfo.getBranchCd());
         });
 
+
         mViewModel.getAllBranchNames().observe(this, strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
             txtBranchNm.setAdapter(adapter);
