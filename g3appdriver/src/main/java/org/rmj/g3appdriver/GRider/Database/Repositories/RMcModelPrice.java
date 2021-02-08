@@ -99,6 +99,7 @@ public class RMcModelPrice {
                             ", dPricexxx = " + SQLUtil.toSQL(loJson.getString("dPricexxx")) +
                             ", dInsPrice = " + SQLUtil.toSQL(loJson.getString("dInsPrice")) +
                             ", cRecdStat = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
+                            ", dTimeStmp = " + SQLUtil.toSQL(loJson.getString("dTimeStmp")) +
                             " WHERE sModelIDx = " + SQLUtil.toSQL(loJson.getString("sModelIDx"));
                 }
             }

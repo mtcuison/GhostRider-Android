@@ -79,24 +79,20 @@ public class RTown {
                             ",sTownName" +
                             ",sZippCode" +
                             ",sProvIDxx" +
-                            ",sProvCode" +
                             ",sMuncplCd" +
                             ",cHasRoute" +
                             ",cBlackLst" +
                             ",cRecdStat" +
-                            ",dModified" +
                             ",dTimeStmp)" +
                             " VALUES" +
                             "(" + SQLUtil.toSQL(loJson.getString("sTownIDxx")) +
                             "," + SQLUtil.toSQL(loJson.getString("sTownName")) +
                             "," + SQLUtil.toSQL(loJson.getString("sZippCode")) +
                             "," + SQLUtil.toSQL(loJson.getString("sProvIDxx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("sProvCode")) +
                             "," + SQLUtil.toSQL(loJson.getString("sMuncplCd")) +
                             "," + SQLUtil.toSQL(loJson.getString("cHasRoute")) +
                             "," + SQLUtil.toSQL(loJson.getString("cBlackLst")) +
                             "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
-                            "," + SQLUtil.toSQL(loJson.getString("dModified")) +
                             "," + SQLUtil.toSQL(loJson.getString("dTimeStmp")) + ")";
                 }
             } else { //record already exists
@@ -110,12 +106,10 @@ public class RTown {
                             "   sTownName = " + SQLUtil.toSQL(loJson.getString("sTownName")) +
                             ",  sZippCode = " + SQLUtil.toSQL(loJson.getString("sZippCode")) +
                             ",  sProvIDxx = " + SQLUtil.toSQL(loJson.getString("sProvIDxx")) +
-                            ",  sProvCode = " + SQLUtil.toSQL(loJson.getString("sProvCode")) +
                             ",  sMuncplCd = " + SQLUtil.toSQL(loJson.getString("sMuncplCd")) +
                             ",  cHasRoute = " + SQLUtil.toSQL(loJson.getString("cHasRoute")) +
                             ",  cBlackLst = " + SQLUtil.toSQL(loJson.getString("cBlackLst")) +
                             ",  cRecdStat = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
-                            ",  dModified = " + SQLUtil.toSQL(loJson.getString("dModified")) +
                             ",  dTimeStmp = " + SQLUtil.toSQL(loJson.getString("dTimeStmp")) +
                             " WHERE sTownIDxx = " + SQLUtil.toSQL(loJson.getString("sTownIDxx"));
                 }

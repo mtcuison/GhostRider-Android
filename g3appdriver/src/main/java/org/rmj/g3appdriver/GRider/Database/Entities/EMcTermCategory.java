@@ -20,6 +20,8 @@ public class EMcTermCategory {
     private String FactorRt;
     @ColumnInfo(name = "dPricexxx")
     private String Pricexxx;
+    @ColumnInfo(name = "cRecdStat")
+    private String RecdStat;
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
 
@@ -65,6 +67,14 @@ public class EMcTermCategory {
 
     public void setPricexxx(String pricexxx) {
         Pricexxx = pricexxx;
+    }
+
+    public String getRecdStat() {
+        return RecdStat;
+    }
+
+    public void setRecdStat(String recdStat) {
+        RecdStat = recdStat;
     }
 
     public String getTimeStmp() {
