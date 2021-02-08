@@ -11,7 +11,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMcModel;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RMcModel;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -20,9 +19,7 @@ import org.rmj.g3appdriver.utils.WebClient;
 
 import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_MC_MODEL;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Objects;
 
 public class ImportBrandModel implements ImportInstance {
     public static final String TAG = ImportBrandModel.class.getSimpleName();
@@ -66,7 +63,7 @@ public class ImportBrandModel implements ImportInstance {
             try{
                 if(conn.isDeviceConnected()){
                     response = WebClient.httpsPostJSon(URL_IMPORT_MC_MODEL, jsonObjects[0].toString(), headers.getHeaders());
-                    JSONObject loJson = new JSONObject(response);
+                    JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){

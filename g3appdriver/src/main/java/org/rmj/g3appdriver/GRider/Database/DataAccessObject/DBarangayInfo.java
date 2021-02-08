@@ -36,6 +36,9 @@ public interface DBarangayInfo {
     @Query("SELECT sBrgyName FROM Barangay_Info WHERE sTownIDxx = :TownID")
     LiveData<String[]> getAllBarangayNameFromTown(String TownID);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertBulkBarangayData(List<EBarangayInfo> barangayInfoList);
-}
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
+        void insertBulkBarangayData(List<EBarangayInfo> barangayInfoList);
+
+        @Query("SELECT sBrgyName FROM Barangay_Info WHERE sBrgyIDxx = :fsID")
+        LiveData<String> getBarangayInfoFromID(String fsID);
+    }

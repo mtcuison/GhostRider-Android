@@ -1,9 +1,9 @@
-package org.rmj.g3appdriver.GRider.Database.Repositories;
+    package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
+    import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,6 +44,10 @@ public class RTown {
         townDao.insertBulkData(townInfoList);
     }
 
+    public LiveData<ETownInfo> getTownNameAndProvID(String fsID){
+        return townDao.getTownNameAndProvID(fsID);
+    }
+
     public void saveTownInfo(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
 
@@ -68,7 +72,7 @@ public class RTown {
             //record does not exists
             if (!loRS.next()){
                 //check if the record is active
-                if ("1".equals((String) loJson.get("cRecdStat"))){
+                if ("1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
                     //create insert statement
                     lsSQL = "INSERT INTO Town_Info" +
                             "(sTownIDxx" +

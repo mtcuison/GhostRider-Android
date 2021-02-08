@@ -10,27 +10,14 @@ import androidx.annotation.RequiresApi;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.appdriver.base.GConnection;
-import org.rmj.appdriver.base.GProperty;
-import org.rmj.appdriver.crypt.GCryptFactory;
-import org.rmj.appdriver.iface.iGCrypt;
-import org.rmj.apprdiver.util.MiscUtil;
-import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.Objects;
 
 import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_BRANCHES;
 
@@ -77,12 +64,12 @@ public class ImportBranch implements ImportInstance{
             try {
                 if(conn.isDeviceConnected()) {
                     response = WebClient.httpsPostJSon(URL_IMPORT_BRANCHES, jsonObjects[0].toString(), headers.getHeaders());
-                    JSONObject loJson = new JSONObject(response);
+                    JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
-                        //poBranchRp.insertBranchInfos(laJson);
+                        repository.insertBranchInfos(laJson);
                     } else {
                         JSONObject loError = loJson.getJSONObject("error");
                         String message = loError.getString("message");
