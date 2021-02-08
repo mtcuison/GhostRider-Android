@@ -27,16 +27,10 @@ import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_TERM_CATEGORY;
 
 public class ImportMcTermCategory implements ImportInstance{
     public static final String TAG = ImportMcTermCategory.class.getSimpleName();
-    private final RMcTermCategory repository;
-    private final ConnectionUtil conn;
-    private final WebApi webApi;
-    private final HttpHeaders headers;
+    private final Application instance;
 
     public ImportMcTermCategory(Application application){
-        repository = new RMcTermCategory(application);
-        conn = new ConnectionUtil(application);
-        webApi = new WebApi(application);
-        headers = HttpHeaders.getInstance(application);
+        this.instance = application;
     }
 
     @Override
@@ -45,7 +39,7 @@ public class ImportMcTermCategory implements ImportInstance{
             JSONObject loJson = new JSONObject();
             loJson.put("bsearch", true);
             loJson.put("descript", "All");
-            new ImportDataTask(repository, conn, webApi, headers, callback).execute(loJson);
+            new ImportDataTask(instance, callback).execute(loJson);
             //loJson.put("dTimeStmp", lsTimeStmp);
         } catch (Exception e){
             e.printStackTrace();
@@ -59,11 +53,11 @@ public class ImportMcTermCategory implements ImportInstance{
         private final HttpHeaders headers;
         private final ImportDataCallback callback;
 
-        public ImportDataTask(RMcTermCategory repository, ConnectionUtil conn, WebApi webApi, HttpHeaders headers, ImportDataCallback callback) {
-            this.repository = repository;
-            this.conn = conn;
-            this.webApi = webApi;
-            this.headers = headers;
+        public ImportDataTask(Application instance, ImportDataCallback callback) {
+            this.repository = new RMcTermCategory(instance);
+            this.conn = new ConnectionUtil(instance);
+            this.webApi = new WebApi(instance);
+            this.headers = HttpHeaders.getInstance(instance);
             this.callback = callback;
         }
 
