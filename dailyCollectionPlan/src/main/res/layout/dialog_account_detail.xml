@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="25dp"
     app:cardMaxElevation="5dp"
     app:cardElevation="3dp">
     
@@ -36,13 +36,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginHorizontal="5dp"
             android:gravity="center"
             android:layout_marginTop="15dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
                 android:layout_weight="1"
                 android:text="Reference No. :"
                 android:textColor="@color/textColor_Black"
@@ -86,32 +86,32 @@
                 android:fontFamily="@font/roboto_regular"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="3dp">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="5dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center"-->
+<!--            android:layout_marginTop="3dp">-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Transaction Date :"
-                android:textColor="@color/textColor_Black" />
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:text="Transaction Date :"-->
+<!--                android:textColor="@color/textColor_Black" />-->
 
-            <TextView
-                android:id="@+id/lbl_dcpTranDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="end"
-                android:text="10000"
-                android:textColor="@color/textColor_Black"
-                android:fontFamily="@font/roboto_regular"/>
-        </LinearLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/lbl_dcpTranDate"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="2"-->
+<!--                android:gravity="end"-->
+<!--                android:text="10000"-->
+<!--                android:textColor="@color/textColor_Black"-->
+<!--                android:fontFamily="@font/roboto_regular"/>-->
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -152,7 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="P.R No. :"
+                android:text="Serial No. :"
                 android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"/>
 
@@ -186,7 +186,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Amount :"
+                android:text="AmountDue :"
                 android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"/>
 
@@ -213,12 +213,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Discount :"
+                android:text="Due Date :"
                 android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_regular"/>
 
             <TextView
-                android:id="@+id/lbl_dcpDiscount"
+                android:id="@+id/lbl_dcpDueDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -228,32 +228,32 @@
                 android:fontFamily="@font/roboto_regular"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="3dp">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="5dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center"-->
+<!--            android:layout_marginTop="3dp">-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Others:"
-                android:textColor="@color/textColor_Black"
-                android:fontFamily="@font/roboto_regular"/>
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Others:"-->
+<!--                android:textColor="@color/textColor_Black"-->
+<!--                android:fontFamily="@font/roboto_regular"/>-->
 
-            <TextView
-                android:id="@+id/lbl_dcpOthers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="end"
-                android:text="10000"
-                android:textColor="@color/textColor_Black"
-                android:fontFamily="@font/roboto_regular"/>
-        </LinearLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/lbl_dcpOthers"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="2"-->
+<!--                android:gravity="end"-->
+<!--                android:text="10000"-->
+<!--                android:textColor="@color/textColor_Black"-->
+<!--                android:fontFamily="@font/roboto_regular"/>-->
+<!--        </LinearLayout>-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -281,6 +281,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Confirm"
+            app:rippleColor="@color/guanzon_orange"
+            android:textColor="@color/material_black"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange"/>
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
             app:rippleColor="@color/guanzon_orange"
             android:textColor="@color/material_black"
             style="@style/Widget.AppCompat.Button.Borderless"/>

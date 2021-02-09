@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
@@ -32,5 +33,23 @@ public class RDailyCollectionPlan {
 
     public LiveData<List<EDCPCollectionDetail>> getCollectionDetail(){
         return detailDao.getCollectionDetailList();
+    }
+
+    public void updateCollectionDetailInfo(EDCPCollectionDetail collectionDetail){
+        new UpdateDataTask(detailDao).execute(collectionDetail);
+    }
+
+    private static class UpdateDataTask extends AsyncTask<EDCPCollectionDetail, Void, String>{
+        private DDCPCollectionDetail detailDao;
+
+        public UpdateDataTask(DDCPCollectionDetail detailDao) {
+            this.detailDao = detailDao;
+        }
+
+        @Override
+        protected String doInBackground(EDCPCollectionDetail... edcpCollectionDetails) {
+            detailDao.update(edcpCollectionDetails[0]);
+            return null;
+        }
     }
 }

@@ -81,7 +81,7 @@
 
         <TextView
             android:id="@+id/lbl_dcpAddress1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Brgy. Tapuac District, Dagupan City, Pangasinan"
@@ -109,7 +109,7 @@
 
         <TextView
             android:id="@+id/lbl_dcpContact"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="09171870011"

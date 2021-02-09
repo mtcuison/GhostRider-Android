@@ -33,6 +33,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
     @Override
     public void onBindViewHolder(@NonNull CollectionViewHolder holder, int position) {
         CollectionPlan collection = collectionPlans.get(position);
+        holder.loPlan = collection;
         holder.lblAcctNo.setText(collection.getAcctNoxxx());
         holder.lblDCPNox.setText(collection.getDCPNumber());
         holder.lblClient.setText(collection.getClientNme());
@@ -51,11 +52,12 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
 
     public static class CollectionViewHolder extends RecyclerView.ViewHolder{
 
+        public CollectionPlan loPlan;
         public TextView lblAcctNo;
         public TextView lblDCPNox;
         public TextView lblClient;
         public TextView lblAdd1xx;
-        public TextView lblAdd2xx;
+        //public TextView lblAdd2xx;
         public TextView lblMobile;
         public TextView lblBalanc;
         public TextView lblAmount;
@@ -76,37 +78,37 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
-                    listener.OnClick();
+                    listener.OnClick(position);
                 }
             });
 
             lblAdd1xx.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
-                    listener.OnAddressClickListener();
+                    listener.OnAddressClickListener("Sample", null);
                 }
             });
 
-            lblAdd2xx.setOnClickListener(view -> {
+            /*lblAdd2xx.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
                     listener.OnAddressClickListener();
                 }
-            });
+            });*/
 
             lblMobile.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
-                    listener.OnMobileNoClickListener();
+                    listener.OnMobileNoClickListener(loPlan.getContactxx());
                 }
             });
         }
     }
 
     public interface OnItemClickListener{
-        void OnClick();
-        void OnMobileNoClickListener();
-        void OnAddressClickListener();
+        void OnClick(int position);
+        void OnMobileNoClickListener(String MobileNo);
+        void OnAddressClickListener(String Address, String[] args);
         void OnActionButtonClick();
     }
 }

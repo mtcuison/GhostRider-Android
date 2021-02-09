@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +24,7 @@ public class Activity_Transaction extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction);
-        int transaction = Integer.parseInt(getIntent().getStringExtra("transaction"));
+        int transaction = getIntent().getIntExtra("transaction", 0);
         Toolbar toolbar = findViewById(R.id.toolbar_transaction);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -32,6 +33,18 @@ public class Activity_Transaction extends AppCompatActivity {
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getTransactionFragment(transaction)));
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public class FragmentAdapter extends FragmentStatePagerAdapter {
         private Fragment fragment;
@@ -54,13 +67,13 @@ public class Activity_Transaction extends AppCompatActivity {
     }
 
     private Fragment getTransactionFragment(int transaction){
-        if(transaction == 1){
+        if(transaction == 0){
             return new Fragment_PaidTransaction();
-        } else if(transaction == 2){
+        } else if(transaction == 1){
             return new Fragment_PromiseToPay();
-        } else if(transaction == 3){
+        } else if(transaction == 2){
             return new Fragment_CustomerNotAround();
-        } else if(transaction == 4){
+        } else if(transaction == 3){
             return new Fragment_LoanUnit();
         }
         return null;

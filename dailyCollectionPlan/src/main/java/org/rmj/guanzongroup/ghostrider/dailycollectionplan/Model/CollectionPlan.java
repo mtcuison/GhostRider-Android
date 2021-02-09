@@ -58,7 +58,7 @@ public class CollectionPlan {
     }
 
     public String getDCPNumber() {
-        return DCPNumber +"/"+DCPCountx;
+        return "DCP " + DCPNumber + "/" + DCPCountx;
     }
 
     public String getClientNme() {

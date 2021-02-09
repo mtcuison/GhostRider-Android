@@ -12,7 +12,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
@@ -26,6 +28,7 @@ import java.util.List;
 public class VMCollectionList extends AndroidViewModel {
     private static final String TAG = VMCollectionList.class.getSimpleName();
     private final RDailyCollectionPlan poDCPRepo;
+    private final RBranch poBranch;
     private final ImportCollection dataImport;
     private final HttpHeaders poheaders;
     private final ConnectionUtil poConn;
@@ -34,6 +37,7 @@ public class VMCollectionList extends AndroidViewModel {
     public VMCollectionList(@NonNull Application application) {
         super(application);
         poDCPRepo = new RDailyCollectionPlan(application);
+        poBranch = new RBranch(application);
         poheaders = HttpHeaders.getInstance(application);
         poConn = new ConnectionUtil(application);
         dataImport = new ImportCollection(application);
@@ -77,5 +81,9 @@ public class VMCollectionList extends AndroidViewModel {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public LiveData<EBranchInfo> getUserBranchInfo(){
+        return poBranch.getUserBranchInfo();
     }
 }
