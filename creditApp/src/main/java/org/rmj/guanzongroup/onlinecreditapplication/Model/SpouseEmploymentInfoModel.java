@@ -1,395 +1,231 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
 public class SpouseEmploymentInfoModel {
-    private String sSectorxx;
-    private String cUniformP;
-    private String cMilitary;
-    private String cCompLevl;
-    private String cEmpLevel;
-    private String sBusiness;
-    private String sCountryx;
-    private String sCompName;
-    private String sCompAddx;
-    private String sProvIDxx;
-    private String sTownIDxx;
-    private String sJobTitle;
-    private String sSpceficx;
-    private String cStatusxx;
-    private String sLengthxx;
-    private String cIsYearxx;
-    private String sMonthlyx;
-    private String sContactx;
 
-    private String message;
+    private String message,
+            sector,
+            companyLvl,
+            employeeLvl,
+            bizIndustry,
+            companyName,
+            compAddress,
+            compProvince,
+            compTown,
+            jobTitle,
+            jobSpecific,
+            employmentStat,
+            lengthOfService,
+            monthOrYear,
+            grossMonthly,
+            compTelNox;
 
     public String getMessage() {
         return message;
     }
 
-    public String getEmploymentSector() {
-        return sSectorxx;
+    public String getSector() {
+        return sector;
     }
 
-    public void setEmploymentSector(String sSectorxx) {
-        this.sSectorxx = sSectorxx;
+    public void setSector(String sector) {
+        this.sector = sector;
     }
 
-    public String getUniformPersonal() {
-        return cUniformP;
+    public String getCompanyLvl() {
+        return companyLvl;
     }
 
-    public void setUniformPersonal(String cUniformP) {
-        this.cUniformP = cUniformP;
+    public void setCompanyLvl(String companyLvl) {
+        this.companyLvl = companyLvl;
     }
 
-    public String getMilitaryPersonal() {
-        return cMilitary;
+    public String getEmployeeLvl() {
+        return employeeLvl;
     }
 
-    public void setMilitaryPersonal(String cMilitary) {
-        this.cMilitary = cMilitary;
+    public void setEmployeeLvl(String employeeLvl) {
+        this.employeeLvl = employeeLvl;
     }
 
-    public String getCompanyLevel() {
-        if(sSectorxx.equalsIgnoreCase("1")) {
-            return cCompLevl;
-        }
-        return "";
+    public String getBizIndustry() {
+        return bizIndustry;
     }
 
-    public String getGovermentLevel(){
-        if(sSectorxx.equalsIgnoreCase("0")) {
-            return cCompLevl;
-        }
-        return "";
-    }
-
-    public String getOfwRegion(){
-        if(sSectorxx.equalsIgnoreCase("2")) {
-            return cCompLevl;
-        }
-        return "";
-    }
-
-    public void setCompanyLevel(String cCompLevl) {
-        this.cCompLevl = cCompLevl;
-    }
-
-    public String getEmployeeLevel() {
-        return cEmpLevel;
-    }
-
-    public String getOfwWorkCategory(){
-        if(sSectorxx.equalsIgnoreCase("2")){
-            return cEmpLevel;
-        }
-        return "";
-    }
-
-    public void setEmployeeLevel(String cEmpLevel) {
-        this.cEmpLevel = cEmpLevel;
-    }
-
-    public String getBusinessNature() {
-        if(sSectorxx.equalsIgnoreCase("1")) {
-            return sBusiness;
-        }
-        return "";
-    }
-
-    public void setBusinessNature(String sBusiness) {
-        this.sBusiness = sBusiness;
-    }
-
-    public String getCountry() {
-        if(sSectorxx.equalsIgnoreCase("2")) {
-            return sCountryx;
-        }
-        return "";
-    }
-
-    public void setCountry(String sCountryx) {
-        this.sCountryx = sCountryx;
+    public void setBizIndustry(String bizIndustry) {
+        this.bizIndustry = bizIndustry;
     }
 
     public String getCompanyName() {
-        return sCompName;
+        return companyName;
     }
 
-    public void setCompanyName(String sCompName) {
-        this.sCompName = sCompName;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    public String getCompanyAddress() {
-        return sCompAddx;
+    public String getCompAddress() {
+        return compAddress;
     }
 
-    public void setCompanyAddress(String sCompAddx) {
-        this.sCompAddx = sCompAddx;
+    public void setCompAddress(String compAddress) {
+        this.compAddress = compAddress;
     }
 
-    public String getProvinceID() {
-        return sProvIDxx;
+    public String getCompProvince() {
+        return compProvince;
     }
 
-    public void setProvinceID(String sProvIDxx) {
-        this.sProvIDxx = sProvIDxx;
+    public void setCompProvince(String compProvince) {
+        this.compProvince = compProvince;
     }
 
-    public String getTownID() {
-        return sTownIDxx;
+    public String getCompTown() {
+        return compTown;
     }
 
-    public void setTownID(String sTownIDxx) {
-        this.sTownIDxx = sTownIDxx;
+    public void setCompTown(String compTown) {
+        this.compTown = compTown;
     }
 
     public String getJobTitle() {
-        return sJobTitle;
+        return jobTitle;
     }
 
-    public void setJobTitle(String sJobTitle) {
-        this.sJobTitle = sJobTitle;
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
     }
 
-    public String getSpecificJob() {
-        return sSpceficx;
+    public String getJobSpecific() {
+        return jobSpecific;
     }
 
-    public void setSpecificJob(String sSpceficx) {
-        this.sSpceficx = sSpceficx;
+    public void setJobSpecific(String jobSpecific) {
+        this.jobSpecific = jobSpecific;
     }
 
-    public String getEmployeeStatus() {
-        return cStatusxx;
+    public String getEmploymentStat() {
+        return employmentStat;
     }
 
-    public void setEmployeeStatus(String cStatusxx) {
-        this.cStatusxx = cStatusxx;
+    public void setEmploymentStat(String employmentStat) {
+        this.employmentStat = employmentStat;
     }
 
-    public double getLengthOfService() {
-        try{
-            if(Integer.parseInt(cIsYearxx) == 0) {
-                double ldValue = Double.parseDouble(sLengthxx);
-                return ldValue / 12;
-            } else {
-                return Double.parseDouble(sLengthxx);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            return 0;
-        }
+    public String getLengthOfService() {
+        return lengthOfService;
     }
 
-    public void setLengthOfService(String sLengthxx) {
-        this.sLengthxx = sLengthxx;
+    public void setLengthOfService(String lengthOfService) {
+        this.lengthOfService = lengthOfService;
     }
 
-    public void setIsYear(String cIsYearxx){
-        this.cIsYearxx = cIsYearxx;
+    public String getMonthOrYear() {
+        return monthOrYear;
     }
 
-    public long getMonthlyIncome() {
-        return Long.parseLong(sMonthlyx);
+    public void setMonthOrYear(String monthOrYear) {
+        this.monthOrYear = monthOrYear;
     }
 
-    public void setsMonthlyIncome(String sMonthlyx) {
-        this.sMonthlyx = sMonthlyx;
+    public String getGrossMonthly() {
+        return grossMonthly;
     }
 
-    public String getContact() {
-        return sContactx;
+    public void setGrossMonthly(String grossMonthly) {
+        this.grossMonthly = grossMonthly;
     }
 
-    public void setContact(String sContactx) {
-        this.sContactx = sContactx;
+    public String getCompTelNox() {
+        return compTelNox;
     }
 
-    public boolean isDataValid(){
-        return isUniformPersonalValid() &&
-                isMilitaryPersonalValid() &&
-                isCompanyLevelValid() &&
-                isEmployeeLevelValid() &&
-                isCountryValid() &&
-                isBusinessNatureValid() &&
-                isCompanyNameValid() &&
-                isCompanyAddressValid() &&
-                isJobTitleValid() &&
-                isSpecificJobValid() &&
-                isEmploymentStatusValid() &&
-                isLengthOfServiceValid() &&
-                isMonthlySalaryValid() &&
-                isCompanyContactValid();
+    public void setCompTelNox(String compTelNox) {
+        this.compTelNox = compTelNox;
     }
 
-    private boolean isUniformPersonalValid(){
-        if(sSectorxx.equalsIgnoreCase("0")){
-            if(cUniformP == null || cUniformP.equalsIgnoreCase("")){
-                message = "Please select if uniform personnel";
-                return false;
-            }
+//    __ GLOBAL TEST__
+//    public boolean isSpouseEmploymentInfoValid() {
+//
+//    }
+
+    private boolean isCompanyLvlValid() {
+        if(companyLvl.equalsIgnoreCase("")){
+            message = "Please select Company Level";
+            return false;
         }
         return true;
     }
 
-    private boolean isMilitaryPersonalValid(){
-        if(sSectorxx.equalsIgnoreCase("0")){
-            if(cMilitary == null || cMilitary.equalsIgnoreCase("")){
-                message = "Please select if military personnel";
-                return false;
-            }
+    private boolean isEmployeeLvlValid() {
+        if(employeeLvl.equalsIgnoreCase("")){
+            message = "Please select Employee Level";
+            return false;
         }
         return true;
     }
 
-    private boolean isCompanyLevelValid(){
-        if(sSectorxx.equalsIgnoreCase("0")){
-            if(cCompLevl.equalsIgnoreCase("")){
-                message = "Please select government level";
-                return false;
-            }
-        } else if(sSectorxx.equalsIgnoreCase("1")){
-            if(cCompLevl.equalsIgnoreCase("")){
-                message = "Please select company level";
-                return false;
-            }
-        } else {
-            if(cCompLevl.equalsIgnoreCase("")){
-                message = "Please select ofw region";
-                return false;
-            }
+    private boolean isBizIndustryValid() {
+        if(bizIndustry == null || bizIndustry.equalsIgnoreCase("")){
+            message = "Please select business industry";
+            return false;
         }
         return true;
     }
 
-    private boolean isEmployeeLevelValid(){
-        if(sSectorxx.equalsIgnoreCase("0")){
-            if(cEmpLevel.equalsIgnoreCase("")){
-                message = "Please select government level";
-                return false;
-            }
-        } else if(sSectorxx.equalsIgnoreCase("1")){
-            if(cEmpLevel.equalsIgnoreCase("")){
-                message = "Please select company level";
-                return false;
-            }
-        } else {
-            if(cEmpLevel.equalsIgnoreCase("")){
-                message = "Please select ofw region";
-                return false;
-            }
+    private boolean isCompanyNameValid() {
+        if(companyName == null || companyName.equalsIgnoreCase("")) {
+            message = "Please provide company name";
+            return false;
         }
         return true;
     }
 
-    private boolean isCountryValid(){
-        if(sSectorxx.equalsIgnoreCase("2")){
-            if(sCountryx == null || sCountryx.equalsIgnoreCase("")){
-                message = "Please select business nature";
-                return false;
-            }
+    private boolean isCompAddressValid() {
+        if(compProvince == null || compProvince.equalsIgnoreCase("")) {
+            message = "Please provide company province address";
+            return false;
+        }
+        if(compTown == null || compTown.equalsIgnoreCase("")) {
+            message = "Please provide company town address";
+            return false;
         }
         return true;
     }
 
-    private boolean isBusinessNatureValid(){
-        if(sSectorxx.equalsIgnoreCase("1")){
-            if(sBusiness == null || sBusiness.equalsIgnoreCase("")){
-                message = "Please select business nature";
-                return false;
-            }
+    private boolean isJobTitleValid() {
+        if(jobTitle == null || jobTitle.equalsIgnoreCase("")) {
+            message = "Please select a Job Title";
+            return false;
         }
         return true;
     }
 
-    private boolean isCompanyNameValid(){
-        if(sSectorxx.equalsIgnoreCase("1")){
-            if(sCompName == null || sCompName.equalsIgnoreCase("")){
-                message = "Please enter company name";
-                return false;
-            }
-        } else if(sSectorxx.equalsIgnoreCase("0")){
-            if(sCompName == null || sCompName.equalsIgnoreCase("")){
-                message = "Please enter government institution";
-                return false;
-            }
+    private boolean isEmploymentStatValid() {
+        if(employmentStat == null || employmentStat.equalsIgnoreCase("")) {
+            message = "Please select employment status";
+            return false;
         }
         return true;
     }
 
-    private boolean isCompanyAddressValid(){
-        if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sProvIDxx == null || sProvIDxx.equalsIgnoreCase("")) {
-                message = "Please enter company province address";
-                return false;
-            }
-            if (sTownIDxx == null || sTownIDxx.equalsIgnoreCase("")) {
-                message = "Please enter company town address";
-                return false;
-            }
+    private boolean isLengthOfServiceValid() {
+        if (lengthOfService == null || lengthOfService.equalsIgnoreCase("")) {
+            message = "Please enter length of service";
+            return false;
         }
         return true;
     }
 
-    private boolean isJobTitleValid(){
-        if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sJobTitle == null || sJobTitle.equalsIgnoreCase("")) {
-                message = "Please enter job title";
-                return false;
-            }
+    private boolean isGrossMonthlyValid() {
+        if (grossMonthly == null || grossMonthly.equalsIgnoreCase("")) {
+            message = "Please enter estimated monthly income";
+            return false;
         }
-        return true;
+        return  true;
     }
 
-    private boolean isSpecificJobValid(){
-        if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sSpceficx == null || sSpceficx.equalsIgnoreCase("")) {
-                message = "Please enter specific job";
-                return false;
-            }
-        }
-        return true;
-    }
 
-    private boolean isEmploymentStatusValid(){
-        if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (cStatusxx == null || cStatusxx.equalsIgnoreCase("")) {
-                message = "Please select employment status";
-                return false;
-            }
-        }
-        return true;
-    }
 
-    private boolean isLengthOfServiceValid(){
-        if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sLengthxx == null || sLengthxx.equalsIgnoreCase("")) {
-                message = "Please enter length of service";
-                return false;
-            }
-        }
-        return true;
-    }
 
-    private boolean isMonthlySalaryValid(){
-        if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sMonthlyx == null || sMonthlyx.equalsIgnoreCase("")) {
-                message = "Please enter estimated monthly income";
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean isCompanyContactValid(){
-        if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sContactx == null || sContactx.equalsIgnoreCase("")) {
-                message = "Please enter company contact no.";
-                return false;
-            }
-        }
-        return true;
-    }
 }
 
