@@ -55,10 +55,14 @@ import java.util.Objects;
         mViewModel.getCustomerType().observe(this, stringArrayAdapter -> spnCustomerType.setAdapter(stringArrayAdapter));
 
         mViewModel.getUserBranchInfo().observe(this, eBranchInfo -> {
-            lblBranchNm.setText(eBranchInfo.getBranchNm());
-            lblBrandAdd.setText(eBranchInfo.getAddressx());
-            txtBranchNm.setText(eBranchInfo.getBranchNm());
-            mViewModel.setBanchCde(eBranchInfo.getBranchCd());
+            try {
+                lblBranchNm.setText(eBranchInfo.getBranchNm());
+                lblBrandAdd.setText(eBranchInfo.getAddressx());
+                txtBranchNm.setText(eBranchInfo.getBranchNm());
+                mViewModel.setBanchCde(eBranchInfo.getBranchCd());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
 
 

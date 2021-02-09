@@ -40,6 +40,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         new TransparentToolbar(SplashScreenActivity.this).SetupActionbar();
         prgrssBar = findViewById(R.id.progress_splashscreen);
         mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
+        mViewModel.setupTokenInfo("sample token info");
         mViewModel.isPermissionsGranted().observe(this, isGranted -> {
             if(!isGranted){
                 mViewModel.getPermisions().observe(this, strings -> ActivityCompat.requestPermissions(SplashScreenActivity.this, strings, AppConstants.PERMISION_REQUEST_CODE));

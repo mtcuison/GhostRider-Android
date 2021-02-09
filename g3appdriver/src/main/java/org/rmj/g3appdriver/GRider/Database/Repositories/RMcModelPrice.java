@@ -58,18 +58,18 @@ public class RMcModelPrice {
             //record does not exists
             if (!loRS.next()){
                 //check if the record is active
-                if ("1".equals((String) loJson.get("cRecdStat"))){
+                if ("1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
                     //create insert statement
                     lsSQL = "INSERT INTO Mc_Model_Price" +
-                            "(sModelIDx" +
-                            ",nSelPrice" +
-                            ",nLastPrce" +
-                            ",nDealrPrc" +
-                            ",nMinDownx" +
-                            ",sMCCatIDx" +
-                            ",dPricexxx" +
-                            ",dInsPrice" +
-                            ",cRecdStat" +
+                            "(sModelIDx " +
+                            ",nSelPrice " +
+                            ",nLastPrce " +
+                            ",nDealrPrc " +
+                            ",nMinDownx " +
+                            ",sMCCatIDx " +
+                            ",dPricexxx " +
+                            ",dInsPrice " +
+                            ",cRecdStat " +
                             ",dTimeStmp)" +
                             " VALUES" +
                             "(" + SQLUtil.toSQL(loJson.getString("sModelIDx")) +
@@ -80,7 +80,8 @@ public class RMcModelPrice {
                             "," + SQLUtil.toSQL(loJson.getString("sMCCatIDx")) +
                             "," + SQLUtil.toSQL(loJson.getString("dPricexxx")) +
                             "," + SQLUtil.toSQL(loJson.getString("dInsPrice")) +
-                            "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) + ")";
+                            "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
+                            "," + SQLUtil.toSQL(loJson.getString("dTimeStmp")) + ")";
                 }
             } else { //record already exists
                 Date ldDate1 = SQLUtil.toDate(loRS.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
@@ -89,8 +90,8 @@ public class RMcModelPrice {
                 //compare date if the record from API is newer than the database record
                 if (!ldDate1.equals(ldDate2)){
                     //create update statement
-                    lsSQL = "UPDATE MC_Category SET" +
-                            "  nSelPrice = " + SQLUtil.toSQL(loJson.getString("nSelPrice")) +
+                    lsSQL = "UPDATE Mc_Model_Price SET" +
+                            " nSelPrice = " + SQLUtil.toSQL(loJson.getString("nSelPrice")) +
                             ", nLastPrce = " + SQLUtil.toSQL(loJson.getString("nLastPrce")) +
                             ", nDealrPrc = " + SQLUtil.toSQL(loJson.getString("nDealrPrc")) +
                             ", nMinDownx = " + SQLUtil.toSQL(loJson.getString("nMinDownx")) +
@@ -98,6 +99,7 @@ public class RMcModelPrice {
                             ", dPricexxx = " + SQLUtil.toSQL(loJson.getString("dPricexxx")) +
                             ", dInsPrice = " + SQLUtil.toSQL(loJson.getString("dInsPrice")) +
                             ", cRecdStat = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
+                            ", dTimeStmp = " + SQLUtil.toSQL(loJson.getString("dTimeStmp")) +
                             " WHERE sModelIDx = " + SQLUtil.toSQL(loJson.getString("sModelIDx"));
                 }
             }

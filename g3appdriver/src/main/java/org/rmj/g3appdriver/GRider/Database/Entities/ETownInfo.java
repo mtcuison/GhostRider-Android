@@ -28,8 +28,6 @@ public class ETownInfo {
     private String BlackLst;
     @ColumnInfo(name = "cRecdStat")
     private String RecdStat;
-    @ColumnInfo(name = "dModified")
-    private String Modified;
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
 
@@ -107,14 +105,6 @@ public class ETownInfo {
 
     public void setRecdStat(String recdStat) {
         RecdStat = recdStat;
-    }
-
-    public String getModified() {
-        return Modified;
-    }
-
-    public void setModified(String modified) {
-        Modified = modified;
     }
 
     public String getTimeStmp() {

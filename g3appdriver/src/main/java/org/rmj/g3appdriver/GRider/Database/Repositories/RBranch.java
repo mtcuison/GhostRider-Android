@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -36,10 +37,6 @@ public class RBranch {
         allMcBranchInfo = branchInfoDao.getAllMcBranchInfo();
         allBranchNames = branchInfoDao.getAllBranchNames();
         allBranchInfo = branchInfoDao.getAllBranchInfo();
-    }
-
-    public void insertBulkData(List<EBranchInfo> branchInfoList){
-        branchInfoDao.insertBulkData(branchInfoList);
     }
 
     public void insertBranchInfos(JSONArray faJson) throws Exception{
@@ -151,4 +148,5 @@ public class RBranch {
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return branchInfoDao.getUserBranchInfo();
     }
+
 }

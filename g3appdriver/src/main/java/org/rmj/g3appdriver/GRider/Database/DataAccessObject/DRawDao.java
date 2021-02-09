@@ -2,10 +2,16 @@ package org.rmj.g3appdriver.GRider.Database.DataAccessObject;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Insert;
 import androidx.room.Query;
+
+import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 
 @Dao
 public interface DRawDao {
+
+    @Insert
+    public void insertTokenInfo(ETokenInfo tokenInfo);
 
     @Query("SELECT  " +
             "a.sModelIDx AS ModelIDx, " +
