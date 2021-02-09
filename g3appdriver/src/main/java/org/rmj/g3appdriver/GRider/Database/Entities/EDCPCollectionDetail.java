@@ -42,6 +42,8 @@ public class EDCPCollectionDetail {
     private String PaymForm;
     @ColumnInfo(name = "cIsDCPxxx")
     private String IsDCPxxx;
+    @ColumnInfo(name = "sMobileNo")
+    private String MobileNo;
     @ColumnInfo(name = "sHouseNox")
     private String HouseNox;
     @ColumnInfo(name = "sAddressx")
@@ -203,6 +205,14 @@ public class EDCPCollectionDetail {
 
     public void setIsDCPxxx(String isDCPxxx) {
         IsDCPxxx = isDCPxxx;
+    }
+
+    public String getMobileNo() {
+        return MobileNo;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        MobileNo = mobileNo;
     }
 
     public String getHouseNox() {

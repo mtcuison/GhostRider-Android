@@ -37,7 +37,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         holder.lblDCPNox.setText(collection.getDCPNumber());
         holder.lblClient.setText(collection.getClientNme());
         holder.lblAdd1xx.setText(collection.getAddressxx());
-        holder.lblAdd2xx.setText(collection.getAddress2x());
+        //holder.lblAdd2xx.setText(collection.getAddress2x());
         holder.lblMobile.setText(collection.getContactxx());
         holder.lblBalanc.setText(collection.getBalancexx());
         holder.lblAmount.setText(collection.getAmntDuexx());
@@ -67,7 +67,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             lblDCPNox = itemView.findViewById(R.id.lbl_dcpNox);
             lblClient = itemView.findViewById(R.id.lbl_clientNm);
             lblAdd1xx = itemView.findViewById(R.id.lbl_dcpAddress1);
-            lblAdd2xx = itemView.findViewById(R.id.lbl_dcpAddress2);
+            //lblAdd2xx = itemView.findViewById(R.id.lbl_dcpAddress2);
             lblMobile = itemView.findViewById(R.id.lbl_dcpContact);
             lblBalanc = itemView.findViewById(R.id.lbl_dcpBalance);
             lblAmount = itemView.findViewById(R.id.lbl_dcpAmount);
