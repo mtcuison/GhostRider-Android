@@ -265,8 +265,8 @@ import java.util.Objects;
         return super.onOptionsItemSelected(item);
     }
 
-        @Override
-        public void onBackPressed() {
-            finish();
-        }
+    @Override
+    public void onBackPressed() {
+        finish();
     }
+}

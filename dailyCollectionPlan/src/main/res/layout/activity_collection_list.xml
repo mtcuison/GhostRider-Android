@@ -13,51 +13,59 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Daily Collection Plan"
-        android:fontFamily="@font/roboto_bold"
-        android:textSize="20sp"
-        android:textColor="@color/textColor_Black"
-        android:layout_marginTop="10dp"/>
-
-    <TextView
-        android:id="@+id/lbl_dcpUserBranch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="GMC Dagupan - Honda"
-        android:fontFamily="@font/roboto_bold"
-        android:textSize="16sp"
-        android:textColor="@color/textColor_Black"/>
-
-    <TextView
-        android:id="@+id/lbl_dcpBranchAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan"
-        android:fontFamily="@font/roboto_medium"
-        android:textColor="@color/textColor_Black"/>
-
-    <TextView
-        android:id="@+id/lbl_dcpCurrentDate"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Collection Plan for January 31, 2021"
-        android:fontFamily="@font/roboto_regular"
-        android:textColor="@color/textColor_Black"
-        android:padding="5dp"
-        android:layout_marginTop="10dp"/>
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Daily Collection Plan"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="20sp"
+            android:textColor="@color/textColor_Black"
+            android:layout_marginTop="10dp"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1.5dp"
-        android:background="@color/textColor_Black"/>
+        <TextView
+            android:id="@+id/lbl_headerBranch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/textColor_Black"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/lbl_headerAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/textColor_Black"/>
+
+        <TextView
+            android:id="@+id/lbl_headerDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Introductory Question"
+            android:textSize="18sp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/textColor_Black"
+            android:layout_marginTop="15dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/guanzon_orange"/>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_collectionList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

@@ -21,12 +21,17 @@
             android:gravity="center"
             android:layout_marginHorizontal="5dp">
 
+            <ImageView
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:src="@drawable/ic_ghostrider_logo_day"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="GhostRider"
                 android:textColor="@color/material_black"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:fontFamily="@font/roboto_black"
                 android:layout_marginBottom="5dp"/>
 
@@ -35,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:text="Android Service Application\n for GuanzonGroup Of Companies"
                 android:textColor="@color/material_black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:gravity="center"
                 android:fontFamily="@font/roboto_medium"
                 android:layout_marginBottom="10dp"/>
@@ -118,7 +123,7 @@
                         android:layout_height="wrap_content"
                         android:text="Garcia, Michael P."
                         android:textColor="@color/material_black"
-                        android:textSize="24sp"
+                        android:textSize="20sp"
                         android:fontFamily="@font/roboto_black"
                         android:layout_marginBottom="5dp"/>
 

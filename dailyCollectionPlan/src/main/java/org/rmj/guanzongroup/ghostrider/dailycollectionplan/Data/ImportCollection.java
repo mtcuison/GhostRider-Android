@@ -140,6 +140,7 @@ public class ImportCollection implements ImportInstance {
                 collectionDetail.setAcctNmbr(loJson.getString("sAcctNmbr"));
                 collectionDetail.setFullName(loJson.getString("xFullName"));
                 collectionDetail.setIsDCPxxx(loJson.getString("cIsDCPxxx"));
+                collectionDetail.setMobileNo(loJson.getString("sMobileNo"));
                 collectionDetail.setHouseNox(loJson.getString("sHouseNox"));
                 collectionDetail.setAddressx(loJson.getString("sAddressx"));
                 collectionDetail.setBrgyName(loJson.getString("sBrgyName"));

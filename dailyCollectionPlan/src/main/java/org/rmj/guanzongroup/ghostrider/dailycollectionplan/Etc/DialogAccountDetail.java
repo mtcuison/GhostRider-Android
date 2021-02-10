@@ -1,16 +1,19 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 public class DialogAccountDetail {
@@ -23,7 +26,7 @@ public class DialogAccountDetail {
         this.context = context;
     }
 
-    public void initAccountDetail(DialogButtonClickListener listener){
+    public void initAccountDetail(EDCPCollectionDetail foDetail, DialogButtonClickListener listener){
         AlertDialog.Builder loBuilder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_account_detail, null, false);
         loBuilder.setCancelable(false)
@@ -33,21 +36,27 @@ public class DialogAccountDetail {
 
         TextView lblReferNo = view.findViewById(R.id.lbl_dcpReferNo);
         TextView lblTransNo = view.findViewById(R.id.lbl_dcpTransNo);
-        TextView lblTranDte = view.findViewById(R.id.lbl_dcpTranDate);
+//        TextView lblTranDte = view.findViewById(R.id.lbl_dcpTranDate);
         TextView lblAccntNo = view.findViewById(R.id.lbl_dcpAccNo);
-        TextView lblPRNoxxx = view.findViewById(R.id.lbl_dcpPRNo);
+        TextView lblSerialx = view.findViewById(R.id.lbl_dcpPRNo);
         TextView lblAmountx = view.findViewById(R.id.lbl_dcpAmount);
-        TextView lblDscount = view.findViewById(R.id.lbl_dcpDiscount);
-        TextView lblOthersx = view.findViewById(R.id.lbl_dcpOthers);
+        TextView lblDueDate = view.findViewById(R.id.lbl_dcpDueDate);
+//        TextView lblOthersx = view.findViewById(R.id.lbl_dcpOthers);
         Spinner spnTransact = view.findViewById(R.id.spn_transaction);
         Button btnConfirm = view.findViewById(R.id.btn_confirm);
+        Button btnCancelx = view.findViewById(R.id.btn_cancel);
 
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.OnClick();
-            }
-        });
+        lblReferNo.setText(foDetail.getReferNox());
+        lblTransNo.setText(foDetail.getTransNox());
+        lblAccntNo.setText(foDetail.getAcctNmbr());
+        lblSerialx.setText(foDetail.getSerialNo());
+        lblAmountx.setText(foDetail.getAmtDuexx());
+        lblDueDate.setText(foDetail.getDueDatex());
+
+        spnTransact.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, DCP_Constants.TRANSACTION_TYPE));
+
+        btnConfirm.setOnClickListener(view1 -> listener.OnClick(poDialogx, spnTransact.getSelectedItemPosition()));
+        btnCancelx.setOnClickListener(view12 -> dismiss());
     }
 
     public void show(){
@@ -62,6 +71,6 @@ public class DialogAccountDetail {
     }
 
     public interface DialogButtonClickListener{
-        void OnClick();
+        void OnClick(Dialog dialog, int transaction);
     }
 }

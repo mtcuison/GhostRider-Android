@@ -39,12 +39,12 @@ public class RBranch {
         allBranchInfo = branchInfoDao.getAllBranchInfo();
     }
 
-    public void insertBranchInfos(JSONArray faJson) throws Exception{
+    public boolean insertBranchInfos(JSONArray faJson) throws Exception{
         GConnection loConn = DbConnection.doConnect(application);
-
+        boolean result = true;
         if (loConn == null){
             Log.e(TAG, "Connection was not initialized.");
-            return;
+            result = false;
         }
 
         JSONObject loJson;
@@ -110,19 +110,22 @@ public class RBranch {
             }
 
             if (!lsSQL.isEmpty()){
-                Log.d(TAG, lsSQL);
+                //Log.d(TAG, lsSQL);
                 if (loConn.executeUpdate(lsSQL,  "", "" ,"") <= 0) {
                     Log.e(TAG, loConn.getMessage());
-                } else
-                    Log.d(TAG, "Branch saved successfully.");
+                    result = false;
+                } else {
+                    Log.d(TAG, "Branch info saved successfully.");
+                }
             } else {
-                Log.d(TAG, "No record to update. Branch maybe on its latest on local database.");
+                Log.d(TAG, "No record to update. Branch info maybe on its latest on local database.");
             }
         }
         Log.e(TAG, "Branch info has been save to local.");
 
         //terminate object connection
         loConn = null;
+        return result;
     }
 
     public LiveData<List<EBranchInfo>> getAllMcBranchInfo() {
