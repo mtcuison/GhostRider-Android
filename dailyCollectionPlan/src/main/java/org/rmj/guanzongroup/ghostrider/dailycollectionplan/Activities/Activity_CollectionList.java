@@ -1,11 +1,13 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -27,7 +29,7 @@ import java.util.Locale;
 
 public class Activity_CollectionList extends AppCompatActivity {
     private static final String TAG = Activity_CollectionList.class.getSimpleName();
-
+    private static final int MOBILE_DIALER = 104;
     private VMCollectionList mViewModel;
 
     private RecyclerView recyclerView;
@@ -64,9 +66,12 @@ public class Activity_CollectionList extends AppCompatActivity {
                 @Override
                 public void OnClick(int position) {
                     DialogAccountDetail loDialog = new DialogAccountDetail(Activity_CollectionList.this);
-                    loDialog.initAccountDetail(collectionDetails.get(position), (dialog, transaction) -> {
+                    loDialog.initAccountDetail(collectionDetails.get(position), (dialog, remarksCode) -> {
+                        dialog.dismiss();
                         Intent loIntent = new Intent(Activity_CollectionList.this, Activity_Transaction.class);
-                        loIntent.putExtra("transaction", transaction);
+                        loIntent.putExtra("remarksx", remarksCode);
+                        loIntent.putExtra("transnox", collectionDetails.get(position).getTransNox());
+                        loIntent.putExtra("entrynox", collectionDetails.get(position).getEntryNox());
                         startActivity(loIntent);
                     });
                     loDialog.show();
@@ -74,7 +79,8 @@ public class Activity_CollectionList extends AppCompatActivity {
 
                 @Override
                 public void OnMobileNoClickListener(String MobileNo) {
-
+                    Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
+                    startActivityForResult(mobileIntent, MOBILE_DIALER);
                 }
 
                 @Override
@@ -123,6 +129,16 @@ public class Activity_CollectionList extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == MOBILE_DIALER){
+            if(resultCode == RESULT_OK){
+
+            }
+        }
     }
 
     public String getDate(){

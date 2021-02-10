@@ -27,6 +27,13 @@ public interface DDCPCollectionDetail {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBulkData(List<EDCPCollectionDetail> collectionDetails);
 
-    @Query("SELECT * FROM LR_DCP_Collection_Detail")
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE ")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailList();
+
+    @Query("SELECT * FROM LR_DCP_Collection_Detail " +
+            "WHERE sTransNox = :TransNox " +
+            "AND nEntryNox = :EntryNox")
+    LiveData<EDCPCollectionDetail> getCollectionDetail(String TransNox, String EntryNox);
+
+
 }

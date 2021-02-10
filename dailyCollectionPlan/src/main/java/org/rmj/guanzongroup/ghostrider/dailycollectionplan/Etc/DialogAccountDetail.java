@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 public class DialogAccountDetail {
@@ -50,12 +51,12 @@ public class DialogAccountDetail {
         lblTransNo.setText(foDetail.getTransNox());
         lblAccntNo.setText(foDetail.getAcctNmbr());
         lblSerialx.setText(foDetail.getSerialNo());
-        lblAmountx.setText(foDetail.getAmtDuexx());
-        lblDueDate.setText(foDetail.getDueDatex());
+        lblAmountx.setText(FormatUIText.getCurrencyUIFormat(foDetail.getAmtDuexx()));
+        lblDueDate.setText(FormatUIText.formatGOCasBirthdate(foDetail.getDueDatex()));
 
         spnTransact.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, DCP_Constants.TRANSACTION_TYPE));
 
-        btnConfirm.setOnClickListener(view1 -> listener.OnClick(poDialogx, spnTransact.getSelectedItemPosition()));
+        btnConfirm.setOnClickListener(view1 -> listener.OnClick(poDialogx, spnTransact.getSelectedItem().toString()));
         btnCancelx.setOnClickListener(view12 -> dismiss());
     }
 
@@ -71,6 +72,6 @@ public class DialogAccountDetail {
     }
 
     public interface DialogButtonClickListener{
-        void OnClick(Dialog dialog, int transaction);
+        void OnClick(Dialog dialog, String remarksCode);
     }
 }

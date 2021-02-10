@@ -105,7 +105,8 @@ public class FormatUIText {
         try {
             DecimalFormat currency_total = new DecimalFormat("₱ ###,###,###.###");
             BigDecimal loBigDecimal = new BigDecimal(price);
-            return currency_total.format(loBigDecimal);
+            String ls = currency_total.format(loBigDecimal);
+            return ls;
         } catch (Exception e){
             e.printStackTrace();
             return "";

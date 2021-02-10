@@ -68,7 +68,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_spouse_employment_info, container, false);
         infoModel = new SpouseEmploymentInfoModel();
-        infoModel.setEmploymentSector("1");
+        //infoModel.setEmploymentSector("1");
         initWidgets(view);
 
         return view;
@@ -174,17 +174,17 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnServce.setAdapter(stringArrayAdapter));
 
         btnNext.setOnClickListener(view -> {
-            infoModel.setCompanyLevel(String.valueOf(spnCmpLvl.getSelectedItemPosition() - 1));
-            infoModel.setCompanyLevel(String.valueOf(spnCmpLvl.getSelectedItemPosition() - 1));
-            infoModel.setEmployeeLevel(String.valueOf(spnEmpLvl.getSelectedItemPosition() - 1));
-            infoModel.setBusinessNature(spnBusNtr.getSelectedItem().toString());
-            infoModel.setCompanyName(Objects.requireNonNull(txtCompNm.getText()).toString());
-            infoModel.setCompanyAddress(Objects.requireNonNull(txtCompAd.getText()).toString());
-            infoModel.setSpecificJob(Objects.requireNonNull(txtSpcfJb.getText()).toString());
-            infoModel.setLengthOfService(Objects.requireNonNull(txtLngthS.getText()).toString());
-            infoModel.setIsYear(String.valueOf(spnServce.getSelectedItemPosition() - 1));
-            infoModel.setsMonthlyIncome(Objects.requireNonNull(txtEsSlry.getText()).toString());
-            infoModel.setContact(Objects.requireNonNull(txtCompCn.getText()).toString());
+//            infoModel.setCompanyLevel(String.valueOf(spnCmpLvl.getSelectedItemPosition() - 1));
+//            infoModel.setCompanyLevel(String.valueOf(spnCmpLvl.getSelectedItemPosition() - 1));
+//            infoModel.setEmployeeLevel(String.valueOf(spnEmpLvl.getSelectedItemPosition() - 1));
+//            infoModel.setBusinessNature(spnBusNtr.getSelectedItem().toString());
+//            infoModel.setCompanyName(Objects.requireNonNull(txtCompNm.getText()).toString());
+//            infoModel.setCompanyAddress(Objects.requireNonNull(txtCompAd.getText()).toString());
+//            infoModel.setSpecificJob(Objects.requireNonNull(txtSpcfJb.getText()).toString());
+//            infoModel.setLengthOfService(Objects.requireNonNull(txtLngthS.getText()).toString());
+//            infoModel.setIsYear(String.valueOf(spnServce.getSelectedItemPosition() - 1));
+//            infoModel.setsMonthlyIncome(Objects.requireNonNull(txtEsSlry.getText()).toString());
+//            infoModel.setContact(Objects.requireNonNull(txtCompCn.getText()).toString());
             mViewModel.SaveEmploymentInfo(infoModel, Fragment_SpouseEmploymentInfo.this);
         });
     }

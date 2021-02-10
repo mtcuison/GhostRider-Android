@@ -215,49 +215,49 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
     }
 
     public void SaveEmploymentInfo(SpouseEmploymentInfoModel infoModel, ViewModelCallBack callBack){
-        try{
-            infoModel.setEmploymentSector(psSectorx.getValue());
-            infoModel.setUniformPersonal(psUniform.getValue());
-            infoModel.setMilitaryPersonal(psMiltary.getValue());
-            infoModel.setCountry(psCountry.getValue());
-            infoModel.setProvinceID(psProvIDx.getValue());
-            infoModel.setTownID(psTownIDx.getValue());
-            infoModel.setJobTitle(psJobTtle.getValue());
-            infoModel.setEmployeeStatus(psEmpStat.getValue());
-            if(infoModel.isDataValid()){
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setEmploymentSector(infoModel.getEmploymentSector());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().IsUniformedPersonel(infoModel.getUniformPersonal());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().IsMilitaryPersonel(infoModel.getMilitaryPersonal());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setGovernmentLevel(infoModel.getGovermentLevel());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setOFWRegion(infoModel.getOfwRegion());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setCompanyLevel(infoModel.getCompanyLevel());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setEmployeeLevel(infoModel.getEmploymentSector());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setOFWCategory(infoModel.getOfwWorkCategory());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setOFWNation(infoModel.getCountry());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setNatureofBusiness(infoModel.getBusinessNature());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setCompanyName(infoModel.getCompanyName());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setCompanyAddress(infoModel.getCompanyAddress());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setPosition(infoModel.getJobTitle());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setJobDescription(infoModel.getSpecificJob());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setEmployeeStatus(infoModel.getEmployeeStatus());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setLengthOfService(infoModel.getLengthOfService());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setSalary(infoModel.getMonthlyIncome());
-                poGoCasxx.SpouseMeansInfo().EmployedInfo().setCompanyNo(infoModel.getContact());
-
-                ECreditApplicantInfo info = new ECreditApplicantInfo();
-                info.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
-                info.setDetlInfo(poGoCasxx.toJSONString());
-                info.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
-                poCredtAp.updateGOCasData(info);
-
-                Log.e(TAG, poGoCasxx.SpouseMeansInfo().EmployedInfo().toJSONString());
-                callBack.onSaveSuccessResult("Success");
-            } else {
-                callBack.onFailedResult(infoModel.getMessage());
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            callBack.onFailedResult(e.getMessage());
-        }
+//        try{
+//            infoModel.setEmploymentSector(psSectorx.getValue());
+//            infoModel.setUniformPersonal(psUniform.getValue());
+//            infoModel.setMilitaryPersonal(psMiltary.getValue());
+//            infoModel.setCountry(psCountry.getValue());
+//            infoModel.setProvinceID(psProvIDx.getValue());
+//            infoModel.setTownID(psTownIDx.getValue());
+//            infoModel.setJobTitle(psJobTtle.getValue());
+//            infoModel.setEmployeeStatus(psEmpStat.getValue());
+//            if(infoModel.isDataValid()){
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setEmploymentSector(infoModel.getEmploymentSector());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().IsUniformedPersonel(infoModel.getUniformPersonal());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().IsMilitaryPersonel(infoModel.getMilitaryPersonal());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setGovernmentLevel(infoModel.getGovermentLevel());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setOFWRegion(infoModel.getOfwRegion());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setCompanyLevel(infoModel.getCompanyLevel());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setEmployeeLevel(infoModel.getEmploymentSector());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setOFWCategory(infoModel.getOfwWorkCategory());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setOFWNation(infoModel.getCountry());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setNatureofBusiness(infoModel.getBusinessNature());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setCompanyName(infoModel.getCompanyName());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setCompanyAddress(infoModel.getCompanyAddress());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setPosition(infoModel.getJobTitle());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setJobDescription(infoModel.getSpecificJob());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setEmployeeStatus(infoModel.getEmployeeStatus());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setLengthOfService(infoModel.getLengthOfService());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setSalary(infoModel.getMonthlyIncome());
+//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setCompanyNo(infoModel.getContact());
+//
+//                ECreditApplicantInfo info = new ECreditApplicantInfo();
+//                info.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
+//                info.setDetlInfo(poGoCasxx.toJSONString());
+//                info.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
+//                poCredtAp.updateGOCasData(info);
+//
+//                Log.e(TAG, poGoCasxx.SpouseMeansInfo().EmployedInfo().toJSONString());
+//                callBack.onSaveSuccessResult("Success");
+//            } else {
+//                callBack.onFailedResult(infoModel.getMessage());
+//            }
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            callBack.onFailedResult(e.getMessage());
+//        }
     }
 }

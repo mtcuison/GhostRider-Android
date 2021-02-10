@@ -64,17 +64,17 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight=".5"
                 android:text="Account No. :"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/textColor_Black"/>
 
             <TextView
+                android:id="@+id/lbl_dcpAccNo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="000000000000"
-                android:fontFamily="@font/roboto_regular"
+                android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/textColor_Black"
                 android:gravity="end"/>
         </LinearLayout>
@@ -88,17 +88,17 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight=".5"
                 android:text="Client Name :"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/textColor_Black"/>
 
             <TextView
+                android:id="@+id/lbl_dcpClientNm"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="000000000000"
-                android:fontFamily="@font/roboto_regular"
+                android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/textColor_Black"
                 android:gravity="end"/>
         </LinearLayout>
@@ -112,17 +112,17 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight=".5"
                 android:text="Transaction No :"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/textColor_Black"/>
 
             <TextView
+                android:id="@+id/lbl_dcpTransNo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="000000000000"
-                android:fontFamily="@font/roboto_regular"
+                android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/textColor_Black"
                 android:gravity="end"/>
         </LinearLayout>
@@ -138,17 +138,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/TextInputStyle"
-            android:hint="Remarks"
+            android:hint="P.R No."
             android:layout_marginTop="5dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_dcpRemarks"
+                android:id="@+id/txt_dcpPRNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextInputStyle.Edittext"
-                android:inputType="textMultiLine"
-                android:lines="3"
-                android:maxLines="5"
+                android:inputType="number|none"
+                android:maxLength="10"
+                android:maxLines="1"
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/txt_dcpAmount"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -207,7 +207,7 @@
                 android:maxLength="10"
                 android:maxLines="1"
                 android:imeOptions="actionNext"
-                android:nextFocusForward="@id/txt_dcpTotAmount"/>
+                android:nextFocusForward="@id/txt_dcpRemarks"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -225,6 +225,26 @@
                 android:inputType="number|none"
                 android:maxLength="10"
                 android:maxLines="1"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextInputStyle"
+            android:hint="Remarks"
+            android:layout_marginTop="5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_dcpRemarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyle.Edittext"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:maxLines="5"
                 android:imeOptions="actionDone"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -234,6 +254,7 @@
             android:layout_height="wrap_content"
             style="@style/MaterialButtonAccent"
             android:text="Confirm"/>
+
     </LinearLayout>
 
 </ScrollView>
