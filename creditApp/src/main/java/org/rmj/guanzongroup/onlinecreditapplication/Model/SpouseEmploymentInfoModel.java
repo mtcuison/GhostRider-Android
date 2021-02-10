@@ -40,8 +40,18 @@ public class SpouseEmploymentInfoModel {
         this.sector = sector;
     }
 
-    public String getCompanyLvl() {
-        return companyLvl;
+    public String getCompanyLevel() {
+        if(sector.equalsIgnoreCase("1")) {
+            return companyLvl;
+        }
+        return "";
+    }
+
+    public String getGovermentLevel(){
+        if(sector.equalsIgnoreCase("0")) {
+            return companyLvl;
+        }
+        return "";
     }
 
     public void setCompanyLvl(String companyLvl) {
@@ -120,24 +130,30 @@ public class SpouseEmploymentInfoModel {
         this.employmentStat = employmentStat;
     }
 
-    public String getLengthOfService() {
-        return lengthOfService;
+    public double getLengthOfService() {
+        try{
+            if(Integer.parseInt(monthOrYear) == 0) {
+                double ldValue = Double.parseDouble(lengthOfService);
+                return ldValue / 12;
+            } else {
+                return Double.parseDouble(lengthOfService);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     public void setLengthOfService(String lengthOfService) {
         this.lengthOfService = lengthOfService;
     }
 
-    public String getMonthOrYear() {
-        return monthOrYear;
-    }
-
     public void setMonthOrYear(String monthOrYear) {
         this.monthOrYear = monthOrYear;
     }
 
-    public String getGrossMonthly() {
-        return grossMonthly;
+    public long getGrossMonthly() {
+        return Long.parseLong(grossMonthly);
     }
 
     public void setGrossMonthly(String grossMonthly) {
