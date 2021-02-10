@@ -44,6 +44,11 @@ public class CreditAppConstants {
 
             new Fragment_PersonalInfo(),
             new Fragment_ResidenceInfo(),
+            new Fragment_SpouseInfo(),
+            new Fragment_SpouseResidenceInfo(),
+            new Fragment_SpouseEmploymentInfo(),
+            new Fragment_PersonalInfo(),
+            new Fragment_ResidenceInfo(),
             new Fragment_MeansInfoSelection(),
             new Fragment_EmploymentInfo(),
             new Fragment_SelfEmployedInfo(),

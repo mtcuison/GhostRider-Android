@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
 public class FormatUIText {
 
     @SuppressLint("SimpleDateFormat")
-    public String getDateUIFormat(String date){
+    public static String getDateUIFormat(String date){
         try {
             Date parseDate = new SimpleDateFormat("dd/MM/yyyy").parse(date);
             return new SimpleDateFormat("MMMM dd, yyyy").format(parseDate);
@@ -34,7 +34,7 @@ public class FormatUIText {
      * this method parses date
      * from yyyy-MM-dd HH:mm:ss Format to MMMM dd, yyyy
      */
-    public String getParseDate(String date){
+    public static String getParseDate(String date){
         try {
             Date parseDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date);
             return new SimpleDateFormat("MMMM dd, yyyy").format(parseDate);
@@ -52,7 +52,7 @@ public class FormatUIText {
      * this method parses datetime from local database
      * a user friendly intervention...
      */
-    public String getParseDateTime(String date){
+    public static String getParseDateTime(String date){
         try {
             if (date != null) {
                 Date parseDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date);
@@ -74,7 +74,7 @@ public class FormatUIText {
      * @return
      */
     @SuppressLint("SimpleDateFormat")
-    public String formatGOCasBirthdate(String date){
+    public static String formatGOCasBirthdate(String date){
         try {
             Date parseDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
             return new SimpleDateFormat("MMMM dd, yyyy").format(parseDate);
@@ -91,7 +91,7 @@ public class FormatUIText {
      *             naming file.
      * @return
      */
-    public String getParseUIDateTime(String date){
+    public static String getParseUIDateTime(String date){
         try{
             Date parseDate = new SimpleDateFormat("MMMM dd, yyyy HH:mm aa").parse(date);
             return new SimpleDateFormat("yyyyMMdd").format(parseDate);
@@ -101,7 +101,7 @@ public class FormatUIText {
         }
     }
 
-    public String getCurrencyUIFormat(String price){
+    public static String getCurrencyUIFormat(String price){
         try {
             DecimalFormat currency_total = new DecimalFormat("₱ ###,###,###.###");
             BigDecimal loBigDecimal = new BigDecimal(price);
@@ -112,7 +112,7 @@ public class FormatUIText {
         }
     }
 
-    public double getParseDouble(String value) {
+    public static double getParseDouble(String value) {
         try {
             String downPrice = value.replaceAll(",", "");
             return Double.parseDouble(downPrice);
@@ -122,7 +122,7 @@ public class FormatUIText {
         }
     }
 
-    public long getParseLong(String value){
+    public static long getParseLong(String value){
         try{
             double ldValue = Double.parseDouble(value.replace(",", ""));
             return (Double.valueOf(ldValue)).longValue();
@@ -132,7 +132,7 @@ public class FormatUIText {
         }
     }
 
-    public int getParseInt(String value){
+    public static int getParseInt(String value){
         try {
             return Integer.parseInt(value.replace(",", ""));
         }catch (Exception e){
@@ -149,7 +149,7 @@ public class FormatUIText {
      * the edittext, while position requires the
      * selected value from the spinner
      */
-    public double getParseBusinessLength(String value, int position){
+    public static double getParseBusinessLength(String value, int position){
         try{
             if(position == 0) {
                 double ldValue = Double.parseDouble(value);

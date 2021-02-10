@@ -8,9 +8,6 @@
         <activity android:name=".Activity.Activity_ApplicationHistory"
             android:label="Credit Online Application"
             android:theme="@style/GhostRiderMaterialTheme"/>
-        <activity android:name=".Activity.CreditApplicationIntroduction"
-            android:label="Credit Online Application"
-            android:theme="@style/GhostRiderMaterialTheme"/>
         <activity android:name=".Activity.Activity_IntroductoryQuestion"
             android:label="Credit Online Application"
             android:theme="@style/GhostRiderMaterialTheme"

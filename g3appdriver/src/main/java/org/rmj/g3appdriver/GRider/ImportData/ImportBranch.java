@@ -69,7 +69,9 @@ public class ImportBranch implements ImportInstance{
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
-                        repository.insertBranchInfos(laJson);
+                        if(!repository.insertBranchInfos(laJson)){
+                            response = AppConstants.ERROR_SAVING_TO_LOCAL();
+                        }
                     } else {
                         JSONObject loError = loJson.getJSONObject("error");
                         String message = loError.getString("message");

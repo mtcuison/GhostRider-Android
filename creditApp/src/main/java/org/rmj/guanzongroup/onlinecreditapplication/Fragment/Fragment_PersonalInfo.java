@@ -197,7 +197,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
     @SuppressLint("RestrictedApi")
     @Override
     public void onSaveSuccessResult(String args) {
-        Activity_CreditApplication.getInstance().moveToPageNumber(12);
+        Activity_CreditApplication.getInstance().moveToPageNumber(1);
     }
 
     @Override

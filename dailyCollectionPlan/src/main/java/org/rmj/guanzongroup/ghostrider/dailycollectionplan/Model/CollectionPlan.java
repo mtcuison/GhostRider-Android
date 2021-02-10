@@ -6,7 +6,8 @@ public class CollectionPlan {
     private String DCPNumber;
     private String ClientNme;
     private String Addressxx;
-    private String Address2x;
+    private String HouseNoxx;
+    private String TownNamex;
     private String Contactxx;
     private String DCPCountx;
     private String Statusxxx;
@@ -30,10 +31,6 @@ public class CollectionPlan {
 
     public void setAddressxx(String addressxx) {
         Addressxx = addressxx;
-    }
-
-    public void setAddress2x(String address2x) {
-        Address2x = address2x;
     }
 
     public void setContactxx(String contactxx) {
@@ -61,7 +58,7 @@ public class CollectionPlan {
     }
 
     public String getDCPNumber() {
-        return DCPNumber;
+        return "DCP " + DCPNumber + "/" + DCPCountx;
     }
 
     public String getClientNme() {
@@ -69,19 +66,19 @@ public class CollectionPlan {
     }
 
     public String getAddressxx() {
-        return Addressxx;
+        return HouseNoxx +", " + Addressxx +", "+ TownNamex;
     }
 
-    public String getAddress2x() {
-        return Address2x;
+    public void setHouseNoxx(String houseNoxx) {
+        HouseNoxx = houseNoxx;
+    }
+
+    public void setTownNamex(String townNamex) {
+        TownNamex = townNamex;
     }
 
     public String getContactxx() {
         return Contactxx;
-    }
-
-    public String getDCPCountx() {
-        return DCPCountx;
     }
 
     public String getStatusxxx() {
