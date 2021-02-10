@@ -65,7 +65,6 @@ public class VMDisbursementInfoTest implements ViewModelCallBack{
     }
     @Test
     public void test_setCreditApplicantInfo() throws Exception{
-
         doReturn(true).when(mViewModel).SubmitApplicationInfo(infoModels, VMDisbursementInfoTest.this);
         assertTrue(mViewModel.SubmitApplicationInfo(infoModels, VMDisbursementInfoTest.this));
     }

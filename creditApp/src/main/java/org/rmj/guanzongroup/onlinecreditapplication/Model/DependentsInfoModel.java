@@ -160,9 +160,6 @@ public class DependentsInfoModel {
 
 
 
-
-
-
     public boolean isDataValid(){
         if(!isFullName()){
             return false;
