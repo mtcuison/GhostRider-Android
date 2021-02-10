@@ -48,6 +48,7 @@
 <!--    <string name="sHeaderLabelSector">Employment Sector</string>-->
     <string name="sHeaderLabelSector">Is dependent employed?</string>
     <string name="sHeaderLabelEmploymentTypeSector">Employment Type</string>
+    <string name="sHeaderLabelSpouseEmploymentTypeSector">Spouse Employment Type</string>
     <string name="sLabelUniformPersonnel">Is applicant uniform personnel?</string>
     <string name="sLabelMilitaryPersonnel">Is applicant military personnel?</string>
     <string name="sLabelPrivate">Private</string>
