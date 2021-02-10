@@ -33,11 +33,12 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
     @Override
     public void onBindViewHolder(@NonNull CollectionViewHolder holder, int position) {
         CollectionPlan collection = collectionPlans.get(position);
+        holder.loPlan = collection;
         holder.lblAcctNo.setText(collection.getAcctNoxxx());
         holder.lblDCPNox.setText(collection.getDCPNumber());
         holder.lblClient.setText(collection.getClientNme());
         holder.lblAdd1xx.setText(collection.getAddressxx());
-        holder.lblAdd2xx.setText(collection.getAddress2x());
+        //holder.lblAdd2xx.setText(collection.getAddress2x());
         holder.lblMobile.setText(collection.getContactxx());
         holder.lblBalanc.setText(collection.getBalancexx());
         holder.lblAmount.setText(collection.getAmntDuexx());
@@ -51,11 +52,12 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
 
     public static class CollectionViewHolder extends RecyclerView.ViewHolder{
 
+        public CollectionPlan loPlan;
         public TextView lblAcctNo;
         public TextView lblDCPNox;
         public TextView lblClient;
         public TextView lblAdd1xx;
-        public TextView lblAdd2xx;
+        //public TextView lblAdd2xx;
         public TextView lblMobile;
         public TextView lblBalanc;
         public TextView lblAmount;
@@ -67,7 +69,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             lblDCPNox = itemView.findViewById(R.id.lbl_dcpNox);
             lblClient = itemView.findViewById(R.id.lbl_clientNm);
             lblAdd1xx = itemView.findViewById(R.id.lbl_dcpAddress1);
-            lblAdd2xx = itemView.findViewById(R.id.lbl_dcpAddress2);
+            //lblAdd2xx = itemView.findViewById(R.id.lbl_dcpAddress2);
             lblMobile = itemView.findViewById(R.id.lbl_dcpContact);
             lblBalanc = itemView.findViewById(R.id.lbl_dcpBalance);
             lblAmount = itemView.findViewById(R.id.lbl_dcpAmount);
@@ -76,37 +78,37 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
-                    listener.OnClick();
+                    listener.OnClick(position);
                 }
             });
 
             lblAdd1xx.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
-                    listener.OnAddressClickListener();
+                    listener.OnAddressClickListener("Sample", null);
                 }
             });
 
-            lblAdd2xx.setOnClickListener(view -> {
+            /*lblAdd2xx.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
                     listener.OnAddressClickListener();
                 }
-            });
+            });*/
 
             lblMobile.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
-                    listener.OnMobileNoClickListener();
+                    listener.OnMobileNoClickListener(loPlan.getContactxx());
                 }
             });
         }
     }
 
     public interface OnItemClickListener{
-        void OnClick();
-        void OnMobileNoClickListener();
-        void OnAddressClickListener();
+        void OnClick(int position);
+        void OnMobileNoClickListener(String MobileNo);
+        void OnAddressClickListener(String Address, String[] args);
         void OnActionButtonClick();
     }
 }

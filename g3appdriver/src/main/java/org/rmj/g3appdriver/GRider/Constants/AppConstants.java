@@ -14,6 +14,16 @@ public class AppConstants {
         return loJson.toString();
     }
 
+    public static String ERROR_SAVING_TO_LOCAL() throws Exception{
+        JSONObject loJson = new JSONObject();
+        JSONObject loError = new JSONObject();
+        loJson.put("result", "error");
+        loError.put("code", "503");
+        loError.put("message", "Unable to save data to local. ");
+        loJson.put("error", loError);
+        return loJson.toString();
+    }
+
     public static String SERVER_NO_RESPONSE() throws Exception{
         JSONObject loJson = new JSONObject();
         JSONObject loError = new JSONObject();
@@ -33,7 +43,6 @@ public class AppConstants {
         loJson.put("error", loError);
         return loJson.toString();
     }
-
 
     public static String APPROVAL_CODE_GENERATED(String fsMessage) throws Exception{
         JSONObject loJson = new JSONObject();

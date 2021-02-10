@@ -3,6 +3,7 @@ package org.rmj.g3appdriver.GRider.Database.DataAccessObject;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
@@ -10,7 +11,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 @Dao
 public interface DRawDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertTokenInfo(ETokenInfo tokenInfo);
 
     @Query("SELECT  " +
