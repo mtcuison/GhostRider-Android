@@ -157,5 +157,8 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColorHint">@color/hint_color</item>
     </style>
-
+    <style name="AppTheme.DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <!-- Put the two options, colorAcent and android:colorAccent. -->
+        <item name="colorAccent">@color/guanzon_orange</item>
+    </style>
 </resources>
