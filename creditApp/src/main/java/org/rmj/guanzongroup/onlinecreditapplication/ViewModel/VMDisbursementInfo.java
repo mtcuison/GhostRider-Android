@@ -15,6 +15,7 @@ import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.gocas.pojo.DisbursementInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.TextFormatter;
+import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_DisbursementInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DisbursementInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.EmploymentInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -22,6 +23,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import java.util.Objects;
 
 public class VMDisbursementInfo extends AndroidViewModel {
+    private static final String TAG = Fragment_DisbursementInfo.class.getSimpleName();
     // TODO: Implement the ViewModel
     private final MutableLiveData<String> typeX = new MutableLiveData<>();
     private final MutableLiveData<String> psTranNo = new MutableLiveData<>();
@@ -63,7 +65,7 @@ public class VMDisbursementInfo extends AndroidViewModel {
     }
 
 
-    public void SubmitApplicationInfo(DisbursementInfoModel disbursementInfo,ViewModelCallBack callBack){
+    public boolean SubmitApplicationInfo(DisbursementInfoModel disbursementInfo,ViewModelCallBack callBack){
         try {
             if (disbursementInfo.isDataValid()){
 //                poGoCasxx.DisbursementInfo().Expenses().setElectricBill(disbursementInfo.getElctX());
@@ -82,13 +84,18 @@ public class VMDisbursementInfo extends AndroidViewModel {
                 info.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
                 poApplcnt.updateGOCasData(info);
                 Log.e("Disbursement Data", String.valueOf(info.getDetlInfo()));
+
+                Log.e(TAG, "Dependent info has been set." + poGoCasxx.DisbursementInfo().toJSONString());
                 callBack.onSaveSuccessResult("Success");
+                return true;
             } else {
                 callBack.onFailedResult(disbursementInfo.getMessage());
+                return false;
             }
         } catch (Exception e){
            e.printStackTrace();
             callBack.onFailedResult(e.getMessage());
+            return false;
         }
     }
 

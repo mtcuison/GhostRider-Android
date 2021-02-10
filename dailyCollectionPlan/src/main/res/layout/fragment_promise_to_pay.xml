@@ -28,23 +28,77 @@
             android:fontFamily="@font/roboto_medium"
             android:textColor="@color/textColor_Black"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Customer Paid"
-            android:textSize="18sp"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/textColor_Black"
-            android:layout_marginTop="15dp"/>
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Customer Promise to Pay"-->
+<!--            android:textSize="18sp"-->
+<!--            android:fontFamily="@font/roboto_regular"-->
+<!--            android:textColor="@color/textColor_Black"-->
+<!--            android:layout_marginTop="15dp"/>-->
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:layout_marginTop="5dp"
             android:background="@color/guanzon_orange"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Customer Promise to Pay"
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="@color/textColor_Black"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Account No :"
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/textColor_Black"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Client Name :"
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/textColor_Black"
+                android:layout_marginTop="10dp"/>
 
-
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Address :"
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/textColor_Black"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/guanzon_orange"/>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/TextInputStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/pToPayDate"
+               android:hint="Promised Payment Date"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:inputType="date"
+               android:focusable="false"
+               android:clickable="true"
+               android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
 </ScrollView>

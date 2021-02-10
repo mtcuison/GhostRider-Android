@@ -206,7 +206,6 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         clearInputField();
         Log.e("Item click Position = ", String.valueOf(mEducLvlPosition));
 
-
     }
 
     @Override
