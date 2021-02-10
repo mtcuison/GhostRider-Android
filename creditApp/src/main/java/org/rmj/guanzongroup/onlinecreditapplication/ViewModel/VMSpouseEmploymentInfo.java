@@ -252,6 +252,9 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
                 info.setDetlInfo(poGoCas.toJSONString());
                 info.setClientNm(poGoCas.ApplicantInfo().getClientName());
                 poCreditApp.updateGOCasData(info);
+
+                Log.e(TAG, poGoCas.SpouseMeansInfo().EmployedInfo().toJSONString());
+                Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
                 callBack.onSaveSuccessResult("Success");
             } else {
                 callBack.onFailedResult(infoModel.getMessage());

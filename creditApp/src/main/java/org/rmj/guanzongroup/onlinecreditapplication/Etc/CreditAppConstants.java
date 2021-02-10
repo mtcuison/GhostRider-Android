@@ -194,7 +194,7 @@ public class CreditAppConstants {
             "Private"};
 
     public static String[] EMPLOYMENT_STATUS = {
-//            "Select Employment Status (Required)",
+            "Select Employment Status (Required)",
             "Regular",
             "Probationary",
             "Contractual",

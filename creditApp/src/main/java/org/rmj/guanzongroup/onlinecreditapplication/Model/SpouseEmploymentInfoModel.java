@@ -226,6 +226,7 @@ public class SpouseEmploymentInfoModel {
                 isJobTitleValid() &&
                 isJobSpecificValid() &&
                 isEmploymentStatValid() &&
+                isMonthOrYearValid() &&
                 isLengthOfServiceValid() &&
                 isGrossMonthlyValid() &&
                 isOFWFieldsValid();
@@ -253,13 +254,13 @@ public class SpouseEmploymentInfoModel {
 
     private boolean isCompanyLvlValid() {
         if(sector.equalsIgnoreCase("1")) {
-            if(companyLvl.equalsIgnoreCase("")){
+            if(companyLvl.equalsIgnoreCase("0")){
                 message = "Please select Company Level";
                 return false;
             }
         }
         else if(sector.equalsIgnoreCase("0")) {
-            if(companyLvl.equalsIgnoreCase("")){
+            if(companyLvl.equalsIgnoreCase("0")){
                 message = "Please select Government Level";
                 return false;
             }
@@ -269,13 +270,13 @@ public class SpouseEmploymentInfoModel {
 
     private boolean isEmployeeLvlValid() {
         if(sector.equalsIgnoreCase("1")) {
-            if(employeeLvl.equalsIgnoreCase("")){
+            if(employeeLvl.equalsIgnoreCase("0")){
                 message = "Please select Employee Level";
                 return false;
             }
         }
         else if(sector.equalsIgnoreCase("0")) {
-            if(employeeLvl.equalsIgnoreCase("")){
+            if(employeeLvl.equalsIgnoreCase("0")){
                 message = "Please select Employee Level";
                 return false;
             }
@@ -285,14 +286,8 @@ public class SpouseEmploymentInfoModel {
 
     private boolean isBizIndustryValid() {
         if(sector.equalsIgnoreCase("1")) {
-            if(bizIndustry == null || bizIndustry.equalsIgnoreCase("")){
-                message = "Please select business industry";
-                return false;
-            }
-        }
-        else if(sector.equalsIgnoreCase("0")) {
-            if(bizIndustry == null || bizIndustry.equalsIgnoreCase("")){
-                message = "Please enter Government Agency/Institution";
+            if(bizIndustry.equalsIgnoreCase("0")){
+                message = "Please select nature of business";
                 return false;
             }
         }
@@ -300,9 +295,17 @@ public class SpouseEmploymentInfoModel {
     }
 
     private boolean isCompanyNameValid() {
-        if(companyName == null || companyName.equalsIgnoreCase("")) {
-            message = "Please provide company name";
-            return false;
+        if(sector.equalsIgnoreCase("1")) {
+            if(companyName == null || companyName.equalsIgnoreCase("")) {
+                message = "Please provide company name";
+                return false;
+            }
+        }
+        else if(sector.equalsIgnoreCase("0")) {
+            if(companyName == null || companyName.equalsIgnoreCase("")) {
+                message = "Please enter Government Agency/Institution";
+                return false;
+            }
         }
         return true;
     }
@@ -332,9 +335,11 @@ public class SpouseEmploymentInfoModel {
     }
 
     private boolean isJobTitleValid() {
-        if(jobTitle == null || jobTitle.equalsIgnoreCase("")) {
-            message = "Please select a Job Title";
-            return false;
+        if(sector.equalsIgnoreCase("1")) {
+            if(jobTitle == null || jobTitle.equalsIgnoreCase("")) {
+                message = "Please select a Job Title";
+                return false;
+            }
         }
         return true;
     }
@@ -348,7 +353,7 @@ public class SpouseEmploymentInfoModel {
         }
         else if(sector.equalsIgnoreCase("0")) {
             if(jobSpecific== null || jobSpecific.equalsIgnoreCase("")) {
-                message = "Please enter job title";
+                message = "Please enter job/position";
                 return false;
             }
         }
@@ -356,37 +361,53 @@ public class SpouseEmploymentInfoModel {
     }
 
     private boolean isEmploymentStatValid() {
-        if(employmentStat == null || employmentStat.equalsIgnoreCase("")) {
-            message = "Please select employment status";
-            return false;
+        if(sector.equalsIgnoreCase("1") || sector.equalsIgnoreCase("0")) {
+            if(employmentStat == null || employmentStat.equalsIgnoreCase("")) {
+                message = "Please select employment status";
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isMonthOrYearValid() {
+        if(sector.equalsIgnoreCase("1") || sector.equalsIgnoreCase("0")) {
+            if(monthOrYear.equalsIgnoreCase("0")) {
+                message = "Please select duration of length of service";
+                return false;
+            }
         }
         return true;
     }
 
     private boolean isLengthOfServiceValid() {
-        if (lengthOfService == null || lengthOfService.equalsIgnoreCase("")) {
-            message = "Please enter length of service";
-            return false;
+        if(sector.equalsIgnoreCase("1") || sector.equalsIgnoreCase("0")) {
+            if (lengthOfService == null || lengthOfService.equalsIgnoreCase("")) {
+                message = "Please enter length of service";
+                return false;
+            }
         }
         return true;
     }
 
     private boolean isGrossMonthlyValid() {
-        if (grossMonthly == null || grossMonthly.equalsIgnoreCase("")) {
-            message = "Please enter estimated monthly income";
-            return false;
+        if(sector.equalsIgnoreCase("1") || sector.equalsIgnoreCase("0")) {
+            if (grossMonthly == null || grossMonthly.equalsIgnoreCase("")) {
+                message = "Please enter estimated monthly income";
+                return false;
+            }
         }
         return  true;
     }
 
     private boolean isOFWFieldsValid() {
        if(sector.equalsIgnoreCase("2")) {
-           if(workCategory == null || workCategory.equalsIgnoreCase("")) {
-               message = "Please select work category";
+           if(region == null || region.equalsIgnoreCase("")) {
+               message = "Please select region";
                return false;
            }
-           else if(region == null || region.equalsIgnoreCase("")) {
-               message = "Please select region";
+           else if(workCategory == null || workCategory.equalsIgnoreCase("")) {
+               message = "Please select work category";
                return false;
            }
            else if(country == null || country.equalsIgnoreCase("")) {
