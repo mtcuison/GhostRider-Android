@@ -8,10 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
@@ -41,7 +39,7 @@ public class VMCollectionList extends AndroidViewModel {
         poheaders = HttpHeaders.getInstance(application);
         poConn = new ConnectionUtil(application);
         dataImport = new ImportCollection(application);
-        collectionList = poDCPRepo.getCollectionDetail();
+        collectionList = poDCPRepo.getCollectionDetailList();
     }
 
     public void DownloadDcp(){

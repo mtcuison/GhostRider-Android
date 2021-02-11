@@ -2,6 +2,28 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc;
 
 public class DCP_Constants {
 
+
+    /*
+
+    * PAY - Paid
+    * PTP - Promise to Pay
+    * CNA - Customer Not Around
+    * FLA - For Legal Action
+    * Car - Carnap
+    * UNC - Uncooperative
+    * MCs - Missing Customer
+    * MUn - Missing Unit
+    * MCU - Missing Client and Unit
+    * LUn - Loan Unit
+    * TA - Transferred/Assumed
+    * FO - False Ownership
+    * DNP - Did Not Pay
+    * NV - Not Visited
+    * OTH - Others
+
+    */
+
+
     public static String[] TRANSACTION_TYPE= {
             "Paid",
             "Promise to Pay",

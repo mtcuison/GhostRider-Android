@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.job.JobInfo;
@@ -20,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Etc.TransparentToolbar;
 import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
@@ -47,7 +49,13 @@ public class SplashScreenActivity extends AppCompatActivity {
             } else {
                 mViewModel.isLoggedIn().observe(this, isValid -> {
                     if (isValid) {
-                        mViewModel.getSessionTime().observe(this, session -> mViewModel.setSessionTime(session.Session));
+                        mViewModel.getSessionTime().observe(this, session -> {
+                            try {
+                                mViewModel.setSessionTime(session.Session);
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        });
                         mViewModel.isSessionValid().observe(this, aBoolean -> {
                             for(int x = 0; x < 3; x++){
                                 int progress = (int) ((x / (float) x) * 100);

@@ -2,6 +2,8 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model;
 
 public class PaidTransactionModel {
 
+    private String RemCode;
+    private String PrNoxxx;
     private String Payment;
     private String Remarks;
     private String Amountx;
@@ -16,6 +18,18 @@ public class PaidTransactionModel {
 
     public String getMessage(){
         return message;
+    }
+
+    public void setRemarksCode(String Remarks){
+        this.RemCode = Remarks;
+    }
+
+    public String getPrNoxxx() {
+        return PrNoxxx;
+    }
+
+    public void setPrNoxxx(String prNoxxx) {
+        PrNoxxx = prNoxxx;
     }
 
     public String getPayment() {
@@ -67,7 +81,15 @@ public class PaidTransactionModel {
     }
 
     public boolean isDataValid(){
-        return isAmountValid();
+        return isPRNumberValid() && isAmountValid();
+    }
+
+    private boolean isPRNumberValid(){
+        if(PrNoxxx.trim().isEmpty()){
+            message = "Please enter P.R number";
+            return false;
+        }
+        return true;
     }
 
     private boolean isAmountValid(){
@@ -76,5 +98,41 @@ public class PaidTransactionModel {
             return false;
         }
         return true;
+    }
+
+    public String getRemarksCode(){
+        switch (RemCode){
+            case "Paid":
+                return "PAY";
+            case "Promise to Pay":
+                return "PTP";
+            case "Customer Not Around":
+                return "CNA";
+            case "For Legal Action":
+                return "FLA";
+            case "Carnap":
+                return "Car";
+            case "Uncooperative":
+                return "UNC";
+            case "Missing Customer":
+                return "MCs";
+            case "Missing Unit":
+                return "MUn";
+            case "Missing Client and Unit":
+                return "MCU";
+            case "Loan Unit":
+                return "LUn";
+            case "Transferred/Assumed":
+                return "TA";
+            case "False Ownership":
+                return "FO";
+            case "Did Not Pay":
+                return "DNP";
+            case "Not Visited":
+                return "NV";
+            case "Others":
+                return "OTH";
+        }
+        return "";
     }
 }

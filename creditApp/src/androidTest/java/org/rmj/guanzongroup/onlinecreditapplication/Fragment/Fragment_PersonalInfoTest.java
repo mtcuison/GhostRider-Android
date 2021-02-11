@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
-import com.android21buttons.fragmenttestrule.FragmentTestRule;
 
 import org.junit.After;
 import org.junit.Before;
@@ -9,8 +8,8 @@ import org.junit.Test;
 
 public class Fragment_PersonalInfoTest {
 
-    @Rule
-    public FragmentTestRule<?, Fragment_PersonalInfo> fragmentTestRule = FragmentTestRule.create(Fragment_PersonalInfo.class);
+//    @Rule
+//    public FragmentTestRule<?, Fragment_PersonalInfo> fragmentTestRule = FragmentTestRule.create(Fragment_PersonalInfo.class);
 
     @Before
     public void setUp() throws Exception {
