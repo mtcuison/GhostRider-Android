@@ -173,7 +173,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         mViewModel.getEmploymentStatus().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpSts.setAdapter(stringArrayAdapter));
         mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnServce.setAdapter(stringArrayAdapter));
 
-        btnNext.setOnClickListener(view -> {
+//        btnNext.setOnClickListener(view -> {
 //            infoModel.setCompanyLevel(String.valueOf(spnCmpLvl.getSelectedItemPosition() - 1));
 //            infoModel.setCompanyLevel(String.valueOf(spnCmpLvl.getSelectedItemPosition() - 1));
 //            infoModel.setEmployeeLevel(String.valueOf(spnEmpLvl.getSelectedItemPosition() - 1));
@@ -185,8 +185,8 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
 //            infoModel.setIsYear(String.valueOf(spnServce.getSelectedItemPosition() - 1));
 //            infoModel.setsMonthlyIncome(Objects.requireNonNull(txtEsSlry.getText()).toString());
 //            infoModel.setContact(Objects.requireNonNull(txtCompCn.getText()).toString());
-            mViewModel.SaveEmploymentInfo(infoModel, Fragment_SpouseEmploymentInfo.this);
-        });
+//            mViewModel.SaveEmploymentInfo(infoModel, Fragment_SpouseEmploymentInfo.this);
+//        });
     }
 
     @Override

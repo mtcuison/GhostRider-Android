@@ -214,7 +214,7 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
         return liveData;
     }
 
-    public void SaveEmploymentInfo(SpouseEmploymentInfoModel infoModel, ViewModelCallBack callBack){
+//    public void SaveEmploymentInfo(SpouseEmploymentInfoModel infoModel, ViewModelCallBack callBack){
 //        try{
 //            infoModel.setEmploymentSector(psSectorx.getValue());
 //            infoModel.setUniformPersonal(psUniform.getValue());
@@ -259,5 +259,5 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
 //            e.printStackTrace();
 //            callBack.onFailedResult(e.getMessage());
 //        }
-    }
+//    }
 }
