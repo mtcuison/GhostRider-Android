@@ -72,6 +72,13 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
         tieLimit = view.findViewById(R.id.tie_cap_dbmCreditLimit);
         tieYearS = view.findViewById(R.id.tie_cap_dbmYearStarted);
        // btnPrev = v.findViewById(R.id.btn_fragment_dbm_prevs);
+//
+//        tieLimit.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieLimit));
+//        tieElctx.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieElctx));
+//        tieFoodx.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieFoodx));
+//        tieWater.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieWater));
+//        tieLoans.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieLoans));
+//        tieLimit.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieLimit));
         btnNext = view.findViewById(R.id.btn_creditAppNext);
     }
 
@@ -115,4 +122,39 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
     public void onFailedResult(String message) {
         GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
     }
+//    private static class SpinnerSelectionListener implements AdapterView.OnItemSelectedListener{
+//        private final VMDisbursementInfo vm;
+//
+//        SpinnerSelectionListener(VMDisbursementInfo viewModel){
+//            this.vm = viewModel;
+//        }
+//
+//        @Override
+//        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//            String type = "";
+//            if(adapterView.getId() == R.id.spinner_cap_dbmAccountType){
+//
+//                switch (i){
+//                    case 0:
+//                        break;
+//                    case 1:
+//                        type = "0";
+//                        break;
+//                    case 2:
+//                        type = "1";
+//                        break;
+//                    case 3:
+//                        type = "2";
+//                        break;
+//
+//                }
+//                vm.setType(type);
+//            }
+//        }
+//
+//        @Override
+//        public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//        }
+//    }
 }

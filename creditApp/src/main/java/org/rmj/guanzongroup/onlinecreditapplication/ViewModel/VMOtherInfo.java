@@ -248,7 +248,7 @@ public class VMOtherInfo extends AndroidViewModel {
         return referenceInfo.getValue().size() >= 3;
     }
 
-    public boolean SubmitOtherInfo(OtherInfoModel reference, ViewModelCallBack callBack){
+    public void SubmitOtherInfo(OtherInfoModel reference, ViewModelCallBack callBack){
         try {
             if(reference.isValidSpinner()){
 
@@ -280,30 +280,27 @@ public class VMOtherInfo extends AndroidViewModel {
                     poApplcnt.updateGOCasData(info);
                     callBack.onSaveSuccessResult("Success");
                     Log.e(TAG, "Other information result : " + poGoCas.OtherInfo().toJSONString());
-                    return true;
                 } else {
                     callBack.onFailedResult("Please provide atleast 3 personal reference!");
-                    return false;
+
                 }
             }else {
                 callBack.onFailedResult(reference.getMessage());
-                return false;
             }
         }catch (Exception e){
             e.printStackTrace();
             callBack.onFailedResult(e.getMessage());
-            return false;
         }
 
     }
-    public boolean addReference(OtherInfoModel foInfo, ExpActionListener listener){
+    public void addReference(OtherInfoModel foInfo, ExpActionListener listener){
         if(foInfo.isValidReferences()) {
             Objects.requireNonNull(this.referenceInfo.getValue()).add(foInfo);
             listener.onSuccess("Success");
-            return true;
+
+
         } else {
             listener.onFailed(foInfo.getMessage());
-            return false;
         }
     }
     public interface ExpActionListener{
