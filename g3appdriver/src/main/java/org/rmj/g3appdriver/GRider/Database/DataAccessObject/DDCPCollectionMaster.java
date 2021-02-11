@@ -29,7 +29,4 @@ public interface DDCPCollectionMaster {
 
     @Query("SELECT * FROM LR_DCP_Collection_Master")
     LiveData<EDCPCollectionMaster> getCollectionMaster();
-
-
-
 }
