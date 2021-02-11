@@ -21,7 +21,10 @@ import org.rmj.g3appdriver.GRider.ImportData.ImportInstance;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ImportCollection implements ImportInstance {
@@ -30,6 +33,7 @@ public class ImportCollection implements ImportInstance {
     private final ConnectionUtil conn;
     private final WebApi webApi;
     private final HttpHeaders headers;
+    private String lsDate;
 
     public ImportCollection(Application application){
         dcpRepo = new RDailyCollectionPlan(application);
@@ -38,12 +42,23 @@ public class ImportCollection implements ImportInstance {
         headers = HttpHeaders.getInstance(application);
     }
 
+    public void setDate(String fsDate){
+        Date parseDate = null;
+        try {
+            parseDate = new SimpleDateFormat("MMMM dd, yyyy").parse(fsDate);
+            this.lsDate = new SimpleDateFormat("yyyy-MM-dd").format(parseDate);;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void ImportData(ImportDataCallback callback) {
         try{
             JSONObject loJson = new JSONObject();
             loJson.put("sEmployID", "M00110006088");
             loJson.put("dTransact", "2021-02-04");
+            //loJson.put("dTransact", lsDate);
             loJson.put("cDCPTypex", "1");
             new ImportData(headers, dcpRepo, conn, webApi, callback).execute(loJson);
         } catch (Exception e){
