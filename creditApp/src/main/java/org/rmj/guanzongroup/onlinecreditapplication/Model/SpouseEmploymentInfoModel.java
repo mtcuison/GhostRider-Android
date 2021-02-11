@@ -231,6 +231,7 @@ public class SpouseEmploymentInfoModel {
                 isMonthOrYearValid() &&
                 isLengthOfServiceValid() &&
                 isGrossMonthlyValid() &&
+                isCompTelNoxValid() &&
                 isOFWFieldsValid();
     }
 
@@ -412,6 +413,16 @@ public class SpouseEmploymentInfoModel {
             }
         }
         return  true;
+    }
+
+    private boolean isCompTelNoxValid() {
+        if(sector.equalsIgnoreCase("1") || sector.equalsIgnoreCase("0")) {
+            if(compTelNox == null || compTelNox.equalsIgnoreCase("")) {
+                message = "Please provide company contact number";
+                return false;
+            }
+        }
+        return true;
     }
 
     private boolean isOFWFieldsValid() {
