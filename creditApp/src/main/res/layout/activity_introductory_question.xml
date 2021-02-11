@@ -174,11 +174,11 @@
                         android:id="@+id/txt_monthlyAmort"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number|none"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:focusedByDefault="false"
-                        android:maxLength="50"/>
+                        android:inputType="number|none"
+                        android:maxLength="50" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
