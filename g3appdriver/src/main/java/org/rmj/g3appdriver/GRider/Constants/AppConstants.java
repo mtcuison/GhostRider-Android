@@ -2,6 +2,10 @@ package org.rmj.g3appdriver.GRider.Constants;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class AppConstants {
 
     public static String NO_INTERNET() throws Exception{
@@ -77,4 +81,6 @@ public class AppConstants {
             "Paternity",
             "Solo Parent",
             "Saturday"};
+
+    public static String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 }

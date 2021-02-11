@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model;
 
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+
 public class CollectionPlan {
 
     private String AcctNoxxx;
@@ -90,6 +92,6 @@ public class CollectionPlan {
     }
 
     public String getAmntDuexx() {
-        return AmntDuexx;
+        return FormatUIText.getCurrencyUIFormat(AmntDuexx);
     }
 }

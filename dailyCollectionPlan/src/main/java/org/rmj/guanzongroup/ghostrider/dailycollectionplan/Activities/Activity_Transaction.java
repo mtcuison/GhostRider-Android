@@ -19,18 +19,41 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 public class Activity_Transaction extends AppCompatActivity {
     private static final String TAG = Activity_Transaction.class.getSimpleName();
+    private static Activity_Transaction instance;
+    private String TransNox = "";
+    private String EntryNox = "";
+    private String Remarksx = "";
+
+    public static Activity_Transaction getInstance(){
+        return instance;
+    }
+
+    public String getTransNox(){
+        return TransNox;
+    }
+
+    public String getEntryNox(){
+        return EntryNox;
+    }
+
+    public String getRemarksCode(){
+        return Remarksx;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction);
-        int transaction = getIntent().getIntExtra("transaction", 0);
+        instance = this;
+        Remarksx = getIntent().getStringExtra("remarksx");
+        TransNox = getIntent().getStringExtra("transnox");
+        EntryNox = getIntent().getStringExtra("entrynox");
         Toolbar toolbar = findViewById(R.id.toolbar_transaction);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ViewPager viewPager = findViewById(R.id.viewpager_transaction);
-        viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getTransactionFragment(transaction)));
+        viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getTransactionFragment(Remarksx)));
     }
 
     @Override
@@ -46,8 +69,8 @@ public class Activity_Transaction extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class FragmentAdapter extends FragmentStatePagerAdapter {
-        private Fragment fragment;
+    public static class FragmentAdapter extends FragmentStatePagerAdapter {
+        private final Fragment fragment;
 
         public FragmentAdapter(@NonNull FragmentManager fm, Fragment fragment) {
             super(fm);
@@ -66,14 +89,14 @@ public class Activity_Transaction extends AppCompatActivity {
         }
     }
 
-    private Fragment getTransactionFragment(int transaction){
-        if(transaction == 0){
+    private Fragment getTransactionFragment(String transaction){
+        if(transaction.equalsIgnoreCase("Paid")){
             return new Fragment_PaidTransaction();
-        } else if(transaction == 1){
+        } else if(transaction.equalsIgnoreCase("Promise to Pay")){
             return new Fragment_PromiseToPay();
-        } else if(transaction == 2){
+        } else if(transaction.equalsIgnoreCase("Customer Not Around")){
             return new Fragment_CustomerNotAround();
-        } else if(transaction == 3){
+        } else if(transaction.equalsIgnoreCase("Loan Unit")){
             return new Fragment_LoanUnit();
         }
         return null;
