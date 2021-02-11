@@ -258,7 +258,7 @@ public class VMCoMaker extends AndroidViewModel {
         return cmrPrimaryCntctPlan;
     }
 
-    public boolean SubmitComaker(CoMakerModel infoModel, ViewModelCallBack callBack){
+    public void SubmitComaker(CoMakerModel infoModel, ViewModelCallBack callBack){
         try {
             if(infoModel.isCoMakerInfoValid()) {
                 poGoCas.CoMakerInfo().setLastName(infoModel.getCoLastName());
@@ -284,15 +284,12 @@ public class VMCoMaker extends AndroidViewModel {
                 poApplcnt.updateGOCasData(applicantInfo);
                 Log.e(TAG, "Co-Maker info has been set." + poGoCas.toJSONString());
                 callBack.onSaveSuccessResult(psTranNo.getValue());
-                return true;
             } else {
                 callBack.onFailedResult(infoModel.getMessage());
-                return false;
             }
         } catch (Exception e){
             e.printStackTrace();
             callBack.onFailedResult(e.getMessage());
-            return false;
         }
     }
 }

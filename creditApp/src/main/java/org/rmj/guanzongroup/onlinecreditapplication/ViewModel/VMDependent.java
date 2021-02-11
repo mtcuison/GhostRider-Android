@@ -46,7 +46,7 @@ public class VMDependent extends AndroidViewModel {
     private final MutableLiveData<Integer> linearStudent = new MutableLiveData<>();
 
     private final List<DependentsInfoModel> infoModels;
-    public final MutableLiveData<List<DependentsInfoModel>> dependentInfo = new MutableLiveData<>();
+    private final MutableLiveData<List<DependentsInfoModel>> dependentInfo = new MutableLiveData<>();
 
     private final RCreditApplicant poApplcnt;
     private final RProvince poProvnce;
@@ -186,20 +186,18 @@ public class VMDependent extends AndroidViewModel {
         return dependentInfo;
     }
 
-    public boolean AddDependent(DependentsInfoModel dependentsInfoModel , ExpActionListener listener){
+    public void AddDependent(DependentsInfoModel dependentsInfoModel , ExpActionListener listener){
         if(dependentsInfoModel.isDataValid()) {
             Objects.requireNonNull(this.dependentInfo.getValue()).add(dependentsInfoModel);
             listener.onSuccess("Success");
 
             Log.e("Disbursement Data", String.valueOf(dependentsInfoModel.getDpdRlationship()));
-            return true;
         } else {
             listener.onFailed(dependentsInfoModel.getMessage());
-            return false;
         }
     }
 
-    public boolean SubmitDependentInfo(ViewModelCallBack callBack){
+    public void SubmitDependentInfo(ViewModelCallBack callBack){
         try {
             for (int x = 0; x < dependentInfo.getValue().size(); x++) {
                 poGoCasxx.DisbursementInfo().DependentInfo().addDependent();
@@ -228,12 +226,9 @@ public class VMDependent extends AndroidViewModel {
             poApplcnt.updateGOCasData(info);
             callBack.onSaveSuccessResult("Success");
             Log.e(TAG, "Dependent info has been set." + poGoCasxx.DisbursementInfo().DependentInfo().toJSONString());
-
-            return true;
         } catch (Exception e){
             e.printStackTrace();
             callBack.onFailedResult(e.getMessage());
-            return false;
         }
     }
 
