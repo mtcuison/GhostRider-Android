@@ -126,6 +126,7 @@ public class VMDependent extends AndroidViewModel {
         }
         this.spnEmpSector.setValue(spnEmpSector);
     }
+
     public void setSpnStudentStatus(String studentStatus){
         try {
             if(studentStatus.equalsIgnoreCase("1")){
