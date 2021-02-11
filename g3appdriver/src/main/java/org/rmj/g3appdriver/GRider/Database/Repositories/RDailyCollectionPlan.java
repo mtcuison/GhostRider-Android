@@ -53,6 +53,9 @@ public class RDailyCollectionPlan {
     public void updateCollectionDetailInfo(EDCPCollectionDetail collectionDetail){
         new UpdateDataTask(detailDao).execute(collectionDetail);
     }
+    public LiveData<EDCPCollectionMaster> getCollectionMaster(){
+        return masterDao.getCollectionMaster();
+    }
 
     private static class UpdateDataTask extends AsyncTask<EDCPCollectionDetail, Void, String>{
         private DDCPCollectionDetail detailDao;

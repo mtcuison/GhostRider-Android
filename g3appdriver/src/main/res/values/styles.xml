@@ -19,6 +19,7 @@
     </style>
 
     <style name="AutoCompleteStyleTheme">
+        <item name="colorControlActivated">@color/guanzon_orange</item>
         <item name="android:paddingTop">15dp</item>
         <item name="android:paddingBottom">15dp</item>
         <item name="android:paddingLeft">10dp</item>
@@ -116,6 +117,7 @@
         <item name="android:layout_margin">2dp</item>
         <item name="boxStrokeColor">@color/guanzon_digital_orange</item>
         <item name="hintTextColor">@color/guanzon_digital_orange</item>
+        <item name="colorControlActivated">@color/guanzon_orange</item>
         <item name="boxCornerRadiusBottomEnd">10dp</item>
         <item name="boxCornerRadiusBottomStart">10dp</item>
         <item name="boxCornerRadiusTopStart">10dp</item>

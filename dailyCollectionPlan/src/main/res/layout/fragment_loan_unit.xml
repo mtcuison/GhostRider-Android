@@ -1,13 +1,399 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:theme="@style/GhostRiderMaterialTheme"
+tools:context=".Fragments.Fragment_LoanUnit">
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Fragments.Fragment_LoanUnit">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:gravity="center">
 
-    <TextView
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:gravity="center">
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Daily Collection Plan"
+           android:textSize="20sp"
+           android:fontFamily="@font/roboto_bold"
+           android:textColor="@color/textColor_Black"
+           android:layout_marginTop="5dp"/>
+
+       <TextView
+           android:id="@+id/lbl_headerBranch"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textSize="16sp"
+           android:fontFamily="@font/roboto_bold"
+           android:textColor="@color/textColor_Black"
+           android:layout_marginTop="5dp"/>
+
+       <TextView
+           android:id="@+id/lbl_headerAddress"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textSize="16sp"
+           android:fontFamily="@font/roboto_medium"
+           android:textColor="@color/textColor_Black"/>
+   </LinearLayout>
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="1.5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/guanzon_orange"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="5dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Loan Unit"
+            android:textSize="18sp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/textColor_Black"
+            android:layout_marginTop="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="Account No. :"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/textColor_Black"/>
+            <TextView
+                android:id="@+id/tvAccountNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/textColor_Black"
+                android:gravity="start"/>
+        </LinearLayout>
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="Client Name :"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/textColor_Black"/>
+
+            <TextView
+                android:id="@+id/tvClientname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/textColor_Black"
+                android:gravity="start"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="Transaction No :"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/textColor_Black"/>
+
+            <TextView
+                android:id="@+id/lbl_dcpTransNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/textColor_Black"
+                android:gravity="start"/>
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/guanzon_orange"/>
+<!--    Name-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sHintLastname"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_lun_lName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="50" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sHintFirstName"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_lun_fName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="50" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sHintMiddName"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_lun_middName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="50" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sHintSuffix"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_lun_suffix"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="50" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/HeaderLabelBlack"
+            android:text="Address"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sHintHouseNo"
+                android:layout_weight="1"
+                style="@style/TextInputStyle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_lun_houseNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none|number"
+                    android:maxLength="50" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sHintStreet"
+                android:layout_weight="1"
+                style="@style/TextInputStyle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_lun_street"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="50" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sHintTown"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_lun_town"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="50" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sHintBarangay"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_lun_brgy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="50" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/HeaderLabelBlack"
+            android:text="@string/sLblGender"/>
+
+        <RadioGroup
+            android:id="@+id/rg_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_male"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sGenderMale"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:id="@+id/rb_female"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sGenderFmale"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:id="@+id/rb_lgbt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sGenderLGBT"
+                android:layout_weight="1"/>
+        </RadioGroup>
+
+    </LinearLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sHintCivilStatus"
+        style="@style/TextInputStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tie_lun_cstatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="50" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sHintBirthDate"
+        style="@style/TextInputStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tie_lun_bdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:maxLength="50" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sHintBpTown"
+        style="@style/TextInputStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tie_lun_bplace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="50" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sHintTelephoneNo"
+        style="@style/TextInputStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tie_lun_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPhonetic"
+            android:maxLength="50" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sHintMobileNo"
+        style="@style/TextInputStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tie_lun_mobileNp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPhonetic"
+            android:maxLength="50" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sHintEmailAdd"
+        style="@style/TextInputStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tie_lun_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:maxLength="50" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_creditAppNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Submit"
+        style="@style/GhostRider_Button"/>
+
+</LinearLayout>
+
+</ScrollView>
