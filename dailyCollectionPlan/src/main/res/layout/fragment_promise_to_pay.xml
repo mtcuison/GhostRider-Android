@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".Fragments.Fragment_PromiseToPay">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="Customer Promise to Pay"
                 android:textSize="18sp"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/textColor_Black"
                 android:layout_marginTop="10dp"/>
             <TextView
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:text="Account No :"
                 android:textSize="18sp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/textColor_Black"
                 android:layout_marginTop="10dp"/>
             <TextView
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:text="Client Name :"
                 android:textSize="18sp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/textColor_Black"
                 android:layout_marginTop="10dp"/>
 
@@ -76,9 +76,10 @@
                 android:layout_height="wrap_content"
                 android:text="Address :"
                 android:textSize="18sp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/textColor_Black"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -88,7 +89,8 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/TextInputStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
            <com.google.android.material.textfield.TextInputEditText
                android:id="@+id/pToPayDate"
                android:hint="Promised Payment Date"
@@ -99,6 +101,76 @@
                android:clickable="true"
                android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Appointment Unit"
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/textColor_Black"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+            <RadioGroup
+                android:id="@+id/rg_cap_dpdStudent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <RadioButton
+                    android:id="@+id/rb_cap_dpdStudentYes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Branch"
+                    tools:targetApi="jelly_bean" />
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:text="Collector"
+                    android:fontFamily="@font/roboto_regular"
+                    tools:targetApi="jelly_bean"/>
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="20dp">
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Collector\'s Name"
+                style="@style/TextInputStyle">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_monthlyAmort"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:focusedByDefault="false"
+                    android:maxLength="50"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/GhostRider_Button"
+                android:id="@+id/btn_ptp_submit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:text="Submit"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>
