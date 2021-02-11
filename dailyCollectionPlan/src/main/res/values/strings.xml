@@ -1,1 +1,13 @@
-<resources></resources>
+<resources>
+    <string name="sDCP_CNA_RG_Contact">Contact Number</string>
+    <string name="sDCP_CNA_RG_Address">Address</string>
+    <string name="btn_add">Add</string>
+    <string name="btn_commit">Commit</string>
+    <string name="btn_submit">Submit</string>
+
+    <string name="sHouseNox">House No.</string>
+    <string name="sAddress">Street/Sitio/Lot No.</string>
+    <string name="sTown">Municipality</string>
+    <string name="sBrgy">Barangay</string>
+
+</resources>
