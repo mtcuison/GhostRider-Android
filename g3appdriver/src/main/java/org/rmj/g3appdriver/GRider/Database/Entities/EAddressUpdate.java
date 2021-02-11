@@ -15,9 +15,9 @@ public class EAddressUpdate {
     @ColumnInfo(name = "sClientID")
     private String ClientID;
     @ColumnInfo(name = "cReqstCDe")
-    private char ReqstCDe;
+    private String ReqstCDe;
     @ColumnInfo(name = "cAddrssTp")
-    private char AddrssTp;
+    private String AddrssTp;
     @ColumnInfo(name = "sHouseNox")
     private String HouseNox;
     @ColumnInfo(name = "sAddressx")
@@ -27,7 +27,7 @@ public class EAddressUpdate {
     @ColumnInfo(name = "sBrgyIDxx")
     private String BrgyIDxx;
     @ColumnInfo(name = "cPrimaryx")
-    private char Primaryx;
+    private String Primaryx;
     @ColumnInfo(name = "nLatitude")
     private String Latitude;
     @ColumnInfo(name = "nLongitud")
@@ -35,9 +35,9 @@ public class EAddressUpdate {
     @ColumnInfo(name = "sRemarksx")
     private String Remarksx;
     @ColumnInfo(name = "cTranStat")
-    private char TranStat;
+    private String TranStat;
     @ColumnInfo(name = "cSendStat")
-    private char SendStat;
+    private String SendStat;
     @ColumnInfo(name = "dSendDate")
     private String SendDate;
     @ColumnInfo(name = "dModified")
@@ -65,19 +65,19 @@ public class EAddressUpdate {
         ClientID = clientID;
     }
 
-    public char getReqstCDe() {
+    public String getReqstCDe() {
         return ReqstCDe;
     }
 
-    public void setReqstCDe(char reqstCDe) {
+    public void setReqstCDe(String reqstCDe) {
         ReqstCDe = reqstCDe;
     }
 
-    public char getAddrssTp() {
+    public String getAddrssTp() {
         return AddrssTp;
     }
 
-    public void setAddrssTp(char addrssTp) {
+    public void setAddrssTp(String addrssTp) {
         AddrssTp = addrssTp;
     }
 
@@ -113,11 +113,11 @@ public class EAddressUpdate {
         BrgyIDxx = brgyIDxx;
     }
 
-    public char getPrimaryx() {
+    public String getPrimaryx() {
         return Primaryx;
     }
 
-    public void setPrimaryx(char primaryx) {
+    public void setPrimaryx(String primaryx) {
         Primaryx = primaryx;
     }
 
@@ -145,19 +145,19 @@ public class EAddressUpdate {
         Remarksx = remarksx;
     }
 
-    public char getTranStat() {
+    public String getTranStat() {
         return TranStat;
     }
 
-    public void setTranStat(char tranStat) {
+    public void setTranStat(String tranStat) {
         TranStat = tranStat;
     }
 
-    public char getSendStat() {
+    public String getSendStat() {
         return SendStat;
     }
 
-    public void setSendStat(char sendStat) {
+    public void setSendStat(String sendStat) {
         SendStat = sendStat;
     }
 

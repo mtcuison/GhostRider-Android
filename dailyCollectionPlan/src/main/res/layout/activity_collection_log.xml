@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
-    tools:context=".Activities.Activity_CollectionList">
+    tools:context=".Activities.Activity_CollectionLog"
+    android:theme="@style/GhostRiderMaterialTheme">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_collectionList"
+        android:id="@+id/toolbar_collectionLog"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"/>
 
@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Daily Collection Plan"
+            android:text="Transaction List"
             android:fontFamily="@font/roboto_bold"
             android:textSize="20sp"
             android:textColor="@color/textColor_Black"
@@ -62,37 +62,9 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_weight=".1"
-            android:background="@color/guanzon_orange"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".2"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_medium"
-            android:textSize="16sp"
-            android:text="Address"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_weight="1"
-            android:background="@color/guanzon_orange"/>
-    </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_collectionList"
+        android:id="@+id/recyclerview_collectionLog"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

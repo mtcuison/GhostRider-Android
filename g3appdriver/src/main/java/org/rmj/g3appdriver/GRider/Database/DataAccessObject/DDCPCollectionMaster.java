@@ -25,5 +25,8 @@ public interface DDCPCollectionMaster {
     void delete(EDCPCollectionMaster collectionMaster);
 
     @Query("SELECT * FROM LR_DCP_Collection_Master")
-    LiveData<List<EDCPCollectionMaster>> getCollectionMaster();
+    LiveData<List<EDCPCollectionMaster>> getCollectionMasterList();
+
+    @Query("SELECT * FROM LR_DCP_Collection_Master")
+    LiveData<EDCPCollectionMaster> getCollectionMaster();
 }

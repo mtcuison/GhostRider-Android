@@ -3,12 +3,17 @@
     package="org.rmj.guanzongroup.ghostrider.dailycollectionplan">
 
     <application>
-
-        <activity android:name=".Activities.Activity_CollectionList"
-            android:theme="@style/GhostRiderMaterialTheme"
-            android:screenOrientation="userPortrait"/>
-        <activity android:name=".Activities.Activity_Transaction"
-            android:theme="@style/GhostRiderMaterialTheme"
-            android:screenOrientation="userPortrait"/>
+        <activity android:name=".Activities.Activity_CollectionLog"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme"/>
+        <activity
+            android:name=".Activities.Activity_CollectionList"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme" />
+        <activity
+            android:name=".Activities.Activity_Transaction"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme" />
     </application>
+
 </manifest>

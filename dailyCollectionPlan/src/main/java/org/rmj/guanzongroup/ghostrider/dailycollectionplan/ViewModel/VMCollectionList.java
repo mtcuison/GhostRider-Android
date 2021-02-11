@@ -42,7 +42,8 @@ public class VMCollectionList extends AndroidViewModel {
         collectionList = poDCPRepo.getCollectionDetailList();
     }
 
-    public void DownloadDcp(){
+    public void DownloadDcp(String date){
+        dataImport.setDate(date);
         dataImport.ImportData(new ImportDataCallback() {
             @Override
             public void OnSuccessImportData() {

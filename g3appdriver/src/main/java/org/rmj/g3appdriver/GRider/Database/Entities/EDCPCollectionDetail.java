@@ -68,6 +68,8 @@ public class EDCPCollectionDetail {
     private String SerialID;
     @ColumnInfo(name = "sSerialNo")
     private String SerialNo;
+    @ColumnInfo(name = "cTranStat")
+    private String TransStat;
     @ColumnInfo(name = "cSendStat")
     private String SendStat;
     @ColumnInfo(name = "dSendDate")
@@ -309,6 +311,14 @@ public class EDCPCollectionDetail {
 
     public void setSerialNo(String serialNo) {
         SerialNo = serialNo;
+    }
+
+    public String getTransStat() {
+        return TransStat;
+    }
+
+    public void setTransStat(String transStat) {
+        TransStat = transStat;
     }
 
     public String getSendStat() {
