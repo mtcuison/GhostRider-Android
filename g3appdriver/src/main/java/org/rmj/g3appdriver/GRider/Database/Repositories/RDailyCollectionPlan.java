@@ -46,8 +46,16 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectionDetailList();
     }
 
+    public LiveData<List<EDCPCollectionDetail>> getCollectionDetailLog(){
+        return detailDao.getCollectionDetailLog();
+    }
+
     public LiveData<EDCPCollectionDetail> getCollectionDetail(String TransNox, String EntryNox){
         return detailDao.getCollectionDetail(TransNox, EntryNox);
+    }
+
+    public LiveData<EDCPCollectionMaster> getCollectionMaster(){
+        return masterDao.getCollectionMaster();
     }
 
     public void updateCollectionDetailInfo(EDCPCollectionDetail collectionDetail){
