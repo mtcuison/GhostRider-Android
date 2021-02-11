@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.Fragment_PaidTransaction"
+    android:theme="@style/GhostRiderMaterialTheme">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Daily Collection Plan"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/textColor_Black"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/lbl_headerBranch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/textColor_Black"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/lbl_headerAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/textColor_Black"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Customer Not Around"
+            android:textSize="18sp"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/textColor_Black"
+            android:layout_marginTop="15dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/guanzon_orange"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="Account No. :"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/textColor_Black"/>
+
+            <TextView
+                android:id="@+id/lbl_dcpAccNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/textColor_Black"
+                android:gravity="end"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="Client Name :"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/textColor_Black"/>
+
+            <TextView
+                android:id="@+id/lbl_dcpClientNm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/textColor_Black"
+                android:gravity="end"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="Address :"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/textColor_Black"/>
+
+            <TextView
+                android:id="@+id/lbl_dcpClientAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/textColor_Black"
+                android:gravity="end"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:gravity="center">
+
+            <RadioGroup
+                android:id="@+id/rg_CnaInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_contactNox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/sDCP_CNA_RG_Contact"
+                    android:checked="true"
+                    android:layout_marginHorizontal="10dp"/>
+
+                <RadioButton
+                    android:id="@+id/rb_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/sDCP_CNA_RG_Address"/>
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <!-- Contact Panel -->
+        <LinearLayout
+            android:id="@+id/CNA_Contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/cb_primaryContact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:buttonTint="@color/guanzon_dark_grey"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Primary Contact"
+                android:textColor="@color/guanzon_dark_grey"
+                tools:ignore="HardcodedText"
+                tools:targetApi="lollipop" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyle"
+                android:hint="@string/sDCP_CNA_RG_Contact"
+                android:layout_marginTop="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_dcpCNA_contactNox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextInputStyle.Edittext"
+                    android:inputType="number|none"
+                    android:maxLength="11" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <!-- Address -->
+        <LinearLayout
+            android:id="@+id/CNA_Address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <Spinner
+                android:id="@+id/spn_requestCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:baselineAligned="false">
+                <CheckBox
+                    android:id="@+id/cb_permanent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:buttonTint="@color/guanzon_dark_grey"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Permanent Address"
+                    android:textColor="@color/guanzon_dark_grey"
+                    tools:ignore="HardcodedText"
+                    tools:targetApi="lollipop" />
+                <CheckBox
+                    android:id="@+id/cb_present"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:buttonTint="@color/guanzon_dark_grey"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Present Address"
+                    android:textColor="@color/guanzon_dark_grey"
+                    tools:ignore="HardcodedText"
+                    tools:targetApi="lollipop" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:baselineAligned="false">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/sHouseNox"
+                    style="@style/TextInputStyle">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_houseNox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLength="5"
+                        android:inputType="number|none"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:hint="@string/sAddress"
+                    style="@style/TextInputStyle">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLength="100"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyle"
+                android:hint="@string/sTown"
+                android:layout_marginTop="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_dcpCNA_town"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextInputStyle.Edittext" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyle"
+                android:hint="@string/sBrgy"
+                android:layout_marginTop="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_dcpCNA_brgy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextInputStyle.Edittext" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                android:id="@+id/cb_isCh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:buttonTint="@color/guanzon_dark_grey"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Primary Address"
+                android:textColor="@color/guanzon_dark_grey"
+                tools:ignore="HardcodedText"
+                tools:targetApi="lollipop" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextInputStyle"
+            android:hint="@string/sLblRemarks"
+            android:layout_marginTop="5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_dcpCNA_remarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyle.Edittext" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="20dp">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/MaterialButtonAccent"
+                android:text="@string/btn_add"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_commit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/MaterialButtonAccent"
+                android:text="@string/btn_commit"/>
+        </LinearLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MaterialButtonAccent"
+            android:text="@string/btn_submit"/>
+
+</LinearLayout>
+</ScrollView>
