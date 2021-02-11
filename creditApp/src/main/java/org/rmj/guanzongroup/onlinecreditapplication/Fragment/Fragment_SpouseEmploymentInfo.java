@@ -68,9 +68,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_spouse_employment_info, container, false);
         infoModel = new SpouseEmploymentInfoModel();
-        //infoModel.setEmploymentSector("1");
         initWidgets(view);
-
         return view;
     }
 
@@ -105,7 +103,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         rgMiltary.setOnCheckedChangeListener(new Fragment_SpouseEmploymentInfo.OnRadioButtonSelectListener());
         spnEmpSts.setOnItemSelectedListener(new Fragment_SpouseEmploymentInfo.OnJobStatusSelectedListener());
 
-        btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(2));
+        btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(3));
     }
 
     @Override
@@ -113,10 +111,13 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMSpouseEmploymentInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo.getDetlInfo()));
+
+        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo.getDetlInfo()));
+
         mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
         mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
         mViewModel.getBusinessNature().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBusNtr.setAdapter(stringArrayAdapter));
+
         mViewModel.getCountryNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtCntryx.setAdapter(adapter);
@@ -173,20 +174,19 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         mViewModel.getEmploymentStatus().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpSts.setAdapter(stringArrayAdapter));
         mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnServce.setAdapter(stringArrayAdapter));
 
-//        btnNext.setOnClickListener(view -> {
-//            infoModel.setCompanyLevel(String.valueOf(spnCmpLvl.getSelectedItemPosition() - 1));
-//            infoModel.setCompanyLevel(String.valueOf(spnCmpLvl.getSelectedItemPosition() - 1));
-//            infoModel.setEmployeeLevel(String.valueOf(spnEmpLvl.getSelectedItemPosition() - 1));
-//            infoModel.setBusinessNature(spnBusNtr.getSelectedItem().toString());
-//            infoModel.setCompanyName(Objects.requireNonNull(txtCompNm.getText()).toString());
-//            infoModel.setCompanyAddress(Objects.requireNonNull(txtCompAd.getText()).toString());
-//            infoModel.setSpecificJob(Objects.requireNonNull(txtSpcfJb.getText()).toString());
-//            infoModel.setLengthOfService(Objects.requireNonNull(txtLngthS.getText()).toString());
-//            infoModel.setIsYear(String.valueOf(spnServce.getSelectedItemPosition() - 1));
-//            infoModel.setsMonthlyIncome(Objects.requireNonNull(txtEsSlry.getText()).toString());
-//            infoModel.setContact(Objects.requireNonNull(txtCompCn.getText()).toString());
-//            mViewModel.SaveEmploymentInfo(infoModel, Fragment_SpouseEmploymentInfo.this);
-//        });
+        btnNext.setOnClickListener(view -> {
+            infoModel.setCompanyLvl(String.valueOf(spnCmpLvl.getSelectedItemPosition()));
+            infoModel.setEmployeeLvl(String.valueOf(spnEmpLvl.getSelectedItemPosition()));
+            infoModel.setBizIndustry(String.valueOf(spnBusNtr.getSelectedItemPosition()));
+            infoModel.setCompanyName(Objects.requireNonNull(txtCompNm.getText()).toString());
+            infoModel.setCompTown(Objects.requireNonNull(txtCompAd.getText()).toString());
+            infoModel.setJobSpecific(Objects.requireNonNull(txtSpcfJb.getText()).toString());
+            infoModel.setLengthOfService(Objects.requireNonNull(txtLngthS.getText()).toString());
+            infoModel.setMonthOrYear(String.valueOf(spnServce.getSelectedItemPosition()));
+            infoModel.setGrossMonthly(Objects.requireNonNull(txtEsSlry.getText()).toString());
+            infoModel.setCompTelNox(Objects.requireNonNull(txtCompCn.getText()).toString());
+            mViewModel.Save(infoModel, Fragment_SpouseEmploymentInfo.this);
+        });
     }
 
     @Override
@@ -215,17 +215,16 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
                     mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
                 } else if (i == R.id.rb_government) {
                     mViewModel.setEmploymentSector("0");
-                    mViewModel.setEmploymentSector("1");
                     lnGovInfo.setVisibility(View.VISIBLE);
                     lnEmpInfo.setVisibility(View.VISIBLE);
                     tilCntryx.setVisibility(View.GONE);
+                    txtJobNme.setVisibility(View.GONE);
                     tilCompNm.setHint("Government Institution");
                     spnBusNtr.setVisibility(View.GONE);
                     mViewModel.getGovernmentLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
                     mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
                 } else if (i == R.id.rb_ofw) {
                     mViewModel.setEmploymentSector("2");
-                    mViewModel.setEmploymentSector("1");
                     lnGovInfo.setVisibility(View.GONE);
                     lnEmpInfo.setVisibility(View.GONE);
                     tilCntryx.setVisibility(View.VISIBLE);
@@ -255,7 +254,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Tap here to select.")) {
+            if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Select Employment Status (Required)")) {
                 mViewModel.setEmploymentStatus("");
             } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Regular")) {
                 mViewModel.setEmploymentStatus("R");

@@ -32,20 +32,20 @@ import java.util.Objects;
 
 public class VMSpouseEmploymentInfo extends AndroidViewModel {
     public static final String TAG = VMSpouseEmploymentInfo.class.getSimpleName();
-    private final RProvince poProvnce;
-    private final RTown poTownRpo;
+    private final GOCASApplication poGoCas;
+    private final RCreditApplicant poCreditApp;
     private final RCountry poCountry;
+    private final RProvince poProvRepo;
+    private final RTown poTownRepo;
     private final ROccupation poJobRepo;
-    private final RCreditApplicant poCredtAp;
-    private final GOCASApplication poGoCasxx;
 
     private final MutableLiveData<String> psTransNo = new MutableLiveData<>();
-    private final MutableLiveData<String> psSectorx = new MutableLiveData<>();
+    private final MutableLiveData<String> psSector = new MutableLiveData<>();
     private final MutableLiveData<String> psUniform = new MutableLiveData<>();
-    private final MutableLiveData<String> psMiltary = new MutableLiveData<>();
-    private final MutableLiveData<String> psProvIDx = new MutableLiveData<>();
-    private final MutableLiveData<String> psTownIDx = new MutableLiveData<>();
-    private final MutableLiveData<String> psJobTtle = new MutableLiveData<>();
+    private final MutableLiveData<String> psMilitary = new MutableLiveData<>();
+    private final MutableLiveData<String> psProvID = new MutableLiveData<>();
+    private final MutableLiveData<String> psTownID = new MutableLiveData<>();
+    private final MutableLiveData<String> psJobTitle = new MutableLiveData<>();
     private final MutableLiveData<String> psEmpStat = new MutableLiveData<>();
     private final MutableLiveData<String> psCountry = new MutableLiveData<>();
 
@@ -54,14 +54,15 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
 
     public VMSpouseEmploymentInfo(@NonNull Application application) {
         super(application);
-        this.poProvnce = new RProvince(application);
-        this.poTownRpo = new RTown(application);
+        this.poGoCas = new GOCASApplication();
+        this.poCreditApp = new RCreditApplicant(application);
         this.poCountry = new RCountry(application);
+        this.poProvRepo = new RProvince(application);
+        this.poTownRepo = new RTown(application);
         this.poJobRepo = new ROccupation(application);
-        this.poCredtAp = new RCreditApplicant(application);
-        this.poGoCasxx = new GOCASApplication();
+
         this.psCountry.setValue("");
-        this.psSectorx.setValue("1");
+        this.psSector.setValue("1");
         this.pnGovInfo.setValue(View.GONE);
         this.pnCountry.setValue(View.GONE);
     }
@@ -70,13 +71,14 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
         this.psTransNo.setValue(transNox);
     }
 
-    public LiveData<ECreditApplicantInfo> getCreditApplicationInfo(){
-        return poCredtAp.getCreditApplicantInfoLiveData(psTransNo.getValue());
+    public LiveData<ECreditApplicantInfo> getActiveGOCasApplication(){
+        return poCreditApp.getCreditApplicantInfoLiveData(psTransNo.getValue());
     }
 
-    public void setCreditApplicantInfo(String applicantInfo){
+    //  Set Detail info to GoCas
+    public void setDetailInfo(String fsDetailInfo){
         try{
-            poGoCasxx.setData(applicantInfo);
+            poGoCas.setData(fsDetailInfo);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -95,7 +97,7 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
             this.pnCountry.setValue(View.VISIBLE);
             this.pnGovInfo.setValue(View.GONE);
         }
-        this.psSectorx.setValue(sector);
+        this.psSector.setValue(sector);
     }
 
     public void setUniformPersonnel(String isUniform){
@@ -103,18 +105,11 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
     }
 
     public void setMilitaryPersonnel(String isMilitary){
-        this.psMiltary.setValue(isMilitary);
+        this.psMilitary.setValue(isMilitary);
     }
 
     public LiveData<ArrayAdapter<String>> getCompanyLevelList(){
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.COMPANY_LEVEL);
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
-        return liveData;
-    }
-
-    public LiveData<ArrayAdapter<String>> getEmployeeLevelList(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.EMPLOYEE_LEVEL);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
         return liveData;
@@ -127,8 +122,8 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
         return liveData;
     }
 
-    public LiveData<ArrayAdapter<String>> getRegionList(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.OFW_REGION);
+    public LiveData<ArrayAdapter<String>> getEmployeeLevelList(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.EMPLOYEE_LEVEL);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
         return liveData;
@@ -141,6 +136,14 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
         return liveData;
     }
 
+    public LiveData<ArrayAdapter<String>> getRegionList(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.OFW_REGION);
+        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
+        liveData.setValue(adapter);
+        return liveData;
+    }
+
+
     public LiveData<ArrayAdapter<String>> getBusinessNature(){
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.BUSINESS_NATURE);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
@@ -149,27 +152,27 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
     }
 
     public LiveData<String[]> getProvinceName(){
-        return poProvnce.getAllProvinceNames();
+        return poProvRepo.getAllProvinceNames();
     }
 
     public LiveData<List<EProvinceInfo>> getProvinceInfo(){
-        return poProvnce.getAllProvinceInfo();
+        return poProvRepo.getAllProvinceInfo();
     }
 
     public void setProvinceID(String ID){
-        this.psProvIDx.setValue(ID);
+        this.psProvID.setValue(ID);
     }
 
     public LiveData<String[]> getTownNameList(){
-        return poTownRpo.getTownNamesFromProvince(psProvIDx.getValue());
+        return poTownRepo.getTownNamesFromProvince(psProvID.getValue());
     }
 
     public LiveData<List<ETownInfo>> getTownInfoList(){
-        return poTownRpo.getTownInfoFromProvince(psProvIDx.getValue());
+        return poTownRepo.getTownInfoFromProvince(psProvID.getValue());
     }
 
     public void setTownID(String ID){
-        this.psTownIDx.setValue(ID);
+        this.psTownID.setValue(ID);
     }
 
     public LiveData<String[]> getCountryNameList(){
@@ -193,7 +196,7 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
     }
 
     public void setJobTitle(String ID){
-        this.psJobTtle.setValue(ID);
+        this.psJobTitle.setValue(ID);
     }
 
     public LiveData<ArrayAdapter<String>> getEmploymentStatus(){
@@ -214,50 +217,52 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
         return liveData;
     }
 
-//    public void SaveEmploymentInfo(SpouseEmploymentInfoModel infoModel, ViewModelCallBack callBack){
-//        try{
-//            infoModel.setEmploymentSector(psSectorx.getValue());
-//            infoModel.setUniformPersonal(psUniform.getValue());
-//            infoModel.setMilitaryPersonal(psMiltary.getValue());
-//            infoModel.setCountry(psCountry.getValue());
-//            infoModel.setProvinceID(psProvIDx.getValue());
-//            infoModel.setTownID(psTownIDx.getValue());
-//            infoModel.setJobTitle(psJobTtle.getValue());
-//            infoModel.setEmployeeStatus(psEmpStat.getValue());
-//            if(infoModel.isDataValid()){
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setEmploymentSector(infoModel.getEmploymentSector());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().IsUniformedPersonel(infoModel.getUniformPersonal());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().IsMilitaryPersonel(infoModel.getMilitaryPersonal());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setGovernmentLevel(infoModel.getGovermentLevel());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setOFWRegion(infoModel.getOfwRegion());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setCompanyLevel(infoModel.getCompanyLevel());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setEmployeeLevel(infoModel.getEmploymentSector());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setOFWCategory(infoModel.getOfwWorkCategory());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setOFWNation(infoModel.getCountry());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setNatureofBusiness(infoModel.getBusinessNature());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setCompanyName(infoModel.getCompanyName());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setCompanyAddress(infoModel.getCompanyAddress());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setPosition(infoModel.getJobTitle());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setJobDescription(infoModel.getSpecificJob());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setEmployeeStatus(infoModel.getEmployeeStatus());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setLengthOfService(infoModel.getLengthOfService());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setSalary(infoModel.getMonthlyIncome());
-//                poGoCasxx.SpouseMeansInfo().EmployedInfo().setCompanyNo(infoModel.getContact());
-//
-//                ECreditApplicantInfo info = new ECreditApplicantInfo();
-//                info.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
-//                info.setDetlInfo(poGoCasxx.toJSONString());
-//                info.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
-//                poCredtAp.updateGOCasData(info);
-//
-//                Log.e(TAG, poGoCasxx.SpouseMeansInfo().EmployedInfo().toJSONString());
-//                callBack.onSaveSuccessResult("Success");
-//            } else {
-//                callBack.onFailedResult(infoModel.getMessage());
-//            }
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            callBack.onFailedResult(e.getMessage());
-//        }
-//    }
+    public void Save(SpouseEmploymentInfoModel infoModel, ViewModelCallBack callBack){
+        try{
+            infoModel.setSector(psSector.getValue());
+            infoModel.setUniformedPersonnel(psUniform.getValue());
+            infoModel.setMilitaryPersonnel(psMilitary.getValue());
+            infoModel.setCountry(psCountry.getValue());
+            infoModel.setCompProvince(psProvID.getValue());
+            infoModel.setCompTown(psTownID.getValue());
+            infoModel.setJobTitle(psJobTitle.getValue());
+            infoModel.setEmploymentStat(psEmpStat.getValue());
+            if(infoModel.isSpouseEmploymentInfoValid()){
+                poGoCas.SpouseMeansInfo().EmployedInfo().setEmploymentSector(infoModel.getSector());
+                poGoCas.SpouseMeansInfo().EmployedInfo().IsUniformedPersonel(infoModel.getUniformedPersonnel());
+                poGoCas.SpouseMeansInfo().EmployedInfo().IsMilitaryPersonel(infoModel.getMilitaryPersonnel());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setGovernmentLevel(infoModel.getGovermentLevel());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setOFWRegion(infoModel.getRegion());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setCompanyLevel(infoModel.getCompanyLevel());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setEmployeeLevel(infoModel.getEmployeeLvl());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setOFWCategory(infoModel.getWorkCategory());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setOFWNation(infoModel.getCountry());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setNatureofBusiness(infoModel.getBizIndustry());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setCompanyName(infoModel.getCompanyName());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setCompanyAddress(infoModel.getCompTown());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setPosition(infoModel.getJobTitle());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setJobDescription(infoModel.getJobSpecific());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setEmployeeStatus(infoModel.getEmploymentStat());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setLengthOfService(infoModel.getLengthOfService());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setSalary(infoModel.getGrossMonthly());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setCompanyNo(infoModel.getCompTelNox());
+
+                ECreditApplicantInfo info = new ECreditApplicantInfo();
+                info.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
+                info.setDetlInfo(poGoCas.toJSONString());
+                info.setClientNm(poGoCas.ApplicantInfo().getClientName());
+                poCreditApp.updateGOCasData(info);
+
+                Log.e(TAG, poGoCas.SpouseMeansInfo().EmployedInfo().toJSONString());
+                Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
+                callBack.onSaveSuccessResult("Success");
+            } else {
+                callBack.onFailedResult(infoModel.getMessage());
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            callBack.onFailedResult(e.getMessage());
+        }
+    }
+
 }
