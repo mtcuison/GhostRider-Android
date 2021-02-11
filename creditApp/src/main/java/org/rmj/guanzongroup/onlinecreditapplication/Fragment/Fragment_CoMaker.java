@@ -111,12 +111,15 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         mViewModel.getCmrSecondaryCntctPlan().observe(getViewLifecycleOwner(), integer -> tilScnCntctPlan.setVisibility(integer));
         mViewModel.getCmrTertiaryCntctPlan().observe(getViewLifecycleOwner(), integer -> tilTrtCntctPlan.setVisibility(integer));
         mViewModel.getHintPrimaryContact().observe(getViewLifecycleOwner(), (s) -> {
+            Log.e("1st Contact Hint", s);
             tilPrimaryCntctStats.setHint(s);
         });
         mViewModel.getHintScndContact().observe(getViewLifecycleOwner(), s -> {
+            Log.e("2nd Contact Hint", s);
             tilScnCntctStats.setHint(s);
         });
         mViewModel.getHintTrtContact().observe(getViewLifecycleOwner(), s -> {
+            Log.e("3rd Contact Hint", s);
             tilTrtCntctStats.setHint(s);
         });
         mViewModel.getMobileNoType().observe(getViewLifecycleOwner(),(stringArrayAdapter) -> {
@@ -193,13 +196,47 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitCoMaker();
+                infoModel = new CoMakerModel(
+                        Objects.requireNonNull(tieLastname.getText().toString()),
+                        Objects.requireNonNull(tieFrstname.getText().toString()),
+                        Objects.requireNonNull(tieMiddname.getText().toString()),
+                        Objects.requireNonNull(tieSuffixxx.getText().toString()),
+                        Objects.requireNonNull(tieNickname.getText().toString()),
+                        Objects.requireNonNull(tieBrthDate.getText().toString()),
+                        Objects.requireNonNull(tieBrthTown.getText().toString()),
+                        Objects.requireNonNull(tieFbAcctxx.getText().toString()),
+                        Objects.requireNonNull(spnIncomePosition),
+                        Objects.requireNonNull(spnCoRelationPosition)
+                );
+                if(!Objects.requireNonNull(tiePrmCntct.getText()).toString().trim().isEmpty()) {
+                    if(Integer.parseInt(spnPrmryCntctPosition) == 1) {
+                        infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnPrmryCntctPosition, Integer.parseInt(Objects.requireNonNull(tiePrmCntctPlan.getText()).toString()));
+                    } else {
+                        infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnPrmryCntctPosition, 0);
+                    }
+                }
+                if(!Objects.requireNonNull(tieScnCntct.getText()).toString().trim().isEmpty()) {
+                    if(Integer.parseInt(spnScndCntctPosition) == 1) {
+                        infoModel.setCoMobileNo(tieScnCntct.getText().toString(), spnScndCntctPosition, Integer.parseInt(Objects.requireNonNull(tieScnCntctPlan.getText()).toString()));
+                    } else {
+                        infoModel.setCoMobileNo(tieScnCntct.getText().toString(), spnScndCntctPosition, 0);
+                    }
+                }
+                if(!Objects.requireNonNull(tieTrtCntct.getText()).toString().trim().isEmpty()) {
+                    if(Integer.parseInt(spnTrtCntctPosition)  == 1) {
+                        infoModel.setCoMobileNo(tieTrtCntct.getText().toString(), spnTrtCntctPosition, Integer.parseInt(Objects.requireNonNull(tieTrtCntctPlan.getText()).toString()));
+                    } else {
+                        infoModel.setCoMobileNo(tieTrtCntct.getText().toString(), spnTrtCntctPosition, 0);
+                    }
+                }
+                mViewModel.SubmitComaker(infoModel, Fragment_CoMaker.this);
             }
         });
     }
 
     @Override
     public void onSaveSuccessResult(String args) {
+//        Activity_CreditApplication.getInstance().moveToPageNumber(2);
         startActivity(new Intent(getActivity(), Activity_ApplicationHistory.class));
         getActivity().finish();
     }
@@ -241,40 +278,5 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
             }
         }
     }
-    public void submitCoMaker(){
-        infoModel = new CoMakerModel(
-                Objects.requireNonNull(tieLastname.getText().toString()),
-                Objects.requireNonNull(tieFrstname.getText().toString()),
-                Objects.requireNonNull(tieMiddname.getText().toString()),
-                Objects.requireNonNull(tieSuffixxx.getText().toString()),
-                Objects.requireNonNull(tieNickname.getText().toString()),
-                Objects.requireNonNull(tieBrthDate.getText().toString()),
-                Objects.requireNonNull(tieBrthTown.getText().toString()),
-                Objects.requireNonNull(tieFbAcctxx.getText().toString()),
-                Objects.requireNonNull(spnIncomePosition),
-                Objects.requireNonNull(spnCoRelationPosition)
-        );
-        if(!Objects.requireNonNull(tiePrmCntct.getText()).toString().trim().isEmpty()) {
-            if(Integer.parseInt(spnPrmryCntctPosition) == 1) {
-                infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnPrmryCntctPosition, Integer.parseInt(Objects.requireNonNull(tiePrmCntctPlan.getText()).toString()));
-            } else {
-                infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnPrmryCntctPosition, 0);
-            }
-        }
-        if(!Objects.requireNonNull(tieScnCntct.getText()).toString().trim().isEmpty()) {
-            if(Integer.parseInt(spnScndCntctPosition) == 1) {
-                infoModel.setCoMobileNo(tieScnCntct.getText().toString(), spnScndCntctPosition, Integer.parseInt(Objects.requireNonNull(tieScnCntctPlan.getText()).toString()));
-            } else {
-                infoModel.setCoMobileNo(tieScnCntct.getText().toString(), spnScndCntctPosition, 0);
-            }
-        }
-        if(!Objects.requireNonNull(tieTrtCntct.getText()).toString().trim().isEmpty()) {
-            if(Integer.parseInt(spnTrtCntctPosition)  == 1) {
-                infoModel.setCoMobileNo(tieTrtCntct.getText().toString(), spnTrtCntctPosition, Integer.parseInt(Objects.requireNonNull(tieTrtCntctPlan.getText()).toString()));
-            } else {
-                infoModel.setCoMobileNo(tieTrtCntct.getText().toString(), spnTrtCntctPosition, 0);
-            }
-        }
-        mViewModel.SubmitComaker(infoModel, Fragment_CoMaker.this);
-    }
+
 }
