@@ -9,5 +9,6 @@
     <string name="sAddress">Street/Sitio/Lot No.</string>
     <string name="sTown">Municipality</string>
     <string name="sBrgy">Barangay</string>
+    <string name="sLblRemarks">Remarks</string>
 
 </resources>

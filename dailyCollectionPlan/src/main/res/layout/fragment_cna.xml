@@ -167,6 +167,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <CheckBox
+                android:id="@+id/cb_primaryContact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:buttonTint="@color/guanzon_dark_grey"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Primary Contact"
+                android:textColor="@color/guanzon_dark_grey"
+                tools:ignore="HardcodedText"
+                tools:targetApi="lollipop" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -195,6 +207,42 @@
             android:gravity="center"
             android:visibility="gone">
 
+            <Spinner
+                android:id="@+id/spn_requestCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:baselineAligned="false">
+                <CheckBox
+                    android:id="@+id/cb_permanent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:buttonTint="@color/guanzon_dark_grey"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Permanent Address"
+                    android:textColor="@color/guanzon_dark_grey"
+                    tools:ignore="HardcodedText"
+                    tools:targetApi="lollipop" />
+                <CheckBox
+                    android:id="@+id/cb_present"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:buttonTint="@color/guanzon_dark_grey"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Present Address"
+                    android:textColor="@color/guanzon_dark_grey"
+                    tools:ignore="HardcodedText"
+                    tools:targetApi="lollipop" />
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -213,7 +261,7 @@
                         android:id="@+id/txt_houseNox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="10"
+                        android:maxLength="5"
                         android:inputType="number|none"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -228,7 +276,7 @@
                         android:id="@+id/txt_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="80"/>
+                        android:maxLength="100"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -262,7 +310,34 @@
                     style="@style/TextInputStyle.Edittext" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                android:id="@+id/cb_isCh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:buttonTint="@color/guanzon_dark_grey"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Primary Address"
+                android:textColor="@color/guanzon_dark_grey"
+                tools:ignore="HardcodedText"
+                tools:targetApi="lollipop" />
         </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextInputStyle"
+            android:hint="@string/sLblRemarks"
+            android:layout_marginTop="5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_dcpCNA_remarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyle.Edittext" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <LinearLayout
