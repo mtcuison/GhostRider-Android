@@ -27,7 +27,7 @@ public interface DDCPCollectionDetail {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBulkData(List<EDCPCollectionDetail> collectionDetails);
 
-    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE ")
+    @Query("SELECT * FROM LR_DCP_Collection_Detail")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailList();
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +
