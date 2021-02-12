@@ -24,7 +24,7 @@ public class SpouseEmploymentInfoModel {
     private String uniformedPersonnel, militaryPersonnel;
 
     //OFW Sector Attrs
-    private String workCategory, region, country;
+    private String country;
 
 
     // Getter and Setters
@@ -54,12 +54,30 @@ public class SpouseEmploymentInfoModel {
         return "";
     }
 
+    public String getOFWRegion() {
+        if(sector.equalsIgnoreCase("2")) {
+            return companyLvl;
+        }
+        return "";
+    }
+
     public void setCompanyLvl(String companyLvl) {
         this.companyLvl = companyLvl;
     }
 
     public String getEmployeeLvl() {
-        return employeeLvl;
+        if(sector.equalsIgnoreCase("1") || sector.equalsIgnoreCase("0"))
+        {
+            return employeeLvl;
+        }
+        return "";
+    }
+
+    public String getWorkCategory() {
+        if(sector.equalsIgnoreCase("2")) {
+            return employeeLvl;
+        }
+        return "";
     }
 
     public void setEmployeeLvl(String employeeLvl) {
@@ -189,22 +207,6 @@ public class SpouseEmploymentInfoModel {
 
     // OFW GETTER AND SETTERS
 
-    public String getWorkCategory() {
-        return workCategory;
-    }
-
-    public void setWorkCategory(String workCategory) {
-        this.workCategory = workCategory;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
     public String getCountry() {
         return country;
     }
@@ -229,6 +231,7 @@ public class SpouseEmploymentInfoModel {
                 isMonthOrYearValid() &&
                 isLengthOfServiceValid() &&
                 isGrossMonthlyValid() &&
+                isCompTelNoxValid() &&
                 isOFWFieldsValid();
     }
 
@@ -265,6 +268,12 @@ public class SpouseEmploymentInfoModel {
                 return false;
             }
         }
+        else if(sector.equalsIgnoreCase("2")) {
+            if(companyLvl.equalsIgnoreCase("0")){
+                message = "Please select Region";
+                return false;
+            }
+        }
         return true;
     }
 
@@ -278,6 +287,12 @@ public class SpouseEmploymentInfoModel {
         else if(sector.equalsIgnoreCase("0")) {
             if(employeeLvl.equalsIgnoreCase("0")){
                 message = "Please select Employee Level";
+                return false;
+            }
+        }
+        else if(sector.equalsIgnoreCase("2")) {
+            if(employeeLvl.equalsIgnoreCase("0")) {
+                message = "Please select work category";
                 return false;
             }
         }
@@ -400,17 +415,19 @@ public class SpouseEmploymentInfoModel {
         return  true;
     }
 
+    private boolean isCompTelNoxValid() {
+        if(sector.equalsIgnoreCase("1") || sector.equalsIgnoreCase("0")) {
+            if(compTelNox == null || compTelNox.equalsIgnoreCase("")) {
+                message = "Please provide company contact number";
+                return false;
+            }
+        }
+        return true;
+    }
+
     private boolean isOFWFieldsValid() {
        if(sector.equalsIgnoreCase("2")) {
-           if(region == null || region.equalsIgnoreCase("")) {
-               message = "Please select region";
-               return false;
-           }
-           else if(workCategory == null || workCategory.equalsIgnoreCase("")) {
-               message = "Please select work category";
-               return false;
-           }
-           else if(country == null || country.equalsIgnoreCase("")) {
+           if(country == null || country.equalsIgnoreCase("")) {
                message = "Please select country";
                return false;
            }

@@ -232,7 +232,7 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
                 poGoCas.SpouseMeansInfo().EmployedInfo().IsUniformedPersonel(infoModel.getUniformedPersonnel());
                 poGoCas.SpouseMeansInfo().EmployedInfo().IsMilitaryPersonel(infoModel.getMilitaryPersonnel());
                 poGoCas.SpouseMeansInfo().EmployedInfo().setGovernmentLevel(infoModel.getGovermentLevel());
-                poGoCas.SpouseMeansInfo().EmployedInfo().setOFWRegion(infoModel.getRegion());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setOFWRegion(infoModel.getOFWRegion());
                 poGoCas.SpouseMeansInfo().EmployedInfo().setCompanyLevel(infoModel.getCompanyLevel());
                 poGoCas.SpouseMeansInfo().EmployedInfo().setEmployeeLevel(infoModel.getEmployeeLvl());
                 poGoCas.SpouseMeansInfo().EmployedInfo().setOFWCategory(infoModel.getWorkCategory());

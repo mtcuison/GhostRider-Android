@@ -45,7 +45,8 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
             txtTownNm,
             txtJobNme;
     private TextInputLayout tilCntryx,
-            tilCompNm;
+            tilCompNm,
+            tilJobTitle;
     private TextInputEditText txtCompNm,
             txtCompAd,
             txtSpcfJb,
@@ -87,6 +88,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         txtJobNme = v.findViewById(R.id.txt_jobPosition);
         tilCntryx = v.findViewById(R.id.til_countryNme);
         tilCompNm = v.findViewById(R.id.til_companyNme);
+        tilJobTitle = v.findViewById(R.id.til_job_title);
         txtCompNm = v.findViewById(R.id.txt_companyNme);
         txtCompAd = v.findViewById(R.id.txt_companyAdd);
         txtSpcfJb = v.findViewById(R.id.txt_specificJob);
@@ -209,6 +211,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
                     lnGovInfo.setVisibility(View.GONE);
                     lnEmpInfo.setVisibility(View.VISIBLE);
                     tilCntryx.setVisibility(View.GONE);
+                    tilJobTitle.setVisibility(View.VISIBLE);
                     tilCompNm.setHint("Company Name");
                     spnBusNtr.setVisibility(View.VISIBLE);
                     mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
@@ -218,7 +221,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
                     lnGovInfo.setVisibility(View.VISIBLE);
                     lnEmpInfo.setVisibility(View.VISIBLE);
                     tilCntryx.setVisibility(View.GONE);
-                    txtJobNme.setVisibility(View.GONE);
+                    tilJobTitle.setVisibility(View.GONE);
                     tilCompNm.setHint("Government Institution");
                     spnBusNtr.setVisibility(View.GONE);
                     mViewModel.getGovernmentLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
