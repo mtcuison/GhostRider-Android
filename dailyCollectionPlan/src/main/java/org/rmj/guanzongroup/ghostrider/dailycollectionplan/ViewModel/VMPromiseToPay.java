@@ -33,13 +33,13 @@ import java.util.Date;
 import java.util.List;
 
 public class VMPromiseToPay extends AndroidViewModel {
-    private static final String TAG = VMPaidTransaction.class.getSimpleName();
+    private static final String TAG = VMPromiseToPay.class.getSimpleName();
     private final RBranch poBranch;
     private final RDailyCollectionPlan poDcp;
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
 
     private final MutableLiveData<String> psBrnchCd = new MutableLiveData<>();
-    private final MutableLiveData<String> psPtpDate = new MutableLiveData<>();
+    public MutableLiveData<String> psPtpDate = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
     private final MutableLiveData<String> psEntryNox = new MutableLiveData<>();
 
@@ -115,20 +115,15 @@ public class VMPromiseToPay extends AndroidViewModel {
         return this.viewPtpBranch;
     }
 
-    public void savePtpInfo(PromiseToPayModel infoModel, ViewModelCallback callback){
+    public boolean savePtpInfo(PromiseToPayModel infoModel, ViewModelCallback callback){
         try{
             infoModel.setPtpDate(psPtpDate.getValue());
             if(!infoModel.isDataValid()){
                 callback.OnFailedResult(infoModel.getMessage());
+                return false;
             } else {
-                DateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
-                Date date = dateFormat.parse(infoModel.getPtpDate());
-
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(date);
-                SimpleDateFormat printFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String lsDate = printFormat.format(calendar.getTime());
-
+                Date parseDate = new SimpleDateFormat("MMMM dd, yyyy").parse(infoModel.getPtpDate());
+                String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(parseDate);;
                 String lsPromiseDate = toJsonObject(lsDate, psBrnchCd.getValue(), infoModel.getPtpCollectorName());
 
                 EDCPCollectionDetail detail = poDcpDetail.getValue();
@@ -139,13 +134,20 @@ public class VMPromiseToPay extends AndroidViewModel {
                 Log.e(TAG, "Date ." + lsPromiseDate);
                 //Log.e(TAG, "Promise to Pay info has been set." + poDcp.getCollectionDetail(psTransNox.getValue(),psEntryNox.getValue()).getValue().toString());
                 callback.OnSuccessResult(new String[]{"Dcp Save!"});
+                return true;
             }
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            callback.OnFailedResult(e.getMessage());
+            return false;
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailedResult(e.getMessage());
+            return false;
         }
+
     }
-    private String toJsonObject(String dPromised, String sBrnCde, String sCollector){
+    public String toJsonObject(String dPromised, String sBrnCde, String sCollector){
         JSONObject jsonObject = new JSONObject();
         try {
             //yyyy-MM-dd
@@ -154,9 +156,8 @@ public class VMPromiseToPay extends AndroidViewModel {
             jsonObject.put("sCollector", sCollector);
             return jsonObject.toString();
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
-            return  null;
+            return  e.getMessage();
         }
     }
 }

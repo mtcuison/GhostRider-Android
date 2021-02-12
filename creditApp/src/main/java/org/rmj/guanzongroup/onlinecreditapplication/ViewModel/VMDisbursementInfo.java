@@ -63,7 +63,7 @@ public class VMDisbursementInfo extends AndroidViewModel {
     }
 
 
-    public void SubmitApplicationInfo(DisbursementInfoModel disbursementInfo,ViewModelCallBack callBack){
+    public boolean SubmitApplicationInfo(DisbursementInfoModel disbursementInfo,ViewModelCallBack callBack){
         try {
             if (disbursementInfo.isDataValid()){
 //                poGoCasxx.DisbursementInfo().Expenses().setElectricBill(disbursementInfo.getElctX());
@@ -83,12 +83,15 @@ public class VMDisbursementInfo extends AndroidViewModel {
                 poApplcnt.updateGOCasData(info);
                 Log.e("Disbursement Data", String.valueOf(info.getDetlInfo()));
                 callBack.onSaveSuccessResult("Success");
+                return true;
             } else {
                 callBack.onFailedResult(disbursementInfo.getMessage());
+                return false;
             }
         } catch (Exception e){
            e.printStackTrace();
             callBack.onFailedResult(e.getMessage());
+            return false;
         }
     }
 
