@@ -46,7 +46,7 @@ tools:context=".Fragments.Fragment_LoanUnit">
     <View
         android:layout_width="match_parent"
         android:layout_height="1.5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:background="@color/guanzon_orange"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -140,6 +140,7 @@ tools:context=".Fragments.Fragment_LoanUnit">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -151,7 +152,8 @@ tools:context=".Fragments.Fragment_LoanUnit">
                 android:id="@+id/tie_lun_lName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="50" />
+                android:maxLength="50"
+                android:singleLine="true"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -198,20 +200,21 @@ tools:context=".Fragments.Fragment_LoanUnit">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="10dp">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/HeaderLabelBlack"
-            android:text="Address"/>
+            android:text="@string/sDCP_CNA_RG_Address"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/sHintHouseNo"
+                android:hint="@string/sHouseNox"
                 android:layout_weight="1"
                 style="@style/TextInputStyle">
 
@@ -226,7 +229,7 @@ tools:context=".Fragments.Fragment_LoanUnit">
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/sHintStreet"
+                android:hint="@string/sAddress"
                 android:layout_weight="1"
                 style="@style/TextInputStyle">
 
@@ -240,7 +243,7 @@ tools:context=".Fragments.Fragment_LoanUnit">
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/sHintTown"
+            android:hint="@string/sTown"
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -253,7 +256,7 @@ tools:context=".Fragments.Fragment_LoanUnit">
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/sHintBarangay"
+            android:hint="@string/sBrgy"
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -276,7 +279,7 @@ tools:context=".Fragments.Fragment_LoanUnit">
             android:text="@string/sLblGender"/>
 
         <RadioGroup
-            android:id="@+id/rg_gender"
+            android:id="@+id/rg_dcp_gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -286,12 +289,14 @@ tools:context=".Fragments.Fragment_LoanUnit">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sGenderMale"
+                android:buttonTint="@color/guanzon_orange"
                 android:layout_weight="1"/>
 
             <RadioButton
                 android:id="@+id/rb_female"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/guanzon_orange"
                 android:text="@string/sGenderFmale"
                 android:layout_weight="1"/>
 
@@ -299,99 +304,121 @@ tools:context=".Fragments.Fragment_LoanUnit">
                 android:id="@+id/rb_lgbt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/guanzon_orange"
                 android:text="@string/sGenderLGBT"
                 android:layout_weight="1"/>
         </RadioGroup>
 
     </LinearLayout>
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/sHintCivilStatus"
-        style="@style/TextInputStyle">
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp">
+        <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tie_lun_cstatus"
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomDropDownTilStyle"
+                android:layout_width="match_parent"
+                android:hint="@string/sLabelCivilStatus"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/spn_lun_cstatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:padding="16dp"
+                    android:cursorVisible="false"
+                    android:clickable="false"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="50" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="@string/sHintBirthDate"
+            style="@style/TextInputStyle">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/sHintBirthDate"
-        style="@style/TextInputStyle">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_lun_bdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:maxLength="50" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tie_lun_bdate"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="date"
-            android:maxLength="50" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="@string/sHintBpTown"
+            style="@style/TextInputStyle">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/sHintBpTown"
-        style="@style/TextInputStyle">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_lun_bplace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="50" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tie_lun_bplace"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="50" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="@string/sHintTelephoneNo"
+            style="@style/TextInputStyle">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/sHintTelephoneNo"
-        style="@style/TextInputStyle">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_lun_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="11"
+                android:inputType="number|none"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tie_lun_phone"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPhonetic"
-            android:maxLength="50" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="@string/sDCP_CNA_RG_Contact"
+            style="@style/TextInputStyle">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/sHintMobileNo"
-        style="@style/TextInputStyle">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_lun_mobileNp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="11"
+                android:inputType="number|none" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tie_lun_mobileNp"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPhonetic"
-            android:maxLength="50" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="@string/sHintEmailAdd"
+            style="@style/TextInputStyle">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/sHintEmailAdd"
-        style="@style/TextInputStyle">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_lun_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:maxLength="50" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tie_lun_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:maxLength="50" />
-    </com.google.android.material.textfield.TextInputLayout>
-
+    </LinearLayout>
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_creditAppNext"
+        android:id="@+id/btn_dcpSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Submit"
+        android:text="@string/btn_submit"
         style="@style/GhostRider_Button"/>
 
 </LinearLayout>-->

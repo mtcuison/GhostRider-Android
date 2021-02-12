@@ -5,11 +5,34 @@
     <string name="btn_commit">Commit</string>
     <string name="btn_submit">Submit</string>
 
+    <string name="sHintLastname">LastName</string>
+    <string name="sHintFirstName">FirstName</string>
+    <string name="sHintSuffix">Suffix</string>
+    <string name="sHintMiddName">MiddleName</string>
+    <string name="sHintNickname">NickName</string>
+
+    <string name="sHintEmailAdd">Email Address</string>
+    <string name="sHintTelephoneNo">Telephone No.</string>
+
+    <string name="sHintBirthDate">Birth Date (DD/MM/YYYY)</string>
+    <string name="sHintBpProv">Province (Birth Place)</string>
+
+    <string name="sGenderMale">Male</string>
+    <string name="sGenderFmale">Female</string>
+    <string name="sGenderLGBT">LGBT</string>
+    <string name="sLblGender">Gender</string>
+
+    <string name="sLabelCivilStatus">Civil Status</string>
+
+    <string name="sHintBpTown">Town (Birth Place)</string>
     <string name="sHouseNox">House No.</string>
     <string name="sAddress">Street/Sitio/Lot No.</string>
     <string name="sTown">Municipality</string>
     <string name="sBrgy">Barangay</string>
     <string name="sLblRemarks">Remarks</string>
+    <string name="sActionMenu_TransactionList">Transaction List</string>
+
+
     <string name="sActionMenu_TransactionList">Transaction List</string>
 
 </resources>
