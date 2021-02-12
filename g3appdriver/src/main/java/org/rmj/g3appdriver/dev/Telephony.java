@@ -41,32 +41,57 @@ public class Telephony {
                 for (SubscriptionInfo subscriptionInfo : subInfoList) {
                     Numbers.add(subscriptionInfo.getNumber());
                 }
-
                 if(Numbers.get(0) != null){
+                    String lsResult = "";
                     String MobileNo = Numbers.get(0);
                     if (!MobileNo.isEmpty()) {
-                        if (!MobileNo.substring(0, 2).equalsIgnoreCase("09")) {
-                            MobileNo = MobileNo.replace("+63", "0");
+                        if (MobileNo.substring(0, 3).equalsIgnoreCase("+63")) {
+                            lsResult = MobileNo.replace("+63", "0");
                         } else if (MobileNo.substring(0, 1).equalsIgnoreCase("9")) {
-                            MobileNo = "0" + MobileNo;
+                            lsResult = "0" + MobileNo;
+                        } else if (MobileNo.substring(0, 2).equalsIgnoreCase("63")) {
+                            lsResult = MobileNo.replace("63", "0");
+                        } else if (MobileNo.substring(0, 2).equalsIgnoreCase("09")) {
+                            lsResult = MobileNo;
                         }
                     }
-                    return MobileNo;
+                    return lsResult;
                 } else if(Numbers.get(1) != null){
+                    String lsResult = "";
                     String MobileNo = Numbers.get(1);
                     if (!MobileNo.isEmpty()) {
-                        if (!MobileNo.substring(0, 2).equalsIgnoreCase("09")) {
-                            MobileNo = MobileNo.replace("+63", "0");
+                        if (MobileNo.substring(0, 3).equalsIgnoreCase("+63")) {
+                            lsResult = MobileNo.replace("+63", "0");
                         } else if (MobileNo.substring(0, 1).equalsIgnoreCase("9")) {
-                            MobileNo = "0" + MobileNo;
+                            lsResult = "0" + MobileNo;
+                        } else if (MobileNo.substring(0, 2).equalsIgnoreCase("63")) {
+                            lsResult = MobileNo.replace("63", "0");
+                        } else if (MobileNo.substring(0, 2).equalsIgnoreCase("09")) {
+                            lsResult = MobileNo;
                         }
                     }
-                    return MobileNo;
+                    return lsResult;
                 }
             }
         } catch (Exception e){
             e.printStackTrace();
         }
         return "";
+    }
+
+    public String getFormattedMobileNo(String MobileNo){
+        String result = "";
+        if (!MobileNo.isEmpty()) {
+            if (MobileNo.substring(0, 3).equalsIgnoreCase("+63")) {
+                result = MobileNo.replace("+63", "0");
+            } else if (MobileNo.substring(0, 1).equalsIgnoreCase("9")) {
+                result = "0" + MobileNo;
+            } else if (MobileNo.substring(0, 2).equalsIgnoreCase("63")) {
+                result = MobileNo.replace("63", "0");
+            } else if (MobileNo.substring(0, 2).equalsIgnoreCase("09")) {
+                result = MobileNo;
+            }
+        }
+        return result;
     }
 }

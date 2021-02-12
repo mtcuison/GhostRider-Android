@@ -50,14 +50,12 @@ public class Activity_CollectionLog extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(Activity_CollectionLog.this, Activity_CollectionList.class));
         finish();
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            startActivity(new Intent(Activity_CollectionLog.this, Activity_CollectionList.class));
             finish();
         }
         return super.onOptionsItemSelected(item);
