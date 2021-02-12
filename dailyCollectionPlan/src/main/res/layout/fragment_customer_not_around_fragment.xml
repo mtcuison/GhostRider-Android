@@ -160,6 +160,12 @@
 
         </LinearLayout>
 
+        <Spinner
+            android:id="@+id/spn_requestCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"/>
+
         <!-- Contact Panel -->
         <LinearLayout
             android:id="@+id/CNA_Contact"
@@ -208,12 +214,6 @@
             android:orientation="vertical"
             android:gravity="center"
             android:visibility="gone">
-
-            <Spinner
-                android:id="@+id/spn_requestCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"/>
 
             <RadioGroup
                 android:id="@+id/rg_address_type"

@@ -42,7 +42,7 @@ public class Fragment_CustomerNotAround extends Fragment {
     private MessageBox poMessage;
     private CheckBox cbPrimeContact, cbPrimary;
     private Spinner spnRequestCode;
-    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo, lblClientAddress;
+    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblClientAddress;
     private RadioGroup rg_CNA_Input, rg_addressType;
     private TextInputEditText txtContact, txtHouseNox, txtAddress, txtRemarks;
     private AutoCompleteTextView txtTown,txtProvince , txtBrgy;
@@ -76,13 +76,18 @@ public class Fragment_CustomerNotAround extends Fragment {
             try {
                 lblAccNo.setText(collectionDetail.getAcctNmbr());
                 lblClientNm.setText(collectionDetail.getFullName());
-                lblTransNo.setText(collectionDetail.getTransNox());
+                lblClientAddress.setText(collectionDetail.getAddressx());
 
                 mViewModel.setClientID(collectionDetail.getClientID());
                 mViewModel.setCurrentCollectionDetail(collectionDetail);
             } catch (Exception e){
                 e.printStackTrace();
             }
+        });
+
+        mViewModel.getUserBranchEmployee().observe(getViewLifecycleOwner(), eBranchInfo -> {
+            lblBranch.setText(eBranchInfo.getBranchNm());
+            lblAddress.setText(eBranchInfo.getAddressx());
         });
 
         mViewModel.getProvinceNames().observe(getViewLifecycleOwner(), new Observer<String[]>() {
@@ -186,8 +191,8 @@ public class Fragment_CustomerNotAround extends Fragment {
         lblBranch = v.findViewById(R.id.lbl_headerBranch);
         lblAddress = v.findViewById(R.id.lbl_headerAddress);
         lblAccNo = v.findViewById(R.id.lbl_dcpAccNo);
+        lblClientAddress = v.findViewById(R.id.lbl_dcpClientAddress);
         lblClientNm = v.findViewById(R.id.lbl_dcpClientNm);
-        lblTransNo = v.findViewById(R.id.lbl_dcpTransNo);
 
         cbPrimeContact = v.findViewById(R.id.cb_primaryContact);
         cbPrimary = v.findViewById(R.id.cb_primary);

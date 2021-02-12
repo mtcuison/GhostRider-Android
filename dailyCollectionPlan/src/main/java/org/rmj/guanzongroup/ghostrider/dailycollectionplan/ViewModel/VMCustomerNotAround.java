@@ -13,11 +13,13 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
@@ -32,6 +34,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
     private static final String TAG = VMCustomerNotAround.class.getSimpleName();
     private final Application instance;
     private final RDailyCollectionPlan poDcp;
+    private final RBranch poBranch;
     private final RProvince poProvRepo; //Province Repository
     private final RTown poTownRepo; //Town Repository
     private final RBarangay poBarangay;
@@ -54,6 +57,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.poDcp = new RDailyCollectionPlan(application);
+        this.poBranch = new RBranch(application);
         poProvRepo = new RProvince(application);
         poTownRepo = new RTown(application);
         poBarangay = new RBarangay(application);
@@ -96,6 +100,10 @@ public class VMCustomerNotAround extends AndroidViewModel {
 
     public void setCurrentCollectionDetail(EDCPCollectionDetail detail){
         this.poDcpDetail.setValue(detail);
+    }
+
+    public LiveData<EBranchInfo> getUserBranchEmployee(){
+        return poBranch.getUserBranchInfo();
     }
 
     public LiveData<ArrayAdapter<String>> getRequestCodeOptions() {
