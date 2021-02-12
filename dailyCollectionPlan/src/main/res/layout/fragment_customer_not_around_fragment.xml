@@ -128,7 +128,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="10dp"
@@ -192,7 +192,9 @@
                     android:layout_height="wrap_content"
                     style="@style/TextInputStyle.Edittext"
                     android:inputType="number|none"
-                    android:maxLength="11" />
+                    android:maxLength="11"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_dcpCNA_remarks"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -204,7 +206,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:visibility="gone">
 
             <Spinner
                 android:id="@+id/spn_requestCode"
@@ -212,35 +215,28 @@
                 android:layout_height="wrap_content"
                 android:padding="15dp"/>
 
-            <LinearLayout
+            <RadioGroup
+                android:id="@+id/rg_address_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:baselineAligned="false">
-                <CheckBox
-                    android:id="@+id/cb_permanent"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_permanent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".7"
-                    android:buttonTint="@color/guanzon_dark_grey"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Permanent Address"
-                    android:textColor="@color/guanzon_dark_grey"
-                    tools:ignore="HardcodedText"
-                    tools:targetApi="lollipop" />
-                <CheckBox
-                    android:id="@+id/cb_present"
+                    android:layout_weight="1"
+                    android:text="@string/sLabelPermAddress"
+                    android:layout_marginHorizontal="10dp"/>
+
+                <RadioButton
+                    android:id="@+id/rb_present"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".7"
-                    android:buttonTint="@color/guanzon_dark_grey"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Present Address"
-                    android:textColor="@color/guanzon_dark_grey"
-                    tools:ignore="HardcodedText"
-                    tools:targetApi="lollipop" />
-            </LinearLayout>
+                    android:layout_weight="1"
+                    android:text="@string/sLabelPresAddress"/>
+
+            </RadioGroup>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -287,11 +283,11 @@
                 android:hint="@string/sHintProvince"
                 android:layout_marginTop="5dp">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:id="@+id/txt_dcpCNA_prov"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/TextInputStyle.Edittext" />
+                    style="@style/AutoCompleteStyleTheme" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -302,11 +298,11 @@
                 android:hint="@string/sTown"
                 android:layout_marginTop="5dp">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:id="@+id/txt_dcpCNA_town"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/TextInputStyle.Edittext" />
+                    style="@style/AutoCompleteStyleTheme" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -317,11 +313,11 @@
                 android:hint="@string/sBrgy"
                 android:layout_marginTop="5dp">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:id="@+id/txt_dcpCNA_brgy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/TextInputStyle.Edittext" />
+                    style="@style/AutoCompleteStyleTheme" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

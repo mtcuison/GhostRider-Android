@@ -8,11 +8,19 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
+import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.AddressUpdate;
 
@@ -24,12 +32,21 @@ public class VMCustomerNotAround extends AndroidViewModel {
     private static final String TAG = VMCustomerNotAround.class.getSimpleName();
     private final Application instance;
     private final RDailyCollectionPlan poDcp;
+    private final RProvince poProvRepo; //Province Repository
+    private final RTown poTownRepo; //Town Repository
+    private final RBarangay poBarangay;
 
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
     private final MutableLiveData<String> psEntryNox = new MutableLiveData<>();
     private final MutableLiveData<String> clientID = new MutableLiveData<>();
     private final MutableLiveData<String> requestCode = new MutableLiveData<>();
+    private final MutableLiveData<String> addressType = new MutableLiveData<>();
+    private final MutableLiveData<String> primeAddress = new MutableLiveData<>();
+    private final MutableLiveData<String> psProvID = new MutableLiveData<>();
+    private final MutableLiveData<String> psTownID = new MutableLiveData<>();
+    private final MutableLiveData<String> psBrgyID = new MutableLiveData<>();
+
     private MutableLiveData<List<EAddressUpdate>> plAddress = new MutableLiveData<>();
     private MutableLiveData<List<EMobileUpdate>> plMobile = new MutableLiveData<>();
 
@@ -37,6 +54,9 @@ public class VMCustomerNotAround extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.poDcp = new RDailyCollectionPlan(application);
+        poProvRepo = new RProvince(application);
+        poTownRepo = new RTown(application);
+        poBarangay = new RBarangay(application);
         this.plAddress.setValue(new ArrayList<>());
         this.plMobile.setValue(new ArrayList<>());
     }
@@ -46,12 +66,28 @@ public class VMCustomerNotAround extends AndroidViewModel {
         this.psEntryNox.setValue(EntryNox);
     }
 
+    public void setProvinceID(String fsID){
+        this.psProvID.setValue(fsID);
+    }
+    public void setTownID(String fsID){
+        this.psTownID.setValue(fsID);
+    }
+    public void setBrgyID(String fsID) {this.psBrgyID.setValue(fsID);}
+
+    public void setPrimeAddress(String primeAddress) {
+        this.primeAddress.setValue(primeAddress);
+    }
+
     public void setClientID(String clientID) {
         this.clientID.setValue(clientID);
     }
 
     public void setRequestCode(String requestCode) {
         this.requestCode.setValue(requestCode);
+    }
+
+    public void setAddressType(String addressType) {
+        this.addressType.setValue(addressType);
     }
 
     public LiveData<EDCPCollectionDetail> getCollectionDetail(){
@@ -69,23 +105,56 @@ public class VMCustomerNotAround extends AndroidViewModel {
         return liveData;
     }
 
+    // Get all Province Names in a form of LiveData<String[]> ~> For suggest/dropdown in fragment field
+    public LiveData<String[]> getProvinceNames() {
+        return poProvRepo.getAllProvinceNames();
+    }
+
+    // Get all of the Province table fields ~> For province ID  saving and town selection reference
+    public LiveData<List<EProvinceInfo>> getProvinceInfos() {
+        return poProvRepo.getAllProvinceInfo();
+    }
+
+    // Get all Town Names in a form of LiveData<String[]> depending in the provided Province ID ~> For suggest/dropdown in fragment field
+    public LiveData<String[]> getAllTownNames() {
+        return poTownRepo.getTownNamesFromProvince(psProvID.getValue());
+    }
+
+    // Get all of the Town table fields ~> For Town ID saving and town selection reference
+    public LiveData<List<ETownInfo>> getAllTownInfo() {
+        return poTownRepo.getTownInfoFromProvince(psProvID.getValue());
+    }
+
+    public LiveData<String[]> getPermanentBarangayNameList(){
+        return poBarangay.getBarangayNamesFromTown(psTownID.getValue());
+    }
+
+    public LiveData<List<EBarangayInfo>> getPermanentBarangayInfoList(){
+        return poBarangay.getAllBarangayFromTown(psTownID.getValue());
+    }
+
     public void addAddress(AddressUpdate foAddress){
         try {
             foAddress.setRequestCode(requestCode.getValue());
+            foAddress.setcAddrssTp(addressType.getValue());
+            foAddress.setsProvIDxx(psProvID.getValue());
+            foAddress.setTownID(psTownID.getValue());
+            foAddress.setBarangayID(psBrgyID.getValue());
+            foAddress.setPrimaryStatus(primeAddress.getValue());
             if (foAddress.isDataValid()) {
                 EAddressUpdate info = new EAddressUpdate();
-                info.setTransNox(Objects.requireNonNull(psTransNox.getValue()));
-                info.setClientID(Objects.requireNonNull(clientID.getValue()));
+                info.setTransNox(psTransNox.getValue());
+                info.setClientID(clientID.getValue());
                 info.setReqstCDe(foAddress.getRequestCode());
-                info.setAddrssTp("");
-                info.setHouseNox("");
-                info.setAddressx("");
-                info.setTownIDxx("");
-                info.setBrgyIDxx("");
-                info.setPrimaryx("");
+                info.setAddrssTp(foAddress.getcAddrssTp());
+                info.setHouseNox(foAddress.getHouseNumber());
+                info.setAddressx(foAddress.getAddress());
+                info.setTownIDxx(foAddress.getTownID());
+                info.setBrgyIDxx(foAddress.getBarangayID());
+                info.setPrimaryx(foAddress.getPrimaryStatus());
                 info.setLongitud("");
                 info.setLatitude("");
-                info.setRemarksx("");
+                info.setRemarksx(foAddress.getRemarks());
                 info.setTranStat("");
                 info.setSendStat("0");
                 info.setModified(AppConstants.DATE_MODIFIED);
@@ -100,4 +169,6 @@ public class VMCustomerNotAround extends AndroidViewModel {
     public void addMobile(){
 
     }
+
+
 }
