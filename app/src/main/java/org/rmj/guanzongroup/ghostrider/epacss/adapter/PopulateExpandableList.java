@@ -14,6 +14,7 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Applicatio
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalCode;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalSelection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionLog;
 import org.rmj.guanzongroup.ghostrider.griderscanner.GriderScanner;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
@@ -47,9 +48,9 @@ public class PopulateExpandableList {
                                 listener.OnHomeButtonClick();
                             }
                         }
-                        if(groupPosition == 2){
-                            context.startActivity(new Intent(context, Activity_CollectionList.class));
-                        }
+//                        if(groupPosition == 2){
+//                            context.startActivity(new Intent(context, Activity_CollectionList.class));
+//                        }
                     } else {
 //                        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
 //                            if (i != groupPosition) {
@@ -97,6 +98,18 @@ public class PopulateExpandableList {
                         }
                         break;
                     case 2:
+                        switch (childPosition){
+                            case 0:
+                                intent = new Intent(context, Activity_CollectionList.class);
+                                intent.putExtra("syscode", "2");
+                                context.startActivity(intent);
+                                break;
+                            case 1:
+                                intent = new Intent(context, Activity_CollectionLog.class);
+                                intent.putExtra("syscode", "2");
+                                context.startActivity(intent);
+                                break;
+                        }
                         break;
                     case 3:
                         switch(childPosition)

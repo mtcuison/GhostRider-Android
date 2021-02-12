@@ -10,5 +10,6 @@
     <string name="sTown">Municipality</string>
     <string name="sBrgy">Barangay</string>
     <string name="sLblRemarks">Remarks</string>
+    <string name="sActionMenu_TransactionList">Transaction List</string>
 
 </resources>
