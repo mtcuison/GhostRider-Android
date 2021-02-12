@@ -51,4 +51,11 @@ public class DCP_Constants {
             "Deed Of Sale",
             "Release",
             "Miscellaneous"};
+
+    public static String[] REQUEST_CODE = {
+            "Request Code",
+            "New",
+            "Update",
+            "Change"
+    };
 }

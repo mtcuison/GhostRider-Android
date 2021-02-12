@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -50,13 +51,39 @@ public class Fragment_CustomerNotAround extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        String TransNox = Activity_Transaction.getInstance().getTransNox();
+        String EntryNox = Activity_Transaction.getInstance().getEntryNox();
         mViewModel = ViewModelProviders.of(this).get(VMCustomerNotAround.class);
 
+        mViewModel.setParameter(TransNox, EntryNox);
 
+        mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
+            try {
+                lblAccNo.setText(collectionDetail.getAcctNmbr());
+                lblClientNm.setText(collectionDetail.getFullName());
+                lblTransNo.setText(collectionDetail.getTransNox());
+
+                mViewModel.setClientID(collectionDetail.getClientID());
+                mViewModel.setCurrentCollectionDetail(collectionDetail);
+            } catch (Exception
+
+
+                    e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getRequestCodeOptions().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnRequestCode.setAdapter(stringArrayAdapter));
 
     }
 
     private void initWidgets(View v){
+        lblBranch = v.findViewById(R.id.lbl_headerBranch);
+        lblAddress = v.findViewById(R.id.lbl_headerAddress);
+        lblAccNo = v.findViewById(R.id.lbl_dcpAccNo);
+        lblClientNm = v.findViewById(R.id.lbl_dcpClientNm);
+        lblTransNo = v.findViewById(R.id.lbl_dcpTransNo);
+
         cbPrimeContact = v.findViewById(R.id.cb_primaryContact);
         cbPermanentAdd = v.findViewById(R.id.cb_permanent);
         cbPResentAdd = v.findViewById(R.id.cb_present);
@@ -77,6 +104,7 @@ public class Fragment_CustomerNotAround extends Fragment {
         lnContactNox = v.findViewById(R.id.CNA_Contact);
         lnAddress = v.findViewById(R.id.CNA_Address);
         rg_CNA_Input.setOnCheckedChangeListener(new Fragment_CustomerNotAround.OnRadioButtonSelectListener());
+        spnRequestCode.setOnItemSelectedListener(new Fragment_CustomerNotAround.OnJobStatusSelectedListener());
     }
 
     private class OnRadioButtonSelectListener implements RadioGroup.OnCheckedChangeListener {
@@ -93,5 +121,26 @@ public class Fragment_CustomerNotAround extends Fragment {
             }
         }
 
+    }
+
+    private class OnJobStatusSelectedListener implements AdapterView.OnItemSelectedListener{
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Request Code")) {
+                mViewModel.setRequestCode("");
+            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("New")) {
+                mViewModel.setRequestCode("New");
+            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Update")) {
+                mViewModel.setRequestCode("Update");
+            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Change")) {
+                mViewModel.setRequestCode("Change");
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
     }
 }
