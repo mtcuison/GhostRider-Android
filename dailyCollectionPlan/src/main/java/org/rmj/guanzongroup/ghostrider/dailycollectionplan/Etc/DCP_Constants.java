@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc;
 
+import android.graphics.Bitmap;
+
 public class DCP_Constants {
 
 
@@ -66,4 +68,7 @@ public class DCP_Constants {
             "Update",
             "Change"
     };
+
+    public static Bitmap selectedImageBitmap;
+    public static boolean saveStorage=false;
 }

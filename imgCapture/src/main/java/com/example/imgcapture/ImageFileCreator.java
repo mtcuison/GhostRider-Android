@@ -26,6 +26,7 @@ public class ImageFileCreator {
     private final Context poContext;
 
     private String cameraUsage;
+    private  String folder_name;
     String currentPhotoPath;
     private double latitude, longitude;
 
@@ -35,6 +36,11 @@ public class ImageFileCreator {
 
     public ImageFileCreator(Context context, String usage) {
         this.poContext = context;
+        this.cameraUsage = usage;
+    }
+    public ImageFileCreator(Context context,String folder, String usage) {
+        this.poContext = context;
+        this.folder_name = folder;
         this.cameraUsage = usage;
     }
 
@@ -123,6 +129,42 @@ public class ImageFileCreator {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = cameraUsage + "_" + timeStamp + ".png";
         File storageDir = poContext.getExternalFilesDir( "/" + cameraUsage );
+        //File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+//        String imageFileName = "cropped_" + timeStamp + ".png";
+        File mypath = new File(storageDir, imageFileName);
+        currentPhotoPath = mypath.getAbsolutePath();
+        Log.e("Image Path ", cameraUsage);
+        return mypath;
+    }
+
+    //CreateFile for Document Scanner Camera
+
+    public void CreateDCPFile(OnImageFileCreatedListener listener) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(poContext.getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageScanFile();
+            } catch (IOException ex) {
+            }
+            if (photoFile != null) {
+                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                StrictMode.setVmPolicy(builder.build());
+
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                listener.OpenCamera(takePictureIntent, currentPhotoPath);
+            }
+        }
+    }
+
+    private File createImageDcpFile() throws IOException {
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = cameraUsage + "_" + timeStamp + ".png";
+        File storageDir = poContext.getExternalFilesDir( "/" + folder_name + "/" + cameraUsage );
         //File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 //        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
 //        String imageFileName = "cropped_" + timeStamp + ".png";

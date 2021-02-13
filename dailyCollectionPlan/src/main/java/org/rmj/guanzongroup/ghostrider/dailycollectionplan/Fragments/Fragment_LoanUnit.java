@@ -1,33 +1,52 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
+import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.imgcapture.ImageFileCreator;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DialogDownloadDCP;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DialogImagePreview;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.OnBirthSetListener;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.LoanUnitModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLoanUnit;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
+import java.io.File;
+import java.io.IOException;
+
+import static android.app.Activity.RESULT_OK;
+
 public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
 
+    private AlertDialog poDialogx;
     private VMLoanUnit mViewModel;
     private String spnCivilStatsPosition = "";
     private String genderPosition = "";
@@ -38,9 +57,16 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
     private TextInputEditText tieBDate, tieBPlace, tiePhone, tieMobileNo, tieEmailAdd;
     private MaterialButton btnLUSubmit;
     private AutoCompleteTextView spnCivilStats;
-
+    private ImageView imgCamera;
     private LoanUnitModel infoModel;
     private MessageBox poMessage;
+    public static int CAMERA_REQUEST_CODE = 1231;
+
+    public static String mCurrentPhotoPath;
+    private ImageFileCreator poFilexx;
+    private final String FOLDER_NAME = "DCP";
+    private final String CAMERA_USAGE = "Loan Unit";
+    public static ContentResolver contentResolver;
     public static Fragment_LoanUnit newInstance() {
         return new Fragment_LoanUnit();
     }
@@ -50,6 +76,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_loan_unit, container, false);
         poMessage = new MessageBox(getActivity());
+        poFilexx = new ImageFileCreator(getActivity(), FOLDER_NAME, CAMERA_USAGE);
         infoModel = new LoanUnitModel();
         initWidgets(view);
         return view;
@@ -82,10 +109,12 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         tiePhone = v.findViewById(R.id.tie_lun_phone);
         tieMobileNo = v.findViewById(R.id.tie_lun_mobileNp);
         tieEmailAdd = v.findViewById(R.id.tie_lun_email);
+        imgCamera = v.findViewById(R.id.imgLuCamera);
 
         btnLUSubmit = v.findViewById(R.id.btn_dcpSubmit);
 
         btnLUSubmit.setOnClickListener(view -> submitLUn());
+
     }
 
     @Override
@@ -104,10 +133,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
                 lblClientNm.setText(collectionDetail.getFullName());
                 lblTransNo.setText(collectionDetail.getTransNox());
                 mViewModel.setCurrentCollectionDetail(collectionDetail);
-            } catch (Exception
-
-
-                    e){
+            } catch (Exception e){
                 e.printStackTrace();
             }
         });
@@ -132,6 +158,53 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
                 mViewModel.setGender("2");
             }
         });
+        imgCamera.setOnClickListener(view ->
+        {
+//            if (DCP_Constants.selectedImageBitmap != null){
+//                cameraCapture(mCurrentPhotoPath);
+//                showDialog();
+//            }else{
+                poFilexx.CreateDCPFile((openCamera, photPath) -> {
+                    mCurrentPhotoPath = photPath;
+                    startActivityForResult(openCamera, CAMERA_REQUEST_CODE);
+                });
+//            }
+
+
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("REQUEST CODE", String.valueOf(requestCode));
+        Log.e("RESULT CODE", String.valueOf(resultCode));
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            cameraCapture(mCurrentPhotoPath);
+            showDialog();
+        }
+    }
+    public void showDialog(){
+        DialogImagePreview dialogImagePreview = new DialogImagePreview(getActivity());
+        dialogImagePreview.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
+            @Override
+            public void OnCancel(Dialog Dialog)
+            {
+                //imgCamera.setOnClickListener(null);
+                Dialog.dismiss();
+            }
+        });
+        dialogImagePreview.show();
+    }
+    public boolean cameraCapture (String photoPath) {
+        try {
+            DCP_Constants.selectedImageBitmap = MediaStore.Images.Media.getBitmap(
+                    getActivity().getContentResolver(),Uri.fromFile(new File(photoPath)));
+        } catch (IOException e) {
+            return false;
+        }
+
+        return DCP_Constants.selectedImageBitmap != null;
     }
 
     @Override
@@ -188,4 +261,6 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         infoModel.setLuEmail(tieEmailAdd.getText().toString());
         mViewModel.saveLuInfo(infoModel, Fragment_LoanUnit.this);
     }
+
+
 }

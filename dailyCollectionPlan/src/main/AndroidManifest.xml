@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.rmj.guanzongroup.ghostrider.dailycollectionplan">
-
     <application>
         <activity android:name=".Activities.Activity_CollectionLog"
             android:screenOrientation="userPortrait"
