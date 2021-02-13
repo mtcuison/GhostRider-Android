@@ -257,7 +257,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLength="5"
-                        android:inputType="number|none"/>
+                        android:inputType="number|none"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@+id/txt_address"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -271,7 +273,9 @@
                         android:id="@+id/txt_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="100"/>
+                        android:maxLength="100"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@+id/txt_dcpCNA_town"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -287,7 +291,9 @@
                     android:id="@+id/txt_dcpCNA_town"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/AutoCompleteStyleTheme" />
+                    style="@style/AutoCompleteStyleTheme"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/txt_dcpCNA_brgy" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -302,7 +308,9 @@
                     android:id="@+id/txt_dcpCNA_brgy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/AutoCompleteStyleTheme" />
+                    style="@style/AutoCompleteStyleTheme"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/txt_dcpCNA_remarks" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -330,7 +338,8 @@
                 android:id="@+id/txt_dcpCNA_remarks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/TextInputStyle.Edittext" />
+                style="@style/TextInputStyle.Edittext"
+                android:imeOptions="actionDone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
