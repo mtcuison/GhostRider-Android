@@ -157,8 +157,8 @@ tools:context=".Fragments.Fragment_LoanUnit">
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:tint="@color/white"
-                android:src="@android:drawable/ic_menu_camera"/>
+                android:background="@android:drawable/ic_menu_camera"
+                android:backgroundTint="#ffff"/>
         </LinearLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
