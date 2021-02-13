@@ -71,6 +71,7 @@ public class VMLoanUnit extends AndroidViewModel {
     public LiveData<EDCPCollectionMaster> getCollectionMaster(){
         return poDcp.getCollectionMaster();
     }
+
     public LiveData<EDCPCollectionDetail> getCollectionDetail(){
         return poDcp.getCollectionDetail(psTransNox.getValue(), psEntryNox.getValue());
     }

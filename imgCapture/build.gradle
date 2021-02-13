@@ -57,7 +57,4 @@ dependencies {
     androidTestImplementation 'androidx.test:core:1.3.0'
 
     implementation project(':g3appdriver')
-
-
-
 }

@@ -40,10 +40,18 @@ public class PrepareData {
             listDataChild.put(menuModel, childModelsList);
         }
 
-        menuModel = new MenuModel("Daily Collection Plan", R.drawable.ic_menu_dcp, true, false);
+        childModelsList = new ArrayList<>();
+        menuModel = new MenuModel("Daily Collection Plan", R.drawable.ic_menu_dcp, true, true);
         listDataHeader.add(menuModel);
+
+        childModel = new MenuModel("Collection List", 0, false, false );
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Transaction Log", 0,false, false);
+        childModelsList.add(childModel);
+
         if (menuModel.hasChildren) {
-            listDataChild.put(menuModel, null);
+            listDataChild.put(menuModel, childModelsList);
         }
 
         childModelsList = new ArrayList<>();

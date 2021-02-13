@@ -5,6 +5,7 @@ public class AddressUpdate {
     private String cAddrssTp;
     private String sHouseNox;
     private String sAddressx;
+    private String sProvIDxx;
     private String sTownIDxx;
     private String sBrgyIDxx;
     private String cPrimaryx;
@@ -52,6 +53,14 @@ public class AddressUpdate {
 
     public void setAddress(String sAddressx) {
         this.sAddressx = sAddressx;
+    }
+
+    public String getsProvIDxx() {
+        return sProvIDxx;
+    }
+
+    public void setsProvIDxx(String sProvIDxx) {
+        this.sProvIDxx = sProvIDxx;
     }
 
     public String getTownID() {

@@ -34,6 +34,10 @@ public class RDailyCollectionPlan {
         masterDao = appDatabase.DcpMasterDao();
     }
 
+    public LiveData<EDCPCollectionMaster> getCollectionMaster(){
+        return masterDao.getCollectionMaster();
+    }
+
     public void insertDetailBulkData(List<EDCPCollectionDetail> collectionDetails){
         detailDao.insertBulkData(collectionDetails);
     }
@@ -56,9 +60,6 @@ public class RDailyCollectionPlan {
 
     public void updateCollectionDetailInfo(EDCPCollectionDetail collectionDetail){
         new UpdateDataTask(detailDao).execute(collectionDetail);
-    }
-    public LiveData<EDCPCollectionMaster> getCollectionMaster(){
-        return masterDao.getCollectionMaster();
     }
 
     private static class UpdateDataTask extends AsyncTask<EDCPCollectionDetail, Void, String>{

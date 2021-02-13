@@ -5,7 +5,7 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:theme="@style/GhostRiderMaterialTheme"
 tools:context=".Fragments.Fragment_LoanUnit">
-<LinearLayout
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -136,7 +136,7 @@ tools:context=".Fragments.Fragment_LoanUnit">
         android:layout_height="1.5dp"
         android:layout_marginTop="8dp"
         android:background="@color/guanzon_orange"/>
-<!--    Name-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -439,6 +439,6 @@ tools:context=".Fragments.Fragment_LoanUnit">
         android:text="@string/btn_submit"
         style="@style/GhostRider_Button"/>
 
-</LinearLayout>
+</LinearLayout>-->
 
 </ScrollView>

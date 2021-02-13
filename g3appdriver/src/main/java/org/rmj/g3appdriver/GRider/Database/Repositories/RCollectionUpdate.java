@@ -3,6 +3,8 @@ package org.rmj.g3appdriver.GRider.Database.Repositories;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import androidx.lifecycle.LiveData;
+
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAddressRequest;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMobileRequest;
@@ -13,7 +15,7 @@ import java.util.List;
 
 public class RCollectionUpdate {
     private static final String TAG = "DB_Collection";
-    private Application application;
+    private final Application application;
     private final DAddressRequest addressDao;
     private final DMobileRequest mobileDao;
 
@@ -24,15 +26,31 @@ public class RCollectionUpdate {
         mobileDao = db.MobileRequestDao();
     }
 
-    public void insertUpdateAddress(List<EAddressUpdate> addressUpdate){
+    public LiveData<List<EAddressUpdate>> getAddressList(){
+        return addressDao.getAddressRequestList();
+    }
+
+    public LiveData<List<EMobileUpdate>> getMobileList(){
+        return mobileDao.getMobileRequestList();
+    }
+
+    public void insertUpdateAddress(EAddressUpdate addressUpdate){
         new UpdateAddressTask(addressDao).execute(addressUpdate);
     }
 
-    public void insertUpdateMobile(List<EMobileUpdate> mobileUpdate){
+    public void deleteAddress(String TransNox){
+        new DeleteAddressTask(addressDao).execute(TransNox);
+    }
+
+    public void insertUpdateMobile(EMobileUpdate mobileUpdate){
         new UpdateMobileTask(mobileDao).execute(mobileUpdate);
     }
 
-    private static class UpdateAddressTask extends AsyncTask<List<EAddressUpdate>, Void, String>{
+    public void deleteMobile(String TransNox){
+        new DeleteMobileTask(mobileDao).execute(TransNox);
+    }
+
+    private static class UpdateAddressTask extends AsyncTask<EAddressUpdate, Void, String>{
         private final DAddressRequest addressDao;
 
         UpdateAddressTask(DAddressRequest addressDao){
@@ -40,13 +58,27 @@ public class RCollectionUpdate {
         }
 
         @Override
-        protected String doInBackground(List<EAddressUpdate>... eAddressUpdates) {
+        protected String doInBackground(EAddressUpdate... eAddressUpdates) {
             addressDao.insert(eAddressUpdates[0]);
             return "";
         }
     }
 
-    private static class UpdateMobileTask extends AsyncTask<List<EMobileUpdate>, Void, String>{
+    public static class DeleteAddressTask extends AsyncTask<String, Void, String>{
+        private final DAddressRequest addressDao;
+
+        DeleteAddressTask(DAddressRequest addressDao){
+            this.addressDao = addressDao;
+        }
+
+        @Override
+        protected String doInBackground(String... transNox) {
+            addressDao.deleteAddressInfo(transNox[0]);
+            return "";
+        }
+    }
+
+    private static class UpdateMobileTask extends AsyncTask<EMobileUpdate, Void, String>{
         private final DMobileRequest mobileDao;
 
         UpdateMobileTask(DMobileRequest mobileDao){
@@ -55,13 +87,24 @@ public class RCollectionUpdate {
 
         @SafeVarargs
         @Override
-        protected final String doInBackground(List<EMobileUpdate>... eMobileUpdates) {
+        protected final String doInBackground(EMobileUpdate... eMobileUpdates) {
             mobileDao.insert(eMobileUpdates[0]);
             return "";
         }
     }
 
-    private String getGeneratedTransNox(String fsTableName) throws Exception {
-        return "";
+
+    public static class DeleteMobileTask extends AsyncTask<String, Void, String>{
+        private final DMobileRequest mobileDao;
+
+        DeleteMobileTask(DMobileRequest mobileDao){
+            this.mobileDao = mobileDao;
+        }
+
+        @Override
+        protected String doInBackground(String... transNox) {
+            mobileDao.deleteMobileInfo(transNox[0]);
+            return "";
+        }
     }
 }
