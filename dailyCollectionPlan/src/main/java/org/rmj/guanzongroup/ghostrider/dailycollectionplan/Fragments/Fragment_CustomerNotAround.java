@@ -30,11 +30,12 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_T
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.AddressUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCustomerNotAround;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
 import java.util.List;
 import java.util.Objects;
 
-public class Fragment_CustomerNotAround extends Fragment {
+public class Fragment_CustomerNotAround extends Fragment implements ViewModelCallback {
     private VMCustomerNotAround mViewModel;
     private AddressUpdate addressInfoModel;
     private MessageBox poMessage;
@@ -170,7 +171,31 @@ public class Fragment_CustomerNotAround extends Fragment {
         addressInfoModel.setAddress(Objects.requireNonNull(txtAddress.getText().toString()));
         addressInfoModel.setsRemarksx(Objects.requireNonNull(txtRemarks.getText().toString()));
 
-        mViewModel.addAddress(addressInfoModel);
+        mViewModel.addAddress(addressInfoModel, Fragment_CustomerNotAround.this);
+    }
+
+    @Override
+    public void OnStartSaving() {
+
+    }
+
+    @Override
+    public void OnSuccessResult(String[] args) {
+        poMessage.setTitle("Transaction Success");
+        poMessage.setMessage(args[0]);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+            dialog.dismiss();
+            getActivity().finish();
+        });
+        poMessage.show();
+    }
+
+    @Override
+    public void OnFailedResult(String message) {
+        poMessage.setTitle("Transaction Failed");
+        poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
     }
 
     private class OnRadioButtonSelectListener implements RadioGroup.OnCheckedChangeListener {

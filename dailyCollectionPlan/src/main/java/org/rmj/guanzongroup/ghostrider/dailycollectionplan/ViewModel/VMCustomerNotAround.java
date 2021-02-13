@@ -134,7 +134,7 @@
             return poUpdate.getMobileList();
         }
 
-        public void addAddress(AddressUpdate foAddress){
+        public void addAddress(AddressUpdate foAddress, ViewModelCallback callback){
             try {
                 foAddress.setRequestCode(requestCode.getValue());
                 foAddress.setcAddrssTp(addressType.getValue());
