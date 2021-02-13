@@ -104,7 +104,7 @@ public class Fragment_CustomerNotAround extends Fragment {
             String[] town = lsTown.split(", ");
             mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
                 for(int x = 0; x < townProvinceInfos.size(); x++){
-                    if(town[0].equalsIgnoreCase(townProvinceInfos.get(x).sTownName)){
+                    if(lsTown.equalsIgnoreCase(townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName)){
                         addressInfoModel.setTownID(townProvinceInfos.get(x).sTownIDxx);
                         mViewModel.setTownID(townProvinceInfos.get(x).sTownIDxx);
                         break;
