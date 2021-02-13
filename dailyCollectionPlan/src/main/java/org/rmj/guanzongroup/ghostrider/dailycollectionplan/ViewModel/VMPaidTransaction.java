@@ -13,6 +13,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
 
@@ -20,7 +22,13 @@ public class VMPaidTransaction extends AndroidViewModel {
     private static final String TAG = VMPaidTransaction.class.getSimpleName();
     private final RBranch poBranch;
     private final RDailyCollectionPlan poDcp;
+
+    private final HttpHeaders poHeaders;
+    private final ConnectionUtil poConn;
+
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
+
+
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
     private final MutableLiveData<String> psEntryNox = new MutableLiveData<>();
     private final MutableLiveData<Double> pnAmount = new MutableLiveData<>();
@@ -34,6 +42,8 @@ public class VMPaidTransaction extends AndroidViewModel {
         this.poDcp = new RDailyCollectionPlan(application);
         this.pnDsCntx.setValue((double) 0);
         this.pnOthers.setValue((double) 0);
+        this.poHeaders = HttpHeaders.getInstance(application);
+        this.poConn = new ConnectionUtil(application);
     }
 
     public void setParameter(String TransNox, String EntryNox){
@@ -104,13 +114,18 @@ public class VMPaidTransaction extends AndroidViewModel {
                 detail.setTranTotl(infoModel.getTotAmnt());
                 detail.setRemarksx(infoModel.getRemarks());
                 detail.setSendStat("0");
+                detail.setTranStat("1");
                 detail.setModified(AppConstants.DATE_MODIFIED);
                 poDcp.updateCollectionDetailInfo(detail);
-                callback.OnSuccessResult(new String[]{"Dcp Save!"});
+                callback.OnSuccessResult(new String[]{""});
             }
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailedResult(e.getMessage());
         }
+    }
+
+    private void PostTransaction(){
+
     }
 }

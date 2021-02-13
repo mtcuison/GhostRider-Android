@@ -60,7 +60,7 @@ public class CollectionPlan {
     }
 
     public String getDCPNumber() {
-        return "DCP " + DCPNumber + "/" + DCPCountx;
+        return "Entry No. : " + DCPNumber;
     }
 
     public String getClientNme() {

@@ -168,6 +168,7 @@ public class ImportCollection implements ImportInstance {
                 collectionDetail.setClientID(loJson.getString("sClientID"));
                 collectionDetail.setSerialID(loJson.getString("sSerialID"));
                 collectionDetail.setSerialNo(loJson.getString("sSerialNo"));
+                collectionDetail.setTranStat("0");
                 collectionDetails.add(collectionDetail);
             }
             dcpRepo.insertDetailBulkData(collectionDetails);
