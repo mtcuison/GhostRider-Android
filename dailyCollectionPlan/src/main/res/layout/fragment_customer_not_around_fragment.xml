@@ -280,21 +280,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextInputStyle"
-                android:hint="@string/sHintProvince"
-                android:layout_marginTop="5dp">
-
-                <AutoCompleteTextView
-                    android:id="@+id/txt_dcpCNA_prov"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/AutoCompleteStyleTheme" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle"
                 android:hint="@string/sTown"
                 android:layout_marginTop="5dp">
 

@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
@@ -35,7 +36,6 @@ public class VMCustomerNotAround extends AndroidViewModel {
     private final Application instance;
     private final RDailyCollectionPlan poDcp;
     private final RBranch poBranch;
-    private final RProvince poProvRepo; //Province Repository
     private final RTown poTownRepo; //Town Repository
     private final RBarangay poBarangay;
 
@@ -58,7 +58,6 @@ public class VMCustomerNotAround extends AndroidViewModel {
         this.instance = application;
         this.poDcp = new RDailyCollectionPlan(application);
         this.poBranch = new RBranch(application);
-        poProvRepo = new RProvince(application);
         poTownRepo = new RTown(application);
         poBarangay = new RBarangay(application);
         this.plAddress.setValue(new ArrayList<>());
@@ -70,9 +69,6 @@ public class VMCustomerNotAround extends AndroidViewModel {
         this.psEntryNox.setValue(EntryNox);
     }
 
-    public void setProvinceID(String fsID){
-        this.psProvID.setValue(fsID);
-    }
     public void setTownID(String fsID){
         this.psTownID.setValue(fsID);
     }
@@ -113,31 +109,15 @@ public class VMCustomerNotAround extends AndroidViewModel {
         return liveData;
     }
 
-    // Get all Province Names in a form of LiveData<String[]> ~> For suggest/dropdown in fragment field
-    public LiveData<String[]> getProvinceNames() {
-        return poProvRepo.getAllProvinceNames();
+    public LiveData<List<DTownInfo.TownProvinceInfo>> getTownProvinceInfo(){
+        return poTownRepo.getTownProvinceInfo();
     }
 
-    // Get all of the Province table fields ~> For province ID  saving and town selection reference
-    public LiveData<List<EProvinceInfo>> getProvinceInfos() {
-        return poProvRepo.getAllProvinceInfo();
-    }
-
-    // Get all Town Names in a form of LiveData<String[]> depending in the provided Province ID ~> For suggest/dropdown in fragment field
-    public LiveData<String[]> getAllTownNames() {
-        return poTownRepo.getTownNamesFromProvince(psProvID.getValue());
-    }
-
-    // Get all of the Town table fields ~> For Town ID saving and town selection reference
-    public LiveData<List<ETownInfo>> getAllTownInfo() {
-        return poTownRepo.getTownInfoFromProvince(psProvID.getValue());
-    }
-
-    public LiveData<String[]> getPermanentBarangayNameList(){
+    public LiveData<String[]> getBarangayNameList(){
         return poBarangay.getBarangayNamesFromTown(psTownID.getValue());
     }
 
-    public LiveData<List<EBarangayInfo>> getPermanentBarangayInfoList(){
+    public LiveData<List<EBarangayInfo>> getBarangayInfoList(){
         return poBarangay.getAllBarangayFromTown(psTownID.getValue());
     }
 

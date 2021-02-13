@@ -4,8 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
@@ -38,14 +36,14 @@ import java.util.Objects;
 
 public class Fragment_CustomerNotAround extends Fragment {
     private VMCustomerNotAround mViewModel;
-    private AddressUpdate infoModel;
+    private AddressUpdate addressInfoModel;
     private MessageBox poMessage;
     private CheckBox cbPrimeContact, cbPrimary;
     private Spinner spnRequestCode;
     private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblClientAddress;
     private RadioGroup rg_CNA_Input, rg_addressType;
     private TextInputEditText txtContact, txtHouseNox, txtAddress, txtRemarks;
-    private AutoCompleteTextView txtTown,txtProvince , txtBrgy;
+    private AutoCompleteTextView txtTown, txtBrgy;
     private LinearLayout lnContactNox,
             lnAddress;
     private MaterialButton btnAdd, btnCommit, btnSubmit;
@@ -55,7 +53,7 @@ public class Fragment_CustomerNotAround extends Fragment {
         View view = inflater.inflate(R.layout.fragment_customer_not_around_fragment, container, false);
 
 
-        infoModel = new AddressUpdate();
+        addressInfoModel = new AddressUpdate();
         poMessage = new MessageBox(getActivity());
         initWidgets(view);
 
@@ -90,96 +88,46 @@ public class Fragment_CustomerNotAround extends Fragment {
             lblAddress.setText(eBranchInfo.getAddressx());
         });
 
-        mViewModel.getProvinceNames().observe(getViewLifecycleOwner(), new Observer<String[]>() {
-            @Override
-            public void onChanged(String[] strings) {
-                try{
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
-                    txtProvince.setAdapter(adapter);
-                } catch (Exception e){
-                    e.printStackTrace();
+
+        // Province
+        mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
+            String[] townProvince = new String[townProvinceInfos.size()];
+            for(int x = 0; x < townProvinceInfos.size(); x++){
+                townProvince[x] = townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName;
+            }
+            ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, townProvince);
+            txtTown.setAdapter(loAdapter);
+        });
+
+        txtTown.setOnItemClickListener((adapterView, view, i, l) -> {
+            String lsTown = txtTown.getText().toString();
+            String[] town = lsTown.split(", ");
+            mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
+                for(int x = 0; x < townProvinceInfos.size(); x++){
+                    if(town[0].equalsIgnoreCase(townProvinceInfos.get(x).sTownName)){
+                        addressInfoModel.setTownID(townProvinceInfos.get(x).sTownIDxx);
+                        mViewModel.setTownID(townProvinceInfos.get(x).sTownIDxx);
+                        break;
+                    }
+                }
+
+                mViewModel.getBarangayNameList().observe(getViewLifecycleOwner(), strings -> {
+                    ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
+                    txtBrgy.setAdapter(loAdapter);
+                });
+            });
+        });
+
+        txtBrgy.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getBarangayInfoList().observe(getViewLifecycleOwner(), eBarangayInfos -> {
+            for(int x = 0; x < eBarangayInfos.size(); x++){
+                if(txtBrgy.getText().toString().equalsIgnoreCase(eBarangayInfos.get(x).getBrgyName())){
+                    addressInfoModel.setBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
+                    mViewModel.setBrgyID(eBarangayInfos.get(x).getBrgyIDxx());
+                    break;
                 }
             }
-        });
+        }));
 
-
-        //Getting ID of the Province
-        txtProvince.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getProvinceInfos().observe(getViewLifecycleOwner(), new Observer<List<EProvinceInfo>>() {
-                    @Override
-                    public void onChanged(List<EProvinceInfo> eProvinceInfos) {
-                        for(int x = 0; x < eProvinceInfos.size(); x++){
-                            if(txtProvince.getText().toString().equalsIgnoreCase(eProvinceInfos.get(x).getProvName())){
-                                mViewModel.setProvinceID(eProvinceInfos.get(x).getProvIDxx());
-                                break;
-                            }
-                        }
-
-                        mViewModel.getAllTownNames().observe(getViewLifecycleOwner(), new Observer<String[]>() {
-                            @Override
-                            public void onChanged(String[] strings) {
-                                try{
-                                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
-                                    txtTown.setAdapter(adapter);
-                                } catch (Exception e){
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-
-                    }
-                });
-            }
-        });
-
-        txtTown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getAllTownInfo().observe(getViewLifecycleOwner(), new Observer<List<ETownInfo>>() {
-                    @Override
-                    public void onChanged(List<ETownInfo> eTownInfos) {
-                        for(int x = 0; x < eTownInfos.size(); x++){
-                            if(txtTown.getText().toString().equalsIgnoreCase(eTownInfos.get(x).getTownName())){ //from id to town name
-                                mViewModel.setTownID(eTownInfos.get(x).getTownIDxx());
-                                break;
-                            }
-                        }
-
-                        mViewModel.getPermanentBarangayNameList().observe(getViewLifecycleOwner(), new Observer<String[]>() {
-                            @Override
-                            public void onChanged(String[] strings) {
-                                try{
-                                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
-                                    txtBrgy.setAdapter(adapter);
-                                } catch (Exception e){
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-
-                    }
-                });
-            }
-        });
-
-        txtBrgy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mViewModel.getPermanentBarangayInfoList().observe(getViewLifecycleOwner(), new Observer<List<EBarangayInfo>>() {
-                    @Override
-                    public void onChanged(List<EBarangayInfo> eBrgyInfos) {
-                        for(int x = 0; x < eBrgyInfos.size(); x++){
-                            if(txtBrgy.getText().toString().equalsIgnoreCase(eBrgyInfos.get(x).getBrgyName())){ //from id to town name
-                                mViewModel.setBrgyID(eBrgyInfos.get(x).getBrgyIDxx());
-                                break;
-                            }
-                        }
-                    }
-                });
-            }
-        });
 
         mViewModel.getRequestCodeOptions().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnRequestCode.setAdapter(stringArrayAdapter));
 
@@ -202,7 +150,6 @@ public class Fragment_CustomerNotAround extends Fragment {
         txtContact = v.findViewById(R.id.txt_dcpCNA_contactNox);
         txtHouseNox = v.findViewById(R.id.txt_houseNox);
         txtAddress = v.findViewById(R.id.txt_address);
-        txtProvince = v.findViewById(R.id.txt_dcpCNA_prov);
         txtTown = v.findViewById(R.id.txt_dcpCNA_town);
         txtBrgy = v.findViewById(R.id.txt_dcpCNA_brgy);
         txtRemarks = v.findViewById(R.id.txt_dcpCNA_remarks);
@@ -219,18 +166,14 @@ public class Fragment_CustomerNotAround extends Fragment {
     }
 
     private void addAddress() {
-        infoModel.setHouseNumber(Objects.requireNonNull(txtHouseNox.getText().toString()));
-        infoModel.setAddress(Objects.requireNonNull(txtAddress.getText().toString()));
-//        infoModel.setsProvIDxx(Objects.requireNonNull());
-//        infoModel.setTownID(Objects.requireNonNull());
-//        infoModel.setBarangayID(Objects.requireNonNull());
-        infoModel.setsRemarksx(Objects.requireNonNull(txtRemarks.getText().toString()));
+        addressInfoModel.setHouseNumber(Objects.requireNonNull(txtHouseNox.getText().toString()));
+        addressInfoModel.setAddress(Objects.requireNonNull(txtAddress.getText().toString()));
+        addressInfoModel.setsRemarksx(Objects.requireNonNull(txtRemarks.getText().toString()));
 
-        mViewModel.addAddress(infoModel);
+        mViewModel.addAddress(addressInfoModel);
     }
 
     private class OnRadioButtonSelectListener implements RadioGroup.OnCheckedChangeListener {
-
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if(group.getId() == R.id.rg_CnaInput) {
@@ -252,11 +195,9 @@ public class Fragment_CustomerNotAround extends Fragment {
                 }
             }
         }
-
     }
 
     private class OnJobStatusSelectedListener implements AdapterView.OnItemSelectedListener{
-
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Request Code")) {
