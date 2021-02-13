@@ -52,6 +52,14 @@ public class DCP_Constants {
             "Release",
             "Miscellaneous"};
 
+    public static String[] CIVIL_STATUS = {
+            "Single",
+            "Married",
+            "Separated",
+            "Widowed",
+            "Single-Parent",
+            "Single-Parent W/ Live-in Partner"};
+
     public static String[] REQUEST_CODE = {
             "Request Code",
             "New",

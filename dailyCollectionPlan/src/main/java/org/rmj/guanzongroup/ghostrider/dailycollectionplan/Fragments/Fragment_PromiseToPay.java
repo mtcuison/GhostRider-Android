@@ -1,7 +1,9 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +51,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
     private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
     private String IsAppointmentUnitX = "", CollId;
     private PromiseToPayModel infoModel;
+    private String lsDate = "";
 
     private MessageBox poMessage;
     public static Fragment_PromiseToPay newInstance() {
@@ -128,37 +131,25 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
             lblAddress.setText(eBranchInfo.getAddressx());
         });
 
-        ptpDate.setOnClickListener(v ->  showDatePickerDialog(ptpDate));
+        ptpDate.setOnClickListener(v ->  {
+            //showDatePickerDialog(ptpDate);
+            Log.e("remarks ", Remarksx);
+            final Calendar newCalendar = Calendar.getInstance();
+            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+            final DatePickerDialog  StartTime = new DatePickerDialog(getActivity(), (view131, year, monthOfYear, dayOfMonth) -> {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                lsDate = dateFormatter.format(newDate.getTime());
+                ptpDate.setText(lsDate);
+                mViewModel.setPsPtpDate(lsDate);
+            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            StartTime.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            StartTime.show();
+        });
         rgPtpAppUnit.setOnCheckedChangeListener(new OnDependencyStatusSelectionListener(rgPtpAppUnit,mViewModel));
         btnPtp.setOnClickListener( v -> submitPtp(Remarksx));
         // TODO: Use the ViewModel
     }
-    public void showDatePickerDialog(final TextInputEditText editText) {
-        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                final String selectedDate = twoDigits(day) + "/" + twoDigits(month+1) + "/" + year;
-                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                Date date = null;
-                try {
-                    date = dateFormat.parse(selectedDate);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(date);
-                SimpleDateFormat printFormat = new SimpleDateFormat("MMMM dd, yyyy");
-                String lsDate = printFormat.format(calendar.getTime());
-                mViewModel.setPsPtpDate(lsDate);
-                editText.setText(lsDate);
-            }
-        });
-        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
-    }
-    private String twoDigits(int n) {
-        return (n<=9) ? ("0"+n) : String.valueOf(n);
-    }
-
     @Override
     public void OnStartSaving() {
 

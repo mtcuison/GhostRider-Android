@@ -78,4 +78,20 @@ public class Telephony {
         }
         return "";
     }
+
+    public String getFormattedMobileNo(String MobileNo){
+        String result = "";
+        if (!MobileNo.isEmpty()) {
+            if (MobileNo.substring(0, 3).equalsIgnoreCase("+63")) {
+                result = MobileNo.replace("+63", "0");
+            } else if (MobileNo.substring(0, 1).equalsIgnoreCase("9")) {
+                result = "0" + MobileNo;
+            } else if (MobileNo.substring(0, 2).equalsIgnoreCase("63")) {
+                result = MobileNo.replace("63", "0");
+            } else if (MobileNo.substring(0, 2).equalsIgnoreCase("09")) {
+                result = MobileNo;
+            }
+        }
+        return result;
+    }
 }

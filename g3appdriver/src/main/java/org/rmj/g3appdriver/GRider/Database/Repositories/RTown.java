@@ -48,6 +48,10 @@ public class RTown {
         return townDao.getTownNameAndProvID(fsID);
     }
 
+    public LiveData<List<DTownInfo.TownProvinceInfo>> getTownProvinceInfo(){
+        return townDao.getTownProvinceInfo();
+    }
+
     public void saveTownInfo(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
 

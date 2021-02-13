@@ -15,17 +15,17 @@ public class EMobileUpdate {
     @ColumnInfo(name = "sClientID")
     private String ClientID;
     @ColumnInfo(name = "cReqstCDe")
-    private char ReqstCDe;
+    private String ReqstCDe;
     @ColumnInfo(name = "sMobileNo")
     private String MobileNo;
     @ColumnInfo(name = "cPrimaryx")
-    private char Primaryx;
+    private String Primaryx;
     @ColumnInfo(name = "sRemarksx")
     private String Remarksx;
     @ColumnInfo(name = "cTranStat")
-    private char TranStat;
+    private String TranStat;
     @ColumnInfo(name = "cSendStat")
-    private char SendStat;
+    private String SendStat;
     @ColumnInfo(name = "dSendDate")
     private String SendDate;
     @ColumnInfo(name = "dModified")
@@ -53,11 +53,11 @@ public class EMobileUpdate {
         ClientID = clientID;
     }
 
-    public char getReqstCDe() {
+    public String getReqstCDe() {
         return ReqstCDe;
     }
 
-    public void setReqstCDe(char reqstCDe) {
+    public void setReqstCDe(String reqstCDe) {
         ReqstCDe = reqstCDe;
     }
 
@@ -69,11 +69,11 @@ public class EMobileUpdate {
         MobileNo = mobileNo;
     }
 
-    public char getPrimaryx() {
+    public String getPrimaryx() {
         return Primaryx;
     }
 
-    public void setPrimaryx(char primaryx) {
+    public void setPrimaryx(String primaryx) {
         Primaryx = primaryx;
     }
 
@@ -85,19 +85,19 @@ public class EMobileUpdate {
         Remarksx = remarksx;
     }
 
-    public char getTranStat() {
+    public String getTranStat() {
         return TranStat;
     }
 
-    public void setTranStat(char tranStat) {
+    public void setTranStat(String tranStat) {
         TranStat = tranStat;
     }
 
-    public char getSendStat() {
+    public String getSendStat() {
         return SendStat;
     }
 
-    public void setSendStat(char sendStat) {
+    public void setSendStat(String sendStat) {
         SendStat = sendStat;
     }
 
