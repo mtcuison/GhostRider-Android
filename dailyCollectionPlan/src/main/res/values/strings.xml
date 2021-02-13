@@ -1,4 +1,5 @@
 <resources>
+    <string name="sHintLastname">LastName</string>
     <string name="sHintFirstName">FirstName</string>
     <string name="sHintSuffix">Suffix</string>
     <string name="sHintMiddName">MiddleName</string>
