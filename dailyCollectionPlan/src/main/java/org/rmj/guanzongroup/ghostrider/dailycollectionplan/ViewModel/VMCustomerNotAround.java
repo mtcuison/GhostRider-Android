@@ -36,6 +36,7 @@
 
     public class VMCustomerNotAround extends AndroidViewModel {
         private static final String TAG = VMCustomerNotAround.class.getSimpleName();
+        private static final String ZERO = "0";
         private final Application instance;
         private final RDailyCollectionPlan poDcp;
         private final RCollectionUpdate poUpdate;
@@ -49,6 +50,7 @@
         private final MutableLiveData<String> clientID = new MutableLiveData<>();
         private final MutableLiveData<String> requestCode = new MutableLiveData<>();
         private final MutableLiveData<String> addressType = new MutableLiveData<>();
+        private final MutableLiveData<String> primeContact = new MutableLiveData<>();
         private final MutableLiveData<String> primeAddress = new MutableLiveData<>();
         private final MutableLiveData<String> psProvID = new MutableLiveData<>();
         private final MutableLiveData<String> psTownID = new MutableLiveData<>();
@@ -65,6 +67,9 @@
             this.poBranch = new RBranch(application);
             poTownRepo = new RTown(application);
             poBarangay = new RBarangay(application);
+            this.primeContact.setValue(ZERO);
+            this.primeAddress.setValue(ZERO);
+
             this.plAddress.setValue(new ArrayList<>());
             this.plMobile.setValue(new ArrayList<>());
         }
@@ -83,6 +88,10 @@
             this.primeAddress.setValue(primeAddress);
         }
 
+        public MutableLiveData<String> getPrimeAddress() {
+            return primeAddress;
+        }
+
         public void setClientID(String clientID) {
             this.clientID.setValue(clientID);
         }
@@ -93,6 +102,14 @@
 
         public MutableLiveData<String> getRequestCode() {
             return requestCode;
+        }
+
+        public void setPrimeContact(String primeContact) {
+            this.primeContact.setValue(primeContact);
+        }
+
+        public MutableLiveData<String> getPrimeContact() {
+            return primeContact;
         }
 
         public void setAddressType(String addressType) {
@@ -199,7 +216,7 @@
                     info.setTimeStmp(AppConstants.DATE_MODIFIED);
                     poUpdate.insertUpdateMobile(info);
 
-                    callback.OnSuccessResult(new String[]{"Address added into local database."});
+                    callback.OnSuccessResult(new String[]{"Mobile added into local database."});
                     Log.e(TAG, getValidatedMobilenox(foMobile));
                 }
                 else {

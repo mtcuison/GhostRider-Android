@@ -51,7 +51,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
             lnAddress;
     private MaterialButton btnAdd, btnCommit, btnSubmit;
 
-    private String sRqstCode;
+    private String sRqstCode, sPrimaryx;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -167,6 +167,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
         rg_addressType.setOnCheckedChangeListener(new Fragment_CustomerNotAround.OnRadioButtonSelectListener());
         spnRequestCode.setOnItemSelectedListener(new Fragment_CustomerNotAround.OnJobStatusSelectedListener());
         cbPrimary.setOnCheckedChangeListener(new OnCheckboxSetListener());
+        cbPrimeContact.setOnCheckedChangeListener(new OnCheckboxSetListener());
     }
 
     private void addAddress() {
@@ -181,8 +182,11 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
         mViewModel.getRequestCode().observe(getViewLifecycleOwner(), string -> {
             sRqstCode = string;
         });
+        mViewModel.getPrimeContact().observe(getViewLifecycleOwner(), string -> {
+           sPrimaryx = string;
+        });
+
         String sMobileNo = txtContact.getText().toString();
-        String sPrimaryx = cbPrimeContact.getText().toString();
         String sRemarks = txtRemarks.getText().toString();
 
         mobileInfoModel = new MobileUpdate(sRqstCode, sMobileNo, sPrimaryx,sRemarks);
@@ -264,9 +268,11 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if(buttonView.isChecked()){
                 mViewModel.setPrimeAddress("1");
+                mViewModel.setPrimeContact("1");
             }
-            else {
+            else{
                 mViewModel.setPrimeAddress("0");
+                mViewModel.setPrimeContact("0");
             }
         }
     }
