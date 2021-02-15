@@ -91,6 +91,10 @@
             this.requestCode.setValue(requestCode);
         }
 
+        public MutableLiveData<String> getRequestCode() {
+            return requestCode;
+        }
+
         public void setAddressType(String addressType) {
             this.addressType.setValue(addressType);
         }
@@ -144,7 +148,8 @@
                 foAddress.setPrimaryStatus(primeAddress.getValue());
                 if (foAddress.isDataValid()) {
                     EAddressUpdate info = new EAddressUpdate();
-                    info.setTransNox(psTransNox.getValue());
+                    //Auto Generated random String
+                    info.setTransNox(getAlphaNumericString());
                     info.setClientID(clientID.getValue());
                     info.setReqstCDe(foAddress.getRequestCode());
                     info.setAddrssTp(foAddress.getcAddrssTp());
@@ -160,12 +165,14 @@
                     info.setSendStat("0");
                     info.setModified(AppConstants.DATE_MODIFIED);
                     info.setTimeStmp(AppConstants.DATE_MODIFIED);
-                    plAddress.getValue().add(info);
+                    poUpdate.insertUpdateAddress(info);
 
                     callback.OnSuccessResult(new String[]{"Address added into local database."});
                     Log.e(TAG, getValidatedAddress(foAddress));
                 }
-                callback.OnFailedResult(foAddress.getMessage());
+                else {
+                    callback.OnFailedResult(foAddress.getMessage());
+                }
             } catch (Exception e){
                 e.printStackTrace();
                 callback.OnFailedResult(e.getMessage());
@@ -176,12 +183,12 @@
             poUpdate.deleteAddress(TransNox);
         }
 
-        public void addMobile(MobileUpdate foMobile){
+        public void addMobile(MobileUpdate foMobile, ViewModelCallback callback){
             try{
                 if(foMobile.isDataValid()){
                     EMobileUpdate info = new EMobileUpdate();
-                    info.setTransNox("");
-                    info.setClientID("");
+                    info.setTransNox(getAlphaNumericString());
+                    info.setClientID(clientID.getValue());
                     info.setReqstCDe(foMobile.getcReqstCde());
                     info.setMobileNo(foMobile.getsMobileNo());
                     info.setPrimaryx(foMobile.getcPrimaryx());
@@ -191,9 +198,16 @@
                     info.setModified(AppConstants.DATE_MODIFIED);
                     info.setTimeStmp(AppConstants.DATE_MODIFIED);
                     poUpdate.insertUpdateMobile(info);
+
+                    callback.OnSuccessResult(new String[]{"Address added into local database."});
+                    Log.e(TAG, getValidatedMobilenox(foMobile));
+                }
+                else {
+                    callback.OnFailedResult(foMobile.getMessage());
                 }
             } catch (Exception e){
                 e.printStackTrace();
+                callback.OnFailedResult(e.getMessage());
             }
         }
 
@@ -218,6 +232,50 @@
                 e.printStackTrace();
                 return e.getMessage();
             }
+        }
+
+        private String getValidatedMobilenox(MobileUpdate foMobile) {
+            try {
+                JSONObject jsonObj = new JSONObject();
+
+                jsonObj.put("RequestCode", foMobile.getcReqstCde());
+                jsonObj.put("MobileNox", foMobile.getsMobileNo());
+                jsonObj.put("isPrimary", foMobile.getcPrimaryx());
+                jsonObj.put("Remarks", foMobile.getsRemarksx());
+
+                return jsonObj.toString();
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+                return e.getMessage();
+            }
+        }
+
+        private String getAlphaNumericString()
+        {
+            int charCount = 10;
+            // chose a Character random from this String
+            String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    + "0123456789"
+                    + "abcdefghijklmnopqrstuvxyz";
+
+            // create StringBuffer size of AlphaNumericString
+            StringBuilder sb = new StringBuilder(charCount);
+
+            for (int i = 0; i < charCount; i++) {
+
+                // generate a random number between
+                // 0 to AlphaNumericString variable length
+                int index
+                        = (int)(AlphaNumericString.length()
+                        * Math.random());
+
+                // add Character one by one in end of sb
+                sb.append(AlphaNumericString
+                        .charAt(index));
+            }
+
+            return sb.toString();
         }
 
 

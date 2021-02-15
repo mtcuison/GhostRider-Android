@@ -28,6 +28,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.AddressUpdate;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCustomerNotAround;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
@@ -38,6 +39,7 @@ import java.util.Objects;
 public class Fragment_CustomerNotAround extends Fragment implements ViewModelCallback {
     private VMCustomerNotAround mViewModel;
     private AddressUpdate addressInfoModel;
+    private MobileUpdate mobileInfoModel;
     private MessageBox poMessage;
     private CheckBox cbPrimeContact, cbPrimary;
     private Spinner spnRequestCode;
@@ -48,6 +50,8 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
     private LinearLayout lnContactNox,
             lnAddress;
     private MaterialButton btnAdd, btnCommit, btnSubmit;
+
+    private String sRqstCode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -131,9 +135,6 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
 
 
         mViewModel.getRequestCodeOptions().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnRequestCode.setAdapter(stringArrayAdapter));
-
-
-        btnAdd.setOnClickListener(view -> addAddress());
     }
 
     private void initWidgets(View v){
@@ -160,6 +161,8 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
 
         lnContactNox = v.findViewById(R.id.CNA_Contact);
         lnAddress = v.findViewById(R.id.CNA_Address);
+
+        btnAdd.setOnClickListener(view -> addMobile());
         rg_CNA_Input.setOnCheckedChangeListener(new Fragment_CustomerNotAround.OnRadioButtonSelectListener());
         rg_addressType.setOnCheckedChangeListener(new Fragment_CustomerNotAround.OnRadioButtonSelectListener());
         spnRequestCode.setOnItemSelectedListener(new Fragment_CustomerNotAround.OnJobStatusSelectedListener());
@@ -172,6 +175,18 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
         addressInfoModel.setsRemarksx(Objects.requireNonNull(txtRemarks.getText().toString()));
 
         mViewModel.addAddress(addressInfoModel, Fragment_CustomerNotAround.this);
+    }
+
+    private void addMobile() {
+        mViewModel.getRequestCode().observe(getViewLifecycleOwner(), string -> {
+            sRqstCode = string;
+        });
+        String sMobileNo = txtContact.getText().toString();
+        String sPrimaryx = cbPrimeContact.getText().toString();
+        String sRemarks = txtRemarks.getText().toString();
+
+        mobileInfoModel = new MobileUpdate(sRqstCode, sMobileNo, sPrimaryx,sRemarks);
+        mViewModel.addMobile(mobileInfoModel, Fragment_CustomerNotAround.this);
     }
 
     @Override
@@ -205,10 +220,12 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 if(checkedId == R.id.rb_contactNox) {
                     lnContactNox.setVisibility(View.VISIBLE);
                     lnAddress.setVisibility(View.GONE);
+                    btnAdd.setOnClickListener(view -> addMobile());
                 }
                 else if(checkedId == R.id.rb_address){
                     lnContactNox.setVisibility(View.GONE);
                     lnAddress.setVisibility(View.VISIBLE);
+                    btnAdd.setOnClickListener(view -> addAddress());
                 }
             }
             else if(group.getId() == R.id.rg_address_type) {
