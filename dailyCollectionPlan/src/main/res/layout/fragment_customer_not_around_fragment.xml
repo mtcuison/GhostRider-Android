@@ -127,6 +127,14 @@
                 android:gravity="end"/>
         </LinearLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_CNA_outputs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_list"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
