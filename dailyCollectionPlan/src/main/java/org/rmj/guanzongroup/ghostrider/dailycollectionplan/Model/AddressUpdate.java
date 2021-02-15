@@ -117,8 +117,8 @@ public class AddressUpdate {
                 isHouseNoxValid() &&
                 isAddressValid() &&
                 isTownValid() &&
-                isBrgyValid() &&
-                isRemarksValid();
+                isBrgyValid();
+//                isRemarksValid();
     }
 
     private boolean isRequestCodeValid(){
@@ -155,7 +155,7 @@ public class AddressUpdate {
 
 
     private boolean isTownValid(){
-        if(sTownIDxx.trim().isEmpty()){
+        if(sTownIDxx == null || sTownIDxx.equalsIgnoreCase("")){
             message = "Please enter town";
             return false;
         }
@@ -163,8 +163,8 @@ public class AddressUpdate {
     }
 
     private boolean isBrgyValid() {
-        if(sBrgyIDxx.trim().isEmpty()) {
-            message = "Please enter banrangay";
+        if(sBrgyIDxx == null || sBrgyIDxx.equalsIgnoreCase("")) {
+            message = "Please enter barangay";
             return false;
         }
         return true;

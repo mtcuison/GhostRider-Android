@@ -162,10 +162,13 @@
                     info.setTimeStmp(AppConstants.DATE_MODIFIED);
                     plAddress.getValue().add(info);
 
+                    callback.OnSuccessResult(new String[]{"Address added into local database."});
                     Log.e(TAG, getValidatedAddress(foAddress));
                 }
+                callback.OnFailedResult(foAddress.getMessage());
             } catch (Exception e){
                 e.printStackTrace();
+                callback.OnFailedResult(e.getMessage());
             }
         }
 
