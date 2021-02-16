@@ -18,23 +18,33 @@
             android:textColor="@color/guanzon_digital_orange"
             android:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/text_view_title"
+        <ImageView
+            android:id="@+id/icDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:src="@drawable/ic_collection_clear"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            android:id="@+id/tvDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Details"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/guanzon_dark_grey"
             android:maxLines="1"
             android:layout_toLeftOf="@id/tvPrimary"
             android:layout_alignParentLeft="true"
             android:ellipsize="end"/>
 
         <TextView
-            android:id="@+id/text_view_description"
+            android:id="@+id/tvAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_view_title"
-            android:text="Description" />
+            android:layout_below="@id/tvDetails"
+            android:text="House No./Street/Sitio/Barangay"
+            android:layout_marginTop="2dp"/>
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

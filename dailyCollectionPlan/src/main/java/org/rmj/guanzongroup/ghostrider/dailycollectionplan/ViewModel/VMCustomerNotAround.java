@@ -12,6 +12,7 @@
     import org.json.JSONException;
     import org.json.JSONObject;
     import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+    import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAddressRequest;
     import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
     import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
     import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
@@ -149,6 +150,10 @@
 
         public LiveData<List<EAddressUpdate>> getAddressRequestList(){
             return poUpdate.getAddressList();
+        }
+
+        public LiveData<List<DAddressRequest.CustomerAddressInfo>> getAddressNames() {
+            return poUpdate.getAddressNames();
         }
 
         public LiveData<List<EMobileUpdate>> getMobileRequestList(){

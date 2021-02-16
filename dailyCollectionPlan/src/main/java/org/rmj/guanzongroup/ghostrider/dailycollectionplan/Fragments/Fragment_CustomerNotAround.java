@@ -4,7 +4,6 @@
 
     import androidx.annotation.Nullable;
     import androidx.fragment.app.Fragment;
-    import androidx.lifecycle.Observer;
     import androidx.lifecycle.ViewModelProviders;
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
@@ -25,11 +24,6 @@
     import com.google.android.material.button.MaterialButton;
     import com.google.android.material.textfield.TextInputEditText;
 
-    import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
-    import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
-    import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
-    import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
-    import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
     import org.rmj.g3appdriver.GRider.Etc.MessageBox;
     import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
     import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter;
@@ -40,7 +34,6 @@
     import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCustomerNotAround;
     import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
-    import java.util.List;
     import java.util.Objects;
 
     public class Fragment_CustomerNotAround extends Fragment implements ViewModelCallback {
@@ -71,7 +64,6 @@
             addressInfoModel = new AddressUpdate();
 
             mobileAdapter = new MobileInfoAdapter();
-            addressAdapter = new AddressInfoAdapter();
 
             poMessage = new MessageBox(getActivity());
             initWidgets(view);
@@ -258,9 +250,19 @@
                         lnAddress.setVisibility(View.VISIBLE);
                         btnAdd.setOnClickListener(view -> addAddress());
 
-                        rvCNAOutputs.setAdapter(addressAdapter);
-                        mViewModel.getAddressRequestList().observe(getViewLifecycleOwner(), sAddress -> {
-                                addressAdapter.setAddress(sAddress);
+                        mViewModel.getAddressNames().observe(getViewLifecycleOwner(), addressNme -> {
+                            try {
+                                addressAdapter = new AddressInfoAdapter(new AddressInfoAdapter.OnDeleteInfoListener() {
+                                    @Override
+                                    public void OnDelete(int position) {
+                                        mViewModel.deleteAddress(addressNme.get(position).sTransNox);
+                                    }
+                                });
+                                rvCNAOutputs.setAdapter(addressAdapter);
+                                addressAdapter.setAddress(addressNme);
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
                         });
                     }
                 }
@@ -307,5 +309,9 @@
                     mViewModel.setPrimeContact("0");
                 }
             }
+        }
+
+        public void deleteAddress(String TransNox) {
+            mViewModel.deleteAddress(TransNox);
         }
     }

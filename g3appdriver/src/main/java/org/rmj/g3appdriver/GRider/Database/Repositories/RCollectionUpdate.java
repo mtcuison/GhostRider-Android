@@ -30,6 +30,10 @@ public class RCollectionUpdate {
         return addressDao.getAddressRequestList();
     }
 
+    public LiveData<List<DAddressRequest.CustomerAddressInfo>> getAddressNames() {
+        return addressDao.getAddressNames();
+    }
+
     public LiveData<List<EMobileUpdate>> getMobileList(){
         return mobileDao.getMobileRequestList();
     }

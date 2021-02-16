@@ -29,7 +29,7 @@ public class MobileInfoAdapter extends RecyclerView.Adapter<MobileInfoAdapter.Mo
     @Override
     public void onBindViewHolder(@NonNull MobilenoxHolder holder, int position) {
         EMobileUpdate current = mobileUpdates.get(position);
-        holder.textViewTitle.setText(current.getMobileNo());
+        holder.tvDetails.setText(current.getMobileNo());
         if(current.getPrimaryx() == "0") {
             holder.tvPrimary.setVisibility(View.VISIBLE);
         }
@@ -47,13 +47,13 @@ public class MobileInfoAdapter extends RecyclerView.Adapter<MobileInfoAdapter.Mo
     }
 
     class MobilenoxHolder extends RecyclerView.ViewHolder {
-        private TextView textViewTitle;
+        private TextView tvDetails;
         private TextView tvPrimary;
         private TextView textViewPriority;
 
         public MobilenoxHolder(@NonNull View itemView) {
             super(itemView);
-            textViewTitle = itemView.findViewById(R.id.text_view_title);
+            tvDetails = itemView.findViewById(R.id.tvDetails);
             tvPrimary = itemView.findViewById(R.id.tvPrimary);
         }
     }
