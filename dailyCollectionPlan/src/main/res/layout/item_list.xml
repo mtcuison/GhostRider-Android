@@ -13,10 +13,11 @@
             android:id="@+id/tvPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:text="Primary"
+            android:textSize="12sp"
             android:textColor="@color/guanzon_digital_orange"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
         <ImageView
             android:id="@+id/icDelete"
@@ -33,9 +34,10 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/guanzon_dark_grey"
             android:maxLines="1"
-            android:layout_toLeftOf="@id/tvPrimary"
+            android:layout_below="@id/tvPrimary"
             android:layout_alignParentLeft="true"
-            android:ellipsize="end"/>
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"/>
 
         <TextView
             android:id="@+id/tvAddress"

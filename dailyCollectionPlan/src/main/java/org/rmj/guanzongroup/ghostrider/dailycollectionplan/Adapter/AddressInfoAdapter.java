@@ -43,13 +43,12 @@ public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.
                 current.sAddressx + ", " +
                 current.sBrgyName);
 
-        holder.transNox = current.sTransNox;
-        /*holder.icDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                poCna.deleteAddress(holder.transNox);
-            }
-        });*/
+        holder.tvPrimary.setText(current.cPrimaryx);
+//        if(current.cPrimaryx != "0") {
+//            holder.tvPrimary.setVisibility(View.VISIBLE);
+//        } else {
+//            holder.tvPrimary.setVisibility(View.INVISIBLE);
+//        }
     }
 
     @Override
@@ -63,13 +62,14 @@ public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.
     }
 
     class AddressHolder extends RecyclerView.ViewHolder {
+        private TextView tvPrimary;
         private TextView tvDetails;
         private TextView tvAddress;
         private ImageView icDelete;
-        private String transNox;
 
         public AddressHolder(@NonNull View itemView, OnDeleteInfoListener listener) {
             super(itemView);
+            tvPrimary = itemView.findViewById(R.id.tvPrimary);
             tvDetails = itemView.findViewById(R.id.tvDetails);
             tvAddress = itemView.findViewById(R.id.tvAddress);
             icDelete = itemView.findViewById(R.id.icDelete);
