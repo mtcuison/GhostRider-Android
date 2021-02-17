@@ -17,6 +17,7 @@
     import android.widget.CheckBox;
     import android.widget.CompoundButton;
     import android.widget.LinearLayout;
+    import android.widget.RadioButton;
     import android.widget.RadioGroup;
     import android.widget.Spinner;
     import android.widget.TextView;
@@ -49,6 +50,7 @@
         private Spinner spnRequestCode;
         private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblClientAddress;
         private RadioGroup rg_CNA_Input, rg_addressType;
+        private RadioButton rb_permanent, rb_present;
         private TextInputEditText txtContact, txtHouseNox, txtAddress, txtRemarks;
         private AutoCompleteTextView txtTown, txtBrgy;
         private LinearLayout lnContactNox,
@@ -158,6 +160,8 @@
             spnRequestCode = v.findViewById(R.id.spn_requestCode);
             rg_CNA_Input = v.findViewById(R.id.rg_CnaInput);
             rg_addressType = v.findViewById(R.id.rg_address_type);
+            rb_permanent = v.findViewById(R.id.rb_permanent);
+            rb_present = v.findViewById(R.id.rb_present);
             txtContact = v.findViewById(R.id.txt_dcpCNA_contactNox);
             txtHouseNox = v.findViewById(R.id.txt_houseNox);
             txtAddress = v.findViewById(R.id.txt_address);
@@ -238,6 +242,15 @@
                     if(checkedId == R.id.rb_contactNox) {
                         lnContactNox.setVisibility(View.VISIBLE);
                         lnAddress.setVisibility(View.GONE);
+                        spnRequestCode.setSelection(0);
+                        rb_permanent.setChecked(false);
+                        rb_present.setChecked(false);
+                        txtHouseNox.setText("");
+                        txtAddress.setText("");
+                        txtTown.setText("");
+                        txtBrgy.setText("");
+                        cbPrimary.setChecked(false);
+                        txtRemarks.setText("");
                         btnAdd.setOnClickListener(view -> addMobile());
 
                         rvCNAOutputs.setAdapter(mobileAdapter);
@@ -248,6 +261,10 @@
                     else if(checkedId == R.id.rb_address){
                         lnContactNox.setVisibility(View.GONE);
                         lnAddress.setVisibility(View.VISIBLE);
+                        spnRequestCode.setSelection(0);
+                        cbPrimeContact.setChecked(false);
+                        txtContact.setText("");
+                        txtRemarks.setText("");
                         btnAdd.setOnClickListener(view -> addAddress());
 
                         mViewModel.getAddressNames().observe(getViewLifecycleOwner(), addressNme -> {
