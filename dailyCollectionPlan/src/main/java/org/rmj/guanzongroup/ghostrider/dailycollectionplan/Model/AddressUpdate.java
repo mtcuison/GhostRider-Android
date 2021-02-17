@@ -5,6 +5,7 @@ public class AddressUpdate {
     private String cAddrssTp;
     private String sHouseNox;
     private String sAddressx;
+    private String sProvIDxx;
     private String sTownIDxx;
     private String sBrgyIDxx;
     private String cPrimaryx;
@@ -52,6 +53,14 @@ public class AddressUpdate {
 
     public void setAddress(String sAddressx) {
         this.sAddressx = sAddressx;
+    }
+
+    public String getsProvIDxx() {
+        return sProvIDxx;
+    }
+
+    public void setsProvIDxx(String sProvIDxx) {
+        this.sProvIDxx = sProvIDxx;
     }
 
     public String getTownID() {
@@ -102,8 +111,14 @@ public class AddressUpdate {
         this.sRemarksx = sRemarksx;
     }
 
-    public boolean isDataValid(){
-        return true;
+    public boolean isDataValid() {
+        return isRequestCodeValid() &&
+                isAddressTPValid() &&
+                isHouseNoxValid() &&
+                isAddressValid() &&
+                isTownValid() &&
+                isBrgyValid();
+//                isRemarksValid();
     }
 
     private boolean isRequestCodeValid(){
@@ -114,9 +129,50 @@ public class AddressUpdate {
         return true;
     }
 
+    private boolean isAddressTPValid() {
+        if(cAddrssTp == null || cAddrssTp.equalsIgnoreCase("")) {
+            message = "Please select Address Type";
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isHouseNoxValid() {
+        if(sHouseNox.trim().isEmpty()) {
+            message = "Please enter House No.";
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isAddressValid() {
+        if(sAddressx.trim().isEmpty()) {
+            message = "Please enter Street/Sitio/Lot No.";
+            return false;
+        }
+        return true;
+    }
+
+
     private boolean isTownValid(){
-        if(sTownIDxx.trim().isEmpty()){
+        if(sTownIDxx == null || sTownIDxx.equalsIgnoreCase("")){
             message = "Please enter town";
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isBrgyValid() {
+        if(sBrgyIDxx == null || sBrgyIDxx.equalsIgnoreCase("")) {
+            message = "Please enter barangay";
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isRemarksValid() {
+        if(sRemarksx.trim().isEmpty()) {
+            message = "Please enter remarks";
             return false;
         }
         return true;
