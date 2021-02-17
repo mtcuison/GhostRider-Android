@@ -1,11 +1,13 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,17 +40,11 @@ public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.
     @Override
     public void onBindViewHolder(@NonNull AddressHolder holder, int position) {
         DAddressRequest.CustomerAddressInfo current = addressUpdates.get(position);
+        holder.tvPrimary.setText((current.cPrimaryx.equalsIgnoreCase("1")) ? "Primary" : "");
         holder.tvDetails.setText(current.sTownName +  ", " + current.sProvName);
         holder.tvAddress.setText(current.sHouseNox + " " +
                 current.sAddressx + ", " +
                 current.sBrgyName);
-
-        holder.tvPrimary.setText(current.cPrimaryx);
-//        if(current.cPrimaryx != "0") {
-//            holder.tvPrimary.setVisibility(View.VISIBLE);
-//        } else {
-//            holder.tvPrimary.setVisibility(View.INVISIBLE);
-//        }
     }
 
     @Override

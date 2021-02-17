@@ -14,10 +14,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="Primary"
             android:textSize="12sp"
-            android:textColor="@color/guanzon_digital_orange"
-            android:visibility="visible"/>
+            android:textColor="@color/guanzon_digital_orange"/>
 
         <ImageView
             android:id="@+id/icDelete"
@@ -30,7 +28,6 @@
             android:id="@+id/tvDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Details"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/guanzon_dark_grey"
             android:maxLines="1"
@@ -44,7 +41,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvDetails"
-            android:text="House No./Street/Sitio/Barangay"
             android:layout_marginTop="2dp"/>
 
     </RelativeLayout>
