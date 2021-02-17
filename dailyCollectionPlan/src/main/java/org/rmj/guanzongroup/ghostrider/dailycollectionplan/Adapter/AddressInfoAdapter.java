@@ -44,7 +44,6 @@ public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.
             holder.tvPrimary.setVisibility(View.VISIBLE);
             holder.tvPrimary.setText("Primary");
         }
-        holder.tvPrimary.setText((current.cPrimaryx.equalsIgnoreCase("1")) ? "Primary" : "");
         holder.tvAddressTp.setText((current.cAddrssTp.equalsIgnoreCase("0")) ? "Permanent" : "Present");
         holder.tvDetails.setText(current.sTownName +  ", " + current.sProvName);
         holder.tvAddress.setText(current.sHouseNox + " " + current.sAddressx + ", " + current.sBrgyName);
