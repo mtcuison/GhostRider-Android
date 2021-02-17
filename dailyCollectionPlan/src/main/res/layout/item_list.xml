@@ -7,15 +7,36 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="12dp">
 
-        <TextView
-            android:id="@+id/tvPrimary"
+        <LinearLayout
+            android:id="@+id/lnLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:textSize="12sp"
-            android:textColor="@color/guanzon_digital_orange"/>
+            android:layout_alignParentLeft="true">
+            <TextView
+                android:id="@+id/tvPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/border_label"
+                android:textColor="@color/guanzon_digital_orange"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tvAddressTp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:background="@drawable/border_label"
+                android:textColor="@color/guanzon_digital_orange"
+                android:layout_toRightOf="@+id/tvPrimary"/>
+        </LinearLayout>
+
 
         <ImageView
             android:id="@+id/icDelete"
@@ -31,7 +52,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/guanzon_dark_grey"
             android:maxLines="1"
-            android:layout_below="@id/tvPrimary"
+            android:layout_below="@id/lnLabel"
             android:layout_alignParentLeft="true"
             android:ellipsize="end"
             android:layout_marginTop="5dp"/>

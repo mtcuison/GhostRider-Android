@@ -40,11 +40,14 @@ public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.
     @Override
     public void onBindViewHolder(@NonNull AddressHolder holder, int position) {
         DAddressRequest.CustomerAddressInfo current = addressUpdates.get(position);
+        if(current.cPrimaryx.equalsIgnoreCase("1")){
+            holder.tvPrimary.setVisibility(View.VISIBLE);
+            holder.tvPrimary.setText("Primary");
+        }
         holder.tvPrimary.setText((current.cPrimaryx.equalsIgnoreCase("1")) ? "Primary" : "");
+        holder.tvAddressTp.setText((current.cAddrssTp.equalsIgnoreCase("0")) ? "Permanent" : "Present");
         holder.tvDetails.setText(current.sTownName +  ", " + current.sProvName);
-        holder.tvAddress.setText(current.sHouseNox + " " +
-                current.sAddressx + ", " +
-                current.sBrgyName);
+        holder.tvAddress.setText(current.sHouseNox + " " + current.sAddressx + ", " + current.sBrgyName);
     }
 
     @Override
@@ -59,6 +62,7 @@ public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.
 
     class AddressHolder extends RecyclerView.ViewHolder {
         private TextView tvPrimary;
+        private TextView tvAddressTp;
         private TextView tvDetails;
         private TextView tvAddress;
         private ImageView icDelete;
@@ -66,6 +70,7 @@ public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.
         public AddressHolder(@NonNull View itemView, OnDeleteInfoListener listener) {
             super(itemView);
             tvPrimary = itemView.findViewById(R.id.tvPrimary);
+            tvAddressTp = itemView.findViewById(R.id.tvAddressTp);
             tvDetails = itemView.findViewById(R.id.tvDetails);
             tvAddress = itemView.findViewById(R.id.tvAddress);
             icDelete = itemView.findViewById(R.id.icDelete);
