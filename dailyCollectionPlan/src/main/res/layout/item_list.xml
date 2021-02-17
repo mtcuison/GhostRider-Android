@@ -34,7 +34,8 @@
                 android:textSize="10sp"
                 android:background="@drawable/border_label"
                 android:textColor="@color/guanzon_digital_orange"
-                android:layout_toRightOf="@+id/tvPrimary"/>
+                android:layout_toRightOf="@+id/tvPrimary"
+                android:visibility="gone"/>
         </LinearLayout>
 
 
