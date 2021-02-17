@@ -228,10 +228,7 @@
         public void OnSuccessResult(String[] args) {
             poMessage.setTitle("Transaction Success");
             poMessage.setMessage(args[0]);
-            poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                dialog.dismiss();
-                getActivity().finish();
-            });
+            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
             poMessage.show();
         }
 
