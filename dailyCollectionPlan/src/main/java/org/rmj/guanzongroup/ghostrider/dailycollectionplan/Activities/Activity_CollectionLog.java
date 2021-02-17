@@ -75,12 +75,7 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
             }
         });
 
-        btnPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mViewModel.postTransactions(Activity_CollectionLog.this);
-            }
-        });
+        btnPost.setOnClickListener(view -> mViewModel.postTransactions(Activity_CollectionLog.this));
     }
 
     private void initWidgets(){

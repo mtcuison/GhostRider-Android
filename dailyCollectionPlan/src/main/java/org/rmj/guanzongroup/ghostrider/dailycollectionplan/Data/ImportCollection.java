@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Data;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -42,6 +43,7 @@ public class ImportCollection implements ImportInstance {
         headers = HttpHeaders.getInstance(application);
     }
 
+    @SuppressLint("SimpleDateFormat")
     public void setDate(String fsDate){
         Date parseDate = null;
         try {

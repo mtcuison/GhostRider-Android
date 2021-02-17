@@ -159,4 +159,9 @@
         <item name="boxCornerRadiusTopEnd">10dp</item>
     </style>
 
+    <style name="PopupAnimation">
+        <item name="android:windowEnterAnimation">@anim/anim_pop_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_pop_out</item>
+    </style>
+
 </resources>

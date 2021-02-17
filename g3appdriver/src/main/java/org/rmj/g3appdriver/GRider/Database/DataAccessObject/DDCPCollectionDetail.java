@@ -37,4 +37,10 @@ public interface DDCPCollectionDetail {
             "WHERE sTransNox = :TransNox " +
             "AND nEntryNox = :EntryNox")
     LiveData<EDCPCollectionDetail> getCollectionDetail(String TransNox, String EntryNox);
+
+    @Query("SELECT * FROM LR_DCP_Collection_Detail ORDER BY nEntryNox DESC LIMIT 1")
+    LiveData<EDCPCollectionDetail> getCollectionLastEntry();
+
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox =:TransNox AND sAcctNmbr =:AccountNo")
+     LiveData<EDCPCollectionDetail> getDuplicateAccountEntry(String TransNox, String AccountNo);
 }

@@ -12,13 +12,28 @@ import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.R;
 
-public class MessageBox {
+public class  MessageBox {
     private final AlertDialog poDialogx;
     private final MaterialButton btnPositive;
     private final MaterialButton btnNegative;
     private final TextView lblTitle;
     private final TextView lblMsgxx;
     private final View midBorder;
+
+    public MessageBox(Context context){
+        AlertDialog.Builder poBuilder = new AlertDialog.Builder(context);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_message_box, null);
+        poBuilder.setCancelable(false)
+                .setView(view);
+        poDialogx = poBuilder.create();
+        poDialogx.setCancelable(false);
+
+        lblTitle = view.findViewById(R.id.lbl_dialogTitle);
+        lblMsgxx = view.findViewById(R.id.lbl_dialogMessage);
+        midBorder = view.findViewById(R.id.view_midBorder);
+        btnPositive = view.findViewById(R.id.btn_dialogPositive);
+        btnNegative = view.findViewById(R.id.btn_dialogNegative);
+    }
 
     public void setMessage(String psMessage) {
         lblMsgxx.setText(psMessage);
@@ -51,23 +66,9 @@ public class MessageBox {
         });
     }
 
-    public MessageBox(Context context){
-        AlertDialog.Builder poBuilder = new AlertDialog.Builder(context);
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_message_box, null);
-        poBuilder.setCancelable(false)
-                .setView(view);
-        poDialogx = poBuilder.create();
-        poDialogx.setCancelable(false);
-
-        lblTitle = view.findViewById(R.id.lbl_dialogTitle);
-        lblMsgxx = view.findViewById(R.id.lbl_dialogMessage);
-        midBorder = view.findViewById(R.id.view_midBorder);
-        btnPositive = view.findViewById(R.id.btn_dialogPositive);
-        btnNegative = view.findViewById(R.id.btn_dialogNegative);
-    }
-
     public void show() {
         poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
         poDialogx.show();
     }
 

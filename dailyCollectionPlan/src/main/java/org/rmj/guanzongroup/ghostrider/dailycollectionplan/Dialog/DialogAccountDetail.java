@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc;
+package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 public class DialogAccountDetail {
@@ -62,6 +63,7 @@ public class DialogAccountDetail {
 
     public void show(){
         poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        poDialogx.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
         poDialogx.show();
     }
 

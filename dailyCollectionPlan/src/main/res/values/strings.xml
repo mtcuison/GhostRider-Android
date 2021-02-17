@@ -31,5 +31,7 @@
     <string name="sBrgy">Barangay</string>
     <string name="sLblRemarks">Remarks</string>
     <string name="sActionMenu_TransactionList">Transaction List</string>
+    <string name="sActionMenu_ARClient">Get AR Client</string>
+    <string name="sActionMenu_InsuranceClient">Get Insurance Client</string>
 
 </resources>

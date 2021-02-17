@@ -40,7 +40,7 @@ public class Fragment_CNA extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cna, container, false);
 
-        poMessage = new MessageBox(getActivity());
+        poMessage = new MessageBox(getContext());
         initWidgets(view);
 
         return view;

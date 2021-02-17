@@ -27,6 +27,9 @@ public interface DDCPCollectionMaster {
     @Query("SELECT * FROM LR_DCP_Collection_Master")
     LiveData<List<EDCPCollectionMaster>> getCollectionMasterList();
 
-    @Query("SELECT * FROM LR_DCP_Collection_Master")
+    @Query("SELECT * FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1")
     LiveData<EDCPCollectionMaster> getCollectionMaster();
+
+    @Query("UPDATE LR_DCP_Collection_Master SET nEntryNox =:nEntryNox")
+    void updateEntryMaster(String nEntryNox);
 }

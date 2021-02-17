@@ -162,10 +162,6 @@ public class GeoLocator {
     }
 
 
-
-
-
-
     public void showSettingsAlert(){
         MessageBox poMessage = new MessageBox(context);
         poMessage.setTitle("Location");

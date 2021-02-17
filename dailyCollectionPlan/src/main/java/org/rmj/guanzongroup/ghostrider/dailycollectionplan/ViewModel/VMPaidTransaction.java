@@ -1,25 +1,35 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
 
 public class VMPaidTransaction extends AndroidViewModel {
     private static final String TAG = VMPaidTransaction.class.getSimpleName();
+    private final Application instance;
     private final RBranch poBranch;
     private final RDailyCollectionPlan poDcp;
 
@@ -27,7 +37,6 @@ public class VMPaidTransaction extends AndroidViewModel {
     private final ConnectionUtil poConn;
 
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
-
 
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
     private final MutableLiveData<String> psEntryNox = new MutableLiveData<>();
@@ -38,6 +47,7 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     public VMPaidTransaction(@NonNull Application application) {
         super(application);
+        this.instance = application;
         this.poBranch = new RBranch(application);
         this.poDcp = new RDailyCollectionPlan(application);
         this.pnDsCntx.setValue((double) 0);
@@ -98,34 +108,112 @@ public class VMPaidTransaction extends AndroidViewModel {
     }
 
     public void savePaidInfo(PaidTransactionModel infoModel, ViewModelCallback callback){
-        try{
-            if(!infoModel.isDataValid()){
-                callback.OnFailedResult(infoModel.getMessage());
-            } else {
-                EDCPCollectionDetail detail = poDcpDetail.getValue();
-                detail.setTransNox(psTransNox.getValue());
-                detail.setEntryNox(psEntryNox.getValue());
-                detail.setRemCodex(infoModel.getRemarksCode());
-                detail.setTranType(infoModel.getPayment());
-                detail.setPRNoxxxx(infoModel.getPrNoxxx());
-                detail.setTranAmtx(infoModel.getAmountx());
-                detail.setDiscount(infoModel.getDscount());
-                detail.setOthersxx(infoModel.getOthersx());
-                detail.setTranTotl(infoModel.getTotAmnt());
-                detail.setRemarksx(infoModel.getRemarks());
-                detail.setSendStat("0");
-                detail.setTranStat("1");
-                detail.setModified(AppConstants.DATE_MODIFIED);
-                poDcp.updateCollectionDetailInfo(detail);
-                callback.OnSuccessResult(new String[]{""});
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            callback.OnFailedResult(e.getMessage());
-        }
+        new PostPaidTransactionTask(poDcpDetail.getValue(), infoModel, instance, callback).execute();
     }
 
-    private void PostTransaction(){
+    private static class PostPaidTransactionTask extends AsyncTask<String, Void, String>{
+        private final EDCPCollectionDetail poDcpDetail;
+        private final PaidTransactionModel infoModel;
+        private final ViewModelCallback callback;
+        private final RDailyCollectionPlan poDcp;
 
+        private final HttpHeaders poHeaders;
+        private final ConnectionUtil poConn;
+        private final Telephony poDevID;
+
+        public PostPaidTransactionTask(EDCPCollectionDetail dcpDetail, PaidTransactionModel infoModel, Application instance, ViewModelCallback callback) {
+            this.poDcpDetail = dcpDetail;
+            this.infoModel = infoModel;
+            this.callback = callback;
+            this.poDcp = new RDailyCollectionPlan(instance);
+            this.poHeaders = HttpHeaders.getInstance(instance);
+            this.poConn = new ConnectionUtil(instance);
+            this.poDevID = new Telephony(instance);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnStartSaving();
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected String doInBackground(String... strings) {
+            String lsResponse = "";
+            try{
+                EDCPCollectionDetail detail = poDcpDetail;
+                if(!infoModel.isDataValid()){
+                    callback.OnFailedResult(infoModel.getMessage());
+                } else {
+                    detail.setRemCodex(infoModel.getRemarksCode());
+                    detail.setTranType(infoModel.getPayment());
+                    detail.setPRNoxxxx(infoModel.getPrNoxxx());
+                    detail.setTranAmtx(infoModel.getAmountx());
+                    detail.setDiscount(infoModel.getDscount());
+                    detail.setOthersxx(infoModel.getOthersx());
+                    detail.setTranTotl(infoModel.getTotAmnt());
+                    detail.setRemarksx(infoModel.getRemarks());
+                    detail.setSendStat("0");
+                    detail.setTranStat("1");
+                    detail.setModified(AppConstants.DATE_MODIFIED);
+                    poDcp.updateCollectionDetailInfo(detail);
+                }
+
+                //StartSending to Server
+                if(!poConn.isDeviceConnected()) {
+                    lsResponse = AppConstants.NO_INTERNET();
+                } else {
+                    JSONObject loJson = new JSONObject();
+                    loJson.put("sTransNox", detail.getTransNox());
+                    loJson.put("nEntryNox", detail.getEntryNox());
+                    loJson.put("sAcctNmbr", detail.getAcctNmbr());
+                    loJson.put("sRemCodex", detail.getRemCodex());
+                    loJson.put("sJsonData", "");
+                    loJson.put("dReceived", "");
+                    loJson.put("sUserIDxx", "");
+                    loJson.put("sDeviceID", poDevID.getDeviceID());
+                    lsResponse = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
+
+                    if(lsResponse == null){
+                        lsResponse = AppConstants.SERVER_NO_RESPONSE();
+                    } else {
+                        JSONObject loResponse = new JSONObject(lsResponse);
+                        if(loResponse.getString("result").equalsIgnoreCase("success")){
+                            detail.setSendStat("1");
+                            detail.setModified(AppConstants.DATE_MODIFIED);
+                            poDcp.updateCollectionDetailInfo(detail);
+                        }
+                    }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                callback.OnFailedResult(e.getMessage());
+            }
+            return lsResponse;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject loJson = new JSONObject(s);
+                Log.e(TAG, loJson.getString("result"));
+                String lsResult = loJson.getString("result");
+                if(lsResult.equalsIgnoreCase("success")){
+                    callback.OnSuccessResult(new String[]{"Transaction has been posted successfully."});
+                } else {
+                    JSONObject loError = loJson.getJSONObject("error");
+                    String message = loError.getString("message");
+                    callback.OnFailedResult(message);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                callback.OnFailedResult(e.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.OnFailedResult(e.getMessage());
+            }
+        }
     }
 }
