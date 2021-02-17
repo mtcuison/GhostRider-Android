@@ -6,13 +6,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activity.Activity_ApprovalCode"
-    android:theme="@style/GhostRiderMaterialTheme">
+    android:background="@drawable/bg_gradient_light">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_approvalEntry"
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:id="@+id/toolbar_approvalEntry"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="?attr/actionBarSize"/>-->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"/>
+        android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_approvalEntry"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/material_tool_bar"
+            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager_approvalEntry"
         android:layout_width="match_parent"

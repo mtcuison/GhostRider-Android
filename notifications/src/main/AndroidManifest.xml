@@ -3,8 +3,11 @@
     package="org.rmj.guanzongroup.ghostrider.notifications">
 
     <application>
-        <activity android:name=".Activity.Activity_Notifications"
-            android:theme="@style/GhostRiderMaterialTheme"/>
+        <activity android:name=".Activity.Activity_NotificationList"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" ></activity>
+        <activity
+            android:name=".Activity.Activity_Notifications"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
     </application>
 
 </manifest>

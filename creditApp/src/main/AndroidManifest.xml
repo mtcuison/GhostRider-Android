@@ -6,16 +6,16 @@
     <application>
         <activity android:name=".Activity.Activity_ApplicationHistory"
             android:label="Credit Online Application"
-            android:theme="@style/GhostRiderMaterialTheme"/>
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"/>
         <activity android:name=".Activity.Activity_IntroductoryQuestion"
             android:label="Credit Online Application"
-            android:theme="@style/GhostRiderMaterialTheme"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             tools:ignore="DuplicateActivity"/>
         <activity android:name=".Activity.Activity_McImpound" />
         <activity
             android:name=".Activity.Activity_CreditApplication"
             android:label="Credit Online Application"
-            android:theme="@style/GhostRiderMaterialTheme"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
     </application>
 

@@ -3,9 +3,10 @@
     package="org.rmj.guanzongroup.ghostrider.griderscanner">
 
     <application>
-        <activity android:name=".ImageCrop"></activity>
+        <activity android:name=".ImageCrop"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"></activity>
         <activity android:name=".GriderScanner"
-            android:theme="@style/GhostRiderMaterialTheme"/>
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"/>
     </application>
 
 </manifest>

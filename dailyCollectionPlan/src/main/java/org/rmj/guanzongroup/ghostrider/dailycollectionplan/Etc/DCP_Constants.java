@@ -70,5 +70,8 @@ public class DCP_Constants {
     };
 
     public static Bitmap selectedImageBitmap;
+    public static String FOLDER_NAME = "DCP";
+    public static double varLatitude;
+    public static double varLongitude;
     public static boolean saveStorage=false;
 }

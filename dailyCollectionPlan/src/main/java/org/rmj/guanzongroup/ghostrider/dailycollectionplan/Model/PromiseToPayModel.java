@@ -7,6 +7,7 @@ public class PromiseToPayModel {
     private String ptpAppointmentUnit;
     private String ptpCollectorName;
     private String ptpBranch;
+    private String ptpImgPath;
 
     private String message;
 
@@ -18,6 +19,11 @@ public class PromiseToPayModel {
     public String getPtpRemarks() { return this.ptpRemarks; }
     public void setPtpRemarks(String ptpRemarks) {
         this.ptpRemarks = ptpRemarks;
+    }
+
+    public String getPtpImgPath() { return this.ptpImgPath; }
+    public void setPtpImgPath(String ptpImgPath) {
+        this.ptpImgPath = ptpImgPath;
     }
 
     public String getPtpDate() { return this.ptpDate; }
@@ -41,7 +47,7 @@ public class PromiseToPayModel {
     }
 
     public boolean isDataValid(){
-        return isPtpDate() && isPtpAppoint();
+        return isPtpDate() && isPtpAppoint() && isPtpImgPath();
     }
     public boolean isPtpDate(){
         if (ptpDate == null || ptpDate.trim().isEmpty()){
@@ -64,6 +70,13 @@ public class PromiseToPayModel {
     public boolean isPtpAppointBranch(){
         if (ptpBranch.trim().isEmpty()){
             message = "Please enter branch.";
+            return false;
+        }
+        return true;
+    }
+    public boolean isPtpImgPath(){
+        if (ptpImgPath.trim().isEmpty()){
+            message = "Please take customer picture.";
             return false;
         }
         return true;

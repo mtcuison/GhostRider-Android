@@ -18,7 +18,7 @@ import com.google.android.material.button.MaterialButton;
 public class DCPPhotoCapture extends AppCompatActivity {
 
     private static String CAMERA_USAGE = "CreditApplication";
-
+    private static String MAIN_FOLDER = "CreditApplication";
     private ImageView imgProfile;
     private TextView directory,latitude, longitude;
     private MaterialButton camera, list;

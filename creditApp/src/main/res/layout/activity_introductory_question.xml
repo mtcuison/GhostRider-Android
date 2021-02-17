@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".Activity.Activity_IntroductoryQuestion"
+    android:background="@drawable/bg_gradient_light"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar

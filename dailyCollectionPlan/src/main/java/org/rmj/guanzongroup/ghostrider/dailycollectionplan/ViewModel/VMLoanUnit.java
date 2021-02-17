@@ -3,21 +3,27 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 import android.app.Application;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
@@ -26,6 +32,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.LoanUnitModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -44,6 +51,8 @@ public class VMLoanUnit extends AndroidViewModel {
 
     private MutableLiveData<String> lsBPlace = new MutableLiveData<>();
     private MutableLiveData<String> lsProvID = new MutableLiveData<>();
+    private MutableLiveData<String> lsTownID = new MutableLiveData<>();
+    private MutableLiveData<String> lsBrgyID = new MutableLiveData<>();
 
     private final MutableLiveData<String> spnCivilStats = new MutableLiveData<>();
     private final MutableLiveData<String> luGender = new MutableLiveData<>();
@@ -52,6 +61,7 @@ public class VMLoanUnit extends AndroidViewModel {
     private final RProvince RProvince;
     private final RTown RTown;
     private final RCountry RCountry;
+    private final RBarangay Brgy;
     private final LiveData<List<EProvinceInfo>> provinceInfoList;
     public VMLoanUnit(@NonNull Application application) {
         super(application);
@@ -60,6 +70,7 @@ public class VMLoanUnit extends AndroidViewModel {
         RProvince = new RProvince(application);
         RTown = new RTown(application);
         RCountry = new RCountry(application);
+        Brgy = new RBarangay(application);
         provinceInfoList = RProvince.getAllProvinceInfo();
     }
     // TODO: Implement the ViewModel
@@ -82,28 +93,27 @@ public class VMLoanUnit extends AndroidViewModel {
     public LiveData<EBranchInfo> getUserBranchEmployee(){
         return poBranch.getUserBranchInfo();
     }
-    public LiveData<List<EProvinceInfo>> getProvinceInfoList(){
-        return provinceInfoList;
+    public LiveData<List<DTownInfo.TownProvinceInfo>> getTownProvinceInfo(){
+        return RTown.getTownProvinceInfo();
     }
 
-    public LiveData<List<ETownInfo>> getTownInfoList(){
-        return RTown.getTownInfoFromProvince(lsProvID.getValue());
+    public LiveData<String[]> getBarangayNameList(){
+        return Brgy.getBarangayNamesFromTown(lsTownID.getValue());
     }
 
-    public LiveData<List<ECountryInfo>> getCountryInfoList(){
-        return RCountry.getAllCountryInfo();
+    public LiveData<List<EBarangayInfo>> getBarangayInfoList(){
+        return Brgy.getAllBarangayFromTown(lsTownID.getValue());
     }
 
-    public LiveData<String[]> getProvinceNameList(){
-        return RProvince.getAllProvinceNames();
-    }
-
-    public LiveData<String[]> getAllTownNames(){
-        return RTown.getTownNamesFromProvince(lsProvID.getValue());
-    }
 
     public void setProvID(String ProvID) { this.lsProvID.setValue(ProvID); }
     public void setTownID(String townID){
+        this.lsTownID.setValue(townID);
+    }
+    public void setBrgyID(String townID){
+        this.lsBrgyID.setValue(townID);
+    }
+    public void setLsBPlaceID(String townID){
         this.lsBPlace.setValue(townID);
     }
     //Setter Civil Status
@@ -111,16 +121,26 @@ public class VMLoanUnit extends AndroidViewModel {
     public void setGender(String lsGender) { this.luGender.setValue(lsGender); }
     //Spinner Getter
     public LiveData<ArrayAdapter<String>> getSpnCivilStats(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, DCP_Constants.CIVIL_STATUS);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, DCP_Constants.CIVIL_STATUS)
+        {
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View v = super.getView(position, convertView, parent);
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                ((TextView) v).setTextColor(getApplication().getResources().getColorStateList(R.color.textColor_White));
+            }else {
+                ((TextView) v).setTextColor(getApplication().getResources().getColorStateList(R.color.textColor_Black));
+            }
+            return v;
+        }
+    };
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
         return liveData;
     }
-
     public void saveLuInfo(LoanUnitModel infoModel, ViewModelCallback callback){
         try{
             infoModel.setLuGender(luGender.getValue());
-            infoModel.setLuCivilStats(luCivilStats.getValue());
+//            infoModel.setLuCivilStats(luCivilStats.getValue());
             if(!infoModel.isValidData()){
                 callback.OnFailedResult(infoModel.getMessage());
             } else {
@@ -141,6 +161,9 @@ public class VMLoanUnit extends AndroidViewModel {
                 //Log.e(TAG, "Promise to Pay info has been set." + poDcp.getCollectionDetail(psTransNox.getValue(),psEntryNox.getValue()).getValue().toString());
                 callback.OnSuccessResult(new String[]{"Dcp Save!"});
             }
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            callback.OnFailedResult(e.getMessage());
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailedResult(e.getMessage());

@@ -6,7 +6,7 @@
         <activity
             android:name=".Activity.Activity_Authenticate"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"/>
     </application>
 

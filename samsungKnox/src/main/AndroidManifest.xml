@@ -4,7 +4,7 @@
 
     <application>
         <activity android:name=".Activity_Knox"
-            android:theme="@style/GhostRiderMaterialTheme"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:label="Samsung Knox"/>
     </application>
 

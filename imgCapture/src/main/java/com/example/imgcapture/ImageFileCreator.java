@@ -26,6 +26,7 @@ public class ImageFileCreator {
     private final Context poContext;
 
     private String cameraUsage;
+    private String imgName;
     private  String folder_name;
     String currentPhotoPath;
     private double latitude, longitude;
@@ -38,10 +39,11 @@ public class ImageFileCreator {
         this.poContext = context;
         this.cameraUsage = usage;
     }
-    public ImageFileCreator(Context context,String folder, String usage) {
+    public ImageFileCreator(Context context,String folder, String usage, String imgName) {
         this.poContext = context;
         this.folder_name = folder;
         this.cameraUsage = usage;
+        this.imgName = imgName;
     }
 
     public String getCameraUsage() {
@@ -97,9 +99,17 @@ public class ImageFileCreator {
 
         return cameraUsage + "_" + generateTimestamp() + "_";
     }
+    public String generateDCPImageFileName() {
+
+        return imgName + "_" + generateTimestamp() + "_";
+    }
 
     public File generateStorageDir() {
         return poContext.getExternalFilesDir( "/" + cameraUsage);
+    }
+
+    public File generateMainStorageDir() {
+        return poContext.getExternalFilesDir( "/"+ folder_name + "/" + cameraUsage);
     }
 
     //CreateFile for Document Scanner Camera
@@ -140,38 +150,45 @@ public class ImageFileCreator {
 
     //CreateFile for Document Scanner Camera
 
-    public void CreateDCPFile(OnImageFileCreatedListener listener) {
+    public void CreateDCPFile(OnImageFileDCPWithLocationCreatedListener listener) {
+        poLocator = new GeoLocator(poContext, (Activity) poContext);
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(poContext.getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = null;
             try {
-                photoFile = createImageScanFile();
+                photoFile = createDCPImageFile();
+                latitude = poLocator.getLattitude();
+                longitude = poLocator.getLongitude();
             } catch (IOException ex) {
+                // Error occurred while creating the File...
             }
+            // Continue only if the File was successfully created
             if (photoFile != null) {
-                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-                StrictMode.setVmPolicy(builder.build());
-
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                listener.OpenCamera(takePictureIntent, currentPhotoPath);
+                Uri photoURI = FileProvider.getUriForFile(poContext,
+                        "org.rmj.guanzongroup.ghostrider.epacss"+ ".provider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                listener.OpenDCPCameraWithLocation(
+                        takePictureIntent,
+                        currentPhotoPath,
+                        latitude,
+                        longitude);
             }
         }
     }
 
-    private File createImageDcpFile() throws IOException {
+    public File createDCPImageFile() throws IOException {
+        image = File.createTempFile(
+                generateDCPImageFileName(),  /* prefix */
+                ".jpg",         /* suffix */
+                generateMainStorageDir()      /* directory */
+        );
 
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = cameraUsage + "_" + timeStamp + ".png";
-        File storageDir = poContext.getExternalFilesDir( "/" + folder_name + "/" + cameraUsage );
-        //File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-//        String imageFileName = "cropped_" + timeStamp + ".png";
-        File mypath = new File(storageDir, imageFileName);
-        currentPhotoPath = mypath.getAbsolutePath();
-        Log.e("Image Path ", cameraUsage);
-        return mypath;
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
     }
     public boolean galleryAddPic(String photoPath) {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -188,6 +205,11 @@ public class ImageFileCreator {
     }
 
     public interface OnImageFileWithLocationCreatedListener{
-        void OpenCameraWithLocation(Intent openCamera, String camUsage, String photPath, double latitude, double longitude);
+        void OpenCameraWithLocation(Intent openCamera,String camUsage, String photPath, double latitude, double longitude);
     }
+
+    public interface OnImageFileDCPWithLocationCreatedListener{
+        void OpenDCPCameraWithLocation(Intent openCamera,String photPath, double latitude, double longitude);
+    }
+
 }

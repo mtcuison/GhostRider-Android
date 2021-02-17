@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:theme="@style/GhostRiderMaterialTheme"
-tools:context=".Fragments.Fragment_LoanUnit">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_gradient_light"
+    tools:context=".Fragments.Fragment_LoanUnit">
     <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -161,6 +162,15 @@ tools:context=".Fragments.Fragment_LoanUnit">
                 android:layout_weight="1"
                 android:gravity="right"
                 >
+
+                <TextView
+                    android:id="@+id/tvLuImgPath"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/HeaderLabelBlack"
+                    android:layout_weight="1"
+                    android:text="Fullname"
+                    android:visibility="gone"/>
                 <ImageView
                     android:id="@+id/imgLuCamera"
                     android:layout_width="60dp"
@@ -272,26 +282,39 @@ tools:context=".Fragments.Fragment_LoanUnit">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/sTown"
-            style="@style/TextInputStyle">
-
-            <com.google.android.material.textfield.TextInputEditText
+            style="@style/CustomDropDownTilStyle"
+            app:endIconMode="none">
+            <AutoCompleteTextView
                 android:id="@+id/tie_lun_town"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLength="50" />
+                android:layout_height="match_parent"
+                android:completionThreshold="1"
+                android:imeOptions="actionNext"
+                android:popupBackground="@color/spinner_background"
+                android:inputType="textAutoComplete|textAutoCorrect|none"
+                android:maxLines="1"
+                android:nextFocusForward="@id/tie_lun_brgy"
+                android:padding="14dp"
+                tools:ignore="LabelFor,RtlSymmetry" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/sBrgy"
-            style="@style/TextInputStyle">
-
-            <com.google.android.material.textfield.TextInputEditText
+            style="@style/CustomDropDownTilStyle"
+            app:endIconMode="none">
+            <AutoCompleteTextView
                 android:id="@+id/tie_lun_brgy"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLength="50" />
+                android:layout_height="match_parent"
+                android:completionThreshold="1"
+                android:imeOptions="actionNext"
+                android:popupBackground="@color/spinner_background"
+                android:inputType="textAutoComplete|textAutoCorrect|none"
+                android:maxLines="1"
+                android:padding="14dp"
+                tools:ignore="LabelFor,RtlSymmetry" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
@@ -344,31 +367,23 @@ tools:context=".Fragments.Fragment_LoanUnit">
         android:orientation="vertical"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp">
-        <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomDropDownTilStyle"
+            android:theme="@style/spinnerTheme"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/CustomDropDownTilStyle"
+            android:hint="@string/sLabelCivilStatus"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/spn_lun_cstatus"
                 android:layout_width="match_parent"
-                android:hint="@string/sLabelCivilStatus"
-                android:layout_height="wrap_content">
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                    android:id="@+id/spn_lun_cstatus"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:padding="16dp"
-                    android:cursorVisible="false"
-                    android:clickable="false"
-                    android:inputType="none" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:padding="16dp"
+                android:popupBackground="@color/spinner_background"
+                android:cursorVisible="false"
+                android:clickable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -389,12 +404,15 @@ tools:context=".Fragments.Fragment_LoanUnit">
             android:layout_height="wrap_content"
             android:hint="@string/sHintBpTown"
             style="@style/TextInputStyle">
-
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/tie_lun_bplace"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLength="50" />
+                android:layout_height="match_parent"
+                android:completionThreshold="1"
+                android:imeOptions="actionNext"
+                android:inputType="textAutoComplete|textAutoCorrect|none"
+                android:maxLines="1"
+                android:padding="14dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -449,6 +467,6 @@ tools:context=".Fragments.Fragment_LoanUnit">
         android:text="@string/btn_submit"
         style="@style/GhostRider_Button"/>
 
-</LinearLayout>-->
+</LinearLayout>
 
 </ScrollView>
