@@ -64,9 +64,6 @@
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_customer_not_around_fragment, container, false);
             addressInfoModel = new AddressUpdate();
-
-            mobileAdapter = new MobileInfoAdapter();
-
             poMessage = new MessageBox(getActivity());
             initWidgets(view);
 
@@ -102,7 +99,19 @@
             });
 
             mViewModel.getMobileRequestList().observe(getViewLifecycleOwner(), mobileNox -> {
-                mobileAdapter.setMobileNox(mobileNox);
+                try {
+                    mobileAdapter = new MobileInfoAdapter(new MobileInfoAdapter.OnItemInfoClickListener() {
+                        @Override
+                        public void OnDelete(int position) {
+                            mViewModel.deleteMobile(mobileNox.get(position).getTransNox());
+                        }
+                    });
+                    rvCNAOutputs.setAdapter(mobileAdapter);
+                    mobileAdapter.setMobileNox(mobileNox);
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
             });
 
             // Province
@@ -178,7 +187,6 @@
             rvCNAOutputs = v.findViewById(R.id.rv_CNA_outputs);
             rvCNAOutputs.setLayoutManager(new LinearLayoutManager(getActivity()));
             rvCNAOutputs.setHasFixedSize(true);
-            rvCNAOutputs.setAdapter(mobileAdapter);
 
             btnAdd.setOnClickListener(view -> addMobile());
             rg_CNA_Input.setOnCheckedChangeListener(new Fragment_CustomerNotAround.OnRadioButtonSelectListener());
@@ -253,9 +261,20 @@
                         txtRemarks.setText("");
                         btnAdd.setOnClickListener(view -> addMobile());
 
-                        rvCNAOutputs.setAdapter(mobileAdapter);
                         mViewModel.getMobileRequestList().observe(getViewLifecycleOwner(), mobileNox -> {
-                            mobileAdapter.setMobileNox(mobileNox);
+                            try {
+                                mobileAdapter = new MobileInfoAdapter(new MobileInfoAdapter.OnItemInfoClickListener() {
+                                    @Override
+                                    public void OnDelete(int position) {
+                                        mViewModel.deleteMobile(mobileNox.get(position).getTransNox());
+                                    }
+                                });
+                                rvCNAOutputs.setAdapter(mobileAdapter);
+                                mobileAdapter.setMobileNox(mobileNox);
+                            }
+                            catch(Exception e) {
+                                e.printStackTrace();
+                            }
                         });
                     }
                     else if(checkedId == R.id.rb_address){
