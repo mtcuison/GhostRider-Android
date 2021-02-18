@@ -71,11 +71,19 @@ public class MobileInfoAdapter extends RecyclerView.Adapter<MobileInfoAdapter.Mo
                     listener.OnDelete(position);
                 }
             });
+
+            tvDetails.setOnClickListener(v ->{
+                int position = getAdapterPosition();
+                if(position != RecyclerView.NO_POSITION) {
+                    listener.OnMobileNoClick(tvDetails.getText().toString());
+                }
+            });
         }
     }
 
     public interface OnItemInfoClickListener {
         void OnDelete(int position);
+        void OnMobileNoClick(String MobileNo);
     }
 
 }
