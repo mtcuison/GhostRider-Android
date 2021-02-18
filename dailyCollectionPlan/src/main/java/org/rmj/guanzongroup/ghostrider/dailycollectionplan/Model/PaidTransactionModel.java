@@ -2,6 +2,8 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model;
 
 public class PaidTransactionModel {
 
+    private String TransNo;
+    private String EntryNo;
     private String RemCode;
     private String PrNoxxx;
     private String Payment;
@@ -18,6 +20,22 @@ public class PaidTransactionModel {
 
     public String getMessage(){
         return message;
+    }
+
+    public String getTransNo() {
+        return TransNo;
+    }
+
+    public void setTransNo(String transNo) {
+        TransNo = transNo;
+    }
+
+    public String getEntryNo() {
+        return EntryNo;
+    }
+
+    public void setEntryNo(String entryNo) {
+        EntryNo = entryNo;
     }
 
     public void setRemarksCode(String Remarks){

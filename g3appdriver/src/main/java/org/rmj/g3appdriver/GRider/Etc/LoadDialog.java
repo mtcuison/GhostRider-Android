@@ -41,6 +41,7 @@ public class LoadDialog {
 
     public void show() {
         poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
         poDialogx.show();
     }
 

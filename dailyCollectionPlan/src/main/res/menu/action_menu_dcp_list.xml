@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/action_menu_dcp_log"
+        android:id="@+id/action_menu_ar_client"
         android:orderInCategory="100"
-        android:title="@string/sActionMenu_TransactionList"
+        android:title="@string/sActionMenu_ARClient"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_menu_insurance_client"
+        android:orderInCategory="100"
+        android:title="@string/sActionMenu_InsuranceClient"
         app:showAsAction="never" />
 </menu>

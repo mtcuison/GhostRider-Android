@@ -82,7 +82,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_promise_to_pay, container, false);
         infoModel = new PromiseToPayModel();
-        poMessage = new MessageBox(getActivity());
+        poMessage = new MessageBox(getContext());
         initWidgets(view);
 
         return view;

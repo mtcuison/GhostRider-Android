@@ -3,26 +3,43 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import com.google.android.material.button.MaterialButton;
+
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.TransactionAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionLog;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Objects;
 
-public class Activity_CollectionLog extends AppCompatActivity {
+public class Activity_CollectionLog extends AppCompatActivity implements VMCollectionLog.PostTransactionCallback {
     private static final String TAG = Activity_CollectionLog.class.getSimpleName();
 
     private VMCollectionLog mViewModel;
 
+    private TextView lblBranch, lblAddrss, lblDate;
+    private MaterialButton btnPost;
+    private TransactionAdapter poAdapter;
+    private LinearLayoutManager poManager;
     private RecyclerView recyclerView;
+
+    private LoadDialog poDialog;
+    private MessageBox poMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,21 +48,49 @@ public class Activity_CollectionLog extends AppCompatActivity {
         initWidgets();
 
         mViewModel = new ViewModelProvider(this).get(VMCollectionLog.class);
+        mViewModel.getUserBranchInfo().observe(Activity_CollectionLog.this, eBranchInfo -> {
+            lblBranch.setText(eBranchInfo.getBranchNm());
+            lblAddrss.setText(eBranchInfo.getAddressx());
+            lblDate.setText(getDate());
+        });
 
-        mViewModel.getCollectionList().observe(Activity_CollectionLog.this, new Observer<List<EDCPCollectionDetail>>() {
-            @Override
-            public void onChanged(List<EDCPCollectionDetail> collectionDetails) {
-
+        mViewModel.getCollectionMaster().observe(Activity_CollectionLog.this, collectionMaster -> {
+            try{
+                mViewModel.setCollectionMaster(collectionMaster);
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
+        mViewModel.getCollectionList().observe(Activity_CollectionLog.this, collectionDetails -> {
+            try {
+                mViewModel.setTransactionList(collectionDetails);
+
+                poAdapter = new TransactionAdapter(collectionDetails);
+                poManager = new LinearLayoutManager(Activity_CollectionLog.this);
+                poManager.setOrientation(RecyclerView.VERTICAL);
+                recyclerView.setLayoutManager(poManager);
+                recyclerView.setAdapter(poAdapter);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        btnPost.setOnClickListener(view -> mViewModel.postTransactions(Activity_CollectionLog.this));
     }
 
     private void initWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar_collectionLog);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         recyclerView = findViewById(R.id.recyclerview_collectionLog);
+        lblBranch = findViewById(R.id.lbl_headerBranch);
+        lblAddrss = findViewById(R.id.lbl_headerAddress);
+        lblDate = findViewById(R.id.lbl_headerDate);
+        btnPost = findViewById(R.id.btn_postTransaction);
+
+        poDialog = new LoadDialog(Activity_CollectionLog.this);
+        poMessage = new MessageBox(Activity_CollectionLog.this);
     }
 
     @Override
@@ -59,5 +104,33 @@ public class Activity_CollectionLog extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public String getDate(){
+        return "Collection For " + FormatUIText.getParseDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
+    }
+
+    @Override
+    public void OnLoad() {
+        poDialog.initDialog("Daily Collection Plan", "Posting all transactions. Please wait...", false);
+        poDialog.show();
+    }
+
+    @Override
+    public void OnPostSuccess(String[] args) {
+        poDialog.dismiss();
+        poMessage.setTitle("Daily Collection Plan");
+        poMessage.setMessage(args[0]);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
+    }
+
+    @Override
+    public void OnPostFailed(String message) {
+        poDialog.dismiss();
+        poMessage.setTitle("Daily Collection Plan");
+        poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
     }
 }
