@@ -112,6 +112,9 @@
     <string name="sBrgy">Barangay</string>
     <string name="sLblRemarks">Remarks</string>
     <string name="sActionMenu_TransactionList">Transaction List</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="sActionMenu_ARClient">Get AR Client Info</string>
     <string name="sActionMenu_InsuranceClient">Get Insurance Client info</string>
 

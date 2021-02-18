@@ -74,7 +74,7 @@ public class GeoLocator {
                     double longi = location.getLongitude();
                     lattitude = latti;
                     longitude = longi;
-
+                    geoAddress();
 
 
                 } else  if (location1 != null) {
@@ -82,7 +82,7 @@ public class GeoLocator {
                     double longi = location1.getLongitude();
                     lattitude = latti;
                     longitude = longi;
-
+                    geoAddress();
 
 
 
@@ -91,10 +91,9 @@ public class GeoLocator {
                     double longi = location2.getLongitude();
                     lattitude = latti;
                     longitude = longi;
-
+                    geoAddress();
 
                 }else{
-
                     Toast.makeText(context,"Unble to Trace your location", Toast.LENGTH_SHORT).show();
 
                 }

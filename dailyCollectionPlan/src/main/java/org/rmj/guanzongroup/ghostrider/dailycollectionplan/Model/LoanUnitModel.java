@@ -8,6 +8,7 @@ public class LoanUnitModel {
     private String luFirstName;
     private String luMiddleName;
     private String luSuffix;
+    private String luImgPath;
 
     private String luHouseNo;
     private String luStreet;
@@ -34,6 +35,11 @@ public class LoanUnitModel {
     public String getLuRemarks() { return this.luRemarks; }
     public void setLuRemarks(String luRemarks) {
         this.luRemarks = luRemarks;
+    }
+
+    public String getLuImgPath() { return this.luImgPath; }
+    public void setLuImgPath(String luImgPath) {
+        this.luImgPath = luImgPath;
     }
 
     public String getLuLastName() { return this.luLastName; }
@@ -118,7 +124,8 @@ public class LoanUnitModel {
                 isCivilStats() &&
                 isBDate() &&
                 isBPlace() &&
-                isContactValid();
+                isContactValid() &&
+                isValidImgPth();
     }
 
     public boolean isValidFullName(){
@@ -179,21 +186,21 @@ public class LoanUnitModel {
         return true;
     }
     private boolean isLuTown(){
-        if (luTown.trim().isEmpty()){
+        if (luTown == null || luTown.trim().isEmpty()){
             message = "Please enter municipality.";
             return false;
         }
         return true;
     }
     private boolean isBrgy(){
-        if (luBrgy.trim().isEmpty()){
+        if (luBrgy == null ||luBrgy.trim().isEmpty()){
             message = "Please enter barangay.";
             return false;
         }
         return true;
     }
     private boolean isGender(){
-        if (luGender.trim().isEmpty()){
+        if (luGender == null ||Integer.parseInt(luGender) < 0){
             message = "Please select gender.";
             return false;
         }
@@ -201,8 +208,15 @@ public class LoanUnitModel {
     }
 
     private boolean isCivilStats(){
-        if (luCivilStats.trim().isEmpty()){
+        if (luCivilStats == null || Integer.parseInt(luCivilStats) < 0){
             message = "Please select civil status.";
+            return false;
+        }
+        return true;
+    }
+    private boolean isValidImgPth(){
+        if (luImgPath == null || luImgPath.trim().isEmpty()){
+            message = "Please take customer picture.";
             return false;
         }
         return true;
@@ -217,7 +231,7 @@ public class LoanUnitModel {
     }
 
     private boolean isBPlace(){
-        if (luBPlace.trim().isEmpty()){
+        if (luBPlace == null || luBPlace.trim().isEmpty()){
             message = "Please enter birth date.";
             return false;
         }

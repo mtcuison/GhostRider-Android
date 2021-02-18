@@ -1,0 +1,30 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="720dp"
+    android:height="1280dp"
+    android:viewportWidth="720"
+    android:viewportHeight="1280">
+    <path
+        android:fillColor="#555"
+        android:name="Rectangle 5"
+        android:pathData="m-210 1145h870v142h-870v-142z" />
+    <path
+        android:fillColor="#f88222"
+        android:name="Rectangle 6"
+        android:pathData="m523 1145h600v130l-508.2 5l-91.8 -135z" />
+    <path
+        android:fillColor="#555"
+        android:name="Rectangle 5"
+        android:pathData="m-210 -52h870v198h-870v-198z" />
+    <path
+        android:fillColor="#f88222"
+        android:name="Rectangle 6"
+        android:pathData="m112.2 -56.6 811.9 9.2 -2.2 195.5 -687.8 -0.3 -121.9 -204.4z" />
+    <path
+        android:fillColor="#f88222"
+        android:name="Rectangle 7"
+        android:pathData="m-110 146v999h116v-999z" />
+    <path
+        android:fillColor="#f88222"
+        android:name="Rectangle 7 copy"
+        android:pathData="m712 146v999h116v-999z" />
+</vector>

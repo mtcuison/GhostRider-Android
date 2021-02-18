@@ -56,10 +56,11 @@ public class VMPromiseToPayTest  {
     }
 
     @Test
-    public void toJsonObject()  {
+    public void test_toJsonObject()  {
         String jsonString = toJsonObjectString(date, brnCode, collectName);
         when(mViewModel.toJsonObject(date, brnCode, collectName)).thenReturn(jsonString);
         Assert.assertEquals(jsonString, mViewModel.toJsonObject(date, brnCode, collectName));
+       // System.out.print(mViewModel.toJsonObject(date, brnCode, collectName));
 
     }
 

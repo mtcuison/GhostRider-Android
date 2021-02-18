@@ -207,7 +207,8 @@
             android:layout_marginHorizontal="5dp"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="3dp">
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="15dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -270,6 +271,7 @@
             android:layout_height="wrap_content"
             android:spinnerMode="dialog"
             android:layout_marginHorizontal="5dp"/>
+
 
         <View
             android:layout_width="match_parent"

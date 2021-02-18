@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 
+import androidx.appcompat.widget.Toolbar;
+
 import org.rmj.guanzongroup.ghostrider.griderscanner.R;
 import org.rmj.guanzongroup.ghostrider.griderscanner.base.CropperErrorType;
 import org.rmj.guanzongroup.ghostrider.griderscanner.base.DocumentScanActivity;
@@ -203,6 +205,9 @@ public class ImageCrop extends DocumentScanActivity {
         ivRotate.setOnClickListener(onRotateClick);
         ivInvert.setOnClickListener(btnInvertColor);
         ivRebase.setOnClickListener(btnRebase);
+        Toolbar toolbar = findViewById(R.id.toolbar_scanner);
+        setSupportActionBar(toolbar);
+        setTitle("Image Crop");
         startCropping();
     }
 

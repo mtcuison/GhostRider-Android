@@ -75,7 +75,7 @@ public class VMDependentTest {
     }
 
     @Test
-    public void addDependent() {
+    public void testAddDependent() {
         try{
             DependentsInfoModel infoModel = new DependentsInfoModel(dpdName ,
                     mRelationPosition ,
@@ -109,7 +109,7 @@ public class VMDependentTest {
     }
 
     @Test
-    public void submitDependentInfo() {
+    public void testSubmitDependentInfo() {
         try{
             when(mViewModel.SubmitDependentInfo(callBack)).thenReturn(true);
             assertTrue(mViewModel.SubmitDependentInfo(callBack));
