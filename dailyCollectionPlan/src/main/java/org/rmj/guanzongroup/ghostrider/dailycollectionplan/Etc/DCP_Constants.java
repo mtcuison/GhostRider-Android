@@ -4,7 +4,6 @@ public class DCP_Constants {
 
 
     /*
-
     * PAY - Paid
     * PTP - Promise to Pay
     * CNA - Customer Not Around
@@ -20,7 +19,6 @@ public class DCP_Constants {
     * DNP - Did Not Pay
     * NV - Not Visited
     * OTH - Others
-
     */
 
 

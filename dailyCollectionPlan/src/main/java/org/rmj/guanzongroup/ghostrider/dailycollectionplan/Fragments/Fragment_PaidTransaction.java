@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
@@ -30,6 +31,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPaidTrans
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.StringTokenizer;
 
 public class Fragment_PaidTransaction extends Fragment implements ViewModelCallback {
@@ -37,6 +39,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
     private VMPaidTransaction mViewModel;
     private PaidTransactionModel infoModel;
     private MessageBox poMessage;
+    private LoadDialog poDialog;
     private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
 
     private Spinner spnType;
@@ -52,7 +55,8 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_paid_transaction, container, false);
         infoModel = new PaidTransactionModel();
-        poMessage = new MessageBox(getActivity());
+        poMessage = new MessageBox(getContext());
+        poDialog = new LoadDialog(getActivity());
         initWidgets(view);
 
         return view;
@@ -116,34 +120,37 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         btnConfirm.setOnClickListener(view -> {
             infoModel.setRemarksCode(Remarksx);
             infoModel.setPayment(spnType.getSelectedItem().toString());
-            infoModel.setPrNoxxx(txtPrNoxx.getText().toString());
-            infoModel.setRemarks(txtRemarks.getText().toString());
-            infoModel.setAmountx(txtAmount.getText().toString());
-            infoModel.setDscount(txtDiscount.getText().toString());
-            infoModel.setOthersx(txtDiscount.getText().toString());
-            infoModel.setTotAmnt(txtTotAmnt.getText().toString());
+            infoModel.setPrNoxxx(Objects.requireNonNull(txtPrNoxx.getText()).toString());
+            infoModel.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
+            infoModel.setAmountx(Objects.requireNonNull(txtAmount.getText()).toString());
+            infoModel.setDscount(Objects.requireNonNull(txtDiscount.getText()).toString());
+            infoModel.setOthersx(Objects.requireNonNull(txtOthers.getText()).toString());
+            infoModel.setTotAmnt(Objects.requireNonNull(txtTotAmnt.getText()).toString());
             mViewModel.savePaidInfo(infoModel, Fragment_PaidTransaction.this);
         });
     }
 
     @Override
     public void OnStartSaving() {
-
+        poDialog.initDialog("Daily Collection Plan", "Posting transaction.Please wait...", false);
+        poDialog.show();
     }
 
     @Override
     public void OnSuccessResult(String[] args) {
+        poDialog.dismiss();
         poMessage.setTitle("Transaction Success");
         poMessage.setMessage(args[0]);
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
             dialog.dismiss();
-            getActivity().finish();
+            Objects.requireNonNull(getActivity()).finish();
         });
         poMessage.show();
     }
 
     @Override
     public void OnFailedResult(String message) {
+        poDialog.dismiss();
         poMessage.setTitle("Transaction Failed");
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());

@@ -42,8 +42,16 @@ public class RDailyCollectionPlan {
         detailDao.insertBulkData(collectionDetails);
     }
 
+    public void insertCollectionDetail(EDCPCollectionDetail collectionDetail){
+        detailDao.insert(collectionDetail);
+    }
+
     public void insertMasterData(EDCPCollectionMaster collectionMaster){
         masterDao.insert(collectionMaster);
+    }
+
+    public void updateEntryMaster(String nEntryNox){
+        masterDao.updateEntryMaster(nEntryNox);
     }
 
     public LiveData<List<EDCPCollectionDetail>> getCollectionDetailList(){
@@ -54,26 +62,24 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectionDetailLog();
     }
 
+    public LiveData<EDCPCollectionMaster> getCollectionMaster(){
+        return masterDao.getCollectionMaster();
+    }
+
     public LiveData<EDCPCollectionDetail> getCollectionDetail(String TransNox, String EntryNox){
         return detailDao.getCollectionDetail(TransNox, EntryNox);
     }
 
     public void updateCollectionDetailInfo(EDCPCollectionDetail collectionDetail){
-        new UpdateDataTask(detailDao).execute(collectionDetail);
+        detailDao.update(collectionDetail);
     }
 
-    private static class UpdateDataTask extends AsyncTask<EDCPCollectionDetail, Void, String>{
-        private DDCPCollectionDetail detailDao;
+    public LiveData<EDCPCollectionDetail> getCollectionLastEntry(){
+        return detailDao.getCollectionLastEntry();
+    }
 
-        public UpdateDataTask(DDCPCollectionDetail detailDao) {
-            this.detailDao = detailDao;
-        }
-
-        @Override
-        protected String doInBackground(EDCPCollectionDetail... edcpCollectionDetails) {
-            detailDao.update(edcpCollectionDetails[0]);
-            return null;
-        }
+    public LiveData<EDCPCollectionDetail> getDuplicateAccountEntry(String TransNox, String AccountNo){
+        return detailDao.getDuplicateAccountEntry(TransNox, AccountNo);
     }
 
     public void saveCollectionMaster(JSONObject foJson) throws Exception {

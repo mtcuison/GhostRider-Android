@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardUseCompatPadding="true"
+    android:background="#e2e2e2"
+    app:cardCornerRadius="10dp"
+    app:cardPreventCornerOverlap="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lbl_AccountNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Account No. : 000000000"
+                android:textSize="14sp"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_bold"/>
+
+            <TextView
+                android:id="@+id/lbl_dcpNox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="end"
+                android:text="DCP 1/2"
+                android:textSize="14sp"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_medium"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/lbl_clientNm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Ferrer, Jose M."
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_bold"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:drawableStart="@drawable/ic_collection_client"
+                android:drawableLeft="@drawable/ic_collection_client" />
+
+            <TextView
+                android:id="@+id/lbl_dcpRemarkCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="end"
+                android:textColor="@color/textColor_Orange"
+                android:fontFamily="@font/roboto_bold"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Remarks"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/textColor_Black"
+            android:fontFamily="@font/roboto_medium"/>
+
+        <TextView
+            android:id="@+id/lbl_dcpRemarks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_marginTop="5dp"
+            android:text="10000"
+            android:textColor="@color/textColor_Black"
+            android:fontFamily="@font/roboto_regular"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc;
+package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -6,16 +6,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -68,6 +63,7 @@ public class DialogDownloadDCP {
     public void show(){
         if(!poDialogx.isShowing()){
             poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            poDialogx.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
             poDialogx.show();
         }
     }
@@ -76,27 +72,4 @@ public class DialogDownloadDCP {
         void OnDownloadClick(Dialog Dialog, String Date);
         void OnCancel(Dialog Dialog);
     }
-
-    /*private static class DcpDatePicker extends DialogFragment implements DatePickerDialog.OnDateSetListener{
-
-
-
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-            DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
-            dialog.getDatePicker().setMaxDate(c.getTimeInMillis());
-            dialog.getDatePicker().setMaxDate(System.currentTimeMillis() + 1000);
-            return  dialog;
-        }
-
-        @Override
-        public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-
-        }
-    }*/
 }

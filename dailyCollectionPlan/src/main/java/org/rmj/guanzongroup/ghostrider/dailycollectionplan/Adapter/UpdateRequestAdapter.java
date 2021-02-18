@@ -40,6 +40,7 @@ public class UpdateRequestAdapter extends RecyclerView.Adapter<UpdateRequestAdap
         }
         if(mobileList.size() > 0){
             holder.mobileUpdate = mobileList.get(position);
+            holder.lblDetail.setText(mobileList.get(position).getMobileNo());
         }
     }
 

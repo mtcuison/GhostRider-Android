@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class VMPromiseToPay extends AndroidViewModel {
     private static final String TAG = VMPromiseToPay.class.getSimpleName();
@@ -123,11 +124,11 @@ public class VMPromiseToPay extends AndroidViewModel {
                 return false;
             } else {
                 Date parseDate = new SimpleDateFormat("MMMM dd, yyyy").parse(infoModel.getPtpDate());
-                String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(parseDate);;
+                String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(parseDate));;
                 String lsPromiseDate = toJsonObject(lsDate, psBrnchCd.getValue(), infoModel.getPtpCollectorName());
 
                 EDCPCollectionDetail detail = poDcpDetail.getValue();
-                detail.setPromised(lsPromiseDate);
+                Objects.requireNonNull(detail).setPromised(lsPromiseDate);
                 detail.setSendStat("0");
                 detail.setModified(AppConstants.DATE_MODIFIED);
                 poDcp.updateCollectionDetailInfo(detail);

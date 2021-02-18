@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="10dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:gravity="center_vertical">
 
     <TextView
         android:id="@+id/lbl_list_item_detail"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="#12345, sample"
         android:textColor="@color/textColor_Black"
         android:fontFamily="@font/roboto_regular"/>
+
+    <ImageButton
+        android:id="@+id/btn_delete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".1"
+        android:src="@drawable/ic_btn_delete"
+        android:background="@color/guanzon_orange"
+        android:padding="3dp"/>
 
 </LinearLayout>

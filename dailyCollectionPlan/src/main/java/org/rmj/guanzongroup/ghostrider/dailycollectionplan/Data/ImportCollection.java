@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Data;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -42,6 +43,7 @@ public class ImportCollection implements ImportInstance {
         headers = HttpHeaders.getInstance(application);
     }
 
+    @SuppressLint("SimpleDateFormat")
     public void setDate(String fsDate){
         Date parseDate = null;
         try {
@@ -168,6 +170,7 @@ public class ImportCollection implements ImportInstance {
                 collectionDetail.setClientID(loJson.getString("sClientID"));
                 collectionDetail.setSerialID(loJson.getString("sSerialID"));
                 collectionDetail.setSerialNo(loJson.getString("sSerialNo"));
+                collectionDetail.setTranStat("0");
                 collectionDetails.add(collectionDetail);
             }
             dcpRepo.insertDetailBulkData(collectionDetails);
