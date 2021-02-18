@@ -93,7 +93,7 @@ public class DocumentScanActivityTest {
     }
 
     @Test
-    public void startCropping(){
+    public void testStartCropping(){
         doReturn(true).when(imgActivity).startCropping();
         assertEquals(true, imgActivity.startCropping());
 

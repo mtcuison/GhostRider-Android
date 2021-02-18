@@ -5,8 +5,8 @@
             <gradient
                 android:type = "radial"
                 android:gradientRadius="360sp"
-                android:startColor = "#FFFFFF"
-                android:endColor = "#DBDBDB" />
+                android:startColor = "@color/material_master_light_gradient"
+                android:endColor = "@color/material_master_dark_gradient" />
         </shape>
     </item>
 </selector>

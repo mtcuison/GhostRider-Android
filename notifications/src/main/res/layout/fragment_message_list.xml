@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.Fragment_MessageList">
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_messages"
         android:layout_width="match_parent"

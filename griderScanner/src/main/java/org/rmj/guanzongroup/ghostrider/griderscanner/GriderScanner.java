@@ -95,7 +95,6 @@ public class GriderScanner extends AppCompatActivity {
             startActivityForResult(new Intent(this, ImageCrop.class), CROP_REQUEST_CODE);
 
         } else if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-
             cameraCapture(mCurrentPhotoPath);
             startActivityForResult(new Intent(this,ImageCrop.class), CROP_REQUEST_CODE);
         } else if (requestCode == CROP_REQUEST_CODE && resultCode == Activity.RESULT_OK) {

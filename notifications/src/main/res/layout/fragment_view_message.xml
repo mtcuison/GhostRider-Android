@@ -51,22 +51,14 @@
 
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="3dp"
-            app:cardPreventCornerOverlap="true"
-            app:cardMaxElevation="5dp"
-            app:cardBackgroundColor="#F3F3F3"
-            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/message_info_bg"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:layout_margin="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -79,6 +71,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:text="@string/slblRecipient"
+                        android:textColor="@color/material_black"
                         android:fontFamily="@font/roboto_regular"/>
 
                     <TextView
@@ -103,6 +96,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:text="@string/slblDateTime"
+                        android:textColor="@color/material_black"
                         android:fontFamily="@font/roboto_regular"/>
 
                     <TextView
@@ -117,7 +111,6 @@
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/lbl_messageBody"

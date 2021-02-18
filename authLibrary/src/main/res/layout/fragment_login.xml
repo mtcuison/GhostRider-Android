@@ -67,7 +67,6 @@
                 android:inputType="textEmailAddress"
                 android:fontFamily="@font/roboto"
                 android:maxLength="50"
-                android:cursorVisible="false"
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/tie_loginPassword"/>
 
@@ -91,7 +90,6 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:maxLength="20"
-                android:cursorVisible="false"
                 android:imeOptions="actionDone"
                 android:fontFamily="@font/roboto"/>
 

@@ -2,7 +2,11 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -18,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.imgcapture.ImageFileCreator;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -25,7 +31,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DatePickerFragment;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DialogImagePreview;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -33,11 +41,15 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPaidTrans
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import static android.app.Activity.RESULT_OK;
 
 public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback {
 
@@ -47,13 +59,20 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
     private AutoCompleteTextView ptpBranchName;
     private MaterialButton btnPtp;
     private RadioGroup rgPtpAppUnit;
+    private ImageView btnCamera;
+    private String Remarksx;
 
-    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
+    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo, lblImgPath;
     private String IsAppointmentUnitX = "", CollId;
     private PromiseToPayModel infoModel;
     private String lsDate = "";
 
     private MessageBox poMessage;
+    public static int CAMERA_REQUEST_CODE = 1231;
+
+    public static String mCurrentPhotoPath;
+    private ImageFileCreator poFilexx;
+    private final String CAMERA_USAGE = "PromiseToPay";
     public static Fragment_PromiseToPay newInstance() {
         return new Fragment_PromiseToPay();
     }
@@ -77,18 +96,21 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         lblClientNm = v.findViewById(R.id.tvClientname);
         lblTransNo = v.findViewById(R.id.lbl_dcpTransNo);
 
+        lblImgPath = v.findViewById(R.id.tvImgPath);
+
         tilBranchName = v.findViewById(R.id.til_ptp_branchName);
         ptpDate = v.findViewById(R.id.pToPayDate);
         ptpBranchName = v.findViewById(R.id.txt_ptp_branchName);
         rgPtpAppUnit = v.findViewById(R.id.rb_ap_ptpBranch);
         ptpCollName = v.findViewById(R.id.txt_ptp_collectorName);
         btnPtp = v.findViewById(R.id.btn_ptp_submit);
+        btnCamera = v.findViewById(R.id.imgPtpCamera);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        String Remarksx = Activity_Transaction.getInstance().getRemarksCode();
+        Remarksx = Activity_Transaction.getInstance().getRemarksCode();
         String TransNox = Activity_Transaction.getInstance().getTransNox();
         String EntryNox = Activity_Transaction.getInstance().getEntryNox();
         mViewModel = new ViewModelProvider(this).get(VMPromiseToPay.class);
@@ -98,6 +120,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
             CollId = s.getCollctID();
             ptpCollName.setText(s.getCollName());
+            poFilexx = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, CAMERA_USAGE, CollId);
         });
 
         mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
@@ -118,7 +141,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             ptpBranchName.setAdapter(adapter);
         });
-        ptpBranchName.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBranchInfo().observe(this, eBranchInfos -> {
+        ptpBranchName.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBranchInfo().observe(getViewLifecycleOwner(), eBranchInfos -> {
             for(int x = 0; x < eBranchInfos.size(); x++){
                 if(ptpBranchName.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getBranchNm())){
                     mViewModel.setBanchCde(eBranchInfos.get(x).getBranchCd());
@@ -147,8 +170,58 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
             StartTime.show();
         });
         rgPtpAppUnit.setOnCheckedChangeListener(new OnDependencyStatusSelectionListener(rgPtpAppUnit,mViewModel));
-        btnPtp.setOnClickListener( v -> submitPtp(Remarksx));
+        btnCamera.setOnClickListener(v -> {
+            poFilexx.CreateDCPFile((openCamera, photPath, latt, longi) -> {
+                mCurrentPhotoPath = photPath;
+                DCP_Constants.varLatitude = latt;
+                DCP_Constants.varLongitude = longi;
+
+                startActivityForResult(openCamera, CAMERA_REQUEST_CODE);
+            });
+        });
+        btnPtp.setOnClickListener( v -> {
+                submitPtp(Remarksx);
+        });
         // TODO: Use the ViewModel
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("REQUEST CODE", String.valueOf(requestCode));
+        Log.e("RESULT CODE", String.valueOf(resultCode));
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            cameraCapture(mCurrentPhotoPath);
+            showDialog();
+
+        }
+    }
+    public void showDialog(){
+        DialogImagePreview dialogImagePreview = new DialogImagePreview(getActivity());
+        dialogImagePreview.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
+            @Override
+            public void OnCancel(Dialog Dialog)
+            {
+                //imgCamera.setOnClickListener(null);
+                lblImgPath.setText(mCurrentPhotoPath);
+                Log.e("Image Path", mCurrentPhotoPath);
+                if (!lblImgPath.getText().toString().trim().isEmpty()){
+                    Dialog.dismiss();
+                }
+
+            }
+        });
+        dialogImagePreview.show();
+    }
+    public boolean cameraCapture (String photoPath) {
+        try {
+            DCP_Constants.selectedImageBitmap = MediaStore.Images.Media.getBitmap(
+                    getActivity().getContentResolver(), Uri.fromFile(new File(photoPath)));
+        } catch (IOException e) {
+            return false;
+        }
+
+        return DCP_Constants.selectedImageBitmap != null;
     }
     @Override
     public void OnStartSaving() {
@@ -203,9 +276,12 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
 
     public void submitPtp(String remarks){
         infoModel.setPtpRemarks(remarks);
+        infoModel.setPtpImgPath(lblImgPath.getText().toString());
         infoModel.setPtpAppointmentUnit(IsAppointmentUnitX);
         infoModel.setPtpBranch(ptpBranchName.getText().toString());
         infoModel.setPtpCollectorName(ptpCollName.getText().toString());
         mViewModel.savePtpInfo(infoModel, Fragment_PromiseToPay.this);
+
+
     }
 }
