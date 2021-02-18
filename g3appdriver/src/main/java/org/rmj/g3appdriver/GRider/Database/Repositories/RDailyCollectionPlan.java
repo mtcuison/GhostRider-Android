@@ -34,10 +34,6 @@ public class RDailyCollectionPlan {
         masterDao = appDatabase.DcpMasterDao();
     }
 
-    public LiveData<EDCPCollectionMaster> getCollectionMaster(){
-        return masterDao.getCollectionMaster();
-    }
-
     public void insertDetailBulkData(List<EDCPCollectionDetail> collectionDetails){
         detailDao.insertBulkData(collectionDetails);
     }

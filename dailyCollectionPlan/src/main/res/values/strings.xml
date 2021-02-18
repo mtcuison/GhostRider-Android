@@ -112,5 +112,7 @@
     <string name="sBrgy">Barangay</string>
     <string name="sLblRemarks">Remarks</string>
     <string name="sActionMenu_TransactionList">Transaction List</string>
+    <string name="sActionMenu_ARClient">Get AR Client Info</string>
+    <string name="sActionMenu_InsuranceClient">Get Insurance Client info</string>
 
 </resources>
