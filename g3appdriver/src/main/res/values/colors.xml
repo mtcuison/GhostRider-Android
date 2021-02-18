@@ -13,7 +13,7 @@
     <color name="material_nav_light_gradient">#575757</color>
     <color name="material_nav_dark_gradient">#101010</color>
 
-    <color name="mtrl_textinput_default_box_stroke_color">#101010</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#6B000000</color>
 
     <color name="material_master_light_gradient">#FFFFFF</color>
     <color name="material_master_dark_gradient">#DBDBDB</color>
