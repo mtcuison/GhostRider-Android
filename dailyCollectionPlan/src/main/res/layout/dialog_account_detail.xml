@@ -256,57 +256,22 @@
 <!--                android:fontFamily="@font/roboto_regular"/>-->
 <!--        </LinearLayout>-->
 
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Please select transaction type."-->
-<!--            android:textSize="16sp"-->
-<!--            android:textColor="@color/textColor_Black"-->
-<!--            android:fontFamily="@font/roboto_medium"-->
-<!--            android:layout_marginTop="15dp"/>-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please select transaction type."
+            android:textSize="16sp"
+            android:textColor="@color/textColor_Black"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginTop="15dp"/>
 
-<!--        <Spinner-->
-<!--            android:id="@+id/spn_transaction"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:spinnerMode="dialog"-->
-<!--            android:layout_marginHorizontal="5dp"/>-->
-        <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <Spinner
+            android:id="@+id/spn_transaction"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="5dp"
+            android:layout_height="wrap_content"
             android:spinnerMode="dialog"
-            android:orientation="vertical">
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/CustomDropDownDialogStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Please select transaction type.">
-                <Spinner
-                    android:id="@+id/spn_transactions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:spinnerMode="dialog"
-                    style="@style/CustomDropDownDialogStyle"
-                    android:layout_marginHorizontal="5dp"
-                    android:visibility="gone"
-                    />
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                   style="@style/AutoCompleteTextStyle"
-                    android:id="@+id/spn_transaction"
-                    android:layout_width="match_parent"
-                    android:spinnerMode="dialog"
-                    android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:padding="16dp"
-                    android:cursorVisible="false"
-                    android:clickable="false"
-                    android:inputType="none" />
-            </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginHorizontal="5dp"/>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <View
             android:layout_width="match_parent"
