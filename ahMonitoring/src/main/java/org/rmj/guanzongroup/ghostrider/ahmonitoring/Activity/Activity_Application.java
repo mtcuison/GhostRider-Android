@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_ObApplication;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_SelfieLogin;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.ArrayList;
@@ -41,6 +42,9 @@ public class Activity_Application extends AppCompatActivity {
         }
         if(application == AppConstants.INTENT_LEAVE_APPLICATION){
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_LeaveApplication()));
+        }
+        if(application == AppConstants.INTENT_SELFIE_LOGIN){
+            viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_SelfieLogin()));
         }
     }
 

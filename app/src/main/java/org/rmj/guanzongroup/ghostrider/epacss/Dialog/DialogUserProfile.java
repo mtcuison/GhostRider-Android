@@ -31,7 +31,7 @@ public class DialogUserProfile {
         lblEmailx = view.findViewById(R.id.dialog_lbl_employeeEmail);
         lblPstion = view.findViewById(R.id.dialog_lbl_employeePosition);
         lblMobile = view.findViewById(R.id.dialog_lbl_employeeMobileNo);
-        lblDate = view.findViewById(R.id.dialog_lbl_date);
+        //lblDate = view.findViewById(R.id.dialog_lbl_date);
         MaterialButton btnClose = view.findViewById(R.id.btn_dialogClose);
         btnClose.setOnClickListener(view1 -> poDialog.dismiss());
     }
@@ -56,13 +56,14 @@ public class DialogUserProfile {
         lblPstion.setText(Address);
     }
 
-    public void setLblDate(String Address){
+    /*public void setLblDate(String Address){
         lblDate.setText(Address);
-    }
+    }*/
 
     public void show(){
         if(!poDialog.isShowing()){
             poDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            poDialog.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
             poDialog.show();
         }
     }

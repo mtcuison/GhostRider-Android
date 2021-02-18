@@ -28,4 +28,15 @@
     <string name="menu_cashCount">Cash Count</string>
     <string name="menu_creditInvestigation">Online Credit Investigation</string>
     <string name="menu_creditEvaluation">Credit Evaluation List</string>
+    <string name="App_Desc">Electronic Personnel Access, Control, And Security</string>
+    <string name="lsMainOffice">Guanzon Merchandising Corporation (Main Office)</string>
+    <string name="lsMainAddress">Guanzon Bldg., Perez Blvd., \nDagupan City, Pangasinan 2400</string>
+    <string name="lsMainContact">Tel No.:75 522-1085, 522-1097, 515-6418, 515-2495</string>
+    <string name="lsMainWebsite">www.guanzongroup.com.ph</string>
+    <string name="lsBtn_UseProfile">User Profile</string>
+    <string name="lsBtn_SelfieLogin">Selfie Login</string>
+    <string name="lsBtn_Messages">Messages</string>
+    <string name="lsBtn_Notification">Notifications</string>
+    <string name="lsBtn_Settings">Settings</string>
+    <string name="lsBtn_Logout">Logout</string>
 </resources>

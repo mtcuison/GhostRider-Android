@@ -15,14 +15,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -30,11 +28,9 @@ import com.example.imgcapture.ImageFileCreator;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DialogImagePreview;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogImagePreview;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.OnBirthSetListener;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.LoanUnitModel;
@@ -44,10 +40,8 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCa
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
-import static org.rmj.guanzongroup.ghostrider.dailycollectionplan.R.style.CustomDropDownTilStyle;
 
 public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
 
