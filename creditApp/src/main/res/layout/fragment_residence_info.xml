@@ -233,12 +233,24 @@
                         android:inputType="number|none"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Spinner
-                    android:id="@+id/spn_lenghtStay"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomDropDownTilStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:padding="15dp"/>
+                    android:hint="Lenght of Stay"
+                    android:layout_weight="2">
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/spn_lenghtStay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:padding="16dp"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:nextFocusForward="@id/txt_citizenship"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -266,23 +278,48 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <!--Households-->
-                <Spinner
-                    android:id="@+id/spn_houseHold"
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomDropDownTilStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="15dp"/>
+                    android:hint="Select Households (Required)"
+                    android:layout_weight="1">
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/spn_houseHold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:padding="16dp"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:nextFocusForward="@id/txt_citizenship"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
 
                 <!--Type of House-->
-                <Spinner
-                    android:id="@+id/spn_houseType"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomDropDownTilStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="15dp"/>
+                    android:hint="Select House Type (Required)"
+                    android:layout_weight="1">
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/spn_houseType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:padding="16dp"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:nextFocusForward="@id/txt_citizenship"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
 
             </LinearLayout>
 

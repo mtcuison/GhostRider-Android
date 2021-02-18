@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,28 +16,38 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.tiper.MaterialSpinner;
 
 import org.json.simple.JSONObject;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.TextFormatter;
+import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_CoMaker;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.PurchaseInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMIntroductoryQuestion;
 
 import java.util.Objects;
 
-    public class Activity_IntroductoryQuestion extends AppCompatActivity implements ViewModelCallBack {
+import static org.rmj.guanzongroup.onlinecreditapplication.R.id.spn_applicationType;
+
+public class Activity_IntroductoryQuestion extends AppCompatActivity implements ViewModelCallBack {
     public static final String TAG = Activity_IntroductoryQuestion.class.getSimpleName();
+    public static String spnAppTypePosition = "-1";
+    public static String spnCustomerTypePosition = "-1";
+    public static String spnTermPosition = "36";
     private VMIntroductoryQuestion mViewModel;
     private TextView lblBranchNm, lblBrandAdd, lblDate;
     private AutoCompleteTextView txtBranchNm, txtBrandNm, txtModelNm;
     private TextInputEditText txtDownPymnt, txtAmort;
-    private Spinner spnApplType, spnCustomerType, spnTerm;
+    private AutoCompleteTextView spnApplType, spnCustomerType, spnTerm;
     private MaterialButton btnCreate;
     public static Activity_IntroductoryQuestion newInstance() {
         return new Activity_IntroductoryQuestion();
@@ -47,11 +58,9 @@ import java.util.Objects;
         setContentView(R.layout.activity_introductory_question);
         initWidgets();
         txtDownPymnt.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(txtDownPymnt));
-        btnCreate.setOnClickListener(view -> mViewModel.CreateNewApplication(Activity_IntroductoryQuestion.this));
         mViewModel = new ViewModelProvider(this).get(VMIntroductoryQuestion.class);
 
         mViewModel.getApplicationType().observe(this, stringArrayAdapter -> spnApplType.setAdapter(stringArrayAdapter));
-
         mViewModel.getCustomerType().observe(this, stringArrayAdapter -> spnCustomerType.setAdapter(stringArrayAdapter));
 
         mViewModel.getUserBranchInfo().observe(this, eBranchInfo -> {
@@ -66,10 +75,7 @@ import java.util.Objects;
         });
 
 
-        mViewModel.getAllBranchNames().observe(this, strings -> {
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
-            txtBranchNm.setAdapter(adapter);
-        });
+
 
         txtBranchNm.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBranchInfo().observe(this, eBranchInfos -> {
             for(int x = 0; x < eBranchInfos.size(); x++){
@@ -80,6 +86,10 @@ import java.util.Objects;
             }
         }));
 
+        mViewModel.getAllBrandNames().observe(this, strings -> {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
+            txtBrandNm.setAdapter(adapter);
+        });
         mViewModel.getAllBrandNames().observe(this, strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
             txtBrandNm.setAdapter(adapter);
@@ -165,11 +175,13 @@ import java.util.Objects;
 
         mViewModel.getSelectedInstallmentTerm().observe(this, integer -> mViewModel.calculateMonthlyPayment());
 
-        spnCustomerType.setOnItemSelectedListener(new Activity_IntroductoryQuestion.SpinnerSelectionListener(mViewModel));
-
-        spnTerm.setOnItemSelectedListener(new Activity_IntroductoryQuestion.SpinnerSelectionListener(mViewModel));
+        spnApplType.setOnItemClickListener(new Activity_IntroductoryQuestion.OnItemClickListener(spnApplType, mViewModel));
+        spnCustomerType.setOnItemClickListener(new Activity_IntroductoryQuestion.OnItemClickListener(spnCustomerType, mViewModel));
+        spnTerm.setOnItemClickListener(new Activity_IntroductoryQuestion.OnItemClickListener(spnTerm, mViewModel));
 
         mViewModel.getMonthlyAmort().observe(this, s -> txtAmort.setText(s));
+        btnCreate.setOnClickListener(view -> submitNewApplication());
+
     }
 
     private void initWidgets(){
@@ -184,14 +196,33 @@ import java.util.Objects;
         txtModelNm = findViewById(R.id.txt_modelName);
         txtDownPymnt = findViewById(R.id.txt_downpayment);
         txtAmort = findViewById(R.id.txt_monthlyAmort);
-
         spnApplType = findViewById(R.id.spn_applicationType);
         spnCustomerType = findViewById(R.id.spn_customerType);
         spnTerm = findViewById(R.id.spn_installmentTerm);
 
         btnCreate = findViewById(R.id.btn_createCreditApp);
     }
+    private void submitNewApplication() {
+        try{
+        PurchaseInfoModel model = new PurchaseInfoModel();
+        model.setsAppTypex(spnAppTypePosition);
+        model.setsCustTypex(spnCustomerTypePosition);
+        model.setsBranchCde(txtBranchNm.getText().toString());
+        model.setsBrandIDxx(txtBrandNm.getText().toString());
+        model.setsModelIDxx(txtModelNm.getText().toString());
+        model.setsDownPaymt(Double.parseDouble((txtDownPymnt.getText().toString().replace(",", ""))));
+        model.setsAccTermxx(Integer.parseInt(spnTermPosition));
+        model.setsMonthlyAm(Double.parseDouble((txtAmort.getText().toString()).replace(",", "")));
 
+        mViewModel.CreateNewApplication(model, Activity_IntroductoryQuestion.this);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            GToast.CreateMessage(this,"Something went wrong. Required information might not provided by user.",GToast.INFORMATION).show();
+        } catch (Exception e){
+            e.printStackTrace();
+            GToast.CreateMessage(this,"Something went wrong. Required information might not provided by user.",GToast.INFORMATION).show();
+        }
+    }
     @Override
     public void onSaveSuccessResult(String args) {
         Intent loIntent = new Intent(this, Activity_CreditApplication.class);
@@ -204,59 +235,63 @@ import java.util.Objects;
     public void onFailedResult(String message) {
         GToast.CreateMessage(this, message, GToast.ERROR).show();
     }
-
-    private static class SpinnerSelectionListener implements AdapterView.OnItemSelectedListener{
-        private final VMIntroductoryQuestion vm;
-
-        SpinnerSelectionListener(VMIntroductoryQuestion viewModel){
-            this.vm = viewModel;
-        }
-
-        @Override
-        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            if(adapterView.getId() == R.id.spn_customerType){
-                String type = "";
-                switch (i){
-                    case 0:
-                        break;
-                    case 1:
-                        type = "0";
-                        break;
-                    case 2:
-                        type = "1";
-                        break;
-                }
-                vm.setCustomerType(type);
+        class OnItemClickListener implements AdapterView.OnItemClickListener {
+            AutoCompleteTextView poView;
+            private final VMIntroductoryQuestion vm;
+            public OnItemClickListener(AutoCompleteTextView view, VMIntroductoryQuestion viewModel) {
+                this.poView = view;
+                this.vm = viewModel;
             }
-            if(adapterView.getId() == R.id.spn_installmentTerm) {
-                int term = 0;
-                switch (i) {
-                    case 0:
-                    case 1:
-                        term = 36;
-                        break;
-                    case 2:
-                        term = 24;
-                        break;
-                    case 3:
-                        term = 18;
-                        break;
-                    case 4:
-                        term = 12;
-                        break;
-                    case 5:
-                        term = 6;
-                        break;
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(spnApplType.equals(poView)) {
+                    String appType = String.valueOf(i);
+                    spnAppTypePosition = appType;
+                    vm.setApplicationType(appType);
+                    Log.e("app position",appType);
                 }
-                vm.setLsIntTerm(term);
+                if(spnCustomerType.equals(poView)){
+                    String type = "";
+                    switch (i){
+                        case 0:
+                            break;
+                        case 1:
+                            type = "0";
+                            break;
+                        case 2:
+                            type = "1";
+                            break;
+                    }
+                    spnCustomerTypePosition = String.valueOf(i);
+                    vm.setCustomerType(type);
+                }
+                if(spnTerm.equals(poView)) {
+                    int term = 0;
+                    switch (i) {
+                        case 0:
+                        case 1:
+                            term = 36;
+                            break;
+                        case 2:
+                            term = 24;
+                            break;
+                        case 3:
+                            term = 18;
+                            break;
+                        case 4:
+                            term = 12;
+                            break;
+                        case 5:
+                            term = 6;
+                            break;
+                    }
+
+                    spnTermPosition = String.valueOf(term);
+                    vm.setLsIntTerm(term);
+                }
             }
         }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> adapterView) {
-
-        }
-    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){

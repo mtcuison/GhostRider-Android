@@ -63,7 +63,7 @@ public class Fragment_IntroductoryQuestion extends Fragment implements ViewModel
 
         btnCreate = v.findViewById(R.id.btn_createCreditApp);
         txtDownPymnt.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(txtDownPymnt));
-        btnCreate.setOnClickListener(view -> mViewModel.CreateNewApplication(Fragment_IntroductoryQuestion.this));
+        //btnCreate.setOnClickListener(view -> mViewModel.CreateNewApplication(Fragment_IntroductoryQuestion.this));
         return v;
     }
 
