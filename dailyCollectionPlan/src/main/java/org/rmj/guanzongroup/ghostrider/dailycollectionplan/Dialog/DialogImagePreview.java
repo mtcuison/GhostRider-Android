@@ -1,29 +1,20 @@
-package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc;
+package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog;
 
-import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class DialogImagePreview{
     private AlertDialog poDialogx;
