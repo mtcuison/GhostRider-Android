@@ -20,9 +20,6 @@ import android.widget.ImageView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DialogDownloadDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.text.SimpleDateFormat;
