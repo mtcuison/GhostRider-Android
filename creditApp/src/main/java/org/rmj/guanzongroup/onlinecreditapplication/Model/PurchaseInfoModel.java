@@ -6,6 +6,7 @@ import java.util.Locale;
 
 public class PurchaseInfoModel {
 
+    private String sAppTypex;
     private String sCustTypex;
     private String sBranchCde;
     private String sBrandIDxx;
@@ -21,6 +22,13 @@ public class PurchaseInfoModel {
 
     public String getMessage(){
         return message;
+    }
+    public String getsAppTypex() {
+        return sAppTypex;
+    }
+
+    public void setsAppTypex(String sAppTypex) {
+        this.sAppTypex = sAppTypex;
     }
 
     public String getsCustTypex() {
@@ -84,7 +92,8 @@ public class PurchaseInfoModel {
     }
 
     public boolean isPurchaseInfoValid(){
-        return isCustomerTypeValid() &&
+        return isApplicationTypeValid() &&
+                isCustomerTypeValid() &&
                 isBranchValid() &&
                 isBrandValid() &&
                 isModelValid() &&
@@ -93,15 +102,22 @@ public class PurchaseInfoModel {
     }
 
     private boolean isCustomerTypeValid(){
-        if(sCustTypex.trim().isEmpty()){
+        if(Integer.parseInt(sCustTypex) < 0){
             message = "Please select customer type";
+            return false;
+        }
+        return true;
+    }
+    private boolean isApplicationTypeValid(){
+        if(Integer.parseInt(sAppTypex) < 0){
+            message = "Please select loan unit";
             return false;
         }
         return true;
     }
 
     private boolean isBranchValid(){
-        if(sBranchCde.trim().isEmpty()){
+        if(sBranchCde == null || sBranchCde.trim().isEmpty()){
             message = "Please select preferred branch";
             return false;
         }
@@ -109,7 +125,7 @@ public class PurchaseInfoModel {
     }
 
     private boolean isBrandValid(){
-        if(sBrandIDxx.trim().isEmpty()){
+        if(sBrandIDxx == null || sBrandIDxx.trim().isEmpty()){
             message = "Please select mc brand";
             return false;
         }
@@ -117,7 +133,7 @@ public class PurchaseInfoModel {
     }
 
     private boolean isModelValid(){
-        if(sModelIDxx.trim().isEmpty()){
+        if(sModelIDxx == null || sModelIDxx.trim().isEmpty()){
             message = "Please select mc model";
             return false;
         }

@@ -220,14 +220,30 @@
             android:layout_height="wrap_content"
             style="@style/HeaderLabelBlack"
             android:text="@string/sLabelCivilStatus"/>
-
-        <Spinner
-            android:id="@+id/spn_civilStatus"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:imeOptions="actionNext"
-            android:nextFocusForward="@id/txt_citizenship"/>
+            android:hint="Civil Status"
+            android:layout_weight="1.4">
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/spn_civilStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:padding="16dp"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:nextFocusForward="@id/txt_citizenship"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+<!--        <Spinner-->
+<!--            android:id="@+id/spn_civilStatus"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="15dp"-->
+<!--            android:imeOptions="actionNext"-->
+<!--            android:nextFocusForward="@id/txt_citizenship"/>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -264,7 +280,7 @@
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/txt_mobileNo1"/>
         </com.google.android.material.textfield.TextInputLayout>
-
+<!--     Contact field               -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -290,18 +306,36 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Spinner
-                android:id="@+id/spn_mobile1Type"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_spn_mobile1Type"
+                style="@style/CustomDropDownTilStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:layout_weight="1.4"/>
+                android:hint="Sim Type"
+                android:layout_weight="1.4">
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/spn_mobile1Type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:padding="16dp"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+<!--            <Spinner-->
+<!--                android:id="@+id/spn_mobile1Type"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:padding="15dp"-->
+<!--                android:layout_weight="1.4"/>-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_mobileNo1Year"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
+                android:layout_weight="1.6"
                 android:hint="@string/sHintYear"
                 style="@style/TextInputStyle"
                 android:orientation="horizontal"
@@ -340,18 +374,35 @@
                     android:nextFocusForward="@id/txt_mobileNo3"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Spinner
-                android:id="@+id/spn_mobile2Type"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_spn_mobile2Type"
+                style="@style/CustomDropDownTilStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:layout_weight="1.4"/>
+                android:hint="Sim Type"
+                android:layout_weight="1.4">
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/spn_mobile2Type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:padding="16dp"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+<!--            <Spinner-->
+<!--                android:id="@+id/spn_mobile2Type"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:padding="15dp"-->
+<!--                android:layout_weight="1.4"/>-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_mobileNo2Year"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
+                android:layout_weight="1.6"
                 android:hint="@string/sHintYear"
                 style="@style/TextInputStyle"
                 android:orientation="horizontal"
@@ -389,19 +440,35 @@
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/txt_telephoneNo"/>
             </com.google.android.material.textfield.TextInputLayout>
-
-            <Spinner
-                android:id="@+id/spn_mobile3Type"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_spn_mobile3Type"
+                style="@style/CustomDropDownTilStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:layout_weight="1.4"/>
+                android:hint="Sim Type"
+                android:layout_weight="1.4">
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/spn_mobile3Type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:padding="16dp"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+<!--            <Spinner-->
+<!--                android:id="@+id/spn_mobile3Type"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:padding="15dp"-->
+<!--                android:layout_weight="1.4"/>-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_mobileNo3Year"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
+                android:layout_weight="1.6"
                 android:hint="@string/sHintYear"
                 style="@style/TextInputStyle"
                 android:orientation="horizontal"

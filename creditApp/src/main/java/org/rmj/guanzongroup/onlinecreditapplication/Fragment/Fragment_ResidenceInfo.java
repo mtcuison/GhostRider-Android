@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -54,9 +55,12 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             txtPMunicipl,
             txtPProvince;
     private CheckBox cbOneAddress;
-    private Spinner spnLgnthStay,
+    private AutoCompleteTextView spnLgnthStay,
             spnHouseHold,
             spnHouseType;
+    private String spnLgnthStayPosition = "-1",
+            spnHouseHoldPosition = "-1",
+            spnHouseTypePosition = "-1";
     private TextInputLayout tilRelationship;
     private LinearLayout lnOtherInfo, lnPermaAddx;
     private Button btnNext;
@@ -206,6 +210,9 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
 
         mViewModel.getLenghtOfStay().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnLgnthStay.setAdapter(stringArrayAdapter));
 
+        spnHouseHold.setOnItemClickListener(new OnItemClickListener(spnHouseHold));
+        spnHouseType.setOnItemClickListener(new OnItemClickListener(spnHouseType));
+        spnLgnthStay.setOnItemClickListener(new OnItemClickListener(spnLgnthStay));
         btnNext.setOnClickListener(view -> SaveResidenceInfo());
         btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(0));
     }
@@ -219,12 +226,12 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         infoModel.setProvinceNm(txtProvince.getText().toString());
         infoModel.setMunicipalNm(txtMunicipality.getText().toString());
         infoModel.setBarangayName(txtBarangay.getText().toString());
-        infoModel.setHouseHold(String.valueOf(spnHouseHold.getSelectedItemPosition() - 1));
-        infoModel.setHouseType(String.valueOf(spnHouseType.getSelectedItemPosition() - 1));
+        infoModel.setHouseHold(spnHouseHoldPosition);
+        infoModel.setHouseType(spnHouseTypePosition);
         infoModel.setOwnerRelation(Objects.requireNonNull(txtRelationship.getText()).toString());
         infoModel.setLenghtOfStay(Objects.requireNonNull(txtLgnthStay.getText()).toString());
         infoModel.setMonthlyExpenses(Objects.requireNonNull(txtMonthlyExp.getText()).toString());
-        infoModel.setIsYear(String.valueOf(spnLgnthStay.getSelectedItemPosition() - 1));
+        infoModel.setIsYear(spnLgnthStayPosition);
         infoModel.setPermanentLandMark(Objects.requireNonNull(txtPLandMark.getText()).toString());
         infoModel.setPermanentHouseNo(Objects.requireNonNull(txtPHouseNox.getText()).toString());
         infoModel.setPermanentAddress1(Objects.requireNonNull(txtPAddress1.getText()).toString());
@@ -244,7 +251,26 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
     public void onFailedResult(String message) {
         GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
     }
+    class OnItemClickListener implements AdapterView.OnItemClickListener {
+        AutoCompleteTextView poView;
+        public OnItemClickListener(AutoCompleteTextView view) {
+            this.poView = view;
+        }
 
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            if (spnHouseHold.equals(poView)) {
+                spnHouseHoldPosition = String.valueOf(i);
+            }
+            if (spnHouseType.equals(poView)) {
+                spnHouseTypePosition = String.valueOf(i);
+            }
+            if (spnLgnthStay.equals(poView)) {
+                spnLgnthStayPosition = String.valueOf(i);
+            }
+
+        }
+    }
     private class OnHouseOwnershipSelectListener implements RadioGroup.OnCheckedChangeListener{
 
         @Override
