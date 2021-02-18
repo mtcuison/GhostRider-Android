@@ -1,5 +1,7 @@
     package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
+    import android.content.Intent;
+    import android.net.Uri;
     import android.os.Bundle;
 
     import androidx.annotation.Nullable;
@@ -59,6 +61,7 @@
         private RecyclerView rvCNAOutputs;
 
         private String sRqstCode, sPrimaryx;
+        private static final int MOBILE_DIALER = 104;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,6 +107,12 @@
                         @Override
                         public void OnDelete(int position) {
                             mViewModel.deleteMobile(mobileNox.get(position).getTransNox());
+                        }
+
+                        @Override
+                        public void OnMobileNoClick(String MobileNo) {
+                            Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
+                            startActivityForResult(mobileIntent, MOBILE_DIALER);
                         }
                     });
                     rvCNAOutputs.setAdapter(mobileAdapter);
@@ -264,6 +273,12 @@
                                     @Override
                                     public void OnDelete(int position) {
                                         mViewModel.deleteMobile(mobileNox.get(position).getTransNox());
+                                    }
+
+                                    @Override
+                                    public void OnMobileNoClick(String MobileNo) {
+                                        Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
+                                        startActivityForResult(mobileIntent, MOBILE_DIALER);
                                     }
                                 });
                                 rvCNAOutputs.setAdapter(mobileAdapter);
