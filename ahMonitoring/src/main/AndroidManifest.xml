@@ -5,14 +5,14 @@
     <application>
 
         <activity android:name=".Activity.Activity_Inventory"
-            android:theme="@style/GhostRiderMaterialTheme"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:label="Inventory"
             android:screenOrientation="userPortrait"
             android:windowSoftInputMode="adjustPan"/>
 
         <activity
             android:name=".Activity.Activity_Application"
-            android:theme="@style/GhostRiderMaterialTheme"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:label="Application"
             android:screenOrientation="userPortrait"
             android:windowSoftInputMode="adjustPan"/>

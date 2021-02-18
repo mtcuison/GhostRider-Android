@@ -189,13 +189,14 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                         public void OnDownloadClick(Dialog Dialog, String args) {
 
                             //Check if account entered is already added on DCP list...
-
+                            // args parameter from dialog refers to account number...
                             mViewModel.getDuplicateAccountrEntry(collectionMaster.getTransNox(), args).observe(Activity_CollectionList.this, collectionDetail -> {
                                 if(collectionDetail != null){
                                     Dialog.dismiss();
                                     poMessage.setTitle("Account ReceivableC Client");
                                     poMessage.setMessage("This account is already on collection list.");
                                     poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                    poMessage.show();
                                 } else {
                                     mViewModel.importARClientInfo(args, Activity_CollectionList.this);
                                 }

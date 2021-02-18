@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.Activity_Application"
-    android:theme="@style/GhostRiderMaterialTheme">
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_application"

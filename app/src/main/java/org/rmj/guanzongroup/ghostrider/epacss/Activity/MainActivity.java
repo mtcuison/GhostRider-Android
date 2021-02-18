@@ -1,11 +1,14 @@
 package org.rmj.guanzongroup.ghostrider.epacss.Activity;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import androidx.annotation.NonNull;
@@ -36,7 +39,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AppBarConfiguration mAppBarConfiguration;
     private MessageBox loMessage;
 
+    @SuppressLint("StaticFieldLeak")
     public static ExpandableListDrawerAdapter listAdapter;
+    @SuppressLint("StaticFieldLeak")
     public static  ExpandableListView expListView;
 
     public static  List<MenuModel> listDataHeader = new ArrayList<>();
@@ -96,29 +101,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.action_logout){
-            loMessage.setPositiveButton("Yes", (view, dialog) -> {
-                dialog.dismiss();
-                finish();
-                new REmployee(getApplication()).LogoutUserSession();
-                startActivity(new Intent(MainActivity.this, SplashScreenActivity.class));
-            });
-            loMessage.setNegativeButton("No", (view, dialog) -> {
-                dialog.dismiss();
-            });
-            loMessage.setTitle("GhostRider Session");
-            loMessage.setMessage("Are you sure you want to end session/logout?");
-            loMessage.show();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -126,12 +110,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }else{
-            loMessage.setPositiveButton("No", (view, dialog) -> dialog.dismiss());
-            loMessage.setNegativeButton("Yes", (view, dialog) -> {
-                dialog.dismiss();
-                finish();
-                new REmployee(getApplication()).LogoutUserSession();
+            loMessage.setPositiveButton("Yes", new MessageBox.DialogButton() {
+                @Override
+                public void OnButtonClick(View view, AlertDialog dialog) {
+                    dialog.dismiss();
+                    finish();
+                    new REmployee(getApplication()).LogoutUserSession();
+                }
             });
+            loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
             loMessage.setTitle("GhostRider");
             loMessage.setMessage("Exit Ghostrider app?");
             loMessage.show();

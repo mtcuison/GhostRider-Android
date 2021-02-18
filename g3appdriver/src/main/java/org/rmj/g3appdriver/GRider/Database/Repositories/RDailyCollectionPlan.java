@@ -1,7 +1,6 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -34,10 +33,6 @@ public class RDailyCollectionPlan {
         masterDao = appDatabase.DcpMasterDao();
     }
 
-    public LiveData<EDCPCollectionMaster> getCollectionMaster(){
-        return masterDao.getCollectionMaster();
-    }
-
     public void insertDetailBulkData(List<EDCPCollectionDetail> collectionDetails){
         detailDao.insertBulkData(collectionDetails);
     }
@@ -62,7 +57,9 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectionDetailLog();
     }
 
-
+    public LiveData<EDCPCollectionMaster> getCollectionMaster(){
+        return masterDao.getCollectionMaster();
+    }
 
     public LiveData<EDCPCollectionDetail> getCollectionDetail(String TransNox, String EntryNox){
         return detailDao.getCollectionDetail(TransNox, EntryNox);
