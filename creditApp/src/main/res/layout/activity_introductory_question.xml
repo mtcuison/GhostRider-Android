@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".Activity.Activity_IntroductoryQuestion"
     android:background="@drawable/bg_gradient_light"
@@ -80,17 +80,50 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 android:padding="5dp">
-                <Spinner
-                    android:id="@+id/spn_applicationType"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"/>
 
-                <Spinner
-                    android:id="@+id/spn_customerType"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomDropDownTilStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"/>
+                    android:hint="Select Loan Unit">
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/spn_applicationType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:padding="16dp"
+                        android:cursorVisible="false"
+                        android:clickable="false"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomDropDownTilStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Select Customer Type">
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/spn_customerType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:padding="16dp"
+                        android:cursorVisible="false"
+                        android:clickable="false"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+<!--                <Spinner-->
+<!--                    android:id="@+id/spn_applicationType"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:padding="15dp"/>-->
+
+<!--                <Spinner-->
+<!--                    android:id="@+id/spn_customerType"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:padding="15dp"/>-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -158,12 +191,23 @@
                         android:maxLength="50"
                         android:imeOptions="actionDone"/>
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <Spinner
-                    android:id="@+id/spn_installmentTerm"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomDropDownTilStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"/>
+                    android:hint="Select Installment Term (Required)">
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/spn_installmentTerm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:padding="16dp"
+                        android:cursorVisible="false"
+                        android:clickable="false"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"

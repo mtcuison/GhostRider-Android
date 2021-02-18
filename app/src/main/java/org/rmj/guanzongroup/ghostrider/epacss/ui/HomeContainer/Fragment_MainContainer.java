@@ -15,11 +15,7 @@ import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.appConstants;
-import org.rmj.guanzongroup.ghostrider.epacss.ui.home.FragmentDashboard;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_DisbursementInfo;
 
 public class Fragment_MainContainer extends Fragment {
 

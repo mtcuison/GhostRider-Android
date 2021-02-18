@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,29 +17,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.imgcapture.ImageFileCreator;
 import com.example.imgcapture.database.DatabaseHelper;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.SplashScreenActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.Dialog.DialogUserProfile;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-import org.rmj.guanzongroup.ghostrider.epacss.ui.HomeContainer.Fragment_MainContainer;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_NotificationList;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
-public class FragmentDashboard extends Fragment {
+public class Fragment_Dashboard extends Fragment {
 
     private VMDashboard mViewModel;
 
@@ -55,9 +54,9 @@ public class FragmentDashboard extends Fragment {
 
     private String photoPath;
     private double latitude, longitude;
-    private CardView cvProfile, cvMessages, cvNotif, cvSettings, cvLogout;
-    public static FragmentDashboard newInstance() {
-        return new FragmentDashboard();
+    private CardView cvProfile, cvMessages, cvNotif, cvSettings, cvLogout, cvSelfie;
+    public static Fragment_Dashboard newInstance() {
+        return new Fragment_Dashboard();
     }
 
     @Override
@@ -72,6 +71,7 @@ public class FragmentDashboard extends Fragment {
         cvMessages = view.findViewById(R.id.cvMessages);
         cvNotif = view.findViewById(R.id.cvNotif);
         cvLogout = view.findViewById(R.id.cvUserLogout);
+        cvSelfie = view.findViewById(R.id.cvSelfieLogin);
         return view;
     }
 
@@ -104,7 +104,7 @@ public class FragmentDashboard extends Fragment {
         });
         cvProfile.setOnClickListener(v ->{
             Date today = new Date();
-            SimpleDateFormat format = new SimpleDateFormat("MMMM dd, yyyy");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("MMMM dd, yyyy");
             String dateToStr = format.format(today);
             DialogUserProfile loDialog = new DialogUserProfile(getActivity());
             loDialog.setAddress(poLocator.getAddress());
@@ -112,13 +112,15 @@ public class FragmentDashboard extends Fragment {
             loDialog.setEmpEmail(lblEmailx);
             loDialog.setEmpName(lblUserNm);
             loDialog.setEmpPosition(lblPstion);
-            loDialog.setLblDate(dateToStr);
+            //loDialog.setLblDate(dateToStr);
             //loDialog.setAddress(poLocator.getAddress() + "\n Longitude" + poLocator.getLongitude() + "\n Lattitude" +poLocator.getLattitude());
             loDialog.show();
         });
-
-
-
+        cvSelfie.setOnClickListener(view -> {
+            Intent loIntent = new Intent(getActivity(), Activity_Application.class);
+            loIntent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
+            startActivity(loIntent);
+        });
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

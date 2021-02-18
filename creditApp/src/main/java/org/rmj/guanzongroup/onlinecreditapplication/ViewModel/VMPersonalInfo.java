@@ -83,7 +83,6 @@ public class VMPersonalInfo extends AndroidViewModel {
             infoModel.setBrthPlce(lsBPlace.getValue());
             infoModel.setCitizenx(lsCitizen.getValue());
             infoModel.setGender(lsGender.getValue());
-            infoModel.setCvlStats(lsCvlStats.getValue());
             if(infoModel.isPersonalInfoValid()) {
                 poGoCas.ApplicantInfo().setLastName(infoModel.getLastName());
                 poGoCas.ApplicantInfo().setFirstName(infoModel.getFrstName());

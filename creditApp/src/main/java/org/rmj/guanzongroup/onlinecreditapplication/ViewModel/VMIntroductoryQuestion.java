@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,7 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
     private final RRawData RRawData;
     private final Pricelist poPrice;
 
+    private final MutableLiveData<String> psAppType = new MutableLiveData<>();
     private final MutableLiveData<String> psCusType = new MutableLiveData<>();
     private final MutableLiveData<String> psBrnchCd = new MutableLiveData<>();
     private final MutableLiveData<String> psBrandID = new MutableLiveData<>();
@@ -54,7 +56,6 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
 
     private final LiveData<String[]> paBranchNm;
     private final LiveData<String[]> paBrandNme;
-
     public VMIntroductoryQuestion(@NonNull Application application) {
         super(application);
         RBranch = new RBranch(application);
@@ -65,10 +66,15 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
         paBranchNm = RBranch.getAllMcBranchNames();
         paBrandNme = oBrandRepo.getAllBrandNames();
         poPrice = PriceFactory.make(PriceFactory.ProductType.MOTORCYCLE);
+        psIntTerm.setValue(36);
     }
 
     public void setCustomerType(String type){
         this.psCusType.setValue(type);
+    }
+
+    public void setApplicationType(String type){
+        this.psAppType.setValue(type);
     }
 
     public void setBanchCde(String psBrnchCd) {
@@ -143,6 +149,7 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
         return paBrandNme;
     }
 
+
     public LiveData<List<EMcModel>> getAllBrandModelInfo(){
         return oModelRepo.getMcModelFromBrand(psBrandID.getValue());
     }
@@ -212,38 +219,33 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
         }
     }
 
-    public void CreateNewApplication(ViewModelCallBack callBack){
+    public void CreateNewApplication(PurchaseInfoModel model,ViewModelCallBack callBack){
         try {
             String transnox = new CodeGenerator().generateTransNox();
-            PurchaseInfoModel model = new PurchaseInfoModel();
-            model.setsCustTypex(psCusType.getValue());
-            model.setsBranchCde(psBrnchCd.getValue());
-            model.setsBrandIDxx(psModelCd.getValue());
-            model.setsModelIDxx(psBrandID.getValue());
-            model.setsDownPaymt(Double.parseDouble(Objects.requireNonNull(psDwnPymt.getValue())));
-            model.setsAccTermxx(psIntTerm.getValue());
-            model.setsMonthlyAm(Double.parseDouble(Objects.requireNonNull(psMonthly.getValue()).replace(",", "")));
-
-            GOCASApplication loGoCas = new GOCASApplication();
-            loGoCas.PurchaseInfo().setAppliedFor("0");
-            loGoCas.PurchaseInfo().setCustomerType(model.getsCustTypex());
-            loGoCas.PurchaseInfo().setPreferedBranch(model.getsBranchCde());
-            loGoCas.PurchaseInfo().setBrandName(model.getsBrandIDxx());
-            loGoCas.PurchaseInfo().setModelID(model.getsModelIDxx());
-            loGoCas.PurchaseInfo().setDownPayment(model.getsDownPaymt());
-            loGoCas.PurchaseInfo().setAccountTerm(model.getsAccTermxx());
-            loGoCas.PurchaseInfo().setDateApplied(model.getDateApplied());
-            loGoCas.PurchaseInfo().setMonthlyAmortization(model.getsMonthlyAm());
-            ECreditApplicantInfo creditApp = new ECreditApplicantInfo();
-            creditApp.setClientNm("");
-            creditApp.setDetlInfo(loGoCas.toJSONString());
-            creditApp.setTransNox(transnox);
-            if(model.isPurchaseInfoValid()) {
+              if(model.isPurchaseInfoValid()) {
+                GOCASApplication loGoCas = new GOCASApplication();
+                loGoCas.PurchaseInfo().setAppliedFor("0");
+                loGoCas.PurchaseInfo().setCustomerType(model.getsCustTypex());
+                loGoCas.PurchaseInfo().setPreferedBranch(model.getsBranchCde());
+                loGoCas.PurchaseInfo().setBrandName(model.getsBrandIDxx());
+                loGoCas.PurchaseInfo().setModelID(model.getsModelIDxx());
+                loGoCas.PurchaseInfo().setDownPayment(model.getsDownPaymt());
+                loGoCas.PurchaseInfo().setAccountTerm(model.getsAccTermxx());
+                loGoCas.PurchaseInfo().setDateApplied(model.getDateApplied());
+                loGoCas.PurchaseInfo().setMonthlyAmortization(model.getsMonthlyAm());
+                ECreditApplicantInfo creditApp = new ECreditApplicantInfo();
+                creditApp.setClientNm("");
+                creditApp.setDetlInfo(loGoCas.toJSONString());
+                creditApp.setTransNox(transnox);
                 oCredtRepo.insertGOCasData(creditApp);
+                Log.e("Detail info",creditApp.getDetlInfo());
                 callBack.onSaveSuccessResult(transnox);
             } else {
                 callBack.onFailedResult(model.getMessage());
             }
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            callBack.onFailedResult("Something went wrong. Required information might not provided by user.");
         } catch (Exception e){
             e.printStackTrace();
             callBack.onFailedResult("Something went wrong. Required information might not provided by user.");

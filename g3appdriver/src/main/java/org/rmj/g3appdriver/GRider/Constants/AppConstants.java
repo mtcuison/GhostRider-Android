@@ -67,6 +67,8 @@ public class AppConstants {
 
     public static int INTENT_LEAVE_APPLICATION = 102;
 
+    public static int INTENT_SELFIE_LOGIN = 103;
+
     public static String ACTIVATE_REQUEST = "DEVICES_APPROVE";
     public static String GET_PIN_REQUEST = "DEVICES_GETPIN";
     public static String UNLOCK_REQUEST = "DEVICES_UNLOCK";

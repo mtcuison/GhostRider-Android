@@ -1,6 +1,6 @@
 package com.example.imgcapture;
 
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +39,7 @@ public class ImageFileCreator {
         this.poContext = context;
         this.cameraUsage = usage;
     }
+
     public ImageFileCreator(Context context,String folder, String usage, String imgName) {
         this.poContext = context;
         this.folder_name = folder;
@@ -91,6 +92,7 @@ public class ImageFileCreator {
         return image;
     }
 
+    @SuppressLint("SimpleDateFormat")
     public String generateTimestamp() {
         return new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
     }
@@ -99,6 +101,7 @@ public class ImageFileCreator {
 
         return cameraUsage + "_" + generateTimestamp() + "_";
     }
+
     public String generateDCPImageFileName() {
 
         return imgName + "_" + generateTimestamp() + "_";
@@ -113,6 +116,7 @@ public class ImageFileCreator {
     }
 
     //CreateFile for Document Scanner Camera
+    @SuppressLint("QueryPermissionsNeeded")
     public void CreateScanFile(OnImageFileCreatedListener listener) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -136,7 +140,7 @@ public class ImageFileCreator {
     //CreateFile for Document Scanner Camera
     private File createImageScanFile() throws IOException {
 
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = cameraUsage + "_" + timeStamp + ".png";
         File storageDir = poContext.getExternalFilesDir( "/" + cameraUsage );
         //File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);

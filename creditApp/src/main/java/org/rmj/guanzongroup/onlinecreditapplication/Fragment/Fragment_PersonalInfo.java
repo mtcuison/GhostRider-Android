@@ -25,10 +25,12 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.OnBirthSetListener;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMIntroductoryQuestion;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMPersonalInfo;
 
 import java.util.Objects;
@@ -41,7 +43,12 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
     private TextInputLayout tilMothNm, tilMobileYr1 ,tilMobileYr2 ,tilMobileYr3;
     private AutoCompleteTextView txtProvince, txtTown, txtCitizen;
     private RadioGroup rgGender;
-    private Spinner spnCivilStatus, spnMobile1, spnMobile2, spnMobile3;
+    private AutoCompleteTextView spnCivilStatus, spnMobile1, spnMobile2, spnMobile3;
+
+    private String spnMobile1Position = "0";
+    private String spnMobile2Position = "0";
+    private String spnMobile3Position = "0";
+    private String spnCvlStsPosition = "-1";
 
     private String transnox;
 
@@ -149,18 +156,14 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
 
         mViewModel.setMotherMaidenNameVisibility().observe(getViewLifecycleOwner(), integer -> tilMothNm.setVisibility(integer));
 
-        spnCivilStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spnCivilStatus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i != 0) {
-                    mViewModel.setCvlStats(String.valueOf(i-1));
-                }
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mViewModel.setCvlStats(String.valueOf(i));
+                spnCvlStsPosition = String.valueOf(i);
+                Log.e("CVL STATUS ", String.valueOf(i));
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
         });
 
         mViewModel.getAllCountryCitizenNames().observe(getViewLifecycleOwner(), strings -> {
@@ -182,10 +185,9 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
             spnMobile2.setAdapter(stringArrayAdapter);
             spnMobile3.setAdapter(stringArrayAdapter);
         });
-
-        spnMobile1.setOnItemSelectedListener(new OnItemSelectListener(spnMobile1));
-        spnMobile2.setOnItemSelectedListener(new OnItemSelectListener(spnMobile2));
-        spnMobile3.setOnItemSelectedListener(new OnItemSelectListener(spnMobile3));
+        spnMobile1.setOnItemClickListener(new OnItemClickListener(spnMobile1));
+        spnMobile2.setOnItemClickListener(new OnItemClickListener(spnMobile2));
+        spnMobile3.setOnItemClickListener(new OnItemClickListener(spnMobile3));
     }
 
     @Override
@@ -214,42 +216,41 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         infoModel.setBrthDate(Objects.requireNonNull(txtBirthDt.getText()).toString());
         infoModel.setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
         if(!Objects.requireNonNull(txtMobileNo1.getText()).toString().trim().isEmpty()) {
-            if(spnMobile1.getSelectedItemPosition() == 1) {
-                infoModel.setMobileNo(txtMobileNo1.getText().toString(), String.valueOf(spnMobile1.getSelectedItemPosition()), Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));
+            if(Integer.parseInt(spnMobile1Position) == 1) {
+                infoModel.setMobileNo(txtMobileNo1.getText().toString(), String.valueOf(spnMobile1Position), Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));
             } else {
-                infoModel.setMobileNo(txtMobileNo1.getText().toString(), String.valueOf(spnMobile1.getSelectedItemPosition()), 0);
+                infoModel.setMobileNo(txtMobileNo1.getText().toString(), String.valueOf(spnMobile1Position), 0);
             }
         }
         if(!Objects.requireNonNull(txtMobileNo2.getText()).toString().trim().isEmpty()) {
-            if(spnMobile2.getSelectedItemPosition() == 1) {
-                infoModel.setMobileNo(txtMobileNo2.getText().toString(), String.valueOf(spnMobile2.getSelectedItemPosition()), Integer.parseInt(Objects.requireNonNull(txtMobileYr2.getText()).toString()));
+            if(Integer.parseInt(spnMobile2Position) == 1) {
+                infoModel.setMobileNo(txtMobileNo2.getText().toString(), String.valueOf(spnMobile2Position), Integer.parseInt(Objects.requireNonNull(txtMobileYr2.getText()).toString()));
             } else {
-                infoModel.setMobileNo(txtMobileNo2.getText().toString(), String.valueOf(spnMobile2.getSelectedItemPosition()), 0);
+                infoModel.setMobileNo(txtMobileNo2.getText().toString(), String.valueOf(spnMobile2Position), 0);
             }
         }
         if(!Objects.requireNonNull(txtMobileNo3.getText()).toString().trim().isEmpty()) {
-            if(spnMobile3.getSelectedItemPosition() == 1) {
-                infoModel.setMobileNo(txtMobileNo3.getText().toString(), String.valueOf(spnMobile3.getSelectedItemPosition()), Integer.parseInt(Objects.requireNonNull(txtMobileYr3.getText()).toString()));
+            if(Integer.parseInt(spnMobile3Position) == 1) {
+                infoModel.setMobileNo(txtMobileNo3.getText().toString(), String.valueOf(spnMobile3Position), Integer.parseInt(Objects.requireNonNull(txtMobileYr3.getText()).toString()));
             } else {
-                infoModel.setMobileNo(txtMobileNo3.getText().toString(), String.valueOf(spnMobile3.getSelectedItemPosition()), 0);
+                infoModel.setMobileNo(txtMobileNo3.getText().toString(), String.valueOf(spnMobile3Position), 0);
             }
         }
         infoModel.setPhoneNox(Objects.requireNonNull(txtTellNox.getText()).toString());
         infoModel.setEmailAdd(Objects.requireNonNull(txtEmailAdd.getText()).toString());
         infoModel.setFbAccntx(Objects.requireNonNull(txtFbAccount.getText()).toString());
         infoModel.setVbrAccnt(Objects.requireNonNull(txtViberAccount.getText()).toString());
+        infoModel.setCvlStats(spnCvlStsPosition);
         mViewModel.SavePersonalInfo(infoModel, Fragment_PersonalInfo.this);
     }
-
-    class OnItemSelectListener implements AdapterView.OnItemSelectedListener {
-        Spinner poView;
-
-        public OnItemSelectListener(Spinner view) {
+    class OnItemClickListener implements AdapterView.OnItemClickListener {
+        AutoCompleteTextView poView;
+        public OnItemClickListener(AutoCompleteTextView view) {
             this.poView = view;
         }
 
         @Override
-        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if (spnMobile1.equals(poView)) {
                 if(i == 1) {
                     tilMobileYr1.setVisibility(View.VISIBLE);
@@ -271,10 +272,6 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
                     tilMobileYr3.setVisibility(View.GONE);
                 }
             }
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> adapterView) {
 
         }
     }

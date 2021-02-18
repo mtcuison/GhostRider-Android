@@ -65,8 +65,11 @@
         private String transnox;
 
         private TextInputLayout tilMobileYr1 ,tilMobileYr2 ,tilMobileYr3;
-        private Spinner spnMobile1, spnMobile2, spnMobile3;
+        private AutoCompleteTextView spnMobile1, spnMobile2, spnMobile3;
 
+        private String spnMobile1Position = "0";
+        private String spnMobile2Position = "0";
+        private String spnMobile3Position = "0";
         private Button btnNext;
 
         public static Fragment_SpouseInfo newInstance() {
@@ -222,9 +225,11 @@
                 spnMobile3.setAdapter(stringArrayAdapter);
             });
 
-            spnMobile1.setOnItemSelectedListener(new Fragment_SpouseInfo.OnItemSelectListener(spnMobile1));
-            spnMobile2.setOnItemSelectedListener(new Fragment_SpouseInfo.OnItemSelectListener(spnMobile2));
-            spnMobile3.setOnItemSelectedListener(new Fragment_SpouseInfo.OnItemSelectListener(spnMobile3));
+
+        
+        spnMobile1.setOnItemClickListener(new OnItemClickListener(spnMobile1));
+        spnMobile2.setOnItemClickListener(new OnItemClickListener(spnMobile2));
+        spnMobile3.setOnItemClickListener(new OnItemClickListener(spnMobile3));
 
 
 
@@ -246,24 +251,24 @@
                     infoModel.setCitizenx(txtCitizenx.getText().toString());
 
                     if(!Objects.requireNonNull(txtPrimeCntc.getText()).toString().trim().isEmpty()) {
-                        if(spnMobile1.getSelectedItemPosition() == 1) {
-                            infoModel.setMobileNo(txtPrimeCntc.getText().toString(), String.valueOf(spnMobile1.getSelectedItemPosition()), Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));
+                        if(Integer.parseInt(spnMobile1Position) == 1) {
+                            infoModel.setMobileNo(txtPrimeCntc.getText().toString(),spnMobile1Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));
                         } else {
-                            infoModel.setMobileNo(txtPrimeCntc.getText().toString(), String.valueOf(spnMobile1.getSelectedItemPosition()), 0);
+                            infoModel.setMobileNo(txtPrimeCntc.getText().toString(), spnMobile1Position, 0);
                         }
                     }
                     if(!Objects.requireNonNull(txtSecCntct.getText()).toString().trim().isEmpty()) {
-                        if(spnMobile2.getSelectedItemPosition() == 1) {
-                            infoModel.setMobileNo(txtSecCntct.getText().toString(), String.valueOf(spnMobile2.getSelectedItemPosition()), Integer.parseInt(Objects.requireNonNull(txtMobileYr2.getText()).toString()));
+                        if(Integer.parseInt(spnMobile2Position) == 1) {
+                            infoModel.setMobileNo(txtSecCntct.getText().toString(), spnMobile2Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr2.getText()).toString()));
                         } else {
-                            infoModel.setMobileNo(txtSecCntct.getText().toString(), String.valueOf(spnMobile2.getSelectedItemPosition()), 0);
+                            infoModel.setMobileNo(txtSecCntct.getText().toString(), spnMobile2Position, 0);
                         }
                     }
                     if(!Objects.requireNonNull(txtThirCntct.getText()).toString().trim().isEmpty()) {
-                        if(spnMobile3.getSelectedItemPosition() == 1) {
-                            infoModel.setMobileNo(txtThirCntct.getText().toString(), String.valueOf(spnMobile3.getSelectedItemPosition()), Integer.parseInt(Objects.requireNonNull(txtMobileYr3.getText()).toString()));
+                        if(Integer.parseInt(spnMobile3Position) == 1) {
+                            infoModel.setMobileNo(txtThirCntct.getText().toString(), spnMobile3Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr3.getText()).toString()));
                         } else {
-                            infoModel.setMobileNo(txtThirCntct.getText().toString(), String.valueOf(spnMobile3.getSelectedItemPosition()), 0);
+                            infoModel.setMobileNo(txtThirCntct.getText().toString(), spnMobile3Position, 0);
                         }
                     }
 
@@ -290,15 +295,14 @@
             GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
         }
 
-        private class OnItemSelectListener implements AdapterView.OnItemSelectedListener {
-            Spinner poView;
-
-            public OnItemSelectListener(Spinner view) {
+        class OnItemClickListener implements AdapterView.OnItemClickListener {
+            AutoCompleteTextView poView;
+            public OnItemClickListener(AutoCompleteTextView view) {
                 this.poView = view;
             }
 
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (spnMobile1.equals(poView)) {
                     if(i == 1) {
                         tilMobileYr1.setVisibility(View.VISIBLE);
@@ -320,10 +324,6 @@
                         tilMobileYr3.setVisibility(View.GONE);
                     }
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         }

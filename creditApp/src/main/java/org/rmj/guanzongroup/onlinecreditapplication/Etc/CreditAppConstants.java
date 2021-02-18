@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Etc;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_CoMaker;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_Dependent;
@@ -39,15 +40,18 @@ public class CreditAppConstants {
      *            <p>13 new Fragment_Dependent(),</p>
      *            <p>14 new Fragment_OtherInfo(),</p>
      *            <p>15 new Fragment_CoMaker()</p>
+     * @param allLoanUnitNames
      */
+
     public static Fragment[] APPLICATION_PAGES = {
 
+
+            new Fragment_SpouseInfo(),
             new Fragment_PersonalInfo(),
             new Fragment_ResidenceInfo(),
             new Fragment_SpouseInfo(),
             new Fragment_SpouseResidenceInfo(),
             new Fragment_SpouseEmploymentInfo(),
-            new Fragment_PersonalInfo(),
             new Fragment_ResidenceInfo(),
             new Fragment_MeansInfoSelection(),
             new Fragment_EmploymentInfo(),
@@ -74,12 +78,10 @@ public class CreditAppConstants {
             "Services"};
 
     public static String[] CUSTOMER_TYPE = {
-            "Select Customer Type",
             "New",
             "Repeat"};
 
     public static String[] INSTALLMENT_TERM = {
-            "Select Installment Term (Required)",
             "36 Months/3 Years",
             "24 Months/2 Years",
             "18 Months",
@@ -90,7 +92,6 @@ public class CreditAppConstants {
     public static String[] MOBILE_NO_TYPE = {"Prepaid", "Postpaid"};
 
     public static String[] CIVIL_STATUS = {
-            "Tap here to select (Required)",
             "Single",
             "Married",
             "Separated",
@@ -99,18 +100,16 @@ public class CreditAppConstants {
             "Single-Parent W/ Live-in Partner"};
 
     public static String[] HOUSEHOLDS ={
-            "Select Households (Required)",
             "Living with Family(Spouse, Children)",
             "Living with Family(Father, Mother, Sibling)",
             "Living with Relatives"};
 
     public static String[] HOUSE_TYPE = {
-            "Select House Type (Required)",
             "Concrete",
             "Concrete and Wood",
             "Wood"};
 
-    public static String[] LENGTH_OF_STAY = {"Select Length of Stay (Required)", "Month", "Year"};
+    public static String[] LENGTH_OF_STAY = {"Month", "Year"};
 
     public static String[] BUSINESS_NATURE = {
             "Select Nature of Business (Required)",
