@@ -137,12 +137,13 @@ public class VMLoanUnit extends AndroidViewModel {
         liveData.setValue(adapter);
         return liveData;
     }
-    public void saveLuInfo(LoanUnitModel infoModel, ViewModelCallback callback){
+    public boolean saveLuInfo(LoanUnitModel infoModel, ViewModelCallback callback){
         try{
             infoModel.setLuGender(luGender.getValue());
 //            infoModel.setLuCivilStats(luCivilStats.getValue());
             if(!infoModel.isValidData()){
                 callback.OnFailedResult(infoModel.getMessage());
+                return false;
             } else {
                 String fullName = infoModel.getLuLastName() + ", " +
                         infoModel.getLuFirstName() + " " +
@@ -160,13 +161,16 @@ public class VMLoanUnit extends AndroidViewModel {
                 poDcp.updateCollectionDetailInfo(detail);
                 //Log.e(TAG, "Promise to Pay info has been set." + poDcp.getCollectionDetail(psTransNox.getValue(),psEntryNox.getValue()).getValue().toString());
                 callback.OnSuccessResult(new String[]{"Dcp Save!"});
+                return true;
             }
         } catch (NullPointerException e){
             e.printStackTrace();
             callback.OnFailedResult(e.getMessage());
+            return false;
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailedResult(e.getMessage());
+            return false;
         }
     }
 }
