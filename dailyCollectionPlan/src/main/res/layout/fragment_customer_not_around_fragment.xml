@@ -282,6 +282,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLength="100"
+                        android:inputType="textCapWords"
                         android:imeOptions="actionNext"
                         android:nextFocusForward="@+id/txt_dcpCNA_town"/>
                 </com.google.android.material.textfield.TextInputLayout>
@@ -300,6 +301,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/AutoCompleteStyleTheme"
+                    android:inputType="textCapWords|textAutoComplete"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@+id/txt_dcpCNA_brgy" />
 
@@ -317,6 +319,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/AutoCompleteStyleTheme"
+                    android:inputType="textCapWords|textAutoComplete"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@+id/txt_dcpCNA_remarks" />
 
@@ -347,6 +350,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextInputStyle.Edittext"
+                android:inputType="textCapSentences"
                 android:imeOptions="actionDone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
