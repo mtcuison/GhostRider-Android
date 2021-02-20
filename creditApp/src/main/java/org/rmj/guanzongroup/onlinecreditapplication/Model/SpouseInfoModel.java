@@ -173,13 +173,20 @@
                     isBirthDateValid() &&
                     isBirthPlaceValid() &&
                     isCitizenshipValid() &&
-                    isPrimaryContactValid() &&
-                    isSecondaryContactValid() &&
-                    isTertiaryContactValid() &&
+                    isValidContact() &&
                     isProvinceValid() &&
                     isTownValid();
         }
-
+        private boolean isValidContact(){
+            if (mobileNoList.size()> 0) {
+                return isPrimaryContactValid() &&
+                        isSecondaryContactValid() &&
+                        isTertiaryContactValid();
+            }else {
+                message = "Please enter primary contact number";
+                return false;
+            }
+        }
         private boolean isLastNameValid(){
             if(LastName.trim().isEmpty()){
                 message = "Please provide Last name.";
@@ -249,6 +256,11 @@
                 message = "Please enter primary contact number";
                 return false;
             }
+
+            if(Integer.parseInt(mobileNoList.get(0).getIsPostPd()) < 0){
+                message = "Please select sim card type";
+                return false;
+            }
             if(!mobileNoList.get(0).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
                 message = "Contact number must start with '09'";
                 return false;
@@ -277,6 +289,11 @@
                         return false;
                     }
                 }
+
+                if(Integer.parseInt(mobileNoList.get(1).getIsPostPd()) < 0){
+                    message = "Please select sim card type";
+                    return false;
+                }
             }
             return true;
         }
@@ -297,6 +314,11 @@
                         message = "Contact numbers are duplicated";
                         return false;
                     }
+                }
+
+                if(Integer.parseInt(mobileNoList.get(2).getIsPostPd()) < 0){
+                    message = "Please select sim card type";
+                    return false;
                 }
             }
             return true;

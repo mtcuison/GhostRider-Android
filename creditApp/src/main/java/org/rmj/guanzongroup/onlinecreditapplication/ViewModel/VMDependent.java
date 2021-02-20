@@ -39,8 +39,8 @@ public class VMDependent extends AndroidViewModel {
     private final MutableLiveData<String> spnRelationx = new MutableLiveData<>();
     private final MutableLiveData<String> spnEmpSector = new MutableLiveData<>();
     private final MutableLiveData<String> spnStudentStatus = new MutableLiveData<>();
+    private final MutableLiveData<String> spnEmpTypeX = new MutableLiveData<>();
 
-    private final MutableLiveData<String> spnRelationxPosition = new MutableLiveData<>();
 
     private final MutableLiveData<Integer> linearEmployed = new MutableLiveData<>();
     private final MutableLiveData<Integer> linearStudent = new MutableLiveData<>();
@@ -105,12 +105,14 @@ public class VMDependent extends AndroidViewModel {
         this.spnRelationx.setValue(spnRelationx);
 
     }
-    public void setSpnRelationxPosition(String spnRelationxPosition){
-        this.spnRelationxPosition.setValue(spnRelationxPosition);
-
+    public LiveData<String> getRelationX(){
+        return this.spnRelationx;
     }
-    public LiveData<String> getSpnRelationxPosition(){
-        return spnRelationxPosition;
+    public LiveData<String> getSchoolTypeX(){
+        return this.spnSchoolType;
+    }
+    public LiveData<String> getSchoolLvlX(){
+        return this.spnSchoolLvl;
     }
     public void setSpnEmpSector(String spnEmpSector){
         try {
@@ -227,7 +229,7 @@ public class VMDependent extends AndroidViewModel {
             info.setDetlInfo(poGoCasxx.toJSONString());
             info.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
             poApplcnt.updateGOCasData(info);
-            callBack.onSaveSuccessResult("Success");
+         //   callBack.onSaveSuccessResult("Success");
             Log.e(TAG, "Dependent info has been set." + poGoCasxx.DisbursementInfo().DependentInfo().toJSONString());
 
             return true;

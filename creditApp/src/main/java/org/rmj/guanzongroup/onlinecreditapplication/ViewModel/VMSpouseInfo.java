@@ -3,6 +3,7 @@
     import android.app.Application;
     import android.media.tv.TvTrackInfo;
     import android.util.Log;
+    import android.view.View;
     import android.widget.ArrayAdapter;
     import android.widget.ListView;
 
@@ -42,6 +43,13 @@
         private MutableLiveData<String> lsCitizen = new MutableLiveData<>();
 
 
+        private MutableLiveData<String> lsMobile1 = new MutableLiveData<>();
+        private MutableLiveData<String> lsMobile2 = new MutableLiveData<>();
+        private MutableLiveData<String> lsMobile3 = new MutableLiveData<>();
+
+        private MutableLiveData<Integer> mobileNo1Year = new MutableLiveData<>();
+        private MutableLiveData<Integer> mobileNo2Year = new MutableLiveData<>();
+        private MutableLiveData<Integer> mobileNo3Year = new MutableLiveData<>();
         public VMSpouseInfo(@NonNull Application application) { // Application is context
             super(application);
             poGoCas = new GOCASApplication();
@@ -49,6 +57,9 @@
             poProvRepo = new RProvince(application);
             poTownRepo = new RTown(application);
             RCountry = new RCountry(application);
+            this.mobileNo1Year.setValue(View.GONE);
+            this.mobileNo2Year.setValue(View.GONE);
+            this.mobileNo3Year.setValue(View.GONE);
         }
 
         // Set TransNox to be saved in applicant info entity
@@ -118,7 +129,66 @@
             this.lsCitizen.setValue(lsCitizen);
         }
 
-
+        public LiveData<Integer> getMobileNo3Year(){
+            return this.mobileNo3Year;
+        }
+        public LiveData<Integer> getMobileNo2Year(){
+            return this.mobileNo2Year;
+        }
+        public LiveData<Integer> getMobileNo1Year(){
+            return this.mobileNo1Year;
+        }
+        public LiveData<String> getMobileNo3(){
+            return this.lsMobile3;
+        }
+        public LiveData<String> getMobileNo2(){
+            return this.lsMobile2;
+        }
+        public LiveData<String> getMobileNo1(){
+            return this.lsMobile1;
+        }
+        public void setLsMobile1(String mobile1){
+            try {
+                if(mobile1.equalsIgnoreCase("1")){
+                    this.mobileNo1Year.setValue(View.VISIBLE);
+                } else {
+                    this.mobileNo1Year.setValue(View.GONE);
+                }
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            this.lsMobile1.setValue(mobile1);
+        }
+        public void setLsMobile2(String mobile2){
+            try {
+                if(mobile2.equalsIgnoreCase("1")){
+                    this.mobileNo2Year.setValue(View.VISIBLE);
+                } else {
+                    this.mobileNo2Year.setValue(View.GONE);
+                }
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            this.lsMobile2.setValue(mobile2);
+        }
+        public void setLsMobile3(String mobile3){
+            try {
+                if(mobile3.equalsIgnoreCase("1")){
+                    this.mobileNo3Year.setValue(View.VISIBLE);
+                } else {
+                    this.mobileNo3Year.setValue(View.GONE);
+                }
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            this.lsMobile3.setValue(mobile3);
+        }
         public void Save(SpouseInfoModel infoModel, ViewModelCallBack callBack){
             try{
                 infoModel.setBirthPlace(psTownID.getValue());

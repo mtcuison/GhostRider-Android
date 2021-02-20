@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import android.widget.Spinner;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.EmploymentInfoModel;
@@ -35,11 +37,17 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
     private static final String TAG = Fragment_EmploymentInfo.class.getSimpleName();
     private VMEmploymentInfo mViewModel;
     private EmploymentInfoModel infoModel;
-    private Spinner spnCmpLvl,
+//    private Spinner spnEmpSts, spnServce;
+    private AutoCompleteTextView spnCmpLvl,
             spnEmpLvl,
             spnBusNtr,
             spnEmpSts,
             spnServce;
+    private String  spnCmpLvlPosition = "-1",
+            spnEmpLvlPosition = "-1",
+            spnBusNtrPosition = "-1",
+            spnServcePosition = "-1",
+            spnEmpStsPosition = "-1";
     private AutoCompleteTextView txtCntryx,
             txtProvNm,
             txtTownNm,
@@ -100,7 +108,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         rgSectorx.setOnCheckedChangeListener(new OnRadioButtonSelectListener());
         rgUniform.setOnCheckedChangeListener(new OnRadioButtonSelectListener());
         rgMiltary.setOnCheckedChangeListener(new OnRadioButtonSelectListener());
-        spnEmpSts.setOnItemSelectedListener(new OnJobStatusSelectedListener());
+//        spnEmpSts.setOnItemSelectedListener(new OnJobStatusSelectedListener());
 
         btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(2));
     }
@@ -112,12 +120,27 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
         mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo.getDetlInfo()));
         mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
+        mViewModel.getPsCmpLvl().observe(getViewLifecycleOwner(), s -> {
+            spnCmpLvl.setSelection(Integer.parseInt(s));
+            Log.e("company ", s);
+        });
         mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
+        mViewModel.getPsEmpLvl().observe(getViewLifecycleOwner(), s -> {
+                spnEmpLvl.setSelection(Integer.parseInt(s));
+                Log.e("Employee ", s);
+        });
+
         mViewModel.getBusinessNature().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBusNtr.setAdapter(stringArrayAdapter));
+        mViewModel.getPsBsnssLvl().observe(getViewLifecycleOwner(), s -> {
+                spnBusNtr.setSelection(Integer.parseInt(s));
+                Log.e("Business ", s);
+                });
+
         mViewModel.getCountryNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtCntryx.setAdapter(adapter);
         });
+
         txtCntryx.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getCountryInfoList().observe(getViewLifecycleOwner(), countryInfos -> {
             for(int x = 0; x < countryInfos.size(); x++){
                 if(txtCntryx.getText().toString().equalsIgnoreCase(countryInfos.get(x).getCntryNme())){
@@ -126,6 +149,10 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
                 }
             }
         }));
+//        mViewModel.getCountryCD().observe(getViewLifecycleOwner(), s -> {
+//            txtCntryx.setSelection(Integer.parseInt(s));
+//            Log.e("company ", s);
+//        });
         mViewModel.getProvinceName().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvNm.setAdapter(adapter);
@@ -152,7 +179,6 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
                 }
             }
         }));
-
         mViewModel.getJobTitleNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtJobNme.setAdapter(adapter);
@@ -169,17 +195,22 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
 
         mViewModel.getEmploymentStatus().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpSts.setAdapter(stringArrayAdapter));
         mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnServce.setAdapter(stringArrayAdapter));
+        mViewModel.getPsService().observe(getViewLifecycleOwner(), s -> {
+            spnServce.setSelection(Integer.parseInt(s));
+            Log.e("Employee ", s);
+        });
 
+        spnCmpLvl.setOnItemClickListener(new OnItemClickListener(spnCmpLvl));
+        spnEmpLvl.setOnItemClickListener(new OnItemClickListener(spnEmpLvl));
+        spnBusNtr.setOnItemClickListener(new OnItemClickListener(spnBusNtr));
+        spnServce.setOnItemClickListener(new OnItemClickListener(spnServce));
+        spnEmpSts.setOnItemClickListener(new OnItemClickListener(spnEmpSts));
         btnNext.setOnClickListener(view -> {
-            infoModel.setCompanyLevel(String.valueOf(spnCmpLvl.getSelectedItemPosition() - 1));
-            infoModel.setCompanyLevel(String.valueOf(spnCmpLvl.getSelectedItemPosition() - 1));
-            infoModel.setEmployeeLevel(String.valueOf(spnEmpLvl.getSelectedItemPosition() - 1));
-            infoModel.setBusinessNature(spnBusNtr.getSelectedItem().toString());
             infoModel.setCompanyName(Objects.requireNonNull(txtCompNm.getText()).toString());
             infoModel.setCompanyAddress(Objects.requireNonNull(txtCompAd.getText()).toString());
             infoModel.setSpecificJob(Objects.requireNonNull(txtSpcfJb.getText()).toString());
             infoModel.setLengthOfService(Objects.requireNonNull(txtLngthS.getText()).toString());
-            infoModel.setIsYear(String.valueOf(spnServce.getSelectedItemPosition() - 1));
+            infoModel.setIsYear(spnServcePosition);
             infoModel.setsMonthlyIncome(Objects.requireNonNull(txtEsSlry.getText()).toString());
             infoModel.setContact(Objects.requireNonNull(txtCompCn.getText()).toString());
             mViewModel.SaveEmploymentInfo(infoModel, Fragment_EmploymentInfo.this);
@@ -194,6 +225,47 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
     @Override
     public void onFailedResult(String message) {
         GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
+    }
+    class OnItemClickListener implements AdapterView.OnItemClickListener {
+        AutoCompleteTextView poView;
+
+        public OnItemClickListener(AutoCompleteTextView view) {
+            this.poView = view;
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            if (spnCmpLvl.equals(poView)) {
+                spnCmpLvlPosition = String.valueOf(i);
+                mViewModel.setPsCmpLvl(String.valueOf(i));
+            }
+            if (spnEmpLvl.equals(poView)) {
+                spnEmpLvlPosition = String.valueOf(i);
+                mViewModel.setPsEmpLvl(String.valueOf(i));
+            }
+            if (spnBusNtr.equals(poView)) {
+                spnBusNtrPosition = String.valueOf(i);
+                mViewModel.setPsBsnssLvl(String.valueOf(i));
+            }
+            if (spnServce.equals(poView)) {
+                spnServcePosition = String.valueOf(i);
+                mViewModel.setPsService(String.valueOf(i));
+            }
+            if (spnEmpSts.equals(poView)) {
+                if (adapterView.getItemAtPosition(i).toString().equalsIgnoreCase("Tap here to select.")) {
+                    mViewModel.setEmploymentStatus("");
+                } else if (adapterView.getItemAtPosition(i).toString().equalsIgnoreCase("Regular")) {
+                    mViewModel.setEmploymentStatus("R");
+                } else if (adapterView.getItemAtPosition(i).toString().equalsIgnoreCase("Probationary")) {
+                    mViewModel.setEmploymentStatus("P");
+                } else if (adapterView.getItemAtPosition(i).toString().equalsIgnoreCase("Contractual")) {
+                    mViewModel.setEmploymentStatus("C");
+                } else if (adapterView.getItemAtPosition(i).toString().equalsIgnoreCase("Seasonal")) {
+                    mViewModel.setEmploymentStatus("S");
+                }
+                GToast.CreateMessage(getActivity(), adapterView.getItemAtPosition(i).toString(), GToast.INFORMATION).show();
+            }
+        }
     }
 
     private class OnRadioButtonSelectListener implements RadioGroup.OnCheckedChangeListener{
@@ -248,26 +320,27 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         }
     }
 
-    class OnJobStatusSelectedListener implements AdapterView.OnItemSelectedListener{
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Tap here to select.")) {
-                mViewModel.setEmploymentStatus("");
-            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Regular")) {
-                mViewModel.setEmploymentStatus("R");
-            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Probationary")) {
-                mViewModel.setEmploymentStatus("P");
-            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Contractual")) {
-                mViewModel.setEmploymentStatus("C");
-            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Seasonal")) {
-                mViewModel.setEmploymentStatus("S");
-            }
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    }
+//    class OnJobStatusSelectedListener implements AdapterView.OnItemSelectedListener{
+//
+//        @Override
+//        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//            if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Tap here to select.")) {
+//                mViewModel.setEmploymentStatus("");
+//            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Regular")) {
+//                mViewModel.setEmploymentStatus("R");
+//            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Probationary")) {
+//                mViewModel.setEmploymentStatus("P");
+//            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Contractual")) {
+//                mViewModel.setEmploymentStatus("C");
+//            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Seasonal")) {
+//                mViewModel.setEmploymentStatus("S");
+//            }
+//            GToast.CreateMessage(getActivity(), parent.getItemAtPosition(position).toString(), GToast.INFORMATION).show();
+//        }
+//
+//        @Override
+//        public void onNothingSelected(AdapterView<?> parent) {
+//
+//        }
+//    }
 }

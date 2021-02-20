@@ -111,14 +111,13 @@ public class DisbursementInfoModel {
     }
     private boolean isBankN(){
         if(!bankN.trim().isEmpty()){
-
             return  isTypeX();
         }
         return true;
     }
     private boolean isTypeX(){
         if(Integer.parseInt(stypeX) < 0){
-            message = "Please select customer type";
+            message = "Please select account type";
             return false;
         }
         return true;

@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
@@ -45,6 +46,10 @@ public class VMEmploymentInfo extends AndroidViewModel {
     private final MutableLiveData<String> psJobTtle = new MutableLiveData<>();
     private final MutableLiveData<String> psEmpStat = new MutableLiveData<>();
     private final MutableLiveData<String> psCountry = new MutableLiveData<>();
+    private final MutableLiveData<String> psCmpLvl = new MutableLiveData<>();
+    private final MutableLiveData<String> psEmpLvl = new MutableLiveData<>();
+    private final MutableLiveData<String> psBsnssLvl = new MutableLiveData<>();
+    private final MutableLiveData<String> psService = new MutableLiveData<>();
 
     private final MutableLiveData<Integer> pnGovInfo = new MutableLiveData<>();
     private final MutableLiveData<Integer> pnCountry = new MutableLiveData<>();
@@ -93,6 +98,33 @@ public class VMEmploymentInfo extends AndroidViewModel {
             this.pnGovInfo.setValue(View.GONE);
         }
         this.psSectorx.setValue(sector);
+    }
+
+    public void setPsCmpLvl(String compLvl){
+        this.psCmpLvl.setValue(compLvl);
+    }
+
+    public LiveData<String> getPsCmpLvl(){
+       return this.psCmpLvl;
+    }
+
+    public void setPsEmpLvl(String empLvl){
+        this.psEmpLvl.setValue(empLvl);
+    }
+    public LiveData<String> getPsEmpLvl(){
+        return this.psEmpLvl;
+    }
+    public void setPsBsnssLvl(String bsnssLvl){
+        this.psBsnssLvl.setValue(bsnssLvl);
+    }
+    public LiveData<String> getPsBsnssLvl(){
+        return this.psBsnssLvl;
+    }
+    public void setPsService(String service){
+        this.psService.setValue(service);
+    }
+    public LiveData<String> getPsService(){
+        return this.psService;
     }
 
     public void setUniformPersonnel(String isUniform){
@@ -213,6 +245,11 @@ public class VMEmploymentInfo extends AndroidViewModel {
 
     public void SaveEmploymentInfo(EmploymentInfoModel infoModel, ViewModelCallBack callBack){
         try{
+
+            infoModel.setCompanyLevel(psCmpLvl.getValue());
+            infoModel.setCompanyLevel(psCmpLvl.getValue());
+            infoModel.setEmployeeLevel(psEmpLvl.getValue());
+            infoModel.setBusinessNature(psBsnssLvl.getValue());
             infoModel.setEmploymentSector(psSectorx.getValue());
             infoModel.setUniformPersonal(psUniform.getValue());
             infoModel.setMilitaryPersonal(psMiltary.getValue());
@@ -245,6 +282,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
                 info.setDetlInfo(poGoCasxx.toJSONString());
                 info.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
                 poCredtAp.updateGOCasData(info);
+                Log.e("Data info ", info.getDetlInfo());
                 callBack.onSaveSuccessResult("Success");
             } else {
                 callBack.onFailedResult(infoModel.getMessage());

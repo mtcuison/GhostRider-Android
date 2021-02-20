@@ -57,13 +57,16 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
     private View v;
 
     public String Employment = "";
-    private String IsStudentx = "0";
-    private String IsEmployed = "0";
+    private String IsStudentx = "-1";
+    private String IsEmployed = "-1";
     private String Dependentx = "0";
     private String HouseHoldx = "0";
     private String IsMarriedx = "0";
     private String IsScholarx = "0";
     private String IsPrivatex = "0";
+
+
+    private String actRelationshipX = "-1";
 
     private static String dpdSchoolType ="";
     private static String dpdSchoolLvl = "";
@@ -98,7 +101,7 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
     private MaterialButton btnPrev;
     private MaterialButton btnNext;
 
-    private int mRelationPosition = 0;
+    private int mRelationPosition = -1;
     private int mEducLvlPosition = 0;
     public static Fragment_Dependent newInstance() {
         return new Fragment_Dependent();
@@ -125,7 +128,21 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         mViewModel.setLinearStudent().observe(getViewLifecycleOwner(), integer -> linearStudent.setVisibility(integer));
         mViewModel.setLinearEmployed().observe(getViewLifecycleOwner(), integer -> linearEmployd.setVisibility(integer));
         // TODO: Use the ViewModel
-
+        mViewModel.getRelationX().observe(getViewLifecycleOwner(), s -> {
+            actRelationx.setSelection(Integer.parseInt(s));
+            mRelationPosition = Integer.parseInt(s);
+            Log.e("Employee ", s);
+        });
+        mViewModel.getSchoolTypeX().observe(getViewLifecycleOwner(), s -> {
+            actSchoolType.setSelection(Integer.parseInt(s));
+            //mRelationPosition = Integer.parseInt(s);
+            Log.e("Employee ", s);
+        });
+        mViewModel.getSchoolLvlX().observe(getViewLifecycleOwner(), s -> {
+            actSchoolLvl.setSelection(Integer.parseInt(s));
+            mEducLvlPosition = Integer.parseInt(s);
+            Log.e("Employee ", s);
+        });
         //RECYCLER VIEW
         mViewModel.getAllDependent().observe(getViewLifecycleOwner(), dependentListUpdateObserver);
 
@@ -204,7 +221,6 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
     public void onSuccess(String message) {
         Log.e(TAG, message);
         clearInputField();
-        Log.e("Item click Position = ", String.valueOf(mEducLvlPosition));
 
 
     }
@@ -228,27 +244,23 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if(rbView.getId() == R.id.rg_cap_dpdStudent){
-                String student = "0";
                 if(checkedId == R.id.rb_cap_dpdStudentYes) {
                     IsStudentx = "1";
-                    student = "1";
-                } else {
-                    IsStudentx = "0";
-                    student = "0";
                 }
-                vm.setSpnStudentStatus(student);
+                else if(checkedId == R.id.rb_cap_dpdStudentNo) {
+                    IsStudentx = "0";
+                }
+                vm.setSpnStudentStatus(IsStudentx);
             }
             if(rbView.getId() == R.id.rg_cap_dpdEmployed){
-                String employed = "0";
                 if(checkedId == R.id.rb_cap_dpdEmployedYes) {
                     IsEmployed = "1";
-                    employed = "1";
-                } else {
+                }
+                if(checkedId == R.id.rb_cap_dpdEmployedNo) {
                     IsEmployed = "0";
-                    employed = "0";
                 }
 
-                vm.setSpnEmpSector(employed);
+                vm.setSpnEmpSector(IsEmployed);
             }
 
         }

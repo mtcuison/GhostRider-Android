@@ -139,11 +139,14 @@ public class VMPromiseToPay extends AndroidViewModel {
             }
         } catch (NullPointerException e){
             e.printStackTrace();
-            callback.OnFailedResult(e.getMessage());
+//            callback.OnFailedResult(e.getMessage());
+            callback.OnFailedResult("NullPointerException error");
             return false;
         } catch (Exception e){
             e.printStackTrace();
-            callback.OnFailedResult(e.getMessage());
+//            callback.OnFailedResult(e.getMessage());
+
+            callback.OnFailedResult("Exception error");
             return false;
         }
 

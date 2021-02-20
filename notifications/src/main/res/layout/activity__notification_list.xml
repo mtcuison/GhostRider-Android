@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient_light"
     tools:context=".Activity.Activity_NotificationList"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:orientation="vertical">
 <!--    <androidx.appcompat.widget.Toolbar-->
 <!--        android:id="@+id/toolbar_notificationList"-->

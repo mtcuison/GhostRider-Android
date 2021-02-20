@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 
 import com.google.android.material.button.MaterialButton;
@@ -34,7 +36,8 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
     private String TransNox;
     private View v;
 
-    private Spinner spnTypex;
+    private AutoCompleteTextView spnTypex;
+    private String typeX = "-1";
     private TextInputEditText tieElctx;
     private TextInputEditText tieWater;
     private TextInputEditText tieFoodx;
@@ -72,13 +75,7 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
         tieLimit = view.findViewById(R.id.tie_cap_dbmCreditLimit);
         tieYearS = view.findViewById(R.id.tie_cap_dbmYearStarted);
        // btnPrev = v.findViewById(R.id.btn_fragment_dbm_prevs);
-//
-//        tieLimit.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieLimit));
-//        tieElctx.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieElctx));
-//        tieFoodx.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieFoodx));
-//        tieWater.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieWater));
-//        tieLoans.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieLoans));
-//        tieLimit.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieLimit));
+
         btnNext = view.findViewById(R.id.btn_creditAppNext);
     }
 
@@ -99,8 +96,16 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
         tieFoodx.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieFoodx));
         tieLoans.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieLoans));
         tieLimit.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieLimit));
+        spnTypex.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                typeX = String.valueOf(position);
+                mViewModel.setType(typeX);
+            }
+        });
         btnNext.setOnClickListener(view -> {
-            infoModel.setStypeX(String.valueOf(spnTypex.getSelectedItemPosition() - 1));
+
+            infoModel.setStypeX(typeX);
             infoModel.setElctX(Objects.requireNonNull(tieElctx.getText()).toString().replace(",", ""));
             infoModel.setFoodX(Objects.requireNonNull(tieFoodx.getText().toString().replace(",", "")));
             infoModel.setWaterX(Objects.requireNonNull(tieWater.getText().toString().replace(",", "")));

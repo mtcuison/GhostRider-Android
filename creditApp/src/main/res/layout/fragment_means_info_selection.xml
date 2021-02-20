@@ -5,7 +5,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".Fragment.Fragment_MeansInfoSelection">
+    tools:context=".Fragment.Fragment_MeansInfoSelection"
+    android:padding="5dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Applicant Means Info"
+        android:textSize="22sp"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/textColor_Black"
+        android:layout_marginTop="15dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/guanzon_orange"/>
 
     <TextView
         android:layout_width="match_parent"
