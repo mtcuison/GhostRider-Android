@@ -45,11 +45,17 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
 
     private String ProvID = "";
     private String TownID = "";
-    private String spnIncomePosition = "0";
+//
+//    private String spnMobile1Position = "-1";
+//    private String spnMobile2Position = "-1";
+//    private String spnMobile3Position = "-1";
+//    private String spnCvlStsPosition = "-1";
+//    private String genderPosition = "-1";
+    private String spnIncomePosition = "-1";
     private String spnCoRelationPosition = "-1";
-    private String spnPrmryCntctPosition = "0";
-    private String spnScndCntctPosition = "0";
-    private String spnTrtCntctPosition = "0";
+    private String spnPrmryCntctPosition = "-1";
+    private String spnScndCntctPosition = "-1";
+    private String spnTrtCntctPosition = "-1";
 
     private TextInputEditText tieLastname;
     private TextInputEditText tieFrstname;
@@ -110,17 +116,31 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         mViewModel.getCmrPrimaryCntctPlan().observe(getViewLifecycleOwner(), integer -> tilPrmCntctPlan.setVisibility(integer));
         mViewModel.getCmrSecondaryCntctPlan().observe(getViewLifecycleOwner(), integer -> tilScnCntctPlan.setVisibility(integer));
         mViewModel.getCmrTertiaryCntctPlan().observe(getViewLifecycleOwner(), integer -> tilTrtCntctPlan.setVisibility(integer));
-        mViewModel.getHintPrimaryContact().observe(getViewLifecycleOwner(), (s) -> {
-            Log.e("1st Contact Hint", s);
-            tilPrimaryCntctStats.setHint(s);
+        mViewModel.getTertiaryContact().observe(getViewLifecycleOwner(), s -> {
+            spnTrtCntct.setSelection(Integer.parseInt(s));
+            spnTrtCntctPosition = s;
+            Log.e("Mobile 1", s);
         });
-        mViewModel.getHintScndContact().observe(getViewLifecycleOwner(), s -> {
-            Log.e("2nd Contact Hint", s);
-            tilScnCntctStats.setHint(s);
+
+        mViewModel.getSecondaryContact().observe(getViewLifecycleOwner(), s -> {
+            spnScnCntct.setSelection(Integer.parseInt(s));
+            spnScndCntctPosition = s;
+            Log.e("Mobile 2", s);
         });
-        mViewModel.getHintTrtContact().observe(getViewLifecycleOwner(), s -> {
-            Log.e("3rd Contact Hint", s);
-            tilTrtCntctStats.setHint(s);
+        mViewModel.getPrimaryContact().observe(getViewLifecycleOwner(), s -> {
+            spnPrmCntct.setSelection(Integer.parseInt(s));
+            spnPrmryCntctPosition = s;
+            Log.e("Mobile 3 ", s);
+        });
+        mViewModel.getCMakeIncomeSource().observe(getViewLifecycleOwner(), s -> {
+            spnIncmSrce.setSelection(Integer.parseInt(s));
+            spnIncomePosition = s;
+            Log.e("Mobile 1", s);
+        });
+        mViewModel.getCMakerRelation().observe(getViewLifecycleOwner(), s -> {
+            spnBrwrRltn.setSelection(Integer.parseInt(s));
+            spnCoRelationPosition = s;
+            Log.e("Mobile 1", s);
         });
         mViewModel.getMobileNoType().observe(getViewLifecycleOwner(),(stringArrayAdapter) -> {
             spnPrmCntct.setAdapter(stringArrayAdapter);
@@ -256,25 +276,19 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if (spnPrmCntct.equals(poView)) {
-                spnPrmryCntctPosition = String.valueOf(i);
                 mViewModel.setPrimaryContact(String.valueOf(i));
-                mViewModel.setHintPrimaryContact(spnPrmCntct.getText().toString(), String.valueOf(i));
             }
             if (spnScnCntct.equals(poView)) {
-                spnScndCntctPosition = String.valueOf(i);
                 mViewModel.setSecondaryContact(String.valueOf(i));
-                mViewModel.setHintScndContact(spnScnCntct.getText().toString(), String.valueOf(i));
             }
             if (spnTrtCntct.equals(poView)) {
-                spnTrtCntctPosition = String.valueOf(i);
                 mViewModel.setTertiaryContact(String.valueOf(i));
-                mViewModel.setHintTrtContact(spnTrtCntct.getText().toString(), String.valueOf(i));
             }
             if (spnIncmSrce.equals(poView)) {
-                spnIncomePosition = String.valueOf(i);
+                mViewModel.setSpnCMakeIncomeSource(String.valueOf(i));
             }
             if (spnBrwrRltn.equals(poView)) {
-                spnCoRelationPosition = String.valueOf(i);
+                mViewModel.setSpnCMakerRelation(String.valueOf(i));
             }
         }
     }

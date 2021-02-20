@@ -65,6 +65,7 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
         RRawData = new RRawData(application);
         paBranchNm = RBranch.getAllMcBranchNames();
         paBrandNme = oBrandRepo.getAllBrandNames();
+        //oCredtRepo.deleteAllCredit();
         poPrice = PriceFactory.make(PriceFactory.ProductType.MOTORCYCLE);
         psIntTerm.setValue(36);
     }
@@ -222,6 +223,11 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
     public void CreateNewApplication(PurchaseInfoModel model,ViewModelCallBack callBack){
         try {
             String transnox = new CodeGenerator().generateTransNox();
+
+
+
+
+
               if(model.isPurchaseInfoValid()) {
                 GOCASApplication loGoCas = new GOCASApplication();
                 loGoCas.PurchaseInfo().setAppliedFor("0");

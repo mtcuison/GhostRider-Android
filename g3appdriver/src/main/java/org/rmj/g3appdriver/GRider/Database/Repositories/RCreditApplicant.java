@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicantInfo;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 
 import java.util.List;
@@ -36,7 +37,9 @@ public class RCreditApplicant {
     public void deleteGOCasData(ECreditApplicantInfo creditApplicantInfo){
 
     }
-
+    public void deleteAllCredit(){
+        new DeleteAllCreditTask(creditApplicantInfoDao).execute();
+    }
     public LiveData<List<ECreditApplicantInfo>> getCreditApplicantList(){
         return creditApplicantList;
     }
@@ -69,6 +72,19 @@ public class RCreditApplicant {
         @Override
         protected Void doInBackground(ECreditApplicantInfo... eCreditApplicantInfos) {
             applicantInfo.update(eCreditApplicantInfos[0]);
+            return null;
+        }
+    }
+    public static class DeleteAllCreditTask extends AsyncTask<Void, Void, Void>{
+        private DCreditApplicantInfo creditDao;
+
+        public DeleteAllCreditTask(DCreditApplicantInfo creditDao) {
+            this.creditDao = creditDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            creditDao.deleteAllCreditApp();
             return null;
         }
     }

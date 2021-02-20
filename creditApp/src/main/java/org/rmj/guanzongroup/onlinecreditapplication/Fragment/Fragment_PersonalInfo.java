@@ -45,10 +45,11 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
     private RadioGroup rgGender;
     private AutoCompleteTextView spnCivilStatus, spnMobile1, spnMobile2, spnMobile3;
 
-    private String spnMobile1Position = "0";
-    private String spnMobile2Position = "0";
-    private String spnMobile3Position = "0";
+    private String spnMobile1Position = "-1";
+    private String spnMobile2Position = "-1";
+    private String spnMobile3Position = "-1";
     private String spnCvlStsPosition = "-1";
+    private String genderPosition = "-1";
 
     private String transnox;
 
@@ -116,6 +117,34 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvince.setAdapter(adapter);
         });
+        mViewModel.getMobileNo1().observe(getViewLifecycleOwner(), s -> {
+            spnMobile1.setSelection(Integer.parseInt(s));
+            spnMobile1Position = s;
+            Log.e("Mobile 1", s);
+        });
+
+        mViewModel.getMobileNo2().observe(getViewLifecycleOwner(), s -> {
+            spnMobile2.setSelection(Integer.parseInt(s));
+            spnMobile2Position = s;
+            Log.e("Mobile 2", s);
+        });
+        mViewModel.getMobileNo3().observe(getViewLifecycleOwner(), s -> {
+            spnMobile3.setSelection(Integer.parseInt(s));
+            spnMobile3Position = s;
+            Log.e("Mobile 3 ", s);
+        });
+        mViewModel.getGender().observe(getViewLifecycleOwner(), s -> {
+            genderPosition = s;
+            Log.e("Gender ", s);
+        });
+        mViewModel.getCvlStats().observe(getViewLifecycleOwner(), s -> {
+            spnCivilStatus.setSelection(Integer.parseInt(s));
+            spnCvlStsPosition = s;
+            Log.e("Civil Status ", spnCvlStsPosition);
+        });
+        mViewModel.getMobileNo1Year().observe(getViewLifecycleOwner(), integer -> tilMobileYr1.setVisibility(integer));
+        mViewModel.getMobileNo2Year().observe(getViewLifecycleOwner(), integer -> tilMobileYr2.setVisibility(integer));
+        mViewModel.getMobileNo3Year().observe(getViewLifecycleOwner(), integer -> tilMobileYr3.setVisibility(integer));
 
         txtProvince.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getProvinceInfoList().observe(getViewLifecycleOwner(), provinceInfos -> {
             for(int x = 0; x < provinceInfos.size(); x++){
@@ -156,12 +185,11 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
 
         mViewModel.setMotherMaidenNameVisibility().observe(getViewLifecycleOwner(), integer -> tilMothNm.setVisibility(integer));
 
+//        mViewModel.getCvlStats().observe(getViewLifecycleOwner(), s -> spnCivilStatus.setSelection(Integer.parseInt(s)));
         spnCivilStatus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 mViewModel.setCvlStats(String.valueOf(i));
-                spnCvlStsPosition = String.valueOf(i);
-                Log.e("CVL STATUS ", String.valueOf(i));
             }
 
         });
@@ -215,32 +243,33 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         infoModel.setNickName(Objects.requireNonNull(txtNickNm.getText()).toString());
         infoModel.setBrthDate(Objects.requireNonNull(txtBirthDt.getText()).toString());
         infoModel.setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
+        infoModel.setGender(genderPosition);
+        infoModel.setCvlStats(spnCvlStsPosition);
         if(!Objects.requireNonNull(txtMobileNo1.getText()).toString().trim().isEmpty()) {
             if(Integer.parseInt(spnMobile1Position) == 1) {
-                infoModel.setMobileNo(txtMobileNo1.getText().toString(), String.valueOf(spnMobile1Position), Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));
+                infoModel.setMobileNo(txtMobileNo1.getText().toString(), spnMobile1Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));
             } else {
-                infoModel.setMobileNo(txtMobileNo1.getText().toString(), String.valueOf(spnMobile1Position), 0);
+                infoModel.setMobileNo(txtMobileNo1.getText().toString(), spnMobile1Position, 0);
             }
         }
         if(!Objects.requireNonNull(txtMobileNo2.getText()).toString().trim().isEmpty()) {
             if(Integer.parseInt(spnMobile2Position) == 1) {
-                infoModel.setMobileNo(txtMobileNo2.getText().toString(), String.valueOf(spnMobile2Position), Integer.parseInt(Objects.requireNonNull(txtMobileYr2.getText()).toString()));
+                infoModel.setMobileNo(txtMobileNo2.getText().toString(), spnMobile2Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr2.getText()).toString()));
             } else {
-                infoModel.setMobileNo(txtMobileNo2.getText().toString(), String.valueOf(spnMobile2Position), 0);
+                infoModel.setMobileNo(txtMobileNo2.getText().toString(), spnMobile2Position, 0);
             }
         }
         if(!Objects.requireNonNull(txtMobileNo3.getText()).toString().trim().isEmpty()) {
             if(Integer.parseInt(spnMobile3Position) == 1) {
-                infoModel.setMobileNo(txtMobileNo3.getText().toString(), String.valueOf(spnMobile3Position), Integer.parseInt(Objects.requireNonNull(txtMobileYr3.getText()).toString()));
+                infoModel.setMobileNo(txtMobileNo3.getText().toString(), spnMobile3Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr3.getText()).toString()));
             } else {
-                infoModel.setMobileNo(txtMobileNo3.getText().toString(), String.valueOf(spnMobile3Position), 0);
+                infoModel.setMobileNo(txtMobileNo3.getText().toString(), spnMobile3Position, 0);
             }
         }
         infoModel.setPhoneNox(Objects.requireNonNull(txtTellNox.getText()).toString());
         infoModel.setEmailAdd(Objects.requireNonNull(txtEmailAdd.getText()).toString());
         infoModel.setFbAccntx(Objects.requireNonNull(txtFbAccount.getText()).toString());
         infoModel.setVbrAccnt(Objects.requireNonNull(txtViberAccount.getText()).toString());
-        infoModel.setCvlStats(spnCvlStsPosition);
         mViewModel.SavePersonalInfo(infoModel, Fragment_PersonalInfo.this);
     }
     class OnItemClickListener implements AdapterView.OnItemClickListener {
@@ -252,25 +281,15 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if (spnMobile1.equals(poView)) {
-                if(i == 1) {
-                    tilMobileYr1.setVisibility(View.VISIBLE);
-                } else {
-                    tilMobileYr1.setVisibility(View.GONE);
-                }
+                mViewModel.setLsMobile1(String.valueOf(i));
             }
             if (spnMobile2.equals(poView)) {
-                if(i == 1) {
-                    tilMobileYr2.setVisibility(View.VISIBLE);
-                } else {
-                    tilMobileYr2.setVisibility(View.GONE);
-                }
+                mViewModel.setLsMobile2(String.valueOf(i));
             }
             if (spnMobile3.equals(poView)) {
-                if(i == 1) {
-                    tilMobileYr3.setVisibility(View.VISIBLE);
-                } else {
-                    tilMobileYr3.setVisibility(View.GONE);
-                }
+
+                mViewModel.setLsMobile3(String.valueOf(i));
+
             }
 
         }

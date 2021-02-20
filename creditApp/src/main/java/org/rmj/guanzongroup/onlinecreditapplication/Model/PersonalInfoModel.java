@@ -77,9 +77,7 @@ public class PersonalInfoModel implements Parcelable {
                 isCivilStatusValid() &&
                 isCitizenshipValid() &&
                 isMotherNameValid() &&
-                isPrimaryContactValid() &&
-                isSecondaryContactValid() &&
-                isTertiaryContactValid();
+                isValidContact();
     }
 
     public String getMessage(){
@@ -268,7 +266,7 @@ public class PersonalInfoModel implements Parcelable {
     }
 
     private boolean isGenderValid(){
-        if(Gender.trim().isEmpty()){
+        if(Integer.parseInt(Gender) < 0){
             message = "Please select gender";
             return false;
         }
@@ -300,10 +298,23 @@ public class PersonalInfoModel implements Parcelable {
         }
         return true;
     }
-
+    private boolean isValidContact(){
+        if (mobileNoList.size()> 0) {
+            return isPrimaryContactValid() &&
+                    isSecondaryContactValid() &&
+                    isTertiaryContactValid();
+        }else {
+            message = "Please enter primary contact number";
+            return false;
+        }
+    }
     private boolean isPrimaryContactValid(){
         if(mobileNoList.get(0).getMobileNo().trim().isEmpty()){
             message = "Please enter primary contact number";
+            return false;
+        }
+        if(Integer.parseInt(mobileNoList.get(0).getIsPostPd()) < 0){
+            message = "Please select sim card type";
             return false;
         }
         if(!mobileNoList.get(0).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
@@ -334,6 +345,10 @@ public class PersonalInfoModel implements Parcelable {
                     return false;
                 }
             }
+            if(Integer.parseInt(mobileNoList.get(1).getIsPostPd()) < 0){
+                message = "Please select sim card type";
+                return false;
+            }
         }
         return true;
     }
@@ -354,6 +369,10 @@ public class PersonalInfoModel implements Parcelable {
                     message = "Contact numbers are duplicated";
                     return false;
                 }
+            }
+            if(Integer.parseInt(mobileNoList.get(2).getIsPostPd()) < 0){
+                message = "Please select sim card type";
+                return false;
             }
         }
         return true;

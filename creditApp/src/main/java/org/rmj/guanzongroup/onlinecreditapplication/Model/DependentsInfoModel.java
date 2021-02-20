@@ -177,9 +177,18 @@ public class DependentsInfoModel {
         if(isStudent.equalsIgnoreCase("1")){
             return isStudent();
         }
+        if(Integer.parseInt(isStudent) < 0){
+            message = "Please select dependent if student!";
+            return false;
+        }
+
 
         if(isEmployed.equalsIgnoreCase("1")){
             return isEmployed();
+        }
+        if(Integer.parseInt(isEmployed) < 0){
+            message = "Please select dependent if employed!";
+            return false;
         }
         return true;
     }
@@ -213,14 +222,14 @@ public class DependentsInfoModel {
         return true;
     }
     private boolean isSchoolType(){
-        if(dpdSchoolType.trim().isEmpty()){
+        if(Integer.parseInt(dpdSchoolType) < 0){
             message = "Please select School Type!";
             return false;
         }
         return true;
     }
     private boolean isDpdEducLevel(){
-        if(dpdEducLevel.trim().isEmpty()){
+        if(Integer.parseInt(dpdEducLevel) < 0){
             message = "Please select Educational Level!";
             return false;
         }
@@ -255,11 +264,12 @@ public class DependentsInfoModel {
         return true;
     }
     private boolean isEmployed(){
+
         return isDpdEmployedSector() &&
                 isDpdCompanyName();
     }
     private boolean isDpdEmployedSector(){
-        if(dpdEmployedSector.trim().isEmpty()){
+        if(Integer.parseInt(dpdEmployedSector) < 0){
             message = "Please select Employment Sector!";
             return false;
         }

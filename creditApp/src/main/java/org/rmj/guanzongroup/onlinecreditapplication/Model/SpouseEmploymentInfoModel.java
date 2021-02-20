@@ -257,19 +257,19 @@ public class SpouseEmploymentInfoModel {
 
     private boolean isCompanyLvlValid() {
         if(sector.equalsIgnoreCase("1")) {
-            if(companyLvl.equalsIgnoreCase("0")){
+            if(Integer.parseInt(companyLvl)< 0){
                 message = "Please select Company Level";
                 return false;
             }
         }
         else if(sector.equalsIgnoreCase("0")) {
-            if(companyLvl.equalsIgnoreCase("0")){
+            if(Integer.parseInt(companyLvl)< 0){
                 message = "Please select Government Level";
                 return false;
             }
         }
         else if(sector.equalsIgnoreCase("2")) {
-            if(companyLvl.equalsIgnoreCase("0")){
+            if(Integer.parseInt(companyLvl)< 0){
                 message = "Please select Region";
                 return false;
             }
@@ -279,19 +279,19 @@ public class SpouseEmploymentInfoModel {
 
     private boolean isEmployeeLvlValid() {
         if(sector.equalsIgnoreCase("1")) {
-            if(employeeLvl.equalsIgnoreCase("0")){
+            if(Integer.parseInt(employeeLvl)< 0){
                 message = "Please select Employee Level";
                 return false;
             }
         }
         else if(sector.equalsIgnoreCase("0")) {
-            if(employeeLvl.equalsIgnoreCase("0")){
+            if(Integer.parseInt(employeeLvl)< 0){
                 message = "Please select Employee Level";
                 return false;
             }
         }
         else if(sector.equalsIgnoreCase("2")) {
-            if(employeeLvl.equalsIgnoreCase("0")) {
+            if(Integer.parseInt(employeeLvl)< 0){
                 message = "Please select work category";
                 return false;
             }
@@ -301,7 +301,7 @@ public class SpouseEmploymentInfoModel {
 
     private boolean isBizIndustryValid() {
         if(sector.equalsIgnoreCase("1")) {
-            if(bizIndustry.equalsIgnoreCase("0")){
+            if(Integer.parseInt(bizIndustry)< 0){
                 message = "Please select nature of business";
                 return false;
             }
@@ -397,7 +397,7 @@ public class SpouseEmploymentInfoModel {
 
     private boolean isLengthOfServiceValid() {
         if(sector.equalsIgnoreCase("1") || sector.equalsIgnoreCase("0")) {
-            if (lengthOfService == null || lengthOfService.equalsIgnoreCase("")) {
+            if (lengthOfService == null || Integer.parseInt(lengthOfService) < 0) {
                 message = "Please enter length of service";
                 return false;
             }

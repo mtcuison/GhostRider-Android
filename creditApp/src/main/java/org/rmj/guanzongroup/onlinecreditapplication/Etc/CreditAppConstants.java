@@ -45,12 +45,8 @@ public class CreditAppConstants {
 
     public static Fragment[] APPLICATION_PAGES = {
 
-
-            new Fragment_SpouseInfo(),
+            new Fragment_DisbursementInfo(),
             new Fragment_PersonalInfo(),
-            new Fragment_ResidenceInfo(),
-            new Fragment_SpouseInfo(),
-            new Fragment_SpouseResidenceInfo(),
             new Fragment_SpouseEmploymentInfo(),
             new Fragment_ResidenceInfo(),
             new Fragment_MeansInfoSelection(),
@@ -112,7 +108,6 @@ public class CreditAppConstants {
     public static String[] LENGTH_OF_STAY = {"Month", "Year"};
 
     public static String[] BUSINESS_NATURE = {
-            "Select Nature of Business (Required)",
             "BPO/Call Center",
             "Business Services",
             "Communication/Transportation",
@@ -138,13 +133,11 @@ public class CreditAppConstants {
             "National"};
 
     public static String[] COMPANY_LEVEL = {
-            "Select Company Level (Required)",
             "Local",
             "National",
             "Multi-National"};
 
     public static String[] EMPLOYEE_LEVEL = {
-            "Select Employee Level (Required)",
             "Rank and file",
             "Supervisory",
             "Managerial"};
@@ -193,7 +186,6 @@ public class CreditAppConstants {
             "Private"};
 
     public static String[] EMPLOYMENT_STATUS = {
-            "Select Employment Status (Required)",
             "Regular",
             "Probationary",
             "Contractual",
@@ -210,7 +202,6 @@ public class CreditAppConstants {
 
 
     public static String[] ACCOUNT_TYPE = {
-            "Select Account Type",
             "Checkings",
             "Savings",
             "Payroll"};

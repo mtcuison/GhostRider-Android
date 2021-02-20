@@ -42,10 +42,6 @@ public class VMCoMaker extends AndroidViewModel {
     private MutableLiveData<String> secondaryContact = new MutableLiveData<>();
     private MutableLiveData<String> tertiaryContact = new MutableLiveData<>();
 
-    private MutableLiveData<String> hintPrmryContact = new MutableLiveData<>();
-    private MutableLiveData<String> hintScndContact = new MutableLiveData<>();
-    private MutableLiveData<String> hintTrtContact = new MutableLiveData<>();
-
     private MutableLiveData<Integer> cmrTertiaryCntctPlan = new MutableLiveData<>();
     private MutableLiveData<Integer> cmrSecondaryCntctPlan = new MutableLiveData<>();
     private MutableLiveData<Integer> cmrPrimaryCntctPlan = new MutableLiveData<>();
@@ -70,12 +66,6 @@ public class VMCoMaker extends AndroidViewModel {
         this.cmrPrimaryCntctPlan.setValue(View.GONE);
         this.cmrSecondaryCntctPlan.setValue(View.GONE);
         this.cmrTertiaryCntctPlan.setValue(View.GONE);
-        this.hintPrmryContact.setValue("Prepaid");
-        this.hintScndContact.setValue("Prepaid");
-        this.hintTrtContact.setValue("Prepaid");
-        this.primaryContact.setValue("0");
-        this.secondaryContact.setValue("0");
-        this.tertiaryContact.setValue("0");
     }
     // TODO: Implement the ViewModel
     public void setTransNox(String transNox){
@@ -168,7 +158,7 @@ public class VMCoMaker extends AndroidViewModel {
     {
         this.spnCMakerRelation.setValue(type);
     }
-    public void setSpnCMakerIncomeSource(String type)
+    public void setSpnCMakeIncomeSource(String type)
     {
         this.spnCMakeIncomeSource.setValue(type);
     }
@@ -178,36 +168,14 @@ public class VMCoMaker extends AndroidViewModel {
         this.spnCMakeNetworkStats.setValue(type);
     }
 
-    public void setHintPrimaryContact(String type, String index)
-    {
-        this.primaryContact.setValue(index);
-        this.hintPrmryContact.setValue(type);
-    }
-    public void setHintScndContact(String type, String index)
-    {
-        this.hintScndContact.setValue(type);
-        this.secondaryContact.setValue(index);
 
+    public LiveData<String> getCMakerRelation(){
+        return this.spnCMakerRelation;
     }
-    public void setHintTrtContact(String type, String index)
-    {
-        this.hintTrtContact.setValue(type);
-        this.tertiaryContact.setValue(index);
+    public LiveData<String> getCMakeIncomeSource(){
+        return this.spnCMakeIncomeSource;
     }
 
-
-    public LiveData<String> getHintPrimaryContact()
-    {
-        return hintPrmryContact;
-    }
-    public LiveData<String> getHintScndContact()
-    {
-        return hintScndContact;
-    }
-    public LiveData<String> getHintTrtContact()
-    {
-        return hintTrtContact;
-    }
 
     //Spinner Getter
     public LiveData<ArrayAdapter<String>> getSpnCMakerRelation(){
@@ -258,8 +226,17 @@ public class VMCoMaker extends AndroidViewModel {
         return cmrPrimaryCntctPlan;
     }
 
+    public LiveData<String> getPrimaryContact(){
+        return this.primaryContact;
+    }
+    public LiveData<String> getSecondaryContact(){
+        return this.secondaryContact;
+    }
+    public LiveData<String> getTertiaryContact(){
+        return this.tertiaryContact;}
     public boolean SubmitComaker(CoMakerModel infoModel, ViewModelCallBack callBack){
         try {
+
             if(infoModel.isCoMakerInfoValid()) {
                 poGoCas.CoMakerInfo().setLastName(infoModel.getCoLastName());
                 poGoCas.CoMakerInfo().setFirstName(infoModel.getCoFrstName());

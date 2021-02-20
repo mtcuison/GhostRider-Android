@@ -115,17 +115,49 @@
 
         </LinearLayout>
 
-        <Spinner
-            android:id="@+id/spn_employmentLevel"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"/>
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/spn_employmentLevel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:padding="16dp"
+                android:cursorVisible="false"
+                android:hint="Select Company Level (Required)"
+                android:clickable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/spn_employeeLevel"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"/>
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/spn_employeeLevel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:padding="16dp"
+                android:cursorVisible="false"
+                android:hint="Select Employee Level (Required)"
+                android:clickable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--        <Spinner-->
+<!--            android:id="@+id/spn_employmentLevel"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="15dp"/>-->
+
+<!--        <Spinner-->
+<!--            android:id="@+id/spn_employeeLevel"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="15dp"/>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_countryNme"
@@ -145,12 +177,27 @@
                 tools:ignore="LabelFor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/spn_businessNature"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"/>
+<!--        <Spinner-->
+<!--            android:id="@+id/spn_businessNature"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="15dp"/>-->
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomDropDownTilStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/spn_businessNature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:padding="16dp"
+                android:cursorVisible="false"
+                android:hint="Select Nature of Business (Required)"
+                android:clickable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
         <LinearLayout
             android:id="@+id/linear_employmentInfo"
             android:layout_width="match_parent"
@@ -257,11 +304,21 @@
                     android:inputType="textCapWords"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Spinner
-                android:id="@+id/spn_employmentStatus"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomDropDownTilStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"/>
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/spn_employmentStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:padding="16dp"
+                    android:cursorVisible="false"
+                    android:hint="Select Employment Status (Required)"
+                    android:clickable="false"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -283,12 +340,28 @@
                         android:inputType="number|none"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Spinner
-                    android:id="@+id/spn_lengthService"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomDropDownTilStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
-                    android:padding="15dp"/>
+                    android:layout_weight="1.5">
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/spn_lengthService"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:padding="16dp"
+                        android:cursorVisible="false"
+                        android:hint="Select Employment Status (Required)"
+                        android:clickable="false"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+<!--                <Spinner-->
+<!--                    android:id="@+id/spn_lengthService"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1.5"-->
+<!--                    android:padding="15dp"/>-->
 
             </LinearLayout>
 

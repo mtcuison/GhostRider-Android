@@ -10,6 +10,7 @@
     import androidx.annotation.Nullable;
     import androidx.fragment.app.Fragment;
 
+    import android.util.Log;
     import android.view.LayoutInflater;
     import android.view.View;
     import android.view.ViewGroup;
@@ -67,10 +68,10 @@
         private TextInputLayout tilMobileYr1 ,tilMobileYr2 ,tilMobileYr3;
         private AutoCompleteTextView spnMobile1, spnMobile2, spnMobile3;
 
-        private String spnMobile1Position = "0";
-        private String spnMobile2Position = "0";
-        private String spnMobile3Position = "0";
-        private Button btnNext;
+        private String spnMobile1Position = "-1";
+        private String spnMobile2Position = "-1";
+        private String spnMobile3Position = "-1";
+        private Button btnNext, btnPrvs;
 
         public static Fragment_SpouseInfo newInstance() {
             return new Fragment_SpouseInfo();
@@ -119,6 +120,7 @@
             tilMobileYr3 = view.findViewById(R.id.til_mobileNo3Year);
 
             btnNext = view.findViewById(R.id.btn_creditAppNext);
+            btnPrvs = view.findViewById(R.id.btn_creditAppPrvs);
 
             return view;
         }
@@ -225,15 +227,35 @@
                 spnMobile3.setAdapter(stringArrayAdapter);
             });
 
+            mViewModel.getMobileNo1().observe(getViewLifecycleOwner(), s -> {
+                spnMobile1.setSelection(Integer.parseInt(s));
+                spnMobile1Position = s;
+                Log.e("Mobile 1", s);
+            });
 
-        
-        spnMobile1.setOnItemClickListener(new OnItemClickListener(spnMobile1));
+            mViewModel.getMobileNo2().observe(getViewLifecycleOwner(), s -> {
+                spnMobile2.setSelection(Integer.parseInt(s));
+                spnMobile2Position = s;
+                Log.e("Mobile 2", s);
+            });
+            mViewModel.getMobileNo3().observe(getViewLifecycleOwner(), s -> {
+                spnMobile3.setSelection(Integer.parseInt(s));
+                spnMobile3Position = s;
+                Log.e("Mobile 3 ", s);
+            });
+
+        mViewModel.getMobileNo1Year().observe(getViewLifecycleOwner(), integer -> tilMobileYr1.setVisibility(integer));
+        mViewModel.getMobileNo2Year().observe(getViewLifecycleOwner(), integer -> tilMobileYr2.setVisibility(integer));
+        mViewModel.getMobileNo3Year().observe(getViewLifecycleOwner(), integer -> tilMobileYr3.setVisibility(integer));
+
+            spnMobile1.setOnItemClickListener(new OnItemClickListener(spnMobile1));
         spnMobile2.setOnItemClickListener(new OnItemClickListener(spnMobile2));
         spnMobile3.setOnItemClickListener(new OnItemClickListener(spnMobile3));
 
 
 
             txtBDate.addTextChangedListener(new OnBirthSetListener(txtBDate));
+            btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(1));
 
             btnNext.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -304,25 +326,15 @@
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (spnMobile1.equals(poView)) {
-                    if(i == 1) {
-                        tilMobileYr1.setVisibility(View.VISIBLE);
-                    } else {
-                        tilMobileYr1.setVisibility(View.GONE);
-                    }
+                    mViewModel.setLsMobile1(String.valueOf(i));
                 }
                 if (spnMobile2.equals(poView)) {
-                    if(i == 1) {
-                        tilMobileYr2.setVisibility(View.VISIBLE);
-                    } else {
-                        tilMobileYr2.setVisibility(View.GONE);
-                    }
+                    mViewModel.setLsMobile2(String.valueOf(i));
                 }
                 if (spnMobile3.equals(poView)) {
-                    if(i == 1) {
-                        tilMobileYr3.setVisibility(View.VISIBLE);
-                    } else {
-                        tilMobileYr3.setVisibility(View.GONE);
-                    }
+
+                    mViewModel.setLsMobile3(String.valueOf(i));
+
                 }
 
             }

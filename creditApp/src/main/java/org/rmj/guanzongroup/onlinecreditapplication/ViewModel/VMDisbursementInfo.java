@@ -65,6 +65,7 @@ public class VMDisbursementInfo extends AndroidViewModel {
 
     public boolean SubmitApplicationInfo(DisbursementInfoModel disbursementInfo,ViewModelCallBack callBack){
         try {
+
             if (disbursementInfo.isDataValid()){
 //                poGoCasxx.DisbursementInfo().Expenses().setElectricBill(disbursementInfo.getElctX());
                 poGoCasxx.DisbursementInfo().Expenses().setElectricBill(disbursementInfo.getElctX());

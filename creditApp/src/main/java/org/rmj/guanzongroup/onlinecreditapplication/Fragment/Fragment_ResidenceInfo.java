@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,7 +131,23 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             txtProvince.setAdapter(adapter);
             txtPProvince.setAdapter(adapter);
         });
+        mViewModel.getSpnLgnthStayPosition().observe(getViewLifecycleOwner(), s -> {
+            spnLgnthStay.setSelection(Integer.parseInt(s));
+            spnLgnthStayPosition = s;
+            Log.e("Length stay", s);
+        });
 
+        mViewModel.getSpnHouseHoldPosition().observe(getViewLifecycleOwner(), s -> {
+            spnHouseHold.setSelection(Integer.parseInt(s));
+            spnHouseHoldPosition = s;
+            Log.e("Length stay", s);
+        });
+
+        mViewModel.getSpnHouseTypePosition().observe(getViewLifecycleOwner(), s -> {
+            spnHouseType.setSelection(Integer.parseInt(s));
+            spnHouseTypePosition = s;
+            Log.e("Length stay", s);
+        });
         txtProvince.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getProvinceInfoList().observe(getViewLifecycleOwner(), eProvinceInfos -> {
             for(int x = 0; x < eProvinceInfos.size(); x++){
                 if(txtProvince.getText().toString().equalsIgnoreCase(eProvinceInfos.get(x).getProvName())){
@@ -261,12 +278,15 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if (spnHouseHold.equals(poView)) {
                 spnHouseHoldPosition = String.valueOf(i);
+                mViewModel.setSpnHouseHoldPosition(spnHouseHoldPosition);
             }
             if (spnHouseType.equals(poView)) {
                 spnHouseTypePosition = String.valueOf(i);
+                mViewModel.setSpnHouseTypePosition(spnHouseHoldPosition);
             }
             if (spnLgnthStay.equals(poView)) {
                 spnLgnthStayPosition = String.valueOf(i);
+                mViewModel.setSpnLgnthStayPosition(spnHouseHoldPosition);
             }
 
         }
