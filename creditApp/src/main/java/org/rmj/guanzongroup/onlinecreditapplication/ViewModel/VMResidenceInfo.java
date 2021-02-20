@@ -39,6 +39,9 @@ public class VMResidenceInfo extends AndroidViewModel {
     private final MutableLiveData<String> psPTownD = new MutableLiveData<>();
     private final MutableLiveData<String> psPBrgyD = new MutableLiveData<>();
 
+    private final MutableLiveData<String> spnLgnthStayPosition = new MutableLiveData<>();
+    private final MutableLiveData<String> spnHouseHoldPosition = new MutableLiveData<>();
+    private final MutableLiveData<String> spnHouseTypePosition = new MutableLiveData<>();
     public VMResidenceInfo(@NonNull Application application) {
         super(application);
         this.RCreditApplicant = new RCreditApplicant(application);
@@ -78,6 +81,28 @@ public class VMResidenceInfo extends AndroidViewModel {
 
     public LiveData<ECreditApplicantInfo> getCreditApplicationInfo(){
         return RCreditApplicant.getCreditApplicantInfoLiveData(TRANSNOX.getValue());
+    }
+
+    public LiveData<String> getSpnLgnthStayPosition(){
+        return this.spnLgnthStayPosition;
+    }
+
+    public LiveData<String> getSpnHouseHoldPosition(){
+        return this.spnHouseHoldPosition;
+    }
+    public LiveData<String> getSpnHouseTypePosition(){
+        return this.spnHouseTypePosition;
+    }
+    public void setSpnHouseTypePosition(String position){
+        this.spnHouseTypePosition.setValue(position);
+    }
+
+    public void setSpnHouseHoldPosition(String position){
+        this.spnHouseHoldPosition.setValue(position);
+    }
+
+    public void setSpnLgnthStayPosition(String position){
+        this.spnLgnthStayPosition.setValue(position);
     }
 
     public void setGOCasDetailInfo(String DetailInfo){

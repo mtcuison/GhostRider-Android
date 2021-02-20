@@ -18,6 +18,9 @@ public class CoMakerModel {
     private String coFbAccntx;
     private String coIncomeSource;
     private String coBorrowerRel;
+    private String coIsStudent;
+    private String coIsEmployed;
+//    private String coBorrowerRel;
     private String coContactCount;
 
     //for save instance state
@@ -59,12 +62,29 @@ public class CoMakerModel {
                 isMiddNameValid() &&
                 isBirthdateValid() &&
                 isBirthPlaceValid() &&
+                isIncomeSource() &&
                 isContactValid();
     }
 
 
     public String getMessage(){
         return message;
+    }
+
+    public String getCoIsStudent() {
+        return coIsStudent;
+    }
+
+    public void setCoIsStudent(String coIsStudent) {
+        this.coLastName = coIsStudent;
+    }
+
+    public String getCoIsEmployed() {
+        return coIsEmployed;
+    }
+
+    public void setCoIsEmployed(String coIsEmployed) {
+        this.coIsEmployed = coIsEmployed;
     }
 
     public String getCoLastName() {
@@ -214,6 +234,28 @@ public class CoMakerModel {
         }
         return true;
     }
+    private boolean isIncomeSource(){
+        if(Integer.parseInt(coIncomeSource) < 0){
+            message = "Please select source of income!";
+            return false;
+        }
+        return true;
+    }
+    private boolean isCOStudent(){
+        if(Integer.parseInt(coIsStudent) < 0){
+            message = "Please select comaker is student!";
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isCOEmployed(){
+        if(Integer.parseInt(coIsEmployed) < 0){
+            message = "Please select comaker is employed!";
+            return false;
+        }
+        return true;
+    }
 
     private boolean isContactValid(){
         if(mobileNoList.size() == 0){
@@ -229,6 +271,11 @@ public class CoMakerModel {
     private boolean isPrimaryContactValid(){
         if(mobileNoList.get(0).getMobileNo().trim().isEmpty()){
             message = "Please enter primary contact number";
+            return false;
+        }
+
+        if(Integer.parseInt(mobileNoList.get(0).getIsPostPd()) < 0){
+            message = "Please select sim card type";
             return false;
         }
         if(!mobileNoList.get(0).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
@@ -259,6 +306,10 @@ public class CoMakerModel {
                     return false;
                 }
             }
+            if(Integer.parseInt(mobileNoList.get(1).getIsPostPd()) < 0){
+                message = "Please select sim card type";
+                return false;
+            }
         }
         return true;
     }
@@ -279,6 +330,10 @@ public class CoMakerModel {
                     message = "Contact numbers are duplicated";
                     return false;
                 }
+            }
+            if(Integer.parseInt(mobileNoList.get(2).getIsPostPd()) < 0){
+                message = "Please select sim card type";
+                return false;
             }
         }
         return true;

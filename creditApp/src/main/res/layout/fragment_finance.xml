@@ -15,6 +15,7 @@
         android:padding="5dp">
 
         <Spinner
+            android:id="@+id/spn_financierRelation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"/>
@@ -26,6 +27,7 @@
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_financierName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="100"/>
@@ -38,6 +40,7 @@
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_financierInc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="100"/>
@@ -48,11 +51,15 @@
             android:hint="@string/sHintCountryNm"
             style="@style/TextInputStyle">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
+                android:id="@+id/txt_financierCntry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/AutoCompleteStyleTheme"
                 android:maxLength="100"/>
+
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,6 +67,7 @@
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_financierContact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="100"/>
@@ -72,6 +80,7 @@
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_financierFb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="100"/>
@@ -84,17 +93,44 @@
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_financierEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="100"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_creditAppNext"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sbtnNext"
-            style="@style/MaterialButtonAccent"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="30dp">
+
+            <Button
+                android:id="@+id/btn_creditAppPrvs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sbtnPrvs"
+                style="@style/NavigationButton"
+                android:drawableStart="@drawable/ic_nav_left"
+                android:drawableLeft="@drawable/ic_nav_left"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                tools:ignore="RelativeOverlap"  />
+
+            <Button
+                android:id="@+id/btn_creditAppNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sbtnNext"
+                style="@style/NavigationButton"
+                android:drawableEnd="@drawable/ic_nav_right"
+                android:drawableRight="@drawable/ic_nav_right"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                tools:ignore="RelativeOverlap" />
+        </RelativeLayout>
 
     </LinearLayout>
 

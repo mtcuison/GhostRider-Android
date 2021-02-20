@@ -249,17 +249,17 @@ public class EmploymentInfoModel {
 
     private boolean isCompanyLevelValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if(cCompLevl.equalsIgnoreCase("")){
+            if(Integer.parseInt(cCompLevl)< 0){
                 message = "Please select government level";
                 return false;
             }
         } else if(sSectorxx.equalsIgnoreCase("1")){
-            if(cCompLevl.equalsIgnoreCase("")){
+            if(Integer.parseInt(cCompLevl)< 0){
                 message = "Please select company level";
                 return false;
             }
         } else {
-            if(cCompLevl.equalsIgnoreCase("")){
+            if(Integer.parseInt(cCompLevl)< 0){
                 message = "Please select ofw region";
                 return false;
             }
@@ -269,17 +269,17 @@ public class EmploymentInfoModel {
 
     private boolean isEmployeeLevelValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if(cEmpLevel.equalsIgnoreCase("")){
+            if(Integer.parseInt(cEmpLevel)< 0){
                 message = "Please select government level";
                 return false;
             }
         } else if(sSectorxx.equalsIgnoreCase("1")){
-            if(cEmpLevel.equalsIgnoreCase("")){
-                message = "Please select company level";
+            if(Integer.parseInt(cEmpLevel)< 0){
+                message = "Please select employee level";
                 return false;
             }
         } else {
-            if(cEmpLevel.equalsIgnoreCase("")){
+            if(Integer.parseInt(cEmpLevel)< 0){
                 message = "Please select ofw region";
                 return false;
             }
@@ -299,7 +299,7 @@ public class EmploymentInfoModel {
 
     private boolean isBusinessNatureValid(){
         if(sSectorxx.equalsIgnoreCase("1")){
-            if(sBusiness == null || sBusiness.equalsIgnoreCase("")){
+            if(sBusiness == null || sBusiness.equalsIgnoreCase("-1")){
                 message = "Please select business nature";
                 return false;
             }
@@ -368,7 +368,7 @@ public class EmploymentInfoModel {
 
     private boolean isLengthOfServiceValid(){
         if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sLengthxx == null || sLengthxx.equalsIgnoreCase("")) {
+            if (sLengthxx == null || Integer.parseInt(sLengthxx) < 0) {
                 message = "Please enter length of service";
                 return false;
             }

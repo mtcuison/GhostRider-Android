@@ -40,6 +40,7 @@ public class LoanUnitModelTest {
         infoModel.setLuSuffix("");
         //Address
         infoModel.setLuHouseNo("627");
+        infoModel.setLuStreet("Ampongan");
         infoModel.setLuTown("0335");
         infoModel.setLuBrgy("1200145");
         infoModel.setLuBPlace("0335");
@@ -50,14 +51,17 @@ public class LoanUnitModelTest {
     }
 
     @Test
-    public void isValidData() {
+    public void test_isValidData() {
+        assertTrue(infoModel.isValidFullName());
     }
 
     @Test
-    public void isValidFullName() {
+    public void test_isValidFullName() {
+        assertTrue(infoModel.isValidFullName());
     }
 
     @Test
-    public void isValidAddress() {
+    public void test_isValidAddress() {
+        assertTrue(infoModel.isValidAddress());
     }
 }

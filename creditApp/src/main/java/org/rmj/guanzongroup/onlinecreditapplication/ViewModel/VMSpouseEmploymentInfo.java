@@ -49,6 +49,11 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
     private final MutableLiveData<String> psEmpStat = new MutableLiveData<>();
     private final MutableLiveData<String> psCountry = new MutableLiveData<>();
 
+    private final MutableLiveData<String> psCmpLvl = new MutableLiveData<>();
+    private final MutableLiveData<String> psEmpLvl = new MutableLiveData<>();
+    private final MutableLiveData<String> psBsnssLvl = new MutableLiveData<>();
+    private final MutableLiveData<String> psService = new MutableLiveData<>();
+
     private final MutableLiveData<Integer> pnGovInfo = new MutableLiveData<>();
     private final MutableLiveData<Integer> pnCountry = new MutableLiveData<>();
 
@@ -98,6 +103,33 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
             this.pnGovInfo.setValue(View.GONE);
         }
         this.psSector.setValue(sector);
+    }
+
+    public void setPsCmpLvl(String compLvl){
+        this.psCmpLvl.setValue(compLvl);
+    }
+
+    public LiveData<String> getPsCmpLvl(){
+        return this.psCmpLvl;
+    }
+
+    public void setPsEmpLvl(String empLvl){
+        this.psEmpLvl.setValue(empLvl);
+    }
+    public LiveData<String> getPsEmpLvl(){
+        return this.psEmpLvl;
+    }
+    public void setPsBsnssLvl(String bsnssLvl){
+        this.psBsnssLvl.setValue(bsnssLvl);
+    }
+    public LiveData<String> getPsBsnssLvl(){
+        return this.psBsnssLvl;
+    }
+    public void setPsService(String service){
+        this.psService.setValue(service);
+    }
+    public LiveData<String> getPsService(){
+        return this.psService;
     }
 
     public void setUniformPersonnel(String isUniform){
@@ -227,6 +259,10 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
             infoModel.setCompTown(psTownID.getValue());
             infoModel.setJobTitle(psJobTitle.getValue());
             infoModel.setEmploymentStat(psEmpStat.getValue());
+
+            infoModel.setCompanyLvl(psCmpLvl.getValue());
+            infoModel.setEmployeeLvl(psEmpLvl.getValue());
+            infoModel.setBizIndustry(psBsnssLvl.getValue());
             if(infoModel.isSpouseEmploymentInfoValid()){
                 poGoCas.SpouseMeansInfo().EmployedInfo().setEmploymentSector(infoModel.getSector());
                 poGoCas.SpouseMeansInfo().EmployedInfo().IsUniformedPersonel(infoModel.getUniformedPersonnel());

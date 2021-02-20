@@ -45,13 +45,7 @@ public class CreditAppConstants {
 
     public static Fragment[] APPLICATION_PAGES = {
 
-
-            new Fragment_SpouseInfo(),
             new Fragment_PersonalInfo(),
-            new Fragment_ResidenceInfo(),
-            new Fragment_SpouseInfo(),
-            new Fragment_SpouseResidenceInfo(),
-            new Fragment_SpouseEmploymentInfo(),
             new Fragment_ResidenceInfo(),
             new Fragment_MeansInfoSelection(),
             new Fragment_EmploymentInfo(),
@@ -112,7 +106,6 @@ public class CreditAppConstants {
     public static String[] LENGTH_OF_STAY = {"Month", "Year"};
 
     public static String[] BUSINESS_NATURE = {
-            "Select Nature of Business (Required)",
             "BPO/Call Center",
             "Business Services",
             "Communication/Transportation",
@@ -138,13 +131,11 @@ public class CreditAppConstants {
             "National"};
 
     public static String[] COMPANY_LEVEL = {
-            "Select Company Level (Required)",
             "Local",
             "National",
             "Multi-National"};
 
     public static String[] EMPLOYEE_LEVEL = {
-            "Select Employee Level (Required)",
             "Rank and file",
             "Supervisory",
             "Managerial"};
@@ -193,7 +184,6 @@ public class CreditAppConstants {
             "Private"};
 
     public static String[] EMPLOYMENT_STATUS = {
-            "Select Employment Status (Required)",
             "Regular",
             "Probationary",
             "Contractual",
@@ -210,7 +200,6 @@ public class CreditAppConstants {
 
 
     public static String[] ACCOUNT_TYPE = {
-            "Select Account Type",
             "Checkings",
             "Savings",
             "Payroll"};
@@ -239,12 +228,10 @@ public class CreditAppConstants {
 //            "Others"};
 
     public static String[] UNIT_USER = {
-            "Select Unit User",
             "Principal Customer",
             "Others"};
 
     public static String[] UNIT_USER_OTHERS = {
-            "Select Other User",
             "Children",
             "Parents",
             "Siblings",
@@ -253,14 +240,12 @@ public class CreditAppConstants {
             "Spouse"};
 
     public static String[] UNIT_PURPOSE = {
-            "Select Unit Purpose",
             "Business",
             "Personal Service",
             "Raffle",
             "Gift"};
 
     public static String[] UNIT_PAYER = {
-            "Select other payer",
             "Children",
             "Parents",
             "Siblings",
@@ -268,13 +253,11 @@ public class CreditAppConstants {
             "Spouse"};
 
     public static  String[] UNIT_PAYER_NO_SPOUSE = {
-            "Select other payer",
             "Children",
             "Parents",
             "Siblings",
             "Relatives"};
     public static String[] INTO_US = {
-            "Select company information source",
             "Facebook",
             "Branch",
             "Friends",
@@ -283,7 +266,6 @@ public class CreditAppConstants {
             "Others"};
 
     public static String[] INTO_US_NO_SPOUSE= {
-            "Select company information source",
             "Facebook",
             "Branch",
             "Friends",

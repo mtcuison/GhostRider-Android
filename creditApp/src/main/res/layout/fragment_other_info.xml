@@ -20,18 +20,50 @@
             style="@style/Regular_Label"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:text="@string/sLabelQUnitUser"/>
-
-        <Spinner
-            android:id="@+id/spinner_cap_unitUser"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="14dp"/>
+            android:hint="Select Unit User">
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/spinner_cap_unitUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:padding="16dp"
+                android:cursorVisible="false"
+                android:clickable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/spinner_cap_sUsr2buyr"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_cap_sUsr2buyr"
+            style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="14dp"/>
+            android:hint="Select Other User">
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/spinner_cap_sUsr2buyr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:padding="16dp"
+                android:cursorVisible="false"
+                android:clickable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+<!--        <Spinner-->
+<!--            android:id="@+id/spinner_cap_unitUser"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="14dp"/>-->
+
+<!--        <Spinner-->
+<!--            android:id="@+id/spinner_cap_sUsr2buyr"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="14dp"/>-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,11 +71,26 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:text="@string/sLabelQUnitPurpose"/>
 
-        <Spinner
-            android:id="@+id/spinner_cap_purposeOfBuying"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="14dp"/>
+            android:hint="Select Unit Purpose">
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/spinner_cap_purposeOfBuying"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:padding="16dp"
+                android:cursorVisible="false"
+                android:clickable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+<!--        <Spinner-->
+<!--            android:id="@+id/spinner_cap_purposeOfBuying"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="14dp"/>-->
 
         <TextView
             android:layout_width="match_parent"
@@ -51,18 +98,48 @@
             style="@style/Regular_Label"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:text="@string/sLabelQMonthlyAmort"/>
-
-        <Spinner
-            android:id="@+id/spinner_cap_monthlyPayer"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="14dp"/>
-
-        <Spinner
-            android:id="@+id/spinner_cap_sPyr2Buyr"
+            android:hint="Select Unit Payer">
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/spinner_cap_monthlyPayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:padding="16dp"
+                android:cursorVisible="false"
+                android:clickable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_cap_sPyr2Buyr"
+            style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="14dp" />
+            android:hint="Select other payer">
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/spinner_cap_sPyr2Buyr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:padding="16dp"
+                android:cursorVisible="false"
+                android:clickable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+<!--        <Spinner-->
+<!--            android:id="@+id/spinner_cap_monthlyPayer"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="14dp"/>-->
+
+<!--        <Spinner-->
+<!--            android:id="@+id/spinner_cap_sPyr2Buyr"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="14dp" />-->
 
         <TextView
             style="@style/Regular_Label"
@@ -71,11 +148,26 @@
             android:text="@string/sLabelQDiscoverUs"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-        <Spinner
-            android:id="@+id/spinner_cap_source"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="14dp"/>
+            android:hint="Select Unit Payer">
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/spinner_cap_source"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:padding="16dp"
+                android:cursorVisible="false"
+                android:clickable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+<!--        <Spinner-->
+<!--            android:id="@+id/spinner_cap_source"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="14dp"/>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_cap_CompanyInfoSource"

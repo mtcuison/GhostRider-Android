@@ -179,7 +179,7 @@ public class OtherInfoModel {
         if(source.equalsIgnoreCase("Others")){
             return isCompanyInfoSourceModel();
 
-        }else if(source.equalsIgnoreCase("Select company information source")){
+        }else if(source.trim().isEmpty()){
             message = "Please select source info";
             return false;
         }

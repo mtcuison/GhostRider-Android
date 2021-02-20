@@ -45,6 +45,14 @@ public class VMPersonalInfo extends AndroidViewModel {
     private MutableLiveData<Integer> lnMthrNme = new MutableLiveData<>();
     private MutableLiveData<String> lsCitizen = new MutableLiveData<>();
 
+//    index position
+private MutableLiveData<String> lsMobile1 = new MutableLiveData<>();
+    private MutableLiveData<String> lsMobile2 = new MutableLiveData<>();
+    private MutableLiveData<String> lsMobile3 = new MutableLiveData<>();
+
+    private MutableLiveData<Integer> mobileNo1Year = new MutableLiveData<>();
+    private MutableLiveData<Integer> mobileNo2Year = new MutableLiveData<>();
+    private MutableLiveData<Integer> mobileNo3Year = new MutableLiveData<>();
     public VMPersonalInfo(@NonNull Application application){
         super(application);
         RCreditApplicant = new RCreditApplicant(application);
@@ -54,6 +62,10 @@ public class VMPersonalInfo extends AndroidViewModel {
         provinceInfoList = RProvince.getAllProvinceInfo();
         poGoCas = new GOCASApplication();
         this.lnMthrNme.setValue(View.GONE);
+        this.mobileNo1Year.setValue(View.GONE);
+        this.mobileNo2Year.setValue(View.GONE);
+        this.mobileNo3Year.setValue(View.GONE);
+
     }
 
     public void saveStateHandle(SavedStateHandle savedStateHandle){
@@ -82,7 +94,6 @@ public class VMPersonalInfo extends AndroidViewModel {
         try {
             infoModel.setBrthPlce(lsBPlace.getValue());
             infoModel.setCitizenx(lsCitizen.getValue());
-            infoModel.setGender(lsGender.getValue());
             if(infoModel.isPersonalInfoValid()) {
                 poGoCas.ApplicantInfo().setLastName(infoModel.getLastName());
                 poGoCas.ApplicantInfo().setFirstName(infoModel.getFrstName());
@@ -153,12 +164,17 @@ public class VMPersonalInfo extends AndroidViewModel {
             } else {
                 this.lnMthrNme.setValue(View.GONE);
             }
-            this.lsCvlStats.setValue(lsCvlStats);
         } catch (NullPointerException e){
             e.printStackTrace();
         } catch (Exception e){
             e.printStackTrace();
         }
+
+        this.lsCvlStats.setValue(lsCvlStats);
+    }
+
+    public LiveData<String> getCvlStats(){
+        return this.lsCvlStats;
     }
 
     public void setCitizenship(String lsCitizen) {
@@ -205,5 +221,69 @@ public class VMPersonalInfo extends AndroidViewModel {
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
         return liveData;
+    }
+
+    public void setLsMobile1(String mobile1){
+        try {
+            if(mobile1.equalsIgnoreCase("1")){
+                this.mobileNo1Year.setValue(View.VISIBLE);
+            } else {
+                this.mobileNo1Year.setValue(View.GONE);
+            }
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        this.lsMobile1.setValue(mobile1);
+    }
+    public void setLsMobile2(String mobile2){
+        try {
+            if(mobile2.equalsIgnoreCase("1")){
+                this.mobileNo2Year.setValue(View.VISIBLE);
+            } else {
+                this.mobileNo2Year.setValue(View.GONE);
+            }
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        this.lsMobile2.setValue(mobile2);
+    }
+    public void setLsMobile3(String mobile3){
+        try {
+            if(mobile3.equalsIgnoreCase("1")){
+                this.mobileNo3Year.setValue(View.VISIBLE);
+            } else {
+                this.mobileNo3Year.setValue(View.GONE);
+            }
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        this.lsMobile3.setValue(mobile3);
+    }
+    public LiveData<Integer> getMobileNo3Year(){
+        return this.mobileNo3Year;
+    }
+    public LiveData<Integer> getMobileNo2Year(){
+        return this.mobileNo2Year;
+    }
+    public LiveData<Integer> getMobileNo1Year(){
+        return this.mobileNo1Year;
+    }
+    public LiveData<String> getMobileNo3(){
+        return this.lsMobile3;
+    }
+    public LiveData<String> getMobileNo2(){
+        return this.lsMobile2;
+    }
+    public LiveData<String> getMobileNo1(){
+        return this.lsMobile1;
+    }
+    public LiveData<String> getGender(){
+        return this.lsGender;
     }
 }
