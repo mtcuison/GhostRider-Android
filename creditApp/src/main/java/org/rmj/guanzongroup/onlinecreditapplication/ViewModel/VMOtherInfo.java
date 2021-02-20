@@ -38,11 +38,14 @@ public class VMOtherInfo extends AndroidViewModel {
     private static final String TAG = VMOtherInfo.class.getSimpleName();
     private final MutableLiveData<String> psTranNo = new MutableLiveData<>();
     private final MutableLiveData<String> unitUser = new MutableLiveData<>();
-    private final MutableLiveData<Integer> userBuyer = new MutableLiveData<>();
     private final MutableLiveData<String> uniPurpose = new MutableLiveData<>();
     private final MutableLiveData<String> unitPayer = new MutableLiveData<>();
-    private final MutableLiveData<Integer> payerBuyer = new MutableLiveData<>();
+    private final MutableLiveData<String> sUserBuyer = new MutableLiveData<>();
+    private final MutableLiveData<String> sPayerBuyer = new MutableLiveData<>();
     private final MutableLiveData<String> source = new MutableLiveData<>();
+
+    private final MutableLiveData<Integer> userBuyer = new MutableLiveData<>();
+    private final MutableLiveData<Integer> payerBuyer = new MutableLiveData<>();
     private final MutableLiveData<Integer> compInfoSource = new MutableLiveData<>();
 
 
@@ -127,24 +130,7 @@ public class VMOtherInfo extends AndroidViewModel {
     public LiveData<Integer> setPayerBuyer(){
         return payerBuyer;
     }
-    public LiveData<Integer> setCompanySource(){
-        return compInfoSource;
-    }
-    public void setUnitUser(String type)
-    {
-        try {
-            if(type.equalsIgnoreCase("1")){
-                this.userBuyer.setValue(View.VISIBLE);
-            } else {
-                this.userBuyer.setValue(View.GONE);
-            }
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        this.unitUser.setValue(type);
-    }
+
     public LiveData<ArrayAdapter<String>> getUnitUser(){
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
@@ -166,6 +152,10 @@ public class VMOtherInfo extends AndroidViewModel {
         return liveData;
     }
 
+    public LiveData<Integer> setCompanySource(){
+        return compInfoSource;
+    }
+
     public void setUnitPayer(String type){
         try {
             if(type.equalsIgnoreCase("1")){
@@ -179,6 +169,22 @@ public class VMOtherInfo extends AndroidViewModel {
             e.printStackTrace();
         }
         this.unitPayer.setValue(type);
+    }
+
+    public void setUnitUser(String type)
+    {
+        try {
+            if(type.equalsIgnoreCase("1")){
+                this.userBuyer.setValue(View.VISIBLE);
+            } else {
+                this.userBuyer.setValue(View.GONE);
+            }
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        this.unitUser.setValue(type);
     }
     public LiveData<ArrayAdapter<String>> getUnitPayer(){
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER);
@@ -214,6 +220,45 @@ public class VMOtherInfo extends AndroidViewModel {
         }
         this.source.setValue(type);
     }
+
+
+
+
+    public LiveData<String> getSUnitUser() {
+        return this.unitUser;
+    }
+
+//    user buyer
+    public LiveData<String> getSUserBuyer() {
+        return this.sUserBuyer;
+    }
+    public void setSUserBuyer(String userBuyer) {
+         this.sUserBuyer.setValue(userBuyer);
+    }
+//    Unit Purpose
+    public LiveData<String> getSUnitPurpose() {
+        return this.uniPurpose;
+    }
+    public void setSUnitPurpose(String purpose) {
+        this.uniPurpose.setValue(purpose);
+    }
+
+
+    public LiveData<String> getSUnitPayer() {
+        return this.unitPayer;
+    }
+
+//    Payer Buyer
+    public LiveData<String> getSPayerBuyer() {
+        return this.sPayerBuyer;
+    }
+    public void setSPayerBuyer(String payerBuyer) {
+        this.sPayerBuyer.setValue(payerBuyer);
+    }
+
+    public LiveData<String> getSCompanyInfoSource() {
+        return this.source;
+    }
     public LiveData<ArrayAdapter<String>> getIntCompanyInfoSource(){
         ArrayAdapter<String> adapter;
         if (poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1")){
@@ -239,7 +284,7 @@ public class VMOtherInfo extends AndroidViewModel {
     }
     public boolean isValidUnitPayer(int index){
         if(index==0){
-            message = "Please select Municipality!";
+            message = "Please select unit payer!";
             return false;
         }
         return true;

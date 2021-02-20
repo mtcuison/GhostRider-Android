@@ -65,7 +65,7 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
         RRawData = new RRawData(application);
         paBranchNm = RBranch.getAllMcBranchNames();
         paBrandNme = oBrandRepo.getAllBrandNames();
-        //oCredtRepo.deleteAllCredit();
+        oCredtRepo.deleteAllCredit();
         poPrice = PriceFactory.make(PriceFactory.ProductType.MOTORCYCLE);
         psIntTerm.setValue(36);
     }

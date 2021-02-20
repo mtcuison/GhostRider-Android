@@ -45,9 +45,7 @@ public class CreditAppConstants {
 
     public static Fragment[] APPLICATION_PAGES = {
 
-            new Fragment_DisbursementInfo(),
             new Fragment_PersonalInfo(),
-            new Fragment_SpouseEmploymentInfo(),
             new Fragment_ResidenceInfo(),
             new Fragment_MeansInfoSelection(),
             new Fragment_EmploymentInfo(),
@@ -230,12 +228,10 @@ public class CreditAppConstants {
 //            "Others"};
 
     public static String[] UNIT_USER = {
-            "Select Unit User",
             "Principal Customer",
             "Others"};
 
     public static String[] UNIT_USER_OTHERS = {
-            "Select Other User",
             "Children",
             "Parents",
             "Siblings",
@@ -244,14 +240,12 @@ public class CreditAppConstants {
             "Spouse"};
 
     public static String[] UNIT_PURPOSE = {
-            "Select Unit Purpose",
             "Business",
             "Personal Service",
             "Raffle",
             "Gift"};
 
     public static String[] UNIT_PAYER = {
-            "Select other payer",
             "Children",
             "Parents",
             "Siblings",
@@ -259,13 +253,11 @@ public class CreditAppConstants {
             "Spouse"};
 
     public static  String[] UNIT_PAYER_NO_SPOUSE = {
-            "Select other payer",
             "Children",
             "Parents",
             "Siblings",
             "Relatives"};
     public static String[] INTO_US = {
-            "Select company information source",
             "Facebook",
             "Branch",
             "Friends",
@@ -274,7 +266,6 @@ public class CreditAppConstants {
             "Others"};
 
     public static String[] INTO_US_NO_SPOUSE= {
-            "Select company information source",
             "Facebook",
             "Branch",
             "Friends",

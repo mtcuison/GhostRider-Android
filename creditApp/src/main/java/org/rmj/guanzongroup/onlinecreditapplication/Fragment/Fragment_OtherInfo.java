@@ -61,12 +61,23 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack, V
     private List<OtherInfoModel> personalReferencesList;
     private PersonalReferencesAdapter adapter;
     private OtherInfoModel otherInfo;
-    private Spinner spnUnitUser;
-    private Spinner spnUnitPrps;
-    private Spinner spnUnitPayr;
-    private Spinner spnSourcexx;
-    private Spinner spnUserBuyr;
-    private Spinner spnPayrBuyr;
+    private AutoCompleteTextView spnUnitUser;
+    private AutoCompleteTextView spnUnitPrps;
+    private AutoCompleteTextView spnUnitPayr;
+    private AutoCompleteTextView spnSourcexx;
+    private AutoCompleteTextView spnUserBuyr;
+    private AutoCompleteTextView spnPayrBuyr;
+    //autocomplete textview position
+
+    private String unitUserX = "-1";
+    private String unitPrpsX = "-1";
+    private String unitPayrX = "-1";
+    private String sourcexxX = "-1";
+    private String userBuyrX = "-1";
+    private String payrBuyrX = "-1";
+
+    private TextInputLayout tilUserBuyr;
+    private TextInputLayout tilPayrBuyr;
     private TextInputLayout tilSpcfSrc;
     private TextInputLayout tilRefname;
     private TextInputLayout tilRefCntc;
@@ -111,8 +122,8 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack, V
         mViewModel.getUnitUser().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnUnitUser.setAdapter(stringArrayAdapter));
         mViewModel.getUnitPurpose().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnUnitPrps.setAdapter(stringArrayAdapter));
         mViewModel.getIntCompanyInfoSource().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnSourcexx.setAdapter(stringArrayAdapter));
-        mViewModel.setUserBuyer().observe(getViewLifecycleOwner(), integer -> spnUserBuyr.setVisibility(integer));
-        mViewModel.setPayerBuyer().observe(getViewLifecycleOwner(), integer -> spnPayrBuyr.setVisibility(integer));
+        mViewModel.setUserBuyer().observe(getViewLifecycleOwner(), integer -> tilUserBuyr.setVisibility(integer));
+        mViewModel.setPayerBuyer().observe(getViewLifecycleOwner(), integer -> tilPayrBuyr.setVisibility(integer));
         mViewModel.setCompanySource().observe(getViewLifecycleOwner(), integer -> tilSpcfSrc.setVisibility(integer));
         mViewModel.getUserBuyer().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnUserBuyr.setAdapter(stringArrayAdapter));
         mViewModel.getPayerBuyer().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnPayrBuyr.setAdapter(stringArrayAdapter));
@@ -125,10 +136,50 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack, V
         mViewModel.getPersonalReference().observe(getViewLifecycleOwner(), referenceListUpdateObserver);
 
 
+        mViewModel.getSUnitUser().observe(getViewLifecycleOwner(), s -> {
+            spnUnitUser.setSelection(Integer.parseInt(s));
+            unitUserX = s;
+            Log.e("Mobile 1", s);
+        });
 
-        spnUnitUser.setOnItemSelectedListener(new Fragment_OtherInfo.SpinnerSelectionListener(mViewModel));
-        spnUnitPayr.setOnItemSelectedListener(new Fragment_OtherInfo.SpinnerSelectionListener(mViewModel));
-        spnSourcexx.setOnItemSelectedListener(new Fragment_OtherInfo.SpinnerSelectionListener(mViewModel));
+
+        mViewModel.getSPayerBuyer().observe(getViewLifecycleOwner(), s -> {
+            spnPayrBuyr.setSelection(Integer.parseInt(s));
+            payrBuyrX = s;
+            Log.e("Mobile 1", s);
+        });
+
+        mViewModel.getSUnitPayer().observe(getViewLifecycleOwner(), s -> {
+            spnUnitPayr.setSelection(Integer.parseInt(s));
+            unitPayrX = s;
+            Log.e("Mobile 1", s);
+        });
+
+        mViewModel.getSUnitPurpose().observe(getViewLifecycleOwner(), s -> {
+            spnUnitPrps.setSelection(Integer.parseInt(s));
+            unitPrpsX = s;
+            Log.e("Mobile 1", s);
+        });
+
+        mViewModel.getSUserBuyer().observe(getViewLifecycleOwner(), s -> {
+            spnUserBuyr.setSelection(Integer.parseInt(s));
+            userBuyrX = s;
+            Log.e("Mobile 1", s);
+        });
+
+        mViewModel.getSCompanyInfoSource().observe(getViewLifecycleOwner(), s -> {
+            spnSourcexx.setSelection(Integer.parseInt(s));
+            sourcexxX = s;
+            Log.e("Mobile 1", s);
+        });
+
+        spnUnitUser.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnUnitUser, mViewModel));
+        spnUnitPayr.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnUnitPayr, mViewModel));
+        spnSourcexx.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnSourcexx, mViewModel));
+
+        spnUnitPrps.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnUnitPrps, mViewModel));
+        spnUserBuyr.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnUserBuyr, mViewModel));
+        spnPayrBuyr.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnPayrBuyr, mViewModel));
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             tieAddProv.setAdapter(adapter);
@@ -165,7 +216,9 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack, V
         spnUnitPrps = view.findViewById(R.id.spinner_cap_purposeOfBuying);
         spnUnitPayr = view.findViewById(R.id.spinner_cap_monthlyPayer);
         spnUserBuyr = view.findViewById(R.id.spinner_cap_sUsr2buyr);
+        tilUserBuyr = view.findViewById(R.id.til_cap_sUsr2buyr);
         spnPayrBuyr = view.findViewById(R.id.spinner_cap_sPyr2Buyr);
+        tilPayrBuyr = view.findViewById(R.id.til_cap_sPyr2Buyr);
         spnSourcexx = view.findViewById(R.id.spinner_cap_source);
         tilSpcfSrc = view.findViewById(R.id.til_cap_CompanyInfoSource);
         tilRefname = view.findViewById(R.id.til_cap_referenceName);
@@ -216,15 +269,20 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack, V
 
     //Submit
     private void submitOtherInfo(){
-        otherInfo.setUnitUserModel(Objects.requireNonNull(String.valueOf(spnUnitUser.getSelectedItemPosition() - 1)));
-        otherInfo.setUserBuyerModel(String.valueOf(spnUserBuyr.getSelectedItemPosition() - 1));
-        otherInfo.setUserUnitPurposeModel(Objects.requireNonNull(String.valueOf(spnUnitPrps.getSelectedItemPosition() - 1)));
-        otherInfo.setMonthlyPayerModel(Objects.requireNonNull(String.valueOf(spnUnitPayr.getSelectedItemPosition() - 1)));
-        otherInfo.setPayer2BuyerModel(String.valueOf(spnPayrBuyr.getSelectedItemPosition() - 1));
-        Log.e("Source Value", spnSourcexx.getSelectedItem().toString());
-        otherInfo.setSourceModel(Objects.requireNonNull(spnSourcexx.getSelectedItem().toString()));
+        otherInfo.setUnitUserModel(Objects.requireNonNull(unitUserX));
+        otherInfo.setUserBuyerModel(userBuyrX);
+        otherInfo.setUserUnitPurposeModel(Objects.requireNonNull(unitPrpsX));
+        otherInfo.setMonthlyPayerModel(Objects.requireNonNull(unitPayrX));
+        otherInfo.setPayer2BuyerModel(payrBuyrX);
+        Log.e("Source Value", sourcexxX);
+        otherInfo.setSourceModel(Objects.requireNonNull(spnSourcexx.getText().toString()));
         otherInfo.setCompanyInfoSourceModel(tieSpcfSrc.getText().toString());
         mViewModel.SubmitOtherInfo(otherInfo, Fragment_OtherInfo.this);
+        Log.e("Unit user",unitUserX);
+        Log.e("Unit buyer",userBuyrX);
+        Log.e("Unit purpose",unitPrpsX);
+        Log.e("Unit payer",unitPayrX);
+        Log.e("payer buyer",sourcexxX);
     }
     @Override
     public void onSuccess(String message) {
@@ -252,78 +310,42 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack, V
         GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
     }
 
-    private static class SpinnerSelectionListener implements AdapterView.OnItemSelectedListener{
+    class SpinnerSelectionListener implements AdapterView.OnItemClickListener{
         private final VMOtherInfo vm;
-
-        SpinnerSelectionListener(VMOtherInfo viewModel){
+        private final AutoCompleteTextView poView;
+        SpinnerSelectionListener(AutoCompleteTextView view,VMOtherInfo viewModel){
             this.vm = viewModel;
+            this.poView = view;
         }
 
         @Override
-        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-            if(adapterView.getId() == R.id.spinner_cap_unitUser){
-                String type = "";
-                switch (i){
-                    case 0:
-                        break;
-                    case 1:
-                        type = "0";
-                        break;
-                    case 2:
-                        type = "1";
-                        break;
 
-                }
-                vm.setUnitUser(type);
+            if(spnUnitUser.equals(poView)){
+                unitUserX = String.valueOf(i);
+                vm.setUnitUser(unitUserX);
             }
-            if(adapterView.getId() == R.id.spinner_cap_monthlyPayer){
-                String monthlyPayer = "";
-                switch (i){
-                    case 0:
-                        break;
-                    case 1:
-                        monthlyPayer = "0";
-                        break;
-                    case 2:
-                        monthlyPayer = "1";
-                        break;
-
-                }
-                vm.setUnitPayer(monthlyPayer);
+            if(spnUnitPayr.equals(poView)){
+                unitPayrX = String.valueOf(i);
+                vm.setUnitPayer(unitPayrX);
             }
-            if(adapterView.getId() == R.id.spinner_cap_source){
-                String source = "";
-                switch (i){
-                    case 0:
-                        break;
-                    case 1:
-                        source = "0";
-                        break;
-                    case 2:
-                        source = "1";
-                        break;
-                    case 3:
-                        source = "2";
-                        break;
-                    case 4:
-                        source = "3";
-                        break;
-                    case 5:
-                        source = "4";
-                        break;
-                    case 6:
-                        source = "5";
-                        break;
-
-                }
-                vm.setIntCompanyInfoSource(source);
+            if(spnSourcexx.equals(poView)){
+                sourcexxX = String.valueOf(i);
+                vm.setIntCompanyInfoSource(sourcexxX);
             }
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> adapterView) {
-
+            if(spnUnitPrps.equals(poView)){
+                unitPrpsX = String.valueOf(i);
+                vm.setSUnitPurpose(unitPrpsX);
+            }
+            if(spnUserBuyr.equals(poView)){
+                userBuyrX = String.valueOf(i);
+                vm.setSUserBuyer(userBuyrX);
+            }
+            if(spnPayrBuyr.equals(poView)){
+                payrBuyrX = String.valueOf(i);
+                vm.setSPayerBuyer(payrBuyrX);
+            }
         }
     }
 }

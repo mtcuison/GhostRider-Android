@@ -148,7 +148,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:background="@color/material_black">
+            android:background="@color/guanzon_orange">
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

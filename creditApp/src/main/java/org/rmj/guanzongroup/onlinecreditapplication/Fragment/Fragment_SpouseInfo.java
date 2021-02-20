@@ -332,7 +332,6 @@
                     mViewModel.setLsMobile2(String.valueOf(i));
                 }
                 if (spnMobile3.equals(poView)) {
-
                     mViewModel.setLsMobile3(String.valueOf(i));
 
                 }
