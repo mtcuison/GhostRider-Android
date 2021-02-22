@@ -150,7 +150,7 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
 
     @Override
     public void onSaveSuccessResult(String args) {
-        Activity_CreditApplication.getInstance().moveToPageNumber(5);
+        Activity_CreditApplication.getInstance().moveToPageNumber(6);
     }
 
     @Override
