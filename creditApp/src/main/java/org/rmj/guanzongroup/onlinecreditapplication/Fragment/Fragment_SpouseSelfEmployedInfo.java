@@ -150,12 +150,12 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
 
     @Override
     public void onSaveSuccessResult(String args) {
-
+        Activity_CreditApplication.getInstance().moveToPageNumber(5);
     }
 
     @Override
     public void onFailedResult(String message) {
-
+        GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
     }
 
     class OnItemClickListener implements AdapterView.OnItemClickListener {

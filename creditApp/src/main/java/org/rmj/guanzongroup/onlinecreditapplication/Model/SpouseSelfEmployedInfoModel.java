@@ -76,8 +76,18 @@ public class SpouseSelfEmployedInfoModel {
         this.sBizSize = sBizSize;
     }
 
-    public String getsBizYrs() {
-        return sBizYrs;
+    public double getsBizYrs() {
+        try{
+            if(Integer.parseInt(sMonthOrYear) == 0) {
+                double ldValue = Double.parseDouble(sBizYrs);
+                return ldValue / 12;
+            } else {
+                return Double.parseDouble(sBizYrs);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     public void setsBizYrs(String sBizYrs) {
@@ -92,16 +102,16 @@ public class SpouseSelfEmployedInfoModel {
         this.sMonthOrYear = sMonthOrYear;
     }
 
-    public String getsGrossMonthly() {
-        return sGrossMonthly;
+    public long getsGrossMonthly() {
+        return Long.parseLong(sGrossMonthly);
     }
 
     public void setsGrossMonthly(String sGrossMonthly) {
         this.sGrossMonthly = sGrossMonthly;
     }
 
-    public String getsMonthlyExps() {
-        return sMonthlyExps;
+    public long getsMonthlyExps() {
+        return Long.parseLong(sMonthlyExps);
     }
 
     public void setsMonthlyExps(String sMonthlyExps) {

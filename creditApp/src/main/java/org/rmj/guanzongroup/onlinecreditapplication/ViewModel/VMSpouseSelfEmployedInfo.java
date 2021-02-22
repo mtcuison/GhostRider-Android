@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Model.SpouseSelfEmployedInfo
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
 import java.util.List;
+import java.util.Objects;
 
 public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
     public static final String TAG = VMSpouseSelfEmployedInfo.class.getSimpleName();
@@ -131,9 +133,32 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
 
     public void Save(SpouseSelfEmployedInfoModel infoModel, ViewModelCallBack callBack) {
         try {
+            infoModel.setsBizIndustry(psBizIndustry.getValue());
+            infoModel.setsProvId(psProvID.getValue());
+            infoModel.setsTownId(psTownID.getValue());
+            infoModel.setsBizType(psBizType.getValue());
+            infoModel.setsBizSize(psBizSize.getValue());
+            infoModel.setsMonthOrYear(psMosOrYr.getValue());
             if(infoModel.isSpouseInfoValid()) {
-                // TODO: SAVING to Local Database
-//                poGoCas.SpouseMeansInfo().SelfEmployedInfo()
+                poGoCas.SpouseMeansInfo().SelfEmployedInfo().setNatureOfBusiness(infoModel.getsBizIndustry());
+                poGoCas.SpouseMeansInfo().SelfEmployedInfo().setNameOfBusiness(infoModel.getsBizName());
+                poGoCas.SpouseMeansInfo().SelfEmployedInfo().setBusinessAddress(infoModel.getsBizAddress());
+                poGoCas.SpouseMeansInfo().SelfEmployedInfo().setCompanyTown(infoModel.getsTownId());
+                poGoCas.SpouseMeansInfo().SelfEmployedInfo().setBusinessType(infoModel.getsBizType());
+                poGoCas.SpouseMeansInfo().SelfEmployedInfo().setOwnershipSize(infoModel.getsBizSize());
+                poGoCas.SpouseMeansInfo().SelfEmployedInfo().setBusinessLength(infoModel.getsBizYrs());
+                poGoCas.SpouseMeansInfo().SelfEmployedInfo().setIncome(infoModel.getsGrossMonthly());
+                poGoCas.SpouseMeansInfo().SelfEmployedInfo().setMonthlyExpense(infoModel.getsMonthlyExps());
+
+                ECreditApplicantInfo info = new ECreditApplicantInfo();
+                info.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
+                info.setDetlInfo(poGoCas.toJSONString());
+                info.setClientNm(poGoCas.ApplicantInfo().getClientName());
+                poCreditApp.updateGOCasData(info);
+
+                Log.e(TAG, poGoCas.SpouseMeansInfo().SelfEmployedInfo().toJSONString());
+                Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
+                callBack.onSaveSuccessResult("Success");
             }
             else {
                 callBack.onFailedResult(infoModel.getsMsg());
