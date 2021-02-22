@@ -13,11 +13,27 @@
         android:gravity="center"
         android:padding="5dp">
 
-        <Spinner
-            android:id="@+id/spn_psnSector"
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"/>
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/spn_psnSector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:padding="16dp"
+                android:cursorVisible="false"
+                android:hint="Select Pension Sector"
+                android:clickable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+<!--        <Spinner-->
+<!--            android:id="@+id/spn_psnSector"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="15dp"/>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

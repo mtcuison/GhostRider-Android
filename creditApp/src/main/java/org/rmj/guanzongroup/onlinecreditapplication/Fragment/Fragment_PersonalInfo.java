@@ -120,7 +120,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         mViewModel.getMobileNo1().observe(getViewLifecycleOwner(), s -> {
             spnMobile1.setSelection(Integer.parseInt(s));
             spnMobile1Position = s;
-            Log.e("Mobile 1", s);
+            Log.e("Mobile 1", spnMobile1Position);
         });
 
         mViewModel.getMobileNo2().observe(getViewLifecycleOwner(), s -> {
@@ -131,7 +131,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         mViewModel.getMobileNo3().observe(getViewLifecycleOwner(), s -> {
             spnMobile3.setSelection(Integer.parseInt(s));
             spnMobile3Position = s;
-            Log.e("Mobile 3 ", s);
+            Log.e("Mobile 3 ", spnMobile3Position);
         });
         mViewModel.getGender().observe(getViewLifecycleOwner(), s -> {
             genderPosition = s;
@@ -250,6 +250,8 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
                 infoModel.setMobileNo(txtMobileNo1.getText().toString(), spnMobile1Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));
             } else {
                 infoModel.setMobileNo(txtMobileNo1.getText().toString(), spnMobile1Position, 0);
+
+                Log.e("Postpaid index " + spnMobile1Position, infoModel.getPostPaid(0));
             }
         }
         if(!Objects.requireNonNull(txtMobileNo2.getText()).toString().trim().isEmpty()) {

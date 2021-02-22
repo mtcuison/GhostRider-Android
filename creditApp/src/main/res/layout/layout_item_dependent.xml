@@ -23,11 +23,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight=".5"
-        android:text="Remove"
+        android:text="X"
         android:fontFamily="@font/roboto_regular"
         tools:ignore="HardcodedText"
         android:textColor="@color/material_white"
-        android:backgroundTint="@color/guanzon_orange"
+        android:backgroundTint="@color/light_red"
         tools:targetApi="jelly_bean" />
 
 </LinearLayout>

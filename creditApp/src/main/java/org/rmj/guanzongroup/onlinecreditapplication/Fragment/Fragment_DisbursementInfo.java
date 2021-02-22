@@ -120,7 +120,7 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
 
     @Override
     public void onSaveSuccessResult(String args) {
-        Activity_CreditApplication.getInstance().moveToPageNumber(1);
+        Activity_CreditApplication.getInstance().moveToPageNumber(13);
     }
 
     @Override
