@@ -118,7 +118,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMEmploymentInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo.getDetlInfo()));
+        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
         mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
         mViewModel.getPsCmpLvl().observe(getViewLifecycleOwner(), s -> {
             spnCmpLvl.setSelection(Integer.parseInt(s));
@@ -263,7 +263,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
                 } else if (adapterView.getItemAtPosition(i).toString().equalsIgnoreCase("Seasonal")) {
                     mViewModel.setEmploymentStatus("S");
                 }
-                GToast.CreateMessage(getActivity(), adapterView.getItemAtPosition(i).toString(), GToast.INFORMATION).show();
+//                GToast.CreateMessage(getActivity(), adapterView.getItemAtPosition(i).toString(), GToast.INFORMATION).show();
             }
         }
     }

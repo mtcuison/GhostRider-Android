@@ -37,6 +37,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
     private final RCreditApplicant poCredtAp;
     private final GOCASApplication poGoCasxx;
 
+    private final MutableLiveData<ECreditApplicantInfo> poInfo = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNo = new MutableLiveData<>();
     private final MutableLiveData<String> psSectorx = new MutableLiveData<>();
     private final MutableLiveData<String> psUniform = new MutableLiveData<>();
@@ -76,9 +77,10 @@ public class VMEmploymentInfo extends AndroidViewModel {
         return poCredtAp.getCreditApplicantInfoLiveData(psTransNo.getValue());
     }
 
-    public void setCreditApplicantInfo(String applicantInfo){
+    public void setCreditApplicantInfo(ECreditApplicantInfo foInfo){
         try{
-            poGoCasxx.setData(applicantInfo);
+            poInfo.setValue(foInfo);
+            poGoCasxx.setData(foInfo.getDetlInfo());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -245,7 +247,6 @@ public class VMEmploymentInfo extends AndroidViewModel {
 
     public void SaveEmploymentInfo(EmploymentInfoModel infoModel, ViewModelCallBack callBack){
         try{
-
             infoModel.setCompanyLevel(psCmpLvl.getValue());
             infoModel.setCompanyLevel(psCmpLvl.getValue());
             infoModel.setEmployeeLevel(psEmpLvl.getValue());
@@ -277,12 +278,13 @@ public class VMEmploymentInfo extends AndroidViewModel {
                 poGoCasxx.MeansInfo().EmployedInfo().setLengthOfService(infoModel.getLengthOfService());
                 poGoCasxx.MeansInfo().EmployedInfo().setSalary(infoModel.getMonthlyIncome());
                 poGoCasxx.MeansInfo().EmployedInfo().setCompanyNo(infoModel.getContact());
-                ECreditApplicantInfo info = new ECreditApplicantInfo();
+                ECreditApplicantInfo info = poInfo.getValue();
                 info.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
                 info.setDetlInfo(poGoCasxx.toJSONString());
                 info.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
                 poCredtAp.updateGOCasData(info);
                 Log.e("Data info ", info.getDetlInfo());
+                CreditAppConstants.employment_done = true;
                 callBack.onSaveSuccessResult("Success");
             } else {
                 callBack.onFailedResult(infoModel.getMessage());

@@ -352,7 +352,7 @@
                         android:focusable="false"
                         android:padding="16dp"
                         android:cursorVisible="false"
-                        android:hint="Select Employment Status (Required)"
+                        android:hint="Select Length of Stay (Required)"
                         android:clickable="false"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
