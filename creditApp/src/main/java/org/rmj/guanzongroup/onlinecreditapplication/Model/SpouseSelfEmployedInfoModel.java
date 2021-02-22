@@ -16,6 +16,10 @@ public class SpouseSelfEmployedInfoModel {
     private String sGrossMonthly;
     private String sMonthlyExps;
 
+    public String getsMsg() {
+        return sMsg;
+    }
+
     public String getsBizIndustry() {
         return sBizIndustry;
     }
@@ -195,7 +199,6 @@ public class SpouseSelfEmployedInfoModel {
         return true;
     }
 
-
     private boolean isStringAllZero(String checkStr) {
         char[] charSplit = checkStr.trim().toCharArray();
         for(char i : charSplit) {
@@ -205,7 +208,5 @@ public class SpouseSelfEmployedInfoModel {
         }
         return true;
     }
-
-
 
 }
