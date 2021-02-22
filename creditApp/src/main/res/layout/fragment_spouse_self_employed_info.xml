@@ -13,11 +13,22 @@
         android:gravity="center"
         android:padding="5dp">
 
-        <Spinner
-            android:id="@+id/spn_bizIndustry"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"/>
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/spn_bizIndustry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:padding="16dp"
+                android:cursorVisible="false"
+                android:clickable="false"
+                android:inputType="textCapWords"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/spn_bizSize"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -130,21 +141,43 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/sHintLenghtService"
-            style="@style/TextInputStyle">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_bizLength"
+            android:orientation="horizontal">
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number|none"
-                android:maxLength="4"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/txt_monthlyInc"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_weight="1"
+                android:hint="@string/sHintLenghtService"
+                style="@style/TextInputStyle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_bizLength"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number|none"
+                    android:maxLength="4"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_monthlyInc"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomDropDownTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5">
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/spn_monthOrYr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:padding="16dp"
+                    android:cursorVisible="false"
+                    android:clickable="false"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

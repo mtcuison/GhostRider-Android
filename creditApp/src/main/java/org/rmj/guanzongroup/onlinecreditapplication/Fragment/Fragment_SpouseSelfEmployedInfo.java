@@ -38,8 +38,7 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
     private VMSpouseSelfEmployedInfo mViewModel;
     private SpouseSelfEmployedInfoModel infoModel;
     private TextInputEditText txtBizName, txtBizAddrss, txtBizLength, txtMonthlyInc, txtMonthlyExp;
-    private Spinner spnBizIndustry;
-    private AppCompatAutoCompleteTextView txtProvince, txtTown, spnBizType, spnBizSize;
+    private AppCompatAutoCompleteTextView spnBizIndustry, spnMonthOrYr, txtProvince, txtTown, spnBizType, spnBizSize;
     private MaterialButton btnNext;
 
     public static Fragment_SpouseSelfEmployedInfo newInstance() {
@@ -118,6 +117,7 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
     }
 
     private void initWidgets(View v) {
+        spnMonthOrYr = v.findViewById(R.id.spn_monthOrYr);
         txtBizName = v.findViewById(R.id.txt_bizName);
         txtBizAddrss = v.findViewById(R.id.txt_bizAddress);
         txtBizLength = v.findViewById(R.id.txt_bizLength);
@@ -130,6 +130,7 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
         spnBizSize = v.findViewById(R.id.spn_bizSize);
         btnNext = v.findViewById(R.id.btn_creditAppNext);
 
+        spnMonthOrYr.setOnItemClickListener(new OnItemClickListener(spnMonthOrYr));
         spnBizType.setOnItemClickListener(new OnItemClickListener(spnBizType));
         spnBizSize.setOnItemClickListener(new OnItemClickListener(spnBizSize));
 
@@ -164,6 +165,9 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            if (spnBizIndustry.equals(poView)) {
+                mViewModel.setBizIndustry(String.valueOf(i));
+            }
             if (spnBizType.equals(poView)) {
                 mViewModel.setBizType(String.valueOf(i));
             }
