@@ -104,8 +104,16 @@ public class SpouseSelfEmployedInfoModel {
         this.sMonthlyExps = sMonthlyExps;
     }
 
-    public void isDataValid() {
-
+    public boolean isSpouseInfoValid() {
+        return isBizIndustryValid() &&
+                isBizNameValid() &&
+                isProvIdValid() &&
+                isTownIdValid() &&
+                isBizTypeValid() &&
+                isBizSizeValid() &&
+                isBizYrsValid() &&
+                isGrossMonthlyValid() &&
+                isMonthlyExpsValid();
     }
 
     private boolean isBizIndustryValid() {
