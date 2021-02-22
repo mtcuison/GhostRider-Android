@@ -32,22 +32,22 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
     private static final String TAG = Fragment_SelfEmployedInfo.class.getSimpleName();
 
     private AutoCompleteTextView spnBussNtr,
-                    spnBussTyp,
-                    spnBussSze,
-                    spnLngSrvc;
+            spnBussTyp,
+            spnBussSze,
+            spnLngSrvc;
     private String bussNtrPosition = "-1",
             bussTypPosition = "-1",
             bussSzePosition = "-1",
             lngSrvcPosition = "-1";
 
     private TextInputEditText txtBussName,
-                    txtBussAdds,
-                    txtLnghtSrv,
-                    txtMnthlyIn,
-                    txtMnthlyEx;
+            txtBussAdds,
+            txtLnghtSrv,
+            txtMnthlyIn,
+            txtMnthlyEx;
 
     private AutoCompleteTextView txtProvnc,
-                                 txtTownxx;
+            txtTownxx;
 
     private Button btnNext, btnPrvs;
 
@@ -93,9 +93,10 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
         String TransNox = Activity_CreditApplication.getInstance().getTransNox();
         mViewModel.setTransNox(TransNox);
         mViewModel.getCreditApplicantInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
-            mViewModel.setGOCasDetailInfo(eCreditApplicantInfo);
+            mViewModel.setGOCasDetailInfo(eCreditApplicantInfo.getDetlInfo());
+            mViewModel.setMeansInfos(eCreditApplicantInfo.getAppMeans());
         });
-        mViewModel.getCreditApplicantInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setGOCasDetailInfo(eCreditApplicantInfo));
+        mViewModel.getCreditApplicantInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setGOCasDetailInfo(eCreditApplicantInfo.getDetlInfo()));
         mViewModel.getAllProvinceNames().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvnc.setAdapter(adapter);
@@ -161,8 +162,8 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
             infoModel.setBusinessAddress(Objects.requireNonNull(txtBussAdds.getText()).toString());
             infoModel.setLengthOfService(Objects.requireNonNull(txtLnghtSrv.getText()).toString());
             infoModel.setLengthOfServiceSpinner(lngSrvcPosition);
-            infoModel.setMonthlyIncome(Objects.requireNonNull(txtMnthlyIn.getText()).toString().replace(",", ""));
-            infoModel.setMonthlyExpense(Objects.requireNonNull(txtMnthlyEx.getText()).toString().replace(",", ""));
+            infoModel.setMonthlyIncome(Objects.requireNonNull(txtMnthlyIn.getText()).toString());
+            infoModel.setMonthlyExpense(Objects.requireNonNull(txtMnthlyEx.getText()).toString());
             mViewModel.SaveSelfEmployedInfo(infoModel, Fragment_SelfEmployedInfo.this);
         });
 
@@ -172,7 +173,6 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
     @Override
     public void onSaveSuccessResult(String args) {
         mViewModel.getNextPage().observe(getViewLifecycleOwner(), integer -> Activity_CreditApplication.getInstance().moveToPageNumber(integer));
-//        Activity_CreditApplication.getInstance().moveToPageNumber(5);
     }
 
     @Override

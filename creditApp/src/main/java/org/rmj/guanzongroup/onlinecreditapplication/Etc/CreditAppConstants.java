@@ -47,6 +47,14 @@ public class CreditAppConstants {
 
             new Fragment_PersonalInfo(),
             new Fragment_ResidenceInfo(),
+            new Fragment_SpouseInfo(),
+            new Fragment_SpouseResidenceInfo(),
+            new Fragment_SpouseEmploymentInfo(),
+            new Fragment_SpouseSelfEmployedInfo(),
+
+            new Fragment_MeansInfoSelection(),
+            new Fragment_PersonalInfo(),
+            new Fragment_ResidenceInfo(),
             new Fragment_MeansInfoSelection(),
             new Fragment_EmploymentInfo(),
             new Fragment_SelfEmployedInfo(),
@@ -62,10 +70,7 @@ public class CreditAppConstants {
             new Fragment_OtherInfo(),
             new Fragment_CoMaker()
     };
-    public static boolean employment_done = false;
-    public static boolean self_employment_done = false;
-    public static boolean finance_done = false;
-    public static boolean pension_done = false;
+
     public static String[] APPLICATION_TYPE = {
             "Motorcycle",
             "Sidecar",
