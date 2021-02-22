@@ -114,6 +114,7 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
         mViewModel.getNatureOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBizIndustry.setAdapter(stringArrayAdapter));
         mViewModel.getTypeOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBizType.setAdapter(stringArrayAdapter));
         mViewModel.getSizeOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBizSize.setAdapter(stringArrayAdapter));
+        mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnMonthOrYr.setAdapter(stringArrayAdapter));
     }
 
     private void initWidgets(View v) {
@@ -131,6 +132,7 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
         btnNext = v.findViewById(R.id.btn_creditAppNext);
 
         spnMonthOrYr.setOnItemClickListener(new OnItemClickListener(spnMonthOrYr));
+        spnBizIndustry.setOnItemClickListener(new OnItemClickListener(spnBizIndustry));
         spnBizType.setOnItemClickListener(new OnItemClickListener(spnBizType));
         spnBizSize.setOnItemClickListener(new OnItemClickListener(spnBizSize));
 
@@ -173,6 +175,9 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
             }
             if (spnBizSize.equals(poView)) {
                 mViewModel.setBizSize(String.valueOf(i));
+            }
+            if (spnMonthOrYr.equals(poView)) {
+                mViewModel.setMosOrYr(String.valueOf(i));
             }
         }
     }

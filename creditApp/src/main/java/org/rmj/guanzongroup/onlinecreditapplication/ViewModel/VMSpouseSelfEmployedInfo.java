@@ -35,6 +35,7 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
     private final MutableLiveData<String> psBizIndustry = new MutableLiveData<>();
     private final MutableLiveData<String> psBizType = new MutableLiveData<>();
     private final MutableLiveData<String> psBizSize = new MutableLiveData<>();
+    private final MutableLiveData<String> psMosOrYr = new MutableLiveData<>();
 
     public VMSpouseSelfEmployedInfo(@NonNull Application application) {
         super(application);
@@ -58,6 +59,10 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
 
     public void setBizSize(String bizSizeIndex) {
         this.psBizSize.setValue(bizSizeIndex);
+    }
+
+    public void setMosOrYr(String mosOrYrIndex) {
+        this.psMosOrYr.setValue(mosOrYrIndex);
     }
 
     public LiveData<ECreditApplicantInfo> getActiveGOCasApplication(){
@@ -117,7 +122,7 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
         return liveData;
     }
 
-    public LiveData<ArrayAdapter<String>> getLenghtOfService(){
+    public LiveData<ArrayAdapter<String>> getLengthOfService(){
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.LENGTH_OF_STAY);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
