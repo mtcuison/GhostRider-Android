@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
+import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SpouseSelfEmployedInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -30,6 +31,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpouseSelfEmployedInfo;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewModelCallBack {
     private static final String TAG = Fragment_SpouseSelfEmployedInfo.class.getSimpleName();
@@ -127,15 +129,19 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
         spnBizType = v.findViewById(R.id.spn_bizType);
         spnBizSize = v.findViewById(R.id.spn_bizSize);
         btnNext = v.findViewById(R.id.btn_creditAppNext);
+
+        spnBizType.setOnItemClickListener(new OnItemClickListener(spnBizType));
+        spnBizSize.setOnItemClickListener(new OnItemClickListener(spnBizSize));
+
         btnNext.setOnClickListener(view -> save());
     }
 
     private void save() {
-        infoModel.setsBizName(txtBizName.getText().toString());
-        infoModel.setsBizAddress(txtBizAddrss.getText().toString());
-        infoModel.setsBizYrs(txtBizLength.getText().toString());
-        infoModel.setsGrossMonthly(txtMonthlyInc.getText().toString());
-        infoModel.setsMonthlyExps(txtMonthlyExp.getText().toString());
+        infoModel.setsBizName(Objects.requireNonNull(txtBizName.getText().toString()));
+        infoModel.setsBizAddress(Objects.requireNonNull(txtBizAddrss.getText().toString()));
+        infoModel.setsBizYrs(Objects.requireNonNull(txtBizLength.getText().toString()));
+        infoModel.setsGrossMonthly(Objects.requireNonNull(txtMonthlyInc.getText().toString()));
+        infoModel.setsMonthlyExps(Objects.requireNonNull(txtMonthlyExp.getText().toString()));
         mViewModel.Save(infoModel, Fragment_SpouseSelfEmployedInfo.this);
     }
 
@@ -147,6 +153,24 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
     @Override
     public void onFailedResult(String message) {
 
+    }
+
+    class OnItemClickListener implements AdapterView.OnItemClickListener {
+        AutoCompleteTextView poView;
+
+        public OnItemClickListener(AutoCompleteTextView view) {
+            this.poView = view;
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            if (spnBizType.equals(poView)) {
+                mViewModel.setBizType(String.valueOf(i));
+            }
+            if (spnBizSize.equals(poView)) {
+                mViewModel.setBizSize(String.valueOf(i));
+            }
+        }
     }
 
 }

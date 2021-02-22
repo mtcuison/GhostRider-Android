@@ -32,6 +32,8 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
     private final MutableLiveData<String> psTransNo = new MutableLiveData<>();
     private final MutableLiveData<String> psProvID = new MutableLiveData<>();
     private final MutableLiveData<String> psTownID = new MutableLiveData<>();
+    private final MutableLiveData<String> psBizType = new MutableLiveData<>();
+    private final MutableLiveData<String> psBizSize = new MutableLiveData<>();
 
     public VMSpouseSelfEmployedInfo(@NonNull Application application) {
         super(application);
@@ -43,6 +45,14 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
 
     public void setTransNox(String transNox){
         this.psTransNo.setValue(transNox);
+    }
+
+    public void setBizType(String bizTypeIndex) {
+        this.psBizType.setValue(bizTypeIndex);
+    }
+
+    public void setBizSize(String bizSizeIndex) {
+        this.psBizSize.setValue(bizSizeIndex);
     }
 
     public LiveData<ECreditApplicantInfo> getActiveGOCasApplication(){
