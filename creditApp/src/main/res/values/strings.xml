@@ -39,7 +39,7 @@
     <string name="sHintAddress">Street/ Building/ Barangay</string>
     <string name="sHintPosition">Specific Job/Position</string>
     <string name="sHintJobTitle">Job Title</string>
-    <string name="sHintLenghtService">Lenght Of Service</string>
+    <string name="sHintLenghtService">Length Of Service</string>
     <string name="sHintMonthlyIncome">Monthly Income (Required)</string>
     <string name="sHintCompanyContact">Company Contact (Required)</string>
     <string name="sHintCountryNm">Country Name</string>
