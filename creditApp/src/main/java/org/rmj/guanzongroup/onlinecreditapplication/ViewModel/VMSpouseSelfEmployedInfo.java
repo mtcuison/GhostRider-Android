@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -15,6 +16,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SpouseSelfEmployedInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -79,10 +81,42 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
         this.psTownID.setValue(ID);
     }
 
+    public LiveData<ArrayAdapter<String>> getNatureOfBusiness(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.BUSINESS_NATURE);
+        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
+        liveData.setValue(adapter);
+        return liveData;
+    }
+
+    public LiveData<ArrayAdapter<String>> getTypeOfBusiness(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.BUSINESS_TYPE);
+        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
+        liveData.setValue(adapter);
+        return liveData;
+    }
+
+    public LiveData<ArrayAdapter<String>> getSizeOfBusiness(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.BUSINESS_SIZE);
+        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
+        liveData.setValue(adapter);
+        return liveData;
+    }
+
+    public LiveData<ArrayAdapter<String>> getLenghtOfService(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.LENGTH_OF_STAY);
+        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
+        liveData.setValue(adapter);
+        return liveData;
+    }
+
     public void Save(SpouseSelfEmployedInfoModel infoModel, ViewModelCallBack callBack) {
         try {
             if(infoModel.isSpouseInfoValid()) {
                 // TODO: SAVING to Local Database
+//                poGoCas.SpouseMeansInfo().SelfEmployedInfo()
+            }
+            else {
+                callBack.onFailedResult(infoModel.getsMsg());
             }
         }
         catch(Exception e) {
