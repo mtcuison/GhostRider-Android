@@ -221,7 +221,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
 
     @Override
     public void onSaveSuccessResult(String args) {
-        Activity_CreditApplication.getInstance().moveToPageNumber(4);
+        Activity_CreditApplication.getInstance().moveToPageNumber(5);
     }
 
     @Override

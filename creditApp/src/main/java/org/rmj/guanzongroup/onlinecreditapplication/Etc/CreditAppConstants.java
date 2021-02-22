@@ -47,6 +47,14 @@ public class CreditAppConstants {
 
             new Fragment_PersonalInfo(),
             new Fragment_ResidenceInfo(),
+            new Fragment_SpouseInfo(),
+            new Fragment_SpouseResidenceInfo(),
+            new Fragment_SpouseEmploymentInfo(),
+            new Fragment_SpouseSelfEmployedInfo(),
+
+            new Fragment_MeansInfoSelection(),
+            new Fragment_PersonalInfo(),
+            new Fragment_ResidenceInfo(),
             new Fragment_MeansInfoSelection(),
             new Fragment_EmploymentInfo(),
             new Fragment_SelfEmployedInfo(),
@@ -190,7 +198,6 @@ public class CreditAppConstants {
             "Seasonal"};
 
     public static String[] BUSINESS_SIZE = {
-            "Select Size of Business (Required)",
             "Micro 1 (Less than 10,000 Income/Month)",
             "Micro 2 (Less than 50,000 Income/Month)",
             "Micro 3 (Less than 100,000 Income/Month)",
@@ -198,6 +205,14 @@ public class CreditAppConstants {
             "Medium (Less than 1,000,000 Income/Month)",
             "Large (More than 1,000,000 Income/Month)"};
 
+    public static String[] BUSINESS_TYPE = {
+            "Sole",
+            "Partnership",
+            "Corporation"};
+
+    public static String[] PENSION_SECTOR = {
+            "Government",
+            "Private"};
 
     public static String[] ACCOUNT_TYPE = {
             "Checkings",
@@ -285,4 +300,13 @@ public class CreditAppConstants {
             "Self-Employed",
             "With-Financer",
             "Pensioner"};
+
+    public static String[] FINANCE_SOURCE = {
+            "Children",
+            "Parents",
+            "Siblings",
+            "Relatives",
+            "Others"};
+
+
 }
