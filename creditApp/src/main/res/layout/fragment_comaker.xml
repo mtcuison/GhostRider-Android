@@ -574,7 +574,8 @@
                             android:id="@+id/til_cap_cmrTertiaryCntctStats"
                             style="@style/CustomDropDownTilStyle"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:hint="Sim Type">
                             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                                 android:id="@+id/spinner_cap_cmrTertiaryCntctStats"
                                 android:layout_width="match_parent"

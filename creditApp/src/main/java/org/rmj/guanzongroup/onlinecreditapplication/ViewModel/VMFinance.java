@@ -87,10 +87,15 @@ public class VMFinance extends AndroidViewModel {
             e.printStackTrace();
         }
     }
+
     public LiveData<Integer> getNextPage(){
         MutableLiveData<Integer> loPage = new MutableLiveData<>();
         try {
-            if(poJson.getValue().getString("pensionx").equalsIgnoreCase("1")) {
+            if(poJson.getValue().getString("employed").equalsIgnoreCase("1") &&  CreditAppConstants.employment_done == false) {
+                loPage.setValue(3);
+            } else if(poJson.getValue().getString("sEmplyed").equalsIgnoreCase("1")  &&  CreditAppConstants.self_employment_done == false) {
+                loPage.setValue(4);
+            } else if(poJson.getValue().getString("pensionx").equalsIgnoreCase("1")  &&  CreditAppConstants.pension_done == false) {
                 loPage.setValue(6);
             } else if(poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1") ||
                     poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("5")){

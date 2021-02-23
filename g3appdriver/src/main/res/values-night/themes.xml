@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
     <style name="GhostRiderMaterialTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/guanzon_orange</item>
+        <item name="colorPrimary">@color/material_black</item>
+        <item name="colorPrimaryVariant">@color/material_white</item>
+        <item name="colorOnPrimary">@color/textColor_Black</item>
+        <!--        <item name="colorAccent">@color/light_grey</item>-->
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/guanzon_orange</item>
+        <item name="colorSecondaryVariant">@color/textColor_Orange</item>
+        <item name="colorOnSecondary">@color/textColor_White</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
     </style>
     <style name="GhostRiderMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -38,8 +46,8 @@
         <item name="android:textAllCaps">false</item>
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:radius">5dp</item>
-        <item name="backgroundTint">#e2e2e2</item>
-        <item name="android:textColor">@color/textColor_Black</item>
+        <item name="backgroundTint">#9d9d9d</item>
+        <item name="android:textColor">@color/material_black</item>
     </style>
 
     <style name="MaterialButtonAccent" parent="Widget.MaterialComponents.Button">

@@ -286,7 +286,7 @@
                     style="@style/CustomDropDownTilStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Select Households (Required)"
+                    android:hint="Households (Required)"
                     android:layout_weight="1">
                     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                         android:id="@+id/spn_houseHold"
@@ -306,7 +306,7 @@
                     style="@style/CustomDropDownTilStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Select House Type (Required)"
+                    android:hint="House Type (Required)"
                     android:layout_weight="1">
                     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                         android:id="@+id/spn_houseType"
@@ -362,11 +362,6 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/HeaderLabelBlack"
-            android:text="@string/sLabelPermAddress"/>
 
         <LinearLayout
             android:id="@+id/linear_permanentAdd"
@@ -374,6 +369,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/HeaderLabelBlack"
+                android:text="@string/sLabelPermAddress"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

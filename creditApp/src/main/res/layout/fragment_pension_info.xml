@@ -25,7 +25,7 @@
                 android:focusable="false"
                 android:padding="16dp"
                 android:cursorVisible="false"
-                android:hint="Select Pension Sector"
+                android:hint="Pension Sector"
                 android:clickable="false"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>

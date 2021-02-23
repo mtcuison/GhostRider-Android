@@ -24,7 +24,7 @@
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Select Unit User">
+            android:hint="Unit User">
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/spinner_cap_unitUser"
                 android:layout_width="match_parent"
@@ -41,7 +41,7 @@
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Select Other User">
+            android:hint="Other User">
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/spinner_cap_sUsr2buyr"
                 android:layout_width="match_parent"
@@ -75,7 +75,7 @@
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Select Unit Purpose">
+            android:hint="Unit Purpose">
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/spinner_cap_purposeOfBuying"
                 android:layout_width="match_parent"
@@ -102,7 +102,7 @@
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Select Unit Payer">
+            android:hint="Unit Payer">
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/spinner_cap_monthlyPayer"
                 android:layout_width="match_parent"
@@ -118,7 +118,7 @@
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Select other payer">
+            android:hint="Other Payer">
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/spinner_cap_sPyr2Buyr"
                 android:layout_width="match_parent"
@@ -152,16 +152,17 @@
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Select Unit Payer">
+            android:hint="Where do you hear about us?">
+
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/spinner_cap_source"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:padding="16dp"
-                android:cursorVisible="false"
                 android:clickable="false"
-                android:inputType="none" />
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:inputType="none"
+                android:padding="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
 <!--        <Spinner-->
 <!--            android:id="@+id/spinner_cap_source"-->
