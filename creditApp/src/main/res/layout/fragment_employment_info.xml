@@ -126,7 +126,7 @@
                 android:focusable="false"
                 android:padding="16dp"
                 android:cursorVisible="false"
-                android:hint="Select Company Level (Required)"
+                android:hint="Company Level (Required)"
                 android:clickable="false"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -142,7 +142,7 @@
                 android:focusable="false"
                 android:padding="16dp"
                 android:cursorVisible="false"
-                android:hint="Select Employee Level (Required)"
+                android:hint="Employee Level (Required)"
                 android:clickable="false"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -194,7 +194,7 @@
                 android:focusable="false"
                 android:padding="16dp"
                 android:cursorVisible="false"
-                android:hint="Select Nature of Business (Required)"
+                android:hint="Nature of Business (Required)"
                 android:clickable="false"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -315,7 +315,7 @@
                     android:focusable="false"
                     android:padding="16dp"
                     android:cursorVisible="false"
-                    android:hint="Select Employment Status (Required)"
+                    android:hint="Employment Status (Required)"
                     android:clickable="false"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -352,7 +352,7 @@
                         android:focusable="false"
                         android:padding="16dp"
                         android:cursorVisible="false"
-                        android:hint="Select Length of Stay (Required)"
+                        android:hint="Length of Stay (Required)"
                         android:clickable="false"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>

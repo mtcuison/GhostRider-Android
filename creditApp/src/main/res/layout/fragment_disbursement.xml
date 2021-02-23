@@ -101,7 +101,7 @@
                android:focusable="false"
                android:padding="16dp"
                android:cursorVisible="false"
-               android:hint="Select Account Type"
+               android:hint="Account Type"
                android:clickable="false"
                android:inputType="none" />
        </com.google.android.material.textfield.TextInputLayout>

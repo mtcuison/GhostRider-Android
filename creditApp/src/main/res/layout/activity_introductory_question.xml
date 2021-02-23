@@ -97,7 +97,7 @@
                     style="@style/CustomDropDownTilStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Select Loan Unit">
+                    android:hint="Loan Unit">
                     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                         android:id="@+id/spn_applicationType"
                         android:layout_width="match_parent"
@@ -113,7 +113,7 @@
                     style="@style/CustomDropDownTilStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Select Customer Type">
+                    android:hint="Customer Type">
                     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                         android:id="@+id/spn_customerType"
                         android:layout_width="match_parent"
@@ -207,7 +207,7 @@
                     style="@style/CustomDropDownTilStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Select Installment Term (Required)">
+                    android:hint="Installment Term (Required)">
                     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                         android:id="@+id/spn_installmentTerm"
                         android:layout_width="match_parent"

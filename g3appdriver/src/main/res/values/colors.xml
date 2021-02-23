@@ -30,5 +30,5 @@
     <color name="spinner_background">#FBFBFB</color>
 
     <color name="light_red">#ff3333</color>
-    <color name="hint_color">#8C8C8C</color>
+    <color name="hint_color">#dadada</color>
 </resources>

@@ -10,6 +10,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EOccupationInfo;
@@ -37,6 +39,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
     private final RCreditApplicant poCredtAp;
     private final GOCASApplication poGoCasxx;
 
+    private final MutableLiveData<JSONObject> poJson = new MutableLiveData<>();
     private final MutableLiveData<ECreditApplicantInfo> poInfo = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNo = new MutableLiveData<>();
     private final MutableLiveData<String> psSectorx = new MutableLiveData<>();
@@ -81,6 +84,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
         try{
             poInfo.setValue(foInfo);
             poGoCasxx.setData(foInfo.getDetlInfo());
+            setMeansInfos(foInfo.getAppMeans());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -101,7 +105,13 @@ public class VMEmploymentInfo extends AndroidViewModel {
         }
         this.psSectorx.setValue(sector);
     }
-
+    public void setMeansInfos(String foJson){
+        try{
+            poJson.setValue(new JSONObject(foJson));
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
     public void setPsCmpLvl(String compLvl){
         this.psCmpLvl.setValue(compLvl);
     }
@@ -293,5 +303,27 @@ public class VMEmploymentInfo extends AndroidViewModel {
             e.printStackTrace();
             callBack.onFailedResult(e.getMessage());
         }
+    }
+
+    public LiveData<Integer> getNextPage(){
+        MutableLiveData<Integer> loPage = new MutableLiveData<>();
+        try {
+            if(poJson.getValue().getString("sEmplyed").equalsIgnoreCase("1") &&  CreditAppConstants.self_employment_done == false) {
+                loPage.setValue(4);
+            } else if(poJson.getValue().getString("financer").equalsIgnoreCase("1")  &&  CreditAppConstants.finance_done == false) {
+                loPage.setValue(5);
+            } else if(poJson.getValue().getString("pensionx").equalsIgnoreCase("1")  &&  CreditAppConstants.pension_done == false) {
+                loPage.setValue(6);
+            } else if(poGoCasxx.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1") ||
+                    poGoCasxx.ApplicantInfo().getCivilStatus().equalsIgnoreCase("5")){
+                loPage.setValue(7);
+            } else {
+                loPage.setValue(12);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return loPage;
     }
 }

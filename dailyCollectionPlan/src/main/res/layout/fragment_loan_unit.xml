@@ -367,6 +367,9 @@
         android:orientation="vertical"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp">
+
+        
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/CustomDropDownTilStyle"
             android:theme="@style/spinnerTheme"
