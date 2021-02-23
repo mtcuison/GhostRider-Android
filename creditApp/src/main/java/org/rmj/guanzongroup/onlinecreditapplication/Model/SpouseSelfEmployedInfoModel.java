@@ -1,6 +1,8 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
-public class SpouseSelfEmployedInfoModel {
+import org.rmj.g3appdriver.GRider.Etc.InputChecker;
+
+public class SpouseSelfEmployedInfoModel extends InputChecker {
 
     private String sMsg;
 
@@ -205,16 +207,6 @@ public class SpouseSelfEmployedInfoModel {
         if(isStringAllZero(sMonthlyExps) || sMonthlyExps.trim().isEmpty()) {
             sMsg = "Please enter estimated monthly expenses.";
             return false;
-        }
-        return true;
-    }
-
-    private boolean isStringAllZero(String checkStr) {
-        char[] charSplit = checkStr.trim().toCharArray();
-        for(char i : charSplit) {
-            if(i != '0') {
-                return false;
-            }
         }
         return true;
     }
