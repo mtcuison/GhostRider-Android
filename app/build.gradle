@@ -65,4 +65,5 @@ dependencies {
     implementation project(':dailyCollectionPlan')
 //    implementation project(':documentScanner')
     implementation project(':appdriver') //implement GhostRider Application Driver
+    implementation project(':json-simple-1.1.1') //implement json simple
 }
