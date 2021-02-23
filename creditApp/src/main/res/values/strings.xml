@@ -45,7 +45,7 @@
     <string name="sHintCountryNm">Country Name</string>
     <string name="sLabelYes">Yes</string>
     <string name="sLabelNo">No</string>
-<!--    <string name="sHeaderLabelSector">Employment Sector</string>-->
+    <!--    <string name="sHeaderLabelSector">Employment Sector</string>-->
     <string name="sHeaderLabelSector">Is dependent employed?</string>
     <string name="sHeaderLabelEmploymentTypeSector">Employment Type</string>
     <string name="sHeaderLabelSpouseEmploymentTypeSector">Spouse Employment Type</string>
@@ -99,4 +99,6 @@
     <string name="header_creditApp_birthdayInfo">BIRTHDATE</string>
     <string name="header_creditApp_contact">CONTACT</string>
     <string name="hint_creditApp_maidenName">Applicant\'s Maiden Name</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

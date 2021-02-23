@@ -150,7 +150,7 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
 
     @Override
     public void onSaveSuccessResult(String args) {
-        GToast.CreateMessage(getActivity(), "S U x X e S s", GToast.INFORMATION).show();
+        Activity_CreditApplication.getInstance().moveToPageNumber(6);
     }
 
     @Override
