@@ -11,18 +11,18 @@ public class SpousePensionInfoModelTest extends TestCase {
     private static final String EMPTY_STRING= "";
     private static final String STRING_ZERO = "0";
     private static final String STRING_ONE = "1";
-    private static final String FAKE_AMOUNT = "12000";
-    private static final String FAKE_YEAR = "1900";
+    private static final long FAKE_AMOUNT = 12000;
+    private static final int FAKE_YEAR = 1900;
     private static final String FAKE_INCOME_SOURCE = "Business";
 
     @Before
     public void setUp() {
         testObj = new SpousePensionInfoModel();
         testObj.setsPensionSector(STRING_ZERO);
-        testObj.setsPensionAmt(FAKE_AMOUNT);
-        testObj.setsRetirementYr(FAKE_YEAR);
+        testObj.setsPensionAmt(String.valueOf(FAKE_AMOUNT));
+        testObj.setsRetirementYr(String.valueOf(FAKE_YEAR));
         testObj.setsOtherSrc(FAKE_INCOME_SOURCE);
-        testObj.setsOtherSrcIncx(FAKE_AMOUNT);
+        testObj.setsOtherSrcIncx(String.valueOf(FAKE_AMOUNT));
     }
 
     @Test

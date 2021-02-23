@@ -23,16 +23,16 @@ public class SpousePensionInfoModel extends InputChecker {
         this.sPensionSector = sPensionSector;
     }
 
-    public String getsPensionAmt() {
-        return sPensionAmt;
+    public long getsPensionAmt() {
+        return Long.parseLong(sPensionAmt);
     }
 
     public void setsPensionAmt(String sPensionAmt) {
         this.sPensionAmt = sPensionAmt;
     }
 
-    public String getsRetirementYr() {
-        return sRetirementYr;
+    public int getsRetirementYr() {
+        return Integer.parseInt(sRetirementYr);
     }
 
     public void setsRetirementYr(String sRetirementYr) {
@@ -47,8 +47,8 @@ public class SpousePensionInfoModel extends InputChecker {
         this.sOtherSrc = sOtherSrc;
     }
 
-    public String getsOtherSrcIncx() {
-        return sOtherSrcIncx;
+    public long getsOtherSrcIncx() {
+        return Long.parseLong(sOtherSrcIncx);
     }
 
     public void setsOtherSrcIncx(String sOtherSrcIncx) {
