@@ -3,89 +3,99 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingHorizontal="10dp"
-    android:paddingVertical="3dp">
-
-    <ImageView
-        android:id="@+id/img_messageSender"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_weight="3.5"
-        android:src="@drawable/ic_user_profile"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:layout_marginTop="5dp"/>
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="3dp">
+        <ImageView
+            android:id="@+id/img_messageSender"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_weight="3.5"
+            android:src="@drawable/ic_user_profile"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="5dp"/>
 
-        <TextView
-            android:id="@+id/lbl_messageSender"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Data Requirements"
-            android:textSize="16sp"
-            android:textColor="@color/textColor_Black"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:fontFamily="@font/roboto_medium"
-            android:layout_marginBottom="3dp"/>
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-        <TextView
-            android:id="@+id/lbl_messageTitle"
+            <TextView
+                android:id="@+id/lbl_messageSender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Data Requirements"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_Black"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginBottom="3dp"/>
+
+            <TextView
+                android:id="@+id/lbl_messageTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="The set of data that is involved in any project is defined using data requirements."
+                android:textColor="@color/textColor_Black"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"/>
+
+            <TextView
+                android:id="@+id/lbl_messageBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="The set of data that is involved in any project is defined using data requirements."
+                android:textColor="@color/material_black"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_regular"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="The set of data that is involved in any project is defined using data requirements."
-            android:textColor="@color/textColor_Black"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:fontFamily="@font/roboto_medium"/>
+            android:layout_height="match_parent"
+            android:layout_weight="3.5"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/lbl_messageBody"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="The set of data that is involved in any project is defined using data requirements."
-            android:textColor="@color/material_black"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:fontFamily="@font/roboto_regular"/>
+            <TextView
+                android:id="@+id/lbl_messageDateTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dec 12"
+                android:textColor="@color/textColor_Black"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="3dp"/>
 
+            <ImageButton
+                android:id="@+id/btn_messageAction"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_item_more"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <!--    NOTIFICATION DIVIDER-->
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="3.5"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/lbl_messageDateTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Dec 12"
-            android:textColor="@color/textColor_Black"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:gravity="end"
-            android:fontFamily="@font/roboto_medium"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="3dp"/>
-
-        <ImageButton
-            android:id="@+id/btn_messageAction"
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_item_more"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"/>
-
-    </RelativeLayout>
-
+        android:layout_height=".5dp"
+        android:background="@color/hint_color"/>
 </LinearLayout>

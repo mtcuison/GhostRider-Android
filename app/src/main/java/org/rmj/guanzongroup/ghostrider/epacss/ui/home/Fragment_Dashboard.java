@@ -27,6 +27,7 @@ import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
+import org.rmj.guanzongroup.ghostrider.epacss.Activity.SettingsActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.SplashScreenActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.Dialog.DialogUserProfile;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
@@ -36,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
+import static org.rmj.guanzongroup.ghostrider.epacss.ui.HomeContainer.Fragment_MainContainer.moveToPageNumber;
 
 public class Fragment_Dashboard extends Fragment {
 
@@ -70,6 +72,7 @@ public class Fragment_Dashboard extends Fragment {
         cvProfile = view.findViewById(R.id.cvProfile);
         cvMessages = view.findViewById(R.id.cvMessages);
         cvNotif = view.findViewById(R.id.cvNotif);
+        cvSettings = view.findViewById(R.id.cvAppSettings);
         cvLogout = view.findViewById(R.id.cvUserLogout);
         cvSelfie = view.findViewById(R.id.cvSelfieLogin);
         return view;
@@ -97,6 +100,10 @@ public class Fragment_Dashboard extends Fragment {
         });
         cvNotif.setOnClickListener(v ->{  Intent intent = new Intent(getActivity(),Activity_NotificationList.class);
             intent.putExtra("type", "Notifications");
+            startActivity(intent);
+        });
+        cvSettings.setOnClickListener(v ->{
+            Intent intent = new Intent(getActivity(), SettingsActivity.class);
             startActivity(intent);
         });
         cvLogout.setOnClickListener(v ->{

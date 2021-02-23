@@ -24,4 +24,7 @@
 
     <string name="button_login">Login</string>
     <string name="button_send_verification">Send Verification</string>
+
+    <string name="darkmode_summary">Dark Theme Mode On</string>
+    <string name="lightmode_summary">Dark Theme Mode Off</string>
 </resources>

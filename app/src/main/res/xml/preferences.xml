@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreferenceCompat
+        app:key="themePrefs"
+        app:icon="@drawable/ic_theme"
+        app:title="Dark theme"
+        app:iconSpaceReserved="false"
+        app:defaultValue="false"
+        android:summaryOn="@string/darkmode_summary"
+        android:summaryOff="@string/lightmode_summary"/>
+    <Preference
+        android:title="App Permison"
+        app:key="appPermission">
+        <intent android:action="android.intent.action.VIEW"
+            />
+    </Preference>
+</androidx.preference.PreferenceScreen>

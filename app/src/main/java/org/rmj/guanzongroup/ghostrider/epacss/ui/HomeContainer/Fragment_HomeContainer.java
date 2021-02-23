@@ -23,14 +23,14 @@ public class Fragment_HomeContainer extends Fragment {
     private VMHomeContainer galleryViewModel;
 
 //    private final Fragment[] fragment = {new Fragment_Home(),new Fragment_MessageList(), new Fragment_NotificationList()};
-    private final Fragment[] fragment = {new Fragment_Dashboard(),new Fragment_MessageList(), new Fragment_NotificationList()};
+    private final Fragment[] fragment = {new Fragment_Dashboard(),new Fragment_MessageList(),new Fragment_NotificationList()};
 
     private final int[] toggled_icons = {R.drawable.ic_home_dashboard_toggled,
-                                        R.drawable.ic_home_message_toggled,
+                                        R.drawable.ic_baseline_settings_24,
                                         R.drawable.ic_home_notification_toggled};
 
     private final int[] icons = {R.drawable.ic_home_dashboard,
-                                R.drawable.ic_home_message,
+                                R.drawable.ic_baseline_settings_24,
                                 R.drawable.ic_home_notification};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
