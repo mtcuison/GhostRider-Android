@@ -13,10 +13,33 @@
         android:gravity="center"
         android:padding="5dp">
 
-        <Spinner
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"/>
+            style="@style/HeaderLabelBlack"
+            android:text="@string/sLabelSpousePension"/>
+
+        <RadioGroup
+            android:id="@+id/rg_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_government"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sLabelGovernment"/>
+
+            <RadioButton
+                android:id="@+id/rb_private"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sLabelPrivate"/>
+
+        </RadioGroup>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -25,9 +48,13 @@
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_pension_amt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="100"/>
+                android:maxLength="15"
+                android:inputType="number|none"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="txt_retirement_yr"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -37,9 +64,13 @@
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_retirement_yr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="100"/>
+                android:maxLength="4"
+                android:inputType="number|none"
+                android:imeOptions="actionDone"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -55,9 +86,13 @@
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_other_source"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="100"/>
+                android:maxLength="50"
+                android:inputType="textCapWords"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="txt_other_source_income"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -67,9 +102,12 @@
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_other_source_income"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="100"/>
+                android:maxLength="15"
+                android:inputType="number|none"
+                android:imeOptions="actionDone"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
