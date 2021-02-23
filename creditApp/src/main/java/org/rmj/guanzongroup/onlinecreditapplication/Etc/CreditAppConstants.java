@@ -308,5 +308,10 @@ public class CreditAppConstants {
             "Relatives",
             "Others"};
 
+    public static boolean employment_done = false;
+    public static boolean self_employment_done = false;
+    public static boolean finance_done = false;
+    public static boolean pension_done = false;
+
 
 }
