@@ -7,7 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
-import com.example.imgcapture.DCPPhotoCapture;
+import org.rmj.guanzongroup.ghostrider.imgcapture.DCPPhotoCapture;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;

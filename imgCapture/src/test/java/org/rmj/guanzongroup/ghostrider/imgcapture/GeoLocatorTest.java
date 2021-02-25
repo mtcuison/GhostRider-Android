@@ -1,4 +1,4 @@
-package com.example.imgcapture;
+package org.rmj.guanzongroup.ghostrider.imgcapture;
 
 import android.app.Activity;
 import android.content.Context;
