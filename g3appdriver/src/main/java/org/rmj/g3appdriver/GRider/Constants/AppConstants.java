@@ -55,6 +55,9 @@ public class AppConstants {
         return loJson.toString();
     }
 
+    public static final int LOCATION_REQUEST = 1000;
+    public static final int GPS_REQUEST = 1001;
+
     public static int LOGIN_ACTIVITY_REQUEST_CODE = 143;
 
     public static int INVENTORY_REQUEST_CODE = 129;
