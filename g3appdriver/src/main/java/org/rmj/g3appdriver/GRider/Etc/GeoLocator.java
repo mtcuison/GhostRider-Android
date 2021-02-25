@@ -43,9 +43,7 @@ public class GeoLocator {
 
     public void GetLocation(){
 
-
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-
 
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
@@ -67,7 +65,7 @@ public class GeoLocator {
 
                 Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                Location location2 = locationManager.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
+                Location location2 = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
                 if (location != null) {
                     double latti = location.getLatitude();
