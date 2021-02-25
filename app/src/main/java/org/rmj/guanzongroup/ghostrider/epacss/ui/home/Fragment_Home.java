@@ -15,8 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.imgcapture.ImageFileCreator;
-import com.example.imgcapture.database.DatabaseHelper;
+import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
+import org.rmj.guanzongroup.ghostrider.imgcapture.database.DatabaseHelper;
 
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.dev.DeptCode;

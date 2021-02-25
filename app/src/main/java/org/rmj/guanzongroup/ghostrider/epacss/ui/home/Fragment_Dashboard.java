@@ -18,8 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.imgcapture.ImageFileCreator;
-import com.example.imgcapture.database.DatabaseHelper;
+import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
+import org.rmj.guanzongroup.ghostrider.imgcapture.database.DatabaseHelper;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
@@ -37,7 +37,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
-import static org.rmj.guanzongroup.ghostrider.epacss.ui.HomeContainer.Fragment_MainContainer.moveToPageNumber;
 
 public class Fragment_Dashboard extends Fragment {
 
