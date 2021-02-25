@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -144,6 +145,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void scheduleJob(){
         ComponentName loComp = new ComponentName(this, DataImportService.class);
+        @SuppressLint("MissingPermission")
         JobInfo loJob = new JobInfo.Builder(AppConstants.JOB_ID, loComp)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .setPersisted(true)
