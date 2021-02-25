@@ -1,4 +1,4 @@
-package com.example.imgcapture;
+package org.rmj.guanzongroup.ghostrider.imgcapture;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,11 +8,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.imgcapture.database.DatabaseHelper;
+import com.example.imgcapture.R;
+
+import org.rmj.guanzongroup.ghostrider.imgcapture.database.DatabaseHelper;
 import com.google.android.material.button.MaterialButton;
 
 public class DCPPhotoCapture extends AppCompatActivity {

@@ -1,12 +1,10 @@
-package com.example.imgcapture;
+package org.rmj.guanzongroup.ghostrider.imgcapture;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -16,7 +14,6 @@ import androidx.core.content.FileProvider;
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

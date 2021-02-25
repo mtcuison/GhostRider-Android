@@ -3,7 +3,7 @@
     package="com.example.imgcapture">
 
     <application>
-        <activity android:name=".DCPPhotoCapture" />
+        <activity android:name="org.rmj.guanzongroup.ghostrider.imgcapture.DCPPhotoCapture" />
     </application>
 
 </manifest>

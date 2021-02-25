@@ -1,4 +1,4 @@
-package com.example.imgcapture.database.model;
+package org.rmj.guanzongroup.ghostrider.imgcapture.database.model;
 
 public class Model_PhotoCapture {
     public static final String TABLE_NAME = "tbl_photoCapture";
