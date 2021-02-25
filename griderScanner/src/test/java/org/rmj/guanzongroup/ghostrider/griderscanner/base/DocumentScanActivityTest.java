@@ -2,62 +2,35 @@ package org.rmj.guanzongroup.ghostrider.griderscanner.base;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.PointF;
-import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.util.Log;
 
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RawRes;
-import androidx.core.app.ComponentActivity;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.runner.AndroidJUnit4;
 
-import com.example.imgcapture.ImageFileCreator;
+import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.exceptions.base.MockitoException;
-import org.rmj.guanzongroup.ghostrider.griderscanner.GriderScanner;
 import org.rmj.guanzongroup.ghostrider.griderscanner.ImageCrop;
-import org.rmj.guanzongroup.ghostrider.griderscanner.R;
 import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowBitmap;
-import org.robolectric.shadows.ShadowBitmapFactory;
-import org.robolectric.shadows.ShadowToast;
 
 import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-import java.util.Objects;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.RETURNS_DEFAULTS;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.rmj.guanzongroup.ghostrider.griderscanner.ImageCrop.cropImage;
-import static org.rmj.guanzongroup.ghostrider.griderscanner.ImageCrop.holderImageCrop;
 import static org.robolectric.Shadows.shadowOf;
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest=Config.NONE)
