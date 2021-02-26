@@ -42,7 +42,7 @@ public interface DTownInfo {
     @Query("SELECT * FROM Town_Info WHERE sTownIDxx = :townID")
     LiveData<ETownInfo> getTownNameAndProvID(String townID);
 
-    @Query("SELECT a.sTownIDxx, a.sTownName, b.sProvName " +
+    @Query("SELECT a.sTownIDxx, b.sProvIDxx, a.sTownName, b.sProvName " +
             "FROM Town_Info a " +
             "LEFT JOIN Province_Info b " +
             "ON a.sProvIDxx = b.sProvIDxx")
@@ -50,6 +50,7 @@ public interface DTownInfo {
 
     class TownProvinceInfo{
         public String sTownIDxx;
+        public String sProvIDxx;
         public String sTownName;
         public String sProvName;
     }

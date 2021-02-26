@@ -72,4 +72,40 @@ public class DCP_Constants {
     public static double varLatitude;
     public static double varLongitude;
     public static boolean saveStorage=false;
+
+    public static String getRemarksCode(String fsCode){
+        switch (fsCode){
+            case "PAY":
+                return "Paid";
+            case "PTP":
+                return "Promise to Pay";
+            case "CNA":
+                return "Customer Not Around";
+            case "FLA":
+                return "For Legal Action";
+            case "Car":
+                return "Carnap";
+            case "UNC":
+                return "Uncooperative";
+            case "MCs":
+                return "Missing Customer";
+            case "MUn":
+                return "Missing Unit";
+            case "MCU":
+                return "Missing Client and Unit";
+            case "LUn":
+                return "Loan Unit";
+            case "TA":
+                return "Transferred/Assumed";
+            case "FO":
+                return "False Ownership";
+            case "DNP":
+                return "Did Not Pay";
+            case "NV":
+                return "Not Visited";
+            case "OTH":
+                return "Others";
+        }
+        return "";
+    }
 }

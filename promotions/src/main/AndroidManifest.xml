@@ -3,6 +3,9 @@
     package="org.rmj.guanzongroup.promotions">
 
     <application>
+        <activity android:name=".Activity_RaffleEntry"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"/>
     </application>
 
 </manifest>

@@ -15,6 +15,8 @@ import org.json.simple.parser.ParseException;
 import org.rmj.apprdiver.util.WebClient;
 import org.rmj.apprdiver.util.WebFile;
 
+import java.io.File;
+
 public class WebFileServer {
     public static final String TAG = "WebFileServer";
 
@@ -128,5 +130,13 @@ public class WebFileServer {
                 fsSourceCd,
                 fsSourceNo,
                 fsUniqueVl);
+    }
+
+    public static String createMD5Hash(String FilePath) {
+        File file = new File(FilePath);
+        if(file.exists())
+            return WebFile.md5Hash(FilePath);
+        else
+            return "";
     }
 }

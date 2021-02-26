@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_CustomerNotAround;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_IncTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_LoanUnit;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PaidTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PromiseToPay;
@@ -98,6 +99,14 @@ public class Activity_Transaction extends AppCompatActivity {
             return new Fragment_CustomerNotAround();
         } else if(transaction.equalsIgnoreCase("Loan Unit")){
             return new Fragment_LoanUnit();
+        } else if(transaction.equalsIgnoreCase("Carnap") ||
+                transaction.equalsIgnoreCase("Uncooperative") ||
+                transaction.equalsIgnoreCase("Missing Customer") ||
+                transaction.equalsIgnoreCase("Missing Unit") ||
+                transaction.equalsIgnoreCase("Missing Client and Unit") ||
+                transaction.equalsIgnoreCase("Did Not Pay") ||
+                transaction.equalsIgnoreCase("Others")){
+            return new Fragment_IncTransaction();
         }
         return null;
     }
