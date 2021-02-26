@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.Fragment_IncTransaction"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/img_userSelfie"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:src="@drawable/ic_guanzon_logo"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/lbl_customerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/roboto_black"
+            android:textColor="@color/material_black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/lbl_AccountNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/material_black" />
+
+        <TextView
+            android:id="@+id/lbl_transaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/material_black" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_postTransaction"
+            style="@style/MaterialButtonAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Post Transaction" />
+
+    </LinearLayout>
+
+</RelativeLayout>

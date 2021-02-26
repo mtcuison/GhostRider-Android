@@ -55,17 +55,18 @@ public class Activity_RaffleEntry extends AppCompatActivity implements RaffleEnt
             lblbranch.setText(eBranchInfo.getBranchNm());
             lblAddrss.setText(eBranchInfo.getAddressx());
         });
-        //get the latest entries of raffle entry to valid if the current entry is already exist.
-        mViewModel.getDuplicateEntry(txtName.getText().toString(),
-                sReferCde,
-                txtDocuNo.getText().toString(),
-                txtMobileNo.getText().toString()).observe(this, eRaffleInfos -> {
-            if(!(eRaffleInfos.size() > 0)){
-                mViewModel.submit(voucher, Activity_RaffleEntry.this);
-            } else {
-                Toast.makeText(Activity_RaffleEntry.this, "Entry is already existed.", Toast.LENGTH_SHORT).show();
-            }
-        });
+
+//        get the latest entries of raffle entry to valid if the current entry is already exist.
+//        mViewModel.getDuplicateEntry(txtName.getText().toString(),
+//                sReferCde,
+//                txtDocuNo.getText().toString(),
+//                txtMobileNo.getText().toString()).observe(this, eRaffleInfos -> {
+//            if(!(eRaffleInfos.size() > 0)){
+//                mViewModel.submit(voucher, Activity_RaffleEntry.this);
+//            } else {
+//                Toast.makeText(Activity_RaffleEntry.this, "Entry is already existed.", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         btnSubmit.setOnClickListener(view -> {
             String lsBranchCode = AppData.getInstance(Activity_RaffleEntry.this).getBranchCode();
@@ -75,8 +76,7 @@ public class Activity_RaffleEntry extends AppCompatActivity implements RaffleEnt
             voucher.setDocumentNoxx(Objects.requireNonNull(txtDocuNo.getText()).toString());
             voucher.setBranchCodexx(lsBranchCode);
             voucher.setDocumentType(sReferCde);
-
-
+            mViewModel.submit(voucher, Activity_RaffleEntry.this);
         });
 
         mViewModel.getTownProvinceInfo().observe(Activity_RaffleEntry.this, townProvinceInfos -> {

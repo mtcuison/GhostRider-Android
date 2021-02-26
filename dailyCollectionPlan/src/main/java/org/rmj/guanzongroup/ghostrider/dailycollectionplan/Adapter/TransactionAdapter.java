@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
         holder.lblAccntNo.setText("Account No. : " + plTransaction.get(position).getAcctNmbr());
         holder.lblClntNme.setText(plTransaction.get(position).getFullName());
-        holder.lblRemCode.setText(getRemarksCode(plTransaction.get(position).getRemCodex()));
+        holder.lblRemCode.setText(DCP_Constants.getRemarksCode(plTransaction.get(position).getRemCodex()));
         holder.lblEntryNo.setText("Entry No. : " + plTransaction.get(position).getEntryNox());
         holder.lblRemarks.setText(plTransaction.get(position).getRemarksx());
     }
@@ -66,41 +67,5 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             lblEntryNo = itemView.findViewById(R.id.lbl_dcpNox);
             lblRemarks = itemView.findViewById(R.id.lbl_dcpRemarks);
         }
-    }
-
-    public String getRemarksCode(String fsCode){
-        switch (fsCode){
-            case "PAY":
-                return "Paid";
-            case "PTP":
-                return "Promise to Pay";
-            case "CNA":
-                return "Customer Not Around";
-            case "FLA":
-                return "For Legal Action";
-            case "Car":
-                return "Carnap";
-            case "UNC":
-                return "Uncooperative";
-            case "MCs":
-                return "Missing Customer";
-            case "MUn":
-                return "Missing Unit";
-            case "MCU":
-                return "Missing Client and Unit";
-            case "LUn":
-                return "Loan Unit";
-            case "TA":
-                return "Transferred/Assumed";
-            case "FO":
-                return "False Ownership";
-            case "DNP":
-                return "Did Not Pay";
-            case "NV":
-                return "Not Visited";
-            case "OTH":
-                return "Others";
-        }
-        return "";
     }
 }

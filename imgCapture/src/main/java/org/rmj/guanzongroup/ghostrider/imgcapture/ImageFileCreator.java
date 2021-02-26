@@ -32,6 +32,14 @@ public class ImageFileCreator {
 
     File image;
 
+    public static int GCAMERA = 112;
+
+    public static class FILE_CODE{
+        public static String DCP = "Daily_Collection_Plan";
+        public static String SELFIE_LOGIN = "Selfie_Login";
+        //TODO: add more file code for additional feature for app
+    }
+
     public ImageFileCreator(Context context, String usage) {
         this.poContext = context;
         this.cameraUsage = usage;
@@ -72,6 +80,7 @@ public class ImageFileCreator {
                         takePictureIntent,
                         cameraUsage,
                         currentPhotoPath,
+                        generateDCPImageFileName(),
                         latitude,
                         longitude);
             }
@@ -205,8 +214,10 @@ public class ImageFileCreator {
         void OpenCamera(Intent openCamera, String photPath);
     }
 
+    //Edited by mike 2021/02/26
+    //Added String FileName for Creating MD5Hash
     public interface OnImageFileWithLocationCreatedListener{
-        void OpenCameraWithLocation(Intent openCamera,String camUsage, String photPath, double latitude, double longitude);
+        void OpenCameraWithLocation(Intent openCamera,String camUsage, String photPath, String FileName, double latitude, double longitude);
     }
 
     public interface OnImageFileDCPWithLocationCreatedListener{

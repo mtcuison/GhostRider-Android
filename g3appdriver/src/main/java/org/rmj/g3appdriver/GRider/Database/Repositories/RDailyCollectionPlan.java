@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
+import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
@@ -79,6 +80,17 @@ public class RDailyCollectionPlan {
 
     public void saveCollectionMaster(JSONObject foJson) throws Exception {
 
+    }
+
+    public String getImageNextCode(){
+        String lsNextCode = "";
+        try{
+            GConnection loConn = DbConnection.doConnect(application);
+            lsNextCode = MiscUtil.getNextCode("Image_Information", "sTransNox", true, loConn.getConnection(), "", 12, false);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return lsNextCode;
     }
 
     public void saveCollectionDetail(JSONArray faJson) throws Exception {
@@ -187,7 +199,7 @@ public class RDailyCollectionPlan {
 
             if(!lsSQL.isEmpty()){
                 Log.d(TAG, lsSQL);
-                if(loConn.executeUpdate(lsSQL, "", "", "") <= 0){
+                if(loConn.executeUpdate(lsSQL) <= 0){
                     Log.e(TAG, loConn.getMessage());
                 } else {
                     Log.d(TAG, "Brand info save successfully");

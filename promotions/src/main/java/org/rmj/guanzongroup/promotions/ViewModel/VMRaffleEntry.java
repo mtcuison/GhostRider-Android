@@ -78,10 +78,6 @@ public class VMRaffleEntry extends AndroidViewModel {
         new ImportDocumentType(headers, raffleRepo).execute();
     }
 
-    public LiveData<List<ERaffleInfo>> getDuplicateEntry(String ClientNm, String DocType, String DocNo, String MobileNo){
-        return raffleRepo.getDuplicateEntry(ClientNm, DocType, DocNo, MobileNo);
-    }
-
     public void submit(RaffleEntry voucher, RaffleEntryCallback callBack){
         if (voucher.isValidInfo()) {
             String lsUserIDx = session.getUserID();
@@ -181,6 +177,9 @@ public class VMRaffleEntry extends AndroidViewModel {
                 info.setBranchCd(vouchers[0].getBranchCodexx());
                 info.setTransact(getDateTransact());
                 info.setClientNm(vouchers[0].getCustomerName());
+                info.setAddressx(vouchers[0].getCustomerAddx());
+                info.setTownIDxx(vouchers[0].getCustomerTown());
+                info.setProvIDxx(vouchers[0].getCustomerProv());
                 info.setDocTypex(vouchers[0].getDocumentType());
                 info.setDocNoxxx(vouchers[0].getDocumentNoxx());
                 info.setMobileNo(vouchers[0].getMobileNumber());

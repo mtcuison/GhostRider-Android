@@ -45,7 +45,7 @@ public class DCPPhotoCapture extends AppCompatActivity {
         imgDBHelper = new DatabaseHelper(this);
 
         camera.setOnClickListener(view -> {
-            poFilexx.CreateFile((openCamera, camUsage, photPath, latitude, longitude) -> {
+            poFilexx.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
                 photoPath = photPath;
                 varLatitude = latitude;
                 varLongitude = longitude;
