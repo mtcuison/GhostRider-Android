@@ -14,12 +14,17 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERaffleBasis;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERaffleInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RRaffleInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.LiveDataTestUtil;
 import org.rmj.g3appdriver.utils.WebClient;
 import org.rmj.guanzongroup.promotions.Etc.RaffleEntryCallback;
 import org.rmj.guanzongroup.promotions.Model.RaffleEntry;
@@ -38,6 +43,8 @@ public class VMRaffleEntry extends AndroidViewModel {
     private static LiveData<String[]> raffleBasisDesc;
     private final RRaffleInfo raffleRepo;
     private final SessionManager session;
+    private final RTown poTown;
+    private final RBranch poBranch;
 
     public VMRaffleEntry(@NonNull Application application) {
         super(application);
@@ -47,6 +54,16 @@ public class VMRaffleEntry extends AndroidViewModel {
         raffleBasisDesc = raffleRepo.getAllRaffleBasisDesc();
         raffleBasis = raffleRepo.getAllRaffleBasis();
         session = new SessionManager(application);
+        this.poTown = new RTown(application);
+        this.poBranch = new RBranch(application);
+    }
+
+    public LiveData<EBranchInfo> getUserBranchInfo(){
+        return poBranch.getUserBranchInfo();
+    }
+
+    public LiveData<List<DTownInfo.TownProvinceInfo>> getTownProvinceInfo(){
+        return poTown.getTownProvinceInfo();
     }
 
     public LiveData<String[]> getDocuments(){
@@ -66,7 +83,7 @@ public class VMRaffleEntry extends AndroidViewModel {
             String lsUserIDx = session.getUserID();
             new SubmitPromo(conn, headers, raffleRepo, lsUserIDx, callBack).execute(voucher);
         } else {
-            callBack.OnFailedEntry("Please provide all information.");
+            callBack.OnFailedEntry(voucher.getMessage());
         }
     }
 
@@ -160,18 +177,27 @@ public class VMRaffleEntry extends AndroidViewModel {
                 info.setBranchCd(vouchers[0].getBranchCodexx());
                 info.setTransact(getDateTransact());
                 info.setClientNm(vouchers[0].getCustomerName());
+                info.setAddressx(vouchers[0].getCustomerAddx());
+                info.setTownIDxx(vouchers[0].getCustomerTown());
+                info.setProvIDxx(vouchers[0].getCustomerProv());
                 info.setDocTypex(vouchers[0].getDocumentType());
                 info.setDocNoxxx(vouchers[0].getDocumentNoxx());
                 info.setMobileNo(vouchers[0].getMobileNumber());
                 info.setSendStat('0');
-            db.insertRaffleEntry(info);
+                db.insertRaffleEntry(info);
                 if(conn.isDeviceConnected()) {
                     JSONObject loJson = new JSONObject();
                     loJson.put("brc", vouchers[0].getBranchCodexx());
                     loJson.put("typ", vouchers[0].getDocumentType());
+                    loJson.put("dte", getDateTransact());
                     loJson.put("nox", vouchers[0].getDocumentNoxx());
                     loJson.put("mob", vouchers[0].getMobileNumber());
                     loJson.put("nme", vouchers[0].getCustomerName());
+                    loJson.put("add", vouchers[0].getCustomerAddx());
+                    loJson.put("twn", vouchers[0].getCustomerTown());
+                    loJson.put("prv", vouchers[0].getCustomerProv());
+                    loJson.put("cid", "");
+                    loJson.put("div", "");
                     loJson.put("ent", lsUserIDx);
                     String lsUrl = "https://restgk.guanzongroup.com.ph/promo/fblike/encodex.php";
                     Log.e(TAG, lsUrl);

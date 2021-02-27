@@ -10,10 +10,35 @@
         app:defaultValue="false"
         android:summaryOn="@string/darkmode_summary"
         android:summaryOff="@string/lightmode_summary"/>
-    <Preference
-        android:title="App Permison"
-        app:key="appPermission">
-        <intent android:action="android.intent.action.VIEW"
+    <PreferenceCategory app:title="Permissions">
+
+        <Preference
+            app:key="cameraPrefs"
+            app:icon="@drawable/ic_camera_black_24"
+            app:title="Camera"
+            app:iconSpaceReserved="false"
+            app:defaultValue="false"/>
+<!--        <SwitchPreferenceCompat-->
+<!--            app:key="locationPrefs"-->
+<!--            app:icon="@drawable/ic_baseline_location_on_24"-->
+<!--            app:title="Location (GPS)"-->
+<!--            app:iconSpaceReserved="false"-->
+<!--            app:defaultValue="false"/>-->
+
+        <Preference
+            app:key="locationPrefs"
+            app:icon="@drawable/ic_baseline_location_on_24"
+            app:title="Location (GPS)"
+            app:iconSpaceReserved="false"
+            app:defaultValue="false"/>
+        <SwitchPreferenceCompat
+            app:key="phonePrefs"
+            app:icon="@drawable/ic_baseline_call_end_24"
+            app:title="Phone"
+            app:iconSpaceReserved="false"
+            app:defaultValue="false"
             />
-    </Preference>
-</androidx.preference.PreferenceScreen>
+
+            </PreferenceCategory>
+
+        </androidx.preference.PreferenceScreen>

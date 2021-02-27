@@ -45,11 +45,8 @@ public class GriderScanner extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_scanner);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        initWidgets();
         poFilexx = new ImageFileCreator(this, FOLDER_NAME);
-        imgBitmap = findViewById(R.id.imgBitmap);
-        mbCamera = findViewById(R.id.mbCamera);
-        mbGallery = findViewById(R.id.mbGallery);
-        mbCropOkay= findViewById(R.id.btnCropOkay);
         contentResolver = this.getContentResolver();
         mbCamera.setOnClickListener(view -> poFilexx.CreateScanFile((openCamera, photPath) -> {
             mCurrentPhotoPath = photPath;
@@ -66,7 +63,12 @@ public class GriderScanner extends AppCompatActivity {
         });
 
     }
-
+    public void initWidgets(){
+        imgBitmap = findViewById(R.id.imgBitmap);
+        mbCamera = findViewById(R.id.mbCamera);
+        mbGallery = findViewById(R.id.mbGallery);
+        mbCropOkay= findViewById(R.id.btnCropOkay);
+    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){

@@ -100,7 +100,7 @@ public class RMcCategory {
 
             if (!lsSQL.isEmpty()){
                 Log.d(TAG, lsSQL);
-                if (loConn.executeUpdate(lsSQL,  "", "" ,"") <= 0) {
+                if(loConn.executeUpdate(lsSQL) <= 0){
                     Log.e(TAG, loConn.getMessage());
                 } else
                     Log.d(TAG, "Category info saved successfully.");

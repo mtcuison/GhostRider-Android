@@ -19,6 +19,7 @@ import org.rmj.guanzongroup.ghostrider.griderscanner.GriderScanner;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
+import org.rmj.guanzongroup.promotions.Activity_RaffleEntry;
 
 import static org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity.expListView;
 import static org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity.listAdapter;
@@ -59,6 +60,9 @@ public class PopulateExpandableList {
 //                        }
 
                     }
+                }
+                if(groupPosition == 8){
+                    context.startActivity(new Intent(context, Activity_RaffleEntry.class));
                 }
                 return false;
             }

@@ -3,7 +3,6 @@ package org.rmj.g3appdriver.GRider.Database.Entities;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 @Entity(tableName = "PromoLocal_Detail", primaryKeys = {"sBranchCd", "dTransact"})
 public class ERaffleInfo {
@@ -17,6 +16,12 @@ public class ERaffleInfo {
     private String Transact;
     @ColumnInfo(name = "sClientNm")
     private String ClientNm;
+    @ColumnInfo(name = "sAddressx")
+    private String Addressx;
+    @ColumnInfo(name = "sTownIDxx")
+    private String TownIDxx;
+    @ColumnInfo(name = "sProvIDxx")
+    private String ProvIDxx;
     @ColumnInfo(name = "sDocTypex")
     private String DocTypex;
     @ColumnInfo(name = "sDocNoxxx")
@@ -54,6 +59,30 @@ public class ERaffleInfo {
 
     public void setClientNm(String clientNm) {
         ClientNm = clientNm;
+    }
+
+    public String getAddressx() {
+        return Addressx;
+    }
+
+    public void setAddressx(String addressx) {
+        Addressx = addressx;
+    }
+
+    public String getTownIDxx() {
+        return TownIDxx;
+    }
+
+    public void setTownIDxx(String townIDxx) {
+        TownIDxx = townIDxx;
+    }
+
+    public String getProvIDxx() {
+        return ProvIDxx;
+    }
+
+    public void setProvIDxx(String provIDxx) {
+        ProvIDxx = provIDxx;
     }
 
     public String getDocTypex() {

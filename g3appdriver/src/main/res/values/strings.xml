@@ -32,4 +32,8 @@
 
     <string name="darkmode_summary">Dark Theme Mode On</string>
     <string name="lightmode_summary">Dark Theme Mode Off</string>
+
+
+    <string name="location_on_summary">Location Permission Enabled</string>
+    <string name="location_off_summary">Location Permission Disabled</string>
 </resources>

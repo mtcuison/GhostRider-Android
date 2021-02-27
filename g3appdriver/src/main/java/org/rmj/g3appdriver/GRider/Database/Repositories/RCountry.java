@@ -103,7 +103,7 @@ public class RCountry {
             }
             if(!lsSQL.isEmpty()){
                 Log.d(TAG, lsSQL);
-                if(loConn.executeUpdate(lsSQL, "", "", "") <= 0){
+                if(loConn.executeUpdate(lsSQL) <= 0){
                     Log.e(TAG, loConn.getMessage());
                 } else {
                     Log.d(TAG, "Country info save successfully");
