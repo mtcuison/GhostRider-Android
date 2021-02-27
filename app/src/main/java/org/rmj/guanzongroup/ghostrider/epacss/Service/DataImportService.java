@@ -26,8 +26,7 @@ import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SCARequest;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public
-class DataImportService extends JobService {
+public class DataImportService extends JobService {
     public static final String TAG = DataImportService.class.getSimpleName();
 
     @Override

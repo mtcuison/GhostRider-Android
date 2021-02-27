@@ -121,6 +121,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                         loIntent.putExtra("remarksx", remarksCode);
                         loIntent.putExtra("transnox", collectionDetails.get(position).getTransNox());
                         loIntent.putExtra("entrynox", collectionDetails.get(position).getEntryNox());
+                        loIntent.putExtra("accntnox", collectionDetails.get(position).getAcctNmbr());
                         startActivity(loIntent);
                     });
                     loDialog.show();

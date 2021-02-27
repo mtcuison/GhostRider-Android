@@ -7,10 +7,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -72,6 +70,14 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
                 recyclerView.setAdapter(poAdapter);
             } catch (Exception e){
                 e.printStackTrace();
+            }
+        });
+
+        mViewModel.getUnsentImageInfoList().observe(Activity_CollectionLog.this, eImageInfos -> {
+            try{
+                mViewModel.setImageInfoList(eImageInfos);
+            } catch (Exception e){
+
             }
         });
 

@@ -22,6 +22,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
@@ -120,6 +121,7 @@ public class VMPaidTransaction extends AndroidViewModel {
         private final HttpHeaders poHeaders;
         private final ConnectionUtil poConn;
         private final Telephony poDevID;
+        private final SessionManager poUser;
 
         public PostPaidTransactionTask(EDCPCollectionDetail dcpDetail, PaidTransactionModel infoModel, Application instance, ViewModelCallback callback) {
             this.poDcpDetail = dcpDetail;
@@ -129,6 +131,7 @@ public class VMPaidTransaction extends AndroidViewModel {
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
             this.poDevID = new Telephony(instance);
+            this.poUser = new SessionManager(instance);
         }
 
         @Override
@@ -149,10 +152,10 @@ public class VMPaidTransaction extends AndroidViewModel {
                     detail.setRemCodex(infoModel.getRemarksCode());
                     detail.setTranType(infoModel.getPayment());
                     detail.setPRNoxxxx(infoModel.getPrNoxxx());
-                    detail.setTranAmtx(infoModel.getAmountx());
-                    detail.setDiscount(infoModel.getDscount());
-                    detail.setOthersxx(infoModel.getOthersx());
-                    detail.setTranTotl(infoModel.getTotAmnt());
+                    detail.setTranAmtx(infoModel.getAmountx().replace(",", ""));
+                    detail.setDiscount(infoModel.getDscount().replace(",", ""));
+                    detail.setOthersxx(infoModel.getOthersx().replace(",", ""));
+                    detail.setTranTotl(infoModel.getTotAmnt().replace(",", ""));
                     detail.setRemarksx(infoModel.getRemarks());
                     detail.setSendStat("0");
                     detail.setTranStat("1");
@@ -164,15 +167,23 @@ public class VMPaidTransaction extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()) {
                     lsResponse = AppConstants.NO_INTERNET();
                 } else {
+                    JSONObject loData = new JSONObject();
+                    loData.put("sPRNoxxxx", detail.getPRNoxxxx());
+                    loData.put("nTranAmtx", detail.getTranAmtx());
+                    loData.put("nDiscount", detail.getDiscount());
+                    loData.put("nOthersxx", detail.getOthersxx());
+                    loData.put("cTranType", detail.getTranType());
+                    loData.put("nTranTotl", detail.getTranTotl());
                     JSONObject loJson = new JSONObject();
                     loJson.put("sTransNox", detail.getTransNox());
                     loJson.put("nEntryNox", detail.getEntryNox());
                     loJson.put("sAcctNmbr", detail.getAcctNmbr());
                     loJson.put("sRemCodex", detail.getRemCodex());
-                    loJson.put("sJsonData", "");
+                    loJson.put("sJsonData", loData);
                     loJson.put("dReceived", "");
-                    loJson.put("sUserIDxx", "");
+                    loJson.put("sUserIDxx", poUser.getUserID());
                     loJson.put("sDeviceID", poDevID.getDeviceID());
+                    Log.e(TAG, loJson.toString());
                     lsResponse = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
 
                     if(lsResponse == null){

@@ -52,6 +52,10 @@ public class ImageFileCreator {
         this.imgName = imgName;
     }
 
+    public void setImageName(String fsName){
+        this.imgName = fsName;
+    }
+
     public String getCameraUsage() {
         return cameraUsage;
     }
@@ -80,7 +84,7 @@ public class ImageFileCreator {
                         takePictureIntent,
                         cameraUsage,
                         currentPhotoPath,
-                        generateDCPImageFileName(),
+                        generateImageFileName(),
                         latitude,
                         longitude);
             }

@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
@@ -39,7 +38,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
         holder.lblAccntNo.setText("Account No. : " + plTransaction.get(position).getAcctNmbr());
         holder.lblClntNme.setText(plTransaction.get(position).getFullName());
-        holder.lblRemCode.setText(DCP_Constants.getRemarksCode(plTransaction.get(position).getRemCodex()));
+        holder.lblRemCode.setText(DCP_Constants.getRemarksDescription(plTransaction.get(position).getRemCodex()));
         holder.lblEntryNo.setText("Entry No. : " + plTransaction.get(position).getEntryNox());
         holder.lblRemarks.setText(plTransaction.get(position).getRemarksx());
     }

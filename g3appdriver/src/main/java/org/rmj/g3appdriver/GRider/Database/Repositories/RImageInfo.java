@@ -10,6 +10,8 @@ import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 
+import java.util.List;
+
 public class RImageInfo {
     private static final String TAG = "DB_Image_Repository";
     private final DImageInfo imageDao;
@@ -25,6 +27,18 @@ public class RImageInfo {
 
     public LiveData<EImageInfo> getImageInfo(String sTransNox){
         return imageDao.getImageInfo(sTransNox);
+    }
+
+    /**
+     *
+     * @return returns a LiveData List of all unsent image info...
+     */
+    public LiveData<List<EImageInfo>> getUnsentImageList(){
+        return imageDao.getUnsentImageInfoList();
+    }
+
+    public LiveData<List<EImageInfo>> getAllImageInfo(){
+        return imageDao.getImageInfoList();
     }
 
     private static class InsertTask extends AsyncTask<EImageInfo, Void, String>{

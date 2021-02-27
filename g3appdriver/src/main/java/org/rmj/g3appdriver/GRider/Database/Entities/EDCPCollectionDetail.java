@@ -56,8 +56,12 @@ public class EDCPCollectionDetail {
     private String AmtDuexx;
     @ColumnInfo(name = "cApntUnit")
     private String ApntUnit;
+    @ColumnInfo(name = "sBranchCd")
+    private String BranchCd;
     @ColumnInfo(name = "dDueDatex")
     private String DueDatex;
+    @ColumnInfo(name = "sImageNme")
+    private String ImageNme;
     @ColumnInfo(name = "nLongitud")
     private String Longitud;
     @ColumnInfo(name = "nLatitude")
@@ -263,6 +267,22 @@ public class EDCPCollectionDetail {
 
     public void setApntUnit(String apntUnit) {
         ApntUnit = apntUnit;
+    }
+
+    public String getImageNme() {
+        return ImageNme;
+    }
+
+    public String getBranchCd() {
+        return BranchCd;
+    }
+
+    public void setBranchCd(String branchCd) {
+        BranchCd = branchCd;
+    }
+
+    public void setImageNme(String imageNme) {
+        ImageNme = imageNme;
     }
 
     public String getDueDatex() {
