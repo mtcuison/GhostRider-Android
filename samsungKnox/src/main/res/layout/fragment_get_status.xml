@@ -184,7 +184,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_knoxGetPIN"
+            android:id="@+id/btn_knoxCheckStatus"
             style="@style/GhostRider_Button"
             android:text="Check Status"
             tools:ignore="HardcodedText"
