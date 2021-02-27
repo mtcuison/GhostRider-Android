@@ -63,7 +63,7 @@ public class Fragment_Unlock extends Fragment implements ViewModelCallBack {
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         });
-        btnGetPIN = v.findViewById(R.id.btn_knoxGetPIN);
+        btnGetPIN = v.findViewById(R.id.btn_knoxUnlock);
 
         return v;
     }

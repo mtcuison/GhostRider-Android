@@ -110,7 +110,7 @@ public class PrepareData {
         childModel = new MenuModel("Get Pin", 0, false, false);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Git Offline Pin", 0,false, false);
+        childModel = new MenuModel("Get Offline Pin", 0,false, false);
         childModelsList.add(childModel);
 
         childModel = new MenuModel("Check Status", 0,false, false);
