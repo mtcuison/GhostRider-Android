@@ -30,7 +30,7 @@ public interface DDCPCollectionDetail {
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cTranStat = 0")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailList();
 
-    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cTranStat = 1")
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cTranStat = 1 AND cSendStat == 0")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailLog();
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +

@@ -3,7 +3,6 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,13 +17,15 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMIncompleteTransaction;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
+
+import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -34,6 +35,11 @@ public class Fragment_IncTransaction extends Fragment {
     private MaterialButton btnPost;
     private EImageInfo poImageInfo;
     private ImageFileCreator poImage;
+
+    private String TransNox;
+    private String EntryNox;
+    private String AccntNox;
+    private String Remarksx;
 
     private VMIncompleteTransaction mViewModel;
 
@@ -52,7 +58,12 @@ public class Fragment_IncTransaction extends Fragment {
     }
 
     private void initWidgets(View v){
-        poImage = new ImageFileCreator(getActivity(), ImageFileCreator.FILE_CODE.DCP);
+        TransNox = Activity_Transaction.getInstance().getTransNox();
+        EntryNox = Activity_Transaction.getInstance().getEntryNox();
+        AccntNox = Activity_Transaction.getInstance().getAccntNox();
+        Remarksx = Activity_Transaction.getInstance().getRemarksCode();
+
+        poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, ImageFileCreator.FILE_CODE.DCP, AccntNox);
         poImageInfo = new EImageInfo();
         lblFullNme = v.findViewById(R.id.lbl_customerName);
         lblAccount = v.findViewById(R.id.lbl_AccountNo);
@@ -66,14 +77,14 @@ public class Fragment_IncTransaction extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMIncompleteTransaction.class);
 
-        String TransNox = Activity_Transaction.getInstance().getTransNox();
-        String EntryNox = Activity_Transaction.getInstance().getEntryNox();
         mViewModel.setParameter(TransNox, EntryNox);
         mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
             try {
+                mViewModel.setAccountNo(collectionDetail.getAcctNmbr());
                 lblFullNme.setText(collectionDetail.getFullName());
                 lblAccount.setText(collectionDetail.getAcctNmbr());
                 lblTransact.setText(Activity_Transaction.getInstance().getRemarksCode());
+                mViewModel.setCollectioNDetail(collectionDetail);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -83,11 +94,12 @@ public class Fragment_IncTransaction extends Fragment {
             poImageInfo.setSourceNo(TransNox);
             poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(photPath));
             poImageInfo.setSourceCD("DCPa");
-            poImageInfo.setDtlSrcNo("");
             poImageInfo.setImageNme(FileName);
+            poImageInfo.setFileLoct(photPath);
             poImageInfo.setFileCode("UNKN");
             poImageInfo.setLatitude(String.valueOf(latitude));
             poImageInfo.setLongitud(String.valueOf(longitude));
+            mViewModel.setImagePath(photPath);
             startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
         });
     }
@@ -98,9 +110,10 @@ public class Fragment_IncTransaction extends Fragment {
         if(requestCode == ImageFileCreator.GCAMERA){
             if(resultCode == RESULT_OK){
                 mViewModel.saveImageInfo(poImageInfo);
+                mViewModel.updateCollectionDetail(DCP_Constants.getRemarksCode(Remarksx));
                 Log.e(TAG, "Image Info Save");
             } else {
-                getActivity().finish();
+                Objects.requireNonNull(getActivity()).finish();
             }
         }
     }

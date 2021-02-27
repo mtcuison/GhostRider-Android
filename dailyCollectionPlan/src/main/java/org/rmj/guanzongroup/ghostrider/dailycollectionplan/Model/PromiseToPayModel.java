@@ -81,39 +81,4 @@ public class PromiseToPayModel {
         }
         return true;
     }
-    public String getRemarksCode(){
-        switch (ptpRemarks){
-            case "Paid":
-                return "PAY";
-            case "Promise to Pay":
-                return "PTP";
-            case "Customer Not Around":
-                return "CNA";
-            case "For Legal Action":
-                return "FLA";
-            case "Carnap":
-                return "Car";
-            case "Uncooperative":
-                return "UNC";
-            case "Missing Customer":
-                return "MCs";
-            case "Missing Unit":
-                return "MUn";
-            case "Missing Client and Unit":
-                return "MCU";
-            case "Loan Unit":
-                return "LUn";
-            case "Transferred/Assumed":
-                return "TA";
-            case "False Ownership":
-                return "FO";
-            case "Did Not Pay":
-                return "DNP";
-            case "Not Visited":
-                return "NV";
-            case "Others":
-                return "OTH";
-        }
-        return "";
-    }
 }

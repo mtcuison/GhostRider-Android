@@ -1,26 +1,22 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -30,7 +26,6 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPaidTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.StringTokenizer;
 
@@ -77,11 +72,8 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         txtTotAmnt = v.findViewById(R.id.txt_dcpTotAmount);
         btnConfirm = v.findViewById(R.id.btn_confirm);
 
-        //txtAmount.addTextChangedListener(new FormatUIText.CurrencyFormat(txtAmount));
         txtAmount.addTextChangedListener(new OnAmountEnterTextWatcher(txtAmount));
-        //txtDiscount.addTextChangedListener(new FormatUIText.CurrencyFormat(txtDiscount));
         txtDiscount.addTextChangedListener(new OnAmountEnterTextWatcher(txtDiscount));
-        //txtOthers.addTextChangedListener(new FormatUIText.CurrencyFormat(txtOthers));
         txtOthers.addTextChangedListener(new OnAmountEnterTextWatcher(txtOthers));
         txtTotAmnt.addTextChangedListener(new FormatUIText.CurrencyFormat(txtTotAmnt));
     }
@@ -119,7 +111,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
         btnConfirm.setOnClickListener(view -> {
             infoModel.setRemarksCode(Remarksx);
-            infoModel.setPayment(spnType.getSelectedItem().toString());
+            infoModel.setPayment(String.valueOf(spnType.getSelectedItemPosition()));
             infoModel.setPrNoxxx(Objects.requireNonNull(txtPrNoxx.getText()).toString());
             infoModel.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
             infoModel.setAmountx(Objects.requireNonNull(txtAmount.getText()).toString());
@@ -174,7 +166,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             try {
                 inputEditText.removeTextChangedListener(this);
-                if(!inputEditText.getText().toString().trim().isEmpty()) {
+                if(!Objects.requireNonNull(inputEditText.getText()).toString().trim().isEmpty()) {
                     if (inputEditText.getId() == R.id.txt_dcpAmount) {
                         mViewModel.setAmount(Double.valueOf(inputEditText.getText().toString().replace(",", "")));
                     } else if (inputEditText.getId() == R.id.txt_dcpDiscount) {
@@ -197,7 +189,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
             try
             {
                 txt.removeTextChangedListener(this);
-                String value = txt.getText().toString();
+                String value = Objects.requireNonNull(txt.getText()).toString();
 
                 if (!value.equals(""))
                 {

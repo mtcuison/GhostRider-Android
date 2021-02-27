@@ -24,6 +24,8 @@ public class EImageInfo {
     private String ImageNme;
     @ColumnInfo(name = "sMD5Hashx")
     private String MD5Hashx;
+    @ColumnInfo(name = "sFileLoct")
+    private String FileLoct;
     @ColumnInfo(name = "nLatitude")
     private String Latitude;
     @ColumnInfo(name = "nLongitud")
@@ -91,6 +93,14 @@ public class EImageInfo {
 
     public void setMD5Hashx(String MD5Hashx) {
         this.MD5Hashx = MD5Hashx;
+    }
+
+    public String getFileLoct() {
+        return FileLoct;
+    }
+
+    public void setFileLoct(String fileLoct) {
+        FileLoct = fileLoct;
     }
 
     public String getLatitude() {

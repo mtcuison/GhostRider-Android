@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;

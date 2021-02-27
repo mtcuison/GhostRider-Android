@@ -23,6 +23,7 @@ public class Activity_Transaction extends AppCompatActivity {
     private static Activity_Transaction instance;
     private String TransNox = "";
     private String EntryNox = "";
+    private String AccntNox = "";
     private String Remarksx = "";
 
     public static Activity_Transaction getInstance(){
@@ -37,6 +38,10 @@ public class Activity_Transaction extends AppCompatActivity {
         return EntryNox;
     }
 
+    public String getAccntNox(){
+        return AccntNox;
+    }
+
     public String getRemarksCode(){
         return Remarksx;
     }
@@ -49,6 +54,7 @@ public class Activity_Transaction extends AppCompatActivity {
         Remarksx = getIntent().getStringExtra("remarksx");
         TransNox = getIntent().getStringExtra("transnox");
         EntryNox = getIntent().getStringExtra("entrynox");
+        AccntNox = getIntent().getStringExtra("accntnox");
         Toolbar toolbar = findViewById(R.id.toolbar_transaction);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

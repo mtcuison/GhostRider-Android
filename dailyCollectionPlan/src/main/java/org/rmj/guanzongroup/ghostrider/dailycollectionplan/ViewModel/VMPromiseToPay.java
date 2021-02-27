@@ -1,6 +1,8 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 
@@ -19,9 +21,11 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionMaster
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
@@ -37,6 +41,7 @@ public class VMPromiseToPay extends AndroidViewModel {
     private static final String TAG = VMPromiseToPay.class.getSimpleName();
     private final RBranch poBranch;
     private final RDailyCollectionPlan poDcp;
+    private final RImageInfo poImage;
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
 
     private final MutableLiveData<String> psBrnchCd = new MutableLiveData<>();
@@ -54,6 +59,7 @@ public class VMPromiseToPay extends AndroidViewModel {
         this.poDcp = new RDailyCollectionPlan(application);
         paBranchNm = poBranch.getAllMcBranchNames();
         this.viewPtpBranch.setValue(View.GONE);
+        this.poImage = new RImageInfo(application);
     }
     // TODO: Implement the ViewModel
     public void setParameter(String TransNox, String EntryNox){
@@ -116,52 +122,78 @@ public class VMPromiseToPay extends AndroidViewModel {
         return this.viewPtpBranch;
     }
 
-    public boolean savePtpInfo(PromiseToPayModel infoModel, ViewModelCallback callback){
-        try{
-            infoModel.setPtpDate(psPtpDate.getValue());
-            if(!infoModel.isDataValid()){
-                callback.OnFailedResult(infoModel.getMessage());
-                return false;
-            } else {
-                Date parseDate = new SimpleDateFormat("MMMM dd, yyyy").parse(infoModel.getPtpDate());
-                String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(parseDate));;
-                String lsPromiseDate = toJsonObject(lsDate, psBrnchCd.getValue(), infoModel.getPtpCollectorName());
-
-                EDCPCollectionDetail detail = poDcpDetail.getValue();
-                Objects.requireNonNull(detail).setPromised(lsPromiseDate);
-                detail.setSendStat("0");
-                detail.setModified(AppConstants.DATE_MODIFIED);
-                poDcp.updateCollectionDetailInfo(detail);
-                Log.e(TAG, "Date ." + lsPromiseDate);
-                //Log.e(TAG, "Promise to Pay info has been set." + poDcp.getCollectionDetail(psTransNox.getValue(),psEntryNox.getValue()).getValue().toString());
-                callback.OnSuccessResult(new String[]{"Dcp Save!"});
-                return true;
-            }
-        } catch (NullPointerException e){
+    public void savePtpInfo(PromiseToPayModel infoModel, ViewModelCallback callback) {
+        try {
+            new UpdateTask(poDcp, infoModel, callback).execute(poDcpDetail.getValue());
+        } catch (NullPointerException e) {
             e.printStackTrace();
 //            callback.OnFailedResult(e.getMessage());
             callback.OnFailedResult("NullPointerException error");
-            return false;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
 //            callback.OnFailedResult(e.getMessage());
-
             callback.OnFailedResult("Exception error");
-            return false;
+        }
+    }
+
+    //Added by Mike -> Saving ImageInfo
+    public void saveImageInfo(EImageInfo foImage){
+        try{
+             foImage.setTransNox(poDcp.getImageNextCode());
+            poImage.insertImageInfo(foImage);
+            Log.e(TAG, "Image info has been save!");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    //Added by Mike 2021/02/27
+    //Need AsyncTask for background threading..
+    //RoomDatabase requires background task in order to manipulate Tables...
+    private static class UpdateTask extends AsyncTask<EDCPCollectionDetail, Void, String> {
+        private final RDailyCollectionPlan poDcp;
+        private final PromiseToPayModel infoModel;
+        private final ViewModelCallback callback;
+
+        public UpdateTask(RDailyCollectionPlan poDcp, PromiseToPayModel infoModel, ViewModelCallback callback) {
+            this.poDcp = poDcp;
+            this.infoModel = infoModel;
+            this.callback = callback;
         }
 
-    }
-    public String toJsonObject(String dPromised, String sBrnCde, String sCollector){
-        JSONObject jsonObject = new JSONObject();
-        try {
-            //yyyy-MM-dd
-            jsonObject.put("dPromised", dPromised);
-            jsonObject.put("sBrnCde", sBrnCde);
-            jsonObject.put("sCollector", sCollector);
-            return jsonObject.toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return  e.getMessage();
+        @Override
+        protected String doInBackground(EDCPCollectionDetail... detail) {
+            try {
+                if (!infoModel.isDataValid()) {
+                    return infoModel.getMessage();
+                } else {
+                    EDCPCollectionDetail loDetail = detail[0];
+                    loDetail.setRemCodex("PTP");
+                    Objects.requireNonNull(loDetail).setPromised(infoModel.getPtpDate());
+                    loDetail.setApntUnit(infoModel.getPtpAppointmentUnit());
+                    loDetail.setBranchCd(infoModel.getPtpBranch());
+                    loDetail.setTranStat("1");
+                    loDetail.setSendStat("0");
+                    loDetail.setModified(AppConstants.DATE_MODIFIED);
+                    poDcp.updateCollectionDetailInfo(loDetail);
+
+                    return "success";
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                return e.getMessage();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s.equalsIgnoreCase("success")){
+                callback.OnSuccessResult(new String[]{"Promise to pay Info has been save."});
+            } else {
+                 callback.OnFailedResult(s);
+            }
         }
     }
 }
