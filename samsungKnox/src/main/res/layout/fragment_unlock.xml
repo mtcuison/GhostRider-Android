@@ -13,7 +13,7 @@
     <ImageView
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_samsungknox_unlock"
+        android:src="@drawable/ic_samsung_knox_unlock"
         android:adjustViewBounds="true"
         android:layout_margin="20dp"
         android:paddingLeft="10dp"/>

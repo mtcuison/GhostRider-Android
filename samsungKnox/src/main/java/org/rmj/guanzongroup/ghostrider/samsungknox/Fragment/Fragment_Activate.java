@@ -46,7 +46,6 @@ public class Fragment_Activate extends Fragment implements ViewModelCallBack {
         loMessage = new MessageBox(getActivity());
         txtImei = v.findViewById(R.id.txt_knoxImei);
         txtRemrks = v.findViewById(R.id.txt_knoxRemarks);
-        ImageButton btnScanID = v.findViewById(R.id.btn_knoxScan);
         btnActivate = v.findViewById(R.id.btn_knoxActivate);
 
         return v;
