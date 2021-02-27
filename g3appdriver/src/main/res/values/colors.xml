@@ -24,6 +24,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="guanzon_dark_grey">#8C8C8C</color>
     <color name="guanzon_digital_orange">#FF8200</color>
+    <color name="guanzon_digital_orange_lighten">#FFA84D</color>
     <color name="footer_dark_grey">#393939</color>
 
     <color name="light_preview_img">#e2e2e2</color>

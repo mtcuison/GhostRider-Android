@@ -5,78 +5,116 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:gravity="center"
     tools:context=".Fragment.Fragment_Unlock"
     android:theme="@style/GhostRiderMaterialTheme">
-
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_samsung_knox_unlock"
-        android:adjustViewBounds="true"
-        android:layout_margin="20dp"
-        android:paddingLeft="10dp"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_knoxImei"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter device Imei here..."
-        android:layout_marginTop="10dp"
-        style="@style/TextInputStyle">
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/img_bg_guanzon_orange"
+            android:layout_width="0dp"
+            android:layout_height="205dp"
+            android:src="@drawable/bg_samsungknox"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txt_knoxImei"
-            style="@style/TextInputStyle.Edittext"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/lblSamsungKnox"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_device_id"
-            android:drawableLeft="@drawable/ic_device_id"
-            android:inputType="number|none"
-            android:maxLength="16"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:text="@string/sLblSamsungKnox_Unlock"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="37sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img_bg_guanzon_orange"
+            app:layout_constraintVertical_bias=".20"/>
 
-    <LinearLayout
+        <ImageView
+            android:id="@+id/ic_phone"
+            android:layout_width="150dp"
+            android:layout_height="230dp"
+            android:layout_marginTop="25dp"
+            android:adjustViewBounds="true"
+            android:paddingLeft="14dp"
+            android:src="@drawable/ic_samsung_knox_unlock"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblSamsungKnox"
+            tools:ignore="ContentDescription" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:layout_margin="25dp">
 
-        <EditText
-            android:id="@+id/txt_KnoxPIN"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_knoxImei"
+            style="@style/TextInputStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxLines="1"
-            android:maxLength="10"
-            android:letterSpacing="1.2"
-            android:gravity="center"
-            android:backgroundTint="@color/textColor_Orange"
-            android:textCursorDrawable="@null"
-            android:fontFamily="@font/roboto_medium"
-            android:enabled="false"/>
+            android:hint="Device IMEI"
+            tools:ignore="HardcodedText"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
 
-        <ImageButton
-            android:id="@+id/btn_CopyToClipboard"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_knoxImei"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number|none"
+                android:maxLength="16"
+                android:layout_marginBottom="20dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/lnCopyCode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".15"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:src="@drawable/ic_content_copy"/>
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_knoxImei"
+            app:layout_constraintRight_toRightOf="parent">
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/txt_KnoxPIN"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:maxLength="10"
+                android:letterSpacing="1.2"
+                android:backgroundTint="@color/guanzon_dark_grey"
+                android:textCursorDrawable="@null"
+                android:fontFamily="@font/roboto_medium"
+                android:enabled="false"
+                android:layout_marginBottom="30dp"/>
 
-    <Button
-        android:id="@+id/btn_knoxGetPIN"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Get Unlock PIN"
-        android:layout_marginHorizontal="30dp"
-        style="@style/MaterialButtonAccent"
-        android:layout_marginTop="20dp"/>
+            <ImageButton
+                android:id="@+id/btn_CopyToClipboard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".15"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:src="@drawable/ic_content_copy"/>
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_knoxUnlock"
+            style="@style/GhostRider_Button"
+            android:text="Unlock"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lnCopyCode"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
