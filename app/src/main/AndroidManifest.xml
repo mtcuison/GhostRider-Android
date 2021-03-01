@@ -43,7 +43,7 @@
         android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
         <activity
             android:name=".Activity.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings"/>
         <activity
             android:name=".Activity.SplashScreenActivity"
             android:screenOrientation="userPortrait"
@@ -73,6 +73,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
     </application>
 
 </manifest>

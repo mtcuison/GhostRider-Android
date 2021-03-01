@@ -41,6 +41,8 @@ public class Fragment_IncTransaction extends Fragment {
     private String AccntNox;
     private String Remarksx;
 
+    private String psPhotox;
+
     private VMIncompleteTransaction mViewModel;
 
     public static Fragment_IncTransaction newInstance() {
@@ -91,8 +93,8 @@ public class Fragment_IncTransaction extends Fragment {
         });
 
         poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+            psPhotox = photPath;
             poImageInfo.setSourceNo(TransNox);
-            poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(photPath));
             poImageInfo.setSourceCD("DCPa");
             poImageInfo.setImageNme(FileName);
             poImageInfo.setFileLoct(photPath);
@@ -109,6 +111,7 @@ public class Fragment_IncTransaction extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ImageFileCreator.GCAMERA){
             if(resultCode == RESULT_OK){
+                poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
                 mViewModel.saveImageInfo(poImageInfo);
                 mViewModel.updateCollectionDetail(DCP_Constants.getRemarksCode(Remarksx));
                 Log.e(TAG, "Image Info Save");

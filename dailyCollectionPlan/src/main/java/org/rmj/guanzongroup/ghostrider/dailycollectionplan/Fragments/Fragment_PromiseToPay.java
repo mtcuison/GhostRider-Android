@@ -181,7 +181,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
                 poImageInfo.setSourceCD("DCPa");
                 poImageInfo.setImageNme(FileName);
                 poImageInfo.setFileLoct(photPath);
-                poImageInfo.setFileCode("UNKN");
+                poImageInfo.setFileCode("DCP");
                 poImageInfo.setLatitude(String.valueOf(latitude));
                 poImageInfo.setLongitud(String.valueOf(longitude));
                 startActivityForResult(openCamera, ImageFileCreator.GCAMERA);

@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
+import android.media.Image;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -68,6 +69,10 @@ public class RDailyCollectionPlan {
 
     public void updateCollectionDetailInfo(EDCPCollectionDetail collectionDetail){
         detailDao.update(collectionDetail);
+    }
+
+    public void updateCollectionDetailImage(String ImageID, String AccntNox){
+        detailDao.updateCustomerDetailImage(ImageID, AccntNox);
     }
 
     public LiveData<EDCPCollectionDetail> getCollectionLastEntry(){
