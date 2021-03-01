@@ -21,6 +21,12 @@ public interface DDCPCollectionDetail {
     @Update
     void update(EDCPCollectionDetail collectionDetail);
 
+    @Query("UPDATE LR_DCP_Collection_Detail " +
+            "SET cSendStat='1', dModified=:DateEntry " +
+            "WHERE sTransNox =:TransNox " +
+            "AND nEntryNox =:EntryNox")
+    void updateCollectionDetailStatus(String TransNox, String EntryNox, String DateEntry);
+
     @Delete
     void delete(EDCPCollectionDetail collectionDetail);
 

@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
@@ -45,6 +47,8 @@ public class Fragment_IncTransaction extends Fragment {
 
     private VMIncompleteTransaction mViewModel;
 
+    private MessageBox loMessage;
+
     public static Fragment_IncTransaction newInstance() {
         return new Fragment_IncTransaction();
     }
@@ -60,6 +64,7 @@ public class Fragment_IncTransaction extends Fragment {
     }
 
     private void initWidgets(View v){
+        loMessage = new MessageBox(getActivity());
         TransNox = Activity_Transaction.getInstance().getTransNox();
         EntryNox = Activity_Transaction.getInstance().getEntryNox();
         AccntNox = Activity_Transaction.getInstance().getAccntNox();
@@ -92,18 +97,30 @@ public class Fragment_IncTransaction extends Fragment {
             }
         });
 
-        poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-            psPhotox = photPath;
-            poImageInfo.setSourceNo(TransNox);
-            poImageInfo.setSourceCD("DCPa");
-            poImageInfo.setImageNme(FileName);
-            poImageInfo.setFileLoct(photPath);
-            poImageInfo.setFileCode("UNKN");
-            poImageInfo.setLatitude(String.valueOf(latitude));
-            poImageInfo.setLongitud(String.valueOf(longitude));
-            mViewModel.setImagePath(photPath);
-            startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+        loMessage.setTitle(Remarksx);
+        loMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction. \n" +
+                "\n" +
+                "NOTE: Take a selfie on your current place if customer is not visited");
+        loMessage.setPositiveButton("Okay", (view, dialog) -> {
+            dialog.dismiss();
+            poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                psPhotox = photPath;
+                poImageInfo.setSourceNo(TransNox);
+                poImageInfo.setSourceCD("DCPa");
+                poImageInfo.setImageNme(FileName);
+                poImageInfo.setFileLoct(photPath);
+                poImageInfo.setFileCode("UNKN");
+                poImageInfo.setLatitude(String.valueOf(latitude));
+                poImageInfo.setLongitud(String.valueOf(longitude));
+                mViewModel.setImagePath(photPath);
+                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+            });
         });
+        loMessage.setNegativeButton("Cancel", (view, dialog) -> {
+            dialog.dismiss();
+            getActivity().finish();
+        });
+        loMessage.show();
     }
 
     @Override
@@ -114,7 +131,13 @@ public class Fragment_IncTransaction extends Fragment {
                 poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
                 mViewModel.saveImageInfo(poImageInfo);
                 mViewModel.updateCollectionDetail(DCP_Constants.getRemarksCode(Remarksx));
-                Log.e(TAG, "Image Info Save");
+                loMessage.setTitle(Remarksx);
+                loMessage.setMessage("Transaction has been save!");
+                loMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                    Objects.requireNonNull(getActivity()).finish();
+                });
+                loMessage.show();
             } else {
                 Objects.requireNonNull(getActivity()).finish();
             }

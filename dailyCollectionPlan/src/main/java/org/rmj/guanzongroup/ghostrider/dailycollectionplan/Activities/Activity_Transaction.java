@@ -113,6 +113,7 @@ public class Activity_Transaction extends AppCompatActivity {
                 transaction.equalsIgnoreCase("Missing Unit") ||
                 transaction.equalsIgnoreCase("Missing Client and Unit") ||
                 transaction.equalsIgnoreCase("Did Not Pay") ||
+                transaction.equalsIgnoreCase("Not Visited") ||
                 transaction.equalsIgnoreCase("Others")){
             return new Fragment_IncTransaction();
         }

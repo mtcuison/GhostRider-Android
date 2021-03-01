@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionMaster;
@@ -71,8 +72,13 @@ public class RDailyCollectionPlan {
         detailDao.update(collectionDetail);
     }
 
+    public void updateCollectionDetailStatus(String TransNox, String EntryNox){
+        detailDao.updateCollectionDetailStatus(TransNox, EntryNox, AppConstants.DATE_MODIFIED);
+    }
+
     public void updateCollectionDetailImage(String ImageID, String AccntNox){
         detailDao.updateCustomerDetailImage(ImageID, AccntNox);
+        Log.e(TAG, "updateCustomerDetailImage");
     }
 
     public LiveData<EDCPCollectionDetail> getCollectionLastEntry(){

@@ -252,17 +252,18 @@ public class VMCollectionLog extends AndroidViewModel {
                                 imageInfo.getSourceCD(),
                                 imageInfo.getSourceNo(),
                                 "");
-                        lsResult = loUpload.toJSONString();
-                        Log.e(TAG, "Uploading image result : " + lsResult);
                         String lsResponse = (String) loUpload.get("result");
+                        Log.e(TAG, "Uploading image result : " + lsResponse);
 
                         if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
                             String lsTransNo = (String) loUpload.get("sTransNox");
                             imageInfo.setSendStat('1');
                             imageInfo.setSendDate(AppConstants.DATE_MODIFIED);
                             poImage.updateImageInfo(lsTransNo, imageInfo.getTransNox());
-                            poDcp.updateCollectionDetailImage(imageInfo.getTransNox(), imageInfo.getDtlSrcNo());
+                            poDcp.updateCollectionDetailImage(lsTransNo, imageInfo.getDtlSrcNo());
                         }
+
+                        Thread.sleep(500);
                     }
 
                     for (int x = 0; x < paDetail.size(); x++) {
@@ -315,19 +316,18 @@ public class VMCollectionLog extends AndroidViewModel {
                             Log.e(TAG, "Server no response.");
                         } else {
                             JSONObject loResponse = new JSONObject(lsResponse);
-                            lsResult = loResponse.toString();
+
                             String result = loResponse.getString("result");
                             if (result.equalsIgnoreCase("success")) {
                                 Log.e(TAG, x + " " + result);
-                                loDetail.setSendStat("1");
-                                loDetail.setModified(AppConstants.DATE_MODIFIED);
-                                poDcp.updateCollectionDetailInfo(loDetail);
+                                poDcp.updateCollectionDetailStatus(loDetail.getTransNox(), loDetail.getEntryNox());
                             } else {
                                 Log.e(TAG, loResponse.getString(loResponse.toString()));
                             }
                         }
-                        Thread.sleep(1000);
+                        Thread.sleep(500);
                     }
+                    lsResult = AppConstants.ALL_DATA_SENT();
                 } else {
                     lsResult = AppConstants.NO_INTERNET();
                 }
@@ -341,11 +341,12 @@ public class VMCollectionLog extends AndroidViewModel {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try{
-                 JSONObject loJson = new JSONObject();
+                 JSONObject loJson = new JSONObject(s);
                  if(loJson.getString("result").equalsIgnoreCase("success")){
                      callback.OnPostSuccess(new String[]{"Image uploaded successfully"});
                  } else {
-                     callback.OnPostFailed("");
+                     JSONObject loError = loJson.getJSONObject("error");
+                     callback.OnPostFailed(loError.getString("message"));
                  }
             } catch (Exception e){
                 e.printStackTrace();

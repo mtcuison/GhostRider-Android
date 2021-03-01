@@ -177,7 +177,6 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
                 poImageInfo = new EImageInfo();
                 poImageInfo.setDtlSrcNo(AccntNox);
                 poImageInfo.setSourceNo(TransNox);
-                poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(photPath));
                 poImageInfo.setSourceCD("DCPa");
                 poImageInfo.setImageNme(FileName);
                 poImageInfo.setFileLoct(photPath);
@@ -288,6 +287,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
 
     public void submitPtp(String remarks) throws Exception{
         //save ImageInfo...
+        poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(infoModel.getPtpImgPath()));
         mViewModel.saveImageInfo(poImageInfo);
 
         //Saving CollectionDetail...
