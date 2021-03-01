@@ -77,11 +77,11 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
             try{
                 mViewModel.setImageInfoList(eImageInfos);
             } catch (Exception e){
-
+                e.printStackTrace();
             }
         });
 
-        btnPost.setOnClickListener(view -> mViewModel.postTransactions(Activity_CollectionLog.this));
+        btnPost.setOnClickListener(view -> mViewModel.postTransactionImages(Activity_CollectionLog.this));
     }
 
     private void initWidgets(){

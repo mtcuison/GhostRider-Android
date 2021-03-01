@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
+import android.media.Image;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -70,6 +71,10 @@ public class RDailyCollectionPlan {
         detailDao.update(collectionDetail);
     }
 
+    public void updateCollectionDetailImage(String ImageID, String AccntNox){
+        detailDao.updateCustomerDetailImage(ImageID, AccntNox);
+    }
+
     public LiveData<EDCPCollectionDetail> getCollectionLastEntry(){
         return detailDao.getCollectionLastEntry();
     }
@@ -87,6 +92,29 @@ public class RDailyCollectionPlan {
         try{
             GConnection loConn = DbConnection.doConnect(application);
             lsNextCode = MiscUtil.getNextCode("Image_Information", "sTransNox", true, loConn.getConnection(), "", 12, false);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return lsNextCode;
+    }
+
+
+    public String getNextAddressCode(){
+        String lsNextCode = "";
+        try{
+            GConnection loConn = DbConnection.doConnect(application);
+            lsNextCode = MiscUtil.getNextCode("Address_Update_Request", "sTransNox", true, loConn.getConnection(), "", 12, false);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return lsNextCode;
+    }
+
+    public String getNextMobileCode(){
+        String lsNextCode = "";
+        try{
+            GConnection loConn = DbConnection.doConnect(application);
+            lsNextCode = MiscUtil.getNextCode("Mobile_Update_Request", "sTransNox", true, loConn.getConnection(), "", 12, false);
         } catch (Exception e){
             e.printStackTrace();
         }

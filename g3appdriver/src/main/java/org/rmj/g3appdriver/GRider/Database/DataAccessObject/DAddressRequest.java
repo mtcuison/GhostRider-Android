@@ -22,6 +22,14 @@ public interface DAddressRequest {
     @Query("SELECT * FROM Address_Update_Request")
     LiveData<List<EAddressUpdate>> getAddressRequestList();
 
+    @Query("UPDATE Address_Update_Request " +
+            "SET sTransNox =:TransNox " +
+            ",cSendStat = '1', " +
+            "dSendDate =:DateEntry, " +
+            "dModified=:DateEntry, " +
+            "dTimeStmp=:DateEntry " +
+            "WHERE sTransNox=:oldTransNox")
+    void updateAddressStatus(String TransNox, String oldTransNox, String DateEntry);
 
     @Query("SELECT AU.sTransNox, " +
             "AU.sClientID, " +

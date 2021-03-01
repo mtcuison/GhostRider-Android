@@ -18,6 +18,8 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_Pa
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
+import java.util.Objects;
+
 public class Activity_Transaction extends AppCompatActivity {
     private static final String TAG = Activity_Transaction.class.getSimpleName();
     private static Activity_Transaction instance;
@@ -57,7 +59,7 @@ public class Activity_Transaction extends AppCompatActivity {
         AccntNox = getIntent().getStringExtra("accntnox");
         Toolbar toolbar = findViewById(R.id.toolbar_transaction);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         ViewPager viewPager = findViewById(R.id.viewpager_transaction);
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getTransactionFragment(Remarksx)));
