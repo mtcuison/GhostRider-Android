@@ -43,4 +43,12 @@ public interface DDCPCollectionDetail {
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox =:TransNox AND sAcctNmbr =:AccountNo")
      LiveData<EDCPCollectionDetail> getDuplicateAccountEntry(String TransNox, String AccountNo);
+
+    @Query("UPDATE LR_DCP_Collection_Detail " +
+            "SET sImageNme=:ImageID " +
+            "WHERE sAcctNmbr =:AccountNo " +
+            "AND sTransNox = (SELECT sTransNox " +
+            "FROM LR_DCP_Collection_Master " +
+            "ORDER BY dTransact DESC LIMIT 1)")
+    void updateCustomerDetailImage(String ImageID, String AccountNo);
 }
