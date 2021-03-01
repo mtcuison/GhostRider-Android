@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
-import org.rmj.guanzongroup.ghostrider.imgcapture.database.DatabaseHelper;
 
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -32,7 +31,6 @@ public class Fragment_Home extends Fragment {
     private VMHome mViewModel;
     private GeoLocator poLocator;
     private ImageFileCreator poFilexx;
-    private DatabaseHelper imgDBHelper;
 
     private ImageView imgProfile;
     private TextView lblUserNm, lblEmailx, lblPstion, lblMobile, lblAddrss;
@@ -45,7 +43,6 @@ public class Fragment_Home extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         poLocator = new GeoLocator(getActivity(), getActivity());
         poFilexx = new ImageFileCreator(getActivity(), CAMERA_USAGE);
-        imgDBHelper = new DatabaseHelper(getActivity());
         imgProfile = view.findViewById(R.id.img_profile);
         lblUserNm = view.findViewById(R.id.lbl_employeeName);
         lblEmailx = view.findViewById(R.id.lbl_employeeEmail);
@@ -97,7 +94,6 @@ public class Fragment_Home extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             // Save to mysqlLite DB
-            imgDBHelper.insertPhoto(CAMERA_USAGE, photoPath, latitude, longitude);
             poFilexx.galleryAddPic(photoPath);
             setPic();
         }

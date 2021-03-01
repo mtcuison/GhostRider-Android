@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.example.imgcapture.R;
 
-import org.rmj.guanzongroup.ghostrider.imgcapture.database.DatabaseHelper;
 import com.google.android.material.button.MaterialButton;
 
 public class DCPPhotoCapture extends AppCompatActivity {
@@ -25,7 +24,6 @@ public class DCPPhotoCapture extends AppCompatActivity {
     private MaterialButton camera, list;
 
     private ImageFileCreator poFilexx;
-    private DatabaseHelper imgDBHelper;
 
     private String photoPath;
     private double varLatitude, varLongitude;
@@ -42,7 +40,6 @@ public class DCPPhotoCapture extends AppCompatActivity {
         camera = findViewById(R.id.camera);
 
         poFilexx = new ImageFileCreator(this, CAMERA_USAGE);
-        imgDBHelper = new DatabaseHelper(this);
 
         camera.setOnClickListener(view -> {
             poFilexx.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
@@ -64,7 +61,6 @@ public class DCPPhotoCapture extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
             // Save to mysqlLite DB
-            imgDBHelper.insertPhoto(CAMERA_USAGE, photoPath, varLatitude, varLongitude);
             poFilexx.galleryAddPic(photoPath);
             setPic();
             directory.setText("Directory: " + photoPath);
