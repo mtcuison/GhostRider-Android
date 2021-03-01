@@ -13,11 +13,14 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
@@ -27,6 +30,7 @@ import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.MobileUpdate;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,10 +41,14 @@ public class VMCollectionLog extends AndroidViewModel {
     private final RDailyCollectionPlan poDcp;
     private final RBranch poBranch;
     private final RImageInfo poImage;
+    private final RCollectionUpdate poUpdate;
+
 
     private final MutableLiveData<EDCPCollectionMaster> poMaster = new MutableLiveData<>();
     private final MutableLiveData<List<EDCPCollectionDetail>> plTranList = new MutableLiveData<>();
     private final MutableLiveData<List<EImageInfo>> plImageLst = new MutableLiveData<>();
+    private final MutableLiveData<List<EAddressUpdate>> paAddress = new MutableLiveData<>();
+    private final MutableLiveData<List<EMobileUpdate>> paMobile = new MutableLiveData<>();
 
     public interface PostTransactionCallback{
         void OnLoad();
@@ -54,6 +62,7 @@ public class VMCollectionLog extends AndroidViewModel {
         this.poDcp = new RDailyCollectionPlan(application);
         this.poBranch = new RBranch(application);
         this.poImage = new RImageInfo(application);
+        this.poUpdate = new RCollectionUpdate(application);
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
@@ -95,7 +104,23 @@ public class VMCollectionLog extends AndroidViewModel {
 
     public void postTransactionImages(PostTransactionCallback callback){
         List<EImageInfo> loImages = plImageLst.getValue();
-        new PostImagesTask(instance, plTranList.getValue(), callback).execute(loImages);
+        new PostImagesTask(instance, plTranList.getValue(), paAddress.getValue(), paMobile.getValue(), callback).execute(loImages);
+    }
+
+    public LiveData<List<EAddressUpdate>> getAllAddress(){
+        return poUpdate.getAddressList();
+    }
+
+    public LiveData<List<EMobileUpdate>> getAllMobileNox(){
+        return poUpdate.getMobileList();
+    }
+
+    public void setAddressList(List<EAddressUpdate> paAddress) {
+        this.paAddress.setValue(paAddress);
+    }
+
+    public void setMobileList(List<EMobileUpdate> paMobile) {
+        this.paMobile.setValue(paMobile);
     }
 
     private static class PostTask extends AsyncTask<List<EDCPCollectionDetail>, Void, String>{
@@ -211,9 +236,13 @@ public class VMCollectionLog extends AndroidViewModel {
         private final RImageInfo poImage;
         private final Telephony poTelephony;
         private final List<EDCPCollectionDetail> paDetail;
+        private final List<EAddressUpdate> paAddress;
+        private final List<EMobileUpdate> paMobile;
         private final HttpHeaders poHeaders;
 
-        public PostImagesTask(Application instance, List<EDCPCollectionDetail> faDetail, PostTransactionCallback callback) {
+        private RCollectionUpdate rCollect;
+
+        public PostImagesTask(Application instance, List<EDCPCollectionDetail> faDetail, List<EAddressUpdate> eAddUpdate, List<EMobileUpdate> eMobUpdate, PostTransactionCallback callback) {
             this.instance = instance;
             this.poConn = new ConnectionUtil(instance);
             this.poUser = new SessionManager(instance);
@@ -222,6 +251,9 @@ public class VMCollectionLog extends AndroidViewModel {
             this.poImage = new RImageInfo(instance);
             this.poTelephony = new Telephony(instance);
             this.paDetail = faDetail;
+            this.paAddress = eAddUpdate;
+            this.paMobile = eMobUpdate;
+            this.rCollect = new RCollectionUpdate(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
         }
 
@@ -326,8 +358,48 @@ public class VMCollectionLog extends AndroidViewModel {
                                 Log.e(TAG, loResponse.getString(loResponse.toString()));
                             }
                         }
+
                         Thread.sleep(1000);
+
+                        if(loDetail.getRemCodex().equalsIgnoreCase("CNA")) {
+                            for (int i = 0; i < paAddress.size(); i++) {
+                                EAddressUpdate info = paAddress.get(i);
+                                JSONObject param = new JSONObject();
+                                param.put("sTransNox", info.getTransNox());
+                                param.put("sClientID", info.getClientID());
+                                param.put("cReqstCDe", info.getReqstCDe());
+                                param.put("cAddrssTp", info.getAddrssTp());
+                                param.put("sHouseNox", info.getHouseNox());
+                                param.put("sAddressx", info.getAddressx());
+                                param.put("sTownIDxx", info.getTownIDxx());
+                                param.put("sBrgyIDxx", info.getBrgyIDxx());
+                                param.put("cPrimaryx", info.getPrimaryx());
+                                param.put("nLatitude", info.getLatitude());
+                                param.put("nLongitud", info.getLongitud());
+                                param.put("sRemarksx", info.getRemarksx());
+                                param.put("sSourceCD","DCPa");
+                                param.put("sSourceNo", loDetail.getAcctNmbr());
+
+                                String lsUpdateResponse = WebClient.httpsPostJSon(WebApi.URL_UPDATE_ADDRESS, param.toString(), poHeaders.getHeaders());
+
+                                if(lsUpdateResponse == null) {
+                                    Log.e("Result:", "Server no Repsonse");
+                                } else {
+                                    JSONObject loResult = new JSONObject(lsUpdateResponse);
+                                    String result = loResult.getString("result");
+                                    if(result.equalsIgnoreCase("success")) {
+                                        String newTransNox = loResult.getString("sTransNox");
+                                        rCollect.updateAddressStatus(newTransNox, info.getTransNox());
+                                        Log.e("Result:",result);
+                                    } else {
+                                        Log.e("Result:","Failed");
+                                    }
+                                }
+                            }
+                        }
                     }
+
+
                 } else {
                     lsResult = AppConstants.NO_INTERNET();
                 }

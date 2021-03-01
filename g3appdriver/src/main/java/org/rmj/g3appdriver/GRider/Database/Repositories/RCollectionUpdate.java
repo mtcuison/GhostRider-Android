@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAddressRequest;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMobileRequest;
@@ -52,6 +53,10 @@ public class RCollectionUpdate {
 
     public void deleteMobile(String TransNox){
         new DeleteMobileTask(mobileDao).execute(TransNox);
+    }
+
+    public void updateAddressStatus(String TransNox, String oldTransNox){
+        addressDao.updateAddressStatus(TransNox, oldTransNox, AppConstants.DATE_MODIFIED);
     }
 
     private static class UpdateAddressTask extends AsyncTask<EAddressUpdate, Void, String>{

@@ -98,6 +98,29 @@ public class RDailyCollectionPlan {
         return lsNextCode;
     }
 
+
+    public String getNextAddressCode(){
+        String lsNextCode = "";
+        try{
+            GConnection loConn = DbConnection.doConnect(application);
+            lsNextCode = MiscUtil.getNextCode("Address_Update_Request", "sTransNox", true, loConn.getConnection(), "", 12, false);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return lsNextCode;
+    }
+
+    public String getNextMobileCode(){
+        String lsNextCode = "";
+        try{
+            GConnection loConn = DbConnection.doConnect(application);
+            lsNextCode = MiscUtil.getNextCode("Mobile_Update_Request", "sTransNox", true, loConn.getConnection(), "", 12, false);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return lsNextCode;
+    }
+
     public void saveCollectionDetail(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
 
