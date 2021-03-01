@@ -59,6 +59,10 @@ public class RCollectionUpdate {
         addressDao.updateAddressStatus(TransNox, oldTransNox, AppConstants.DATE_MODIFIED);
     }
 
+    public void updateMobileStatus(String TransNox, String oldTransNox) {
+        mobileDao.updateMobileStatus(TransNox, oldTransNox, AppConstants.DATE_MODIFIED);
+    }
+
     private static class UpdateAddressTask extends AsyncTask<EAddressUpdate, Void, String>{
         private final DAddressRequest addressDao;
 

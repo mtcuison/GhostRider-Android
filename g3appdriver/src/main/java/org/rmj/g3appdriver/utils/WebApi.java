@@ -173,4 +173,5 @@ public class WebApi {
     public static String URL_GET_AR_CLIENT = "https://restgk.guanzongroup.com.ph/query/client/get_ar_client.php";
     public static String URL_GET_REG_CLIENT = "https://restgk.guanzongroup.com.ph/query/client/get_reg_client.php";
     public static String URL_UPDATE_ADDRESS = "https://restgk.guanzongroup.com.ph/integsys/dcp/request_address_update.php";
+    public static String URL_UPDATE_MOBILE = "https://restgk.guanzongroup.com.ph/integsys/dcp/request_mobile_update.php";
 }

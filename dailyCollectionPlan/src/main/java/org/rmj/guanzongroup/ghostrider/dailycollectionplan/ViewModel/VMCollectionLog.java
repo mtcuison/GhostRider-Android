@@ -380,21 +380,51 @@ public class VMCollectionLog extends AndroidViewModel {
                                 param.put("sSourceCD","DCPa");
                                 param.put("sSourceNo", loDetail.getAcctNmbr());
 
-                                String lsUpdateResponse = WebClient.httpsPostJSon(WebApi.URL_UPDATE_ADDRESS, param.toString(), poHeaders.getHeaders());
+                                String lsAddressUpdtResponse = WebClient.httpsPostJSon(WebApi.URL_UPDATE_ADDRESS, param.toString(), poHeaders.getHeaders());
 
-                                if(lsUpdateResponse == null) {
-                                    Log.e("Result:", "Server no Repsonse");
+                                if(lsAddressUpdtResponse == null) {
+                                    Log.e("Address Update Result:", "Server no Repsonse");
                                 } else {
-                                    JSONObject loResult = new JSONObject(lsUpdateResponse);
+                                    JSONObject loResult = new JSONObject(lsAddressUpdtResponse);
                                     String result = loResult.getString("result");
                                     if(result.equalsIgnoreCase("success")) {
                                         String newTransNox = loResult.getString("sTransNox");
                                         rCollect.updateAddressStatus(newTransNox, info.getTransNox());
-                                        Log.e("Result:",result);
+                                        Log.e("Address Update Result:",result);
                                     } else {
-                                        Log.e("Result:","Failed");
+                                        Log.e("Address Update Result:","Failed");
                                     }
                                 }
+                            }
+
+                            for(int y = 0; y < paMobile.size(); y++) {
+                                EMobileUpdate info = paMobile.get(y);
+                                JSONObject param = new JSONObject();
+                                param.put("sTransNox", info.getTransNox());
+                                param.put("sClientID",info.getClientID());
+                                param.put("cReqstCDe",info.getReqstCDe());
+                                param.put("sMobileNo", info.getMobileNo());
+                                param.put("cPrimaryx", info.getPrimaryx());
+                                param.put("sRemarksx", info.getRemarksx());
+                                param.put("sSourceCD","DCPa");
+                                param.put("sSourceNo", loDetail.getAcctNmbr());
+
+                                String lsMobileUpdtResponse = WebClient.httpsPostJSon(WebApi.URL_UPDATE_MOBILE, param.toString(), poHeaders.getHeaders());
+
+                                if(lsMobileUpdtResponse == null) {
+                                    Log.e("Mobile Update Result:", "Server no Repsonse");
+                                } else {
+                                    JSONObject loMobResult = new JSONObject(lsMobileUpdtResponse);
+                                    String result = loMobResult.getString("result");
+                                    if(result.equalsIgnoreCase("success")) {
+                                        String newTransNox = loMobResult.getString("sTransNox");
+                                        rCollect.updateMobileStatus(newTransNox, info.getTransNox());
+                                        Log.e("Mobile Update Result:",result);
+                                    } else {
+                                        Log.e("Mobile Update Result:","Failed");
+                                    }
+                                }
+
                             }
                         }
                     }
