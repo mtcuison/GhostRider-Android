@@ -150,6 +150,7 @@ public class WebApi {
     public static String URL_IMPORT_MC_CATEGORY = "https://restgk.guanzongroup.com.ph/integsys/param/download_mc_category.php";
     public static String URL_IMPORT_TERM_CATEGORY = "https://restgk.guanzongroup.com.ph/integsys/param/download_mc_term_category.php";
     public static String URL_IMPORT_BRANCHES = "https://restgk.guanzongroup.com.ph/integsys/param/download_branch.php";
+    public static String URL_IMPORT_FILE_CODE = "https://restgk.guanzongroup.com.ph/integsys/param/download_edoc_file_type.php";
     public static String URL_IMPORT_OCCUPATIONS = "https://restgk.guanzongroup.com.ph/integsys/param/download_occupation.php";
     public static String URL_SUBMIT_ONLINE_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/gocas/gocas_save.php";
     public static String URL_REQUEST_ONLINE_APPLICATIONS = "https://restgk.guanzongroup.com.ph/integsys/gocas/gocas_request_status.php";
