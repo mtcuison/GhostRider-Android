@@ -8,6 +8,12 @@ import java.util.Locale;
 
 public class AppConstants {
 
+    public static String ALL_DATA_SENT() throws Exception{
+        JSONObject loJson = new JSONObject();
+        loJson.put("result", "success");
+        return loJson.toString();
+    }
+
     public static String NO_INTERNET() throws Exception{
         JSONObject loJson = new JSONObject();
         JSONObject loError = new JSONObject();

@@ -79,8 +79,12 @@ public class VMCollectionList extends AndroidViewModel {
         return poDCPRepo .getCollectionMaster();
     }
 
-    public LiveData<EDCPCollectionDetail> getDuplicateAccountrEntry(String TransNox, String AccountNo){
-        return poDCPRepo.getDuplicateAccountEntry(TransNox, AccountNo);
+    public LiveData<EDCPCollectionDetail> getDuplicateAccountEntry(String AccountNo){
+        return poDCPRepo.getDuplicateAccountEntry(AccountNo);
+    }
+
+    public LiveData<EDCPCollectionDetail> getDuplicateSerialEntry(String SerialNo){
+        return poDCPRepo.getDuplicateSerialEntry(SerialNo);
     }
 
     public void setParameter(String fsTransNox, String fnEntryNox){

@@ -78,6 +78,7 @@ public class Fragment_Activate extends Fragment implements ViewModelCallBack {
     @Override
     public void OnRequestFailed(String message) {
         dialog.dismiss();
+        loMessage.initDialog();
         loMessage.setMessage(message);
         loMessage.setTitle("Unlock Device");
         loMessage.setPositiveButton("Okay", (view, msgDialog) -> msgDialog.dismiss());

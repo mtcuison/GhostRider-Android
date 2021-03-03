@@ -35,7 +35,7 @@ public class ImageFileCreator {
     public static int GCAMERA = 112;
 
     public static class FILE_CODE{
-        public static String DCP = "Daily_Collection_Plan";
+        public static String DCP = "dcp";
         public static String SELFIE_LOGIN = "Selfie_Login";
         //TODO: add more file code for additional feature for app
     }
@@ -91,11 +91,9 @@ public class ImageFileCreator {
         }
     }
     public File createImageFile() throws IOException {
-        image = File.createTempFile(
-                generateImageFileName(),  /* prefix */
-                ".jpg",         /* suffix */
-                generateStorageDir()      /* directory */
-        );
+        image = new File(
+                generateStorageDir(),
+                generateImageFileName());
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
@@ -108,8 +106,8 @@ public class ImageFileCreator {
     }
 
     public String generateImageFileName() {
-
-        return cameraUsage + "_" + generateTimestamp() + "_";
+        String lsResult = cameraUsage + "_" + generateTimestamp() + ".jpeg";
+        return lsResult;
     }
 
     public String generateDCPImageFileName() {

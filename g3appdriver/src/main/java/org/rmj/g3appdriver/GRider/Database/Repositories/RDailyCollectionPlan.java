@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
+import android.media.Image;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -10,6 +11,7 @@ import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionMaster;
@@ -68,14 +70,32 @@ public class RDailyCollectionPlan {
 
     public void updateCollectionDetailInfo(EDCPCollectionDetail collectionDetail){
         detailDao.update(collectionDetail);
+        //detailDao.updateCollectionDetailInfo(collectionDetail.getEntryNox(), collectionDetail.getRemCodex(),AppConstants.DATE_MODIFIED);
+    }
+
+    public void updateCollectionDetail(String EntryNox, String RemCode){
+        detailDao.updateCollectionDetailInfo(EntryNox, RemCode, AppConstants.DATE_MODIFIED);
+    }
+
+    public void updateCollectionDetailStatus(String TransNox, String EntryNox){
+        detailDao.updateCollectionDetailStatus(TransNox, EntryNox, AppConstants.DATE_MODIFIED);
+    }
+
+    public void updateCollectionDetailImage(String ImageID, String AccntNox){
+        detailDao.updateCustomerDetailImage(ImageID, AccntNox);
+        Log.e(TAG, "updateCustomerDetailImage");
     }
 
     public LiveData<EDCPCollectionDetail> getCollectionLastEntry(){
         return detailDao.getCollectionLastEntry();
     }
 
-    public LiveData<EDCPCollectionDetail> getDuplicateAccountEntry(String TransNox, String AccountNo){
-        return detailDao.getDuplicateAccountEntry(TransNox, AccountNo);
+    public LiveData<EDCPCollectionDetail> getDuplicateAccountEntry(String AccountNo){
+        return detailDao.getDuplicateAccountEntry(AccountNo);
+    }
+
+    public LiveData<EDCPCollectionDetail> getDuplicateSerialEntry(String SerialNo){
+        return detailDao.getDuplicateSerialEntry(SerialNo);
     }
 
     public void saveCollectionMaster(JSONObject foJson) throws Exception {

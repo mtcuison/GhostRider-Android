@@ -18,6 +18,8 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_Pa
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
+import java.util.Objects;
+
 public class Activity_Transaction extends AppCompatActivity {
     private static final String TAG = Activity_Transaction.class.getSimpleName();
     private static Activity_Transaction instance;
@@ -57,7 +59,7 @@ public class Activity_Transaction extends AppCompatActivity {
         AccntNox = getIntent().getStringExtra("accntnox");
         Toolbar toolbar = findViewById(R.id.toolbar_transaction);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         ViewPager viewPager = findViewById(R.id.viewpager_transaction);
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getTransactionFragment(Remarksx)));
@@ -102,7 +104,8 @@ public class Activity_Transaction extends AppCompatActivity {
         } else if(transaction.equalsIgnoreCase("Promise to Pay")){
             return new Fragment_PromiseToPay();
         } else if(transaction.equalsIgnoreCase("Customer Not Around")){
-            return new Fragment_CustomerNotAround();
+            return new Fragment_IncTransaction();
+//            return new Fragment_CustomerNotAround();
         } else if(transaction.equalsIgnoreCase("Loan Unit")){
             return new Fragment_LoanUnit();
         } else if(transaction.equalsIgnoreCase("Carnap") ||
@@ -111,6 +114,7 @@ public class Activity_Transaction extends AppCompatActivity {
                 transaction.equalsIgnoreCase("Missing Unit") ||
                 transaction.equalsIgnoreCase("Missing Client and Unit") ||
                 transaction.equalsIgnoreCase("Did Not Pay") ||
+                transaction.equalsIgnoreCase("Not Visited") ||
                 transaction.equalsIgnoreCase("Others")){
             return new Fragment_IncTransaction();
         }

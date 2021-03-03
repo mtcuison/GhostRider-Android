@@ -86,6 +86,7 @@ public class Fragment_Login extends Fragment implements LoginCallback{
     public void OnFailedLoginResult(String message) {
         dialog.dismiss();
         MessageBox loMessage = new MessageBox(getActivity());
+        loMessage.initDialog();
         loMessage.setTitle("GhostRider");
         loMessage.setMessage(message);
         loMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());

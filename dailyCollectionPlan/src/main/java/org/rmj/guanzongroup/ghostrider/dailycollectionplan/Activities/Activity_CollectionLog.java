@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -77,11 +78,11 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
             try{
                 mViewModel.setImageInfoList(eImageInfos);
             } catch (Exception e){
-
+                e.printStackTrace();
             }
         });
 
-        btnPost.setOnClickListener(view -> mViewModel.postTransactions(Activity_CollectionLog.this));
+        btnPost.setOnClickListener(view -> mViewModel.postTransactionImages(Activity_CollectionLog.this));
     }
 
     private void initWidgets(){
@@ -123,8 +124,14 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
     }
 
     @Override
+    public void OnProgressUpdate(String Message) {
+        Toast.makeText(this, Message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void OnPostSuccess(String[] args) {
         poDialog.dismiss();
+        poMessage.initDialog();
         poMessage.setTitle("Daily Collection Plan");
         poMessage.setMessage(args[0]);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
@@ -134,6 +141,7 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
     @Override
     public void OnPostFailed(String message) {
         poDialog.dismiss();
+        poMessage.initDialog();
         poMessage.setTitle("Daily Collection Plan");
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
