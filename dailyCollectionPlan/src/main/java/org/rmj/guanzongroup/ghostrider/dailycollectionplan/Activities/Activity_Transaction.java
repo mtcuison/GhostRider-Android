@@ -104,11 +104,11 @@ public class Activity_Transaction extends AppCompatActivity {
         } else if(transaction.equalsIgnoreCase("Promise to Pay")){
             return new Fragment_PromiseToPay();
         } else if(transaction.equalsIgnoreCase("Customer Not Around")){
-            return new Fragment_IncTransaction();
+            return new Fragment_CustomerNotAround();
 //            return new Fragment_CustomerNotAround();
         } else if(transaction.equalsIgnoreCase("Loan Unit")){
             return new Fragment_LoanUnit();
-        } else if(transaction.equalsIgnoreCase("Carnap") ||
+        } else if(transaction.equalsIgnoreCase("Car nap") ||
                 transaction.equalsIgnoreCase("Uncooperative") ||
                 transaction.equalsIgnoreCase("Missing Customer") ||
                 transaction.equalsIgnoreCase("Missing Unit") ||

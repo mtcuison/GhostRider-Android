@@ -41,6 +41,7 @@ public class Activity_Application extends AppCompatActivity {
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_ObApplication()));
         }
         if(application == AppConstants.INTENT_LEAVE_APPLICATION){
+            getSupportActionBar().setTitle("Leave Application");
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_LeaveApplication()));
         }
         if(application == AppConstants.INTENT_SELFIE_LOGIN){
