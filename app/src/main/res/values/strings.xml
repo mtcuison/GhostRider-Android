@@ -39,7 +39,7 @@
     <string name="lsBtn_Notification">Notifications</string>
     <string name="lsBtn_Settings">Settings</string>
     <string name="lsBtn_Logout">Logout</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
     <string name="theme_title">Appearance</string>

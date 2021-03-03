@@ -32,6 +32,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.Activity.SplashScreenActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.Dialog.DialogUserProfile;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_NotificationList;
+import org.rmj.guanzongroup.ghostrider.settings.Settings;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -102,7 +103,7 @@ public class Fragment_Dashboard extends Fragment {
             startActivity(intent);
         });
         cvSettings.setOnClickListener(v ->{
-            Intent intent = new Intent(getActivity(), SettingsActivity.class);
+            Intent intent = new Intent(getActivity(), Settings.class);
             startActivity(intent);
         });
         cvLogout.setOnClickListener(v ->{
