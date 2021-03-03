@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -18,6 +19,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
@@ -25,6 +27,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
@@ -41,9 +44,14 @@ public class VMCustomerNotAround extends AndroidViewModel {
     private final Application instance;
     private final RDailyCollectionPlan poDcp;
     private final RCollectionUpdate poUpdate;
+    private final RImageInfo poImage;
     private final RBranch poBranch;
     private final RTown poTownRepo; //Town Repository
     private final RBarangay poBarangay;
+
+    private String ImgTransNox;
+    private String sLatitude;
+    private String sLongitude;
 
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
@@ -56,6 +64,8 @@ public class VMCustomerNotAround extends AndroidViewModel {
     private final MutableLiveData<String> psProvID = new MutableLiveData<>();
     private final MutableLiveData<String> psTownID = new MutableLiveData<>();
     private final MutableLiveData<String> psBrgyID = new MutableLiveData<>();
+    private final MutableLiveData<String> sImgPathx = new MutableLiveData<>();
+    private final MutableLiveData<String> sAccntNox = new MutableLiveData<>();
 
     private MutableLiveData<List<EAddressUpdate>> plAddress = new MutableLiveData<>();
     private MutableLiveData<List<EMobileUpdate>> plMobile = new MutableLiveData<>();
@@ -70,14 +80,25 @@ public class VMCustomerNotAround extends AndroidViewModel {
         poBarangay = new RBarangay(application);
         this.primeContact.setValue(ZERO);
         this.primeAddress.setValue(ZERO);
-
+        this.poImage = new RImageInfo(application);
         this.plAddress.setValue(new ArrayList<>());
         this.plMobile.setValue(new ArrayList<>());
+    }
+
+    public void saveImageInfo(EImageInfo foImageInfo){
+        ImgTransNox = poDcp.getImageNextCode();
+        foImageInfo.setTransNox(ImgTransNox);
+        foImageInfo.setDtlSrcNo(sAccntNox.getValue());
+        poImage.insertImageInfo(foImageInfo);
     }
 
     public void setParameter(String TransNox, String EntryNox){
         this.psTransNox.setValue(TransNox);
         this.psEntryNox.setValue(EntryNox);
+    }
+
+    public void setAccountNo(String fsAccntNo){
+        this.sAccntNox.setValue(fsAccntNo);
     }
 
     public void setTownID(String fsID){
@@ -115,6 +136,10 @@ public class VMCustomerNotAround extends AndroidViewModel {
 
     public void setAddressType(String addressType) {
         this.addressType.setValue(addressType);
+    }
+
+    public void setImagePath(String fsPath){
+        this.sImgPathx.setValue(fsPath);
     }
 
     public LiveData<EDCPCollectionDetail> getCollectionDetail(){
@@ -160,6 +185,21 @@ public class VMCustomerNotAround extends AndroidViewModel {
         return poUpdate.getMobileList();
     }
 
+    public void updateCollectionDetail(String RemarksCode){
+        EDCPCollectionDetail detail = poDcpDetail.getValue();
+        Objects.requireNonNull(detail).setRemCodex(RemarksCode);
+        detail.setImageNme(ImgTransNox);
+        new UpdateCollectionTask(poDcp, RemarksCode).execute(detail);
+    }
+
+    public void setLatitude(String sLatitude) {
+        this.sLatitude = sLatitude;
+    }
+
+    public void setLongitude(String sLongitude) {
+        this.sLongitude = sLongitude;
+    }
+
     public void addAddress(AddressUpdate foAddress, ViewModelCallback callback){
         try {
             foAddress.setRequestCode(requestCode.getValue());
@@ -171,7 +211,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
             if (foAddress.isDataValid()) {
                 EAddressUpdate info = new EAddressUpdate();
                 //Auto Generated random String
-                info.setTransNox(getAlphaNumericString());
+                info.setTransNox(poDcp.getNextAddressCode());
                 info.setClientID(clientID.getValue());
                 info.setReqstCDe(foAddress.getRequestCode());
                 info.setAddrssTp(foAddress.getcAddrssTp());
@@ -180,10 +220,10 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 info.setTownIDxx(foAddress.getTownID());
                 info.setBrgyIDxx(foAddress.getBarangayID());
                 info.setPrimaryx(foAddress.getPrimaryStatus());
-                info.setLongitud("");
-                info.setLatitude("");
+                info.setLongitud(sLatitude);
+                info.setLatitude(sLongitude);
                 info.setRemarksx(foAddress.getRemarks());
-                info.setTranStat("");
+                info.setTranStat("0");
                 info.setSendStat("0");
                 info.setModified(AppConstants.DATE_MODIFIED);
                 info.setTimeStmp(AppConstants.DATE_MODIFIED);
@@ -209,13 +249,13 @@ public class VMCustomerNotAround extends AndroidViewModel {
         try{
             if(foMobile.isDataValid()){
                 EMobileUpdate info = new EMobileUpdate();
-                info.setTransNox(getAlphaNumericString());
+                info.setTransNox(poDcp.getNextMobileCode());
                 info.setClientID(clientID.getValue());
                 info.setReqstCDe(foMobile.getcReqstCde());
                 info.setMobileNo(foMobile.getsMobileNo());
                 info.setPrimaryx(foMobile.getcPrimaryx());
                 info.setRemarksx(foMobile.getsRemarksx());
-                info.setTranStat("");
+                info.setTranStat("0");
                 info.setSendStat("0");
                 info.setModified(AppConstants.DATE_MODIFIED);
                 info.setTimeStmp(AppConstants.DATE_MODIFIED);
@@ -231,6 +271,10 @@ public class VMCustomerNotAround extends AndroidViewModel {
             e.printStackTrace();
             callback.OnFailedResult(e.getMessage());
         }
+    }
+
+    public void saveTrans() {
+
     }
 
     public void deleteMobile(String TransNox){
@@ -273,30 +317,23 @@ public class VMCustomerNotAround extends AndroidViewModel {
         }
     }
 
-    private String getAlphaNumericString()
-    {
-        int charCount = 10;
-        // chose a Character random from this String
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                + "0123456789"
-                + "abcdefghijklmnopqrstuvxyz";
+    private static class UpdateCollectionTask extends AsyncTask<EDCPCollectionDetail, Void, String> {
+        private final RDailyCollectionPlan poDcp;
+        private final String RemarksCode;
 
-        // create StringBuffer size of AlphaNumericString
-        StringBuilder sb = new StringBuilder(charCount);
-
-        for (int i = 0; i < charCount; i++) {
-
-            // generate a random number between
-            // 0 to AlphaNumericString variable length
-            int index
-                    = (int)(AlphaNumericString.length()
-                    * Math.random());
-
-            // add Character one by one in end of sb
-            sb.append(AlphaNumericString
-                    .charAt(index));
+        public UpdateCollectionTask(RDailyCollectionPlan poDcp, String Remarks){
+            this.poDcp = poDcp;
+            this.RemarksCode = Remarks;
         }
 
-        return sb.toString();
+        @Override
+        protected String doInBackground(EDCPCollectionDetail... detail) {
+            Objects.requireNonNull(detail[0]).setRemCodex(RemarksCode);
+            detail[0].setTranStat("1");
+            detail[0].setSendStat("0");
+            detail[0].setModified(AppConstants.DATE_MODIFIED);
+            poDcp.updateCollectionDetailInfo(detail[0]);
+            return null;
+        }
     }
 }

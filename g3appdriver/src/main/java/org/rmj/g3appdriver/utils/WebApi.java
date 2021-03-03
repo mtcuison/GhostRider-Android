@@ -150,6 +150,7 @@ public class WebApi {
     public static String URL_IMPORT_MC_CATEGORY = "https://restgk.guanzongroup.com.ph/integsys/param/download_mc_category.php";
     public static String URL_IMPORT_TERM_CATEGORY = "https://restgk.guanzongroup.com.ph/integsys/param/download_mc_term_category.php";
     public static String URL_IMPORT_BRANCHES = "https://restgk.guanzongroup.com.ph/integsys/param/download_branch.php";
+    public static String URL_IMPORT_FILE_CODE = "https://restgk.guanzongroup.com.ph/integsys/param/download_edoc_file_type.php";
     public static String URL_IMPORT_OCCUPATIONS = "https://restgk.guanzongroup.com.ph/integsys/param/download_occupation.php";
     public static String URL_SUBMIT_ONLINE_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/gocas/gocas_save.php";
     public static String URL_REQUEST_ONLINE_APPLICATIONS = "https://restgk.guanzongroup.com.ph/integsys/gocas/gocas_request_status.php";
@@ -172,4 +173,6 @@ public class WebApi {
     public static String URL_DCP_SUBMIT = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_submit.php";
     public static String URL_GET_AR_CLIENT = "https://restgk.guanzongroup.com.ph/query/client/get_ar_client.php";
     public static String URL_GET_REG_CLIENT = "https://restgk.guanzongroup.com.ph/query/client/get_reg_client.php";
+    public static String URL_UPDATE_ADDRESS = "https://restgk.guanzongroup.com.ph/integsys/dcp/request_address_update.php";
+    public static String URL_UPDATE_MOBILE = "https://restgk.guanzongroup.com.ph/integsys/dcp/request_mobile_update.php";
 }

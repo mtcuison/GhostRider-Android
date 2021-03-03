@@ -10,6 +10,7 @@
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
 
+    import android.util.Log;
     import android.view.LayoutInflater;
     import android.view.View;
     import android.view.ViewGroup;
@@ -27,17 +28,23 @@
     import com.google.android.material.button.MaterialButton;
     import com.google.android.material.textfield.TextInputEditText;
 
+    import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
     import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+    import org.rmj.g3appdriver.etc.WebFileServer;
     import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
     import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter;
     import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.MobileInfoAdapter;
+    import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
     import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.AddressUpdate;
     import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.MobileUpdate;
     import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
     import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCustomerNotAround;
     import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
+    import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
     import java.util.Objects;
+
+    import static android.app.Activity.RESULT_OK;
 
     public class Fragment_CustomerNotAround extends Fragment implements ViewModelCallback {
         private VMCustomerNotAround mViewModel;
@@ -46,6 +53,9 @@
 
         private MobileInfoAdapter mobileAdapter;
         private AddressInfoAdapter addressAdapter;
+        private EImageInfo poImageInfo;
+
+        private ImageFileCreator poImage;
 
         private MessageBox poMessage;
         private CheckBox cbPrimeContact, cbPrimary;
@@ -59,8 +69,9 @@
                 lnAddress;
         private MaterialButton btnAdd, btnCommit, btnSubmit;
         private RecyclerView rvCNAOutputs;
+        private String Remarksx;
 
-        private String sRqstCode, sPrimaryx;
+        private String sRqstCode, sPrimaryx , psPhotox;
         private static final int MOBILE_DIALER = 104;
 
         @Override
@@ -68,6 +79,8 @@
             View view = inflater.inflate(R.layout.fragment_customer_not_around_fragment, container, false);
             addressInfoModel = new AddressUpdate();
             poMessage = new MessageBox(getActivity());
+            poImageInfo = new EImageInfo();
+
             initWidgets(view);
 
             return view;
@@ -91,6 +104,9 @@
 
                     mViewModel.setClientID(collectionDetail.getClientID());
                     mViewModel.setCurrentCollectionDetail(collectionDetail);
+
+                    mViewModel.setAccountNo(collectionDetail.getAcctNmbr());
+                    poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, ImageFileCreator.FILE_CODE.DCP, collectionDetail.getAcctNmbr());
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -164,9 +180,43 @@
 
 
             mViewModel.getRequestCodeOptions().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnRequestCode.setAdapter(stringArrayAdapter));
+           btnSubmit.setOnClickListener(v ->{
+               poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                   psPhotox = photPath;
+                   poImageInfo.setSourceNo(TransNox);
+                   poImageInfo.setSourceCD("DCPa");
+                   poImageInfo.setImageNme(FileName);
+                   poImageInfo.setFileLoct(photPath);
+                   poImageInfo.setFileCode("UNKN");
+                   poImageInfo.setLatitude(String.valueOf(latitude));
+                   poImageInfo.setLongitud(String.valueOf(longitude));
+                   mViewModel.setLatitude(String.valueOf(latitude));
+                   mViewModel.setLongitude(String.valueOf(longitude));
+                   mViewModel.setImagePath(photPath);
+                   startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+               });
+           });
+        }
+
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            if(requestCode == ImageFileCreator.GCAMERA){
+                if(resultCode == RESULT_OK){
+                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
+                    mViewModel.saveImageInfo(poImageInfo);
+                    mViewModel.updateCollectionDetail(DCP_Constants.getRemarksCode(Remarksx));
+                    Log.e("Fragment_CNA:", "Image Info Save");
+                    OnSuccessResult(new String[]{"Success"});
+                } else {
+                    Objects.requireNonNull(getActivity()).finish();
+                }
+            }
         }
 
         private void initWidgets(View v){
+            Remarksx = Activity_Transaction.getInstance().getRemarksCode();
             lblBranch = v.findViewById(R.id.lbl_headerBranch);
             lblAddress = v.findViewById(R.id.lbl_headerAddress);
             lblAccNo = v.findViewById(R.id.lbl_dcpAccNo);
