@@ -15,6 +15,15 @@ public interface DMobileRequest {
     @Insert
     void insert(EMobileUpdate mobileUpdate);
 
+    @Query("UPDATE Address_Update_Request " +
+            "SET sTransNox =:TransNox " +
+            ",cSendStat = '1', " +
+            "dSendDate =:DateEntry, " +
+            "dModified=:DateEntry, " +
+            "dTimeStmp=:DateEntry " +
+            "WHERE sTransNox=:oldTransNox")
+    void updateMobileStatus(String TransNox, String oldTransNox, String DateEntry);
+
     @Query("DELETE FROM Mobile_Update_Request WHERE sTransNox = :sTransNox")
     void deleteMobileInfo(String sTransNox);
 
