@@ -142,6 +142,7 @@ public class Fragment_CreditAppApproval extends Fragment implements ViewModelCal
     @Override
     public void OnFailedResult(String message) {
         poDialog.dismiss();
+        poMsgBox.initDialog();
         poMsgBox.setTitle("Approval Code");
         poMsgBox.setMessage(message);
         poMsgBox.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
@@ -171,6 +172,7 @@ public class Fragment_CreditAppApproval extends Fragment implements ViewModelCal
     @Override
     public void OnLoadFailed(String message) {
         poDialog.dismiss();
+        poMsgBox.initDialog();
         poMsgBox.setTitle("Approval Code");
         poMsgBox.setMessage(message);
         poMsgBox.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());

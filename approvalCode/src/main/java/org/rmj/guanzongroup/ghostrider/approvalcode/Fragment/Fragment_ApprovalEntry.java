@@ -168,6 +168,7 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
 
                 @Override
                 public void OnCreateFailed(String message) {
+                    poMesgBox.initDialog();
                     poMesgBox.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
                     poMesgBox.setTitle("Approval Code");
                     poMesgBox.setMessage(message);
@@ -189,6 +190,7 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
 
     @Override
     public void OnFailedResult(String message) {
+        poMesgBox.initDialog();
         poMesgBox.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMesgBox.setTitle("Approval Code");
         poMesgBox.setMessage(message);

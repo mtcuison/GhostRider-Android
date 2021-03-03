@@ -70,6 +70,11 @@ public class RDailyCollectionPlan {
 
     public void updateCollectionDetailInfo(EDCPCollectionDetail collectionDetail){
         detailDao.update(collectionDetail);
+        //detailDao.updateCollectionDetailInfo(collectionDetail.getEntryNox(), collectionDetail.getRemCodex(),AppConstants.DATE_MODIFIED);
+    }
+
+    public void updateCollectionDetail(String EntryNox, String RemCode){
+        detailDao.updateCollectionDetailInfo(EntryNox, RemCode, AppConstants.DATE_MODIFIED);
     }
 
     public void updateCollectionDetailStatus(String TransNox, String EntryNox){
@@ -85,8 +90,12 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectionLastEntry();
     }
 
-    public LiveData<EDCPCollectionDetail> getDuplicateAccountEntry(String TransNox, String AccountNo){
-        return detailDao.getDuplicateAccountEntry(TransNox, AccountNo);
+    public LiveData<EDCPCollectionDetail> getDuplicateAccountEntry(String AccountNo){
+        return detailDao.getDuplicateAccountEntry(AccountNo);
+    }
+
+    public LiveData<EDCPCollectionDetail> getDuplicateSerialEntry(String SerialNo){
+        return detailDao.getDuplicateSerialEntry(SerialNo);
     }
 
     public void saveCollectionMaster(JSONObject foJson) throws Exception {

@@ -13,14 +13,20 @@ import com.google.android.material.button.MaterialButton;
 import org.rmj.g3appdriver.R;
 
 public class  MessageBox {
-    private final AlertDialog poDialogx;
-    private final MaterialButton btnPositive;
-    private final MaterialButton btnNegative;
-    private final TextView lblTitle;
-    private final TextView lblMsgxx;
-    private final View midBorder;
+    private AlertDialog poDialogx;
+    private MaterialButton btnPositive;
+    private MaterialButton btnNegative;
+    private TextView lblTitle;
+    private TextView lblMsgxx;
+    private View midBorder;
+
+    private final Context context;
 
     public MessageBox(Context context){
+        this.context = context;
+    }
+
+    public void initDialog(){
         AlertDialog.Builder poBuilder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_message_box, null);
         poBuilder.setCancelable(false)
@@ -32,7 +38,10 @@ public class  MessageBox {
         lblMsgxx = view.findViewById(R.id.lbl_dialogMessage);
         midBorder = view.findViewById(R.id.view_midBorder);
         btnPositive = view.findViewById(R.id.btn_dialogPositive);
+        btnPositive.setVisibility(View.GONE);
         btnNegative = view.findViewById(R.id.btn_dialogNegative);
+        midBorder.setVisibility(View.GONE);
+        btnNegative.setVisibility(View.GONE);
     }
 
     public void setMessage(String psMessage) {

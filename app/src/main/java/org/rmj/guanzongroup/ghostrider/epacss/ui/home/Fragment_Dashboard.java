@@ -164,7 +164,7 @@ public class Fragment_Dashboard extends Fragment {
         imgProfile.setImageBitmap(bitmap);
     }
     public void showDialog(){
-
+        loMessage.initDialog();
         loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
         loMessage.setPositiveButton("Yes", (view, dialog) -> {
             dialog.dismiss();

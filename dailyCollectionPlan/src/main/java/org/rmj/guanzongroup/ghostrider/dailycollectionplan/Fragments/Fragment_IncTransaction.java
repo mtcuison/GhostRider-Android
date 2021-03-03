@@ -65,10 +65,6 @@ public class Fragment_IncTransaction extends Fragment {
 
     private void initWidgets(View v){
         loMessage = new MessageBox(getActivity());
-        TransNox = Activity_Transaction.getInstance().getTransNox();
-        EntryNox = Activity_Transaction.getInstance().getEntryNox();
-        AccntNox = Activity_Transaction.getInstance().getAccntNox();
-        Remarksx = Activity_Transaction.getInstance().getRemarksCode();
 
         poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, ImageFileCreator.FILE_CODE.DCP, AccntNox);
         poImageInfo = new EImageInfo();
@@ -84,6 +80,11 @@ public class Fragment_IncTransaction extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMIncompleteTransaction.class);
 
+        TransNox = Activity_Transaction.getInstance().getTransNox();
+        EntryNox = Activity_Transaction.getInstance().getEntryNox();
+        AccntNox = Activity_Transaction.getInstance().getAccntNox();
+        Remarksx = Activity_Transaction.getInstance().getRemarksCode();
+
         mViewModel.setParameter(TransNox, EntryNox);
         mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
             try {
@@ -97,6 +98,7 @@ public class Fragment_IncTransaction extends Fragment {
             }
         });
 
+        loMessage.initDialog();
         loMessage.setTitle(Remarksx);
         loMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction. \n" +
                 "\n" +
@@ -118,7 +120,7 @@ public class Fragment_IncTransaction extends Fragment {
         });
         loMessage.setNegativeButton("Cancel", (view, dialog) -> {
             dialog.dismiss();
-            getActivity().finish();
+            Objects.requireNonNull(getActivity()).finish();
         });
         loMessage.show();
     }
@@ -128,15 +130,31 @@ public class Fragment_IncTransaction extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ImageFileCreator.GCAMERA){
             if(resultCode == RESULT_OK){
-                poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
-                mViewModel.saveImageInfo(poImageInfo);
-                mViewModel.updateCollectionDetail(DCP_Constants.getRemarksCode(Remarksx));
-                loMessage.setTitle(Remarksx);
-                loMessage.setMessage("Transaction has been save!");
-                loMessage.setPositiveButton("Okay", (view, dialog) -> {
-                    dialog.dismiss();
-                    Objects.requireNonNull(getActivity()).finish();
-                });
+                if(!Remarksx.equalsIgnoreCase("")) {
+                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
+                    mViewModel.saveImageInfo(poImageInfo);
+                    mViewModel.updateCollectionDetail(DCP_Constants.getRemarksCode(Remarksx));
+                    loMessage.initDialog();
+                    loMessage.setTitle(Remarksx);
+                    loMessage.setMessage("Transaction has been save!");
+                    loMessage.setPositiveButton("Okay", (view, dialog) -> {
+                        dialog.dismiss();
+                        Objects.requireNonNull(getActivity()).finish();
+                    });
+                } else {
+                    loMessage.initDialog();
+                    loMessage.setTitle(Remarksx);
+                    loMessage.setMessage("Transaction has been save!");
+                    loMessage.setPositiveButton("Okay", (view, dialog) -> {
+                        dialog.dismiss();
+                        Objects.requireNonNull(getActivity()).finish();
+                    });
+                    loMessage.setNegativeButton("Retry", (view, dialog) -> {
+                        poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
+                        mViewModel.saveImageInfo(poImageInfo);
+                        mViewModel.updateCollectionDetail(DCP_Constants.getRemarksCode(Remarksx));
+                    });
+                }
                 loMessage.show();
             } else {
                 Objects.requireNonNull(getActivity()).finish();

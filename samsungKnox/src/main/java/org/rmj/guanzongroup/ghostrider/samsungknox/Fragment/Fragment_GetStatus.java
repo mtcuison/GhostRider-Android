@@ -104,6 +104,7 @@ public class Fragment_GetStatus extends Fragment implements ViewModelCallBack {
     @Override
     public void OnRequestFailed(String message) {
         dialog.dismiss();
+        loMessage.initDialog();
         loMessage.setMessage(message);
         loMessage.setTitle("Device Status");
         loMessage.setPositiveButton("Okay", (view, msgDialog) -> msgDialog.dismiss());

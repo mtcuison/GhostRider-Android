@@ -46,8 +46,6 @@ public class GeoLocator {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-
-
             showSettingsAlert();
            Toast.makeText(context,"Permission Denied", Toast.LENGTH_SHORT).show();
 
@@ -93,7 +91,6 @@ public class GeoLocator {
 
                 }else{
                     Toast.makeText(context,"Unble to Trace your location", Toast.LENGTH_SHORT).show();
-
                 }
             }
         }
@@ -161,6 +158,7 @@ public class GeoLocator {
 
     public void showSettingsAlert(){
         MessageBox poMessage = new MessageBox(context);
+        poMessage.initDialog();
         poMessage.setTitle("Location");
         poMessage.setMessage("GPS is not enabled. Do you want to go to settings menu?");
         poMessage.setPositiveButton("Settings", new MessageBox.DialogButton() {

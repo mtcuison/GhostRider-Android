@@ -44,6 +44,7 @@ public class VMCollectionLog extends AndroidViewModel {
 
     public interface PostTransactionCallback{
         void OnLoad();
+        void OnProgressUpdate(String Message);
         void OnPostSuccess(String[] args);
         void OnPostFailed(String message);
     }
@@ -213,6 +214,8 @@ public class VMCollectionLog extends AndroidViewModel {
         private final List<EDCPCollectionDetail> paDetail;
         private final HttpHeaders poHeaders;
 
+        private String psProgStat = "";
+
         public PostImagesTask(Application instance, List<EDCPCollectionDetail> faDetail, PostTransactionCallback callback) {
             this.instance = instance;
             this.poConn = new ConnectionUtil(instance);
@@ -228,12 +231,14 @@ public class VMCollectionLog extends AndroidViewModel {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            psProgStat = "Uploading Images...";
             callback.OnLoad();
         }
 
+        @SafeVarargs
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
-        protected String doInBackground(List<EImageInfo>... lists) {
+        protected final String doInBackground(List<EImageInfo>... lists) {
             String lsResult = "";
             try {
                 if(poConn.isDeviceConnected()) {
@@ -266,6 +271,7 @@ public class VMCollectionLog extends AndroidViewModel {
                         Thread.sleep(500);
                     }
 
+                    psProgStat = "Posting customers data. Please wait...";
                     for (int x = 0; x < paDetail.size(); x++) {
                         EDCPCollectionDetail loDetail = paDetail.get(x);
                         JSONObject loData = new JSONObject();
@@ -351,6 +357,12 @@ public class VMCollectionLog extends AndroidViewModel {
             } catch (Exception e){
                 e.printStackTrace();
             }
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+            callback.OnProgressUpdate(psProgStat);
         }
     }
 }

@@ -177,6 +177,7 @@ public class Fragment_ManualLog extends Fragment implements ViewModelCallback {
     @Override
     public void OnFailedResult(String message) {
         poDialog.dismiss();
+        poMsgBox.initDialog();
         poMsgBox.setTitle("Approval Code");
         poMsgBox.setMessage(message);
         poMsgBox.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
