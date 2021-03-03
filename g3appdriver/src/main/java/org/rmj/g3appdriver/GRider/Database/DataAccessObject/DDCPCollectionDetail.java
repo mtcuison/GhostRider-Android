@@ -21,6 +21,22 @@ public interface DDCPCollectionDetail {
     @Update
     void update(EDCPCollectionDetail collectionDetail);
 
+    @Query("UPDATE LR_DCP_Collection_Detail " +
+            "SET sRemCodex =:RemCode, " +
+            "cSendStat = '0', " +
+            "cTranStat = '1', " +
+            "dModified =:DateModified " +
+            "WHERE sTransNox = (SELECT sTransNox " +
+            "FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1) " +
+            "AND nEntryNox =:EntryNox")
+    void updateCollectionDetailInfo(String EntryNox, String RemCode, String DateModified);
+
+    @Query("UPDATE LR_DCP_Collection_Detail " +
+            "SET cSendStat='1', dModified=:DateEntry " +
+            "WHERE sTransNox =:TransNox " +
+            "AND nEntryNox =:EntryNox")
+    void updateCollectionDetailStatus(String TransNox, String EntryNox, String DateEntry);
+
     @Delete
     void delete(EDCPCollectionDetail collectionDetail);
 
@@ -41,6 +57,21 @@ public interface DDCPCollectionDetail {
     @Query("SELECT * FROM LR_DCP_Collection_Detail ORDER BY nEntryNox DESC LIMIT 1")
     LiveData<EDCPCollectionDetail> getCollectionLastEntry();
 
-    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox =:TransNox AND sAcctNmbr =:AccountNo")
-     LiveData<EDCPCollectionDetail> getDuplicateAccountEntry(String TransNox, String AccountNo);
+    @Query("SELECT * FROM LR_DCP_Collection_Detail " +
+            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1) " +
+            "AND sAcctNmbr =:AccountNo")
+    LiveData<EDCPCollectionDetail> getDuplicateAccountEntry(String AccountNo);
+
+    @Query("SELECT * FROM LR_DCP_Collection_Detail " +
+            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1) " +
+            "AND sSerialNo =:SerialNo")
+    LiveData<EDCPCollectionDetail> getDuplicateSerialEntry(String SerialNo);
+
+    @Query("UPDATE LR_DCP_Collection_Detail " +
+            "SET sImageNme=:ImageID " +
+            "WHERE sAcctNmbr =:AccountNo " +
+            "AND sTransNox = (SELECT sTransNox " +
+            "FROM LR_DCP_Collection_Master " +
+            "ORDER BY dTransact DESC LIMIT 1)")
+    void updateCustomerDetailImage(String ImageID, String AccountNo);
 }

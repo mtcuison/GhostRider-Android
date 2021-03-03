@@ -27,6 +27,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
 
@@ -131,7 +132,6 @@ public class VMPromiseToPay extends AndroidViewModel {
             callback.OnFailedResult("NullPointerException error");
         } catch (Exception e) {
             e.printStackTrace();
-//            callback.OnFailedResult(e.getMessage());
             callback.OnFailedResult("Exception error");
         }
     }

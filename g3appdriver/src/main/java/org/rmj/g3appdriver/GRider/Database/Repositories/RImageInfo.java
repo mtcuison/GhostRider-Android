@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
@@ -26,7 +27,11 @@ public class RImageInfo {
     }
 
     public LiveData<EImageInfo> getImageInfo(String sTransNox){
-        return imageDao.getImageInfo(sTransNox);
+        return imageDao.getImageInfo();
+    }
+
+    public void updateImageInfo(String TransNox, String oldTransNox){
+        imageDao.updateImageInfo(TransNox, AppConstants.DATE_MODIFIED, oldTransNox);
     }
 
     /**

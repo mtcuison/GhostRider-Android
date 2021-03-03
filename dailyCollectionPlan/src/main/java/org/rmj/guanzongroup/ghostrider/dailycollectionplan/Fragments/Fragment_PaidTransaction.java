@@ -131,6 +131,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
     @Override
     public void OnSuccessResult(String[] args) {
         poDialog.dismiss();
+        poMessage.initDialog();
         poMessage.setTitle("Transaction Success");
         poMessage.setMessage(args[0]);
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
@@ -143,6 +144,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
     @Override
     public void OnFailedResult(String message) {
         poDialog.dismiss();
+        poMessage.initDialog();
         poMessage.setTitle("Transaction Failed");
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());

@@ -20,84 +20,88 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.SessionManager;
 
 public class VMSettings extends AndroidViewModel {
+    private final MutableLiveData<Boolean> pbGranted = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> locGranted = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> camGranted = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> phGranted = new MutableLiveData<>();
+    private final MutableLiveData<String[]> paPermisions = new MutableLiveData<>();
+    public MutableLiveData<String[]> locationPermissions = new MutableLiveData<>();
+    public MutableLiveData<String[]> cameraPermissions = new MutableLiveData<>();
+    public MutableLiveData<String[]> phonePermissions = new MutableLiveData<>();
 
-    private final MutableLiveData<Boolean> cameraGranted = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> locationGranted = new MutableLiveData<>();
-    private final MutableLiveData<Boolean>  phoneGranted = new MutableLiveData<>();
-    private final MutableLiveData<String[]> cameraPermisions = new MutableLiveData<>();
-    private final MutableLiveData<String[]> locationPermisions = new MutableLiveData<>();
-    private final MutableLiveData<String[]> phonePermisions = new MutableLiveData<>();
-    private final REmployee poUserDbx;
-    private final AppTokenManager poTokenInf;
-    private final AppConfigPreference poConfigx;
+    private final MutableLiveData<String> cameraSummarry = new MutableLiveData<>();
 
     public VMSettings(@NonNull Application application) {
         super(application);
-        poUserDbx = new REmployee(application);
-        poTokenInf = new AppTokenManager(application);
-        poConfigx = AppConfigPreference.getInstance(application);
-        poConfigx.setTemp_ProductID("IntegSys");
-        cameraPermisions.setValue(new String[]{
+        paPermisions.setValue(new String[]{
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_NETWORK_STATE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA});
-        locationPermisions.setValue(new String[]{
+                Manifest.permission.CAMERA,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION});
-        phonePermisions.setValue(new String[]{
-                Manifest.permission.ACCESS_NETWORK_STATE,
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.GET_ACCOUNTS,});
-        cameraGranted.setValue(hasCameraPermissions(application.getApplicationContext(), cameraPermisions.getValue()));
-        locationGranted.setValue(hasLocationPermissions(application.getApplicationContext(), locationPermisions.getValue()));
-        phoneGranted.setValue(hasPermissions(application.getApplicationContext(), phonePermisions.getValue()));
+        cameraPermissions.setValue(new String[]{
+                Manifest.permission.CAMERA});
+        locationPermissions.setValue(new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION});
+        phonePermissions.setValue(new String[]{
+                Manifest.permission.READ_PHONE_STATE});
+
+        locGranted.setValue(hasPermissions(application.getApplicationContext(), locationPermissions.getValue()));
+        camGranted.setValue(hasPermissions(application.getApplicationContext(), cameraPermissions.getValue()));
+        phGranted.setValue(hasPermissions(application.getApplicationContext(), phonePermissions.getValue()));
     }
 
-    public void setupTokenInfo(String tokenInfo){
-        ETokenInfo loToken = new ETokenInfo();
-        loToken.setTokenInf(tokenInfo);
-        poTokenInf.setTokenInfo(loToken);
+    public void setCameraSummary(String camSummary){
+        this.cameraSummarry.setValue(camSummary);
     }
-
-    public LiveData<Boolean> isCameraPermissionsGranted(){
-        return cameraGranted;
-    }
-
-    public LiveData<String[]> getCameraPermisions(){
-        return cameraPermisions;
+    public LiveData<String> getCameraSummary(){
+        return this.cameraSummarry;
     }
 
 
-    public void setCameraPermissionsGranted(boolean isGranted){
-        this.cameraGranted.setValue(isGranted);
+    public LiveData<Boolean> isPermissionsGranted(){
+        return pbGranted;
+    }
+    public LiveData<Boolean> isCamPermissionGranted(){
+        return camGranted;
+    }
+    public LiveData<Boolean> isLocPermissionGranted(){
+        return locGranted;
+    }
+    public LiveData<Boolean> isPhPermissionGranted(){
+        return phGranted;
     }
 
-    public LiveData<Boolean> isLocationPermissionsGranted(){
-        return locationGranted;
+    public LiveData<String[]> getPermisions(){
+        return paPermisions;
     }
 
-    public LiveData<String[]> getLocationPermisions(){
-        return locationPermisions;
+    public LiveData<String[]> getLocPermissions(){
+        return locationPermissions;
+    }
+    public LiveData<String[]> getCamPermissions(){
+        return cameraPermissions;
+    }
+    public LiveData<String[]> getPhPermissions(){
+        return phonePermissions;
     }
 
-
+    public void setPermissionsGranted(boolean isGranted){
+        this.pbGranted.setValue(isGranted);
+    }
     public void setLocationPermissionsGranted(boolean isGranted){
-        this.locationGranted.setValue(isGranted);
+        this.locGranted.setValue(isGranted);
     }
-
-    public LiveData<Boolean> isPhonePermissionsGranted(){
-        return phoneGranted;
+    public void setCamPermissionsGranted(boolean isGranted){
+        this.camGranted.setValue(isGranted);
     }
-
-    public LiveData<String[]> getPhonePermisions(){
-        return phonePermisions;
-    }
-
-
     public void setPhonePermissionsGranted(boolean isGranted){
-        this.phoneGranted.setValue(isGranted);
+        this.phGranted.setValue(isGranted);
     }
-
 
     private static boolean hasPermissions(Context context, String... permissions){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M && permissions!=null ){
@@ -110,25 +114,4 @@ public class VMSettings extends AndroidViewModel {
         return true;
     }
 
-    private static boolean hasCameraPermissions(Context context, String... permissions){
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M && permissions!=null ){
-            for (String permission: permissions){
-                if(ActivityCompat.checkSelfPermission(context, permission)!= PackageManager.PERMISSION_GRANTED){
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private static boolean hasLocationPermissions(Context context, String... permissions){
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M && permissions!=null ){
-            for (String permission: permissions){
-                if(ActivityCompat.checkSelfPermission(context, permission)!= PackageManager.PERMISSION_GRANTED){
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
 }

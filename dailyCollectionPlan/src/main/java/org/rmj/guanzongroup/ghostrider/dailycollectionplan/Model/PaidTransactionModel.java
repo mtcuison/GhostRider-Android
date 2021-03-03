@@ -75,6 +75,9 @@ public class PaidTransactionModel {
     }
 
     public String getDscount() {
+        if(Dscount == null || Dscount.trim().isEmpty()){
+            return "0";
+        }
         return Dscount;
     }
 
@@ -83,6 +86,9 @@ public class PaidTransactionModel {
     }
 
     public String getOthersx() {
+        if(Othersx == null || Othersx.trim().isEmpty()){
+            return "0";
+        }
         return Othersx;
     }
 

@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -66,8 +67,7 @@ public class VMIncompleteTransaction extends AndroidViewModel {
 
     public void updateCollectionDetail(String RemarksCode){
         EDCPCollectionDetail detail = poDetail.getValue();
-        Objects.requireNonNull(detail).setRemCodex(RemarksCode);
-        detail.setImageNme(ImgTransNox);
+        Objects.requireNonNull(detail).setImageNme(ImgTransNox);
         new UpdateCollectionTask(poDcp, RemarksCode).execute(detail);
     }
 
@@ -82,11 +82,11 @@ public class VMIncompleteTransaction extends AndroidViewModel {
 
         @Override
         protected String doInBackground(EDCPCollectionDetail... detail) {
-            Objects.requireNonNull(detail[0]).setRemCodex(RemarksCode);
-            detail[0].setTranStat("1");
-            detail[0].setSendStat("0");
-            detail[0].setModified(AppConstants.DATE_MODIFIED);
-            poDcp.updateCollectionDetailInfo(detail[0]);
+            if(!RemarksCode.equalsIgnoreCase("")) {
+                poDcp.updateCollectionDetail(detail[0].getEntryNox(), RemarksCode);
+            } else {
+                Log.e(TAG, "Unable to update collection detail. Reason: Invalid remarks code.");
+            }
             return null;
         }
     }
