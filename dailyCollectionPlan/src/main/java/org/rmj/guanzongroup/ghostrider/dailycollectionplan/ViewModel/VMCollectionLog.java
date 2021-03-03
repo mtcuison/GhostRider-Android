@@ -214,8 +214,6 @@ public class VMCollectionLog extends AndroidViewModel {
         private final List<EDCPCollectionDetail> paDetail;
         private final HttpHeaders poHeaders;
 
-        private String psProgStat = "";
-
         public PostImagesTask(Application instance, List<EDCPCollectionDetail> faDetail, PostTransactionCallback callback) {
             this.instance = instance;
             this.poConn = new ConnectionUtil(instance);
@@ -231,7 +229,6 @@ public class VMCollectionLog extends AndroidViewModel {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            psProgStat = "Uploading Images...";
             callback.OnLoad();
         }
 
@@ -246,90 +243,97 @@ public class VMCollectionLog extends AndroidViewModel {
                     String lsAccess = WebFileServer.RequestAccessToken(lsClient);
                     List<EImageInfo> images = lists[0];
                     for (int x = 0; x < images.size(); x++) {
-                        EImageInfo imageInfo = images.get(x);
+                        try {
+                            EImageInfo imageInfo = images.get(x);
 
-                        org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(imageInfo.getFileLoct(),
-                                lsAccess,
-                                imageInfo.getFileCode(),
-                                imageInfo.getDtlSrcNo(),
-                                imageInfo.getImageNme(),
-                                poUser.getUserID(),
-                                imageInfo.getSourceCD(),
-                                imageInfo.getSourceNo(),
-                                "");
-                        String lsResponse = (String) loUpload.get("result");
-                        Log.e(TAG, "Uploading image result : " + lsResponse);
+                            org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(imageInfo.getFileLoct(),
+                                    lsAccess,
+                                    imageInfo.getFileCode(),
+                                    imageInfo.getDtlSrcNo(),
+                                    imageInfo.getImageNme(),
+                                    poUser.getUserID(),
+                                    imageInfo.getSourceCD(),
+                                    imageInfo.getSourceNo(),
+                                    "");
+                            String lsResponse = (String) loUpload.get("result");
+                            Log.e(TAG, "Uploading image result : " + lsResponse);
 
-                        if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
-                            String lsTransNo = (String) loUpload.get("sTransNox");
-                            imageInfo.setSendStat('1');
-                            imageInfo.setSendDate(AppConstants.DATE_MODIFIED);
-                            poImage.updateImageInfo(lsTransNo, imageInfo.getTransNox());
-                            poDcp.updateCollectionDetailImage(lsTransNo, imageInfo.getDtlSrcNo());
+                            if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
+                                String lsTransNo = (String) loUpload.get("sTransNox");
+                                imageInfo.setSendStat('1');
+                                imageInfo.setSendDate(AppConstants.DATE_MODIFIED);
+                                poImage.updateImageInfo(lsTransNo, imageInfo.getTransNox());
+                                poDcp.updateCollectionDetailImage(lsTransNo, imageInfo.getDtlSrcNo());
+                            }
+                        } catch (Exception e){
+                            e.printStackTrace();
                         }
-
                         Thread.sleep(500);
                     }
 
-                    psProgStat = "Posting customers data. Please wait...";
                     for (int x = 0; x < paDetail.size(); x++) {
-                        EDCPCollectionDetail loDetail = paDetail.get(x);
-                        JSONObject loData = new JSONObject();
-                        if (loDetail.getRemCodex().equalsIgnoreCase("PAY")) {
-                            loData.put("sPRNoxxxx", loDetail.getPRNoxxxx());
-                            loData.put("nTranAmtx", loDetail.getTranAmtx());
-                            loData.put("nDiscount", loDetail.getDiscount());
-                            loData.put("nOthersxx", loDetail.getOthersxx());
-                            loData.put("cTranType", loDetail.getTranType());
-                            loData.put("nTranTotl", loDetail.getTranTotl());
-                        } else if (loDetail.getRemCodex().equalsIgnoreCase("PTP")) {
-                            loData.put("cApntUnit", loDetail.getApntUnit());
-                            loData.put("sBranchCd", loDetail.getBranchCd());
-                            loData.put("dPromised", loDetail.getPromised());
-                            loData.put("sImageNme", loDetail.getImageNme());
-                        } else if (loDetail.getRemCodex().equalsIgnoreCase("LU") ||
-                                loDetail.getRemCodex().equalsIgnoreCase("TA") ||
-                                loDetail.getRemCodex().equalsIgnoreCase("FO")) {
-                            loData.put("sLastName", loDetail.getEntryNox());
-                            loData.put("sFrstName", loDetail.getAcctNmbr());
-                            loData.put("sMiddName", loDetail.getFullName());
-                            loData.put("sSuffixNm", loDetail.getPRNoxxxx());
-                            loData.put("sHouseNox", loDetail.getTranAmtx());
-                            loData.put("sAddressx", loDetail.getDiscount());
-                            loData.put("sTownIDxx", loDetail.getOthersxx());
-                            loData.put("cGenderxx", loDetail.getRemarksx());
-                            loData.put("cCivlStat", loDetail.getPromised());
-                            loData.put("dBirthDte", loDetail.getRemCodex());
-                            loData.put("dBirthPlc", loDetail.getTranType());
-                            loData.put("sLandline", loDetail.getTranTotl());
-                            loData.put("sMobileNo", loDetail.getReferNox());
-                            loData.put("sEmailAdd", loDetail.getPaymForm());
-                        } else {
-                            loData.put("sImageNme", loDetail.getImageNme());
-                        }
-                        JSONObject loJson = new JSONObject();
-                        loJson.put("sTransNox", loDetail.getTransNox());
-                        loJson.put("nEntryNox", loDetail.getEntryNox());
-                        loJson.put("sAcctNmbr", loDetail.getAcctNmbr());
-                        loJson.put("sRemCodex", loDetail.getRemCodex());
-                        loJson.put("sJsonData", loData);
-                        loJson.put("dReceived", "");
-                        loJson.put("sUserIDxx", poUser.getUserID());
-                        loJson.put("sDeviceID", poTelephony.getDeviceID());
-
-                        String lsResponse = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
-                        if (lsResponse == null) {
-                            Log.e(TAG, "Server no response.");
-                        } else {
-                            JSONObject loResponse = new JSONObject(lsResponse);
-
-                            String result = loResponse.getString("result");
-                            if (result.equalsIgnoreCase("success")) {
-                                Log.e(TAG, x + " " + result);
-                                poDcp.updateCollectionDetailStatus(loDetail.getTransNox(), loDetail.getEntryNox());
+                        try {
+                            EDCPCollectionDetail loDetail = paDetail.get(x);
+                            JSONObject loData = new JSONObject();
+                            if (loDetail.getRemCodex().equalsIgnoreCase("PAY")) {
+                                loData.put("sPRNoxxxx", loDetail.getPRNoxxxx());
+                                loData.put("nTranAmtx", loDetail.getTranAmtx());
+                                loData.put("nDiscount", loDetail.getDiscount());
+                                loData.put("nOthersxx", loDetail.getOthersxx());
+                                loData.put("cTranType", loDetail.getTranType());
+                                loData.put("nTranTotl", loDetail.getTranTotl());
+                            } else if (loDetail.getRemCodex().equalsIgnoreCase("PTP")) {
+                                loData.put("cApntUnit", loDetail.getApntUnit());
+                                loData.put("sBranchCd", loDetail.getBranchCd());
+                                loData.put("dPromised", loDetail.getPromised());
+                                loData.put("sImageNme", loDetail.getImageNme());
+                            } else if (loDetail.getRemCodex().equalsIgnoreCase("LU") ||
+                                    loDetail.getRemCodex().equalsIgnoreCase("TA") ||
+                                    loDetail.getRemCodex().equalsIgnoreCase("FO")) {
+                                loData.put("sLastName", loDetail.getEntryNox());
+                                loData.put("sFrstName", loDetail.getAcctNmbr());
+                                loData.put("sMiddName", loDetail.getFullName());
+                                loData.put("sSuffixNm", loDetail.getPRNoxxxx());
+                                loData.put("sHouseNox", loDetail.getTranAmtx());
+                                loData.put("sAddressx", loDetail.getDiscount());
+                                loData.put("sTownIDxx", loDetail.getOthersxx());
+                                loData.put("cGenderxx", loDetail.getRemarksx());
+                                loData.put("cCivlStat", loDetail.getPromised());
+                                loData.put("dBirthDte", loDetail.getRemCodex());
+                                loData.put("dBirthPlc", loDetail.getTranType());
+                                loData.put("sLandline", loDetail.getTranTotl());
+                                loData.put("sMobileNo", loDetail.getReferNox());
+                                loData.put("sEmailAdd", loDetail.getPaymForm());
                             } else {
-                                Log.e(TAG, loResponse.getString(loResponse.toString()));
+                                loData.put("sImageNme", loDetail.getImageNme());
                             }
+                            JSONObject loJson = new JSONObject();
+                            loJson.put("sTransNox", loDetail.getTransNox());
+                            loJson.put("nEntryNox", loDetail.getEntryNox());
+                            loJson.put("sAcctNmbr", loDetail.getAcctNmbr());
+                            loJson.put("sRemCodex", loDetail.getRemCodex());
+                            loJson.put("sJsonData", loData);
+                            loJson.put("dReceived", "");
+                            loJson.put("sUserIDxx", poUser.getUserID());
+                            loJson.put("sDeviceID", poTelephony.getDeviceID());
+
+                            String lsResponse = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
+                            if (lsResponse == null) {
+                                Log.e(TAG, "Server no response.");
+                            } else {
+                                JSONObject loResponse = new JSONObject(lsResponse);
+
+                                String result = loResponse.getString("result");
+                                if (result.equalsIgnoreCase("success")) {
+                                    Log.e(TAG, x + " " + result);
+                                    poDcp.updateCollectionDetailStatus(loDetail.getTransNox(), loDetail.getEntryNox());
+                                } else {
+                                    Log.e(TAG, loResponse.getString(loResponse.toString()));
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.e(TAG, "An error occurred while sending " + paDetail.get(x).getFullName() + " info : Error message " + e.getMessage());
                         }
                         Thread.sleep(500);
                     }
@@ -339,6 +343,7 @@ public class VMCollectionLog extends AndroidViewModel {
                 }
             } catch (Exception e){
                 e.printStackTrace();
+                Log.e(TAG, "An error occurred while requesting token info : Error message " + e.getMessage());
             }
             return lsResult;
         }
@@ -362,7 +367,7 @@ public class VMCollectionLog extends AndroidViewModel {
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
-            callback.OnProgressUpdate(psProgStat);
+            callback.OnProgressUpdate("");
         }
     }
 }

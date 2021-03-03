@@ -125,6 +125,7 @@ public class VMPromiseToPay extends AndroidViewModel {
 
     public void savePtpInfo(PromiseToPayModel infoModel, ViewModelCallback callback) {
         try {
+            infoModel.setPtpBranch(psBrnchCd.getValue());
             new UpdateTask(poDcp, infoModel, callback).execute(poDcpDetail.getValue());
         } catch (NullPointerException e) {
             e.printStackTrace();
