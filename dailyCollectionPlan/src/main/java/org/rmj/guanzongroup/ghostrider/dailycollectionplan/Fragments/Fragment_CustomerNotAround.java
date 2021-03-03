@@ -208,7 +208,7 @@
                     mViewModel.saveImageInfo(poImageInfo);
                     mViewModel.updateCollectionDetail(DCP_Constants.getRemarksCode(Remarksx));
                     Log.e("Fragment_CNA:", "Image Info Save");
-                    OnSuccessResult(new String[]{"Success"});
+                    OnSuccessResult(new String[]{"Image Info Save"});
                 } else {
                     Objects.requireNonNull(getActivity()).finish();
                 }
