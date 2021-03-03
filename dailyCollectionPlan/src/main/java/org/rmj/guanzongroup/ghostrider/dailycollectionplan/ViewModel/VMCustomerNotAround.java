@@ -223,7 +223,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 info.setLongitud(sLatitude);
                 info.setLatitude(sLongitude);
                 info.setRemarksx(foAddress.getRemarks());
-                info.setTranStat("");
+                info.setTranStat("0");
                 info.setSendStat("0");
                 info.setModified(AppConstants.DATE_MODIFIED);
                 info.setTimeStmp(AppConstants.DATE_MODIFIED);
@@ -255,7 +255,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 info.setMobileNo(foMobile.getsMobileNo());
                 info.setPrimaryx(foMobile.getcPrimaryx());
                 info.setRemarksx(foMobile.getsRemarksx());
-                info.setTranStat("");
+                info.setTranStat("0");
                 info.setSendStat("0");
                 info.setModified(AppConstants.DATE_MODIFIED);
                 info.setTimeStmp(AppConstants.DATE_MODIFIED);

@@ -141,7 +141,7 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
         poDialog.show();
     }
 
-    @Override
+
     public void OnProgressUpdate(String Message) {
         Toast.makeText(this, Message, Toast.LENGTH_LONG).show();
     }

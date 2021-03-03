@@ -448,7 +448,7 @@ public class VMCollectionLog extends AndroidViewModel {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try{
-                 JSONObject loJson = new JSONObject();
+                 JSONObject loJson = new JSONObject(s);
                  if(loJson.getString("result").equalsIgnoreCase("success")){
                      callback.OnPostSuccess(new String[]{"Image uploaded successfully"});
                  } else {
