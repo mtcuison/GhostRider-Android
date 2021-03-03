@@ -190,6 +190,8 @@
                    poImageInfo.setFileCode("UNKN");
                    poImageInfo.setLatitude(String.valueOf(latitude));
                    poImageInfo.setLongitud(String.valueOf(longitude));
+                   mViewModel.setLatitude(String.valueOf(latitude));
+                   mViewModel.setLongitude(String.valueOf(longitude));
                    mViewModel.setImagePath(photPath);
                    startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                });

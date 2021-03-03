@@ -362,40 +362,45 @@ public class VMCollectionLog extends AndroidViewModel {
                         Thread.sleep(1000);
 
                         if(loDetail.getRemCodex().equalsIgnoreCase("CNA")) {
-                            for (int i = 0; i < paAddress.size(); i++) {
-                                EAddressUpdate info = paAddress.get(i);
-                                JSONObject param = new JSONObject();
-                                param.put("sTransNox", info.getTransNox());
-                                param.put("sClientID", info.getClientID());
-                                param.put("cReqstCDe", info.getReqstCDe());
-                                param.put("cAddrssTp", info.getAddrssTp());
-                                param.put("sHouseNox", info.getHouseNox());
-                                param.put("sAddressx", info.getAddressx());
-                                param.put("sTownIDxx", info.getTownIDxx());
-                                param.put("sBrgyIDxx", info.getBrgyIDxx());
-                                param.put("cPrimaryx", info.getPrimaryx());
-                                param.put("nLatitude", info.getLatitude());
-                                param.put("nLongitud", info.getLongitud());
-                                param.put("sRemarksx", info.getRemarksx());
-                                param.put("sSourceCD","DCPa");
-                                param.put("sSourceNo", loDetail.getAcctNmbr());
+                            if(paAddress.size() == 0) {
+                                Log.e(TAG, "paAddress is Empty");
+                            } else {
+                                for (int i = 0; i < paAddress.size(); i++) {
+                                    EAddressUpdate info = paAddress.get(i);
+                                    JSONObject param = new JSONObject();
+                                    param.put("sTransNox", info.getTransNox());
+                                    param.put("sClientID", info.getClientID());
+                                    param.put("cReqstCDe", info.getReqstCDe());
+                                    param.put("cAddrssTp", info.getAddrssTp());
+                                    param.put("sHouseNox", info.getHouseNox());
+                                    param.put("sAddressx", info.getAddressx());
+                                    param.put("sTownIDxx", info.getTownIDxx());
+                                    param.put("sBrgyIDxx", info.getBrgyIDxx());
+                                    param.put("cPrimaryx", info.getPrimaryx());
+                                    param.put("nLatitude", info.getLatitude());
+                                    param.put("nLongitud", info.getLongitud());
+                                    param.put("sRemarksx", info.getRemarksx());
+                                    param.put("sSourceCD","DCPa");
+                                    param.put("sSourceNo", loDetail.getAcctNmbr());
 
-                                String lsAddressUpdtResponse = WebClient.httpsPostJSon(WebApi.URL_UPDATE_ADDRESS, param.toString(), poHeaders.getHeaders());
+                                    String lsAddressUpdtResponse = WebClient.httpsPostJSon(WebApi.URL_UPDATE_ADDRESS, param.toString(), poHeaders.getHeaders());
 
-                                if(lsAddressUpdtResponse == null) {
-                                    Log.e("Address Update Result:", "Server no Repsonse");
-                                } else {
-                                    JSONObject loResult = new JSONObject(lsAddressUpdtResponse);
-                                    String result = loResult.getString("result");
-                                    if(result.equalsIgnoreCase("success")) {
-                                        String newTransNox = loResult.getString("sTransNox");
-                                        rCollect.updateAddressStatus(newTransNox, info.getTransNox());
-                                        Log.e("Address Update Result:",result);
+                                    if(lsAddressUpdtResponse == null) {
+                                        Log.e("Address Update Result:", "Server no Repsonse");
                                     } else {
-                                        Log.e("Address Update Result:","Failed");
+                                        JSONObject loResult = new JSONObject(lsAddressUpdtResponse);
+                                        String result = loResult.getString("result");
+                                        if(result.equalsIgnoreCase("success")) {
+                                            String newTransNox = loResult.getString("sTransNox");
+                                            rCollect.updateAddressStatus(newTransNox, info.getTransNox());
+                                            Log.e("Address Update Result:",result);
+                                        } else {
+                                            Log.e("Address Update Result:","Failed");
+                                        }
                                     }
                                 }
                             }
+
 
                             for(int y = 0; y < paMobile.size(); y++) {
                                 EMobileUpdate info = paMobile.get(y);

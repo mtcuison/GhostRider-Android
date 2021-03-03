@@ -50,6 +50,8 @@ public class VMCustomerNotAround extends AndroidViewModel {
     private final RBarangay poBarangay;
 
     private String ImgTransNox;
+    private String sLatitude;
+    private String sLongitude;
 
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
@@ -190,6 +192,14 @@ public class VMCustomerNotAround extends AndroidViewModel {
         new UpdateCollectionTask(poDcp, RemarksCode).execute(detail);
     }
 
+    public void setLatitude(String sLatitude) {
+        this.sLatitude = sLatitude;
+    }
+
+    public void setLongitude(String sLongitude) {
+        this.sLongitude = sLongitude;
+    }
+
     public void addAddress(AddressUpdate foAddress, ViewModelCallback callback){
         try {
             foAddress.setRequestCode(requestCode.getValue());
@@ -210,8 +220,8 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 info.setTownIDxx(foAddress.getTownID());
                 info.setBrgyIDxx(foAddress.getBarangayID());
                 info.setPrimaryx(foAddress.getPrimaryStatus());
-                info.setLongitud("");
-                info.setLatitude("");
+                info.setLongitud(sLatitude);
+                info.setLatitude(sLongitude);
                 info.setRemarksx(foAddress.getRemarks());
                 info.setTranStat("");
                 info.setSendStat("0");

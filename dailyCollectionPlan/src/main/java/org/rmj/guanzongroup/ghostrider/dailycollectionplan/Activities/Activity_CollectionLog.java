@@ -52,6 +52,24 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
             lblDate.setText(getDate());
         });
 
+        mViewModel.getAllAddress().observe(Activity_CollectionLog.this, eAddressUpdates -> {
+            try {
+                mViewModel.setAddressList(eAddressUpdates);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getAllMobileNox().observe(Activity_CollectionLog.this, eMobileUpdates -> {
+            try {
+                mViewModel.setMobileList(eMobileUpdates);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+        });
+
         mViewModel.getCollectionMaster().observe(Activity_CollectionLog.this, collectionMaster -> {
             try{
                 mViewModel.setCollectionMaster(collectionMaster);
