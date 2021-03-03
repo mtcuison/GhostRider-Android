@@ -65,6 +65,7 @@ public class Fragment_ForgotPassword extends Fragment implements VMForgotPasswor
     @Override
     public void OnSuccessRequest() {
         poDialog.dismiss();
+        poMsgBox.initDialog();
         poMsgBox.setTitle("Forgot Password");
         poMsgBox.setMessage("You'll be receiving an email from MIS, Please check your email account");
         poMsgBox.setPositiveButton("Okay", (view, msgDialog) -> msgDialog.dismiss());
@@ -74,7 +75,7 @@ public class Fragment_ForgotPassword extends Fragment implements VMForgotPasswor
     @Override
     public void OnFailedRequest(String message) {
         poDialog.dismiss();
-        poDialog.dismiss();
+        poMsgBox.initDialog();
         poMsgBox.setTitle("Forgot Password");
         poMsgBox.setMessage(message);
         poMsgBox.setPositiveButton("Okay", (view, msgDialog) -> msgDialog.dismiss());

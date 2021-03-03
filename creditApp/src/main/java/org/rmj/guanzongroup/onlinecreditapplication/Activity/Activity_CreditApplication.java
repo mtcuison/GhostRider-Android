@@ -81,6 +81,7 @@ public class Activity_CreditApplication extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
             MessageBox loMessage = new MessageBox(Activity_CreditApplication.this);
+            loMessage.initDialog();
             loMessage.setTitle("Credit Application");
             loMessage.setMessage("Exit credit online application?");
             loMessage.setPositiveButton("Yes", (view, dialog) -> {

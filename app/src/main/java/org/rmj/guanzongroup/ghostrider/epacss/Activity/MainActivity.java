@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }else{
@@ -118,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     new REmployee(getApplication()).LogoutUserSession();
                 }
             });
+            loMessage.initDialog();
             loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
             loMessage.setTitle("GhostRider");
             loMessage.setMessage("Exit Ghostrider app?");

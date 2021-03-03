@@ -106,6 +106,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                     lbIsGrnt = false;
                     break;
                 }
+                Log.e("Permission", permissions[x] + " Granted " + grantResults[x]);
+
             }
             if(lbIsGrnt){
                 mViewModel.setPermissionsGranted(true);

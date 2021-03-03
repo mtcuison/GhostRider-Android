@@ -188,14 +188,14 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                     loDialog.initDialog(DialogOtherClient.TYPE.ACCOUNT_RECIEVABLE, new DialogOtherClient.OnDialogButtonClickListener() {
                         @Override
                         public void OnDownloadClick(Dialog Dialog, String args) {
-
                             //Check if account entered is already added on DCP list...
                             // args parameter from dialog refers to account number...
-                            mViewModel.getDuplicateAccountrEntry(collectionMaster.getTransNox(), args).observe(Activity_CollectionList.this, collectionDetail -> {
+                            mViewModel.getDuplicateAccountEntry(args).observe(Activity_CollectionList.this, collectionDetail -> {
                                 if(collectionDetail != null){
                                     Dialog.dismiss();
+                                    poMessage.initDialog();
                                     poMessage.setTitle("Account ReceivableC Client");
-                                    poMessage.setMessage("This account is already on collection list.");
+                                    poMessage.setMessage("This account is already listed on today's collection list.");
                                     poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                                     poMessage.show();
                                 } else {
@@ -219,8 +219,25 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             loDialog.initDialog(DialogOtherClient.TYPE.INSURANCE,new DialogOtherClient.OnDialogButtonClickListener() {
                 @Override
                 public void OnDownloadClick(Dialog Dialog, String args) {
-                    Dialog.dismiss();
-                    mViewModel.importInsuranceInfo(args, Activity_CollectionList.this);
+
+                    //Check if serial no entered is already added on DCP list...
+                    // args parameter from dialog refers to serial no...
+                    mViewModel.getDuplicateSerialEntry(args).observe(Activity_CollectionList.this, new Observer<EDCPCollectionDetail>() {
+                        @Override
+                        public void onChanged(EDCPCollectionDetail collectionDetail) {
+
+                            if(collectionDetail != null){
+                                Dialog.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Insurance Client");
+                                poMessage.setMessage("This Serial No. is already listed on today's collection list.");
+                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            } else {
+                                mViewModel.importInsuranceInfo(args, Activity_CollectionList.this);
+                            }
+                        }
+                    });
                 }
 
                 @Override
@@ -261,6 +278,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     @Override
     public void OnSuccessResult(String[] args) {
         poDialogx.dismiss();
+        poMessage.initDialog();
         poMessage.setTitle("AR Client");
         poMessage.setMessage(args[0]);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
@@ -270,6 +288,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     @Override
     public void OnFailedResult(String message) {
         poDialogx.dismiss();
+        poMessage.initDialog();
         poMessage.setTitle("AR Client");
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());

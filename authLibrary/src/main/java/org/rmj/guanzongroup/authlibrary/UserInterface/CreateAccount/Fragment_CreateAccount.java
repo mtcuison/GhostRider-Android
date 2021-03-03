@@ -78,6 +78,7 @@ public class Fragment_CreateAccount extends Fragment implements CreateAccountCal
     @Override
     public void OnSuccessRegistration() {
         dialog.dismiss();
+        loMessage.initDialog();
         loMessage.setTitle("Create Account");
         loMessage.setMessage("A verification email has been sent to your email account. Please check your inbox or spam folder.");
         loMessage.setPositiveButton("Okay", (view, msgDialog) -> msgDialog.dismiss());
@@ -87,6 +88,7 @@ public class Fragment_CreateAccount extends Fragment implements CreateAccountCal
     @Override
     public void OnFailedRegistration(String message) {
         dialog.dismiss();
+        loMessage.initDialog();
         loMessage.setTitle("Create Account");
         loMessage.setMessage(message);
         loMessage.setPositiveButton("Okay", (view, msgDialog) -> msgDialog.dismiss());

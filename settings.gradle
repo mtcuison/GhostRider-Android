@@ -1,3 +1,4 @@
+include ':settings'
 include ':json-simple-1.1.1'
 include ':dailyCollectionPlan'
 include ':griderScanner'

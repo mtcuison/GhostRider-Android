@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -59,23 +60,37 @@ import com.google.android.material.snackbar.Snackbar;
 import org.jetbrains.annotations.NotNull;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSettings;
 import org.rmj.guanzongroup.ghostrider.epacss.themeController.ThemeHelper;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.HashMap;
 import java.util.Map;
 
 import kotlin.TypeCastException;
 import kotlin.jvm.internal.Intrinsics;
 
+import static android.Manifest.permission.CAMERA;
 import static android.net.wifi.WifiConfiguration.Status.strings;
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CAMERA_REQUEST;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LOCATION_REQUEST;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private VMSettings mViewModel;
+    private MessageBox loMessage;
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({GRANTED, DENIED, BLOCKED_OR_NEVER_ASKED })
+    public @interface PermissionStatus {}
+
+    public static final int GRANTED = 0;
+    public static final int DENIED = 1;
+    public static final int BLOCKED_OR_NEVER_ASKED = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +99,8 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        loMessage = new MessageBox(this);
+        mViewModel = new ViewModelProvider(this).get(VMSettings.class);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -99,14 +116,15 @@ public class SettingsActivity extends AppCompatActivity {
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
 
-        private SwitchPreferenceCompat themePreference, phonePref;
-        private Preference locationPref, cameraPref;
+        private SwitchPreferenceCompat themePreference;
+        private Preference locationPref, cameraPref, phonePref;
         private VMSettings mViewModel;
         private GeoLocator poLocator;
         private boolean isContinue = false;
         private boolean isGPS = false;
         private int PERMISION_PHONE_REQUEST_CODE = 103, PERMISION_CAMERA_REQUEST_CODE = 102, PERMISION_LOCATION_REQUEST_CODE = 104;
 
+        private MessageBox loMessage;
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.preferences, rootKey);
@@ -115,20 +133,16 @@ public class SettingsActivity extends AppCompatActivity {
             locationPref = getPreferenceManager().findPreference("locationPrefs");
             phonePref = getPreferenceManager().findPreference("phonePrefs");
 
+            loMessage = new MessageBox(getActivity());
             mViewModel = new ViewModelProvider(this).get(VMSettings.class);
 
-            mViewModel.isLocationPermissionsGranted().observe(this, isGranted -> {
+            mViewModel.isLocPermissionGranted().observe(this, isGranted -> {
                 GetLocation();
             });
-            mViewModel.isCameraPermissionsGranted().observe(this, isGranted -> {
-               if (isGranted){
-                   cameraPref.setSummary(R.string.location_on_summary);
-               }else {
-                   cameraPref.setSummary(R.string.location_off_summary);
-
-               }
+            mViewModel.isCamPermissionGranted().observe(this, isGranted -> {
+                checkPermissionCamera();
             });
-
+            mViewModel.getCameraSummary().observe(this, s -> cameraPref.setSummary(s));
             if (themePreference != null) {
                 themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                     @Override
@@ -148,9 +162,17 @@ public class SettingsActivity extends AppCompatActivity {
                 cameraPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-//                        askPermission(Manifest.permission.CAMERA, PERMISION_CAMERA_REQUEST_CODE);
-                        mViewModel.getCameraPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(getActivity(), strings, PERMISION_CAMERA_REQUEST_CODE));
+                        if ((ActivityCompat.checkSelfPermission(getActivity(), CAMERA) != PackageManager.PERMISSION_GRANTED)) {
+                            mViewModel.getCamPermissions().observe(getViewLifecycleOwner(), strings -> {
+                                ActivityCompat.requestPermissions(getActivity(),strings, CAMERA_REQUEST);
 
+                            });
+                        }else {
+                            loMessage.setNegativeButton("Okay", (view, dialog) -> dialog.dismiss());
+                            loMessage.setTitle("GhostRider Permissions");
+                            loMessage.setMessage("You have already granted this permission.");
+                            loMessage.show();
+                        }
                         return true;
                     }
                 });
@@ -168,51 +190,24 @@ public class SettingsActivity extends AppCompatActivity {
 
         }
 
-        private void askPermission(String permission,int requestCode) {
-            if (ContextCompat.checkSelfPermission(getActivity(),permission)!= PackageManager.PERMISSION_GRANTED){
-                // We Dont have permission
-                mViewModel.getCameraPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(getActivity(), strings, PERMISION_CAMERA_REQUEST_CODE));
 
-//                ActivityCompat.requestPermissions(getActivity(),new String[]{permission},requestCode);
-            }else {
-                // We already have permission do what you want
-//                Toast.makeText(getActivity(),"Permission is already granted.",Toast.LENGTH_LONG).show();
+        boolean checkPermissionCamera() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    cameraPref.setSummary("Camera Permission Enabled");
+                    mViewModel.getCameraSummary().observe(getViewLifecycleOwner(), s -> cameraPref.setSummary(s));
+                    return true;
+                } else {
+                    cameraPref.setSummary("Camera Permission Disabled");
+                    mViewModel.getCameraSummary().observe(getViewLifecycleOwner(), s -> cameraPref.setSummary(s));
 
-                mViewModel.setCameraPermissionsGranted(false);
-                mViewModel.getCameraPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(getActivity(), strings, PERMISION_CAMERA_REQUEST_CODE));
-
+                    return false;
+                }
             }
-
+            return true;
         }
-        @Override
-        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-            if(requestCode == LOCATION_REQUEST){
-                boolean lbIsGrnt = true;
-                for(int x = 0 ; x < grantResults.length; x++){
-                    if(ContextCompat.checkSelfPermission(getActivity(), permissions[x]) != grantResults[x]){
-                        lbIsGrnt = false;
-                        break;
-                    }
-                }
-                if(lbIsGrnt){
-                    mViewModel.setLocationPermissionsGranted(true);
-                }
-            }
-            if(requestCode == PERMISION_CAMERA_REQUEST_CODE){
-                boolean lbIsGrnt = true;
-                for(int x = 0 ; x < grantResults.length; x++){
-                    if(ContextCompat.checkSelfPermission(getActivity(), permissions[x]) != grantResults[x]){
-                        lbIsGrnt = false;
-                        mViewModel.setCameraPermissionsGranted(false);
-                        break;
-                    }
-                }
-                if(lbIsGrnt){
-                    mViewModel.setCameraPermissionsGranted(true);
 
-                }
-            }
-        }
         @Override
         public void onActivityResult(int requestCode, int requestResult, Intent data) {
             if(requestCode == LOCATION_REQUEST){
@@ -246,6 +241,62 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     }
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case CAMERA_REQUEST:{
+                for(int x = 0 ; x < grantResults.length; x++){
+                    getPermissionStatus(this,permissions[x]);
+                }
+                int index = getPermissionStatus(this, CAMERA);
+                if (index == 0){
+                    mViewModel.setCameraSummary("Camera Permission Enabled");
+                    mViewModel.setCamPermissionsGranted(true);
+                }
+                if (index == 1){
+                    mViewModel.setCameraSummary("Camera Permission Disabled");
+                    mViewModel.setCamPermissionsGranted(false);
+                }
+                if (index == 2){
+                    mViewModel.setCameraSummary("Camera Permission Disabled");
+                    mViewModel.setCamPermissionsGranted(false);
+                    showDialogNeverAsk();
+                }
+                Log.e("Permission Selected", String.valueOf(getPermissionStatus(this, CAMERA)));
+            }
+//            case CONTACT_REQUEST: {
+//                for(int x = 0 ; x < grantResults.length; x++){
+//                    getPermissionStatus(this,permissions[x]);
+//                }
+//                int index = getPermissionStatusPhoneState(this, READ_PHONE_STATE);
+//                if (index == 0){
+//                    mViewModel.setCameraSummary("Phone State Permission Enabled");
+//                    mViewModel.setPhonePermissionsGranted(true);
+//                }
+//                if (index == 1){
+//                    mViewModel.setCameraSummary("Phone State Permission Disabled");
+//                    mViewModel.setPhonePermissionsGranted(false);
+//                }
+//                if (index == 2){
+//                    mViewModel.setCameraSummary("Phone State Permission Disabled");
+//                    mViewModel.setPhonePermissionsGranted(false);
+//                    showDialogNeverAsk();
+//                }
+//                Log.e("Permission Selected", String.valueOf(getPermissionStatus(this, READ_PHONE_STATE)));
+//            }
+        }
+    }
+
+    @PermissionStatus
+    public static int getPermissionStatus(Activity activity, String androidPermissionName) {
+        if(ContextCompat.checkSelfPermission(activity, androidPermissionName) != PackageManager.PERMISSION_GRANTED) {
+            if(!ActivityCompat.shouldShowRequestPermissionRationale(activity, androidPermissionName)){
+                return BLOCKED_OR_NEVER_ASKED;
+            }
+            return DENIED;
+        }
+        return GRANTED;
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -254,7 +305,18 @@ public class SettingsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    public void showDialogNeverAsk(){
+        loMessage.setNegativeButton("Okay", (view, dialog) -> {
+            dialog.dismiss();
+            Intent intent = new Intent();
+            intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, CAMERA_REQUEST);
+        });
+        loMessage.setTitle("Never Ask");
+        loMessage.setMessage("Without this permission the app is unable to complete some process in the app. Please allow camera in app settings permissions. ");
+        loMessage.show();
+    }
 
 }
 

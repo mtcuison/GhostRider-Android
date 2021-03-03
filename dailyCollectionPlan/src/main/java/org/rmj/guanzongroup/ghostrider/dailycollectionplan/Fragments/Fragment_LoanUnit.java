@@ -285,6 +285,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
 
     @Override
     public void OnSuccessResult(String[] args) {
+        poMessage.initDialog();
         poMessage.setTitle("Transaction Success");
         poMessage.setMessage(args[0]);
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
@@ -296,6 +297,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
 
     @Override
     public void OnFailedResult(String message) {
+        poMessage.initDialog();
         poMessage.setTitle("Transaction Failed");
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
