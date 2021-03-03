@@ -56,6 +56,8 @@ public class AppConstants {
     }
 
     public static final int LOCATION_REQUEST = 1000;
+    public static final int CAMERA_REQUEST = 999;
+    public static final int CONTACT_REQUEST = 998;
     public static final int GPS_REQUEST = 1001;
 
     public static int LOGIN_ACTIVITY_REQUEST_CODE = 143;

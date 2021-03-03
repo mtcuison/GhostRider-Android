@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
+package org.rmj.guanzongroup.ghostrider.settings;
 
 import android.Manifest;
 import android.app.Application;
@@ -11,15 +11,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.AppTokenManager;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.SessionManager;
 
 public class VMSettings extends AndroidViewModel {
+
     private final MutableLiveData<Boolean> pbGranted = new MutableLiveData<>();
     private final MutableLiveData<Boolean> locGranted = new MutableLiveData<>();
     private final MutableLiveData<Boolean> camGranted = new MutableLiveData<>();
@@ -113,5 +113,6 @@ public class VMSettings extends AndroidViewModel {
         }
         return true;
     }
+
 
 }
