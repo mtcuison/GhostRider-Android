@@ -52,7 +52,7 @@ public class VMLoanUnit extends AndroidViewModel {
     private final RImageInfo poImage;
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
-    private final MutableLiveData<String> psEntryNox = new MutableLiveData<>();
+    private final MutableLiveData<Integer> psEntryNox = new MutableLiveData<>();
 
     private MutableLiveData<String> lsBPlace = new MutableLiveData<>();
     private MutableLiveData<String> lsProvID = new MutableLiveData<>();
@@ -80,7 +80,7 @@ public class VMLoanUnit extends AndroidViewModel {
         this.poImage = new RImageInfo(application);
     }
     // TODO: Implement the ViewModel
-    public void setParameter(String TransNox, String EntryNox){
+    public void setParameter(String TransNox, int EntryNox){
         this.psTransNox.setValue(TransNox);
         this.psEntryNox.setValue(EntryNox);
     }

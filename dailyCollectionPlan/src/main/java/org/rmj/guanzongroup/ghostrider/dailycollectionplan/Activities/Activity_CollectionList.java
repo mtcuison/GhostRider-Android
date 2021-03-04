@@ -39,7 +39,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class Activity_CollectionList extends AppCompatActivity implements ViewModelCallback {
+public class Activity_CollectionList extends AppCompatActivity implements ViewModelCallback, VMCollectionList.OnDownloadCollection {
     private static final String TAG = Activity_CollectionList.class.getSimpleName();
 
     private static final int MOBILE_DIALER = 104;
@@ -66,8 +66,8 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             // Added +1 for entry nox to increment the value which will be
             // use when inserting new AR Client info to database
             try {
-                int lnEntry = 1 + Integer.parseInt(collectionDetail.getEntryNox());
-                mViewModel.setParameter(collectionDetail.getTransNox(), String.valueOf(lnEntry));
+                int lnEntry = 1 + collectionDetail.getEntryNox();
+                mViewModel.setParameter(collectionDetail.getTransNox(), lnEntry);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -79,7 +79,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 for (int x = 0; x < collectionDetails.size(); x++) {
                     CollectionPlan loPlan = new CollectionPlan();
                     loPlan.setAcctNoxxx(collectionDetails.get(x).getAcctNmbr());
-                    loPlan.setDCPNumber(collectionDetails.get(x).getEntryNox());
+                    loPlan.setDCPNumber(String.valueOf(collectionDetails.get(x).getEntryNox()));
                     loPlan.setClientNme(collectionDetails.get(x).getFullName());
                     loPlan.setHouseNoxx(collectionDetails.get(x).getHouseNox());
                     loPlan.setAddressxx(collectionDetails.get(x).getAddressx());
@@ -97,7 +97,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                     @Override
                     public void OnDownloadClick(Dialog Dialog, String Date) {
                         if(!Date.trim().isEmpty()){
-                            mViewModel.DownloadDcp(Date);
+                            mViewModel.DownloadDcp(Date, Activity_CollectionList.this);
                             Dialog.dismiss();
                         } else {
                             GToast.CreateMessage(Activity_CollectionList.this, "Please enter date", GToast.ERROR).show();
@@ -116,13 +116,13 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 public void OnClick(int position) {
                     DialogAccountDetail loDialog = new DialogAccountDetail(Activity_CollectionList.this);
                     loDialog.initAccountDetail(collectionDetails.get(position), (dialog, remarksCode) -> {
-                        dialog.dismiss();
                         Intent loIntent = new Intent(Activity_CollectionList.this, Activity_Transaction.class);
                         loIntent.putExtra("remarksx", remarksCode);
                         loIntent.putExtra("transnox", collectionDetails.get(position).getTransNox());
                         loIntent.putExtra("entrynox", collectionDetails.get(position).getEntryNox());
                         loIntent.putExtra("accntnox", collectionDetails.get(position).getAcctNmbr());
                         startActivity(loIntent);
+                        dialog.dismiss();
                     });
                     loDialog.show();
                 }
@@ -190,18 +190,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                         public void OnDownloadClick(Dialog Dialog, String args) {
                             //Check if account entered is already added on DCP list...
                             // args parameter from dialog refers to account number...
-                            mViewModel.getDuplicateAccountEntry(args).observe(Activity_CollectionList.this, collectionDetail -> {
-                                if(collectionDetail != null){
-                                    Dialog.dismiss();
-                                    poMessage.initDialog();
-                                    poMessage.setTitle("Account ReceivableC Client");
-                                    poMessage.setMessage("This account is already listed on today's collection list.");
-                                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                    poMessage.show();
-                                } else {
-                                    mViewModel.importARClientInfo(args, Activity_CollectionList.this);
-                                }
-                            });
+                            mViewModel.importARClientInfo(args, Activity_CollectionList.this);
                         }
 
                         @Override
@@ -291,6 +280,26 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         poMessage.initDialog();
         poMessage.setTitle("AR Client");
         poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
+    }
+
+    @Override
+    public void OnDownload() {
+        poDialogx.initDialog("Daily Collection Plan","Downloading collection list. Please wait...", false);
+        poDialogx.show();
+    }
+
+    @Override
+    public void OnSuccessDownload() {
+        poDialogx.dismiss();
+    }
+
+    @Override
+    public void OnDownloadFailed(String message) {
+        poDialogx.dismiss();
+        poMessage.initDialog();
+        poMessage.setTitle("Daily Collection Plan");
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
     }

@@ -40,7 +40,7 @@ public class VMPaidTransaction extends AndroidViewModel {
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
 
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
-    private final MutableLiveData<String> psEntryNox = new MutableLiveData<>();
+    private final MutableLiveData<Integer> psEntryNox = new MutableLiveData<>();
     private final MutableLiveData<Double> pnAmount = new MutableLiveData<>();
     private final MutableLiveData<Double> pnDsCntx = new MutableLiveData<>();
     private final MutableLiveData<Double> pnOthers = new MutableLiveData<>();
@@ -57,7 +57,7 @@ public class VMPaidTransaction extends AndroidViewModel {
         this.poConn = new ConnectionUtil(application);
     }
 
-    public void setParameter(String TransNox, String EntryNox){
+    public void setParameter(String TransNox, int EntryNox){
         this.psTransNox.setValue(TransNox);
         this.psEntryNox.setValue(EntryNox);
     }

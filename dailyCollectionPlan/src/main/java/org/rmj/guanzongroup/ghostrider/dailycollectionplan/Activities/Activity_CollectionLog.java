@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +27,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Activity_CollectionLog extends AppCompatActivity implements VMCollectionLog.PostTransactionCallback {
+public class Activity_CollectionLog extends AppCompatActivity implements VMCollectionLog.PostTransactionCallback, VMCollectionLog.PostTransactionImagesCallback {
     private static final String TAG = Activity_CollectionLog.class.getSimpleName();
 
     private VMCollectionLog mViewModel;
@@ -100,7 +101,7 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
             }
         });
 
-        btnPost.setOnClickListener(view -> mViewModel.postTransactionImages(Activity_CollectionLog.this));
+        btnPost.setOnClickListener(view -> mViewModel.PostTransactions(Activity_CollectionLog.this));
     }
 
     private void initWidgets(){
@@ -136,14 +137,33 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
     }
 
     @Override
-    public void OnLoad() {
+    public void OnPosting() {
+        Log.e(TAG, "Uploading images...");
         poDialog.initDialog("Daily Collection Plan", "Posting all transactions. Please wait...", false);
         poDialog.show();
     }
 
+    @Override
+    public void OnImagePostSuccess(String args) {
+        Log.e(TAG, "Success uploading images...");
+        Log.e(TAG, "Uploading collection data...");
+        mViewModel.PostLRCollectionDetail(Activity_CollectionLog.this);
+    }
 
-    public void OnProgressUpdate(String Message) {
-        Toast.makeText(this, Message, Toast.LENGTH_LONG).show();
+    @Override
+    public void OnImagePostFailed(String message) {
+        Log.e(TAG, "Failed uploading images...");
+        poDialog.dismiss();
+        poMessage.initDialog();
+        poMessage.setTitle("Daily Collection Plan");
+        poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
+    }
+
+    @Override
+    public void OnLoad() {
+
     }
 
     @Override
