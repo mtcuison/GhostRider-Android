@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -27,7 +26,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Activity_CollectionLog extends AppCompatActivity implements VMCollectionLog.PostTransactionCallback, VMCollectionLog.PostTransactionImagesCallback {
+public class Activity_CollectionLog extends AppCompatActivity implements VMCollectionLog.PostTransactionCallback {
     private static final String TAG = Activity_CollectionLog.class.getSimpleName();
 
     private VMCollectionLog mViewModel;
@@ -79,9 +78,24 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
                 e.printStackTrace();
             }
         });
-        mViewModel.getCollectionList().observe(Activity_CollectionLog.this, collectionDetails -> {
-            try {
-                mViewModel.setTransactionList(collectionDetails);
+
+//        mViewModel.getCollectionList().observe(Activity_CollectionLog.this, collectionDetails -> {
+//            try {
+//                mViewModel.setTransactionList(collectionDetails);
+//
+//                poAdapter = new TransactionAdapter(collectionDetails);
+//                poManager = new LinearLayoutManager(Activity_CollectionLog.this);
+//                poManager.setOrientation(RecyclerView.VERTICAL);
+//                recyclerView.setLayoutManager(poManager);
+//                recyclerView.setAdapter(poAdapter);
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
+
+        mViewModel.getCollectionDetailForPosting().observe(Activity_CollectionLog.this, collectionDetails -> {
+            try{
+                mViewModel.setCollectionListForPosting(collectionDetails);
 
                 poAdapter = new TransactionAdapter(collectionDetails);
                 poManager = new LinearLayoutManager(Activity_CollectionLog.this);
@@ -101,7 +115,7 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
             }
         });
 
-        btnPost.setOnClickListener(view -> mViewModel.PostTransactions(Activity_CollectionLog.this));
+        btnPost.setOnClickListener(view -> mViewModel.PostLRCollectionDetail(Activity_CollectionLog.this));
     }
 
     private void initWidgets(){
@@ -136,34 +150,35 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
         return "Collection For " + FormatUIText.getParseDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
     }
 
-    @Override
-    public void OnPosting() {
-        Log.e(TAG, "Uploading images...");
-        poDialog.initDialog("Daily Collection Plan", "Posting all transactions. Please wait...", false);
-        poDialog.show();
-    }
-
-    @Override
-    public void OnImagePostSuccess(String args) {
-        Log.e(TAG, "Success uploading images...");
-        Log.e(TAG, "Uploading collection data...");
-        mViewModel.PostLRCollectionDetail(Activity_CollectionLog.this);
-    }
-
-    @Override
-    public void OnImagePostFailed(String message) {
-        Log.e(TAG, "Failed uploading images...");
-        poDialog.dismiss();
-        poMessage.initDialog();
-        poMessage.setTitle("Daily Collection Plan");
-        poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
-    }
+//    @Override
+//    public void OnPosting() {
+//        Log.e(TAG, "Uploading images...");
+//        poDialog.initDialog("Daily Collection Plan", "Posting all transactions. Please wait...", false);
+//        poDialog.show();
+//    }
+//
+//    @Override
+//    public void OnImagePostSuccess(String args) {
+//        Log.e(TAG, "Success uploading images...");
+//        Log.e(TAG, "Uploading collection data...");
+//        //mViewModel.PostLRCollectionDetail(Activity_CollectionLog.this);
+//    }
+//
+//    @Override
+//    public void OnImagePostFailed(String message) {
+//        Log.e(TAG, "Failed uploading images...");
+//        poDialog.dismiss();
+//        poMessage.initDialog();
+//        poMessage.setTitle("Daily Collection Plan");
+//        poMessage.setMessage(message);
+//        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+//        poMessage.show();
+//    }
 
     @Override
     public void OnLoad() {
-
+        poDialog.initDialog("Daily Collection Plan", "Posting all transactions. Please wait...", false);
+        poDialog.show();
     }
 
     @Override

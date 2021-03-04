@@ -1,12 +1,9 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -32,16 +28,12 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogImagePreview;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.OnBirthSetListener;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.LoanUnitModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLoanUnit;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
-
-import java.io.File;
-import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -69,7 +61,10 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
     public static ContentResolver contentResolver;
 
     //Parameters From Activity_Transaction
-    private String TransNox, EntryNox, Remarksx, AccntNox;
+    private String TransNox;
+    private int EntryNox;
+    private String Remarksx;
+    private String AccntNox;
     private EImageInfo poImageInfo;
     public static Fragment_LoanUnit newInstance() {
         return new Fragment_LoanUnit();
