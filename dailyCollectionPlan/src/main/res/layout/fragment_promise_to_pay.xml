@@ -232,43 +232,43 @@
                     android:focusedByDefault="false"
                     android:maxLength="50" />
             </com.google.android.material.textfield.TextInputLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginBottom="10dp"
-                android:background="@color/guanzon_orange">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:background="@color/guanzon_orange">-->
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".6"
-                    android:background="@color/guanzon_orange"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    android:text="Customer Picture"
-                    android:textSize="17sp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+<!--                <TextView-->
+<!--                    android:layout_width="fill_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight=".6"-->
+<!--                    android:background="@color/guanzon_orange"-->
+<!--                    android:paddingLeft="10dp"-->
+<!--                    android:paddingTop="15dp"-->
+<!--                    android:paddingBottom="15dp"-->
+<!--                    android:text="Customer Picture"-->
+<!--                    android:textSize="17sp"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textStyle="bold" />-->
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1.4"
-                    android:gravity="right"
-                    >
-                    <ImageView
-                        android:id="@+id/imgPtpCamera"
-                        android:layout_width="60dp"
-                        android:layout_height="match_parent"
-                        android:src="@android:drawable/ic_menu_camera"
-                        android:scaleType="fitXY"/>
-                </LinearLayout>
+<!--                <LinearLayout-->
+<!--                    android:layout_width="fill_parent"-->
+<!--                    android:layout_height="fill_parent"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:layout_weight="1.4"-->
+<!--                    android:gravity="right"-->
+<!--                    >-->
+<!--                    <ImageView-->
+<!--                        android:id="@+id/imgPtpCamera"-->
+<!--                        android:layout_width="60dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:src="@android:drawable/ic_menu_camera"-->
+<!--                        android:scaleType="fitXY"/>-->
+<!--                </LinearLayout>-->
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 <!--            <com.google.android.material.button.MaterialButton-->
 <!--                style="@style/GhostRider_Button"-->
 <!--                android:id="@+id/btn_ptp_camera"-->

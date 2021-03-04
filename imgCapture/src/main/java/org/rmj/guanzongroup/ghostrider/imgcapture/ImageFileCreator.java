@@ -12,6 +12,7 @@ import android.util.Log;
 import androidx.core.content.FileProvider;
 
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
+import org.rmj.g3appdriver.GRider.Etc.LocationTrack;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class ImageFileCreator {
     private double latitude, longitude;
 
     GeoLocator poLocator;
+    LocationTrack locationTrack;
 
     File image;
 
@@ -62,6 +64,7 @@ public class ImageFileCreator {
 
     public void CreateFile(OnImageFileWithLocationCreatedListener listener) {
         poLocator = new GeoLocator(poContext, (Activity) poContext);
+        locationTrack = new LocationTrack(poContext);
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(poContext.getPackageManager()) != null) {
@@ -71,6 +74,7 @@ public class ImageFileCreator {
                 photoFile = createImageFile();
                 latitude = poLocator.getLattitude();
                 longitude = poLocator.getLongitude();
+
             } catch (IOException ex) {
                 // Error occurred while creating the File...
             }
@@ -79,6 +83,7 @@ public class ImageFileCreator {
                 Uri photoURI = FileProvider.getUriForFile(poContext,
                         "org.rmj.guanzongroup.ghostrider.epacss"+ ".provider",
                         photoFile);
+
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 listener.OpenCameraWithLocation(
                         takePictureIntent,
@@ -87,12 +92,15 @@ public class ImageFileCreator {
                         generateImageFileName(),
                         latitude,
                         longitude);
+
+
             }
         }
     }
     public File createImageFile() throws IOException {
         image = new File(
-                generateStorageDir(),
+                generateMainStorageDir(),
+//                generateStorageDir(),
                 generateImageFileName());
 
         // Save a file: path for use with ACTION_VIEW intents

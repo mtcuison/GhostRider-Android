@@ -71,4 +71,6 @@ public interface DDCPCollectionDetail {
             "FROM LR_DCP_Collection_Master " +
             "ORDER BY dTransact DESC LIMIT 1)")
     void updateCustomerDetailImage(String ImageID, String AccountNo);
+
+
 }

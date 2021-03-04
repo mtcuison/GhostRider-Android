@@ -216,7 +216,7 @@ public class LoanUnitModel {
     }
     private boolean isValidImgPth(){
         if (luImgPath == null || luImgPath.trim().isEmpty()){
-            message = "Please take customer picture.";
+            message = "empty";
             return false;
         }
         return true;
