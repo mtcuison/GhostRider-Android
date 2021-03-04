@@ -368,22 +368,12 @@
                 android:layout_height="wrap_content"
                 style="@style/MaterialButtonAccent"
                 android:text="@string/btn_add"/>
-
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_commit"
+                android:id="@+id/btn_submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/MaterialButtonAccent"
-                android:text="@string/btn_commit"/>
+                android:text="@string/btn_submit"/>
         </LinearLayout>
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/MaterialButtonAccent"
-            android:text="@string/btn_submit"/>
-
     </LinearLayout>
 </ScrollView>
