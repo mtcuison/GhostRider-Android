@@ -55,7 +55,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
 
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
-    private final MutableLiveData<String> psEntryNox = new MutableLiveData<>();
+    private final MutableLiveData<Integer> psEntryNox = new MutableLiveData<>();
     private final MutableLiveData<String> clientID = new MutableLiveData<>();
     private final MutableLiveData<String> requestCode = new MutableLiveData<>();
     private final MutableLiveData<String> addressType = new MutableLiveData<>();
@@ -92,7 +92,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
         poImage.insertImageInfo(foImageInfo);
     }
 
-    public void setParameter(String TransNox, String EntryNox){
+    public void setParameter(String TransNox, int EntryNox){
         this.psTransNox.setValue(TransNox);
         this.psEntryNox.setValue(EntryNox);
     }

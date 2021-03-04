@@ -91,7 +91,7 @@
             super.onActivityCreated(savedInstanceState);
 
             String TransNox = Activity_Transaction.getInstance().getTransNox();
-            String EntryNox = Activity_Transaction.getInstance().getEntryNox();
+            int EntryNox = Activity_Transaction.getInstance().getEntryNox();
             mViewModel = ViewModelProviders.of(this).get(VMCustomerNotAround.class);
 
             mViewModel.setParameter(TransNox, EntryNox);

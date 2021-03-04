@@ -31,5 +31,5 @@ public interface DDCPCollectionMaster {
     LiveData<EDCPCollectionMaster> getCollectionMaster();
 
     @Query("UPDATE LR_DCP_Collection_Master SET nEntryNox =:nEntryNox")
-    void updateEntryMaster(String nEntryNox);
+    void updateEntryMaster(int nEntryNox);
 }

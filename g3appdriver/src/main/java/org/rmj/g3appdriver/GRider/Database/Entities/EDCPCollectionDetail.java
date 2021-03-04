@@ -13,7 +13,7 @@ public class EDCPCollectionDetail {
 
     @NonNull
     @ColumnInfo(name = "nEntryNox")
-    private String EntryNox;
+    private int EntryNox;
     @ColumnInfo(name = "sAcctNmbr")
     private String AcctNmbr;
     @ColumnInfo(name = "xFullName")
@@ -93,11 +93,11 @@ public class EDCPCollectionDetail {
         TransNox = transNox;
     }
 
-    public String getEntryNox() {
+    public int getEntryNox() {
         return EntryNox;
     }
 
-    public void setEntryNox(String entryNox) {
+    public void setEntryNox(int entryNox) {
         EntryNox = entryNox;
     }
 

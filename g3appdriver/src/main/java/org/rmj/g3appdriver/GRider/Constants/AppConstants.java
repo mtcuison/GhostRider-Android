@@ -24,6 +24,20 @@ public class AppConstants {
         return loJson.toString();
     }
 
+    public static String LOCAL_EXCEPTION_ERROR(String message) {
+        JSONObject loJson = new JSONObject();
+        JSONObject loError = new JSONObject();
+        try {
+            loJson.put("result", "error");
+            loError.put("code", "202");
+            loError.put("message", message);
+            loJson.put("error", loError);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return loJson.toString();
+    }
+
     public static String ERROR_SAVING_TO_LOCAL() throws Exception{
         JSONObject loJson = new JSONObject();
         JSONObject loError = new JSONObject();

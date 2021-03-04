@@ -110,38 +110,36 @@ public class DCP_Constants {
     }
 
     public static String getRemarksCode(String Description){
-        switch (Description){
-            case "Paid":
-                return "PAY";
-            case "Promise to Pay":
-                return "PTP";
-            case "Customer Not Around":
-                return "CNA";
-            case "For Legal Action":
-                return "FLA";
-            case "Carnap":
-                return "Car";
-            case "Uncooperative":
-                return "UNC";
-            case "Missing Customer":
-                return "MCs";
-            case "Missing Unit":
-                return "MUn";
-            case "Missing Client and Unit":
-                return "MCU";
-            case "Loan Unit":
-                return "LUn";
-            case "Transferred/Assumed":
-                return "TA";
-            case "False Ownership":
-                return "FO";
-            case "Did Not Pay":
-                return "DNP";
-            case "Not Visited":
-                return "NV";
-            case "Others":
-                return "OTH";
+        if(Description.equalsIgnoreCase("Paid")){
+            return "PAY";
+        } else if(Description.equalsIgnoreCase("Promise to Pay")){
+            return "PTP";
+        } else if(Description.equalsIgnoreCase("Customer Not Around")){
+            return "CNA";
+        } else if(Description.equalsIgnoreCase("For Legal Action")){
+            return "FLA";
+        } else if(Description.equalsIgnoreCase("Car nap")){
+            return "Car";
+        } else if(Description.equalsIgnoreCase("Uncooperative")){
+            return "UNC";
+        } else if(Description.equalsIgnoreCase("Missing Customer")){
+            return "MCs";
+        } else if(Description.equalsIgnoreCase("Missing Unit")){
+            return "MUn";
+        } else if(Description.equalsIgnoreCase("Missing Client and Unit")){
+            return "MCU";
+        } else if(Description.equalsIgnoreCase("Loan Unit")){
+            return "LUn";
+        } else if(Description.equalsIgnoreCase("Transferred/Assumed")){
+            return "TA";
+        } else if(Description.equalsIgnoreCase("False Ownership")){
+            return "FO";
+        } else if(Description.equalsIgnoreCase("Did Not Pay")){
+            return "DNP";
+        } else if(Description.equalsIgnoreCase("Not Visited")){
+            return "NV";
+        } else {
+            return "OTH";
         }
-        return "";
     }
 }

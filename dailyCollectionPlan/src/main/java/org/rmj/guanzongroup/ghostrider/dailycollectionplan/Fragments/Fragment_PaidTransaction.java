@@ -83,7 +83,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         super.onActivityCreated(savedInstanceState);
         String Remarksx = Activity_Transaction.getInstance().getRemarksCode();
         String TransNox = Activity_Transaction.getInstance().getTransNox();
-        String EntryNox = Activity_Transaction.getInstance().getEntryNox();
+        int EntryNox = Activity_Transaction.getInstance().getEntryNox();
         mViewModel = new ViewModelProvider(this).get(VMPaidTransaction.class);
         mViewModel.setParameter(TransNox, EntryNox);
         mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
@@ -92,10 +92,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                 lblClientNm.setText(collectionDetail.getFullName());
                 lblTransNo.setText(collectionDetail.getTransNox());
                 mViewModel.setCurrentCollectionDetail(collectionDetail);
-            } catch (Exception
-
-
-                    e){
+            } catch (Exception e){
                 e.printStackTrace();
             }
         });

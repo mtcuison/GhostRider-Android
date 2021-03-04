@@ -7,12 +7,19 @@
     android:orientation="vertical"
     tools:context=".Activities.Activity_CollectionLog"
     android:theme="@style/GhostRiderMaterialTheme">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_collectionLog"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:layout_alignParentTop="true"/>
+        android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_collectionLog"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/material_tool_bar"
+            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:id="@+id/linear_header"
@@ -20,8 +27,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:padding="10dp"
-        android:layout_below="@id/toolbar_collectionLog">
+        android:padding="10dp">
 
         <TextView
             android:layout_width="wrap_content"

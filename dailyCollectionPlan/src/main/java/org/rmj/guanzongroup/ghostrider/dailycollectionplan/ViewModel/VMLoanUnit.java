@@ -48,7 +48,7 @@ public class VMLoanUnit extends AndroidViewModel {
     private final RDailyCollectionPlan poDcp;
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
-    private final MutableLiveData<String> psEntryNox = new MutableLiveData<>();
+    private final MutableLiveData<Integer> psEntryNox = new MutableLiveData<>();
 
     private MutableLiveData<String> lsBPlace = new MutableLiveData<>();
     private MutableLiveData<String> lsProvID = new MutableLiveData<>();
@@ -75,7 +75,7 @@ public class VMLoanUnit extends AndroidViewModel {
         provinceInfoList = RProvince.getAllProvinceInfo();
     }
     // TODO: Implement the ViewModel
-    public void setParameter(String TransNox, String EntryNox){
+    public void setParameter(String TransNox, int EntryNox){
         this.psTransNox.setValue(TransNox);
         this.psEntryNox.setValue(EntryNox);
     }
