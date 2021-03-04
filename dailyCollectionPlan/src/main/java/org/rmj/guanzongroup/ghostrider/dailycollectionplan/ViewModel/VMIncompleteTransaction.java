@@ -14,6 +14,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 
 import java.util.Objects;
 
@@ -26,8 +27,9 @@ public class VMIncompleteTransaction extends AndroidViewModel {
     private String ImgTransNox;
 
     private final MutableLiveData<EDCPCollectionDetail> poDetail = new MutableLiveData<>();
+    private final MutableLiveData<String> sRemarksx = new MutableLiveData<>();
     private final MutableLiveData<String> sTransNox = new MutableLiveData<>();
-    private final MutableLiveData<String> nEntryNox = new MutableLiveData<>();
+    private final MutableLiveData<Integer> nEntryNox = new MutableLiveData<>();
     private final MutableLiveData<String> sAccntNox = new MutableLiveData<>();
     private final MutableLiveData<String> sImgPathx = new MutableLiveData<>();
 
@@ -37,9 +39,11 @@ public class VMIncompleteTransaction extends AndroidViewModel {
         this.poImage = new RImageInfo(application);
     }
 
-    public void setParameter(String fsTransNox, String fnEntryNox){
+    public void setParameter(String fsTransNox, int fnEntryNox, String fsRemarksx){
         this.sTransNox.setValue(fsTransNox);
         this.nEntryNox.setValue(fnEntryNox);
+        this.sRemarksx.setValue(DCP_Constants.getRemarksCode(fsRemarksx));
+        Log.e(TAG, DCP_Constants.getRemarksCode(fsRemarksx));
     }
 
     public void setAccountNo(String fsAccntNo){
@@ -68,7 +72,7 @@ public class VMIncompleteTransaction extends AndroidViewModel {
     public void updateCollectionDetail(String RemarksCode){
         EDCPCollectionDetail detail = poDetail.getValue();
         Objects.requireNonNull(detail).setImageNme(ImgTransNox);
-        new UpdateCollectionTask(poDcp, RemarksCode).execute(detail);
+        new UpdateCollectionTask(poDcp, sRemarksx.getValue()).execute(detail);
     }
 
     private static class UpdateCollectionTask extends AsyncTask<EDCPCollectionDetail, Void, String>{

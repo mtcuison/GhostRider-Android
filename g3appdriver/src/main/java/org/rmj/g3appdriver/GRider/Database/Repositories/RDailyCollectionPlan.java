@@ -48,7 +48,7 @@ public class RDailyCollectionPlan {
         masterDao.insert(collectionMaster);
     }
 
-    public void updateEntryMaster(String nEntryNox){
+    public void updateEntryMaster(int nEntryNox){
         masterDao.updateEntryMaster(nEntryNox);
     }
 
@@ -64,7 +64,7 @@ public class RDailyCollectionPlan {
         return masterDao.getCollectionMaster();
     }
 
-    public LiveData<EDCPCollectionDetail> getCollectionDetail(String TransNox, String EntryNox){
+    public LiveData<EDCPCollectionDetail> getCollectionDetail(String TransNox, int EntryNox){
         return detailDao.getCollectionDetail(TransNox, EntryNox);
     }
 
@@ -73,11 +73,11 @@ public class RDailyCollectionPlan {
         //detailDao.updateCollectionDetailInfo(collectionDetail.getEntryNox(), collectionDetail.getRemCodex(),AppConstants.DATE_MODIFIED);
     }
 
-    public void updateCollectionDetail(String EntryNox, String RemCode){
+    public void updateCollectionDetail(int EntryNox, String RemCode){
         detailDao.updateCollectionDetailInfo(EntryNox, RemCode, AppConstants.DATE_MODIFIED);
     }
 
-    public void updateCollectionDetailStatus(String TransNox, String EntryNox){
+    public void updateCollectionDetailStatus(String TransNox, int EntryNox){
         detailDao.updateCollectionDetailStatus(TransNox, EntryNox, AppConstants.DATE_MODIFIED);
     }
 
@@ -90,16 +90,8 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectionLastEntry();
     }
 
-    public LiveData<EDCPCollectionDetail> getDuplicateAccountEntry(String AccountNo){
-        return detailDao.getDuplicateAccountEntry(AccountNo);
-    }
-
     public LiveData<EDCPCollectionDetail> getDuplicateSerialEntry(String SerialNo){
         return detailDao.getDuplicateSerialEntry(SerialNo);
-    }
-
-    public void saveCollectionMaster(JSONObject foJson) throws Exception {
-
     }
 
     public String getImageNextCode(){

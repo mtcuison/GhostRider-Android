@@ -25,17 +25,19 @@ public interface DDCPCollectionDetail {
             "SET sRemCodex =:RemCode, " +
             "cSendStat = '0', " +
             "cTranStat = '1', " +
+            "nLongitud = (SELECT nLongitud FROM Image_Information WHERE sDtlSrcNo = sAcctNmbr AND sSourceNo = sTransNox), " +
+            "nLatitude = (SELECT nLatitude FROM Image_Information WHERE sDtlSrcNo = sAcctNmbr AND sSourceNo = sTransNox), " +
             "dModified =:DateModified " +
             "WHERE sTransNox = (SELECT sTransNox " +
             "FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1) " +
             "AND nEntryNox =:EntryNox")
-    void updateCollectionDetailInfo(String EntryNox, String RemCode, String DateModified);
+    void updateCollectionDetailInfo(int EntryNox, String RemCode, String DateModified);
 
     @Query("UPDATE LR_DCP_Collection_Detail " +
             "SET cSendStat='1', dModified=:DateEntry " +
             "WHERE sTransNox =:TransNox " +
             "AND nEntryNox =:EntryNox")
-    void updateCollectionDetailStatus(String TransNox, String EntryNox, String DateEntry);
+    void updateCollectionDetailStatus(String TransNox, int EntryNox, String DateEntry);
 
     @Delete
     void delete(EDCPCollectionDetail collectionDetail);
@@ -52,15 +54,10 @@ public interface DDCPCollectionDetail {
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +
             "WHERE sTransNox = :TransNox " +
             "AND nEntryNox = :EntryNox")
-    LiveData<EDCPCollectionDetail> getCollectionDetail(String TransNox, String EntryNox);
+    LiveData<EDCPCollectionDetail> getCollectionDetail(String TransNox, int EntryNox);
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail ORDER BY nEntryNox DESC LIMIT 1")
     LiveData<EDCPCollectionDetail> getCollectionLastEntry();
-
-    @Query("SELECT * FROM LR_DCP_Collection_Detail " +
-            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1) " +
-            "AND sAcctNmbr =:AccountNo")
-    LiveData<EDCPCollectionDetail> getDuplicateAccountEntry(String AccountNo);
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +
             "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1) " +

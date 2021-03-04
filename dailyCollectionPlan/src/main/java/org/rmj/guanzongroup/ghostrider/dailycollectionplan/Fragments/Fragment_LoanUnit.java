@@ -122,7 +122,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         super.onActivityCreated(savedInstanceState);
         String Remarksx = Activity_Transaction.getInstance().getRemarksCode();
         String TransNox = Activity_Transaction.getInstance().getTransNox();
-        String EntryNox = Activity_Transaction.getInstance().getEntryNox();
+        int EntryNox = Activity_Transaction.getInstance().getEntryNox();
         mViewModel = new ViewModelProvider(this).get(VMLoanUnit.class);
         mViewModel.setParameter(TransNox, EntryNox);
         mViewModel.getSpnCivilStats().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCivilStats.setAdapter(stringArrayAdapter));
