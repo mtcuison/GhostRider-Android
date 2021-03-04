@@ -67,7 +67,7 @@
         private AutoCompleteTextView txtTown, txtBrgy;
         private LinearLayout lnContactNox,
                 lnAddress;
-        private MaterialButton btnAdd, btnCommit, btnSubmit;
+        private MaterialButton btnAdd, btnSubmit;
         private RecyclerView rvCNAOutputs;
         private String Remarksx;
 
@@ -237,7 +237,6 @@
             txtBrgy = v.findViewById(R.id.txt_dcpCNA_brgy);
             txtRemarks = v.findViewById(R.id.txt_dcpCNA_remarks);
             btnAdd = v.findViewById(R.id.btn_add);
-            btnCommit = v.findViewById(R.id.btn_commit);
             btnSubmit = v.findViewById(R.id.btn_submit);
 
             lnContactNox = v.findViewById(R.id.CNA_Contact);

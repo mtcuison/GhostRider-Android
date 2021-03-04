@@ -383,6 +383,8 @@ public class VMCollectionLog extends AndroidViewModel {
                                     param.put("sSourceCD","DCPa");
                                     param.put("sSourceNo", loDetail.getAcctNmbr());
 
+                                    Log.e("JsonParam", param.toString());
+
                                     String lsAddressUpdtResponse = WebClient.httpsPostJSon(WebApi.URL_UPDATE_ADDRESS, param.toString(), poHeaders.getHeaders());
 
                                     if(lsAddressUpdtResponse == null) {
@@ -390,6 +392,7 @@ public class VMCollectionLog extends AndroidViewModel {
                                     } else {
                                         JSONObject loResult = new JSONObject(lsAddressUpdtResponse);
                                         String result = loResult.getString("result");
+                                        Log.e("The retult", String.valueOf(loResult));
                                         if(result.equalsIgnoreCase("success")) {
                                             String newTransNox = loResult.getString("sTransNox");
                                             rCollect.updateAddressStatus(newTransNox, info.getTransNox());
@@ -421,6 +424,7 @@ public class VMCollectionLog extends AndroidViewModel {
                                 } else {
                                     JSONObject loMobResult = new JSONObject(lsMobileUpdtResponse);
                                     String result = loMobResult.getString("result");
+                                    Log.e("The retult", String.valueOf(loMobResult));
                                     if(result.equalsIgnoreCase("success")) {
                                         String newTransNox = loMobResult.getString("sTransNox");
                                         rCollect.updateMobileStatus(newTransNox, info.getTransNox());
