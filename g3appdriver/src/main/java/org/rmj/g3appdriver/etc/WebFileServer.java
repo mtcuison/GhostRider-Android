@@ -133,7 +133,7 @@ public class WebFileServer {
     }
 
     public static String createMD5Hash(String FilePath) {
-        String lsResult = WebFile.md5Hash(FilePath);
-        return lsResult;
+            String lsResult = WebFile.md5Hash(FilePath);
+            return lsResult;
     }
 }

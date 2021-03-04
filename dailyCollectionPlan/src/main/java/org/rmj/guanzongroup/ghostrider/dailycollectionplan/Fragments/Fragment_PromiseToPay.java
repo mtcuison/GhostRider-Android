@@ -69,7 +69,6 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
 
     private MessageBox poMessage;
 
-    public static String mCurrentPhotoPath;
     public static Fragment_PromiseToPay newInstance() {
         return new Fragment_PromiseToPay();
     }
@@ -101,7 +100,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         rgPtpAppUnit = v.findViewById(R.id.rb_ap_ptpBranch);
         ptpCollName = v.findViewById(R.id.txt_ptp_collectorName);
         btnPtp = v.findViewById(R.id.btn_ptp_submit);
-        btnCamera = v.findViewById(R.id.imgPtpCamera);
+//        btnCamera = v.findViewById(R.id.imgPtpCamera);
     }
 
     @Override
@@ -121,7 +120,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
             CollId = s.getCollctID();
             ptpCollName.setText(s.getCollName());
-            poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, ImageFileCreator.FILE_CODE.DCP, AccntNox);
+            poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, DCP_Constants.TRANSACT_PTP, AccntNox);
         });
 
         mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
@@ -130,10 +129,9 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
                 lblClientNm.setText(collectionDetail.getFullName());
                 lblTransNo.setText(collectionDetail.getTransNox());
                 mViewModel.setCurrentCollectionDetail(collectionDetail);
-            } catch (Exception
-
-
-                    e){
+                mViewModel.setAccountNox(collectionDetail.getAcctNmbr());
+                Log.e("", "Account No collection detail " + collectionDetail.getAcctNmbr() + " Account Instance" + AccntNox);
+            } catch (Exception e){
                 e.printStackTrace();
             }
         });
@@ -171,21 +169,21 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
             StartTime.show();
         });
         rgPtpAppUnit.setOnCheckedChangeListener(new OnDependencyStatusSelectionListener(rgPtpAppUnit,mViewModel));
-        btnCamera.setOnClickListener(v -> {
-            poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                infoModel.setPtpImgPath(photPath);
-                poImageInfo = new EImageInfo();
-                poImageInfo.setDtlSrcNo(AccntNox);
-                poImageInfo.setSourceNo(TransNox);
-                poImageInfo.setSourceCD("DCPa");
-                poImageInfo.setImageNme(FileName);
-                poImageInfo.setFileLoct(photPath);
-                poImageInfo.setFileCode("DCP");
-                poImageInfo.setLatitude(String.valueOf(latitude));
-                poImageInfo.setLongitud(String.valueOf(longitude));
-                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
-            });
-        });
+//        btnCamera.setOnClickListener(v -> {
+//            poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+//                infoModel.setPtpImgPath(photPath);
+//                poImageInfo = new EImageInfo();
+//                poImageInfo.setDtlSrcNo(AccntNox);
+//                poImageInfo.setSourceNo(TransNox);
+//                poImageInfo.setSourceCD("DCPa");
+//                poImageInfo.setImageNme(FileName);
+//                poImageInfo.setFileLoct(photPath);
+//                poImageInfo.setFileCode("DCP");
+//                poImageInfo.setLatitude(String.valueOf(latitude));
+//                poImageInfo.setLongitud(String.valueOf(longitude));
+//                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+//            });
+//        });
         btnPtp.setOnClickListener( v -> {
             try {
                 submitPtp(Remarksx);
@@ -201,39 +199,23 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         super.onActivityResult(requestCode, resultCode, data);
         Log.e("REQUEST CODE", String.valueOf(requestCode));
         Log.e("RESULT CODE", String.valueOf(resultCode));
-        if (requestCode == ImageFileCreator.GCAMERA && resultCode == RESULT_OK) {
-            //cameraCapture(mCurrentPhotoPath);
-            //showDialog();
+        if(requestCode == ImageFileCreator.GCAMERA){
+            if(resultCode == RESULT_OK) {
+                try {
+                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(infoModel.getPtpImgPath()));
+                    mViewModel.saveImageInfo(poImageInfo);
+                    submitPtp(Remarksx);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                //cameraCapture(mCurrentPhotoPath);
+                //showDialog();}
+            }else {
+                infoModel.setPtpImgPath("");
+            }
         }
     }
-//    public void showDialog(){
-//        DialogImagePreview dialogImagePreview = new DialogImagePreview(getActivity());
-//        dialogImagePreview.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
-//            @Override
-//            public void OnCancel(Dialog Dialog)
-//            {
-//                //imgCamera.setOnClickListener(null);
-//                lblImgPath.setText(mCurrentPhotoPath);
-//                Log.e("Image Path", mCurrentPhotoPath);
-//                if (!lblImgPath.getText().toString().trim().isEmpty()){
-//                    Dialog.dismiss();
-//                }
 //
-//            }
-//        });
-//        dialogImagePreview.show();
-//    }
-//    public boolean cameraCapture (String photoPath) {
-//        try {
-//            DCP_Constants.selectedImageBitmap = MediaStore.Images.Media.getBitmap(
-//                    getActivity().getContentResolver(), Uri.fromFile(new File(photoPath)));
-//        } catch (IOException e) {
-//            return false;
-//        }
-//
-//        return DCP_Constants.selectedImageBitmap != null;
-//    }
-
     @Override
     public void OnStartSaving() {
 
@@ -253,11 +235,12 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
 
     @Override
     public void OnFailedResult(String message) {
-        poMessage.initDialog();
-        poMessage.setTitle("Transaction Failed");
-        poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
+        if (message.trim().equalsIgnoreCase("empty"))
+        {
+            showDialogImg();
+        }else {
+            onFailedDialog(message);
+        }
     }
 
     class OnDependencyStatusSelectionListener implements RadioGroup.OnCheckedChangeListener{
@@ -289,18 +272,52 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
 
     public void submitPtp(String remarks) throws Exception{
         //save ImageInfo...
-        poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(infoModel.getPtpImgPath()));
-        mViewModel.saveImageInfo(poImageInfo);
 
         //Saving CollectionDetail...
-        String lsSelectedDate = Objects.requireNonNull(ptpDate.getText()).toString();
-        @SuppressLint("SimpleDateFormat") Date parseDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsSelectedDate);
-        @SuppressLint("SimpleDateFormat") String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(parseDate));
-        infoModel.setPtpDate(lsDate);
+        infoModel.setPtpDate(Objects.requireNonNull(ptpDate.getText().toString()));
         infoModel.setPtpRemarks(remarks);
         infoModel.setPtpAppointmentUnit(IsAppointmentUnitX);
         infoModel.setPtpBranch(ptpBranchName.getText().toString());
         infoModel.setPtpCollectorName(Objects.requireNonNull(ptpCollName.getText()).toString());
         mViewModel.savePtpInfo(infoModel, Fragment_PromiseToPay.this);
+
+    }
+    public void showDialogImg(){
+        poMessage.initDialog();
+        poMessage.setTitle(Remarksx);
+        poMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction. \n" +
+                "\n" +
+                "NOTE: Take a selfie on your current place if customer is not visited");
+        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+            dialog.dismiss();
+            poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                infoModel.setPtpImgPath(photPath);
+                poImageInfo = new EImageInfo();
+                poImageInfo.setDtlSrcNo(AccntNox);
+                poImageInfo.setSourceNo(TransNox);
+                poImageInfo.setSourceCD("DCPa");
+                poImageInfo.setImageNme(FileName);
+                poImageInfo.setFileLoct(photPath);
+                poImageInfo.setFileCode("DCP");
+                poImageInfo.setLatitude(String.valueOf(latitude));
+                poImageInfo.setLongitud(String.valueOf(longitude));
+
+                mViewModel.setLatitude(String.valueOf(latitude));
+                mViewModel.setLongitude(String.valueOf(longitude));
+                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+            });
+        });
+        poMessage.setNegativeButton("Cancel", (view, dialog) -> {
+            dialog.dismiss();
+//            Objects.requireNonNull(getActivity()).finish();
+        });
+        poMessage.show();
+    }
+    public void onFailedDialog(String messages){
+        poMessage.initDialog();
+        poMessage.setTitle("Transaction Failed");
+        poMessage.setMessage(messages);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
     }
 }

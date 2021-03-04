@@ -24,6 +24,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -57,7 +59,6 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
     private TextInputEditText tieBDate, tiePhone, tieMobileNo, tieEmailAdd;
     private MaterialButton btnLUSubmit;
     private AutoCompleteTextView spnCivilStats;
-    private ImageView imgCamera;
     private LoanUnitModel infoModel;
     private MessageBox poMessage;
     public static int CAMERA_REQUEST_CODE = 1231;
@@ -66,6 +67,10 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
     private ImageFileCreator poFilexx;
     private final String CAMERA_USAGE = "LoanUnit";
     public static ContentResolver contentResolver;
+
+    //Parameters From Activity_Transaction
+    private String TransNox, EntryNox, Remarksx, AccntNox;
+    private EImageInfo poImageInfo;
     public static Fragment_LoanUnit newInstance() {
         return new Fragment_LoanUnit();
     }
@@ -87,7 +92,6 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         lblAccNo = v.findViewById(R.id.tvAccountNo);
         lblClientNm = v.findViewById(R.id.tvClientname);
         lblTransNo = v.findViewById(R.id.lbl_dcpTransNo);
-        lblLuImgPath = v.findViewById(R.id.tvLuImgPath);
 //        Full Name
         tieLName = v.findViewById(R.id.tie_lun_lName);
         tieFName = v.findViewById(R.id.tie_lun_fName);
@@ -108,11 +112,15 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         tiePhone = v.findViewById(R.id.tie_lun_phone);
         tieMobileNo = v.findViewById(R.id.tie_lun_mobileNp);
         tieEmailAdd = v.findViewById(R.id.tie_lun_email);
-        imgCamera = v.findViewById(R.id.imgLuCamera);
-
         btnLUSubmit = v.findViewById(R.id.btn_dcpSubmit);
 
-        btnLUSubmit.setOnClickListener(view -> submitLUn());
+        btnLUSubmit.setOnClickListener(view -> {
+            try {
+                submitLUn(Remarksx);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
     }
 
@@ -120,16 +128,19 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        String Remarksx = Activity_Transaction.getInstance().getRemarksCode();
-        String TransNox = Activity_Transaction.getInstance().getTransNox();
-        String EntryNox = Activity_Transaction.getInstance().getEntryNox();
+        //Initialize Parameters...
+        Remarksx = Activity_Transaction.getInstance().getRemarksCode();
+        TransNox = Activity_Transaction.getInstance().getTransNox();
+        EntryNox = Activity_Transaction.getInstance().getEntryNox();
+        AccntNox = Activity_Transaction.getInstance().getAccntNox();
+
         mViewModel = new ViewModelProvider(this).get(VMLoanUnit.class);
         mViewModel.setParameter(TransNox, EntryNox);
         mViewModel.getSpnCivilStats().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCivilStats.setAdapter(stringArrayAdapter));
 
         mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
             CollId = s.getCollctID();
-            poFilexx = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, CAMERA_USAGE, CollId);
+            poFilexx = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, DCP_Constants.TRANSACT_LUn, AccntNox);
 
         });
         mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
@@ -228,16 +239,6 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
                 mViewModel.setGender("2");
             }
         });
-        imgCamera.setOnClickListener(view ->
-        {
-            poFilexx.CreateDCPFile((openCamera, photPath, latt, longi) -> {
-                mCurrentPhotoPath = photPath;
-                DCP_Constants.varLatitude = latt;
-                DCP_Constants.varLongitude = longi;
-
-                startActivityForResult(openCamera, CAMERA_REQUEST_CODE);
-            });
-        });
     }
 
     @Override
@@ -245,38 +246,21 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e("REQUEST CODE", String.valueOf(requestCode));
         Log.e("RESULT CODE", String.valueOf(resultCode));
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
-
-            cameraCapture(mCurrentPhotoPath);
-            showDialog();
-        }
-    }
-    public void showDialog(){
-        DialogImagePreview dialogImagePreview = new DialogImagePreview(getActivity());
-        dialogImagePreview.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
-            @Override
-            public void OnCancel(Dialog Dialog)
-            {
-                //imgCamera.setOnClickListener(null);
-                lblLuImgPath.setText(mCurrentPhotoPath);
-                Log.e("Image Path", mCurrentPhotoPath);
-
-                infoModel.setLuImgPath(mCurrentPhotoPath);
-                Dialog.dismiss();
+        if(requestCode == ImageFileCreator.GCAMERA){
+            if(resultCode == RESULT_OK) {
+                try {
+                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(infoModel.getLuImgPath()));
+                    mViewModel.saveLUnImageInfo(poImageInfo);
+                    submitLUn(Remarksx);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else {
+                infoModel.setLuImgPath("");
             }
-        });
-        dialogImagePreview.show();
-    }
-    public boolean cameraCapture (String photoPath) {
-        try {
-            DCP_Constants.selectedImageBitmap = MediaStore.Images.Media.getBitmap(
-                    getActivity().getContentResolver(),Uri.fromFile(new File(photoPath)));
-        } catch (IOException e) {
-            return false;
         }
-
-        return DCP_Constants.selectedImageBitmap != null;
     }
+
 
     @Override
     public void OnStartSaving() {
@@ -297,11 +281,12 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
 
     @Override
     public void OnFailedResult(String message) {
-        poMessage.initDialog();
-        poMessage.setTitle("Transaction Failed");
-        poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
+        if (message.trim().equalsIgnoreCase("empty"))
+        {
+            showDialogImg();
+        }else {
+            onFailedDialog(message);
+        }
     }
     class OnItemClickListener implements AdapterView.OnItemClickListener {
         AutoCompleteTextView poView;
@@ -318,7 +303,8 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         }
     }
 
-    private void submitLUn(){
+    private void submitLUn(String remarksx)throws Exception{
+        infoModel.setLuRemarks(remarksx);
         infoModel.setLuLastName(tieLName.getText().toString());
         infoModel.setLuFirstName(tieFName.getText().toString());
         infoModel.setLuMiddleName(tieMName.getText().toString());
@@ -331,9 +317,42 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         infoModel.setLuPhone(tiePhone.getText().toString());
         infoModel.setLuMobile(tieMobileNo.getText().toString());
         infoModel.setLuEmail(tieEmailAdd.getText().toString());
-        mViewModel.saveLuInfo(infoModel, Fragment_LoanUnit.this);
+        mViewModel.saveLUnInfo(infoModel, Fragment_LoanUnit.this);
 
     }
-
+    public void showDialogImg(){
+        poMessage.initDialog();
+        poMessage.setTitle(Remarksx);
+        poMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction. \n" +
+                "\n" +
+                "NOTE: Take a selfie on your current place if customer is not visited");
+        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+            dialog.dismiss();
+            poFilexx.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                infoModel.setLuImgPath(photPath);
+                poImageInfo = new EImageInfo();
+                poImageInfo.setDtlSrcNo(AccntNox);
+                poImageInfo.setSourceNo(TransNox);
+                poImageInfo.setSourceCD("DCPa");
+                poImageInfo.setImageNme(FileName);
+                poImageInfo.setFileLoct(photPath);
+                poImageInfo.setFileCode("DCP");
+                poImageInfo.setLatitude(String.valueOf(latitude));
+                poImageInfo.setLongitud(String.valueOf(longitude));
+                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+            });
+        });
+        poMessage.setNegativeButton("Cancel", (view, dialog) -> {
+            dialog.dismiss();
+        });
+        poMessage.show();
+    }
+    public void onFailedDialog(String messages){
+        poMessage.initDialog();
+        poMessage.setTitle("Transaction Failed");
+        poMessage.setMessage(messages);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
+    }
 
 }

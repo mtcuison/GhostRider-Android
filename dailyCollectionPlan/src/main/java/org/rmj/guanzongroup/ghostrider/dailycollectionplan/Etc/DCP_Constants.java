@@ -22,7 +22,25 @@ public class DCP_Constants {
     * NV - Not Visited
     * OTH - Others
     */
-
+//FILE CODE
+    public static Bitmap selectedImageBitmap;
+    public static String FOLDER_NAME = "DCP";
+    public static String TRANSACT_PAY = "PAY";
+    public static String TRANSACT_PTP = "PTP";
+    public static String TRANSACT_FLA = "FLA";
+    public static String TRANSACT_Car = "Car";
+    public static String TRANSACT_UNC = "UNC";
+    public static String TRANSACT_MCs = "MCs";
+    public static String TRANSACT_MUn = "MUn";
+    public static String TRANSACT_LUn = "LUn";
+    public static String TRANSACT_TA = "TA";
+    public static String TRANSACT_FO = "FO";
+    public static String TRANSACT_DNP = "DNP";
+    public static String TRANSACT_NV = "NV";
+    public static String TRANSACT_OTH = "OTH";
+    public static double varLatitude;
+    public static double varLongitude;
+    public static boolean saveStorage=false;
 
     public static String[] TRANSACTION_TYPE= {
             "Paid",
@@ -67,11 +85,6 @@ public class DCP_Constants {
             "Change"
     };
 
-    public static Bitmap selectedImageBitmap;
-    public static String FOLDER_NAME = "DCP";
-    public static double varLatitude;
-    public static double varLongitude;
-    public static boolean saveStorage=false;
 
     public static String getRemarksDescription(String fsCode){
         switch (fsCode){

@@ -25,6 +25,8 @@ public interface DDCPCollectionDetail {
             "SET sRemCodex =:RemCode, " +
             "cSendStat = '0', " +
             "cTranStat = '1', " +
+            "nLongitud = (SELECT nLongitud FROM Image_Information WHERE sDtlSrcNo = sAcctNmbr AND sSourceNo = sTransNox), " +
+            "nLatitude = (SELECT nLatitude FROM Image_Information WHERE sDtlSrcNo = sAcctNmbr AND sSourceNo = sTransNox), " +
             "dModified =:DateModified " +
             "WHERE sTransNox = (SELECT sTransNox " +
             "FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1) " +
@@ -74,4 +76,6 @@ public interface DDCPCollectionDetail {
             "FROM LR_DCP_Collection_Master " +
             "ORDER BY dTransact DESC LIMIT 1)")
     void updateCustomerDetailImage(String ImageID, String AccountNo);
+
+
 }

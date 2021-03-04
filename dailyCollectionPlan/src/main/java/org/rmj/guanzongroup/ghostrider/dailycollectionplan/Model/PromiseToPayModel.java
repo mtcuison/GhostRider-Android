@@ -75,8 +75,8 @@ public class PromiseToPayModel {
         return true;
     }
     public boolean isPtpImgPath(){
-        if (ptpImgPath.trim().isEmpty()){
-            message = "Please take customer picture.";
+        if (ptpImgPath == null || ptpImgPath.trim().isEmpty()){
+            message = "empty";
             return false;
         }
         return true;

@@ -155,29 +155,7 @@
                 style="@style/HeaderLabelBlack"
                 android:layout_weight="1"
                 android:text="Fullname"/>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:gravity="right"
-                >
 
-                <TextView
-                    android:id="@+id/tvLuImgPath"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/HeaderLabelBlack"
-                    android:layout_weight="1"
-                    android:text="Fullname"
-                    android:visibility="gone"/>
-                <ImageView
-                    android:id="@+id/imgLuCamera"
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"
-                    android:src="@android:drawable/ic_menu_camera"
-                    android:scaleType="fitXY"/>
-            </LinearLayout>
 
         </LinearLayout>
         <com.google.android.material.textfield.TextInputLayout

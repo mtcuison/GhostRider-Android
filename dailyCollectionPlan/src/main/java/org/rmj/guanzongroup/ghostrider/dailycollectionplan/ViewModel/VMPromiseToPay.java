@@ -28,6 +28,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
 
@@ -43,16 +44,20 @@ public class VMPromiseToPay extends AndroidViewModel {
     private final RBranch poBranch;
     private final RDailyCollectionPlan poDcp;
     private final RImageInfo poImage;
+    private final EImageInfo poImageInfo;
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
 
     private final MutableLiveData<String> psBrnchCd = new MutableLiveData<>();
     public MutableLiveData<String> psPtpDate = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
     private final MutableLiveData<String> psEntryNox = new MutableLiveData<>();
+    private final MutableLiveData<String> psAccountNox = new MutableLiveData<>();
 
     private final MutableLiveData<Integer> viewPtpBranch = new MutableLiveData<>();
     private final MutableLiveData<String> isAppointmentUnitX = new MutableLiveData<>();
 
+    private String sLatitude;
+    private String sLongitude;
     private final LiveData<String[]> paBranchNm;
     public VMPromiseToPay(@NonNull Application application) {
         super(application);
@@ -61,6 +66,7 @@ public class VMPromiseToPay extends AndroidViewModel {
         paBranchNm = poBranch.getAllMcBranchNames();
         this.viewPtpBranch.setValue(View.GONE);
         this.poImage = new RImageInfo(application);
+        this.poImageInfo = new EImageInfo();
     }
     // TODO: Implement the ViewModel
     public void setParameter(String TransNox, String EntryNox){
@@ -123,8 +129,20 @@ public class VMPromiseToPay extends AndroidViewModel {
         return this.viewPtpBranch;
     }
 
+    public void setLatitude(String sLatitude) {
+        this.sLatitude = sLatitude;
+    }
+
+    public void setLongitude(String sLongitude) {
+        this.sLongitude = sLongitude;
+    }
+
+    public void setAccountNox(String sAccountNo) {
+        this.psAccountNox.setValue(sAccountNo);
+    }
     public void savePtpInfo(PromiseToPayModel infoModel, ViewModelCallback callback) {
         try {
+
             new UpdateTask(poDcp, infoModel, callback).execute(poDcpDetail.getValue());
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -139,8 +157,8 @@ public class VMPromiseToPay extends AndroidViewModel {
     //Added by Mike -> Saving ImageInfo
     public void saveImageInfo(EImageInfo foImage){
         try{
-             foImage.setTransNox(poDcp.getImageNextCode());
-            poImage.insertImageInfo(foImage);
+            foImage.setTransNox(poDcp.getImageNextCode());
+             poImage.insertImageInfo(foImage);
             Log.e(TAG, "Image info has been save!");
         } catch (Exception e){
             e.printStackTrace();
@@ -151,7 +169,7 @@ public class VMPromiseToPay extends AndroidViewModel {
     //Added by Mike 2021/02/27
     //Need AsyncTask for background threading..
     //RoomDatabase requires background task in order to manipulate Tables...
-    private static class UpdateTask extends AsyncTask<EDCPCollectionDetail, Void, String> {
+    private  class UpdateTask extends AsyncTask<EDCPCollectionDetail, Void, String> {
         private final RDailyCollectionPlan poDcp;
         private final PromiseToPayModel infoModel;
         private final ViewModelCallback callback;
@@ -165,19 +183,22 @@ public class VMPromiseToPay extends AndroidViewModel {
         @Override
         protected String doInBackground(EDCPCollectionDetail... detail) {
             try {
+
                 if (!infoModel.isDataValid()) {
                     return infoModel.getMessage();
                 } else {
+                    String lsSelectedDate = Objects.requireNonNull(infoModel.getPtpDate());
+                    @SuppressLint("SimpleDateFormat") Date parseDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsSelectedDate);
+                    @SuppressLint("SimpleDateFormat") String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(parseDate));
                     EDCPCollectionDetail loDetail = detail[0];
-                    loDetail.setRemCodex("PTP");
-                    Objects.requireNonNull(loDetail).setPromised(infoModel.getPtpDate());
+                    loDetail.setRemCodex(DCP_Constants.TRANSACT_PTP);
+                    Objects.requireNonNull(loDetail).setPromised(lsDate);
                     loDetail.setApntUnit(infoModel.getPtpAppointmentUnit());
                     loDetail.setBranchCd(infoModel.getPtpBranch());
                     loDetail.setTranStat("1");
                     loDetail.setSendStat("0");
                     loDetail.setModified(AppConstants.DATE_MODIFIED);
                     poDcp.updateCollectionDetailInfo(loDetail);
-
                     return "success";
                 }
             } catch (Exception e){
