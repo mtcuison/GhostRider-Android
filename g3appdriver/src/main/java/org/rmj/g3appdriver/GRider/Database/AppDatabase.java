@@ -16,6 +16,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DClientInfo;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCountryInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
@@ -42,6 +43,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECodeApproval;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
@@ -99,7 +101,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
         EEmployeeInfo.class,
         EClientInfo.class,
         ETokenInfo.class,
-        EFileCode.class}, version = 1)
+        EFileCode.class,
+        EClientUpdate.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static AppDatabase instance;
@@ -131,6 +134,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DMobileRequest MobileRequestDao();
     public abstract DImageInfo ImageInfoDao();
     public abstract DFileCode FileCodeDao();
+    public abstract DClientUpdate ClientUpdateDao();
 
 
     public static synchronized AppDatabase getInstance(Context context){

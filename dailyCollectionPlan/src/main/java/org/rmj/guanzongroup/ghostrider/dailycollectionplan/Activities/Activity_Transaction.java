@@ -24,7 +24,7 @@ public class Activity_Transaction extends AppCompatActivity {
     private static final String TAG = Activity_Transaction.class.getSimpleName();
     private static Activity_Transaction instance;
     private String TransNox = "";
-    private String EntryNox = "";
+    private int EntryNox;
     private String AccntNox = "";
     private String Remarksx = "";
 
@@ -36,7 +36,7 @@ public class Activity_Transaction extends AppCompatActivity {
         return TransNox;
     }
 
-    public String getEntryNox(){
+    public int getEntryNox(){
         return EntryNox;
     }
 
@@ -55,7 +55,7 @@ public class Activity_Transaction extends AppCompatActivity {
         instance = this;
         Remarksx = getIntent().getStringExtra("remarksx");
         TransNox = getIntent().getStringExtra("transnox");
-        EntryNox = getIntent().getStringExtra("entrynox");
+        EntryNox = getIntent().getIntExtra("entrynox", 0);
         AccntNox = getIntent().getStringExtra("accntnox");
         Toolbar toolbar = findViewById(R.id.toolbar_transaction);
         setSupportActionBar(toolbar);
@@ -96,6 +96,12 @@ public class Activity_Transaction extends AppCompatActivity {
         public int getCount() {
             return 1;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        getViewModelStore().clear();
     }
 
     private Fragment getTransactionFragment(String transaction){

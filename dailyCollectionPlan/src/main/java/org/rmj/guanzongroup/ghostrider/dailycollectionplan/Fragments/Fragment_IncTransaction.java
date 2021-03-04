@@ -39,7 +39,7 @@ public class Fragment_IncTransaction extends Fragment {
     private ImageFileCreator poImage;
 
     private String TransNox;
-    private String EntryNox;
+    private int EntryNox;
     private String AccntNox;
     private String Remarksx;
 
@@ -85,7 +85,7 @@ public class Fragment_IncTransaction extends Fragment {
         AccntNox = Activity_Transaction.getInstance().getAccntNox();
         Remarksx = Activity_Transaction.getInstance().getRemarksCode();
 
-        mViewModel.setParameter(TransNox, EntryNox);
+        mViewModel.setParameter(TransNox, EntryNox, Remarksx);
         mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
             try {
                 mViewModel.setAccountNo(collectionDetail.getAcctNmbr());
@@ -111,7 +111,7 @@ public class Fragment_IncTransaction extends Fragment {
                 poImageInfo.setSourceCD("DCPa");
                 poImageInfo.setImageNme(FileName);
                 poImageInfo.setFileLoct(photPath);
-                poImageInfo.setFileCode("UNKN");
+                poImageInfo.setFileCode("0020");
                 poImageInfo.setLatitude(String.valueOf(latitude));
                 poImageInfo.setLongitud(String.valueOf(longitude));
                 mViewModel.setImagePath(photPath);
@@ -141,6 +141,7 @@ public class Fragment_IncTransaction extends Fragment {
                         dialog.dismiss();
                         Objects.requireNonNull(getActivity()).finish();
                     });
+
                 } else {
                     loMessage.initDialog();
                     loMessage.setTitle(Remarksx);

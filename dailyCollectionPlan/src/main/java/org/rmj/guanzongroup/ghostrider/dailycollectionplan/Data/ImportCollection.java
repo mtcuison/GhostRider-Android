@@ -153,7 +153,7 @@ public class ImportCollection implements ImportInstance {
                 JSONObject loJson = faJson.getJSONObject(x);
                 EDCPCollectionDetail collectionDetail = new EDCPCollectionDetail();
                 collectionDetail.setTransNox(jsonMaster.getString("sTransNox"));
-                collectionDetail.setEntryNox(loJson.getString("nEntryNox"));
+                collectionDetail.setEntryNox(Integer.parseInt(loJson.getString("nEntryNox")));
                 collectionDetail.setAcctNmbr(loJson.getString("sAcctNmbr"));
                 collectionDetail.setFullName(loJson.getString("xFullName"));
                 collectionDetail.setIsDCPxxx(loJson.getString("cIsDCPxxx"));
