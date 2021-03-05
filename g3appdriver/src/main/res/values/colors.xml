@@ -21,7 +21,7 @@
     <color name="color_nine_seven">#979797</color>
     <color name="color_eight_seven">#878787</color>
     <color name="color_dadada">#DADADA</color>
-    <color name="color_circle_logo">#DADADA</color>
+    <color name="color_circle_logo">#fff</color>
 
     <!-- Kent -->
     <color name="black">#FF000000</color>

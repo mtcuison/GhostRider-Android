@@ -102,8 +102,13 @@ public class VMCollectionLog extends AndroidViewModel {
     }
 
     public void PostTransactions(PostTransactionImagesCallback imagesCallback){
-        List<EImageInfo> loImages = plImageLst.getValue();
-        new PostImagesTask(instance, plTranList.getValue(), paAddress.getValue(), paMobile.getValue(), imagesCallback).execute(loImages);
+        if (plTranList.getValue().size()>0){
+            List<EImageInfo> loImages = plImageLst.getValue();
+            new PostImagesTask(instance, plTranList.getValue(), paAddress.getValue(), paMobile.getValue(), imagesCallback).execute(loImages);
+        }else {
+            imagesCallback.OnImagePostFailed("No Transaction available.");
+        }
+
     }
 
     public void PostLRCollectionDetail(PostTransactionCallback callback){
@@ -126,7 +131,7 @@ public class VMCollectionLog extends AndroidViewModel {
         this.paMobile.setValue(paMobile);
     }
 
-    public static class PostImagesTask extends AsyncTask<List<EImageInfo>, Void, String>{
+    public class PostImagesTask extends AsyncTask<List<EImageInfo>, Void, String>{
         private final ConnectionUtil poConn;
         private final PostTransactionImagesCallback callback;
         private final SessionManager poUser;
@@ -208,6 +213,8 @@ public class VMCollectionLog extends AndroidViewModel {
                     }
 
                     lsResult = AppConstants.ALL_DATA_SENT();
+
+
                 } else {
                     lsResult = AppConstants.NO_INTERNET();
                 }
