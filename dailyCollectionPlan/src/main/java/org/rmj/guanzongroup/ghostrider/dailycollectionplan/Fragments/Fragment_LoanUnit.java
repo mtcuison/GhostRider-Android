@@ -1,9 +1,12 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -28,12 +32,16 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogImagePreview;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.OnBirthSetListener;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.LoanUnitModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLoanUnit;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
+
+import java.io.File;
+import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -61,10 +69,8 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
     public static ContentResolver contentResolver;
 
     //Parameters From Activity_Transaction
-    private String TransNox;
-    private int EntryNox;
-    private String Remarksx;
-    private String AccntNox;
+    private String TransNox, Remarksx, AccntNox;
+    int EntryNox;
     private EImageInfo poImageInfo;
     public static Fragment_LoanUnit newInstance() {
         return new Fragment_LoanUnit();
@@ -130,7 +136,8 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         AccntNox = Activity_Transaction.getInstance().getAccntNox();
 
         mViewModel = new ViewModelProvider(this).get(VMLoanUnit.class);
-        mViewModel.setParameter(TransNox, EntryNox);
+        mViewModel.setParameter(TransNox, EntryNox, Remarksx);
+        Log.e("", "TransNox = " + TransNox + " EntryNox = " + EntryNox + " Remarks = " + Remarksx);
         mViewModel.getSpnCivilStats().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCivilStats.setAdapter(stringArrayAdapter));
 
         mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
@@ -307,8 +314,11 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         infoModel.setLuHouseNo(tieHouseNo.getText().toString());
         infoModel.setLuCivilStats(spnCivilStatsPosition);
         infoModel.setLuStreet(tieStreet.getText().toString());
+        infoModel.setLuBrgy(tieBrgy.getText().toString());
+        infoModel.setLuTown(tieTown.getText().toString());
         infoModel.setLuGender(genderPosition);
         infoModel.setLuBDate(tieBDate.getText().toString());
+        infoModel.setLuBPlace(tieBPlace.getText().toString());
         infoModel.setLuPhone(tiePhone.getText().toString());
         infoModel.setLuMobile(tieMobileNo.getText().toString());
         infoModel.setLuEmail(tieEmailAdd.getText().toString());
@@ -331,9 +341,12 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
                 poImageInfo.setSourceCD("DCPa");
                 poImageInfo.setImageNme(FileName);
                 poImageInfo.setFileLoct(photPath);
-                poImageInfo.setFileCode("DCP");
+                poImageInfo.setFileCode("0020");
                 poImageInfo.setLatitude(String.valueOf(latitude));
                 poImageInfo.setLongitud(String.valueOf(longitude));
+                mViewModel.setLatitude(String.valueOf(latitude));
+                mViewModel.setLongitude(String.valueOf(longitude));
+                mViewModel.setImgName(FileName);
                 startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
             });
         });

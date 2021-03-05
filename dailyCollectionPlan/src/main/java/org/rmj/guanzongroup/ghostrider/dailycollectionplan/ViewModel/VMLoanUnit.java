@@ -20,6 +20,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
@@ -28,6 +29,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
@@ -50,9 +52,15 @@ public class VMLoanUnit extends AndroidViewModel {
     private final RBranch poBranch;
     private final RDailyCollectionPlan poDcp;
     private final RImageInfo poImage;
+    private final RClientUpdate poClient;
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
     private final MutableLiveData<Integer> psEntryNox = new MutableLiveData<>();
+    private final MutableLiveData<String> sRemarksx = new MutableLiveData<>();
+    private final MutableLiveData<String> sImgName = new MutableLiveData<>();
+    private final MutableLiveData<String> sLatitude = new MutableLiveData<>();
+    private final MutableLiveData<String> sLongitude = new MutableLiveData<>();
+
 
     private MutableLiveData<String> lsBPlace = new MutableLiveData<>();
     private MutableLiveData<String> lsProvID = new MutableLiveData<>();
@@ -76,13 +84,15 @@ public class VMLoanUnit extends AndroidViewModel {
         RTown = new RTown(application);
         RCountry = new RCountry(application);
         Brgy = new RBarangay(application);
+        poClient = new RClientUpdate(application);
         provinceInfoList = RProvince.getAllProvinceInfo();
         this.poImage = new RImageInfo(application);
     }
     // TODO: Implement the ViewModel
-    public void setParameter(String TransNox, int EntryNox){
+    public void setParameter(String TransNox, int EntryNox, String fsRemarksx){
         this.psTransNox.setValue(TransNox);
         this.psEntryNox.setValue(EntryNox);
+        this.sRemarksx.setValue(DCP_Constants.getRemarksCode(fsRemarksx));
     }
 
     public LiveData<EDCPCollectionMaster> getCollectionMaster(){
@@ -180,18 +190,16 @@ public class VMLoanUnit extends AndroidViewModel {
             return false;
         }
     }
-    public void saveLUnInfo(LoanUnitModel infoModel, ViewModelCallback callback) {
-        try {
 
-            new UpdateTask(poDcp, infoModel, callback).execute(poDcpDetail.getValue());
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-//            callback.OnFailedResult(e.getMessage());
-            callback.OnFailedResult("NullPointerException error");
-        } catch (Exception e) {
-            e.printStackTrace();
-            callback.OnFailedResult("Exception error");
-        }
+    public void setLatitude(String sLatitude) {
+        this.sLatitude.setValue(sLatitude);
+    }
+
+    public void setLongitude(String sLongitude) {
+        this.sLongitude.setValue(sLongitude);
+    }
+    public void setImgName(String imgName) {
+        this.sImgName.setValue(imgName);
     }
 
     //Added by Mike -> Saving ImageInfo
@@ -205,6 +213,23 @@ public class VMLoanUnit extends AndroidViewModel {
         }
     }
 
+
+    public boolean saveLUnInfo(LoanUnitModel infoModel, ViewModelCallback callback) {
+        try {
+
+            new UpdateTask(poDcp, infoModel, callback).execute(poDcpDetail.getValue());
+            return true;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+//            callback.OnFailedResult(e.getMessage());
+            callback.OnFailedResult("NullPointerException error");
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            callback.OnFailedResult("Exception error");
+            return false;
+        }
+    }
 
     //Added by Mike 2021/02/27
     //Need AsyncTask for background threading..
@@ -229,7 +254,7 @@ public class VMLoanUnit extends AndroidViewModel {
                     return infoModel.getMessage();
                 } else {
                     EDCPCollectionDetail loDetail = detail[0];
-                    loDetail.setRemCodex(DCP_Constants.TRANSACT_LUn);
+                    loDetail.setRemCodex(sRemarksx.getValue());
                     String fullName = infoModel.getLuLastName() + ", " +
                             infoModel.getLuFirstName() + " " +
                             infoModel.getLuMiddleName() + " " +
@@ -242,9 +267,38 @@ public class VMLoanUnit extends AndroidViewModel {
                     loDetail.setMobileNo(infoModel.getLuMobile());
                     loDetail.setTranStat("1");
                     loDetail.setSendStat("0");
+                    loDetail.setLatitude(sLatitude.getValue());
+                    loDetail.setLongitud(sLongitude.getValue());
+                    loDetail.setImageNme(sImgName.getValue());
                     loDetail.setModified(AppConstants.DATE_MODIFIED);
                     poDcp.updateCollectionDetailInfo(loDetail);
-                    Log.e("Detail Info ", poDcp.toString());
+
+                    EClientUpdate eClientUpdate = new EClientUpdate();
+                    eClientUpdate.setFrstName( infoModel.getLuFirstName());
+                    eClientUpdate.setLastName(infoModel.getLuLastName());
+                    eClientUpdate.setMiddName(infoModel.getLuMiddleName());
+                    eClientUpdate.setSuffixNm(infoModel.getLuSuffix());
+                    eClientUpdate.setAddressx(infoModel.getLuStreet());
+                    eClientUpdate.setBirthDte(infoModel.getLuBDate());
+                    eClientUpdate.setBirthPlc(infoModel.getLuBPlace());
+                    eClientUpdate.setCivlStat(infoModel.getLuCivilStats());
+                    eClientUpdate.setClientID(detail[0].getAcctNmbr());
+                    eClientUpdate.setDtlSrcNo(detail[0].getAcctNmbr());
+                    eClientUpdate.setEmailAdd(infoModel.getLuEmail());
+                    eClientUpdate.setHouseNox(infoModel.getLuHouseNo());
+                    eClientUpdate.setImageNme(sImgName.getValue());
+                    eClientUpdate.setLandline(infoModel.getLuPhone());
+                    eClientUpdate.setMobileNo(infoModel.getLuMobile());
+                    eClientUpdate.setModified(AppConstants.DATE_MODIFIED);
+                    eClientUpdate.setSendStat("0");
+                    eClientUpdate.setSourceCd("DCPa");
+                    eClientUpdate.setSourceNo(detail[0].getTransNox());
+                    eClientUpdate.setTownIDxx(infoModel.getLuTown());
+                    eClientUpdate.setGenderxx(infoModel.getLuGender());
+                    poClient.insertClientUpdateInfo(eClientUpdate);
+
+                    
+
                     return "success";
                 }
             } catch (Exception e){
@@ -253,11 +307,12 @@ public class VMLoanUnit extends AndroidViewModel {
             }
         }
 
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if(s.equalsIgnoreCase("success")){
-                callback.OnSuccessResult(new String[]{"Promise to pay Info has been save."});
+                callback.OnSuccessResult(new String[]{"Loan unit info has been save."});
             } else {
                 callback.OnFailedResult(s);
             }

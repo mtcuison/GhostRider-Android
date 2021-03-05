@@ -252,7 +252,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tie_lun_street"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:maxLength="50" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
