@@ -2,11 +2,8 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,17 +29,13 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogImagePreview;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -65,7 +58,10 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
     private String lsDate = "";
 
     //Parameters From Activity_Transaction
-    private String TransNox, EntryNox, Remarksx, AccntNox;
+    private String TransNox;
+    private int EntryNox;
+    private String Remarksx;
+    private String AccntNox;
 
     private MessageBox poMessage;
 

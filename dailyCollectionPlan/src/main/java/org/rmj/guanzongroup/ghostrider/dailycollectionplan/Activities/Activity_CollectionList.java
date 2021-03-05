@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class Activity_CollectionList extends AppCompatActivity implements ViewModelCallback, VMCollectionList.OnDownloadCollection {
     private static final String TAG = Activity_CollectionList.class.getSimpleName();
@@ -148,16 +149,20 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         });
 
         mViewModel.getUserBranchInfo().observe(Activity_CollectionList.this, eBranchInfo -> {
-            lblBranch.setText(eBranchInfo.getBranchNm());
-            lblAddxx.setText(eBranchInfo.getAddressx());
-            lblDate.setText(getDate());
+            try {
+                lblBranch.setText(eBranchInfo.getBranchNm());
+                lblAddxx.setText(eBranchInfo.getAddressx());
+                lblDate.setText(getDate());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
     }
 
     private void initWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar_collectionList);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         recyclerView = findViewById(R.id.recyclerview_collectionList);
         layoutManager = new LinearLayoutManager(Activity_CollectionList.this);
@@ -211,20 +216,17 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
                     //Check if serial no entered is already added on DCP list...
                     // args parameter from dialog refers to serial no...
-                    mViewModel.getDuplicateSerialEntry(args).observe(Activity_CollectionList.this, new Observer<EDCPCollectionDetail>() {
-                        @Override
-                        public void onChanged(EDCPCollectionDetail collectionDetail) {
+                    mViewModel.getDuplicateSerialEntry(args).observe(Activity_CollectionList.this, collectionDetail -> {
 
-                            if(collectionDetail != null){
-                                Dialog.dismiss();
-                                poMessage.initDialog();
-                                poMessage.setTitle("Insurance Client");
-                                poMessage.setMessage("This Serial No. is already listed on today's collection list.");
-                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                poMessage.show();
-                            } else {
-                                mViewModel.importInsuranceInfo(args, Activity_CollectionList.this);
-                            }
+                        if(collectionDetail != null){
+                            Dialog.dismiss();
+                            poMessage.initDialog();
+                            poMessage.setTitle("Insurance Client");
+                            poMessage.setMessage("This Serial No. is already listed on today's collection list.");
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                            poMessage.show();
+                        } else {
+                            mViewModel.importInsuranceInfo(args, Activity_CollectionList.this);
                         }
                     });
                 }

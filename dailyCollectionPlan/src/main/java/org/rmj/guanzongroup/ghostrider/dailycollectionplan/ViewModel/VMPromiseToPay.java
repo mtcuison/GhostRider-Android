@@ -10,31 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -50,7 +38,7 @@ public class VMPromiseToPay extends AndroidViewModel {
     private final MutableLiveData<String> psBrnchCd = new MutableLiveData<>();
     public MutableLiveData<String> psPtpDate = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
-    private final MutableLiveData<String> psEntryNox = new MutableLiveData<>();
+    private final MutableLiveData<Integer> psEntryNox = new MutableLiveData<Integer>();
     private final MutableLiveData<String> psAccountNox = new MutableLiveData<>();
 
     private final MutableLiveData<Integer> viewPtpBranch = new MutableLiveData<>();
@@ -69,7 +57,7 @@ public class VMPromiseToPay extends AndroidViewModel {
         this.poImageInfo = new EImageInfo();
     }
     // TODO: Implement the ViewModel
-    public void setParameter(String TransNox, String EntryNox){
+    public void setParameter(String TransNox, int EntryNox){
         this.psTransNox.setValue(TransNox);
         this.psEntryNox.setValue(EntryNox);
     }

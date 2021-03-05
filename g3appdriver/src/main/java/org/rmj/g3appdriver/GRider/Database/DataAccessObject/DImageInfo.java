@@ -21,7 +21,9 @@ public interface DImageInfo {
     void update(EImageInfo imageInfo);
 
     @Query("UPDATE Image_Information " +
-            "SET sTransNox =:TransNox, cSendStat='1', dSendDate=:DateModifield " +
+            "SET sTransNox =:TransNox, " +
+            "cSendStat = '1', " +
+            "dSendDate =:DateModifield " +
             "WHERE sTransNox =:oldTransNox")
     void updateImageInfo(String TransNox, String DateModifield, String oldTransNox);
 
