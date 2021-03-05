@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -18,10 +19,10 @@ import java.util.List;
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder> {
     private static final String TAG = TransactionAdapter.class.getSimpleName();
 
-    private List<EDCPCollectionDetail> plTransaction;
+    private List<DDCPCollectionDetail.CollectionDetail> plCollection;
 
-    public TransactionAdapter(List<EDCPCollectionDetail> plTransaction) {
-        this.plTransaction = plTransaction;
+    public TransactionAdapter(List<DDCPCollectionDetail.CollectionDetail> collectionDetails){
+        this.plCollection = collectionDetails;
     }
 
     @NonNull
@@ -34,22 +35,22 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull TransactionViewHolder holder, int position) {
-        holder.detail = plTransaction.get(position);
+        holder.detail = plCollection.get(position);
 
-        holder.lblAccntNo.setText("Account No. : " + plTransaction.get(position).getAcctNmbr());
-        holder.lblClntNme.setText(plTransaction.get(position).getFullName());
-        holder.lblRemCode.setText(DCP_Constants.getRemarksDescription(plTransaction.get(position).getRemCodex()));
-        holder.lblEntryNo.setText("Entry No. : " + plTransaction.get(position).getEntryNox());
-        holder.lblRemarks.setText(plTransaction.get(position).getRemarksx());
+        holder.lblAccntNo.setText("Account No. : " + plCollection.get(position).sTransNox);
+        holder.lblClntNme.setText(plCollection.get(position).xFullName);
+        holder.lblRemCode.setText(DCP_Constants.getRemarksDescription(plCollection.get(position).sRemCodex));
+        holder.lblEntryNo.setText("Entry No. : " + plCollection.get(position).nEntryNox);
+        holder.lblRemarks.setText(plCollection.get(position).sRemarksx);
     }
 
     @Override
     public int getItemCount() {
-        return plTransaction.size();
+        return plCollection.size();
     }
 
     public static class TransactionViewHolder extends RecyclerView.ViewHolder{
-        EDCPCollectionDetail detail;
+        DDCPCollectionDetail.CollectionDetail detail;
 
         TextView lblAccntNo,
                  lblClntNme,

@@ -66,12 +66,108 @@ public interface DDCPCollectionDetail {
     LiveData<EDCPCollectionDetail> getDuplicateSerialEntry(String SerialNo);
 
     @Query("UPDATE LR_DCP_Collection_Detail " +
-            "SET sImageNme=:ImageID " +
+            "SET sImageNme= (SELECT a.sTransNox FROM Image_Information a " +
+            "LEFT JOIN LR_DCP_Collection_Detail b  " +
+            "ON a.sSourceNo = b.sTransNox AND a.sDtlSrcNo = sAcctNmbr " +
+            "WHERE a.sSourceNo = b.sTransNox) " +
             "WHERE sAcctNmbr =:AccountNo " +
             "AND sTransNox = (SELECT sTransNox " +
             "FROM LR_DCP_Collection_Master " +
             "ORDER BY dTransact DESC LIMIT 1)")
-    void updateCustomerDetailImage(String ImageID, String AccountNo);
+    void updateCustomerDetailImage(String AccountNo);
 
+    @Query("SELECT a.sTransNox, " +
+            "a.nEntryNox, " +
+            "a.sAcctNmbr, " +
+            "a.sRemCodex, " +
+            "a.xFullName, " +
+            "a.sPRNoxxxx, " +
+            "a.nTranAmtx, " +
+            "a.nDiscount, " +
+            "a.nOthersxx, " +
+            "a.sRemarksx, " +
+            "a.cTranType, " +
+            "a.nTranTotl, " +
+            "a.cApntUnit, " +
+            "a.sBranchCd, " +
+            "b.sTransNox AS sImageIDx, " +
+            "b.sFileCode, " +
+            "b.sSourceCd, " +
+            "b.sImageNme, " +
+            "b.sMD5Hashx, " +
+            "b.sFileLoct, " +
+            "b.nLongitud, " +
+            "b.nLatitude, " +
+            "c.sLastName, " +
+            "c.sFrstName, " +
+            "c.sMiddName, " +
+            "c.sSuffixNm, " +
+            "c.sHouseNox, " +
+            "c.sAddressx, " +
+            "c.sTownIDxx, " +
+            "c.cGenderxx, " +
+            "c.cCivlStat, " +
+            "c.dBirthDte, " +
+            "c.dBirthPlc, " +
+            "c.sLandline, " +
+            "c.sMobileNo, " +
+            "c.sEmailAdd " +
+            "FROM LR_DCP_Collection_Detail a " +
+            "LEFT JOIN Image_Information b " +
+            "ON a.sTransNox = b.sSourceNo " +
+            "AND a.sAcctNmbr = b.sDtlSrcNo " +
+            "LEFT JOIN Client_Update_Request c " +
+            "ON a.sTransNox = c.sSourceNo " +
+            "AND a.sAcctNmbr = c.sDtlSrcNo " +
+            "WHERE a.sRemCodex != 'PAY' AND a.cSendStat != '1'")
+    LiveData<List<CollectionDetail>> getCollectionDetailForPosting();
 
+    class CollectionDetail{
+        public String sTransNox;
+        public int nEntryNox;
+        public String sAcctNmbr;
+        public String sRemCodex;
+
+        public String xFullName;
+
+        //PAY
+        public String sPRNoxxxx;
+        public String nTranAmtx;
+        public String nDiscount;
+        public String nOthersxx;
+        public String sRemarksx;
+        public String cTranType;
+        public String nTranTotl;
+
+        //PTP
+        public String cApntUnit;
+        public String sBranchCd;
+        public String dPromised;
+
+        //ImageInfo
+        public String sImageIDx;
+        public String sFileCode;
+        public String sSourceCd;
+        public String sImageNme;
+        public String sMD5Hashx;
+        public String sFileLoct;
+        public String nLongitud;
+        public String nLatitude;
+
+        //LoanUnit || Transferred/Assumed || False Ownership
+        public String sLastName;
+        public String sFrstName;
+        public String sMiddName;
+        public String sSuffixNm;
+        public String sHouseNox;
+        public String sAddressx;
+        public String sTownIDxx;
+        public String cGenderxx;
+        public String cCivlStat;
+        public String dBirthDte;
+        public String dBirthPlc;
+        public String sLandline;
+        public String sMobileNo;
+        public String sEmailAdd;
+    }
 }

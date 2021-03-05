@@ -81,8 +81,8 @@ public class RDailyCollectionPlan {
         detailDao.updateCollectionDetailStatus(TransNox, EntryNox, AppConstants.DATE_MODIFIED);
     }
 
-    public void updateCollectionDetailImage(String ImageID, String AccntNox){
-        detailDao.updateCustomerDetailImage(ImageID, AccntNox);
+    public void updateCollectionDetailImage(String AccntNox){
+        detailDao.updateCustomerDetailImage(AccntNox);
         Log.e(TAG, "updateCustomerDetailImage");
     }
 
@@ -92,6 +92,10 @@ public class RDailyCollectionPlan {
 
     public LiveData<EDCPCollectionDetail> getDuplicateSerialEntry(String SerialNo){
         return detailDao.getDuplicateSerialEntry(SerialNo);
+    }
+
+    public LiveData<List<DDCPCollectionDetail.CollectionDetail>> getCollectionDetailForPosting(){
+        return detailDao.getCollectionDetailForPosting();
     }
 
     public String getImageNextCode(){
