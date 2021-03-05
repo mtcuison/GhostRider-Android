@@ -65,8 +65,8 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
     private String lsDate = "";
 
     //Parameters From Activity_Transaction
-    private String TransNox, EntryNox, Remarksx, AccntNox;
-
+    private String TransNox, Remarksx, AccntNox;
+    private int EntryNox;
     private MessageBox poMessage;
 
     public static Fragment_PromiseToPay newInstance() {
@@ -114,7 +114,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         AccntNox = Activity_Transaction.getInstance().getAccntNox();
 
         mViewModel = new ViewModelProvider(this).get(VMPromiseToPay.class);
-        mViewModel.setParameter(TransNox, EntryNox);
+        mViewModel.setParameter(TransNox, EntryNox, Remarksx);
         mViewModel.setViewPtpBranch().observe(getViewLifecycleOwner(), integer -> tilBranchName.setVisibility(integer));
         mViewModel.getPtpDate().observe(getViewLifecycleOwner(), date -> ptpDate.setText(date));
         mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
@@ -154,7 +154,6 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         });
 
         ptpDate.setOnClickListener(v ->  {
-            //showDatePickerDialog(ptpDate);
             Log.e("remarks ", Remarksx);
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
@@ -169,21 +168,6 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
             StartTime.show();
         });
         rgPtpAppUnit.setOnCheckedChangeListener(new OnDependencyStatusSelectionListener(rgPtpAppUnit,mViewModel));
-//        btnCamera.setOnClickListener(v -> {
-//            poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-//                infoModel.setPtpImgPath(photPath);
-//                poImageInfo = new EImageInfo();
-//                poImageInfo.setDtlSrcNo(AccntNox);
-//                poImageInfo.setSourceNo(TransNox);
-//                poImageInfo.setSourceCD("DCPa");
-//                poImageInfo.setImageNme(FileName);
-//                poImageInfo.setFileLoct(photPath);
-//                poImageInfo.setFileCode("DCP");
-//                poImageInfo.setLatitude(String.valueOf(latitude));
-//                poImageInfo.setLongitud(String.valueOf(longitude));
-//                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
-//            });
-//        });
         btnPtp.setOnClickListener( v -> {
             try {
                 submitPtp(Remarksx);
@@ -301,9 +285,9 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
                 poImageInfo.setFileCode("DCP");
                 poImageInfo.setLatitude(String.valueOf(latitude));
                 poImageInfo.setLongitud(String.valueOf(longitude));
-
                 mViewModel.setLatitude(String.valueOf(latitude));
                 mViewModel.setLongitude(String.valueOf(longitude));
+                mViewModel.setImgName(FileName);
                 startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
             });
         });

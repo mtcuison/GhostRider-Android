@@ -50,14 +50,16 @@ public class VMPromiseToPay extends AndroidViewModel {
     private final MutableLiveData<String> psBrnchCd = new MutableLiveData<>();
     public MutableLiveData<String> psPtpDate = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
-    private final MutableLiveData<String> psEntryNox = new MutableLiveData<>();
+    private final MutableLiveData<Integer> psEntryNox = new MutableLiveData<>();
     private final MutableLiveData<String> psAccountNox = new MutableLiveData<>();
+    private final MutableLiveData<String> sRemarksx = new MutableLiveData<>();
+    private final MutableLiveData<String> sImgName = new MutableLiveData<>();
+    private final MutableLiveData<String> sLatitude = new MutableLiveData<>();
+    private final MutableLiveData<String> sLongitude = new MutableLiveData<>();
 
     private final MutableLiveData<Integer> viewPtpBranch = new MutableLiveData<>();
     private final MutableLiveData<String> isAppointmentUnitX = new MutableLiveData<>();
 
-    private String sLatitude;
-    private String sLongitude;
     private final LiveData<String[]> paBranchNm;
     public VMPromiseToPay(@NonNull Application application) {
         super(application);
@@ -69,9 +71,10 @@ public class VMPromiseToPay extends AndroidViewModel {
         this.poImageInfo = new EImageInfo();
     }
     // TODO: Implement the ViewModel
-    public void setParameter(String TransNox, String EntryNox){
+    public void setParameter(String TransNox, int EntryNox, String fsRemarksx){
         this.psTransNox.setValue(TransNox);
         this.psEntryNox.setValue(EntryNox);
+        this.sRemarksx.setValue(DCP_Constants.getRemarksCode(fsRemarksx));
     }
 
     public LiveData<EDCPCollectionMaster> getCollectionMaster(){
@@ -130,11 +133,14 @@ public class VMPromiseToPay extends AndroidViewModel {
     }
 
     public void setLatitude(String sLatitude) {
-        this.sLatitude = sLatitude;
+        this.sLatitude.setValue(sLatitude);
     }
 
     public void setLongitude(String sLongitude) {
-        this.sLongitude = sLongitude;
+        this.sLongitude.setValue(sLongitude);
+    }
+    public void setImgName(String imgName) {
+        this.sImgName.setValue(imgName);
     }
 
     public void setAccountNox(String sAccountNo) {
@@ -164,7 +170,6 @@ public class VMPromiseToPay extends AndroidViewModel {
             e.printStackTrace();
         }
     }
-
 
     //Added by Mike 2021/02/27
     //Need AsyncTask for background threading..
@@ -197,8 +202,12 @@ public class VMPromiseToPay extends AndroidViewModel {
                     loDetail.setBranchCd(infoModel.getPtpBranch());
                     loDetail.setTranStat("1");
                     loDetail.setSendStat("0");
+                    loDetail.setLatitude(sLatitude.getValue());
+                    loDetail.setLongitud(sLongitude.getValue());
+                    loDetail.setImageNme(sImgName.getValue());
                     loDetail.setModified(AppConstants.DATE_MODIFIED);
                     poDcp.updateCollectionDetailInfo(loDetail);
+
                     return "success";
                 }
             } catch (Exception e){

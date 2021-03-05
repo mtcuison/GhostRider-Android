@@ -69,7 +69,8 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
     public static ContentResolver contentResolver;
 
     //Parameters From Activity_Transaction
-    private String TransNox, EntryNox, Remarksx, AccntNox;
+    private String TransNox, Remarksx, AccntNox;
+    int EntryNox;
     private EImageInfo poImageInfo;
     public static Fragment_LoanUnit newInstance() {
         return new Fragment_LoanUnit();
@@ -135,7 +136,8 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         AccntNox = Activity_Transaction.getInstance().getAccntNox();
 
         mViewModel = new ViewModelProvider(this).get(VMLoanUnit.class);
-        mViewModel.setParameter(TransNox, EntryNox);
+        mViewModel.setParameter(TransNox, EntryNox, Remarksx);
+        Log.e("", "TransNox = " + TransNox + " EntryNox = " + EntryNox + " Remarks = " + Remarksx);
         mViewModel.getSpnCivilStats().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCivilStats.setAdapter(stringArrayAdapter));
 
         mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
@@ -312,8 +314,11 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         infoModel.setLuHouseNo(tieHouseNo.getText().toString());
         infoModel.setLuCivilStats(spnCivilStatsPosition);
         infoModel.setLuStreet(tieStreet.getText().toString());
+        infoModel.setLuBrgy(tieBrgy.getText().toString());
+        infoModel.setLuTown(tieTown.getText().toString());
         infoModel.setLuGender(genderPosition);
         infoModel.setLuBDate(tieBDate.getText().toString());
+        infoModel.setLuBPlace(tieBPlace.getText().toString());
         infoModel.setLuPhone(tiePhone.getText().toString());
         infoModel.setLuMobile(tieMobileNo.getText().toString());
         infoModel.setLuEmail(tieEmailAdd.getText().toString());
@@ -339,6 +344,9 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
                 poImageInfo.setFileCode("DCP");
                 poImageInfo.setLatitude(String.valueOf(latitude));
                 poImageInfo.setLongitud(String.valueOf(longitude));
+                mViewModel.setLatitude(String.valueOf(latitude));
+                mViewModel.setLongitude(String.valueOf(longitude));
+                mViewModel.setImgName(FileName);
                 startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
             });
         });

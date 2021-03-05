@@ -25,8 +25,9 @@ public interface DDCPCollectionDetail {
             "SET sRemCodex =:RemCode, " +
             "cSendStat = '0', " +
             "cTranStat = '1', " +
-            "nLongitud = (SELECT nLongitud FROM Image_Information WHERE sDtlSrcNo = sAcctNmbr AND sSourceNo = sTransNox), " +
-            "nLatitude = (SELECT nLatitude FROM Image_Information WHERE sDtlSrcNo = sAcctNmbr AND sSourceNo = sTransNox), " +
+            "sImageNme = (SELECT a.sImageNme FROM Image_Information a LEFT JOIN LR_DCP_Collection_Detail b  ON a.sSourceNo = b.sTransNox AND a.sDtlSrcNo = sAcctNmbr WHERE a.sSourceNo = b.sTransNox AND b.nEntryNox =:EntryNox), " +
+            "nLongitud = (SELECT a.nLongitud FROM Image_Information a LEFT JOIN LR_DCP_Collection_Detail b  ON a.sDtlSrcNo = sAcctNmbr WHERE a.sSourceNo = b.sTransNox), " +
+            "nLatitude = (SELECT a.nLatitude FROM Image_Information a LEFT JOIN LR_DCP_Collection_Detail b  ON a.sDtlSrcNo = sAcctNmbr WHERE a.sSourceNo = b.sTransNox), " +
             "dModified =:DateModified " +
             "WHERE sTransNox = (SELECT sTransNox " +
             "FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1) " +
