@@ -19,6 +19,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
@@ -27,6 +28,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
@@ -48,10 +50,9 @@ public class VMCustomerNotAround extends AndroidViewModel {
     private final RBranch poBranch;
     private final RTown poTownRepo; //Town Repository
     private final RBarangay poBarangay;
+    private final RFileCode poFileCode;
 
     private String ImgTransNox;
-    private String sLatitude;
-    private String sLongitude;
 
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
@@ -83,6 +84,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
         this.poImage = new RImageInfo(application);
         this.plAddress.setValue(new ArrayList<>());
         this.plMobile.setValue(new ArrayList<>());
+        this.poFileCode = new RFileCode(application);
     }
 
     public void saveImageInfo(EImageInfo foImageInfo){
@@ -192,12 +194,8 @@ public class VMCustomerNotAround extends AndroidViewModel {
         new UpdateCollectionTask(poDcp, RemarksCode).execute(detail);
     }
 
-    public void setLatitude(String sLatitude) {
-        this.sLatitude = sLatitude;
-    }
-
-    public void setLongitude(String sLongitude) {
-        this.sLongitude = sLongitude;
+    public LiveData<List<EFileCode>> getAllFileCode() {
+        return poFileCode.getAllFileCode();
     }
 
     public void addAddress(AddressUpdate foAddress, ViewModelCallback callback){
@@ -220,8 +218,8 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 info.setTownIDxx(foAddress.getTownID());
                 info.setBrgyIDxx(foAddress.getBarangayID());
                 info.setPrimaryx(foAddress.getPrimaryStatus());
-                info.setLongitud(sLatitude);
-                info.setLatitude(sLongitude);
+                info.setLongitud(foAddress.getLongitude());
+                info.setLatitude(foAddress.getLatitude());
                 info.setRemarksx(foAddress.getRemarks());
                 info.setTranStat("0");
                 info.setSendStat("0");

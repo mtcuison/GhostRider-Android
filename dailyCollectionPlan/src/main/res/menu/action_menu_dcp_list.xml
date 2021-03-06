@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/action_menu_ar_client"
@@ -13,5 +12,23 @@
         android:id="@+id/action_menu_insurance_client"
         android:orderInCategory="100"
         android:title="@string/sActionMenu_InsuranceClient"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_menu_post_collection"
+        android:orderInCategory="100"
+        android:title="@string/sActionMenu_postCollection"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_menu_export_collection"
+        android:orderInCategory="100"
+        android:title="@string/sActionMenu_exportFile"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_menu_upload_collection"
+        android:orderInCategory="100"
+        android:title="@string/sActionMenu_uploadFile"
         app:showAsAction="never" />
 </menu>

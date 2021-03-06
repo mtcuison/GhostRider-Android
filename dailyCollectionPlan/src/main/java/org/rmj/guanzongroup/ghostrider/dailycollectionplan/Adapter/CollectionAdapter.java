@@ -4,24 +4,41 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.CollectionPlan;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.CollectionViewHolder> {
 
-    private final List<CollectionPlan> collectionPlans;
+    public interface OnItemClickListener{
+        void OnClick(int position);
+        void OnMobileNoClickListener(String MobileNo);
+        void OnAddressClickListener(String Address, String[] args);
+        void OnActionButtonClick();
+    }
+
+    private final List<EDCPCollectionDetail> plCollection;
+    private List<EDCPCollectionDetail> collctFilter;
+
+    private final CollectionSearch poSearch;
     private final OnItemClickListener mListener;
 
-    public CollectionAdapter(List<CollectionPlan> collectionPlans, OnItemClickListener listener){
-        this.collectionPlans = collectionPlans;
-        this.mListener = listener;
+    public CollectionAdapter(List<EDCPCollectionDetail> plCollection, OnItemClickListener mListener) {
+        this.plCollection = plCollection;
+        this.collctFilter = plCollection;
+        this.mListener = mListener;
+        this.poSearch = new CollectionSearch(this);
     }
 
     @NonNull
@@ -34,26 +51,34 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CollectionViewHolder holder, int position) {
-        CollectionPlan collection = collectionPlans.get(position);
-        holder.loPlan = collection;
-        holder.lblAcctNo.setText("Account No. : "+collection.getAcctNoxxx());
-        holder.lblDCPNox.setText(collection.getDCPNumber());
-        holder.lblClient.setText(collection.getClientNme());
-        holder.lblAdd1xx.setText(collection.getAddressxx());
-        holder.lblMobile.setText(collection.getContactxx());
-        holder.lblBalanc.setText(collection.getBalancexx());
-        holder.lblAmount.setText(collection.getAmntDuexx());
-        holder.lblStatus.setText(collection.getStatusxxx());
+        EDCPCollectionDetail collection = collctFilter.get(position);
+        try {
+            holder.loPlan = collection;
+            holder.lblAcctNo.setText("Account No. : " + collection.getAcctNmbr());
+            holder.lblDCPNox.setText(String.valueOf(collection.getEntryNox()));
+            holder.lblClient.setText(collection.getFullName());
+            holder.lblAdd1xx.setText(collection.getAddressx());
+            holder.lblMobile.setText(collection.getMobileNo());
+            //holder.lblBalanc.setText(collection.get);
+            holder.lblAmount.setText(collection.getAmtDuexx());
+            holder.lblStatus.setText(DCP_Constants.getRemarksDescription(collection.getRemCodex()));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public int getItemCount() {
-        return collectionPlans.size();
+        return collctFilter.size();
+    }
+
+    public CollectionSearch getCollectionSearch(){
+        return poSearch;
     }
 
     public static class CollectionViewHolder extends RecyclerView.ViewHolder{
 
-        public CollectionPlan loPlan;
+        public EDCPCollectionDetail loPlan;
         public TextView lblAcctNo;
         public TextView lblDCPNox;
         public TextView lblClient;
@@ -91,16 +116,46 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             lblMobile.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
-                    listener.OnMobileNoClickListener(loPlan.getContactxx());
+                    listener.OnMobileNoClickListener(loPlan.getMobileNo());
                 }
             });
         }
     }
 
-    public interface OnItemClickListener{
-        void OnClick(int position);
-        void OnMobileNoClickListener(String MobileNo);
-        void OnAddressClickListener(String Address, String[] args);
-        void OnActionButtonClick();
+    public class CollectionSearch extends Filter{
+
+        private final CollectionAdapter poAdapter;
+
+        public CollectionSearch(CollectionAdapter poAdapter) {
+            super();
+            this.poAdapter = poAdapter;
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            final FilterResults results = new FilterResults();
+            if(charSequence.length() == 0){
+                collctFilter.addAll(plCollection);
+            } else {
+                List<EDCPCollectionDetail> filterSearch = new ArrayList<>();
+                for(EDCPCollectionDetail plan : plCollection){
+                    String lsClientNme = plan.getFullName().toLowerCase();
+                    if(lsClientNme.contains(charSequence.toString().toLowerCase())){
+                        filterSearch.add(plan);
+                    }
+                }
+                collctFilter = filterSearch;
+            }
+
+            results.values = collctFilter;
+            results.count = collctFilter.size();
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            poAdapter.collctFilter = (List<EDCPCollectionDetail>) filterResults.values;
+            this.poAdapter.notifyDataSetChanged();
+        }
     }
 }

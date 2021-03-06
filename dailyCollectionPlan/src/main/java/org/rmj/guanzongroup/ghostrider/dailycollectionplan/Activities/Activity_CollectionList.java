@@ -5,10 +5,13 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +22,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import com.google.android.material.textfield.TextInputEditText;
+
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
@@ -28,13 +33,11 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionAda
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAccountDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogDownloadDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogOtherClient;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.CollectionPlan;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -51,6 +54,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
     private VMCollectionList mViewModel;
 
+    private TextInputEditText txtSearch;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
 
@@ -75,24 +79,11 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         });
 
         mViewModel.getCollectionList().observe(this, collectionDetails -> {
-            List<CollectionPlan> loCollection = new ArrayList<>();
             if(collectionDetails.size() > 0) {
-                for (int x = 0; x < collectionDetails.size(); x++) {
-                    CollectionPlan loPlan = new CollectionPlan();
-                    loPlan.setAcctNoxxx(collectionDetails.get(x).getAcctNmbr());
-                    loPlan.setDCPNumber(String.valueOf(collectionDetails.get(x).getEntryNox()));
-                    loPlan.setClientNme(collectionDetails.get(x).getFullName());
-                    loPlan.setHouseNoxx(collectionDetails.get(x).getHouseNox());
-                    loPlan.setAddressxx(collectionDetails.get(x).getAddressx());
-                    loPlan.setTownNamex(collectionDetails.get(x).getTownName());
-                    loPlan.setContactxx(collectionDetails.get(x).getMobileNo());
-                    loPlan.setDCPCountx(String.valueOf(collectionDetails.size()));
-                    loPlan.setStatusxxx(collectionDetails.get(x).getTranType());
-                    loPlan.setBalancexx("Balance");
-                    loPlan.setAmntDuexx(collectionDetails.get(x).getAmtDuexx());
-                    loCollection.add(loPlan);
-                }
+                txtSearch.setVisibility(View.VISIBLE);
+
             } else {
+                txtSearch.setVisibility(View.GONE);
                 DialogDownloadDCP dialogDownloadDCP = new DialogDownloadDCP(Activity_CollectionList.this);
                 dialogDownloadDCP.initDialog(new DialogDownloadDCP.OnDialogButtonClickListener() {
                     @Override
@@ -112,7 +103,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 });
                 dialogDownloadDCP.show();
             }
-            CollectionAdapter loAdapter = new CollectionAdapter(loCollection, new CollectionAdapter.OnItemClickListener() {
+            CollectionAdapter loAdapter = new CollectionAdapter(collectionDetails, new CollectionAdapter.OnItemClickListener() {
                 @Override
                 public void OnClick(int position) {
                     DialogAccountDetail loDialog = new DialogAccountDetail(Activity_CollectionList.this);
@@ -144,6 +135,29 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                     //TODO: Future update
                 }
             });
+
+            txtSearch.setVisibility(View.VISIBLE);
+            txtSearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    try {
+                        loAdapter.getCollectionSearch().filter(charSequence.toString());
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        Toast.makeText(Activity_CollectionList.this, "Unknown error occurred. Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(loAdapter);
         });
@@ -157,12 +171,16 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 e.printStackTrace();
             }
         });
+
+        mViewModel.getCollectionDetailForPosting().observe(Activity_CollectionList.this, collectionDetails -> mViewModel.setCollectionListForPosting(collectionDetails));
     }
 
     private void initWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar_collectionList);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        txtSearch = findViewById(R.id.txt_collectionSearch);
 
         recyclerView = findViewById(R.id.recyclerview_collectionList);
         layoutManager = new LinearLayoutManager(Activity_CollectionList.this);
@@ -237,6 +255,38 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 }
             });
             loDialog.show();
+        } else if(item.getItemId() == R.id.action_menu_post_collection){
+            mViewModel.PostLRCollectionDetail(new ViewModelCallback() {
+                @Override
+                public void OnStartSaving() {
+                    poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
+                    poDialogx.show();
+                }
+
+                @Override
+                public void OnSuccessResult(String[] args) {
+                    poDialogx.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setMessage(args[0]);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+
+                @Override
+                public void OnFailedResult(String message) {
+                    poDialogx.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+            });
+        } else if(item.getItemId() == R.id.action_menu_upload_collection){
+            // TODO: createAction for uploading and reading files from external storage
+        } else if(item.getItemId() == R.id.action_menu_upload_collection){
+            // TODO: createAction for exporting files to external storage
         }
         return super.onOptionsItemSelected(item);
     }

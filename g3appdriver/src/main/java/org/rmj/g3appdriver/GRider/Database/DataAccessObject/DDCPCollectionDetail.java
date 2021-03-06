@@ -46,10 +46,10 @@ public interface DDCPCollectionDetail {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBulkData(List<EDCPCollectionDetail> collectionDetails);
 
-    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cTranStat = 0")
+    @Query("SELECT * FROM LR_DCP_Collection_Detail ORDER BY dModified ASC")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailList();
 
-    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cTranStat = 1 AND cSendStat == 0")
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cTranStat = 1 AND cSendStat = 0")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailLog();
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +
@@ -75,6 +75,56 @@ public interface DDCPCollectionDetail {
             "FROM LR_DCP_Collection_Master " +
             "ORDER BY dTransact DESC LIMIT 1)")
     void updateCustomerDetailImage(String AccountNo);
+
+    @Query("SELECT * FROM LR_DCP_Collection_Detail " +
+            "WHERE sTransNox = (SELECT sTransNox FROM " +
+            "LR_DCP_Collection_Master WHERE dTransact =:dTransact)")
+    LiveData<List<EDCPCollectionDetail>> getCollectionDetailForDate(String dTransact);
+
+    @Query("SELECT a.sTransNox, " +
+            "a.nEntryNox, " +
+            "a.sAcctNmbr, " +
+            "a.sRemCodex, " +
+            "a.xFullName, " +
+            "a.sPRNoxxxx, " +
+            "a.nTranAmtx, " +
+            "a.nDiscount, " +
+            "a.nOthersxx, " +
+            "a.sRemarksx, " +
+            "a.cTranType, " +
+            "a.nTranTotl, " +
+            "a.cApntUnit, " +
+            "a.sBranchCd, " +
+            "b.sTransNox AS sImageIDx, " +
+            "b.sFileCode, " +
+            "b.sSourceCd, " +
+            "b.sImageNme, " +
+            "b.sMD5Hashx, " +
+            "b.sFileLoct, " +
+            "b.nLongitud, " +
+            "b.nLatitude, " +
+            "c.sLastName, " +
+            "c.sFrstName, " +
+            "c.sMiddName, " +
+            "c.sSuffixNm, " +
+            "c.sHouseNox, " +
+            "c.sAddressx, " +
+            "c.sTownIDxx, " +
+            "c.cGenderxx, " +
+            "c.cCivlStat, " +
+            "c.dBirthDte, " +
+            "c.dBirthPlc, " +
+            "c.sLandline, " +
+            "c.sMobileNo, " +
+            "c.sEmailAdd " +
+            "FROM LR_DCP_Collection_Detail a " +
+            "LEFT JOIN Image_Information b " +
+            "ON a.sTransNox = b.sSourceNo " +
+            "AND a.sAcctNmbr = b.sDtlSrcNo " +
+            "LEFT JOIN Client_Update_Request c " +
+            "ON a.sTransNox = c.sSourceNo " +
+            "AND a.sAcctNmbr = c.sDtlSrcNo")
+    LiveData<List<CollectionDetail>> getJoinCollectionDetailList();
 
     @Query("SELECT a.sTransNox, " +
             "a.nEntryNox, " +

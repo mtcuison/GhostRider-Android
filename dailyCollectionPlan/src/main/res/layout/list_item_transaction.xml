@@ -63,8 +63,8 @@
                 android:fontFamily="@font/roboto_bold"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
-                android:drawableStart="@drawable/ic_collection_client"
-                android:drawableLeft="@drawable/ic_collection_client" />
+                app:drawableStartCompat="@drawable/ic_collection_client"
+                app:drawableLeftCompat="@drawable/ic_collection_client" />
 
             <TextView
                 android:id="@+id/lbl_dcpRemarkCode"

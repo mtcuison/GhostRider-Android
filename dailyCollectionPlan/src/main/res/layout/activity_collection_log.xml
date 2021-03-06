@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".Activities.Activity_CollectionLog"
     android:theme="@style/GhostRiderMaterialTheme">
+
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar_collectionLog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
@@ -25,50 +26,74 @@
         android:id="@+id/linear_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_below="@+id/appbar_collectionLog"
         android:gravity="center_horizontal"
+        android:orientation="vertical"
         android:padding="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Transaction List"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/roboto_bold"
-            android:textSize="20sp"
+            android:text="Transaction List"
             android:textColor="@color/textColor_Black"
-            android:layout_marginTop="10dp"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/lbl_headerBranch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/roboto_bold"
             android:textColor="@color/textColor_Black"
-            android:layout_marginTop="5dp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/lbl_headerAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/textColor_Black"/>
+            android:textColor="@color/textColor_Black"
+            android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/lbl_headerDate"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_collectionDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/textColor_Black"
-            android:layout_marginTop="15dp"/>
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_collectionDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyle.Edittext"
+                android:hint="Collection Date"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:focusedByDefault="false"
+                tools:targetApi="o" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_collectionSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_collectionSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyle.Edittext"
+                android:hint="Search Customer's name"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:layout_marginTop="5dp"
-            android:background="@color/guanzon_orange"/>
+            android:background="@color/guanzon_orange" />
 
     </LinearLayout>
 
@@ -76,24 +101,6 @@
         android:id="@+id/recyclerview_collectionLog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/linear_header"
-        android:layout_above="@+id/linear_footer"/>
-
-    <LinearLayout
-        android:id="@+id/linear_footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_alignParentBottom="true">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_postTransaction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/MaterialButtonAccent"
-            android:text="Post Transactions"/>
-
-    </LinearLayout>
+        android:layout_below="@+id/linear_header"/>
 
 </RelativeLayout>
