@@ -1,5 +1,9 @@
 package org.rmj.guanzongroup.ghostrider.epacss.adapter;
 
+import android.content.Context;
+import android.util.Log;
+
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 
 import java.util.ArrayList;
@@ -9,10 +13,11 @@ import static org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity.listD
 import static org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity.listDataHeader;
 
 public class PrepareData {
-
-    public void prepareMenuData() {
+    SessionManager sessionManager;
+    public void prepareMenuData(Context mContext) {
         listDataHeader.clear();
         listDataChild.clear();
+        sessionManager = new SessionManager(mContext);
         MenuModel menuModel = new MenuModel("Home", R.drawable.ic_menu_home, true, false ); //Menu of Android Tutorial. No sub menus
         listDataHeader.add(menuModel);
 
@@ -67,8 +72,8 @@ public class PrepareData {
         childModel = new MenuModel("Document Scanner", 0, false, false);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Camera", 0,false, false);
-        childModelsList.add(childModel);
+//        childModel = new MenuModel("Camera", 0,false, false);
+//        childModelsList.add(childModel);
         if (menuModel.hasChildren) {
             listDataChild.put(menuModel, childModelsList);
         }
@@ -101,18 +106,24 @@ public class PrepareData {
         childModelsList = new ArrayList<>();
         menuModel = new MenuModel("Samsung Knox",  R.drawable.ic_menu_knox,true, true);
         listDataHeader.add(menuModel);
-        childModel = new MenuModel("Activate", 0, false, false );
-        childModelsList.add(childModel);
+        Log.e("department", sessionManager.getPositionID());
 
-        childModel = new MenuModel("Unlock", 0,false, false);
-        childModelsList.add(childModel);
+        if (sessionManager.getPositionID().equalsIgnoreCase("036")){
+            childModel = new MenuModel("Activate", 0, false, false );
+            childModelsList.add(childModel);
+        }
 
-        childModel = new MenuModel("Get Pin", 0, false, false);
-        childModelsList.add(childModel);
+        if (sessionManager.getPositionID().equalsIgnoreCase("068")){
 
-        childModel = new MenuModel("Get Offline Pin", 0,false, false);
-        childModelsList.add(childModel);
+            childModel = new MenuModel("Unlock", 0,false, false);
+            childModelsList.add(childModel);
 
+            childModel = new MenuModel("Get Pin", 0, false, false);
+            childModelsList.add(childModel);
+
+            childModel = new MenuModel("Get Offline Pin", 0,false, false);
+            childModelsList.add(childModel);
+        }
         childModel = new MenuModel("Check Status", 0,false, false);
         childModelsList.add(childModel);
         if (menuModel.hasChildren) {

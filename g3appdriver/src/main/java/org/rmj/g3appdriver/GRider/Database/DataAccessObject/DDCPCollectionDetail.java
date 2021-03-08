@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 
 import java.util.List;
@@ -42,10 +43,14 @@ public interface DDCPCollectionDetail {
     @Delete
     void delete(EDCPCollectionDetail collectionDetail);
 
+    @Insert
     void insertBulkData(List<EDCPCollectionDetail> collectionDetails);
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1' ORDER BY dModified ASC")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailList();
+
+    @Query("SELECT * FROM Client_Update_Request WHERE sClientID = (SELECT sAcctNmbr FROM LR_DCP_Collection_Detail WHERE sAcctNmbr =:AccountNox)")
+    LiveData<EClientUpdate> getClient_Update_Info(String AccountNox);
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cTranStat = 1 AND cSendStat = 0")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailLog();
