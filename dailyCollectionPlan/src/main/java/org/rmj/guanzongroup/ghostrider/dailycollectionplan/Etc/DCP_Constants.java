@@ -87,39 +87,37 @@ public class DCP_Constants {
 
 
     public static String getRemarksDescription(String fsCode){
-        switch (fsCode){
-            case "PAY":
-                return "Paid";
-            case "PTP":
-                return "Promise to Pay";
-            case "CNA":
-                return "Customer Not Around";
-            case "FLA":
-                return "For Legal Action";
-            case "Car":
-                return "Carnap";
-            case "UNC":
-                return "Uncooperative";
-            case "MCs":
-                return "Missing Customer";
-            case "MUn":
-                return "Missing Unit";
-            case "MCU":
-                return "Missing Client and Unit";
-            case "LUn":
-                return "Loan Unit";
-            case "TA":
-                return "Transferred/Assumed";
-            case "FO":
-                return "False Ownership";
-            case "DNP":
-                return "Did Not Pay";
-            case "NV":
-                return "Not Visited";
-            case "OTH":
-                return "Others";
+        if(fsCode.equalsIgnoreCase("PAY")){
+            return "Paid";
+        } else if(fsCode.equalsIgnoreCase("PTP")){
+            return "Promise to Pay";
+        } else if(fsCode.equalsIgnoreCase("CNA")){
+            return "Customer Not Around";
+        } else if(fsCode.equalsIgnoreCase("FLA")){
+            return "For Legal Action";
+        } else if(fsCode.equalsIgnoreCase("Car")){
+            return "Car nap";
+        } else if(fsCode.equalsIgnoreCase("UNC")){
+            return "Uncooperative";
+        } else if(fsCode.equalsIgnoreCase("MCs")){
+            return "Missing Customer";
+        } else if(fsCode.equalsIgnoreCase("MUn")){
+            return "Missing Unit";
+        } else if(fsCode.equalsIgnoreCase("MCU")){
+            return "Missing Client and Unit";
+        } else if(fsCode.equalsIgnoreCase("LUn")){
+            return "Loan Unit";
+        } else if(fsCode.equalsIgnoreCase("TA")){
+            return "Transferred/Assumed";
+        } else if(fsCode.equalsIgnoreCase("FO")){
+            return "False Ownership";
+        } else if(fsCode.equalsIgnoreCase("DNP")){
+            return "Did Not Pay";
+        } else if(fsCode.equalsIgnoreCase("NV")){
+            return "Not Visited";
+        } else {
+            return "OTH";
         }
-        return "";
     }
 
     public static String getRemarksCode(String Description){

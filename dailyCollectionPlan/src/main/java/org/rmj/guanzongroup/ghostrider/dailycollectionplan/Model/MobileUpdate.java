@@ -49,7 +49,15 @@ public class MobileUpdate {
 
     private boolean isMobileNoValid(){
         if(sMobileNo.trim().isEmpty()){
-            message = "Please enter mobile no";
+            message = "Please enter mobile number";
+            return false;
+        }
+        if(!sMobileNo.substring(0, 2).equalsIgnoreCase("09")){
+            message = "Contact number must start with '09'";
+            return false;
+        }
+        if(sMobileNo.length() != 11){
+            message = "Please enter exact count of mobile no.";
             return false;
         }
         return true;

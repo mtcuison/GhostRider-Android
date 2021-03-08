@@ -25,6 +25,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
+import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
@@ -78,10 +81,11 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             }
         });
 
+        mViewModel.getCollectionMasterList().observe(this, edcpCollectionMasters -> mViewModel.setCollectionMasterList(edcpCollectionMasters));
+
         mViewModel.getCollectionList().observe(this, collectionDetails -> {
             if(collectionDetails.size() > 0) {
                 txtSearch.setVisibility(View.VISIBLE);
-
             } else {
                 txtSearch.setVisibility(View.GONE);
                 DialogDownloadDCP dialogDownloadDCP = new DialogDownloadDCP(Activity_CollectionList.this);
@@ -90,6 +94,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                     public void OnDownloadClick(Dialog Dialog, String Date) {
                         if(!Date.trim().isEmpty()){
                             mViewModel.DownloadDcp(Date, Activity_CollectionList.this);
+                            lblDate.setText("Collection For " + Date);
                             Dialog.dismiss();
                         } else {
                             GToast.CreateMessage(Activity_CollectionList.this, "Please enter date", GToast.ERROR).show();
@@ -147,6 +152,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     try {
                         loAdapter.getCollectionSearch().filter(charSequence.toString());
+                        loAdapter.notifyDataSetChanged();
                     } catch (Exception e){
                         e.printStackTrace();
                         Toast.makeText(Activity_CollectionList.this, "Unknown error occurred. Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -160,19 +166,24 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             });
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(loAdapter);
+            recyclerView.getRecycledViewPool().clear();
+            loAdapter.notifyDataSetChanged();
         });
 
         mViewModel.getUserBranchInfo().observe(Activity_CollectionList.this, eBranchInfo -> {
             try {
                 lblBranch.setText(eBranchInfo.getBranchNm());
                 lblAddxx.setText(eBranchInfo.getAddressx());
-                lblDate.setText(getDate());
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
 
         mViewModel.getCollectionDetailForPosting().observe(Activity_CollectionList.this, collectionDetails -> mViewModel.setCollectionListForPosting(collectionDetails));
+
+        mViewModel.getAddressRequestList().observe(Activity_CollectionList.this, eAddressUpdates -> mViewModel.setAddressRequestList(eAddressUpdates));
+
+        mViewModel.getMobileRequestList().observe(Activity_CollectionList.this, eMobileUpdates -> mViewModel.setMobileRequestList(eMobileUpdates));
     }
 
     private void initWidgets(){
@@ -306,10 +317,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         }
     }
 
-    public String getDate(){
-        return "Collection For " + FormatUIText.getParseDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
-    }
-
     @Override
     public void OnStartSaving() {
         poDialogx.initDialog("AR Client", "Downloading client info. Please wait...", false);
@@ -352,6 +359,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         poDialogx.dismiss();
         poMessage.initDialog();
         poMessage.setTitle("Daily Collection Plan");
+        poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
     }

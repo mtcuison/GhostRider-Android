@@ -45,7 +45,7 @@ public class Activity_CollectionLog extends AppCompatActivity {
     private VMCollectionLog mViewModel;
 
     private TextView lblBranch, lblAddrss;
-    private CollectionLogAdapter poAdapter;
+    //private CollectionLogAdapter poAdapter;
     private LinearLayoutManager poManager;
     private TextInputEditText txtDate, txtSearch;
     private RecyclerView recyclerView;
@@ -104,11 +104,13 @@ public class Activity_CollectionLog extends AppCompatActivity {
 
         mViewModel.getDateTransact().observe(Activity_CollectionLog.this, s -> mViewModel.getCollectionDetailForDate(s).observe(Activity_CollectionLog.this, collectionDetails -> {
             try{
-                poAdapter = new CollectionLogAdapter(collectionDetails);
+                CollectionLogAdapter poAdapter = new CollectionLogAdapter(collectionDetails);
                 poManager = new LinearLayoutManager(Activity_CollectionLog.this);
                 poManager.setOrientation(RecyclerView.VERTICAL);
                 recyclerView.setLayoutManager(poManager);
                 recyclerView.setAdapter(poAdapter);
+                recyclerView.getRecycledViewPool().clear();
+                poAdapter.notifyDataSetChanged();
 
                 txtSearch.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -119,6 +121,7 @@ public class Activity_CollectionLog extends AppCompatActivity {
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                         poAdapter.getCollectionFilter().filter(charSequence.toString().toLowerCase());
+                        poAdapter.notifyDataSetChanged();
                     }
 
                     @Override

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -43,10 +42,9 @@ public interface DDCPCollectionDetail {
     @Delete
     void delete(EDCPCollectionDetail collectionDetail);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBulkData(List<EDCPCollectionDetail> collectionDetails);
 
-    @Query("SELECT * FROM LR_DCP_Collection_Detail ORDER BY dModified ASC")
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1' ORDER BY dModified ASC")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailList();
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cTranStat = 1 AND cSendStat = 0")
@@ -169,7 +167,7 @@ public interface DDCPCollectionDetail {
             "LEFT JOIN Client_Update_Request c " +
             "ON a.sTransNox = c.sSourceNo " +
             "AND a.sAcctNmbr = c.sDtlSrcNo " +
-            "WHERE a.sRemCodex != 'PAY' AND a.cSendStat != '1'")
+            "WHERE a.cSendStat <> '1'")
     LiveData<List<CollectionDetail>> getCollectionDetailForPosting();
 
     class CollectionDetail{

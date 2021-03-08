@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -16,10 +17,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
+import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
@@ -30,7 +34,9 @@ import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,8 +45,14 @@ public class VMCollectionList extends AndroidViewModel {
     private final Application instance;
     private final RDailyCollectionPlan poDCPRepo;
     private final RBranch poBranch;
+    private final RCollectionUpdate poUpdate;
     private final LiveData<List<EDCPCollectionDetail>> collectionList;
-    private MutableLiveData<List<DDCPCollectionDetail.CollectionDetail>> plDetail = new MutableLiveData();
+
+    private final MutableLiveData<List<DDCPCollectionDetail.CollectionDetail>> plDetail = new MutableLiveData();
+    private final MutableLiveData<List<EAddressUpdate>> plAddress = new MutableLiveData<>();
+    private final MutableLiveData<List<EMobileUpdate>> plMobile = new MutableLiveData<>();
+
+    private final MutableLiveData<List<EDCPCollectionMaster>> masterList = new MutableLiveData<>();
 
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
     private final MutableLiveData<Integer> pnEntryNox = new MutableLiveData<>();
@@ -57,19 +69,30 @@ public class VMCollectionList extends AndroidViewModel {
         poDCPRepo = new RDailyCollectionPlan(application);
         poBranch = new RBranch(application);
         collectionList = poDCPRepo.getCollectionDetailList();
+        poUpdate = new RCollectionUpdate(application);
     }
 
+    @SuppressLint("SimpleDateFormat")
     public void DownloadDcp(String date, OnDownloadCollection callback){
         try{
             JSONObject loJson = new JSONObject();
             loJson.put("sEmployID", "M00110006088");
             loJson.put("dTransact", "2021-03-04");
-            //loJson.put("dTransact", lsDate);
+            @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("MMM dd, yyyy").parse(date);
+            loJson.put("dTransact", new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(loDate)));
             loJson.put("cDCPTypex", "1");
-            new ImportLRCollection(instance, callback).execute(loJson);
+            new ImportLRCollection(instance, masterList.getValue(), callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public LiveData<List<EDCPCollectionMaster>> getCollectionMasterList(){
+        return poDCPRepo.getCollectioMasterList();
+    }
+
+    public void setCollectionMasterList(List<EDCPCollectionMaster> masterList){
+        this.masterList.setValue(masterList);
     }
 
     public LiveData<EDCPCollectionDetail> getCollectionLastEntry(){
@@ -99,6 +122,22 @@ public class VMCollectionList extends AndroidViewModel {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public LiveData<List<EAddressUpdate>> getAddressRequestList(){
+        return poUpdate.getAddressList();
+    }
+
+    public void setAddressRequestList(List<EAddressUpdate> addressRequestList){
+        this.plAddress.setValue(addressRequestList);
+    }
+
+    public LiveData<List<EMobileUpdate>> getMobileRequestList(){
+        return poUpdate.getMobileList();
+    }
+
+    public void setMobileRequestList(List<EMobileUpdate> mobileRequestList){
+        this.plMobile.setValue(mobileRequestList);
     }
 
     public void importInsuranceInfo(String fsSerialNo, ViewModelCallback callback){
@@ -240,12 +279,14 @@ public class VMCollectionList extends AndroidViewModel {
         private final ConnectionUtil conn;
         private final WebApi webApi;
         private final OnDownloadCollection callback;
+        private final List<EDCPCollectionMaster> masterList;
 
-        public ImportLRCollection(Application instance, OnDownloadCollection callback) {
+        public ImportLRCollection(Application instance, List<EDCPCollectionMaster> masterList, OnDownloadCollection callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.dcpRepo = new RDailyCollectionPlan(instance);
             this.conn = new ConnectionUtil(instance);
             this.webApi = new WebApi(instance);
+            this.masterList = masterList;
             this.callback = callback;
         }
 
@@ -265,7 +306,9 @@ public class VMCollectionList extends AndroidViewModel {
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
-                        saveMasterDataToLocal(jsonResponse);
+                        if(!saveMasterDataToLocal(jsonResponse)){
+                            response = AppConstants.LOCAL_EXCEPTION_ERROR("Collection list already exist");
+                        }
                     }
                 } else {
                     response = AppConstants.SERVER_NO_RESPONSE();
@@ -299,10 +342,17 @@ public class VMCollectionList extends AndroidViewModel {
             }
         }
 
-
-        void saveMasterDataToLocal(JSONObject foJson) throws JSONException{
-            EDCPCollectionMaster collectionMaster = new EDCPCollectionMaster();
+        boolean saveMasterDataToLocal(JSONObject foJson) throws Exception {
+            boolean isExist = true;
             JSONObject loJson = foJson.getJSONObject("master");
+            for(int x = 0; x < masterList.size(); x++){
+                if(masterList.get(x).getTransNox().equalsIgnoreCase(loJson.getString("sTransNox"))){
+
+                    //return false if transNox already exist...
+                    isExist = false;
+                }
+            }
+            EDCPCollectionMaster collectionMaster = new EDCPCollectionMaster();
             collectionMaster.setTransNox(loJson.getString("sTransNox"));
             collectionMaster.setTransact(loJson.getString("dTransact"));
             collectionMaster.setReferNox(loJson.getString("sReferNox"));
@@ -317,6 +367,7 @@ public class VMCollectionList extends AndroidViewModel {
             JSONArray laJson = foJson.getJSONArray("detail");
             dcpRepo.insertMasterData(collectionMaster);
             saveDetailDataToLocal(laJson, loJson);
+            return isExist;
         }
 
         void saveDetailDataToLocal(JSONArray faJson, JSONObject jsonMaster) throws JSONException {
@@ -351,7 +402,6 @@ public class VMCollectionList extends AndroidViewModel {
         }
     }
 
-
     public void setCollectionListForPosting(List<DDCPCollectionDetail.CollectionDetail> collectionDetails){
         this.plDetail.setValue(collectionDetails);
     }
@@ -361,7 +411,7 @@ public class VMCollectionList extends AndroidViewModel {
     }
 
     public void PostLRCollectionDetail(ViewModelCallback callback){
-        new PostLRCollectionDetail(instance, callback).execute(plDetail.getValue());
+        new PostLRCollectionDetail(instance, plAddress.getValue(), plMobile.getValue(), callback).execute(plDetail.getValue());
     }
 
     public static class PostLRCollectionDetail extends AsyncTask<List<DDCPCollectionDetail.CollectionDetail>, Void, String>{
@@ -372,15 +422,21 @@ public class VMCollectionList extends AndroidViewModel {
         private final RImageInfo poImage;
         private final Telephony poTelephony;
         private final HttpHeaders poHeaders;
+        private final RCollectionUpdate rCollect;
+        private final List<EAddressUpdate> paAddress;
+        private final List<EMobileUpdate> paMobile;
 
-        public PostLRCollectionDetail(Application instance, ViewModelCallback callback){
+        public PostLRCollectionDetail(Application instance, List<EAddressUpdate> faAddress, List<EMobileUpdate> faMobile, ViewModelCallback callback){
             this.poConn = new ConnectionUtil(instance);
             this.poUser = new SessionManager(instance);
+            this.paAddress = faAddress;
+            this.paMobile = faMobile;
             this.callback = callback;
             this.poDcp = new RDailyCollectionPlan(instance);
             this.poImage = new RImageInfo(instance);
             this.poTelephony = new Telephony(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
+            this.rCollect = new RCollectionUpdate(instance);
         }
 
         @Override
@@ -410,6 +466,10 @@ public class VMCollectionList extends AndroidViewModel {
                         for(int x = 0; x < laCollDetl.size(); x++) {
                             try {
                                 DDCPCollectionDetail.CollectionDetail loDetail = laCollDetl.get(x);
+
+                                JSONObject loData = new JSONObject();
+
+                                if(loDetail.sRemCodex != null) {
                                 org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(loDetail.sFileLoct,
                                         lsAccess,
                                         loDetail.sFileCode,
@@ -432,7 +492,13 @@ public class VMCollectionList extends AndroidViewModel {
 
                                     Thread.sleep(1000);
 
-                                    JSONObject loData = new JSONObject();
+                                } else {
+                                    isDataSent[x] = false;
+                                    Log.e(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. "+ loDetail.nEntryNox+ " was not uploaded to server.");
+                                    JSONObject loError = new JSONObject(lsResponse);
+                                    Log.e(TAG, "Reason : " + loError.getString("message"));
+                                }
+
                                     if (loDetail.sRemCodex.equalsIgnoreCase("PAY")) {
                                         loData.put("sPRNoxxxx", loDetail.sPRNoxxxx);
                                         loData.put("nTranAmtx", loDetail.nTranAmtx);
@@ -441,7 +507,6 @@ public class VMCollectionList extends AndroidViewModel {
                                         loData.put("cTranType", loDetail.cTranType);
                                         loData.put("nTranTotl", loDetail.nTranTotl);
                                     } else if (loDetail.sRemCodex.equalsIgnoreCase("PTP")) {
-
                                         //Required parameters for Promise to pay..
                                         loData.put("cApntUnit", loDetail.cApntUnit);
                                         loData.put("sBranchCd", loDetail.sBranchCd);
@@ -474,41 +539,44 @@ public class VMCollectionList extends AndroidViewModel {
                                         loData.put("nLongitud", loDetail.nLongitud);
                                         loData.put("nLatitude", loDetail.nLatitude);
                                     }
-                                    JSONObject loJson = new JSONObject();
-                                    loJson.put("sTransNox", loDetail.sTransNox);
-                                    loJson.put("nEntryNox", loDetail.nEntryNox);
-                                    loJson.put("sAcctNmbr", loDetail.sAcctNmbr);
-                                    loJson.put("sRemCodex", loDetail.sRemCodex);
+                                }
 
-                                    //TODO: If RemarksCode == LU || TA || FO repalce loData with the JSON object generated by RClientUpdate...
-                                    loJson.put("sJsonData", loData);
-                                    loJson.put("dReceived", "");
-                                    loJson.put("sUserIDxx", poUser.getUserID());
-                                    loJson.put("sDeviceID", poTelephony.getDeviceID());
-
-                                    Log.e(TAG, loJson.toString());
-                                    String lsResponse1 = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
-                                    if (lsResponse1 == null) {
-                                        Log.e(TAG, "Server no response.");
-                                    } else {
-                                        JSONObject loResponse = new JSONObject(lsResponse1);
-
-                                        String result = loResponse.getString("result");
-                                        if (result.equalsIgnoreCase("success")) {
-                                            Log.e(TAG, "Data of Account No. " + loDetail.sAcctNmbr + ", Entry No. "+ loDetail.nEntryNox+ " was uploaded successfully");
-                                            poDcp.updateCollectionDetailStatus(loDetail.sTransNox, loDetail.nEntryNox);
-                                            isDataSent[x] = true;
-                                        } else {
-                                            JSONObject loError = loResponse.getJSONObject("error");
-                                            Log.e(TAG, loError.getString("message"));
-                                            isDataSent[x] = false;
-                                        }
-                                    }
+                                JSONObject loJson = new JSONObject();
+                                loJson.put("sTransNox", loDetail.sTransNox);
+                                loJson.put("nEntryNox", loDetail.nEntryNox);
+                                loJson.put("sAcctNmbr", loDetail.sAcctNmbr);
+                                if(loDetail.sRemCodex == null){
+                                    loJson.put("sRemCodex", "");
                                 } else {
-                                    isDataSent[x] = false;
-                                    Log.e(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. "+ loDetail.nEntryNox+ " was not uploaded to server.");
-                                    JSONObject loError = new JSONObject(lsResponse);
-                                    Log.e(TAG, "Reason : " + loError.getString("message"));
+                                    loJson.put("sRemCodex", loDetail.sRemCodex);
+                                }
+
+                                //TODO: If RemarksCode == LU || TA || FO repalce loData with the JSON object generated by RClientUpdate...
+                                loJson.put("sJsonData", loData);
+                                loJson.put("dReceived", "");
+                                loJson.put("sUserIDxx", poUser.getUserID());
+                                loJson.put("sDeviceID", poTelephony.getDeviceID());
+
+                                Log.e(TAG, loJson.toString());
+                                String lsResponse1 = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
+                                if (lsResponse1 == null) {
+                                    Log.e(TAG, "Server no response.");
+                                } else {
+                                    JSONObject loResponse = new JSONObject(lsResponse1);
+
+                                    String result = loResponse.getString("result");
+                                    if (result.equalsIgnoreCase("success")) {
+                                        Log.e(TAG, "Data of Account No. " + loDetail.sAcctNmbr + ", Entry No. "+ loDetail.nEntryNox+ " was uploaded successfully");
+                                        poDcp.updateCollectionDetailStatus(loDetail.sTransNox, loDetail.nEntryNox);
+                                        isDataSent[x] = true;
+
+                                        //call sending CNA details....
+                                        sendCNADetails(loDetail.sRemCodex, loDetail.sAcctNmbr);
+                                    } else {
+                                        JSONObject loError = loResponse.getJSONObject("error");
+                                        Log.e(TAG, loError.getString("message"));
+                                        isDataSent[x] = false;
+                                    }
                                 }
 
                             } catch (Exception e){
@@ -518,90 +586,6 @@ public class VMCollectionList extends AndroidViewModel {
 
                             Thread.sleep(1000);
                         }
-
-//                        if(paAddress.size() == 0) {
-//                            Log.e(TAG, "paAddress is Empty");
-//                        } else {
-//                            for (int i = 0; i < paAddress.size(); i++) {
-//                                EAddressUpdate info = paAddress.get(i);
-//                                JSONObject param = new JSONObject();
-//                                param.put("sTransNox", info.getTransNox());
-//                                param.put("sClientID", info.getClientID());
-//                                param.put("cReqstCDe", info.getReqstCDe());
-//                                param.put("cAddrssTp", info.getAddrssTp());
-//                                param.put("sHouseNox", info.getHouseNox());
-//                                param.put("sAddressx", info.getAddressx());
-//                                param.put("sTownIDxx", info.getTownIDxx());
-//                                param.put("sBrgyIDxx", info.getBrgyIDxx());
-//                                param.put("cPrimaryx", info.getPrimaryx());
-//                                Log.e("Latitude" , info.getLatitude());
-//                                param.put("nLatitude", Double.parseDouble(info.getLatitude()));
-//                                Log.e("Longitude" , info.getLongitud());
-//                                param.put("nLongitud", Double.parseDouble(info.getLongitud()));
-//                                param.put("sRemarksx", info.getRemarksx());
-//                                param.put("sSourceCD","DCPa");
-//                                param.put("sSourceNo", loDetail.getAcctNmbr());
-//
-//                                Log.e("Address JsonParam", param.toString());
-//
-//                                String lsAddressUpdtResponse = WebClient.httpsPostJSon(WebApi.URL_UPDATE_ADDRESS, param.toString(), poHeaders.getHeaders());
-//
-//                                if(lsAddressUpdtResponse == null) {
-//                                    Log.e("Address Update Result:", "Server no Repsonse");
-//                                } else {
-//                                    JSONObject loResult = new JSONObject(lsAddressUpdtResponse);
-//                                    String result = loResult.getString("result");
-//                                    Log.e("The Address Result", String.valueOf(loResult));
-//                                    if(result.equalsIgnoreCase("success")) {
-//                                        String newTransNox = loResult.getString("sTransNox");
-//                                        rCollect.updateAddressStatus(newTransNox, info.getTransNox());
-//                                        Log.e("Address Update Result:",result);
-//                                    } else {
-//                                        Log.e("Address Update Result:","Failed");
-//                                    }
-//                                    Thread.sleep(1000);
-//                                }
-//                            }
-//                        }
-//
-//
-//                        if(paMobile.size()==0) {
-//                            Log.e(TAG, "paMobile is Empty.");
-//                        } else {
-//                            for(int y = 0; y < paMobile.size(); y++) {
-//                                EMobileUpdate info = paMobile.get(y);
-//                                JSONObject param = new JSONObject();
-//                                param.put("sTransNox", info.getTransNox());
-//                                param.put("sClientID",info.getClientID());
-//                                param.put("cReqstCDe",info.getReqstCDe());
-//                                param.put("sMobileNo", info.getMobileNo());
-//                                param.put("cPrimaryx", info.getPrimaryx());
-//                                param.put("sRemarksx", info.getRemarksx());
-//                                param.put("sSourceCD","DCPa");
-//                                param.put("sSourceNo", loDetail.getAcctNmbr());
-//
-//                                Log.e("Mobile JsonParam", param.toString());
-//
-//                                String lsMobileUpdtResponse = WebClient.httpsPostJSon(WebApi.URL_UPDATE_MOBILE, param.toString(), poHeaders.getHeaders());
-//
-//                                if(lsMobileUpdtResponse == null) {
-//                                    Log.e("Mobile Update Result:", "Server no Repsonse");
-//                                } else {
-//                                    JSONObject loMobResult = new JSONObject(lsMobileUpdtResponse);
-//                                    String result = loMobResult.getString("result");
-////                                        Log.e("The Mobile Result", String.valueOf(loMobResult));
-//                                    if(result.equalsIgnoreCase("success")) {
-//                                        String newTransNox = loMobResult.getString("sTransNox");
-//                                        rCollect.updateMobileStatus(newTransNox, info.getTransNox());
-//                                        Log.e("Mobile Update Result:",result);
-//                                    } else {
-//                                        Log.e("Mobile Update Result:","Failed");
-//                                    }
-//                                    Thread.sleep(1000);
-//                                }
-//
-//                            }
-//                        }
 
                         boolean allDataSent = true;
                         for (boolean b : isDataSent) {
@@ -640,6 +624,94 @@ public class VMCollectionList extends AndroidViewModel {
                 e.printStackTrace();
             }
             this.cancel(true);
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        void sendCNADetails(String fsRemCode, String fsAccntNo) throws Exception {
+            if (fsRemCode != null && fsRemCode.equalsIgnoreCase("CNA")) {
+                if (paAddress.size() == 0) {
+                    Log.e(TAG, "paAddress is Empty");
+                } else {
+                    for (int i = 0; i < paAddress.size(); i++) {
+                        EAddressUpdate info = paAddress.get(i);
+                        JSONObject param = new JSONObject();
+                        param.put("sTransNox", info.getTransNox());
+                        param.put("sClientID", info.getClientID());
+                        param.put("cReqstCDe", info.getReqstCDe());
+                        param.put("cAddrssTp", info.getAddrssTp());
+                        param.put("sHouseNox", info.getHouseNox());
+                        param.put("sAddressx", info.getAddressx());
+                        param.put("sTownIDxx", info.getTownIDxx());
+                        param.put("sBrgyIDxx", info.getBrgyIDxx());
+                        param.put("cPrimaryx", info.getPrimaryx());
+                        Log.e("Latitude", info.getLatitude());
+                        param.put("nLatitude", Double.parseDouble(info.getLatitude()));
+                        Log.e("Longitude", info.getLongitud());
+                        param.put("nLongitud", Double.parseDouble(info.getLongitud()));
+                        param.put("sRemarksx", info.getRemarksx());
+                        param.put("sSourceCD", "DCPa");
+                        param.put("sSourceNo", fsAccntNo);
+
+                        Log.e("Address JsonParam", param.toString());
+
+                        String lsAddressUpdtResponse = WebClient.httpsPostJSon(WebApi.URL_UPDATE_ADDRESS, param.toString(), poHeaders.getHeaders());
+
+                        if (lsAddressUpdtResponse == null) {
+                            Log.e("Address Update Result:", "Server no Repsonse");
+                        } else {
+                            JSONObject loResult = new JSONObject(lsAddressUpdtResponse);
+                            String result = loResult.getString("result");
+                            Log.e("The Address Result", String.valueOf(loResult));
+                            if (result.equalsIgnoreCase("success")) {
+                                String newTransNox = loResult.getString("sTransNox");
+                                rCollect.updateAddressStatus(newTransNox, info.getTransNox());
+                                Log.e("Address Update Result:", result);
+                            } else {
+                                Log.e("Address Update Result:", "Failed");
+                            }
+                        }
+                    }
+                    Thread.sleep(1000);
+                }
+
+                if (paMobile.size() == 0) {
+                    Log.e(TAG, "paMobile is Empty.");
+                } else {
+                    for (int y = 0; y < paMobile.size(); y++) {
+                        EMobileUpdate info = paMobile.get(y);
+                        JSONObject param = new JSONObject();
+                        param.put("sTransNox", info.getTransNox());
+                        param.put("sClientID", info.getClientID());
+                        param.put("cReqstCDe", info.getReqstCDe());
+                        param.put("sMobileNo", info.getMobileNo());
+                        param.put("cPrimaryx", info.getPrimaryx());
+                        param.put("sRemarksx", info.getRemarksx());
+                        param.put("sSourceCD", "DCPa");
+                        param.put("sSourceNo", fsAccntNo);
+
+                        Log.e("Mobile JsonParam", param.toString());
+
+                        String lsMobileUpdtResponse = WebClient.httpsPostJSon(WebApi.URL_UPDATE_MOBILE, param.toString(), poHeaders.getHeaders());
+
+                        if (lsMobileUpdtResponse == null) {
+                            Log.e("Mobile Update Result:", "Server no Repsonse");
+                        } else {
+                            JSONObject loMobResult = new JSONObject(lsMobileUpdtResponse);
+                            String result = loMobResult.getString("result");
+//                                        Log.e("The Mobile Result", String.valueOf(loMobResult));
+                            if (result.equalsIgnoreCase("success")) {
+                                String newTransNox = loMobResult.getString("sTransNox");
+                                rCollect.updateMobileStatus(newTransNox, info.getTransNox());
+                                Log.e("Mobile Update Result:", result);
+                            } else {
+                                Log.e("Mobile Update Result:", "Failed");
+                            }
+                        }
+                    }
+
+                    Thread.sleep(1000);
+                }
+            }
         }
     }
 }

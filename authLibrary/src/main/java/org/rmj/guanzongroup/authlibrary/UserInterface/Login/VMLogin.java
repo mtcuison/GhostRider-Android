@@ -11,6 +11,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
@@ -137,11 +138,9 @@ public class VMLogin extends AndroidViewModel {
             employeeInfo.setPositnID(jsonInfo.getString("sPositnID"));
             employeeInfo.setEmpLevID(jsonInfo.getString("sEmpLevID"));
             employeeInfo.setAllowUpd(jsonInfo.getString("cAllowUpd"));
-            employeeInfo.setSessionx(getLoginDateTime());
+            employeeInfo.setLoginxxx(AppConstants.DATE_MODIFIED);
+            employeeInfo.setSessionx(AppConstants.CURRENT_DATE);
             REmployee.insertEmployee(employeeInfo);
-        }
-        String getLoginDateTime(){
-            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
         }
     }
 }

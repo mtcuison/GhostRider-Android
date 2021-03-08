@@ -29,6 +29,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
@@ -74,6 +75,8 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
 
     private String sRqstCode, sPrimaryx , psPhotox;
     private static final int MOBILE_DIALER = 104;
+
+    private boolean isAddressAdded, isMobileAdded;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -125,6 +128,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                     @Override
                     public void OnDelete(int position) {
                         mViewModel.deleteMobile(mobileNox.get(position).getTransNox());
+                        GToast.CreateMessage(getActivity(), "Mobile number deleted.", GToast.INFORMATION).show();
                     }
 
                     @Override
@@ -208,7 +212,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 mViewModel.saveImageInfo(poImageInfo);
                 mViewModel.updateCollectionDetail(DCP_Constants.getRemarksCode(Remarksx));
                 Log.e("Fragment_CNA:", "Image Info Save");
-                OnSuccessResult(new String[]{"Image Info Save"});
+                OnSuccessResult(new String[]{"Customer Not Around Info has been saved."});
             } else {
                 Objects.requireNonNull(getActivity()).finish();
             }
@@ -261,7 +265,8 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
         addressInfoModel.setLongitude(String.valueOf(poLocator.getLongitude()));
         addressInfoModel.setsRemarksx(Objects.requireNonNull(txtRemarks.getText().toString()));
 
-        mViewModel.addAddress(addressInfoModel, Fragment_CustomerNotAround.this);
+        isAddressAdded = mViewModel.addAddress(addressInfoModel, Fragment_CustomerNotAround.this);
+        checkIfAddressAdded(isAddressAdded);
     }
 
     private void addMobile() {
@@ -276,7 +281,8 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
         String sRemarks = txtRemarks.getText().toString();
 
         mobileInfoModel = new MobileUpdate(sRqstCode, sMobileNo, sPrimaryx,sRemarks);
-        mViewModel.addMobile(mobileInfoModel, Fragment_CustomerNotAround.this);
+        isMobileAdded = mViewModel.addMobile(mobileInfoModel, Fragment_CustomerNotAround.this);
+        checkIfMobileAdded(isMobileAdded);
     }
 
     @Override
@@ -289,7 +295,10 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
         poMessage.initDialog();
         poMessage.setTitle("Transaction Success");
         poMessage.setMessage(args[0]);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+            dialog.dismiss();
+            getActivity().finish();
+        });
         poMessage.show();
     }
 
@@ -300,6 +309,29 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
+    }
+
+    private void checkIfAddressAdded(boolean isAddressAdded) {
+        if(isAddressAdded == true) {
+            spnRequestCode.setSelection(0);
+            rb_permanent.setChecked(false);
+            rb_present.setChecked(false);
+            txtHouseNox.setText("");
+            txtAddress.setText("");
+            txtTown.setText("");
+            txtBrgy.setText("");
+            cbPrimary.setChecked(false);
+            txtRemarks.setText("");
+        }
+    }
+
+    private void checkIfMobileAdded(boolean isMobileAdded) {
+        if(isMobileAdded == true) {
+            spnRequestCode.setSelection(0);
+            cbPrimeContact.setChecked(false);
+            txtContact.setText("");
+            txtRemarks.setText("");
+        }
     }
 
     private class OnRadioButtonSelectListener implements RadioGroup.OnCheckedChangeListener {
@@ -326,6 +358,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                                 @Override
                                 public void OnDelete(int position) {
                                     mViewModel.deleteMobile(mobileNox.get(position).getTransNox());
+                                    GToast.CreateMessage(getActivity(), "Mobile number deleted.", GToast.INFORMATION).show();
                                 }
 
                                 @Override
@@ -357,6 +390,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                                 @Override
                                 public void OnDelete(int position) {
                                     mViewModel.deleteAddress(addressNme.get(position).sTransNox);
+                                    GToast.CreateMessage(getActivity(), "Address deleted.", GToast.INFORMATION).show();
                                 }
                             });
                             rvCNAOutputs.setAdapter(addressAdapter);

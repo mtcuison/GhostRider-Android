@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.CollectionPlan;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -59,8 +60,8 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             holder.lblClient.setText(collection.getFullName());
             holder.lblAdd1xx.setText(collection.getAddressx());
             holder.lblMobile.setText(collection.getMobileNo());
-            //holder.lblBalanc.setText(collection.get);
-            holder.lblAmount.setText(collection.getAmtDuexx());
+            holder.lblBalanc.setText("");
+            holder.lblAmount.setText(FormatUIText.getCurrencyUIFormat(collection.getAmtDuexx()));
             holder.lblStatus.setText(DCP_Constants.getRemarksDescription(collection.getRemCodex()));
         } catch (Exception e){
             e.printStackTrace();

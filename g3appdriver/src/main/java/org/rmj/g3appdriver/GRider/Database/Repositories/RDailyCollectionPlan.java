@@ -64,6 +64,10 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectionDetailLog();
     }
 
+    public LiveData<List<EDCPCollectionMaster>> getCollectioMasterList(){
+        return masterDao.getCollectionMasterList();
+    }
+
     public LiveData<EDCPCollectionMaster> getCollectionMaster(){
         return masterDao.getCollectionMaster();
     }

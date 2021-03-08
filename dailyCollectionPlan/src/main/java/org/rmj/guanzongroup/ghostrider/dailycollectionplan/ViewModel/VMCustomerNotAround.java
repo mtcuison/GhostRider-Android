@@ -32,6 +32,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
+import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.AddressUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.MobileUpdate;
@@ -198,7 +199,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
         return poFileCode.getAllFileCode();
     }
 
-    public void addAddress(AddressUpdate foAddress, ViewModelCallback callback){
+    public boolean addAddress(AddressUpdate foAddress, ViewModelCallback callback){
         try {
             foAddress.setRequestCode(requestCode.getValue());
             foAddress.setcAddrssTp(addressType.getValue());
@@ -227,15 +228,18 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 info.setTimeStmp(AppConstants.DATE_MODIFIED);
                 poUpdate.insertUpdateAddress(info);
 
-                callback.OnSuccessResult(new String[]{"Address added into local database."});
+                GToast.CreateMessage(getApplication(), "Address Successfully Added.", GToast.INFORMATION).show();
                 Log.e(TAG, getValidatedAddress(foAddress));
+                return true;
             }
             else {
                 callback.OnFailedResult(foAddress.getMessage());
+                return false;
             }
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailedResult(e.getMessage());
+            return false;
         }
     }
 
@@ -243,7 +247,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
         poUpdate.deleteAddress(TransNox);
     }
 
-    public void addMobile(MobileUpdate foMobile, ViewModelCallback callback){
+    public boolean addMobile(MobileUpdate foMobile, ViewModelCallback callback){
         try{
             if(foMobile.isDataValid()){
                 EMobileUpdate info = new EMobileUpdate();
@@ -259,15 +263,18 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 info.setTimeStmp(AppConstants.DATE_MODIFIED);
                 poUpdate.insertUpdateMobile(info);
 
-                callback.OnSuccessResult(new String[]{"Mobile added into local database."});
+                GToast.CreateMessage(getApplication(), "Mobile number Successfully Added.", GToast.INFORMATION).show();
                 Log.e(TAG, getValidatedMobilenox(foMobile));
+                return true;
             }
             else {
                 callback.OnFailedResult(foMobile.getMessage());
+                return false;
             }
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailedResult(e.getMessage());
+            return false;
         }
     }
 
