@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         expListView.setIndicatorBoundsRelative(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
 
         prepareData = new PrepareData();
-        prepareData.prepareMenuData();
+        prepareData.prepareMenuData(this);
         //populateExpandableList();
 
         populateExpandableList = new PopulateExpandableList();

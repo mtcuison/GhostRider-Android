@@ -91,31 +91,13 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 txtSearch.setVisibility(View.VISIBLE);
             } else {
                 txtSearch.setVisibility(View.GONE);
-                DialogDownloadDCP dialogDownloadDCP = new DialogDownloadDCP(Activity_CollectionList.this);
-                dialogDownloadDCP.initDialog(new DialogDownloadDCP.OnDialogButtonClickListener() {
-                    @Override
-                    public void OnDownloadClick(Dialog Dialog, String Date) {
-                        if(!Date.trim().isEmpty()){
-                            mViewModel.DownloadDcp(Date, Activity_CollectionList.this);
-                            lblDate.setText("Collection For " + Date);
-                            Dialog.dismiss();
-                        } else {
-                            GToast.CreateMessage(Activity_CollectionList.this, "Please enter date", GToast.ERROR).show();
-                        }
-                    }
-
-                    @Override
-                    public void OnCancel(Dialog Dialog) {
-                        Dialog.dismiss();
-                    }
-                });
-                dialogDownloadDCP.show();
+               showDownloadDcp();
             }
             CollectionAdapter loAdapter = new CollectionAdapter(collectionDetails, new CollectionAdapter.OnItemClickListener() {
                 @Override
                 public void OnClick(int position) {
                     DialogAccountDetail loDialog = new DialogAccountDetail(Activity_CollectionList.this);
-                    loDialog.initAccountDetail(collectionDetails.get(position), (dialog, remarksCode) -> {
+                    loDialog.initAccountDetail(Activity_CollectionList.this ,collectionDetails.get(position), (dialog, remarksCode) -> {
                         Intent loIntent = new Intent(Activity_CollectionList.this, Activity_Transaction.class);
                         loIntent.putExtra("remarksx", remarksCode);
                         loIntent.putExtra("transnox", collectionDetails.get(position).getTransNox());
@@ -365,5 +347,27 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
+    }
+    public void showDownloadDcp(){
+        DialogDownloadDCP dialogDownloadDCP = new DialogDownloadDCP(Activity_CollectionList.this);
+        dialogDownloadDCP.initDialog(new DialogDownloadDCP.OnDialogButtonClickListener() {
+            @Override
+            public void OnDownloadClick(Dialog Dialog, String Date) {
+                if(!Date.trim().isEmpty()){
+//                    mViewModel.getCollectionListNow().observe();
+
+                    mViewModel.DownloadDcp(Date, Activity_CollectionList.this);
+                    Dialog.dismiss();
+                } else {
+                    GToast.CreateMessage(Activity_CollectionList.this, "Please enter date", GToast.ERROR).show();
+                }
+            }
+
+            @Override
+            public void OnCancel(Dialog Dialog) {
+                Dialog.dismiss();
+            }
+        });
+        dialogDownloadDCP.show();
     }
 }

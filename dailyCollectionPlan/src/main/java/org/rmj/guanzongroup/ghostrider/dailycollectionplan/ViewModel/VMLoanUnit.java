@@ -126,29 +126,29 @@ public class VMLoanUnit extends AndroidViewModel {
     public void setTownID(String townID){
         this.lsTownID.setValue(townID);
     }
-    public void setBrgyID(String townID){
-        this.lsBrgyID.setValue(townID);
+    public void setBrgyID(String brgyID){
+        this.lsBrgyID.setValue(brgyID);
     }
     public void setLsBPlaceID(String townID){
         this.lsBPlace.setValue(townID);
     }
     //Setter Civil Status
-    public void setSpnCivilStats(String type) { this.spnCivilStats.setValue(type); }
+    public void setSpnCivilStats(String type) { this.luCivilStats.setValue(type); }
     public void setGender(String lsGender) { this.luGender.setValue(lsGender); }
     //Spinner Getter
     public LiveData<ArrayAdapter<String>> getSpnCivilStats(){
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, DCP_Constants.CIVIL_STATUS)
         {
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View v = super.getView(position, convertView, parent);
-            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                ((TextView) v).setTextColor(getApplication().getResources().getColorStateList(R.color.textColor_White));
-            }else {
-                ((TextView) v).setTextColor(getApplication().getResources().getColorStateList(R.color.textColor_Black));
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                    ((TextView) v).setTextColor(getApplication().getResources().getColorStateList(R.color.textColor_White));
+                }else {
+                    ((TextView) v).setTextColor(getApplication().getResources().getColorStateList(R.color.textColor_Black));
+                }
+                return v;
             }
-            return v;
-        }
-    };
+        };
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
         return liveData;
@@ -249,6 +249,7 @@ public class VMLoanUnit extends AndroidViewModel {
         protected String doInBackground(EDCPCollectionDetail... detail) {
             try {
 
+                infoModel.setLuCivilStats(luCivilStats.getValue());
                 infoModel.setLuGender(luGender.getValue());
                 if (!infoModel.isValidData()) {
                     return infoModel.getMessage();
@@ -260,10 +261,10 @@ public class VMLoanUnit extends AndroidViewModel {
                             infoModel.getLuMiddleName() + " " +
                             infoModel.getLuSuffix();
                     loDetail.setFullName(fullName);
-                    loDetail.setBrgyName(infoModel.getLuBrgy());
+                    loDetail.setBrgyName(lsBrgyID.getValue());
                     loDetail.setHouseNox(infoModel.getLuHouseNo());
                     loDetail.setAddressx(infoModel.getLuStreet());
-                    loDetail.setTownName(infoModel.getLuTown());
+                    loDetail.setTownName(lsTownID.getValue());
                     loDetail.setMobileNo(infoModel.getLuMobile());
                     loDetail.setTranStat("1");
                     loDetail.setSendStat("0");
@@ -280,8 +281,7 @@ public class VMLoanUnit extends AndroidViewModel {
                     eClientUpdate.setSuffixNm(infoModel.getLuSuffix());
                     eClientUpdate.setAddressx(infoModel.getLuStreet());
                     eClientUpdate.setBirthDte(infoModel.getLuBDate());
-                    eClientUpdate.setBirthPlc(infoModel.getLuBPlace());
-                    eClientUpdate.setCivlStat(infoModel.getLuCivilStats());
+                    eClientUpdate.setBirthPlc(lsBPlace.getValue());
                     eClientUpdate.setClientID(detail[0].getAcctNmbr());
                     eClientUpdate.setDtlSrcNo(detail[0].getAcctNmbr());
                     eClientUpdate.setEmailAdd(infoModel.getLuEmail());
@@ -293,11 +293,12 @@ public class VMLoanUnit extends AndroidViewModel {
                     eClientUpdate.setSendStat("0");
                     eClientUpdate.setSourceCd("DCPa");
                     eClientUpdate.setSourceNo(detail[0].getTransNox());
-                    eClientUpdate.setTownIDxx(infoModel.getLuTown());
+                    eClientUpdate.setTownIDxx(lsTownID.getValue());
+                    eClientUpdate.setBarangay(lsBrgyID.getValue());
                     eClientUpdate.setGenderxx(infoModel.getLuGender());
+                    eClientUpdate.setCivlStat(infoModel.getLuCivilStats());
                     poClient.insertClientUpdateInfo(eClientUpdate);
 
-                    
 
                     return "success";
                 }
@@ -312,7 +313,7 @@ public class VMLoanUnit extends AndroidViewModel {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if(s.equalsIgnoreCase("success")){
-                callback.OnSuccessResult(new String[]{"Loan unit info has been save."});
+                callback.OnSuccessResult(new String[]{DCP_Constants.getRemarksDescription(sRemarksx.getValue()) +" info has been save."});
             } else {
                 callback.OnFailedResult(s);
             }
