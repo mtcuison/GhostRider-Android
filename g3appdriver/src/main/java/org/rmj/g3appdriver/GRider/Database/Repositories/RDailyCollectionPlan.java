@@ -16,6 +16,7 @@ import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
+import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 
@@ -66,6 +67,10 @@ public class RDailyCollectionPlan {
 
     public LiveData<List<EDCPCollectionMaster>> getCollectioMasterList(){
         return masterDao.getCollectionMasterList();
+    }
+
+    public LiveData<EClientUpdate> getClientUpdateInfo(String AccountNox){
+        return detailDao.getClient_Update_Info(AccountNox);
     }
 
     public LiveData<EDCPCollectionMaster> getCollectionMaster(){

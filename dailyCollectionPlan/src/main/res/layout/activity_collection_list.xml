@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/guanzon_digital_orange_mid"
+        android:background="@drawable/bg_gradient_orange"
         android:gravity="center_horizontal">
         <LinearLayout
             android:layout_width="match_parent"
@@ -102,9 +102,6 @@
             android:layout_height="1.5dp"
             android:layout_marginTop="5dp"
             android:background="@color/guanzon_orange"/>
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:padding="10dp">
             <TextView
                 android:id="@+id/lbl_headerDate"
                 android:layout_width="match_parent"
@@ -119,11 +116,8 @@
                 android:layout_marginTop="5dp"
                 android:background="@color/textColor_White"/>
         </LinearLayout>
-    </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_collectionList"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 </LinearLayout>

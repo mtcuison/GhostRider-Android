@@ -28,16 +28,24 @@
                 android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_bold"/>
 
+<!--            <TextView-->
+<!--                android:id="@+id/lbl_dcpNox"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="2"-->
+<!--                android:fontFamily="@font/roboto_medium"-->
+<!--                android:gravity="end"-->
+<!--                android:textColor="@color/textColor_Black"-->
+<!--                android:textSize="14sp" />-->
+
             <TextView
-                android:id="@+id/lbl_dcpNox"
+                android:id="@+id/lbl_dcpStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="end"
-                android:textSize="14sp"
-                android:textColor="@color/textColor_Black"
-                android:fontFamily="@font/roboto_medium"/>
-
+                android:textColor="@color/guanzon_orange"
+                android:fontFamily="@font/roboto_bold"/>
         </LinearLayout>
 
         <View
@@ -63,14 +71,14 @@
                 android:drawableStart="@drawable/ic_collection_client"
                 android:drawableLeft="@drawable/ic_collection_client" />
 
-            <TextView
-                android:id="@+id/lbl_dcpStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="end"
-                android:textColor="@color/textColor_Black"
-                android:fontFamily="@font/roboto_bold"/>
+<!--            <TextView-->
+<!--                android:id="@+id/lbl_dcpStatus"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="2"-->
+<!--                android:gravity="end"-->
+<!--                android:textColor="@color/textColor_Black"-->
+<!--                android:fontFamily="@font/roboto_bold"/>-->
 
         </LinearLayout>
 

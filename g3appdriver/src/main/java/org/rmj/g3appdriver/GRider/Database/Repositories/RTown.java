@@ -47,7 +47,12 @@ public class RTown {
     public LiveData<ETownInfo> getTownNameAndProvID(String fsID){
         return townDao.getTownNameAndProvID(fsID);
     }
-
+    public LiveData<DTownInfo.BrgyTownProvinceInfo> getBrgyTownProvinceInfo(String fsID){
+        return townDao.getBrgyTownProvinceInfo(fsID);
+    }
+    public LiveData<DTownInfo.BrgyTownProvinceInfo> getTownProvinceInfo(String fsID){
+        return townDao.getTownProvinceInfo(fsID);
+    }
     public LiveData<List<DTownInfo.TownProvinceInfo>> getTownProvinceInfo(){
         return townDao.getTownProvinceInfo();
     }

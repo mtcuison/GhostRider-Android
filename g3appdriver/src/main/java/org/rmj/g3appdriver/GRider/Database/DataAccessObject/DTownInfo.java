@@ -48,10 +48,24 @@ public interface DTownInfo {
             "ON a.sProvIDxx = b.sProvIDxx")
     LiveData<List<TownProvinceInfo>> getTownProvinceInfo();
 
+    @Query("SELECT a.sTownName, b.sProvName , c.sBrgyName FROM Town_Info a INNER JOIN Province_Info b INNER JOIN Barangay_Info c ON\n" +
+            "    a.sProvIDxx = b.sProvIDxx AND a.sTownIDxx = c.sTownIDxx AND c.sBrgyIDxx =:BrgyID")
+    LiveData<BrgyTownProvinceInfo> getBrgyTownProvinceInfo(String BrgyID);
+    ;
+
+    @Query("SELECT a.sTownName, b.sProvName FROM Town_Info a INNER JOIN Province_Info b ON \n" +
+            "a.sProvIDxx = b.sProvIDxx AND a.sTownIDxx  =:townID")
+    LiveData<BrgyTownProvinceInfo> getTownProvinceInfo(String townID);
+
     class TownProvinceInfo{
         public String sTownIDxx;
         public String sProvIDxx;
         public String sTownName;
         public String sProvName;
+    }
+    class BrgyTownProvinceInfo{
+        public String sTownName;
+        public String sProvName;
+        public String sBrgyName;
     }
 }

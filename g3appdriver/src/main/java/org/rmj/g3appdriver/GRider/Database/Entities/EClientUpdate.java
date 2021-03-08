@@ -30,6 +30,8 @@ public class EClientUpdate {
     private String HouseNox;
     @ColumnInfo(name = "sAddressx")
     private String Addressx;
+    @ColumnInfo(name = "sBarangay")
+    private String Barangay;
     @ColumnInfo(name = "sTownIDxx")
     private String TownIDxx;
     @ColumnInfo(name = "cGenderxx")
@@ -136,7 +138,13 @@ public class EClientUpdate {
     public void setAddressx(String addressx) {
         Addressx = addressx;
     }
+    public String getBarangay() {
+        return Barangay;
+    }
 
+    public void setBarangay(String barangay) {
+        Barangay = barangay;
+    }
     public String getTownIDxx() {
         return TownIDxx;
     }

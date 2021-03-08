@@ -170,7 +170,7 @@ public class LoanUnitModel {
         return true;
     }
 
-//    Address
+    //    Address
     private boolean isHouseNo(){
         if (luHouseNo.trim().isEmpty()){
             message = "Please enter house no.";

@@ -56,7 +56,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         try {
             holder.loPlan = collection;
             holder.lblAcctNo.setText("Account No. : " + collection.getAcctNmbr());
-            holder.lblDCPNox.setText(String.valueOf(collection.getEntryNox()));
+//            holder.lblDCPNox.setText(String.valueOf(collection.getEntryNox()));
             holder.lblClient.setText(collection.getFullName());
             holder.lblAdd1xx.setText(collection.getAddressx());
             holder.lblMobile.setText(collection.getMobileNo());
@@ -81,7 +81,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
 
         public EDCPCollectionDetail loPlan;
         public TextView lblAcctNo;
-        public TextView lblDCPNox;
+//        public TextView lblDCPNox;
         public TextView lblClient;
         public TextView lblAdd1xx;
         public TextView lblMobile;
@@ -92,7 +92,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         public CollectionViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             lblAcctNo = itemView.findViewById(R.id.lbl_AccountNo);
-            lblDCPNox = itemView.findViewById(R.id.lbl_dcpNox);
+//            lblDCPNox = itemView.findViewById(R.id.lbl_dcpNox);
             lblClient = itemView.findViewById(R.id.lbl_clientNm);
             lblAdd1xx = itemView.findViewById(R.id.lbl_dcpAddress1);
             lblMobile = itemView.findViewById(R.id.lbl_dcpContact);

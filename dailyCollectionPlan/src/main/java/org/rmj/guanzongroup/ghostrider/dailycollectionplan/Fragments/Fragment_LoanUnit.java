@@ -51,7 +51,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
     private VMLoanUnit mViewModel;
     private String spnCivilStatsPosition = "-1";
     private String genderPosition = "-1", CollId;
-    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo,lblLuImgPath;
+    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo,lblLuImgPath, lblRemCode;
     private TextInputEditText tieLName, tieFName, tieMName, tieSuffix;
     private TextInputEditText tieHouseNo, tieStreet;
     private AutoCompleteTextView tieTown, tieBrgy,tieBPlace;
@@ -93,6 +93,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         lblAccNo = v.findViewById(R.id.tvAccountNo);
         lblClientNm = v.findViewById(R.id.tvClientname);
         lblTransNo = v.findViewById(R.id.lbl_dcpTransNo);
+        lblRemCode = v.findViewById(R.id.lblRemCode);
 //        Full Name
         tieLName = v.findViewById(R.id.tie_lun_lName);
         tieFName = v.findViewById(R.id.tie_lun_fName);
@@ -142,7 +143,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
 
         mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
             CollId = s.getCollctID();
-            poFilexx = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, DCP_Constants.TRANSACT_LUn, AccntNox);
+            poFilexx = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, DCP_Constants.getRemarksCode(Remarksx), AccntNox);
 
         });
         mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
@@ -151,6 +152,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
                 lblClientNm.setText(collectionDetail.getFullName());
                 lblTransNo.setText(collectionDetail.getTransNox());
                 mViewModel.setCurrentCollectionDetail(collectionDetail);
+                lblRemCode.setText(Remarksx);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -194,7 +196,6 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
             for(int x = 0; x < eBarangayInfos.size(); x++){
                 if(tieBrgy.getText().toString().equalsIgnoreCase(eBarangayInfos.get(x).getBrgyName())){
                     mViewModel.setBrgyID(eBarangayInfos.get(x).getBrgyIDxx());
-
                     infoModel.setLuBrgy(tieBrgy.getText().toString());
                     break;
                 }
@@ -312,7 +313,6 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         infoModel.setLuMiddleName(tieMName.getText().toString());
         infoModel.setLuSuffix(tieSuffix.getText().toString());
         infoModel.setLuHouseNo(tieHouseNo.getText().toString());
-        infoModel.setLuCivilStats(spnCivilStatsPosition);
         infoModel.setLuStreet(tieStreet.getText().toString());
         infoModel.setLuBrgy(tieBrgy.getText().toString());
         infoModel.setLuTown(tieTown.getText().toString());
