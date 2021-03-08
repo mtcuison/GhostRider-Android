@@ -117,5 +117,8 @@
 
     <string name="sActionMenu_ARClient">Get AR Client Info</string>
     <string name="sActionMenu_InsuranceClient">Get Insurance Client info</string>
+    <string name="sActionMenu_postCollection">Post Collection</string>
+    <string name="sActionMenu_exportFile">Export Collection File</string>
+    <string name="sActionMenu_uploadFile">Upload Collection File</string>
 
 </resources>

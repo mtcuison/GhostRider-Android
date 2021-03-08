@@ -17,6 +17,7 @@ public class CollectionPlan {
     private String AmntDuexx;
 
     public CollectionPlan() {
+
     }
 
     public void setAcctNoxxx(String acctNoxxx) {

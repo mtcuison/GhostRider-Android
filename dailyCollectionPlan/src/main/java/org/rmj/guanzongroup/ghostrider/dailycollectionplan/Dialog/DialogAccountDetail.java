@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
@@ -48,7 +49,7 @@ public class DialogAccountDetail {
         Button btnConfirm = view.findViewById(R.id.btn_confirm);
         Button btnCancelx = view.findViewById(R.id.btn_cancel);
 
-        lblReferNo.setText(foDetail.getReferNox());
+        //lblReferNo.setText(foDetail.getReferNox());
         lblTransNo.setText(foDetail.getTransNox());
         lblAccntNo.setText(foDetail.getAcctNmbr());
         lblSerialx.setText(foDetail.getSerialNo());

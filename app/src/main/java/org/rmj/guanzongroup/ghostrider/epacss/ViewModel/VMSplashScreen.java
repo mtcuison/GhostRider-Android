@@ -65,6 +65,10 @@ public class VMSplashScreen extends AndroidViewModel {
         return paPermisions;
     }
 
+    public LiveData<String> getSessionDate(){
+        return poUserDbx.getSessionDate();
+    }
+
     public LiveData<DEmployeeInfo.Session> getSessionTime(){
         return poUserDbx.getSessionTime();
     }
@@ -72,7 +76,8 @@ public class VMSplashScreen extends AndroidViewModel {
     public void setSessionTime(int time){
         try {
             this.pnSession.setValue(time);
-            pbSession.setValue(pnSession.getValue() <= 0);
+            boolean result = pnSession.getValue() <= 0;
+            pbSession.setValue(result);
         } catch (NullPointerException e){
             e.printStackTrace();
         }

@@ -3,42 +3,52 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionLogAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.TransactionAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionLog;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Activity_CollectionLog extends AppCompatActivity implements VMCollectionLog.PostTransactionCallback {
+public class Activity_CollectionLog extends AppCompatActivity {
     private static final String TAG = Activity_CollectionLog.class.getSimpleName();
 
     private VMCollectionLog mViewModel;
 
-    private TextView lblBranch, lblAddrss, lblDate;
-    private MaterialButton btnPost;
-    private TransactionAdapter poAdapter;
+    private TextView lblBranch, lblAddrss;
+    //private CollectionLogAdapter poAdapter;
     private LinearLayoutManager poManager;
+    private TextInputEditText txtDate, txtSearch;
     private RecyclerView recyclerView;
-
-    private LoadDialog poDialog;
-    private MessageBox poMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +60,6 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
         mViewModel.getUserBranchInfo().observe(Activity_CollectionLog.this, eBranchInfo -> {
             lblBranch.setText(eBranchInfo.getBranchNm());
             lblAddrss.setText(eBranchInfo.getAddressx());
-            lblDate.setText(getDate());
         });
 
         mViewModel.getAllAddress().observe(Activity_CollectionLog.this, eAddressUpdates -> {
@@ -79,33 +88,52 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
             }
         });
 
-//        mViewModel.getCollectionList().observe(Activity_CollectionLog.this, collectionDetails -> {
-//            try {
-//                mViewModel.setTransactionList(collectionDetails);
-//
-//                poAdapter = new TransactionAdapter(collectionDetails);
-//                poManager = new LinearLayoutManager(Activity_CollectionLog.this);
-//                poManager.setOrientation(RecyclerView.VERTICAL);
-//                recyclerView.setLayoutManager(poManager);
-//                recyclerView.setAdapter(poAdapter);
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        });
+        txtDate.setOnClickListener(view -> {
+            final Calendar newCalendar = Calendar.getInstance();
+            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+            final DatePickerDialog StartTime = new DatePickerDialog(Activity_CollectionLog.this, (view131, year, monthOfYear, dayOfMonth) -> {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                String lsDate = dateFormatter.format(newDate.getTime());
+                mViewModel.setDateTransact(lsDate);
+                txtDate.setText(lsDate);
+            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            StartTime.getDatePicker().setMaxDate(System.currentTimeMillis() + 1000);
+            StartTime.show();
+        });
 
-        mViewModel.getCollectionDetailForPosting().observe(Activity_CollectionLog.this, collectionDetails -> {
+        mViewModel.getDateTransact().observe(Activity_CollectionLog.this, s -> mViewModel.getCollectionDetailForDate(s).observe(Activity_CollectionLog.this, collectionDetails -> {
             try{
-                mViewModel.setCollectionListForPosting(collectionDetails);
-
-                poAdapter = new TransactionAdapter(collectionDetails);
+                CollectionLogAdapter poAdapter = new CollectionLogAdapter(collectionDetails);
                 poManager = new LinearLayoutManager(Activity_CollectionLog.this);
                 poManager.setOrientation(RecyclerView.VERTICAL);
                 recyclerView.setLayoutManager(poManager);
                 recyclerView.setAdapter(poAdapter);
+                recyclerView.getRecycledViewPool().clear();
+                poAdapter.notifyDataSetChanged();
+
+                txtSearch.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        poAdapter.getCollectionFilter().filter(charSequence.toString().toLowerCase());
+                        poAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
             } catch (Exception e){
                 e.printStackTrace();
             }
-        });
+        }));
+
 
         mViewModel.getUnsentImageInfoList().observe(Activity_CollectionLog.this, eImageInfos -> {
             try{
@@ -115,7 +143,7 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
             }
         });
 
-        btnPost.setOnClickListener(view -> mViewModel.PostLRCollectionDetail(Activity_CollectionLog.this));
+        //btnPost.setOnClickListener(view -> mViewModel.PostLRCollectionDetail(Activity_CollectionLog.this));
     }
 
     private void initWidgets(){
@@ -126,11 +154,17 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
         recyclerView = findViewById(R.id.recyclerview_collectionLog);
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddrss = findViewById(R.id.lbl_headerAddress);
-        lblDate = findViewById(R.id.lbl_headerDate);
-        btnPost = findViewById(R.id.btn_postTransaction);
 
-        poDialog = new LoadDialog(Activity_CollectionLog.this);
-        poMessage = new MessageBox(Activity_CollectionLog.this);
+        txtDate = findViewById(R.id.txt_collectionDate);
+        txtSearch = findViewById(R.id.txt_collectionSearch);
+
+        try {
+            @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(AppConstants.CURRENT_DATE);
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat loFormatter = new SimpleDateFormat("MMM dd, yyyy");
+            txtDate.setText(loFormatter.format(Objects.requireNonNull(loDate)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -148,56 +182,5 @@ public class Activity_CollectionLog extends AppCompatActivity implements VMColle
 
     public String getDate(){
         return "Collection For " + FormatUIText.getParseDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
-    }
-
-//    @Override
-//    public void OnPosting() {
-//        Log.e(TAG, "Uploading images...");
-//        poDialog.initDialog("Daily Collection Plan", "Posting all transactions. Please wait...", false);
-//        poDialog.show();
-//    }
-//
-//    @Override
-//    public void OnImagePostSuccess(String args) {
-//        Log.e(TAG, "Success uploading images...");
-//        Log.e(TAG, "Uploading collection data...");
-//        //mViewModel.PostLRCollectionDetail(Activity_CollectionLog.this);
-//    }
-//
-//    @Override
-//    public void OnImagePostFailed(String message) {
-//        Log.e(TAG, "Failed uploading images...");
-//        poDialog.dismiss();
-//        poMessage.initDialog();
-//        poMessage.setTitle("Daily Collection Plan");
-//        poMessage.setMessage(message);
-//        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-//        poMessage.show();
-//    }
-
-    @Override
-    public void OnLoad() {
-        poDialog.initDialog("Daily Collection Plan", "Posting all transactions. Please wait...", false);
-        poDialog.show();
-    }
-
-    @Override
-    public void OnPostSuccess(String[] args) {
-        poDialog.dismiss();
-        poMessage.initDialog();
-        poMessage.setTitle("Daily Collection Plan");
-        poMessage.setMessage(args[0]);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
-    }
-
-    @Override
-    public void OnPostFailed(String message) {
-        poDialog.dismiss();
-        poMessage.initDialog();
-        poMessage.setTitle("Daily Collection Plan");
-        poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
     }
 }

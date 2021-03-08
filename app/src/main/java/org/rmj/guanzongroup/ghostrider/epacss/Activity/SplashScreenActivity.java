@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -26,6 +27,10 @@ import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataImportService;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSplashScreen;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
 
 public class SplashScreenActivity extends AppCompatActivity {
     public static final String TAG = SplashScreenActivity.class.getSimpleName();
@@ -48,31 +53,44 @@ public class SplashScreenActivity extends AppCompatActivity {
             } else {
                 mViewModel.isLoggedIn().observe(this, isValid -> {
                     if (isValid) {
-                        mViewModel.getSessionTime().observe(this, session -> {
+                        mViewModel.getSessionDate().observe(this, sessionDate -> {
                             try {
-                                mViewModel.setSessionTime(session.Session);
+                                @SuppressLint("SimpleDateFormat") SimpleDateFormat loFormater = new SimpleDateFormat("yyyy-MM-dd");
+                                Date loDate = new Date();
+                                String lsDateNow = loFormater.format(loDate);
+                                if (sessionDate.equalsIgnoreCase(lsDateNow)) {
+
+                                    mViewModel.getSessionTime().observe(this, session -> {
+                                        mViewModel.setSessionTime(session.Session);
+                                        mViewModel.isSessionValid().observe(this, aBoolean -> {
+                                            for(int x = 0; x < 3; x++){
+                                                int progress = (int) ((x / (float) x) * 100);
+                                                prgrssBar.setProgress(progress);
+                                                x++;
+                                                try {
+                                                    Thread.sleep(1000);
+                                                } catch (InterruptedException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                            if (aBoolean) {
+                                                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                                                finish();
+                                            } else {
+                                                startActivityForResult(new Intent(SplashScreenActivity.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+                                            }
+                                        });
+
+                                    });
+
+                                } else {
+                                    startActivityForResult(new Intent(SplashScreenActivity.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+                                }
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
                         });
-                        mViewModel.isSessionValid().observe(this, aBoolean -> {
-                            for(int x = 0; x < 3; x++){
-                                int progress = (int) ((x / (float) x) * 100);
-                                prgrssBar.setProgress(progress);
-                                x++;
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            if (aBoolean) {
-                                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
-                                finish();
-                            } else {
-                                startActivityForResult(new Intent(SplashScreenActivity.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
-                            }
-                        });
+
                     } else {
                         for(int x = 0; x < 3; x++){
                             int progress = (int) ((x / (float) x) * 100);

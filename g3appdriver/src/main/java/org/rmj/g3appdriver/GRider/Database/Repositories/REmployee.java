@@ -59,6 +59,10 @@ public class REmployee {
         return employeeDao.getSessionTime();
     }
 
+    public LiveData<String> getSessionDate(){
+        return employeeDao.getSessionDate();
+    }
+
     private static class InsertEmployeeTask extends AsyncTask<EEmployeeInfo, Void, Void>{
         private DEmployeeInfo employeeDao;
 

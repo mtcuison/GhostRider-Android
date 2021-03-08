@@ -56,8 +56,16 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectionDetailList();
     }
 
+    public LiveData<List<DDCPCollectionDetail.CollectionDetail>> getJoinCollectionDetailList(){
+        return detailDao.getJoinCollectionDetailList();
+    }
+
     public LiveData<List<EDCPCollectionDetail>> getCollectionDetailLog(){
         return detailDao.getCollectionDetailLog();
+    }
+
+    public LiveData<List<EDCPCollectionMaster>> getCollectioMasterList(){
+        return masterDao.getCollectionMasterList();
     }
 
     public LiveData<EDCPCollectionMaster> getCollectionMaster(){
@@ -88,6 +96,10 @@ public class RDailyCollectionPlan {
 
     public LiveData<EDCPCollectionDetail> getCollectionLastEntry(){
         return detailDao.getCollectionLastEntry();
+    }
+
+    public LiveData<List<EDCPCollectionDetail>> getCollectionDetailForDate(String dTransact){
+        return detailDao.getCollectionDetailForDate(dTransact);
     }
 
     public LiveData<EDCPCollectionDetail> getDuplicateSerialEntry(String SerialNo){

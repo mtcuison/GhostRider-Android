@@ -42,8 +42,11 @@ public interface DEmployeeInfo {
     @Query("SELECT * FROM User_Info_Master")
     Cursor getUserInfo();
 
-    @Query("SELECT strftime('%H:%M:%S', 'now', 'localtime') - strftime('%H:%M:%S', dSessionx) AS Session FROM User_Info_Master")
+    @Query("SELECT strftime('%H:%M:%S', 'now', 'localtime') - strftime('%H:%M:%S', dLoginxxx) AS Session FROM User_Info_Master")
     LiveData<Session> getSessionTime();
+
+    @Query("SELECT dSessionx FROM User_Info_Master")
+    LiveData<String> getSessionDate();
 
     class Session{
         public int Session;
