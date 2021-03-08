@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,10 +75,12 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             // Added +1 for entry nox to increment the value which will be
             // use when inserting new AR Client info to database
             try {
+                Log.e("", "col entry no " + collectionDetail.getEntryNox());
                 int lnEntry = 1 + collectionDetail.getEntryNox();
                 mViewModel.setParameter(collectionDetail.getTransNox(), lnEntry);
             } catch (Exception e){
                 e.printStackTrace();
+                Log.e("Exception", e.getMessage());
             }
         });
 

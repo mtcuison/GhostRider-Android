@@ -18,12 +18,17 @@
     <color name="material_master_light_gradient">#FFFFFF</color>
     <color name="material_master_dark_gradient">#DBDBDB</color>
     <color name="material_tool_bar">#101010</color>
+    <color name="color_nine_seven">#979797</color>
+    <color name="color_eight_seven">#878787</color>
+    <color name="color_dadada">#DADADA</color>
+    <color name="color_circle_logo">#fff</color>
 
     <!-- Kent -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="guanzon_dark_grey">#8C8C8C</color>
     <color name="guanzon_digital_orange">#FF8200</color>
+    <color name="guanzon_digital_orange_mid">#ff8f1a</color>
     <color name="guanzon_digital_orange_lighten">#FFA84D</color>
     <color name="footer_dark_grey">#393939</color>
 

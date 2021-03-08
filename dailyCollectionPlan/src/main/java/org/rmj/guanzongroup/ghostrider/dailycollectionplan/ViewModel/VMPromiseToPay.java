@@ -10,19 +10,31 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -38,14 +50,16 @@ public class VMPromiseToPay extends AndroidViewModel {
     private final MutableLiveData<String> psBrnchCd = new MutableLiveData<>();
     public MutableLiveData<String> psPtpDate = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
-    private final MutableLiveData<Integer> psEntryNox = new MutableLiveData<Integer>();
+    private final MutableLiveData<Integer> psEntryNox = new MutableLiveData<>();
     private final MutableLiveData<String> psAccountNox = new MutableLiveData<>();
+    private final MutableLiveData<String> sRemarksx = new MutableLiveData<>();
+    private final MutableLiveData<String> sImgName = new MutableLiveData<>();
+    private final MutableLiveData<String> sLatitude = new MutableLiveData<>();
+    private final MutableLiveData<String> sLongitude = new MutableLiveData<>();
 
     private final MutableLiveData<Integer> viewPtpBranch = new MutableLiveData<>();
     private final MutableLiveData<String> isAppointmentUnitX = new MutableLiveData<>();
 
-    private String sLatitude;
-    private String sLongitude;
     private final LiveData<String[]> paBranchNm;
     public VMPromiseToPay(@NonNull Application application) {
         super(application);
@@ -57,9 +71,10 @@ public class VMPromiseToPay extends AndroidViewModel {
         this.poImageInfo = new EImageInfo();
     }
     // TODO: Implement the ViewModel
-    public void setParameter(String TransNox, int EntryNox){
+    public void setParameter(String TransNox, int EntryNox, String fsRemarksx){
         this.psTransNox.setValue(TransNox);
         this.psEntryNox.setValue(EntryNox);
+        this.sRemarksx.setValue(DCP_Constants.getRemarksCode(fsRemarksx));
     }
 
     public LiveData<EDCPCollectionMaster> getCollectionMaster(){
@@ -118,11 +133,14 @@ public class VMPromiseToPay extends AndroidViewModel {
     }
 
     public void setLatitude(String sLatitude) {
-        this.sLatitude = sLatitude;
+        this.sLatitude.setValue(sLatitude);
     }
 
     public void setLongitude(String sLongitude) {
-        this.sLongitude = sLongitude;
+        this.sLongitude.setValue(sLongitude);
+    }
+    public void setImgName(String imgName) {
+        this.sImgName.setValue(imgName);
     }
 
     public void setAccountNox(String sAccountNo) {
@@ -152,7 +170,6 @@ public class VMPromiseToPay extends AndroidViewModel {
             e.printStackTrace();
         }
     }
-
 
     //Added by Mike 2021/02/27
     //Need AsyncTask for background threading..
@@ -185,8 +202,12 @@ public class VMPromiseToPay extends AndroidViewModel {
                     loDetail.setBranchCd(infoModel.getPtpBranch());
                     loDetail.setTranStat("1");
                     loDetail.setSendStat("0");
+                    loDetail.setLatitude(sLatitude.getValue());
+                    loDetail.setLongitud(sLongitude.getValue());
+                    loDetail.setImageNme(sImgName.getValue());
                     loDetail.setModified(AppConstants.DATE_MODIFIED);
                     poDcp.updateCollectionDetailInfo(loDetail);
+
                     return "success";
                 }
             } catch (Exception e){

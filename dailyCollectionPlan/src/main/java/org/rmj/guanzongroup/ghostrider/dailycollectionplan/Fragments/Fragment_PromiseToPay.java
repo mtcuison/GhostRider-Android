@@ -2,8 +2,11 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,13 +32,17 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogImagePreview;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -58,11 +65,8 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
     private String lsDate = "";
 
     //Parameters From Activity_Transaction
-    private String TransNox;
+    private String TransNox, Remarksx, AccntNox;
     private int EntryNox;
-    private String Remarksx;
-    private String AccntNox;
-
     private MessageBox poMessage;
 
     public static Fragment_PromiseToPay newInstance() {
@@ -110,7 +114,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         AccntNox = Activity_Transaction.getInstance().getAccntNox();
 
         mViewModel = new ViewModelProvider(this).get(VMPromiseToPay.class);
-        mViewModel.setParameter(TransNox, EntryNox);
+        mViewModel.setParameter(TransNox, EntryNox, Remarksx);
         mViewModel.setViewPtpBranch().observe(getViewLifecycleOwner(), integer -> tilBranchName.setVisibility(integer));
         mViewModel.getPtpDate().observe(getViewLifecycleOwner(), date -> ptpDate.setText(date));
         mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
@@ -150,7 +154,6 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         });
 
         ptpDate.setOnClickListener(v ->  {
-            //showDatePickerDialog(ptpDate);
             Log.e("remarks ", Remarksx);
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
@@ -165,21 +168,6 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
             StartTime.show();
         });
         rgPtpAppUnit.setOnCheckedChangeListener(new OnDependencyStatusSelectionListener(rgPtpAppUnit,mViewModel));
-//        btnCamera.setOnClickListener(v -> {
-//            poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-//                infoModel.setPtpImgPath(photPath);
-//                poImageInfo = new EImageInfo();
-//                poImageInfo.setDtlSrcNo(AccntNox);
-//                poImageInfo.setSourceNo(TransNox);
-//                poImageInfo.setSourceCD("DCPa");
-//                poImageInfo.setImageNme(FileName);
-//                poImageInfo.setFileLoct(photPath);
-//                poImageInfo.setFileCode("DCP");
-//                poImageInfo.setLatitude(String.valueOf(latitude));
-//                poImageInfo.setLongitud(String.valueOf(longitude));
-//                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
-//            });
-//        });
         btnPtp.setOnClickListener( v -> {
             try {
                 submitPtp(Remarksx);
@@ -294,12 +282,12 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
                 poImageInfo.setSourceCD("DCPa");
                 poImageInfo.setImageNme(FileName);
                 poImageInfo.setFileLoct(photPath);
-                poImageInfo.setFileCode("DCP");
+                poImageInfo.setFileCode("0020");
                 poImageInfo.setLatitude(String.valueOf(latitude));
                 poImageInfo.setLongitud(String.valueOf(longitude));
-
                 mViewModel.setLatitude(String.valueOf(latitude));
                 mViewModel.setLongitude(String.valueOf(longitude));
+                mViewModel.setImgName(FileName);
                 startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
             });
         });
