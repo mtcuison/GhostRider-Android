@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -104,7 +106,21 @@ public class Activity_CollectionLog extends AppCompatActivity {
 
         mViewModel.getDateTransact().observe(Activity_CollectionLog.this, s -> mViewModel.getCollectionDetailForDate(s).observe(Activity_CollectionLog.this, collectionDetails -> {
             try{
-                CollectionLogAdapter poAdapter = new CollectionLogAdapter(collectionDetails);
+                CollectionLogAdapter poAdapter = new CollectionLogAdapter(collectionDetails, new CollectionLogAdapter.OnItemClickListener() {
+                    @Override
+                    public void OnClick(int position) {
+                        Intent loIntent = new Intent(Activity_CollectionLog.this, Activity_TransactionLog.class);
+                        loIntent.putExtra("entryNox",collectionDetails.get(position).getEntryNox());
+                        loIntent.putExtra("acctNox",collectionDetails.get(position).getAcctNmbr());
+                        loIntent.putExtra("fullNme", collectionDetails.get(position).getFullName());
+                        loIntent.putExtra("remCodex", collectionDetails.get(position).getRemCodex());
+                        loIntent.putExtra("imgNme", collectionDetails.get(position).getImageNme());
+                        loIntent.putExtra("sClientID", collectionDetails.get(position).getClientID());
+                        loIntent.putExtra("sAddressx", collectionDetails.get(position).getAddressx());
+                        startActivity(loIntent);
+                        Toast.makeText(Activity_CollectionLog.this,"This is where u put intent", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 poManager = new LinearLayoutManager(Activity_CollectionLog.this);
                 poManager.setOrientation(RecyclerView.VERTICAL);
                 recyclerView.setLayoutManager(poManager);

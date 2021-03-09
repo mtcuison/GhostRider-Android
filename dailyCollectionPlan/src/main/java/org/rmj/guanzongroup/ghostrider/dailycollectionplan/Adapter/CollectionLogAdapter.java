@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
+
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -20,21 +22,27 @@ import java.util.List;
 public class CollectionLogAdapter extends RecyclerView.Adapter<CollectionLogAdapter.CollectionViewHolder> {
     private static final String TAG = CollectionLogAdapter.class.getSimpleName();
 
+    public interface OnItemClickListener{
+        void OnClick(int position);
+    }
+
     private final List<EDCPCollectionDetail> collectionDetails;
     private List<EDCPCollectionDetail> detailsFilter;
     private final CollectionSearch poSearch;
+    private final OnItemClickListener mListener;
 
-    public CollectionLogAdapter(List<EDCPCollectionDetail> collectionDetails) {
+    public CollectionLogAdapter(List<EDCPCollectionDetail> collectionDetails, OnItemClickListener mListener) {
         this.collectionDetails = collectionDetails;
         this.detailsFilter = collectionDetails;
         this.poSearch = new CollectionSearch(CollectionLogAdapter.this);
+        this.mListener = mListener;
     }
 
     @NonNull
     @Override
     public CollectionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_transaction, parent, false);
-        return new CollectionViewHolder(view);
+        return new CollectionViewHolder(view, mListener);
     }
 
     @SuppressLint("SetTextI18n")
@@ -72,7 +80,9 @@ public class CollectionLogAdapter extends RecyclerView.Adapter<CollectionLogAdap
                 lblEntryNo,
                 lblRemarks;
 
-        public CollectionViewHolder(@NonNull View itemView) {
+        MaterialButton btnSeeDetx;
+
+        public CollectionViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
 
             lblAccntNo = itemView.findViewById(R.id.lbl_AccountNo);
@@ -80,6 +90,14 @@ public class CollectionLogAdapter extends RecyclerView.Adapter<CollectionLogAdap
             lblRemCode = itemView.findViewById(R.id.lbl_dcpRemarkCode);
             lblEntryNo = itemView.findViewById(R.id.lbl_dcpNox);
             lblRemarks = itemView.findViewById(R.id.lbl_dcpRemarks);
+            btnSeeDetx = itemView.findViewById(R.id.btn_see_details);
+
+            btnSeeDetx.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if(position != RecyclerView.NO_POSITION){
+                    listener.OnClick(position);
+                }
+            });
         }
     }
 
