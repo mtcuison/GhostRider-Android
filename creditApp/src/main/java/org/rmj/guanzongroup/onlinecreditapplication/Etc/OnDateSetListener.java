@@ -8,13 +8,12 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
 
-public class OnBirthSetListener implements TextWatcher {
-    private TextInputEditText inputEditText;
+public class OnDateSetListener implements TextWatcher {
+    private final TextInputEditText inputEditText;
 
-    public OnBirthSetListener(TextInputEditText editText){
+    public OnDateSetListener(TextInputEditText editText){
         this.inputEditText = editText;
     }
-
 
     Calendar cal = Calendar.getInstance();
     String current = "";

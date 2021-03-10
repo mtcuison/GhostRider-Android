@@ -12,6 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAddressRequest;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DApprovalCode;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAreaPerformance;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBankInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchPerformance;
@@ -39,6 +40,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRawDao;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
@@ -102,7 +104,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
         EClientInfo.class,
         ETokenInfo.class,
         EFileCode.class,
-        EClientUpdate.class}, version = 1)
+        EClientUpdate.class,
+        EBankInfo.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static AppDatabase instance;
@@ -135,6 +138,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DImageInfo ImageInfoDao();
     public abstract DFileCode FileCodeDao();
     public abstract DClientUpdate ClientUpdateDao();
+    public abstract DBankInfo BankInfoDao();
 
 
     public static synchronized AppDatabase getInstance(Context context){

@@ -23,6 +23,7 @@ public interface DDCPCollectionDetail {
 
     @Query("UPDATE LR_DCP_Collection_Detail " +
             "SET sRemCodex =:RemCode, " +
+            "sRemarksx =:Remarks, " +
             "cSendStat = '0', " +
             "cTranStat = '1', " +
             "sImageNme = (SELECT a.sImageNme FROM Image_Information a LEFT JOIN LR_DCP_Collection_Detail b  ON a.sSourceNo = b.sTransNox AND a.sDtlSrcNo = sAcctNmbr WHERE a.sSourceNo = b.sTransNox AND b.nEntryNox =:EntryNox), " +
@@ -32,7 +33,7 @@ public interface DDCPCollectionDetail {
             "WHERE sTransNox = (SELECT sTransNox " +
             "FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1) " +
             "AND nEntryNox =:EntryNox")
-    void updateCollectionDetailInfo(int EntryNox, String RemCode, String DateModified);
+    void updateCollectionDetailInfo(int EntryNox, String RemCode, String Remarks, String DateModified);
 
     @Query("UPDATE LR_DCP_Collection_Detail " +
             "SET cSendStat='1', dModified=:DateEntry " +
@@ -46,7 +47,7 @@ public interface DDCPCollectionDetail {
     @Insert
     void insertBulkData(List<EDCPCollectionDetail> collectionDetails);
 
-    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1' ORDER BY dModified ASC")
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat ORDER BY dModified ASC")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailList();
 
     @Query("SELECT * FROM Client_Update_Request WHERE sDtlSrcNo = (SELECT sDtlSrcNo FROM LR_DCP_Collection_Detail WHERE sAcctNmbr =:AccountNox)")

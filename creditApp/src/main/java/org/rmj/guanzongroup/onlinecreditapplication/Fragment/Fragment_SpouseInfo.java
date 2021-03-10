@@ -18,9 +18,7 @@
     import android.widget.ArrayAdapter;
     import android.widget.AutoCompleteTextView;
     import android.widget.Button;
-    import android.widget.Spinner;
 
-    import com.google.android.material.button.MaterialButton;
     import com.google.android.material.textfield.TextInputEditText;
     import com.google.android.material.textfield.TextInputLayout;
 
@@ -29,7 +27,7 @@
     import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
     import org.rmj.g3appdriver.GRider.Etc.GToast;
     import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
-    import org.rmj.guanzongroup.onlinecreditapplication.Etc.OnBirthSetListener;
+    import org.rmj.guanzongroup.onlinecreditapplication.Etc.OnDateSetListener;
     import org.rmj.guanzongroup.onlinecreditapplication.Model.SpouseInfoModel;
     import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
     import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -254,7 +252,7 @@
 
 
 
-            txtBDate.addTextChangedListener(new OnBirthSetListener(txtBDate));
+            txtBDate.addTextChangedListener(new OnDateSetListener(txtBDate));
             btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(1));
 
             btnNext.setOnClickListener(new View.OnClickListener() {

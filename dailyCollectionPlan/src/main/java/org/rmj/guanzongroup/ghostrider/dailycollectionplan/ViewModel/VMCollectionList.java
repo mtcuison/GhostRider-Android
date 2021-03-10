@@ -108,7 +108,7 @@ public class VMCollectionList extends AndroidViewModel {
     }
 
     public LiveData<EDCPCollectionMaster> getCollectionMaster(){
-        return poDCPRepo .getCollectionMaster();
+        return poDCPRepo.getCollectionMaster();
     }
 
     public LiveData<EDCPCollectionDetail> getDuplicateSerialEntry(String SerialNo){
@@ -488,7 +488,7 @@ public class VMCollectionList extends AndroidViewModel {
 
                                     String lsTransNo = (String) loUpload.get("sTransNox");
                                     poImage.updateImageInfo(lsTransNo, loDetail.sImageIDx);
-                                    poDcp.updateCollectionDetailImage(loDetail.sAcctNmbr);
+                                    //poDcp.updateCollectionDetailImage(loDetail.sAcctNmbr);
 
                                     Thread.sleep(1000);
 
