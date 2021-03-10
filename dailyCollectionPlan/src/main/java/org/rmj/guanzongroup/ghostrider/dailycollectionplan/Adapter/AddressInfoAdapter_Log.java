@@ -43,6 +43,7 @@ public class AddressInfoAdapter_Log extends RecyclerView.Adapter<AddressInfoAdap
         holder.tvAddressTp.setText((current.cAddrssTp.equalsIgnoreCase("0")) ? "Permanent" : "Present");
         holder.tvDetails.setText(current.townName +  ", " + current.provName);
         holder.tvAddress.setText(current.sHouseNox + " " + current.sAddressx + ", " + current.brgyName);
+        holder.tvRemarks.setText(current.addressRemarksx);
     }
 
     @Override
@@ -60,7 +61,7 @@ public class AddressInfoAdapter_Log extends RecyclerView.Adapter<AddressInfoAdap
         private TextView tvAddressTp;
         private TextView tvDetails;
         private TextView tvAddress;
-        private ImageView icDelete;
+        private TextView tvRemarks;
 
         public AddressHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,7 +69,7 @@ public class AddressInfoAdapter_Log extends RecyclerView.Adapter<AddressInfoAdap
             tvAddressTp = itemView.findViewById(R.id.tvAddressTp);
             tvDetails = itemView.findViewById(R.id.tvDetails);
             tvAddress = itemView.findViewById(R.id.tvAddress);
-            icDelete = itemView.findViewById(R.id.icDelete);
+            tvRemarks = itemView.findViewById(R.id.tvRemarks);
         }
     }
 

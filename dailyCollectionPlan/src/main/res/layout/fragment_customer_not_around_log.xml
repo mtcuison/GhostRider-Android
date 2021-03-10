@@ -128,10 +128,9 @@
         android:id="@+id/divider2"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:background="@color/guanzon_digital_orange"
         app:layout_constraintTop_toBottomOf="@id/ln_mobileNox"/>
 
     <LinearLayout

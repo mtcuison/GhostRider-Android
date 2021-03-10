@@ -57,6 +57,31 @@
             android:layout_below="@id/tvDetails"
             android:layout_marginTop="2dp"/>
 
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height=".8dp"
+            android:background="@color/guanzon_dark_grey"
+            android:layout_below="@id/tvAddress"
+            android:layout_marginTop="10dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/divider"
+            android:layout_marginTop="6dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remarks: "/>
+            <TextView
+                android:id="@+id/tvRemarks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
