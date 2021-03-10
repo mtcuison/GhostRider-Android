@@ -224,7 +224,7 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
         try {
             String transnox = new CodeGenerator().generateTransNox();
 
-
+            Log.e("TransNox", transnox);
 
 
 

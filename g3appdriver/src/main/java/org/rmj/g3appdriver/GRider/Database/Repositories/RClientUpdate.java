@@ -1,32 +1,48 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
+import android.database.Cursor;
 import android.os.AsyncTask;
+import android.telephony.ims.RcsUceAdapter;
 
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
+import org.rmj.appdriver.base.GConnection;
+import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DClientUpdate;
+import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
+
+import java.util.List;
 
 public class RClientUpdate {
     private static final String TAG = RClientUpdate.class.getSimpleName();
     private final DClientUpdate clientDao;
+    private Application app;
 
     private JSONObject poDetail;
 
     public RClientUpdate(Application application){
         this.clientDao = AppDatabase.getInstance(application).ClientUpdateDao();
+        this.app = application;
     }
 
     public void insertClientUpdateInfo(EClientUpdate clientUpdate){
         this.clientDao.insertClientUpdateInfo(clientUpdate);
     }
 
-    public LiveData<EClientUpdate> getClientUpdateInfo(String ClientID){
-        return clientDao.getClientUpdateInfo(ClientID);
+    public void updateClientInfo(EClientUpdate clientUpdate){
+        this.clientDao.updateClientInfo(clientUpdate);
+    }
+    public LiveData<EClientUpdate> selectClient(String sSourceNo, String DtlSrcNo){
+        return this.clientDao.selectClient(sSourceNo, DtlSrcNo);
+    }
+
+    public LiveData<List<EClientUpdate>> selectClientUpdate(){
+        return clientDao.selectClientUpdate();
     }
 
     public void UpdateClientInfoStatus(String ClientID){
@@ -96,5 +112,16 @@ public class RClientUpdate {
         public JSONObject getDetail(){
             return loDetail;
         }
+    }
+
+    public String getClientNextCode(){
+        String lsNextCode = "";
+        try{
+            GConnection loConn = DbConnection.doConnect(app);
+            lsNextCode = MiscUtil.getNextCode("Client_Update_Request", "sClientID", true, loConn.getConnection(), "", 12, false);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return lsNextCode;
     }
 }

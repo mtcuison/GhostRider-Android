@@ -2,6 +2,8 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.database.Cursor;
+import android.graphics.ImageDecoder;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -40,8 +42,10 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.LoanUnitModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -54,14 +58,17 @@ public class VMLoanUnit extends AndroidViewModel {
     private final RImageInfo poImage;
     private final RClientUpdate poClient;
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
+    private final MutableLiveData<EClientUpdate> eClientDetail = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
     private final MutableLiveData<Integer> psEntryNox = new MutableLiveData<>();
     private final MutableLiveData<String> sRemarksx = new MutableLiveData<>();
     private final MutableLiveData<String> sImgName = new MutableLiveData<>();
     private final MutableLiveData<String> sLatitude = new MutableLiveData<>();
     private final MutableLiveData<String> sLongitude = new MutableLiveData<>();
+    private final MutableLiveData<String> imgPath = new MutableLiveData<>();
 
-
+    private List<EClientUpdate> clientData =  new ArrayList<>();
+    private List<EImageInfo> imgInfo = new ArrayList<>();
     private MutableLiveData<String> lsBPlace = new MutableLiveData<>();
     private MutableLiveData<String> lsProvID = new MutableLiveData<>();
     private MutableLiveData<String> lsTownID = new MutableLiveData<>();
@@ -87,6 +94,7 @@ public class VMLoanUnit extends AndroidViewModel {
         poClient = new RClientUpdate(application);
         provinceInfoList = RProvince.getAllProvinceInfo();
         this.poImage = new RImageInfo(application);
+        this.luCivilStats.setValue(getCivilStats().getValue());
     }
     // TODO: Implement the ViewModel
     public void setParameter(String TransNox, int EntryNox, String fsRemarksx){
@@ -104,6 +112,21 @@ public class VMLoanUnit extends AndroidViewModel {
     }
     public void setCurrentCollectionDetail(EDCPCollectionDetail detail){
         this.poDcpDetail.setValue(detail);
+    }
+    public void setClientData(List<EClientUpdate> eClientUpdate){
+        this.clientData = eClientUpdate;
+    }
+    public LiveData<List<EClientUpdate>>  getClientData(){
+        return poClient.selectClientUpdate();
+    }
+    public void setImgPath(String imgPaths){
+        this.imgPath.setValue(imgPaths);
+    }
+    public void setClient(EClientUpdate client){
+        this.eClientDetail.setValue(client);
+    }
+    public LiveData<EClientUpdate> getClient(String sSourceNo, String DtlSrcNo){
+        return poClient.selectClient(sSourceNo, DtlSrcNo);
     }
 
     public LiveData<EBranchInfo> getUserBranchEmployee(){
@@ -135,6 +158,10 @@ public class VMLoanUnit extends AndroidViewModel {
     //Setter Civil Status
     public void setSpnCivilStats(String type) { this.luCivilStats.setValue(type); }
     public void setGender(String lsGender) { this.luGender.setValue(lsGender); }
+    public LiveData<String>  getGender() { return this.luGender; }
+    public LiveData<String> getCivilStats(){
+        return this.luCivilStats;
+    }
     //Spinner Getter
     public LiveData<ArrayAdapter<String>> getSpnCivilStats(){
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, DCP_Constants.CIVIL_STATUS)
@@ -202,18 +229,49 @@ public class VMLoanUnit extends AndroidViewModel {
         this.sImgName.setValue(imgName);
     }
 
+    public void setImgInfo(List<EImageInfo> imgInfo) {
+        this.imgInfo = imgInfo;
+    }
+    public LiveData<List<EImageInfo>>  getImgInfo(){
+        return poImage.getAllImageInfo();
+    }
     //Added by Mike -> Saving ImageInfo
     public void saveLUnImageInfo(EImageInfo foImage){
         try{
-            foImage.setTransNox(poDcp.getImageNextCode());
-            poImage.insertImageInfo(foImage);
-            Log.e(TAG, "Image info has been save!");
+            boolean isImgExist = false;
+            String tansNo = "";
+            for (int i = 0; i < imgInfo.size(); i++){
+                if(foImage.getSourceNo().equalsIgnoreCase(imgInfo.get(i).getSourceNo())
+                        && foImage.getDtlSrcNo().equalsIgnoreCase(imgInfo.get(i).getDtlSrcNo())) {
+                    tansNo = imgInfo.get(i).getTransNox();
+                    File finalFile = new File(getRealPathFromURI(imgInfo.get(i).getFileLoct()));
+                    finalFile.delete();
+                    isImgExist = true;
+                }
+            }
+            if (isImgExist){
+                foImage.setTransNox(tansNo);
+                Log.e("Img TransNox", tansNo);
+                poImage.updateImageInfo(foImage);
+                Log.e(TAG, "Image info has been updated!");
+            }else{
+                foImage.setTransNox(poDcp.getImageNextCode());
+                poImage.insertImageInfo(foImage);
+                Log.e(TAG, "Image info has been save!");
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-
+    public String getRealPathFromURI (String contentUri) {
+        File target = new File(contentUri);
+        if (target.exists() && target.isFile() && target.canWrite()) {
+            target.delete();
+            Log.d("d_file", "" + target.getName());
+        }
+        return target.toString();
+    }
     public boolean saveLUnInfo(LoanUnitModel infoModel, ViewModelCallback callback) {
         try {
 
@@ -248,6 +306,15 @@ public class VMLoanUnit extends AndroidViewModel {
         @Override
         protected String doInBackground(EDCPCollectionDetail... detail) {
             try {
+                boolean isExist = false;
+                String clientID = "";
+                for (int i = 0; i < clientData.size(); i++){
+                    if(detail[0].getTransNox().equalsIgnoreCase(clientData.get(i).getSourceNo())
+                            && detail[0].getAcctNmbr().equalsIgnoreCase(clientData.get(i).getDtlSrcNo())){
+                        isExist = true;
+                        clientID = clientData.get(i).getClientID();;
+                    }
+                }
 
                 infoModel.setLuCivilStats(luCivilStats.getValue());
                 infoModel.setLuGender(luGender.getValue());
@@ -271,10 +338,13 @@ public class VMLoanUnit extends AndroidViewModel {
                     loDetail.setLatitude(sLatitude.getValue());
                     loDetail.setLongitud(sLongitude.getValue());
                     loDetail.setImageNme(sImgName.getValue());
+                    loDetail.setRemarksx(infoModel.getLuRemark());
                     loDetail.setModified(AppConstants.DATE_MODIFIED);
                     poDcp.updateCollectionDetailInfo(loDetail);
 
                     EClientUpdate eClientUpdate = new EClientUpdate();
+                    eClientUpdate.setSourceNo(detail[0].getTransNox());
+                    eClientUpdate.setDtlSrcNo(detail[0].getAcctNmbr());
                     eClientUpdate.setFrstName( infoModel.getLuFirstName());
                     eClientUpdate.setLastName(infoModel.getLuLastName());
                     eClientUpdate.setMiddName(infoModel.getLuMiddleName());
@@ -282,8 +352,6 @@ public class VMLoanUnit extends AndroidViewModel {
                     eClientUpdate.setAddressx(infoModel.getLuStreet());
                     eClientUpdate.setBirthDte(infoModel.getLuBDate());
                     eClientUpdate.setBirthPlc(lsBPlace.getValue());
-                    eClientUpdate.setClientID(detail[0].getAcctNmbr());
-                    eClientUpdate.setDtlSrcNo(detail[0].getAcctNmbr());
                     eClientUpdate.setEmailAdd(infoModel.getLuEmail());
                     eClientUpdate.setHouseNox(infoModel.getLuHouseNo());
                     eClientUpdate.setImageNme(sImgName.getValue());
@@ -292,12 +360,19 @@ public class VMLoanUnit extends AndroidViewModel {
                     eClientUpdate.setModified(AppConstants.DATE_MODIFIED);
                     eClientUpdate.setSendStat("0");
                     eClientUpdate.setSourceCd("DCPa");
-                    eClientUpdate.setSourceNo(detail[0].getTransNox());
                     eClientUpdate.setTownIDxx(lsTownID.getValue());
                     eClientUpdate.setBarangay(lsBrgyID.getValue());
                     eClientUpdate.setGenderxx(infoModel.getLuGender());
                     eClientUpdate.setCivlStat(infoModel.getLuCivilStats());
-                    poClient.insertClientUpdateInfo(eClientUpdate);
+                    if (isExist){
+                        eClientUpdate.setClientID(clientID);
+                        poClient.updateClientInfo(eClientUpdate);
+                        Log.e(TAG, "Client info has been updated!");
+                    }else {
+                        eClientUpdate.setClientID(poClient.getClientNextCode());
+                        poClient.insertClientUpdateInfo(eClientUpdate);
+                        Log.e(TAG, "Client info has been insert!");
+                    }
 
 
                     return "success";
@@ -318,5 +393,13 @@ public class VMLoanUnit extends AndroidViewModel {
                 callback.OnFailedResult(s);
             }
         }
+    }
+
+
+    public LiveData<DTownInfo.BrgyTownProvinceInfo> getTownProvinceInfo(String fsID){
+        return RTown.getTownProvinceInfo(fsID);
+    }
+    public LiveData<DTownInfo.BrgyTownProvinceInfo> getBrgyTownProvinceInfo(String fsID){
+        return RTown.getBrgyTownProvinceInfo(fsID);
     }
 }

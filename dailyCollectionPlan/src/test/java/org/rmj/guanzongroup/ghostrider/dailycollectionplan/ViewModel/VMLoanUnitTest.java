@@ -33,7 +33,9 @@ import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 @Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest=Config.NONE)
 public class VMLoanUnitTest {
 
-    String TransNox, Remarks;
+    String TransNox, Remarks, luBDate, luPhune, luMobile, luEmail, luLName, luFName, luMiddName, luSuffix;
+    String luIMGPath, luHouseNo, luStreet, luTown, luBrgy;
+    String luBPlace, luCivil, luGender;
     int EntryNox;
     LoanUnitModel infoModel;
 
@@ -48,26 +50,44 @@ public class VMLoanUnitTest {
         EntryNox = 4;
         TransNox = "M00121000014";
         Remarks = "Loan Unit";
+        luBDate = "03/06/1990";
+        luFName = "Jonathan";
+        luMiddName = "Tamayo";
+        luLName = "Sabiniano";
+        luSuffix = "Jr.";
+        luHouseNo = "0627";
+        luStreet = "Sitio Ampongan";
+        luBrgy = "1200145";
+        luTown = "0335";
+        luBPlace = "0335";
+        luGender = "0";
+        luCivil = "0";
+        luMobile = "09452086661";
+        luPhune = "";
+        luEmail = "jonsabiniano03@gmail.com";
+        luIMGPath = "/storage/emulated/0/Android/data/org.rmj.guanzongroup.ghostrider.epacss/files/DCP/LUn/LUn_20210304_131840.jpeg";
+
 //        mViewModel = new ViewModelProvider((ViewModelStoreOwner) this).get(VMLoanUnit.class);
         mViewModel = new VMLoanUnit(ApplicationProvider.getApplicationContext());
 
         infoModel = new LoanUnitModel();
-        infoModel.setLuCivilStats("0");
-        infoModel.setLuBDate("03/06/1990");
-        infoModel.setLuPhone("");
-        infoModel.setLuMobile("09452086661");
-        infoModel.setLuEmail("jonsabiniano03@gmail.com");
-        infoModel.setLuLastName("Sabiniano");
-        infoModel.setLuFirstName("Jonathan");
-        infoModel.setLuMiddleName("Tamayo");
-        infoModel.setLuSuffix("");
-        infoModel.setLuImgPath("/storage/emulated/0/Android/data/org.rmj.guanzongroup.ghostrider.epacss/files/DCP/LUn/LUn_20210304_131840.jpeg");
+        infoModel.setLuCivilStats(luCivil);
+        infoModel.setLuBDate(luBDate);
+        infoModel.setLuPhone(luPhune);
+        infoModel.setLuMobile(luMobile);
+        infoModel.setLuEmail(luEmail);
+        infoModel.setLuLastName(luLName);
+        infoModel.setLuFirstName(luFName);
+        infoModel.setLuMiddleName(luMiddName);
+        infoModel.setLuSuffix(luSuffix);
+        infoModel.setLuImgPath(luIMGPath);
         //Address
-        infoModel.setLuHouseNo("627");
-        infoModel.setLuStreet("Ampongan");
+        infoModel.setLuHouseNo("0627");
+        infoModel.setLuStreet("Sitio Ampongan");
         infoModel.setLuTown("0335");
         infoModel.setLuBrgy("1200145");
         infoModel.setLuBPlace("0335");
+        infoModel.setLuGender("0");
 
         mViewModel.setParameter(TransNox, EntryNox, Remarks);
         mViewModel.setGender("0");
@@ -75,21 +95,57 @@ public class VMLoanUnitTest {
         mViewModel.setLatitude("16.0357497");
         mViewModel.setLongitude("120.331627");
 
-//        mViewModel.getCollectionDetail().observeForever(collectionDetail ->{
-//            Log.e("CollectionDetail ", String.valueOf(collectionDetail));
-////            mViewModel.setCurrentCollectionDetail(collectionDetail);
-//                });
-
     }
     @After
     public void tearDown() throws Exception {
+        infoModel = null;
+        mViewModel = null;
     }
 
     @Test
     public void test_saveLuInfo() {
-
-//        doReturn(true).when(mViewModel).saveLuInfo(infoModel, callback);
-        Assert.assertEquals(true, mViewModel.saveLUnInfo(infoModel, callback));
+        Assert.assertTrue(mViewModel.saveLUnInfo(infoModel, callback));
     }
 
+    @Test
+    public void test_getInfoModels(){
+        Assert.assertEquals(luFName,infoModel.getLuFirstName());
+        Assert.assertEquals(luMiddName,infoModel.getLuMiddleName());
+        Assert.assertEquals(luLName,infoModel.getLuLastName());
+        Assert.assertEquals(luSuffix,infoModel.getLuSuffix());
+        Assert.assertEquals(luBDate,infoModel.getLuBDate());
+        Assert.assertEquals(luBPlace,infoModel.getLuBPlace());
+
+        Assert.assertEquals(luGender,infoModel.getLuGender());
+        Assert.assertEquals(luCivil,infoModel.getLuCivilStats());
+        Assert.assertEquals(luStreet,infoModel.getLuStreet());
+        Assert.assertEquals(luHouseNo,infoModel.getLuHouseNo());
+        Assert.assertEquals(luBrgy,infoModel.getLuBrgy());
+        Assert.assertEquals(luTown,infoModel.getLuTown());
+        Assert.assertEquals(luPhune,infoModel.getLuPhone());
+        Assert.assertEquals(luMobile,infoModel.getLuMobile());
+        Assert.assertEquals(luEmail,infoModel.getLuEmail());
+        Assert.assertEquals(luIMGPath,infoModel.getLuImgPath());
+
+        System.out.print("Firstname: " + infoModel.getLuFirstName() + "\n");
+        System.out.print("Middle Name:" + infoModel.getLuMiddleName() + "\n");
+        System.out.print("Lastname" + infoModel.getLuLastName() + "\n");
+        System.out.print("Suffix" + infoModel.getLuSuffix() + "\n");
+        System.out.print("BirthDate" + infoModel.getLuBDate() + "\n");
+        System.out.print("BirthPlace" + infoModel.getLuBPlace() + "\n");
+        System.out.print("Gender" + infoModel.getLuGender() + "\n");
+        System.out.print("Civil" + infoModel.getLuCivilStats() + "\n");
+        System.out.print("Street" + infoModel.getLuStreet() + "\n");
+        System.out.print("HouseNo" + infoModel.getLuHouseNo() + "\n");
+        System.out.print("Brgy" + infoModel.getLuBrgy() + "\n");
+        System.out.print("Town" + infoModel.getLuTown() + "\n");
+        System.out.print("Phune" + infoModel.getLuPhone() + "\n");
+        System.out.print("Mobile" + infoModel.getLuMobile() + "\n");
+        System.out.print("Email" + infoModel.getLuEmail() + "\n");
+        System.out.print("IMGPath" + infoModel.getLuImgPath());
+
+
+
+
+    }
 }

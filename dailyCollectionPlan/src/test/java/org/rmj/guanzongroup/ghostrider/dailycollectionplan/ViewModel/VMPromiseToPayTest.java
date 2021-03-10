@@ -19,65 +19,60 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-@RunWith(MockitoJUnitRunner.class)
 public class VMPromiseToPayTest  {
 
-    private String brnCode, collectName, date;
-    @Mock
-    ViewModelCallback callback;
-
-    @Mock
+    private String brnCode, collectName, date, remarks, appUnit;
+    private String emptyBrnCode;
     PromiseToPayModel infoModels;
-
-    @Mock
-    VMPromiseToPay mViewModel;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        infoModels = new PromiseToPayModel();
         date = "February 20, 2021";
         collectName = "Sabiniano, Jonathan";
-        brnCode = "M042";
+
+        emptyBrnCode = "";
+        appUnit = "0";
+        remarks = "Promise to Pay";
+        if (Integer.parseInt(appUnit) < 1){
+            brnCode = "M042";
+        }else{
+            brnCode = "";
+        }
+        emptyBrnCode = brnCode;
+
+        infoModels.setPtpBranch(emptyBrnCode);
         infoModels.setPtpDate(date);
         infoModels.setPtpCollectorName(collectName);
-        infoModels.setPtpBranch(brnCode);
-        infoModels.setPtpAppointmentUnit("1");
-        infoModels.setPtpRemarks("Promise to Pay");
+        infoModels.setPtpAppointmentUnit(appUnit);
+        infoModels.setPtpRemarks(remarks);
     }
 
     @After
     public void tearDown() throws Exception {
     }
+    @Test
+    public void test_getInfoModels(){
 
+        assertEquals(date, infoModels.getPtpDate());
+        assertEquals(collectName, infoModels.getPtpCollectorName());
+        assertEquals(emptyBrnCode, infoModels.getPtpBranch());
+        assertEquals(appUnit, infoModels.getPtpAppointmentUnit());
+        assertEquals(remarks, infoModels.getPtpRemarks());
+
+        System.out.print("Branch code " + infoModels.getPtpBranch() + "\n");
+        System.out.print("Application Unit " + infoModels.getPtpAppointmentUnit() + "\n");
+        System.out.print("Colletion Name " + infoModels.getPtpCollectorName() + "\n");
+        System.out.print("Promise Date " + infoModels.getPtpDate() + "\n");
+        System.out.print("Remarks " + infoModels.getPtpRemarks());
+    }
     @Test
     public void savePtpInfo() {
-        doReturn(true).when(mViewModel).savePtpInfo(infoModels, callback);
+//        doReturn(true).when(mViewModel).savePtpInfo(infoModels, callback);
 //        Assert.assertTrue(mViewModel.savePtpInfo(infoModels, callback));
     }
 
-    @Test
-    public void test_toJsonObject()  {
-//        String jsonString = toJsonObjectString(date, brnCode, collectName);
-//        when(mViewModel.toJsonObject(date, brnCode, collectName)).thenReturn(jsonString);
-//        Assert.assertEquals(jsonString, mViewModel.toJsonObject(date, brnCode, collectName));
-       // System.out.print(mViewModel.toJsonObject(date, brnCode, collectName));
-
-    }
-
-    public String toJsonObjectString(String sdate, String sbrnCode, String scollectName) {
-        JSONObject jsonObject = new JSONObject();
-            //yyyy-MM-dd
-        try {
-            //yyyy-MM-dd
-            jsonObject.put("dPromised", sdate);
-            jsonObject.put("sBrnCde", sbrnCode);
-            jsonObject.put("sCollector", scollectName);
-            return jsonObject.toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return  e.getMessage();
-        }
 
 
-    }
 }

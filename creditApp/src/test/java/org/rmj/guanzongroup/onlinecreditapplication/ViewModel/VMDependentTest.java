@@ -1,13 +1,20 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
+import android.os.Build;
+
+import androidx.test.core.app.ApplicationProvider;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DependentsInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +24,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest=Config.NONE)
 public class VMDependentTest {
     private DependentsInfoModel infoModels;
     private List<DependentsInfoModel> dependentInfo;
@@ -45,11 +54,11 @@ public class VMDependentTest {
     ViewModelCallBack callBack;
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+//        MockitoAnnotations.initMocks(this);
+        mViewModel = new VMDependent(ApplicationProvider.getApplicationContext());
         dependentInfo = new ArrayList<>();
         infoModels = new DependentsInfoModel();
-        mViewModel =  mock(VMDependent.class);
-        transnox = new CodeGenerator().generateTransNox();
+        transnox = "Z3TXCBMCHCAO";
         dpdName = "Jonathan Sabiniano";
         mRelationPosition = "2";
         dpdAge = "30";
@@ -67,6 +76,7 @@ public class VMDependentTest {
         Dependentx = "1";
         HouseHoldx = "1";
         IsMarriedx = "0";
+        mViewModel.setTransNox(transnox);
 
     }
 
@@ -76,7 +86,6 @@ public class VMDependentTest {
 
     @Test
     public void testAddDependent() {
-        try{
             DependentsInfoModel infoModel = new DependentsInfoModel(dpdName ,
                     mRelationPosition ,
                     dpdAge,
@@ -95,33 +104,18 @@ public class VMDependentTest {
                     HouseHoldx,
                     IsMarriedx);
             this.dependentInfo.add(infoModel);
-            when(mViewModel.AddDependent(infoModel, listener)).thenReturn(true);
+//            when(mViewModel.AddDependent(infoModel, listener)).thenReturn(true);
             assertTrue(mViewModel.AddDependent(infoModel,listener));
-            assertEquals(true,mViewModel.AddDependent(infoModel, listener));
             System.out.print(mViewModel.AddDependent(infoModel, listener));
-        }catch (NullPointerException e){
-            e.printStackTrace();
-            System.out.print(e.getMessage());
-        } catch (Exception e){
-            e.printStackTrace();
-            System.out.print(e.getMessage());
-        }
+
     }
 
     @Test
     public void testSubmitDependentInfo() {
-        try{
-            when(mViewModel.SubmitDependentInfo(callBack)).thenReturn(true);
+           // when(mViewModel.SubmitDependentInfo(callBack)).thenReturn(true);
             assertTrue(mViewModel.SubmitDependentInfo(callBack));
-            assertEquals(true,mViewModel.SubmitDependentInfo(callBack));
             System.out.print(mViewModel.SubmitDependentInfo(callBack));
-        }catch (NullPointerException e){
-            e.printStackTrace();
-            System.out.print(e.getMessage());
-        } catch (Exception e){
-            e.printStackTrace();
-            System.out.print(e.getMessage());
-        }
+
     }
 
  

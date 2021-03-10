@@ -62,7 +62,11 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             holder.lblMobile.setText(collection.getMobileNo());
             holder.lblBalanc.setText("");
             holder.lblAmount.setText(FormatUIText.getCurrencyUIFormat(collection.getAmtDuexx()));
-            holder.lblStatus.setText(DCP_Constants.getRemarksDescription(collection.getRemCodex()));
+            if (collection.getRemCodex() == null || collection.getRemCodex().isEmpty()){
+                holder.lblStatus.setText("");
+            }else{
+                holder.lblStatus.setText(DCP_Constants.getRemarksDescription(collection.getRemCodex()));
+            }
         } catch (Exception e){
             e.printStackTrace();
         }

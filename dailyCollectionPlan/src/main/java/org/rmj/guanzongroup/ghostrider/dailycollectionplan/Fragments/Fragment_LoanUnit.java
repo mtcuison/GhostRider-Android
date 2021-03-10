@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
@@ -44,6 +46,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
+import static org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants.CIVIL_STATUS;
 
 public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
 
@@ -56,7 +59,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
     private TextInputEditText tieHouseNo, tieStreet;
     private AutoCompleteTextView tieTown, tieBrgy,tieBPlace;
     private RadioGroup rgGender;
-    private TextInputEditText tieBDate, tiePhone, tieMobileNo, tieEmailAdd;
+    private TextInputEditText tieBDate, tiePhone, tieMobileNo, tieEmailAdd,tieRemarks;
     private MaterialButton btnLUSubmit;
     private AutoCompleteTextView spnCivilStats;
     private LoanUnitModel infoModel;
@@ -114,6 +117,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         tiePhone = v.findViewById(R.id.tie_lun_phone);
         tieMobileNo = v.findViewById(R.id.tie_lun_mobileNp);
         tieEmailAdd = v.findViewById(R.id.tie_lun_email);
+        tieRemarks = v.findViewById(R.id.tie_lun_Remarks);
         btnLUSubmit = v.findViewById(R.id.btn_dcpSubmit);
 
         btnLUSubmit.setOnClickListener(view -> {
@@ -139,13 +143,27 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         mViewModel = new ViewModelProvider(this).get(VMLoanUnit.class);
         mViewModel.setParameter(TransNox, EntryNox, Remarksx);
         Log.e("", "TransNox = " + TransNox + " EntryNox = " + EntryNox + " Remarks = " + Remarksx);
-        mViewModel.getSpnCivilStats().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCivilStats.setAdapter(stringArrayAdapter));
+        mViewModel.getSpnCivilStats().observe(getViewLifecycleOwner(), stringArrayAdapter ->{
+            spnCivilStats.setAdapter(stringArrayAdapter);
+        } );
 
         mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
             CollId = s.getCollctID();
             poFilexx = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, DCP_Constants.getRemarksCode(Remarksx), AccntNox);
 
         });
+        mViewModel.getClientData().observe(getViewLifecycleOwner(), data -> {
+            //showOldClientData(data);
+            mViewModel.setClientData(data);
+        });
+        mViewModel.getClient(TransNox, AccntNox).observe(getViewLifecycleOwner(), data -> {
+
+            showOldClientData(data);
+            mViewModel.setClient(data);
+        });
+
+
+        mViewModel.getImgInfo().observe(getViewLifecycleOwner(), data -> mViewModel.setImgInfo(data));
         mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
             try {
                 lblAccNo.setText(collectionDetail.getAcctNmbr());
@@ -161,7 +179,6 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
             lblBranch.setText(eBranchInfo.getBranchNm());
             lblAddress.setText(eBranchInfo.getAddressx());
         });
-
         // Province
         mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
             String[] townProvince = new String[townProvinceInfos.size()];
@@ -308,6 +325,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
 
     private void submitLUn(String remarksx)throws Exception{
         infoModel.setLuRemarks(remarksx);
+        infoModel.setLuRemark(tieRemarks.getText().toString());
         infoModel.setLuLastName(tieLName.getText().toString());
         infoModel.setLuFirstName(tieFName.getText().toString());
         infoModel.setLuMiddleName(tieMName.getText().toString());
@@ -362,5 +380,59 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
     }
+    @SuppressLint("NewApi")
+    public void showOldClientData(EClientUpdate client){
 
+        if (client != null){
+
+            mViewModel.setGender(client.getGenderxx());
+            mViewModel.setSpnCivilStats(client.getCivlStat());
+
+            mViewModel.getSpnCivilStats().observe(getViewLifecycleOwner(), stringArrayAdapter ->{
+                spnCivilStats.setAdapter(stringArrayAdapter);
+            } );
+            mViewModel.getCivilStats().observe(getViewLifecycleOwner(), s -> {
+                spnCivilStats.setText(spnCivilStats.getAdapter().getItem(Integer.parseInt(s)).toString(), false);
+            });
+            mViewModel.getBrgyTownProvinceInfo(client.getBarangay()).observe(getViewLifecycleOwner(), eTownInfo -> {
+                tieBrgy.setText( eTownInfo.sBrgyName);
+                tieTown.setText(eTownInfo.sTownName +", " + eTownInfo.sProvName);
+                mViewModel.setBrgyID(client.getBarangay());
+                mViewModel.setTownID(client.getTownIDxx());
+            });
+            mViewModel.getTownProvinceInfo(client.getTownIDxx()).observe(getViewLifecycleOwner(), eTownInfo -> {
+                tieBPlace.setText(eTownInfo.sTownName +", " + eTownInfo.sProvName);
+                mViewModel.setLsBPlaceID(client.getTownIDxx());
+            });
+
+            mViewModel.getGender().observe(getViewLifecycleOwner(), s -> {
+                Log.e("Gender" , s);
+                if(s.equalsIgnoreCase("0") ){
+                    rgGender.check(R.id.rb_male);
+                }
+                if(s.equalsIgnoreCase("1")){
+                    rgGender.check(R.id.rb_female);
+                }
+                if(s.equalsIgnoreCase("2")){
+                    rgGender.check(R.id.rb_lgbt);
+                }
+            });
+
+            tieLName.setText(client.getLastName());
+            tieFName.setText(client.getFrstName());
+            tieMName.setText(client.getLastName());
+            tieSuffix.setText(client.getMiddName());
+//        Address
+            tieHouseNo.setText(client.getHouseNox());
+            tieStreet.setText(client.getAddressx());
+            tieTown.setText(client.getTownIDxx());
+            tieBrgy.setText(client.getBarangay());
+            tieBDate.setText(client.getBirthDte());
+            tieBPlace.setText(client.getBirthPlc());
+            tiePhone.setText(client.getLandline());
+            tieMobileNo.setText(client.getMobileNo());
+            tieEmailAdd.setText(client.getEmailAdd());
+            Log.e("Client Name", client.getFrstName() + " " + client.getMiddName() + " " + client.getLastName());
+        }
+    }
 }
