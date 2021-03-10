@@ -46,4 +46,9 @@ public interface DImageInfo {
 
     @Query("SELECT * FROM Image_Information")
     LiveData<List<EImageInfo>> getImageInfoList();
+
+    @Query("SELECT * FROM Image_Information " +
+            "WHERE sDtlSrcNo = :sDtlSrcNo AND " +
+            "sImageNme = :sImageNme")
+    LiveData<EImageInfo> getImageLocation(String sDtlSrcNo, String sImageNme);
 }

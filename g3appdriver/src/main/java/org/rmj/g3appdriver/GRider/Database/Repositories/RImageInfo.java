@@ -22,6 +22,10 @@ public class RImageInfo {
         this.imageDao = appDatabase.ImageInfoDao();
     }
 
+    public LiveData<EImageInfo> getImageLocation(String sDtlSrcNo, String sImageNme) {
+        return imageDao.getImageLocation(sDtlSrcNo, sImageNme);
+    }
+
     public void insertImageInfo(EImageInfo imageInfo){
         new InsertTask(imageDao).execute(imageInfo);
     }

@@ -1,6 +1,9 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -59,7 +63,7 @@ public class Fragment_CustomerNotAround_Log extends Fragment {
     private AddressInfoAdapter_Log addressAdapter;
     private TextView txtAcctNo, txtClientName, txtClientAddress;
     private RecyclerView rvMobileNox, rvAddress;
-
+    private ImageView ivTransImage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +80,13 @@ public class Fragment_CustomerNotAround_Log extends Fragment {
         txtClientName.setText(Activity_TransactionLog.fullNme);
         txtClientAddress.setText(Activity_TransactionLog.clientAddress);
         mViewModel.setClientID(Activity_TransactionLog.clientID);
+        //Image Location
+        mViewModel.getImageLocation(Activity_TransactionLog.acctNox, Activity_TransactionLog.imgNme)
+                .observe(getViewLifecycleOwner(), eImageInfo -> {
+            // TODO: Display Image
+                    setPic(eImageInfo.getFileLoct());
+        });
+
         mViewModel.getCNA_MobileDataList().observe(getViewLifecycleOwner(), cna_mobileInfos -> {
             try {
                 mobileAdapter = new MobileInfoAdapter_Log(new MobileInfoAdapter_Log.OnItemInfoClickListener() {
@@ -110,17 +121,49 @@ public class Fragment_CustomerNotAround_Log extends Fragment {
     }
 
     private void initWidgets(View v) {
+        ivTransImage = v.findViewById(R.id.iv_transaction_img);
         txtAcctNo = v.findViewById(R.id.txt_acctNo);
         txtClientName = v.findViewById(R.id.txt_clientName);
         txtClientAddress = v.findViewById(R.id.txt_client_address);
-
         rvMobileNox = v.findViewById(R.id.rv_mobileNox);
         rvMobileNox.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvMobileNox.setHasFixedSize(true);
-
         rvAddress = v.findViewById(R.id.rv_addressx);
         rvAddress.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvAddress.setHasFixedSize(true);
+    }
+
+    private void setPic(String photoPath) {
+        // Get the dimensions of the View
+        int targetW = ivTransImage.getWidth();
+        int targetH = ivTransImage.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeFile(photoPath, bmOptions);
+
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.max(1, Math.min(photoW/targetW, photoH/targetH));
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
+
+        Bitmap bOutput;
+        float degrees = 90;//rotation degree
+        Matrix matrix = new Matrix();
+        matrix.setRotate(degrees);
+        bOutput = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+        ivTransImage.setImageBitmap(bOutput);
     }
 
 }
