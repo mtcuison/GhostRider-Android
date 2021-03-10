@@ -81,7 +81,8 @@ public interface DDCPCollectionDetail {
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +
             "WHERE sTransNox = (SELECT sTransNox FROM " +
-            "LR_DCP_Collection_Master WHERE dTransact =:dTransact)")
+            "LR_DCP_Collection_Master WHERE dTransact =:dTransact) " +
+            "AND cSendStat = \"1\"")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailForDate(String dTransact);
 
     @Query("SELECT a.sTransNox, " +
