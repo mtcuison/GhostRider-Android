@@ -197,6 +197,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 poImageInfo.setLatitude(String.valueOf(latitude));
                 poImageInfo.setLongitud(String.valueOf(longitude));
                 mViewModel.setImagePath(photPath);
+                mViewModel.setImgFileNme(FileName);
                 startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
             });
         });

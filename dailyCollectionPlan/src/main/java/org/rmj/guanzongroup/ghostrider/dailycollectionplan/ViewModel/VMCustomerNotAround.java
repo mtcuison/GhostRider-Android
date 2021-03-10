@@ -54,6 +54,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
     private final RFileCode poFileCode;
 
     private String ImgTransNox;
+    private String imgFileNme;
 
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
@@ -102,6 +103,10 @@ public class VMCustomerNotAround extends AndroidViewModel {
 
     public void setAccountNo(String fsAccntNo){
         this.sAccntNox.setValue(fsAccntNo);
+    }
+
+    public void setImgFileNme(String imgFileNme) {
+        this.imgFileNme = imgFileNme;
     }
 
     public void setTownID(String fsID){
@@ -191,7 +196,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
     public void updateCollectionDetail(String RemarksCode){
         EDCPCollectionDetail detail = poDcpDetail.getValue();
         Objects.requireNonNull(detail).setRemCodex(RemarksCode);
-        detail.setImageNme(ImgTransNox);
+        detail.setImageNme(imgFileNme);
         new UpdateCollectionTask(poDcp, RemarksCode).execute(detail);
     }
 

@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 
 import java.util.List;
@@ -52,4 +51,9 @@ public interface DImageInfo {
     void updateImageInfo(EImageInfo imageInfo);
 
 
+
+    @Query("SELECT * FROM Image_Information " +
+            "WHERE sDtlSrcNo = :sDtlSrcNo AND " +
+            "sImageNme = :sImageNme")
+    LiveData<EImageInfo> getImageLocation(String sDtlSrcNo, String sImageNme);
 }

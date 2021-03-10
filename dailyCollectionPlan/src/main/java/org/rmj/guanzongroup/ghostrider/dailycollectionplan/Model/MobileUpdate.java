@@ -36,7 +36,9 @@ public class MobileUpdate {
     }
 
     public boolean isDataValid(){
-        return isRequestCodeValid() && isMobileNoValid();
+        return isRequestCodeValid() &&
+                isMobileNoValid() &&
+                isRemarksValid();
     }
 
     private boolean isRequestCodeValid(){
@@ -58,6 +60,14 @@ public class MobileUpdate {
         }
         if(sMobileNo.length() != 11){
             message = "Please enter exact count of mobile no.";
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isRemarksValid() {
+        if(sRemarksx.trim().isEmpty()) {
+            message = "Please enter remarks";
             return false;
         }
         return true;
