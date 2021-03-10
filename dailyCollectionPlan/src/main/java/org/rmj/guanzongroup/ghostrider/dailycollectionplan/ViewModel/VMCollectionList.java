@@ -108,7 +108,7 @@ public class VMCollectionList extends AndroidViewModel {
     }
 
     public LiveData<EDCPCollectionMaster> getCollectionMaster(){
-        return poDCPRepo .getCollectionMaster();
+        return poDCPRepo.getCollectionMaster();
     }
 
     public LiveData<EDCPCollectionDetail> getDuplicateSerialEntry(String SerialNo){

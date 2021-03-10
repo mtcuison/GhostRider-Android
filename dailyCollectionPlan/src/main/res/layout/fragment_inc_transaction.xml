@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.Fragment_IncTransaction"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,13 +46,32 @@
             android:fontFamily="@font/roboto_medium"
             android:textColor="@color/material_black" />
 
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextInputStyle"
+            android:hint="Remarks"
+            android:layout_marginTop="5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_dcpRemarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyle.Edittext"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:maxLines="5"
+                android:imeOptions="actionDone"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_postTransaction"
+            android:id="@+id/btn_dcpConfirm"
             style="@style/MaterialButtonAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Post Transaction" />
+            android:text="Confirm" />
 
     </LinearLayout>
 

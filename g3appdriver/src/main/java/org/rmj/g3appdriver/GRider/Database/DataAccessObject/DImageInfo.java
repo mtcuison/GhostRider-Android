@@ -47,6 +47,11 @@ public interface DImageInfo {
     @Query("SELECT * FROM Image_Information")
     LiveData<List<EImageInfo>> getImageInfoList();
 
+    @Update
+    void updateImageInfo(EImageInfo imageInfo);
+
+
+
     @Query("SELECT * FROM Image_Information " +
             "WHERE sDtlSrcNo = :sDtlSrcNo AND " +
             "sImageNme = :sImageNme")

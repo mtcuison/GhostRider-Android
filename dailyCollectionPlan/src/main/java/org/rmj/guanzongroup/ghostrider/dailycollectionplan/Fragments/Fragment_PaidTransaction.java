@@ -1,11 +1,13 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogCheckPayment;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPaidTransaction;
@@ -35,6 +38,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
     private PaidTransactionModel infoModel;
     private MessageBox poMessage;
     private LoadDialog poDialog;
+    private CheckBox cbCheckPymnt;
     private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
 
     private Spinner spnType;
@@ -64,6 +68,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         lblClientNm = v.findViewById(R.id.lbl_dcpClientNm);
         lblTransNo = v.findViewById(R.id.lbl_dcpTransNo);
         spnType = v.findViewById(R.id.spn_paymentType);
+        cbCheckPymnt = v.findViewById(R.id.cb_dcpCheckPayment);
         txtPrNoxx = v.findViewById(R.id.txt_dcpPRNumber);
         txtRemarks = v.findViewById(R.id.txt_dcpRemarks);
         txtAmount = v.findViewById(R.id.txt_dcpAmount);
@@ -105,6 +110,38 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         mViewModel.getPaymentType().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnType.setAdapter(stringArrayAdapter));
 
         mViewModel.getTotalAmount().observe(getViewLifecycleOwner(), aFloat -> txtTotAmnt.setText(String.valueOf(aFloat)));
+
+        cbCheckPymnt.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                DialogCheckPayment loPayment = new DialogCheckPayment(getActivity());
+                mViewModel.getBankNameList().observe(getViewLifecycleOwner(), strings -> {
+                    loPayment.initDialog(strings, new DialogCheckPayment.OnCheckPaymentDialogListener() {
+                        @Override
+                        public void OnConfirm(AlertDialog dialog, String bank, String date, String checkNo, String AcctNo) {
+                            infoModel.setCheckDt(date);
+                            infoModel.setCheckNo(checkNo);
+                            infoModel.setAccntNo(AcctNo);
+                            mViewModel.getBankInfoList().observe(getViewLifecycleOwner(), eBankInfos -> {
+                                for(int x = 0; x < eBankInfos.size(); x++){
+                                    if(bank.equalsIgnoreCase(eBankInfos.get(x).getBankName())){
+                                        infoModel.setBankNme(eBankInfos.get(x).getBankIDxx());
+                                        break;
+                                    }
+                                }
+                            });
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void OnCancel(AlertDialog dialog) {
+                            cbCheckPymnt.setChecked(false);
+                            dialog.dismiss();
+                        }
+                    });
+                    loPayment.show();
+                });
+            }
+        });
 
         btnConfirm.setOnClickListener(view -> {
             infoModel.setRemarksCode(Remarksx);

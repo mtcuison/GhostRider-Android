@@ -28,6 +28,14 @@ public class EDCPCollectionDetail {
     private String Othersxx;
     @ColumnInfo(name = "sRemarksx")
     private String Remarksx;
+    @ColumnInfo(name = "sBankIDxx")
+    private String BankIDxx;
+    @ColumnInfo(name = "sCheckDte")
+    private String CheckDte;
+    @ColumnInfo(name = "sCheckNox")
+    private String CheckNox;
+    @ColumnInfo(name = "sCheckAct")
+    private String CheckAct;
     @ColumnInfo(name = "dPromised")
     private String Promised;
     @ColumnInfo(name = "sRemCodex")
@@ -155,6 +163,38 @@ public class EDCPCollectionDetail {
 
     public void setRemarksx(String remarksx) {
         Remarksx = remarksx;
+    }
+
+    public String getBankIDxx() {
+        return BankIDxx;
+    }
+
+    public void setBankIDxx(String bankIDxx) {
+        BankIDxx = bankIDxx;
+    }
+
+    public String getCheckDte() {
+        return CheckDte;
+    }
+
+    public void setCheckDte(String checkDte) {
+        CheckDte = checkDte;
+    }
+
+    public String getCheckNox() {
+        return CheckNox;
+    }
+
+    public void setCheckNox(String checkNox) {
+        CheckNox = checkNox;
+    }
+
+    public String getCheckAct() {
+        return CheckAct;
+    }
+
+    public void setCheckAct(String checkAct) {
+        CheckAct = checkAct;
     }
 
     public String getPromised() {

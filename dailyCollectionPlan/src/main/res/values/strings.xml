@@ -18,6 +18,7 @@
     <string name="sHint3rdContact">3rd Contact No. (Optional)</string>
     <string name="sHintTelephoneNo">Telephone No.</string>
     <string name="sHintEmailAdd">Email Address</string>
+    <string name="sHintRemarks">Remarks</string>
     <string name="sHintFbAccount">Facebook Account</string>
     <string name="sHintViberAcc">Viber Account</string>
     <string name="sLabelCivilStatus">Civil Status</string>

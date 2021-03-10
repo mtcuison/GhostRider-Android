@@ -146,17 +146,20 @@ public class VMPromiseToPay extends AndroidViewModel {
     public void setAccountNox(String sAccountNo) {
         this.psAccountNox.setValue(sAccountNo);
     }
-    public void savePtpInfo(PromiseToPayModel infoModel, ViewModelCallback callback) {
+    public boolean savePtpInfo(PromiseToPayModel infoModel, ViewModelCallback callback) {
         try {
 
             new UpdateTask(poDcp, infoModel, callback).execute(poDcpDetail.getValue());
+            return true;
         } catch (NullPointerException e) {
             e.printStackTrace();
 //            callback.OnFailedResult(e.getMessage());
             callback.OnFailedResult("NullPointerException error");
+            return false;
         } catch (Exception e) {
             e.printStackTrace();
             callback.OnFailedResult("Exception error");
+            return false;
         }
     }
 
@@ -189,6 +192,7 @@ public class VMPromiseToPay extends AndroidViewModel {
         protected String doInBackground(EDCPCollectionDetail... detail) {
             try {
 
+                infoModel.setPtpBranch(psBrnchCd.getValue());
                 if (!infoModel.isDataValid()) {
                     return infoModel.getMessage();
                 } else {

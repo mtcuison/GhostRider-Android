@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="true"
+    app:cardCornerRadius="25dp"
+    app:cardMaxElevation="5dp"
+    app:cardElevation="3dp"
+    android:theme="@style/GhostRiderMaterialTheme">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/background_dialog">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Check Payment"
+            android:textSize="20sp"
+            android:textColor="@color/textColor_Black"
+            android:fontFamily="@font/roboto_bold"
+            android:layout_marginTop="15dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange"
+            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please enter check info"
+            android:textSize="16sp"
+            android:textColor="@color/textColor_Black"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginTop="15dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextInputStyle"
+            android:hint="Bank Name"
+            android:layout_marginTop="5dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/txt_dcpBankName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/AutoCompleteStyleTheme"
+                android:gravity="center"
+                android:maxLines="1"
+                android:nextFocusForward="@id/txt_dcpAmount"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextInputStyle"
+            android:hint="Check Date (DD/MM/YYYY)"
+            android:layout_marginTop="5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_dcpCheckDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyle.Edittext"
+                android:gravity="center"
+                android:inputType="number|none"
+                android:maxLines="1"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/txt_dcpCheckNo"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextInputStyle"
+            android:hint="Check Number"
+            android:layout_marginTop="5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_dcpCheckNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyle.Edittext"
+                android:gravity="center"
+                android:inputType="number|none"
+                android:maxLines="1"
+                android:maxLength="20"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/txt_dcpAcctNumber"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextInputStyle"
+            android:hint="Check Account Number"
+            android:layout_marginTop="5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_dcpAcctNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyle.Edittext"
+                android:gravity="center"
+                android:inputType="number|none"
+                android:maxLines="1"
+                android:maxLength="20"
+                android:imeOptions="actionDone"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange"
+            android:layout_marginTop="10dp"/>
+
+        <Button
+            android:id="@+id/btn_dcpConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm"
+            app:rippleColor="@color/guanzon_orange"
+            android:textColor="@color/material_black"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange"/>
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            app:rippleColor="@color/guanzon_orange"
+            android:textColor="@color/material_black"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,18 +1,28 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
+import android.os.Build;
+
+import androidx.test.core.app.ApplicationProvider;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.OtherInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMCoMaker;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMOtherInfo;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest=Config.NONE)
 public class Fragment_OtherInfoTest   {
     String refName;
     String refContact;
@@ -26,12 +36,13 @@ public class Fragment_OtherInfoTest   {
     ViewModelCallBack callBack;
     @Before
     public void setUp() throws Exception {
+        mViewModel = new VMOtherInfo(ApplicationProvider.getApplicationContext());
         infoModel = new OtherInfoModel();
-        mViewModel =  mock(VMOtherInfo.class);
         refName = "Jonathan Sabiniano";
         refContact = "09452086661";
         refAddress = "Cawayan Bogtong";
         refTown = "20";
+        infoModel = new OtherInfoModel(refName, refAddress, refTown, refContact);
     }
 
     @After
@@ -40,11 +51,12 @@ public class Fragment_OtherInfoTest   {
 
     @Test
     public void test_addReferences(){
-        OtherInfoModel otherInfos = new OtherInfoModel(refName, refAddress, refTown, refContact);
+        infoModel = new OtherInfoModel(refName, refAddress, refTown, refContact);
+        infoModel = new OtherInfoModel(refName, refAddress, refTown, refContact);
+        infoModel = new OtherInfoModel(refName, refAddress, refTown, refContact);
         try{
-            when(mViewModel.addReference(otherInfos,listener)).thenReturn(true);
-            assertTrue(mViewModel.addReference(otherInfos, listener));
-            assertEquals(true, mViewModel.addReference(otherInfos, listener));
+            assertTrue(mViewModel.addReference(infoModel, listener));
+            assertEquals(true, mViewModel.addReference(infoModel, listener));
 
         }catch (NullPointerException e){
             e.printStackTrace();
@@ -52,7 +64,14 @@ public class Fragment_OtherInfoTest   {
             e.printStackTrace();
         }
     }
+    @Test
+    public void test_getCountReference(){
+        infoModel = new OtherInfoModel(refName, refAddress, refTown, refContact);
+        infoModel = new OtherInfoModel(refName, refAddress, refTown, refContact);
+        infoModel = new OtherInfoModel(refName, refAddress, refTown, refContact);
+        assertEquals(true, mViewModel.isReferenceValid());
 
+    }
     @Test
     public void test_submitOtherInfo(){
         try{
@@ -65,7 +84,6 @@ public class Fragment_OtherInfoTest   {
             infoModel.setSourceModel("1");
             infoModel.setCompanyInfoSourceModel("");
 
-            when(mViewModel.SubmitOtherInfo(infoModel, callBack)).thenReturn(true);
             assertTrue( mViewModel.SubmitOtherInfo(infoModel, callBack));
             assertEquals(true, mViewModel.SubmitOtherInfo(infoModel, callBack));
         }catch (NullPointerException e){

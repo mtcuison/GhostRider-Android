@@ -1,19 +1,29 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
+import android.os.Build;
+
+import androidx.test.core.app.ApplicationProvider;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DependentsInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMCoMaker;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMDependent;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMDependent.ExpActionListener;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest=Config.NONE)
 public class Fragment_DependentTest {
     private String dpdName,
             mRelationPosition,
@@ -32,20 +42,21 @@ public class Fragment_DependentTest {
             Dependentx,
             HouseHoldx,
             IsMarriedx;
+    private String TransNox;
     private DependentsInfoModel infoModel;
     private VMDependent mViewModel;
+//    VMDependent.ExpActionListener listeners;
     @Mock
-    ExpActionListener listener;
+    VMDependent.ExpActionListener listener;
     @Mock
     ViewModelCallBack callBack;
 
-    Fragment_Dependent fragment_dependent;
-
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         infoModel = new DependentsInfoModel();
-        mViewModel =  mock(VMDependent.class);
-        fragment_dependent = new Fragment_Dependent();
+        mViewModel = new VMDependent(ApplicationProvider.getApplicationContext());
+
+        TransNox = "Z3TXCBMCHCAO";
         dpdName = "Jonathan Sabiniano";
         mRelationPosition = "2";
         dpdAge = "30";
@@ -63,6 +74,7 @@ public class Fragment_DependentTest {
         Dependentx = "1";
         HouseHoldx = "1";
         IsMarriedx = "0";
+        mViewModel.setTransNox(TransNox);
 
     }
 
@@ -72,21 +84,12 @@ public class Fragment_DependentTest {
 
     @Test
     public void test_submitNext(){
-        try{
+            assertTrue(mViewModel.SubmitDependentInfo(callBack));
+            assertEquals(true,mViewModel.SubmitDependentInfo(callBack));
 
-            when(mViewModel.SubmitDependentInfo(fragment_dependent)).thenReturn(true);
-            assertTrue(mViewModel.SubmitDependentInfo(fragment_dependent));
-            assertEquals(true,mViewModel.SubmitDependentInfo(fragment_dependent));
-
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
     }
     @Test
     public void test_addDependent(){
-        try{
             DependentsInfoModel infoModels = new DependentsInfoModel(dpdName ,
                     mRelationPosition ,
                     dpdAge,
@@ -104,16 +107,9 @@ public class Fragment_DependentTest {
                     Dependentx,
                     HouseHoldx,
                     IsMarriedx);
-            when(mViewModel.AddDependent(infoModels, fragment_dependent)).thenReturn(true);
-            assertTrue(mViewModel.AddDependent(infoModel,fragment_dependent));
-            assertEquals(true,mViewModel.AddDependent(infoModel,fragment_dependent));
+            assertTrue(mViewModel.AddDependent(infoModels,listener));
+            assertEquals(true,mViewModel.AddDependent(infoModel,listener));
             System.out.print(mViewModel.getAllDependent());
-
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
 
     }
 }

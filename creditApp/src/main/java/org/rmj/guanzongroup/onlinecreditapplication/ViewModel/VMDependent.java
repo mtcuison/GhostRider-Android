@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,6 +22,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DependentsInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DisbursementInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.OtherInfoModel;
@@ -67,36 +69,39 @@ public class VMDependent extends AndroidViewModel {
         this.linearStudent.setValue(View.GONE);
     }
 
-    public void setTransNox(String transNox){
+    public void setTransNox(String transNox) {
         this.psTranNo.setValue(transNox);
     }
 
-    public LiveData<ECreditApplicantInfo> getCreditApplicationInfo(){
+    public LiveData<ECreditApplicantInfo> getCreditApplicationInfo() {
         return poApplcnt.getCreditApplicantInfoLiveData(psTranNo.getValue());
     }
 
-    public void setCreditApplicantInfo(String applicantInfo){
-        try{
+    public void setCreditApplicantInfo(String applicantInfo) {
+        try {
             poGoCasxx.setData(applicantInfo);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public LiveData<Integer> setLinearStudent(){
+
+    public LiveData<Integer> setLinearStudent() {
         return linearStudent;
     }
-    public LiveData<Integer> setLinearEmployed(){
+
+    public LiveData<Integer> setLinearEmployed() {
         return linearEmployed;
     }
-    public void setEducLevel(String educLevel)
-    {
+
+    public void setEducLevel(String educLevel) {
         this.spnSchoolLvl.setValue(educLevel);
     }
+
     public void setSpnSchoolType(String type) {
         this.spnSchoolType.setValue(type);
     }
 
-    public void setSpnRelationx(String spnRelationx){
+    public void setSpnRelationx(String spnRelationx) {
 //        if (spnRelationx.trim().isEmpty() || spnRelationx == null){
 //            this.spnRelationx.setValue("0");
 //        }else {
@@ -105,54 +110,58 @@ public class VMDependent extends AndroidViewModel {
         this.spnRelationx.setValue(spnRelationx);
 
     }
-    public LiveData<String> getRelationX(){
+
+    public LiveData<String> getRelationX() {
         return this.spnRelationx;
     }
-    public LiveData<String> getSchoolTypeX(){
+
+    public LiveData<String> getSchoolTypeX() {
         return this.spnSchoolType;
     }
-    public LiveData<String> getSchoolLvlX(){
+
+    public LiveData<String> getSchoolLvlX() {
         return this.spnSchoolLvl;
     }
-    public void setSpnEmpSector(String spnEmpSector){
+
+    public void setSpnEmpSector(String spnEmpSector) {
         try {
-            if(spnEmpSector.equalsIgnoreCase("1")){
+            if (spnEmpSector.equalsIgnoreCase("1")) {
                 this.linearEmployed.setValue(View.VISIBLE);
             } else {
                 this.linearEmployed.setValue(View.GONE);
             }
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         this.spnEmpSector.setValue(spnEmpSector);
     }
 
-    public void setSpnStudentStatus(String studentStatus){
+    public void setSpnStudentStatus(String studentStatus) {
         try {
-            if(studentStatus.equalsIgnoreCase("1")){
+            if (studentStatus.equalsIgnoreCase("1")) {
                 this.linearStudent.setValue(View.VISIBLE);
             } else {
                 this.linearStudent.setValue(View.GONE);
             }
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         this.spnStudentStatus.setValue(studentStatus);
     }
 
 
-    public LiveData<ArrayAdapter<String>> getEducLevel(){
+    public LiveData<ArrayAdapter<String>> getEducLevel() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.SCHOOL_LEVEL);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
         return liveData;
     }
 
-    public LiveData<ArrayAdapter<String>> getSchoolType(){
+    public LiveData<ArrayAdapter<String>> getSchoolType() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.SCHOOL_TYPE);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
@@ -160,34 +169,38 @@ public class VMDependent extends AndroidViewModel {
     }
 
 
-    public LiveData<ArrayAdapter<String>> getSpnRelationx(){
+    public LiveData<ArrayAdapter<String>> getSpnRelationx() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.DEPENDENT_RELATIONSHIP);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
         return liveData;
     }
 
-    public LiveData<ArrayAdapter<String>> getSpnEmpSector(){
+    public LiveData<ArrayAdapter<String>> getSpnEmpSector() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.EMPLOYED_YES_NO);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
         return liveData;
     }
-    public LiveData<ArrayAdapter<String>> getSpnEmploymentType(){
+
+    public LiveData<ArrayAdapter<String>> getSpnEmploymentType() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.EMPLOYMENT_SECTOR);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
         return liveData;
     }
-    public LiveData<ArrayAdapter<String>> getStudentStatus(){
+
+    public LiveData<ArrayAdapter<String>> getStudentStatus() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.STUDENT_YES_NO);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
         return liveData;
     }
+
     public LiveData<List<DependentsInfoModel>> getAllDependent() {
         return dependentInfo;
     }
+
 
     public boolean AddDependent(DependentsInfoModel dependentsInfoModel , ExpActionListener listener){
         if(dependentsInfoModel.isDataValid()) {
@@ -238,8 +251,7 @@ public class VMDependent extends AndroidViewModel {
             callBack.onFailedResult(e.getMessage());
             return false;
         }
-    }
-
+  }
     public interface ExpActionListener{
         void onSuccess(String message);
         void onFailed(String message);
