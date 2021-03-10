@@ -42,8 +42,7 @@ public class MobileInfoAdapter_Log extends RecyclerView.Adapter<MobileInfoAdapte
             holder.tvPrimary.setText("Primary");
         }
         holder.tvDetails.setText(current.sMobileNo);
-
-
+        holder.tvRemarks.setText(current.mobileRemarksx);
     }
 
     @Override
@@ -59,11 +58,13 @@ public class MobileInfoAdapter_Log extends RecyclerView.Adapter<MobileInfoAdapte
     class MobilenoxHolder extends RecyclerView.ViewHolder {
         private TextView tvDetails;
         private TextView tvPrimary;
+        private TextView tvRemarks;
 
         public MobilenoxHolder(@NonNull View itemView, OnItemInfoClickListener listener) {
             super(itemView);
             tvDetails = itemView.findViewById(R.id.tvDetails);
             tvPrimary = itemView.findViewById(R.id.tvPrimary);
+            tvRemarks = itemView.findViewById(R.id.tvRemarks);
 
             tvDetails.setOnClickListener(v ->{
                 int position = getAdapterPosition();
