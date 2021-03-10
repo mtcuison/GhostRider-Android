@@ -117,8 +117,8 @@ public class AddressUpdate {
                 isHouseNoxValid() &&
                 isAddressValid() &&
                 isTownValid() &&
-                isBrgyValid();
-//                isRemarksValid();
+                isBrgyValid() &&
+                isRemarksValid();
     }
 
     private boolean isRequestCodeValid(){
