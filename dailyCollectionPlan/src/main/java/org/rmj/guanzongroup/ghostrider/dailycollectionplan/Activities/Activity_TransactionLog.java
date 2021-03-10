@@ -66,6 +66,11 @@ public class Activity_TransactionLog extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         ViewPager viewPager = findViewById(R.id.viewpager_transaction);
+
+        if(remCodex.equalsIgnoreCase("CNA")) {
+            getSupportActionBar().setTitle("Customer Not Around");
+        }
+
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getTransactionFragment(remCodex)));
     }
 
