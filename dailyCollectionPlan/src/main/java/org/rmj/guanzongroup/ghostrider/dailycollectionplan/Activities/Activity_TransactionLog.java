@@ -15,6 +15,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_Cu
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_CustomerNotAround_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_IncTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_LoanUnit;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_OtherTransactions_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PaidTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -116,6 +117,16 @@ public class Activity_TransactionLog extends AppCompatActivity {
     private Fragment getTransactionFragment(String transaction){
         if(transaction.equalsIgnoreCase("CNA")){
             return new Fragment_CustomerNotAround_Log();
+        }
+        else if((transaction.equalsIgnoreCase("Car")
+                || (transaction.equalsIgnoreCase("UNC"))
+                || (transaction.equalsIgnoreCase("MCs"))
+                || (transaction.equalsIgnoreCase("MUn"))
+                || (transaction.equalsIgnoreCase("MCU"))
+                || (transaction.equalsIgnoreCase("DNP"))
+                || transaction.equalsIgnoreCase("NV"))
+                || (transaction.equalsIgnoreCase("OTH"))){
+            return new Fragment_OtherTransactions_Log();
         }
         return null;
     }
