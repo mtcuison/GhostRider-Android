@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -27,7 +26,7 @@ import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.OnBirthSetListener;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.OnDateSetListener;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -211,7 +210,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         tilScnCntctStats = v.findViewById(R.id.til_cap_cmrSecondaryCntctStats);
         tilTrtCntctStats = v.findViewById(R.id.til_cap_cmrTertiaryCntctStats);
 
-        tieBrthDate.addTextChangedListener(new OnBirthSetListener(tieBrthDate));
+        tieBrthDate.addTextChangedListener(new OnDateSetListener(tieBrthDate));
         btnNext = v.findViewById(R.id.btn_fragment_cmr_next);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override

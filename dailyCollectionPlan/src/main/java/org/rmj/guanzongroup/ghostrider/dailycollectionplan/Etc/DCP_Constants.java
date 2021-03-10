@@ -60,6 +60,7 @@ public class DCP_Constants {
             "Others"};
 
     public static String[] PAYMENT_TYPE = {
+            "Select Payment Type",
             "Monthly Payment",
             "Cash Balance",
             "Penalty Payment",

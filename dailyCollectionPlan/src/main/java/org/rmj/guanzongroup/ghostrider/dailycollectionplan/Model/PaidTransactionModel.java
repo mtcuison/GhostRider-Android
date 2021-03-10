@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model;
 
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
+
 public class PaidTransactionModel {
 
     private String TransNo;
@@ -12,6 +14,11 @@ public class PaidTransactionModel {
     private String Dscount;
     private String Othersx;
     private String TotAmnt;
+
+    private String BankNme;
+    private String CheckDt;
+    private String CheckNo;
+    private String AccntNo;
 
     private String message;
 
@@ -74,6 +81,38 @@ public class PaidTransactionModel {
         Amountx = amountx;
     }
 
+    public String getBankNme() {
+        return BankNme;
+    }
+
+    public void setBankNme(String bankNme) {
+        BankNme = bankNme;
+    }
+
+    public String getCheckDt() {
+        return CheckDt;
+    }
+
+    public void setCheckDt(String checkDt) {
+        CheckDt = checkDt;
+    }
+
+    public String getCheckNo() {
+        return CheckNo;
+    }
+
+    public void setCheckNo(String checkNo) {
+        CheckNo = checkNo;
+    }
+
+    public String getAccntNo() {
+        return AccntNo;
+    }
+
+    public void setAccntNo(String accntNo) {
+        AccntNo = accntNo;
+    }
+
     public String getDscount() {
         if(Dscount == null || Dscount.trim().isEmpty()){
             return "0";
@@ -105,7 +144,15 @@ public class PaidTransactionModel {
     }
 
     public boolean isDataValid(){
-        return isPRNumberValid() && isAmountValid();
+        return isPaymentTypeValid() && isPRNumberValid() && isAmountValid();
+    }
+
+    private boolean isPaymentTypeValid(){
+        if(Payment.equalsIgnoreCase("0")){
+            message = "Please select payment type";
+            return false;
+        }
+        return true;
     }
 
     private boolean isPRNumberValid(){
@@ -125,38 +172,6 @@ public class PaidTransactionModel {
     }
 
     public String getRemarksCode(){
-        switch (RemCode){
-            case "Paid":
-                return "PAY";
-            case "Promise to Pay":
-                return "PTP";
-            case "Customer Not Around":
-                return "CNA";
-            case "For Legal Action":
-                return "FLA";
-            case "Carnap":
-                return "Car";
-            case "Uncooperative":
-                return "UNC";
-            case "Missing Customer":
-                return "MCs";
-            case "Missing Unit":
-                return "MUn";
-            case "Missing Client and Unit":
-                return "MCU";
-            case "Loan Unit":
-                return "LUn";
-            case "Transferred/Assumed":
-                return "TA";
-            case "False Ownership":
-                return "FO";
-            case "Did Not Pay":
-                return "DNP";
-            case "Not Visited":
-                return "NV";
-            case "Others":
-                return "OTH";
-        }
-        return "";
+        return DCP_Constants.getRemarksCode(RemCode);
     }
 }

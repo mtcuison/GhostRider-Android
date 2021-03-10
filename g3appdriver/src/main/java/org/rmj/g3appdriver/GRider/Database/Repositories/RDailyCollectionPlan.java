@@ -86,8 +86,8 @@ public class RDailyCollectionPlan {
         //detailDao.updateCollectionDetailInfo(collectionDetail.getEntryNox(), collectionDetail.getRemCodex(),AppConstants.DATE_MODIFIED);
     }
 
-    public void updateCollectionDetail(int EntryNox, String RemCode){
-        detailDao.updateCollectionDetailInfo(EntryNox, RemCode, AppConstants.DATE_MODIFIED);
+    public void updateCollectionDetail(int EntryNox, String RemCode, String Remarks){
+        detailDao.updateCollectionDetailInfo(EntryNox, RemCode, Remarks, AppConstants.DATE_MODIFIED);
     }
 
     public void updateCollectionDetailStatus(String TransNox, int EntryNox){

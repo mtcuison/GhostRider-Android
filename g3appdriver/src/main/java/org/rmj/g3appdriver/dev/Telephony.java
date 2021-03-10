@@ -53,6 +53,11 @@ public class Telephony {
                             lsResult = MobileNo.replace("63", "0");
                         } else if (MobileNo.substring(0, 2).equalsIgnoreCase("09")) {
                             lsResult = MobileNo;
+                        } else {
+                            MobileNo = MobileNo.replace("-", "");
+                            MobileNo = MobileNo.replace("+", "");
+                            String lsTarget = MobileNo.substring(0, 2);
+                            lsResult = MobileNo.replace(lsTarget, "09");
                         }
                     }
                     return lsResult;
@@ -68,6 +73,12 @@ public class Telephony {
                             lsResult = MobileNo.replace("63", "0");
                         } else if (MobileNo.substring(0, 2).equalsIgnoreCase("09")) {
                             lsResult = MobileNo;
+                        } else {
+                            //this method is use for emulator testing...
+                            MobileNo = MobileNo.replace("-", "");
+                            MobileNo = MobileNo.replace("+", "");
+                            String lsTarget = MobileNo.substring(0, 2);
+                            lsResult = MobileNo.replace(lsTarget, "09");
                         }
                     }
                     return lsResult;
