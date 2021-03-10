@@ -488,7 +488,7 @@ public class VMCollectionList extends AndroidViewModel {
 
                                     String lsTransNo = (String) loUpload.get("sTransNox");
                                     poImage.updateImageInfo(lsTransNo, loDetail.sImageIDx);
-                                    poDcp.updateCollectionDetailImage(loDetail.sAcctNmbr);
+                                    //poDcp.updateCollectionDetailImage(loDetail.sAcctNmbr);
 
                                     Thread.sleep(1000);
 
