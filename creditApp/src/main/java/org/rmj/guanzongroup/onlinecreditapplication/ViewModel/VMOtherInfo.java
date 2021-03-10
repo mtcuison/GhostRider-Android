@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -25,6 +26,7 @@ import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.gocas.pojo.OtherInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.DisbursementInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.OtherInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -289,60 +291,60 @@ public class VMOtherInfo extends AndroidViewModel {
         }
         return true;
     }
-    private boolean isReferenceValid(){
+    public boolean isReferenceValid(){
         return referenceInfo.getValue().size() >= 3;
     }
 
-    public boolean SubmitOtherInfo(OtherInfoModel reference, ViewModelCallBack callBack){
-        try {
-            if(reference.isValidSpinner()){
-
-                if (isReferenceValid()){
-                    if (Integer.parseInt(reference.getMonthlyPayerModel()) != 1){
-                        poGoCas.OtherInfo().setUnitPayor(String.valueOf(reference.getMonthlyPayerModel()));
-                    }else{
-                        poGoCas.OtherInfo().setPayorRelation(String.valueOf(reference.getPayer2BuyerModel()));
-                    }
-                    poGoCas.OtherInfo().setUnitUser(reference.getUnitUserModel());
-                    poGoCas.OtherInfo().setPurpose(String.valueOf(reference.getUserUnitPurposeModel()));
-                    if (reference.getSourceModel().equalsIgnoreCase("Others")){
-                        poGoCas.OtherInfo().setSourceInfo(reference.getCompanyInfoSourceModel());
-
-                    }else{
-                        poGoCas.OtherInfo().setSourceInfo(reference.getSourceModel());
-                    }
-                    for(int x = 0; x < otherInfo.size(); x++){
-                        poGoCas.OtherInfo().addReference();
-                        poGoCas.OtherInfo().setPRName(x, otherInfo.get(x).getFullname());
-                        poGoCas.OtherInfo().setPRTownCity(x, otherInfo.get(x).getTownCity());
-                        poGoCas.OtherInfo().setPRMobileNo(x, otherInfo.get(x).getContactN());
-                        poGoCas.OtherInfo().setPRAddress(x, otherInfo.get(x).getAddress1());
-                    }
-                    ECreditApplicantInfo info = new ECreditApplicantInfo();
-                    info.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
-                    info.setDetlInfo(poGoCas.toJSONString());
-                    info.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                    poApplcnt.updateGOCasData(info);
-                    callBack.onSaveSuccessResult("Success");
-                    Log.e(TAG, "Other information result : " + poGoCas.OtherInfo().toJSONString());
-
-                    return true;
-                } else {
-                    callBack.onFailedResult("Please provide atleast 3 personal reference!");
-                    return false;
-
-                }
-            }else {
-                callBack.onFailedResult(reference.getMessage());
-                return false;
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            callBack.onFailedResult(e.getMessage());
-            return false;
-        }
-
-    }
+//    public boolean SubmitOtherInfo(OtherInfoModel reference, ViewModelCallBack callBack){
+//        try {
+//            if(reference.isValidSpinner()){
+//
+//                if (isReferenceValid()){
+//                    if (Integer.parseInt(reference.getMonthlyPayerModel()) != 1){
+//                        poGoCas.OtherInfo().setUnitPayor(String.valueOf(reference.getMonthlyPayerModel()));
+//                    }else{
+//                        poGoCas.OtherInfo().setPayorRelation(String.valueOf(reference.getPayer2BuyerModel()));
+//                    }
+//                    poGoCas.OtherInfo().setUnitUser(reference.getUnitUserModel());
+//                    poGoCas.OtherInfo().setPurpose(String.valueOf(reference.getUserUnitPurposeModel()));
+//                    if (reference.getSourceModel().equalsIgnoreCase("Others")){
+//                        poGoCas.OtherInfo().setSourceInfo(reference.getCompanyInfoSourceModel());
+//
+//                    }else{
+//                        poGoCas.OtherInfo().setSourceInfo(reference.getSourceModel());
+//                    }
+//                    for(int x = 0; x < otherInfo.size(); x++){
+//                        poGoCas.OtherInfo().addReference();
+//                        poGoCas.OtherInfo().setPRName(x, otherInfo.get(x).getFullname());
+//                        poGoCas.OtherInfo().setPRTownCity(x, otherInfo.get(x).getTownCity());
+//                        poGoCas.OtherInfo().setPRMobileNo(x, otherInfo.get(x).getContactN());
+//                        poGoCas.OtherInfo().setPRAddress(x, otherInfo.get(x).getAddress1());
+//                    }
+//                    ECreditApplicantInfo info = new ECreditApplicantInfo();
+//                    info.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
+//                    info.setDetlInfo(poGoCas.toJSONString());
+//                    info.setClientNm(poGoCas.ApplicantInfo().getClientName());
+//                    poApplcnt.updateGOCasData(info);
+//                    callBack.onSaveSuccessResult("Success");
+//                    Log.e(TAG, "Other information result : " + poGoCas.OtherInfo().toJSONString());
+//
+//                    return true;
+//                } else {
+//                    callBack.onFailedResult("Please provide atleast 3 personal reference!");
+//                    return false;
+//
+//                }
+//            }else {
+//                callBack.onFailedResult(reference.getMessage());
+//                return false;
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            callBack.onFailedResult(e.getMessage());
+//            return false;
+//        }
+//
+//    }
     public boolean addReference(OtherInfoModel foInfo, ExpActionListener listener){
         if(foInfo.isValidReferences()) {
             Objects.requireNonNull(this.referenceInfo.getValue()).add(foInfo);
@@ -354,9 +356,152 @@ public class VMOtherInfo extends AndroidViewModel {
             return false;
         }
     }
+
     public interface ExpActionListener{
         void onSuccess(String message);
         void onFailed(String message);
+    }
+
+//    public boolean addReference(OtherInfoModel foInfo, ExpActionListener listener) {
+//        try {
+//
+//            new UpdateReferenceTask(poApplcnt, foInfo, listener).execute();
+//            return true;
+//        } catch (NullPointerException e) {
+//            e.printStackTrace();
+////            callback.OnFailedResult(e.getMessage());
+//            listener.onFailed("NullPointerException error");
+//            return false;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            listener.onFailed("Exception error");
+//            return false;
+//        }
+//    }
+//    private  class UpdateReferenceTask extends AsyncTask<RCreditApplicant, Void, String> {
+//        private final RCreditApplicant poDcp;
+//        private final OtherInfoModel reference;
+//        private final ExpActionListener listener;
+//        public UpdateReferenceTask(RCreditApplicant poDcp, OtherInfoModel reference, ExpActionListener listener) {
+//            this.poDcp = poDcp;
+//            this.reference = reference;
+//            this.listener = listener;
+//        }
+//
+//        @Override
+//        protected String doInBackground(RCreditApplicant... rApplicant) {
+//            try{
+//                if(reference.isValidReferences()){
+//                    Objects.requireNonNull(this.referenceInfo.getValue().add(reference));
+//                    return "success";
+//                }else {
+//
+//                    return reference.getMessage();
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//                return e.getMessage();
+//            }
+//        }
+//
+//
+//        @Override
+//        protected void onPostExecute(String s) {
+//            super.onPostExecute(s);
+//            if(s.equalsIgnoreCase("success")){
+//                listener.onSuccess("Success");
+//            } else {
+//                listener.onFailed(s);
+//            }
+//        }
+//    }
+    public boolean SubmitOtherInfo(OtherInfoModel reference, ViewModelCallBack callBack) {
+        try {
+
+            new UpdateTask(poApplcnt, reference, callBack).execute();
+            return true;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+//            callback.OnFailedResult(e.getMessage());
+            callBack.onFailedResult("NullPointerException error");
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            callBack.onFailedResult("Exception error");
+            return false;
+        }
+    }
+    private  class UpdateTask extends AsyncTask<RCreditApplicant, Void, String> {
+        private final RCreditApplicant poDcp;
+        private final OtherInfoModel reference;
+        private final ViewModelCallBack callback;
+
+        public UpdateTask(RCreditApplicant poDcp, OtherInfoModel reference, ViewModelCallBack callback) {
+            this.poDcp = poDcp;
+            this.reference = reference;
+            this.callback = callback;
+        }
+
+        @Override
+        protected String doInBackground(RCreditApplicant... rApplicant) {
+            try{
+                if(reference.isValidSpinner()){
+
+                    if (isReferenceValid()){
+                        if (Integer.parseInt(reference.getMonthlyPayerModel()) != 1){
+                            poGoCas.OtherInfo().setUnitPayor(String.valueOf(reference.getMonthlyPayerModel()));
+                        }else{
+                            poGoCas.OtherInfo().setPayorRelation(String.valueOf(reference.getPayer2BuyerModel()));
+                        }
+                        poGoCas.OtherInfo().setUnitUser(reference.getUnitUserModel());
+                        poGoCas.OtherInfo().setPurpose(String.valueOf(reference.getUserUnitPurposeModel()));
+                        if (reference.getSourceModel().equalsIgnoreCase("Others")){
+                            poGoCas.OtherInfo().setSourceInfo(reference.getCompanyInfoSourceModel());
+
+                        }else{
+                            poGoCas.OtherInfo().setSourceInfo(reference.getSourceModel());
+                        }
+                        for(int x = 0; x < otherInfo.size(); x++){
+                            poGoCas.OtherInfo().addReference();
+                            poGoCas.OtherInfo().setPRName(x, otherInfo.get(x).getFullname());
+                            poGoCas.OtherInfo().setPRTownCity(x, otherInfo.get(x).getTownCity());
+                            poGoCas.OtherInfo().setPRMobileNo(x, otherInfo.get(x).getContactN());
+                            poGoCas.OtherInfo().setPRAddress(x, otherInfo.get(x).getAddress1());
+                        }
+                        ECreditApplicantInfo info = new ECreditApplicantInfo();
+                        info.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
+                        info.setDetlInfo(poGoCas.toJSONString());
+                        info.setClientNm(poGoCas.ApplicantInfo().getClientName());
+                        poApplcnt.updateGOCasData(info);
+
+                        Log.e(TAG, "Other information result : " + poGoCas.OtherInfo().toJSONString());
+
+                        return "success";
+                    } else {
+
+                        return "Please provide atleast 3 personal reference!";
+
+                    }
+                }else {
+
+                    return reference.getMessage();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                return e.getMessage();
+            }
+        }
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s.equalsIgnoreCase("success")){
+                callback.onSaveSuccessResult("Success");
+            } else {
+                callback.onFailedResult(s);
+            }
+        }
     }
 
 }

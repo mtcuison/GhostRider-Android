@@ -532,6 +532,32 @@
                             android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_regular"/>
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginTop="3dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="Remarks :"
+                            android:textColor="@color/textColor_Black"
+                            android:fontFamily="@font/roboto_regular"/>
+
+                        <TextView
+                            android:id="@+id/dialog_remarks"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="start"
+                            android:text="10000"
+                            android:textColor="@color/textColor_Black"
+                            android:fontFamily="@font/roboto_regular"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
