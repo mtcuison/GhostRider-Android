@@ -18,15 +18,8 @@ public class CoMakerModel {
     private String coFbAccntx;
     private String coIncomeSource;
     private String coBorrowerRel;
-    private String coIsStudent;
-    private String coIsEmployed;
-//    private String coBorrowerRel;
-    private String coContactCount;
 
     //for save instance state
-    private String ProvNme;
-    private String TownNme;
-
     private String message;
 
     public CoMakerModel() {
@@ -56,35 +49,44 @@ public class CoMakerModel {
 
 
     public boolean isCoMakerInfoValid(){
-        return isBorrowerRel() &&
-                isLastNameValid() &&
-                isFrstNameValid() &&
-                isMiddNameValid() &&
-                isBirthdateValid() &&
-                isBirthPlaceValid() &&
-                isIncomeSource() &&
-                isContactValid();
+        if (!isBorrowerRel()){
+            return false;
+        }
+        if (!isLastNameValid()){
+            return false;
+        }
+        if (!isFrstNameValid()){
+            return false;
+        }
+        if (!isMiddNameValid()){
+            return false;
+        }
+        if (!isBirthdateValid()){
+            return false;
+        }
+        if (!isBirthPlaceValid()){
+            return false;
+        }
+        if (!isIncomeSource()){
+            return false;
+        }
+        if (!isContactValid()){
+            return false;
+        }
+        return true;
+//        return isBorrowerRel() &&
+//                isLastNameValid() &&
+//                isFrstNameValid() &&
+//                isMiddNameValid() &&
+//                isBirthdateValid() &&
+//                isBirthPlaceValid() &&
+//                isIncomeSource() &&
+//                isContactValid();
     }
 
 
     public String getMessage(){
         return message;
-    }
-
-    public String getCoIsStudent() {
-        return coIsStudent;
-    }
-
-    public void setCoIsStudent(String coIsStudent) {
-        this.coLastName = coIsStudent;
-    }
-
-    public String getCoIsEmployed() {
-        return coIsEmployed;
-    }
-
-    public void setCoIsEmployed(String coIsEmployed) {
-        this.coIsEmployed = coIsEmployed;
     }
 
     public String getCoLastName() {
@@ -237,21 +239,6 @@ public class CoMakerModel {
     private boolean isIncomeSource(){
         if(Integer.parseInt(coIncomeSource) < 0){
             message = "Please select source of income!";
-            return false;
-        }
-        return true;
-    }
-    private boolean isCOStudent(){
-        if(Integer.parseInt(coIsStudent) < 0){
-            message = "Please select comaker is student!";
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isCOEmployed(){
-        if(Integer.parseInt(coIsEmployed) < 0){
-            message = "Please select comaker is employed!";
             return false;
         }
         return true;

@@ -261,7 +261,6 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         infoModel.setPtpDate(Objects.requireNonNull(ptpDate.getText().toString()));
         infoModel.setPtpRemarks(remarks);
         infoModel.setPtpAppointmentUnit(IsAppointmentUnitX);
-        infoModel.setPtpBranch(ptpBranchName.getText().toString());
         infoModel.setPtpCollectorName(Objects.requireNonNull(ptpCollName.getText()).toString());
         mViewModel.savePtpInfo(infoModel, Fragment_PromiseToPay.this);
 

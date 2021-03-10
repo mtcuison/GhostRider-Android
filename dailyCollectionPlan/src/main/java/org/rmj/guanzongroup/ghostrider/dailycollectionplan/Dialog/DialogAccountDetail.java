@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -33,7 +34,6 @@ public class DialogAccountDetail {
     private final Context context;
     private org.rmj.g3appdriver.GRider.Database.Repositories.RTown RTown;
     private RDailyCollectionPlan poDCPRepo;
-    EClientUpdate eDetail = new EClientUpdate();
     private String[] civilStatus = DCP_Constants.CIVIL_STATUS;
     private String[] gender = {"Male", "Female", "LGBT"};
 
@@ -46,6 +46,7 @@ public class DialogAccountDetail {
     TextView dTelNo;
     TextView dMobileNo;
     TextView dEmail;
+    TextView dRemarks;
     public DialogAccountDetail(Context context){
         this.context = context;
     }
@@ -79,10 +80,12 @@ public class DialogAccountDetail {
         dTelNo = view.findViewById(R.id.dialog_tel);
         dMobileNo = view.findViewById(R.id.dialog_mobileNo);
         dEmail = view.findViewById(R.id.dialog_email);
+        dRemarks = view.findViewById(R.id.dialog_remarks);
 
         Spinner spnTransact = view.findViewById(R.id.spn_transaction);
         Button btnConfirm = view.findViewById(R.id.btn_confirm);
         Button btnCancelx = view.findViewById(R.id.btn_cancel);
+        spnTransact.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, DCP_Constants.TRANSACTION_TYPE));
 
         if(foDetail.getRemCodex() == null || foDetail.getRemCodex().isEmpty()){
             transType.setText("");
@@ -95,6 +98,15 @@ public class DialogAccountDetail {
                     foDetail.getRemCodex().equalsIgnoreCase("LUn")) {
 
                 showClientUpdateInfo(activity, foDetail);
+                for (int i = 0; i< DCP_Constants.TRANSACTION_TYPE.length; i++){
+                    if (DCP_Constants.TRANSACTION_TYPE[i].equalsIgnoreCase(DCP_Constants.getRemarksDescription(foDetail.getRemCodex()))){
+                        spnTransact.setSelection(i);
+                    }
+                }
+
+
+
+
                 linearLayout.setVisibility(View.VISIBLE);
             }else {
                 linearLayout.setVisibility(View.GONE);
@@ -110,11 +122,11 @@ public class DialogAccountDetail {
         lblAmountx.setText(FormatUIText.getCurrencyUIFormat(foDetail.getAmtDuexx()));
         lblDueDate.setText(FormatUIText.formatGOCasBirthdate(foDetail.getDueDatex()));
 
-        spnTransact.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, DCP_Constants.TRANSACTION_TYPE));
-
         btnConfirm.setOnClickListener(view1 -> listener.OnClick(poDialogx, spnTransact.getSelectedItem().toString()));
+
         btnCancelx.setOnClickListener(view12 -> dismiss());
     }
+
 
     public void show(){
         poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -144,35 +156,32 @@ public class DialogAccountDetail {
     }
     public void showClientUpdateInfo(Activity_CollectionList activities, EDCPCollectionDetail foDetails){
         getClientUpdateInfo(foDetails.getAcctNmbr()).observe(activities, eClientUpdate ->{
-            eDetail = eClientUpdate;
-            Log.e("Town  ", eDetail.getTownIDxx());
-            Log.e("Province  ", eDetail.getBarangay());
-            getBrgyTownProvinceInfo(eDetail.getBarangay()).observe(activities, eTownInfo -> {
-                dAddress.setText(eDetail.getHouseNox() + " " + eDetail.getAddressx() + ", " + eTownInfo.sBrgyName + ", " + eTownInfo.sTownName +", " + eTownInfo.sProvName);
-            });
-            getTownProvinceInfo(eDetail.getTownIDxx()).observe(activities, eTownInfo -> {
+            getBrgyTownProvinceInfo(eClientUpdate.getBarangay()).observe(activities, eTownInfo -> {
+                dAddress.setText(eClientUpdate.getHouseNox() + " " + eClientUpdate.getAddressx() + ", " + eTownInfo.sBrgyName + ", " + eTownInfo.sTownName +", " + eTownInfo.sProvName);
                 dBPlace.setText(eTownInfo.sTownName +", " + eTownInfo.sProvName);
             });
+            getTownProvinceInfo(eClientUpdate.getTownIDxx()).observe(activities, eTownInfo -> {
+                dBPlace.setText(eTownInfo.sTownName +", " + eTownInfo.sProvName);
+            });
+            String fullname = eClientUpdate.getLastName() + ", " + eClientUpdate.getFrstName() + " " + eClientUpdate.getSuffixNm() + " " + eClientUpdate.getMiddName();
 
-            String fullname = eDetail.getLastName() + ", " + eDetail.getFrstName() + " " + eDetail.getSuffixNm() + " " + eDetail.getMiddName();
-            Log.e("Brgy ", fullname);
-            dFullName.setText(eDetail.getLastName() + ", " + eDetail.getFrstName() + " " + eDetail.getSuffixNm() + " " + eDetail.getMiddName());
-            dGender.setText(gender[Integer.parseInt(eDetail.getGenderxx())]);
-            dCivil.setText(civilStatus[Integer.parseInt(eDetail.getCivlStat())]);
-            dBDate.setText(eDetail.getBirthDte());
+            dFullName.setText(eClientUpdate.getLastName() + ", " + eClientUpdate.getFrstName() + " " + eClientUpdate.getSuffixNm() + " " + eClientUpdate.getMiddName());
+            dGender.setText(gender[Integer.parseInt(eClientUpdate.getGenderxx())]);
+            dCivil.setText(civilStatus[Integer.parseInt(eClientUpdate.getCivlStat())]);
+            dBDate.setText(eClientUpdate.getBirthDte());
 
-            if (eDetail.getLandline() == null || eDetail.getLandline().isEmpty()){
+            if (eClientUpdate.getLandline() == null || eClientUpdate.getLandline().isEmpty()){
                 dTelNo.setText("N/A");
             }else {
-                dTelNo.setText(eDetail.getLandline());
+                dTelNo.setText(eClientUpdate.getLandline());
             }
-            if (eDetail.getEmailAdd() == null || eDetail.getEmailAdd().isEmpty()){
+            if (eClientUpdate.getEmailAdd() == null || eClientUpdate.getEmailAdd().isEmpty()){
                 dEmail.setText("N/A");
             }else {
-                dEmail.setText(eDetail.getEmailAdd());
+                dEmail.setText(eClientUpdate.getEmailAdd());
             }
-
-            dMobileNo.setText(eDetail.getMobileNo());
+            dRemarks.setText(foDetails.getRemarksx());
+            dMobileNo.setText(eClientUpdate.getMobileNo());
 
         });
     }

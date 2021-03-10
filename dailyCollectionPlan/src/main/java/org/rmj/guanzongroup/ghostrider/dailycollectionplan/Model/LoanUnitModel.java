@@ -24,6 +24,7 @@ public class LoanUnitModel {
     private String luPhone;
     private String luMobile;
     private String luEmail;
+    private String luRemark;
 
     private String message;
 
@@ -35,6 +36,12 @@ public class LoanUnitModel {
     public String getLuRemarks() { return this.luRemarks; }
     public void setLuRemarks(String luRemarks) {
         this.luRemarks = luRemarks;
+    }
+
+
+    public String getLuRemark() { return this.luRemark; }
+    public void setLuRemark(String luRemark) {
+        this.luRemark = luRemark;
     }
 
     public String getLuImgPath() { return this.luImgPath; }
@@ -125,7 +132,8 @@ public class LoanUnitModel {
                 isBDate() &&
                 isBPlace() &&
                 isContactValid() &&
-                isValidImgPth();
+                isRemark() &&
+                isValidImgPth() ;
     }
 
     public boolean isValidFullName(){
@@ -245,7 +253,14 @@ public class LoanUnitModel {
         }
         return true;
     }
-
+    private boolean isRemark(){
+        if (luRemark.trim().isEmpty()){
+            message = "Required field!" +
+                    "\nPlease enter remarks.";
+            return false;
+        }
+        return true;
+    }
     private boolean isContactValid(){
         if(luMobile.trim().isEmpty()){
             message = "Please enter Contact Number!";

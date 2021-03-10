@@ -1,14 +1,21 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
+import android.os.Build;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(JUnit4.class)
+@Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest=Config.NONE)
 public class DependentsInfoModelTest {
     private DependentsInfoModel infoModel;
     private ArrayList<DependentsInfoModel> arrayList;

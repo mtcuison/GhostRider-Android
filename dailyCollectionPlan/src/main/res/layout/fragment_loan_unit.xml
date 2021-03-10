@@ -417,7 +417,6 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/sDCP_CNA_RG_Contact"
                 style="@style/TextInputStyle">
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tie_lun_mobileNp"
                     android:layout_width="match_parent"
@@ -440,7 +439,23 @@
                     android:maxLength="50" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sHintRemarks"
+                style="@style/TextInputStyle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_lun_Remarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:maxLength="50"
+                    android:minLines="3"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_dcpSubmit"
             android:layout_width="match_parent"

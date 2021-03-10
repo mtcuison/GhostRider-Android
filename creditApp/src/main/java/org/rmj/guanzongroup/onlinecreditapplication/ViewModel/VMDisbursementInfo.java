@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -15,6 +16,7 @@ import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.gocas.pojo.DisbursementInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.TextFormatter;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DisbursementInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.EmploymentInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -63,40 +65,107 @@ public class VMDisbursementInfo extends AndroidViewModel {
     }
 
 
-    public boolean SubmitApplicationInfo(DisbursementInfoModel disbursementInfo,ViewModelCallBack callBack){
+//    public boolean SubmitApplicationInfo(DisbursementInfoModel disbursementInfo,ViewModelCallBack callBack){
+//        try {
+//
+//            if (disbursementInfo.isDataValid()){
+////                poGoCasxx.DisbursementInfo().Expenses().setElectricBill(disbursementInfo.getElctX());
+//                poGoCasxx.DisbursementInfo().Expenses().setElectricBill(disbursementInfo.getElctX());
+//                poGoCasxx.DisbursementInfo().Expenses().setFoodAllowance(disbursementInfo.getFoodX());
+//                poGoCasxx.DisbursementInfo().Expenses().setWaterBill(disbursementInfo.getWaterX());
+//                poGoCasxx.DisbursementInfo().Expenses().setLoanAmount((disbursementInfo.getLoans()));
+//                poGoCasxx.DisbursementInfo().BankAccount().setBankName(Objects.requireNonNull(disbursementInfo.getBankN()));
+//                poGoCasxx.DisbursementInfo().BankAccount().setAccountType(Objects.requireNonNull(disbursementInfo.getStypeX()));
+//                poGoCasxx.DisbursementInfo().CreditCard().setBankName(Objects.requireNonNull(disbursementInfo.getCcBnk()));
+//                poGoCasxx.DisbursementInfo().CreditCard().setCreditLimit(Objects.requireNonNull(disbursementInfo.getLimitCC()));
+//                poGoCasxx.DisbursementInfo().CreditCard().setMemberSince(Objects.requireNonNull(disbursementInfo.getYearS()));
+//                ECreditApplicantInfo info = new ECreditApplicantInfo();
+//                info.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
+//                info.setDetlInfo(poGoCasxx.toJSONString());
+//                info.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
+//                poApplcnt.updateGOCasData(info);
+//                Log.e("Disbursement Data", String.valueOf(info.getDetlInfo()));
+//                callBack.onSaveSuccessResult("Success");
+//                return true;
+//            } else {
+//                callBack.onFailedResult(disbursementInfo.getMessage());
+//                return false;
+//            }
+//        } catch (Exception e){
+//           e.printStackTrace();
+//            callBack.onFailedResult(e.getMessage());
+//            return false;
+//        }
+//    }
+
+    public boolean SubmitApplicationInfo(DisbursementInfoModel disbursementInfo,ViewModelCallBack callBack) {
         try {
 
-            if (disbursementInfo.isDataValid()){
-//                poGoCasxx.DisbursementInfo().Expenses().setElectricBill(disbursementInfo.getElctX());
-                poGoCasxx.DisbursementInfo().Expenses().setElectricBill(disbursementInfo.getElctX());
-                poGoCasxx.DisbursementInfo().Expenses().setFoodAllowance(disbursementInfo.getFoodX());
-                poGoCasxx.DisbursementInfo().Expenses().setWaterBill(disbursementInfo.getWaterX());
-                poGoCasxx.DisbursementInfo().Expenses().setLoanAmount((disbursementInfo.getLoans()));
-                poGoCasxx.DisbursementInfo().BankAccount().setBankName(Objects.requireNonNull(disbursementInfo.getBankN()));
-                poGoCasxx.DisbursementInfo().BankAccount().setAccountType(Objects.requireNonNull(disbursementInfo.getStypeX()));
-                poGoCasxx.DisbursementInfo().CreditCard().setBankName(Objects.requireNonNull(disbursementInfo.getCcBnk()));
-                poGoCasxx.DisbursementInfo().CreditCard().setCreditLimit(Objects.requireNonNull(disbursementInfo.getLimitCC()));
-                poGoCasxx.DisbursementInfo().CreditCard().setMemberSince(Objects.requireNonNull(disbursementInfo.getYearS()));
-                ECreditApplicantInfo info = new ECreditApplicantInfo();
-                info.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
-                info.setDetlInfo(poGoCasxx.toJSONString());
-                info.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
-                poApplcnt.updateGOCasData(info);
-                Log.e("Disbursement Data", String.valueOf(info.getDetlInfo()));
-                callBack.onSaveSuccessResult("Success");
-                return true;
-            } else {
-                callBack.onFailedResult(disbursementInfo.getMessage());
-                return false;
-            }
-        } catch (Exception e){
-           e.printStackTrace();
-            callBack.onFailedResult(e.getMessage());
+            new UpdateTask(poApplcnt, disbursementInfo, callBack).execute();
+            return true;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+//            callback.OnFailedResult(e.getMessage());
+            callBack.onFailedResult("NullPointerException error");
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            callBack.onFailedResult("Exception error");
             return false;
         }
     }
+    private  class UpdateTask extends AsyncTask<RCreditApplicant, Void, String> {
+        private final RCreditApplicant poDcp;
+        private final DisbursementInfoModel infoModel;
+        private final ViewModelCallBack callback;
+
+        public UpdateTask(RCreditApplicant poDcp, DisbursementInfoModel infoModel, ViewModelCallBack callback) {
+            this.poDcp = poDcp;
+            this.infoModel = infoModel;
+            this.callback = callback;
+        }
+
+        @Override
+        protected String doInBackground(RCreditApplicant... rApplicant) {
+            try{
+                if (infoModel.isDataValid()){
+//                poGoCasxx.DisbursementInfo().Expenses().setElectricBill(infoModel.getElctX());
+                    poGoCasxx.DisbursementInfo().Expenses().setElectricBill(infoModel.getElctX());
+                    poGoCasxx.DisbursementInfo().Expenses().setFoodAllowance(infoModel.getFoodX());
+                    poGoCasxx.DisbursementInfo().Expenses().setWaterBill(infoModel.getWaterX());
+                    poGoCasxx.DisbursementInfo().Expenses().setLoanAmount((infoModel.getLoans()));
+                    poGoCasxx.DisbursementInfo().BankAccount().setBankName(Objects.requireNonNull(infoModel.getBankN()));
+                    poGoCasxx.DisbursementInfo().BankAccount().setAccountType(Objects.requireNonNull(infoModel.getStypeX()));
+                    poGoCasxx.DisbursementInfo().CreditCard().setBankName(Objects.requireNonNull(infoModel.getCcBnk()));
+                    poGoCasxx.DisbursementInfo().CreditCard().setCreditLimit(Objects.requireNonNull(infoModel.getLimitCC()));
+                    poGoCasxx.DisbursementInfo().CreditCard().setMemberSince(Objects.requireNonNull(infoModel.getYearS()));
+                    ECreditApplicantInfo info = new ECreditApplicantInfo();
+                    info.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
+                    info.setDetlInfo(poGoCasxx.toJSONString());
+                    info.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
+                    poApplcnt.updateGOCasData(info);
+                    Log.e("Disbursement Data", String.valueOf(info.getDetlInfo()));
+                    return "success";
+                }else {
+                    return infoModel.getMessage();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                return e.getMessage();
+            }
+        }
 
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s.equalsIgnoreCase("success")){
+                callback.onSaveSuccessResult("Success");
+            } else {
+                callback.onFailedResult(s);
+            }
+        }
+    }
 
 
 }

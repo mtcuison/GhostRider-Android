@@ -335,8 +335,16 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         poMessage.initDialog();
         poMessage.setTitle("Daily Collection Plan");
         poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+            if (message.equalsIgnoreCase("Record not found")){
+                dialog.dismiss();
+                showDownloadDcp();
+            }else {
+                dialog.dismiss();
+            }
+        });
         poMessage.show();
+
     }
     public void showDownloadDcp(){
         DialogDownloadDCP dialogDownloadDCP = new DialogDownloadDCP(Activity_CollectionList.this);
