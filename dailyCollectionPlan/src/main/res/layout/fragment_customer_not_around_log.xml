@@ -12,22 +12,13 @@
     android:layout_height="match_parent"
     android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/iv_transaction_img"
-        android:layout_width="0dp"
-        android:layout_height="300dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/ln_client_info"/>
-
     <LinearLayout
         android:id="@+id/ln_client_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_transaction_img"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="10dp">
         <LinearLayout
@@ -104,6 +95,15 @@
         android:background="@color/guanzon_digital_orange"
         app:layout_constraintTop_toBottomOf="@id/ln_client_info"/>
 
+    <ImageView
+        android:id="@+id/iv_transaction_img"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider1"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"/>
+
     <LinearLayout
         android:id="@+id/ln_mobileNox"
         android:layout_marginTop="10dp"
@@ -111,7 +111,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider1"
+        app:layout_constraintTop_toBottomOf="@id/iv_transaction_img"
         app:layout_constraintRight_toRightOf="parent">
 
         <TextView
@@ -137,7 +137,6 @@
         android:id="@+id/divider2"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginTop="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ln_mobileNox"/>
