@@ -25,7 +25,7 @@ import java.util.Objects;
 public class Activity_TransactionLog extends AppCompatActivity {
     private static final String TAG = Activity_TransactionLog.class.getSimpleName();
     private static Activity_TransactionLog instance;
-    public static String fullNme, entryNox, acctNox, remCodex, imgNme, clientID, clientAddress ;
+    public static String fullNme, entryNox, acctNox, remCodex, imgNme, clientID, clientAddress, remarks ;
 
 
     public static Activity_TransactionLog getInstance(){
@@ -60,6 +60,7 @@ public class Activity_TransactionLog extends AppCompatActivity {
         imgNme = getIntent().getStringExtra("imgNme");
         clientID = getIntent().getStringExtra("sClientID");
         clientAddress = getIntent().getStringExtra("sAddressx");
+        remarks = getIntent().getStringExtra("sRemarksx");
 
 
         Toolbar toolbar = findViewById(R.id.toolbar_transaction);
@@ -70,6 +71,30 @@ public class Activity_TransactionLog extends AppCompatActivity {
 
         if(remCodex.equalsIgnoreCase("CNA")) {
             getSupportActionBar().setTitle("Customer Not Around");
+        }
+        else if(remCodex.equalsIgnoreCase("Car")) {
+            getSupportActionBar().setTitle("Carnap");
+        }
+        else if(remCodex.equalsIgnoreCase("UNC")) {
+            getSupportActionBar().setTitle("Uncooperative");
+        }
+        else if(remCodex.equalsIgnoreCase("MCs")) {
+            getSupportActionBar().setTitle("Missing Customer");
+        }
+        else if(remCodex.equalsIgnoreCase("MUn")) {
+            getSupportActionBar().setTitle("Missing Unit");
+        }
+        else if(remCodex.equalsIgnoreCase("MCU")) {
+            getSupportActionBar().setTitle("Missing Customer and Unit");
+        }
+        else if(remCodex.equalsIgnoreCase("DNP")) {
+            getSupportActionBar().setTitle("Did Not Pay");
+        }
+        else if(remCodex.equalsIgnoreCase("NV")) {
+            getSupportActionBar().setTitle("Not Visited");
+        }
+        else if(remCodex.equalsIgnoreCase("OTH")) {
+            getSupportActionBar().setTitle("Others");
         }
 
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getTransactionFragment(remCodex)));

@@ -1,14 +1,18 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import org.rmj.appdriver.base.GConnection;
+import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAddressRequest;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMobileRequest;
+import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 
@@ -47,7 +51,11 @@ public class RCollectionUpdate {
         return mobileDao.getMobileRequestList();
     }
 
-    public void insertUpdateAddress(EAddressUpdate addressUpdate){
+    public LiveData<List<EMobileUpdate>> getMobileListForClient(String ClientID){
+        return mobileDao.getMobileRequestListForClient(ClientID);
+    }
+
+    public void insertUpdateAddress(List<EAddressUpdate> addressUpdate){
         new UpdateAddressTask(addressDao).execute(addressUpdate);
     }
 
@@ -55,7 +63,7 @@ public class RCollectionUpdate {
         new DeleteAddressTask(addressDao).execute(TransNox);
     }
 
-    public void insertUpdateMobile(EMobileUpdate mobileUpdate){
+    public void insertUpdateMobile(List<EMobileUpdate> mobileUpdate){
         new UpdateMobileTask(mobileDao).execute(mobileUpdate);
     }
 
@@ -71,7 +79,7 @@ public class RCollectionUpdate {
         mobileDao.updateMobileStatus(TransNox, oldTransNox, AppConstants.DATE_MODIFIED);
     }
 
-    private static class UpdateAddressTask extends AsyncTask<EAddressUpdate, Void, String>{
+    private class UpdateAddressTask extends AsyncTask<List<EAddressUpdate>, Void, String>{
         private final DAddressRequest addressDao;
 
         UpdateAddressTask(DAddressRequest addressDao){
@@ -79,9 +87,13 @@ public class RCollectionUpdate {
         }
 
         @Override
-        protected String doInBackground(EAddressUpdate... eAddressUpdates) {
-            addressDao.insert(eAddressUpdates[0]);
-            return "";
+        protected String doInBackground(List<EAddressUpdate>... lists) {
+            List<EAddressUpdate> updateList = lists[0];
+            for(int x = 0; x < updateList.size(); x++){
+                updateList.get(x).setTransNox(getNextAddressCode());
+                addressDao.insert(updateList.get(x));
+            }
+            return null;
         }
     }
 
@@ -99,23 +111,27 @@ public class RCollectionUpdate {
         }
     }
 
-    private static class UpdateMobileTask extends AsyncTask<EMobileUpdate, Void, String>{
+    @SuppressLint("StaticFieldLeak")
+    private class UpdateMobileTask extends AsyncTask<List<EMobileUpdate>, Void, String>{
         private final DMobileRequest mobileDao;
 
         UpdateMobileTask(DMobileRequest mobileDao){
             this.mobileDao = mobileDao;
         }
 
-        @SafeVarargs
         @Override
-        protected final String doInBackground(EMobileUpdate... eMobileUpdates) {
-            mobileDao.insert(eMobileUpdates[0]);
-            return "";
+        protected String doInBackground(List<EMobileUpdate>... lists) {
+            List<EMobileUpdate> updateList = lists[0];
+            for(int x = 0; x < updateList.size(); x++){
+                updateList.get(x).setTransNox(getNextMobileCode());
+                mobileDao.insert(updateList.get(x));
+            }
+            return null;
         }
     }
 
 
-    public static class DeleteMobileTask extends AsyncTask<String, Void, String>{
+    public class DeleteMobileTask extends AsyncTask<String, Void, String>{
         private final DMobileRequest mobileDao;
 
         DeleteMobileTask(DMobileRequest mobileDao){
@@ -128,4 +144,27 @@ public class RCollectionUpdate {
             return "";
         }
     }
+
+    public String getNextMobileCode(){
+        String lsNextCode = "";
+        try{
+            GConnection loConn = DbConnection.doConnect(application);
+            lsNextCode = MiscUtil.getNextCode("Mobile_Update_Request", "sTransNox", true, loConn.getConnection(), "", 12, false);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return lsNextCode;
+    }
+
+    public String getNextAddressCode(){
+        String lsNextCode = "";
+        try{
+            GConnection loConn = DbConnection.doConnect(application);
+            lsNextCode = MiscUtil.getNextCode("Address_Update_Request", "sTransNox", true, loConn.getConnection(), "", 12, false);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return lsNextCode;
+    }
+
 }

@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,17 +25,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAccountDetail;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogConfirmPost;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogDownloadDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogOtherClient;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_CollectionList extends AppCompatActivity implements ViewModelCallback, VMCollectionList.OnDownloadCollection {
@@ -53,6 +58,8 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     private LinearLayoutManager layoutManager;
 
     private TextView lblBranch, lblAddxx, lblDate;
+
+    private List<DDCPCollectionDetail.CollectionDetail> plDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +82,15 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         });
 
         mViewModel.getCollectionMasterList().observe(this, edcpCollectionMasters -> mViewModel.setCollectionMasterList(edcpCollectionMasters));
+
+        mViewModel.getCollectionDetailForPosting().observe(this, collectionDetails -> {
+            try {
+                plDetail = collectionDetails;
+                mViewModel.setCollectionListForPosting(collectionDetails);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
 
         mViewModel.getCollectionList().observe(this, collectionDetails -> {
             if(collectionDetails.size() > 0) {
@@ -178,6 +194,8 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
         poDialogx = new LoadDialog(Activity_CollectionList.this);
         poMessage = new MessageBox(Activity_CollectionList.this);
+
+        plDetail = new ArrayList<>();
     }
 
     @Override
@@ -221,19 +239,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
                     //Check if serial no entered is already added on DCP list...
                     // args parameter from dialog refers to serial no...
-                    mViewModel.getDuplicateSerialEntry(args).observe(Activity_CollectionList.this, collectionDetail -> {
-
-                        if(collectionDetail != null){
-                            Dialog.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Insurance Client");
-                            poMessage.setMessage("This Serial No. is already listed on today's collection list.");
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                            poMessage.show();
-                        } else {
-                            mViewModel.importInsuranceInfo(args, Activity_CollectionList.this);
-                        }
-                    });
+                    mViewModel.importInsuranceInfo(args, Activity_CollectionList.this);
                 }
 
                 @Override
@@ -243,33 +249,85 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             });
             loDialog.show();
         } else if(item.getItemId() == R.id.action_menu_post_collection){
-            mViewModel.PostLRCollectionDetail(new ViewModelCallback() {
-                @Override
-                public void OnStartSaving() {
-                    poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
-                    poDialogx.show();
+            boolean hasUnTag = false;
+            if(plDetail.size()>0){
+                for(int x = 0; x < plDetail.size(); x++){
+                    if(plDetail.get(x).sRemCodex == null){
+                        hasUnTag = true;
+                    }
                 }
+            }
+            if(hasUnTag){
+                DialogConfirmPost loPost = new DialogConfirmPost(Activity_CollectionList.this);
+                loPost.iniDialog(new DialogConfirmPost.DialogPostUnfinishedListener() {
+                    @Override
+                    public void OnConfirm(AlertDialog dialog, String Remarks) {
+                        dialog.dismiss();
+                        mViewModel.PostLRCollectionDetail(Remarks, new ViewModelCallback() {
+                            @Override
+                            public void OnStartSaving() {
+                                poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
+                                poDialogx.show();
+                            }
 
-                @Override
-                public void OnSuccessResult(String[] args) {
-                    poDialogx.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Daily Collection Plan");
-                    poMessage.setMessage(args[0]);
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                }
+                            @Override
+                            public void OnSuccessResult(String[] args) {
+                                poDialogx.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Daily Collection Plan");
+                                poMessage.setMessage(args[0]);
+                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
 
-                @Override
-                public void OnFailedResult(String message) {
-                    poDialogx.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Daily Collection Plan");
-                    poMessage.setMessage(message);
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                }
-            });
+                            @Override
+                            public void OnFailedResult(String message) {
+                                poDialogx.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Daily Collection Plan");
+                                poMessage.setMessage(message);
+                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void OnCancel(AlertDialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
+                loPost.show();
+            } else {
+                mViewModel.PostLRCollectionDetail("", new ViewModelCallback() {
+                    @Override
+                    public void OnStartSaving() {
+                        poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
+                        poDialogx.show();
+                    }
+
+                    @Override
+                    public void OnSuccessResult(String[] args) {
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Daily Collection Plan");
+                        poMessage.setMessage(args[0]);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+
+                    @Override
+                    public void OnFailedResult(String message) {
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Daily Collection Plan");
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+                });
+            }
+
         } else if(item.getItemId() == R.id.action_menu_upload_collection){
             // TODO: createAction for uploading and reading files from external storage
         } else if(item.getItemId() == R.id.action_menu_upload_collection){
@@ -365,6 +423,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             @Override
             public void OnCancel(Dialog Dialog) {
                 Dialog.dismiss();
+                finish();
             }
         });
         dialogDownloadDCP.show();

@@ -68,20 +68,31 @@ public class VMCollectionList extends AndroidViewModel {
         this.instance = application;
         poDCPRepo = new RDailyCollectionPlan(application);
         poBranch = new RBranch(application);
-        collectionList = poDCPRepo.getCollectionDetailList();
         poUpdate = new RCollectionUpdate(application);
+        this.collectionList = poDCPRepo.getCollectionDetailList();
     }
 
     @SuppressLint("SimpleDateFormat")
     public void DownloadDcp(String date, OnDownloadCollection callback){
         try{
-            JSONObject loJson = new JSONObject();
-            loJson.put("sEmployID", "M00110006088");
-            loJson.put("dTransact", "2021-03-04");
             @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("MMM dd, yyyy").parse(date);
-            loJson.put("dTransact", new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(loDate)));
-            loJson.put("cDCPTypex", "1");
-            new ImportLRCollection(instance, masterList.getValue(), callback).execute(loJson);
+            String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(loDate));
+            boolean isExist = false;
+            for(int x = 0; x < masterList.getValue().size(); x++){
+                if(masterList.getValue().get(x).getTransact().equalsIgnoreCase(lsDate)){
+                    isExist = true;
+                }
+            }
+            if(!isExist) {
+                JSONObject loJson = new JSONObject();
+                loJson.put("sEmployID", "M00110006088");
+                loJson.put("dTransact", "2021-03-04");
+                loJson.put("dTransact", lsDate);
+                loJson.put("cDCPTypex", "1");
+                new ImportLRCollection(instance, masterList.getValue(), callback).execute(loJson);
+            } else {
+                callback.OnDownloadFailed("Record already exist");
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -347,7 +358,6 @@ public class VMCollectionList extends AndroidViewModel {
             JSONObject loJson = foJson.getJSONObject("master");
             for(int x = 0; x < masterList.size(); x++){
                 if(masterList.get(x).getTransNox().equalsIgnoreCase(loJson.getString("sTransNox"))){
-
                     //return false if transNox already exist...
                     isExist = false;
                 }
@@ -410,8 +420,8 @@ public class VMCollectionList extends AndroidViewModel {
         return poDCPRepo.getCollectionDetailForPosting();
     }
 
-    public void PostLRCollectionDetail(ViewModelCallback callback){
-        new PostLRCollectionDetail(instance, plAddress.getValue(), plMobile.getValue(), callback).execute(plDetail.getValue());
+    public void PostLRCollectionDetail(String Remarks, ViewModelCallback callback){
+        new PostLRCollectionDetail(instance, Remarks,  plAddress.getValue(), plMobile.getValue(), callback).execute(plDetail.getValue());
     }
 
     public static class PostLRCollectionDetail extends AsyncTask<List<DDCPCollectionDetail.CollectionDetail>, Void, String>{
@@ -425,8 +435,9 @@ public class VMCollectionList extends AndroidViewModel {
         private final RCollectionUpdate rCollect;
         private final List<EAddressUpdate> paAddress;
         private final List<EMobileUpdate> paMobile;
+        private final String sRemarksx;
 
-        public PostLRCollectionDetail(Application instance, List<EAddressUpdate> faAddress, List<EMobileUpdate> faMobile, ViewModelCallback callback){
+        public PostLRCollectionDetail(Application instance, String Remarksx,List<EAddressUpdate> faAddress, List<EMobileUpdate> faMobile, ViewModelCallback callback){
             this.poConn = new ConnectionUtil(instance);
             this.poUser = new SessionManager(instance);
             this.paAddress = faAddress;
@@ -437,6 +448,7 @@ public class VMCollectionList extends AndroidViewModel {
             this.poTelephony = new Telephony(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.rCollect = new RCollectionUpdate(instance);
+            this.sRemarksx = Remarksx;
         }
 
         @Override
@@ -470,34 +482,34 @@ public class VMCollectionList extends AndroidViewModel {
                                 JSONObject loData = new JSONObject();
 
                                 if(loDetail.sRemCodex != null) {
-                                org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(loDetail.sFileLoct,
-                                        lsAccess,
-                                        loDetail.sFileCode,
-                                        loDetail.sAcctNmbr,
-                                        loDetail.sImageNme,
-                                        poUser.getUserID(),
-                                        loDetail.sSourceCd,
-                                        loDetail.sTransNox,
-                                        "");
+                                    org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(loDetail.sFileLoct,
+                                            lsAccess,
+                                            loDetail.sFileCode,
+                                            loDetail.sAcctNmbr,
+                                            loDetail.sImageNme,
+                                            poUser.getUserID(),
+                                            loDetail.sSourceCd,
+                                            loDetail.sTransNox,
+                                            "");
 
-                                String lsResponse = (String) loUpload.get("result");
-                                Log.e(TAG, "Uploading image result : " + lsResponse);
+                                    String lsResponse = (String) loUpload.get("result");
+                                    Log.e(TAG, "Uploading image result : " + lsResponse);
 
-                                if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
-                                    Log.e(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. "+ loDetail.nEntryNox+ "was uploaded successfully");
+                                    if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
+                                        Log.e(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. "+ loDetail.nEntryNox+ "was uploaded successfully");
 
-                                    String lsTransNo = (String) loUpload.get("sTransNox");
-                                    poImage.updateImageInfo(lsTransNo, loDetail.sImageIDx);
-                                    //poDcp.updateCollectionDetailImage(loDetail.sAcctNmbr);
+                                        String lsTransNo = (String) loUpload.get("sTransNox");
+                                        poImage.updateImageInfo(lsTransNo, loDetail.sImageIDx);
+                                        //poDcp.updateCollectionDetailImage(loDetail.sAcctNmbr);
 
-                                    Thread.sleep(1000);
+                                        Thread.sleep(1000);
 
-                                } else {
-                                    isDataSent[x] = false;
-                                    Log.e(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. "+ loDetail.nEntryNox+ " was not uploaded to server.");
-                                    JSONObject loError = new JSONObject(lsResponse);
-                                    Log.e(TAG, "Reason : " + loError.getString("message"));
-                                }
+                                    } else {
+                                        isDataSent[x] = false;
+                                        Log.e(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. "+ loDetail.nEntryNox+ " was not uploaded to server.");
+                                        JSONObject loError = new JSONObject(lsResponse);
+                                        Log.e(TAG, "Reason : " + loError.getString("message"));
+                                    }
 
                                     if (loDetail.sRemCodex.equalsIgnoreCase("PAY")) {
                                         loData.put("sPRNoxxxx", loDetail.sPRNoxxxx);
@@ -539,6 +551,10 @@ public class VMCollectionList extends AndroidViewModel {
                                         loData.put("nLongitud", loDetail.nLongitud);
                                         loData.put("nLatitude", loDetail.nLatitude);
                                     }
+
+                                    loData.put("sRemarksx", loDetail.sRemarksx);
+                                } else {
+                                    loData.put("sRemarksx", sRemarksx);
                                 }
 
                                 JSONObject loJson = new JSONObject();
@@ -546,12 +562,10 @@ public class VMCollectionList extends AndroidViewModel {
                                 loJson.put("nEntryNox", loDetail.nEntryNox);
                                 loJson.put("sAcctNmbr", loDetail.sAcctNmbr);
                                 if(loDetail.sRemCodex == null){
-                                    loJson.put("sRemCodex", "");
+                                    loJson.put("sRemCodex", "OTH");
                                 } else {
                                     loJson.put("sRemCodex", loDetail.sRemCodex);
                                 }
-
-                                //TODO: If RemarksCode == LU || TA || FO repalce loData with the JSON object generated by RClientUpdate...
                                 loJson.put("sJsonData", loData);
                                 loJson.put("dReceived", "");
                                 loJson.put("sUserIDxx", poUser.getUserID());

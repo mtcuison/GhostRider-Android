@@ -36,8 +36,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Please enter check info"
+            android:text="There are remaining untag collection on collection list. Please enter remarks to post all collection detail."
             android:textSize="16sp"
+            android:padding="10dp"
             android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"
             android:layout_marginTop="15dp"/>
@@ -46,75 +47,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/TextInputStyle"
-            android:hint="Bank Name"
-            android:layout_marginTop="5dp">
-
-            <AutoCompleteTextView
-                android:id="@+id/txt_dcpBankName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/AutoCompleteStyleTheme"
-                android:gravity="center"
-                android:maxLines="1"
-                android:nextFocusForward="@id/txt_dcpAmount"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/TextInputStyle"
-            android:hint="Check Date (DD/MM/YYYY)"
+            android:hint="Remarks"
             android:layout_marginTop="5dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_dcpCheckDate"
+                android:id="@+id/txt_dcpRemarks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextInputStyle.Edittext"
                 android:gravity="center"
-                android:inputType="number|none"
-                android:maxLines="1"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/txt_dcpCheckNo"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/TextInputStyle"
-            android:hint="Check Number"
-            android:layout_marginTop="5dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_dcpCheckNo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle.Edittext"
-                android:gravity="center"
-                android:inputType="number|none"
-                android:maxLines="1"
-                android:maxLength="15"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/txt_dcpAcctNumber"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/TextInputStyle"
-            android:hint="Check Account Number"
-            android:layout_marginTop="5dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_dcpAcctNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle.Edittext"
-                android:gravity="center"
-                android:inputType="number|none"
-                android:maxLines="1"
-                android:maxLength="15"
+                android:inputType="textShortMessage"
+                android:maxLines="3"
                 android:imeOptions="actionDone"/>
         </com.google.android.material.textfield.TextInputLayout>
 

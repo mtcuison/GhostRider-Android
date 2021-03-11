@@ -155,7 +155,7 @@
                 android:layout_height="wrap_content"
                 style="@style/TextInputStyle.Edittext"
                 android:inputType="number|none"
-                android:maxLength="10"
+                android:maxLength="8"
                 android:maxLines="1"
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/txt_dcpAmount"/>

@@ -23,6 +23,7 @@ import java.util.List;
 public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.AddressHolder> {
 
     private List<DAddressRequest.CustomerAddressInfo> addressUpdates = new ArrayList<>();
+    private List<EAddressUpdate> addressUpdateList = new ArrayList<>();
     private final OnDeleteInfoListener mListener;
 
     public AddressInfoAdapter(OnDeleteInfoListener listener){
@@ -57,6 +58,11 @@ public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.
 
     public void setAddress(List<DAddressRequest.CustomerAddressInfo> addressUpdates) {
         this.addressUpdates = addressUpdates;
+        notifyDataSetChanged();
+    }
+
+    public void setAddressList(List<EAddressUpdate> addressUpdates) {
+        this.addressUpdateList = addressUpdates;
         notifyDataSetChanged();
     }
 
