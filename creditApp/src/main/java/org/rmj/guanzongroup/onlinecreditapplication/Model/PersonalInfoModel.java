@@ -24,6 +24,7 @@ public class PersonalInfoModel implements Parcelable {
     private String EmailAdd;
     private String FbAccntx;
     private String VbrAccnt;
+    private String ImgPath;
 
     //for save instance state
     private String ProvNme;
@@ -298,6 +299,14 @@ public class PersonalInfoModel implements Parcelable {
         }
         return true;
     }
+    public String getImgPath() {
+        return ImgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        ImgPath = imgPath;
+    }
+
     private boolean isValidContact(){
         if (mobileNoList.size()> 0) {
             return isPrimaryContactValid() &&
