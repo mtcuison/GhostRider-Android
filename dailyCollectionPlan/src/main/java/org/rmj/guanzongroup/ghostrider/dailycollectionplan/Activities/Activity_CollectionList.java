@@ -24,6 +24,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -35,6 +38,8 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Objects;
 
 public class Activity_CollectionList extends AppCompatActivity implements ViewModelCallback, VMCollectionList.OnDownloadCollection {
@@ -53,12 +58,19 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     private LinearLayoutManager layoutManager;
 
     private TextView lblBranch, lblAddxx, lblDate;
+    private JSONArray expCollectDetl;
+
+    //Kent
+    private static final String FILENAME = "collectionDetail.json";
+    private static final String FOLDER_NAME = "JSONFile";
+    private String fileContent= "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection_list);
         mViewModel = new ViewModelProvider(this).get(VMCollectionList.class);
+        expCollectDetl = new JSONArray();
         initWidgets();
 
         mViewModel.getCollectionLastEntry().observe(this, collectionDetail -> {
@@ -79,6 +91,54 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         mViewModel.getCollectionList().observe(this, collectionDetails -> {
             if(collectionDetails.size() > 0) {
                 txtSearch.setVisibility(View.VISIBLE);
+                //TODO: Exporting Collection List
+                for(int i = 0; i < collectionDetails.size(); i++) {
+                    JSONObject collectParam = new JSONObject();
+                    try {
+                        collectParam.put("sTransNox", collectionDetails.get(i).getTransNox());
+                        collectParam.put("nEntryNox", collectionDetails.get(i).getEntryNox());
+                        collectParam.put("sAcctNmbr", collectionDetails.get(i).getAcctNmbr());
+                        collectParam.put("xFullName", collectionDetails.get(i).getFullName());
+                        collectParam.put("sPRNoxxxx", collectionDetails.get(i).getPRNoxxxx());
+                        collectParam.put("nTranAmtx", collectionDetails.get(i).getTranAmtx());
+                        collectParam.put("nDiscount", collectionDetails.get(i).getDiscount());
+                        collectParam.put("nOthersxx", collectionDetails.get(i).getOthersxx());
+                        collectParam.put("sRemarksx", collectionDetails.get(i).getRemarksx());
+                        collectParam.put("sBankIDxx", collectionDetails.get(i).getBankIDxx());
+                        collectParam.put("sCheckDte", collectionDetails.get(i).getCheckDte());
+                        collectParam.put("sCheckNox", collectionDetails.get(i).getCheckNox());
+                        collectParam.put("sCheckAct", collectionDetails.get(i).getCheckAct());
+                        collectParam.put("dPromised", collectionDetails.get(i).getPromised());
+                        collectParam.put("sRemCodex", collectionDetails.get(i).getRemCodex());
+                        collectParam.put("cTranType", collectionDetails.get(i).getTranType());
+                        collectParam.put("nTranTotl", collectionDetails.get(i).getTranTotl());
+                        collectParam.put("sReferNox", collectionDetails.get(i).getReferNox());
+                        collectParam.put("cPaymForm", collectionDetails.get(i).getPaymForm());
+                        collectParam.put("cIsDCPxxx", collectionDetails.get(i).getIsDCPxxx());
+                        collectParam.put("sMobileNo", collectionDetails.get(i).getMobileNo());
+                        collectParam.put("sHouseNox", collectionDetails.get(i).getHouseNox());
+                        collectParam.put("sAddressx", collectionDetails.get(i).getAddressx());
+                        collectParam.put("sBrgyName", collectionDetails.get(i).getBrgyName());
+                        collectParam.put("sTownName", collectionDetails.get(i).getTownName());
+                        collectParam.put("nAmtDuexx", collectionDetails.get(i).getAmtDuexx());
+                        collectParam.put("cApntUnit", collectionDetails.get(i).getApntUnit());
+                        collectParam.put("sBranchCd", collectionDetails.get(i).getBranchCd());
+                        collectParam.put("dDueDatex", collectionDetails.get(i).getDueDatex());
+                        collectParam.put("sImageNme", collectionDetails.get(i).getImageNme());
+                        collectParam.put("nLongitud", collectionDetails.get(i).getLongitud());
+                        collectParam.put("nLatitude", collectionDetails.get(i).getLatitude());
+                        collectParam.put("sClientID", collectionDetails.get(i).getClientID());
+                        collectParam.put("sSerialID", collectionDetails.get(i).getSerialID());
+                        collectParam.put("sSerialNo", collectionDetails.get(i).getSerialNo());
+                        collectParam.put("cTranStat", collectionDetails.get(i).getTranStat());
+                        collectParam.put("cSendStat", collectionDetails.get(i).getSendStat());
+                        collectParam.put("dSendDate", collectionDetails.get(i).getSendDate());
+                        collectParam.put("dModified", collectionDetails.get(i).getModified());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    expCollectDetl.put(collectParam);
+                }
             } else {
                 txtSearch.setVisibility(View.GONE);
                showDownloadDcp();
@@ -269,8 +329,10 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                     poMessage.show();
                 }
             });
-        } else if(item.getItemId() == R.id.action_menu_upload_collection){
-            // TODO: createAction for uploading and reading files from external storage
+        } else if(item.getItemId() == R.id.action_menu_export_collection){
+            // TODO: EXPORT COLLECTION LIST
+            exportCollectionList(expCollectDetl);
+
         } else if(item.getItemId() == R.id.action_menu_upload_collection){
             // TODO: createAction for exporting files to external storage
         }
@@ -367,5 +429,25 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             }
         });
         dialogDownloadDCP.show();
+    }
+
+    private boolean exportCollectionList(JSONArray expCollectDetl) {
+        // TODO: KENt
+        try {
+            fileContent = expCollectDetl.toString();
+            if(!fileContent.equalsIgnoreCase("")) {
+                File myExternalFile = new File(getExternalFilesDir(FOLDER_NAME), FILENAME);
+                Log.e("Export Directory", myExternalFile.toString());
+                FileOutputStream fos = null;
+                fos = new FileOutputStream(myExternalFile);
+                fos.write(fileContent.getBytes());
+
+                GToast.CreateMessage(Activity_CollectionList.this, "Collection List Exported", GToast.INFORMATION).show();
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
