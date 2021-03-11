@@ -74,8 +74,8 @@ public class VMCollectionLog extends AndroidViewModel {
     public void setDateTransact(String fsTransact){
         try {
             @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(fsTransact);
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat lsFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        this.dTransact.setValue(lsFormatter.format(Objects.requireNonNull(loDate)));
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat lsFormatter = new SimpleDateFormat("yyyy-MM-dd");
+            this.dTransact.setValue(lsFormatter.format(Objects.requireNonNull(loDate)));
         } catch (ParseException e) {
             e.printStackTrace();
         }

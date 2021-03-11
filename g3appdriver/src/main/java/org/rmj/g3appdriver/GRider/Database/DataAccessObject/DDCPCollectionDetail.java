@@ -47,7 +47,7 @@ public interface DDCPCollectionDetail {
     @Insert
     void insertBulkData(List<EDCPCollectionDetail> collectionDetails);
 
-    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat ORDER BY dModified ASC")
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1' ORDER BY dModified ASC")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailList();
 
     @Query("SELECT * FROM Client_Update_Request WHERE sDtlSrcNo = (SELECT sDtlSrcNo FROM LR_DCP_Collection_Detail WHERE sAcctNmbr =:AccountNox)")
