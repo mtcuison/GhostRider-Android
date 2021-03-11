@@ -22,7 +22,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.OnDateSetListener;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalInfoModel;
@@ -50,6 +53,9 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
 
     private String transnox;
 
+    private MessageBox poMessage;
+    private ImageFileCreator poImage;
+    private EImageInfo poImageInfo;
     public static Fragment_PersonalInfo newInstance() {
         return new Fragment_PersonalInfo();
     }
@@ -60,6 +66,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         View view = inflater.inflate(R.layout.fragment_personal_info, container, false);
         infoModel = new PersonalInfoModel();
         transnox = Activity_CreditApplication.getInstance().getTransNox();
+        poMessage = new MessageBox(getContext());
         initWidgets(view);
         return view;
     }
@@ -224,14 +231,58 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
     @SuppressLint("RestrictedApi")
     @Override
     public void onSaveSuccessResult(String args) {
+
         Activity_CreditApplication.getInstance().moveToPageNumber(1);
     }
 
     @Override
     public void onFailedResult(String message) {
         GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
+//        if (message.trim().equalsIgnoreCase("empty"))
+//        {
+//            showDialogImg();
+//        }else {
+//            onFailedDialog(message);
+//        }
     }
-
+//    public void showDialogImg(){
+//        poMessage.initDialog();
+//        poMessage.setTitle(Remarksx);
+//        poMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction. \n" +
+//                "\n" +
+//                "NOTE: Take a selfie on your current place if customer is not visited");
+//        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+//            dialog.dismiss();
+//            poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+//                infoModel.setPtpImgPath(photPath);
+//                poImageInfo = new EImageInfo();
+//                poImageInfo.setDtlSrcNo(AccntNox);
+//                poImageInfo.setSourceNo(TransNox);
+//                poImageInfo.setSourceCD("DCPa");
+//                poImageInfo.setImageNme(FileName);
+//                poImageInfo.setFileLoct(photPath);
+//                poImageInfo.setFileCode("0020");
+//                poImageInfo.setLatitude(String.valueOf(latitude));
+//                poImageInfo.setLongitud(String.valueOf(longitude));
+//                mViewModel.setLatitude(String.valueOf(latitude));
+//                mViewModel.setLongitude(String.valueOf(longitude));
+//                mViewModel.setImgName(FileName);
+//                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+//            });
+//        });
+//        poMessage.setNegativeButton("Cancel", (view, dialog) -> {
+//            dialog.dismiss();
+////            Objects.requireNonNull(getActivity()).finish();
+//        });
+//        poMessage.show();
+//    }
+//    public void onFailedDialog(String messages){
+//        poMessage.initDialog();
+//        poMessage.setTitle("Transaction Failed");
+//        poMessage.setMessage(messages);
+//        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+//        poMessage.show();
+//    }
     private void SavePersonalInfo(){
         infoModel.setLastName(Objects.requireNonNull(txtLastNm.getText()).toString());
         infoModel.setFrstName(Objects.requireNonNull(txtFrstNm.getText()).toString());

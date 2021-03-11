@@ -183,6 +183,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.action_menu_dcp_list, menu);
+
         return true;
     }
 

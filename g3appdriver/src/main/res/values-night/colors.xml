@@ -14,7 +14,12 @@
     <color name="material_nav_light_gradient">#FFFFFF</color>
     <color name="material_nav_dark_gradient">#DBDBDB</color>
 
-    <color name="mtrl_textinput_default_box_stroke_color">#e2e2e2</color>
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#e2e2e2</color>
+    <color name="mtrl_textinput_default_box_stroke_colors" tools:override="true">#fbfbfb</color>
+
+    <color name="text_input_layout_stroke_color" tools:ignore="MissingDefaultResource">@color/border_white</color>
+    <color name="text_input_color_hint" tools:ignore="MissingDefaultResource">@color/text_color_hint</color>
+
     <color name="material_master_light_gradient">#8d8d8d</color>
     <color name="material_master_dark_gradient">#575757</color>
     <color name="color_nine_seven">#EAEAEA</color>
