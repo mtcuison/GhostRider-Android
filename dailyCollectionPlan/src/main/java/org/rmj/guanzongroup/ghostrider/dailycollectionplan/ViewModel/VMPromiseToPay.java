@@ -206,6 +206,7 @@ public class VMPromiseToPay extends AndroidViewModel {
                     loDetail.setBranchCd(infoModel.getPtpBranch());
                     loDetail.setTranStat("1");
                     loDetail.setSendStat("0");
+                    loDetail.setRemarksx(infoModel.getPtpRemarks());
                     loDetail.setLatitude(sLatitude.getValue());
                     loDetail.setLongitud(sLongitude.getValue());
                     loDetail.setImageNme(sImgName.getValue());

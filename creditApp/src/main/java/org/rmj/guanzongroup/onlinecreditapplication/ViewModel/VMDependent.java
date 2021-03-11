@@ -35,7 +35,7 @@ import java.util.Objects;
 public class VMDependent extends AndroidViewModel {
 
     private static final String TAG = VMDependent.class.getSimpleName();
-    private final MutableLiveData<String> psTranNo = new MutableLiveData<>();
+    public final MutableLiveData<String> psTranNo = new MutableLiveData<>();
     private final MutableLiveData<String> spnSchoolType = new MutableLiveData<>();
     private final MutableLiveData<String> spnSchoolLvl = new MutableLiveData<>();
     private final MutableLiveData<String> spnRelationx = new MutableLiveData<>();
@@ -202,19 +202,6 @@ public class VMDependent extends AndroidViewModel {
     }
 
 
-    public boolean AddDependent(DependentsInfoModel dependentsInfoModel , ExpActionListener listener){
-        if(dependentsInfoModel.isDataValid()) {
-            Objects.requireNonNull(this.dependentInfo.getValue()).add(dependentsInfoModel);
-            listener.onSuccess("Success");
-            Log.e("Disbursement Data", String.valueOf(dependentsInfoModel.getDpdRlationship()));
-
-            return true;
-        } else {
-            listener.onFailed(dependentsInfoModel.getMessage());
-            return false;
-        }
-    }
-
     public boolean SubmitDependentInfo(ViewModelCallBack callBack){
         try {
             for (int x = 0; x < dependentInfo.getValue().size(); x++) {
@@ -252,9 +239,35 @@ public class VMDependent extends AndroidViewModel {
             return false;
         }
   }
+
+//    public boolean AddDependent(DependentsInfoModel dependentsInfoModel , ExpActionListener listener){
+//        if(dependentsInfoModel.isDataValid()) {
+//            this.dependentInfo.getValue().add(dependentsInfoModel);
+//            listener.onSuccess("Success");
+//
+//            return true;
+//        } else {
+//            listener.onFailed(dependentsInfoModel.getMessage());
+//            return false;
+//        }
+//    }
+
+    public boolean AddDependent(DependentsInfoModel foInfo , ExpActionListener listener){
+        if(foInfo.isDataValid()) {
+            Objects.requireNonNull(this.dependentInfo.getValue().add(foInfo));
+            listener.onSuccess("Success");
+            return true;
+
+        } else {
+            listener.onFailed(foInfo.getMessage());
+            return false;
+        }
+    }
     public interface ExpActionListener{
         void onSuccess(String message);
         void onFailed(String message);
     }
+
+
 
 }

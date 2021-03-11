@@ -170,6 +170,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
                 lblClientNm.setText(collectionDetail.getFullName());
                 lblTransNo.setText(collectionDetail.getTransNox());
                 mViewModel.setCurrentCollectionDetail(collectionDetail);
+                tieRemarks.setText(collectionDetail.getRemarksx());
                 lblRemCode.setText(Remarksx);
             } catch (Exception e){
                 e.printStackTrace();
