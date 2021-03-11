@@ -80,6 +80,9 @@ public class VMDisbursementInfoTest{
     public void test_setCreditApplicantInfo() throws Exception{
 
         Assert.assertTrue(mViewModel.SubmitApplicationInfo(infoModels, callBack));
+        if(mViewModel.SubmitApplicationInfo(infoModels, callBack)){
+            System.out.println("Submit Success.");
+        }
     }
 
 }

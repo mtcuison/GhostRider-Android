@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model;
 public class PromiseToPayModel {
 
     private String ptpRemarks;
+    private String ptpRemCode;
     private String ptpDate;
     private String ptpAppointmentUnit;
     private String ptpCollectorName;
@@ -15,6 +16,11 @@ public class PromiseToPayModel {
     }
 
     public String getMessage() { return message; }
+
+    public String getPtpRemCode() { return this.ptpRemCode; }
+    public void setPtpRemCode(String ptpRemCode) {
+        this.ptpRemCode = ptpRemCode;
+    }
 
     public String getPtpRemarks() { return this.ptpRemarks; }
     public void setPtpRemarks(String ptpRemarks) {
@@ -47,7 +53,7 @@ public class PromiseToPayModel {
     }
 
     public boolean isDataValid(){
-        return isPtpDate() && isPtpAppoint() && isPtpImgPath();
+        return isPtpDate() && isPtpAppoint() && isRemarks() && isPtpImgPath();
     }
     public boolean isPtpDate(){
         if (ptpDate == null || ptpDate.trim().isEmpty()){
@@ -70,6 +76,13 @@ public class PromiseToPayModel {
     public boolean isPtpAppointBranch(){
         if (ptpBranch.trim().isEmpty()){
             message = "Please enter branch.";
+            return false;
+        }
+        return true;
+    }
+    public boolean isRemarks(){
+        if (ptpRemarks.trim().isEmpty()){
+            message = "Required fields!\nPlease enter remarks.";
             return false;
         }
         return true;

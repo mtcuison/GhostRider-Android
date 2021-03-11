@@ -51,7 +51,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
 
     private VMPromiseToPay mViewModel;
     private TextInputLayout tilBranchName;
-    private TextInputEditText ptpDate, ptpCollName;
+    private TextInputEditText ptpDate, ptpCollName, ptpRemark;
     private AutoCompleteTextView ptpBranchName;
     private MaterialButton btnPtp;
     private RadioGroup rgPtpAppUnit;
@@ -98,6 +98,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         ptpDate = v.findViewById(R.id.pToPayDate);
         ptpBranchName = v.findViewById(R.id.txt_ptp_branchName);
         rgPtpAppUnit = v.findViewById(R.id.rb_ap_ptpBranch);
+        ptpRemark = v.findViewById(R.id.tie_ptp_Remarks);
         ptpCollName = v.findViewById(R.id.txt_ptp_collectorName);
         btnPtp = v.findViewById(R.id.btn_ptp_submit);
 //        btnCamera = v.findViewById(R.id.imgPtpCamera);
@@ -259,7 +260,8 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
 
         //Saving CollectionDetail...
         infoModel.setPtpDate(Objects.requireNonNull(ptpDate.getText().toString()));
-        infoModel.setPtpRemarks(remarks);
+        infoModel.setPtpRemCode(remarks);
+        infoModel.setPtpRemarks(ptpRemark.getText().toString());
         infoModel.setPtpAppointmentUnit(IsAppointmentUnitX);
         infoModel.setPtpCollectorName(Objects.requireNonNull(ptpCollName.getText()).toString());
         mViewModel.savePtpInfo(infoModel, Fragment_PromiseToPay.this);
