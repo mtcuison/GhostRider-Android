@@ -70,8 +70,8 @@ public class VMCustomerNotAround extends AndroidViewModel {
     private final MutableLiveData<String> sImgPathx = new MutableLiveData<>();
     private final MutableLiveData<String> sAccntNox = new MutableLiveData<>();
 
-    private MutableLiveData<List<EAddressUpdate>> plAddress = new MutableLiveData<>();
-    private MutableLiveData<List<EMobileUpdate>> plMobile = new MutableLiveData<>();
+    private final MutableLiveData<List<EAddressUpdate>> plAddress = new MutableLiveData<>();
+    private final MutableLiveData<List<EMobileUpdate>> plMobile = new MutableLiveData<>();
 
     public VMCustomerNotAround(@NonNull Application application) {
         super(application);
@@ -182,15 +182,21 @@ public class VMCustomerNotAround extends AndroidViewModel {
     }
 
     public LiveData<List<EAddressUpdate>> getAddressRequestList(){
-        return poUpdate.getAddressList();
+        //return poUpdate.getAddressList();
+        return plAddress;
     }
 
     public LiveData<List<DAddressRequest.CustomerAddressInfo>> getAddressNames() {
         return poUpdate.getAddressNames();
     }
 
-    public LiveData<List<EMobileUpdate>> getMobileRequestList(){
-        return poUpdate.getMobileList();
+    public LiveData<List<EAddressUpdate>> getAddressRequesListForClient(){
+        return plAddress;
+    }
+
+    public LiveData<List<EMobileUpdate>> getMobileRequestListForClient(){
+        //return poUpdate.getMobileListForClient(clientID.getValue());
+        return plMobile;
     }
 
     public void updateCollectionDetail(String RemarksCode){
@@ -204,7 +210,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
         return poFileCode.getAllFileCode();
     }
 
-    public boolean addAddress(AddressUpdate foAddress, ViewModelCallback callback){
+    public boolean addAddressToList(AddressUpdate foAddress, ViewModelCallback callback){
         try {
             foAddress.setRequestCode(requestCode.getValue());
             foAddress.setcAddrssTp(addressType.getValue());
@@ -231,13 +237,8 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 info.setSendStat("0");
                 info.setModified(AppConstants.DATE_MODIFIED);
                 info.setTimeStmp(AppConstants.DATE_MODIFIED);
-                poUpdate.insertUpdateAddress(info);
-
-                GToast.CreateMessage(getApplication(), "Address Successfully Added.", GToast.INFORMATION).show();
-                Log.e(TAG, getValidatedAddress(foAddress));
-                return true;
-            }
-            else {
+                Objects.requireNonNull(this.plAddress.getValue()).add(info);
+            } else {
                 callback.OnFailedResult(foAddress.getMessage());
                 return false;
             }
@@ -246,15 +247,13 @@ public class VMCustomerNotAround extends AndroidViewModel {
             callback.OnFailedResult(e.getMessage());
             return false;
         }
+
+        return true;
     }
 
-    public void deleteAddress(String TransNox){
-        poUpdate.deleteAddress(TransNox);
-    }
-
-    public boolean addMobile(MobileUpdate foMobile, ViewModelCallback callback){
-        try{
-            if(foMobile.isDataValid()){
+    public boolean AddMobileToList(MobileUpdate foMobile, ViewModelCallback callback){
+        try {
+            if (foMobile.isDataValid()) {
                 EMobileUpdate info = new EMobileUpdate();
                 info.setTransNox(poDcp.getNextMobileCode());
                 info.setClientID(clientID.getValue());
@@ -266,13 +265,8 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 info.setSendStat("0");
                 info.setModified(AppConstants.DATE_MODIFIED);
                 info.setTimeStmp(AppConstants.DATE_MODIFIED);
-                poUpdate.insertUpdateMobile(info);
-
-                GToast.CreateMessage(getApplication(), "Mobile number Successfully Added.", GToast.INFORMATION).show();
-                Log.e(TAG, getValidatedMobilenox(foMobile));
-                return true;
-            }
-            else {
+                Objects.requireNonNull(this.plMobile.getValue()).add(info);
+            } else {
                 callback.OnFailedResult(foMobile.getMessage());
                 return false;
             }
@@ -281,14 +275,46 @@ public class VMCustomerNotAround extends AndroidViewModel {
             callback.OnFailedResult(e.getMessage());
             return false;
         }
+
+        return true;
     }
 
-    public void saveTrans() {
-
+    public boolean saveAddressToLocal(ViewModelCallback callback){
+        try {
+            poUpdate.insertUpdateAddress(this.plAddress.getValue());
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailedResult(e.getMessage());
+            return false;
+        }
     }
 
-    public void deleteMobile(String TransNox){
-        poUpdate.deleteMobile(TransNox);
+//    public void deleteAddress(String TransNox){
+//        poUpdate.deleteAddress(TransNox);
+//    }
+
+    public void deleteAddress(int position){
+        Objects.requireNonNull(this.plAddress.getValue()).remove(position);
+    }
+
+    public boolean saveMobileToLocal(ViewModelCallback callback){
+        try{
+            poUpdate.insertUpdateMobile(this.plMobile.getValue());
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailedResult(e.getMessage());
+            return false;
+        }
+    }
+
+//    public void deleteMobile(String TransNox){
+//        poUpdate.deleteMobile(TransNox);
+//    }
+
+    public void deleteMobile(int position){
+        Objects.requireNonNull(plMobile.getValue()).remove(position);
     }
 
     private String getValidatedAddress(AddressUpdate foAddress) {

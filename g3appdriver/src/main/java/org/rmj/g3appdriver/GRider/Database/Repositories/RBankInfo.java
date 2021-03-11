@@ -81,7 +81,7 @@ public class RBankInfo {
 
                 //record already exists
 
-                lsSQL = "UPDATE Branch_Info SET" +
+                lsSQL = "UPDATE Bank_Info SET" +
                         " sBankName = " + SQLUtil.toSQL(loJson.getString("sBankName")) +
                         ",  cRecdStat = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
                         " WHERE sBankIDxx = " + SQLUtil.toSQL(loJson.getString("sBankIDxx"));

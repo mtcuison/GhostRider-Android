@@ -3,7 +3,6 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,22 +13,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionLogAdapter;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.TransactionAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionLog;
 
@@ -115,21 +107,18 @@ public class Activity_CollectionLog extends AppCompatActivity {
                     }
                 }
 
-                CollectionLogAdapter poAdapter = new CollectionLogAdapter(filteredCollectionDetlx, new CollectionLogAdapter.OnItemClickListener() {
-                    @Override
-                    public void OnClick(int position) {
-                        Intent loIntent = new Intent(Activity_CollectionLog.this, Activity_TransactionLog.class);
-                        loIntent.putExtra("entryNox",filteredCollectionDetlx.get(position).getEntryNox());
-                        loIntent.putExtra("acctNox",filteredCollectionDetlx.get(position).getAcctNmbr());
-                        loIntent.putExtra("fullNme", filteredCollectionDetlx.get(position).getFullName());
-                        loIntent.putExtra("remCodex", filteredCollectionDetlx.get(position).getRemCodex());
-                        loIntent.putExtra("imgNme", filteredCollectionDetlx.get(position).getImageNme());
-                        loIntent.putExtra("sClientID", filteredCollectionDetlx.get(position).getClientID());
-                        loIntent.putExtra("sAddressx", filteredCollectionDetlx.get(position).getAddressx());
-                        loIntent.putExtra("sRemarksx", filteredCollectionDetlx.get(position).getRemarksx());
-                        startActivity(loIntent);
-                    }
+                CollectionLogAdapter poAdapter = new CollectionLogAdapter(filteredCollectionDetlx, position -> {
+                    Intent loIntent = new Intent(Activity_CollectionLog.this, Activity_TransactionLog.class);
+                    loIntent.putExtra("entryNox",filteredCollectionDetlx.get(position).getEntryNox());
+                    loIntent.putExtra("acctNox",filteredCollectionDetlx.get(position).getAcctNmbr());
+                    loIntent.putExtra("fullNme", filteredCollectionDetlx.get(position).getFullName());
+                    loIntent.putExtra("remCodex", filteredCollectionDetlx.get(position).getRemCodex());
+                    loIntent.putExtra("imgNme", filteredCollectionDetlx.get(position).getImageNme());
+                    loIntent.putExtra("sClientID", filteredCollectionDetlx.get(position).getClientID());
+                    loIntent.putExtra("sAddressx", filteredCollectionDetlx.get(position).getAddressx());
+                    startActivity(loIntent);
                 });
+
                 poManager = new LinearLayoutManager(Activity_CollectionLog.this);
                 poManager.setOrientation(RecyclerView.VERTICAL);
                 recyclerView.setLayoutManager(poManager);
