@@ -72,6 +72,30 @@ public class Activity_TransactionLog extends AppCompatActivity {
         if(remCodex.equalsIgnoreCase("CNA")) {
             getSupportActionBar().setTitle("Customer Not Around");
         }
+        else if(remCodex.equalsIgnoreCase("Car")) {
+            getSupportActionBar().setTitle("Carnap");
+        }
+        else if(remCodex.equalsIgnoreCase("UNC")) {
+            getSupportActionBar().setTitle("Uncooperative");
+        }
+        else if(remCodex.equalsIgnoreCase("MCs")) {
+            getSupportActionBar().setTitle("Missing Customer");
+        }
+        else if(remCodex.equalsIgnoreCase("MUn")) {
+            getSupportActionBar().setTitle("Missing Unit");
+        }
+        else if(remCodex.equalsIgnoreCase("MCU")) {
+            getSupportActionBar().setTitle("Missing Customer and Unit");
+        }
+        else if(remCodex.equalsIgnoreCase("DNP")) {
+            getSupportActionBar().setTitle("Did Not Pay");
+        }
+        else if(remCodex.equalsIgnoreCase("NV")) {
+            getSupportActionBar().setTitle("Not Visited");
+        }
+        else if(remCodex.equalsIgnoreCase("OTH")) {
+            getSupportActionBar().setTitle("Others");
+        }
 
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getTransactionFragment(remCodex)));
     }
