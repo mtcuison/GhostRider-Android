@@ -27,6 +27,14 @@ public class RCollectionUpdate {
         mobileDao = db.MobileRequestDao();
     }
 
+    public LiveData<List<DMobileRequest.CNAMobileInfo>> getCNA_MobileDataList(String sClientID) {
+        return mobileDao.getCNAMobileDataList(sClientID);
+    }
+
+    public LiveData<List<DAddressRequest.CNA_AddressInfo>> getCNA_AddressDataList(String sClientID) {
+        return addressDao.getCNA_AddressDataList(sClientID);
+    }
+
     public LiveData<List<EAddressUpdate>> getAddressList(){
         return addressDao.getAddressRequestList();
     }

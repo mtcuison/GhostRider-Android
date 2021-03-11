@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -25,12 +24,10 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.OnBirthSetListener;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.OnDateSetListener;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
-import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMIntroductoryQuestion;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMPersonalInfo;
 
 import java.util.Objects;
@@ -99,7 +96,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         spnMobile1 = v.findViewById(R.id.spn_mobile1Type);
         spnMobile2 = v.findViewById(R.id.spn_mobile2Type);
         spnMobile3 = v.findViewById(R.id.spn_mobile3Type);
-        txtBirthDt.addTextChangedListener(new OnBirthSetListener(txtBirthDt));
+        txtBirthDt.addTextChangedListener(new OnDateSetListener(txtBirthDt));
 
         MaterialButton btnNext = v.findViewById(R.id.btn_creditAppNext);
 

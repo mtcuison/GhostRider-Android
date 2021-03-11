@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -33,6 +35,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectio
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -49,6 +52,8 @@ public class Activity_CollectionLog extends AppCompatActivity {
     private LinearLayoutManager poManager;
     private TextInputEditText txtDate, txtSearch;
     private RecyclerView recyclerView;
+
+    private List<EDCPCollectionDetail> filteredCollectionDetlx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +109,26 @@ public class Activity_CollectionLog extends AppCompatActivity {
 
         mViewModel.getDateTransact().observe(Activity_CollectionLog.this, s -> mViewModel.getCollectionDetailForDate(s).observe(Activity_CollectionLog.this, collectionDetails -> {
             try{
-                CollectionLogAdapter poAdapter = new CollectionLogAdapter(collectionDetails);
+                for(int z = 0; z < collectionDetails.size(); z++) {
+                    if(collectionDetails.get(z).getRemCodex() != null) {
+                        filteredCollectionDetlx.add(collectionDetails.get(z));
+                    }
+                }
+
+                CollectionLogAdapter poAdapter = new CollectionLogAdapter(filteredCollectionDetlx, new CollectionLogAdapter.OnItemClickListener() {
+                    @Override
+                    public void OnClick(int position) {
+                        Intent loIntent = new Intent(Activity_CollectionLog.this, Activity_TransactionLog.class);
+                        loIntent.putExtra("entryNox",filteredCollectionDetlx.get(position).getEntryNox());
+                        loIntent.putExtra("acctNox",filteredCollectionDetlx.get(position).getAcctNmbr());
+                        loIntent.putExtra("fullNme", filteredCollectionDetlx.get(position).getFullName());
+                        loIntent.putExtra("remCodex", filteredCollectionDetlx.get(position).getRemCodex());
+                        loIntent.putExtra("imgNme", filteredCollectionDetlx.get(position).getImageNme());
+                        loIntent.putExtra("sClientID", filteredCollectionDetlx.get(position).getClientID());
+                        loIntent.putExtra("sAddressx", filteredCollectionDetlx.get(position).getAddressx());
+                        startActivity(loIntent);
+                    }
+                });
                 poManager = new LinearLayoutManager(Activity_CollectionLog.this);
                 poManager.setOrientation(RecyclerView.VERTICAL);
                 recyclerView.setLayoutManager(poManager);
@@ -157,6 +181,7 @@ public class Activity_CollectionLog extends AppCompatActivity {
 
         txtDate = findViewById(R.id.txt_collectionDate);
         txtSearch = findViewById(R.id.txt_collectionSearch);
+        filteredCollectionDetlx = new ArrayList<>();
 
         try {
             @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(AppConstants.CURRENT_DATE);

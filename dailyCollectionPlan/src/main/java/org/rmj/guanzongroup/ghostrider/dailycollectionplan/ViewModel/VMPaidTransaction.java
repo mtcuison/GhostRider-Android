@@ -15,8 +15,10 @@ import androidx.lifecycle.MutableLiveData;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
@@ -28,14 +30,14 @@ import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
 
+import java.util.List;
+
 public class VMPaidTransaction extends AndroidViewModel {
     private static final String TAG = VMPaidTransaction.class.getSimpleName();
     private final Application instance;
     private final RBranch poBranch;
     private final RDailyCollectionPlan poDcp;
-
-    private final HttpHeaders poHeaders;
-    private final ConnectionUtil poConn;
+    private final RBankInfo poBank;
 
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
 
@@ -53,8 +55,7 @@ public class VMPaidTransaction extends AndroidViewModel {
         this.poDcp = new RDailyCollectionPlan(application);
         this.pnDsCntx.setValue((double) 0);
         this.pnOthers.setValue((double) 0);
-        this.poHeaders = HttpHeaders.getInstance(application);
-        this.poConn = new ConnectionUtil(application);
+        this.poBank = new RBankInfo(application);
     }
 
     public void setParameter(String TransNox, int EntryNox){
@@ -98,6 +99,14 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     public LiveData<Double> getTotalAmount(){
         return pnTotalx;
+    }
+
+    public LiveData<String[]> getBankNameList(){
+        return poBank.getBankNameList();
+    }
+
+    public LiveData<List<EBankInfo>> getBankInfoList(){
+        return poBank.getBankInfoList();
     }
 
     private void calculateTotal(){
@@ -147,8 +156,14 @@ public class VMPaidTransaction extends AndroidViewModel {
             try{
                 EDCPCollectionDetail detail = poDcpDetail;
                 if(!infoModel.isDataValid()){
-                    callback.OnFailedResult(infoModel.getMessage());
+                    lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(infoModel.getMessage());
                 } else {
+                    if(infoModel.getBankNme() != null){
+                        detail.setBankIDxx(infoModel.getBankNme());
+                        detail.setCheckDte(infoModel.getCheckDt());
+                        detail.setCheckNox(infoModel.getCheckNo());
+                        detail.setCheckAct(infoModel.getAccntNo());
+                    }
                     detail.setRemCodex(infoModel.getRemarksCode());
                     detail.setTranType(infoModel.getPayment());
                     detail.setPRNoxxxx(infoModel.getPrNoxxx());
@@ -161,45 +176,58 @@ public class VMPaidTransaction extends AndroidViewModel {
                     detail.setTranStat("1");
                     detail.setModified(AppConstants.DATE_MODIFIED);
                     poDcp.updateCollectionDetailInfo(detail);
-                }
 
-                //StartSending to Server
-                if(!poConn.isDeviceConnected()) {
-                    lsResponse = AppConstants.NO_INTERNET();
-                } else {
-                    JSONObject loData = new JSONObject();
-                    loData.put("sPRNoxxxx", detail.getPRNoxxxx());
-                    loData.put("nTranAmtx", detail.getTranAmtx());
-                    loData.put("nDiscount", detail.getDiscount());
-                    loData.put("nOthersxx", detail.getOthersxx());
-                    loData.put("cTranType", detail.getTranType());
-                    loData.put("nTranTotl", detail.getTranTotl());
-                    JSONObject loJson = new JSONObject();
-                    loJson.put("sTransNox", detail.getTransNox());
-                    loJson.put("nEntryNox", detail.getEntryNox());
-                    loJson.put("sAcctNmbr", detail.getAcctNmbr());
-                    loJson.put("sRemCodex", detail.getRemCodex());
-                    loJson.put("sJsonData", loData);
-                    loJson.put("dReceived", "");
-                    loJson.put("sUserIDxx", poUser.getUserID());
-                    loJson.put("sDeviceID", poDevID.getDeviceID());
-                    Log.e(TAG, loJson.toString());
-                    lsResponse = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
 
-                    if(lsResponse == null){
-                        lsResponse = AppConstants.SERVER_NO_RESPONSE();
+                    //StartSending to Server
+                    if(!poConn.isDeviceConnected()) {
+                        lsResponse = AppConstants.NO_INTERNET();
                     } else {
-                        JSONObject loResponse = new JSONObject(lsResponse);
-                        if(loResponse.getString("result").equalsIgnoreCase("success")){
-                            detail.setSendStat("1");
-                            detail.setModified(AppConstants.DATE_MODIFIED);
-                            poDcp.updateCollectionDetailInfo(detail);
+                        JSONObject loData = new JSONObject();
+                        loData.put("sPRNoxxxx", detail.getPRNoxxxx());
+                        loData.put("nTranAmtx", detail.getTranAmtx());
+                        loData.put("nDiscount", detail.getDiscount());
+                        loData.put("nOthersxx", detail.getOthersxx());
+                        loData.put("cTranType", detail.getTranType());
+                        loData.put("nTranTotl", detail.getTranTotl());
+                        if(detail.getBankIDxx() == null) {
+                            loData.put("sBankIDxx", "");
+                            loData.put("sCheckDte", "");
+                            loData.put("sCheckNox", "");
+                            loData.put("sCheckAct", "");
+                        } else {
+                            loData.put("sBankIDxx", detail.getBankIDxx());
+                            loData.put("sCheckDte", detail.getCheckDte());
+                            loData.put("sCheckNox", detail.getCheckNox());
+                            loData.put("sCheckAct", detail.getCheckAct());
+                        }
+                        JSONObject loJson = new JSONObject();
+                        loJson.put("sTransNox", detail.getTransNox());
+                        loJson.put("nEntryNox", detail.getEntryNox());
+                        loJson.put("sAcctNmbr", detail.getAcctNmbr());
+                        loJson.put("sRemCodex", detail.getRemCodex());
+                        loJson.put("sJsonData", loData);
+                        loJson.put("dReceived", "");
+                        loJson.put("sUserIDxx", poUser.getUserID());
+                        loJson.put("sDeviceID", poDevID.getDeviceID());
+                        Log.e(TAG, loJson.toString());
+                        lsResponse = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
+
+                        if(lsResponse == null){
+                            lsResponse = AppConstants.SERVER_NO_RESPONSE();
+                        } else {
+                            JSONObject loResponse = new JSONObject(lsResponse);
+                            if(loResponse.getString("result").equalsIgnoreCase("success")){
+                                detail.setSendStat("1");
+                                detail.setModified(AppConstants.DATE_MODIFIED);
+                                poDcp.updateCollectionDetailInfo(detail);
+                            }
                         }
                     }
                 }
+
             } catch (Exception e){
                 e.printStackTrace();
-                callback.OnFailedResult(e.getMessage());
+                lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
             }
             return lsResponse;
         }
