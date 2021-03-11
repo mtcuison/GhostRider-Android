@@ -50,7 +50,7 @@ public interface DDCPCollectionDetail {
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> 1 ORDER BY dModified ASC")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailList();
 
-    @Query("SELECT * FROM Client_Update_Request WHERE sDtlSrcNo = (SELECT sDtlSrcNo FROM LR_DCP_Collection_Detail WHERE sAcctNmbr =:AccountNox)")
+    @Query("SELECT * FROM Client_Update_Request WHERE sDtlSrcNo = :AccountNox")
     LiveData<EClientUpdate> getClient_Update_Info(String AccountNox);
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cTranStat = 1 AND cSendStat = 0")

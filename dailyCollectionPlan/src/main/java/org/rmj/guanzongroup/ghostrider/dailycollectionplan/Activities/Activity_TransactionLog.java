@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_ClientDtl_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_CustomerNotAround;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_CustomerNotAround_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_IncTransaction;
@@ -96,6 +97,18 @@ public class Activity_TransactionLog extends AppCompatActivity {
         else if(remCodex.equalsIgnoreCase("OTH")) {
             getSupportActionBar().setTitle("Others");
         }
+        else if(remCodex.equalsIgnoreCase("FLA")) {
+            getSupportActionBar().setTitle("For Legal Action");
+        }
+        else if(remCodex.equalsIgnoreCase("TA")) {
+            getSupportActionBar().setTitle("Transferred/Assumed");
+        }
+        else if(remCodex.equalsIgnoreCase("FO")) {
+            getSupportActionBar().setTitle("False Ownership");
+        }
+        else if(remCodex.equalsIgnoreCase("LUn")) {
+            getSupportActionBar().setTitle("Loan Unit");
+        }
 
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getTransactionFragment(remCodex)));
     }
@@ -142,6 +155,12 @@ public class Activity_TransactionLog extends AppCompatActivity {
     private Fragment getTransactionFragment(String transaction){
         if(transaction.equalsIgnoreCase("CNA")){
             return new Fragment_CustomerNotAround_Log();
+        }
+        else if(transaction.equalsIgnoreCase("FLA") ||
+                transaction.equalsIgnoreCase("TA") ||
+                transaction.equalsIgnoreCase("FO") ||
+                transaction.equalsIgnoreCase("LUn")) {
+            return new Fragment_ClientDtl_Log();
         }
         else if((transaction.equalsIgnoreCase("Car")
                 || (transaction.equalsIgnoreCase("UNC"))
