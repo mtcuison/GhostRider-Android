@@ -25,7 +25,7 @@ import java.util.Objects;
 public class Activity_TransactionLog extends AppCompatActivity {
     private static final String TAG = Activity_TransactionLog.class.getSimpleName();
     private static Activity_TransactionLog instance;
-    public static String fullNme, entryNox, acctNox, remCodex, imgNme, clientID, clientAddress ;
+    public static String fullNme, entryNox, acctNox, remCodex, imgNme, clientID, clientAddress, remarks ;
 
 
     public static Activity_TransactionLog getInstance(){
@@ -60,6 +60,7 @@ public class Activity_TransactionLog extends AppCompatActivity {
         imgNme = getIntent().getStringExtra("imgNme");
         clientID = getIntent().getStringExtra("sClientID");
         clientAddress = getIntent().getStringExtra("sAddressx");
+        remarks = getIntent().getStringExtra("sRemarksx");
 
 
         Toolbar toolbar = findViewById(R.id.toolbar_transaction);

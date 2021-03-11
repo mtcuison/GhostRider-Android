@@ -126,6 +126,7 @@ public class Activity_CollectionLog extends AppCompatActivity {
                         loIntent.putExtra("imgNme", filteredCollectionDetlx.get(position).getImageNme());
                         loIntent.putExtra("sClientID", filteredCollectionDetlx.get(position).getClientID());
                         loIntent.putExtra("sAddressx", filteredCollectionDetlx.get(position).getAddressx());
+                        loIntent.putExtra("sRemarksx", filteredCollectionDetlx.get(position).getRemarksx());
                         startActivity(loIntent);
                     }
                 });
