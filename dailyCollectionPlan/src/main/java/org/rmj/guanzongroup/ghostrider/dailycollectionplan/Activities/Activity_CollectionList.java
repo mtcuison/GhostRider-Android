@@ -64,8 +64,9 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     private JSONArray expCollectDetl;
 
     //Kent
-    private static final String FILENAME = "collectionDetail.json";
-    private static final String FOLDER_NAME = "JSONFile";
+    private String FILENAME;
+    private final String FILE_TYPE = "-mob.txt";
+    private static final String FOLDER_NAME = "DCP_Exports";
     private String fileContent= "";
 
     private List<DDCPCollectionDetail.CollectionDetail> plDetail;
@@ -91,7 +92,13 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             }
         });
 
-        mViewModel.getCollectionMasterList().observe(this, edcpCollectionMasters -> mViewModel.setCollectionMasterList(edcpCollectionMasters));
+        mViewModel.getCollectionMasterList().observe(this, edcpCollectionMasters -> {
+            mViewModel.setCollectionMasterList(edcpCollectionMasters);
+            for(int y = 0; y < edcpCollectionMasters.size(); y++ ) {
+                FILENAME = edcpCollectionMasters.get(y).getTransNox();
+                Log.e("Master List TransNox",edcpCollectionMasters.get(y).getTransNox() );
+            }
+        });
 
         mViewModel.getCollectionDetailForPosting().observe(this, collectionDetails -> {
             try {
@@ -334,8 +341,14 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                     poMessage.show();
                 }
             });
-        } else if(item.getItemId() == R.id.action_menu_upload_collection){
-            // TODO: createAction for uploading and reading files from external storage
+        } else if(item.getItemId() == R.id.action_menu_export_collection){
+            // TODO: Exporting of DCP List
+            if(exportCollectionList(expCollectDetl)) {
+                GToast.CreateMessage(Activity_CollectionList.this, "DCP List Exported.", GToast.INFORMATION).show();
+            } else {
+                GToast.CreateMessage(Activity_CollectionList.this, "Error Exporting. See Exporting Method.", GToast.ERROR).show();
+            }
+
         } else if(item.getItemId() == R.id.action_menu_upload_collection){
             // TODO: createAction for exporting files to external storage
         }
@@ -436,11 +449,13 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     }
 
     private boolean exportCollectionList(JSONArray expCollectDetl) {
-        // TODO: KENt
+        // TODO: Exporting Method
         try {
-            fileContent = expCollectDetl.toString();
+            JSONObject loJson = new JSONObject();
+            loJson.put("android", expCollectDetl);
+            fileContent = loJson.toString();
             if(!fileContent.equalsIgnoreCase("")) {
-                File myExternalFile = new File(getExternalFilesDir(FOLDER_NAME), FILENAME);
+                File myExternalFile = new File(getExternalFilesDir(FOLDER_NAME), FILENAME+FILE_TYPE);
                 Log.e("Export Directory", myExternalFile.toString());
                 FileOutputStream fos = null;
                 fos = new FileOutputStream(myExternalFile);
