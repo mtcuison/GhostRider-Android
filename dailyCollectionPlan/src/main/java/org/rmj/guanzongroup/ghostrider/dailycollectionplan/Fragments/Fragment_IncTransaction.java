@@ -69,7 +69,7 @@ public class Fragment_IncTransaction extends Fragment {
     private void initWidgets(View v){
         loMessage = new MessageBox(getActivity());
 
-        poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, ImageFileCreator.FILE_CODE.DCP, AccntNox);
+        poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, DCP_Constants.getRemarksCode(Remarksx), AccntNox);
         poImageInfo = new EImageInfo();
         lblFullNme = v.findViewById(R.id.lbl_customerName);
         lblAccount = v.findViewById(R.id.lbl_AccountNo);

@@ -200,7 +200,7 @@ public class VMPromiseToPay extends AndroidViewModel {
                     @SuppressLint("SimpleDateFormat") Date parseDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsSelectedDate);
                     @SuppressLint("SimpleDateFormat") String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(parseDate));
                     EDCPCollectionDetail loDetail = detail[0];
-                    loDetail.setRemCodex(DCP_Constants.TRANSACT_PTP);
+                    loDetail.setRemCodex(sRemarksx.getValue());
                     Objects.requireNonNull(loDetail).setPromised(lsDate);
                     loDetail.setApntUnit(infoModel.getPtpAppointmentUnit());
                     loDetail.setBranchCd(infoModel.getPtpBranch());

@@ -75,9 +75,7 @@ public class DCP_Constants {
             "Single",
             "Married",
             "Separated",
-            "Widowed",
-            "Single-Parent",
-            "Single-Parent W/ Live-in Partner"};
+            "Widowed"};
 
     public static String[] REQUEST_CODE = {
             "Request Code",
