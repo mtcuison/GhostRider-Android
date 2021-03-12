@@ -19,12 +19,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.LoanUnitModel;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
@@ -36,15 +40,19 @@ public class VMLoanUnitTest {
     String TransNox, Remarks, luBDate, luPhune, luMobile, luEmail, luLName, luFName, luMiddName, luSuffix;
     String luIMGPath, luHouseNo, luStreet, luTown, luBrgy;
     String luBPlace, luCivil, luGender;
+    String latt, longi;
     int EntryNox;
     LoanUnitModel infoModel;
 
     VMLoanUnit mViewModel;
 
+    private List<EClientUpdate> clientData =  new ArrayList<>();
     private RDailyCollectionPlan poDcp;
+
     @Mock
     ViewModelCallback callback;
-
+    @Mock
+    RClientUpdate poClient;
     @Before
     public void setUp() throws Exception {
         EntryNox = 4;
@@ -64,6 +72,8 @@ public class VMLoanUnitTest {
         luCivil = "0";
         luMobile = "09452086661";
         luPhune = "";
+        latt = "16.0357708";
+        longi = "120.3316509";
         luEmail = "jonsabiniano03@gmail.com";
         luIMGPath = "/storage/emulated/0/Android/data/org.rmj.guanzongroup.ghostrider.epacss/files/DCP/LUn/LUn_20210304_131840.jpeg";
 
@@ -92,8 +102,8 @@ public class VMLoanUnitTest {
         mViewModel.setParameter(TransNox, EntryNox, Remarks);
         mViewModel.setGender("0");
         mViewModel.setImgName("LUn_20210304_131840.jpeg");
-        mViewModel.setLatitude("16.0357497");
-        mViewModel.setLongitude("120.331627");
+        mViewModel.setLatitude(latt);
+        mViewModel.setLongitude(longi);
 
     }
     @After
@@ -109,6 +119,7 @@ public class VMLoanUnitTest {
 
     @Test
     public void test_getInfoModels(){
+        Assert.assertEquals(TransNox,mViewModel.getTransNox().getValue());
         Assert.assertEquals(luFName,infoModel.getLuFirstName());
         Assert.assertEquals(luMiddName,infoModel.getLuMiddleName());
         Assert.assertEquals(luLName,infoModel.getLuLastName());
@@ -127,25 +138,25 @@ public class VMLoanUnitTest {
         Assert.assertEquals(luEmail,infoModel.getLuEmail());
         Assert.assertEquals(luIMGPath,infoModel.getLuImgPath());
 
+        System.out.print("TransNox: " + mViewModel.getTransNox().getValue() + "\n");
         System.out.print("Firstname: " + infoModel.getLuFirstName() + "\n");
         System.out.print("Middle Name:" + infoModel.getLuMiddleName() + "\n");
-        System.out.print("Lastname" + infoModel.getLuLastName() + "\n");
-        System.out.print("Suffix" + infoModel.getLuSuffix() + "\n");
-        System.out.print("BirthDate" + infoModel.getLuBDate() + "\n");
-        System.out.print("BirthPlace" + infoModel.getLuBPlace() + "\n");
+        System.out.print("Lastname  "+  infoModel.getLuLastName() + "\n");
+        System.out.print("Suffix " + infoModel.getLuSuffix() + "\n");
+        System.out.print("BirthDate " + infoModel.getLuBDate() + "\n");
+        System.out.print("BirthPlace " + infoModel.getLuBPlace() + "\n");
         System.out.print("Gender" + infoModel.getLuGender() + "\n");
         System.out.print("Civil" + infoModel.getLuCivilStats() + "\n");
-        System.out.print("Street" + infoModel.getLuStreet() + "\n");
-        System.out.print("HouseNo" + infoModel.getLuHouseNo() + "\n");
-        System.out.print("Brgy" + infoModel.getLuBrgy() + "\n");
-        System.out.print("Town" + infoModel.getLuTown() + "\n");
-        System.out.print("Phune" + infoModel.getLuPhone() + "\n");
-        System.out.print("Mobile" + infoModel.getLuMobile() + "\n");
-        System.out.print("Email" + infoModel.getLuEmail() + "\n");
-        System.out.print("IMGPath" + infoModel.getLuImgPath());
-
-
-
+        System.out.print("Street " + infoModel.getLuStreet() + "\n");
+        System.out.print("HouseNo " + infoModel.getLuHouseNo() + "\n");
+        System.out.print("Brgy " + infoModel.getLuBrgy() + "\n");
+        System.out.print("Town " + infoModel.getLuTown() + "\n");
+        System.out.print("Phune " + infoModel.getLuPhone() + "\n");
+        System.out.print("Mobile " + infoModel.getLuMobile() + "\n");
+        System.out.print("Email " + infoModel.getLuEmail() + "\n");
+        System.out.print("IMGPath " + infoModel.getLuImgPath() + "\n");
+        System.out.print("Latitude:  " + mViewModel.getLatitude().getValue() + "\n");
+        System.out.print("Longitude:  " + mViewModel.getLongitude().getValue() + "\n\n");
 
     }
 }

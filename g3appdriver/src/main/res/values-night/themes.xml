@@ -3,19 +3,26 @@
     <style name="GhostRiderMaterialTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/material_black</item>
         <item name="colorPrimaryVariant">@color/material_white</item>
-        <item name="colorOnPrimary">@color/textColor_Black</item>
         <!--        <item name="colorAccent">@color/light_grey</item>-->
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/guanzon_orange</item>
         <item name="colorSecondaryVariant">@color/textColor_Orange</item>
         <item name="colorOnSecondary">@color/textColor_White</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <item name="android:popupMenuStyle">@style/MyPopupOtherStyle</item>
+    </style>
+    <style name="MyPopupOtherStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">#ffff</item>
+        <!-- Used for the background -->
+        <item name="android:background">#575757</item>
     </style>
     <style name="GhostRiderMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="GhostRiderMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
-        <item name="android:itemBackground">#636363</item>
-        <item name="android:textColor">@color/material_black</item>
+        <item name="android:textColorPrimary">#ffff</item>
+        <item name="android:popupMenuStyle">@style/MyPopupOtherStyle</item>
     </style>
     <style name="TextInputStyle.Edittext">
         <item name="iconStartPadding">10dp</item>
@@ -139,7 +146,19 @@
 
     </style>
 
+    <!-- TEXT INPUT ORANGE BACKGROUND DCP HEADER-->
+    <style name="TextInputStyleHeaders" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:layout_margin">2dp</item>
+        <item name="boxStrokeColor">@color/text_input_layout_stroke_color</item>
+        <item name="hintTextColor">@color/mtrl_textinput_default_box_stroke_colors</item>
+        <item name="android:textColorHint">@color/text_color_hint</item>
+        <item name="colorControlActivated">@color/mtrl_textinput_default_box_stroke_colors</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
 
+    </style>
     <!-- PROGRESSBAR -->
 
     <style name="ProgressBarStyle" parent="Widget.AppCompat.ProgressBar.Horizontal">

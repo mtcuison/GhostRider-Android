@@ -78,7 +78,7 @@ public class Fragment_OtherInfoTest implements ViewModelCallBack, VMOtherInfo.Ex
         infoModel.setMonthlyPayerModel("1");
         infoModel.setPayer2BuyerModel("1");
         infoModel.setSourceModel("1");
-        infoModel.setCompanyInfoSourceModel("");
+        infoModel.setCompanyInfoSourceModel("Guanzon Group of Companies");
         for (int i  = 0; i <= 3; i++){
             mViewModel.addReference(infoModel, Fragment_OtherInfoTest.this);
         }

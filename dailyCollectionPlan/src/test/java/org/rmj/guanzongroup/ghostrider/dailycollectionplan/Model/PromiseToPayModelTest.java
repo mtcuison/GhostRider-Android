@@ -20,7 +20,7 @@ public class PromiseToPayModelTest {
         if (Integer.parseInt(ptpAppoinment) > 0){
             ptpBranch = "M126";
         }
-        collector = "";
+        collector = "Callanta, Sherwin John Balignasay";
         ptpRemCode = "Promise To Pay";
         ptpImgPath = "/storage/emulated/0/Android/data/org.rmj.guanzongroup.ghostrider.epacss/files/DCP/PromiseToPay/M00110006088_20210215_133829_6041598954179008174.jpg";
         infoModel = new PromiseToPayModel();
@@ -40,6 +40,7 @@ public class PromiseToPayModelTest {
     public void test_isPtpDate(){
         Assert.assertEquals(ptpDate,infoModel.getPtpDate());
         Assert.assertEquals(true, infoModel.isPtpDate());
+        System.out.print(infoModel.getPtpDate());
     }
 
     @Test
@@ -47,6 +48,7 @@ public class PromiseToPayModelTest {
 
         Assert.assertEquals(ptpAppoinment,infoModel.getPtpAppointmentUnit());
         Assert.assertEquals(true, infoModel.isPtpAppoint());
+        System.out.print(infoModel.getPtpAppointmentUnit());
     }
 
 
@@ -63,6 +65,13 @@ public class PromiseToPayModelTest {
         Assert.assertEquals(ptpBranch,infoModel.getPtpBranch());
         Assert.assertEquals(true, infoModel.isPtpAppointBranch());
         System.out.print(infoModel.getPtpBranch());
+    }
+    @Test
+    public void test_getCollector(){
+
+        Assert.assertEquals(collector,infoModel.getPtpCollectorName());
+//        Assert.assertEquals(true, infoModel.isPtpAppointBranch());
+        System.out.print(infoModel.getPtpCollectorName());
     }
 
     @Test

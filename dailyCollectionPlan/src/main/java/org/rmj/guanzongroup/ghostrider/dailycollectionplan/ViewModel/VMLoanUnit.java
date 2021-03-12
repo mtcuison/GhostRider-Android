@@ -119,6 +119,9 @@ public class VMLoanUnit extends AndroidViewModel {
     public LiveData<List<EClientUpdate>>  getClientData(){
         return poClient.selectClientUpdate();
     }
+    public LiveData<String>  getTransNox(){
+        return this.psTransNox;
+    }
     public void setImgPath(String imgPaths){
         this.imgPath.setValue(imgPaths);
     }
@@ -224,6 +227,13 @@ public class VMLoanUnit extends AndroidViewModel {
 
     public void setLongitude(String sLongitude) {
         this.sLongitude.setValue(sLongitude);
+    }
+    public LiveData<String> getLatitude() {
+       return this.sLatitude;
+    }
+
+    public LiveData<String>  getLongitude() {
+        return this.sLongitude;
     }
     public void setImgName(String imgName) {
         this.sImgName.setValue(imgName);
