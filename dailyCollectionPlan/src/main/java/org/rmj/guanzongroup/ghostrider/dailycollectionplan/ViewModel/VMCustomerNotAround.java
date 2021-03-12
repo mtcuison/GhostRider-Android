@@ -90,7 +90,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
     }
 
     public void saveImageInfo(EImageInfo foImageInfo){
-        ImgTransNox = poDcp.getImageNextCode();
+        ImgTransNox = poImage.getImageNextCode();
         foImageInfo.setTransNox(ImgTransNox);
         foImageInfo.setDtlSrcNo(sAccntNox.getValue());
         poImage.insertImageInfo(foImageInfo);

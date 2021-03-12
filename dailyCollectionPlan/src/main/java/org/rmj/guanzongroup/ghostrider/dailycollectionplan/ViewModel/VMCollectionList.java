@@ -488,7 +488,7 @@ public class VMCollectionList extends AndroidViewModel {
                                             loDetail.sAcctNmbr,
                                             loDetail.sImageNme,
                                             poUser.getUserID(),
-                                            loDetail.sSourceCd,
+                                            loDetail.sSourceCD,
                                             loDetail.sTransNox,
                                             "");
 
@@ -523,7 +523,9 @@ public class VMCollectionList extends AndroidViewModel {
                                         loData.put("cApntUnit", loDetail.cApntUnit);
                                         loData.put("sBranchCd", loDetail.sBranchCd);
                                         loData.put("dPromised", loDetail.dPromised);
+
                                         loData.put("sImageNme", loDetail.sImageNme);
+                                        loData.put("sSourceCD", loDetail.sSourceCD);
                                         loData.put("nLongitud", loDetail.nLongitud);
                                         loData.put("nLatitude", loDetail.nLatitude);
 
@@ -546,8 +548,14 @@ public class VMCollectionList extends AndroidViewModel {
                                         loData.put("sLandline", loDetail.sLandline);
                                         loData.put("sMobileNo", loDetail.sMobileNo);
                                         loData.put("sEmailAdd", loDetail.sEmailAdd);
+
+                                        loData.put("sImageNme", loDetail.sImageNme);
+                                        loData.put("sSourceCD", loDetail.sSourceCD);
+                                        loData.put("nLongitud", loDetail.nLongitud);
+                                        loData.put("nLatitude", loDetail.nLatitude);
                                     } else {
                                         loData.put("sImageNme", loDetail.sImageNme);
+                                        loData.put("sSourceCD", loDetail.sSourceCD);
                                         loData.put("nLongitud", loDetail.nLongitud);
                                         loData.put("nLatitude", loDetail.nLatitude);
                                     }

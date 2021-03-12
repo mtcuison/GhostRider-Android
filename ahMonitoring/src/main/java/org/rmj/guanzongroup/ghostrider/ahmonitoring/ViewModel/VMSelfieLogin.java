@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -28,6 +29,15 @@ public class VMSelfieLogin extends AndroidViewModel {
     }
 
     public void insertImageInfo(EImageInfo loImage){
+        loImage.setTransNox(poImage.getImageNextCode());
         poImage.insertImageInfo(loImage);
+    }
+
+    private static class LoginTimekeeperTask extends AsyncTask<EImageInfo, Void, String>{
+
+        @Override
+        protected String doInBackground(EImageInfo... eImageInfos) {
+            return null;
+        }
     }
 }
