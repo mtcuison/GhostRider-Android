@@ -12,14 +12,16 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay"
+        >
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_collectionList"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/material_tool_bar"
-            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay"
+            style="@style/GhostRiderMaterialTheme.PopupOverlay"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -75,25 +77,26 @@
             </LinearLayout>
             </LinearLayout>
         
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/textColor_Black"
-            android:layout_marginTop="15dp"/>
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="18sp"-->
+<!--            android:fontFamily="@font/roboto_regular"-->
+<!--            android:textColor="@color/textColor_Black"-->
+<!--            android:layout_marginTop="15dp"/>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_collectionSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TextInputStyle">
+            android:layout_margin="15dp"
+            style="@style/TextInputStyleHeaders">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txt_collectionSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/TextInputStyle.Edittext"
+                android:textColor="#fbfbfb"
                 android:hint="Search Customer's name"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:layout_marginTop="5dp"
-            android:background="@color/guanzon_orange"/>
+            android:background="#fff"/>
             <TextView
                 android:id="@+id/lbl_headerDate"
                 android:layout_width="match_parent"

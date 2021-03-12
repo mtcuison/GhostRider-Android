@@ -24,9 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -38,8 +35,6 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Objects;
 
 public class Activity_CollectionList extends AppCompatActivity implements ViewModelCallback, VMCollectionList.OnDownloadCollection {
@@ -65,6 +60,8 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     private static final String FOLDER_NAME = "JSONFile";
     private String fileContent= "";
 
+    private List<DDCPCollectionDetail.CollectionDetail> plDetail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +84,15 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         });
 
         mViewModel.getCollectionMasterList().observe(this, edcpCollectionMasters -> mViewModel.setCollectionMasterList(edcpCollectionMasters));
+
+        mViewModel.getCollectionDetailForPosting().observe(this, collectionDetails -> {
+            try {
+                plDetail = collectionDetails;
+                mViewModel.setCollectionListForPosting(collectionDetails);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
 
         mViewModel.getCollectionList().observe(this, collectionDetails -> {
             if(collectionDetails.size() > 0) {
@@ -238,11 +244,14 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
         poDialogx = new LoadDialog(Activity_CollectionList.this);
         poMessage = new MessageBox(Activity_CollectionList.this);
+
+        plDetail = new ArrayList<>();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.action_menu_dcp_list, menu);
+
         return true;
     }
 
@@ -280,19 +289,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
                     //Check if serial no entered is already added on DCP list...
                     // args parameter from dialog refers to serial no...
-                    mViewModel.getDuplicateSerialEntry(args).observe(Activity_CollectionList.this, collectionDetail -> {
-
-                        if(collectionDetail != null){
-                            Dialog.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Insurance Client");
-                            poMessage.setMessage("This Serial No. is already listed on today's collection list.");
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                            poMessage.show();
-                        } else {
-                            mViewModel.importInsuranceInfo(args, Activity_CollectionList.this);
-                        }
-                    });
+                    mViewModel.importInsuranceInfo(args, Activity_CollectionList.this);
                 }
 
                 @Override
@@ -329,10 +326,8 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                     poMessage.show();
                 }
             });
-        } else if(item.getItemId() == R.id.action_menu_export_collection){
-            // TODO: EXPORT COLLECTION LIST
-            exportCollectionList(expCollectDetl);
-
+        } else if(item.getItemId() == R.id.action_menu_upload_collection){
+            // TODO: createAction for uploading and reading files from external storage
         } else if(item.getItemId() == R.id.action_menu_upload_collection){
             // TODO: createAction for exporting files to external storage
         }
@@ -426,6 +421,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             @Override
             public void OnCancel(Dialog Dialog) {
                 Dialog.dismiss();
+                finish();
             }
         });
         dialogDownloadDCP.show();

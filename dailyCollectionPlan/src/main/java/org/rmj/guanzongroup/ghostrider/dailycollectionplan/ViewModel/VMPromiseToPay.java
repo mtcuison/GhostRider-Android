@@ -139,6 +139,13 @@ public class VMPromiseToPay extends AndroidViewModel {
     public void setLongitude(String sLongitude) {
         this.sLongitude.setValue(sLongitude);
     }
+    public LiveData<String> getLatitude() {
+        return this.sLatitude;
+    }
+
+    public LiveData<String>  getLongitude() {
+        return this.sLongitude;
+    }
     public void setImgName(String imgName) {
         this.sImgName.setValue(imgName);
     }
@@ -149,7 +156,7 @@ public class VMPromiseToPay extends AndroidViewModel {
     public boolean savePtpInfo(PromiseToPayModel infoModel, ViewModelCallback callback) {
         try {
 
-            new UpdateTask(poDcp, infoModel, callback).execute(poDcpDetail.getValue());
+            new UpdateTask(poDcp, infoModel, callback).execute(Objects.requireNonNull(poDcpDetail).getValue());
             return true;
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -164,13 +171,15 @@ public class VMPromiseToPay extends AndroidViewModel {
     }
 
     //Added by Mike -> Saving ImageInfo
-    public void saveImageInfo(EImageInfo foImage){
+    public boolean saveImageInfo(EImageInfo foImage){
         try{
-            foImage.setTransNox(poDcp.getImageNextCode());
+             foImage.setTransNox("MX01210000000280");
              poImage.insertImageInfo(foImage);
             Log.e(TAG, "Image info has been save!");
+            return true;
         } catch (Exception e){
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -200,7 +209,7 @@ public class VMPromiseToPay extends AndroidViewModel {
                     @SuppressLint("SimpleDateFormat") Date parseDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsSelectedDate);
                     @SuppressLint("SimpleDateFormat") String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(parseDate));
                     EDCPCollectionDetail loDetail = detail[0];
-                    loDetail.setRemCodex(DCP_Constants.TRANSACT_PTP);
+                    loDetail.setRemCodex(Objects.requireNonNull(DCP_Constants.TRANSACT_PTP));
                     Objects.requireNonNull(loDetail).setPromised(lsDate);
                     loDetail.setApntUnit(infoModel.getPtpAppointmentUnit());
                     loDetail.setBranchCd(infoModel.getPtpBranch());
@@ -215,8 +224,12 @@ public class VMPromiseToPay extends AndroidViewModel {
 
                     return "success";
                 }
-            } catch (Exception e){
-                e.printStackTrace();
+            } catch (NullPointerException e){
+//                e.printStackTrace();
+                return e.getMessage();
+            }
+            catch (Exception e){
+                //e.printStackTrace();
                 return e.getMessage();
             }
         }
