@@ -20,6 +20,7 @@ import com.google.android.material.button.MaterialButton;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -39,6 +40,8 @@ public class Fragment_SelfieLogin extends Fragment {
 
     private EEmployeeInfo poUser;
     private EImageInfo poImage;
+
+    private MessageBox poMessage;
 
     private String photPath;
 
@@ -61,6 +64,7 @@ public class Fragment_SelfieLogin extends Fragment {
         btnCamera = view.findViewById(R.id.btn_takeSelfie);
 
         poImage = new EImageInfo();
+        poMessage = new MessageBox(getActivity());
     }
 
     @Override
@@ -102,7 +106,22 @@ public class Fragment_SelfieLogin extends Fragment {
             if(resultCode == RESULT_OK){
                 poImage.setMD5Hashx(WebFileServer.createMD5Hash(photPath));
                 poImage.setCaptured(AppConstants.DATE_MODIFIED);
-                mViewModel.insertImageInfo(poImage);
+                mViewModel.loginTimeKeeper(poImage, new VMSelfieLogin.OnLoginTimekeeperListener() {
+                    @Override
+                    public void OnSuccess(String args) {
+
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+
+                    }
+                });
+                poMessage.initDialog();
+                poMessage.setTitle("Selfie Login");
+                poMessage.setMessage("Login Success");
+                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                poMessage.show();
             }
         }
     }
