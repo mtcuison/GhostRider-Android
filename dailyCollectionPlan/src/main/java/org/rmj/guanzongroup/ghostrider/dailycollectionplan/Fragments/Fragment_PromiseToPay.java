@@ -121,8 +121,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
             CollId = s.getCollctID();
             ptpCollName.setText(s.getCollName());
-            Log.e("Collector", s.getCollName());
-            poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, DCP_Constants.TRANSACT_PTP, AccntNox);
+            poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, DCP_Constants.getRemarksCode(Remarksx), AccntNox);
         });
 
         mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
@@ -207,7 +206,6 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
 
     }
 
-    @SuppressLint("UseRequireInsteadOfGet")
     @Override
     public void OnSuccessResult(String[] args) {
         poMessage.initDialog();
