@@ -61,9 +61,6 @@ public class VMCollectionList extends AndroidViewModel {
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
     private final MutableLiveData<Integer> pnEntryNox = new MutableLiveData<>();
 
-    public void PostLRCollectionDetail(ViewModelCallback viewModelCallback) {
-    }
-
     public interface OnDownloadCollection{
         void OnDownload();
         void OnSuccessDownload();
