@@ -301,6 +301,30 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                     } else {
                         Log.e("Failed","Failed");
                     }
+                } @Override
+                public void OnStartSaving() {
+                    poDialogx.initDialog("Daily Collection Plan", "Exporting collection details. Please wait...", false);
+                    poDialogx.show();
+                }
+
+                @Override
+                public void OnSuccessResult(String[] args) {
+                    poDialogx.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setMessage(args[0]);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+
+                @Override
+                public void OnFailedResult(String message) {
+                    poDialogx.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.show();
                 }
             });
         } else if(item.getItemId() == R.id.action_menu_upload_collection){
@@ -409,11 +433,13 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             if(!fileContent.equalsIgnoreCase("")) {
                 File myExternalFile = new File(getExternalFilesDir(FOLDER_NAME), FILENAME+FILE_TYPE);
                 Log.e("Export Directory", myExternalFile.toString());
+                if(myExternalFile.exists()) {
+                    boolean res = myExternalFile.delete();
+                    Log.e("Export Message", "File already exists(" + res + "). Overwritten the previous file.");
+                }
                 FileOutputStream fos = null;
                 fos = new FileOutputStream(myExternalFile);
                 fos.write(fileContent.getBytes());
-
-                GToast.CreateMessage(Activity_CollectionList.this, "Collection List Exported", GToast.INFORMATION).show();
             }
             return true;
         } catch (Exception e) {
