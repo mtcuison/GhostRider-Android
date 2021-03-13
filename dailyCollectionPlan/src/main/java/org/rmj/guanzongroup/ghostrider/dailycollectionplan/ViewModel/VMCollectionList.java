@@ -834,6 +834,7 @@ public class VMCollectionList extends AndroidViewModel {
                                 paramMobile.put("cReqstCDe", loDetail.smReqstCde);
                                 paramMobile.put("sMobileNo", loDetail.smContactNox);
                                 paramMobile.put("cPrimaryx", loDetail.smPrimaryx);
+                                paramMobile.put("sImageNme", loDetail.sImageNme);
                                 paramMobile.put("sRemarksx", loDetail.smRemarksx);
                                 Log.e("paramMobile", paramMobile.toString());
                                 loData.put("Mobile", paramMobile);
@@ -854,6 +855,7 @@ public class VMCollectionList extends AndroidViewModel {
                                 paramAddress.put("sTownIDxx", loDetail.saTownIDxx);
                                 paramAddress.put("sBrgyIDxx", loDetail.saBrgyIDxx);
                                 paramAddress.put("cPrimaryx", loDetail.saPrimaryx);
+                                paramAddress.put("sImageNme", loDetail.sImageNme);
                                 paramAddress.put("nLatitude", Double.parseDouble(loDetail.saLatitude));
                                 paramAddress.put("nLongitud", Double.parseDouble(loDetail.saLongitude));
                                 paramAddress.put("sRemarksx", loDetail.saRemarksx);
