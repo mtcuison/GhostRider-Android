@@ -166,7 +166,21 @@ public interface DDCPCollectionDetail {
             "c.dBirthPlc, " +
             "c.sLandline, " +
             "c.sMobileNo, " +
-            "c.sEmailAdd " +
+            "c.sEmailAdd, " +
+            "d.cReqstCDe AS saReqstCde, " +
+            "d.cAddrssTp AS saAddrsTp, " +
+            "d.sHouseNox AS saHouseNox, " +
+            "d.sAddressx AS saAddress, " +
+            "d.sTownIDxx AS saTownIDxx, " +
+            "d.sBrgyIDxx AS saBrgyIDxx, " +
+            "d.cPrimaryx AS saPrimaryx, " +
+            "d.nLatitude AS saLatitude, " +
+            "d.nLongitud AS saLongitude, " +
+            "d.sRemarksx AS saRemarksx," +
+            "e.cReqstCDe AS smReqstCde, " +
+            "e.sMobileNo AS smContactNox, " +
+            "e.cPrimaryx AS smPrimaryx, " +
+            "e.sRemarksx AS smRemarksx " +
             "FROM LR_DCP_Collection_Detail a " +
             "LEFT JOIN Image_Information b " +
             "ON a.sTransNox = b.sSourceNo " +
@@ -174,6 +188,10 @@ public interface DDCPCollectionDetail {
             "LEFT JOIN Client_Update_Request c " +
             "ON a.sTransNox = c.sSourceNo " +
             "AND a.sAcctNmbr = c.sDtlSrcNo " +
+            "LEFT JOIN Address_Update_Request d " +
+            "ON a.sClientID = d.sClientID " +
+            "LEFT JOIN MOBILE_UPDATE_REQUEST e " +
+            "ON a.sClientID = e.sClientID " +
             "WHERE a.cSendStat <> '1'")
     LiveData<List<CollectionDetail>> getCollectionDetailForPosting();
 
@@ -224,5 +242,22 @@ public interface DDCPCollectionDetail {
         public String sLandline;
         public String sMobileNo;
         public String sEmailAdd;
+
+        //Customer Not Around || Mobile &  Address
+        public String smReqstCde;
+         public String smPrimaryx;
+        public String smContactNox;
+        public String smRemarksx;
+
+        public String saReqstCde;
+        public String saAddrsTp;
+        public String saHouseNox;
+        public String saAddress;
+        public String saTownIDxx;
+        public String saBrgyIDxx;
+        public String saPrimaryx;
+        public String saLongitude;
+        public String saLatitude;
+        public String saRemarksx;
     }
 }
