@@ -100,6 +100,8 @@ public interface DAddressRequest {
         public String sBrgyName;
         public String sTownName;
         public String sProvName;
+        public String sLongitud;
+        public String sLatitude;
     }
 
 }

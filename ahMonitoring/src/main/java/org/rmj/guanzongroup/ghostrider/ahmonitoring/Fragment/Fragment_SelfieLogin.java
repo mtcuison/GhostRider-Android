@@ -27,6 +27,9 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLogin;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static android.app.Activity.RESULT_OK;
 
 public class Fragment_SelfieLogin extends Fragment {
@@ -44,6 +47,8 @@ public class Fragment_SelfieLogin extends Fragment {
     private MessageBox poMessage;
 
     private String photPath;
+
+    private List<EImageInfo> currentDateLog;
 
     public static Fragment_SelfieLogin newInstance() {
         return new Fragment_SelfieLogin();
@@ -65,6 +70,8 @@ public class Fragment_SelfieLogin extends Fragment {
 
         poImage = new EImageInfo();
         poMessage = new MessageBox(getActivity());
+
+        currentDateLog = new ArrayList<>();
     }
 
     @Override
@@ -82,20 +89,30 @@ public class Fragment_SelfieLogin extends Fragment {
             }
         });
 
+        mViewModel.getCurrentLogTimeIfExist().observe(getViewLifecycleOwner(), eImageInfos -> currentDateLog = eImageInfos);
+
         btnCamera.setOnClickListener(view -> {
-            ImageFileCreator loImage = new ImageFileCreator(getActivity(),"SelfieLogin","LOG","");
-            loImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                this.photPath = photPath;
-                poImage.setFileCode("0021");
-                poImage.setSourceNo(poUser.getClientID());
-                poImage.setDtlSrcNo(poUser.getUserIDxx());
-                poImage.setSourceCD("LOGa");
-                poImage.setImageNme(FileName);
-                poImage.setFileLoct(photPath);
-                poImage.setLatitude(String.valueOf(latitude));
-                poImage.setLongitud(String.valueOf(longitude));
-                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
-            });
+            if(currentDateLog.size() > 0) {
+                poMessage.initDialog();
+                poMessage.setTitle("Selfie Login");
+                poMessage.setMessage("You already login today.");
+                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                poMessage.show();
+            } else {
+                ImageFileCreator loImage = new ImageFileCreator(getActivity(), "SelfieLogin", "LOG", "");
+                loImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                    this.photPath = photPath;
+                    poImage.setFileCode("0021");
+                    poImage.setSourceNo(poUser.getClientID());
+                    poImage.setDtlSrcNo(poUser.getUserIDxx());
+                    poImage.setSourceCD("LOGa");
+                    poImage.setImageNme(FileName);
+                    poImage.setFileLoct(photPath);
+                    poImage.setLatitude(String.valueOf(latitude));
+                    poImage.setLongitud(String.valueOf(longitude));
+                    startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                });
+            }
         });
     }
 
@@ -120,7 +137,10 @@ public class Fragment_SelfieLogin extends Fragment {
                 poMessage.initDialog();
                 poMessage.setTitle("Selfie Login");
                 poMessage.setMessage("Login Success");
-                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                    getActivity().finish();
+                });
                 poMessage.show();
             }
         }
