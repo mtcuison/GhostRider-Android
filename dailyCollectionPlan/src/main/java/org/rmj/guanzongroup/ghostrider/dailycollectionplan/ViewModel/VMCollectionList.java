@@ -814,27 +814,40 @@ public class VMCollectionList extends AndroidViewModel {
                             loData.put("sMobileNo", loDetail.sMobileNo);
                             loData.put("sEmailAdd", loDetail.sEmailAdd);
                         } else if (loDetail.sRemCodex.equalsIgnoreCase("CNA")) {
-                            // Address
-                            JSONObject paramAddress = new JSONObject();
-                            paramAddress.put("cReqstCDe", loDetail.saReqstCde);
-                            paramAddress.put("cAddrssTp", loDetail.saAddrsTp);
-                            paramAddress.put("sHouseNox", loDetail.saHouseNox);
-                            paramAddress.put("sAddressx", loDetail.saAddress);
-                            paramAddress.put("sTownIDxx", loDetail.saTownIDxx);
-                            paramAddress.put("sBrgyIDxx", loDetail.saBrgyIDxx);
-                            paramAddress.put("cPrimaryx", loDetail.saPrimaryx);
-                            paramAddress.put("nLatitude", Double.parseDouble(loDetail.saLatitude));
-                            paramAddress.put("nLongitud", Double.parseDouble(loDetail.saLongitude));
-                            paramAddress.put("sRemarksx", loDetail.saRemarksx);
-                            loData.put("Address", paramAddress);
-
                             //Mobile
-                            JSONObject paramMobile = new JSONObject();
-                            paramMobile.put("cReqstCDe", loDetail.smReqstCde);
-                            paramMobile.put("sMobileNo", loDetail.smContactNox);
-                            paramMobile.put("cPrimaryx", loDetail.smPrimaryx);
-                            paramMobile.put("sRemarksx", loDetail.smRemarksx);
-                            loData.put("Mobile", paramMobile);
+                            if(loDetail.smReqstCde != null &&
+                                    loDetail.smContactNox != null &&
+                                    loDetail.smRemarksx !=null) {
+                                JSONObject paramMobile = new JSONObject();
+                                paramMobile.put("cReqstCDe", loDetail.smReqstCde);
+                                paramMobile.put("sMobileNo", loDetail.smContactNox);
+                                paramMobile.put("cPrimaryx", loDetail.smPrimaryx);
+                                paramMobile.put("sRemarksx", loDetail.smRemarksx);
+                                Log.e("paramMobile", paramMobile.toString());
+                                loData.put("Mobile", paramMobile);
+                            }
+                            // Address
+                            else if(loDetail.saReqstCde != null &&
+                            loDetail.saAddrsTp != null &&
+                            loDetail.saHouseNox != null &&
+                            loDetail.saAddress != null &&
+                            loDetail.saTownIDxx != null &&
+                            loDetail.saBrgyIDxx != null &&
+                            loDetail.saRemarksx != null) {
+                                JSONObject paramAddress = new JSONObject();
+                                paramAddress.put("cReqstCDe", loDetail.saReqstCde);
+                                paramAddress.put("cAddrssTp", loDetail.saAddrsTp);
+                                paramAddress.put("sHouseNox", loDetail.saHouseNox);
+                                paramAddress.put("sAddressx", loDetail.saAddress);
+                                paramAddress.put("sTownIDxx", loDetail.saTownIDxx);
+                                paramAddress.put("sBrgyIDxx", loDetail.saBrgyIDxx);
+                                paramAddress.put("cPrimaryx", loDetail.saPrimaryx);
+                                paramAddress.put("nLatitude", Double.parseDouble(loDetail.saLatitude));
+                                paramAddress.put("nLongitud", Double.parseDouble(loDetail.saLongitude));
+                                paramAddress.put("sRemarksx", loDetail.saRemarksx);
+                                Log.e("paramAddress", paramAddress.toString());
+                                loData.put("Address", paramAddress);
+                            }
 
                         } else {
                             loData.put("sImageNme", loDetail.sImageNme);
