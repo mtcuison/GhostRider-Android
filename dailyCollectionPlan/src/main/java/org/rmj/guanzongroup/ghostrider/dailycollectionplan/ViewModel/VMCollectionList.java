@@ -752,6 +752,9 @@ public class VMCollectionList extends AndroidViewModel {
 
     public interface FileManagerCallBack{
         void OnJSONCreated(JSONObject loJson);
+        void OnStartSaving();
+        void OnSuccessResult(String[] args);
+        void OnFailedResult(String message);
     }
 
     private static class ExportDCPFileTask extends AsyncTask<List<DDCPCollectionDetail.CollectionDetail>, Void, JSONObject>{
@@ -770,6 +773,7 @@ public class VMCollectionList extends AndroidViewModel {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            callBack.OnStartSaving();
         }
 
         @Override
@@ -899,6 +903,13 @@ public class VMCollectionList extends AndroidViewModel {
             callBack.OnJSONCreated(jsonObject);
 
             JSONExport = jsonObject;
+
+            if(JSONExport != null){
+                callBack.OnSuccessResult(new String[]{"Collection list exported successfully."});
+            } else {
+                callBack.OnFailedResult(("Collection list exporting failed."));
+            }
+
         }
 
 
