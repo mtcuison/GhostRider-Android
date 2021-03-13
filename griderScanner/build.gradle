@@ -67,4 +67,6 @@ dependencies {
     implementation project(':imgCapture')
     implementation project(':g3appdriver')
     implementation project(':notifications')
+    implementation project(':appdriver') //implement GhostRider Application Driver
+    implementation project(':settings')
 }

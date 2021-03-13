@@ -32,7 +32,7 @@ import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LOCATION_REQUEST
 public class Fragment_Settings  extends PreferenceFragmentCompat {
 
     private SwitchPreferenceCompat themePreference;
-    private Preference locationPref, cameraPref, phonePref;
+    private Preference locationPref, cameraPref, phonePref, exportPref;
     private VMSettings mViewModel;
     private GeoLocator poLocator;
     private boolean isContinue = false;
@@ -48,6 +48,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         cameraPref = getPreferenceManager().findPreference("cameraPrefs");
         locationPref = getPreferenceManager().findPreference("locationPrefs");
         phonePref = getPreferenceManager().findPreference("phonePrefs");
+        exportPref = getPreferenceManager().findPreference("exportPref");
 
         loMessage = new MessageBox(getActivity());
         mViewModel = new ViewModelProvider(this).get(VMSettings.class);

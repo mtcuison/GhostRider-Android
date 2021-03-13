@@ -40,4 +40,7 @@
 
     <color name="light_red">#ff3333</color>
     <color name="hint_color">#dadada</color>
+
+    <color name="check_green">#008000</color>
+    <color name="cross_red">#ac0d0d</color>
 </resources>
