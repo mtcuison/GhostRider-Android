@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -33,6 +34,7 @@ import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAccountDetail;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogConfirmPost;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogDownloadDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogOtherClient;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -264,33 +266,84 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             });
             loDialog.show();
         } else if(item.getItemId() == R.id.action_menu_post_collection){
-            mViewModel.PostLRCollectionDetail(new ViewModelCallback() {
-                @Override
-                public void OnStartSaving() {
-                    poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
-                    poDialogx.show();
+            boolean hasUnTag = false;
+            if(plDetail.size()>0){
+                for(int x = 0; x < plDetail.size(); x++){
+                    if(plDetail.get(x).sRemCodex == null){
+                        hasUnTag = true;
+                    }
                 }
+            }
+            if(hasUnTag){
+                DialogConfirmPost loPost = new DialogConfirmPost(Activity_CollectionList.this);
+                loPost.iniDialog(new DialogConfirmPost.DialogPostUnfinishedListener() {
+                    @Override
+                    public void OnConfirm(AlertDialog dialog, String Remarks) {
+                        dialog.dismiss();
+                        mViewModel.PostLRCollectionDetail(Remarks, new ViewModelCallback() {
+                            @Override
+                            public void OnStartSaving() {
+                                poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
+                                poDialogx.show();
+                            }
 
-                @Override
-                public void OnSuccessResult(String[] args) {
-                    poDialogx.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Daily Collection Plan");
-                    poMessage.setMessage(args[0]);
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                }
+                            @Override
+                            public void OnSuccessResult(String[] args) {
+                                poDialogx.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Daily Collection Plan");
+                                poMessage.setMessage(args[0]);
+                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
 
-                @Override
-                public void OnFailedResult(String message) {
-                    poDialogx.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Daily Collection Plan");
-                    poMessage.setMessage(message);
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                }
-            });
+                            @Override
+                            public void OnFailedResult(String message) {
+                                poDialogx.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Daily Collection Plan");
+                                poMessage.setMessage(message);
+                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void OnCancel(AlertDialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
+                loPost.show();
+            } else {
+                mViewModel.PostLRCollectionDetail("", new ViewModelCallback() {
+                    @Override
+                    public void OnStartSaving() {
+                        poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
+                        poDialogx.show();
+                    }
+
+                    @Override
+                    public void OnSuccessResult(String[] args) {
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Daily Collection Plan");
+                        poMessage.setMessage(args[0]);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+
+                    @Override
+                    public void OnFailedResult(String message) {
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Daily Collection Plan");
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+                });
+            }
         } else if(item.getItemId() == R.id.action_menu_export_collection){
             // TODO: Exporting of DCP List
             mViewModel.getExportDataList("No Transaction", new VMCollectionList.FileManagerCallBack() {
