@@ -3,7 +3,6 @@ package org.rmj.guanzongroup.promotions;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -19,10 +18,8 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.dev.AppData;
 import org.rmj.guanzongroup.promotions.Etc.RaffleEntryCallback;
 import org.rmj.guanzongroup.promotions.Model.RaffleEntry;
 import org.rmj.guanzongroup.promotions.ViewModel.VMRaffleEntry;
@@ -43,6 +40,8 @@ public class Activity_RaffleEntry extends AppCompatActivity implements RaffleEnt
     private MessageBox loMessage;
     private RaffleEntry voucher;
 
+    private String BranchCd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +51,7 @@ public class Activity_RaffleEntry extends AppCompatActivity implements RaffleEnt
         mViewModel.importDocuments();
 
         mViewModel.getUserBranchInfo().observe(Activity_RaffleEntry.this, eBranchInfo -> {
+            BranchCd = eBranchInfo.getBranchCd();
             lblbranch.setText(eBranchInfo.getBranchNm());
             lblAddrss.setText(eBranchInfo.getAddressx());
         });
@@ -69,12 +69,11 @@ public class Activity_RaffleEntry extends AppCompatActivity implements RaffleEnt
 //        });
 
         btnSubmit.setOnClickListener(view -> {
-            String lsBranchCode = AppData.getInstance(Activity_RaffleEntry.this).getBranchCode();
             voucher.setCustomerName(Objects.requireNonNull(txtName.getText()).toString());
             voucher.setCustomerAddx(Objects.requireNonNull(txtAddress.getText()).toString());
             voucher.setMobileNumber(Objects.requireNonNull(txtMobileNo.getText()).toString());
             voucher.setDocumentNoxx(Objects.requireNonNull(txtDocuNo.getText()).toString());
-            voucher.setBranchCodexx(lsBranchCode);
+            voucher.setBranchCodexx(BranchCd);
             voucher.setDocumentType(sReferCde);
             mViewModel.submit(voucher, Activity_RaffleEntry.this);
         });

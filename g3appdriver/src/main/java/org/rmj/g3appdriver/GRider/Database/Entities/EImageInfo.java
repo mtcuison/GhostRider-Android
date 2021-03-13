@@ -30,6 +30,8 @@ public class EImageInfo {
     private String Latitude;
     @ColumnInfo(name = "nLongitud")
     private String Longitud;
+    @ColumnInfo(name = "dCaptured")
+    private String Captured;
     @ColumnInfo(name = "cSendStat")
     private char SendStat;
     @ColumnInfo(name = "dSendDate")
@@ -117,6 +119,14 @@ public class EImageInfo {
 
     public void setLongitud(String longitud) {
         Longitud = longitud;
+    }
+
+    public String getCaptured() {
+        return Captured;
+    }
+
+    public void setCaptured(String captured) {
+        Captured = captured;
     }
 
     public char getSendStat() {

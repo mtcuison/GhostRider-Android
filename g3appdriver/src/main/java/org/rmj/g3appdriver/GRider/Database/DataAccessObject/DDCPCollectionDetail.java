@@ -147,7 +147,7 @@ public interface DDCPCollectionDetail {
             "a.sBranchCd, " +
             "b.sTransNox AS sImageIDx, " +
             "b.sFileCode, " +
-            "b.sSourceCd, " +
+            "b.sSourceCD, " +
             "b.sImageNme, " +
             "b.sMD5Hashx, " +
             "b.sFileLoct, " +
@@ -202,7 +202,7 @@ public interface DDCPCollectionDetail {
         //ImageInfo
         public String sImageIDx;
         public String sFileCode;
-        public String sSourceCd;
+        public String sSourceCD;
         public String sImageNme;
         public String sMD5Hashx;
         public String sFileLoct;

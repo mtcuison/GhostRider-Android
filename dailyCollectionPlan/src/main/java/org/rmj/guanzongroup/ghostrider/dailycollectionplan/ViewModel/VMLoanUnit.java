@@ -265,7 +265,7 @@ public class VMLoanUnit extends AndroidViewModel {
                 poImage.updateImageInfo(foImage);
                 Log.e(TAG, "Image info has been updated!");
             }else{
-                foImage.setTransNox(poDcp.getImageNextCode());
+                foImage.setTransNox(poImage.getImageNextCode());
                 poImage.insertImageInfo(foImage);
                 Log.e(TAG, "Image info has been save!");
             }

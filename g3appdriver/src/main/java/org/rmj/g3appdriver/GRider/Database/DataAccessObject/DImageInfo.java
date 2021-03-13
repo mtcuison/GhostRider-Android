@@ -41,7 +41,8 @@ public interface DImageInfo {
             "WHERE cSendStat = 0 " +
             "AND sSourceNo = (SELECT sTransNox " +
             "FROM LR_DCP_Collection_Master " +
-            "ORDER BY dTransact DESC LIMIT 1)")
+            "ORDER BY dTransact DESC LIMIT 1) " +
+            "AND sFileCode = (SELECT sFileCode FROM EDocSys_File WHERE sBarrcode = 'DCP001')")
     LiveData<List<EImageInfo>> getUnsentImageInfoList();
 
     @Query("SELECT * FROM Image_Information")

@@ -170,7 +170,6 @@ public class PopulateExpandableList {
                             }
                         }
                         break;
-
                 }
                 return false;
             }
