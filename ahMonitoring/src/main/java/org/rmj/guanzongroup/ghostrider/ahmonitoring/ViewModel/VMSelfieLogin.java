@@ -19,6 +19,8 @@ import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
+import java.util.List;
+
 public class VMSelfieLogin extends AndroidViewModel {
     private static final String TAG = VMSelfieLogin.class.getSimpleName();
     private final Application instance;
@@ -39,6 +41,10 @@ public class VMSelfieLogin extends AndroidViewModel {
 
     public LiveData<EEmployeeInfo> getUserInfo(){
         return poUser.getUserInfo();
+    }
+
+    public LiveData<List<EImageInfo>> getCurrentLogTimeIfExist(){
+        return poImage.getCurrentLogTimeIfExist(AppConstants.CURRENT_DATE);
     }
 
     public void loginTimeKeeper(EImageInfo loImage, OnLoginTimekeeperListener callback){

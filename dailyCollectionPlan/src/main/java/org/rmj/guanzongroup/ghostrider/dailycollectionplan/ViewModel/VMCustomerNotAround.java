@@ -70,7 +70,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
     private final MutableLiveData<String> sImgPathx = new MutableLiveData<>();
     private final MutableLiveData<String> sAccntNox = new MutableLiveData<>();
 
-    private final MutableLiveData<List<EAddressUpdate>> plAddress = new MutableLiveData<>();
+    private final MutableLiveData<List<DAddressRequest.CustomerAddressInfo>> plAddress = new MutableLiveData<>();
     private final MutableLiveData<List<EMobileUpdate>> plMobile = new MutableLiveData<>();
 
     public VMCustomerNotAround(@NonNull Application application) {
@@ -181,16 +181,17 @@ public class VMCustomerNotAround extends AndroidViewModel {
         return poBarangay.getAllBarangayFromTown(psTownID.getValue());
     }
 
-    public LiveData<List<EAddressUpdate>> getAddressRequestList(){
-        //return poUpdate.getAddressList();
-        return plAddress;
-    }
+//
+//    public LiveData<List<EAddressUpdate>> getAddressRequestList(){
+//        //return poUpdate.getAddressList();
+//        return plAddress;
+//    }
+//
+//    public LiveData<List<DAddressRequest.CustomerAddressInfo>> getAddressNames() {
+//        return poUpdate.getAddressNames();
+//    }
 
-    public LiveData<List<DAddressRequest.CustomerAddressInfo>> getAddressNames() {
-        return poUpdate.getAddressNames();
-    }
-
-    public LiveData<List<EAddressUpdate>> getAddressRequesListForClient(){
+    public LiveData<List<DAddressRequest.CustomerAddressInfo>> getAddressRequesListForClient(){
         return plAddress;
     }
 
@@ -219,24 +220,23 @@ public class VMCustomerNotAround extends AndroidViewModel {
             foAddress.setBarangayID(psBrgyID.getValue());
             foAddress.setPrimaryStatus(primeAddress.getValue());
             if (foAddress.isDataValid()) {
-                EAddressUpdate info = new EAddressUpdate();
+                DAddressRequest.CustomerAddressInfo info = new DAddressRequest.CustomerAddressInfo();
                 //Auto Generated random String
-                info.setTransNox(poDcp.getNextAddressCode());
-                info.setClientID(clientID.getValue());
-                info.setReqstCDe(foAddress.getRequestCode());
-                info.setAddrssTp(foAddress.getcAddrssTp());
-                info.setHouseNox(foAddress.getHouseNumber());
-                info.setAddressx(foAddress.getAddress());
-                info.setTownIDxx(foAddress.getTownID());
-                info.setBrgyIDxx(foAddress.getBarangayID());
-                info.setPrimaryx(foAddress.getPrimaryStatus());
-                info.setLongitud(foAddress.getLongitude());
-                info.setLatitude(foAddress.getLatitude());
-                info.setRemarksx(foAddress.getRemarks());
-                info.setTranStat("0");
-                info.setSendStat("0");
-                info.setModified(AppConstants.DATE_MODIFIED);
-                info.setTimeStmp(AppConstants.DATE_MODIFIED);
+                info.sTransNox = poDcp.getNextAddressCode();
+                info.sClientID = clientID.getValue();
+                info.cReqstCDe = foAddress.getRequestCode();
+                info.cAddrssTp = foAddress.getcAddrssTp();
+                info.sHouseNox = foAddress.getHouseNumber();
+                info.sAddressx = foAddress.getAddress();
+                info.sProvName = foAddress.getsProvName();
+                info.sTownName = foAddress.getsTownName();
+                info.sBrgyName = foAddress.getsBrgyName();
+                info.sTownIDxx = foAddress.getTownID();
+                info.sBrgyIDxx = foAddress.getBarangayID();
+                info.cPrimaryx = foAddress.getPrimaryStatus();
+                info.sLongitud = foAddress.getLongitude();
+                info.sLatitude = foAddress.getLatitude();
+                info.sRemarksx = foAddress.getRemarks();
                 Objects.requireNonNull(this.plAddress.getValue()).add(info);
             } else {
                 callback.OnFailedResult(foAddress.getMessage());
@@ -281,7 +281,29 @@ public class VMCustomerNotAround extends AndroidViewModel {
 
     public boolean saveAddressToLocal(ViewModelCallback callback){
         try {
-            poUpdate.insertUpdateAddress(this.plAddress.getValue());
+            List<DAddressRequest.CustomerAddressInfo> loAdd = plAddress.getValue();
+            List<EAddressUpdate> addList = new ArrayList<>();
+            for(int x = 0; x < loAdd.size(); x++){
+                EAddressUpdate info = new EAddressUpdate();
+                info.setTransNox(loAdd.get(x).sTransNox);
+                info.setClientID(loAdd.get(x).sClientID);
+                info.setReqstCDe(loAdd.get(x).cReqstCDe);
+                info.setAddrssTp(loAdd.get(x).cAddrssTp);
+                info.setHouseNox(loAdd.get(x).sHouseNox);
+                info.setAddressx(loAdd.get(x).sAddressx);
+                info.setTownIDxx(loAdd.get(x).sTownIDxx);
+                info.setBrgyIDxx(loAdd.get(x).sBrgyIDxx);
+                info.setPrimaryx(loAdd.get(x).cPrimaryx);
+                info.setLongitud(loAdd.get(x).sLongitud);
+                info.setLatitude(loAdd.get(x).sLatitude);
+                info.setRemarksx(loAdd.get(x).sRemarksx);
+                info.setTranStat("1");
+                info.setSendStat("0");
+                info.setModified(AppConstants.DATE_MODIFIED);
+                info.setTimeStmp(AppConstants.DATE_MODIFIED);
+                addList.add(info);
+            }
+            poUpdate.insertUpdateAddress(addList);
             return true;
         } catch (Exception e){
             e.printStackTrace();

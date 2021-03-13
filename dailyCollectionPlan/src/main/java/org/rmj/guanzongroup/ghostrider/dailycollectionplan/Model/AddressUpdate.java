@@ -6,8 +6,11 @@ public class AddressUpdate {
     private String sHouseNox;
     private String sAddressx;
     private String sProvIDxx;
+    private String sProvName;
     private String sTownIDxx;
+    private String sTownName;
     private String sBrgyIDxx;
+    private String sBrgyName;
     private String cPrimaryx;
     private String nLatitude;
     private String nLongitud;
@@ -109,6 +112,30 @@ public class AddressUpdate {
 
     public void setsRemarksx(String sRemarksx) {
         this.sRemarksx = sRemarksx;
+    }
+
+    public String getsProvName() {
+        return sProvName;
+    }
+
+    public void setsProvName(String sProvName) {
+        this.sProvName = sProvName;
+    }
+
+    public String getsTownName() {
+        return sTownName;
+    }
+
+    public void setsTownName(String sTownName) {
+        this.sTownName = sTownName;
+    }
+
+    public String getsBrgyName() {
+        return sBrgyName;
+    }
+
+    public void setsBrgyName(String sBrgyName) {
+        this.sBrgyName = sBrgyName;
     }
 
     public boolean isDataValid() {

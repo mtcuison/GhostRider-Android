@@ -63,6 +63,15 @@ public class RImageInfo {
         return imageDao.getImageInfoList();
     }
 
+    public LiveData<List<EImageInfo>> getCurrentLogTimeIfExist(String fsDate){
+        String DateLog = "%"+fsDate+"%";
+        return imageDao.getCurrentLogTimeIfExist(DateLog);
+    }
+
+    public LiveData<List<EImageInfo>> getLoginImageInfo(){
+        return imageDao.getLoginImageInfo();
+    }
+
     private static class InsertTask extends AsyncTask<EImageInfo, Void, String>{
         private final DImageInfo imageDao;
         private String transInfo;

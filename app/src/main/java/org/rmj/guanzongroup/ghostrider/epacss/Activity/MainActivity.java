@@ -99,6 +99,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.main, menu);
@@ -111,15 +131,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }else{
-            loMessage.setPositiveButton("Yes", new MessageBox.DialogButton() {
-                @Override
-                public void OnButtonClick(View view, AlertDialog dialog) {
-                    dialog.dismiss();
-                    finish();
-                    new REmployee(getApplication()).LogoutUserSession();
-                }
-            });
             loMessage.initDialog();
+            loMessage.setPositiveButton("Yes", (view, dialog) -> {
+                dialog.dismiss();
+                finish();
+                new REmployee(getApplication()).LogoutUserSession();
+            });
             loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
             loMessage.setTitle("GhostRider");
             loMessage.setMessage("Exit Ghostrider app?");
