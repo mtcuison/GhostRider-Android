@@ -177,10 +177,9 @@ public class VMPaidTransaction extends AndroidViewModel {
                     detail.setModified(AppConstants.DATE_MODIFIED);
                     poDcp.updateCollectionDetailInfo(detail);
 
-
                     //StartSending to Server
                     if(!poConn.isDeviceConnected()) {
-                        lsResponse = AppConstants.NO_INTERNET();
+                        lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Not Connected to internet. Collection info has been save to local");
                     } else {
                         JSONObject loData = new JSONObject();
                         loData.put("sPRNoxxxx", detail.getPRNoxxxx());
