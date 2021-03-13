@@ -114,7 +114,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 mViewModel.setCurrentCollectionDetail(collectionDetail);
 
                 mViewModel.setAccountNo(collectionDetail.getAcctNmbr());
-                poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, ImageFileCreator.FILE_CODE.DCP, collectionDetail.getAcctNmbr());
+                poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, ImageFileCreator.FILE_CODE.CNA, collectionDetail.getAcctNmbr());
             } catch (Exception e){
                 e.printStackTrace();
             }

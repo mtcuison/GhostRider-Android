@@ -139,6 +139,7 @@ public interface DDCPCollectionDetail {
             "a.sPRNoxxxx, " +
             "a.nTranAmtx, " +
             "a.nDiscount, " +
+            "a.dPromised, " +
             "a.nOthersxx, " +
             "a.sRemarksx, " +
             "a.cTranType, " +
