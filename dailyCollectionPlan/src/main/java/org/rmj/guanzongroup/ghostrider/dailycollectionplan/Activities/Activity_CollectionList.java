@@ -94,10 +94,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
         mViewModel.getCollectionMasterList().observe(this, edcpCollectionMasters -> {
             mViewModel.setCollectionMasterList(edcpCollectionMasters);
-            for(int y = 0; y < edcpCollectionMasters.size(); y++ ) {
-                FILENAME = edcpCollectionMasters.get(y).getTransNox();
-                Log.e("Master List TransNox",edcpCollectionMasters.get(y).getTransNox() );
-            }
         });
 
         mViewModel.getCollectionDetailForPosting().observe(this, collectionDetails -> {
@@ -112,54 +108,8 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         mViewModel.getCollectionList().observe(this, collectionDetails -> {
             if(collectionDetails.size() > 0) {
                 txtSearch.setVisibility(View.VISIBLE);
-                //TODO: Exporting Collection List
-                for(int i = 0; i < collectionDetails.size(); i++) {
-                    JSONObject collectParam = new JSONObject();
-                    try {
-                        collectParam.put("sTransNox", collectionDetails.get(i).getTransNox());
-                        collectParam.put("nEntryNox", collectionDetails.get(i).getEntryNox());
-                        collectParam.put("sAcctNmbr", collectionDetails.get(i).getAcctNmbr());
-                        collectParam.put("xFullName", collectionDetails.get(i).getFullName());
-                        collectParam.put("sPRNoxxxx", collectionDetails.get(i).getPRNoxxxx());
-                        collectParam.put("nTranAmtx", collectionDetails.get(i).getTranAmtx());
-                        collectParam.put("nDiscount", collectionDetails.get(i).getDiscount());
-                        collectParam.put("nOthersxx", collectionDetails.get(i).getOthersxx());
-                        collectParam.put("sRemarksx", collectionDetails.get(i).getRemarksx());
-                        collectParam.put("sBankIDxx", collectionDetails.get(i).getBankIDxx());
-                        collectParam.put("sCheckDte", collectionDetails.get(i).getCheckDte());
-                        collectParam.put("sCheckNox", collectionDetails.get(i).getCheckNox());
-                        collectParam.put("sCheckAct", collectionDetails.get(i).getCheckAct());
-                        collectParam.put("dPromised", collectionDetails.get(i).getPromised());
-                        collectParam.put("sRemCodex", collectionDetails.get(i).getRemCodex());
-                        collectParam.put("cTranType", collectionDetails.get(i).getTranType());
-                        collectParam.put("nTranTotl", collectionDetails.get(i).getTranTotl());
-                        collectParam.put("sReferNox", collectionDetails.get(i).getReferNox());
-                        collectParam.put("cPaymForm", collectionDetails.get(i).getPaymForm());
-                        collectParam.put("cIsDCPxxx", collectionDetails.get(i).getIsDCPxxx());
-                        collectParam.put("sMobileNo", collectionDetails.get(i).getMobileNo());
-                        collectParam.put("sHouseNox", collectionDetails.get(i).getHouseNox());
-                        collectParam.put("sAddressx", collectionDetails.get(i).getAddressx());
-                        collectParam.put("sBrgyName", collectionDetails.get(i).getBrgyName());
-                        collectParam.put("sTownName", collectionDetails.get(i).getTownName());
-                        collectParam.put("nAmtDuexx", collectionDetails.get(i).getAmtDuexx());
-                        collectParam.put("cApntUnit", collectionDetails.get(i).getApntUnit());
-                        collectParam.put("sBranchCd", collectionDetails.get(i).getBranchCd());
-                        collectParam.put("dDueDatex", collectionDetails.get(i).getDueDatex());
-                        collectParam.put("sImageNme", collectionDetails.get(i).getImageNme());
-                        collectParam.put("nLongitud", collectionDetails.get(i).getLongitud());
-                        collectParam.put("nLatitude", collectionDetails.get(i).getLatitude());
-                        collectParam.put("sClientID", collectionDetails.get(i).getClientID());
-                        collectParam.put("sSerialID", collectionDetails.get(i).getSerialID());
-                        collectParam.put("sSerialNo", collectionDetails.get(i).getSerialNo());
-                        collectParam.put("cTranStat", collectionDetails.get(i).getTranStat());
-                        collectParam.put("cSendStat", collectionDetails.get(i).getSendStat());
-                        collectParam.put("dSendDate", collectionDetails.get(i).getSendDate());
-                        collectParam.put("dModified", collectionDetails.get(i).getModified());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    expCollectDetl.put(collectParam);
-                }
+                FILENAME = collectionDetails.get(0).getTransNox();
+                Log.e("Master List TransNox",collectionDetails.get(0).getTransNox() );
             } else {
                 txtSearch.setVisibility(View.GONE);
                showDownloadDcp();
@@ -343,12 +293,16 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             });
         } else if(item.getItemId() == R.id.action_menu_export_collection){
             // TODO: Exporting of DCP List
-            if(exportCollectionList(expCollectDetl)) {
-                GToast.CreateMessage(Activity_CollectionList.this, "DCP List Exported.", GToast.INFORMATION).show();
-            } else {
-                GToast.CreateMessage(Activity_CollectionList.this, "Error Exporting. See Exporting Method.", GToast.ERROR).show();
-            }
-
+            mViewModel.getExportDataList("No Transaction", new VMCollectionList.FileManagerCallBack() {
+                @Override
+                public void OnJSONCreated(JSONObject loJson) {
+                    if(exportCollectionList(loJson)) {
+                        Log.e("Success","Success");
+                    } else {
+                        Log.e("Failed","Failed");
+                    }
+                }
+            });
         } else if(item.getItemId() == R.id.action_menu_upload_collection){
             // TODO: createAction for exporting files to external storage
         }
@@ -448,12 +402,10 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         dialogDownloadDCP.show();
     }
 
-    private boolean exportCollectionList(JSONArray expCollectDetl) {
+    private boolean exportCollectionList(JSONObject expCollectDetl) {
         // TODO: Exporting Method
         try {
-            JSONObject loJson = new JSONObject();
-            loJson.put("android", expCollectDetl);
-            fileContent = loJson.toString();
+            fileContent = expCollectDetl.toString();
             if(!fileContent.equalsIgnoreCase("")) {
                 File myExternalFile = new File(getExternalFilesDir(FOLDER_NAME), FILENAME+FILE_TYPE);
                 Log.e("Export Directory", myExternalFile.toString());

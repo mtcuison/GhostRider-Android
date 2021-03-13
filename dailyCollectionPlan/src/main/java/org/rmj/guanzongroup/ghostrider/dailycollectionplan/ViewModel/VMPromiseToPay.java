@@ -166,7 +166,7 @@ public class VMPromiseToPay extends AndroidViewModel {
     //Added by Mike -> Saving ImageInfo
     public void saveImageInfo(EImageInfo foImage){
         try{
-            foImage.setTransNox(poDcp.getImageNextCode());
+            foImage.setTransNox(poImage.getImageNextCode());
              poImage.insertImageInfo(foImage);
             Log.e(TAG, "Image info has been save!");
         } catch (Exception e){

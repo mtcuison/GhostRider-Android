@@ -69,7 +69,6 @@ public class Fragment_IncTransaction extends Fragment {
     private void initWidgets(View v){
         loMessage = new MessageBox(getActivity());
 
-        poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, DCP_Constants.getRemarksCode(Remarksx), AccntNox);
         poImageInfo = new EImageInfo();
         lblFullNme = v.findViewById(R.id.lbl_customerName);
         lblAccount = v.findViewById(R.id.lbl_AccountNo);
@@ -89,6 +88,8 @@ public class Fragment_IncTransaction extends Fragment {
         EntryNox = Activity_Transaction.getInstance().getEntryNox();
         AccntNox = Activity_Transaction.getInstance().getAccntNox();
         Remarksx = Activity_Transaction.getInstance().getRemarksCode();
+
+        poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, DCP_Constants.getRemarksCode(Remarksx), AccntNox);
 
         mViewModel.setParameter(TransNox, EntryNox, Remarksx);
         mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
@@ -130,7 +131,7 @@ public class Fragment_IncTransaction extends Fragment {
                 });
                 loMessage.setNegativeButton("Cancel", (view, dialog) -> {
                     dialog.dismiss();
-                    Objects.requireNonNull(getActivity()).finish();
+                    requireActivity().finish();
                 });
                 loMessage.show();
             } else {
@@ -153,7 +154,7 @@ public class Fragment_IncTransaction extends Fragment {
                     loMessage.setMessage("Transaction has been save!");
                     loMessage.setPositiveButton("Okay", (view, dialog) -> {
                         dialog.dismiss();
-                        Objects.requireNonNull(getActivity()).finish();
+                        requireActivity().finish();
                     });
 
                 } else {
@@ -162,7 +163,7 @@ public class Fragment_IncTransaction extends Fragment {
                     loMessage.setMessage("Transaction has been save!");
                     loMessage.setPositiveButton("Okay", (view, dialog) -> {
                         dialog.dismiss();
-                        Objects.requireNonNull(getActivity()).finish();
+                        requireActivity().finish();
                     });
                     loMessage.setNegativeButton("Retry", (view, dialog) -> {
                         poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
@@ -172,7 +173,7 @@ public class Fragment_IncTransaction extends Fragment {
                 }
                 loMessage.show();
             } else {
-                Objects.requireNonNull(getActivity()).finish();
+                requireActivity().finish();
             }
         }
     }
