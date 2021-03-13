@@ -433,6 +433,10 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             if(!fileContent.equalsIgnoreCase("")) {
                 File myExternalFile = new File(getExternalFilesDir(FOLDER_NAME), FILENAME+FILE_TYPE);
                 Log.e("Export Directory", myExternalFile.toString());
+                if(myExternalFile.exists()) {
+                    boolean res = myExternalFile.delete();
+                    Log.e("Export Message", "File already exists(" + res + "). Overwritten the previous file.");
+                }
                 FileOutputStream fos = null;
                 fos = new FileOutputStream(myExternalFile);
                 fos.write(fileContent.getBytes());
