@@ -114,7 +114,7 @@ public class ImageFileCreator {
     }
 
     public String generateImageFileName() {
-        String lsResult = cameraUsage + "_" + generateTimestamp() + ".jpeg";
+        String lsResult = cameraUsage + "_" + generateTimestamp() + ".png";
         return lsResult;
     }
 
@@ -200,11 +200,7 @@ public class ImageFileCreator {
     }
 
     public File createDCPImageFile() throws IOException {
-        image = File.createTempFile(
-                generateDCPImageFileName(),  /* prefix */
-                ".jpg",         /* suffix */
-                generateMainStorageDir()      /* directory */
-        );
+        image = new File(generateMainStorageDir(), generateImageFileName());
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();

@@ -1,8 +1,8 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,10 +17,17 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLogin;
+import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
+
+import static android.app.Activity.RESULT_OK;
 
 public class Fragment_SelfieLogin extends Fragment {
     private static final String TAG = Fragment_SelfieLogin.class.getSimpleName();
@@ -30,6 +37,13 @@ public class Fragment_SelfieLogin extends Fragment {
     private TextView lblUserNme, lblUserPstn;
     private ImageView lblImage;
     private MaterialButton btnCamera;
+
+    private EEmployeeInfo poUser;
+    private EImageInfo poImage;
+
+    private MessageBox poMessage;
+
+    private String photPath;
 
     public static Fragment_SelfieLogin newInstance() {
         return new Fragment_SelfieLogin();
@@ -48,6 +62,9 @@ public class Fragment_SelfieLogin extends Fragment {
         lblUserPstn = view.findViewById(R.id.lbl_employeePosition);
         lblImage = view.findViewById(R.id.img_userSelfie);
         btnCamera = view.findViewById(R.id.btn_takeSelfie);
+
+        poImage = new EImageInfo();
+        poMessage = new MessageBox(getActivity());
     }
 
     @Override
@@ -56,15 +73,56 @@ public class Fragment_SelfieLogin extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMSelfieLogin.class);
 
         mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
-            lblUserNme.setText(eEmployeeInfo.getUserName());
-            lblUserPstn.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
-        });
-
-        btnCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
+            try {
+                poUser = eEmployeeInfo;
+                lblUserNme.setText(eEmployeeInfo.getUserName());
+                lblUserPstn.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
+
+        btnCamera.setOnClickListener(view -> {
+            ImageFileCreator loImage = new ImageFileCreator(getActivity(),"SelfieLogin","LOG","");
+            loImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                this.photPath = photPath;
+                poImage.setFileCode("0021");
+                poImage.setSourceNo(poUser.getClientID());
+                poImage.setDtlSrcNo(poUser.getUserIDxx());
+                poImage.setSourceCD("LOGa");
+                poImage.setImageNme(FileName);
+                poImage.setFileLoct(photPath);
+                poImage.setLatitude(String.valueOf(latitude));
+                poImage.setLongitud(String.valueOf(longitude));
+                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+            });
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ImageFileCreator.GCAMERA){
+            if(resultCode == RESULT_OK){
+                poImage.setMD5Hashx(WebFileServer.createMD5Hash(photPath));
+                poImage.setCaptured(AppConstants.DATE_MODIFIED);
+                mViewModel.loginTimeKeeper(poImage, new VMSelfieLogin.OnLoginTimekeeperListener() {
+                    @Override
+                    public void OnSuccess(String args) {
+
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+
+                    }
+                });
+                poMessage.initDialog();
+                poMessage.setTitle("Selfie Login");
+                poMessage.setMessage("Login Success");
+                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+        }
     }
 }

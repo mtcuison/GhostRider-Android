@@ -115,18 +115,6 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectionDetailForPosting();
     }
 
-    public String getImageNextCode(){
-        String lsNextCode = "";
-        try{
-            GConnection loConn = DbConnection.doConnect(application);
-            lsNextCode = MiscUtil.getNextCode("Image_Information", "sTransNox", true, loConn.getConnection(), "", 12, false);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return lsNextCode;
-    }
-
-
     public String getNextAddressCode(){
         String lsNextCode = "";
         try{

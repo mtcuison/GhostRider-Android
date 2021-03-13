@@ -28,7 +28,6 @@ import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
-import org.rmj.guanzongroup.ghostrider.epacss.Activity.SettingsActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.SplashScreenActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.Dialog.DialogUserProfile;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
@@ -91,9 +90,9 @@ public class Fragment_Dashboard extends Fragment {
         mViewModel.getMobileNo().observe(getViewLifecycleOwner(), s -> lblMobile = s);
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
-                lblEmailx =eEmployeeInfo.getEmailAdd();
-                lblUserNm =eEmployeeInfo.getUserName();
-                lblPstion =DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx());
+                lblEmailx = eEmployeeInfo.getEmailAdd();
+                lblUserNm = eEmployeeInfo.getUserName();
+                lblPstion = DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx());
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -173,8 +172,8 @@ public class Fragment_Dashboard extends Fragment {
         loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
         loMessage.setPositiveButton("Yes", (view, dialog) -> {
             dialog.dismiss();
-            getActivity().finish();
-            new REmployee(getActivity().getApplication()).LogoutUserSession();
+            requireActivity().finish();
+            new REmployee(requireActivity().getApplication()).LogoutUserSession();
             startActivity(new Intent(getActivity(), SplashScreenActivity.class));
         });
         loMessage.setTitle("GhostRider Session");
