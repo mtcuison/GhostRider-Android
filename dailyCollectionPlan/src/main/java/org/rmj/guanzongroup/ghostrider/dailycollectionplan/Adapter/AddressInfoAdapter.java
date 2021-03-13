@@ -1,20 +1,15 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter;
 
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAddressRequest;
-import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_CustomerNotAround;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.ArrayList;
@@ -23,7 +18,6 @@ import java.util.List;
 public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.AddressHolder> {
 
     private List<DAddressRequest.CustomerAddressInfo> addressUpdates = new ArrayList<>();
-    private List<EAddressUpdate> addressUpdateList = new ArrayList<>();
     private final OnDeleteInfoListener mListener;
 
     public AddressInfoAdapter(OnDeleteInfoListener listener){
@@ -61,17 +55,11 @@ public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.
         notifyDataSetChanged();
     }
 
-    public void setAddressList(List<EAddressUpdate> addressUpdates) {
-        this.addressUpdateList = addressUpdates;
-        notifyDataSetChanged();
-    }
-
-    class AddressHolder extends RecyclerView.ViewHolder {
-        private TextView tvPrimary;
-        private TextView tvAddressTp;
-        private TextView tvDetails;
-        private TextView tvAddress;
-        private ImageView icDelete;
+    static class AddressHolder extends RecyclerView.ViewHolder {
+        private final TextView tvPrimary;
+        private final TextView tvAddressTp;
+        private final TextView tvDetails;
+        private final TextView tvAddress;
 
         public AddressHolder(@NonNull View itemView, OnDeleteInfoListener listener) {
             super(itemView);
@@ -79,7 +67,7 @@ public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.
             tvAddressTp = itemView.findViewById(R.id.tvAddressTp);
             tvDetails = itemView.findViewById(R.id.tvDetails);
             tvAddress = itemView.findViewById(R.id.tvAddress);
-            icDelete = itemView.findViewById(R.id.icDelete);
+            ImageView icDelete = itemView.findViewById(R.id.icDelete);
 
             icDelete.setOnClickListener(v -> {
                 int position = getAdapterPosition();
