@@ -46,17 +46,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
     private final MutableLiveData<String> psUniform = new MutableLiveData<>();
     private final MutableLiveData<String> psMiltary = new MutableLiveData<>();
     private final MutableLiveData<String> psProvIDx = new MutableLiveData<>();
-    private final MutableLiveData<String> psTownIDx = new MutableLiveData<>();
-    private final MutableLiveData<String> psJobTtle = new MutableLiveData<>();
     private final MutableLiveData<String> psEmpStat = new MutableLiveData<>();
-    private final MutableLiveData<String> psCountry = new MutableLiveData<>();
-    private final MutableLiveData<String> psCmpLvl = new MutableLiveData<>();
-    private final MutableLiveData<String> psEmpLvl = new MutableLiveData<>();
-    private final MutableLiveData<String> psBsnssLvl = new MutableLiveData<>();
-    private final MutableLiveData<String> psService = new MutableLiveData<>();
-
-    private final MutableLiveData<Integer> pnGovInfo = new MutableLiveData<>();
-    private final MutableLiveData<Integer> pnCountry = new MutableLiveData<>();
 
     public VMEmploymentInfo(@NonNull Application application) {
         super(application);
@@ -66,10 +56,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
         this.poJobRepo = new ROccupation(application);
         this.poCredtAp = new RCreditApplicant(application);
         this.poGoCasxx = new GOCASApplication();
-        this.psCountry.setValue("");
         this.psSectorx.setValue("1");
-        this.pnGovInfo.setValue(View.GONE);
-        this.pnCountry.setValue(View.GONE);
     }
 
     public void setTransNox(String transNox){
@@ -91,18 +78,6 @@ public class VMEmploymentInfo extends AndroidViewModel {
     }
 
     public void setEmploymentSector(String sector){
-        if(sector.equalsIgnoreCase("0")){
-            this.pnCountry.setValue(View.GONE);
-            this.pnGovInfo.setValue(View.VISIBLE);
-        }
-        if(sector.equalsIgnoreCase("1")){
-            this.pnCountry.setValue(View.GONE);
-            this.pnGovInfo.setValue(View.GONE);
-        }
-        if(sector.equalsIgnoreCase("2")){
-            this.pnCountry.setValue(View.VISIBLE);
-            this.pnGovInfo.setValue(View.GONE);
-        }
         this.psSectorx.setValue(sector);
     }
     public void setMeansInfos(String foJson){
@@ -111,32 +86,6 @@ public class VMEmploymentInfo extends AndroidViewModel {
         } catch (JSONException e){
             e.printStackTrace();
         }
-    }
-    public void setPsCmpLvl(String compLvl){
-        this.psCmpLvl.setValue(compLvl);
-    }
-
-    public LiveData<String> getPsCmpLvl(){
-       return this.psCmpLvl;
-    }
-
-    public void setPsEmpLvl(String empLvl){
-        this.psEmpLvl.setValue(empLvl);
-    }
-    public LiveData<String> getPsEmpLvl(){
-        return this.psEmpLvl;
-    }
-    public void setPsBsnssLvl(String bsnssLvl){
-        this.psBsnssLvl.setValue(bsnssLvl);
-    }
-    public LiveData<String> getPsBsnssLvl(){
-        return this.psBsnssLvl;
-    }
-    public void setPsService(String service){
-        this.psService.setValue(service);
-    }
-    public LiveData<String> getPsService(){
-        return this.psService;
     }
 
     public void setUniformPersonnel(String isUniform){
@@ -209,10 +158,6 @@ public class VMEmploymentInfo extends AndroidViewModel {
         return poTownRpo.getTownInfoFromProvince(psProvIDx.getValue());
     }
 
-    public void setTownID(String ID){
-        this.psTownIDx.setValue(ID);
-    }
-
     public LiveData<String[]> getCountryNameList(){
         return poCountry.getAllCountryNames();
     }
@@ -221,20 +166,12 @@ public class VMEmploymentInfo extends AndroidViewModel {
         return poCountry.getAllCountryInfo();
     }
 
-    public void setCountry(String ID){
-        this.psCountry.setValue(ID);
-    }
-
     public LiveData<String[]> getJobTitleNameList(){
         return poJobRepo.getAllOccupationNameList();
     }
 
     public LiveData<List<EOccupationInfo>> getJobTitleInfoList(){
         return poJobRepo.getAllOccupationInfo();
-    }
-
-    public void setJobTitle(String ID){
-        this.psJobTtle.setValue(ID);
     }
 
     public LiveData<ArrayAdapter<String>> getEmploymentStatus(){
@@ -257,17 +194,10 @@ public class VMEmploymentInfo extends AndroidViewModel {
 
     public void SaveEmploymentInfo(EmploymentInfoModel infoModel, ViewModelCallBack callBack){
         try{
-            infoModel.setCompanyLevel(psCmpLvl.getValue());
-            infoModel.setCompanyLevel(psCmpLvl.getValue());
-            infoModel.setEmployeeLevel(psEmpLvl.getValue());
-            infoModel.setBusinessNature(psBsnssLvl.getValue());
             infoModel.setEmploymentSector(psSectorx.getValue());
             infoModel.setUniformPersonal(psUniform.getValue());
             infoModel.setMilitaryPersonal(psMiltary.getValue());
-            infoModel.setCountry(psCountry.getValue());
             infoModel.setProvinceID(psProvIDx.getValue());
-            infoModel.setTownID(psTownIDx.getValue());
-            infoModel.setJobTitle(psJobTtle.getValue());
             infoModel.setEmployeeStatus(psEmpStat.getValue());
             if(infoModel.isDataValid()){
                 poGoCasxx.MeansInfo().EmployedInfo().setEmploymentSector(infoModel.getEmploymentSector());
@@ -282,6 +212,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
                 poGoCasxx.MeansInfo().EmployedInfo().setNatureofBusiness(infoModel.getBusinessNature());
                 poGoCasxx.MeansInfo().EmployedInfo().setCompanyName(infoModel.getCompanyName());
                 poGoCasxx.MeansInfo().EmployedInfo().setCompanyAddress(infoModel.getCompanyAddress());
+                poGoCasxx.MeansInfo().EmployedInfo().setCompanyTown(infoModel.getTownID());
                 poGoCasxx.MeansInfo().EmployedInfo().setPosition(infoModel.getJobTitle());
                 poGoCasxx.MeansInfo().EmployedInfo().setJobDescription(infoModel.getSpecificJob());
                 poGoCasxx.MeansInfo().EmployedInfo().setEmployeeStatus(infoModel.getEmployeeStatus());
@@ -289,7 +220,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
                 poGoCasxx.MeansInfo().EmployedInfo().setSalary(infoModel.getMonthlyIncome());
                 poGoCasxx.MeansInfo().EmployedInfo().setCompanyNo(infoModel.getContact());
                 ECreditApplicantInfo info = poInfo.getValue();
-                info.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
+                Objects.requireNonNull(info).setTransNox(Objects.requireNonNull(psTransNo.getValue()));
                 info.setDetlInfo(poGoCasxx.toJSONString());
                 info.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
                 poCredtAp.updateGOCasData(info);
@@ -308,11 +239,11 @@ public class VMEmploymentInfo extends AndroidViewModel {
     public LiveData<Integer> getNextPage(){
         MutableLiveData<Integer> loPage = new MutableLiveData<>();
         try {
-            if(poJson.getValue().getString("sEmplyed").equalsIgnoreCase("1") &&  CreditAppConstants.self_employment_done == false) {
+            if(Objects.requireNonNull(poJson.getValue()).getString("sEmplyed").equalsIgnoreCase("1") && !CreditAppConstants.self_employment_done) {
                 loPage.setValue(4);
-            } else if(poJson.getValue().getString("financer").equalsIgnoreCase("1")  &&  CreditAppConstants.finance_done == false) {
+            } else if(poJson.getValue().getString("financer").equalsIgnoreCase("1")  && !CreditAppConstants.finance_done) {
                 loPage.setValue(5);
-            } else if(poJson.getValue().getString("pensionx").equalsIgnoreCase("1")  &&  CreditAppConstants.pension_done == false) {
+            } else if(poJson.getValue().getString("pensionx").equalsIgnoreCase("1")  && !CreditAppConstants.pension_done) {
                 loPage.setValue(6);
             } else if(poGoCasxx.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1") ||
                     poGoCasxx.ApplicantInfo().getCivilStatus().equalsIgnoreCase("5")){

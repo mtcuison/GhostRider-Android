@@ -323,7 +323,7 @@ public class PersonalInfoModel implements Parcelable {
             return false;
         }
         if(Integer.parseInt(mobileNoList.get(0).getIsPostPd()) < 0){
-            message = "Please select sim card type";
+            message = "Please select sim 1 card type";
             return false;
         }
         if(!mobileNoList.get(0).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
@@ -355,7 +355,7 @@ public class PersonalInfoModel implements Parcelable {
                 }
             }
             if(Integer.parseInt(mobileNoList.get(1).getIsPostPd()) < 0){
-                message = "Please select sim card type";
+                message = "Please select sim 2 card type";
                 return false;
             }
         }
@@ -380,7 +380,7 @@ public class PersonalInfoModel implements Parcelable {
                 }
             }
             if(Integer.parseInt(mobileNoList.get(2).getIsPostPd()) < 0){
-                message = "Please select sim card type";
+                message = "Please select sim 3 card type";
                 return false;
             }
         }

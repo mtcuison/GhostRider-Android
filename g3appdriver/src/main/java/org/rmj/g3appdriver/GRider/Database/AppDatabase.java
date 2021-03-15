@@ -26,6 +26,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionMaster
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DFileCode;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DImageInfo;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DLog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMcBrand;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMcCategory;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMcModel;
@@ -55,6 +56,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcBrand;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcCategory;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcModel;
@@ -105,7 +107,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
         ETokenInfo.class,
         EFileCode.class,
         EClientUpdate.class,
-        EBankInfo.class}, version = 1)
+        EBankInfo.class,
+        ELog_Selfie.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static AppDatabase instance;
@@ -139,6 +142,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DFileCode FileCodeDao();
     public abstract DClientUpdate ClientUpdateDao();
     public abstract DBankInfo BankInfoDao();
+    public abstract DLog_Selfie SelfieDao();
 
 
     public static synchronized AppDatabase getInstance(Context context){

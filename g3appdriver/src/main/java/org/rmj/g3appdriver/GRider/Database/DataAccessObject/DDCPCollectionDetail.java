@@ -21,6 +21,13 @@ public interface DDCPCollectionDetail {
     @Update
     void update(EDCPCollectionDetail collectionDetail);
 
+    /**
+     *
+     * @param EntryNox specific entry number of collection detail
+     * @param RemCode remarks code base on the customer's transaction.
+     * @param Remarks required for all remarks code except PAY
+     * @param DateModified current date time of update.
+     */
     @Query("UPDATE LR_DCP_Collection_Detail " +
             "SET sRemCodex =:RemCode, " +
             "sRemarksx =:Remarks, " +
@@ -35,8 +42,16 @@ public interface DDCPCollectionDetail {
             "AND nEntryNox =:EntryNox")
     void updateCollectionDetailInfo(int EntryNox, String RemCode, String Remarks, String DateModified);
 
+    /**
+     *
+     * @param TransNox transaction number of master detail
+     * @param EntryNox specific entry number of collection detail
+     * @param DateEntry current date time of update.
+     */
     @Query("UPDATE LR_DCP_Collection_Detail " +
-            "SET cSendStat='1', dModified=:DateEntry " +
+            "SET cSendStat='1', " +
+            "cTranstat = '2', " +
+            "dModified=:DateEntry " +
             "WHERE sTransNox =:TransNox " +
             "AND nEntryNox =:EntryNox")
     void updateCollectionDetailStatus(String TransNox, int EntryNox, String DateEntry);

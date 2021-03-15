@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
@@ -36,6 +38,7 @@ import org.rmj.guanzongroup.ghostrider.settings.Settings;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -51,7 +54,7 @@ public class Fragment_Dashboard extends Fragment {
     private ImageFileCreator poFilexx;
 
     private ImageView imgProfile;
-    private TextView lblVrsion;
+    private TextView lblVrsion, lblBSelfie;
     private String lblUserNm, lblEmailx, lblPstion, lblMobile, lblAddrss;
 
     private String photoPath;
@@ -77,11 +80,13 @@ public class Fragment_Dashboard extends Fragment {
         cvSelfie = view.findViewById(R.id.cvSelfieLogin);
 
         lblVrsion = view.findViewById(R.id.lbl_versionInfo);
+        lblBSelfie = view.findViewById(R.id.lbl_badge_selfieLog);
         lblVrsion.setText(BuildConfig.VERSION_NAME + "_" + BuildConfig.BUILD_TYPE.toUpperCase());
 
         return view;
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -95,6 +100,16 @@ public class Fragment_Dashboard extends Fragment {
                 lblPstion = DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx());
             } catch (Exception e){
                 e.printStackTrace();
+            }
+        });
+
+        mViewModel.getCurrentLogTimeIfExist().observe(getViewLifecycleOwner(), eLog_selfies -> {
+            if(eLog_selfies.size()>0){
+                lblBSelfie.setText("✔");
+                lblBSelfie.setBackground(getResources().getDrawable(R.drawable.bg_badge_green));
+            } else {
+                lblBSelfie.setText("!");
+                lblBSelfie.setBackground(getResources().getDrawable(R.drawable.bg_badge_red));
             }
         });
         cvMessages.setOnClickListener(v ->{

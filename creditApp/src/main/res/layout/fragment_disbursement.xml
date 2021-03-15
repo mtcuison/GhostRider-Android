@@ -24,7 +24,8 @@
                android:id="@+id/tie_cap_dbmElectricity"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:maxLength="50"/>
+               android:inputType="number|none"
+               android:maxLength="6"/>
        </com.google.android.material.textfield.TextInputLayout>
 
        <com.google.android.material.textfield.TextInputLayout
@@ -38,7 +39,8 @@
                android:id="@+id/tie_cap_dbmFood"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:maxLength="50"/>
+               android:inputType="number|none"
+               android:maxLength="6"/>
        </com.google.android.material.textfield.TextInputLayout>
 
        <com.google.android.material.textfield.TextInputLayout
@@ -52,7 +54,8 @@
                android:id="@+id/tie_cap_dbmWater"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:maxLength="50"/>
+               android:inputType="number|none"
+               android:maxLength="6"/>
        </com.google.android.material.textfield.TextInputLayout>
 
        <com.google.android.material.textfield.TextInputLayout
@@ -66,7 +69,8 @@
                android:id="@+id/tie_cap_dbmLoans"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:maxLength="50"/>
+               android:inputType="number|none"
+               android:maxLength="6"/>
        </com.google.android.material.textfield.TextInputLayout>
 
        <TextView
@@ -144,7 +148,8 @@
               android:id="@+id/tie_cap_dbmCreditLimit"
               android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:maxLength="50"/>
+              android:inputType="number|none"
+              android:maxLength="6"/>
        </com.google.android.material.textfield.TextInputLayout>
 
        <com.google.android.material.textfield.TextInputLayout

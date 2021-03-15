@@ -105,7 +105,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                                         loImage.getFileCode(),
                                         loImage.getDtlSrcNo(),
                                         loImage.getImageNme(),
-                                        poSession.getUserID(),
+                                        poSession.getBranchCode(),
                                         loImage.getSourceCD(),
                                         loImage.getTransNox(),
                                         "");

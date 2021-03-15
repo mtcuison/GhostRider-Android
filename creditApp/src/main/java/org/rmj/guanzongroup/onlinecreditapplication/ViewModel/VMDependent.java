@@ -15,6 +15,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.g3appdriver.GRider.Database.Repositories.ROccupation;
@@ -168,6 +170,21 @@ public class VMDependent extends AndroidViewModel {
         return liveData;
     }
 
+    public LiveData<List<EProvinceInfo>> getProvinceInfoList(){
+        return poProvnce.getAllProvinceInfo();
+    }
+
+    public LiveData<String[]> getAllProvinceName(){
+        return poProvnce.getAllProvinceNames();
+    }
+
+    public LiveData<List<ETownInfo>> getAllTownInfoList(String ProvID){
+        return poTownRpo.getTownInfoFromProvince(ProvID);
+    }
+
+    public LiveData<String[]> getAllTownNames(String ProvID){
+        return poTownRpo.getTownNamesFromProvince(ProvID);
+    }
 
     public LiveData<ArrayAdapter<String>> getSpnRelationx() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.DEPENDENT_RELATIONSHIP);
@@ -267,7 +284,4 @@ public class VMDependent extends AndroidViewModel {
         void onSuccess(String message);
         void onFailed(String message);
     }
-
-
-
 }

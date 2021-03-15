@@ -195,7 +195,7 @@ public class EmploymentInfoModel {
     }
 
     public long getMonthlyIncome() {
-        return Long.parseLong(sMonthlyx);
+        return Long.parseLong(sMonthlyx.replace(",", ""));
     }
 
     public void setsMonthlyIncome(String sMonthlyx) {
@@ -249,17 +249,17 @@ public class EmploymentInfoModel {
 
     private boolean isCompanyLevelValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if(Integer.parseInt(cCompLevl)< 0){
+            if (cCompLevl == null || Integer.parseInt(cCompLevl) < 0) {
                 message = "Please select government level";
                 return false;
             }
         } else if(sSectorxx.equalsIgnoreCase("1")){
-            if(Integer.parseInt(cCompLevl)< 0){
+            if(cCompLevl == null || Integer.parseInt(cCompLevl)< 0){
                 message = "Please select company level";
                 return false;
             }
         } else {
-            if(Integer.parseInt(cCompLevl)< 0){
+            if(cCompLevl == null || Integer.parseInt(cCompLevl)< 0){
                 message = "Please select ofw region";
                 return false;
             }
@@ -269,17 +269,17 @@ public class EmploymentInfoModel {
 
     private boolean isEmployeeLevelValid(){
         if(sSectorxx.equalsIgnoreCase("0")){
-            if(Integer.parseInt(cEmpLevel)< 0){
+            if(cEmpLevel == null || Integer.parseInt(cEmpLevel)< 0){
                 message = "Please select government level";
                 return false;
             }
         } else if(sSectorxx.equalsIgnoreCase("1")){
-            if(Integer.parseInt(cEmpLevel)< 0){
+            if(cEmpLevel == null || Integer.parseInt(cEmpLevel)< 0){
                 message = "Please select employee level";
                 return false;
             }
         } else {
-            if(Integer.parseInt(cEmpLevel)< 0){
+            if(cEmpLevel == null || Integer.parseInt(cEmpLevel)< 0){
                 message = "Please select ofw region";
                 return false;
             }

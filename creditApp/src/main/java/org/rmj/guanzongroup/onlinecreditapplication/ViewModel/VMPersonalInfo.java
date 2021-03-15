@@ -46,7 +46,7 @@ public class VMPersonalInfo extends AndroidViewModel {
     private MutableLiveData<String> lsCitizen = new MutableLiveData<>();
 
 //    index position
-private MutableLiveData<String> lsMobile1 = new MutableLiveData<>();
+    private MutableLiveData<String> lsMobile1 = new MutableLiveData<>();
     private MutableLiveData<String> lsMobile2 = new MutableLiveData<>();
     private MutableLiveData<String> lsMobile3 = new MutableLiveData<>();
 

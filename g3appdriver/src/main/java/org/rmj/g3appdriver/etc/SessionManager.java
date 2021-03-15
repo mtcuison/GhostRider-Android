@@ -16,7 +16,7 @@ public class SessionManager {
     private final Editor editor;
 
     //shared preference  file name
-    private static final String PREF_NAME = "GuanzonApps";
+    private static final String PREF_NAME = "AndroidGhostRider";
 
     private static final String KEY_IS_LOGGEDIN = "isLoggedIn";
 
@@ -25,6 +25,8 @@ public class SessionManager {
     private static final String KEY_CLIENT_ID = "sClientID";
 
     private static final String KEY_LOG_NUMBER = "sLogNoxxx";
+
+    private static final String KEY_BRANCH_CODE = "sBranchCd";
 
     private static final String KEY_USER_ID = "sUserIDxx";
 
@@ -42,7 +44,7 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public void initUserSession(String UserID, String Client, String LogNo, String DeptID, String EmpID, String Position){
+    public void initUserSession(String UserID, String Client, String LogNo, String Branch, String DeptID, String EmpID, String Position){
         editor.putString(KEY_USER_ID, UserID);
         if(editor.commit()){
             Log.e(TAG, "User ID for this session has been set.");
@@ -56,6 +58,11 @@ public class SessionManager {
         editor.putString(KEY_LOG_NUMBER, LogNo);
         if(editor.commit()){
             Log.e(TAG, "Log number for this session has been set.");
+        }
+
+        editor.putString(KEY_BRANCH_CODE, Branch);
+        if(editor.commit()){
+            Log.e(TAG, "Branch code for this session has been set.");
         }
 
         editor.putString(KEY_DEPT_ID, DeptID);
@@ -127,6 +134,10 @@ public class SessionManager {
 
     public String getLogNumber(){
         return pref.getString(KEY_LOG_NUMBER, "");
+    }
+
+    public String getBranchCode() {
+        return pref.getString(KEY_BRANCH_CODE, "");
     }
 
     public String getDeptID(){

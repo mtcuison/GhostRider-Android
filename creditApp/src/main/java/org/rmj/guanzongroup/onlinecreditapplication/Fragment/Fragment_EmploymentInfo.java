@@ -24,6 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.EmploymentInfoModel;
@@ -43,11 +44,6 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
             spnBusNtr,
             spnEmpSts,
             spnServce;
-    private String  spnCmpLvlPosition = "-1",
-            spnEmpLvlPosition = "-1",
-            spnBusNtrPosition = "-1",
-            spnServcePosition = "-1",
-            spnEmpStsPosition = "-1";
     private AutoCompleteTextView txtCntryx,
             txtProvNm,
             txtTownNm,
@@ -108,7 +104,8 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         rgSectorx.setOnCheckedChangeListener(new OnRadioButtonSelectListener());
         rgUniform.setOnCheckedChangeListener(new OnRadioButtonSelectListener());
         rgMiltary.setOnCheckedChangeListener(new OnRadioButtonSelectListener());
-//        spnEmpSts.setOnItemSelectedListener(new OnJobStatusSelectedListener());
+
+        txtEsSlry.addTextChangedListener(new FormatUIText.CurrencyFormat(txtEsSlry));
 
         btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(2));
     }
@@ -120,21 +117,10 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
         mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
         mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
-        mViewModel.getPsCmpLvl().observe(getViewLifecycleOwner(), s -> {
-            spnCmpLvl.setSelection(Integer.parseInt(s));
-            Log.e("company ", s);
-        });
+
         mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
-        mViewModel.getPsEmpLvl().observe(getViewLifecycleOwner(), s -> {
-                spnEmpLvl.setSelection(Integer.parseInt(s));
-                Log.e("Employee ", s);
-        });
 
         mViewModel.getBusinessNature().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBusNtr.setAdapter(stringArrayAdapter));
-        mViewModel.getPsBsnssLvl().observe(getViewLifecycleOwner(), s -> {
-                spnBusNtr.setSelection(Integer.parseInt(s));
-                Log.e("Business ", s);
-                });
 
         mViewModel.getCountryNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
@@ -144,15 +130,12 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         txtCntryx.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getCountryInfoList().observe(getViewLifecycleOwner(), countryInfos -> {
             for(int x = 0; x < countryInfos.size(); x++){
                 if(txtCntryx.getText().toString().equalsIgnoreCase(countryInfos.get(x).getCntryNme())){
-                    mViewModel.setCountry(countryInfos.get(x).getCntryCde());
+                    infoModel.setCountry(countryInfos.get(x).getCntryCde());
                     break;
                 }
             }
         }));
-//        mViewModel.getCountryCD().observe(getViewLifecycleOwner(), s -> {
-//            txtCntryx.setSelection(Integer.parseInt(s));
-//            Log.e("company ", s);
-//        });
+
         mViewModel.getProvinceName().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvNm.setAdapter(adapter);
@@ -174,7 +157,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         txtTownNm.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getTownInfoList().observe(getViewLifecycleOwner(), eTownInfos -> {
             for(int x = 0; x < eTownInfos.size(); x++){
                 if(txtTownNm.getText().toString().equalsIgnoreCase(eTownInfos.get(x).getTownName())){
-                    mViewModel.setTownID(eTownInfos.get(x).getTownIDxx());
+                    infoModel.setTownID(eTownInfos.get(x).getTownIDxx());
                     break;
                 }
             }
@@ -187,7 +170,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         txtJobNme.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getJobTitleInfoList().observe(getViewLifecycleOwner(), occupationInfos -> {
             for(int x = 0; x < occupationInfos.size(); x++){
                 if(txtJobNme.getText().toString().equalsIgnoreCase(occupationInfos.get(x).getOccptnNm())){
-                    mViewModel.setJobTitle(occupationInfos.get(x).getOccptnID());
+                    infoModel.setJobTitle(occupationInfos.get(x).getOccptnID());
                     break;
                 }
             }
@@ -195,10 +178,6 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
 
         mViewModel.getEmploymentStatus().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpSts.setAdapter(stringArrayAdapter));
         mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnServce.setAdapter(stringArrayAdapter));
-        mViewModel.getPsService().observe(getViewLifecycleOwner(), s -> {
-            spnServce.setSelection(Integer.parseInt(s));
-            Log.e("Employee ", s);
-        });
 
         spnCmpLvl.setOnItemClickListener(new OnItemClickListener(spnCmpLvl));
         spnEmpLvl.setOnItemClickListener(new OnItemClickListener(spnEmpLvl));
@@ -210,7 +189,6 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
             infoModel.setCompanyAddress(Objects.requireNonNull(txtCompAd.getText()).toString());
             infoModel.setSpecificJob(Objects.requireNonNull(txtSpcfJb.getText()).toString());
             infoModel.setLengthOfService(Objects.requireNonNull(txtLngthS.getText()).toString());
-            infoModel.setIsYear(spnServcePosition);
             infoModel.setsMonthlyIncome(Objects.requireNonNull(txtEsSlry.getText()).toString());
             infoModel.setContact(Objects.requireNonNull(txtCompCn.getText()).toString());
             mViewModel.SaveEmploymentInfo(infoModel, Fragment_EmploymentInfo.this);
@@ -219,7 +197,6 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
 
     @Override
     public void onSaveSuccessResult(String args) {
-//        Activity_CreditApplication.getInstance().moveToPageNumber(4);
         mViewModel.getNextPage().observe(getViewLifecycleOwner(), integer -> Activity_CreditApplication.getInstance().moveToPageNumber(integer));
 
     }
@@ -238,20 +215,16 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if (spnCmpLvl.equals(poView)) {
-                spnCmpLvlPosition = String.valueOf(i);
-                mViewModel.setPsCmpLvl(String.valueOf(i));
+                infoModel.setCompanyLevel(String.valueOf(i));
             }
             if (spnEmpLvl.equals(poView)) {
-                spnEmpLvlPosition = String.valueOf(i);
-                mViewModel.setPsEmpLvl(String.valueOf(i));
+                infoModel.setEmployeeLevel(String.valueOf(i));
             }
             if (spnBusNtr.equals(poView)) {
-                spnBusNtrPosition = String.valueOf(i);
-                mViewModel.setPsBsnssLvl(String.valueOf(i));
+                infoModel.setBusinessNature(spnBusNtr.getText().toString());
             }
             if (spnServce.equals(poView)) {
-                spnServcePosition = String.valueOf(i);
-                mViewModel.setPsService(String.valueOf(i));
+                infoModel.setIsYear(String.valueOf(i));
             }
             if (spnEmpSts.equals(poView)) {
                 if (adapterView.getItemAtPosition(i).toString().equalsIgnoreCase("Tap here to select.")) {

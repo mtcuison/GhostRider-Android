@@ -13,8 +13,10 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -25,6 +27,8 @@ public class VMSelfieLogin extends AndroidViewModel {
     private static final String TAG = VMSelfieLogin.class.getSimpleName();
     private final Application instance;
     private final RImageInfo poImage;
+    private final RLogSelfie poLog;
+
     private final REmployee poUser;
 
     public interface OnLoginTimekeeperListener{
@@ -37,25 +41,26 @@ public class VMSelfieLogin extends AndroidViewModel {
         this.instance = application;
         this.poImage = new RImageInfo(application);
         this.poUser = new REmployee(application);
+        this.poLog = new RLogSelfie(application);
     }
 
     public LiveData<EEmployeeInfo> getUserInfo(){
         return poUser.getUserInfo();
     }
 
-    public LiveData<List<EImageInfo>> getCurrentLogTimeIfExist(){
-        return poImage.getCurrentLogTimeIfExist(AppConstants.CURRENT_DATE);
+    public LiveData<List<ELog_Selfie>> getCurrentLogTimeIfExist(){
+        return poLog.getCurrentLogTimeIfExist(AppConstants.CURRENT_DATE);
     }
 
-    public void loginTimeKeeper(EImageInfo loImage, OnLoginTimekeeperListener callback){
+    public void loginTimeKeeper(ELog_Selfie selfieLog, EImageInfo loImage, OnLoginTimekeeperListener callback){
         try {
             loImage.setTransNox(poImage.getImageNextCode());
             poImage.insertImageInfo(loImage);
+            selfieLog.setTransNox(poLog.getLogNextCode());
+            poLog.insertSelfieLog(selfieLog);
             callback.OnSuccess("Login Success");
 
-            //JSONObject loJson = new JSONObject();
 
-            //new LoginTimekeeperTask(loImage, instance, callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailed(e.getMessage());

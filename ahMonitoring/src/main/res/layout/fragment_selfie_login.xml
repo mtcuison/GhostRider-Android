@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/roboto_black"
-            android:text="Garcia, Michael P."
             android:textColor="@color/material_black"
             android:textSize="20sp" />
 
@@ -45,7 +44,14 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/roboto_medium"
-            android:text="MIS Department"
+            android:textColor="@color/material_black" />
+
+        <TextView
+            android:id="@+id/lbl_employeeLogTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/roboto_medium"
             android:textColor="@color/material_black" />
 
         <TextClock
