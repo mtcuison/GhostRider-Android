@@ -112,7 +112,8 @@
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_transaction_img"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/lbl_mobileNox"
@@ -149,7 +150,8 @@
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider2"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/lbl_addressx"
