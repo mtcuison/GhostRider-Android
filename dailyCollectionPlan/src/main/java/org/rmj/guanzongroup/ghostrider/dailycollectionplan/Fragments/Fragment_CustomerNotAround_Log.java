@@ -64,6 +64,7 @@ public class Fragment_CustomerNotAround_Log extends Fragment {
     private TextView txtAcctNo, txtClientName, txtClientAddress;
     private RecyclerView rvMobileNox, rvAddress;
     private ImageView ivTransImage;
+    private LinearLayout lnMobilenox, lnAddressx;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,34 +89,38 @@ public class Fragment_CustomerNotAround_Log extends Fragment {
         });
 
         mViewModel.getCNA_MobileDataList().observe(getViewLifecycleOwner(), cna_mobileInfos -> {
-            try {
-                mobileAdapter = new MobileInfoAdapter_Log(new MobileInfoAdapter_Log.OnItemInfoClickListener() {
-                    @Override
-                    public void OnDelete(int position) {
-                        GToast.CreateMessage(getActivity(), "Mobile number deleted.", GToast.INFORMATION).show();
-                    }
+            if (!cna_mobileInfos.isEmpty()) {
+                try {
+                    lnMobilenox.setVisibility(View.VISIBLE);
+                    mobileAdapter = new MobileInfoAdapter_Log(new MobileInfoAdapter_Log.OnItemInfoClickListener() {
+                        @Override
+                        public void OnDelete(int position) {
+                            GToast.CreateMessage(getActivity(), "Mobile number deleted.", GToast.INFORMATION).show();
+                        }
 
-                    @Override
-                    public void OnMobileNoClick(String MobileNo) {
-                        Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
-                        startActivityForResult(mobileIntent, MOBILE_DIALER);
-                    }
-                });
-                rvMobileNox.setAdapter(mobileAdapter);
-                mobileAdapter.setMobileNox(cna_mobileInfos);
-            }
-            catch(Exception e) {
-                e.printStackTrace();
+                        @Override
+                        public void OnMobileNoClick(String MobileNo) {
+                            Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
+                            startActivityForResult(mobileIntent, MOBILE_DIALER);
+                        }
+                    });
+                    rvMobileNox.setAdapter(mobileAdapter);
+                    mobileAdapter.setMobileNox(cna_mobileInfos);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         mViewModel.getCNA_AddressDataList().observe(getViewLifecycleOwner(), cna_addressInfos -> {
-            try{
-                addressAdapter = new AddressInfoAdapter_Log();
-                rvAddress.setAdapter(addressAdapter);
-                addressAdapter.setAddress(cna_addressInfos);
-            }
-            catch(Exception e) {
-                e.printStackTrace();
+            if (!cna_addressInfos.isEmpty()) {
+                try {
+                    lnAddressx.setVisibility(View.VISIBLE);
+                    addressAdapter = new AddressInfoAdapter_Log();
+                    rvAddress.setAdapter(addressAdapter);
+                    addressAdapter.setAddress(cna_addressInfos);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -125,6 +130,8 @@ public class Fragment_CustomerNotAround_Log extends Fragment {
         txtAcctNo = v.findViewById(R.id.txt_acctNo);
         txtClientName = v.findViewById(R.id.txt_clientName);
         txtClientAddress = v.findViewById(R.id.txt_client_address);
+        lnMobilenox = v.findViewById(R.id.ln_mobileNox);
+        lnAddressx = v.findViewById(R.id.ln_addressx);
         rvMobileNox = v.findViewById(R.id.rv_mobileNox);
         rvMobileNox.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvMobileNox.setHasFixedSize(true);
