@@ -115,6 +115,11 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectionDetailForPosting();
     }
 
+    public LiveData<EDCPCollectionDetail> getPaidCollectionDetail(String TransNox, String Acctnox) {
+        return detailDao.getPaidCollectionDetail(TransNox, Acctnox);
+    }
+
+
     public String getNextAddressCode(){
         String lsNextCode = "";
         try{

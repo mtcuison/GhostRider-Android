@@ -196,6 +196,13 @@ public interface DDCPCollectionDetail {
             "WHERE a.cSendStat <> '1'")
     LiveData<List<CollectionDetail>> getCollectionDetailForPosting();
 
+    @Query("SELECT * FROM LR_DCP_Collection_Detail " +
+            "WHERE sTransNox = :TransNox " +
+            "AND sAcctNmbr = :Acctnox " +
+            "AND sRemCodex = \"PAY\" " +
+            "AND cSendStat = 1")
+    LiveData<EDCPCollectionDetail> getPaidCollectionDetail(String TransNox, String Acctnox);
+
     class CollectionDetail{
         public String sTransNox;
         public int nEntryNox;

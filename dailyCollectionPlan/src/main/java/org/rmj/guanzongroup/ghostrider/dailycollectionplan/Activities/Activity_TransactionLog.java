@@ -18,6 +18,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_In
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_LoanUnit;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_OtherTransactions_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PaidTransaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_Paid_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
@@ -26,7 +27,7 @@ import java.util.Objects;
 public class Activity_TransactionLog extends AppCompatActivity {
     private static final String TAG = Activity_TransactionLog.class.getSimpleName();
     private static Activity_TransactionLog instance;
-    public static String fullNme, entryNox, acctNox, remCodex, imgNme, clientID, clientAddress, remarks ;
+    public static String transNox, fullNme, entryNox, acctNox, remCodex, imgNme, clientID, clientAddress, remarks ;
 
     public static Activity_TransactionLog getInstance(){
         return instance;
@@ -37,6 +38,7 @@ public class Activity_TransactionLog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transactionlog);
         instance = this;
+        transNox = getIntent().getStringExtra("sTransNox");
         entryNox = getIntent().getStringExtra("entryNox");
         acctNox = getIntent().getStringExtra("acctNox");
         fullNme = getIntent().getStringExtra("fullNme");
@@ -53,7 +55,10 @@ public class Activity_TransactionLog extends AppCompatActivity {
 
         ViewPager viewPager = findViewById(R.id.viewpager_transaction);
 
-        if(remCodex.equalsIgnoreCase("CNA")) {
+        if(remCodex.equalsIgnoreCase("PAY")) {
+            getSupportActionBar().setTitle("Paid");
+        }
+        else if(remCodex.equalsIgnoreCase("CNA")) {
             getSupportActionBar().setTitle("Customer Not Around");
         }
         else if(remCodex.equalsIgnoreCase("Car")) {
@@ -136,7 +141,10 @@ public class Activity_TransactionLog extends AppCompatActivity {
     }
 
     private Fragment getTransactionFragment(String transaction){
-        if(transaction.equalsIgnoreCase("CNA")){
+        if(transaction.equalsIgnoreCase("PAY")) {
+            return new Fragment_Paid_Log();
+        }
+        else if(transaction.equalsIgnoreCase("CNA")){
             return new Fragment_CustomerNotAround_Log();
         }
         else if(transaction.equalsIgnoreCase("FLA") ||
