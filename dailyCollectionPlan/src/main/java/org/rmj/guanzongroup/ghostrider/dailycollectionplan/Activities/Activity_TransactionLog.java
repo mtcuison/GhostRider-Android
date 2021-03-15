@@ -18,7 +18,9 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_In
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_LoanUnit;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_OtherTransactions_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PaidTransaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_Paid_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PromiseToPay;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PromiseToPay_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.Objects;
@@ -26,35 +28,18 @@ import java.util.Objects;
 public class Activity_TransactionLog extends AppCompatActivity {
     private static final String TAG = Activity_TransactionLog.class.getSimpleName();
     private static Activity_TransactionLog instance;
-    public static String fullNme, entryNox, acctNox, remCodex, imgNme, clientID, clientAddress, remarks ;
-
+    public static String transNox, fullNme, entryNox, acctNox, remCodex, imgNme, clientID, clientAddress, remarks ;
 
     public static Activity_TransactionLog getInstance(){
         return instance;
     }
-
-//    public String getTransNox(){
-//        return TransNox;
-//    }
-//
-//    public int getEntryNox(){
-//        return EntryNox;
-//    }
-//
-//    public String getAccntNox(){
-//        return AccntNox;
-//    }
-//
-//    public String getRemarksCode(){
-//        return Remarksx;
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transactionlog);
         instance = this;
-        entryNox = getIntent().getStringExtra("entryNox");
+        transNox = getIntent().getStringExtra("sTransNox");
         acctNox = getIntent().getStringExtra("acctNox");
         fullNme = getIntent().getStringExtra("fullNme");
         remCodex = getIntent().getStringExtra("remCodex");
@@ -70,7 +55,13 @@ public class Activity_TransactionLog extends AppCompatActivity {
 
         ViewPager viewPager = findViewById(R.id.viewpager_transaction);
 
-        if(remCodex.equalsIgnoreCase("CNA")) {
+        if(remCodex.equalsIgnoreCase("PAY")) {
+            getSupportActionBar().setTitle("Paid");
+        }
+        else if(remCodex.equalsIgnoreCase("PTP")) {
+            getSupportActionBar().setTitle("Promise To Pay");
+        }
+        else if(remCodex.equalsIgnoreCase("CNA")) {
             getSupportActionBar().setTitle("Customer Not Around");
         }
         else if(remCodex.equalsIgnoreCase("Car")) {
@@ -153,7 +144,13 @@ public class Activity_TransactionLog extends AppCompatActivity {
     }
 
     private Fragment getTransactionFragment(String transaction){
-        if(transaction.equalsIgnoreCase("CNA")){
+        if(transaction.equalsIgnoreCase("PAY")) {
+            return new Fragment_Paid_Log();
+        }
+        else if(transaction.equalsIgnoreCase("PTP")) {
+            return new Fragment_PromiseToPay_Log();
+        }
+        else if(transaction.equalsIgnoreCase("CNA")){
             return new Fragment_CustomerNotAround_Log();
         }
         else if(transaction.equalsIgnoreCase("FLA") ||
@@ -175,27 +172,3 @@ public class Activity_TransactionLog extends AppCompatActivity {
         return null;
     }
 }
-
-//if(transaction.equalsIgnoreCase("Paid")){
-//        return new Fragment_PaidTransaction();
-//        } else if(transaction.equalsIgnoreCase("Promise to Pay")){
-//        return new Fragment_PromiseToPay();
-//        } else if(transaction.equalsIgnoreCase("Customer Not Around")){
-//        return new Fragment_CustomerNotAround();
-////            return new Fragment_CustomerNotAround();
-//        } else if(transaction.equalsIgnoreCase("Loan Unit") ||
-//        transaction.equalsIgnoreCase("For Legal Action") ||
-//        transaction.equalsIgnoreCase("False Ownership") ||
-//        transaction.equalsIgnoreCase("Transferred/Assumed")){
-//        return new Fragment_LoanUnit();
-//        } else if(transaction.equalsIgnoreCase("Car nap") ||
-//        transaction.equalsIgnoreCase("Uncooperative") ||
-//        transaction.equalsIgnoreCase("Missing Customer") ||
-//        transaction.equalsIgnoreCase("Missing Unit") ||
-//        transaction.equalsIgnoreCase("Missing Client and Unit") ||
-//        transaction.equalsIgnoreCase("Did Not Pay") ||
-//        transaction.equalsIgnoreCase("Not Visited") ||
-//        transaction.equalsIgnoreCase("Others")){
-//        return new Fragment_IncTransaction();
-//        }
-//        return null;

@@ -36,4 +36,5 @@
 
     <string name="location_on_summary">Location Permission Enabled</string>
     <string name="location_off_summary">Location Permission Disabled</string>
+    <string name="peso_sign">₱</string>
 </resources>
