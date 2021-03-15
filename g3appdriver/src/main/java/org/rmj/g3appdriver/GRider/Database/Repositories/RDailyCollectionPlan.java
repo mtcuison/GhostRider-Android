@@ -115,8 +115,8 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectionDetailForPosting();
     }
 
-    public LiveData<EDCPCollectionDetail> getPaidCollectionDetail(String TransNox, String Acctnox) {
-        return detailDao.getPaidCollectionDetail(TransNox, Acctnox);
+    public LiveData<EDCPCollectionDetail> getPostedCollectionDetail(String TransNox, String Acctnox, String RemCode) {
+        return detailDao.getPostedCollectionDetail(TransNox, Acctnox, RemCode);
     }
 
 

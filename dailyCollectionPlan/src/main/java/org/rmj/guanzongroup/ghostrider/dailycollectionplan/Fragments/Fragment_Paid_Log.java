@@ -44,10 +44,10 @@ public class Fragment_Paid_Log extends Fragment {
         txtClientName.setText(Activity_TransactionLog.fullNme);
         txtClientAddress.setText(Activity_TransactionLog.clientAddress);
         mViewModel.setParameters(Activity_TransactionLog.transNox,
-                Activity_TransactionLog.entryNox,
-                Activity_TransactionLog.acctNox);
+                Activity_TransactionLog.acctNox,
+                Activity_TransactionLog.remCodex);
 
-        mViewModel.getPaidCollectionDetail().observe(getViewLifecycleOwner(), collectPaidDetl -> {
+        mViewModel.getPostedCollectionDetail().observe(getViewLifecycleOwner(), collectPaidDetl -> {
             txtPaymentTp.setText(DCP_Constants.PAYMENT_TYPE[Integer.parseInt(collectPaidDetl.getTranType())]);
             txtPRNoxx.setText(collectPaidDetl.getPRNoxxxx());
             txtTransAmtx.setText(getString(R.string.peso_sign) + collectPaidDetl.getTranAmtx());

@@ -13,23 +13,23 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 public class VMPaid_Log extends AndroidViewModel {
     private RDailyCollectionPlan poCollect;
 
-    private MutableLiveData<String> psTransNox = new MutableLiveData<>();
-    private MutableLiveData<String> psEntryNox = new MutableLiveData<>();
-    private MutableLiveData<String> psAcctNox = new MutableLiveData<>();
+    private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
+    private final MutableLiveData<String> psAcctNox = new MutableLiveData<>();
+    private final MutableLiveData<String> psRemCodex = new MutableLiveData<>();
 
     public VMPaid_Log(@NonNull Application application) {
         super(application);
         this.poCollect = new RDailyCollectionPlan(application);
     }
 
-    public void setParameters(String TransNox, String EntryNox, String Acctnox) {
+    public void setParameters(String TransNox, String Acctnox, String RemCodex) {
         this.psTransNox.setValue(TransNox);
-        this.psEntryNox.setValue(EntryNox);
         this.psAcctNox.setValue(Acctnox);
+        this.psRemCodex.setValue(RemCodex);
     }
 
-    public LiveData<EDCPCollectionDetail> getPaidCollectionDetail() {
-        return poCollect.getPaidCollectionDetail(psTransNox.getValue(), psAcctNox.getValue());
+    public LiveData<EDCPCollectionDetail> getPostedCollectionDetail() {
+        return poCollect.getPostedCollectionDetail(psTransNox.getValue(), psAcctNox.getValue(), psRemCodex.getValue());
     }
 
 }

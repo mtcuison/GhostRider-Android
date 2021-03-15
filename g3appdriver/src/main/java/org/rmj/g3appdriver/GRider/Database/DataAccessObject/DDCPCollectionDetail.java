@@ -199,9 +199,9 @@ public interface DDCPCollectionDetail {
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +
             "WHERE sTransNox = :TransNox " +
             "AND sAcctNmbr = :Acctnox " +
-            "AND sRemCodex = \"PAY\" " +
+            "AND sRemCodex = :RemCode " +
             "AND cSendStat = 1")
-    LiveData<EDCPCollectionDetail> getPaidCollectionDetail(String TransNox, String Acctnox);
+    LiveData<EDCPCollectionDetail> getPostedCollectionDetail(String TransNox, String Acctnox, String RemCode);
 
     class CollectionDetail{
         public String sTransNox;
