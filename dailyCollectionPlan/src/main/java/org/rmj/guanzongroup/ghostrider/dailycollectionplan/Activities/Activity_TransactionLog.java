@@ -28,26 +28,9 @@ public class Activity_TransactionLog extends AppCompatActivity {
     private static Activity_TransactionLog instance;
     public static String fullNme, entryNox, acctNox, remCodex, imgNme, clientID, clientAddress, remarks ;
 
-
     public static Activity_TransactionLog getInstance(){
         return instance;
     }
-
-//    public String getTransNox(){
-//        return TransNox;
-//    }
-//
-//    public int getEntryNox(){
-//        return EntryNox;
-//    }
-//
-//    public String getAccntNox(){
-//        return AccntNox;
-//    }
-//
-//    public String getRemarksCode(){
-//        return Remarksx;
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,27 +158,3 @@ public class Activity_TransactionLog extends AppCompatActivity {
         return null;
     }
 }
-
-//if(transaction.equalsIgnoreCase("Paid")){
-//        return new Fragment_PaidTransaction();
-//        } else if(transaction.equalsIgnoreCase("Promise to Pay")){
-//        return new Fragment_PromiseToPay();
-//        } else if(transaction.equalsIgnoreCase("Customer Not Around")){
-//        return new Fragment_CustomerNotAround();
-////            return new Fragment_CustomerNotAround();
-//        } else if(transaction.equalsIgnoreCase("Loan Unit") ||
-//        transaction.equalsIgnoreCase("For Legal Action") ||
-//        transaction.equalsIgnoreCase("False Ownership") ||
-//        transaction.equalsIgnoreCase("Transferred/Assumed")){
-//        return new Fragment_LoanUnit();
-//        } else if(transaction.equalsIgnoreCase("Car nap") ||
-//        transaction.equalsIgnoreCase("Uncooperative") ||
-//        transaction.equalsIgnoreCase("Missing Customer") ||
-//        transaction.equalsIgnoreCase("Missing Unit") ||
-//        transaction.equalsIgnoreCase("Missing Client and Unit") ||
-//        transaction.equalsIgnoreCase("Did Not Pay") ||
-//        transaction.equalsIgnoreCase("Not Visited") ||
-//        transaction.equalsIgnoreCase("Others")){
-//        return new Fragment_IncTransaction();
-//        }
-//        return null;
