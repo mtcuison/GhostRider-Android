@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.FinanceInfoModel;
@@ -60,6 +61,8 @@ public class Fragment_Finance extends Fragment implements ViewModelCallBack {
         txtFEmail = view.findViewById(R.id.txt_financierEmail);
         btnNext = view.findViewById(R.id.btn_creditAppNext);
         btnPrvs = view.findViewById(R.id.btn_creditAppPrvs);
+
+        txtFIncme.addTextChangedListener(new FormatUIText.CurrencyFormat(txtFIncme));
         return view;
     }
 

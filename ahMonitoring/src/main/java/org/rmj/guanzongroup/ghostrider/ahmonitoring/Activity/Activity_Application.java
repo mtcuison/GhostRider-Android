@@ -19,6 +19,7 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Activity_Application extends AppCompatActivity {
     public static final String TAG = Activity_Application.class.getSimpleName();
@@ -33,7 +34,7 @@ public class Activity_Application extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar_application);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         ViewPager viewPager = findViewById(R.id.viewpager_application);
 
@@ -59,7 +60,7 @@ public class Activity_Application extends AppCompatActivity {
 
     private static class ApplicationPageAdapter extends FragmentStatePagerAdapter{
 
-        private List<Fragment> fragment = new ArrayList<>();
+        private final List<Fragment> fragment = new ArrayList<>();
 
         public ApplicationPageAdapter(@NonNull FragmentManager fm, Fragment fragment) {
             super(fm);

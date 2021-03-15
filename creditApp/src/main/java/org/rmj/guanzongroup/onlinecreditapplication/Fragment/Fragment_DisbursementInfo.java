@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.TextFormatter;
@@ -58,7 +59,7 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_disbursement, container, false);
-        TransNox = new Activity_CreditApplication().getInstance().getTransNox();
+        TransNox = Activity_CreditApplication.getInstance().getTransNox();
         infoModel = new DisbursementInfoModel();
         setupWidgets(v);
         return v;
@@ -74,7 +75,12 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
         tieCCBnk = view.findViewById(R.id.tie_cap_dbmBankNameCC);
         tieLimit = view.findViewById(R.id.tie_cap_dbmCreditLimit);
         tieYearS = view.findViewById(R.id.tie_cap_dbmYearStarted);
-       // btnPrev = v.findViewById(R.id.btn_fragment_dbm_prevs);
+
+        tieElctx.addTextChangedListener(new FormatUIText.CurrencyFormat(tieElctx));
+        tieWater.addTextChangedListener(new FormatUIText.CurrencyFormat(tieWater));
+        tieFoodx.addTextChangedListener(new FormatUIText.CurrencyFormat(tieFoodx));
+        tieLoans.addTextChangedListener(new FormatUIText.CurrencyFormat(tieLoans));
+        tieLimit.addTextChangedListener(new FormatUIText.CurrencyFormat(tieLimit));
 
         btnNext = view.findViewById(R.id.btn_creditAppNext);
     }

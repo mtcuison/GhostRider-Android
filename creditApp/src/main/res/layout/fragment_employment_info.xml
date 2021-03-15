@@ -375,7 +375,7 @@
                     android:id="@+id/txt_monthlySalary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="10"
+                    android:maxLength="6"
                     android:inputType="number|none"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -389,7 +389,7 @@
                     android:id="@+id/txt_companyContact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="15"
+                    android:maxLength="11"
                     android:inputType="number|none"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>

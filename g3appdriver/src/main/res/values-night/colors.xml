@@ -41,5 +41,6 @@
     <color name="spinner_background">#272727</color>
 
     <color name="light_red">#ff3333</color>
+    <color name="light_green">#76EE00</color>
     <color name="hint_color">#8C8C8C</color>
 </resources>

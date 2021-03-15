@@ -240,10 +240,11 @@
                         android:hint="@string/sHintProvince"
                         style="@style/TextInputStyle">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <AutoCompleteTextView
                             android:id="@+id/tie_cap_dpdSchoolProv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            style="@style/AutoCompleteStyleTheme"
                             android:maxLength="50"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -254,10 +255,11 @@
                         android:hint="@string/sHintTown"
                         style="@style/TextInputStyle">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <AutoCompleteTextView
                             android:id="@+id/tie_cap_dpdSchoolTown"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            style="@style/AutoCompleteStyleTheme"
                             android:maxLength="50"/>
                     </com.google.android.material.textfield.TextInputLayout>
 

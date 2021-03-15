@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.EmploymentInfoModel;
@@ -115,6 +116,8 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         rgUniform.setOnCheckedChangeListener(new Fragment_SpouseEmploymentInfo.OnRadioButtonSelectListener());
         rgMiltary.setOnCheckedChangeListener(new Fragment_SpouseEmploymentInfo.OnRadioButtonSelectListener());
        // spnEmpSts.setOnItemSelectedListener(new Fragment_SpouseEmploymentInfo.OnJobStatusSelectedListener());
+
+        txtEsSlry.addTextChangedListener(new FormatUIText.CurrencyFormat(txtEsSlry));
 
         btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(3));
     }

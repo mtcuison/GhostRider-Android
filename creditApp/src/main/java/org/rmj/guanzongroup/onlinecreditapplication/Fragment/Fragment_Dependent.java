@@ -32,6 +32,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.jetbrains.annotations.NotNull;
+import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
@@ -72,14 +74,16 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
     private static String dpdSchoolLvl = "";
     private static String dpdEmpType = "";
     private static String dpdRelationX = "";
+    private static String ProvID = "";
+    private static String TownID = "";
     private DependentAdapter adapter;
 
     private TextInputEditText tieFullname;
     private TextInputEditText tieDpdAgexx;
     private TextInputEditText tieSchoolNm;
     private TextInputEditText tieSchlAddx;
-    private TextInputEditText tieSchlProv;
-    private TextInputEditText tieSchlTown;
+    private AutoCompleteTextView tieSchlProv;
+    private AutoCompleteTextView tieSchlTown;
     private TextInputEditText tieCompName;
     private LinearLayout linearStudent;
     private LinearLayout linearEmployd;
@@ -151,7 +155,6 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         rgDpdEmployd.setOnCheckedChangeListener(new OnDependencyStatusSelectionListener(rgDpdEmployd,mViewModel));
 
         //Checkbox
-
         cbDependent.setOnCheckedChangeListener(new OnDependencySelectionListener(cbDependent));
         cbHouseHold.setOnCheckedChangeListener(new OnDependencySelectionListener(cbHouseHold));
         cbIsMarried.setOnCheckedChangeListener(new OnDependencySelectionListener(cbIsMarried));
@@ -162,6 +165,34 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         actSchoolType.setOnItemClickListener(new Fragment_Dependent.SpinnerSelectionListener(actSchoolType, mViewModel));
         actSchoolLvl.setOnItemClickListener(new Fragment_Dependent.SpinnerSelectionListener(actSchoolLvl, mViewModel));
         actEmploymentType.setOnItemClickListener(new Fragment_Dependent.SpinnerSelectionListener(actEmploymentType, mViewModel));
+
+        mViewModel.getAllProvinceName().observe(getViewLifecycleOwner(), strings -> {
+            ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
+            tieSchlProv.setAdapter(loAdapter);
+        });
+
+        tieSchlProv.setOnItemClickListener((parent, view, position, id) -> mViewModel.getProvinceInfoList().observe(getViewLifecycleOwner(), eProvinceInfos -> {
+            for(int x = 0; x < eProvinceInfos.size(); x++){
+                if(tieSchlProv.getText().toString().equalsIgnoreCase(eProvinceInfos.get(x).getProvName())){
+                    ProvID = eProvinceInfos.get(x).getProvIDxx();
+                    break;
+                }
+            }
+
+            mViewModel.getAllTownNames(ProvID).observe(getViewLifecycleOwner(), strings -> {
+                ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
+                tieSchlTown.setAdapter(loAdapter);
+            });
+        }));
+
+        tieSchlTown.setOnItemClickListener((parent, view, position, id) -> mViewModel.getAllTownInfoList(ProvID).observe(getViewLifecycleOwner(), eTownInfos -> {
+            for(int x = 0; x < eTownInfos.size(); x++){
+                if(tieSchlTown.getText().toString().equalsIgnoreCase(eTownInfos.get(x).getTownName())){
+                    TownID = eTownInfos.get(x).getTownIDxx();
+                    break;
+                }
+            }
+        }));
 
         btnAddDependent.setOnClickListener(v -> addDependent());
         btnNext.setOnClickListener(v -> {
@@ -198,6 +229,7 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         btnNext = view.findViewById(R.id.btn_creditAppNext);
 
     }
+
     Observer<List<DependentsInfoModel>> dependentListUpdateObserver = new Observer<List<DependentsInfoModel>>() {
         @Override
         public void onChanged(List<DependentsInfoModel> userArrayList) {
@@ -408,11 +440,10 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
             String dpdName = tieFullname.getText().toString();
             String dpdSchoolName = tieSchoolNm.getText().toString();
             String dpdSchoolAddress = tieSchlAddx.getText().toString();
-            String dpdSchoolProv = tieSchlProv.getText().toString();
-            String dpdSchoolTown = tieSchlTown.getText().toString();
+//            String dpdSchoolProv = tieSchlProv.getText().toString();
+//            String dpdSchoolTown = tieSchlTown.getText().toString();
             String dpdCompanyN = tieCompName.getText().toString();
             String dpdAge = tieDpdAgexx.getText().toString();
-
 
             DependentsInfoModel infoModel = new DependentsInfoModel(dpdName,
                     String.valueOf(mRelationPosition),
@@ -423,8 +454,8 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
                     IsScholarx,
                     dpdSchoolName,
                     dpdSchoolAddress,
-                    dpdSchoolProv,
-                    dpdSchoolTown,
+                    ProvID,
+                    TownID,
                     IsEmployed,
                     Employment,
                     dpdCompanyN,

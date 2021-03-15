@@ -93,4 +93,10 @@ public class Activity_CreditApplication extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        getViewModelStore().clear();
+    }
 }

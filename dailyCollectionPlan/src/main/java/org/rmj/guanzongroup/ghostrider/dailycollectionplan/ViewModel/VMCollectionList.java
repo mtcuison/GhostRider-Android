@@ -497,7 +497,7 @@ public class VMCollectionList extends AndroidViewModel {
                                             loDetail.sFileCode,
                                             loDetail.sAcctNmbr,
                                             loDetail.sImageNme,
-                                            poUser.getUserID(),
+                                            poUser.getBranchCode(),
                                             loDetail.sSourceCD,
                                             loDetail.sTransNox,
                                             "");
