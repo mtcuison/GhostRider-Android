@@ -20,6 +20,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_Ot
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PaidTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_Paid_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PromiseToPay;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PromiseToPay_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.Objects;
@@ -39,7 +40,6 @@ public class Activity_TransactionLog extends AppCompatActivity {
         setContentView(R.layout.activity_transactionlog);
         instance = this;
         transNox = getIntent().getStringExtra("sTransNox");
-        entryNox = getIntent().getStringExtra("entryNox");
         acctNox = getIntent().getStringExtra("acctNox");
         fullNme = getIntent().getStringExtra("fullNme");
         remCodex = getIntent().getStringExtra("remCodex");
@@ -57,6 +57,9 @@ public class Activity_TransactionLog extends AppCompatActivity {
 
         if(remCodex.equalsIgnoreCase("PAY")) {
             getSupportActionBar().setTitle("Paid");
+        }
+        else if(remCodex.equalsIgnoreCase("PTP")) {
+            getSupportActionBar().setTitle("Promise To Pay");
         }
         else if(remCodex.equalsIgnoreCase("CNA")) {
             getSupportActionBar().setTitle("Customer Not Around");
@@ -143,6 +146,9 @@ public class Activity_TransactionLog extends AppCompatActivity {
     private Fragment getTransactionFragment(String transaction){
         if(transaction.equalsIgnoreCase("PAY")) {
             return new Fragment_Paid_Log();
+        }
+        else if(transaction.equalsIgnoreCase("PTP")) {
+            return new Fragment_PromiseToPay_Log();
         }
         else if(transaction.equalsIgnoreCase("CNA")){
             return new Fragment_CustomerNotAround_Log();

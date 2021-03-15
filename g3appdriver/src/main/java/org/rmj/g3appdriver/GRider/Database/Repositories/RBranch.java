@@ -151,4 +151,8 @@ public class RBranch {
         return branchInfoDao.getUserBranchInfo();
     }
 
+    public LiveData<String> getBranchName(String BranchCde) {
+        return branchInfoDao.getBranchName(BranchCde);
+    }
+
 }

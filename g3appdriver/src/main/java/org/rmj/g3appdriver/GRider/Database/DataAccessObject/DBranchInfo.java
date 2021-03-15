@@ -54,4 +54,7 @@ public interface DBranchInfo {
     @Query("SELECT * FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
     LiveData<EBranchInfo> getUserBranchInfo();
 
+    @Query("SELECT sBranchNm FROM Branch_Info WHERE cRecdStat = 1 AND sBranchCd = :BranchCde")
+    LiveData<String> getBranchName(String BranchCde);
+
 }
