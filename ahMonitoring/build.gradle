@@ -46,4 +46,5 @@ dependencies {
 
     implementation project(':g3appdriver')
     implementation project(':imgCapture')
+    implementation project(':json-simple-1.1.1')
 }

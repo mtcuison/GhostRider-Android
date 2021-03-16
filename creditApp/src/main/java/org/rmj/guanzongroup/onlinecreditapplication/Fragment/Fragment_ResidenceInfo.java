@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.widget.Spinner;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ResidenceInfoModel;
@@ -124,7 +126,13 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMResidenceInfo.class);
         mViewModel.setTransNox(TransNox);
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setGOCasDetailInfo(eCreditApplicantInfo.getDetlInfo()));
+        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
+            try{
+                mViewModel.setGOCasDetailInfo(eCreditApplicantInfo);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
 
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);

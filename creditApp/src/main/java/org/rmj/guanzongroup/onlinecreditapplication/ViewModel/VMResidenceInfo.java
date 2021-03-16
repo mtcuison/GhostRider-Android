@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class VMResidenceInfo extends AndroidViewModel {
+    private ECreditApplicantInfo poInfo;
     private final GOCASApplication poGoCas;
     private final RCreditApplicant RCreditApplicant;
     private final RProvince poProvnce;
@@ -105,9 +106,10 @@ public class VMResidenceInfo extends AndroidViewModel {
         this.spnLgnthStayPosition.setValue(position);
     }
 
-    public void setGOCasDetailInfo(String DetailInfo){
+    public void setGOCasDetailInfo(ECreditApplicantInfo DetailInfo){
         try{
-            poGoCas.setData(DetailInfo);
+            this.poInfo = DetailInfo;
+            poGoCas.setData(poInfo.getDetlInfo());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -203,11 +205,8 @@ public class VMResidenceInfo extends AndroidViewModel {
                 poGoCas.ResidenceInfo().PermanentAddress().setAddress2(infoModel.getPermanentAddress2());
                 poGoCas.ResidenceInfo().PermanentAddress().setTownCity(infoModel.getPermanentMunicipalID());
                 poGoCas.ResidenceInfo().PermanentAddress().setBarangay(infoModel.getPermanentBarangayID());
-                ECreditApplicantInfo applicantInfo = new ECreditApplicantInfo();
-                applicantInfo.setTransNox(Objects.requireNonNull(TRANSNOX.getValue()));
-                applicantInfo.setDetlInfo(poGoCas.toJSONString());
-                applicantInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                RCreditApplicant.updateGOCasData(applicantInfo);
+                poInfo.setDetlInfo(poGoCas.toJSONString());
+                RCreditApplicant.updateGOCasData(poInfo);
                 callBack.onSaveSuccessResult("Success");
             } else {
                  callBack.onFailedResult(infoModel.getMessage());

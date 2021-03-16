@@ -83,6 +83,7 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
         tieLimit.addTextChangedListener(new FormatUIText.CurrencyFormat(tieLimit));
 
         btnNext = view.findViewById(R.id.btn_creditAppNext);
+        btnPrev = view.findViewById(R.id.btn_creditAppPrvs);
     }
 
 
@@ -110,7 +111,6 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
             }
         });
         btnNext.setOnClickListener(view -> {
-
             infoModel.setStypeX(typeX);
             infoModel.setElctX(Objects.requireNonNull(tieElctx.getText()).toString().replace(",", ""));
             infoModel.setFoodX(Objects.requireNonNull(tieFoodx.getText().toString().replace(",", "")));

@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -22,6 +23,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -116,7 +118,13 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         Log.e(TAG, transnox);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPersonalInfo.class);
         mViewModel.setTransNox(transnox);
-        mViewModel.getCreditApplicantInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setGOCasDetailInfo(eCreditApplicantInfo.getDetlInfo()));
+        mViewModel.getCreditApplicantInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
+            try{
+                mViewModel.setGOCasDetailInfo(eCreditApplicantInfo);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvince.setAdapter(adapter);

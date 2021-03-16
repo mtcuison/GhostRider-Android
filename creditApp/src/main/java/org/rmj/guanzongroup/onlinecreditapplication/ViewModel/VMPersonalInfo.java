@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class VMPersonalInfo extends AndroidViewModel {
+    private ECreditApplicantInfo poInfo;
     private final GOCASApplication poGoCas;
     private SavedStateHandle poStatexx;
     private final RCreditApplicant RCreditApplicant;
@@ -68,12 +69,6 @@ public class VMPersonalInfo extends AndroidViewModel {
 
     }
 
-    public void saveStateHandle(SavedStateHandle savedStateHandle){
-        this.poStatexx = savedStateHandle;
-        LiveData<String> lsTransNox = poStatexx.getLiveData("");
-
-    }
-
     public void setTransNox(String transNox){
         this.TRANSNOX.setValue(transNox);
     }
@@ -82,9 +77,10 @@ public class VMPersonalInfo extends AndroidViewModel {
         return RCreditApplicant.getCreditApplicantInfoLiveData(TRANSNOX.getValue());
     }
 
-    public void setGOCasDetailInfo(String DetailInfo){
+    public void setGOCasDetailInfo(ECreditApplicantInfo DetailInfo){
         try {
-            poGoCas.setData(DetailInfo);
+            poInfo = DetailInfo;
+            poGoCas.setData(poInfo.getDetlInfo());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -118,11 +114,9 @@ public class VMPersonalInfo extends AndroidViewModel {
                 poGoCas.ApplicantInfo().setEmailAddress(0, infoModel.getEmailAdd());
                 poGoCas.ApplicantInfo().setFBAccount(infoModel.getFbAccntx());
                 poGoCas.ApplicantInfo().setViberAccount(infoModel.getVbrAccnt());
-                ECreditApplicantInfo applicantInfo = new ECreditApplicantInfo();
-                applicantInfo.setTransNox(Objects.requireNonNull(TRANSNOX.getValue()));
-                applicantInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                applicantInfo.setDetlInfo(poGoCas.toJSONString());
-                RCreditApplicant.updateGOCasData(applicantInfo);
+                poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
+                poInfo.setDetlInfo(poGoCas.toJSONString());
+                RCreditApplicant.updateGOCasData(poInfo);
                 Log.e("Transnox value,  ",TRANSNOX.getValue());
                 callBack.onSaveSuccessResult(TRANSNOX.getValue());
             } else {

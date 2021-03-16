@@ -75,6 +75,16 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <receiver
+            android:name=".Service.InternetStatusReciever"
+            tools:ignore="InnerclassSeparator,Instantiatable">
+            <intent-filter>
+                <action
+                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                    tools:ignore="BatteryLife" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

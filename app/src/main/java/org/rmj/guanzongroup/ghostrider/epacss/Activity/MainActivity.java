@@ -1,23 +1,22 @@
 package org.rmj.guanzongroup.ghostrider.epacss.Activity;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ExpandableListView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.google.android.material.navigation.NavigationView;
@@ -25,6 +24,8 @@ import com.google.android.material.navigation.NavigationView;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
+import org.rmj.guanzongroup.ghostrider.epacss.Service.InternetStatusReciever;
+import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMMainActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.ExpandableListDrawerAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.MenuModel;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.PopulateExpandableList;
@@ -35,6 +36,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private VMMainActivity mViewModel;
+
+    private InternetStatusReciever poNetRecvr;
 
     private AppBarConfiguration mAppBarConfiguration;
     private MessageBox loMessage;
@@ -55,6 +60,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initWidgets();
+        mViewModel = new ViewModelProvider(this).get(VMMainActivity.class);
+        poNetRecvr = mViewModel.getInternetReceiver();
+        mViewModel.getUnsentSelfieLogImageList().observe(this, eImageInfos -> {
+            try {
+                poNetRecvr.setLoginImageInfo(eImageInfos);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getUnsentSelfieLoginList().observe(this, eLog_selfies -> {
+            try{
+                poNetRecvr.setLoginDetails(eLog_selfies);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    private void initWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         /*Edited by mike*/
@@ -101,21 +130,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+        IntentFilter loFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(poNetRecvr, loFilter);
+        Log.e(TAG, "Internet status receiver has been registered.");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(poNetRecvr);
+        Log.e(TAG, "Internet status receiver has been unregistered.");
     }
 
     @Override
