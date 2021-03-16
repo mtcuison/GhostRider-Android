@@ -39,6 +39,7 @@
     <color name="spinner_background">#FBFBFB</color>
 
     <color name="light_red">#ff3333</color>
+    <color name="light_green">#76EE00</color>
     <color name="hint_color">#dadada</color>
 
     <color name="check_green">#008000</color>

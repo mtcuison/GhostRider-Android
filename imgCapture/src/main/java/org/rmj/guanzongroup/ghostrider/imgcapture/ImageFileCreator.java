@@ -40,6 +40,7 @@ public class ImageFileCreator {
 
     public static class FILE_CODE{
         public static String DCP = "dcp";
+        public static String CNA = "CNA";
         public static String SELFIE_LOGIN = "Selfie_Login";
         //TODO: add more file code for additional feature for app
     }

@@ -21,6 +21,13 @@ public interface DDCPCollectionDetail {
     @Update
     void update(EDCPCollectionDetail collectionDetail);
 
+    /**
+     *
+     * @param EntryNox specific entry number of collection detail
+     * @param RemCode remarks code base on the customer's transaction.
+     * @param Remarks required for all remarks code except PAY
+     * @param DateModified current date time of update.
+     */
     @Query("UPDATE LR_DCP_Collection_Detail " +
             "SET sRemCodex =:RemCode, " +
             "sRemarksx =:Remarks, " +
@@ -35,8 +42,16 @@ public interface DDCPCollectionDetail {
             "AND nEntryNox =:EntryNox")
     void updateCollectionDetailInfo(int EntryNox, String RemCode, String Remarks, String DateModified);
 
+    /**
+     *
+     * @param TransNox transaction number of master detail
+     * @param EntryNox specific entry number of collection detail
+     * @param DateEntry current date time of update.
+     */
     @Query("UPDATE LR_DCP_Collection_Detail " +
-            "SET cSendStat='1', dModified=:DateEntry " +
+            "SET cSendStat='1', " +
+            "cTranstat = '2', " +
+            "dModified=:DateEntry " +
             "WHERE sTransNox =:TransNox " +
             "AND nEntryNox =:EntryNox")
     void updateCollectionDetailStatus(String TransNox, int EntryNox, String DateEntry);
@@ -139,6 +154,7 @@ public interface DDCPCollectionDetail {
             "a.sPRNoxxxx, " +
             "a.nTranAmtx, " +
             "a.nDiscount, " +
+            "a.dPromised, " +
             "a.nOthersxx, " +
             "a.sRemarksx, " +
             "a.cTranType, " +
@@ -194,6 +210,13 @@ public interface DDCPCollectionDetail {
             "ON a.sClientID = e.sClientID " +
             "WHERE a.cSendStat <> '1'")
     LiveData<List<CollectionDetail>> getCollectionDetailForPosting();
+
+    @Query("SELECT * FROM LR_DCP_Collection_Detail " +
+            "WHERE sTransNox = :TransNox " +
+            "AND sAcctNmbr = :Acctnox " +
+            "AND sRemCodex = :RemCode " +
+            "AND cSendStat = 1")
+    LiveData<EDCPCollectionDetail> getPostedCollectionDetail(String TransNox, String Acctnox, String RemCode);
 
     class CollectionDetail{
         public String sTransNox;

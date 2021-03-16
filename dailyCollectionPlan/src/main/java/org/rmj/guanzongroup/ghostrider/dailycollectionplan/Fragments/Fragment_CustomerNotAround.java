@@ -114,7 +114,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 mViewModel.setCurrentCollectionDetail(collectionDetail);
 
                 mViewModel.setAccountNo(collectionDetail.getAcctNmbr());
-                poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, ImageFileCreator.FILE_CODE.DCP, collectionDetail.getAcctNmbr());
+                poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, ImageFileCreator.FILE_CODE.CNA, collectionDetail.getAcctNmbr());
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -166,6 +166,8 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
             mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
                 for(int x = 0; x < townProvinceInfos.size(); x++){
                     if(lsTown.equalsIgnoreCase(townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName)){
+                        addressInfoModel.setsProvName(townProvinceInfos.get(x).sProvName);
+                        addressInfoModel.setsTownName(townProvinceInfos.get(x).sTownName);
                         addressInfoModel.setTownID(townProvinceInfos.get(x).sTownIDxx);
                         mViewModel.setTownID(townProvinceInfos.get(x).sTownIDxx);
                         break;
@@ -183,6 +185,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
             for(int x = 0; x < eBarangayInfos.size(); x++){
                 if(txtBrgy.getText().toString().equalsIgnoreCase(eBarangayInfos.get(x).getBrgyName())){
                     addressInfoModel.setBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
+                    addressInfoModel.setsBrgyName(eBarangayInfos.get(x).getBrgyName());
                     mViewModel.setBrgyID(eBarangayInfos.get(x).getBrgyIDxx());
                     break;
                 }
@@ -225,7 +228,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 Log.e("Fragment_CNA:", "Image Info Save");
                 OnSuccessResult(new String[]{"Customer Not Around Info has been saved."});
             } else {
-                Objects.requireNonNull(getActivity()).finish();
+                requireActivity().finish();
             }
         }
     }
@@ -397,13 +400,6 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                     txtRemarks.setText("");
                     btnAdd.setOnClickListener(view -> addAddress());
 
-                    mViewModel.getAddressRequesListForClient().observe(getViewLifecycleOwner(), new Observer<List<EAddressUpdate>>() {
-                        @Override
-                        public void onChanged(List<EAddressUpdate> eAddressUpdates) {
-
-                        }
-                    });
-
                     mViewModel.getAddressRequesListForClient().observe(getViewLifecycleOwner(), eAddressUpdates -> {
                         try {
                             addressAdapter = new AddressInfoAdapter(position -> {
@@ -413,7 +409,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                                 addressAdapter.notifyDataSetChanged();
                             });
                             rvCNAOutputs.setAdapter(addressAdapter);
-                            addressAdapter.setAddressList(eAddressUpdates);
+                            addressAdapter.setAddress(eAddressUpdates);
                         } catch (Exception e){
                             e.printStackTrace();
                         }

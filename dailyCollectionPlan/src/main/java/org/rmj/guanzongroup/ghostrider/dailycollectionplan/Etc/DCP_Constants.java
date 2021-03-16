@@ -42,6 +42,8 @@ public class DCP_Constants {
     public static double varLongitude;
     public static boolean saveStorage=false;
 
+    public static String EXPORT_FOLDER = "/GRider Exports";
+
     public static String[] TRANSACTION_TYPE= {
             "Paid",
             "Promise to Pay",

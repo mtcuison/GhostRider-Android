@@ -51,10 +51,14 @@ public interface DImageInfo {
     @Update
     void updateImageInfo(EImageInfo imageInfo);
 
-
-
     @Query("SELECT * FROM Image_Information " +
             "WHERE sDtlSrcNo = :sDtlSrcNo AND " +
             "sImageNme = :sImageNme")
     LiveData<EImageInfo> getImageLocation(String sDtlSrcNo, String sImageNme);
+
+    @Query("SELECT * FROM Image_Information WHERE dCaptured LIKE:DateLog")
+    LiveData<List<EImageInfo>> getCurrentLogTimeIfExist(String DateLog);
+
+    @Query("SELECT * FROM Image_Information WHERE sFileCode = '0021' AND cSendStat <> '1'")
+    LiveData<List<EImageInfo>> getLoginImageInfo();
 }

@@ -189,14 +189,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
 
         mViewModel.setMotherMaidenNameVisibility().observe(getViewLifecycleOwner(), integer -> tilMothNm.setVisibility(integer));
 
-//        mViewModel.getCvlStats().observe(getViewLifecycleOwner(), s -> spnCivilStatus.setSelection(Integer.parseInt(s)));
-        spnCivilStatus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mViewModel.setCvlStats(String.valueOf(i));
-            }
-
-        });
+        spnCivilStatus.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.setCvlStats(String.valueOf(i)));
 
         mViewModel.getAllCountryCitizenNames().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
@@ -217,6 +210,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
             spnMobile2.setAdapter(stringArrayAdapter);
             spnMobile3.setAdapter(stringArrayAdapter);
         });
+
         spnMobile1.setOnItemClickListener(new OnItemClickListener(spnMobile1));
         spnMobile2.setOnItemClickListener(new OnItemClickListener(spnMobile2));
         spnMobile3.setOnItemClickListener(new OnItemClickListener(spnMobile3));
@@ -293,12 +287,12 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         infoModel.setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
         infoModel.setGender(genderPosition);
         infoModel.setCvlStats(spnCvlStsPosition);
+
         if(!Objects.requireNonNull(txtMobileNo1.getText()).toString().trim().isEmpty()) {
             if(Integer.parseInt(spnMobile1Position) == 1) {
                 infoModel.setMobileNo(txtMobileNo1.getText().toString(), spnMobile1Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));
             } else {
                 infoModel.setMobileNo(txtMobileNo1.getText().toString(), spnMobile1Position, 0);
-
                 Log.e("Postpaid index " + spnMobile1Position, infoModel.getPostPaid(0));
             }
         }
@@ -322,6 +316,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         infoModel.setVbrAccnt(Objects.requireNonNull(txtViberAccount.getText()).toString());
         mViewModel.SavePersonalInfo(infoModel, Fragment_PersonalInfo.this);
     }
+
     class OnItemClickListener implements AdapterView.OnItemClickListener {
         AutoCompleteTextView poView;
         public OnItemClickListener(AutoCompleteTextView view) {

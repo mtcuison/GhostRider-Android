@@ -61,9 +61,6 @@ public class VMCollectionList extends AndroidViewModel {
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
     private final MutableLiveData<Integer> pnEntryNox = new MutableLiveData<>();
 
-    public void PostLRCollectionDetail(ViewModelCallback viewModelCallback) {
-    }
-
     public interface OnDownloadCollection{
         void OnDownload();
         void OnSuccessDownload();
@@ -500,7 +497,7 @@ public class VMCollectionList extends AndroidViewModel {
                                             loDetail.sFileCode,
                                             loDetail.sAcctNmbr,
                                             loDetail.sImageNme,
-                                            poUser.getUserID(),
+                                            poUser.getBranchCode(),
                                             loDetail.sSourceCD,
                                             loDetail.sTransNox,
                                             "");
@@ -752,6 +749,9 @@ public class VMCollectionList extends AndroidViewModel {
 
     public interface FileManagerCallBack{
         void OnJSONCreated(JSONObject loJson);
+        void OnStartSaving();
+        void OnSuccessResult(String[] args);
+        void OnFailedResult(String message);
     }
 
     private static class ExportDCPFileTask extends AsyncTask<List<DDCPCollectionDetail.CollectionDetail>, Void, JSONObject>{
@@ -770,6 +770,7 @@ public class VMCollectionList extends AndroidViewModel {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            callBack.OnStartSaving();
         }
 
         @Override
@@ -830,6 +831,7 @@ public class VMCollectionList extends AndroidViewModel {
                                 paramMobile.put("cReqstCDe", loDetail.smReqstCde);
                                 paramMobile.put("sMobileNo", loDetail.smContactNox);
                                 paramMobile.put("cPrimaryx", loDetail.smPrimaryx);
+                                paramMobile.put("sImageNme", loDetail.sImageNme);
                                 paramMobile.put("sRemarksx", loDetail.smRemarksx);
                                 Log.e("paramMobile", paramMobile.toString());
                                 loData.put("Mobile", paramMobile);
@@ -850,6 +852,7 @@ public class VMCollectionList extends AndroidViewModel {
                                 paramAddress.put("sTownIDxx", loDetail.saTownIDxx);
                                 paramAddress.put("sBrgyIDxx", loDetail.saBrgyIDxx);
                                 paramAddress.put("cPrimaryx", loDetail.saPrimaryx);
+                                paramAddress.put("sImageNme", loDetail.sImageNme);
                                 paramAddress.put("nLatitude", Double.parseDouble(loDetail.saLatitude));
                                 paramAddress.put("nLongitud", Double.parseDouble(loDetail.saLongitude));
                                 paramAddress.put("sRemarksx", loDetail.saRemarksx);
@@ -899,6 +902,13 @@ public class VMCollectionList extends AndroidViewModel {
             callBack.OnJSONCreated(jsonObject);
 
             JSONExport = jsonObject;
+
+            if(JSONExport != null){
+                callBack.OnSuccessResult(new String[]{"Collection list exported successfully."});
+            } else {
+                callBack.OnFailedResult(("Collection list exporting failed."));
+            }
+
         }
 
 

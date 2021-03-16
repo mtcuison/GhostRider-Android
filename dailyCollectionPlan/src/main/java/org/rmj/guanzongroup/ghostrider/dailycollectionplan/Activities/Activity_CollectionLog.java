@@ -109,6 +109,7 @@ public class Activity_CollectionLog extends AppCompatActivity {
 
                 CollectionLogAdapter poAdapter = new CollectionLogAdapter(filteredCollectionDetlx, position -> {
                     Intent loIntent = new Intent(Activity_CollectionLog.this, Activity_TransactionLog.class);
+                    loIntent.putExtra("sTransNox", filteredCollectionDetlx.get(position).getTransNox());
                     loIntent.putExtra("entryNox",filteredCollectionDetlx.get(position).getEntryNox());
                     loIntent.putExtra("acctNox",filteredCollectionDetlx.get(position).getAcctNmbr());
                     loIntent.putExtra("fullNme", filteredCollectionDetlx.get(position).getFullName());
@@ -116,6 +117,7 @@ public class Activity_CollectionLog extends AppCompatActivity {
                     loIntent.putExtra("imgNme", filteredCollectionDetlx.get(position).getImageNme());
                     loIntent.putExtra("sClientID", filteredCollectionDetlx.get(position).getClientID());
                     loIntent.putExtra("sAddressx", filteredCollectionDetlx.get(position).getAddressx());
+                    loIntent.putExtra("sRemarksx", filteredCollectionDetlx.get(position).getRemarksx());
                     startActivity(loIntent);
                 });
 
