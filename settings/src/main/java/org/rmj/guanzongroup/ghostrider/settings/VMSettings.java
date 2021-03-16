@@ -24,10 +24,12 @@ public class VMSettings extends AndroidViewModel {
     private final MutableLiveData<Boolean> locGranted = new MutableLiveData<>();
     private final MutableLiveData<Boolean> camGranted = new MutableLiveData<>();
     private final MutableLiveData<Boolean> phGranted = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> storageGranted = new MutableLiveData<>();
     private final MutableLiveData<String[]> paPermisions = new MutableLiveData<>();
     public MutableLiveData<String[]> locationPermissions = new MutableLiveData<>();
     public MutableLiveData<String[]> cameraPermissions = new MutableLiveData<>();
     public MutableLiveData<String[]> phonePermissions = new MutableLiveData<>();
+    public MutableLiveData<String[]> storagePermission = new MutableLiveData<>();
 
     private final MutableLiveData<String> cameraSummarry = new MutableLiveData<>();
 
@@ -43,16 +45,24 @@ public class VMSettings extends AndroidViewModel {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION});
         cameraPermissions.setValue(new String[]{
-                Manifest.permission.CAMERA});
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,});
         locationPermissions.setValue(new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION});
         phonePermissions.setValue(new String[]{
                 Manifest.permission.READ_PHONE_STATE});
 
+        storagePermission.setValue(new String[]{
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE});
+
         locGranted.setValue(hasPermissions(application.getApplicationContext(), locationPermissions.getValue()));
         camGranted.setValue(hasPermissions(application.getApplicationContext(), cameraPermissions.getValue()));
         phGranted.setValue(hasPermissions(application.getApplicationContext(), phonePermissions.getValue()));
+        storageGranted.setValue(hasPermissions(application.getApplicationContext(), storagePermission.getValue()));
     }
 
     public void setCameraSummary(String camSummary){
@@ -72,6 +82,9 @@ public class VMSettings extends AndroidViewModel {
     public LiveData<Boolean> isLocPermissionGranted(){
         return locGranted;
     }
+    public LiveData<Boolean> isStoragePermissionGranted(){
+        return storageGranted;
+    }
     public LiveData<Boolean> isPhPermissionGranted(){
         return phGranted;
     }
@@ -89,6 +102,9 @@ public class VMSettings extends AndroidViewModel {
     public LiveData<String[]> getPhPermissions(){
         return phonePermissions;
     }
+    public LiveData<String[]> getStoragePermission(){
+        return storagePermission;
+    }
 
     public void setPermissionsGranted(boolean isGranted){
         this.pbGranted.setValue(isGranted);
@@ -101,6 +117,9 @@ public class VMSettings extends AndroidViewModel {
     }
     public void setPhonePermissionsGranted(boolean isGranted){
         this.phGranted.setValue(isGranted);
+    }
+    public void setStoragePermissionGranted(boolean isGranted){
+        this.storageGranted.setValue(isGranted);
     }
 
     private static boolean hasPermissions(Context context, String... permissions){

@@ -48,10 +48,10 @@ public class GriderScanner extends AppCompatActivity {
         initWidgets();
         poFilexx = new ImageFileCreator(this, FOLDER_NAME);
         contentResolver = this.getContentResolver();
-        mbCamera.setOnClickListener(view -> poFilexx.CreateScanFile((openCamera, photPath) -> {
-            mCurrentPhotoPath = photPath;
-            startActivityForResult(openCamera, CAMERA_REQUEST_CODE);
-        }));
+//        mbCamera.setOnClickListener(view -> poFilexx.CreateScanFile((openCamera, photPath) -> {
+//            mCurrentPhotoPath = photPath;
+//            startActivityForResult(openCamera, CAMERA_REQUEST_CODE);
+//        }));
         mbGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -18,12 +18,6 @@
             app:title="Camera"
             app:iconSpaceReserved="false"
             app:defaultValue="false"/>
-        <!--        <SwitchPreferenceCompat-->
-        <!--            app:key="locationPrefs"-->
-        <!--            app:icon="@drawable/ic_baseline_location_on_24"-->
-        <!--            app:title="Location (GPS)"-->
-        <!--            app:iconSpaceReserved="false"-->
-        <!--            app:defaultValue="false"/>-->
 
         <Preference
             app:key="locationPrefs"
@@ -38,4 +32,10 @@
             app:iconSpaceReserved="false"
             app:defaultValue="false"/>
     </PreferenceCategory>
+    <Preference
+        app:key="exportPrefs"
+        app:icon="@drawable/ic_application_export"
+        app:title="Export Database"
+        app:iconSpaceReserved="false"
+        app:defaultValue="false"/>
 </androidx.preference.PreferenceScreen>

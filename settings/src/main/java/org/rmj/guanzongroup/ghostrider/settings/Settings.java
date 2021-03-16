@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.settings.VMSettings;
@@ -32,7 +33,10 @@ import java.lang.annotation.RetentionPolicy;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.READ_PHONE_STATE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.*;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CAMERA_REQUEST;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CONTACT_REQUEST;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LOCATION_REQUEST;
@@ -62,6 +66,8 @@ public class Settings extends AppCompatActivity {
         loMessage = new MessageBox(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Log.e("instancestate", String.valueOf(savedInstanceState));
+
+
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -79,7 +85,7 @@ public class Settings extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.e("Request Code", String.valueOf(requestCode));
-        Log.e("Request Code", String.valueOf(permissions));
+        Log.e("Permission Code", String.valueOf(permissions));
         Log.e("grantResults", String.valueOf(grantResults));
         switch (requestCode){
             case CAMERA_REQUEST:{
@@ -124,6 +130,25 @@ public class Settings extends AppCompatActivity {
                 Log.e("CONTACT Permission", String.valueOf(getPermissionStatus(this, READ_PHONE_STATE)));
                 break;
             }
+            case  STORAGE_REQUEST: {
+                int index = getPermissionStatus(this, READ_EXTERNAL_STORAGE);
+                if (index == 0){
+                    mViewModel.setCameraSummary("Storage State Permission Enabled");
+                    mViewModel.setPhonePermissionsGranted(true);
+                }
+                if (index == 1){
+                    mViewModel.setCameraSummary("Storage State Permission Disabled");
+                    mViewModel.setPhonePermissionsGranted(false);
+                }
+                if (index == 2){
+                    mViewModel.setCameraSummary("Storage State Permission Disabled");
+                    mViewModel.setPhonePermissionsGranted(false);
+
+                }
+                Log.e("Storage Permission", String.valueOf(getStoragePermissionStatus(this, READ_EXTERNAL_STORAGE)));
+
+            }
+
             default:
                 break;
         }
@@ -131,6 +156,18 @@ public class Settings extends AppCompatActivity {
 
     @PermissionStatus
     public static int getPermissionStatus(Activity activity, String androidPermissionName) {
+        if(ContextCompat.checkSelfPermission(activity, androidPermissionName) != PackageManager.PERMISSION_GRANTED) {
+            if(!ActivityCompat.shouldShowRequestPermissionRationale(activity, androidPermissionName)){
+                return BLOCKED_OR_NEVER_ASKED;
+            }
+            return DENIED;
+        }else {
+            return GRANTED;
+        }
+    }
+
+    @PermissionStatus
+    public static int getStoragePermissionStatus(Activity activity, String androidPermissionName) {
         if(ContextCompat.checkSelfPermission(activity, androidPermissionName) != PackageManager.PERMISSION_GRANTED) {
             if(!ActivityCompat.shouldShowRequestPermissionRationale(activity, androidPermissionName)){
                 return BLOCKED_OR_NEVER_ASKED;
@@ -151,16 +188,21 @@ public class Settings extends AppCompatActivity {
     }
 
     public void showDialogNeverAsk(){
+
+        loMessage.initDialog();
         loMessage.setNegativeButton("Okay", (view, dialog) -> {
             dialog.dismiss();
             Intent intent = new Intent();
             intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             intent.setData(Uri.parse("package:" + getPackageName()));
             startActivity(intent);
+
+           // Manifest.permission.READ_EXTERNAL_STORAGE = String.valueOf(PackageManager.PERMISSION_GRANTED);
         });
         loMessage.setTitle("Never Ask");
         loMessage.setMessage("Without this permission the app is unable to complete some process in the app. Please allow camera in app settings permissions. ");
         loMessage.show();
     }
+
 
 }

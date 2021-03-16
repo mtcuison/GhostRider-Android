@@ -43,4 +43,9 @@ public class RCreditApplication {
     public void insertBulkData(List<ECreditApplication> creditApplications){
         creditApplicationDao.insertBulkData(creditApplications);
     }
+
+    //GET ALL CREDIT APP BY BRANCH
+    public LiveData<List<DCreditApplication.ApplicationLog>> getApplicationByBranch(String BranchID){
+        return creditApplicationDao.getApplicationByBranch(BranchID);
+    }
 }
