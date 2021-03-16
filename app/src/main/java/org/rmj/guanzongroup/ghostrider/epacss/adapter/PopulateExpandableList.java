@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import org.rmj.guanzongroup.ghostrider.griderscanner.MainScanner;
 import org.rmj.guanzongroup.ghostrider.imgcapture.DCPPhotoCapture;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
@@ -128,7 +129,7 @@ public class PopulateExpandableList {
                                 context.startActivity(intent);
                                 break;
                             case 2:
-                                Intent scanner = new Intent(parent.getContext(), GriderScanner.class);
+                                Intent scanner = new Intent(parent.getContext(), MainScanner.class);
                                 context.startActivity(scanner);
                                 break;
                             case 3:

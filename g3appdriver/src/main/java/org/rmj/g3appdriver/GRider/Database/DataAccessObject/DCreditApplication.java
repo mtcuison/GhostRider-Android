@@ -63,4 +63,23 @@ public interface DCreditApplication {
         public String dVerified;
 
     }
+    @Query("SELECT a.sGOCASNox," +
+            "a.sTransNox," +
+            "b.sBranchNm," +
+            "a.dCreatedx," +
+            "a.sDetlInfo," +
+            "a.sClientNm," +
+            "a.cWithCIxx," +
+            "a.cSendStat," +
+            "a.cTranStat," +
+            "a.dReceived," +
+            "a.dVerified F" +
+            "ROM Credit_Online_Application a " +
+            "LEFT JOIN Branch_Info b " +
+            "ON a.sBranchCd = b.sBranchCd " +
+            "WHERE cTranStat != 4 " +
+            "AND a.sBranchCd =:BranchID " +
+            "AND sCreatedx = (SELECT sUserIDxx From User_Info_Master) " +
+            "ORDER BY a.dCreatedx DESC" )
+    LiveData<List<ApplicationLog>> getApplicationByBranch(String BranchID);
 }
