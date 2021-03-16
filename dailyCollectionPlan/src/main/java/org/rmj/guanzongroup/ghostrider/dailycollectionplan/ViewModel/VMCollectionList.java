@@ -168,7 +168,15 @@ public class VMCollectionList extends AndroidViewModel {
             @Override
             public void OnDataExtract(List<EDCPCollectionDetail> collectionDetlList, EDCPCollectionMaster collectionMaster) {
                 if(importDCPMasterData(collectionMaster)) {
-                    importDCPListBulkData(collectionDetlList);
+                    boolean isCollectDetlInserted = importDCPListBulkData(collectionDetlList);
+                    if(isCollectDetlInserted) {
+                        callback.OnSuccessResult(new String[] {"Collection detail imported successfully."});
+                    }
+                    else {
+                        callback.OnFailedResult("Collection Detail Import Failed: DETAIL");
+                    }
+                } else {
+                    callback.OnFailedResult("Collection Detail Import Failed: MASTER");
                 }
             }
         });
