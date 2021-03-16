@@ -59,8 +59,8 @@ public class VMClientInfo extends AndroidViewModel {
 //    public LiveData<List<ECreditApplicationDocuments>> getDocumentInfo(){
 //        return poDocument.getDocumentInfo();
 //    }
-    public LiveData<List<ECreditApplicationDocuments>> getDocument(String TransNox, int EntryNox){
-        return poDocument.getDocument(TransNox, EntryNox);
+    public LiveData<List<ECreditApplicationDocuments>> getDocument(String TransNox){
+        return poDocument.getDocument(TransNox);
     }
 
     public void saveDocumentInfo(ECreditApplicationDocuments documentsInfo){

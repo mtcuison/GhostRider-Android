@@ -90,7 +90,7 @@ public class ClientInfo extends AppCompatActivity {
         contentResolver = this.getContentResolver();
         setData(position,plLoanApp);
         mViewModel.getImgInfo().observe(ClientInfo.this, data -> mViewModel.setImgInfo(data));
-        mViewModel.getDocument(plLoanApp.get(position).getTransNox(), position).observe(this, data -> mViewModel.setDocumentInfo(data));
+        mViewModel.getDocument(plLoanApp.get(position).getTransNox()).observe(this, data -> mViewModel.setDocumentInfo(data));
 
         mViewModel.getFileCode().observe(this, fileCodeDetails -> {
 

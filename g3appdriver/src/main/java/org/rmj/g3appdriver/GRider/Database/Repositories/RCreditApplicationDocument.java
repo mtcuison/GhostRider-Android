@@ -39,8 +39,8 @@ public class RCreditApplicationDocument {
     public LiveData<List<ECreditApplicationDocuments>> getDocumentInfo(){
         return documentsDao.getDocumentInfo();
     }
-    public LiveData<List<ECreditApplicationDocuments>> getDocument(String TransNox, int EntryNox){
-        return documentsDao.getDocument(TransNox, EntryNox);
+    public LiveData<List<ECreditApplicationDocuments>> getDocument(String TransNox){
+        return documentsDao.getDocument(TransNox);
     }
 
 

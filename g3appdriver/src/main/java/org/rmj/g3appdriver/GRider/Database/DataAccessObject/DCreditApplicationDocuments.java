@@ -46,8 +46,7 @@ public interface DCreditApplicationDocuments {
     @Query("SELECT * FROM Credit_Online_Application_Documents a\n" +
             "LEFT JOIN Image_Information b " +
             "ON a.sTransNox = b.sSourceNo " +
-            "WHERE a.sTransNox =:TransNox " +
-            "AND a.nEntryNox =:EntryNox")
-    LiveData<List<ECreditApplicationDocuments>> getDocument(String TransNox, int EntryNox);
+            "WHERE a.sTransNox =:TransNox ")
+    LiveData<List<ECreditApplicationDocuments>> getDocument(String TransNox);
 
 }

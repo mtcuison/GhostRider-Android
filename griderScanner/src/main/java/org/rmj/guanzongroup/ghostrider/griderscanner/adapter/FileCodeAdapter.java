@@ -66,7 +66,7 @@ public class FileCodeAdapter extends RecyclerView.Adapter<FileCodeAdapter.FileCo
         try {
             holder.loPlan = collection;
             holder.lbl_fileCode.setText(collection.getBriefDsc());
-            if(documentsInfo.size()<=0){
+            if(documentsInfo.get(position).getEntryNox() == position){
                holder.fileStat.setVisibility(View.GONE);
                 holder.fileStatDone.setVisibility(View.VISIBLE);
                 isChecked = true;
