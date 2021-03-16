@@ -88,16 +88,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="3dp"
             android:fontFamily="@font/roboto_regular"
-
             android:text="@string/lsMainContact"
             android:textColor="@color/material_black" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
+            android:layout_marginBottom="5dp"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/lsMainWebsite"
             android:textColor="@color/material_black" />

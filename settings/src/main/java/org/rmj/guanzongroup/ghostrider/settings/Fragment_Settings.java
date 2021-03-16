@@ -5,10 +5,14 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -19,15 +23,28 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
+import com.facebook.share.model.ShareMessengerGenericTemplateContent;
+import com.facebook.share.model.ShareMessengerGenericTemplateElement;
+import com.facebook.share.model.ShareMessengerURLActionButton;
+import com.facebook.share.widget.MessageDialog;
+
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.settings.themeController.ThemeHelper;
+import org.rmj.guanzongroup.ghostrider.settings.utils.DatabaseExport;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.READ_PHONE_STATE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CAMERA_REQUEST;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CONTACT_REQUEST;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LOCATION_REQUEST;
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.STORAGE_REQUEST;
 
 public class Fragment_Settings  extends PreferenceFragmentCompat {
 
@@ -38,7 +55,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
     private boolean isContinue = false;
     private boolean isGPS = false;
     private int PERMISION_PHONE_REQUEST_CODE = 103, PERMISION_CAMERA_REQUEST_CODE = 102, PERMISION_LOCATION_REQUEST_CODE = 104;
-
+    private DatabaseExport dbExport;
     private MessageBox loMessage;
 
     @Override
@@ -48,8 +65,8 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         cameraPref = getPreferenceManager().findPreference("cameraPrefs");
         locationPref = getPreferenceManager().findPreference("locationPrefs");
         phonePref = getPreferenceManager().findPreference("phonePrefs");
-        exportPref = getPreferenceManager().findPreference("exportPref");
-
+        exportPref = getPreferenceManager().findPreference("exportPrefs");
+        dbExport = new DatabaseExport(getActivity(), "Database", "GGC_ISysDBF.db");
         loMessage = new MessageBox(getActivity());
         mViewModel = new ViewModelProvider(this).get(VMSettings.class);
 
@@ -88,6 +105,8 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
 
                         });
                     }else {
+
+                        loMessage.initDialog();
                         loMessage.setNegativeButton("Okay", (view, dialog) -> dialog.dismiss());
                         loMessage.setTitle("GhostRider Permissions");
                         loMessage.setMessage("You have already granted this permission.");
@@ -106,6 +125,20 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
                 }
             });
         }
+        try {
+            PackageInfo info = getActivity().getPackageManager().getPackageInfo(
+                    getActivity().getPackageName(),
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.e("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
         if (phonePref != null) {
             phonePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -113,10 +146,12 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
 
                     if ((ActivityCompat.checkSelfPermission(getActivity(), READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)) {
                         mViewModel.getPhPermissions().observe(getViewLifecycleOwner(), strings -> {
-                            ActivityCompat.requestPermissions(getActivity(),strings, CONTACT_REQUEST);
+                            ActivityCompat.requestPermissions(getActivity(),strings, STORAGE_REQUEST);
 
                         });
                     }else {
+
+                        loMessage.initDialog();
                         loMessage.setNegativeButton("Okay", (view, dialog) -> dialog.dismiss());
                         loMessage.setTitle("GhostRider Permissions");
                         loMessage.setMessage("You have already granted this permission.");
@@ -125,6 +160,34 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
                     return true;
                 }
             });
+        }
+        if (exportPref != null) {
+           exportPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+               @Override
+               public boolean onPreferenceClick(Preference preference) {
+                   try {
+                       mViewModel.isStoragePermissionGranted().observe(getViewLifecycleOwner(), isGranted -> {
+                          if (!isGranted){
+                              mViewModel.getStoragePermission().observe(getViewLifecycleOwner(), strings -> {
+                                  ActivityCompat.requestPermissions(getActivity(),strings, STORAGE_REQUEST);
+                              });
+                          }else {
+
+                              showExportDialog(dbExport.export());
+                          }
+                       });
+
+
+                   }catch (SecurityException e){
+                       Log.e("Security Exception " , e.getMessage());
+                   }
+                   catch (Exception e){
+                       Log.e("Exception " , e.getMessage());
+                   }
+
+                   return false;
+               }
+           });
         }
 
     }
@@ -210,4 +273,18 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         }
     }
 
+    public void showExportDialog(String message){
+        loMessage.initDialog();
+        loMessage.setNegativeButton("Okay", (view, dialog) -> dialog.dismiss());
+        loMessage.setTitle("GhostRider Permissions");
+
+        if (message.equalsIgnoreCase("Exporting failed!")){
+            loMessage.setPositiveButton("Retry", (view, dialog) -> dbExport.export());
+            loMessage.setMessage(message);
+            loMessage.show();
+        }else {
+            loMessage.setMessage(message);
+            loMessage.show();
+        }
+    }
 }

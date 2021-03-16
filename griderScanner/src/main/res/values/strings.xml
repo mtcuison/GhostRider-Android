@@ -21,4 +21,5 @@
 
     <!-- drawing -->
     <color name="stroke_color">#999</color>
+    <string name="facebook_app_id">232759258588277</string>
 </resources>

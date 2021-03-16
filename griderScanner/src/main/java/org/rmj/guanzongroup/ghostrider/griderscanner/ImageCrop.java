@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.guanzongroup.ghostrider.griderscanner.R;
 import org.rmj.guanzongroup.ghostrider.griderscanner.base.CropperErrorType;
 import org.rmj.guanzongroup.ghostrider.griderscanner.base.DocumentScanActivity;
@@ -33,6 +35,10 @@ import java.util.Date;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+
+import static org.rmj.guanzongroup.ghostrider.griderscanner.ClientInfo.infoModel;
+import static org.rmj.guanzongroup.ghostrider.griderscanner.ClientInfo.poDocumentsInfo;
+import static org.rmj.guanzongroup.ghostrider.griderscanner.ClientInfo.poImageInfo;
 
 public class ImageCrop extends DocumentScanActivity {
 
@@ -228,9 +234,13 @@ public class ImageCrop extends DocumentScanActivity {
     }
 
     public String saveToInternalStorage(Bitmap bitmapImage) {
+
+        poImageInfo = new EImageInfo();
+        poDocumentsInfo = new ECreditApplicationDocuments();
+        getRealPathFromURI (ScannerConstants.PhotoPath);
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "CROP" + "_" + timeStamp + ".png";
-        File storageDir = getExternalFilesDir( "/" + "DocumentScan" + "/" + "Cropped");
+        String imageFileName = ScannerConstants.TransNox + "_" + ScannerConstants.FileCode + "_" + timeStamp + ".png";
+        File storageDir = getExternalFilesDir( "/" + ScannerConstants.Folder + "/" + ScannerConstants.Usage);
         //File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 //        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
 //        String imageFileName = "cropped_" + timeStamp + ".png";
@@ -245,8 +255,32 @@ public class ImageCrop extends DocumentScanActivity {
             Log.e("ERROR Exception", e.getMessage());
         }
         Log.e("Crop Image Path", mypath.getAbsolutePath());
-
+        infoModel.setDocFilePath(mypath.getAbsolutePath());
+        poImageInfo.setDtlSrcNo(ScannerConstants.TransNox);
+        poImageInfo.setSourceNo(ScannerConstants.TransNox);
+        poImageInfo.setSourceCD("COAD");
+        poImageInfo.setImageNme(imageFileName);
+        poImageInfo.setFileLoct(mypath.getAbsolutePath());
+        poImageInfo.setFileCode(ScannerConstants.FileCode);
+        poImageInfo.setLatitude(String.valueOf(ScannerConstants.Latt));
+        poImageInfo.setLongitud(String.valueOf(ScannerConstants.Longi));
+//                        mViewModel.setLatitude(String.valueOf(latitude));
+//                        mViewModel.setLongitude(String.valueOf(longitude));
+//                        mViewModel.setImgName(FileName);
+        poDocumentsInfo.setEntryNox(ScannerConstants.EntryNox);
+        poDocumentsInfo.setTransNox(ScannerConstants.TransNox);
+        poDocumentsInfo.setImageNme(imageFileName);
+        poDocumentsInfo.setFileCode(ScannerConstants.FileCode);
         return storageDir.getAbsolutePath();
+
+    }
+    public String getRealPathFromURI (String contentUri) {
+        File target = new File(contentUri);
+        if (target.exists() && target.isFile() && target.canWrite()) {
+            target.delete();
+            Log.d("d_file", "" + target.getName());
+        }
+        return target.toString();
     }
 
 }

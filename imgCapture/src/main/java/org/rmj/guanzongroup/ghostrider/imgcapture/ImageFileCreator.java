@@ -26,6 +26,7 @@ public class ImageFileCreator {
     private String cameraUsage;
     private String imgName;
     private  String folder_name;
+    private String TransNox, FileCode;
     String currentPhotoPath;
     private double latitude, longitude;
 
@@ -33,6 +34,7 @@ public class ImageFileCreator {
     LocationTrack locationTrack;
 
     File image;
+    File docImage;
 
     public static int GCAMERA = 112;
 
@@ -52,6 +54,13 @@ public class ImageFileCreator {
         this.folder_name = folder;
         this.cameraUsage = usage;
         this.imgName = imgName;
+    }
+    public ImageFileCreator(Context context,String folder, String usage, String fileCode, String transNox) {
+        this.poContext = context;
+        this.folder_name = folder;
+        this.FileCode = fileCode;
+        this.TransNox = transNox;
+        this.cameraUsage = usage;
     }
 
     public void setImageName(String fsName){
@@ -107,6 +116,31 @@ public class ImageFileCreator {
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
+    public File createScanImageFile() throws IOException {
+        docImage = new File(
+                generateMainStorageDir(),
+//                generateStorageDir(),
+                generateImageScanFileName());
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = docImage.getAbsolutePath();
+
+        Log.e(TAG, currentPhotoPath);
+        return docImage;
+    }
+///CreateFile for Document Scanner Camera
+    private File createImageScanFile() throws IOException {
+
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = TransNox + "_" + FileCode + "_" + timeStamp + ".png";
+        File storageDir = poContext.getExternalFilesDir(folder_name + "/" + cameraUsage + "/");
+        //File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+//        String imageFileName = "cropped_" + timeStamp + ".png";
+        File mypath = new File(storageDir, imageFileName);
+        currentPhotoPath = mypath.getAbsolutePath();
+        return mypath;
+    }
 
     @SuppressLint("SimpleDateFormat")
     public String generateTimestamp() {
@@ -115,6 +149,10 @@ public class ImageFileCreator {
 
     public String generateImageFileName() {
         String lsResult = cameraUsage + "_" + generateTimestamp() + ".png";
+        return lsResult;
+    }
+    public String generateImageScanFileName() {
+        String lsResult = TransNox + "_" + FileCode + "_" + generateTimestamp() + ".png";
         return lsResult;
     }
 
@@ -131,42 +169,45 @@ public class ImageFileCreator {
         return poContext.getExternalFilesDir( "/"+ folder_name + "/" + cameraUsage);
     }
 
+
     //CreateFile for Document Scanner Camera
-    @SuppressLint("QueryPermissionsNeeded")
-    public void CreateScanFile(OnImageFileCreatedListener listener) {
+    public void CreateScanFile(OnImageFileWithLocationCreatedListener listener) {
+        poLocator = new GeoLocator(poContext, (Activity) poContext);
+        locationTrack = new LocationTrack(poContext);
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(poContext.getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = null;
             try {
-                photoFile = createImageScanFile();
-            } catch (IOException ex) {
-            }
-            if (photoFile != null) {
-                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-                StrictMode.setVmPolicy(builder.build());
+                photoFile = createScanImageFile();
+                latitude = poLocator.getLattitude();
+                longitude = poLocator.getLongitude();
 
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                listener.OpenCamera(takePictureIntent, currentPhotoPath);
+            } catch (IOException ex) {
+                // Error occurred while creating the File...
+            }
+            // Continue only if the File was successfully created
+
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(poContext,
+                        "org.rmj.guanzongroup.ghostrider.epacss"+ ".provider",
+                        photoFile);
+
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                listener.OpenCameraWithLocation(
+                        takePictureIntent,
+                        cameraUsage,
+                        currentPhotoPath,
+                        generateImageScanFileName(),
+                        latitude,
+                        longitude);
+
+
             }
         }
     }
 
-    //CreateFile for Document Scanner Camera
-    private File createImageScanFile() throws IOException {
-
-        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = cameraUsage + "_" + timeStamp + ".png";
-        File storageDir = poContext.getExternalFilesDir( "/" + cameraUsage );
-        //File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-//        String imageFileName = "cropped_" + timeStamp + ".png";
-        File mypath = new File(storageDir, imageFileName);
-        currentPhotoPath = mypath.getAbsolutePath();
-        Log.e("Image Path ", cameraUsage);
-        return mypath;
-    }
 
     //CreateFile for Document Scanner Camera
 
@@ -229,5 +270,8 @@ public class ImageFileCreator {
     public interface OnImageFileDCPWithLocationCreatedListener{
         void OpenDCPCameraWithLocation(Intent openCamera,String photPath, double latitude, double longitude);
     }
-
+    //Added String FileName for Creating MD5Hash
+    public interface OnScanImageFileWithLocationCreatedListener{
+        void OpenCameraWithLocation(Intent openCamera,String FileCode, String photPath, String TransNox, double latitude, double longitude);
+    }
 }

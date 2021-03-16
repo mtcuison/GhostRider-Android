@@ -24,10 +24,14 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.FileCodeAdapter;
 import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.LoanApplication;
 import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
+import org.rmj.guanzongroup.ghostrider.griderscanner.model.CreditAppDocumentModel;
+import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMClientInfo;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMMainScanner;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
@@ -43,7 +47,7 @@ import java.util.Objects;
 public class ClientInfo extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
-    private VMMainScanner mViewModel;
+    private VMClientInfo mViewModel;
     TextView lblGoCasNoxxx;
     TextView lblTransNoxxx;
     TextView lblClientName;
@@ -55,18 +59,21 @@ public class ClientInfo extends AppCompatActivity {
 
     private List<LoanApplication> plLoanApp;
     private int position;
-
+    public static CreditAppDocumentModel infoModel;
 //    Grider initialization
 
     public ImageView imgBitmap;
     public static String mCurrentPhotoPath;
     public MaterialButton mbCamera, mbGallery, mbCropOkay;
-    private ImageFileCreator poFilexx;
+    public static ImageFileCreator poFilexx;
     private final String FOLDER_NAME = "DocumentScan";
     public static ContentResolver contentResolver;
     public static int CAMERA_REQUEST_CODE = 1231, GALLERY_REQUEST_CODE = 1111, CROP_REQUEST_CODE = 1234;
 
-    private EImageInfo poImageInfo;
+    public static EImageInfo poImageInfo;
+    public static ECreditApplicationDocuments poDocumentsInfo;
+    String TransNox, FileCode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,34 +81,35 @@ public class ClientInfo extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_client);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        mViewModel = new ViewModelProvider(this).get(VMMainScanner.class);
+        mViewModel = new ViewModelProvider(this).get(VMClientInfo.class);
         plLoanApp =  new ArrayList<>();
-
-
+        infoModel = new CreditAppDocumentModel();
         position = getIntent().getIntExtra("position", 0);
         plLoanApp = (List<LoanApplication>) getIntent().getSerializableExtra("loanList");
         initWidgets();
-
-        poFilexx = new ImageFileCreator(this, "DocumentScanner", "SCAN", plLoanApp.get(position).getTransNox());
+        contentResolver = this.getContentResolver();
         setData(position,plLoanApp);
+        mViewModel.getImgInfo().observe(ClientInfo.this, data -> mViewModel.setImgInfo(data));
+        mViewModel.getDocument(plLoanApp.get(position).getTransNox(), position).observe(this, data -> mViewModel.setDocumentInfo(data));
+
         mViewModel.getFileCode().observe(this, fileCodeDetails -> {
-            FileCodeAdapter loAdapter = new FileCodeAdapter(fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
+
+            FileCodeAdapter loAdapter = new FileCodeAdapter(mViewModel.getDocInfo(),fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
                 @Override
                 public void OnClick(int position) {
-                    poFilexx.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                    poFilexx = new ImageFileCreator(ClientInfo.this , "Credit Application Documents", "SCAN", fileCodeDetails.get(position).getFileCode(), plLoanApp.get(position).getTransNox());
+                    poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
                         mCurrentPhotoPath = photPath;
-                        poImageInfo = new EImageInfo();
-//                        poImageInfo.setDtlSrcNo(AccntNox);
-//                        poImageInfo.setSourceNo(TransNox);
-                        poImageInfo.setSourceCD("DCPa");
-                        poImageInfo.setImageNme(FileName);
-                        poImageInfo.setFileLoct(photPath);
-                        poImageInfo.setFileCode("0020");
-                        poImageInfo.setLatitude(String.valueOf(latitude));
-                        poImageInfo.setLongitud(String.valueOf(longitude));
-//                        mViewModel.setLatitude(String.valueOf(latitude));
-//                        mViewModel.setLongitude(String.valueOf(longitude));
-//                        mViewModel.setImgName(FileName);
+                        ScannerConstants.Usage =camUsage;
+                        ScannerConstants.Folder = "Credit Application Documents";
+
+                        ScannerConstants.TransNox = plLoanApp.get(position).getTransNox() ;
+                        ScannerConstants.FileCode = fileCodeDetails.get(position).getFileCode();
+                        ScannerConstants.PhotoPath = photPath;
+                        ScannerConstants.EntryNox = position;
+                        ScannerConstants.FileName = FileName;
+                        ScannerConstants.Latt = latitude;
+                        ScannerConstants.Longi = longitude;
                         startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                     });
                 }
@@ -125,20 +133,7 @@ public class ClientInfo extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void initGrider(){
-        poFilexx = new ImageFileCreator(this, FOLDER_NAME);
-        contentResolver = this.getContentResolver();
 
-//        mbGallery.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Intent.ACTION_PICK);
-//                intent.setType("image/*");
-//                intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                startActivityForResult(intent, GALLERY_REQUEST_CODE);
-//            }
-//        });
-    }
     public void initWidgets(){
         recyclerView = findViewById(R.id.recyclerview_fileCodeInfo);
         layoutManager = new LinearLayoutManager(ClientInfo.this);
@@ -153,7 +148,7 @@ public class ClientInfo extends AppCompatActivity {
         lblSentStatus = findViewById(R.id.lbl_applicationSent);
     }
     public void setData(int pos, List<LoanApplication> list){
-//
+
         Log.e("position", String.valueOf(pos));
         Log.e("List", String.valueOf(list));
         LoanApplication poLoan = list.get(pos);
@@ -183,47 +178,40 @@ public class ClientInfo extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            cameraCapture(mCurrentPhotoPath);
-            startActivityForResult(new Intent(this,ImageCrop.class), CROP_REQUEST_CODE);
+        Log.e("REQUEST CODE", String.valueOf(requestCode));
+        Log.e("RESULT CODE", String.valueOf(resultCode));
+        Log.e("Image Path ", mCurrentPhotoPath);
+
+        if(requestCode == ImageFileCreator.GCAMERA){
+            if(resultCode == RESULT_OK) {
+                cameraCapture(mCurrentPhotoPath);
+                startActivityForResult(new Intent(this,ImageCrop.class), CROP_REQUEST_CODE);
+
+            }else {
+                infoModel.setDocFilePath("");
+            }
+        }
+        if (requestCode == CROP_REQUEST_CODE ) {
+            if(resultCode == RESULT_OK) {
+                try {
+                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(infoModel.getDocFilePath()));
+                    mViewModel.saveDocumentInfo(poDocumentsInfo);
+                    mViewModel.saveImageInfo(poImageInfo);
+
+                    //submitLUn(Remarksx);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else {
+                infoModel.setDocFilePath("");
+            }
         }
     }
-
 
     /**
      * Calling this will delete the images from cache directory
      * useful to clear some memory
-     * @param contentUri
      */
-    public String getRealPathFromURI (String contentUri) {
-        File target = new File(contentUri);
-        if (target.exists() && target.isFile() && target.canWrite()) {
-            target.delete();
-            Log.d("d_file", "" + target.getName());
-        }
-        return target.toString();
-    }
-
-    public static boolean galleryPick(Uri imgSelected){
-        Bitmap bitmap = null;
-        if (imgSelected != null) {
-            InputStream inputStream;
-            try {
-                inputStream = contentResolver.openInputStream(imgSelected);
-                if (inputStream != null) {
-                    bitmap = BitmapFactory.decodeStream(inputStream, null, null);
-                    ScannerConstants.selectedImageBitmap = bitmap;
-                    mCurrentPhotoPath = imgSelected.getPath();
-                    return true;
-                }
-            } catch (FileNotFoundException e) {
-                Log.e("Unable Uri", "Unable to open overlay image Uri " + imgSelected, e);
-                return false;
-            }
-
-        }
-        return ScannerConstants.selectedImageBitmap != null;
-    }
 
     public boolean cameraCapture (String photoPath) {
         try {
@@ -235,6 +223,5 @@ public class ClientInfo extends AppCompatActivity {
 
         return ScannerConstants.selectedImageBitmap != null;
     }
-
 
 }

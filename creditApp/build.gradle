@@ -72,7 +72,6 @@ dependencies {
     implementation files('libs/sqldroid-1.1.0-rc1.jar')
 
 //  SPINNER MATERIAL DESIGN
-    implementation 'com.github.tiper:MaterialSpinner:1.4.2'
 
     implementation project(':json-simple-1.1.1') //implement json simple
 }

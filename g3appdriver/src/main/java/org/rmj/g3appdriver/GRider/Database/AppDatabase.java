@@ -21,6 +21,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCountryInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
@@ -50,6 +51,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ECodeApproval;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
@@ -104,6 +106,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
         EClientInfo.class,
         ETokenInfo.class,
         EFileCode.class,
+        ECreditApplicationDocuments.class,
         EClientUpdate.class,
         EBankInfo.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
@@ -136,6 +139,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DAddressRequest AddressRequestDao();
     public abstract DMobileRequest MobileRequestDao();
     public abstract DImageInfo ImageInfoDao();
+    public abstract DCreditApplicationDocuments DocumentInfoDao();
     public abstract DFileCode FileCodeDao();
     public abstract DClientUpdate ClientUpdateDao();
     public abstract DBankInfo BankInfoDao();
