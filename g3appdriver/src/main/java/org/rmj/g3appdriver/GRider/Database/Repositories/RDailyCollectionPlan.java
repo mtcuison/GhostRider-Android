@@ -47,7 +47,7 @@ public class RDailyCollectionPlan {
     }
 
     public void insertMasterData(EDCPCollectionMaster collectionMaster){
-        masterDao.insert(collectionMaster);
+        new InsertDCPMasterDataAsyncTask(masterDao).execute(collectionMaster);
     }
 
     public void updateEntryMaster(int nEntryNox){
@@ -273,6 +273,20 @@ public class RDailyCollectionPlan {
         @Override
         protected Void doInBackground(List<EDCPCollectionDetail>... lists) {
             detailDao.insertBulkData(lists[0]);
+            return null;
+        }
+    }
+
+    private static class InsertDCPMasterDataAsyncTask extends AsyncTask<EDCPCollectionMaster, Void, Void> {
+        private DDCPCollectionMaster masterDao;
+
+        private InsertDCPMasterDataAsyncTask(DDCPCollectionMaster masterDao) {
+            this.masterDao = masterDao;
+        }
+
+        @Override
+        protected Void doInBackground(EDCPCollectionMaster... edcpCollectionMasters) {
+            masterDao.insert(edcpCollectionMasters[0]);
             return null;
         }
     }

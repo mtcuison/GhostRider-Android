@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -36,8 +38,12 @@ import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -154,6 +160,122 @@ public class VMCollectionList extends AndroidViewModel {
     public void setMobileRequestList(List<EMobileUpdate> mobileRequestList){
         this.plMobile.setValue(mobileRequestList);
     }
+
+    // TODO: Import DCP List
+    public void importDCPFile(String importFileName, ViewModelCallback callback) throws JSONException {
+        JSONObject dcpImport = readDCPImportFileContent(importFileName);
+        extractDCPImportDetails(dcpImport, new ImportJSONCallback() {
+            @Override
+            public void OnDataExtract(List<EDCPCollectionDetail> collectionDetlList, EDCPCollectionMaster collectionMaster) {
+                if(importDCPMasterData(collectionMaster)) {
+                    importDCPListBulkData(collectionDetlList);
+                }
+            }
+        });
+    }
+
+    private JSONObject readDCPImportFileContent(String fileName) throws JSONException {
+        FileReader fr = null;
+        String fileContents;
+        File myExternalFile = new File(Environment.getExternalStorageDirectory(), fileName + "-out.txt");
+        Log.e("DIRECTORY", myExternalFile.toString());
+        StringBuilder sb = new StringBuilder();
+        try {
+            fr = new FileReader(myExternalFile);
+            BufferedReader br = new BufferedReader(fr);
+            String line = br.readLine();
+            while(line != null) {
+                sb.append(line).append('\n');
+                line = br.readLine();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        finally {
+            fileContents = sb.toString();
+            Log.e("Your String", fileContents);
+        }
+        return new JSONObject(fileContents);
+    }
+
+    private void extractDCPImportDetails(JSONObject dcpImport, ImportJSONCallback callback) {
+        try {
+            JSONObject loJSON_Master= dcpImport.getJSONObject("master");
+            EDCPCollectionMaster loMaster = new EDCPCollectionMaster();
+
+            loMaster.setTransact(loJSON_Master.getString("dTransact"));
+            loMaster.setBranchNm(loJSON_Master.getString("sBranchNm"));
+            loMaster.setTransNox(loJSON_Master.getString("sTransNox"));
+            loMaster.setDCPTypex(loJSON_Master.getString("cDCPTypex").charAt(0));
+            loMaster.setEntryNox(loJSON_Master.getString("nEntryNox"));
+            loMaster.setCollName(loJSON_Master.getString("xCollName"));
+            loMaster.setCollctID(loJSON_Master.getString("sCollctID"));
+            loMaster.setTranStat(loJSON_Master.getString("cTranStat").charAt(0));
+            loMaster.setRouteNme(loJSON_Master.getString("sRouteNme"));
+            loMaster.setReferDte(loJSON_Master.getString("dReferDte"));
+            loMaster.setReferNox(loJSON_Master.getString("sReferNox"));
+
+
+            JSONArray loJArray_detail = dcpImport.getJSONArray("detail");
+            List<EDCPCollectionDetail> loCollectDetlList = new ArrayList<>(); // This is return
+            for(int x = 0; x < loJArray_detail.length(); x++) {
+                EDCPCollectionDetail loDetail = new EDCPCollectionDetail();
+                JSONObject loJson = loJArray_detail.getJSONObject(x);
+
+                loDetail.setTransNox(loJSON_Master.getString("sTransNox"));
+                loDetail.setApntUnit(loJson.getString("cApntUnit"));
+                loDetail.setLongitud(loJson.getString("nLongitud"));
+                loDetail.setAddressx(loJson.getString("sAddressx"));
+                loDetail.setBrgyName(loJson.getString("sBrgyName"));
+                loDetail.setEntryNox(Integer.parseInt(loJson.getString("nEntryNox")));
+                loDetail.setClientID(loJson.getString("sClientID"));
+                loDetail.setTownName(loJson.getString("sTownName"));
+                loDetail.setIsDCPxxx(loJson.getString("cIsDCPxxx"));
+                loDetail.setSerialID(loJson.getString("sSerialID"));
+                loDetail.setFullName(loJson.getString("xFullName"));
+                loDetail.setDueDatex(loJson.getString("dDueDatex"));
+                loDetail.setLatitude(loJson.getString("nLatitude"));
+                loDetail.setMobileNo(loJson.getString("sMobileNo"));
+                loDetail.setAmtDuexx(loJson.getString("nAmtDuexx"));
+                loDetail.setHouseNox(loJson.getString("sHouseNox"));
+                loDetail.setSerialNo(loJson.getString("sSerialNo"));
+                loDetail.setAcctNmbr(loJson.getString("sAcctNmbr"));
+
+                loCollectDetlList.add(loDetail);
+            }
+
+            callback.OnDataExtract(loCollectDetlList, loMaster);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean importDCPMasterData(EDCPCollectionMaster collectionMaster) {
+        try {
+            poDCPRepo.insertMasterData(collectionMaster);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private boolean importDCPListBulkData(List<EDCPCollectionDetail> collectionDetails) {
+        try {
+            poDCPRepo.insertDetailBulkData(collectionDetails);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // TODO: Import DCP List --- END
+
 
     public void importInsuranceInfo(String fsSerialNo, ViewModelCallback callback){
         try{
@@ -912,5 +1034,9 @@ public class VMCollectionList extends AndroidViewModel {
         }
 
 
+    }
+
+    public interface ImportJSONCallback {
+        void OnDataExtract(List<EDCPCollectionDetail> collectionDetlList, EDCPCollectionMaster collectionMaster);
     }
 }
