@@ -22,7 +22,7 @@ public class DialogImportDCP {
     private final Context context;
 
     public interface DialogPostUnfinishedListener{
-        void OnConfirm(AlertDialog dialog, String Remarks);
+        void OnConfirm(AlertDialog dialog, String fileName);
         void OnCancel(AlertDialog dialog);
     }
 
@@ -47,7 +47,7 @@ public class DialogImportDCP {
             if(!lsFilename.trim().isEmpty()) {
                 listener.OnConfirm(poDialogx, lsFilename);
             } else {
-                GToast.CreateMessage(context, "Please file name to export.", GToast.ERROR).show();
+                GToast.CreateMessage(context, "Please enter file name to export.", GToast.ERROR).show();
             }
         });
 
