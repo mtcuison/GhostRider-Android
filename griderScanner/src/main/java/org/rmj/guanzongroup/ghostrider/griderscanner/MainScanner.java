@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.ghostrider.griderscanner;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -78,9 +79,16 @@ public class MainScanner extends AppCompatActivity implements ViewModelCallBack 
                         adapter = new ClientInfoAdapter(loanList, new ClientInfoAdapter.OnApplicationClickListener() {
                             @Override
                             public void OnClick(int position, List<LoanApplication> loanLists) {
+//                                mViewModel.getDocument(loanLists.get(position).getTransNox()).observe(MainScanner.this, data -> {
+//                                    mViewModel.setDocumentInfo(data);
+//                                });
                                 Intent loIntent = new Intent(MainScanner.this, ClientInfo.class);
-                                loIntent.putExtra("position", position);
-                                loIntent.putExtra("loanList", (Serializable) loanLists);
+                                loIntent.putExtra("GoCasNoxx", loanLists.get(position).getGOCasNumber());
+                                loIntent.putExtra("TransNox",loanLists.get(position).getTransNox());
+                                loIntent.putExtra("ClientNm",loanLists.get(position).getClientName());
+                                loIntent.putExtra("DateApplied",loanLists.get(position).getDateTransact());
+                                loIntent.putExtra("DateSend",loanLists.get(position).getDateSent());
+                                loIntent.putExtra("Status",loanLists.get(position).getTransactionStatus());
                                 startActivity(loIntent);
                             }
 

@@ -105,9 +105,9 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
         EMobileUpdate.class,
         EImageInfo.class,
         EEmployeeInfo.class,
+        EFileCode.class,
         EClientInfo.class,
         ETokenInfo.class,
-        EFileCode.class,
         ECreditApplicationDocuments.class,
         EClientUpdate.class,
         EBankInfo.class,
@@ -117,6 +117,7 @@ public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance;
 
     public abstract DEmployeeInfo EmployeeDao();
+    public abstract DFileCode FileCodeDao();
     public abstract DClientInfo ClientDao();
     public abstract DBarangayInfo BarangayDao();
     public abstract DTownInfo TownDao();
@@ -143,7 +144,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DMobileRequest MobileRequestDao();
     public abstract DImageInfo ImageInfoDao();
     public abstract DCreditApplicationDocuments DocumentInfoDao();
-    public abstract DFileCode FileCodeDao();
     public abstract DClientUpdate ClientUpdateDao();
     public abstract DBankInfo BankInfoDao();
     public abstract DLog_Selfie SelfieDao();

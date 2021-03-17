@@ -13,7 +13,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
+            <TextView
+                android:id="@+id/lbl_fileLoc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:visibility="gone"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_medium"/>
             <TextView
                 android:id="@+id/lbl_fileCode"
                 android:layout_width="match_parent"
@@ -35,6 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
+                android:visibility="gone"
                 android:src="@drawable/ic_baseline_done_24" />
         </LinearLayout>
         <View

@@ -39,8 +39,8 @@ public class RCreditApplicationDocument {
     public LiveData<List<ECreditApplicationDocuments>> getDocumentInfo(){
         return documentsDao.getDocumentInfo();
     }
-    public LiveData<List<ECreditApplicationDocuments>> getDocument(String TransNox, int EntryNox){
-        return documentsDao.getDocument(TransNox, EntryNox);
+    public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocument(String TransNox){
+        return documentsDao.getDocument(TransNox);
     }
 
 
@@ -69,7 +69,7 @@ public class RCreditApplicationDocument {
         String lsNextCode = "";
         try{
             GConnection loConn = DbConnection.doConnect(application);
-            lsNextCode = MiscUtil.getNextCode("Credit_Online_Application_Documents", "sTransNox", true, loConn.getConnection(), "", 12, false);
+            lsNextCode = MiscUtil.getNextCode("Credit_Online_Application_Documents", "sDocTransNox", true, loConn.getConnection(), "", 12, false);
         } catch (Exception e){
             e.printStackTrace();
         }
