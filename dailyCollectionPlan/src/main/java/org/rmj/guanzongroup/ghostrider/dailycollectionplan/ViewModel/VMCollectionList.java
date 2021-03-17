@@ -252,6 +252,8 @@ public class VMCollectionList extends AndroidViewModel {
                 loDetail.setHouseNox(loJson.getString("sHouseNox"));
                 loDetail.setSerialNo(loJson.getString("sSerialNo"));
                 loDetail.setAcctNmbr(loJson.getString("sAcctNmbr"));
+                loDetail.setSendStat("0");
+                loDetail.setTranStat("0") ;
 
                 loCollectDetlList.add(loDetail);
             }
