@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Post Collection List"
+            android:text="Import Collection List"
             android:textSize="20sp"
             android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_bold"
@@ -36,7 +36,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="There are remaining untag collection on collection list. Please enter remarks to post all collection detail."
+            android:text="Please enter the name of the import file."
             android:textSize="16sp"
             android:padding="10dp"
             android:textColor="@color/textColor_Black"
@@ -47,11 +47,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/TextInputStyle"
-            android:hint="Remarks"
+            android:hint="Import File Name"
             android:layout_marginTop="5dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_dcpRemarks"
+                android:id="@+id/txt_dcpFileName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextInputStyle.Edittext"

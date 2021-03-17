@@ -76,14 +76,12 @@
                     android:textColor="@color/textColor_White"/>
             </LinearLayout>
             </LinearLayout>
-        
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:textSize="18sp"-->
-<!--            android:fontFamily="@font/roboto_regular"-->
-<!--            android:textColor="@color/textColor_Black"-->
-<!--            android:layout_marginTop="15dp"/>-->
+
+        <View
+            android:id="@+id/vMargin"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_collectionSearch"
@@ -122,5 +120,53 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_collectionList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:id="@+id/ln_import_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="35dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No collection list available. \n Please select an option to retrieve the data."
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/material_black"
+            android:textSize="15dp"/>
+
+        <View
+            android:layout_width="300dp"
+            android:layout_height="0.8dp"
+            android:background="@color/guanzon_dark_grey"
+            android:layout_marginVertical="20dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_download"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:text="Download"
+            android:layout_marginTop="50dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="or"
+            android:layout_marginVertical="7dp"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/material_black"
+            android:textSize="15dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_import"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:text="Import from File"/>
+
+    </LinearLayout>
 </LinearLayout>

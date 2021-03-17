@@ -2,6 +2,7 @@ package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -38,7 +39,7 @@ public class RDailyCollectionPlan {
     }
 
     public void insertDetailBulkData(List<EDCPCollectionDetail> collectionDetails){
-        detailDao.insertBulkData(collectionDetails);
+        new InsertBulkDCPListAsyncTask(detailDao).execute(collectionDetails);
     }
 
     public void insertCollectionDetail(EDCPCollectionDetail collectionDetail){
@@ -46,7 +47,7 @@ public class RDailyCollectionPlan {
     }
 
     public void insertMasterData(EDCPCollectionMaster collectionMaster){
-        masterDao.insert(collectionMaster);
+        new InsertDCPMasterDataAsyncTask(masterDao).execute(collectionMaster);
     }
 
     public void updateEntryMaster(int nEntryNox){
@@ -256,5 +257,33 @@ public class RDailyCollectionPlan {
         Log.e(TAG, "Brand info has been save to local.");
 
         loConn = null;
+    }
+
+    private static class InsertBulkDCPListAsyncTask extends AsyncTask<List<EDCPCollectionDetail>, Void, Void> {
+        private DDCPCollectionDetail detailDao;
+
+        private InsertBulkDCPListAsyncTask(DDCPCollectionDetail detailDao){
+            this.detailDao = detailDao;
+        }
+
+        @Override
+        protected Void doInBackground(List<EDCPCollectionDetail>... lists) {
+            detailDao.insertBulkData(lists[0]);
+            return null;
+        }
+    }
+
+    private static class InsertDCPMasterDataAsyncTask extends AsyncTask<EDCPCollectionMaster, Void, Void> {
+        private DDCPCollectionMaster masterDao;
+
+        private InsertDCPMasterDataAsyncTask(DDCPCollectionMaster masterDao) {
+            this.masterDao = masterDao;
+        }
+
+        @Override
+        protected Void doInBackground(EDCPCollectionMaster... edcpCollectionMasters) {
+            masterDao.insert(edcpCollectionMasters[0]);
+            return null;
+        }
     }
 }
