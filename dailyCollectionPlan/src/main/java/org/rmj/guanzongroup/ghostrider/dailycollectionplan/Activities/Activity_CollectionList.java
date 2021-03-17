@@ -39,6 +39,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionAda
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAccountDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogConfirmPost;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogDownloadDCP;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogExportDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogImportDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogOtherClient;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -366,40 +367,97 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             }
         } else if(item.getItemId() == R.id.action_menu_export_collection){
             // TODO: Exporting of DCP List
-            mViewModel.getExportDataList("No Transaction", new VMCollectionList.FileManagerCallBack() {
-                @Override
-                public void OnJSONCreated(JSONObject loJson) {
-                    if(exportCollectionList(loJson)) {
-                        Log.e("Success","Success");
-                    } else {
-                        Log.e("Failed","Failed");
+            boolean hasUnTags = false;
+            if(plDetail.size()>0){
+                for(int x = 0; x < plDetail.size(); x++){
+                    if(plDetail.get(x).sRemCodex == null){
+                        hasUnTags = true;
                     }
-                } @Override
-                public void OnStartSaving() {
-                    poDialogx.initDialog("Daily Collection Plan", "Exporting collection details. Please wait...", false);
-                    poDialogx.show();
                 }
+            }
+            if(hasUnTags) {
+                DialogExportDCP loPost = new DialogExportDCP(Activity_CollectionList.this);
+                loPost.iniDialog(new DialogExportDCP.DialogPostUnfinishedListener() {
+                    @Override
+                    public void OnConfirm(AlertDialog dialog, String Remarks) {
+                        mViewModel.getExportDataList(Remarks, new VMCollectionList.FileManagerCallBack() {
+                            @Override
+                            public void OnJSONCreated(JSONObject loJson) {
+                                if(exportCollectionList(loJson)) {
+                                    Log.e("Success","Success");
+                                } else {
+                                    Log.e("Failed","Failed");
+                                }
+                            } @Override
+                            public void OnStartSaving() {
+                                poDialogx.initDialog("Daily Collection Plan", "Exporting collection details. Please wait...", false);
+                                poDialogx.show();
+                            }
 
-                @Override
-                public void OnSuccessResult(String[] args) {
-                    poDialogx.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Daily Collection Plan");
-                    poMessage.setMessage(args[0]);
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                }
+                            @Override
+                            public void OnSuccessResult(String[] args) {
+                                poDialogx.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Daily Collection Plan");
+                                poMessage.setMessage(args[0]);
+                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
 
-                @Override
-                public void OnFailedResult(String message) {
-                    poDialogx.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Daily Collection Plan");
-                    poMessage.setMessage(message);
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                }
-            });
+                            @Override
+                            public void OnFailedResult(String message) {
+                                poDialogx.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Daily Collection Plan");
+                                poMessage.setMessage(message);
+                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void OnCancel(AlertDialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
+                loPost.show();
+            } else {
+                mViewModel.getExportDataList("", new VMCollectionList.FileManagerCallBack() {
+                    @Override
+                    public void OnJSONCreated(JSONObject loJson) {
+                        if(exportCollectionList(loJson)) {
+                            Log.e("Success","Success");
+                        } else {
+                            Log.e("Failed","Failed");
+                        }
+                    } @Override
+                    public void OnStartSaving() {
+                        poDialogx.initDialog("Daily Collection Plan", "Exporting collection details. Please wait...", false);
+                        poDialogx.show();
+                    }
+
+                    @Override
+                    public void OnSuccessResult(String[] args) {
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Daily Collection Plan");
+                        poMessage.setMessage(args[0]);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+
+                    @Override
+                    public void OnFailedResult(String message) {
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Daily Collection Plan");
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+                });
+            }
         } else if(item.getItemId() == R.id.action_menu_upload_collection){
             // TODO: createAction for importing files from external storage
             showImportFromFileDcp();
