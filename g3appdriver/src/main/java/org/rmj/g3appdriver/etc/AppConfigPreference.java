@@ -11,6 +11,7 @@ public class AppConfigPreference {
 
     private final SharedPreferences.Editor editor;
 
+    private static final String isAppFirstLaunch = "AppFirstLaunch";
     private static final String isLocalHostChange = "ChangeLocalHost";
     private static final String isTestingPhase = "TestingPhase";
     private static final String AppServer = "ApplicationServer";
@@ -33,6 +34,15 @@ public class AppConfigPreference {
             mAppConfigPreference = new AppConfigPreference(context);
         }
         return mAppConfigPreference;
+    }
+
+    public void setIsAppFirstLaunch(boolean isFirstLaunch){
+        editor.putBoolean(isAppFirstLaunch, isFirstLaunch);
+        editor.commit();
+    }
+
+    public boolean isAppFirstLaunch(){
+        return pref.getBoolean(isAppFirstLaunch, true);
     }
 
     public void setIsLocalHostChange(boolean isChange){

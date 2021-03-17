@@ -114,7 +114,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 Log.e("Master List TransNox",collectionDetails.get(0).getTransNox() );
             } else {
                 txtSearch.setVisibility(View.GONE);
-               showDownloadDcp();
+                showDownloadDcp();
             }
             CollectionAdapter loAdapter = new CollectionAdapter(collectionDetails, new CollectionAdapter.OnItemClickListener() {
                 @Override

@@ -141,8 +141,9 @@ public class PrepareData {
             childModelsList.add(childModel);
         }
 
-        childModel = new MenuModel("Check Status", 0,false, false, View.GONE);
+        childModel = new MenuModel("Check Status", 0,false, false, View.VISIBLE);
         childModelsList.add(childModel);
+
         if (menuModel.hasChildren) {
             listDataChild.put(menuModel, childModelsList);
         }

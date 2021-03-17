@@ -14,6 +14,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -26,26 +27,35 @@ import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_PROVINCE;
 
 public class ImportProvinces implements ImportInstance{
     public static final String TAG = ImportProvinces.class.getSimpleName();
-    private final RProvince RProvince;
+    private final RProvince poProv;
     private final WebApi webApi;
     private final HttpHeaders headers;
     private final ConnectionUtil conn;
+    private final AppConfigPreference poConfig;
+    private String lsTimeStmp = "";
 
     public ImportProvinces(Application application) {
-        RProvince = new RProvince(application);
+        poProv = new RProvince(application);
         webApi = new WebApi(application);
         headers = HttpHeaders.getInstance(application);
         conn = new ConnectionUtil(application);
+        poConfig = AppConfigPreference.getInstance(application);
     }
 
     @Override
     public void ImportData(ImportDataCallback callback) {
         try {
             JSONObject loJson = new JSONObject();
-            loJson.put("bsearch", true);
-            loJson.put("descript", "All");
-            new ImportProvinceTask(callback, headers, RProvince, conn).execute(loJson);
-            //loJson.put("dTimeStmp", lsTimeStmp);
+            if(poConfig.isAppFirstLaunch()) {
+                loJson.put("bsearch", true);
+                loJson.put("descript", "All");
+            } else {
+                loJson.put("bsearch", true);
+                loJson.put("descript", "All");
+                lsTimeStmp = poProv.getLatestDataTime();
+                loJson.put("dTimeStmp", lsTimeStmp);
+            }
+            new ImportProvinceTask(callback, headers, poProv, conn).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }

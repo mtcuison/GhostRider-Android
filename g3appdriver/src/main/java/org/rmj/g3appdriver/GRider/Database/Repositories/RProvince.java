@@ -34,6 +34,10 @@ public class RProvince {
         provinceDao.insertBulkData(provinceInfoList);
     }
 
+    public String getLatestDataTime(){
+        return provinceDao.getLatestDataTime();
+    }
+
     public LiveData<List<EProvinceInfo>> getAllProvinceInfo(){
         return allProvinceInfo;
     }

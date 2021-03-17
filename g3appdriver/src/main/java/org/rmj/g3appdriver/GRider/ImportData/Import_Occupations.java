@@ -14,6 +14,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.ROccupation;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebClient;
 
@@ -27,19 +28,29 @@ public class Import_Occupations implements ImportInstance {
     private final ROccupation db;
     private final ConnectionUtil loConnectx;
     private final HttpHeaders loHeaders;
+    private final AppConfigPreference poConfig;
+    private String lsTimeStmp;
 
     public Import_Occupations(Application application) {
         this.db = new ROccupation(application);
         this.loConnectx = new ConnectionUtil(application);
         this.loHeaders = HttpHeaders.getInstance(application);
+        this.poConfig = AppConfigPreference.getInstance(application);
     }
 
     @Override
     public void ImportData(ImportDataCallback callback) {
         try{
             JSONObject loJson = new JSONObject();
-            loJson.put("bsearch", true);
-            loJson.put("id", "All");
+            if(poConfig.isAppFirstLaunch()) {
+                loJson.put("bsearch", true);
+                loJson.put("id", "All");
+            } else {
+                loJson.put("bsearch", true);
+                loJson.put("id", "All");
+                lsTimeStmp = db.getLatestDataTime();
+                loJson.put("dTimeStmp", lsTimeStmp);
+            }
             new ImportDataTask(db, loConnectx, loHeaders, callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();

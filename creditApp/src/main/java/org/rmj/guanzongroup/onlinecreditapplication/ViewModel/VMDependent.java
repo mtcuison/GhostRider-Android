@@ -55,14 +55,13 @@ public class VMDependent extends AndroidViewModel {
     private final RCreditApplicant poApplcnt;
     private final RProvince poProvnce;
     private final RTown poTownRpo;
-    private final RCountry poCountry;
     private final GOCASApplication poGoCasxx;
+    private ECreditApplicantInfo poInfo;
 
     public VMDependent(@NonNull Application application) {
         super(application);
         this.poProvnce = new RProvince(application);
         this.poTownRpo = new RTown(application);
-        this.poCountry = new RCountry(application);
         this.poApplcnt = new RCreditApplicant(application);
         this.poGoCasxx = new GOCASApplication();
         infoModels = new ArrayList<>();
@@ -79,9 +78,10 @@ public class VMDependent extends AndroidViewModel {
         return poApplcnt.getCreditApplicantInfoLiveData(psTranNo.getValue());
     }
 
-    public void setCreditApplicantInfo(String applicantInfo) {
+    public void setCreditApplicantInfo(ECreditApplicantInfo applicantInfo) {
         try {
-            poGoCasxx.setData(applicantInfo);
+            this.poInfo = applicantInfo;
+            poGoCasxx.setData(poInfo.getDetlInfo());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -241,11 +241,8 @@ public class VMDependent extends AndroidViewModel {
                 poGoCasxx.DisbursementInfo().DependentInfo().setWorkType(x, this.dependentInfo.getValue().get(x).getDpdEmployedSector());
                 poGoCasxx.DisbursementInfo().DependentInfo().setCompany(x, this.dependentInfo.getValue().get(x).getDpdCompanyName());
             }
-            ECreditApplicantInfo info = new ECreditApplicantInfo();
-            info.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
-            info.setDetlInfo(poGoCasxx.toJSONString());
-            info.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
-            poApplcnt.updateGOCasData(info);
+            poInfo.setDetlInfo(poGoCasxx.toJSONString());
+            poApplcnt.updateGOCasData(poInfo);
             Log.e(TAG, "Dependent info has been set." + poGoCasxx.DisbursementInfo().DependentInfo().toJSONString());
             callBack.onSaveSuccessResult("Success");
 

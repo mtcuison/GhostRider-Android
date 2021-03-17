@@ -294,28 +294,4 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
             }
         }
     }
-
-//    class OnJobStatusSelectedListener implements AdapterView.OnItemSelectedListener{
-//
-//        @Override
-//        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//            if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Tap here to select.")) {
-//                mViewModel.setEmploymentStatus("");
-//            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Regular")) {
-//                mViewModel.setEmploymentStatus("R");
-//            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Probationary")) {
-//                mViewModel.setEmploymentStatus("P");
-//            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Contractual")) {
-//                mViewModel.setEmploymentStatus("C");
-//            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Seasonal")) {
-//                mViewModel.setEmploymentStatus("S");
-//            }
-//            GToast.CreateMessage(getActivity(), parent.getItemAtPosition(position).toString(), GToast.INFORMATION).show();
-//        }
-//
-//        @Override
-//        public void onNothingSelected(AdapterView<?> parent) {
-//
-//        }
-//    }
 }

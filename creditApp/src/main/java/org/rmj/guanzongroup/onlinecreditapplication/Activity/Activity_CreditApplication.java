@@ -74,7 +74,7 @@ public class Activity_CreditApplication extends AppCompatActivity {
         personalInfo.setArguments(loBundle);
         viewPager = findViewById(R.id.viewpager_creditApp);
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), CreditAppConstants.APPLICATION_PAGES));
-        //viewPager.setOffscreenPageLimit(CreditAppConstants.APPLICATION_PAGES.length);
+        //viewPager.setOffscreenPageLimit(7);
     }
 
     @Override

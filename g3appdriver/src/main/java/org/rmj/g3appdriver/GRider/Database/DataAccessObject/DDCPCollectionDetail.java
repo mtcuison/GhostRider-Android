@@ -109,51 +109,6 @@ public interface DDCPCollectionDetail {
             "a.sPRNoxxxx, " +
             "a.nTranAmtx, " +
             "a.nDiscount, " +
-            "a.nOthersxx, " +
-            "a.sRemarksx, " +
-            "a.cTranType, " +
-            "a.nTranTotl, " +
-            "a.cApntUnit, " +
-            "a.sBranchCd, " +
-            "b.sTransNox AS sImageIDx, " +
-            "b.sFileCode, " +
-            "b.sSourceCd, " +
-            "b.sImageNme, " +
-            "b.sMD5Hashx, " +
-            "b.sFileLoct, " +
-            "b.nLongitud, " +
-            "b.nLatitude, " +
-            "c.sLastName, " +
-            "c.sFrstName, " +
-            "c.sMiddName, " +
-            "c.sSuffixNm, " +
-            "c.sHouseNox, " +
-            "c.sAddressx, " +
-            "c.sTownIDxx, " +
-            "c.cGenderxx, " +
-            "c.cCivlStat, " +
-            "c.dBirthDte, " +
-            "c.dBirthPlc, " +
-            "c.sLandline, " +
-            "c.sMobileNo, " +
-            "c.sEmailAdd " +
-            "FROM LR_DCP_Collection_Detail a " +
-            "LEFT JOIN Image_Information b " +
-            "ON a.sTransNox = b.sSourceNo " +
-            "AND a.sAcctNmbr = b.sDtlSrcNo " +
-            "LEFT JOIN Client_Update_Request c " +
-            "ON a.sTransNox = c.sSourceNo " +
-            "AND a.sAcctNmbr = c.sDtlSrcNo")
-    LiveData<List<CollectionDetail>> getJoinCollectionDetailList();
-
-    @Query("SELECT a.sTransNox, " +
-            "a.nEntryNox, " +
-            "a.sAcctNmbr, " +
-            "a.sRemCodex, " +
-            "a.xFullName, " +
-            "a.sPRNoxxxx, " +
-            "a.nTranAmtx, " +
-            "a.nDiscount, " +
             "a.dPromised, " +
             "a.nOthersxx, " +
             "a.sRemarksx, " +

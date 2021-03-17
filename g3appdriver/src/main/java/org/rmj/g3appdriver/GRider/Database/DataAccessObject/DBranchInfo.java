@@ -57,4 +57,6 @@ public interface DBranchInfo {
     @Query("SELECT sBranchNm FROM Branch_Info WHERE cRecdStat = 1 AND sBranchCd = :BranchCde")
     LiveData<String> getBranchName(String BranchCde);
 
+    @Query("SELECT MAX(dTimeStmp) FROM Branch_Info")
+    String getLatestDataTime();
 }
