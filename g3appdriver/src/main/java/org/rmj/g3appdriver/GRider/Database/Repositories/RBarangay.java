@@ -33,24 +33,28 @@ public class RBarangay {
         //TODO: Create asyncktask class that will update data to local database on background thread.
     }
 
-        public void deleteBarangay(EBarangayInfo barangayInfo){
-            //TODO: Create asyncktask class that will delete data to local database on background thread.
-        }
-
-        public LiveData<List<EBarangayInfo>> getAllBarangayInfo(){
-            return allBarangayInfo;
-        }
-
-        public LiveData<List<EBarangayInfo>> getAllBarangayFromTown(String TownID){
-            LiveData<List<EBarangayInfo>> allBarangayFromTown = barangayDao.getAllBarangayInfoFromTown(TownID);
-            return allBarangayFromTown;
-        }
-
-        public LiveData<String[]> getBarangayNamesFromTown(String TownID){
-            return barangayDao.getAllBarangayNameFromTown(TownID);
-        }
-
-        public LiveData<String> getBarangayInfoFromID(String fsID) {
-            return barangayDao.getBarangayInfoFromID(fsID);
-        }
+    public void deleteBarangay(EBarangayInfo barangayInfo){
+        //TODO: Create asyncktask class that will delete data to local database on background thread.
     }
+
+    public LiveData<List<EBarangayInfo>> getAllBarangayInfo(){
+        return allBarangayInfo;
+    }
+
+    public LiveData<List<EBarangayInfo>> getAllBarangayFromTown(String TownID){
+        LiveData<List<EBarangayInfo>> allBarangayFromTown = barangayDao.getAllBarangayInfoFromTown(TownID);
+        return allBarangayFromTown;
+    }
+
+    public LiveData<String[]> getBarangayNamesFromTown(String TownID){
+        return barangayDao.getAllBarangayNameFromTown(TownID);
+    }
+
+    public LiveData<String> getBarangayInfoFromID(String fsID) {
+        return barangayDao.getBarangayInfoFromID(fsID);
+    }
+
+    public String getLatestDataTime(){
+        return barangayDao.getLatestDataTime();
+    }
+}

@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBankInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebClient;
 
@@ -24,19 +25,23 @@ import static org.rmj.g3appdriver.utils.WebApi.URL_DOWNLOAD_BANK_INFO;
 public class Import_BankList implements ImportInstance{
     private static final String TAG = Import_BankList.class.getSimpleName();
 
-    private Application instance;
+    private final Application instance;
+    private final AppConfigPreference poConfig;
 
     public Import_BankList(Application instance) {
         this.instance = instance;
+        this.poConfig = AppConfigPreference.getInstance(instance);
     }
 
     @Override
     public void ImportData(ImportDataCallback callback) {
         try{
-            JSONObject loJson = new JSONObject();
-            loJson.put("bsearch", true);
-            loJson.put("descript", "All");
-            new ImportBankListTask(instance, callback).execute(loJson);
+            if(poConfig.isAppFirstLaunch()) {
+                JSONObject loJson = new JSONObject();
+                loJson.put("bsearch", true);
+                loJson.put("descript", "All");
+                new ImportBankListTask(instance, callback).execute(loJson);
+            }
         } catch (Exception e){
             e.printStackTrace();
         }

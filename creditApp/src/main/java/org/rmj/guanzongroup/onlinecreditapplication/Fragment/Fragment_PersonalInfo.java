@@ -45,11 +45,11 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
     private RadioGroup rgGender;
     private AutoCompleteTextView spnCivilStatus, spnMobile1, spnMobile2, spnMobile3;
 
-    private String spnMobile1Position = "-1";
-    private String spnMobile2Position = "-1";
-    private String spnMobile3Position = "-1";
-    private String spnCvlStsPosition = "-1";
-    private String genderPosition = "-1";
+    private String psMob1NetTp = "-1";
+    private String psMob2NetTp = "-1";
+    private String psMob3NetTp = "-1";
+    private String psCvlStatus = "-1";
+    private String psGenderxx = "-1";
 
     private String transnox;
 
@@ -116,39 +116,18 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         Log.e(TAG, transnox);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPersonalInfo.class);
         mViewModel.setTransNox(transnox);
-        mViewModel.getCreditApplicantInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setGOCasDetailInfo(eCreditApplicantInfo.getDetlInfo()));
+        mViewModel.getCreditApplicantInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
+            try{
+                mViewModel.setGOCasDetailInfo(eCreditApplicantInfo);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvince.setAdapter(adapter);
         });
-        mViewModel.getMobileNo1().observe(getViewLifecycleOwner(), s -> {
-            spnMobile1.setSelection(Integer.parseInt(s));
-            spnMobile1Position = s;
-            Log.e("Mobile 1", spnMobile1Position);
-        });
-
-        mViewModel.getMobileNo2().observe(getViewLifecycleOwner(), s -> {
-            spnMobile2.setSelection(Integer.parseInt(s));
-            spnMobile2Position = s;
-            Log.e("Mobile 2", s);
-        });
-        mViewModel.getMobileNo3().observe(getViewLifecycleOwner(), s -> {
-            spnMobile3.setSelection(Integer.parseInt(s));
-            spnMobile3Position = s;
-            Log.e("Mobile 3 ", spnMobile3Position);
-        });
-        mViewModel.getGender().observe(getViewLifecycleOwner(), s -> {
-            genderPosition = s;
-            Log.e("Gender ", s);
-        });
-        mViewModel.getCvlStats().observe(getViewLifecycleOwner(), s -> {
-            spnCivilStatus.setSelection(Integer.parseInt(s));
-            spnCvlStsPosition = s;
-            Log.e("Civil Status ", spnCvlStsPosition);
-        });
-        mViewModel.getMobileNo1Year().observe(getViewLifecycleOwner(), integer -> tilMobileYr1.setVisibility(integer));
-        mViewModel.getMobileNo2Year().observe(getViewLifecycleOwner(), integer -> tilMobileYr2.setVisibility(integer));
-        mViewModel.getMobileNo3Year().observe(getViewLifecycleOwner(), integer -> tilMobileYr3.setVisibility(integer));
 
         txtProvince.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getProvinceInfoList().observe(getViewLifecycleOwner(), provinceInfos -> {
             for(int x = 0; x < provinceInfos.size(); x++){
@@ -232,51 +211,8 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
     @Override
     public void onFailedResult(String message) {
         GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
-//        if (message.trim().equalsIgnoreCase("empty"))
-//        {
-//            showDialogImg();
-//        }else {
-//            onFailedDialog(message);
-//        }
     }
-//    public void showDialogImg(){
-//        poMessage.initDialog();
-//        poMessage.setTitle(Remarksx);
-//        poMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction. \n" +
-//                "\n" +
-//                "NOTE: Take a selfie on your current place if customer is not visited");
-//        poMessage.setPositiveButton("Okay", (view, dialog) -> {
-//            dialog.dismiss();
-//            poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-//                infoModel.setPtpImgPath(photPath);
-//                poImageInfo = new EImageInfo();
-//                poImageInfo.setDtlSrcNo(AccntNox);
-//                poImageInfo.setSourceNo(TransNox);
-//                poImageInfo.setSourceCD("DCPa");
-//                poImageInfo.setImageNme(FileName);
-//                poImageInfo.setFileLoct(photPath);
-//                poImageInfo.setFileCode("0020");
-//                poImageInfo.setLatitude(String.valueOf(latitude));
-//                poImageInfo.setLongitud(String.valueOf(longitude));
-//                mViewModel.setLatitude(String.valueOf(latitude));
-//                mViewModel.setLongitude(String.valueOf(longitude));
-//                mViewModel.setImgName(FileName);
-//                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
-//            });
-//        });
-//        poMessage.setNegativeButton("Cancel", (view, dialog) -> {
-//            dialog.dismiss();
-////            Objects.requireNonNull(getActivity()).finish();
-//        });
-//        poMessage.show();
-//    }
-//    public void onFailedDialog(String messages){
-//        poMessage.initDialog();
-//        poMessage.setTitle("Transaction Failed");
-//        poMessage.setMessage(messages);
-//        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-//        poMessage.show();
-//    }
+
     private void SavePersonalInfo(){
         infoModel.setLastName(Objects.requireNonNull(txtLastNm.getText()).toString());
         infoModel.setFrstName(Objects.requireNonNull(txtFrstNm.getText()).toString());
@@ -285,29 +221,29 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         infoModel.setNickName(Objects.requireNonNull(txtNickNm.getText()).toString());
         infoModel.setBrthDate(Objects.requireNonNull(txtBirthDt.getText()).toString());
         infoModel.setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
-        infoModel.setGender(genderPosition);
-        infoModel.setCvlStats(spnCvlStsPosition);
+        infoModel.setGender(psGenderxx);
+        infoModel.setCvlStats(psCvlStatus);
 
         if(!Objects.requireNonNull(txtMobileNo1.getText()).toString().trim().isEmpty()) {
-            if(Integer.parseInt(spnMobile1Position) == 1) {
-                infoModel.setMobileNo(txtMobileNo1.getText().toString(), spnMobile1Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));
+            if(Integer.parseInt(psMob1NetTp) == 1) {
+                infoModel.setMobileNo(txtMobileNo1.getText().toString(), psMob1NetTp, Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));
             } else {
-                infoModel.setMobileNo(txtMobileNo1.getText().toString(), spnMobile1Position, 0);
-                Log.e("Postpaid index " + spnMobile1Position, infoModel.getPostPaid(0));
+                infoModel.setMobileNo(txtMobileNo1.getText().toString(), psMob1NetTp, 0);
+                Log.e("Postpaid index " + psMob1NetTp, infoModel.getPostPaid(0));
             }
         }
         if(!Objects.requireNonNull(txtMobileNo2.getText()).toString().trim().isEmpty()) {
-            if(Integer.parseInt(spnMobile2Position) == 1) {
-                infoModel.setMobileNo(txtMobileNo2.getText().toString(), spnMobile2Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr2.getText()).toString()));
+            if(Integer.parseInt(psMob2NetTp) == 1) {
+                infoModel.setMobileNo(txtMobileNo2.getText().toString(), psMob2NetTp, Integer.parseInt(Objects.requireNonNull(txtMobileYr2.getText()).toString()));
             } else {
-                infoModel.setMobileNo(txtMobileNo2.getText().toString(), spnMobile2Position, 0);
+                infoModel.setMobileNo(txtMobileNo2.getText().toString(), psMob2NetTp, 0);
             }
         }
         if(!Objects.requireNonNull(txtMobileNo3.getText()).toString().trim().isEmpty()) {
-            if(Integer.parseInt(spnMobile3Position) == 1) {
-                infoModel.setMobileNo(txtMobileNo3.getText().toString(), spnMobile3Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr3.getText()).toString()));
+            if(Integer.parseInt(psMob3NetTp) == 1) {
+                infoModel.setMobileNo(txtMobileNo3.getText().toString(), psMob3NetTp, Integer.parseInt(Objects.requireNonNull(txtMobileYr3.getText()).toString()));
             } else {
-                infoModel.setMobileNo(txtMobileNo3.getText().toString(), spnMobile3Position, 0);
+                infoModel.setMobileNo(txtMobileNo3.getText().toString(), psMob3NetTp, 0);
             }
         }
         infoModel.setPhoneNox(Objects.requireNonNull(txtTellNox.getText()).toString());
@@ -326,17 +262,14 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if (spnMobile1.equals(poView)) {
-                mViewModel.setLsMobile1(String.valueOf(i));
+                psMob1NetTp = String.valueOf(i);
             }
             if (spnMobile2.equals(poView)) {
-                mViewModel.setLsMobile2(String.valueOf(i));
+                psMob2NetTp = String.valueOf(i);
             }
             if (spnMobile3.equals(poView)) {
-
-                mViewModel.setLsMobile3(String.valueOf(i));
-
+                psMob3NetTp = String.valueOf(i);
             }
-
         }
     }
 }

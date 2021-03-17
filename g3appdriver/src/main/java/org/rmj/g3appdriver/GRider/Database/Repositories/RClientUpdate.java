@@ -116,12 +116,13 @@ public class RClientUpdate {
 
     public String getClientNextCode(){
         String lsNextCode = "";
+        GConnection loConn = DbConnection.doConnect(app);
         try{
-            GConnection loConn = DbConnection.doConnect(app);
             lsNextCode = MiscUtil.getNextCode("Client_Update_Request", "sClientID", true, loConn.getConnection(), "", 12, false);
         } catch (Exception e){
             e.printStackTrace();
         }
+        loConn = null;
         return lsNextCode;
     }
 }

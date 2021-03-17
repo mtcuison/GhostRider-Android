@@ -60,5 +60,5 @@ public interface DImageInfo {
     LiveData<List<EImageInfo>> getCurrentLogTimeIfExist(String DateLog);
 
     @Query("SELECT * FROM Image_Information WHERE sFileCode = '0021' AND cSendStat <> '1'")
-    LiveData<List<EImageInfo>> getLoginImageInfo();
+    LiveData<List<EImageInfo>> getUnsentLoginImageInfo();
 }

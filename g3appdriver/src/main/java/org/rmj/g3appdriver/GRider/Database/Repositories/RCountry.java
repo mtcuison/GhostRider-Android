@@ -51,6 +51,10 @@ public class RCountry {
         countryDao.insertBulkData(countryInfos);
     }
 
+    public String getLatestDataTime(){
+        return countryDao.getLatestDataTime();
+    }
+
     public void insertCountryInfo(JSONArray faJson) throws Exception{
         GConnection loConn = DbConnection.doConnect(application);
 

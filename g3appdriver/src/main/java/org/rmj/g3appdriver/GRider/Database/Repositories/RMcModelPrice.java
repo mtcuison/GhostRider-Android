@@ -34,6 +34,10 @@ public class RMcModelPrice {
         mcModelPriceDao.insertBulkdData(modelPrices);
     }
 
+    public String getLatestDataTime(){
+        return mcModelPriceDao.getLatestDataTime();
+    }
+
     public void saveMcModelPrice(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
 

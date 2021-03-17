@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DLog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
@@ -29,8 +30,16 @@ public class RLogSelfie {
         return selfieDao.getCurrentTimeLogIfExist(DateLog);
     }
 
+    public LiveData<List<ELog_Selfie>> getUnsentSelfieLogin(){
+        return selfieDao.getUnsentSelfieLogin();
+    }
+
     public void insertSelfieLog(ELog_Selfie selfieLog){
         new InsertSelfieTask(selfieDao).execute(selfieLog);
+    }
+
+    public void updateEmployeeLogStatus(String sTransNox, String OldTransNox){
+        selfieDao.updateEmployeeLogStat(sTransNox, OldTransNox, AppConstants.DATE_MODIFIED);
     }
 
     public String getLogNextCode(){

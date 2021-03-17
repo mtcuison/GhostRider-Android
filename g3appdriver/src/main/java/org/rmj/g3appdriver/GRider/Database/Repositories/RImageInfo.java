@@ -43,8 +43,13 @@ public class RImageInfo {
     public void updateImageInfo(String TransNox, String oldTransNox){
         imageDao.updateImageInfo(TransNox, AppConstants.DATE_MODIFIED, oldTransNox);
     }
+
     public void updateImageInfo(EImageInfo imageInfo){
         new InsertTask(imageDao, "update").execute(imageInfo);
+    }
+
+    public LiveData<List<EImageInfo>> getUnsentSelfieLogImageList(){
+        return imageDao.getUnsentLoginImageInfo();
     }
 
 //    public void updateImageInfo(EImageInfo imgInfo){
@@ -69,7 +74,7 @@ public class RImageInfo {
     }
 
     public LiveData<List<EImageInfo>> getLoginImageInfo(){
-        return imageDao.getLoginImageInfo();
+        return imageDao.getUnsentLoginImageInfo();
     }
 
     private static class InsertTask extends AsyncTask<EImageInfo, Void, String>{

@@ -5,9 +5,12 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import org.rmj.appdriver.base.GConnection;
+import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 
 import java.util.List;
@@ -16,7 +19,10 @@ public class RCreditApplicant {
     private final DCreditApplicantInfo creditApplicantInfoDao;
     private final LiveData<List<ECreditApplicantInfo>> creditApplicantList;
 
+    private final Application app;
+
     public RCreditApplicant(Application application){
+        this.app = application;
         AppDatabase appDatabase = AppDatabase.getInstance(application);
         creditApplicantInfoDao = appDatabase.CreditApplicantDao();
         creditApplicantList = creditApplicantInfoDao.getCreditApplicantList();
@@ -87,5 +93,18 @@ public class RCreditApplicant {
             creditDao.deleteAllCreditApp();
             return null;
         }
+    }
+
+    public String getGOCasNextCode(){
+        String lsTransNox = "";
+        GConnection loConn = DbConnection.doConnect(app);
+        try{
+            lsTransNox = MiscUtil.getNextCode("Credit_Applicant_Info", "sTransNox", true, loConn.getConnection(), "", 12, false);
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        loConn = null;
+        return lsTransNox;
     }
 }

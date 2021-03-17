@@ -32,4 +32,7 @@ public interface DMcModel {
 
     @Query("SELECT (sModelNme || \" \" || sModelCde) AS ModelInfo FROM Mc_Model WHERE sBrandIDx = :BrandID")
     LiveData<String[]> getAllModelName(String BrandID);
+
+    @Query("SELECT MAX(dTimeStmp) FROM Mc_Model")
+    String getLatestDataTime();
 }

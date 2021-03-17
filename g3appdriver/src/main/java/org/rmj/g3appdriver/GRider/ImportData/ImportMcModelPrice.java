@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RMcModelPrice;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebClient;
 
@@ -22,17 +23,29 @@ import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_MC_MODEL_PRICE;
 public class ImportMcModelPrice implements ImportInstance{
     public static final String TAG = ImportMcModelPrice.class.getSimpleName();
     private final Application instance;
+    private final AppConfigPreference poConfig;
+    private final RMcModelPrice repository;
+    private String lsTimeStmp = "";
 
     public ImportMcModelPrice(Application application) {
         this.instance = application;
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.repository = new RMcModelPrice(instance);
     }
 
     @Override
     public void ImportData(ImportDataCallback callback) {
         try{
             JSONObject loJson = new JSONObject();
-            loJson.put("bsearch", true);
-            loJson.put("descript", "All");
+            if(poConfig.isAppFirstLaunch()) {
+                loJson.put("bsearch", true);
+                loJson.put("descript", "All");
+            } else {
+                loJson.put("bsearch", true);
+                loJson.put("descript", "All");
+                lsTimeStmp = repository.getLatestDataTime();
+                loJson.put("dTimeStmp", lsTimeStmp);
+            }
             new ImportMcModelPriceTask(callback, instance).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
