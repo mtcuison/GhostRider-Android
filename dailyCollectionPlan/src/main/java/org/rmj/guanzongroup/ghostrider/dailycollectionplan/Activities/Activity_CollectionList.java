@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +24,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,13 +63,17 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     private VMCollectionList mViewModel;
 
     private TextInputEditText txtSearch;
+    private TextInputLayout tilSearch;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
 
     private TextView lblBranch, lblAddxx, lblDate;
     private JSONArray expCollectDetl;
 
-    //Kent
+    private MaterialButton btnDownload, btnImport;
+    private LinearLayout lnImportPanel;
+    private View vMargin;
+
     private String FILENAME;
     private final String FILE_TYPE = "-mob.txt";
     private static final String FOLDER_NAME = "DCP_Exports";
@@ -110,12 +117,19 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
         mViewModel.getCollectionList().observe(this, collectionDetails -> {
             if(collectionDetails.size() > 0) {
-                txtSearch.setVisibility(View.VISIBLE);
+                tilSearch.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                vMargin.setVisibility(View.GONE);
+                lnImportPanel.setVisibility(View.GONE);
                 FILENAME = collectionDetails.get(0).getTransNox();
                 Log.e("Master List TransNox",collectionDetails.get(0).getTransNox() );
             } else {
-                txtSearch.setVisibility(View.GONE);
-//               showDownloadDcp();
+                tilSearch.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+                vMargin.setVisibility(View.VISIBLE);
+                lnImportPanel.setVisibility(View.VISIBLE);
+                btnDownload.setOnClickListener(v -> showDownloadDcp());
+                btnImport.setOnClickListener(v -> showImportFromFileDcp());
             }
             CollectionAdapter loAdapter = new CollectionAdapter(collectionDetails, new CollectionAdapter.OnItemClickListener() {
                 @Override
@@ -150,7 +164,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 }
             });
 
-            txtSearch.setVisibility(View.VISIBLE);
             txtSearch.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -201,6 +214,12 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         txtSearch = findViewById(R.id.txt_collectionSearch);
+        tilSearch = findViewById(R.id.til_collectionSearch);
+
+        btnDownload = findViewById(R.id.btn_download);
+        btnImport = findViewById(R.id.btn_import);
+        lnImportPanel = findViewById(R.id.ln_import_panel);
+        vMargin = findViewById(R.id.vMargin);
 
         recyclerView = findViewById(R.id.recyclerview_collectionList);
         layoutManager = new LinearLayoutManager(Activity_CollectionList.this);
@@ -382,51 +401,8 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 }
             });
         } else if(item.getItemId() == R.id.action_menu_upload_collection){
-            // TODO: createAction for exporting files to external storage
-                DialogImportDCP loPost = new DialogImportDCP(Activity_CollectionList.this);
-                loPost.iniDialog(new DialogImportDCP.DialogPostUnfinishedListener() {
-                    @Override
-                    public void OnConfirm(AlertDialog dialog, String fileName) {
-                        dialog.dismiss();
-                        try {
-                            mViewModel.importDCPFile(fileName, new ViewModelCallback() {
-                                @Override
-                                public void OnStartSaving() {
-                                    poDialogx.initDialog("Daily Collection Plan", "Uploading DCP List from file. Please wait...", false);
-                                    poDialogx.show();
-                                }
-
-                                @Override
-                                public void OnSuccessResult(String[] args) {
-                                    poDialogx.dismiss();
-                                    poMessage.initDialog();
-                                    poMessage.setTitle("Daily Collection Plan");
-                                    poMessage.setMessage(args[0]);
-                                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                    poMessage.show();
-                                }
-
-                                @Override
-                                public void OnFailedResult(String message) {
-                                    poDialogx.dismiss();
-                                    poMessage.initDialog();
-                                    poMessage.setTitle("Daily Collection Plan");
-                                    poMessage.setMessage(message);
-                                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                    poMessage.show();
-                                }
-                            });
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void OnCancel(AlertDialog dialog) {
-                        dialog.dismiss();
-                    }
-                });
-                loPost.show();
+            // TODO: createAction for importing files from external storage
+            showImportFromFileDcp();
             // TODO: ~> END : Import
         }
         return super.onOptionsItemSelected(item);
@@ -519,10 +495,56 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             @Override
             public void OnCancel(Dialog Dialog) {
                 Dialog.dismiss();
-                finish();
             }
         });
         dialogDownloadDCP.show();
+    }
+
+    public void showImportFromFileDcp() {
+        DialogImportDCP loPost = new DialogImportDCP(Activity_CollectionList.this);
+        loPost.iniDialog(new DialogImportDCP.DialogPostUnfinishedListener() {
+            @Override
+            public void OnConfirm(AlertDialog dialog, String fileName) {
+                dialog.dismiss();
+                try {
+                    mViewModel.importDCPFile(fileName, new ViewModelCallback() {
+                        @Override
+                        public void OnStartSaving() {
+                            poDialogx.initDialog("Daily Collection Plan", "Uploading DCP List from file. Please wait...", false);
+                            poDialogx.show();
+                        }
+
+                        @Override
+                        public void OnSuccessResult(String[] args) {
+                            poDialogx.dismiss();
+                            poMessage.initDialog();
+                            poMessage.setTitle("Daily Collection Plan");
+                            poMessage.setMessage(args[0]);
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                            poMessage.show();
+                        }
+
+                        @Override
+                        public void OnFailedResult(String message) {
+                            poDialogx.dismiss();
+                            poMessage.initDialog();
+                            poMessage.setTitle("Daily Collection Plan");
+                            poMessage.setMessage(message);
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                            poMessage.show();
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void OnCancel(AlertDialog dialog) {
+                dialog.dismiss();
+            }
+        });
+        loPost.show();
     }
 
     private boolean exportCollectionList(JSONObject expCollectDetl) {
