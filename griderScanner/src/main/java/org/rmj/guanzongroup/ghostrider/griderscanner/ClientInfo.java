@@ -67,7 +67,6 @@ public class ClientInfo extends AppCompatActivity {
     TextView lblSentStatus;
 
     private List<CreditAppDocumentModel> docInfo;
-    private int position;
     public static CreditAppDocumentModel infoModel;
 //    Grider initialization
 
@@ -94,20 +93,44 @@ public class ClientInfo extends AppCompatActivity {
         mViewModel = new ViewModelProvider(this).get(VMClientInfo.class);
         sViewModel = new ViewModelProvider(this).get(VMMainScanner.class);
         docInfo =  new ArrayList<>();
-
+        infoModel = new CreditAppDocumentModel();
         initWidgets();
         contentResolver = this.getContentResolver();
         setData();
 
         ScannerConstants.TransNox = lblTransNoxxx.getText().toString();
-        mViewModel.getDocument(TransNox).observe(ClientInfo.this, data -> {
-            mViewModel.setDocumentInfo(data);
-
-        });
+        mViewModel.getDocument(TransNox).observe(ClientInfo.this, data->mViewModel.setDocumentInfo(data));
         mViewModel.getFileCode().observe(ClientInfo.this, fileCodeDetails -> {
-            setAdapter(fileCodeDetails, mViewModel.getDocInfo());
+            loAdapter = new FileCodeAdapter(ClientInfo.this,TransNox, mViewModel.getDocInfo(),fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
+                @Override
+                public void OnClick(int position) {
+                    poFilexx = new ImageFileCreator(ClientInfo.this , "Credit Application Documents", "SCAN", fileCodeDetails.get(position).getFileCode(), TransNox);
+                    poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                        mCurrentPhotoPath = photPath;
+                        ScannerConstants.Usage =camUsage;
+                        ScannerConstants.Folder = "Credit Application Documents";
+                        ScannerConstants.FileCode = fileCodeDetails.get(position).getFileCode();
+                        ScannerConstants.PhotoPath = photPath;
+                        ScannerConstants.EntryNox = (position + 1);
+                        ScannerConstants.FileName = FileName;
+                        ScannerConstants.Latt = latitude;
+                        ScannerConstants.Longi = longitude;
+                        startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                    });
+                }
 
+                @Override
+                public void OnActionButtonClick() {
+                    //TODO: Future update
+                }
+            });
+
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(loAdapter);
+//        recyclerView.getRecycledViewPool().clear();
+            loAdapter.notifyDataSetChanged();
         });
+
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -187,36 +210,5 @@ public class ClientInfo extends AppCompatActivity {
         return ScannerConstants.selectedImageBitmap != null;
     }
 
-    public void setAdapter(List<EFileCode> fileCodeDetails, List<DCreditApplicationDocuments.ApplicationDocument> docInfo){
 
-        loAdapter = new FileCodeAdapter(TransNox,docInfo,fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
-            @Override
-            public void OnClick(int position) {
-                poFilexx = new ImageFileCreator(ClientInfo.this , "Credit Application Documents", "SCAN", fileCodeDetails.get(position).getFileCode(), TransNox);
-                poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                    mCurrentPhotoPath = photPath;
-                    ScannerConstants.Usage =camUsage;
-                    ScannerConstants.Folder = "Credit Application Documents";
-                    ScannerConstants.FileCode = fileCodeDetails.get(position).getFileCode();
-                    ScannerConstants.PhotoPath = photPath;
-                    ScannerConstants.EntryNox = position;
-                    ScannerConstants.FileName = FileName;
-                    ScannerConstants.Latt = latitude;
-                    ScannerConstants.Longi = longitude;
-                    startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
-                });
-            }
-
-            @Override
-            public void OnActionButtonClick() {
-                //TODO: Future update
-            }
-        });
-
-
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(loAdapter);
-        recyclerView.getRecycledViewPool().clear();
-        loAdapter.notifyDataSetChanged();
-    }
 }

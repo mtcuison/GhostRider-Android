@@ -271,6 +271,7 @@ public class ImageCrop extends DocumentScanActivity {
         poDocumentsInfo.setTransNox(ScannerConstants.TransNox);
         poDocumentsInfo.setImageNme(imageFileName);
         poDocumentsInfo.setFileCode(ScannerConstants.FileCode);
+        poDocumentsInfo.setFileLoc(mypath.getAbsolutePath());
         return storageDir.getAbsolutePath();
 
     }
