@@ -21,6 +21,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
@@ -112,22 +115,30 @@ public class Fragment_Dashboard extends Fragment {
                 lblBSelfie.setBackground(getResources().getDrawable(R.drawable.bg_badge_red));
             }
         });
+
         cvMessages.setOnClickListener(v ->{
-            Intent intent = new Intent(getActivity(),Activity_NotificationList.class);
-            intent.putExtra("type", "Messages");
-            startActivity(intent);
+            GToast.CreateMessage(getActivity(), "Feature not yet implemented", GToast.INFORMATION).show();
+//            Intent intent = new Intent(getActivity(),Activity_NotificationList.class);
+//            intent.putExtra("type", "Messages");
+//            startActivity(intent);
         });
-        cvNotif.setOnClickListener(v ->{  Intent intent = new Intent(getActivity(),Activity_NotificationList.class);
-            intent.putExtra("type", "Notifications");
-            startActivity(intent);
+
+        cvNotif.setOnClickListener(v ->{
+            GToast.CreateMessage(getActivity(), "Feature not yet implemented", GToast.INFORMATION).show();
+//            Intent intent = new Intent(getActivity(),Activity_NotificationList.class);
+//            intent.putExtra("type", "Notifications");
+//            startActivity(intent);
         });
+
         cvSettings.setOnClickListener(v ->{
             Intent intent = new Intent(getActivity(), Settings.class);
             startActivity(intent);
         });
+
         cvLogout.setOnClickListener(v ->{
             showDialog();
         });
+
         cvProfile.setOnClickListener(v ->{
             Date today = new Date();
             @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("MMMM dd, yyyy");
@@ -189,6 +200,7 @@ public class Fragment_Dashboard extends Fragment {
             dialog.dismiss();
             requireActivity().finish();
             new REmployee(requireActivity().getApplication()).LogoutUserSession();
+            AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
             startActivity(new Intent(getActivity(), SplashScreenActivity.class));
         });
         loMessage.setTitle("GhostRider Session");

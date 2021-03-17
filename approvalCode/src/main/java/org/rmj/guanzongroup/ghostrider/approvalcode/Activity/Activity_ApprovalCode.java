@@ -18,6 +18,7 @@ import org.rmj.guanzongroup.ghostrider.approvalcode.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Activity_ApprovalCode extends AppCompatActivity {
     private static Activity_ApprovalCode instance;
@@ -53,7 +54,7 @@ public class Activity_ApprovalCode extends AppCompatActivity {
         psSCATypexxx = getIntent().getStringExtra("sSCATypex");
         Toolbar toolbar = findViewById(R.id.toolbar_approvalEntry);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         ViewPager viewPager = findViewById(R.id.viewpager_approvalEntry);
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getFragmentUI(psSysCode)));

@@ -34,6 +34,10 @@ public class RFileCode {
         return allFileCode;
     }
 
+    public String getLatestDataTime(){
+        return fileCodeDao.getLatestDataTime();
+    }
+
     public boolean insertFileCodeData(JSONArray faJson) throws Exception{
         GConnection loConn = DbConnection.doConnect(application);
         boolean result = true;
@@ -107,6 +111,5 @@ public class RFileCode {
         //terminate object connection
         loConn = null;
         return result;
-
     }
 }

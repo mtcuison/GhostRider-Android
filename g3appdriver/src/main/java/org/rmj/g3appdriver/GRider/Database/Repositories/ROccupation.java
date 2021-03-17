@@ -33,4 +33,8 @@ public class ROccupation {
     public void insertBulkData(List<EOccupationInfo> occupationInfos){
         OccupationDao.insertBulkData(occupationInfos);
     }
+
+    public String getLatestDataTime(){
+        return OccupationDao.getLatestDataTime();
+    }
 }

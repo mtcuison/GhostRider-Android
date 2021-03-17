@@ -33,4 +33,7 @@ public interface DOccupationInfo {
 
     @Query("SELECT sOccptnNm FROM Occupation_Info")
     LiveData<String[]> getOccupationNameList();
+
+    @Query("SELECT MAX(dTimeStmp) FROM Occupation_Info")
+    String getLatestDataTime();
 }

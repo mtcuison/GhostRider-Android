@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RMcBrand;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -24,17 +25,29 @@ import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_BRAND;
 public class ImportBrand implements ImportInstance{
     public static final String TAG = ImportBrand.class.getSimpleName();
     private final Application instance;
+    private final AppConfigPreference poConfig;
+    private final RMcBrand repository;
+    private String lsTimeStmp = "";
 
     public ImportBrand(Application application){
         this.instance = application;
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.repository = new RMcBrand(instance);
     }
 
     @Override
     public void ImportData(ImportDataCallback callback) {
         try{
             JSONObject loJson = new JSONObject();
-            loJson.put("bsearch", true);
-            loJson.put("descript", "All");
+            if(poConfig.isAppFirstLaunch()) {
+                loJson.put("bsearch", true);
+                loJson.put("descript", "All");
+            } else {
+                loJson.put("bsearch", true);
+                loJson.put("descript", "All");
+                lsTimeStmp = repository.getLatestDataTime();
+                loJson.put("dTimeStmp", lsTimeStmp);
+            }
             new ImportBrandTask(instance, callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();

@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -102,8 +103,8 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
     private CheckBox cbDependent;
     private CheckBox cbHouseHold;
     private CheckBox cbIsMarried;
-    private MaterialButton btnPrev;
-    private MaterialButton btnNext;
+    private Button btnPrev;
+    private Button btnNext;
 
     private int mRelationPosition = -1;
     private int mEducLvlPosition = 0;

@@ -23,6 +23,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.InternetStatusReciever;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMMainActivity;
@@ -151,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }else{
@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialog.dismiss();
                 finish();
                 new REmployee(getApplication()).LogoutUserSession();
+                AppConfigPreference.getInstance(MainActivity.this).setIsAppFirstLaunch(false);
             });
             loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
             loMessage.setTitle("GhostRider");

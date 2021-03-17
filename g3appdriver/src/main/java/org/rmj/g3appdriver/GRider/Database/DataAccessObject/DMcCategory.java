@@ -29,4 +29,7 @@ public interface DMcCategory {
 
     @Query("SELECT * FROM MC_Category")
     LiveData<List<EMcCategory>> getAllMcCategory();
+
+    @Query("SELECT MAX(dTimeStmp) FROM MC_Category")
+    String getLatestDataTime();
 }

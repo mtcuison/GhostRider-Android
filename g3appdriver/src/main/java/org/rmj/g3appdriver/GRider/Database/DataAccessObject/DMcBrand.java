@@ -32,4 +32,7 @@ public interface DMcBrand {
 
     @Query("SELECT sBrandNme FROM MC_Brand")
     LiveData<String[]> getAllBrandName();
+
+    @Query("SELECT MAX(dTimeStmp) FROM MC_Brand")
+    String getLatestDataTime();
 }

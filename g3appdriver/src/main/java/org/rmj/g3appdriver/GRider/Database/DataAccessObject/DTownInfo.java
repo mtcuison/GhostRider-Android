@@ -33,6 +33,9 @@ public interface DTownInfo {
     @Query("DELETE FROM Town_Info")
     void deleteAllTownInfo();
 
+    @Query("SELECT MAX(dTimeStmp) FROM Town_Info")
+    String getLatestDataTime();
+
     @Query("SELECT * FROM Town_Info WHERE sProvIDxx = :ProvinceID")
     LiveData<List<ETownInfo>> getAllTownInfoFromProvince(String ProvinceID);
 
@@ -51,7 +54,6 @@ public interface DTownInfo {
     @Query("SELECT a.sTownName, b.sProvName , c.sBrgyName FROM Town_Info a INNER JOIN Province_Info b INNER JOIN Barangay_Info c ON\n" +
             "    a.sProvIDxx = b.sProvIDxx AND a.sTownIDxx = c.sTownIDxx AND c.sBrgyIDxx =:BrgyID")
     LiveData<BrgyTownProvinceInfo> getBrgyTownProvinceInfo(String BrgyID);
-    ;
 
     @Query("SELECT a.sTownName, b.sProvName FROM Town_Info a INNER JOIN Province_Info b ON \n" +
             "a.sProvIDxx = b.sProvIDxx AND a.sTownIDxx  =:townID")

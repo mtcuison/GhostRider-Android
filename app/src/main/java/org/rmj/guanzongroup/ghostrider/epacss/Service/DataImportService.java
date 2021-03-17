@@ -26,13 +26,17 @@ import org.rmj.g3appdriver.GRider.ImportData.Import_BranchPerformance;
 import org.rmj.g3appdriver.GRider.ImportData.Import_LoanApplications;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SCARequest;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class DataImportService extends JobService {
     public static final String TAG = DataImportService.class.getSimpleName();
+    private AppConfigPreference poConfig;
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
+        poConfig = AppConfigPreference.getInstance(getApplication());
         Log.e(TAG, "Data import service has started.");
         try{
             doBackgroundTask(jobParameters);
@@ -69,6 +73,11 @@ public class DataImportService extends JobService {
                 new Import_BranchPerformance(getApplication()),
                 new Import_LoanApplications(getApplication())};
 
+        if(poConfig.isAppFirstLaunch()) {
+            GNotifBuilder.createNotification(getApplication(), "GhostRider", "Downloading local resources...", GNotifBuilder.APP_DATA_DOWNLOAD).show();
+        } else {
+            GNotifBuilder.createNotification(getApplication(), "GhostRider", "Updating local resources...", GNotifBuilder.APP_SYNC_DATA).show();
+        }
         new Thread(() -> {
             for (ImportInstance importInstance : importInstances) {
                 importInstance.ImportData(new ImportDataCallback() {
@@ -87,6 +96,12 @@ public class DataImportService extends JobService {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+            }
+
+            if(poConfig.isAppFirstLaunch()) {
+                GNotifBuilder.createNotification(getApplication(), "GhostRider", "Download finished.", GNotifBuilder.APP_DATA_DOWNLOAD).show();
+            } else {
+                GNotifBuilder.createNotification(getApplication(), "GhostRider", "Update finished.", GNotifBuilder.APP_SYNC_DATA).show();
             }
             jobFinished(params, false);
         }).start();

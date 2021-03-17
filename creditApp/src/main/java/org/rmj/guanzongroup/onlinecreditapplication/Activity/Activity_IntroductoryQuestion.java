@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,12 +10,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -25,9 +22,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.simple.JSONObject;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.TextFormatter;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_CoMaker;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PurchaseInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -35,14 +30,13 @@ import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMIntroductoryQues
 
 import java.util.Objects;
 
-import static org.rmj.guanzongroup.onlinecreditapplication.R.id.spn_applicationType;
-
 public class Activity_IntroductoryQuestion extends AppCompatActivity implements ViewModelCallBack {
     public static final String TAG = Activity_IntroductoryQuestion.class.getSimpleName();
-    public static String spnAppTypePosition = "-1";
-    public static String spnCustomerTypePosition = "-1";
+    public static String lsApplType = "-1";
+    public static String lsCustType = "-1";
     public static String spnTermPosition = "36";
     private VMIntroductoryQuestion mViewModel;
+    PurchaseInfoModel model;
     private TextView lblBranchNm, lblBrandAdd, lblDate;
     private AutoCompleteTextView txtBranchNm, txtBrandNm, txtModelNm;
     private TextInputEditText txtDownPymnt, txtAmort;
@@ -58,7 +52,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
         initWidgets();
         txtDownPymnt.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(txtDownPymnt));
         mViewModel = new ViewModelProvider(this).get(VMIntroductoryQuestion.class);
-
+        model = new PurchaseInfoModel();
         mViewModel.getApplicationType().observe(this, stringArrayAdapter -> spnApplType.setAdapter(stringArrayAdapter));
         mViewModel.getCustomerType().observe(this, stringArrayAdapter -> spnCustomerType.setAdapter(stringArrayAdapter));
 
@@ -73,13 +67,10 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
             }
         });
 
-
-
-
         txtBranchNm.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBranchInfo().observe(this, eBranchInfos -> {
             for(int x = 0; x < eBranchInfos.size(); x++){
                 if(txtBranchNm.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getBranchNm())){
-                    mViewModel.setBanchCde(eBranchInfos.get(x).getBranchCd());
+                    model.setsBranchCde(eBranchInfos.get(x).getBranchCd());
                     break;
                 }
             }
@@ -98,6 +89,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
             for(int x = 0; x < eMcBrands.size(); x++){
                 if(txtBrandNm.getText().toString().equalsIgnoreCase(eMcBrands.get(x).getBrandNme())){
                     mViewModel.setLsBrandID(eMcBrands.get(x).getBrandIDx());
+                    model.setsBrandIDxx(eMcBrands.get(x).getBrandIDx());
                     break;
                 }
             }
@@ -113,6 +105,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
             for(int x = 0; x < eMcModels.size(); x++){
                 if(txtModelNm.getText().toString().equalsIgnoreCase(eMcModels.get(x).getModelNme() +" "+ eMcModels.get(x).getModelCde())){
                     mViewModel.setLsModelCd(eMcModels.get(x).getModelIDx());
+                    model.setsModelIDxx(eMcModels.get(x).getModelIDx());
                     break;
                 }
             }
@@ -201,17 +194,14 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
 
         btnCreate = findViewById(R.id.btn_createCreditApp);
     }
+
     private void submitNewApplication() {
         try{
-        PurchaseInfoModel model = new PurchaseInfoModel();
-        model.setsAppTypex(spnAppTypePosition);
-        model.setsCustTypex(spnCustomerTypePosition);
-        model.setsBranchCde(txtBranchNm.getText().toString());
-        model.setsBrandIDxx(txtBrandNm.getText().toString());
-        model.setsModelIDxx(txtModelNm.getText().toString());
-        model.setsDownPaymt(Double.parseDouble((txtDownPymnt.getText().toString().replace(",", ""))));
+        model.setsAppTypex(lsApplType);
+        model.setsCustTypex(lsCustType);
+        model.setsDownPaymt(Double.parseDouble((Objects.requireNonNull(txtDownPymnt.getText()).toString().replace(",", ""))));
         model.setsAccTermxx(Integer.parseInt(spnTermPosition));
-        model.setsMonthlyAm(Double.parseDouble((txtAmort.getText().toString()).replace(",", "")));
+        model.setsMonthlyAm(Double.parseDouble((Objects.requireNonNull(txtAmort.getText()).toString()).replace(",", "")));
 
         mViewModel.CreateNewApplication(model, Activity_IntroductoryQuestion.this);
         }catch (NullPointerException e){
@@ -246,7 +236,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(spnApplType.equals(poView)) {
                     String appType = String.valueOf(i);
-                    spnAppTypePosition = appType;
+                    lsApplType = appType;
                     vm.setApplicationType(appType);
                     Log.e("app position",appType);
                 }
@@ -262,7 +252,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
                             type = "1";
                             break;
                     }
-                    spnCustomerTypePosition = String.valueOf(i);
+                    lsCustType = String.valueOf(i);
                     vm.setCustomerType(type);
                 }
                 if(spnTerm.equals(poView)) {

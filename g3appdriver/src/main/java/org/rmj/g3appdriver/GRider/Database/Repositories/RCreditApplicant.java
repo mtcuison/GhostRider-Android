@@ -99,7 +99,7 @@ public class RCreditApplicant {
         String lsTransNox = "";
         GConnection loConn = DbConnection.doConnect(app);
         try{
-            lsTransNox = MiscUtil.getNextCode("Client_Update_Request", "sClientID", true, loConn.getConnection(), "", 12, false);
+            lsTransNox = MiscUtil.getNextCode("Credit_Applicant_Info", "sTransNox", true, loConn.getConnection(), "", 12, false);
 
         } catch (Exception e){
             e.printStackTrace();

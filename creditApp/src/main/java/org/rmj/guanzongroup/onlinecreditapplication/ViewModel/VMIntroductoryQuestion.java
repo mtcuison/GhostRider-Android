@@ -223,7 +223,7 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
             String transnox = oCredtRepo.getGOCasNextCode();
 
             Log.e("TransNox", transnox);
-
+            model.setsBranchCde(psBrnchCd.getValue());
             if(model.isPurchaseInfoValid()) {
                 GOCASApplication loGoCas = new GOCASApplication();
                 loGoCas.PurchaseInfo().setAppliedFor("0");

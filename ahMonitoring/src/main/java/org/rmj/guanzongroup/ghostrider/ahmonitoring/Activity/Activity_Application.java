@@ -25,8 +25,6 @@ public class Activity_Application extends AppCompatActivity {
     public static final String TAG = Activity_Application.class.getSimpleName();
 
     @Override
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application);

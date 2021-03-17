@@ -14,4 +14,6 @@ public interface DFileCode {
     @Query("SELECT * FROM EDocSys_File")
     LiveData<List<EFileCode>> selectFileCodeList();
 
+    @Query("SELECT MAX(dTimeStmp) AS TimeStamp FROM EDocSys_File")
+    String getLatestDataTime();
 }

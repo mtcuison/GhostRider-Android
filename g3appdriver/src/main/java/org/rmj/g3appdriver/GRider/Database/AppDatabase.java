@@ -114,7 +114,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
         EClientUpdate.class,
         EBankInfo.class,
         ELog_Selfie.class,
-        ECreditAppDocs.class}, version = 1)
+        ECreditAppDocs.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static AppDatabase instance;

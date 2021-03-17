@@ -57,10 +57,6 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectionDetailList();
     }
 
-    public LiveData<List<DDCPCollectionDetail.CollectionDetail>> getJoinCollectionDetailList(){
-        return detailDao.getJoinCollectionDetailList();
-    }
-
     public LiveData<List<EDCPCollectionDetail>> getCollectionDetailLog(){
         return detailDao.getCollectionDetailLog();
     }
