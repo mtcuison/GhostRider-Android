@@ -510,7 +510,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                     mViewModel.importDCPFile(fileName, new ViewModelCallback() {
                         @Override
                         public void OnStartSaving() {
-                            poDialogx.initDialog("Daily Collection Plan", "Uploading DCP List from file. Please wait...", false);
+                            poDialogx.initDialog("Daily Collection Plan", "Importing DCP List from file. Please wait...", false);
                             poDialogx.show();
                         }
 
