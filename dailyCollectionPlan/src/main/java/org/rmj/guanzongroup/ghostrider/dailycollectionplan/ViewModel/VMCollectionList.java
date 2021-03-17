@@ -1033,12 +1033,16 @@ public class VMCollectionList extends AndroidViewModel {
 
                 } catch (Exception e){
                     e.printStackTrace();
+                    return null;
                 }
             }
+
             try {
+                if(JSONArrayExport.length() == 0) { return null; }
                 JSONExport.put("android", JSONArrayExport);
             } catch (JSONException e) {
                 e.printStackTrace();
+                return null;
             }
             Log.e(TAG, JSONExport.toString());
             return JSONExport;
@@ -1047,14 +1051,14 @@ public class VMCollectionList extends AndroidViewModel {
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
-            callBack.OnJSONCreated(jsonObject);
 
             JSONExport = jsonObject;
 
             if(JSONExport != null){
+                callBack.OnJSONCreated(jsonObject);
                 callBack.OnSuccessResult(new String[]{"Collection list exported successfully."});
             } else {
-                callBack.OnFailedResult(("Collection list exporting failed."));
+                callBack.OnFailedResult(("No available collection list to export."));
             }
 
         }
