@@ -69,12 +69,14 @@ public class RFileCode {
                             ",sBarrcode" +
                             ",sBriefDsc" +
                             ",cRecdStat" +
+                            ",nEntryNox" +
                             ",dTimeStmp)" +
                             " VALUES" +
                             "(" + SQLUtil.toSQL(loJson.getString("sFileCode")) +
                             "," + SQLUtil.toSQL(loJson.getString("sBarrcode")) +
                             "," + SQLUtil.toSQL(loJson.getString("sBriefDsc")) +
                             "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
+                            "," + SQLUtil.toSQL(loJson.getInt("nEntryNox")) +
                             "," + SQLUtil.toSQL(loJson.getString("dTimeStmp")) + ")";
                 }
             } else { //record already exists
@@ -89,6 +91,7 @@ public class RFileCode {
                             ",  sBarrcode = " + SQLUtil.toSQL(loJson.getString("sBarrcode")) +
                             ",  sBriefDsc = " + SQLUtil.toSQL(loJson.getString("sBriefDsc")) +
                             ",  cRecdStat = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
+                            ",  nEntryNox = " + SQLUtil.toSQL(loJson.getInt("nEntryNox")) +
                             ",  dTimeStmp = " + SQLUtil.toSQL(loJson.getString("dTimeStmp"))  +
                             " WHERE sFileCode = " + SQLUtil.toSQL(loJson.getString("sFileCode"));
                 }

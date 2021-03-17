@@ -43,11 +43,18 @@ public interface DCreditApplicationDocuments {
     LiveData<List<ECreditApplicationDocuments>> getDocumentInfoList();
 
 
-    @Query("SELECT * FROM Credit_Online_Application_Documents a\n" +
+    @Query("SELECT a.sTransNox, a.sFileCode, a.nEntryNox, a.sImageNme, b.sFileLoct FROM Credit_Online_Application_Documents a\n" +
             "LEFT JOIN Image_Information b " +
             "ON a.sTransNox = b.sSourceNo " +
             "WHERE a.sTransNox =:TransNox " +
-            "AND a.nEntryNox =:EntryNox")
-    LiveData<List<ECreditApplicationDocuments>> getDocument(String TransNox, int EntryNox);
+            " ORDER BY a.nEntryNox ASC")
+    LiveData<List<ApplicationDocument>> getDocument(String TransNox);
+    class ApplicationDocument{
+        public String sTransNox;
+        public String sFileCode;
+        public int nEntryNox;
+        public String sFileLoct;
+        public String sImageNme;
 
+    }
 }

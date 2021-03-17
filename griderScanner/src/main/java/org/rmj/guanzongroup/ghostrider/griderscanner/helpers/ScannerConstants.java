@@ -15,6 +15,8 @@ public class ScannerConstants {
     public static String TransNox;
     public static String FileCode;
     public static String PhotoPath;
+
+    public static String FilePath;
     public static String Folder;
     public static String Usage;
     public static int EntryNox;
