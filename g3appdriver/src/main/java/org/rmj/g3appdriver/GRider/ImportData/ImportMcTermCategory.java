@@ -14,6 +14,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcTermCategory;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RMcTermCategory;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -28,19 +29,30 @@ import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_TERM_CATEGORY;
 public class ImportMcTermCategory implements ImportInstance{
     public static final String TAG = ImportMcTermCategory.class.getSimpleName();
     private final Application instance;
+    private final RMcTermCategory repository;
+    private final AppConfigPreference poConfig;
+    private String lsTimeStmp;
 
     public ImportMcTermCategory(Application application){
         this.instance = application;
+        this.repository = new RMcTermCategory(application);
+        this.poConfig = AppConfigPreference.getInstance(application);
     }
 
     @Override
     public void ImportData(ImportDataCallback callback) {
         try {
             JSONObject loJson = new JSONObject();
-            loJson.put("bsearch", true);
-            loJson.put("descript", "All");
+            if(poConfig.isAppFirstLaunch()) {
+                loJson.put("bsearch", true);
+                loJson.put("descript", "All");
+            } else {
+                loJson.put("bsearch", true);
+                loJson.put("descript", "All");
+                lsTimeStmp = repository.getLatestDataTime();
+                loJson.put("dTimeStmp", lsTimeStmp);
+            }
             new ImportDataTask(instance, callback).execute(loJson);
-            //loJson.put("dTimeStmp", lsTimeStmp);
         } catch (Exception e){
             e.printStackTrace();
         }

@@ -14,6 +14,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -30,22 +31,31 @@ public class ImportBarangay implements ImportInstance{
     private final ConnectionUtil conn;
     private final WebApi webApi;
     private final HttpHeaders headers;
+    private AppConfigPreference poConfig;
+    private String lsTimeStmp;
 
     public ImportBarangay(Application application){
         repository = new RBarangay(application);
         conn = new ConnectionUtil(application);
         webApi = new WebApi(application);
         headers = HttpHeaders.getInstance(application);
+        poConfig = AppConfigPreference.getInstance(application);
     }
 
     @Override
     public void ImportData(ImportDataCallback callback) {
         try {
             JSONObject loJson = new JSONObject();
-            loJson.put("bsearch", true);
-            loJson.put("descript", "All");
+            if(poConfig.isAppFirstLaunch()) {
+                loJson.put("bsearch", true);
+                loJson.put("descript", "All");
+            } else {
+                loJson.put("bsearch", true);
+                loJson.put("descript", "All");
+                lsTimeStmp = repository.getLatestDataTime();
+                loJson.put("dTimeStmp", lsTimeStmp);
+            }
             new ImportDataTask(repository, conn, webApi, headers, callback).execute(loJson);
-            //loJson.put("dTimeStmp", lsTimeStmp);
         } catch (Exception e){
             e.printStackTrace();
         }

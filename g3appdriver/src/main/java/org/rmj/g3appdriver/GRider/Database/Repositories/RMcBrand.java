@@ -37,6 +37,10 @@ public class RMcBrand {
         mcBrandDao.insertBulkData(brandList);
     }
 
+    public String getLatestDataTime(){
+        return mcBrandDao.getLatestDataTime();
+    }
+
     public void insertBrandInfo(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
 

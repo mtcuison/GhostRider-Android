@@ -35,4 +35,7 @@ public interface DCountryInfo {
 
     @Query("SELECT sNational FROM Country_Info")
     LiveData<String[]> getAllCountryCitizenNames();
+
+    @Query("SELECT MAX(dTimeStmp) FROM Country_Info")
+    String getLatestDataTime();
 }

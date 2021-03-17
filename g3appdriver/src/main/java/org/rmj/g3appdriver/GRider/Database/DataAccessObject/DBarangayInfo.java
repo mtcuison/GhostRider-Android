@@ -30,15 +30,18 @@ public interface DBarangayInfo {
     @Query("DELETE FROM Barangay_Info")
     void deleteAllBarangayInfo();
 
+    @Query("SELECT MAX(dTimeStmp) FROM Barangay_Info")
+    String getLatestDataTime();
+
     @Query("SELECT * FROM Barangay_Info WHERE sTownIDxx = :TownID")
     LiveData<List<EBarangayInfo>> getAllBarangayInfoFromTown(String TownID);
 
     @Query("SELECT sBrgyName FROM Barangay_Info WHERE sTownIDxx = :TownID")
     LiveData<String[]> getAllBarangayNameFromTown(String TownID);
 
-        @Insert(onConflict = OnConflictStrategy.REPLACE)
-        void insertBulkBarangayData(List<EBarangayInfo> barangayInfoList);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertBulkBarangayData(List<EBarangayInfo> barangayInfoList);
 
-        @Query("SELECT sBrgyName FROM Barangay_Info WHERE sBrgyIDxx = :fsID")
-        LiveData<String> getBarangayInfoFromID(String fsID);
-    }
+    @Query("SELECT sBrgyName FROM Barangay_Info WHERE sBrgyIDxx = :fsID")
+    LiveData<String> getBarangayInfoFromID(String fsID);
+}

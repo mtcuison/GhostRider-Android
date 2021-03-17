@@ -75,11 +75,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <provider android:authorities="com.facebook.app.FacebookContentProvider1234"
-            android:name="com.facebook.FacebookContentProvider"
-            android:exported="true" >
-            <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-        </provider>
+
     </application>
 
 </manifest>

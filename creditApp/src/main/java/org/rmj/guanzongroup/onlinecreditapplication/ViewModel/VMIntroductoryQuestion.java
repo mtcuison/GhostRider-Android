@@ -20,7 +20,6 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RMcBrand;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RMcModel;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RRawData;
-import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.gocas.pricelist.PriceFactory;
 import org.rmj.gocas.pricelist.Pricelist;
@@ -31,7 +30,6 @@ import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Objects;
 
 public class VMIntroductoryQuestion extends AndroidViewModel {
     public static final String TAG = VMIntroductoryQuestion.class.getSimpleName();
@@ -222,13 +220,11 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
 
     public void CreateNewApplication(PurchaseInfoModel model,ViewModelCallBack callBack){
         try {
-            String transnox = new CodeGenerator().generateTransNox();
+            String transnox = oCredtRepo.getGOCasNextCode();
 
             Log.e("TransNox", transnox);
-
-
-
-              if(model.isPurchaseInfoValid()) {
+            model.setsBranchCde(psBrnchCd.getValue());
+            if(model.isPurchaseInfoValid()) {
                 GOCASApplication loGoCas = new GOCASApplication();
                 loGoCas.PurchaseInfo().setAppliedFor("0");
                 loGoCas.PurchaseInfo().setCustomerType(model.getsCustTypex());

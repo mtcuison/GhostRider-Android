@@ -41,4 +41,7 @@ public interface DProvinceInfo {
 
     @Query("SELECT sProvName FROM Province_Info WHERE sProvIDxx = :provID")
     LiveData<String> getProvinceNameFromProvID(String provID);
+
+    @Query("SELECT MAX(dTimeStmp) FROM Province_Info")
+    String getLatestDataTime();
 }

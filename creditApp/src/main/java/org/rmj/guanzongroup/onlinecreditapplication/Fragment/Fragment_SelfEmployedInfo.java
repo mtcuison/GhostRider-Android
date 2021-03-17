@@ -93,8 +93,12 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
         String TransNox = Activity_CreditApplication.getInstance().getTransNox();
         mViewModel.setTransNox(TransNox);
         mViewModel.getCreditApplicantInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
-            mViewModel.setGOCasDetailInfo(eCreditApplicantInfo.getDetlInfo());
-            mViewModel.setMeansInfos(eCreditApplicantInfo.getAppMeans());
+            try {
+                mViewModel.setGOCasDetailInfo(eCreditApplicantInfo.getDetlInfo());
+                mViewModel.setMeansInfos(eCreditApplicantInfo.getAppMeans());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
         mViewModel.getCreditApplicantInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setGOCasDetailInfo(eCreditApplicantInfo.getDetlInfo()));
         mViewModel.getAllProvinceNames().observe(getViewLifecycleOwner(), strings -> {

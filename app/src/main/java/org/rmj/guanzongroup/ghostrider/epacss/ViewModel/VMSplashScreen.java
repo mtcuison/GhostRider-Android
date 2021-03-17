@@ -18,6 +18,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.AppTokenManager;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 public class VMSplashScreen extends AndroidViewModel {
 
@@ -30,6 +31,7 @@ public class VMSplashScreen extends AndroidViewModel {
     private final AppTokenManager poTokenInf;
     private final AppConfigPreference poConfigx;
     private final SessionManager poSession;
+    private final ConnectionUtil poConn;
 
     public VMSplashScreen(@NonNull Application application) {
         super(application);
@@ -38,6 +40,7 @@ public class VMSplashScreen extends AndroidViewModel {
         poConfigx = AppConfigPreference.getInstance(application);
         poSession = new SessionManager(application);
         poConfigx.setTemp_ProductID("IntegSys");
+        poConn = new ConnectionUtil(application);
         paPermisions.setValue(new String[]{
                 Manifest.permission.INTERNET,
                 Manifest.permission.ACCESS_NETWORK_STATE,
@@ -76,8 +79,12 @@ public class VMSplashScreen extends AndroidViewModel {
     public void setSessionTime(int time){
         try {
             this.pnSession.setValue(time);
-            boolean result = pnSession.getValue() <= 0;
-            pbSession.setValue(result);
+            if(poConn.isDeviceConnected()) {
+                boolean result = pnSession.getValue() <= 0;
+                pbSession.setValue(result);
+            } else {
+                pbSession.setValue(true);
+            }
         } catch (NullPointerException e){
             e.printStackTrace();
         }

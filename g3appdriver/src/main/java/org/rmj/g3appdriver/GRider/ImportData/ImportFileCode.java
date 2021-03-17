@@ -1,5 +1,6 @@
 package org.rmj.g3appdriver.GRider.ImportData;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -11,37 +12,47 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.Arrays;
 import java.util.Objects;
 
-import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_BRANCHES;
 import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_FILE_CODE;
 
 public class ImportFileCode implements ImportInstance{
     private static final String TAG = ImportFileCode.class.getSimpleName();
     private final Application instance;
-
+    private final AppConfigPreference poConfig;
+    private final RFileCode repository;
+    private String lsTimeStmp = "";
 
     public ImportFileCode(Application instance) {
         this.instance = instance;
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.repository = new RFileCode(instance);
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void ImportData(ImportDataCallback callback) {
         try {
             JSONObject loJson = new JSONObject();
-            loJson.put("descript", "All");
-            loJson.put("deptidxx", "015");
-            loJson.put("bsearch", true);
-
+            if(poConfig.isAppFirstLaunch()) {
+                loJson.put("descript", "All");
+                loJson.put("deptidxx", "015");
+                loJson.put("bsearch", true);
+            } else {
+                loJson.put("descript", "All");
+                loJson.put("deptidxx", "015");
+                loJson.put("bsearch", true);
+                lsTimeStmp = Objects.requireNonNull(repository.getLatestDataTime());
+                loJson.put("dTimeStmp", lsTimeStmp);
+            }
             new ImportFileCodeTask(callback, instance).execute(loJson);
-
         } catch (Exception e){
             e.printStackTrace();
         }

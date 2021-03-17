@@ -14,6 +14,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -30,22 +31,33 @@ public class ImportCountry implements ImportInstance {
     private final WebApi webApi;
     private final HttpHeaders headers;
     private final Application instance;
+    private final AppConfigPreference poConfig;
+    private final RCountry poCountry;
+    private String lsTimeStmp;
 
     public ImportCountry(Application application) {
         this.instance = application;
-        conn = new ConnectionUtil(application);
-        webApi = new WebApi(application);
-        headers = HttpHeaders.getInstance(application);
+        conn = new ConnectionUtil(instance);
+        webApi = new WebApi(instance);
+        headers = HttpHeaders.getInstance(instance);
+        poConfig = AppConfigPreference.getInstance(instance);
+        poCountry = new RCountry(instance);
     }
 
     @Override
     public void ImportData(ImportDataCallback callback) {
         try {
             JSONObject loJson = new JSONObject();
-            loJson.put("bsearch", true);
-            loJson.put("descript", "All");
-            new ImportDataTask(instance, conn, webApi, headers,callback).execute(loJson);
-            //loJson.put("dTimeStmp", lsTimeStmp);
+            if(poConfig.isAppFirstLaunch()) {
+                loJson.put("bsearch", true);
+                loJson.put("descript", "All");
+            } else {
+                loJson.put("bsearch", true);
+                loJson.put("descript", "All");
+                lsTimeStmp = poCountry.getLatestDataTime();
+                loJson.put("dTimeStmp", lsTimeStmp);
+            }
+            new ImportDataTask(instance, conn, webApi, headers, callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }

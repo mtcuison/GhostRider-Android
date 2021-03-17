@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -32,6 +33,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.jetbrains.annotations.NotNull;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
@@ -55,7 +57,6 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
 
     private static final String TAG = Fragment_Dependent.class.getSimpleName();
     private VMDependent mViewModel;
-    private String TransNox;
     private View v;
 
     public String Employment = "";
@@ -102,8 +103,8 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
     private CheckBox cbDependent;
     private CheckBox cbHouseHold;
     private CheckBox cbIsMarried;
-    private MaterialButton btnPrev;
-    private MaterialButton btnNext;
+    private Button btnPrev;
+    private Button btnNext;
 
     private int mRelationPosition = -1;
     private int mEducLvlPosition = 0;
@@ -124,7 +125,7 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMDependent.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo.getDetlInfo()));
+        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
         mViewModel.getSpnRelationx().observe(getViewLifecycleOwner(), stringArrayAdapter -> actRelationx.setAdapter(stringArrayAdapter));
         mViewModel.getSchoolType().observe(getViewLifecycleOwner(), stringArrayAdapter -> actSchoolType.setAdapter(stringArrayAdapter));
         mViewModel.getEducLevel().observe(getViewLifecycleOwner(), stringArrayAdapter -> actSchoolLvl.setAdapter(stringArrayAdapter));
@@ -195,9 +196,8 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         }));
 
         btnAddDependent.setOnClickListener(v -> addDependent());
-        btnNext.setOnClickListener(v -> {
-            mViewModel.SubmitDependentInfo(Fragment_Dependent.this);
-        });
+        btnNext.setOnClickListener(v -> mViewModel.SubmitDependentInfo(Fragment_Dependent.this));
+        btnPrev.setOnClickListener(v -> Activity_CreditApplication.getInstance().moveToPageNumber(12));
     }
 
     private void setupWidgets(View view){
@@ -227,7 +227,7 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
 
         btnAddDependent = view.findViewById(R.id.btn_dpd_add);
         btnNext = view.findViewById(R.id.btn_creditAppNext);
-
+        btnPrev = view.findViewById(R.id.btn_creditAppPrvs);
     }
 
     Observer<List<DependentsInfoModel>> dependentListUpdateObserver = new Observer<List<DependentsInfoModel>>() {
@@ -478,6 +478,7 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         tieCompName.setText("");
         tieSchoolNm.setText("");
         tieSchlAddx.setText("");
+        tieSchlProv.setText("");
         tieSchlTown.setText("");
         actRelationx.setText("");
         actSchoolType.setText("");

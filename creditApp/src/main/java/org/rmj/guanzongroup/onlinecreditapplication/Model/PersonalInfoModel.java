@@ -194,6 +194,13 @@ public class PersonalInfoModel implements Parcelable {
         mobileNoList.add(mobileNo);
     }
 
+    /**
+     * Clear List of Mobile No if Any Error Occurs to prevent mobile no duplicate.
+     */
+    public void clearMobileNo(){
+        mobileNoList.clear();
+    }
+
     public String getPhoneNox() {
         return PhoneNox;
     }
@@ -317,7 +324,7 @@ public class PersonalInfoModel implements Parcelable {
             return false;
         }
     }
-    private boolean isPrimaryContactValid(){
+    public boolean isPrimaryContactValid(){
         if(mobileNoList.get(0).getMobileNo().trim().isEmpty()){
             message = "Please enter primary contact number";
             return false;
@@ -337,7 +344,7 @@ public class PersonalInfoModel implements Parcelable {
         return true;
     }
 
-    private boolean isSecondaryContactValid(){
+    public boolean isSecondaryContactValid(){
         if(mobileNoList.size() >= 2) {
             if (mobileNoList.get(1).getMobileNo().trim().isEmpty()) {
                 if(!mobileNoList.get(1).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
@@ -362,7 +369,7 @@ public class PersonalInfoModel implements Parcelable {
         return true;
     }
 
-    private boolean isTertiaryContactValid(){
+    public boolean isTertiaryContactValid(){
         if(mobileNoList.size() == 3) {
             if (!mobileNoList.get(2).getMobileNo().trim().isEmpty()) {
                 if(!mobileNoList.get(2).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){

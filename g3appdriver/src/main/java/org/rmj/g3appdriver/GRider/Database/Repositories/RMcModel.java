@@ -42,6 +42,10 @@ public class RMcModel {
         return allMcModelName;
     }
 
+    public String getLatestDataTime(){
+        return mcModelDao.getLatestDataTime();
+    }
+
     public void insertBulkData(List<EMcModel> modelList){
         mcModelDao.insertBulkData(modelList);
     }

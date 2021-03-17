@@ -44,6 +44,10 @@ public class RTown {
         townDao.insertBulkData(townInfoList);
     }
 
+    public String getLatestDataTime(){
+        return townDao.getLatestDataTime();
+    }
+
     public LiveData<ETownInfo> getTownNameAndProvID(String fsID){
         return townDao.getTownNameAndProvID(fsID);
     }

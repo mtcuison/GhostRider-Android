@@ -36,6 +36,10 @@ public class RMcCategory {
         mcCategoryDao.insetBulkData(categories);
     }
 
+    public String getLatestDataTime(){
+        return mcCategoryDao.getLatestDataTime();
+    }
+
     public void saveCategoryInfo(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
 

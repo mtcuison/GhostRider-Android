@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebClient;
 
@@ -23,19 +24,30 @@ import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_TOWN;
 public class ImportTown implements ImportInstance{
     public static final String TAG = ImportTown.class.getSimpleName();
     private final Application instance;
+    private final RTown poTown;
+    private final AppConfigPreference poConfig;
+    private String lsTimeStmp = "";
 
     public ImportTown(Application application){
         this.instance = application;
+        this.poTown = new RTown(instance);
+        this.poConfig = AppConfigPreference.getInstance(instance);
     }
 
     @Override
     public void ImportData(ImportDataCallback callback) {
         try {
             JSONObject loJson = new JSONObject();
-            loJson.put("bsearch", true);
-            loJson.put("descript", "All");
+            if(poConfig.isAppFirstLaunch()) {
+                loJson.put("bsearch", true);
+                loJson.put("descript", "All");
+            } else {
+                loJson.put("bsearch", true);
+                loJson.put("descript", "All");
+                lsTimeStmp = poTown.getLatestDataTime();
+                loJson.put("dTimeStmp", lsTimeStmp);
+            }
             new ImportTownTask(callback, instance).execute(loJson);
-            //loJson.put("dTimeStmp", lsTimeStmp);
         } catch (Exception e){
             e.printStackTrace();
         }

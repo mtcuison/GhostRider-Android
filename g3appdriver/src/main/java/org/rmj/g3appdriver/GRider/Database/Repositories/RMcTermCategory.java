@@ -36,6 +36,10 @@ public class RMcTermCategory {
         mcTermCategoryDao.insertBulkData(categories);
     }
 
+    public String getLatestDataTime(){
+        return mcTermCategoryDao.getLatestDataTime();
+    }
+
     public void saveTermCategory(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
 

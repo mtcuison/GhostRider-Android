@@ -38,6 +38,10 @@ public class RBranch {
         allBranchInfo = branchInfoDao.getAllBranchInfo();
     }
 
+    public String getLatestDataTime(){
+        return branchInfoDao.getLatestDataTime();
+    }
+
     public boolean insertBranchInfos(JSONArray faJson) throws Exception{
         GConnection loConn = DbConnection.doConnect(application);
         boolean result = true;
