@@ -51,22 +51,9 @@ public class ClientInfoAdapter extends RecyclerView.Adapter<ClientInfoAdapter.Cl
         holder.lblClientName.setText(poLoan.getClientName());
         holder.lblAppltnDate.setText(poLoan.getDateTransact());
         holder.lblApplResult.setText(poLoan.getTransactionStatus());
-        try {
-            holder.lblDateApprov.setText(poLoan.getDateApproved());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
         holder.btnVoid.setVisibility(poLoan.getVoidStatus());
-        holder.lblGoCasNoxxx.setText(poLoan.getGOCasNumber());
-        holder.lblClientName.setText(poLoan.getClientName());
-        holder.lblTransNoxxx.setText(poLoan.getTransNox());
-        holder.lblAppltnDate.setText(poLoan.getDateTransact());
-        holder.lblApplResult.setText(poLoan.getTransactionStatus());
-        try {
-            holder.lblDateApprov.setText(poLoan.getDateApproved());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
         holder.lblSentStatus.setVisibility(poLoan.getSendStatus());
     }
 
@@ -100,25 +87,7 @@ public class ClientInfoAdapter extends RecyclerView.Adapter<ClientInfoAdapter.Cl
             lblSentStatus = itemView.findViewById(R.id.lbl_applicationSent);
             btnVoid = itemView.findViewById(R.id.btn_deleteApplication);
 
-            /*btnVoid.setOnClickListener(v1 -> {
-                if(onVoidApplicationListener!=null){
-                    int lnPos = getAdapterPosition();
-                    if(lnPos != RecyclerView.NO_POSITION){
-                        onVoidApplicationListener.OnVoid(lnPos, applicantSearchFilter.get(lnPos).getsTransNox());
-                    }
-                }
-            });*/
 
-            /*btnExpt.setOnClickListener(v12 -> {
-                if(onExportGOCASListener!=null){
-                    int lnPos = getAdapterPosition();
-                    if(lnPos != RecyclerView.NO_POSITION){
-                        onExportGOCASListener.onExport(applicantSearchFilter.get(lnPos).getDetlInfox(),
-                                applicantSearchFilter.get(lnPos).getsTransNox(),
-                                applicantSearchFilter.get(lnPos).getGoCasNoxx());
-                    }
-                }
-            });*/
 
             itemView.setOnClickListener(v12 -> {
                 if(ClientInfoAdapter.this.onApplicationClickListener !=null){

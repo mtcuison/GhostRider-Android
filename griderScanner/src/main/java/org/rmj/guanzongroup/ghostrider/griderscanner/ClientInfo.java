@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,14 +23,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
+import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.ClientFileCodeAdapter;
 import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.FileCodeAdapter;
 import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.LoanApplication;
+import org.rmj.guanzongroup.ghostrider.griderscanner.dialog.DialogImagePreview;
 import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
 import org.rmj.guanzongroup.ghostrider.griderscanner.model.CreditAppDocumentModel;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMClientInfo;
@@ -48,6 +56,7 @@ public class ClientInfo extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private VMClientInfo mViewModel;
+    private VMMainScanner sViewModel;
     TextView lblGoCasNoxxx;
     TextView lblTransNoxxx;
     TextView lblClientName;
@@ -57,7 +66,7 @@ public class ClientInfo extends AppCompatActivity {
     TextView lblDateSentxx;
     TextView lblSentStatus;
 
-    private List<LoanApplication> plLoanApp;
+    private List<CreditAppDocumentModel> docInfo;
     private int position;
     public static CreditAppDocumentModel infoModel;
 //    Grider initialization
@@ -73,7 +82,8 @@ public class ClientInfo extends AppCompatActivity {
     public static EImageInfo poImageInfo;
     public static ECreditApplicationDocuments poDocumentsInfo;
     String TransNox, FileCode;
-
+    FileCodeAdapter loAdapter;
+    ClientFileCodeAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,48 +92,21 @@ public class ClientInfo extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         mViewModel = new ViewModelProvider(this).get(VMClientInfo.class);
-        plLoanApp =  new ArrayList<>();
-        infoModel = new CreditAppDocumentModel();
-        position = getIntent().getIntExtra("position", 0);
-        plLoanApp = (List<LoanApplication>) getIntent().getSerializableExtra("loanList");
+        sViewModel = new ViewModelProvider(this).get(VMMainScanner.class);
+        docInfo =  new ArrayList<>();
+
         initWidgets();
         contentResolver = this.getContentResolver();
-        setData(position,plLoanApp);
-        mViewModel.getImgInfo().observe(ClientInfo.this, data -> mViewModel.setImgInfo(data));
-        mViewModel.getDocument(plLoanApp.get(position).getTransNox(), position).observe(this, data -> mViewModel.setDocumentInfo(data));
+        setData();
 
-        mViewModel.getFileCode().observe(this, fileCodeDetails -> {
+        ScannerConstants.TransNox = lblTransNoxxx.getText().toString();
+        mViewModel.getDocument(TransNox).observe(ClientInfo.this, data -> {
+            mViewModel.setDocumentInfo(data);
 
-            FileCodeAdapter loAdapter = new FileCodeAdapter(mViewModel.getDocInfo(),fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
-                @Override
-                public void OnClick(int position) {
-                    poFilexx = new ImageFileCreator(ClientInfo.this , "Credit Application Documents", "SCAN", fileCodeDetails.get(position).getFileCode(), plLoanApp.get(position).getTransNox());
-                    poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                        mCurrentPhotoPath = photPath;
-                        ScannerConstants.Usage =camUsage;
-                        ScannerConstants.Folder = "Credit Application Documents";
+        });
+        mViewModel.getFileCode().observe(ClientInfo.this, fileCodeDetails -> {
+            setAdapter(fileCodeDetails, mViewModel.getDocInfo());
 
-                        ScannerConstants.TransNox = plLoanApp.get(position).getTransNox() ;
-                        ScannerConstants.FileCode = fileCodeDetails.get(position).getFileCode();
-                        ScannerConstants.PhotoPath = photPath;
-                        ScannerConstants.EntryNox = position;
-                        ScannerConstants.FileName = FileName;
-                        ScannerConstants.Latt = latitude;
-                        ScannerConstants.Longi = longitude;
-                        startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
-                    });
-                }
-
-                @Override
-                public void OnActionButtonClick() {
-                    //TODO: Future update
-                }
-            });
-
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(loAdapter);
-            recyclerView.getRecycledViewPool().clear();
-            loAdapter.notifyDataSetChanged();
         });
     }
     @Override
@@ -147,32 +130,13 @@ public class ClientInfo extends AppCompatActivity {
         lblDateSentxx = findViewById(R.id.lbl_list_dateSent);
         lblSentStatus = findViewById(R.id.lbl_applicationSent);
     }
-    public void setData(int pos, List<LoanApplication> list){
-
-        Log.e("position", String.valueOf(pos));
-        Log.e("List", String.valueOf(list));
-        LoanApplication poLoan = list.get(pos);
-        lblGoCasNoxxx.setText("GOCas No. :"+poLoan.getGOCasNumber());
-        lblTransNoxxx.setText(poLoan.getTransNox());
-        lblClientName.setText(poLoan.getClientName());
-        lblAppltnDate.setText(poLoan.getDateTransact());
-        lblApplResult.setText(poLoan.getTransactionStatus());
-        try {
-            lblDateApprov.setText(poLoan.getDateApproved());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        lblGoCasNoxxx.setText(poLoan.getGOCasNumber());
-        lblClientName.setText(poLoan.getClientName());
-        lblTransNoxxx.setText(poLoan.getTransNox());
-        lblAppltnDate.setText(poLoan.getDateTransact());
-        lblApplResult.setText(poLoan.getTransactionStatus());
-        try {
-            lblDateApprov.setText(poLoan.getDateApproved());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+    public void setData(){
+        TransNox = getIntent().getStringExtra("TransNox");
+        lblGoCasNoxxx.setText(getIntent().getStringExtra("GoCasNoxx"));
+        lblTransNoxxx.setText(TransNox);
+        lblClientName.setText(getIntent().getStringExtra("ClientNm"));
+        lblAppltnDate.setText(getIntent().getStringExtra("DateApplied"));
+        lblApplResult.setText(getIntent().getStringExtra("Status"));
 //        lblSentStatus.setVisibility(poLoan.getSendStatus());
     }
     @Override
@@ -197,8 +161,7 @@ public class ClientInfo extends AppCompatActivity {
                     poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(infoModel.getDocFilePath()));
                     mViewModel.saveDocumentInfo(poDocumentsInfo);
                     mViewModel.saveImageInfo(poImageInfo);
-
-                    //submitLUn(Remarksx);
+                    loAdapter.notifyDataSetChanged();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -224,4 +187,36 @@ public class ClientInfo extends AppCompatActivity {
         return ScannerConstants.selectedImageBitmap != null;
     }
 
+    public void setAdapter(List<EFileCode> fileCodeDetails, List<DCreditApplicationDocuments.ApplicationDocument> docInfo){
+
+        loAdapter = new FileCodeAdapter(TransNox,docInfo,fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
+            @Override
+            public void OnClick(int position) {
+                poFilexx = new ImageFileCreator(ClientInfo.this , "Credit Application Documents", "SCAN", fileCodeDetails.get(position).getFileCode(), TransNox);
+                poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                    mCurrentPhotoPath = photPath;
+                    ScannerConstants.Usage =camUsage;
+                    ScannerConstants.Folder = "Credit Application Documents";
+                    ScannerConstants.FileCode = fileCodeDetails.get(position).getFileCode();
+                    ScannerConstants.PhotoPath = photPath;
+                    ScannerConstants.EntryNox = position;
+                    ScannerConstants.FileName = FileName;
+                    ScannerConstants.Latt = latitude;
+                    ScannerConstants.Longi = longitude;
+                    startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                });
+            }
+
+            @Override
+            public void OnActionButtonClick() {
+                //TODO: Future update
+            }
+        });
+
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(loAdapter);
+        recyclerView.getRecycledViewPool().clear();
+        loAdapter.notifyDataSetChanged();
+    }
 }
