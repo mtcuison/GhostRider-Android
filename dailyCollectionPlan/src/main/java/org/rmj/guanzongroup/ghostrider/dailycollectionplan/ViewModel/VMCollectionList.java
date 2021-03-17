@@ -164,28 +164,34 @@ public class VMCollectionList extends AndroidViewModel {
     // TODO: Import DCP List
     public void importDCPFile(String importFileName, ViewModelCallback callback) throws JSONException {
         JSONObject dcpImport = readDCPImportFileContent(importFileName);
-        extractDCPImportDetails(dcpImport, new ImportJSONCallback() {
-            @Override
-            public void OnDataExtract(List<EDCPCollectionDetail> collectionDetlList, EDCPCollectionMaster collectionMaster) {
-                if(importDCPMasterData(collectionMaster)) {
-                    boolean isCollectDetlInserted = importDCPListBulkData(collectionDetlList);
-                    if(isCollectDetlInserted) {
-                        callback.OnSuccessResult(new String[] {"Collection detail imported successfully."});
+        if(dcpImport == null) {
+            GToast.CreateMessage(getApplication(), "Please enter a valid file name.", GToast.WARNING).show();
+        } else {
+            extractDCPImportDetails(dcpImport, new ImportJSONCallback() {
+                @Override
+                public void OnDataExtract(List<EDCPCollectionDetail> collectionDetlList, EDCPCollectionMaster collectionMaster) {
+                    if (importDCPMasterData(collectionMaster)) {
+                        boolean isCollectDetlInserted = importDCPListBulkData(collectionDetlList);
+                        if (isCollectDetlInserted) {
+                            callback.OnSuccessResult(new String[]{"Collection detail imported successfully."});
+                        } else {
+                            callback.OnFailedResult("Collection Detail Import Failed: DETAIL");
+                        }
+                    } else {
+                        callback.OnFailedResult("Collection Detail Import Failed: MASTER");
                     }
-                    else {
-                        callback.OnFailedResult("Collection Detail Import Failed: DETAIL");
-                    }
-                } else {
-                    callback.OnFailedResult("Collection Detail Import Failed: MASTER");
                 }
-            }
-        });
+            });
+        }
     }
 
     private JSONObject readDCPImportFileContent(String fileName) throws JSONException {
         FileReader fr = null;
         String fileContents;
         File myExternalFile = new File(Environment.getExternalStorageDirectory(), fileName + "-out.txt");
+        if(!myExternalFile.exists()) {
+            return null;
+        }
         Log.e("DIRECTORY", myExternalFile.toString());
         StringBuilder sb = new StringBuilder();
         try {
