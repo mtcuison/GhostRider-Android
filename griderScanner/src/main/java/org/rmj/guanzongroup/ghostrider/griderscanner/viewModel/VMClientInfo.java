@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
@@ -31,7 +32,7 @@ public class VMClientInfo extends AndroidViewModel {
     private final RCreditApplicationDocument poDocument;
     private final RImageInfo poImage;
     private List<EImageInfo> imgInfo = new ArrayList<>();
-    private List<ECreditApplicationDocuments> documentInfo = new ArrayList<>();
+    private List<DCreditApplicationDocuments.ApplicationDocument> documentInfo = new ArrayList<>();
     public VMClientInfo(@NonNull Application application) {
         super(application);
         this.instance = application;
@@ -50,21 +51,19 @@ public class VMClientInfo extends AndroidViewModel {
     public LiveData<List<EImageInfo>>  getImgInfo(){
         return poImage.getAllImageInfo();
     }
-    public void setDocumentInfo(List<ECreditApplicationDocuments> docInfo) {
+    public void setDocumentInfo(List<DCreditApplicationDocuments.ApplicationDocument> docInfo) {
         this.documentInfo = docInfo;
     }
-    public List<ECreditApplicationDocuments> getDocInfo() {
+    public List<DCreditApplicationDocuments.ApplicationDocument> getDocInfo() {
         return this.documentInfo;
     }
-//    public LiveData<List<ECreditApplicationDocuments>> getDocumentInfo(){
-//        return poDocument.getDocumentInfo();
-//    }
-    public LiveData<List<ECreditApplicationDocuments>> getDocument(String TransNox){
+    public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocument(String TransNox){
         return poDocument.getDocument(TransNox);
     }
 
     public void saveDocumentInfo(ECreditApplicationDocuments documentsInfo){
         try{
+            documentsInfo.setDocTransNox(poDocument.getImageNextCode());
             poDocument.insertDocumentInfo(documentsInfo);
         } catch (Exception e){
             e.printStackTrace();

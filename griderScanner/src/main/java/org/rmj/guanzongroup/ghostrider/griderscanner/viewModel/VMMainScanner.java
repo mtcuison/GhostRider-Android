@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
@@ -15,6 +16,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
@@ -22,6 +24,7 @@ import org.rmj.g3appdriver.GRider.ImportData.ImportDataCallback;
 import org.rmj.g3appdriver.GRider.ImportData.Import_LoanApplications;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class VMMainScanner extends AndroidViewModel {
@@ -31,6 +34,8 @@ public class VMMainScanner extends AndroidViewModel {
     private final RCreditApplication poCreditApp;
     private final Import_LoanApplications poImport;
     private final REmployee poEmploye;
+    private final RCreditApplicationDocument poDocument;
+    private List<DCreditApplicationDocuments.ApplicationDocument> documentInfo = new ArrayList<>();
     public VMMainScanner(@NonNull Application application) {
         super(application);
         this.instance = application;
@@ -39,6 +44,7 @@ public class VMMainScanner extends AndroidViewModel {
         this.poCreditApp = new RCreditApplication(application);
         this.poImport = new Import_LoanApplications(application);
         poEmploye = new REmployee(application);
+        poDocument = new RCreditApplicationDocument(application);
     }
     public LiveData<List<EFileCode>> getFileCode(){
         return this.collectionList;
@@ -64,5 +70,13 @@ public class VMMainScanner extends AndroidViewModel {
     public LiveData<List<DCreditApplication.ApplicationLog>> getApplicationByBranch(String BranchID){
         return poCreditApp.getApplicationByBranch(BranchID);
     }
-
+    public void setDocumentInfo(List<DCreditApplicationDocuments.ApplicationDocument> docInfo) {
+        this.documentInfo = docInfo;
+    }
+    public List<DCreditApplicationDocuments.ApplicationDocument> getDocInfo() {
+        return this.documentInfo;
+    }
+    public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocument(String TransNox){
+        return poDocument.getDocument(TransNox);
+    }
 }

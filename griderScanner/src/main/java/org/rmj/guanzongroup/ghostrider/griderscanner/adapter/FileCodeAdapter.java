@@ -1,6 +1,8 @@
 package org.rmj.guanzongroup.ghostrider.griderscanner.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,16 +14,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.griderscanner.R;
+import org.rmj.guanzongroup.ghostrider.griderscanner.dialog.DialogImagePreview;
+import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
+import org.rmj.guanzongroup.ghostrider.griderscanner.model.CreditAppDocumentModel;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMClientInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.LongFunction;
 
 import static org.rmj.guanzongroup.ghostrider.griderscanner.R.*;
 import static org.rmj.guanzongroup.ghostrider.griderscanner.R.drawable.ic_baseline_add_24;
@@ -30,127 +39,106 @@ public class FileCodeAdapter extends RecyclerView.Adapter<FileCodeAdapter.FileCo
 
     public interface OnItemClickListener {
         void OnClick(int position);
-
         void OnActionButtonClick();
     }
 
     private final List<EFileCode> plCollection;
-    private List<EFileCode> collctFilter;
-    private List<ECreditApplicationDocuments> documentsInfo;
+    private List<DCreditApplicationDocuments.ApplicationDocument> documentsInfo;
     private List<EImageInfo> imgInfo;
-    private final CollectionSearch poSearch;
     private final OnItemClickListener mListener;
-    private boolean isChecked;
+    private MessageBox poMessage;
+    private String TransNox;
+    DialogImagePreview dialogPreview;
     private int pos;
-    public FileCodeAdapter(List<ECreditApplicationDocuments> docInfo,List<EFileCode> plCollection, OnItemClickListener mListener) {
+    public FileCodeAdapter(String tansNox,List<DCreditApplicationDocuments.ApplicationDocument> documentsInfo,List<EFileCode> plCollection, OnItemClickListener mListener) {
         this.plCollection = plCollection;
-        this.collctFilter = plCollection;
-        this.documentsInfo = docInfo;
+        this.documentsInfo = documentsInfo;
+        this.TransNox = tansNox;
         this.mListener = mListener;
-        this.poSearch = new CollectionSearch(this);
+    }
+    public FileCodeAdapter(List<EFileCode> plCollection, OnItemClickListener mListener) {
+        this.plCollection = plCollection;
+        this.mListener = mListener;
     }
 
     @NonNull
     @Override
     public FileCodeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(layout.list_item_file_to_scan, parent, false);
-
-        return new FileCodeViewHolder(v, mListener,isChecked);
+        poMessage = new MessageBox(parent.getContext());
+        dialogPreview = new DialogImagePreview(parent.getContext());
+        return new FileCodeViewHolder(parent.getContext(),v, mListener);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull FileCodeViewHolder holder, int position) {
-        EFileCode collection = collctFilter.get(position);
 
         try {
+            EFileCode collection = plCollection.get(position);
             holder.loPlan = collection;
             holder.lbl_fileCode.setText(collection.getBriefDsc());
-            if(documentsInfo.get(position).getEntryNox() == position){
-               holder.fileStat.setVisibility(View.GONE);
-                holder.fileStatDone.setVisibility(View.VISIBLE);
-                isChecked = true;
-            }else{
-                holder.fileStat.setVisibility(View.VISIBLE);
-                holder.fileStatDone.setVisibility(View.GONE);
-                isChecked = false;
+            Log.e("collectionEntry", String.valueOf(collection.getEntryNox()));
+            Log.e("collectionFile Code", collection.getFileCode());
+            if (documentsInfo.size()> 0){
+                for (int i = 0; i < documentsInfo.size(); i++){
+                    Log.e("doc file code", documentsInfo.get(i).sFileCode);
+                    Log.e("doc file Entry", String.valueOf(documentsInfo.get(i).nEntryNox));
+                    if (collection.getFileCode().equalsIgnoreCase(documentsInfo.get(i).sFileCode) &&
+                            collection.getEntryNox() == documentsInfo.get(i).nEntryNox ){
+                        holder.fileStatDone.setVisibility(View.VISIBLE);
+                        holder.fileStat.setVisibility(View.GONE);
+                    }else{
+                        holder.fileStatDone.setVisibility(View.GONE);
+                        holder.fileStat.setVisibility(View.VISIBLE);
+                    }
+                }
             }
 
 
 
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
     public int getItemCount() {
-        return collctFilter.size();
+        return plCollection.size();
     }
 
-    public CollectionSearch getCollectionSearch() {
-        return poSearch;
-    }
 
     public static class FileCodeViewHolder extends RecyclerView.ViewHolder {
 
         public EFileCode loPlan;
         public TextView lbl_fileCode;
+        public TextView lbl_fileLoc;
         //        public TextView lblDCPNox;
-        public ImageView fileStat;
+        public static ImageView fileStat;
         public ImageView fileStatDone;
-
-        public FileCodeViewHolder(@NonNull View itemView, OnItemClickListener listener, boolean checked) {
+        public String fileLoc;
+        private List<DCreditApplicationDocuments.ApplicationDocument> documentsInfo;
+        public FileCodeViewHolder(Context mContext, @NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
+            this.documentsInfo = documentsInfo;
             lbl_fileCode = itemView.findViewById(id.lbl_fileCode);
+            lbl_fileLoc = itemView.findViewById(id.lbl_fileLoc);
             fileStat = itemView.findViewById(id.tick_cross);
             fileStatDone = itemView.findViewById(id.tick_done);
-            if (checked){
-                itemView.setOnClickListener(view -> {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.OnClick(position);
-                    }
-                });
-            }
-        }
-    }
 
-    public class CollectionSearch extends Filter {
-
-        private final FileCodeAdapter poAdapter;
-
-        public CollectionSearch(FileCodeAdapter poAdapter) {
-            super();
-            this.poAdapter = poAdapter;
-        }
-
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-            final FilterResults results = new FilterResults();
-            if (charSequence.length() == 0) {
-                collctFilter.addAll(plCollection);
-            } else {
-                List<EFileCode> filterSearch = new ArrayList<>();
-                for (EFileCode plan : plCollection) {
-                    String lsClientNme = plan.getBriefDsc().toLowerCase();
-                    if (lsClientNme.contains(charSequence.toString().toLowerCase())) {
-                        filterSearch.add(plan);
-                    }
+            itemView.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.OnClick(position);
                 }
-                collctFilter = filterSearch;
-            }
 
-            results.values = collctFilter;
-            results.count = collctFilter.size();
-            return results;
-        }
+            });
 
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            poAdapter.collctFilter = (List<EFileCode>) filterResults.values;
-            this.poAdapter.notifyDataSetChanged();
         }
     }
+
 
 }

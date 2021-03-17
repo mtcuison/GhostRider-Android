@@ -18,6 +18,8 @@ public class EFileCode {
     private String BriefDsc;
     @ColumnInfo(name = "cRecdStat")
     private String RecdStat;
+    @ColumnInfo(name = "nEntryNox")
+    private int EntryNox;
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
 
@@ -64,5 +66,13 @@ public class EFileCode {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
+    }
+
+    public int getEntryNox() {
+        return EntryNox;
+    }
+
+    public void setEntryNox(int entryNox) {
+        EntryNox = entryNox;
     }
 }
