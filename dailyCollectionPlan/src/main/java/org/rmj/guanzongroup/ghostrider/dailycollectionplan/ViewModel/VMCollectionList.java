@@ -164,9 +164,7 @@ public class VMCollectionList extends AndroidViewModel {
     // TODO: Import DCP List
     public void importDCPFile(String importFileName, ViewModelCallback callback) throws JSONException {
         JSONObject dcpImport = readDCPImportFileContent(importFileName);
-        if(dcpImport == null) {
-            GToast.CreateMessage(getApplication(), "Please enter a valid file name.", GToast.WARNING).show();
-        } else {
+        if(dcpImport != null)  {
             extractDCPImportDetails(dcpImport, new ImportJSONCallback() {
                 @Override
                 public void OnDataExtract(List<EDCPCollectionDetail> collectionDetlList, EDCPCollectionMaster collectionMaster) {
@@ -190,6 +188,7 @@ public class VMCollectionList extends AndroidViewModel {
         String fileContents;
         File myExternalFile = new File(Environment.getExternalStorageDirectory(), fileName + "-out.txt");
         if(!myExternalFile.exists()) {
+            GToast.CreateMessage(getApplication(), "Please enter a valid file name.", GToast.WARNING).show();
             return null;
         }
         Log.e("DIRECTORY", myExternalFile.toString());
@@ -198,9 +197,14 @@ public class VMCollectionList extends AndroidViewModel {
             fr = new FileReader(myExternalFile);
             BufferedReader br = new BufferedReader(fr);
             String line = br.readLine();
-            while(line != null) {
-                sb.append(line).append('\n');
-                line = br.readLine();
+            if(line != null) {
+                while(line != null) {
+                    sb.append(line).append('\n');
+                    line = br.readLine();
+                }
+            } else {
+                GToast.CreateMessage(getApplication(), "File does not contain data.", GToast.ERROR).show();
+                return null;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -218,53 +222,59 @@ public class VMCollectionList extends AndroidViewModel {
 
     private void extractDCPImportDetails(JSONObject dcpImport, ImportJSONCallback callback) {
         try {
-            JSONObject loJSON_Master= dcpImport.getJSONObject("master");
-            EDCPCollectionMaster loMaster = new EDCPCollectionMaster();
 
-            loMaster.setTransact(loJSON_Master.getString("dTransact"));
-            loMaster.setBranchNm(loJSON_Master.getString("sBranchNm"));
-            loMaster.setTransNox(loJSON_Master.getString("sTransNox"));
-            loMaster.setDCPTypex(loJSON_Master.getString("cDCPTypex").charAt(0));
-            loMaster.setEntryNox(loJSON_Master.getString("nEntryNox"));
-            loMaster.setCollName(loJSON_Master.getString("xCollName"));
-            loMaster.setCollctID(loJSON_Master.getString("sCollctID"));
-            loMaster.setTranStat(loJSON_Master.getString("cTranStat").charAt(0));
-            loMaster.setRouteNme(loJSON_Master.getString("sRouteNme"));
-            loMaster.setReferDte(loJSON_Master.getString("dReferDte"));
-            loMaster.setReferNox(loJSON_Master.getString("sReferNox"));
+            if (dcpImport.has("master")  && dcpImport.has("detail")) {
+
+                JSONObject loJSON_Master = dcpImport.getJSONObject("master");
+                EDCPCollectionMaster loMaster = new EDCPCollectionMaster();
+
+                loMaster.setTransact(loJSON_Master.getString("dTransact"));
+                loMaster.setBranchNm(loJSON_Master.getString("sBranchNm"));
+                loMaster.setTransNox(loJSON_Master.getString("sTransNox"));
+                loMaster.setDCPTypex(loJSON_Master.getString("cDCPTypex").charAt(0));
+                loMaster.setEntryNox(loJSON_Master.getString("nEntryNox"));
+                loMaster.setCollName(loJSON_Master.getString("xCollName"));
+                loMaster.setCollctID(loJSON_Master.getString("sCollctID"));
+                loMaster.setTranStat(loJSON_Master.getString("cTranStat").charAt(0));
+                loMaster.setRouteNme(loJSON_Master.getString("sRouteNme"));
+                loMaster.setReferDte(loJSON_Master.getString("dReferDte"));
+                loMaster.setReferNox(loJSON_Master.getString("sReferNox"));
 
 
-            JSONArray loJArray_detail = dcpImport.getJSONArray("detail");
-            List<EDCPCollectionDetail> loCollectDetlList = new ArrayList<>(); // This is return
-            for(int x = 0; x < loJArray_detail.length(); x++) {
-                EDCPCollectionDetail loDetail = new EDCPCollectionDetail();
-                JSONObject loJson = loJArray_detail.getJSONObject(x);
+                JSONArray loJArray_detail = dcpImport.getJSONArray("detail");
+                List<EDCPCollectionDetail> loCollectDetlList = new ArrayList<>(); // This is return
+                for (int x = 0; x < loJArray_detail.length(); x++) {
+                    EDCPCollectionDetail loDetail = new EDCPCollectionDetail();
+                    JSONObject loJson = loJArray_detail.getJSONObject(x);
 
-                loDetail.setTransNox(loJSON_Master.getString("sTransNox"));
-                loDetail.setApntUnit(loJson.getString("cApntUnit"));
-                loDetail.setLongitud(loJson.getString("nLongitud"));
-                loDetail.setAddressx(loJson.getString("sAddressx"));
-                loDetail.setBrgyName(loJson.getString("sBrgyName"));
-                loDetail.setEntryNox(Integer.parseInt(loJson.getString("nEntryNox")));
-                loDetail.setClientID(loJson.getString("sClientID"));
-                loDetail.setTownName(loJson.getString("sTownName"));
-                loDetail.setIsDCPxxx(loJson.getString("cIsDCPxxx"));
-                loDetail.setSerialID(loJson.getString("sSerialID"));
-                loDetail.setFullName(loJson.getString("xFullName"));
-                loDetail.setDueDatex(loJson.getString("dDueDatex"));
-                loDetail.setLatitude(loJson.getString("nLatitude"));
-                loDetail.setMobileNo(loJson.getString("sMobileNo"));
-                loDetail.setAmtDuexx(loJson.getString("nAmtDuexx"));
-                loDetail.setHouseNox(loJson.getString("sHouseNox"));
-                loDetail.setSerialNo(loJson.getString("sSerialNo"));
-                loDetail.setAcctNmbr(loJson.getString("sAcctNmbr"));
-                loDetail.setSendStat("0");
-                loDetail.setTranStat("0") ;
+                    loDetail.setTransNox(loJSON_Master.getString("sTransNox"));
+                    loDetail.setApntUnit(loJson.getString("cApntUnit"));
+                    loDetail.setLongitud(loJson.getString("nLongitud"));
+                    loDetail.setAddressx(loJson.getString("sAddressx"));
+                    loDetail.setBrgyName(loJson.getString("sBrgyName"));
+                    loDetail.setEntryNox(Integer.parseInt(loJson.getString("nEntryNox")));
+                    loDetail.setClientID(loJson.getString("sClientID"));
+                    loDetail.setTownName(loJson.getString("sTownName"));
+                    loDetail.setIsDCPxxx(loJson.getString("cIsDCPxxx"));
+                    loDetail.setSerialID(loJson.getString("sSerialID"));
+                    loDetail.setFullName(loJson.getString("xFullName"));
+                    loDetail.setDueDatex(loJson.getString("dDueDatex"));
+                    loDetail.setLatitude(loJson.getString("nLatitude"));
+                    loDetail.setMobileNo(loJson.getString("sMobileNo"));
+                    loDetail.setAmtDuexx(loJson.getString("nAmtDuexx"));
+                    loDetail.setHouseNox(loJson.getString("sHouseNox"));
+                    loDetail.setSerialNo(loJson.getString("sSerialNo"));
+                    loDetail.setAcctNmbr(loJson.getString("sAcctNmbr"));
+                    loDetail.setSendStat("0");
+                    loDetail.setTranStat("0");
 
-                loCollectDetlList.add(loDetail);
+                    loCollectDetlList.add(loDetail);
+                }
+
+                callback.OnDataExtract(loCollectDetlList, loMaster);
+            } else {
+                GToast.CreateMessage(getApplication(),"File contains invalid data format.", GToast.ERROR).show();
             }
-
-            callback.OnDataExtract(loCollectDetlList, loMaster);
         } catch (Exception e) {
             e.printStackTrace();
         }
