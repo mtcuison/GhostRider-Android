@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.TransparentToolbar;
+import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
