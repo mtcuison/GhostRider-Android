@@ -19,6 +19,8 @@ public class ECreditApplicationDocuments {
     private int EntryNox;
     @ColumnInfo(name = "sImageNme")
     private String ImageNme;
+    @ColumnInfo(name = "sFileLoc")
+    private String FileLoc;
     public ECreditApplicationDocuments() {
     }
 
@@ -61,5 +63,12 @@ public class ECreditApplicationDocuments {
     }
     public void setImageNme(String imageNme) {
         ImageNme = imageNme;
+    }
+
+    public String getFileLoc() {
+        return FileLoc;
+    }
+    public void setFileLoc(String fileLoc) {
+        FileLoc = fileLoc;
     }
 }
