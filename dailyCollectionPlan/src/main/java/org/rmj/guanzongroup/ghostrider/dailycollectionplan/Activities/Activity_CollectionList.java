@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -610,7 +611,12 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         try {
             fileContent = expCollectDetl.toString();
             if(!fileContent.equalsIgnoreCase("")) {
-                File myExternalFile = new File(getExternalFilesDir(FOLDER_NAME), FILENAME+FILE_TYPE);
+                String root = Environment.getExternalStorageDirectory().toString();
+                File sd = new File(root + "/" + FOLDER_NAME + "/");
+                if (!sd.exists()) {
+                    sd.mkdirs();
+                }
+                File myExternalFile = new File(sd, FILENAME+FILE_TYPE);
                 Log.e("Export Directory", myExternalFile.toString());
                 if(myExternalFile.exists()) {
                     boolean res = myExternalFile.delete();
