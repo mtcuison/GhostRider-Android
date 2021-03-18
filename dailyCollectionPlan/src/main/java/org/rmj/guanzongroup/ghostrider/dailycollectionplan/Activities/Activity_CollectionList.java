@@ -32,6 +32,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
@@ -78,7 +79,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
     private String FILENAME;
     private final String FILE_TYPE = "-mob.txt";
-    private static final String FOLDER_NAME = "DCP_Exports";
     private String fileContent= "";
 
     private List<DDCPCollectionDetail.CollectionDetail> plDetail;
@@ -612,7 +612,9 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             fileContent = expCollectDetl.toString();
             if(!fileContent.equalsIgnoreCase("")) {
                 String root = Environment.getExternalStorageDirectory().toString();
-                File sd = new File(root + "/" + FOLDER_NAME + "/");
+                String lsPublicFoldx = AppConstants.APP_PUBLIC_FOLDER;
+                String lsSubFoldx = AppConstants.SUB_FOLDER_EXPORTS;
+                File sd = new File(root + lsPublicFoldx + lsSubFoldx + "/");
                 if (!sd.exists()) {
                     sd.mkdirs();
                 }
