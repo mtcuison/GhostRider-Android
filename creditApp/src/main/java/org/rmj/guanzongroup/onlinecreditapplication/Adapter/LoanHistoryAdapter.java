@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,24 +20,32 @@ public class LoanHistoryAdapter extends RecyclerView.Adapter<LoanHistoryAdapter.
 
     private List<LoanApplication> plLoanApp;
     private List<LoanApplication> plSchList;
-    private OnVoidApplicationListener onVoidApplicationListener;
-    private OnExportGOCASListener onExportGOCASListener;
-    private OnApplicationClickListener onApplicationClickListener;
+    private final LoanApplicantListActionListener mListener;
 
-    public LoanHistoryAdapter(List<LoanApplication> plLoanApp) {
+    public LoanHistoryAdapter(List<LoanApplication> plLoanApp, LoanApplicantListActionListener listener) {
         this.plLoanApp = plLoanApp;
+        this.mListener = listener;
+    }
+
+    public interface LoanApplicantListActionListener{
+        void OnExport(String TransNox);
+        void OnUpdate(String TransNox);
+        void OnDelete(String TransNox);
+        void OnPreview(String TransNox);
     }
 
     @NonNull
     @Override
     public LoanViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_applications, parent, false);
-        return new LoanViewHolder(view);
+        return new LoanViewHolder(view, mListener);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull LoanViewHolder holder, int position) {
         LoanApplication poLoan = plLoanApp.get(position);
+        holder.poLoan = poLoan;
         holder.lblGoCasNoxxx.setText("GOCas No. :"+poLoan.getGOCasNumber());
         holder.lblTransNoxxx.setText(poLoan.getTransNox());
         holder.lblClientName.setText(poLoan.getClientName());
@@ -59,8 +68,9 @@ public class LoanHistoryAdapter extends RecyclerView.Adapter<LoanHistoryAdapter.
         return plLoanApp.size();
     }
 
-    public class LoanViewHolder extends RecyclerView.ViewHolder{
+    public static class LoanViewHolder extends RecyclerView.ViewHolder{
 
+        LoanApplication poLoan;
         TextView lblGoCasNoxxx;
         TextView lblTransNoxxx;
         TextView lblClientName;
@@ -73,7 +83,7 @@ public class LoanHistoryAdapter extends RecyclerView.Adapter<LoanHistoryAdapter.
         MaterialButton btnExpt;
         MaterialButton btnUpdt;
 
-        public LoanViewHolder(@NonNull View itemView) {
+        public LoanViewHolder(@NonNull View itemView, LoanApplicantListActionListener listener) {
             super(itemView);
 
             lblGoCasNoxxx = itemView.findViewById(R.id.lbl_listLog_GoCasNo);
@@ -88,48 +98,33 @@ public class LoanHistoryAdapter extends RecyclerView.Adapter<LoanHistoryAdapter.
             btnUpdt = itemView.findViewById(R.id.btn_applicationUpdate);
             btnExpt = itemView.findViewById(R.id.btn_applicationExport);
 
-            /*btnVoid.setOnClickListener(v1 -> {
-                if(onVoidApplicationListener!=null){
-                    int lnPos = getAdapterPosition();
-                    if(lnPos != RecyclerView.NO_POSITION){
-                        onVoidApplicationListener.OnVoid(lnPos, applicantSearchFilter.get(lnPos).getsTransNox());
-                    }
+            btnVoid.setOnClickListener(v1 -> {
+                int lnPos = getAdapterPosition();
+                if(lnPos != RecyclerView.NO_POSITION){
+                    listener.OnDelete(poLoan.getTransNox());
                 }
-            });*/
+            });
 
-            /*btnExpt.setOnClickListener(v12 -> {
-                if(onExportGOCASListener!=null){
-                    int lnPos = getAdapterPosition();
-                    if(lnPos != RecyclerView.NO_POSITION){
-                        onExportGOCASListener.onExport(applicantSearchFilter.get(lnPos).getDetlInfox(),
-                                applicantSearchFilter.get(lnPos).getsTransNox(),
-                                applicantSearchFilter.get(lnPos).getGoCasNoxx());
-                    }
+            btnUpdt.setOnClickListener(v -> {
+                int lnPos = getAdapterPosition();
+                if(lnPos != RecyclerView.NO_POSITION){
+                    listener.OnUpdate(poLoan.getTransNox());
                 }
-            });*/
+            });
+
+            btnExpt.setOnClickListener(v12 -> {
+                int lnPos = getAdapterPosition();
+                if(lnPos != RecyclerView.NO_POSITION){
+                    listener.OnExport(poLoan.getTransNox());
+                }
+            });
 
             itemView.setOnClickListener(v12 -> {
-                if(onApplicationClickListener!=null){
-                    int lnPos = getAdapterPosition();
-                    if(lnPos != RecyclerView.NO_POSITION){
-                        onApplicationClickListener.OnClick(lnPos, plLoanApp.get(lnPos).getTransNox());
-                    }
+                int lnPos = getAdapterPosition();
+                if(lnPos != RecyclerView.NO_POSITION){
+                    listener.OnPreview(poLoan.getTransNox());
                 }
             });
         }
     }
-
-
-    public interface OnVoidApplicationListener{
-        void OnVoid(int position, String TransNox);
-    }
-
-    public interface OnApplicationClickListener{
-        void OnClick(int position, String TransNox);
-    }
-
-    public interface OnExportGOCASListener{
-        void onExport(String GOCAS, String ClientName,String DateApplied);
-    }
-
 }

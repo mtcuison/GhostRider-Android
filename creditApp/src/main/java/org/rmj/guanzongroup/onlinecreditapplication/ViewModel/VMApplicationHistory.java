@@ -42,4 +42,16 @@ public class VMApplicationHistory extends AndroidViewModel {
     public LiveData<List<DCreditApplication.ApplicationLog>> getApplicationHistory(){
         return poCreditApp.getApplicationHistory();
     }
+
+    public void ExportGOCasInfo(String TransNox){
+
+    }
+
+    public void DeleteGOCasInfo(String TransNox){
+
+    }
+
+    public void UpdateGOCasInfo(String TransNox){
+
+    }
 }

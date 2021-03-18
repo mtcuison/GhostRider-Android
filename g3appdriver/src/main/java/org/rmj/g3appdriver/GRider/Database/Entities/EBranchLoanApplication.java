@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "Credit_Online_Application_List")
-public class ECreditAppDocs {
+public class EBranchLoanApplication {
 
     @PrimaryKey
     @NonNull
@@ -37,7 +37,7 @@ public class ECreditAppDocs {
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
 
-    public ECreditAppDocs() {
+    public EBranchLoanApplication() {
     }
 
     @NonNull

@@ -27,7 +27,6 @@ public class ImportBranch implements ImportInstance{
     private final Application instance;
     private final AppConfigPreference poConfig;
     private final RBranch repository;
-    private String lsTimeStmp = "";
 
     public ImportBranch(Application application){
         this.instance = application;
@@ -45,7 +44,7 @@ public class ImportBranch implements ImportInstance{
             } else {
                 loJson.put("bsearch", true);
                 loJson.put("descript", "All");
-                lsTimeStmp = repository.getLatestDataTime();
+                String lsTimeStmp = repository.getLatestDataTime();
                 loJson.put("dTimeStmp", lsTimeStmp);
             }
             new ImportBranchTask(callback, instance).execute(loJson);
