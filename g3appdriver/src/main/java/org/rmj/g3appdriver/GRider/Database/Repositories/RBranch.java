@@ -42,7 +42,7 @@ public class RBranch {
         return branchInfoDao.getLatestDataTime();
     }
 
-    public boolean insertBranchInfos(JSONArray faJson) throws Exception{
+    public boolean insertBranchInfos(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
         boolean result = true;
         if (loConn == null){

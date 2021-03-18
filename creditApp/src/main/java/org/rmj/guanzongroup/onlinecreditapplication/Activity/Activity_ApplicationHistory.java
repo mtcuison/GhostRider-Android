@@ -2,8 +2,6 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +19,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMApplicationHisto
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Activity_ApplicationHistory extends AppCompatActivity implements ViewModelCallBack {
     private static final String TAG = Activity_ApplicationHistory.class.getSimpleName();
@@ -28,7 +27,6 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
     private VMApplicationHistory mViewModel;
 
     private Toolbar toolbar;
-    private LinearLayout loading;
     private RecyclerView recyclerView;
 
     private List<LoanApplication> loanList;
@@ -43,7 +41,6 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
         mViewModel.LoadApplications(Activity_ApplicationHistory.this);
         mViewModel.getApplicationHistory().observe(Activity_ApplicationHistory.this, applicationLogs -> {
             if(applicationLogs.size()>0) {
-                loading.setVisibility(View.GONE);
                 loanList = new ArrayList<>();
                 for (int x = 0; x < applicationLogs.size(); x++) {
                     LoanApplication loan = new LoanApplication();
@@ -60,7 +57,27 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                     loan.setDateApproved(applicationLogs.get(x).dVerified);
                     loanList.add(loan);
                 }
-                adapter = new LoanHistoryAdapter(loanList);
+                adapter = new LoanHistoryAdapter(loanList, new LoanHistoryAdapter.LoanApplicantListActionListener() {
+                    @Override
+                    public void OnExport(String TransNox) {
+                        mViewModel.ExportGOCasInfo(TransNox);
+                    }
+
+                    @Override
+                    public void OnUpdate(String TransNox) {
+                        mViewModel.UpdateGOCasInfo(TransNox);
+                    }
+
+                    @Override
+                    public void OnDelete(String TransNox) {
+                        mViewModel.DeleteGOCasInfo(TransNox);
+                    }
+
+                    @Override
+                    public void OnPreview(String TransNox) {
+                        //Intent loIntent = new Intent(Activity_ApplicationHistory.class);
+                    }
+                });
                 LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_ApplicationHistory.this);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(layoutManager);
@@ -71,8 +88,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
     private void initWidgets(){
         toolbar = findViewById(R.id.toolbar_applicationHistory);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        loading = findViewById(R.id.linear_progress);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         recyclerView = findViewById(R.id.rectangles_applicationHistory);
     }
 

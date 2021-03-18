@@ -15,11 +15,11 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAreaPerformance;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBankInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchInfo;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCountryInfo;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditAppDocs;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
@@ -51,7 +51,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECodeApproval;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditAppDocs;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
@@ -114,7 +114,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
         EClientUpdate.class,
         EBankInfo.class,
         ELog_Selfie.class,
-        ECreditAppDocs.class}, version = 1, exportSchema = false)
+        EBranchLoanApplication.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static AppDatabase instance;
@@ -150,7 +150,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DClientUpdate ClientUpdateDao();
     public abstract DBankInfo BankInfoDao();
     public abstract DLog_Selfie SelfieDao();
-    public abstract DCreditAppDocs CreditAppDocsDao();
+    public abstract DBranchLoanApplication CreditAppDocsDao();
 
 
     public static synchronized AppDatabase getInstance(Context context){
