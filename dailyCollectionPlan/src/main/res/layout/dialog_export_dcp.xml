@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Post Collection List"
+            android:text="Export Collection List"
             android:textSize="20sp"
             android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_bold"
@@ -36,9 +36,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="There are remaining untag collection on collection list. Please enter remarks to post all collection detail."
+            android:text="There are remaining untag collection on collection list. Please enter remarks to export all collection."
             android:textSize="16sp"
             android:padding="10dp"
+            android:gravity="center_horizontal"
             android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"
             android:layout_marginTop="15dp"/>

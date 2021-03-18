@@ -54,17 +54,20 @@ public class DialogImagePreview {
         TextView dTitle = view.findViewById(R.id.dialogTitle);
         dTitle.setText(dialogTitle);
         MaterialButton btnCancel = view.findViewById(R.id.btnPreviewOkay);
-        Log.e("File Path", FilePath);
-
-        if (FilePath != null){
-            imgPreview.setVisibility(View.VISIBLE);
-            try {
-                imgPreview.setImageBitmap(MediaStore.Images.Media.getBitmap(
-                        contentResolver, Uri.fromFile(new File(FilePath))));
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            if (FilePath != null){
+                imgPreview.setVisibility(View.VISIBLE);
+                try {
+                    imgPreview.setImageBitmap(MediaStore.Images.Media.getBitmap(
+                            contentResolver, Uri.fromFile(new File(FilePath))));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+        }catch (NullPointerException e){
+
         }
+
 
         btnCancel.setOnClickListener(view1 -> listener.OnCancel(poDialogx));
     }

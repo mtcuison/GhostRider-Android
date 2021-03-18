@@ -29,6 +29,7 @@ public class VMClientInfo extends AndroidViewModel {
     private final Application instance;
     private final RFileCode peFileCode;
     private final LiveData<List<EFileCode>> fileCodeList;
+    private List<EFileCode> poFileCode =  new ArrayList<>();
     private final RCreditApplicationDocument poDocument;
     private final RImageInfo poImage;
     private List<EImageInfo> imgInfo = new ArrayList<>();
@@ -44,12 +45,11 @@ public class VMClientInfo extends AndroidViewModel {
     public LiveData<List<EFileCode>> getFileCode(){
         return this.fileCodeList;
     }
-    public void setImgInfo(List<EImageInfo> imgInfo) {
-        this.imgInfo = imgInfo;
+    public void setPoFileCode(List<EFileCode> eFileCodes){
+        this.poFileCode = eFileCodes;
     }
-
-    public LiveData<List<EImageInfo>>  getImgInfo(){
-        return poImage.getAllImageInfo();
+    public List<EFileCode> getPoFileCode(){
+        return this.poFileCode;
     }
     public void setDocumentInfo(List<DCreditApplicationDocuments.ApplicationDocument> docInfo) {
         this.documentInfo = docInfo;
@@ -58,7 +58,8 @@ public class VMClientInfo extends AndroidViewModel {
         return this.documentInfo;
     }
     public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocument(String TransNox){
-        return poDocument.getDocument(TransNox);
+        this.documentInfo = poDocument.getDocument(TransNox).getValue();
+        return this.poDocument.getDocument(TransNox);
     }
 
     public void saveDocumentInfo(ECreditApplicationDocuments documentsInfo){
