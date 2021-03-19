@@ -4,6 +4,8 @@ import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
@@ -15,16 +17,21 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 
 import java.sql.ResultSet;
 import java.util.Date;
+import java.util.List;
 
 public class RBranchLoanApplication {
     private static final String TAG = RBranchLoanApplication.class.getSimpleName();
-    private final DBranchLoanApplication docsDao;
+    private final DBranchLoanApplication poLoan;
 
     private final Application application;
 
     public RBranchLoanApplication(Application application){
         this.application = application;
-        this.docsDao = AppDatabase.getInstance(application).CreditAppDocsDao();
+        this.poLoan = AppDatabase.getInstance(application).CreditAppDocsDao();
+    }
+
+    public LiveData<List<EBranchLoanApplication>> getBranchLoanApplications(){
+        return poLoan.getBranchLoanApplications();
     }
 
     public boolean insertApplicationInfos(JSONArray faJson) throws Exception {

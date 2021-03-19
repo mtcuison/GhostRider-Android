@@ -41,7 +41,7 @@ import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CAMERA_REQUEST;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CONTACT_REQUEST;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LOCATION_REQUEST;
 
-public class Settings extends AppCompatActivity {
+public class Activity_Settings extends AppCompatActivity {
     Fragment_Settings fragment_settings;
 
     private VMSettings mViewModel;

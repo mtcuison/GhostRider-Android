@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
@@ -18,6 +19,7 @@ public class GNotifBuilder {
 
     public static int SELFIE_LOG = 132;
     public static int DCP_DATA = 133;
+    public static int SYNC_PROGRESS = 235;
 
     public static int APP_DATA_DOWNLOAD = 413;
     public static int APP_SYNC_DATA = 314;
@@ -26,6 +28,9 @@ public class GNotifBuilder {
     public static int SENDING_SELFIELOG = 241;
     public static int SENDING_DCP_DATA = 412;
     public static int SENDING_DCP_IMAGES = 421;
+
+    public static String JOB_SERVICE = "GRider System Service";
+    public static String BROADCAST_RECEIVER = "Internet Sync Service";
 
     private static final String CHANNEL_DESC = "DRider Background Sending Data";
     private static final String CHANNEL_NAME = "GRider NTF_Channel";

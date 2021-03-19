@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:cardBackgroundColor="#F5F5F5"
+    app:cardCornerRadius="10dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardElevation="5dp"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/lbl_listLog_GoCasNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:text="GoCas No. : 437Z19000052"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_Black"
+                android:gravity="start"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_medium"
+                tools:targetApi="jelly_bean"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:padding="3dp"
+            android:background="@color/textColor_Black"/>
+
+        <TextView
+            android:id="@+id/lbl_listLog_applicantName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Garcia, Michael Permison"
+            android:textSize="16sp"
+            android:textColor="@color/textColor_Black"
+            tools:ignore="HardcodedText"
+            android:fontFamily="@font/roboto_medium"
+            tools:targetApi="jelly_bean"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".6"
+                android:text="Transaction No. :"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_Black"
+                android:gravity="start"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_regular"
+                tools:targetApi="jelly_bean"/>
+
+            <TextView
+                android:id="@+id/lbl_listLog_applicationTransNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="#437Z19000052"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_Black"
+                android:gravity="end"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_regular"
+                tools:targetApi="jelly_bean"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="Date Applied :"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_Black"
+                android:gravity="start"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_regular"
+                tools:targetApi="jelly_bean"/>
+
+            <TextView
+                android:id="@+id/lbl_listLog_applicationDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="December 12, 2019"
+                android:textColor="@color/textColor_Black"
+                android:gravity="end"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_regular"
+                tools:targetApi="jelly_bean"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="Date Sent :"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_Black"
+                android:gravity="start"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_regular"
+                tools:targetApi="jelly_bean"/>
+
+            <TextView
+                android:id="@+id/lbl_listLog_dateSent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="December 12, 2019"
+                android:textColor="@color/textColor_Black"
+                android:gravity="end"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_regular"
+                tools:targetApi="jelly_bean"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="Status :"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_Black"
+                android:gravity="start"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_regular"
+                tools:targetApi="jelly_bean"/>
+
+            <TextView
+                android:id="@+id/lbl_listLog_applicationWithCI"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Approve with CI"
+                android:textColor="@color/textColor_Black"
+                android:gravity="end"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_regular"
+                tools:targetApi="jelly_bean"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="Date Approved :"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_Black"
+                android:gravity="start"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_regular"
+                tools:targetApi="jelly_bean"/>
+
+            <TextView
+                android:id="@+id/lbl_listLog_approvedDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="December 12, 2019"
+                android:textColor="@color/textColor_Black"
+                android:gravity="end"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_regular"
+                tools:targetApi="jelly_bean"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:padding="3dp"
+            android:background="@color/textColor_Black"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

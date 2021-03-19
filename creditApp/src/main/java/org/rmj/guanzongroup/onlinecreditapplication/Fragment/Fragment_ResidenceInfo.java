@@ -276,6 +276,7 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
     public void onFailedResult(String message) {
         GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
     }
+
     class OnItemClickListener implements AdapterView.OnItemClickListener {
         AutoCompleteTextView poView;
         public OnItemClickListener(AutoCompleteTextView view) {

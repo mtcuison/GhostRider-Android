@@ -58,6 +58,10 @@ public class VMSelfieLogin extends AndroidViewModel {
         return poLog.getCurrentLogTimeIfExist(AppConstants.CURRENT_DATE);
     }
 
+    public LiveData<List<ELog_Selfie>> getAllEmployeeTimeLog(){
+        return poLog.getAllEmployeeTimeLog();
+    }
+
     public void loginTimeKeeper(ELog_Selfie selfieLog, EImageInfo loImage, OnLoginTimekeeperListener callback){
         try {
             loImage.setTransNox(poImage.getImageNextCode());

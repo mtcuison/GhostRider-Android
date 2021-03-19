@@ -1,7 +1,12 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,9 +15,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.LoanApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Adapter.LoanHistoryAdapter;
+import org.rmj.guanzongroup.onlinecreditapplication.Adapter.UserLoanHistoryAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMApplicationHistory;
@@ -27,10 +34,12 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
     private VMApplicationHistory mViewModel;
 
     private Toolbar toolbar;
+    private TextInputEditText txtSearch;
+    private Spinner spnFilter;
     private RecyclerView recyclerView;
 
     private List<LoanApplication> loanList;
-    private LoanHistoryAdapter adapter;
+    private UserLoanHistoryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +48,18 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
         initWidgets();
         mViewModel = new ViewModelProvider(this).get(VMApplicationHistory.class);
         mViewModel.LoadApplications(Activity_ApplicationHistory.this);
+        mViewModel.getFilterList().observe(this, stringArrayAdapter -> spnFilter.setAdapter(stringArrayAdapter));
+        spnFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         mViewModel.getApplicationHistory().observe(Activity_ApplicationHistory.this, applicationLogs -> {
             if(applicationLogs.size()>0) {
                 loanList = new ArrayList<>();
@@ -57,7 +78,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                     loan.setDateApproved(applicationLogs.get(x).dVerified);
                     loanList.add(loan);
                 }
-                adapter = new LoanHistoryAdapter(loanList, new LoanHistoryAdapter.LoanApplicantListActionListener() {
+                adapter = new UserLoanHistoryAdapter(loanList, new UserLoanHistoryAdapter.LoanApplicantListActionListener() {
                     @Override
                     public void OnExport(String TransNox) {
                         mViewModel.ExportGOCasInfo(TransNox);
@@ -81,6 +102,28 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                 LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_ApplicationHistory.this);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(layoutManager);
+
+                txtSearch.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        try {
+                            adapter.getSearchFilter().filter(s.toString());
+                            adapter.notifyDataSetChanged();
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
             }
         });
     }
@@ -89,6 +132,8 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
         toolbar = findViewById(R.id.toolbar_applicationHistory);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        txtSearch = findViewById(R.id.txt_Search);
+        spnFilter = findViewById(R.id.spn_applicationFilter);
         recyclerView = findViewById(R.id.rectangles_applicationHistory);
     }
 

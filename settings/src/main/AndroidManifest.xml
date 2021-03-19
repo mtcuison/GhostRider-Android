@@ -12,7 +12,7 @@
 
 
     <application>
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".Activity_Settings"></activity>
 
     </application>
 

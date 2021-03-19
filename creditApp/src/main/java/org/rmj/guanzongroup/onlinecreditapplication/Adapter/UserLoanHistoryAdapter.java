@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -14,17 +15,21 @@ import com.google.android.material.button.MaterialButton;
 
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class LoanHistoryAdapter extends RecyclerView.Adapter<LoanHistoryAdapter.LoanViewHolder> {
+public class UserLoanHistoryAdapter extends RecyclerView.Adapter<UserLoanHistoryAdapter.LoanViewHolder> {
 
     private List<LoanApplication> plLoanApp;
     private List<LoanApplication> plSchList;
     private final LoanApplicantListActionListener mListener;
+    private final SearchFilter poSearch;
 
-    public LoanHistoryAdapter(List<LoanApplication> plLoanApp, LoanApplicantListActionListener listener) {
+    public UserLoanHistoryAdapter(List<LoanApplication> plLoanApp, LoanApplicantListActionListener listener) {
         this.plLoanApp = plLoanApp;
+        this.plSchList = plLoanApp;
         this.mListener = listener;
+        this.poSearch = new SearchFilter(this);
     }
 
     public interface LoanApplicantListActionListener{
@@ -37,14 +42,14 @@ public class LoanHistoryAdapter extends RecyclerView.Adapter<LoanHistoryAdapter.
     @NonNull
     @Override
     public LoanViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_applications, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_user_applications, parent, false);
         return new LoanViewHolder(view, mListener);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull LoanViewHolder holder, int position) {
-        LoanApplication poLoan = plLoanApp.get(position);
+        LoanApplication poLoan = plSchList.get(position);
         holder.poLoan = poLoan;
         holder.lblGoCasNoxxx.setText("GOCas No. :"+poLoan.getGOCasNumber());
         holder.lblTransNoxxx.setText(poLoan.getTransNox());
@@ -66,6 +71,10 @@ public class LoanHistoryAdapter extends RecyclerView.Adapter<LoanHistoryAdapter.
     @Override
     public int getItemCount() {
         return plLoanApp.size();
+    }
+
+    public SearchFilter getSearchFilter(){
+        return poSearch;
     }
 
     public static class LoanViewHolder extends RecyclerView.ViewHolder{
@@ -125,6 +134,43 @@ public class LoanHistoryAdapter extends RecyclerView.Adapter<LoanHistoryAdapter.
                     listener.OnPreview(poLoan.getTransNox());
                 }
             });
+        }
+    }
+
+    public class SearchFilter extends Filter{
+
+        private final UserLoanHistoryAdapter poAdapter;
+
+        public SearchFilter(UserLoanHistoryAdapter poAdapter) {
+            super();
+            this.poAdapter = poAdapter;
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            final FilterResults results = new FilterResults();
+            if(constraint.length() == 0){
+                plSchList.addAll(plLoanApp);
+            } else {
+                List<LoanApplication> filterSearch = new ArrayList<>();
+                for(LoanApplication poLoan : plLoanApp){
+                    String lsClientNm = poLoan.getClientName().toLowerCase();
+                    if(lsClientNm.contains(constraint.toString().toLowerCase())){
+                        filterSearch.add(poLoan);
+                    }
+                }
+                plSchList = filterSearch;
+            }
+
+            results.values = plSchList;
+            results.count = plSchList.size();
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            poAdapter.plSchList = (List<LoanApplication>) results.values;
+            this.poAdapter.notifyDataSetChanged();
         }
     }
 }

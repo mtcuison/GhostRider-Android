@@ -102,7 +102,6 @@ public class GeoLocator {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public interface OnGetLocationListner{

@@ -29,6 +29,7 @@ import com.facebook.share.model.ShareMessengerURLActionButton;
 import com.facebook.share.widget.MessageDialog;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.settings.themeController.ThemeHelper;
@@ -49,7 +50,13 @@ import static org.rmj.g3appdriver.GRider.Constants.AppConstants.STORAGE_REQUEST;
 public class Fragment_Settings  extends PreferenceFragmentCompat {
 
     private SwitchPreferenceCompat themePreference;
-    private Preference locationPref, cameraPref, phonePref, exportPref;
+    private Preference locationPref,
+            cameraPref,
+            phonePref,
+            exportPref,
+            localData,
+            Accountxx,
+            chkUpdate;
     private VMSettings mViewModel;
     private GeoLocator poLocator;
     private boolean isContinue = false;
@@ -66,8 +73,13 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         locationPref = getPreferenceManager().findPreference("locationPrefs");
         phonePref = getPreferenceManager().findPreference("phonePrefs");
         exportPref = getPreferenceManager().findPreference("exportPrefs");
+        localData = getPreferenceManager().findPreference("localDataPrefs");
+        Accountxx = getPreferenceManager().findPreference("accountPrefs");
+        chkUpdate = getPreferenceManager().findPreference("appUpdatePrefs");
+
         dbExport = new DatabaseExport(getActivity(), "Database", "GGC_ISysDBF.db");
         loMessage = new MessageBox(getActivity());
+
         mViewModel = new ViewModelProvider(this).get(VMSettings.class);
 
         mViewModel.isLocPermissionGranted().observe(getViewLifecycleOwner(), isGranted -> {
@@ -188,6 +200,24 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
                    return false;
                }
            });
+        }
+        if(localData != null){
+            localData.setOnPreferenceClickListener(preference -> {
+                GToast.CreateMessage(getActivity(), "Feature not yet implemented", GToast.INFORMATION).show();
+                return false;
+            });
+        }
+        if(Accountxx != null){
+            Accountxx.setOnPreferenceClickListener(preference -> {
+                GToast.CreateMessage(getActivity(), "Feature not yet implemented", GToast.INFORMATION).show();
+                return false;
+            });
+        }
+        if(chkUpdate != null){
+            chkUpdate.setOnPreferenceClickListener(preference -> {
+                GToast.CreateMessage(getActivity(), "Feature not yet implemented", GToast.INFORMATION).show();
+                return false;
+            });
         }
 
     }

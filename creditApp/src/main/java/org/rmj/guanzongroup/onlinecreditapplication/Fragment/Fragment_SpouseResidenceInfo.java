@@ -189,7 +189,7 @@
 
             cbLivingWithSpouse.setOnCheckedChangeListener(new OnCheckboxSetListener());
             btnNext.setOnClickListener(view -> Save());;
-            btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(2));
+            btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(7));
         }
 
         private void Save() {

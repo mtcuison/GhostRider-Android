@@ -24,14 +24,11 @@ import java.util.Locale;
 
 public class GeoLocator {
 
-
     private static double lattitude ,longitude;
     private static final int REQUEST_LOCATION = 1;
     private final Context context;
     private final Activity activity;
     private String address,city,state,country,postalCode,knownName;
-
-
 
     public GeoLocator(Context context, Activity activity) {
         this.context = context;
@@ -50,7 +47,6 @@ public class GeoLocator {
            Toast.makeText(context,"Permission Denied", Toast.LENGTH_SHORT).show();
 
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-
 
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
@@ -121,11 +117,8 @@ public class GeoLocator {
               country = addresses.get(0).getCountryName();
               postalCode = addresses.get(0).getPostalCode();
               knownName = addresses.get(0).getFeatureName();
-
-
         } catch (IOException e) {
             e.printStackTrace();
-            GToast.CreateMessage(context, e.getMessage(), GToast.INFORMATION).show();
         }
     }
 

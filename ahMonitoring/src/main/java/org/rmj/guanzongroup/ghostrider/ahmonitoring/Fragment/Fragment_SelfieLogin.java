@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
@@ -9,6 +10,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.Settings;
 import android.view.LayoutInflater;
@@ -23,11 +26,13 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.dev.GLocationManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.TimeLogAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLogin;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
@@ -43,9 +48,10 @@ public class Fragment_SelfieLogin extends Fragment {
 
     private VMSelfieLogin mViewModel;
 
-    private TextView lblUserNme, lblUserPstn, lblTimeLog;
+    private TextView lblUserNme, lblUserPstn;
     private ImageView lblImage;
     private MaterialButton btnCamera;
+    private RecyclerView recyclerView;
 
     private EEmployeeInfo poUser;
     private EImageInfo poImage;
@@ -75,7 +81,7 @@ public class Fragment_SelfieLogin extends Fragment {
         lblUserPstn = view.findViewById(R.id.lbl_employeePosition);
         lblImage = view.findViewById(R.id.img_userSelfie);
         btnCamera = view.findViewById(R.id.btn_takeSelfie);
-        lblTimeLog = view.findViewById(R.id.lbl_employeeLogTime);
+        recyclerView = view.findViewById(R.id.recyclerview_timeLog);
 
         poImage = new EImageInfo();
         poLog = new ELog_Selfie();
@@ -102,9 +108,19 @@ public class Fragment_SelfieLogin extends Fragment {
 
         mViewModel.getCurrentLogTimeIfExist().observe(getViewLifecycleOwner(), eImageInfos -> {
             if(currentDateLog.size() > 0){
-                lblTimeLog.setText(currentDateLog.get(0).getLogTimex());
+                //lblTimeLog.setText(currentDateLog.get(0).getLogTimex());
             }
             currentDateLog = eImageInfos;
+        });
+
+        mViewModel.getAllEmployeeTimeLog().observe(getViewLifecycleOwner(), eLog_selfies -> {
+            TimeLogAdapter logAdapter = new TimeLogAdapter(eLog_selfies, sTransNox -> {
+                GToast.CreateMessage(getActivity(), "Feature not yet implemented", GToast.INFORMATION).show();
+            });
+            LinearLayoutManager loManager = new LinearLayoutManager(getActivity());
+            loManager.setOrientation(RecyclerView.VERTICAL);
+            recyclerView.setLayoutManager(loManager);
+            recyclerView.setAdapter(logAdapter);
         });
 
         btnCamera.setOnClickListener(view -> {

@@ -50,10 +50,11 @@ public class VMOtherInfo extends AndroidViewModel {
     private final MutableLiveData<Integer> payerBuyer = new MutableLiveData<>();
     private final MutableLiveData<Integer> compInfoSource = new MutableLiveData<>();
 
-
     private MutableLiveData<String> lsProvID = new MutableLiveData<>();
     private MutableLiveData<String> lsBPlace = new MutableLiveData<>();
     private String message;
+
+    private ECreditApplicantInfo poInfo;
 
     private final GOCASApplication poGoCas;
     private SavedStateHandle poStatexx;
@@ -93,9 +94,10 @@ public class VMOtherInfo extends AndroidViewModel {
         return poApplcnt.getCreditApplicantInfoLiveData(psTranNo.getValue());
     }
 
-    public void setCreditApplicantInfo(String applicantInfo){
+    public void setCreditApplicantInfo(ECreditApplicantInfo applicantInfo){
         try{
-            poGoCas.setData(applicantInfo);
+            poInfo = applicantInfo;
+            poGoCas.setData(poInfo.getDetlInfo());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -298,7 +300,6 @@ public class VMOtherInfo extends AndroidViewModel {
     public boolean SubmitOtherInfo(OtherInfoModel reference, ViewModelCallBack callBack){
         try {
             if(reference.isValidSpinner()){
-
                 if (isReferenceValid()){
                     if (Integer.parseInt(reference.getMonthlyPayerModel()) != 1){
                         poGoCas.OtherInfo().setUnitPayor(String.valueOf(reference.getMonthlyPayerModel()));
@@ -320,11 +321,10 @@ public class VMOtherInfo extends AndroidViewModel {
                         poGoCas.OtherInfo().setPRMobileNo(x, otherInfo.get(x).getContactN());
                         poGoCas.OtherInfo().setPRAddress(x, otherInfo.get(x).getAddress1());
                     }
-                    ECreditApplicantInfo info = new ECreditApplicantInfo();
-                    info.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
-                    info.setDetlInfo(poGoCas.toJSONString());
-                    info.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                    poApplcnt.updateGOCasData(info);
+                    poInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
+                    poInfo.setDetlInfo(poGoCas.toJSONString());
+                    poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
+                    poApplcnt.updateGOCasData(poInfo);
                     callBack.onSaveSuccessResult("Success");
                     Log.e(TAG, "Other information result : " + poGoCas.OtherInfo().toJSONString());
 
