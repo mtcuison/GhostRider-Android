@@ -34,6 +34,7 @@
                     android:id="@+id/tie_cap_dpdFullname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
                     android:maxLength="50"/>
             </com.google.android.material.textfield.TextInputLayout>
 <!--            <TextView-->
@@ -89,8 +90,9 @@
                         android:id="@+id/tie_cap_dpdAge"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="number|none"
                         android:singleLine="true"
-                        android:maxLength="50"/>
+                        android:maxLength="3"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -211,6 +213,7 @@
                         android:id="@+id/tie_cap_dpdSchoolName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
                         android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -224,6 +227,7 @@
                         android:id="@+id/tie_cap_dpdSchoolAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
                         android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -345,6 +349,7 @@
                             android:id="@+id/tie_cap_dpdCompanyName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:inputType="textCapWords"
                             android:maxLength="50"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>

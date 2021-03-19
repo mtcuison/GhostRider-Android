@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/ic_ghostrider_logo_day"
-        android:alpha=".15"/>
+        android:alpha=".1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,14 +46,6 @@
             android:fontFamily="@font/roboto_medium"
             android:textColor="@color/material_black" />
 
-        <TextView
-            android:id="@+id/lbl_employeeLogTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/material_black" />
-
         <TextClock
             android:id="@+id/lbl_textTime"
             android:layout_width="wrap_content"
@@ -72,6 +64,13 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Take Selfie" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_timeLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp"/>
 
     </LinearLayout>
 

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.google.android.material.button.MaterialButton;
@@ -44,12 +45,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
 
     private String ProvID = "";
     private String TownID = "";
-//
-//    private String spnMobile1Position = "-1";
-//    private String spnMobile2Position = "-1";
-//    private String spnMobile3Position = "-1";
-//    private String spnCvlStsPosition = "-1";
-//    private String genderPosition = "-1";
+
     private String spnIncomePosition = "-1";
     private String spnCoRelationPosition = "-1";
     private String spnPrmryCntctPosition = "-1";
@@ -86,9 +82,10 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
     private TextInputLayout tilTrtCntctStats;
     private AutoCompleteTextView spnIncmSrce;
     private AutoCompleteTextView spnBrwrRltn;
-    private MaterialButton btnPrvs;
-    private MaterialButton btnNext;
+    private Button btnPrvs;
+    private Button btnNext;
     private CoMakerModel infoModel;
+
     public static Fragment_CoMaker newInstance() {
         return new Fragment_CoMaker();
     }
@@ -97,7 +94,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comaker, container, false);
-        TransNox = new Activity_CreditApplication().getInstance().getTransNox();
+        TransNox = Activity_CreditApplication.getInstance().getTransNox();
         infoModel = new CoMakerModel();
         setupWidgets(view);
         return view;
@@ -211,53 +208,52 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         tilTrtCntctStats = v.findViewById(R.id.til_cap_cmrTertiaryCntctStats);
 
         tieBrthDate.addTextChangedListener(new OnDateSetListener(tieBrthDate));
-        btnNext = v.findViewById(R.id.btn_fragment_cmr_next);
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                infoModel = new CoMakerModel(
-                        Objects.requireNonNull(tieLastname.getText().toString()),
-                        Objects.requireNonNull(tieFrstname.getText().toString()),
-                        Objects.requireNonNull(tieMiddname.getText().toString()),
-                        Objects.requireNonNull(tieSuffixxx.getText().toString()),
-                        Objects.requireNonNull(tieNickname.getText().toString()),
-                        Objects.requireNonNull(tieBrthDate.getText().toString()),
-                        Objects.requireNonNull(tieBrthTown.getText().toString()),
-                        Objects.requireNonNull(tieFbAcctxx.getText().toString()),
-                        Objects.requireNonNull(spnIncomePosition),
-                        Objects.requireNonNull(spnCoRelationPosition)
-                );
-                if(!Objects.requireNonNull(tiePrmCntct.getText()).toString().trim().isEmpty()) {
-                    if(Integer.parseInt(spnPrmryCntctPosition) == 1) {
-                        infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnPrmryCntctPosition, Integer.parseInt(Objects.requireNonNull(tiePrmCntctPlan.getText()).toString()));
-                    } else {
-                        infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnPrmryCntctPosition, 0);
-                    }
+        btnNext = v.findViewById(R.id.btn_creditAppNext);
+        btnPrvs = v.findViewById(R.id.btn_creditAppPrvs);
+        btnNext.setOnClickListener(v1 -> {
+            infoModel = new CoMakerModel(
+                    Objects.requireNonNull(tieLastname.getText().toString()),
+                    Objects.requireNonNull(tieFrstname.getText().toString()),
+                    Objects.requireNonNull(tieMiddname.getText().toString()),
+                    Objects.requireNonNull(tieSuffixxx.getText().toString()),
+                    Objects.requireNonNull(tieNickname.getText().toString()),
+                    Objects.requireNonNull(tieBrthDate.getText().toString()),
+                    Objects.requireNonNull(tieBrthTown.getText().toString()),
+                    Objects.requireNonNull(tieFbAcctxx.getText().toString()),
+                    Objects.requireNonNull(spnIncomePosition),
+                    Objects.requireNonNull(spnCoRelationPosition)
+            );
+            if(!Objects.requireNonNull(tiePrmCntct.getText()).toString().trim().isEmpty()) {
+                if(Integer.parseInt(spnPrmryCntctPosition) == 1) {
+                    infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnPrmryCntctPosition, Integer.parseInt(Objects.requireNonNull(tiePrmCntctPlan.getText()).toString()));
+                } else {
+                    infoModel.setCoMobileNo(tiePrmCntct.getText().toString(), spnPrmryCntctPosition, 0);
                 }
-                if(!Objects.requireNonNull(tieScnCntct.getText()).toString().trim().isEmpty()) {
-                    if(Integer.parseInt(spnScndCntctPosition) == 1) {
-                        infoModel.setCoMobileNo(tieScnCntct.getText().toString(), spnScndCntctPosition, Integer.parseInt(Objects.requireNonNull(tieScnCntctPlan.getText()).toString()));
-                    } else {
-                        infoModel.setCoMobileNo(tieScnCntct.getText().toString(), spnScndCntctPosition, 0);
-                    }
-                }
-                if(!Objects.requireNonNull(tieTrtCntct.getText()).toString().trim().isEmpty()) {
-                    if(Integer.parseInt(spnTrtCntctPosition)  == 1) {
-                        infoModel.setCoMobileNo(tieTrtCntct.getText().toString(), spnTrtCntctPosition, Integer.parseInt(Objects.requireNonNull(tieTrtCntctPlan.getText()).toString()));
-                    } else {
-                        infoModel.setCoMobileNo(tieTrtCntct.getText().toString(), spnTrtCntctPosition, 0);
-                    }
-                }
-                mViewModel.SubmitComaker(infoModel, Fragment_CoMaker.this);
             }
+            if(!Objects.requireNonNull(tieScnCntct.getText()).toString().trim().isEmpty()) {
+                if(Integer.parseInt(spnScndCntctPosition) == 1) {
+                    infoModel.setCoMobileNo(tieScnCntct.getText().toString(), spnScndCntctPosition, Integer.parseInt(Objects.requireNonNull(tieScnCntctPlan.getText()).toString()));
+                } else {
+                    infoModel.setCoMobileNo(tieScnCntct.getText().toString(), spnScndCntctPosition, 0);
+                }
+            }
+            if(!Objects.requireNonNull(tieTrtCntct.getText()).toString().trim().isEmpty()) {
+                if(Integer.parseInt(spnTrtCntctPosition)  == 1) {
+                    infoModel.setCoMobileNo(tieTrtCntct.getText().toString(), spnTrtCntctPosition, Integer.parseInt(Objects.requireNonNull(tieTrtCntctPlan.getText()).toString()));
+                } else {
+                    infoModel.setCoMobileNo(tieTrtCntct.getText().toString(), spnTrtCntctPosition, 0);
+                }
+            }
+            mViewModel.SubmitComaker(infoModel, Fragment_CoMaker.this);
         });
     }
 
     @Override
     public void onSaveSuccessResult(String args) {
+        Activity_CreditApplication.getInstance().moveToPageNumber(17);
 //        Activity_CreditApplication.getInstance().moveToPageNumber(2);
-        startActivity(new Intent(getActivity(), Activity_ApplicationHistory.class));
-        getActivity().finish();
+//        startActivity(new Intent(getActivity(), Activity_ApplicationHistory.class));
+//        getActivity().finish();
     }
 
     @Override

@@ -259,7 +259,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 style="@style/MaterialButtonAccent"
-                app:icon="@drawable/ic_application_update"
+                app:icon="@drawable/ic_settings_update"
                 app:iconPadding="5dp"
                 android:text="Update"/>
 

@@ -654,6 +654,7 @@ public class VMCollectionList extends AndroidViewModel {
                                 JSONObject loData = new JSONObject();
 
                                 if(loDetail.sRemCodex != null) {
+
                                     org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(loDetail.sFileLoct,
                                             lsAccess,
                                             loDetail.sFileCode,
@@ -761,7 +762,11 @@ public class VMCollectionList extends AndroidViewModel {
                                     String result = loResponse.getString("result");
                                     if (result.equalsIgnoreCase("success")) {
                                         Log.e(TAG, "Data of Account No. " + loDetail.sAcctNmbr + ", Entry No. "+ loDetail.nEntryNox+ " was uploaded successfully");
-                                        poDcp.updateCollectionDetailStatus(loDetail.sTransNox, loDetail.nEntryNox);
+                                        if(loDetail.sRemCodex == null){
+                                            poDcp.updateCollectionDetailStatusWithRemarks(loDetail.sTransNox, loDetail.nEntryNox, sRemarksx);
+                                        } else {
+                                            poDcp.updateCollectionDetailStatus(loDetail.sTransNox, loDetail.nEntryNox);
+                                        }
                                         isDataSent[x] = true;
 
                                         //call sending CNA details....

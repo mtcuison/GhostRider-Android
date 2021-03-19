@@ -12,9 +12,7 @@ import android.view.MenuItem;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_DisbursementInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_MeansInfoSelection;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_PersonalInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.util.Objects;
@@ -74,7 +72,6 @@ public class Activity_CreditApplication extends AppCompatActivity {
         personalInfo.setArguments(loBundle);
         viewPager = findViewById(R.id.viewpager_creditApp);
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), CreditAppConstants.APPLICATION_PAGES));
-        //viewPager.setOffscreenPageLimit(7);
     }
 
     @Override

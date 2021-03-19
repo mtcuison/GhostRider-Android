@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 
 import androidx.cardview.widget.CardView;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -20,10 +19,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
@@ -36,12 +33,10 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Applicatio
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.SplashScreenActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.Dialog.DialogUserProfile;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_NotificationList;
-import org.rmj.guanzongroup.ghostrider.settings.Settings;
+import org.rmj.guanzongroup.ghostrider.settings.Activity_Settings;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -131,7 +126,7 @@ public class Fragment_Dashboard extends Fragment {
         });
 
         cvSettings.setOnClickListener(v ->{
-            Intent intent = new Intent(getActivity(), Settings.class);
+            Intent intent = new Intent(getActivity(), Activity_Settings.class);
             startActivity(intent);
         });
 

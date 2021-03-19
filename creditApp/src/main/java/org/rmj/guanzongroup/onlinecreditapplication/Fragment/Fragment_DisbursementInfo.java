@@ -84,6 +84,8 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
 
         btnNext = view.findViewById(R.id.btn_creditAppNext);
         btnPrev = view.findViewById(R.id.btn_creditAppPrvs);
+
+        btnPrev.setOnClickListener(v -> Activity_CreditApplication.getInstance().moveToPageNumber(11));
     }
 
 

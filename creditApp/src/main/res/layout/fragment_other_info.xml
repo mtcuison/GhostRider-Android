@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,363 +7,367 @@
     android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".Fragment.Fragment_OtherInfo">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="5dp"
-        android:layout_marginBottom="300dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Regular_Label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:text="@string/sLabelQUnitUser"/>
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/CustomDropDownTilStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Unit User">
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/spinner_cap_unitUser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:padding="16dp"
-                android:cursorVisible="false"
-                android:clickable="false"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_cap_sUsr2buyr"
-            style="@style/CustomDropDownTilStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Other User">
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/spinner_cap_sUsr2buyr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:padding="16dp"
-                android:cursorVisible="false"
-                android:clickable="false"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-<!--        <Spinner-->
-<!--            android:id="@+id/spinner_cap_unitUser"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:padding="14dp"/>-->
-
-<!--        <Spinner-->
-<!--            android:id="@+id/spinner_cap_sUsr2buyr"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:padding="14dp"/>-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Regular_Label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:text="@string/sLabelQUnitPurpose"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/CustomDropDownTilStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Unit Purpose">
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/spinner_cap_purposeOfBuying"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:padding="16dp"
-                android:cursorVisible="false"
-                android:clickable="false"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
-<!--        <Spinner-->
-<!--            android:id="@+id/spinner_cap_purposeOfBuying"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:padding="14dp"/>-->
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Regular_Label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:text="@string/sLabelQMonthlyAmort"/>
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/CustomDropDownTilStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Unit Payer">
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/spinner_cap_monthlyPayer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:padding="16dp"
-                android:cursorVisible="false"
-                android:clickable="false"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_cap_sPyr2Buyr"
-            style="@style/CustomDropDownTilStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Other Payer">
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/spinner_cap_sPyr2Buyr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:padding="16dp"
-                android:cursorVisible="false"
-                android:clickable="false"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
-<!--        <Spinner-->
-<!--            android:id="@+id/spinner_cap_monthlyPayer"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:padding="14dp"/>-->
-
-<!--        <Spinner-->
-<!--            android:id="@+id/spinner_cap_sPyr2Buyr"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:padding="14dp" />-->
-
-        <TextView
-            style="@style/Regular_Label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sLabelQDiscoverUs"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/CustomDropDownTilStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Where do you hear about us?">
-
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/spinner_cap_source"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:inputType="none"
-                android:padding="16dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-<!--        <Spinner-->
-<!--            android:id="@+id/spinner_cap_source"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:padding="14dp"/>-->
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_cap_CompanyInfoSource"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sHintSpecify"
-            style="@style/TextInputStyle">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_cap_CompanyInfoSource"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLength="50"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <!---->
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#F88222"
-            android:fontFamily="@font/roboto_medium"
-            android:layout_marginTop="10dp"
-            android:padding="10dp"
-            android:text="PERSONAL REFERENCES"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/material_white"
-            tools:ignore="HardcodedText"
-            tools:targetApi="jelly_bean" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/linear_references"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center"
+            android:padding="5dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_cap_referenceName"
-                style="@style/TextInputStyle"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name"
-                android:textColorHint="@color/guanzon_dark_grey"
-                tools:ignore="HardcodedText">
+                style="@style/Regular_Label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:text="@string/sLabelQUnitUser"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_cap_referenceName"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomDropDownTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Unit User">
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/spinner_cap_unitUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPersonName"
-                    android:digits="@string/free_text_restriction"
-                    android:maxLength="100"
-                    android:nextFocusForward="@id/tie_cap_refereceContact"
-                    android:textColor="@color/material_black"
-                    tools:ignore="RtlSymmetry" />
-
+                    android:focusable="false"
+                    android:padding="16dp"
+                    android:cursorVisible="false"
+                    android:clickable="false"
+                    android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_cap_referenceContact"
-                style="@style/TextInputStyle"
+                android:id="@+id/til_cap_sUsr2buyr"
+                style="@style/CustomDropDownTilStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Contact"
-                android:textColorHint="@color/guanzon_dark_grey"
-                tools:ignore="HardcodedText">
+                android:hint="Other User">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_cap_refereceContact"
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/spinner_cap_sUsr2buyr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionNext"
-                    android:inputType="number|none"
-                    android:maxLength="11"
-                    android:nextFocusForward="@id/tie_cap_refereceAddress"
-                    android:textColor="@color/material_black"
-                    tools:ignore="RtlSymmetry" />
+                    android:focusable="false"
+                    android:padding="16dp"
+                    android:cursorVisible="false"
+                    android:clickable="false"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Regular_Label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:text="@string/sLabelQUnitPurpose"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomDropDownTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Unit Purpose">
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/spinner_cap_purposeOfBuying"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:padding="16dp"
+                    android:cursorVisible="false"
+                    android:clickable="false"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Regular_Label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:text="@string/sLabelQMonthlyAmort"/>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomDropDownTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Unit Payer">
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/spinner_cap_monthlyPayer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:padding="16dp"
+                    android:cursorVisible="false"
+                    android:clickable="false"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_cap_sPyr2Buyr"
+                style="@style/CustomDropDownTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Other Payer">
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/spinner_cap_sPyr2Buyr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:padding="16dp"
+                    android:cursorVisible="false"
+                    android:clickable="false"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/Regular_Label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sLabelQDiscoverUs"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomDropDownTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Where do you hear about us?">
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/spinner_cap_source"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_cap_referenceAddress"
-                style="@style/TextInputStyle"
+                android:id="@+id/til_cap_CompanyInfoSource"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phase#/Lot#/Sitio/Street/Barangay"
-                android:textColorHint="@color/guanzon_dark_grey"
-                tools:ignore="HardcodedText">
+                android:hint="@string/sHintSpecify"
+                style="@style/TextInputStyle">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_cap_refereceAddress"
+                    android:id="@+id/tie_cap_CompanyInfoSource"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPersonName"
-                    android:digits="@string/free_text_restriction"
-                    android:maxLength="100"
-                    android:nextFocusForward="@id/tie_cap_referenceAddProv"
-                    android:textColor="@color/material_black"
-                    tools:ignore="RtlSymmetry" />
-
+                    android:maxLength="50"/>
             </com.google.android.material.textfield.TextInputLayout>
+            <!---->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F88222"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:text="PERSONAL REFERENCES"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/material_white"
+                tools:ignore="HardcodedText"
+                tools:targetApi="jelly_bean" />
 
             <LinearLayout
+                android:id="@+id/linear_references"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                tools:ignore="DisableBaselineAlignment">
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="250dp">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_cap_referenceAddProv"
+                    android:id="@+id/til_cap_referenceName"
                     style="@style/TextInputStyle"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".5"
-                    android:hint="@string/sHintBpProv"
+                    android:hint="Name"
                     android:textColorHint="@color/guanzon_dark_grey"
                     tools:ignore="HardcodedText">
 
-                    <AutoCompleteTextView
-                        android:id="@+id/tie_cap_referenceAddProv"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_cap_referenceName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textAutoComplete|textAutoCorrect"
-                        android:maxLength="20"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:paddingStart="10dp"
-                        android:paddingLeft="10dp"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:imeOptions="actionNext"
-                        android:nextFocusForward="@id/tie_cap_referenceAddTown"
+                        android:inputType="textPersonName"
+                        android:digits="@string/free_text_restriction"
+                        android:maxLength="100"
+                        android:nextFocusForward="@id/tie_cap_refereceContact"
                         android:textColor="@color/material_black"
-                        tools:ignore="LabelFor,RtlSymmetry" />
+                        tools:ignore="RtlSymmetry" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_cap_referenceAddTown"
+                    android:id="@+id/til_cap_referenceContact"
                     style="@style/TextInputStyle"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".5"
-                    android:hint="@string/sHintTown"
+                    android:hint="Contact"
                     android:textColorHint="@color/guanzon_dark_grey"
                     tools:ignore="HardcodedText">
 
-                    <AutoCompleteTextView
-                        android:id="@+id/tie_cap_referenceAddTown"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_cap_refereceContact"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textAutoComplete|textAutoCorrect"
-                        android:maxLength="20"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:paddingStart="10dp"
-                        android:paddingLeft="10dp"
-                        android:imeOptions="actionDone"
+                        android:imeOptions="actionNext"
+                        android:inputType="number|none"
+                        android:maxLength="11"
+                        android:nextFocusForward="@id/tie_cap_refereceAddress"
                         android:textColor="@color/material_black"
-                        tools:ignore="LabelFor,RtlSymmetry" />
+                        tools:ignore="RtlSymmetry" />
+
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_cap_referenceAddress"
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phase#/Lot#/Sitio/Street/Barangay"
+                    android:textColorHint="@color/guanzon_dark_grey"
+                    tools:ignore="HardcodedText">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_cap_refereceAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName"
+                        android:digits="@string/free_text_restriction"
+                        android:maxLength="100"
+                        android:nextFocusForward="@id/tie_cap_referenceAddProv"
+                        android:textColor="@color/material_black"
+                        tools:ignore="RtlSymmetry" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    tools:ignore="DisableBaselineAlignment">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_cap_referenceAddProv"
+                        style="@style/TextInputStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        android:hint="@string/sHintBpProv"
+                        android:textColorHint="@color/guanzon_dark_grey"
+                        tools:ignore="HardcodedText">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/tie_cap_referenceAddProv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textAutoComplete|textAutoCorrect"
+                            android:maxLength="20"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:paddingStart="10dp"
+                            android:paddingLeft="10dp"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@id/tie_cap_referenceAddTown"
+                            android:textColor="@color/material_black"
+                            tools:ignore="LabelFor,RtlSymmetry" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_cap_referenceAddTown"
+                        style="@style/TextInputStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        android:hint="@string/sHintTown"
+                        android:textColorHint="@color/guanzon_dark_grey"
+                        tools:ignore="HardcodedText">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/tie_cap_referenceAddTown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textAutoComplete|textAutoCorrect"
+                            android:maxLength="20"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:paddingStart="10dp"
+                            android:paddingLeft="10dp"
+                            android:imeOptions="actionDone"
+                            android:textColor="@color/material_black"
+                            tools:ignore="LabelFor,RtlSymmetry" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_fragment_others_addReference"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cornerRadius="10dp"
+                    style="@style/MaterialButtonAccent"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Add Reference"
+                    tools:targetApi="lollipop"
+                    android:layout_gravity="right"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_references"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="30dp">
+
+                    <Button
+                        android:id="@+id/btn_creditAppPrvs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sbtnPrvs"
+                        style="@style/NavigationButton"
+                        android:drawableStart="@drawable/ic_nav_left"
+                        android:drawableLeft="@drawable/ic_nav_left"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        tools:ignore="RelativeOverlap"  />
+
+                    <Button
+                        android:id="@+id/btn_creditAppNext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sbtnNext"
+                        style="@style/NavigationButton"
+                        android:drawableEnd="@drawable/ic_nav_right"
+                        android:drawableRight="@drawable/ic_nav_right"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        tools:ignore="RelativeOverlap" />
+                </RelativeLayout>
 
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_fragment_others_addReference"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cornerRadius="10dp"
-                style="@style/MaterialButtonAccent"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Add Reference"
-                tools:targetApi="lollipop"
-                android:layout_gravity="right"
-                tools:ignore="HardcodedText" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_references"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"/>
-
         </LinearLayout>
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_creditAppNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sbtnNext"
-            style="@style/MaterialButtonAccent"/>
 
-    </LinearLayout>
+    </ScrollView>
 
-</ScrollView>
+</LinearLayout>

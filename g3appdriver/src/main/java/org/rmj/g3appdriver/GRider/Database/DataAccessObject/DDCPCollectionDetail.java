@@ -56,6 +56,23 @@ public interface DDCPCollectionDetail {
             "AND nEntryNox =:EntryNox")
     void updateCollectionDetailStatus(String TransNox, int EntryNox, String DateEntry);
 
+    /**
+     *
+     * @param TransNox transaction number of master detail
+     * @param EntryNox specific entry number of collection detail
+     * @param DateEntry current date time of update.
+     * @param Remarks if collection posted with untag remarks code. Input remarks
+     */
+    @Query("UPDATE LR_DCP_Collection_Detail " +
+            "SET cSendStat='1', " +
+            "sRemCodex = 'OTH', " +
+            "sRemarksx =:Remarks, " +
+            "cTranstat = '2', " +
+            "dModified=:DateEntry " +
+            "WHERE sTransNox =:TransNox " +
+            "AND nEntryNox =:EntryNox")
+    void updateCollectionDetailStatusWithRemarks(String TransNox, int EntryNox, String DateEntry, String Remarks);
+
     @Delete
     void delete(EDCPCollectionDetail collectionDetail);
 
@@ -100,6 +117,9 @@ public interface DDCPCollectionDetail {
             "LR_DCP_Collection_Master WHERE dTransact =:dTransact) " +
             "AND cSendStat = \"1\"")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailForDate(String dTransact);
+
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1' AND sRemCodex == 'PAY'")
+    LiveData<List<EDCPCollectionDetail>> getUnsentPaidCollection();
 
     @Query("SELECT a.sTransNox, " +
             "a.nEntryNox, " +

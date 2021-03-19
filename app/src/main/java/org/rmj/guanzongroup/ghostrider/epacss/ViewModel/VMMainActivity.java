@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
@@ -43,5 +44,9 @@ public class VMMainActivity extends AndroidViewModel {
 
     public LiveData<List<ELog_Selfie>> getUnsentSelfieLoginList(){
         return poSelfie.getUnsentSelfieLogin();
+    }
+
+    public LiveData<List<EDCPCollectionDetail>> getUnsentPaidCollection(){
+        return poDcp.getUnsentPaidCollection();
     }
 }

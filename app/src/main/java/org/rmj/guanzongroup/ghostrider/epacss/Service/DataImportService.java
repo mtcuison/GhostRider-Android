@@ -74,9 +74,9 @@ public class DataImportService extends JobService {
                 new Import_LoanApplications(getApplication())};
 
         if(poConfig.isAppFirstLaunch()) {
-            GNotifBuilder.createNotification(getApplication(), "GhostRider", "Downloading local resources...", GNotifBuilder.APP_DATA_DOWNLOAD).show();
+            GNotifBuilder.createNotification(getApplication(), GNotifBuilder.JOB_SERVICE, "Downloading local resources...", GNotifBuilder.APP_DATA_DOWNLOAD).show();
         } else {
-            GNotifBuilder.createNotification(getApplication(), "GhostRider", "Updating local resources...", GNotifBuilder.APP_SYNC_DATA).show();
+            GNotifBuilder.createNotification(getApplication(), GNotifBuilder.JOB_SERVICE, "Updating local resources...", GNotifBuilder.APP_SYNC_DATA).show();
         }
         new Thread(() -> {
             for (ImportInstance importInstance : importInstances) {
@@ -99,9 +99,9 @@ public class DataImportService extends JobService {
             }
 
             if(poConfig.isAppFirstLaunch()) {
-                GNotifBuilder.createNotification(getApplication(), "GhostRider", "Download finished.", GNotifBuilder.APP_DATA_DOWNLOAD).show();
+                GNotifBuilder.createNotification(getApplication(), GNotifBuilder.JOB_SERVICE, "Download finished.", GNotifBuilder.APP_DATA_DOWNLOAD).show();
             } else {
-                GNotifBuilder.createNotification(getApplication(), "GhostRider", "Update finished.", GNotifBuilder.APP_SYNC_DATA).show();
+                GNotifBuilder.createNotification(getApplication(), GNotifBuilder.JOB_SERVICE, "Update finished.", GNotifBuilder.APP_SYNC_DATA).show();
             }
             jobFinished(params, false);
         }).start();

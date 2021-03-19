@@ -62,6 +62,13 @@ public class Fragment_Finance extends Fragment implements ViewModelCallBack {
         btnNext = view.findViewById(R.id.btn_creditAppNext);
         btnPrvs = view.findViewById(R.id.btn_creditAppPrvs);
 
+        btnPrvs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         txtFIncme.addTextChangedListener(new FormatUIText.CurrencyFormat(txtFIncme));
         return view;
     }

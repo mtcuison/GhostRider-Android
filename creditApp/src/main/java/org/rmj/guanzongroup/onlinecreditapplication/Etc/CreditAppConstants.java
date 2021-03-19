@@ -1,9 +1,9 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Etc;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_CoMaker;
+import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_ComakerResidence;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_Dependent;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_DisbursementInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_EmploymentInfo;
@@ -12,6 +12,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_MeansInfoS
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_OtherInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_PensionInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_PersonalInfo;
+import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_Properties;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_ResidenceInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SelfEmployedInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpouseEmploymentInfo;
@@ -21,7 +22,6 @@ import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpouseResi
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpouseSelfEmployedInfo;
 
 public class CreditAppConstants {
-
 
     /**
      *            <p>0 new Fragment_PersonalInfo(),</p>
@@ -39,7 +39,9 @@ public class CreditAppConstants {
      *            <p>12 new Fragment_DisbursementInfo(),</p>
      *            <p>13 new Fragment_Dependent(),</p>
      *            <p>14 new Fragment_OtherInfo(),</p>
-     *            <p>15 new Fragment_CoMaker()</p>
+     *            <p>15 new Fragment_Properties(),</p>
+     *            <p>16 new Fragment_CoMaker()</p>
+     *            <p>17 new Fragment_CoMakerResidence()</p>
      * @param allLoanUnitNames
      */
 
@@ -59,8 +61,9 @@ public class CreditAppConstants {
             new Fragment_DisbursementInfo(),
             new Fragment_Dependent(),
             new Fragment_OtherInfo(),
-            new Fragment_CoMaker()
-    };
+            new Fragment_Properties(),
+            new Fragment_CoMaker(),
+            new Fragment_ComakerResidence()};
 
     public static String[] APPLICATION_TYPE = {
             "Motorcycle",
@@ -298,6 +301,11 @@ public class CreditAppConstants {
             "Siblings",
             "Relatives",
             "Others"};
+
+    public static String[] APPLICATION_FILTER = {
+            "User Applications",
+            "Branch Applications"
+    };
 
     public static boolean employment_done = false;
     public static boolean self_employment_done = false;

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.google.android.material.button.MaterialButton;
@@ -39,7 +40,7 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
     private SpouseSelfEmployedInfoModel infoModel;
     private TextInputEditText txtBizName, txtBizAddrss, txtBizLength, txtMonthlyInc, txtMonthlyExp;
     private AppCompatAutoCompleteTextView spnBizIndustry, spnMonthOrYr, txtProvince, txtTown, spnBizType, spnBizSize;
-    private MaterialButton btnNext;
+    private Button btnNext, btnPrvs;
 
     public static Fragment_SpouseSelfEmployedInfo newInstance() {
         return new Fragment_SpouseSelfEmployedInfo();
@@ -130,12 +131,14 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
         spnBizType = v.findViewById(R.id.spn_bizType);
         spnBizSize = v.findViewById(R.id.spn_bizSize);
         btnNext = v.findViewById(R.id.btn_creditAppNext);
+        btnPrvs = v.findViewById(R.id.btn_creditAppPrvs);
 
         spnMonthOrYr.setOnItemClickListener(new OnItemClickListener(spnMonthOrYr));
         spnBizIndustry.setOnItemClickListener(new OnItemClickListener(spnBizIndustry));
         spnBizType.setOnItemClickListener(new OnItemClickListener(spnBizType));
         spnBizSize.setOnItemClickListener(new OnItemClickListener(spnBizSize));
 
+        btnPrvs.setOnClickListener(v1 -> Activity_CreditApplication.getInstance().moveToPageNumber(9));
         btnNext.setOnClickListener(view -> save());
     }
 

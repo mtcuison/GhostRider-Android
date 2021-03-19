@@ -119,7 +119,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
 
         txtEsSlry.addTextChangedListener(new FormatUIText.CurrencyFormat(txtEsSlry));
 
-        btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(3));
+        btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(8));
     }
 
     @Override
