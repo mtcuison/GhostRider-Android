@@ -46,6 +46,7 @@
     <string name="sLabelYes">Yes</string>
     <string name="sLabelNo">No</string>
     <!--    <string name="sHeaderLabelSector">Employment Sector</string>-->
+    <string name="sHeaderEmploymentInfo">Employment Info</string>
     <string name="sHeaderLabelSector">Is dependent employed?</string>
     <string name="sHeaderLabelEmploymentTypeSector">Employment Type</string>
     <string name="sHeaderLabelSpouseEmploymentTypeSector">Spouse Employment Type</string>

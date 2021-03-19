@@ -425,7 +425,7 @@
                         android:inputType="number|none"
                         android:imeOptions="actionNext"
                         android:nextFocusForward="@id/txt_perm_address"
-                        android:maxLength="10"/>
+                        android:maxLength="5"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
