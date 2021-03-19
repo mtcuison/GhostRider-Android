@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -31,6 +32,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
@@ -77,7 +79,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
     private String FILENAME;
     private final String FILE_TYPE = "-mob.txt";
-    private static final String FOLDER_NAME = "DCP_Exports";
     private String fileContent= "";
 
     private List<DDCPCollectionDetail.CollectionDetail> plDetail;
@@ -610,7 +611,14 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         try {
             fileContent = expCollectDetl.toString();
             if(!fileContent.equalsIgnoreCase("")) {
-                File myExternalFile = new File(getExternalFilesDir(FOLDER_NAME), FILENAME+FILE_TYPE);
+                String root = Environment.getExternalStorageDirectory().toString();
+                String lsPublicFoldx = AppConstants.APP_PUBLIC_FOLDER;
+                String lsSubFoldx = AppConstants.SUB_FOLDER_EXPORTS;
+                File sd = new File(root + lsPublicFoldx + lsSubFoldx + "/");
+                if (!sd.exists()) {
+                    sd.mkdirs();
+                }
+                File myExternalFile = new File(sd, FILENAME+FILE_TYPE);
                 Log.e("Export Directory", myExternalFile.toString());
                 if(myExternalFile.exists()) {
                     boolean res = myExternalFile.delete();

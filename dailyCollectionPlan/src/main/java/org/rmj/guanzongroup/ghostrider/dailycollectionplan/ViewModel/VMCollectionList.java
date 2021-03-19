@@ -225,53 +225,67 @@ public class VMCollectionList extends AndroidViewModel {
 
             if (dcpImport.has("master")  && dcpImport.has("detail")) {
 
-                JSONObject loJSON_Master = dcpImport.getJSONObject("master");
-                EDCPCollectionMaster loMaster = new EDCPCollectionMaster();
+                new CheckImportDataTask(poDCPRepo, new CheckImport() {
+                    @Override
+                    public void OnCheck(boolean doesExist) {
+                        if(doesExist) {
+                            GToast.CreateMessage(getApplication(), "Collection list already exist.", GToast.WARNING).show();
+                        } else {
+                            try {
+                                JSONObject loJSON_Master = dcpImport.getJSONObject("master");
+                                EDCPCollectionMaster loMaster = new EDCPCollectionMaster();
 
-                loMaster.setTransact(loJSON_Master.getString("dTransact"));
-                loMaster.setBranchNm(loJSON_Master.getString("sBranchNm"));
-                loMaster.setTransNox(loJSON_Master.getString("sTransNox"));
-                loMaster.setDCPTypex(loJSON_Master.getString("cDCPTypex").charAt(0));
-                loMaster.setEntryNox(loJSON_Master.getString("nEntryNox"));
-                loMaster.setCollName(loJSON_Master.getString("xCollName"));
-                loMaster.setCollctID(loJSON_Master.getString("sCollctID"));
-                loMaster.setTranStat(loJSON_Master.getString("cTranStat").charAt(0));
-                loMaster.setRouteNme(loJSON_Master.getString("sRouteNme"));
-                loMaster.setReferDte(loJSON_Master.getString("dReferDte"));
-                loMaster.setReferNox(loJSON_Master.getString("sReferNox"));
+                                loMaster.setTransact(loJSON_Master.getString("dTransact"));
+                                loMaster.setBranchNm(loJSON_Master.getString("sBranchNm"));
+                                loMaster.setTransNox(loJSON_Master.getString("sTransNox"));
+                                loMaster.setDCPTypex(loJSON_Master.getString("cDCPTypex").charAt(0));
+                                loMaster.setEntryNox(loJSON_Master.getString("nEntryNox"));
+                                loMaster.setCollName(loJSON_Master.getString("xCollName"));
+                                loMaster.setCollctID(loJSON_Master.getString("sCollctID"));
+                                loMaster.setTranStat(loJSON_Master.getString("cTranStat").charAt(0));
+                                loMaster.setRouteNme(loJSON_Master.getString("sRouteNme"));
+                                loMaster.setReferDte(loJSON_Master.getString("dReferDte"));
+                                loMaster.setReferNox(loJSON_Master.getString("sReferNox"));
 
 
-                JSONArray loJArray_detail = dcpImport.getJSONArray("detail");
-                List<EDCPCollectionDetail> loCollectDetlList = new ArrayList<>(); // This is return
-                for (int x = 0; x < loJArray_detail.length(); x++) {
-                    EDCPCollectionDetail loDetail = new EDCPCollectionDetail();
-                    JSONObject loJson = loJArray_detail.getJSONObject(x);
+                                JSONArray loJArray_detail = dcpImport.getJSONArray("detail");
+                                List<EDCPCollectionDetail> loCollectDetlList = new ArrayList<>(); // This is return
+                                for (int x = 0; x < loJArray_detail.length(); x++) {
+                                    EDCPCollectionDetail loDetail = new EDCPCollectionDetail();
+                                    JSONObject loJson = loJArray_detail.getJSONObject(x);
 
-                    loDetail.setTransNox(loJSON_Master.getString("sTransNox"));
-                    loDetail.setApntUnit(loJson.getString("cApntUnit"));
-                    loDetail.setLongitud(loJson.getString("nLongitud"));
-                    loDetail.setAddressx(loJson.getString("sAddressx"));
-                    loDetail.setBrgyName(loJson.getString("sBrgyName"));
-                    loDetail.setEntryNox(Integer.parseInt(loJson.getString("nEntryNox")));
-                    loDetail.setClientID(loJson.getString("sClientID"));
-                    loDetail.setTownName(loJson.getString("sTownName"));
-                    loDetail.setIsDCPxxx(loJson.getString("cIsDCPxxx"));
-                    loDetail.setSerialID(loJson.getString("sSerialID"));
-                    loDetail.setFullName(loJson.getString("xFullName"));
-                    loDetail.setDueDatex(loJson.getString("dDueDatex"));
-                    loDetail.setLatitude(loJson.getString("nLatitude"));
-                    loDetail.setMobileNo(loJson.getString("sMobileNo"));
-                    loDetail.setAmtDuexx(loJson.getString("nAmtDuexx"));
-                    loDetail.setHouseNox(loJson.getString("sHouseNox"));
-                    loDetail.setSerialNo(loJson.getString("sSerialNo"));
-                    loDetail.setAcctNmbr(loJson.getString("sAcctNmbr"));
-                    loDetail.setSendStat("0");
-                    loDetail.setTranStat("0");
+                                    loDetail.setTransNox(loJSON_Master.getString("sTransNox"));
+                                    loDetail.setApntUnit(loJson.getString("cApntUnit"));
+                                    loDetail.setLongitud(loJson.getString("nLongitud"));
+                                    loDetail.setAddressx(loJson.getString("sAddressx"));
+                                    loDetail.setBrgyName(loJson.getString("sBrgyName"));
+                                    loDetail.setEntryNox(Integer.parseInt(loJson.getString("nEntryNox")));
+                                    loDetail.setClientID(loJson.getString("sClientID"));
+                                    loDetail.setTownName(loJson.getString("sTownName"));
+                                    loDetail.setIsDCPxxx(loJson.getString("cIsDCPxxx"));
+                                    loDetail.setSerialID(loJson.getString("sSerialID"));
+                                    loDetail.setFullName(loJson.getString("xFullName"));
+                                    loDetail.setDueDatex(loJson.getString("dDueDatex"));
+                                    loDetail.setLatitude(loJson.getString("nLatitude"));
+                                    loDetail.setMobileNo(loJson.getString("sMobileNo"));
+                                    loDetail.setAmtDuexx(loJson.getString("nAmtDuexx"));
+                                    loDetail.setHouseNox(loJson.getString("sHouseNox"));
+                                    loDetail.setSerialNo(loJson.getString("sSerialNo"));
+                                    loDetail.setAcctNmbr(loJson.getString("sAcctNmbr"));
+                                    loDetail.setSendStat("0");
+                                    loDetail.setTranStat("0");
 
-                    loCollectDetlList.add(loDetail);
-                }
+                                    loCollectDetlList.add(loDetail);
+                                }
 
-                callback.OnDataExtract(loCollectDetlList, loMaster);
+                                callback.OnDataExtract(loCollectDetlList, loMaster);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }).execute(dcpImport.toString());
+
             } else {
                 GToast.CreateMessage(getApplication(),"File contains invalid data format.", GToast.ERROR).show();
             }
@@ -1064,6 +1078,50 @@ public class VMCollectionList extends AndroidViewModel {
         }
 
 
+    }
+
+    private static class CheckImportDataTask extends AsyncTask<String, Void, Boolean>{
+        private RDailyCollectionPlan poDCPRepo;
+        private CheckImport mListener;
+        private EDCPCollectionDetail poDCPEntity;
+
+        public CheckImportDataTask(RDailyCollectionPlan poDCPRepo, CheckImport mListener) {
+            this.poDCPRepo = poDCPRepo;
+            this.mListener = mListener;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                JSONObject loJson = new JSONObject(strings[0]);
+                JSONArray loArrray_detl = loJson.getJSONArray("detail");
+                JSONObject loJson_master = loJson.getJSONObject("master");
+
+                for(int i = 0; i < loArrray_detl.length(); i++) {
+                    JSONObject loJson_detl = loArrray_detl.getJSONObject(i);
+                    poDCPEntity = poDCPRepo.checkCollectionImport(
+                            loJson_master.getString("sTransNox"),
+                            Integer.parseInt(loJson_detl.getString("nEntryNox")));
+                    if(poDCPEntity != null) {
+                        return true;
+                    }
+                }
+
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            mListener.OnCheck(aBoolean);
+        }
+    }
+
+    public interface CheckImport {
+        void OnCheck(boolean doesExist);
     }
 
     public interface ImportJSONCallback {
