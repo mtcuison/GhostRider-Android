@@ -52,9 +52,57 @@ public class CollectionLogAdapter extends RecyclerView.Adapter<CollectionLogAdap
             EDCPCollectionDetail detail = detailsFilter.get(position);
             holder.detail = detailsFilter.get(position);
 
-            holder.lblAccntNo.setText("Account No. : " + detail.getTransNox());
+            holder.lblAccntNo.setText("Account No. : " + detail.getAcctNmbr());
             holder.lblClntNme.setText(detail.getFullName());
-            holder.lblRemCode.setText(DCP_Constants.getRemarksDescription(detail.getRemCodex()));
+            holder.lblRemCode.setText(detail.getRemCodex());
+
+//            if(detail.getRemCodex().equalsIgnoreCase("PAY")) {
+//                holder.lblRemCode.setText("Paid");
+//            }
+//            else if(detail.getRemCodex().equalsIgnoreCase("PTP")) {
+//                holder.lblRemCode.setText("Promise To Pay");
+//            }
+//            else if(detail.getRemCodex().equalsIgnoreCase("CNA")) {
+//                holder.lblRemCode.setText("Customer Not Around");
+//            }
+//            else if(detail.getRemCodex().equalsIgnoreCase("Car")) {
+//                holder.lblRemCode.setText("Carnap");
+//            }
+//            else if(detail.getRemCodex().equalsIgnoreCase("UNC")) {
+//                holder.lblRemCode.setText("Uncooperative");
+//            }
+//            else if(detail.getRemCodex().equalsIgnoreCase("MCs")) {
+//                holder.lblRemCode.setText("Missing Customer");
+//            }
+//            else if(detail.getRemCodex().equalsIgnoreCase("MUn")) {
+//                holder.lblRemCode.setText("Missing Unit");
+//            }
+//            else if(detail.getRemCodex().equalsIgnoreCase("MCU")) {
+//                holder.lblRemCode.setText("Missing Customer and Unit");
+//            }
+//            else if(detail.getRemCodex().equalsIgnoreCase("DNP")) {
+//                holder.lblRemCode.setText("Did Not Pay");
+//            }
+//            else if(detail.getRemCodex().equalsIgnoreCase("NV")) {
+//                holder.lblRemCode.setText("Not Visited");
+//            }
+//            else if(detail.getRemCodex().equalsIgnoreCase("OTH")) {
+//                holder.lblRemCode.setText("Others");
+//            }
+//            else if(detail.getRemCodex().equalsIgnoreCase("FLA")) {
+//                holder.lblRemCode.setText("For Legal Action");
+//            }
+//            else if(detail.getRemCodex().equalsIgnoreCase("TA")) {
+//                holder.lblRemCode.setText("Transferred/Assumed");
+//            }
+//            else if(detail.getRemCodex().equalsIgnoreCase("FO")) {
+//                holder.lblRemCode.setText("False Ownership");
+//            }
+//            else if(detail.getRemCodex().equalsIgnoreCase("LUn")) {
+//                holder.lblRemCode.setText("Loan Unit");
+//            }
+
+
             holder.lblEntryNo.setText("Entry No. : " + detail.getEntryNox());
             holder.lblRemarks.setText(detail.getRemarksx());
         } catch (Exception e){
