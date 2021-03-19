@@ -329,6 +329,27 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                                 poMessage.show();
                             }
                         });
+
+                        mViewModel.getExportDataList(Remarks, new VMCollectionList.FileManagerCallBack() {
+                            @Override
+                            public void OnJSONCreated(JSONObject loJson) {
+                                if(exportCollectionList(loJson)) {
+                                    Log.e("Success","Success");
+                                } else {
+                                    Log.e("Failed","Failed");
+                                }
+                            } @Override
+                            public void OnStartSaving() {
+                            }
+
+                            @Override
+                            public void OnSuccessResult(String[] args) {
+                            }
+
+                            @Override
+                            public void OnFailedResult(String message) {
+                            }
+                        });
                     }
 
                     @Override
@@ -363,6 +384,27 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                         poMessage.setMessage(message);
                         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                         poMessage.show();
+                    }
+                });
+
+                mViewModel.getExportDataList("", new VMCollectionList.FileManagerCallBack() {
+                    @Override
+                    public void OnJSONCreated(JSONObject loJson) {
+                        if(exportCollectionList(loJson)) {
+                            Log.e("Success","Success");
+                        } else {
+                            Log.e("Failed","Failed");
+                        }
+                    } @Override
+                    public void OnStartSaving() {
+                    }
+
+                    @Override
+                    public void OnSuccessResult(String[] args) {
+                    }
+
+                    @Override
+                    public void OnFailedResult(String message) {
                     }
                 });
             }
