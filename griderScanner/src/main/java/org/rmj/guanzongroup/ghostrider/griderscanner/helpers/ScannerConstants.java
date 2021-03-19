@@ -10,7 +10,7 @@ public class ScannerConstants {
     public static String cropText="Crop",backText="Close",
             imageError= "No image selected, please try again.",
             cropError="You have not selected a valid field. Please make corrections until the lines turn blue.";
-    public static String cropColor="#6666ff",backColor="#ff0000",progressColor="#331199";
+    public static String cropColor="#6666ff",backColor="#ff0000",progressColor="#f88222";
     public static boolean saveStorage=false;
     public static String TransNox;
     public static String FileCode;
@@ -21,6 +21,7 @@ public class ScannerConstants {
     public static String Usage;
     public static int EntryNox;
     public static String FileName;
+    public static String FileDesc;
     public static double Latt;
     public static double Longi;
     public static String SourceCode = "COAD";

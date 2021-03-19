@@ -6,6 +6,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
@@ -26,6 +28,7 @@ import org.rmj.guanzongroup.ghostrider.griderscanner.base.CropperErrorType;
 import org.rmj.guanzongroup.ghostrider.griderscanner.base.DocumentScanActivity;
 import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
 import org.rmj.guanzongroup.ghostrider.griderscanner.libraries.PolygonView;
+import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMClientInfo;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -48,6 +51,7 @@ public class ImageCrop extends DocumentScanActivity {
     private static boolean isInverted;
     private ProgressBar progressBar;
     public static Bitmap cropImage;
+    private VMClientInfo mViewModel;
     private final View.OnClickListener btnImageEnhanceClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -189,6 +193,7 @@ public class ImageCrop extends DocumentScanActivity {
     }
 
     private void initView() {
+        mViewModel = new ViewModelProvider(this).get(VMClientInfo.class);
         Button btnImageCrop = findViewById(R.id.btnImageCrop);
         Button btnClose = findViewById(R.id.btnClose);
         holderImageCrop = findViewById(R.id.holderImageCrop);
@@ -235,15 +240,14 @@ public class ImageCrop extends DocumentScanActivity {
 
     public String saveToInternalStorage(Bitmap bitmapImage) {
 
+//        String root = Environment.getExternalStorageDirectory().toString();
+//        File sd = new File(root + "/"+ getPackageName() + "/" + FILE_FOLDER + "/");
         poImageInfo = new EImageInfo();
         poDocumentsInfo = new ECreditApplicationDocuments();
         getRealPathFromURI (ScannerConstants.PhotoPath);
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = ScannerConstants.TransNox + "_" + ScannerConstants.FileCode + "_" + timeStamp + ".png";
         File storageDir = getExternalFilesDir( "/" + ScannerConstants.Folder + "/" + ScannerConstants.Usage);
-        //File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-//        String imageFileName = "cropped_" + timeStamp + ".png";
         File mypath = new File(storageDir, imageFileName);
         FileOutputStream fos = null;
         try {
@@ -272,6 +276,8 @@ public class ImageCrop extends DocumentScanActivity {
         poDocumentsInfo.setImageNme(imageFileName);
         poDocumentsInfo.setFileCode(ScannerConstants.FileCode);
         poDocumentsInfo.setFileLoc(mypath.getAbsolutePath());
+//        mViewModel.setImgParameter(ScannerConstants.TransNox, ScannerConstants.EntryNox, ScannerConstants.FileCode, imageFileName, mypath.getAbsolutePath());
+
         return storageDir.getAbsolutePath();
 
     }
@@ -283,5 +289,7 @@ public class ImageCrop extends DocumentScanActivity {
         }
         return target.toString();
     }
+
+
 
 }

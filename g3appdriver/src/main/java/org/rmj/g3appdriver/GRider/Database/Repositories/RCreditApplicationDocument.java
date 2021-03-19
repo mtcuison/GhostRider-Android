@@ -36,6 +36,10 @@ public class RCreditApplicationDocument {
     public void insertDocumentInfo(ECreditApplicationDocuments documentsInfo){
         new InsertTask(documentsDao, "insert").execute(documentsInfo);
     }
+    public void updateDocumentInfo(ECreditApplicationDocuments documentsInfo){
+        new InsertTask(documentsDao, "update").execute(documentsInfo);
+    }
+
     public LiveData<List<ECreditApplicationDocuments>> getDocumentInfo(){
         return documentsDao.getDocumentInfo();
     }
