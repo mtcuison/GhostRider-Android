@@ -102,9 +102,9 @@ public class Activity_CollectionLog extends AppCompatActivity {
         mViewModel.getDateTransact().observe(Activity_CollectionLog.this, s -> mViewModel.getCollectionDetailForDate(s).observe(Activity_CollectionLog.this, collectionDetails -> {
             try{
                 for(int z = 0; z < collectionDetails.size(); z++) {
-                    if(collectionDetails.get(z).getRemCodex() != null) {
+//                    if(collectionDetails.get(z).getRemCodex() != null) {
                         filteredCollectionDetlx.add(collectionDetails.get(z));
-                    }
+//                    }
                 }
 
                 CollectionLogAdapter poAdapter = new CollectionLogAdapter(filteredCollectionDetlx, position -> {
