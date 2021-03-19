@@ -29,6 +29,7 @@ public class Fragment_OtherTransactions_Log extends Fragment {
     private VMOtherTransactions_Log mViewModel;
     private TextView txtAcctNo, txtClientName, txtClientAddress, txtRemarks;
     private ImageView ivTransImage;
+    private View divDivider;
 
     public static Fragment_OtherTransactions_Log newInstance(String param1, String param2) {
         return new Fragment_OtherTransactions_Log();
@@ -51,7 +52,7 @@ public class Fragment_OtherTransactions_Log extends Fragment {
         txtClientAddress.setText(Activity_TransactionLog.clientAddress);
         txtRemarks.setText(Activity_TransactionLog.remarks);
         //Image Location
-        if(!IMAGE_NAME.isEmpty()) {
+        if(IMAGE_NAME != null) {
             mViewModel.getImageLocation(Activity_TransactionLog.acctNox, IMAGE_NAME)
                     .observe(getViewLifecycleOwner(), eImageInfo -> {
                         // TODO: Display Image
@@ -59,6 +60,7 @@ public class Fragment_OtherTransactions_Log extends Fragment {
                     });
         } else {
             ivTransImage.setVisibility(View.GONE);
+            divDivider.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -68,6 +70,7 @@ public class Fragment_OtherTransactions_Log extends Fragment {
         txtClientName = v.findViewById(R.id.txt_clientName);
         txtClientAddress = v.findViewById(R.id.txt_client_address);
         txtRemarks = v.findViewById(R.id.tv_remarks);
+        divDivider = v.findViewById(R.id.divider2);
     }
 
     private void setPic(String photoPath) {
