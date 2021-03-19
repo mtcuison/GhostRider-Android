@@ -125,7 +125,7 @@ public class GeoLocator {
 
         } catch (IOException e) {
             e.printStackTrace();
-            GToast.CreateMessage(context, e.getMessage(), GToast.INFORMATION).show();
+//            GToast.CreateMessage(context, e.getMessage(), GToast.INFORMATION).show();
         }
     }
 
