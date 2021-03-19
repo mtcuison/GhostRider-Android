@@ -186,7 +186,11 @@ public class VMCollectionList extends AndroidViewModel {
     private JSONObject readDCPImportFileContent(String fileName) throws JSONException {
         FileReader fr = null;
         String fileContents;
-        File myExternalFile = new File(Environment.getExternalStorageDirectory(), fileName + "-out.txt");
+        String root = Environment.getExternalStorageDirectory().toString();
+        String lsPublicFoldx = AppConstants.APP_PUBLIC_FOLDER;
+        String lsSubFoldx = AppConstants.SUB_FOLDER_EXPORTS;
+        File sd = new File(root + lsPublicFoldx + lsSubFoldx + "/");
+        File myExternalFile = new File(sd , fileName + "-out.txt");
         if(!myExternalFile.exists()) {
             GToast.CreateMessage(getApplication(), "Please enter a valid file name.", GToast.WARNING).show();
             return null;
