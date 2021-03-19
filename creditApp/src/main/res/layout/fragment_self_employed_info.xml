@@ -13,6 +13,12 @@
         android:gravity="center"
         android:padding="5dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/HeaderLabelBlack"
+            android:text="@string/sHeaderSelfEmplopyedInfo"/>
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
@@ -28,11 +34,6 @@
                 android:clickable="false"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
-        <!--        <Spinner-->
-        <!--            android:id="@+id/spn_businessNature"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_margin="10dp"/>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -46,6 +47,7 @@
                 android:layout_height="wrap_content"
                 style="@style/TextInputStyle.Edittext"
                 android:maxLines="1"
+                android:inputType="textCapWords"
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/txt_businessName"
                 android:maxLength="100"/>
@@ -62,10 +64,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
+                android:inputType="textCapWords"
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/txt_businessAddress"
                 android:maxLength="100"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/HeaderLabelBlack"
+            android:text="@string/sHeaderBizAddress"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -78,6 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
+                android:inputType="textCapWords"
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/txt_province"
                 android:maxLength="150"/>
@@ -102,6 +112,7 @@
                     android:layout_height="wrap_content"
                     style="@style/AutoCompleteStyleTheme"
                     android:maxLines="1"
+                    android:inputType="textCapWords"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/txt_town"
                     android:maxLength="50"/>
@@ -120,12 +131,19 @@
                     android:layout_height="wrap_content"
                     style="@style/AutoCompleteStyleTheme"
                     android:maxLines="1"
+                    android:inputType="textCapWords"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/txt_lenghtService"
                     android:maxLength="50"/>
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/HeaderLabelBlack"
+            android:text="@string/sHeaderBizOtherInfo"/>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/CustomDropDownTilStyle"
