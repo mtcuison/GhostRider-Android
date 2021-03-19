@@ -25,6 +25,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMOtherTran
 
 public class Fragment_OtherTransactions_Log extends Fragment {
     private static final String TAG = Fragment_OtherTransactions_Log.class.getSimpleName();
+    private static final String IMAGE_NAME = Activity_TransactionLog.imgNme;
     private VMOtherTransactions_Log mViewModel;
     private TextView txtAcctNo, txtClientName, txtClientAddress, txtRemarks;
     private ImageView ivTransImage;
@@ -50,11 +51,15 @@ public class Fragment_OtherTransactions_Log extends Fragment {
         txtClientAddress.setText(Activity_TransactionLog.clientAddress);
         txtRemarks.setText(Activity_TransactionLog.remarks);
         //Image Location
-        mViewModel.getImageLocation(Activity_TransactionLog.acctNox, Activity_TransactionLog.imgNme)
-                .observe(getViewLifecycleOwner(), eImageInfo -> {
-                    // TODO: Display Image
-                    setPic(eImageInfo.getFileLoct());
-                });
+        if(!IMAGE_NAME.isEmpty()) {
+            mViewModel.getImageLocation(Activity_TransactionLog.acctNox, IMAGE_NAME)
+                    .observe(getViewLifecycleOwner(), eImageInfo -> {
+                        // TODO: Display Image
+                        setPic(eImageInfo.getFileLoct());
+                    });
+        } else {
+            ivTransImage.setVisibility(View.GONE);
+        }
     }
 
     private void initWidgets(View v) {

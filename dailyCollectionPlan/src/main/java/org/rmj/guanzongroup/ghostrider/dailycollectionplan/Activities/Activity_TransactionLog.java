@@ -42,7 +42,7 @@ public class Activity_TransactionLog extends AppCompatActivity {
         transNox = getIntent().getStringExtra("sTransNox");
         acctNox = getIntent().getStringExtra("acctNox");
         fullNme = getIntent().getStringExtra("fullNme");
-        remCodex = getIntent().getStringExtra("remCodex");
+        remCodex = (getIntent().getStringExtra("remCodex") == null) ? "" : getIntent().getStringExtra("remCodex");
         imgNme = getIntent().getStringExtra("imgNme");
         clientID = getIntent().getStringExtra("sClientID");
         clientAddress = getIntent().getStringExtra("sAddressx");
@@ -85,7 +85,7 @@ public class Activity_TransactionLog extends AppCompatActivity {
         else if(remCodex.equalsIgnoreCase("NV")) {
             getSupportActionBar().setTitle("Not Visited");
         }
-        else if(remCodex.equalsIgnoreCase("OTH")) {
+        else if(remCodex.equalsIgnoreCase("OTH") || remCodex.equalsIgnoreCase("")) {
             getSupportActionBar().setTitle("Others");
         }
         else if(remCodex.equalsIgnoreCase("FLA")) {
@@ -166,7 +166,8 @@ public class Activity_TransactionLog extends AppCompatActivity {
                 || (transaction.equalsIgnoreCase("MCU"))
                 || (transaction.equalsIgnoreCase("DNP"))
                 || transaction.equalsIgnoreCase("NV"))
-                || (transaction.equalsIgnoreCase("OTH"))){
+                || (transaction.equalsIgnoreCase("OTH"))
+                || (transaction.equalsIgnoreCase(""))){
             return new Fragment_OtherTransactions_Log();
         }
         return null;
