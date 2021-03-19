@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
@@ -70,13 +71,14 @@ public class VMMainScanner extends AndroidViewModel {
     public LiveData<List<DCreditApplication.ApplicationLog>> getApplicationByBranch(String BranchID){
         return poCreditApp.getApplicationByBranch(BranchID);
     }
-    public void setDocumentInfo(List<DCreditApplicationDocuments.ApplicationDocument> docInfo) {
-        this.documentInfo = docInfo;
+    public void saveDocumentInfo(ECreditApplicationDocuments documentsInfo){
+        try{
+            documentsInfo.setDocTransNox(poDocument.getImageNextCode());
+            poDocument.insertDocumentInfo(documentsInfo);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
-    public List<DCreditApplicationDocuments.ApplicationDocument> getDocInfo() {
-        return this.documentInfo;
-    }
-    public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocument(String TransNox){
-        return poDocument.getDocument(TransNox);
-    }
+
+
 }

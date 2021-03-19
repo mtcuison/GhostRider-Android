@@ -125,6 +125,10 @@ public class RDailyCollectionPlan {
         return detailDao.getPostedCollectionDetail(TransNox, Acctnox, RemCode);
     }
 
+    public EDCPCollectionDetail checkCollectionImport(String sTransNox, int nEntryNox) {
+        return detailDao.checkCollectionImport(sTransNox,nEntryNox);
+    }
+
 
     public String getNextAddressCode(){
         String lsNextCode = "";

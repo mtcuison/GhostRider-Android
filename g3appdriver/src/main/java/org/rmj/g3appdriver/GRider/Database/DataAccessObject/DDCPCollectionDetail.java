@@ -193,6 +193,9 @@ public interface DDCPCollectionDetail {
             "AND cSendStat = 1")
     LiveData<EDCPCollectionDetail> getPostedCollectionDetail(String TransNox, String Acctnox, String RemCode);
 
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox = :sTransNox AND nEntryNox = :nEntryNox")
+    EDCPCollectionDetail checkCollectionImport(String sTransNox, int nEntryNox);
+
     class CollectionDetail{
         public String sTransNox;
         public int nEntryNox;
