@@ -91,33 +91,52 @@ public class VMClientInfo extends AndroidViewModel {
 
     public void saveDocumentInfo(List<DCreditApplicationDocuments.ApplicationDocument> poDocs,ECreditApplicationDocuments documentsInfo){
         try{
+            boolean isDocumentExist = false;
+            String tansNo = "";
             for (int i = 0; i < poDocs.size(); i++){
-                if (poDocs.get(i).sTransNox.equalsIgnoreCase(documentsInfo.getTransNox())){
+                if (poDocs.get(i).sTransNox.equalsIgnoreCase(documentsInfo.getTransNox()) &&
+                        poDocs.get(i).sFileCode.equalsIgnoreCase(documentsInfo.getFileCode())){
+                    isDocumentExist = true;
                     documentsInfo.setFileLoc(poDocs.get(i).sFileLoc);
                     documentsInfo.setImageNme(poDocs.get(i).sImageNme);
-                    documentsInfo.setDocTransNox(documentsInfo.getDocTransNox());
-                    poDocument.updateDocumentInfo(documentsInfo);
-                }else{
-                    documentsInfo.setDocTransNox(poDocument.getImageNextCode());
-                    poDocument.insertDocumentInfo(documentsInfo);
-                    Log.e(TAG, "Image info has been save!");
+                    tansNo = documentsInfo.getDocTransNox();
                 }
             }
-
+            if (isDocumentExist){
+                documentsInfo.setDocTransNox(tansNo);
+                poDocument.updateDocumentInfo(documentsInfo);
+                Log.e(TAG, "Document info has been updated!");
+            }else{
+                documentsInfo.setDocTransNox(poDocument.getImageNextCode());
+                poDocument.insertDocumentInfo(documentsInfo);
+                Log.e(TAG, "Document info has been save!");
+            }
 
         } catch (Exception e){
             e.printStackTrace();
         }
     }
-    public void saveDocumentInfoFromCamera(ECreditApplicationDocuments documentsInfo){
+    public void saveDocumentInfoFromCamera(List<DCreditApplicationDocuments.ApplicationDocument> poDocs, ECreditApplicationDocuments documentsInfo){
         try{
 
-
-//                documentsInfo.setDocTransNox(psT);
-//                Log.e("Img TransNox", tansNo);
-//                poDocument.updateDocumentInfo(documentsInfo);
-//                Log.e(TAG, "Image info has been updated!");
-
+            boolean isDocumentExist = false;
+            String tansNo = "";
+            for (int i = 0; i < poDocs.size(); i++){
+                if (poDocs.get(i).sTransNox.equalsIgnoreCase(documentsInfo.getTransNox()) &&
+                        poDocs.get(i).sFileCode.equalsIgnoreCase(documentsInfo.getFileCode())){
+                    isDocumentExist = true;
+                    tansNo = documentsInfo.getDocTransNox();
+                }
+            }
+            if (isDocumentExist){
+                documentsInfo.setDocTransNox(tansNo);
+                poDocument.updateDocumentInfo(documentsInfo);
+                Log.e(TAG, "Document info with image has been updated!");
+            }else{
+                documentsInfo.setDocTransNox(poDocument.getImageNextCode());
+                poDocument.insertDocumentInfo(documentsInfo);
+                Log.e(TAG, "Document info with image has been save!");
+            }
 
         } catch (Exception e){
             e.printStackTrace();
@@ -145,18 +164,17 @@ public class VMClientInfo extends AndroidViewModel {
                 foImage.setTransNox(poImage.getImageNextCode());
                 poImage.insertImageInfo(foImage);
                 Log.e("VMClient ", "Image info has been save!");
+
             }
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    public boolean PostDocumentScanDetail( ECreditApplicationDocuments poDocumentsInfo,ViewModelCallBack callback){
+    public void PostDocumentScanDetail( ECreditApplicationDocuments poDocumentsInfo,ViewModelCallBack callback){
         try {
             new PostDocumentScanDetail(instance,poDocumentsInfo, poDocumentsInfo.getTransNox(), poDocumentsInfo.getFileCode(), poDocumentsInfo.getEntryNox(), poDocumentsInfo.getImageNme(),poDocumentsInfo.getFileLoc(),callback).execute();
-            return true;
         }catch (Exception e){
-            return false;
         }
     }
 
@@ -194,18 +212,9 @@ public class VMClientInfo extends AndroidViewModel {
             this.rCollect = new RCollectionUpdate(instance);
         }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.OnStartSaving();
-        }
-
-
-
-        @SafeVarargs
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
-        protected final String doInBackground(Void ... voids) {
+        protected String doInBackground(Void... voids) {
             String lsResult;
             try {
                 if(!poConn.isDeviceConnected()){
@@ -234,7 +243,7 @@ public class VMClientInfo extends AndroidViewModel {
                         Log.e(TAG, "Uploading image result : " + lsResponse);
 //
                         if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success"))
-                       {
+                        {
 
 //                            Log.e(TAG, "Image file of Account No. " + psTransNox + ", Entry No. "+ pnEntryNox+ " was uploaded successfully");
                             String lsTransNo = (String) loUpload.get("sTransNox");
@@ -245,13 +254,16 @@ public class VMClientInfo extends AndroidViewModel {
                         } else {
 
                             Log.e(TAG, "Image file of Account No. " + psTransNox + ", Entry No. "+ pnEntryNox+ " was not uploaded to server.");
+
+                            Log.e(TAG, "Reason : " + lsResponse);
                             JSONObject loError = new JSONObject(lsResponse);
                             lsResult =loError.getString("message");
                             Log.e(TAG, "Reason : " + loError.getString("message"));
                         }
-                            Thread.sleep(1000);
-                        }
+
+                        Thread.sleep(1000);
                     }
+                }
 
             } catch (Exception e){
                 e.printStackTrace();
@@ -259,6 +271,15 @@ public class VMClientInfo extends AndroidViewModel {
             }
             return lsResult;
         }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnStartSaving();
+        }
+
+
+
 
         @Override
         protected void onPostExecute(String s) {
@@ -278,7 +299,8 @@ public class VMClientInfo extends AndroidViewModel {
             catch (Exception e){
                 e.printStackTrace();
             }
-            this.cancel(true);
+//            this.cancel(true);
+
         }
 
 

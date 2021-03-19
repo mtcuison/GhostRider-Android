@@ -86,9 +86,12 @@ public class ClientInfo extends AppCompatActivity {
 
     public static EImageInfo poImageInfo;
     public static ECreditApplicationDocuments poDocumentsInfo;
+    private ECreditApplicationDocuments poDocsInfo;
     String TransNox, FileCode;
     FileCodeAdapter loAdapter;
     ClientFileCodeAdapter adapter;
+
+    private List<DCreditApplicationDocuments.ApplicationDocument> documentInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,21 +102,23 @@ public class ClientInfo extends AppCompatActivity {
         mViewModel = new ViewModelProvider(this).get(VMClientInfo.class);
         sViewModel = new ViewModelProvider(this).get(VMMainScanner.class);
         docInfo =  new ArrayList<>();
-        infoModel = new CreditAppDocumentModel();
         initWidgets();
         contentResolver = this.getContentResolver();
         setData();
 
         ScannerConstants.TransNox = lblTransNoxxx.getText().toString();
         mViewModel.getDocument(TransNox).observe(ClientInfo.this, data->{
+            documentInfo = new ArrayList<>();
+            documentInfo = data;
             mViewModel.getFileCode().observe(ClientInfo.this, fileCodeDetails -> {
+
                 Log.e("fileCode size", String.valueOf(fileCodeDetails.size()));
                 for (int i = 0; i < fileCodeDetails.size(); i++){
-                    poDocumentsInfo = new ECreditApplicationDocuments();
-                    poDocumentsInfo.setEntryNox(fileCodeDetails.get(i).getEntryNox());
-                    poDocumentsInfo.setTransNox(TransNox);
-                    poDocumentsInfo.setFileCode(fileCodeDetails.get(i).getFileCode());
-                    mViewModel.saveDocumentInfo(data,poDocumentsInfo);
+                    poDocsInfo = new ECreditApplicationDocuments();
+                    poDocsInfo.setEntryNox(fileCodeDetails.get(i).getEntryNox());
+                    poDocsInfo.setTransNox(TransNox);
+                    poDocsInfo.setFileCode(fileCodeDetails.get(i).getFileCode());
+                    mViewModel.saveDocumentInfo(data,poDocsInfo);
                 }
                 loAdapter = new FileCodeAdapter(ClientInfo.this,TransNox, data,fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
                     @Override
@@ -198,13 +203,13 @@ public class ClientInfo extends AppCompatActivity {
             if(resultCode == RESULT_OK) {
                 try {
 
-                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(infoModel.getDocFilePath()));
-                    mViewModel.saveDocumentInfoFromCamera(poDocumentsInfo);
+                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(ScannerConstants.PhotoPath));
                     mViewModel.saveImageInfo(poImageInfo);
+                    mViewModel.saveDocumentInfoFromCamera(documentInfo, poDocumentsInfo);
                     mViewModel.PostDocumentScanDetail(poDocumentsInfo, new ViewModelCallBack() {
                         @Override
                         public void OnStartSaving() {
-                            poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
+                            poDialogx.initDialog("Daily Collection Plan", "Posting " + ScannerConstants.FileDesc + " details. Please wait...", false);
                             poDialogx.show();
                         }
 

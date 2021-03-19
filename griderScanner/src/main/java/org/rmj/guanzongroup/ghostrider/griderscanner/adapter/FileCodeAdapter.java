@@ -90,7 +90,8 @@ public class FileCodeAdapter extends RecyclerView.Adapter<FileCodeAdapter.FileCo
             for (int i = 0; i <  documentsInfo.size(); i++){
                 if (documentsInfo.get(i).sFileCode.equalsIgnoreCase(collection.getFileCode()) &&
                         documentsInfo.get(i).nEntryNox == collection.getEntryNox() &&
-                        documentsInfo.get(i).sTransNox.equalsIgnoreCase(TransNox)){
+                        documentsInfo.get(i).sTransNox.equalsIgnoreCase(TransNox) &&
+                        documentsInfo.get(i).sImageNme != null ){
                     holder.fileStat.setImageResource(drawable.ic_baseline_done_24);
                     holder.fileStat.setTag(R.drawable.ic_baseline_done_24);
 

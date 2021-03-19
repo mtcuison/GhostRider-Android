@@ -17,18 +17,20 @@ import java.util.List;
 @Dao
 public interface DCreditApplicationDocuments {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(ECreditApplicationDocuments documentsInfo);
 
     @Update
     void update(ECreditApplicationDocuments documentsInfo);
-//
-//    @Query("UPDATE Credit_Application_Documents " +
-//            "SET sTransNox =:TransNox, " +
-//            "cSendStat = '1', " +
-//            "dSendDate =:DateModifield " +
-//            "WHERE sTransNox =:oldTransNox")
-//    void updateImageInfo(String TransNox, String DateModifield, String oldTransNox);
+
+
+    @Query("UPDATE Credit_Online_Application_Documents " +
+            "SET sFileLoc =:sFilePath , " +
+            "sImageNme =:sImgName " +
+            "WHERE sTransNox =:TransNox " +
+            "AND sFileCode =:sFileCD")
+    void updateDocumentsInfo(String TransNox, String sFileCD, String sImgName, String sFilePath);
+
 
     @Query("SELECT * FROM Credit_Online_Application_Documents " +
             "WHERE sTransNox = (SELECT sTransNox " +

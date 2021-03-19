@@ -28,6 +28,7 @@ import org.rmj.guanzongroup.ghostrider.griderscanner.base.CropperErrorType;
 import org.rmj.guanzongroup.ghostrider.griderscanner.base.DocumentScanActivity;
 import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
 import org.rmj.guanzongroup.ghostrider.griderscanner.libraries.PolygonView;
+import org.rmj.guanzongroup.ghostrider.griderscanner.model.CreditAppDocumentModel;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMClientInfo;
 
 import java.io.File;
@@ -240,15 +241,18 @@ public class ImageCrop extends DocumentScanActivity {
 
     public String saveToInternalStorage(Bitmap bitmapImage) {
 
-//        String root = Environment.getExternalStorageDirectory().toString();
-//        File sd = new File(root + "/"+ getPackageName() + "/" + FILE_FOLDER + "/");
+        String root = Environment.getExternalStorageDirectory().toString();
+        File sd = new File(root + "/"+ getPackageName() + "/" + "COAD" + "/");
         poImageInfo = new EImageInfo();
         poDocumentsInfo = new ECreditApplicationDocuments();
         getRealPathFromURI (ScannerConstants.PhotoPath);
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = ScannerConstants.TransNox + "_" + ScannerConstants.FileCode + "_" + timeStamp + ".png";
+        String imageFileName = ScannerConstants.TransNox + "_" + ScannerConstants.EntryNox + "_" +ScannerConstants.FileCode + ".png";
         File storageDir = getExternalFilesDir( "/" + ScannerConstants.Folder + "/" + ScannerConstants.Usage);
-        File mypath = new File(storageDir, imageFileName);
+        if (!sd.exists()) {
+            sd.mkdirs();
+        }
+        File mypath = new File(sd, imageFileName);
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);
@@ -259,6 +263,8 @@ public class ImageCrop extends DocumentScanActivity {
             Log.e("ERROR Exception", e.getMessage());
         }
         Log.e("Crop Image Path", mypath.getAbsolutePath());
+
+        infoModel = new CreditAppDocumentModel();
         infoModel.setDocFilePath(mypath.getAbsolutePath());
         poImageInfo.setDtlSrcNo(ScannerConstants.TransNox);
         poImageInfo.setSourceNo(ScannerConstants.TransNox);
@@ -276,9 +282,10 @@ public class ImageCrop extends DocumentScanActivity {
         poDocumentsInfo.setImageNme(imageFileName);
         poDocumentsInfo.setFileCode(ScannerConstants.FileCode);
         poDocumentsInfo.setFileLoc(mypath.getAbsolutePath());
+        ScannerConstants.PhotoPath = mypath.getAbsolutePath();
 //        mViewModel.setImgParameter(ScannerConstants.TransNox, ScannerConstants.EntryNox, ScannerConstants.FileCode, imageFileName, mypath.getAbsolutePath());
 
-        return storageDir.getAbsolutePath();
+        return sd.getAbsolutePath();
 
     }
     public String getRealPathFromURI (String contentUri) {

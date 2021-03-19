@@ -13,10 +13,10 @@ public class ScannerConstants {
     public static String cropColor="#6666ff",backColor="#ff0000",progressColor="#f88222";
     public static boolean saveStorage=false;
     public static String TransNox;
+    public static String DocTransNox;
     public static String FileCode;
     public static String PhotoPath;
 
-    public static String FilePath;
     public static String Folder;
     public static String Usage;
     public static int EntryNox;
