@@ -66,14 +66,18 @@
            <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:gravity="right"
-               android:layout_marginTop="10dp"
                android:orientation="vertical">
+               <View
+                   android:layout_width="match_parent"
+                   android:layout_height="1dp"
+                   android:background="@color/guanzon_orange"
+                   android:layout_marginTop="10dp"
+                   android:layout_marginBottom="5dp"/>
                <com.google.android.material.button.MaterialButton
                    style="@style/GhostRider_Button"
                    android:id="@+id/btnPreviewOkay"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
                    android:minWidth="150dp"
                    android:layout_alignParentStart="true"
                    android:shadowRadius="10"

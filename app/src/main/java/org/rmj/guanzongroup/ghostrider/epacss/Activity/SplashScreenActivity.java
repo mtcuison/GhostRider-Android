@@ -179,7 +179,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         JobInfo loJob = new JobInfo.Builder(AppConstants.JOB_ID, loComp)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .setPersisted(true)
-                .setPeriodic(900000)
+                .setPeriodic(3600000)
                 .build();
         JobScheduler loScheduler = (JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
         int liResult = loScheduler.schedule(loJob);

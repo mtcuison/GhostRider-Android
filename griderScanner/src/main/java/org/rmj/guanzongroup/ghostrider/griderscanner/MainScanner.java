@@ -89,6 +89,7 @@ public class MainScanner extends AppCompatActivity implements ViewModelCallBack 
                                 loIntent.putExtra("DateApplied",loanLists.get(position).getDateTransact());
                                 loIntent.putExtra("DateSend",loanLists.get(position).getDateSent());
                                 loIntent.putExtra("Status",loanLists.get(position).getTransactionStatus());
+                                loIntent.putExtra("AccountNo",loanLists.get(position).getTransactionStatus());
                                 startActivity(loIntent);
                             }
 
@@ -115,12 +116,27 @@ public class MainScanner extends AppCompatActivity implements ViewModelCallBack 
     }
 
     @Override
+    public void OnStartSaving() {
+
+    }
+
+    @Override
     public void onSaveSuccessResult(String args) {
 
     }
 
     @Override
     public void onFailedResult(String message) {
+
+    }
+
+    @Override
+    public void OnSuccessResult(String[] strings) {
+
+    }
+
+    @Override
+    public void OnFailedResult(String message) {
 
     }
 }

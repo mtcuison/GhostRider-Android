@@ -76,4 +76,9 @@ features available.]]>
     <string name="camera_permission_available">Camera permission is available. Starting preview.</string>
     <string name="camera_permission_granted">Camera permission was granted. Starting preview.</string>
     <string name="camera_permission_denied">Camera permission request was denied.</string>
+
+    <string name="summary_settings_export">Exporting your database is only allowed if problem occurs and if supervise by MIS</string>
+    <string name="summary_settings_localDB">Check your local data last date sync.</string>
+    <string name="summary_settings_account">Change your account password</string>
+    <string name="summary_settings_update">Redirect to Google Play if updates are available.</string>
 </resources>

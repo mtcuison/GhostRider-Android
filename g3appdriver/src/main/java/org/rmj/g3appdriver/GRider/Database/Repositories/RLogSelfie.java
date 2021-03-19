@@ -34,6 +34,10 @@ public class RLogSelfie {
         return selfieDao.getUnsentSelfieLogin();
     }
 
+    public LiveData<List<ELog_Selfie>> getAllEmployeeTimeLog(){
+        return selfieDao.getAllEmployeeTimeLog();
+    }
+
     public void insertSelfieLog(ELog_Selfie selfieLog){
         new InsertSelfieTask(selfieDao).execute(selfieLog);
     }

@@ -16,6 +16,12 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
 
+    <string name="summary_settings_export">Exporting your database is only allowed if problem occurs and if supervise by MIS</string>
+    <string name="summary_settings_localDB">Check your local data last date sync.</string>
+    <string name="summary_settings_account">Change your account password</string>
+    <string name="summary_settings_update">Redirect to Google Play if updates are available.</string>
+
+
     <!--   CAMERA -->
 
     <string name="show_camera">Show camera preview</string>

@@ -15,8 +15,6 @@ import org.json.simple.parser.ParseException;
 import org.rmj.apprdiver.util.WebClient;
 import org.rmj.apprdiver.util.WebFile;
 
-import java.io.File;
-
 public class WebFileServer {
     public static final String TAG = "WebFileServer";
 

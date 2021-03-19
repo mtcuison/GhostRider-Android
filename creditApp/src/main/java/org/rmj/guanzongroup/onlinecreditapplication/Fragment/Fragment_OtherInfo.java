@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.google.android.material.button.MaterialButton;
@@ -53,8 +54,6 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack, V
 
     private String TransNox;
     private View v;
-    private String ProvID = "";
-    private String TownID = "";
 //    private List<PersonalReferences> personalReferencesList;
 //    private ReferencesAdapter adapter;
 
@@ -91,8 +90,8 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack, V
     private AutoCompleteTextView tieAddTown;
     private RecyclerView recyclerView;
     private MaterialButton btnAddReferencex;
-    private MaterialButton btnPrevs;
-    private MaterialButton btnNext;
+    private Button btnPrevs;
+    private Button btnNext;
 
     public Fragment_OtherInfo() {
         // Required empty public constructor
@@ -106,7 +105,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack, V
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_other_info, container, false);
-        TransNox = new Activity_CreditApplication().getInstance().getTransNox();
+        TransNox = Activity_CreditApplication.getInstance().getTransNox();
         otherInfo = new OtherInfoModel();
         personalReferencesList = new ArrayList<>();
         setupWidgets(v);
@@ -118,7 +117,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack, V
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMOtherInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo.getDetlInfo()));
+        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
         mViewModel.getUnitUser().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnUnitUser.setAdapter(stringArrayAdapter));
         mViewModel.getUnitPurpose().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnUnitPrps.setAdapter(stringArrayAdapter));
         mViewModel.getIntCompanyInfoSource().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnSourcexx.setAdapter(stringArrayAdapter));
@@ -207,8 +206,6 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack, V
                 }
             }
         }));
-
-
     }
 
     private void setupWidgets(View view){
@@ -233,10 +230,11 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack, V
         tieAddTown = view.findViewById(R.id.tie_cap_referenceAddTown);
         recyclerView = view.findViewById(R.id.recyclerview_references);
         btnAddReferencex = view.findViewById(R.id.btn_fragment_others_addReference);
-        //btnPrevs = view.findViewById(R.id.btn_fragment_others_prevs);
+
         btnNext = view.findViewById(R.id.btn_creditAppNext);
+        btnPrevs = view.findViewById(R.id.btn_creditAppPrvs);
 
-
+        btnPrevs.setOnClickListener(v -> Activity_CreditApplication.getInstance().moveToPageNumber(13));
         btnAddReferencex.setOnClickListener(v -> addReference());
         btnNext.setOnClickListener(v -> submitOtherInfo());
     }

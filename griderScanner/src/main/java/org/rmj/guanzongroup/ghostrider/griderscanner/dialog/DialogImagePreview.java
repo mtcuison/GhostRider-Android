@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ghostrider.griderscanner.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -29,7 +30,7 @@ public class DialogImagePreview {
     private AlertDialog poDialogx;
     private final Context context;
     private String lsDate = "";
-    private String FilePath;
+    private Bitmap ImgBitmap;
     private String dialogTitle;
 
 
@@ -37,9 +38,9 @@ public class DialogImagePreview {
         this.context = context;
 //        this.FilePath = filePath;
     }
-    public DialogImagePreview(Context context,String filePath, String title){
+    public DialogImagePreview(Context context, Bitmap imgBitmap, String title){
         this.context = context;
-        this.FilePath = filePath;
+        this.ImgBitmap = imgBitmap;
         this.dialogTitle = title;
     }
 
@@ -55,14 +56,9 @@ public class DialogImagePreview {
         dTitle.setText(dialogTitle);
         MaterialButton btnCancel = view.findViewById(R.id.btnPreviewOkay);
         try {
-            if (FilePath != null){
+            if (ImgBitmap != null){
                 imgPreview.setVisibility(View.VISIBLE);
-                try {
-                    imgPreview.setImageBitmap(MediaStore.Images.Media.getBitmap(
-                            contentResolver, Uri.fromFile(new File(FilePath))));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                imgPreview.setImageBitmap(ImgBitmap);
             }
         }catch (NullPointerException e){
 

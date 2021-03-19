@@ -27,11 +27,14 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.ClientFileCodeAdapter;
 import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.FileCodeAdapter;
@@ -41,6 +44,7 @@ import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
 import org.rmj.guanzongroup.ghostrider.griderscanner.model.CreditAppDocumentModel;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMClientInfo;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMMainScanner;
+import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import java.io.File;
@@ -66,23 +70,28 @@ public class ClientInfo extends AppCompatActivity {
     TextView lblDateSentxx;
     TextView lblSentStatus;
 
+    private LoadDialog poDialogx;
+    private MessageBox poMessage;
+
     private List<CreditAppDocumentModel> docInfo;
     public static CreditAppDocumentModel infoModel;
 //    Grider initialization
 
     public ImageView imgBitmap;
     public static String mCurrentPhotoPath;
-    public MaterialButton mbCamera, mbGallery, mbCropOkay;
     public static ImageFileCreator poFilexx;
     private final String FOLDER_NAME = "DocumentScan";
     public static ContentResolver contentResolver;
-    public static int CAMERA_REQUEST_CODE = 1231, GALLERY_REQUEST_CODE = 1111, CROP_REQUEST_CODE = 1234;
+    public static int  CROP_REQUEST_CODE = 1234;
 
     public static EImageInfo poImageInfo;
     public static ECreditApplicationDocuments poDocumentsInfo;
+    private ECreditApplicationDocuments poDocsInfo;
     String TransNox, FileCode;
     FileCodeAdapter loAdapter;
     ClientFileCodeAdapter adapter;
+
+    private List<DCreditApplicationDocuments.ApplicationDocument> documentInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,43 +102,57 @@ public class ClientInfo extends AppCompatActivity {
         mViewModel = new ViewModelProvider(this).get(VMClientInfo.class);
         sViewModel = new ViewModelProvider(this).get(VMMainScanner.class);
         docInfo =  new ArrayList<>();
-        infoModel = new CreditAppDocumentModel();
         initWidgets();
         contentResolver = this.getContentResolver();
         setData();
 
         ScannerConstants.TransNox = lblTransNoxxx.getText().toString();
-        mViewModel.getDocument(TransNox).observe(ClientInfo.this, data->mViewModel.setDocumentInfo(data));
-        mViewModel.getFileCode().observe(ClientInfo.this, fileCodeDetails -> {
-            loAdapter = new FileCodeAdapter(ClientInfo.this,TransNox, mViewModel.getDocInfo(),fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
-                @Override
-                public void OnClick(int position) {
-                    poFilexx = new ImageFileCreator(ClientInfo.this , "Credit Application Documents", "SCAN", fileCodeDetails.get(position).getFileCode(), TransNox);
-                    poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                        mCurrentPhotoPath = photPath;
-                        ScannerConstants.Usage =camUsage;
-                        ScannerConstants.Folder = "Credit Application Documents";
-                        ScannerConstants.FileCode = fileCodeDetails.get(position).getFileCode();
-                        ScannerConstants.PhotoPath = photPath;
-                        ScannerConstants.EntryNox = (position + 1);
-                        ScannerConstants.FileName = FileName;
-                        ScannerConstants.Latt = latitude;
-                        ScannerConstants.Longi = longitude;
-                        startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
-                    });
-                }
+        mViewModel.getDocument(TransNox).observe(ClientInfo.this, data->{
+            documentInfo = new ArrayList<>();
+            documentInfo = data;
+            mViewModel.getFileCode().observe(ClientInfo.this, fileCodeDetails -> {
 
-                @Override
-                public void OnActionButtonClick() {
-                    //TODO: Future update
+                Log.e("fileCode size", String.valueOf(fileCodeDetails.size()));
+                for (int i = 0; i < fileCodeDetails.size(); i++){
+                    poDocsInfo = new ECreditApplicationDocuments();
+                    poDocsInfo.setEntryNox(fileCodeDetails.get(i).getEntryNox());
+                    poDocsInfo.setTransNox(TransNox);
+                    poDocsInfo.setFileCode(fileCodeDetails.get(i).getFileCode());
+                    mViewModel.saveDocumentInfo(data,poDocsInfo);
                 }
-            });
+                loAdapter = new FileCodeAdapter(ClientInfo.this,TransNox, data,fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
+                    @Override
+                    public void OnClick(int position) {
+                        poFilexx = new ImageFileCreator(ClientInfo.this , "Credit Application Documents", "SCAN", fileCodeDetails.get(position).getFileCode(), TransNox);
+                        poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                            mCurrentPhotoPath = photPath;
+                            ScannerConstants.Usage =camUsage;
+                            ScannerConstants.Folder = "Credit Application Documents";
+                            ScannerConstants.FileCode = fileCodeDetails.get(position).getFileCode();
+                            ScannerConstants.PhotoPath = photPath;
+                            ScannerConstants.EntryNox = (position + 1);
+                            ScannerConstants.FileName = FileName;
+                            ScannerConstants.FileDesc = fileCodeDetails.get(position).getBriefDsc();
+                            ScannerConstants.Latt = latitude;
+                            ScannerConstants.Longi = longitude;
+                            startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                        });
+                    }
 
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(loAdapter);
+                    @Override
+                    public void OnActionButtonClick() {
+                        //TODO: Future update
+                    }
+                });
+
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(loAdapter);
 //        recyclerView.getRecycledViewPool().clear();
-            loAdapter.notifyDataSetChanged();
-        });
+                loAdapter.notifyDataSetChanged();
+            });
+            }
+        );
+
 
     }
     @Override
@@ -141,6 +164,8 @@ public class ClientInfo extends AppCompatActivity {
     }
 
     public void initWidgets(){
+        poDialogx = new LoadDialog(ClientInfo.this);
+        poMessage = new MessageBox(ClientInfo.this);
         recyclerView = findViewById(R.id.recyclerview_fileCodeInfo);
         layoutManager = new LinearLayoutManager(ClientInfo.this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -165,10 +190,6 @@ public class ClientInfo extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("REQUEST CODE", String.valueOf(requestCode));
-        Log.e("RESULT CODE", String.valueOf(resultCode));
-        Log.e("Image Path ", mCurrentPhotoPath);
-
         if(requestCode == ImageFileCreator.GCAMERA){
             if(resultCode == RESULT_OK) {
                 cameraCapture(mCurrentPhotoPath);
@@ -181,9 +202,47 @@ public class ClientInfo extends AppCompatActivity {
         if (requestCode == CROP_REQUEST_CODE ) {
             if(resultCode == RESULT_OK) {
                 try {
-                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(infoModel.getDocFilePath()));
-                    mViewModel.saveDocumentInfo(poDocumentsInfo);
+
+                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(ScannerConstants.PhotoPath));
                     mViewModel.saveImageInfo(poImageInfo);
+                    mViewModel.saveDocumentInfoFromCamera(documentInfo, poDocumentsInfo);
+                    mViewModel.PostDocumentScanDetail(poDocumentsInfo, new ViewModelCallBack() {
+                        @Override
+                        public void OnStartSaving() {
+                            poDialogx.initDialog("Daily Collection Plan", "Posting " + ScannerConstants.FileDesc + " details. Please wait...", false);
+                            poDialogx.show();
+                        }
+
+                        @Override
+                        public void onSaveSuccessResult(String args) {
+
+                        }
+
+                        @Override
+                        public void onFailedResult(String message) {
+
+                        }
+
+                        @Override
+                        public void OnSuccessResult(String[] args) {
+                            poDialogx.dismiss();
+                            poMessage.initDialog();
+                            poMessage.setTitle("Credit Online \nApplication Documents");
+                            poMessage.setMessage(args[0]);
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                            poMessage.show();
+                        }
+
+                        @Override
+                        public void OnFailedResult(String message) {
+                            poDialogx.dismiss();
+                            poMessage.initDialog();
+                            poMessage.setTitle("Credit Online \nApplication Documents");
+                            poMessage.setMessage(message);
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                            poMessage.show();
+                        }
+                    });
                     loAdapter.notifyDataSetChanged();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -209,6 +268,7 @@ public class ClientInfo extends AppCompatActivity {
 
         return ScannerConstants.selectedImageBitmap != null;
     }
+
 
 
 }

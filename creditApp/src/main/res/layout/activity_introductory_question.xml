@@ -9,10 +9,6 @@
     android:background="@drawable/bg_gradient_light"
     android:orientation="vertical">
 
-<!--    <androidx.appcompat.widget.Toolbar-->
-<!--        android:id="@+id/toolbar_introduction"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="?attr/actionBarSize"/>-->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -98,6 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Loan Unit">
+
                     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                         android:id="@+id/spn_applicationType"
                         android:layout_width="match_parent"

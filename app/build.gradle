@@ -79,4 +79,5 @@ dependencies {
     implementation project(':appdriver') //implement GhostRider Application Driver
     implementation project(':settings')
     implementation project(':json-simple-1.1.1')
+    implementation project(':commons-codec-1.11') //implement commons codec
 }

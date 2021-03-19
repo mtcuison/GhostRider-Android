@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -33,7 +34,7 @@ public class Fragment_SpousePensionInfo extends Fragment implements ViewModelCal
     private RadioGroup rgPensionSector;
     private RadioButton rbGovt, rbPrivate;
     private TextInputEditText txtPensionAmt, txtRetirementYr, txtOtherSrc, txtOtherSrcInc;
-    private MaterialButton btnNext;
+    private Button btnNext, btnPrvs;
 
     public static Fragment_SpousePensionInfo newInstance() {
         return new Fragment_SpousePensionInfo();
@@ -65,6 +66,7 @@ public class Fragment_SpousePensionInfo extends Fragment implements ViewModelCal
         txtOtherSrc = v.findViewById(R.id.txt_other_source);
         txtOtherSrcInc = v.findViewById(R.id.txt_other_source_income);
         btnNext = v.findViewById(R.id.btn_creditAppNext);
+        btnPrvs = v.findViewById(R.id.btn_creditAppPrvs);
 
         rgPensionSector.setOnCheckedChangeListener((group, checkedId) -> {
            if(checkedId == rbGovt.getId()) {
@@ -76,6 +78,12 @@ public class Fragment_SpousePensionInfo extends Fragment implements ViewModelCal
         });
 
         btnNext.setOnClickListener(view -> save());
+        btnPrvs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Activity_CreditApplication.getInstance().moveToPageNumber(10);
+            }
+        });
     }
 
     private void save() {
