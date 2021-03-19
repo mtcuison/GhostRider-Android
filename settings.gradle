@@ -1,3 +1,4 @@
+include ':commons-codec-1.11'
 include ':settings'
 include ':json-simple-1.1.1'
 include ':dailyCollectionPlan'
