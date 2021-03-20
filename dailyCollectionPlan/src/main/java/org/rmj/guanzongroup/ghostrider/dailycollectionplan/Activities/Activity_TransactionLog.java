@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_ClientDtl_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_CustomerNotAround;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_CustomerNotAround_Log;
@@ -42,7 +43,7 @@ public class Activity_TransactionLog extends AppCompatActivity {
         transNox = getIntent().getStringExtra("sTransNox");
         acctNox = getIntent().getStringExtra("acctNox");
         fullNme = getIntent().getStringExtra("fullNme");
-        remCodex = (getIntent().getStringExtra("remCodex") == null) ? "" : getIntent().getStringExtra("remCodex");
+        remCodex = getIntent().getStringExtra("remCodex");
         imgNme = getIntent().getStringExtra("imgNme");
         clientID = getIntent().getStringExtra("sClientID");
         clientAddress = getIntent().getStringExtra("sAddressx");
@@ -55,51 +56,7 @@ public class Activity_TransactionLog extends AppCompatActivity {
 
         ViewPager viewPager = findViewById(R.id.viewpager_transaction);
 
-        if(remCodex.equalsIgnoreCase("PAY")) {
-            getSupportActionBar().setTitle("Paid");
-        }
-        else if(remCodex.equalsIgnoreCase("PTP")) {
-            getSupportActionBar().setTitle("Promise To Pay");
-        }
-        else if(remCodex.equalsIgnoreCase("CNA")) {
-            getSupportActionBar().setTitle("Customer Not Around");
-        }
-        else if(remCodex.equalsIgnoreCase("Car")) {
-            getSupportActionBar().setTitle("Carnap");
-        }
-        else if(remCodex.equalsIgnoreCase("UNC")) {
-            getSupportActionBar().setTitle("Uncooperative");
-        }
-        else if(remCodex.equalsIgnoreCase("MCs")) {
-            getSupportActionBar().setTitle("Missing Customer");
-        }
-        else if(remCodex.equalsIgnoreCase("MUn")) {
-            getSupportActionBar().setTitle("Missing Unit");
-        }
-        else if(remCodex.equalsIgnoreCase("MCU")) {
-            getSupportActionBar().setTitle("Missing Customer and Unit");
-        }
-        else if(remCodex.equalsIgnoreCase("DNP")) {
-            getSupportActionBar().setTitle("Did Not Pay");
-        }
-        else if(remCodex.equalsIgnoreCase("NV")) {
-            getSupportActionBar().setTitle("Not Visited");
-        }
-        else if(remCodex.equalsIgnoreCase("OTH") || remCodex.equalsIgnoreCase("")) {
-            getSupportActionBar().setTitle("Others");
-        }
-        else if(remCodex.equalsIgnoreCase("FLA")) {
-            getSupportActionBar().setTitle("For Legal Action");
-        }
-        else if(remCodex.equalsIgnoreCase("TA")) {
-            getSupportActionBar().setTitle("Transferred/Assumed");
-        }
-        else if(remCodex.equalsIgnoreCase("FO")) {
-            getSupportActionBar().setTitle("False Ownership");
-        }
-        else if(remCodex.equalsIgnoreCase("LUn")) {
-            getSupportActionBar().setTitle("Loan Unit");
-        }
+        getSupportActionBar().setTitle(DCP_Constants.getRemarksDescription(remCodex));
 
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getTransactionFragment(remCodex)));
     }
@@ -166,8 +123,7 @@ public class Activity_TransactionLog extends AppCompatActivity {
                 || (transaction.equalsIgnoreCase("MCU"))
                 || (transaction.equalsIgnoreCase("DNP"))
                 || transaction.equalsIgnoreCase("NV"))
-                || (transaction.equalsIgnoreCase("OTH"))
-                || (transaction.equalsIgnoreCase(""))){
+                || (transaction.equalsIgnoreCase("OTH"))){
             return new Fragment_OtherTransactions_Log();
         }
         return null;

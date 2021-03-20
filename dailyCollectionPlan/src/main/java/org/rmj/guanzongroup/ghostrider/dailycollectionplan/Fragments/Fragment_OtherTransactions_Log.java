@@ -52,16 +52,11 @@ public class Fragment_OtherTransactions_Log extends Fragment {
         txtClientAddress.setText(Activity_TransactionLog.clientAddress);
         txtRemarks.setText(Activity_TransactionLog.remarks);
         //Image Location
-        if(IMAGE_NAME != null) {
-            mViewModel.getImageLocation(Activity_TransactionLog.acctNox, IMAGE_NAME)
-                    .observe(getViewLifecycleOwner(), eImageInfo -> {
-                        // TODO: Display Image
-                        setPic(eImageInfo.getFileLoct());
-                    });
-        } else {
-            ivTransImage.setVisibility(View.GONE);
-            divDivider.setVisibility(View.INVISIBLE);
-        }
+        mViewModel.getImageLocation(Activity_TransactionLog.acctNox, IMAGE_NAME)
+                .observe(getViewLifecycleOwner(), eImageInfo -> {
+                    // TODO: Display Image
+                    setPic(eImageInfo.getFileLoct());
+                });
     }
 
     private void initWidgets(View v) {
