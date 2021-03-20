@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.TransparentToolbar;
+import org.rmj.g3appdriver.utils.AppDirectoryCreator;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
@@ -40,6 +41,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private ProgressBar prgrssBar;
     private TextView lblVrsion;
     private VMSplashScreen mViewModel;
+    private AppDirectoryCreator mMakeDir;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -47,9 +49,15 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         new TransparentToolbar(SplashScreenActivity.this).SetupActionbar();
+        mMakeDir = new AppDirectoryCreator();
         prgrssBar = findViewById(R.id.progress_splashscreen);
         lblVrsion = findViewById(R.id.lbl_versionInfo);
         lblVrsion.setText(BuildConfig.VERSION_NAME + "_" + BuildConfig.BUILD_TYPE.toUpperCase());
+        if(mMakeDir.createAppDirectory()) {
+            Log.e(TAG, "Export directory created.");
+        } else {
+            Log.e(TAG, "Export directory already exist.");
+        }
         mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
         mViewModel.setupTokenInfo("sample token info");
         mViewModel.isPermissionsGranted().observe(this, isGranted -> {

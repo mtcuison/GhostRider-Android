@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/HeaderLabelBlack"
-            android:text="@string/sHeaderLabelSector"/>
+            android:text="@string/sHeaderEmploymentInfo"/>
 
         <RadioGroup
             android:id="@+id/rg_sector"
@@ -215,6 +215,9 @@
                     android:id="@+id/txt_companyNme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_companyAdd"
                     android:maxLength="100"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -228,6 +231,9 @@
                     android:id="@+id/txt_companyAdd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_province"
                     android:maxLength="150"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -249,6 +255,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textAutoComplete|textCapWords"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/txt_town"
                         android:maxLength="50"
                         style="@style/AutoCompleteStyleTheme"
                         tools:ignore="LabelFor"/>
@@ -267,6 +275,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textAutoComplete|textCapWords"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/txt_jobPosition"
                         android:maxLength="50"
                         style="@style/AutoCompleteStyleTheme"
                         tools:ignore="LabelFor"/>
@@ -286,6 +296,8 @@
                     android:layout_height="wrap_content"
                     android:inputType="textAutoComplete|textCapWords"
                     android:maxLength="50"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_specificJob"
                     style="@style/AutoCompleteStyleTheme"
                     tools:ignore="LabelFor"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -301,7 +313,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
-                    android:inputType="textCapWords"/>
+                    android:inputType="textCapWords"
+                    android:imeOptions="actionDone"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -337,7 +350,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLength="5"
-                        android:inputType="number|none"/>
+                        android:inputType="number|none"
+                        android:imeOptions="actionDone"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -356,12 +370,6 @@
                         android:clickable="false"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
-<!--                <Spinner-->
-<!--                    android:id="@+id/spn_lengthService"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1.5"-->
-<!--                    android:padding="15dp"/>-->
 
             </LinearLayout>
 
@@ -376,7 +384,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="6"
-                    android:inputType="number|none"/>
+                    android:inputType="number|none"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_companyContact"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -390,7 +400,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="11"
-                    android:inputType="number|none"/>
+                    android:inputType="number|none"
+                    android:imeOptions="actionDone"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 

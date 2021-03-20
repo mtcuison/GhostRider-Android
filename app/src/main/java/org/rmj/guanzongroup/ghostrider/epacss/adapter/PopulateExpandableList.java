@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.griderscanner.MainScanner;
 import org.rmj.guanzongroup.ghostrider.imgcapture.DCPPhotoCapture;
 
@@ -15,8 +16,6 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Applicatio
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalCode;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalSelection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionLog;
-import org.rmj.guanzongroup.ghostrider.griderscanner.GriderScanner;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
@@ -110,7 +109,7 @@ public class PopulateExpandableList {
                                 context.startActivity(intent);
                                 break;
                             case 1:
-                                intent = new Intent(context, Activity_CollectionLog.class);
+                                intent = new Intent(context, Activity_LogCollection.class);
                                 intent.putExtra("syscode", "2");
                                 context.startActivity(intent);
                                 break;

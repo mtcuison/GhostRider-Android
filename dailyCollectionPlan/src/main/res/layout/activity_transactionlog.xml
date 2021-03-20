@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/bg_gradient_light"
-    tools:context=".Activities.Activity_TransactionLog">
+    tools:context=".Activities.Activity_LogTransaction">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
