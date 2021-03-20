@@ -185,8 +185,6 @@ public class ClientInfo extends AppCompatActivity {
                 cameraCapture(mCurrentPhotoPath);
                 startActivityForResult(new Intent(this,ImageCrop.class), CROP_REQUEST_CODE);
 
-            }else {
-                infoModel.setDocFilePath("");
             }
         }
         if (requestCode == CROP_REQUEST_CODE ) {
@@ -237,8 +235,6 @@ public class ClientInfo extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }else {
-                infoModel.setDocFilePath("");
             }
         }
     }
