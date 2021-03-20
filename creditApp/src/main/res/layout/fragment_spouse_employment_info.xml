@@ -48,6 +48,11 @@
                 android:text="@string/sLabelOFW"/>
 
         </RadioGroup>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/HeaderLabelBlack"
+            android:text="@string/sHeaderLabelSpouseEmploymentInfo"/>
 
         <!--Government Sector-->
         <LinearLayout
@@ -214,8 +219,15 @@
                     android:id="@+id/txt_companyNme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="100"/>
+                    android:maxLength="100"
+                    android:inputType="textCapWords"/>
             </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/HeaderLabelBlack"
+                android:text="@string/sHeaderLabelCompanyAddress"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -227,6 +239,7 @@
                     android:id="@+id/txt_companyAdd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textCapWords|textPostalAddress"
                     android:maxLength="150"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -272,6 +285,12 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/HeaderLabelBlack"
+                android:text="@string/sHeaderEmpOtherInfo"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_job_title"
