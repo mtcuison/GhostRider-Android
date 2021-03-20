@@ -66,6 +66,8 @@
     <string name="sHintRetireYear">Retirement Year</string>
     <string name="sHintNatureIncm">Nature of Income</string>
     <string name="sLabelOtherSrcIncm">Other Source of Income</string>
+    <string name="sLabelPensionInfo">Pensioner Information</string>
+    <string name="sLabelFinancierInfo">Financier Information</string>
     <string name="sLabelSpousePension">SPOUSE PENSION INFO</string>
     <string name="sLabelBankAcc">Bank Account</string>
     <string name="sLabelCreditCard">Credit Card Account</string>
