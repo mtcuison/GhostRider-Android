@@ -99,6 +99,9 @@
     <string name="sHintNewApplication">Create New Application</string>
     <string name="sbtnPrvs">Previous</string>
     <string name="sLblPersonalInfo">Applicant Personal Information</string>
+    <string name="sLblSpouseNameInfo">Spouse Name</string>
+    <string name="sLblSpousebirthInfo">Spouse Birth Information</string>
+    <string name="sLblSpouseContactInfo">Spouse Contact Information</string>
     <string name="sLblSpouseInfo">Spouse Information</string>
 
     <string name="header_creditApp_coMakerInfo">CO MAKER\'S INFORMATION</string>
