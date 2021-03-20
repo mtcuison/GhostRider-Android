@@ -9,10 +9,9 @@ import androidx.room.PrimaryKey;
 public class ECreditApplicationDocuments {
     @PrimaryKey
     @NonNull
-    @ColumnInfo(name = "sDocTransNox")
-    private String DocTransNox;
     @ColumnInfo(name = "sTransNox")
     private String TransNox;
+    @NonNull
     @ColumnInfo(name = "sFileCode")
     private String FileCode;
     @ColumnInfo(name = "nEntryNox")
@@ -33,15 +32,16 @@ public class ECreditApplicationDocuments {
         TransNox = transNox;
     }
 
+//    @NonNull
+//    public String getDocTransNox() {
+//        return DocTransNox;
+//    }
+//
+//    public void setDocTransNox(@NonNull String transNox) {
+//        DocTransNox = transNox;
+//    }
+
     @NonNull
-    public String getDocTransNox() {
-        return DocTransNox;
-    }
-
-    public void setDocTransNox(@NonNull String transNox) {
-        DocTransNox = transNox;
-    }
-
     public String getFileCode() {
         return FileCode;
     }
