@@ -15,7 +15,7 @@
         <activity
             android:name=".Activity.Activity_Application"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
-            android:label="Application"
+            android:label="Payroll, Employee and Time Manager"
             android:screenOrientation="userPortrait"
             android:windowSoftInputMode="adjustPan"/>
 
