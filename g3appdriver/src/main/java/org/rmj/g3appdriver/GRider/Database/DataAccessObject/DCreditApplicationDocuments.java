@@ -15,7 +15,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import java.util.List;
 
 @Dao
-public interface DCreditApplicationDocuments {
+    public interface DCreditApplicationDocuments {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(ECreditApplicationDocuments documentsInfo);
@@ -48,11 +48,6 @@ public interface DCreditApplicationDocuments {
     LiveData<List<ApplicationDocument>> getDocument(String TransNox);
 
 
-    @Query("SELECT * FROM Credit_Online_Application_Documents " +
-            "WHERE sTransNox =:TransNox " +
-            "AND sFileCode =:FileCD")
-    LiveData<List<ApplicationDocument>> getDocumentByTransNox(String TransNox,String FileCD);
-
     @Query("INSERT INTO Credit_Online_Application_Documents (sTransNox, sFileCode, nEntryNox) " +
             "SELECT a.sTransNox, b.sFileCode, b.nEntryNox FROM Credit_Online_Application_List a LEFT JOIN EDocSys_File b " +
             "WHERE a.sTransNox =:TransNox AND b.sFileCode !='0021' AND b.sFileCode !='0020' ")
@@ -66,7 +61,6 @@ public interface DCreditApplicationDocuments {
             "ON a.sFileCode = b.sFileCode WHERE a.sTransNox =:TransNox " +
             "ORDER BY a.nEntryNox ASC")
     LiveData<List<ApplicationDocument>> getDocumentInfo(String TransNox);
-
 
     class ApplicationDocument{
         public String sTransNox;

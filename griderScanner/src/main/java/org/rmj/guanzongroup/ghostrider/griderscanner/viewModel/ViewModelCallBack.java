@@ -6,6 +6,5 @@ public interface ViewModelCallBack {
     void onFailedResult(String message);
 
     void OnSuccessResult(String[] strings);
-
     void OnFailedResult(String message);
 }

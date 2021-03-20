@@ -12,7 +12,8 @@
 
 
     <application>
-        <activity android:name=".Activity_Settings"></activity>
+        <activity android:name=".Activity_Settings"
+            android:screenOrientation="userPortrait"></activity>
 
     </application>
 

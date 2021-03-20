@@ -7,20 +7,20 @@ import java.util.List;
 
 public class CoMakerModel {
 
-    private String coLastName;
-    private String coFrstName;
-    private String coMiddName;
-    private String coSuffix;
-    private String coNickName;
-    private String coBrthDate;
-    private String coBrthPlce;
-    private final List<CoMakerMobileNo> mobileNoList = new ArrayList<>();
-    private String coFbAccntx;
-    private String coIncomeSource;
-    private String coBorrowerRel;
+    public String coLastName;
+    public String coFrstName;
+    public String coMiddName;
+    public String coSuffix;
+    public String coNickName;
+    public String coBrthDate;
+    public String coBrthPlce;
+    public final List<CoMakerMobileNo> mobileNoList = new ArrayList<>();
+    public String coFbAccntx;
+    public String coIncomeSource;
+    public String coBorrowerRel;
 
     //for save instance state
-    private String message;
+    public String message;
 
     public CoMakerModel() {
     }
@@ -190,7 +190,7 @@ public class CoMakerModel {
         this.coFbAccntx = coFbAccntx;
     }
 
-    private boolean isLastNameValid(){
+    public boolean isLastNameValid(){
         if(coLastName == null || coLastName.trim().isEmpty()){
             message = "Please enter last name";
             return false;
@@ -198,7 +198,7 @@ public class CoMakerModel {
         return true;
     }
 
-    private boolean isFrstNameValid(){
+    public boolean isFrstNameValid(){
         if(coFrstName == null || coFrstName.trim().isEmpty()){
             message = "Please enter first name";
             return false;
@@ -206,7 +206,7 @@ public class CoMakerModel {
         return true;
     }
 
-    private boolean isMiddNameValid(){
+    public boolean isMiddNameValid(){
         if(coMiddName == null || coMiddName.trim().isEmpty()){
             message = "Please enter middle name";
             return false;
@@ -214,7 +214,7 @@ public class CoMakerModel {
         return true;
     }
 
-    private boolean isBirthdateValid(){
+    public boolean isBirthdateValid(){
         if(coBrthDate == null || coBrthDate.trim().isEmpty()){
             message = "Please enter birth date";
             return false;
@@ -222,21 +222,21 @@ public class CoMakerModel {
         return true;
     }
 
-    private boolean isBirthPlaceValid(){
+    public boolean isBirthPlaceValid(){
         if(coBrthPlce == null || coBrthPlce.equalsIgnoreCase("")){
             message = "Please enter birth place";
             return false;
         }
         return true;
     }
-    private boolean isBorrowerRel(){
+    public boolean isBorrowerRel(){
         if(Integer.parseInt(coBorrowerRel) < 0){
             message = "Please enter Borrower Relationship!";
             return false;
         }
         return true;
     }
-    private boolean isIncomeSource(){
+    public boolean isIncomeSource(){
         if(Integer.parseInt(coIncomeSource) < 0){
             message = "Please select source of income!";
             return false;
@@ -244,7 +244,7 @@ public class CoMakerModel {
         return true;
     }
 
-    private boolean isContactValid(){
+    public boolean isContactValid(){
         if(mobileNoList.size() == 0){
             message = "Please enter primary contact.";
             return false;
@@ -255,7 +255,7 @@ public class CoMakerModel {
         }
     }
 
-    private boolean isPrimaryContactValid(){
+    public boolean isPrimaryContactValid(){
         if(mobileNoList.get(0).getMobileNo().trim().isEmpty()){
             message = "Please enter primary contact number";
             return false;
@@ -276,7 +276,7 @@ public class CoMakerModel {
         return true;
     }
 
-    private boolean isSecondaryContactValid(){
+    public boolean isSecondaryContactValid(){
         if(mobileNoList.size() >= 2) {
             if (mobileNoList.get(1).getMobileNo().trim().isEmpty()) {
                 if(!mobileNoList.get(1).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
@@ -301,7 +301,7 @@ public class CoMakerModel {
         return true;
     }
 
-    private boolean isTertiaryContactValid(){
+    public boolean isTertiaryContactValid(){
         if(mobileNoList.size() == 3) {
             if (!mobileNoList.get(2).getMobileNo().trim().isEmpty()) {
                 if(!mobileNoList.get(2).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){

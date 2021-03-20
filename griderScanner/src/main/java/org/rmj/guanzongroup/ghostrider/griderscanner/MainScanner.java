@@ -92,7 +92,7 @@ public class MainScanner extends AppCompatActivity implements ViewModelCallBack 
                                 loIntent.putExtra("ModelName",loanLists.get(position).getsModelNme());
                                 loIntent.putExtra("AccntTerm",loanLists.get(position).getnAcctTerm());
                                 loIntent.putExtra("MobileNo",loanLists.get(position).getsMobileNo());
-                                loIntent.putExtra("Status",loanLists.get(position).getcTranStat());
+                                loIntent.putExtra("Status",loanLists.get(position).getTransactionStatus());
                                 startActivity(loIntent);
                             }
 

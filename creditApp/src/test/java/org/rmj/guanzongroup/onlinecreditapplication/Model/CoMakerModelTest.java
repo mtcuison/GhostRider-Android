@@ -55,7 +55,7 @@ public class CoMakerModelTest {
         infoModel.setCoBorrowerRel(rel);
         infoModel.setCoIncomeSource(income);
         infoModel.setCoMobileNo("09452086661", "0", 0);
-        infoModel.setCoMobileNo("09452086664", "0", 0);
+        infoModel.setCoMobileNo("09452086661", "0", 0);
         infoModel.setCoMobileNo("09452086663", "0", 0);
 
     }
@@ -66,9 +66,72 @@ public class CoMakerModelTest {
 
     @Test
     public void test_getCoMobileNoQty(){
-
         Assert.assertEquals(3,infoModel.getCoMobileNoQty());
     }
+    @Test
+    public void test_isValidContact(){
+        Assert.assertTrue(infoModel.isContactValid());
+        Assert.assertEquals(3,infoModel.getCoMobileNoQty());
+        for (int i = 0; i < infoModel.getCoMobileNoQty(); i++){
+            String contact = "";
+            if (i == 0){
+                contact = "Primary Contact ";
+            }
+            if (i == 1){
+                contact = "Secondary Contact ";
+            }
+            if (i == 2){
+                contact = "Tertiary Contact ";
+            }
+            System.out.println(contact + infoModel.getCoMobileNo(i));
+        }
+    }
+    @Test
+    public void test_isValidCoMakerRelation() {
+        Assert.assertTrue(infoModel.isBorrowerRel());
+        Assert.assertEquals(rel,infoModel.getCoBorrowerRel());
+        System.out.println("Relation Ship index :" + infoModel.getCoBorrowerRel());
+    }
+    @Test
+    public void test_isValidLastName() {
+        Assert.assertTrue(infoModel.isLastNameValid());
+        Assert.assertEquals(lname,infoModel.getCoLastName());
+        System.out.println("LastName :" + infoModel.getCoLastName());
+    }
+    @Test
+    public void test_isValidFirstName() {
+        Assert.assertTrue(infoModel.isFrstNameValid());
+        Assert.assertEquals(fname,infoModel.getCoFrstName());
+        System.out.println("FirstName :" + infoModel.getCoFrstName());
+    }
+
+    @Test
+    public void test_isValidMiddleName() {
+        Assert.assertTrue(infoModel.isMiddNameValid());
+        Assert.assertEquals(mname,infoModel.getCoMiddName());
+        System.out.println("Middle Name :" + infoModel.getCoMiddName());
+    }
+    @Test
+    public void test_isValidBirthDate() {
+        Assert.assertTrue(infoModel.isBirthdateValid());
+        Assert.assertEquals(bdate,infoModel.getCoBrthDate());
+        System.out.println("Birth Date :" + infoModel.getCoBrthDate());
+    }
+
+    @Test
+    public void test_isValidBirthPlace() {
+        Assert.assertTrue(infoModel.isBirthPlaceValid());
+        Assert.assertEquals(bplace,infoModel.getCoBrthPlce());
+        System.out.println("TownID :" + infoModel.getCoBrthPlce());
+    }
+
+    @Test
+    public void test_isValidIncomeSource() {
+        Assert.assertTrue(infoModel.isIncomeSource());
+        Assert.assertEquals(income,infoModel.getCoIncomeSource());
+        System.out.println("Income Source index :" + infoModel.getCoIncomeSource());
+    }
+
     @Test
     public void test_isDataValid() {
         Assert.assertTrue(infoModel.isCoMakerInfoValid());

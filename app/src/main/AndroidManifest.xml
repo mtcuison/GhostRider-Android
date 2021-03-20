@@ -45,7 +45,8 @@
         android:hardwareAccelerated="true">
         <activity
             android:name=".Activity.SettingsActivity"
-            android:label="@string/title_activity_settings"/>
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="userPortrait"/>
         <activity
             android:name=".Activity.SplashScreenActivity"
             android:screenOrientation="userPortrait"

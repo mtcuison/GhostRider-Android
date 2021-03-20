@@ -51,7 +51,7 @@ public class ClientInfoAdapter extends RecyclerView.Adapter<ClientInfoAdapter.Cl
         holder.lblTransNoxxx.setText("TransNox. :"+poLoan.getsTransNox());
         holder.lblClientName.setText(poLoan.getsCompnyNm());
         holder.lblAppltnDate.setText(poLoan.getdTransact());
-        holder.lblStatus.setText(poLoan.getcTranStat());
+        holder.lblStatus.setText(poLoan.getTransactionStatus());
         holder.lblAccntTern.setText(poLoan.getnAcctTerm());
         holder.lblModelName.setText(poLoan.getsModelNme());
         holder.lblMobileNo.setText(poLoan.getsMobileNo());
