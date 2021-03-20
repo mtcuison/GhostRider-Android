@@ -20,6 +20,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDo
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.guanzongroup.ghostrider.griderscanner.ClientInfo;
 import org.rmj.guanzongroup.ghostrider.griderscanner.R;
 import org.rmj.guanzongroup.ghostrider.griderscanner.dialog.DialogImagePreview;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMClientInfo;
@@ -33,33 +34,22 @@ import static org.rmj.guanzongroup.ghostrider.griderscanner.R.*;
 
 public class FileCodeAdapter extends RecyclerView.Adapter<FileCodeAdapter.FileCodeViewHolder> {
 
+
     public interface OnItemClickListener {
         void OnClick(int position);
         void OnActionButtonClick();
     }
 
-    private final List<EFileCode> plCollection;
-    private final List<EImageInfo> plImgInfo;
     private List<DCreditApplicationDocuments.ApplicationDocument> documentsInfo;
     private final OnItemClickListener mListener;
-    private String TransNox;
     DialogImagePreview dialogPreview;
     private VMClientInfo mvModel;
     private Context aContext;
 
-    private ECreditApplicationDocuments poDocsInfo;
-    public FileCodeAdapter(Context mContext, VMClientInfo vm,List<EImageInfo> plImgInfo,List<DCreditApplicationDocuments.ApplicationDocument> documentsInfo, String transNox,List<EFileCode> plCollection, OnItemClickListener mListener) {
-        this.plCollection = plCollection;
+
+    public FileCodeAdapter(Context context,List<DCreditApplicationDocuments.ApplicationDocument> documentsInfo, OnItemClickListener mListener) {
         this.documentsInfo = documentsInfo;
-        this.plImgInfo = plImgInfo;
-        this.TransNox = transNox;
-        this.mvModel = vm;
-        this.aContext = mContext;
-        this.mListener = mListener;
-    }
-    public FileCodeAdapter(List<EFileCode> plCollection, List<EImageInfo> plImgInfo, OnItemClickListener mListener) {
-        this.plCollection = plCollection;
-        this.plImgInfo = plImgInfo;
+        this.aContext = context;
         this.mListener = mListener;
     }
 
@@ -68,7 +58,6 @@ public class FileCodeAdapter extends RecyclerView.Adapter<FileCodeAdapter.FileCo
     public FileCodeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(layout.list_item_file_to_scan, parent, false);
         dialogPreview = new DialogImagePreview(parent.getContext());
-        poDocsInfo = new ECreditApplicationDocuments();
         return new FileCodeViewHolder(parent.getContext(),v, mListener);
     }
 
@@ -76,35 +65,14 @@ public class FileCodeAdapter extends RecyclerView.Adapter<FileCodeAdapter.FileCo
     @Override
     public void onBindViewHolder(@NonNull FileCodeViewHolder holder, int position) {
         try {
-            EFileCode collection = plCollection.get(position);
-            holder.loPlan = collection;
-            holder.lbl_fileCode.setText(collection.getBriefDsc());
-            boolean isExist = false;
-            String imgName = "", fileLoc ="";
-            for (int i = 0; i < documentsInfo.size(); i++){
+            DCreditApplicationDocuments.ApplicationDocument document = documentsInfo.get(position);
 
-                if (documentsInfo.get(i).sFileCode.equalsIgnoreCase(collection.getFileCode()) &&
-                        documentsInfo.get(i).sTransNox.equalsIgnoreCase(TransNox)){
-                    holder.fileStat.setImageResource(drawable.ic_baseline_done_24);
-                    holder.fileStat.setTag(R.drawable.ic_baseline_done_24);
-                    Log.e("File Loc", String.valueOf(documentsInfo.get(i).sFileLoct));
-                    holder.lbl_fileLoc.setText(documentsInfo.get(i).sFileLoct);
-                    imgName = documentsInfo.get(i).sImageNme;
-                    fileLoc = documentsInfo.get(i).sFileLoct;
-
-                    isExist = true;
-                }
-                Log.e("File Loc", String.valueOf(documentsInfo.get(i).sFileLoct));
+            holder.lbl_fileDsc.setText(document.sBriefDsc);
+            holder.lbl_fileLoc.setText(document.sFileLoc);
+            if (document.sImageNme != null){
+                holder.fileStat.setImageResource(drawable.ic_baseline_done_24);
+                holder.fileStat.setTag(R.drawable.ic_baseline_done_24);
             }
-
-
-            poDocsInfo.setEntryNox(collection.getEntryNox());
-            poDocsInfo.setTransNox(TransNox);
-            poDocsInfo.setFileCode(collection.getFileCode());
-            poDocsInfo.setFileLoc(fileLoc);
-            poDocsInfo.setImageNme(imgName);
-//            mvModel.saveDocumentInfo(poDocsInfo);
-
 
         }catch (NullPointerException e){
             e.printStackTrace();
@@ -117,21 +85,20 @@ public class FileCodeAdapter extends RecyclerView.Adapter<FileCodeAdapter.FileCo
 
     @Override
     public int getItemCount() {
-        return plCollection.size();
+        return documentsInfo.size();
     }
 
 
     public static class FileCodeViewHolder extends RecyclerView.ViewHolder {
 
         public EFileCode loPlan;
-        public TextView lbl_fileCode;
+        public TextView lbl_fileDsc;
         public TextView lbl_fileLoc;
         public ImageView fileStat;
         private List<DCreditApplicationDocuments.ApplicationDocument> documentsInfo;
         public FileCodeViewHolder(Context mContext, @NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
-            this.documentsInfo = documentsInfo;
-            lbl_fileCode = itemView.findViewById(id.lbl_fileCode);
+            lbl_fileDsc = itemView.findViewById(id.lbl_fileCode);
             lbl_fileLoc = itemView.findViewById(id.lbl_fileLoc);
             fileStat = itemView.findViewById(id.tick_cross);
 
@@ -147,7 +114,7 @@ public class FileCodeAdapter extends RecyclerView.Adapter<FileCodeAdapter.FileCo
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    DialogImagePreview loDialog = new DialogImagePreview(mContext, bitmap,lbl_fileCode.getText().toString());
+                    DialogImagePreview loDialog = new DialogImagePreview(mContext, bitmap,lbl_fileDsc.getText().toString());
                     loDialog.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
                         @Override
                         public void OnCancel(Dialog Dialog) {

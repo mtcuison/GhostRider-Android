@@ -39,16 +39,24 @@ public class RCreditApplicationDocument {
     public void updateDocumentInfo(ECreditApplicationDocuments documentsInfo){
         new InsertTask(documentsDao, "update").execute(documentsInfo);
     }
-    public void updateDocumentsInfo(ECreditApplicationDocuments documentsInfo){
-        new InsertTask(documentsDao, "updates").execute(documentsInfo);
+    public void insertDocumentsInfo(String transNox){
+        new InsertByTransNox(documentsDao).execute(transNox);
+    }
+    public void updateDocumentsInfo(String transNox, String sFileCD){
+        new UpdateByTransNox(documentsDao,sFileCD).execute(transNox);
     }
 
     public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocument(String TransNox){
         return documentsDao.getDocument(TransNox);
     }
+
+    public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentInfos(String TransNox){
+        return documentsDao.getDocumentInfo(TransNox);
+    }
     public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentByTransNox(String TransNox, String FileCD){
         return documentsDao.getDocumentByTransNox(TransNox,FileCD);
     }
+
 
 
     private static class InsertTask extends AsyncTask<ECreditApplicationDocuments, Void, String>{
@@ -72,6 +80,41 @@ public class RCreditApplicationDocument {
             else if(transInfo.equalsIgnoreCase("updates")){
                 documentsDao.update(creditApplicationDocuments[0]);
                 Log.e(TAG, "Document info with Image has been update in background!");
+            }
+            return null;
+        }
+    }
+
+    private static class InsertByTransNox extends AsyncTask<String, Void, String>{
+        private final DCreditApplicationDocuments documentsDao;
+        public InsertByTransNox(DCreditApplicationDocuments documentsDao) {
+            this.documentsDao = documentsDao;
+        }
+
+        @Override
+        protected String doInBackground(String... transNox) {
+            if (documentsDao.getDuplicateTransNox(transNox[0]).size()>0){
+                Log.e(TAG, "Credit document Already exist.");
+            } else {
+                documentsDao.insertDocumentByTransNox(transNox[0]);
+                Log.e(TAG, "Document info has been save in background!");
+            }
+            return null;
+        }
+    }
+    private static class UpdateByTransNox extends AsyncTask<String, Void, String>{
+        private final DCreditApplicationDocuments documentsDao;
+        private final String sFileCd;
+        public UpdateByTransNox(DCreditApplicationDocuments documentsDao, String fileCode) {
+            this.documentsDao = documentsDao;
+            this.sFileCd = fileCode;
+        }
+
+        @Override
+        protected String doInBackground(String... transNox) {
+            if (documentsDao.getDuplicateTransNox(transNox[0]).size()>0){
+                documentsDao.updateDocumentsInfo(transNox[0],sFileCd);
+                Log.e(TAG, "Credit document Already exist.");
             }
             return null;
         }
