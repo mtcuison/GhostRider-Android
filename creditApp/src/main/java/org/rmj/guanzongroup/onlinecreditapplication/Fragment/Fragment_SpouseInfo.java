@@ -307,7 +307,7 @@
         @SuppressLint("RestrictedApi")
         @Override
         public void onSaveSuccessResult(String args) {
-            Activity_CreditApplication.getInstance().moveToPageNumber(3);
+            Activity_CreditApplication.getInstance().moveToPageNumber(7);
         }
 
         @Override

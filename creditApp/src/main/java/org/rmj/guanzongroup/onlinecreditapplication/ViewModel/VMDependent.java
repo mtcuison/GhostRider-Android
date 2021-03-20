@@ -242,10 +242,10 @@ public class VMDependent extends AndroidViewModel {
                 poGoCasxx.DisbursementInfo().DependentInfo().setCompany(x, this.dependentInfo.getValue().get(x).getDpdCompanyName());
             }
             poInfo.setDetlInfo(poGoCasxx.toJSONString());
-            poApplcnt.updateGOCasData(poInfo);
+            ECreditApplicantInfo loInfo = poInfo;
+            poApplcnt.updateGOCasData(loInfo);
             Log.e(TAG, "Dependent info has been set." + poGoCasxx.DisbursementInfo().DependentInfo().toJSONString());
             callBack.onSaveSuccessResult("Success");
-
             return true;
         } catch (Exception e){
             e.printStackTrace();

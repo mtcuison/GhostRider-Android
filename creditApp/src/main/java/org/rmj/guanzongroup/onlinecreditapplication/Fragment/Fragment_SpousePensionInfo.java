@@ -96,7 +96,7 @@ public class Fragment_SpousePensionInfo extends Fragment implements ViewModelCal
 
     @Override
     public void onSaveSuccessResult(String args) {
-        GToast.CreateMessage(getActivity(), "S U x X e S s", GToast.INFORMATION).show();
+        Activity_CreditApplication.getInstance().moveToPageNumber(12);
     }
 
     @Override

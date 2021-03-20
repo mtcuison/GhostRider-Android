@@ -206,7 +206,7 @@
 
         @Override
         public void onSaveSuccessResult(String args) {
-            Activity_CreditApplication.getInstance().moveToPageNumber(4);
+            Activity_CreditApplication.getInstance().moveToPageNumber(9);
         }
 
         @Override

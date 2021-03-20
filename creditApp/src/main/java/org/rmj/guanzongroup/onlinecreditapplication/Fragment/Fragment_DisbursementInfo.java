@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.google.android.material.button.MaterialButton;
@@ -48,8 +49,8 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
     private TextInputEditText tieLimit;
     private TextInputEditText tieYearS;
 
-    private MaterialButton btnPrev;
-    private MaterialButton btnNext;
+    private Button btnPrev;
+    private Button btnNext;
 
     public static Fragment_DisbursementInfo newInstance() {
         return new Fragment_DisbursementInfo();
