@@ -38,12 +38,10 @@ public class Activity_Application extends AppCompatActivity {
 
         if (application == AppConstants.INTENT_OB_APPLICATION) {
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_ObApplication()));
-        }
-        if(application == AppConstants.INTENT_LEAVE_APPLICATION){
+        } else if(application == AppConstants.INTENT_LEAVE_APPLICATION){
             getSupportActionBar().setTitle("Leave Application");
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_LeaveApplication()));
-        }
-        if(application == AppConstants.INTENT_SELFIE_LOGIN){
+        } else if(application == AppConstants.INTENT_SELFIE_LOGIN){
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_SelfieLogin()));
         }
     }

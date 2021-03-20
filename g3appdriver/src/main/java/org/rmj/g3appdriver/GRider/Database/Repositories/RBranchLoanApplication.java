@@ -12,8 +12,10 @@ import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 
 import java.sql.ResultSet;
 import java.util.Date;
@@ -21,17 +23,16 @@ import java.util.List;
 
 public class RBranchLoanApplication {
     private static final String TAG = RBranchLoanApplication.class.getSimpleName();
-    private final DBranchLoanApplication poLoan;
+    private final DBranchLoanApplication docsDao;
 
     private final Application application;
 
+    private LiveData<List<EBranchLoanApplication>> branchCreditApplication;
+
     public RBranchLoanApplication(Application application){
         this.application = application;
-        this.poLoan = AppDatabase.getInstance(application).CreditAppDocsDao();
-    }
-
-    public LiveData<List<EBranchLoanApplication>> getBranchLoanApplications(){
-        return poLoan.getBranchLoanApplications();
+        this.docsDao = AppDatabase.getInstance(application).CreditAppDocsDao();
+        branchCreditApplication = docsDao.getAllBranchCreditApplication();
     }
 
     public boolean insertApplicationInfos(JSONArray faJson) throws Exception {
@@ -107,5 +108,8 @@ public class RBranchLoanApplication {
         //terminate object connection
         loConn = null;
         return result;
+    }
+    public LiveData<List<EBranchLoanApplication>> getBranchCreditApplication(){
+        return docsDao.getAllBranchCreditApplication();
     }
 }

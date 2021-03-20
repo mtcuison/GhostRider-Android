@@ -48,6 +48,10 @@ public interface DImageInfo {
     @Query("SELECT * FROM Image_Information")
     LiveData<List<EImageInfo>> getImageInfoList();
 
+
+    @Query("SELECT * FROM Image_Information WHERE sSourceNo =:TransNox")
+    LiveData<List<EImageInfo>> getImageListInfo(String TransNox);
+
     @Update
     void updateImageInfo(EImageInfo imageInfo);
 

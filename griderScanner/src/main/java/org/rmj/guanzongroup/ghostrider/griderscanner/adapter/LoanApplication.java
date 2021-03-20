@@ -12,178 +12,142 @@ import java.util.Date;
 import java.util.Objects;
 
 public class LoanApplication implements Serializable {
-
-    private String GoCasNoxx;
     private String sTransNox;
-    private String sBranchCd;
     private String dTransact;
-    private String DetlInfox;
-    private String sClientNm;
-    private String Model;
-    private String Down;
-    private String DownPerc;
-    private String IsWithCI;
-    private String cUnitAppl;
-    private String cSendStat;
+    private String sCredInvx;
+    private String sCompnyNm;
+    private String sSpouseNm;
+    private String sAddressx;
+    private String sMobileNo;
+    private String sQMAppCde;
+    private String sModelNme;
+    private String nDownPaym;
+    private String nAcctTerm;
     private String cTranStat;
-    private String dDateSent;
-    private String dApproved;
+    private String dTimeStmp;
 
     public LoanApplication() {
     }
 
-    public String getGOCasNumber() {
-        if(GoCasNoxx == null || GoCasNoxx.equalsIgnoreCase("null")){
-            return "GOCas not available";
-        }
-        return GoCasNoxx;
-    }
 
-    public void setGOCasNumber(String goCasNoxx) {
-        GoCasNoxx = goCasNoxx;
-    }
+//    public String getDateSent() {
+//        return new FormatUIText().getParseDateTime(dDateSent);
+//    }
+//
+//    public void setDateSent(String dDateSent) {
+//        this.dDateSent = dDateSent;
+//    }
 
-    public String getTransNox() {
-        return sTransNox;
-    }
+//    public String getDateApproved() throws ParseException {
+////        @SuppressLint("SimpleDateFormat") Date parseDate = new SimpleDateFormat("MMMM dd, yyyy").parse(dApproved);
+////        @SuppressLint("SimpleDateFormat") String lsDate = new SimpleDateFormat("HH:mm:ss").format(Objects.requireNonNull(dApproved));
+//
+//        return new FormatUIText().getParseDateTime(dApproved);
+//    }
 
-    public void setTransNox(String sTransNox) {
+
+    public void setsTransNox(String sTransNox) {
         this.sTransNox = sTransNox;
     }
 
-    public String getBranchCode() {
-        return sBranchCd;
+    public String getsTransNox() {
+        return sTransNox;
     }
 
-    public void setBranchCode(String sBranchCd) {
-        this.sBranchCd = sBranchCd;
+    public String getdTransact() {
+        return  new FormatUIText().formatGOCasBirthdate(dTransact);
+
     }
 
-    public String getDateTransact() {
-        return new FormatUIText().getParseDateTime(dTransact);
-    }
-
-    public void setDateTransact(String dTransact) {
+    public void setdTransact(String dTransact) {
         this.dTransact = dTransact;
     }
 
-    public String getDetailInfo() {
-        return DetlInfox;
+    public String getsCredInvx() {
+        return sCredInvx;
     }
 
-    public void setDetailInfo(String detlInfox) {
-        DetlInfox = detlInfox;
+    public void setsCredInvx(String sCredInvx) {
+        this.sCredInvx = sCredInvx;
     }
 
-    public String getClientName() {
-        return sClientNm;
+    public String getsCompnyNm() {
+        return sCompnyNm;
     }
 
-    public void setClientName(String sClientNm) {
-        this.sClientNm = sClientNm;
+    public void setsCompnyNm(String sCompnyNm) {
+        this.sCompnyNm = sCompnyNm;
     }
 
-    public String getModel() {
-        return Model;
+    public String getsSpouseNm() {
+        return sSpouseNm;
     }
 
-    public void setModel(String model) {
-        Model = model;
+    public void setsSpouseNm(String sSpouseNm) {
+        this.sSpouseNm = sSpouseNm;
     }
 
-    public String getDownPayment() {
-        return Down;
+    public String getsAddressx() {
+        return sAddressx;
     }
 
-    public void setDownPayment(String down) {
-        Down = down;
+    public void setsAddressx(String sAddressx) {
+        this.sAddressx = sAddressx;
     }
 
-    public String getDownpaymentPercentage() {
-        return DownPerc;
+    public String getsMobileNo() {
+        return sMobileNo;
     }
 
-    public void setDownpaymentPercentage(String downPerc) {
-        DownPerc = downPerc;
+    public void setsMobileNo(String sMobileNo) {
+        this.sMobileNo = sMobileNo;
     }
 
-    public String getLoanCIResult() {
-        return IsWithCI;
+    public String getsQMAppCde() {
+        return sQMAppCde;
     }
 
-    public void setLoanCIResult(String isWithCI) {
-        IsWithCI = isWithCI;
+    public void setsQMAppCde(String sQMAppCde) {
+        this.sQMAppCde = sQMAppCde;
     }
 
-    public String getUnitApplied() {
-        return cUnitAppl;
+    public String getsModelNme() {
+        return sModelNme;
     }
 
-    public void setUnitApplied(String cUnitAppl) {
-        this.cUnitAppl = cUnitAppl;
+    public void setsModelNme(String sModelNme) {
+        this.sModelNme = sModelNme;
     }
 
-    public int getSendStatus() {
-        if(cSendStat.equalsIgnoreCase("1")){
-            return View.VISIBLE;
-        }
-        return View.GONE;
+    public String getnDownPaym() {
+        return nDownPaym;
     }
 
-    public void setSendStatus(String cSendStat) {
-        this.cSendStat = cSendStat;
+    public void setnDownPaym(String nDownPaym) {
+        this.nDownPaym = nDownPaym;
     }
 
-    public String getTransactionStatus() {
-        if(cTranStat.equalsIgnoreCase("0")){
-            return "Waiting for approval.";
-        } else if(cTranStat.isEmpty()){
-            return "Waiting for approval.";
-        }
-        return getCIStat();
+    public String getnAcctTerm() {
+        return nAcctTerm;
     }
 
-    public void setTransactionStatus(String cTranStat) {
+    public void setnAcctTerm(String nAcctTerm) {
+        this.nAcctTerm = nAcctTerm;
+    }
+
+    public String getcTranStat() {
+        return cTranStat;
+    }
+
+    public void setcTranStat(String cTranStat) {
         this.cTranStat = cTranStat;
     }
 
-    public String getDateSent() {
-        return new FormatUIText().getParseDateTime(dDateSent);
+    public String getdTimeStmp() {
+        return  new FormatUIText().getParseUIDateTime(dTimeStmp);
     }
 
-    public void setDateSent(String dDateSent) {
-        this.dDateSent = dDateSent;
-    }
-
-    public String getDateApproved() throws ParseException {
-//        @SuppressLint("SimpleDateFormat") Date parseDate = new SimpleDateFormat("MMMM dd, yyyy").parse(dApproved);
-//        @SuppressLint("SimpleDateFormat") String lsDate = new SimpleDateFormat("HH:mm:ss").format(Objects.requireNonNull(dApproved));
-
-        return new FormatUIText().getParseDateTime(dApproved);
-    }
-
-    public void setDateApproved(String dApproved) {
-        this.dApproved = dApproved;
-    }
-
-    public int getExportStatus(){
-        if(GoCasNoxx == null || GoCasNoxx.equalsIgnoreCase("null")){
-            return View.GONE;
-        }
-        return View.VISIBLE;
-    }
-
-    private String getCIStat(){
-        if(IsWithCI.equalsIgnoreCase("1")){
-            return "For C.I";
-        }
-        return "Approve";
-    }
-
-    public int getVoidStatus(){
-        if(cSendStat.equalsIgnoreCase("1")){
-            return View.GONE;
-        }
-        return View.VISIBLE;
+    public void setdTimeStmp(String dTimeStmp) {
+        this.dTimeStmp = dTimeStmp;
     }
 }

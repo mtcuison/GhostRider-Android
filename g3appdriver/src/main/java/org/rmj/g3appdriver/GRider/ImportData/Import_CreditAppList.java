@@ -33,8 +33,8 @@ public class Import_CreditAppList implements ImportInstance{
     public void ImportData(ImportDataCallback callback) {
         try {
             JSONObject loJson = new JSONObject();
-            loJson.put("bsearch", true);
-            loJson.put("descript", "All");
+            loJson.put("bycode", true);
+            loJson.put("value", "M001");
             new ImportDataTask(instance, callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
