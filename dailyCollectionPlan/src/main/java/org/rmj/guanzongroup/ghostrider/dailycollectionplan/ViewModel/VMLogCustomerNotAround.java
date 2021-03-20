@@ -15,14 +15,14 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 
 import java.util.List;
 
-public class VMCustomerNotAround_Log extends AndroidViewModel {
-    private static final String TAG = VMCustomerNotAround_Log.class.getSimpleName();
+public class VMLogCustomerNotAround extends AndroidViewModel {
+    private static final String TAG = VMLogCustomerNotAround.class.getSimpleName();
     private RCollectionUpdate poUpdate;
     private RImageInfo poImage;
 
     private final MutableLiveData<String> sClientID = new MutableLiveData<>();
 
-    public VMCustomerNotAround_Log(@NonNull Application application) {
+    public VMLogCustomerNotAround(@NonNull Application application) {
         super(application);
         this.poUpdate = new RCollectionUpdate(application);
         this.poImage = new RImageInfo(application);

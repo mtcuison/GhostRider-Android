@@ -47,7 +47,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="150"
-                    android:inputType="textCapWords"/>
+                    android:inputType="textCapWords"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_houseNox"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -62,7 +64,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="5"
-                    android:inputType="number|none"/>
+                    android:inputType="number|none"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_address"/>
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
@@ -86,7 +90,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
-                    android:inputType="textCapWords"/>
+                    android:inputType="textCapWords"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_address2"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -101,7 +107,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
-                    android:inputType="textCapWords"/>
+                    android:inputType="textCapWords"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_province"/>
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
@@ -120,7 +128,9 @@
                 android:maxLength="50"
                 style="@style/AutoCompleteStyleTheme"
                 tools:ignore="LabelFor"
-                android:inputType="textCapWords|textAutoComplete"/>
+                android:inputType="textCapWords|textAutoComplete"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/txt_town"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -137,7 +147,9 @@
                 android:maxLength="50"
                 style="@style/AutoCompleteStyleTheme"
                 tools:ignore="LabelFor"
-                android:inputType="textCapWords|textAutoComplete"/>
+                android:inputType="textCapWords|textAutoComplete"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/txt_barangay"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -154,7 +166,8 @@
                 android:maxLength="50"
                 style="@style/AutoCompleteStyleTheme"
                 tools:ignore="LabelFor"
-                android:inputType="textCapWords|textAutoComplete"/>
+                android:inputType="textCapWords|textAutoComplete"
+                android:imeOptions="actionDone"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -392,6 +405,9 @@
                         android:id="@+id/txt_perm_landmark"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/txt_perm_houseNox"
                         android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -406,7 +422,10 @@
                         android:id="@+id/txt_perm_houseNox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="50"/>
+                        android:inputType="number|none"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/txt_perm_address"
+                        android:maxLength="5"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -429,6 +448,9 @@
                         android:id="@+id/txt_perm_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/txt_perm_address2"
                         android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -443,6 +465,9 @@
                         android:id="@+id/txt_perm_address2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/txt_perm_province"
                         android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -462,7 +487,9 @@
                     android:maxLength="50"
                     style="@style/AutoCompleteStyleTheme"
                     tools:ignore="LabelFor"
-                    android:inputType="textCapWords|textAutoComplete"/>
+                    android:inputType="textCapWords|textAutoComplete"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_perm_town"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -479,7 +506,9 @@
                     android:maxLength="50"
                     style="@style/AutoCompleteStyleTheme"
                     tools:ignore="LabelFor"
-                    android:inputType="textCapWords|textAutoComplete"/>
+                    android:inputType="textCapWords|textAutoComplete"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_perm_barangay"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -496,7 +525,8 @@
                     android:maxLength="50"
                     style="@style/AutoCompleteStyleTheme"
                     tools:ignore="LabelFor"
-                    android:inputType="textCapWords|textAutoComplete"/>
+                    android:inputType="textCapWords|textAutoComplete"
+                    android:imeOptions="actionDone"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 

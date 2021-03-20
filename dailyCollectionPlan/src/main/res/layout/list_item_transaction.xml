@@ -35,7 +35,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="end"
-                android:text="DCP 1/2"
                 android:textSize="14sp"
                 android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_medium"/>

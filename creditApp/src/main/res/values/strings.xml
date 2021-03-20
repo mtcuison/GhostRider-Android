@@ -46,6 +46,10 @@
     <string name="sLabelYes">Yes</string>
     <string name="sLabelNo">No</string>
     <!--    <string name="sHeaderLabelSector">Employment Sector</string>-->
+    <string name="sHeaderEmploymentInfo">Employment Info</string>
+    <string name="sHeaderSelfEmplopyedInfo">Self Employed Info</string>
+    <string name="sHeaderBizAddress">Business Address</string>
+    <string name="sHeaderBizOtherInfo">Other Business Information</string>
     <string name="sHeaderLabelSector">Is dependent employed?</string>
     <string name="sHeaderLabelEmploymentTypeSector">Employment Type</string>
     <string name="sHeaderLabelSpouseEmploymentTypeSector">Spouse Employment Type</string>
@@ -92,7 +96,8 @@
     <string name="sHintYear">Year</string>
     <string name="sHintNewApplication">Create New Application</string>
     <string name="sbtnPrvs">Previous</string>
-
+    <string name="sLblPersonalInfo">Applicant Personal Information</string>
+    <string name="sLblSpouseInfo">Spouse Information</string>
 
     <string name="header_creditApp_coMakerInfo">CO MAKER\'S INFORMATION</string>
     <string name="header_creditApp_birthPlace">BIRTH PLACE</string>
