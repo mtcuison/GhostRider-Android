@@ -39,9 +39,15 @@ public class RCreditApplicationDocument {
     public void updateDocumentInfo(ECreditApplicationDocuments documentsInfo){
         new InsertTask(documentsDao, "update").execute(documentsInfo);
     }
+    public void updateDocumentsInfo(ECreditApplicationDocuments documentsInfo){
+        new InsertTask(documentsDao, "updates").execute(documentsInfo);
+    }
 
     public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocument(String TransNox){
         return documentsDao.getDocument(TransNox);
+    }
+    public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentByTransNox(String TransNox, String FileCD){
+        return documentsDao.getDocumentByTransNox(TransNox,FileCD);
     }
 
 
@@ -58,7 +64,12 @@ public class RCreditApplicationDocument {
             if (transInfo.equalsIgnoreCase("insert")){
                 documentsDao.insert(creditApplicationDocuments[0]);
                 Log.e(TAG, "Document info has been save in background!");
-            }else{
+            }
+            else if(transInfo.equalsIgnoreCase("update")){
+                documentsDao.update(creditApplicationDocuments[0]);
+                Log.e(TAG, "Document info without has been update in background!");
+            }
+            else if(transInfo.equalsIgnoreCase("updates")){
                 documentsDao.update(creditApplicationDocuments[0]);
                 Log.e(TAG, "Document info with Image has been update in background!");
             }

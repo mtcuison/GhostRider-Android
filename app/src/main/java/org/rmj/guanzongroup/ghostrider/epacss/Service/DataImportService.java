@@ -23,6 +23,7 @@ import org.rmj.g3appdriver.GRider.ImportData.ImportTown;
 import org.rmj.g3appdriver.GRider.ImportData.Import_AreaPerformance;
 import org.rmj.g3appdriver.GRider.ImportData.Import_BankList;
 import org.rmj.g3appdriver.GRider.ImportData.Import_BranchPerformance;
+import org.rmj.g3appdriver.GRider.ImportData.Import_CreditAppList;
 import org.rmj.g3appdriver.GRider.ImportData.Import_LoanApplications;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SCARequest;
@@ -71,7 +72,8 @@ public class DataImportService extends JobService {
                 new Import_AreaPerformance(getApplication()),
                 new Import_Occupations(getApplication()),
                 new Import_BranchPerformance(getApplication()),
-                new Import_LoanApplications(getApplication())};
+                new Import_LoanApplications(getApplication()),
+                new Import_CreditAppList(getApplication())};
 
         if(poConfig.isAppFirstLaunch()) {
             GNotifBuilder.createNotification(getApplication(), "GhostRider", "Downloading local resources...", GNotifBuilder.APP_DATA_DOWNLOAD).show();

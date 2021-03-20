@@ -11,6 +11,11 @@
         <activity
             android:name=".GriderScanner"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
+
+        <service
+            android:name=".service.DataImportService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
     </application>
 
 </manifest>

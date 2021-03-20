@@ -68,6 +68,10 @@ public class RImageInfo {
         return imageDao.getImageInfoList();
     }
 
+    public LiveData<List<EImageInfo>> getImageListInfo(String transNox){
+        return imageDao.getImageListInfo(transNox);
+    }
+
     public LiveData<List<EImageInfo>> getCurrentLogTimeIfExist(String fsDate){
         String DateLog = "%"+fsDate+"%";
         return imageDao.getCurrentLogTimeIfExist(DateLog);

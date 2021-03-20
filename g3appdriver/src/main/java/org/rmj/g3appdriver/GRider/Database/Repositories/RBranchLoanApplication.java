@@ -4,17 +4,22 @@ import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 
 import java.sql.ResultSet;
 import java.util.Date;
+import java.util.List;
 
 public class RBranchLoanApplication {
     private static final String TAG = RBranchLoanApplication.class.getSimpleName();
@@ -22,9 +27,12 @@ public class RBranchLoanApplication {
 
     private final Application application;
 
+    private LiveData<List<EBranchLoanApplication>> branchCreditApplication;
+
     public RBranchLoanApplication(Application application){
         this.application = application;
         this.docsDao = AppDatabase.getInstance(application).CreditAppDocsDao();
+        branchCreditApplication = docsDao.getAllBranchCreditApplication();
     }
 
     public boolean insertApplicationInfos(JSONArray faJson) throws Exception {
@@ -100,5 +108,8 @@ public class RBranchLoanApplication {
         //terminate object connection
         loConn = null;
         return result;
+    }
+    public LiveData<List<EBranchLoanApplication>> getBranchCreditApplication(){
+        return docsDao.getAllBranchCreditApplication();
     }
 }
