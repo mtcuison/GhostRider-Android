@@ -5,9 +5,9 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Credit_Online_Application_Documents")
+@Entity(tableName = "Credit_Online_Application_Documents", primaryKeys = {"sTransNox", "sFileCode"})
 public class ECreditApplicationDocuments {
-    @PrimaryKey
+
     @NonNull
     @ColumnInfo(name = "sTransNox")
     private String TransNox;
