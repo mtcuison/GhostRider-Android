@@ -15,15 +15,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionLog;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMClientDetl_Log;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCustomerNotAround_Log;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogClientDetail;
 
-public class Fragment_ClientDtl_Log extends Fragment {
+public class Fragment_Log_Client_Detail extends Fragment {
 
-    private VMClientDetl_Log mViewModel;
+    private VMLogClientDetail mViewModel;
     private ImageView ivTransImage;
     private TextView txtAcctNo, txtClientName, txtClientAddress, txtFullname,
     txtAddress,
@@ -38,10 +37,10 @@ public class Fragment_ClientDtl_Log extends Fragment {
     private String[] civilStatus = DCP_Constants.CIVIL_STATUS;
     private String[] gender = {"Male", "Female", "LGBT"};
 
-    public Fragment_ClientDtl_Log() { }
+    public Fragment_Log_Client_Detail() { }
 
-    public static Fragment_ClientDtl_Log newInstance() {
-        return new Fragment_ClientDtl_Log();
+    public static Fragment_Log_Client_Detail newInstance() {
+        return new Fragment_Log_Client_Detail();
     }
 
     @Override
@@ -49,23 +48,23 @@ public class Fragment_ClientDtl_Log extends Fragment {
                              Bundle savedInstanceState) {
         View v =inflater.inflate(R.layout.fragment_client_dtl_log, container, false);
         initWidgets(v);
-        mViewModel = ViewModelProviders.of(this).get(VMClientDetl_Log.class);
+        mViewModel = ViewModelProviders.of(this).get(VMLogClientDetail.class);
         return v;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        txtAcctNo.setText(Activity_TransactionLog.acctNox);
-        txtClientName.setText(Activity_TransactionLog.fullNme);
-        txtClientAddress.setText(Activity_TransactionLog.clientAddress);
+        txtAcctNo.setText(Activity_LogTransaction.acctNox);
+        txtClientName.setText(Activity_LogTransaction.fullNme);
+        txtClientAddress.setText(Activity_LogTransaction.clientAddress);
 
-        mViewModel.getImageLocation(Activity_TransactionLog.acctNox, Activity_TransactionLog.imgNme)
+        mViewModel.getImageLocation(Activity_LogTransaction.acctNox, Activity_LogTransaction.imgNme)
                 .observe(getViewLifecycleOwner(), eImageInfo -> {
                     setPic(eImageInfo.getFileLoct());
                 });
 
-        mViewModel.getClientUpdateInfo(Activity_TransactionLog.acctNox).observe(getViewLifecycleOwner(), clientDetl -> {
+        mViewModel.getClientUpdateInfo(Activity_LogTransaction.acctNox).observe(getViewLifecycleOwner(), clientDetl -> {
             txtFullname.setText(clientDetl.getLastName() + ", "
                     + clientDetl .getFrstName() + ", "
                     + clientDetl.getMiddName() + " "

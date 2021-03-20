@@ -6,20 +6,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -28,37 +19,17 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.etc.WebFileServer;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionLog;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter_Log;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.MobileInfoAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.MobileInfoAdapter_Log;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.AddressUpdate;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCustomerNotAround;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCustomerNotAround_Log;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
-import org.w3c.dom.Text;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogCustomerNotAround;
 
-import java.util.Objects;
-
-import static android.app.Activity.RESULT_OK;
-
-public class Fragment_CustomerNotAround_Log extends Fragment {
-    private static final String TAG = Fragment_CustomerNotAround_Log.class.getSimpleName();
+public class Fragment_Log_CustomerNotAround extends Fragment {
+    private static final String TAG = Fragment_Log_CustomerNotAround.class.getSimpleName();
     private static final int MOBILE_DIALER = 104;
-    private VMCustomerNotAround_Log mViewModel;
+    private VMLogCustomerNotAround mViewModel;
     private MobileInfoAdapter_Log mobileAdapter;
     private AddressInfoAdapter_Log addressAdapter;
     private TextView txtAcctNo, txtClientName, txtClientAddress;
@@ -69,7 +40,7 @@ public class Fragment_CustomerNotAround_Log extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_customer_not_around_log, container, false);
-        mViewModel = ViewModelProviders.of(this).get(VMCustomerNotAround_Log.class);
+        mViewModel = ViewModelProviders.of(this).get(VMLogCustomerNotAround.class);
         initWidgets(view);
         return view;
     }
@@ -77,12 +48,12 @@ public class Fragment_CustomerNotAround_Log extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        txtAcctNo.setText(Activity_TransactionLog.acctNox);
-        txtClientName.setText(Activity_TransactionLog.fullNme);
-        txtClientAddress.setText(Activity_TransactionLog.clientAddress);
-        mViewModel.setClientID(Activity_TransactionLog.clientID);
+        txtAcctNo.setText(Activity_LogTransaction.acctNox);
+        txtClientName.setText(Activity_LogTransaction.fullNme);
+        txtClientAddress.setText(Activity_LogTransaction.clientAddress);
+        mViewModel.setClientID(Activity_LogTransaction.clientID);
         //Image Location
-        mViewModel.getImageLocation(Activity_TransactionLog.acctNox, Activity_TransactionLog.imgNme)
+        mViewModel.getImageLocation(Activity_LogTransaction.acctNox, Activity_LogTransaction.imgNme)
                 .observe(getViewLifecycleOwner(), eImageInfo -> {
             // TODO: Display Image
                     setPic(eImageInfo.getFileLoct());

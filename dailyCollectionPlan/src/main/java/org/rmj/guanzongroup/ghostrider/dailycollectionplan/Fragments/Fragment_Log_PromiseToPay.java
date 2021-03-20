@@ -8,9 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,29 +16,28 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionLog;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPromiseToPay;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPromiseToPay_Log;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogPromiseToPay;
 
-public class Fragment_PromiseToPay_Log extends Fragment {
-    private VMPromiseToPay_Log mViewModel;
+public class Fragment_Log_PromiseToPay extends Fragment {
+    private VMLogPromiseToPay mViewModel;
     private TextView txtAcctNo, txtClientName, txtClientAddress;
     private TextView txtPTPDate, txtBranchName, txtRemarks;
     private ImageView ivTransImage;
     private LinearLayout lnBranchName;
 
-    public Fragment_PromiseToPay_Log() { }
+    public Fragment_Log_PromiseToPay() { }
 
-    public static Fragment_PromiseToPay_Log newInstance() {
-        return new Fragment_PromiseToPay_Log();
+    public static Fragment_Log_PromiseToPay newInstance() {
+        return new Fragment_Log_PromiseToPay();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_promise_to_pay_log, container, false);
         initWidgets(v);
-        mViewModel = ViewModelProviders.of(this).get(VMPromiseToPay_Log.class);
+        mViewModel = ViewModelProviders.of(this).get(VMLogPromiseToPay.class);
         return v;
     }
 
@@ -48,14 +45,14 @@ public class Fragment_PromiseToPay_Log extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // TODO: Do the coding here
-        txtAcctNo.setText(Activity_TransactionLog.acctNox);
-        txtClientName.setText(Activity_TransactionLog.fullNme);
-        txtClientAddress.setText(Activity_TransactionLog.clientAddress);
-        mViewModel.setParameters(Activity_TransactionLog.transNox,
-                Activity_TransactionLog.acctNox,
-                Activity_TransactionLog.remCodex);
+        txtAcctNo.setText(Activity_LogTransaction.acctNox);
+        txtClientName.setText(Activity_LogTransaction.fullNme);
+        txtClientAddress.setText(Activity_LogTransaction.clientAddress);
+        mViewModel.setParameters(Activity_LogTransaction.transNox,
+                Activity_LogTransaction.acctNox,
+                Activity_LogTransaction.remCodex);
 
-        mViewModel.getImageLocation(Activity_TransactionLog.acctNox, Activity_TransactionLog.imgNme)
+        mViewModel.getImageLocation(Activity_LogTransaction.acctNox, Activity_LogTransaction.imgNme)
                 .observe(getViewLifecycleOwner(), eImageInfo -> setPic(eImageInfo.getFileLoct()));
 
         mViewModel.getPostedCollectionDetail().observe(getViewLifecycleOwner(), collectDetl -> {

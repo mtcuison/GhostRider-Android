@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.Activity_CollectionLog"
+    tools:context=".Activities.Activity_LogCollection"
     android:theme="@style/GhostRiderMaterialTheme">
 
     <com.google.android.material.appbar.AppBarLayout
