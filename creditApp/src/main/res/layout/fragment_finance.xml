@@ -29,11 +29,6 @@
                 android:clickable="false"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
-<!--        <Spinner-->
-<!--            android:id="@+id/spn_financierRelation"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_margin="10dp"/>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -45,7 +40,10 @@
                 android:id="@+id/txt_financierName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="100"/>
+                android:inputType="textCapWords"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/txt_financierInc"
+                android:maxLength="80"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -58,7 +56,10 @@
                 android:id="@+id/txt_financierInc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="100"/>
+                android:inputType="number|none"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/txt_financierCntry"
+                android:maxLength="10"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -71,7 +72,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/AutoCompleteStyleTheme"
-                android:maxLength="100"/>
+                android:inputType="textCapWords"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/txt_financierContact"
+                android:maxLength="20"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +89,10 @@
                 android:id="@+id/txt_financierContact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="100"/>
+                android:inputType="number|none"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/txt_financierFb"
+                android:maxLength="11"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -98,7 +105,10 @@
                 android:id="@+id/txt_financierFb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="100"/>
+                android:inputType="textPersonName"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/txt_financierEmail"
+                android:maxLength="80"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -111,7 +121,9 @@
                 android:id="@+id/txt_financierEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="100"/>
+                android:inputType="textEmailAddress"
+                android:imeOptions="actionDone"
+                android:maxLength="80"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
