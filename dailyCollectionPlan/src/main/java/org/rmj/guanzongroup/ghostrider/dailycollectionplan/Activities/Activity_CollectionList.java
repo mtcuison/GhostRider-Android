@@ -179,7 +179,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                         loAdapter.notifyDataSetChanged();
                     } catch (Exception e){
                         e.printStackTrace();
-                        Toast.makeText(Activity_CollectionList.this, "Unknown error occurred. Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -470,6 +469,12 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        getViewModelStore().clear();
     }
 
     @Override

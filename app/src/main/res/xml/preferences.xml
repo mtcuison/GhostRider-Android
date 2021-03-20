@@ -10,6 +10,7 @@
         app:defaultValue="false"
         android:summaryOn="@string/darkmode_summary"
         android:summaryOff="@string/lightmode_summary"/>
+
     <PreferenceCategory app:title="Permissions">
 
         <Preference
@@ -32,10 +33,40 @@
             app:iconSpaceReserved="false"
             app:defaultValue="false"/>
     </PreferenceCategory>
-    <Preference
-        app:key="exportPrefs"
-        app:icon="@drawable/ic_application_export"
-        app:title="Export Database"
-        app:iconSpaceReserved="false"
-        app:defaultValue="false"/>
+
+    <PreferenceCategory app:title="Application">
+
+        <Preference
+            app:key="exportPrefs"
+            app:icon="@drawable/ic_application_export"
+            app:title="Export Database"
+            app:iconSpaceReserved="false"
+            app:defaultValue="false"
+            app:summary="@string/summary_settings_export"/>
+
+        <Preference
+            app:key="localDataPrefs"
+            app:icon="@drawable/ic_settings_localdata"
+            app:title="Local Data"
+            app:iconSpaceReserved="false"
+            app:defaultValue="false"
+            app:summary="@string/summary_settings_localDB"/>
+
+        <Preference
+            app:key="accountPrefs"
+            app:icon="@drawable/ic_settings_account"
+            app:title="Account"
+            app:iconSpaceReserved="false"
+            app:defaultValue="false"
+            app:summary="@string/summary_settings_account"/>
+
+        <Preference
+            app:key="appUpdatePrefs"
+            app:icon="@drawable/ic_settings_update"
+            app:title="Check For Update"
+            app:iconSpaceReserved="false"
+            app:defaultValue="false"
+            app:summary="@string/summary_settings_update"/>
+
+    </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

@@ -61,8 +61,8 @@ public interface DCreditApplication {
         public String cTranStat;
         public String dReceived;
         public String dVerified;
-
     }
+
     @Query("SELECT a.sGOCASNox," +
             "a.sTransNox," +
             "b.sBranchNm," +

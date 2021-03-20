@@ -62,6 +62,10 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectionDetailLog();
     }
 
+    public LiveData<List<EDCPCollectionDetail>> getUnsentPaidCollection(){
+        return detailDao.getUnsentPaidCollection();
+    }
+
     public LiveData<List<EDCPCollectionMaster>> getCollectioMasterList(){
         return masterDao.getCollectionMasterList();
     }
@@ -90,6 +94,11 @@ public class RDailyCollectionPlan {
     public void updateCollectionDetailStatus(String TransNox, int EntryNox){
         detailDao.updateCollectionDetailStatus(TransNox, EntryNox, AppConstants.DATE_MODIFIED);
     }
+
+    public void updateCollectionDetailStatusWithRemarks(String TransNox, int EntryNox, String Remarks){
+        detailDao.updateCollectionDetailStatusWithRemarks(TransNox, EntryNox, AppConstants.DATE_MODIFIED, Remarks);
+    }
+
 
     public void updateCollectionDetailImage(String AccntNox){
         detailDao.updateCustomerDetailImage(AccntNox);

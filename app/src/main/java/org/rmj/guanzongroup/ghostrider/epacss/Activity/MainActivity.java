@@ -16,11 +16,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.google.android.material.navigation.NavigationView;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -80,7 +82,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
+        mViewModel.getUnsentPaidCollection().observe(this, edcpCollectionDetails -> {
+            try{
+                poNetRecvr.setDCPPaidInfo(edcpCollectionDetails);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -140,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(poNetRecvr);
+        AppConfigPreference.getInstance(MainActivity.this).setIsAppFirstLaunch(false);
         Log.e(TAG, "Internet status receiver has been unregistered.");
     }
 

@@ -28,4 +28,7 @@ public interface DLog_Selfie {
 
     @Query("SELECT * FROM Employee_Log_Selfie WHERE cSendStat <> '1'")
     LiveData<List<ELog_Selfie>> getUnsentSelfieLogin();
+
+    @Query("SELECT * FROM Employee_Log_Selfie WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master)")
+    LiveData<List<ELog_Selfie>> getAllEmployeeTimeLog();
 }
