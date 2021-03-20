@@ -11,26 +11,22 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_ClientDtl_Log;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_CustomerNotAround;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_CustomerNotAround_Log;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_IncTransaction;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_LoanUnit;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_OtherTransactions_Log;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PaidTransaction;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_Paid_Log;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PromiseToPay;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_PromiseToPay_Log;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_Log_Client_Detail;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_Log_CustomerNotAround;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_Log_OtherTransactions;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_Log_Paid_Transaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_Log_PromiseToPay;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.Objects;
 
-public class Activity_TransactionLog extends AppCompatActivity {
-    private static final String TAG = Activity_TransactionLog.class.getSimpleName();
-    private static Activity_TransactionLog instance;
+public class Activity_LogTransaction extends AppCompatActivity {
+    private static final String TAG = Activity_LogTransaction.class.getSimpleName();
+    private static Activity_LogTransaction instance;
     public static String transNox, fullNme, entryNox, acctNox, remCodex, imgNme, clientID, clientAddress, remarks ;
 
-    public static Activity_TransactionLog getInstance(){
+    public static Activity_LogTransaction getInstance(){
         return instance;
     }
 
@@ -55,51 +51,7 @@ public class Activity_TransactionLog extends AppCompatActivity {
 
         ViewPager viewPager = findViewById(R.id.viewpager_transaction);
 
-        if(remCodex.equalsIgnoreCase("PAY")) {
-            getSupportActionBar().setTitle("Paid");
-        }
-        else if(remCodex.equalsIgnoreCase("PTP")) {
-            getSupportActionBar().setTitle("Promise To Pay");
-        }
-        else if(remCodex.equalsIgnoreCase("CNA")) {
-            getSupportActionBar().setTitle("Customer Not Around");
-        }
-        else if(remCodex.equalsIgnoreCase("Car")) {
-            getSupportActionBar().setTitle("Carnap");
-        }
-        else if(remCodex.equalsIgnoreCase("UNC")) {
-            getSupportActionBar().setTitle("Uncooperative");
-        }
-        else if(remCodex.equalsIgnoreCase("MCs")) {
-            getSupportActionBar().setTitle("Missing Customer");
-        }
-        else if(remCodex.equalsIgnoreCase("MUn")) {
-            getSupportActionBar().setTitle("Missing Unit");
-        }
-        else if(remCodex.equalsIgnoreCase("MCU")) {
-            getSupportActionBar().setTitle("Missing Customer and Unit");
-        }
-        else if(remCodex.equalsIgnoreCase("DNP")) {
-            getSupportActionBar().setTitle("Did Not Pay");
-        }
-        else if(remCodex.equalsIgnoreCase("NV")) {
-            getSupportActionBar().setTitle("Not Visited");
-        }
-        else if(remCodex.equalsIgnoreCase("OTH")) {
-            getSupportActionBar().setTitle("Others");
-        }
-        else if(remCodex.equalsIgnoreCase("FLA")) {
-            getSupportActionBar().setTitle("For Legal Action");
-        }
-        else if(remCodex.equalsIgnoreCase("TA")) {
-            getSupportActionBar().setTitle("Transferred/Assumed");
-        }
-        else if(remCodex.equalsIgnoreCase("FO")) {
-            getSupportActionBar().setTitle("False Ownership");
-        }
-        else if(remCodex.equalsIgnoreCase("LUn")) {
-            getSupportActionBar().setTitle("Loan Unit");
-        }
+        getSupportActionBar().setTitle(DCP_Constants.getRemarksDescription(remCodex));
 
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getTransactionFragment(remCodex)));
     }
@@ -145,19 +97,19 @@ public class Activity_TransactionLog extends AppCompatActivity {
 
     private Fragment getTransactionFragment(String transaction){
         if(transaction.equalsIgnoreCase("PAY")) {
-            return new Fragment_Paid_Log();
+            return new Fragment_Log_Paid_Transaction();
         }
         else if(transaction.equalsIgnoreCase("PTP")) {
-            return new Fragment_PromiseToPay_Log();
+            return new Fragment_Log_PromiseToPay();
         }
         else if(transaction.equalsIgnoreCase("CNA")){
-            return new Fragment_CustomerNotAround_Log();
+            return new Fragment_Log_CustomerNotAround();
         }
         else if(transaction.equalsIgnoreCase("FLA") ||
                 transaction.equalsIgnoreCase("TA") ||
                 transaction.equalsIgnoreCase("FO") ||
                 transaction.equalsIgnoreCase("LUn")) {
-            return new Fragment_ClientDtl_Log();
+            return new Fragment_Log_Client_Detail();
         }
         else if((transaction.equalsIgnoreCase("Car")
                 || (transaction.equalsIgnoreCase("UNC"))
@@ -167,7 +119,7 @@ public class Activity_TransactionLog extends AppCompatActivity {
                 || (transaction.equalsIgnoreCase("DNP"))
                 || transaction.equalsIgnoreCase("NV"))
                 || (transaction.equalsIgnoreCase("OTH"))){
-            return new Fragment_OtherTransactions_Log();
+            return new Fragment_Log_OtherTransactions();
         }
         return null;
     }

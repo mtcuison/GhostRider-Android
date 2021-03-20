@@ -9,18 +9,17 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 
-public class VMClientDetl_Log extends AndroidViewModel {
-    private static final String TAG = VMClientDetl_Log.class.getSimpleName();
+public class VMLogClientDetail extends AndroidViewModel {
+    private static final String TAG = VMLogClientDetail.class.getSimpleName();
     private RImageInfo poImage;
     private RDailyCollectionPlan poCollect;
     private RTown poTown;
 
-    public VMClientDetl_Log(@NonNull Application application){
+    public VMLogClientDetail(@NonNull Application application){
         super(application);
         this.poImage = new RImageInfo(application);
         this.poCollect = new RDailyCollectionPlan(application);

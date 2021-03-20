@@ -11,27 +11,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionLog;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMClientDetl_Log;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPaid_Log;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogPaidTransaction;
 
-public class Fragment_Paid_Log extends Fragment {
-    private VMPaid_Log mViewModel;
+public class Fragment_Log_Paid_Transaction extends Fragment {
+    private VMLogPaidTransaction mViewModel;
     private TextView txtAcctNo, txtClientName, txtClientAddress;
     private TextView txtPaymentTp, txtPRNoxx, txtTransAmtx, txtDiscount, txtPenalty, txtTotalAmtx, txtRemarksx;
 
-    public Fragment_Paid_Log() { }
+    public Fragment_Log_Paid_Transaction() { }
 
-    public static Fragment_Paid_Log newInstance() {
-        return new Fragment_Paid_Log();
+    public static Fragment_Log_Paid_Transaction newInstance() {
+        return new Fragment_Log_Paid_Transaction();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_paid_log, container, false);
-        mViewModel = ViewModelProviders.of(this).get(VMPaid_Log.class);
+        mViewModel = ViewModelProviders.of(this).get(VMLogPaidTransaction.class);
         initWidgets(v);
         return v;
     }
@@ -40,12 +39,12 @@ public class Fragment_Paid_Log extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // TODO: Functions
-        txtAcctNo.setText(Activity_TransactionLog.acctNox);
-        txtClientName.setText(Activity_TransactionLog.fullNme);
-        txtClientAddress.setText(Activity_TransactionLog.clientAddress);
-        mViewModel.setParameters(Activity_TransactionLog.transNox,
-                Activity_TransactionLog.acctNox,
-                Activity_TransactionLog.remCodex);
+        txtAcctNo.setText(Activity_LogTransaction.acctNox);
+        txtClientName.setText(Activity_LogTransaction.fullNme);
+        txtClientAddress.setText(Activity_LogTransaction.clientAddress);
+        mViewModel.setParameters(Activity_LogTransaction.transNox,
+                Activity_LogTransaction.acctNox,
+                Activity_LogTransaction.remCodex);
 
         mViewModel.getPostedCollectionDetail().observe(getViewLifecycleOwner(), collectPaidDetl -> {
             txtPaymentTp.setText(DCP_Constants.PAYMENT_TYPE[Integer.parseInt(collectPaidDetl.getTranType())]);

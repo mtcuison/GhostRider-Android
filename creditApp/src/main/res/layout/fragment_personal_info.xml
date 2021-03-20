@@ -14,6 +14,12 @@
         android:gravity="end"
         android:padding="5dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/HeaderLabelBlack"
+            android:text="@string/sLblPersonalInfo"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -237,13 +243,6 @@
                 android:nextFocusForward="@id/txt_citizenship"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
-<!--        <Spinner-->
-<!--            android:id="@+id/spn_civilStatus"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:padding="15dp"-->
-<!--            android:imeOptions="actionNext"-->
-<!--            android:nextFocusForward="@id/txt_citizenship"/>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -277,6 +276,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="120"
+                android:inputType="textCapWords|textPersonName"
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/txt_mobileNo1"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -323,13 +323,6 @@
                     android:cursorVisible="false"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
-
-<!--            <Spinner-->
-<!--                android:id="@+id/spn_mobile1Type"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:padding="15dp"-->
-<!--                android:layout_weight="1.4"/>-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_mobileNo1Year"

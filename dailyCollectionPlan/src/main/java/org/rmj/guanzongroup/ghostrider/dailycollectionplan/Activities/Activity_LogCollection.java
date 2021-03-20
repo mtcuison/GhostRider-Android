@@ -34,8 +34,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Activity_CollectionLog extends AppCompatActivity {
-    private static final String TAG = Activity_CollectionLog.class.getSimpleName();
+public class Activity_LogCollection extends AppCompatActivity {
+    private static final String TAG = Activity_LogCollection.class.getSimpleName();
 
     private VMCollectionLog mViewModel;
 
@@ -54,12 +54,12 @@ public class Activity_CollectionLog extends AppCompatActivity {
         initWidgets();
 
         mViewModel = new ViewModelProvider(this).get(VMCollectionLog.class);
-        mViewModel.getUserBranchInfo().observe(Activity_CollectionLog.this, eBranchInfo -> {
+        mViewModel.getUserBranchInfo().observe(Activity_LogCollection.this, eBranchInfo -> {
             lblBranch.setText(eBranchInfo.getBranchNm());
             lblAddrss.setText(eBranchInfo.getAddressx());
         });
 
-        mViewModel.getAllAddress().observe(Activity_CollectionLog.this, eAddressUpdates -> {
+        mViewModel.getAllAddress().observe(Activity_LogCollection.this, eAddressUpdates -> {
             try {
                 mViewModel.setAddressList(eAddressUpdates);
             }
@@ -68,7 +68,7 @@ public class Activity_CollectionLog extends AppCompatActivity {
             }
         });
 
-        mViewModel.getAllMobileNox().observe(Activity_CollectionLog.this, eMobileUpdates -> {
+        mViewModel.getAllMobileNox().observe(Activity_LogCollection.this, eMobileUpdates -> {
             try {
                 mViewModel.setMobileList(eMobileUpdates);
             }
@@ -77,7 +77,7 @@ public class Activity_CollectionLog extends AppCompatActivity {
             }
         });
 
-        mViewModel.getCollectionMaster().observe(Activity_CollectionLog.this, collectionMaster -> {
+        mViewModel.getCollectionMaster().observe(Activity_LogCollection.this, collectionMaster -> {
             try{
                 mViewModel.setCollectionMaster(collectionMaster);
             } catch (Exception e){
@@ -88,7 +88,7 @@ public class Activity_CollectionLog extends AppCompatActivity {
         txtDate.setOnClickListener(view -> {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-            final DatePickerDialog StartTime = new DatePickerDialog(Activity_CollectionLog.this, (view131, year, monthOfYear, dayOfMonth) -> {
+            final DatePickerDialog StartTime = new DatePickerDialog(Activity_LogCollection.this, (view131, year, monthOfYear, dayOfMonth) -> {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 String lsDate = dateFormatter.format(newDate.getTime());
@@ -99,7 +99,7 @@ public class Activity_CollectionLog extends AppCompatActivity {
             StartTime.show();
         });
 
-        mViewModel.getDateTransact().observe(Activity_CollectionLog.this, s -> mViewModel.getCollectionDetailForDate(s).observe(Activity_CollectionLog.this, collectionDetails -> {
+        mViewModel.getDateTransact().observe(Activity_LogCollection.this, s -> mViewModel.getCollectionDetailForDate(s).observe(Activity_LogCollection.this, collectionDetails -> {
             try{
                 for(int z = 0; z < collectionDetails.size(); z++) {
 //                    if(collectionDetails.get(z).getRemCodex() != null) {
@@ -108,7 +108,7 @@ public class Activity_CollectionLog extends AppCompatActivity {
                 }
 
                 CollectionLogAdapter poAdapter = new CollectionLogAdapter(filteredCollectionDetlx, position -> {
-                    Intent loIntent = new Intent(Activity_CollectionLog.this, Activity_TransactionLog.class);
+                    Intent loIntent = new Intent(Activity_LogCollection.this, Activity_LogTransaction.class);
                     loIntent.putExtra("sTransNox", filteredCollectionDetlx.get(position).getTransNox());
                     loIntent.putExtra("entryNox",filteredCollectionDetlx.get(position).getEntryNox());
                     loIntent.putExtra("acctNox",filteredCollectionDetlx.get(position).getAcctNmbr());
@@ -121,7 +121,7 @@ public class Activity_CollectionLog extends AppCompatActivity {
                     startActivity(loIntent);
                 });
 
-                poManager = new LinearLayoutManager(Activity_CollectionLog.this);
+                poManager = new LinearLayoutManager(Activity_LogCollection.this);
                 poManager.setOrientation(RecyclerView.VERTICAL);
                 recyclerView.setLayoutManager(poManager);
                 recyclerView.setAdapter(poAdapter);
@@ -151,7 +151,7 @@ public class Activity_CollectionLog extends AppCompatActivity {
         }));
 
 
-        mViewModel.getUnsentImageInfoList().observe(Activity_CollectionLog.this, eImageInfos -> {
+        mViewModel.getUnsentImageInfoList().observe(Activity_LogCollection.this, eImageInfos -> {
             try{
                 mViewModel.setImageInfoList(eImageInfos);
             } catch (Exception e){
@@ -159,7 +159,7 @@ public class Activity_CollectionLog extends AppCompatActivity {
             }
         });
 
-        //btnPost.setOnClickListener(view -> mViewModel.PostLRCollectionDetail(Activity_CollectionLog.this));
+        //btnPost.setOnClickListener(view -> mViewModel.PostLRCollectionDetail(Activity_LogCollection.this));
     }
 
     private void initWidgets(){
