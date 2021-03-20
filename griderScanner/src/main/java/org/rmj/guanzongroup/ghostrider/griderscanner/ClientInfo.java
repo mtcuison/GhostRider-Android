@@ -61,15 +61,16 @@ public class ClientInfo extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private VMClientInfo mViewModel;
     private VMMainScanner sViewModel;
-    TextView lblGoCasNoxxx;
+
+
     TextView lblTransNoxxx;
     TextView lblClientName;
     TextView lblAppltnDate;
-    TextView lblApplResult;
-    TextView lblDateApprov;
-    TextView lblDateSentxx;
-    TextView lblSentStatus;
-
+    TextView lblModelName;
+    TextView lblAccntTern;
+    TextView lblMobileNo;
+    TextView lblStatus;
+    
     private LoadDialog poDialogx;
     private MessageBox poMessage;
 
@@ -85,6 +86,7 @@ public class ClientInfo extends AppCompatActivity {
     public static int  CROP_REQUEST_CODE = 1234;
 
     public static EImageInfo poImageInfo;
+    private List<EImageInfo> imgList;
     public static ECreditApplicationDocuments poDocumentsInfo;
     private ECreditApplicationDocuments poDocsInfo;
     String TransNox, FileCode;
@@ -107,20 +109,12 @@ public class ClientInfo extends AppCompatActivity {
         setData();
 
         ScannerConstants.TransNox = lblTransNoxxx.getText().toString();
-        mViewModel.getDocument(TransNox).observe(ClientInfo.this, data->{
-            documentInfo = new ArrayList<>();
-            documentInfo = data;
+        mViewModel.setsTransNox(TransNox);
+        mViewModel.getDocument(TransNox).observe(ClientInfo.this, data-> {
+                    documentInfo = new ArrayList<>();
+                    documentInfo = data;
             mViewModel.getFileCode().observe(ClientInfo.this, fileCodeDetails -> {
-
-                Log.e("fileCode size", String.valueOf(fileCodeDetails.size()));
-                for (int i = 0; i < fileCodeDetails.size(); i++){
-                    poDocsInfo = new ECreditApplicationDocuments();
-                    poDocsInfo.setEntryNox(fileCodeDetails.get(i).getEntryNox());
-                    poDocsInfo.setTransNox(TransNox);
-                    poDocsInfo.setFileCode(fileCodeDetails.get(i).getFileCode());
-                    mViewModel.saveDocumentInfo(data,poDocsInfo);
-                }
-                loAdapter = new FileCodeAdapter(ClientInfo.this,TransNox, data,fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
+                loAdapter = new FileCodeAdapter(ClientInfo.this,mViewModel,mViewModel.getAllImage(), data,TransNox,fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
                     @Override
                     public void OnClick(int position) {
                         poFilexx = new ImageFileCreator(ClientInfo.this , "Credit Application Documents", "SCAN", fileCodeDetails.get(position).getFileCode(), TransNox);
@@ -147,11 +141,12 @@ public class ClientInfo extends AppCompatActivity {
 
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(loAdapter);
-//        recyclerView.getRecycledViewPool().clear();
+                recyclerView.getRecycledViewPool().clear();
                 loAdapter.notifyDataSetChanged();
             });
-            }
-        );
+
+        });
+
 
 
     }
@@ -169,22 +164,25 @@ public class ClientInfo extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview_fileCodeInfo);
         layoutManager = new LinearLayoutManager(ClientInfo.this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
-        lblGoCasNoxxx = findViewById(R.id.lbl_list_GoCasNo);
-        lblTransNoxxx = findViewById(R.id.lbl_list_applicationTransNo);
+
+        lblTransNoxxx = findViewById(R.id.lbl_list_transNox);
         lblClientName = findViewById(R.id.lbl_list_applicantName);
         lblAppltnDate = findViewById(R.id.lbl_list_applicationDate);
-        lblApplResult = findViewById(R.id.lbl_list_applicationWithCI);
-        lblDateApprov = findViewById(R.id.lbl_list_approvedDate);
-        lblDateSentxx = findViewById(R.id.lbl_list_dateSent);
-        lblSentStatus = findViewById(R.id.lbl_applicationSent);
+        lblStatus = findViewById(R.id.lbl_list_applicationWithCI);
+        lblModelName = findViewById(R.id.lbl_modelName);
+        lblAccntTern = findViewById(R.id.lbl_accntTerm);
+        lblMobileNo = findViewById(R.id.lbl_mobileNo);
+
     }
     public void setData(){
         TransNox = getIntent().getStringExtra("TransNox");
-        lblGoCasNoxxx.setText(getIntent().getStringExtra("GoCasNoxx"));
         lblTransNoxxx.setText(TransNox);
         lblClientName.setText(getIntent().getStringExtra("ClientNm"));
-        lblAppltnDate.setText(getIntent().getStringExtra("DateApplied"));
-        lblApplResult.setText(getIntent().getStringExtra("Status"));
+        lblAppltnDate.setText(getIntent().getStringExtra("dTransact"));
+        lblStatus.setText(getIntent().getStringExtra("Status"));
+        lblModelName.setText(getIntent().getStringExtra("ModelName"));
+        lblAccntTern.setText(getIntent().getStringExtra("AccntTerm"));
+        lblMobileNo.setText(getIntent().getStringExtra("MobileNo"));
 //        lblSentStatus.setVisibility(poLoan.getSendStatus());
     }
     @Override

@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.epacss.Service;
+package org.rmj.guanzongroup.ghostrider.griderscanner.service;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
@@ -56,29 +56,12 @@ public class DataImportService extends JobService {
 
     private void doBackgroundTask(JobParameters params) {
         ImportInstance[]  importInstances = {
-                new Import_BankList(getApplication()),
-                new ImportFileCode(getApplication()),
-                new ImportBranch(getApplication()),
-                new ImportBrand(getApplication()),
-                new ImportBrandModel(getApplication()),
-                new ImportCategory(getApplication()),
-                new ImportProvinces(getApplication()),
-                new ImportMcModelPrice(getApplication()),
-                new ImportTown(getApplication()),
-                new ImportBarangay(getApplication()),
-                new ImportMcTermCategory(getApplication()),
-                new ImportCountry(getApplication()),
-                new Import_SCARequest(getApplication()),
-                new Import_AreaPerformance(getApplication()),
-                new Import_Occupations(getApplication()),
-                new Import_BranchPerformance(getApplication()),
-                new Import_LoanApplications(getApplication()),
                 new Import_CreditAppList(getApplication())};
 
         if(poConfig.isAppFirstLaunch()) {
-            GNotifBuilder.createNotification(getApplication(), GNotifBuilder.JOB_SERVICE, "Downloading local resources...", GNotifBuilder.APP_DATA_DOWNLOAD).show();
+            GNotifBuilder.createNotification(getApplication(), "GhostRider", "Downloading local resources...", GNotifBuilder.APP_DATA_DOWNLOAD).show();
         } else {
-            GNotifBuilder.createNotification(getApplication(), GNotifBuilder.JOB_SERVICE, "Updating local resources...", GNotifBuilder.APP_SYNC_DATA).show();
+            GNotifBuilder.createNotification(getApplication(), "GhostRider", "Updating local resources...", GNotifBuilder.APP_SYNC_DATA).show();
         }
         new Thread(() -> {
             for (ImportInstance importInstance : importInstances) {
@@ -101,9 +84,9 @@ public class DataImportService extends JobService {
             }
 
             if(poConfig.isAppFirstLaunch()) {
-                GNotifBuilder.createNotification(getApplication(), GNotifBuilder.JOB_SERVICE, "Download finished.", GNotifBuilder.APP_DATA_DOWNLOAD).show();
+                GNotifBuilder.createNotification(getApplication(), "GhostRider", "Download finished.", GNotifBuilder.APP_DATA_DOWNLOAD).show();
             } else {
-                GNotifBuilder.createNotification(getApplication(), GNotifBuilder.JOB_SERVICE, "Update finished.", GNotifBuilder.APP_SYNC_DATA).show();
+                GNotifBuilder.createNotification(getApplication(), "GhostRider", "Update finished.", GNotifBuilder.APP_SYNC_DATA).show();
             }
             jobFinished(params, false);
         }).start();

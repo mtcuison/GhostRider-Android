@@ -54,9 +54,11 @@ public class VMClientInfo extends AndroidViewModel {
     private final RFileCode peFileCode;
     private final Application instance;
     private final LiveData<List<EFileCode>> fileCodeList;
+    private LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> docFileList;
     private final RCreditApplicationDocument poDocument;
     private final RImageInfo poImage;
     private List<EImageInfo> imgInfo = new ArrayList<>();
+    private List<EImageInfo> imgListInfo = new ArrayList<>();
     private final MutableLiveData<String> sTransNox = new MutableLiveData<>();
     private final MutableLiveData<String> sImgName = new MutableLiveData<>();
     private final MutableLiveData<String> sFileCode = new MutableLiveData<>();
@@ -81,33 +83,41 @@ public class VMClientInfo extends AndroidViewModel {
             e.printStackTrace();
         }
     }
+    public  void  setsTransNox(String transNox){
+        this.docFileList = poDocument.getDocument(transNox);
+        this.imgListInfo =poImage.getImageListInfo(transNox).getValue();
+        this.sTransNox.setValue(transNox);
+    }
     public LiveData<List<EFileCode>> getFileCode(){
         return this.fileCodeList;
+    }
+
+    public List<EImageInfo> getAllImage(){
+        return this.imgListInfo;
     }
 
     public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocument(String TransNox){
         return this.poDocument.getDocument(TransNox);
     }
+    public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentByTransNox(String TransNox, String FileCD){
+        return this.poDocument.getDocumentByTransNox(TransNox, FileCD);
+    }
 
-    public void saveDocumentInfo(List<DCreditApplicationDocuments.ApplicationDocument> poDocs,ECreditApplicationDocuments documentsInfo){
+    public void saveDocumentInfo(List<DCreditApplicationDocuments.ApplicationDocument> documentInfo, ECreditApplicationDocuments documentsInfo){
         try{
             boolean isDocumentExist = false;
             String tansNo = "";
-            for (int i = 0; i < poDocs.size(); i++){
-                if (poDocs.get(i).sTransNox.equalsIgnoreCase(documentsInfo.getTransNox()) &&
-                        poDocs.get(i).sFileCode.equalsIgnoreCase(documentsInfo.getFileCode())){
+            for (int i = 0; i < fileCodeList.getValue().size(); i++){
+                if (documentInfo.get(i).sTransNox.equalsIgnoreCase(documentsInfo.getTransNox()) &&
+                        documentInfo.get(i).sFileCode.equalsIgnoreCase(documentsInfo.getFileCode())){
                     isDocumentExist = true;
-                    documentsInfo.setFileLoc(poDocs.get(i).sFileLoc);
-                    documentsInfo.setImageNme(poDocs.get(i).sImageNme);
-                    tansNo = documentsInfo.getDocTransNox();
                 }
             }
             if (isDocumentExist){
-                documentsInfo.setDocTransNox(tansNo);
                 poDocument.updateDocumentInfo(documentsInfo);
                 Log.e(TAG, "Document info has been updated!");
             }else{
-                documentsInfo.setDocTransNox(poDocument.getImageNextCode());
+
                 poDocument.insertDocumentInfo(documentsInfo);
                 Log.e(TAG, "Document info has been save!");
             }
@@ -118,25 +128,7 @@ public class VMClientInfo extends AndroidViewModel {
     }
     public void saveDocumentInfoFromCamera(List<DCreditApplicationDocuments.ApplicationDocument> poDocs, ECreditApplicationDocuments documentsInfo){
         try{
-
-            boolean isDocumentExist = false;
-            String tansNo = "";
-            for (int i = 0; i < poDocs.size(); i++){
-                if (poDocs.get(i).sTransNox.equalsIgnoreCase(documentsInfo.getTransNox()) &&
-                        poDocs.get(i).sFileCode.equalsIgnoreCase(documentsInfo.getFileCode())){
-                    isDocumentExist = true;
-                    tansNo = documentsInfo.getDocTransNox();
-                }
-            }
-            if (isDocumentExist){
-                documentsInfo.setDocTransNox(tansNo);
-                poDocument.updateDocumentInfo(documentsInfo);
-                Log.e(TAG, "Document info with image has been updated!");
-            }else{
-                documentsInfo.setDocTransNox(poDocument.getImageNextCode());
-                poDocument.insertDocumentInfo(documentsInfo);
-                Log.e(TAG, "Document info with image has been save!");
-            }
+            poDocument.updateDocumentsInfo(documentsInfo);
 
         } catch (Exception e){
             e.printStackTrace();
@@ -304,5 +296,20 @@ public class VMClientInfo extends AndroidViewModel {
         }
 
 
+    }
+
+    private static class UpdateDocumentTast extends AsyncTask<Void, Void, String>{
+        private final DCreditApplicationDocuments documentsDao;
+        public UpdateDocumentTast(DCreditApplicationDocuments documentsDao) {
+            this.documentsDao = documentsDao;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+//            documentsDao.updateDocumentsInfo();
+            Log.e(TAG, "Document info with Image has been update in background!");
+
+            return null;
+        }
     }
 }

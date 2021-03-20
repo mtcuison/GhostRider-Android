@@ -46,15 +46,20 @@ public class ClientInfoAdapter extends RecyclerView.Adapter<ClientInfoAdapter.Cl
     @Override
     public void onBindViewHolder(@NonNull ClientInfoViewHolder holder, int position) {
         LoanApplication poLoan = plLoanApp.get(position);
-        holder.lblGoCasNoxxx.setText("GOCas No. :"+poLoan.getGOCasNumber());
-        holder.lblTransNoxxx.setText(poLoan.getTransNox());
-        holder.lblClientName.setText(poLoan.getClientName());
-        holder.lblAppltnDate.setText(poLoan.getDateTransact());
-        holder.lblApplResult.setText(poLoan.getTransactionStatus());
 
-        holder.btnVoid.setVisibility(poLoan.getVoidStatus());
 
-        holder.lblSentStatus.setVisibility(poLoan.getSendStatus());
+        holder.lblTransNoxxx.setText("TransNox. :"+poLoan.getsTransNox());
+        holder.lblClientName.setText(poLoan.getsCompnyNm());
+        holder.lblAppltnDate.setText(poLoan.getdTransact());
+        holder.lblStatus.setText(poLoan.getcTranStat());
+        holder.lblAccntTern.setText(poLoan.getnAcctTerm());
+        holder.lblModelName.setText(poLoan.getsModelNme());
+        holder.lblMobileNo.setText(poLoan.getsMobileNo());
+//        holder.lblApplResult.setText(poLoan.getTransactionStatus());
+//
+//        holder.btnVoid.setVisibility(poLoan.getVoidStatus());
+//
+//        holder.lblSentStatus.setVisibility(poLoan.getSendStatus());
     }
 
     @Override
@@ -64,29 +69,26 @@ public class ClientInfoAdapter extends RecyclerView.Adapter<ClientInfoAdapter.Cl
 
     public class ClientInfoViewHolder extends RecyclerView.ViewHolder{
 
-        TextView lblGoCasNoxxx;
+
         TextView lblTransNoxxx;
         TextView lblClientName;
         TextView lblAppltnDate;
-        TextView lblApplResult;
-        TextView lblDateApprov;
-        TextView lblDateSentxx;
-        TextView lblSentStatus;
+        TextView lblModelName;
+        TextView lblAccntTern;
+        TextView lblMobileNo;
+        TextView lblStatus;
         ImageButton btnVoid;
 
         public ClientInfoViewHolder(@NonNull View itemView, OnApplicationClickListener onApplicationClickListener) {
             super(itemView);
 
-            lblGoCasNoxxx = itemView.findViewById(R.id.lbl_list_GoCasNo);
-            lblTransNoxxx = itemView.findViewById(R.id.lbl_list_applicationTransNo);
+            lblTransNoxxx = itemView.findViewById(R.id.lbl_list_transNox);
             lblClientName = itemView.findViewById(R.id.lbl_list_applicantName);
             lblAppltnDate = itemView.findViewById(R.id.lbl_list_applicationDate);
-            lblApplResult = itemView.findViewById(R.id.lbl_list_applicationWithCI);
-            lblDateApprov = itemView.findViewById(R.id.lbl_list_approvedDate);
-            lblDateSentxx = itemView.findViewById(R.id.lbl_list_dateSent);
-            lblSentStatus = itemView.findViewById(R.id.lbl_applicationSent);
-            btnVoid = itemView.findViewById(R.id.btn_deleteApplication);
-
+            lblStatus = itemView.findViewById(R.id.lbl_list_applicationWithCI);
+            lblModelName = itemView.findViewById(R.id.lbl_modelName);
+            lblAccntTern = itemView.findViewById(R.id.lbl_accntTerm);
+            lblMobileNo = itemView.findViewById(R.id.lbl_mobileNo);
 
 
             itemView.setOnClickListener(v12 -> {

@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -55,24 +56,25 @@ public class MainScanner extends AppCompatActivity implements ViewModelCallBack 
         mViewModel.LoadApplications(MainScanner.this);
         mViewModel.getEmployeeInfo().observe(this, eEmployeeInfo -> {
             try {
-                mViewModel.getApplicationByBranch(eEmployeeInfo.getBranchCD()).observe(MainScanner.this, applicationLogs -> {
-                    if(applicationLogs.size()>0) {
+                mViewModel.getBranchCreditApplication().observe(MainScanner.this, brnCreditList -> {
+                    if(brnCreditList.size()>0) {
                         loading.setVisibility(View.GONE);
                         loanList = new ArrayList<>();
-
-                        for (int x = 0; x < applicationLogs.size(); x++) {
+                        for (int x = 0; x < brnCreditList.size(); x++) {
                             LoanApplication loan = new LoanApplication();
-                            loan.setGOCasNumber(applicationLogs.get(x).sGOCASNox);
-                            loan.setTransNox(applicationLogs.get(x).sTransNox);
-                            loan.setBranchCode(applicationLogs.get(x).sBranchNm);
-                            loan.setDateTransact(applicationLogs.get(x).dCreatedx);
-                            loan.setDetailInfo(applicationLogs.get(x).sDetlInfo);
-                            loan.setClientName(applicationLogs.get(x).sClientNm);
-                            loan.setLoanCIResult(applicationLogs.get(x).cWithCIxx);
-                            loan.setSendStatus(applicationLogs.get(x).cSendStat);
-                            loan.setTransactionStatus(applicationLogs.get(x).cTranStat);
-                            loan.setDateSent(applicationLogs.get(x).dReceived);
-                            loan.setDateApproved(applicationLogs.get(x).dVerified);
+                            loan.setsTransNox(brnCreditList.get(x).getTransNox());
+                            loan.setdTransact(brnCreditList.get(x).getTransact());
+                            loan.setsCredInvx(brnCreditList.get(x).getCredInvx());
+                            loan.setsCompnyNm(brnCreditList.get(x).getCompnyNm());
+                            loan.setsSpouseNm(brnCreditList.get(x).getSpouseNm());
+                            loan.setsAddressx(brnCreditList.get(x).getAddressx());
+                            loan.setsMobileNo(brnCreditList.get(x).getMobileNo());
+                            loan.setsQMAppCde(brnCreditList.get(x).getQMAppCde());
+                            loan.setsModelNme(brnCreditList.get(x).getModelNme());
+                            loan.setnDownPaym(brnCreditList.get(x).getDownPaym());
+                            loan.setnAcctTerm(brnCreditList.get(x).getAcctTerm());
+                            loan.setcTranStat(brnCreditList.get(x).getTranStat());
+                            loan.setdTimeStmp(brnCreditList.get(x).getTimeStmp());
                             loanList.add(loan);
                             Log.e("Loan List", String.valueOf(loan));
                         }
@@ -82,14 +84,15 @@ public class MainScanner extends AppCompatActivity implements ViewModelCallBack 
 //                                mViewModel.getDocument(loanLists.get(position).getTransNox()).observe(MainScanner.this, data -> {
 //                                    mViewModel.setDocumentInfo(data);
 //                                });
+
                                 Intent loIntent = new Intent(MainScanner.this, ClientInfo.class);
-                                loIntent.putExtra("GoCasNoxx", loanLists.get(position).getGOCasNumber());
-                                loIntent.putExtra("TransNox",loanLists.get(position).getTransNox());
-                                loIntent.putExtra("ClientNm",loanLists.get(position).getClientName());
-                                loIntent.putExtra("DateApplied",loanLists.get(position).getDateTransact());
-                                loIntent.putExtra("DateSend",loanLists.get(position).getDateSent());
-                                loIntent.putExtra("Status",loanLists.get(position).getTransactionStatus());
-                                loIntent.putExtra("AccountNo",loanLists.get(position).getTransactionStatus());
+                                loIntent.putExtra("TransNox",loanLists.get(position).getsTransNox());
+                                loIntent.putExtra("ClientNm",loanLists.get(position).getsCompnyNm());
+                                loIntent.putExtra("dTransact",loanLists.get(position).getdTransact());
+                                loIntent.putExtra("ModelName",loanLists.get(position).getsModelNme());
+                                loIntent.putExtra("AccntTerm",loanLists.get(position).getnAcctTerm());
+                                loIntent.putExtra("MobileNo",loanLists.get(position).getsMobileNo());
+                                loIntent.putExtra("Status",loanLists.get(position).getcTranStat());
                                 startActivity(loIntent);
                             }
 
@@ -98,7 +101,7 @@ public class MainScanner extends AppCompatActivity implements ViewModelCallBack 
                         recyclerViewClient.setAdapter(adapter);
                         recyclerViewClient.setLayoutManager(layoutManager);
                     }else {
-                        Log.e("Application List ", String.valueOf(applicationLogs.toArray()));
+                        Log.e("Application List ", String.valueOf(brnCreditList.toArray()));
                     }
                 });
             } catch (Exception e){

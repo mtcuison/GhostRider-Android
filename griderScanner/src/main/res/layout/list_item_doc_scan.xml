@@ -25,7 +25,7 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/lbl_list_GoCasNo"
+                android:id="@+id/lbl_list_transNox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.8"
@@ -37,27 +37,7 @@
                 android:fontFamily="@font/roboto_medium"
                 tools:targetApi="jelly_bean"/>
 
-            <TextView
-                android:id="@+id/lbl_applicationSent"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:text="Sent"
-                android:fontFamily="@font/roboto_bold"
-                android:gravity="end|center_vertical"
-                android:textSize="16sp"
-                android:textColor="#27AE60"
-                android:drawableTint="#27AE60"
-                app:drawableRightCompat="@drawable/ic_application_sent" />
 
-            <ImageButton
-                android:id="@+id/btn_deleteApplication"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".2"
-                android:src="@drawable/ic_application_delete"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                tools:ignore="ContentDescription" />
 
         </LinearLayout>
 
@@ -78,38 +58,38 @@
             android:fontFamily="@font/roboto_medium"
             tools:targetApi="jelly_bean"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_marginTop="10dp">-->
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".6"
-                android:text="Transaction No. :"
-                android:textSize="16sp"
-                android:textColor="@color/textColor_Black"
-                android:gravity="start"
-                tools:ignore="HardcodedText"
-                android:fontFamily="@font/roboto_regular"
-                tools:targetApi="jelly_bean"/>
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:gravity="start"-->
+<!--                android:text="Transaction No. :"-->
+<!--                android:textColor="@color/textColor_Black"-->
+<!--                android:textSize="16sp"-->
+<!--                tools:ignore="HardcodedText"-->
+<!--                tools:targetApi="jelly_bean" />-->
 
-            <TextView
-                android:id="@+id/lbl_list_applicationTransNo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="#437Z19000052"
-                android:textSize="16sp"
-                android:textColor="@color/textColor_Black"
-                android:gravity="end"
-                tools:ignore="HardcodedText"
-                android:fontFamily="@font/roboto_regular"
-                tools:targetApi="jelly_bean"/>
+<!--            <TextView-->
+<!--                android:id="@+id/lbl_list_applicationTransNo"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="#437Z19000052"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textColor="@color/textColor_Black"-->
+<!--                android:gravity="end"-->
+<!--                tools:ignore="HardcodedText"-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                tools:targetApi="jelly_bean"/>-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -153,7 +133,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:text="Date Sent :"
+                android:text="Model :"
                 android:textSize="16sp"
                 android:textColor="@color/textColor_Black"
                 android:gravity="start"
@@ -162,7 +142,7 @@
                 tools:targetApi="jelly_bean"/>
 
             <TextView
-                android:id="@+id/lbl_list_dateSent"
+                android:id="@+id/lbl_modelName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -174,6 +154,71 @@
                 tools:targetApi="jelly_bean"/>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="Term :"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_Black"
+                android:gravity="start"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_regular"
+                tools:targetApi="jelly_bean"/>
+
+            <TextView
+                android:id="@+id/lbl_accntTerm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="December 12, 2019"
+                android:textColor="@color/textColor_Black"
+                android:gravity="end"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_regular"
+                tools:targetApi="jelly_bean"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="Mobile # :"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_Black"
+                android:gravity="start"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_regular"
+                tools:targetApi="jelly_bean"/>
+
+            <TextView
+                android:id="@+id/lbl_mobileNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="December 12, 2019"
+                android:textColor="@color/textColor_Black"
+                android:gravity="end"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_regular"
+                tools:targetApi="jelly_bean"/>
+
+        </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -205,37 +250,7 @@
                 tools:targetApi="jelly_bean"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:text="Date Approved :"
-                android:textSize="16sp"
-                android:textColor="@color/textColor_Black"
-                android:gravity="start"
-                tools:ignore="HardcodedText"
-                android:fontFamily="@font/roboto_regular"
-                tools:targetApi="jelly_bean"/>
-
-            <TextView
-                android:id="@+id/lbl_list_approvedDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="December 12, 2019"
-                android:textColor="@color/textColor_Black"
-                android:gravity="end"
-                tools:ignore="HardcodedText"
-                android:fontFamily="@font/roboto_regular"
-                tools:targetApi="jelly_bean"/>
-
-        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
