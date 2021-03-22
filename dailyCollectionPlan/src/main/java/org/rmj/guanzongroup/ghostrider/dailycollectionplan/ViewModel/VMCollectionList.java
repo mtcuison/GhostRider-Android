@@ -85,7 +85,7 @@ public class VMCollectionList extends AndroidViewModel {
     @SuppressLint("SimpleDateFormat")
     public void DownloadDcp(String date, OnDownloadCollection callback){
         try{
-            @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("MMM dd, yyyy").parse(date);
+            @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
             String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(loDate));
             boolean isExist = false;
             for(int x = 0; x < masterList.getValue().size(); x++){

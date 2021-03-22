@@ -487,26 +487,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
     }
     public void showDownloadDcp(){
-        DialogDownloadDCP dialogDownloadDCP = new DialogDownloadDCP(Activity_CollectionList.this);
-        dialogDownloadDCP.initDialog(new DialogDownloadDCP.OnDialogButtonClickListener() {
-            @Override
-            public void OnDownloadClick(Dialog Dialog, String Date) {
-                if(!Date.trim().isEmpty()){
-//                    mViewModel.getCollectionListNow().observe();
-
-                    mViewModel.DownloadDcp(Date, Activity_CollectionList.this);
-                    Dialog.dismiss();
-                } else {
-                    GToast.CreateMessage(Activity_CollectionList.this, "Please enter date", GToast.ERROR).show();
-                }
-            }
-
-            @Override
-            public void OnCancel(Dialog Dialog) {
-                Dialog.dismiss();
-            }
-        });
-        dialogDownloadDCP.show();
+        mViewModel.DownloadDcp(AppConstants.CURRENT_DATE, Activity_CollectionList.this);
     }
 
     public void showImportFromFileDcp() {
