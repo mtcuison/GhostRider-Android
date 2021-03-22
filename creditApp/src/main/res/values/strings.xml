@@ -39,6 +39,7 @@
     <string name="sHintCompanyNme">Company Name</string>
     <string name="sHintAddress">Street/ Building/ Barangay</string>
     <string name="sHintPosition">Specific Job/Position</string>
+    <string name="sHeaderPosition">Position or Job Title</string>
     <string name="sHintJobTitle">Job Title</string>
     <string name="sHintLenghtService">Length Of Service</string>
     <string name="sHintMonthlyIncome">Monthly Income (Required)</string>
@@ -57,7 +58,7 @@
     <string name="sHeaderLabelSpouseEmploymentTypeSector">Spouse Employment Type</string>
     <string name="sHeaderLabelSpouseEmploymentInfo">Spouse Employment Information</string>
     <string name="sHeaderLabelCompanyAddress">Company Address</string>
-    <string name="sLabelUniformPersonnel">Is applicant uniform personnel?</string>
+    <string name="sLabelUniformPersonnel">Is applicant uniformed personnel?</string>
     <string name="sLabelMilitaryPersonnel">Is applicant military personnel?</string>
     <string name="sLabelPrivate">Private</string>
     <string name="sLabelGovernment">Government</string>
@@ -69,6 +70,7 @@
     <string name="sHintRangeIncm">Range of Income</string>
     <string name="sHintRetireYear">Retirement Year</string>
     <string name="sHintNatureIncm">Nature of Income</string>
+    <string name="sHintNatureBiz">Nature of Business</string>
     <string name="sLabelOtherSrcIncm">Other Source of Income</string>
     <string name="sLabelPensionInfo">Pensioner Information</string>
     <string name="sLabelFinancierInfo">Financier Information</string>
