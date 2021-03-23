@@ -478,7 +478,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
             if (message.equalsIgnoreCase("Record not found")){
                 dialog.dismiss();
-                showDownloadDcp();
             }else {
                 dialog.dismiss();
             }
