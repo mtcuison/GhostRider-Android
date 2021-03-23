@@ -27,6 +27,8 @@ public class REmployee {
         return employeeInfo;
     }
 
+    public EEmployeeInfo getUserNonLiveData() { return employeeDao.getEmployeeInfoNonLiveData(); }
+
     public void insertEmployee(EEmployeeInfo employeeInfo){
         new InsertEmployeeTask(employeeDao).execute(employeeInfo);
     }
