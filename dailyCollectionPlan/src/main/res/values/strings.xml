@@ -112,6 +112,7 @@
     <string name="sTown">Municipality</string>
     <string name="sBrgy">Barangay</string>
     <string name="sLblRemarks">Remarks</string>
+    <string name="sLblNoTransactionLogInDate">No transaction log in this date.</string>
     <string name="sActionMenu_TransactionList">Transaction List</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
