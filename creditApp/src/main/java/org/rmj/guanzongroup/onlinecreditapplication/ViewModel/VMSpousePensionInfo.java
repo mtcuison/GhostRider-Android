@@ -21,6 +21,7 @@ public class VMSpousePensionInfo extends AndroidViewModel {
     private static final String TAG = VMSpousePensionInfo.class.getSimpleName();
     private final GOCASApplication poGoCas;
     private final RCreditApplicant poCreditApp;
+    private ECreditApplicantInfo poInfo;
 
     private final MutableLiveData<String> psTransNo = new MutableLiveData<>();
     private final MutableLiveData<String> psPensionSec = new MutableLiveData<>();
@@ -43,9 +44,10 @@ public class VMSpousePensionInfo extends AndroidViewModel {
         return poCreditApp.getCreditApplicantInfoLiveData(psTransNo.getValue());
     }
 
-    public boolean setDetailInfo(String fsDetailInfo){
+    public boolean setDetailInfo(ECreditApplicantInfo fsDetailInfo){
         try{
-            poGoCas.setData(fsDetailInfo);
+            poInfo = fsDetailInfo;
+            poGoCas.setData(poInfo.getDetlInfo());
             return true;
         } catch (Exception e){
             e.printStackTrace();
@@ -63,11 +65,11 @@ public class VMSpousePensionInfo extends AndroidViewModel {
                 poGoCas.SpouseMeansInfo().setOtherIncomeNature(infoModel.getsOtherSrc());
                 poGoCas.SpouseMeansInfo().setOtherIncomeAmount(infoModel.getsOtherSrcIncx());
 
-                ECreditApplicantInfo info = new ECreditApplicantInfo();
-                info.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
-                info.setDetlInfo(poGoCas.toJSONString());
-                info.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                poCreditApp.updateGOCasData(info);
+                poInfo.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
+                //poInfo.setDetlInfo(poGoCas.toJSONString());
+                poInfo.setSpsPensn(poGoCas.SpouseMeansInfo().PensionerInfo().toJSONString());
+                poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
+                poCreditApp.updateGOCasData(poInfo);
 
                 Log.e(TAG, poGoCas.SpouseMeansInfo().PensionerInfo().toJSONString());
                 Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());

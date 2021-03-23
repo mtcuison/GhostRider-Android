@@ -128,7 +128,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         mViewModel = ViewModelProviders.of(this).get(VMSpouseEmploymentInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
 
-        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo.getDetlInfo()));
+        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo));
 
         mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
         mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));

@@ -54,7 +54,7 @@ public class Fragment_SpousePensionInfo extends Fragment implements ViewModelCal
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMSpousePensionInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo.getDetlInfo()));
+        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo));
     }
 
     private void initWidgets(View v) {

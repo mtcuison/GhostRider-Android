@@ -32,6 +32,8 @@ public interface DCreditApplicantInfo {
     @Query("SELECT sAppMeans FROM Credit_Applicant_Info WHERE sTransNox = :TransNox")
     LiveData<String> getAppMeansInfo(String TransNox);
 
+    @Query("SELECT * FROM Credit_Applicant_Info WHERE sTransNox =:TransNox")
+    ECreditApplicantInfo getCurrentCreditApplicantInfo(String TransNox);
 
     @Query("DELETE FROM Credit_Applicant_Info")
     void deleteAllCreditApp();

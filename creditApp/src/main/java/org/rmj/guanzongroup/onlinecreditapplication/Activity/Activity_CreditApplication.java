@@ -6,7 +6,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -20,9 +19,7 @@ import java.util.Objects;
 public class Activity_CreditApplication extends AppCompatActivity {
     private static final String TAG = Activity_CreditApplication.class.getSimpleName();
     private static Activity_CreditApplication instance;
-
     private ViewPager viewPager;
-
     private String transNox;
 
     public static Activity_CreditApplication getInstance(){
@@ -43,8 +40,10 @@ public class Activity_CreditApplication extends AppCompatActivity {
         setContentView(R.layout.activity_credit_application);
         instance = this;
         transNox = getIntent().getStringExtra("transno");
-        Log.e(TAG, transNox);
+        initWidgets();
+    }
 
+    private void initWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar_application);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);

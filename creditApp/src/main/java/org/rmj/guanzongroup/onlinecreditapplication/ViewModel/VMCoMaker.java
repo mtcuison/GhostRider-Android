@@ -17,11 +17,13 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
@@ -29,6 +31,7 @@ import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.CreditAppModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.OtherInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -37,8 +40,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class VMCoMaker extends AndroidViewModel {
-    private static final String TAG = VMOtherInfo.class.getSimpleName();
-    public static MutableLiveData<String> psTranNo = new MutableLiveData<>();
+    private static final String TAG = VMCoMaker.class.getSimpleName();
+    public MutableLiveData<String> psTranNo = new MutableLiveData<>();
 
     private final MutableLiveData<String> spnCMakerRelation = new MutableLiveData<>();
     private MutableLiveData<String> spnCMakeIncomeSource = new MutableLiveData<>();
@@ -56,13 +59,17 @@ public class VMCoMaker extends AndroidViewModel {
 
     private final GOCASApplication poGoCas;
     private final RCreditApplicant poApplcnt;
+    private final RCreditApplication poCreditApp;
     private final RProvince RProvince;
     private final RTown RTown;
     private final RCountry RCountry;
+    private ECreditApplicantInfo poInfo;
     private final LiveData<List<EProvinceInfo>> provinceInfoList;
+
     public VMCoMaker(@NonNull Application application) {
         super(application);
         this.poApplcnt = new RCreditApplicant(application);
+        this.poCreditApp = new RCreditApplication(application);
         RProvince = new RProvince(application);
         RTown = new RTown(application);
         RCountry = new RCountry(application);
@@ -72,7 +79,7 @@ public class VMCoMaker extends AndroidViewModel {
         this.cmrSecondaryCntctPlan.setValue(View.GONE);
         this.cmrTertiaryCntctPlan.setValue(View.GONE);
     }
-    // TODO: Implement the ViewModel
+
     public void setTransNox(String transNox){
         this.psTranNo.setValue(transNox);
     }
@@ -81,9 +88,9 @@ public class VMCoMaker extends AndroidViewModel {
         return poApplcnt.getCreditApplicantInfoLiveData(psTranNo.getValue());
     }
 
-    public void setCreditApplicantInfo(String applicantInfo){
+    public void setCreditApplicantInfo(ECreditApplicantInfo applicantInfo){
         try{
-            poGoCas.setData(applicantInfo);
+            poInfo = applicantInfo;
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -173,7 +180,6 @@ public class VMCoMaker extends AndroidViewModel {
         this.spnCMakeNetworkStats.setValue(type);
     }
 
-
     public LiveData<String> getCMakerRelation(){
         return this.spnCMakerRelation;
     }
@@ -239,53 +245,13 @@ public class VMCoMaker extends AndroidViewModel {
     }
     public LiveData<String> getTertiaryContact(){
         return this.tertiaryContact;}
-//    public boolean SubmitComaker(CoMakerModel infoModel, ViewModelCallBack callBack){
-//        try {
-//
-//            if(infoModel.isCoMakerInfoValid()) {
-//                poGoCas.CoMakerInfo().setLastName(infoModel.getCoLastName());
-//                poGoCas.CoMakerInfo().setFirstName(infoModel.getCoFrstName());
-//                poGoCas.CoMakerInfo().setMiddleName(infoModel.getCoMiddName());
-//                poGoCas.CoMakerInfo().setSuffixName(infoModel.getCoSuffix());
-//                poGoCas.CoMakerInfo().setNickName(infoModel.getCoNickName());
-//                poGoCas.CoMakerInfo().setBirthdate(infoModel.getCoBrthDate());
-//                poGoCas.CoMakerInfo().setBirthPlace(infoModel.getCoBrthPlce());
-//                poGoCas.CoMakerInfo().setIncomeSource(infoModel.getCoIncomeSource());
-//                poGoCas.CoMakerInfo().setRelation(infoModel.getCoBorrowerRel());
-//                poGoCas.CoMakerInfo().setMobileNoQty(infoModel.getCoMobileNoQty());
-//                for (int x = 0; x < infoModel.getCoMobileNoQty(); x++) {
-//                    poGoCas.CoMakerInfo().setMobileNo(x, infoModel.getCoMobileNo(x));
-//                    poGoCas.CoMakerInfo().IsMobilePostpaid(x, infoModel.getCoPostPaid(x));
-//                    poGoCas.CoMakerInfo().setPostPaidYears(x, infoModel.getCoPostYear(x));
-//                }
-//                poGoCas.CoMakerInfo().setFBAccount(infoModel.getCoFbAccntx());
-//                ECreditApplicantInfo applicantInfo = new ECreditApplicantInfo();
-//                applicantInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
-//                applicantInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
-//                applicantInfo.setDetlInfo(poGoCas.toJSONString());
-//                poApplcnt.updateGOCasData(applicantInfo);
-//                Log.e(TAG, "Co-Maker info has been set." + poGoCas.toJSONString());
-////                callBack.onSaveSuccessResult(psTranNo.getValue());
-//                callBack.onSaveSuccessResult(TAG);
-//                return true;
-//            } else {
-//                callBack.onFailedResult(infoModel.getMessage());
-//                return false;
-//            }
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            callBack.onFailedResult(e.getMessage());
-//            return false;
-//        }
-//    }
+
     public boolean SubmitComaker(CoMakerModel infoModel, ViewModelCallBack callBack) {
         try {
-
             new UpdateTask(poApplcnt, infoModel, callBack).execute();
             return true;
         } catch (NullPointerException e) {
             e.printStackTrace();
-//            callback.OnFailedResult(e.getMessage());
             callBack.onFailedResult("NullPointerException error");
             return false;
         } catch (Exception e) {
@@ -308,7 +274,7 @@ public class VMCoMaker extends AndroidViewModel {
         @Override
         protected String doInBackground(RCreditApplicant... rApplicant) {
             try{
-                if(infoModel.isCoMakerInfoValid()) {
+                if(infoModel.isCoMakerInfoValid() && poInfo.getIsComakr().equalsIgnoreCase("1")) {
                     poGoCas.CoMakerInfo().setLastName(infoModel.getCoLastName());
                     poGoCas.CoMakerInfo().setFirstName(infoModel.getCoFrstName());
                     poGoCas.CoMakerInfo().setMiddleName(infoModel.getCoMiddName());
@@ -325,13 +291,12 @@ public class VMCoMaker extends AndroidViewModel {
                         poGoCas.CoMakerInfo().setPostPaidYears(x, infoModel.getCoPostYear(x));
                     }
                     poGoCas.CoMakerInfo().setFBAccount(infoModel.getCoFbAccntx());
-                    ECreditApplicantInfo applicantInfo = new ECreditApplicantInfo();
-                    applicantInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
-                    applicantInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                    applicantInfo.setDetlInfo(poGoCas.toJSONString());
-                    poDcp.updateGOCasData(applicantInfo);
+                    poInfo.setComakerx(poGoCas.CoMakerInfo().toJSONString());
+                    poDcp.updateGOCasData(poInfo);
                     Log.e(TAG, "Co-Maker info has been set." + poGoCas.toJSONString());
                     return "success";
+                } else if(!infoModel.isCoMakerInfoValid() && poInfo.getIsComakr().equalsIgnoreCase("1")){
+                    return "no_comaker";
                 } else {
                     return infoModel.getMessage();
                 }
@@ -340,7 +305,6 @@ public class VMCoMaker extends AndroidViewModel {
                 return e.getMessage();
             }
         }
-
 
         @Override
         protected void onPostExecute(String s) {
@@ -352,4 +316,23 @@ public class VMCoMaker extends AndroidViewModel {
             }
         }
     }
+
+    public void SaveCreditOnlineApplication(){
+        ECreditApplication loCreditApp = new ECreditApplication();
+        CreditAppModel loModel = new CreditAppModel(poInfo);
+        loCreditApp.setTransNox(poCreditApp.getGOCasNextCode());
+        loCreditApp.setBranchCd(poInfo.getBranchCd());
+        loCreditApp.setClientNm(poInfo.getClientNm());
+        loCreditApp.setUnitAppl(poInfo.getAppliedx());
+        loCreditApp.setSourceCD("APP");
+        loCreditApp.setDetlInfo(loModel.getConstructedDetailedInfo());
+        loCreditApp.setDownPaym(poInfo.getDownPaym());
+        loCreditApp.setCreatedx(poInfo.getCreatedx());
+        loCreditApp.setTransact(poInfo.getTransact());
+        loCreditApp.setTimeStmp(AppConstants.DATE_MODIFIED);
+        loCreditApp.setSendStat("0");
+        poCreditApp.insertCreditApplication(loCreditApp);
+    }
+//
+//    private static class SendApplicantData extends AsyncTask<>
 }

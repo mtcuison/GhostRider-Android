@@ -300,7 +300,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack, V
 
     @Override
     public void onSaveSuccessResult(String args) {
-        Activity_CreditApplication.getInstance().moveToPageNumber(15);
+        Activity_CreditApplication.getInstance().moveToPageNumber(16);
     }
 
     @Override

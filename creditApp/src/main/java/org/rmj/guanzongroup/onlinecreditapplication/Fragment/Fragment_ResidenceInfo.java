@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +19,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ResidenceInfoModel;
@@ -126,36 +122,14 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMResidenceInfo.class);
         mViewModel.setTransNox(TransNox);
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
-            try{
-                mViewModel.setGOCasDetailInfo(eCreditApplicantInfo);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setGOCasDetailInfo(eCreditApplicantInfo));
 
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvince.setAdapter(adapter);
             txtPProvince.setAdapter(adapter);
         });
-        mViewModel.getSpnLgnthStayPosition().observe(getViewLifecycleOwner(), s -> {
-            spnLgnthStay.setSelection(Integer.parseInt(s));
-            spnLgnthStayPosition = s;
-            Log.e("Length stay", s);
-        });
 
-        mViewModel.getSpnHouseHoldPosition().observe(getViewLifecycleOwner(), s -> {
-            spnHouseHold.setSelection(Integer.parseInt(s));
-            spnHouseHoldPosition = s;
-            Log.e("Length stay", s);
-        });
-
-        mViewModel.getSpnHouseTypePosition().observe(getViewLifecycleOwner(), s -> {
-            spnHouseType.setSelection(Integer.parseInt(s));
-            spnHouseTypePosition = s;
-            Log.e("Length stay", s);
-        });
         txtProvince.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getProvinceInfoList().observe(getViewLifecycleOwner(), eProvinceInfos -> {
             for(int x = 0; x < eProvinceInfos.size(); x++){
                 if(txtProvince.getText().toString().equalsIgnoreCase(eProvinceInfos.get(x).getProvName())){
@@ -287,15 +261,12 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if (spnHouseHold.equals(poView)) {
                 spnHouseHoldPosition = String.valueOf(i);
-                mViewModel.setSpnHouseHoldPosition(spnHouseHoldPosition);
             }
             if (spnHouseType.equals(poView)) {
                 spnHouseTypePosition = String.valueOf(i);
-                mViewModel.setSpnHouseTypePosition(spnHouseHoldPosition);
             }
             if (spnLgnthStay.equals(poView)) {
                 spnLgnthStayPosition = String.valueOf(i);
-                mViewModel.setSpnLgnthStayPosition(spnHouseHoldPosition);
             }
 
         }

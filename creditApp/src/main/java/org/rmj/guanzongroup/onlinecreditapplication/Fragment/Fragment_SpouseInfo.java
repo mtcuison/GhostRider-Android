@@ -137,12 +137,7 @@
 
 
             // Set DetailInfo to goCas
-            mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), new Observer<ECreditApplicantInfo>() {
-                @Override
-                public void onChanged(ECreditApplicantInfo eCreditApplicantInfo) {
-                    mViewModel.setDetailInfo(eCreditApplicantInfo.getDetlInfo());
-                }
-            });
+            mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo));
 
             // Set province list in txtProvince
             mViewModel.getProvinceNames().observe(getViewLifecycleOwner(), new Observer<String[]>() {
@@ -253,53 +248,55 @@
 
 
             txtBDate.addTextChangedListener(new OnDateSetListener(txtBDate));
-            btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(1));
-
-            btnNext.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    //Set the model for validation
-                    infoModel.setLastName(txtLastName.getText().toString());
-                    infoModel.setFrstName(txtFirstName.getText().toString());
-                    infoModel.setMiddName(txtMiddName.getText().toString());
-                    infoModel.setSuffix(txtSuffix.getText().toString());
-                    infoModel.setNickName(txtNickName.getText().toString());
-                    infoModel.setBirthDate(txtBDate.getText().toString());
-                    infoModel.setProvNme(txtProvince.getText().toString());
-                    infoModel.setTownNme(txtTownxx.getText().toString());
-                    infoModel.setCitizenx(txtCitizenx.getText().toString());
-
-                    if(!Objects.requireNonNull(txtPrimeCntc.getText()).toString().trim().isEmpty()) {
-                        if(Integer.parseInt(spnMobile1Position) == 1) {
-                            infoModel.setMobileNo(txtPrimeCntc.getText().toString(),spnMobile1Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));
-                        } else {
-                            infoModel.setMobileNo(txtPrimeCntc.getText().toString(), spnMobile1Position, 0);
-                        }
-                    }
-                    if(!Objects.requireNonNull(txtSecCntct.getText()).toString().trim().isEmpty()) {
-                        if(Integer.parseInt(spnMobile2Position) == 1) {
-                            infoModel.setMobileNo(txtSecCntct.getText().toString(), spnMobile2Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr2.getText()).toString()));
-                        } else {
-                            infoModel.setMobileNo(txtSecCntct.getText().toString(), spnMobile2Position, 0);
-                        }
-                    }
-                    if(!Objects.requireNonNull(txtThirCntct.getText()).toString().trim().isEmpty()) {
-                        if(Integer.parseInt(spnMobile3Position) == 1) {
-                            infoModel.setMobileNo(txtThirCntct.getText().toString(), spnMobile3Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr3.getText()).toString()));
-                        } else {
-                            infoModel.setMobileNo(txtThirCntct.getText().toString(), spnMobile3Position, 0);
-                        }
-                    }
-
-                    infoModel.setPhoneNo(txtTelNox.getText().toString());
-                    infoModel.setEmailAdd(txtEmailAdd.getText().toString());
-                    infoModel.setFBacct(txtFbAcct.getText().toString());
-                    infoModel.setVbrAcct(txtViberAcct.getText().toString());
-
-                    // Trigger save() with SpouseInfoModel instance with data set.
-                    mViewModel.Save(infoModel, Fragment_SpouseInfo.this);
+            btnPrvs.setOnClickListener(view -> {
+                try {
+                    Activity_CreditApplication.getInstance().moveToPageNumber(mViewModel.getPreviousPage());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+            });
+
+            btnNext.setOnClickListener(v -> {
+                //Set the model for validation
+                infoModel.setLastName(txtLastName.getText().toString());
+                infoModel.setFrstName(txtFirstName.getText().toString());
+                infoModel.setMiddName(txtMiddName.getText().toString());
+                infoModel.setSuffix(txtSuffix.getText().toString());
+                infoModel.setNickName(txtNickName.getText().toString());
+                infoModel.setBirthDate(txtBDate.getText().toString());
+                infoModel.setProvNme(txtProvince.getText().toString());
+                infoModel.setTownNme(txtTownxx.getText().toString());
+                infoModel.setCitizenx(txtCitizenx.getText().toString());
+
+                if(!Objects.requireNonNull(txtPrimeCntc.getText()).toString().trim().isEmpty()) {
+                    if(Integer.parseInt(spnMobile1Position) == 1) {
+                        infoModel.setMobileNo(txtPrimeCntc.getText().toString(),spnMobile1Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));
+                    } else {
+                        infoModel.setMobileNo(txtPrimeCntc.getText().toString(), spnMobile1Position, 0);
+                    }
+                }
+                if(!Objects.requireNonNull(txtSecCntct.getText()).toString().trim().isEmpty()) {
+                    if(Integer.parseInt(spnMobile2Position) == 1) {
+                        infoModel.setMobileNo(txtSecCntct.getText().toString(), spnMobile2Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr2.getText()).toString()));
+                    } else {
+                        infoModel.setMobileNo(txtSecCntct.getText().toString(), spnMobile2Position, 0);
+                    }
+                }
+                if(!Objects.requireNonNull(txtThirCntct.getText()).toString().trim().isEmpty()) {
+                    if(Integer.parseInt(spnMobile3Position) == 1) {
+                        infoModel.setMobileNo(txtThirCntct.getText().toString(), spnMobile3Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr3.getText()).toString()));
+                    } else {
+                        infoModel.setMobileNo(txtThirCntct.getText().toString(), spnMobile3Position, 0);
+                    }
+                }
+
+                infoModel.setPhoneNo(txtTelNox.getText().toString());
+                infoModel.setEmailAdd(txtEmailAdd.getText().toString());
+                infoModel.setFBacct(txtFbAcct.getText().toString());
+                infoModel.setVbrAcct(txtViberAcct.getText().toString());
+
+                // Trigger save() with SpouseInfoModel instance with data set.
+                mViewModel.Save(infoModel, Fragment_SpouseInfo.this);
             });
 
         }

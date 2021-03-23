@@ -129,7 +129,8 @@ public class VMComakerResidence extends AndroidViewModel {
             poGoCas.CoMakerInfo().ResidenceInfo().setRentExpenses(infoModel.getsExpenses());
             poGoCas.CoMakerInfo().ResidenceInfo().setRentNoYears(infoModel.getsLenghtSt());
             poGoCas.CoMakerInfo().ResidenceInfo().hasGarage(infoModel.getsHasGarge());
-            poInfo.setDetlInfo(poGoCas.toJSONString());
+            //poInfo.setDetlInfo(poGoCas.toJSONString());
+            poInfo.setCmResidx(poGoCas.CoMakerInfo().ResidenceInfo().toJSONString());
             poCreditApp.updateGOCasData(poInfo);
         } else {
             callBack.onFailedResult(infoModel.getMessage());

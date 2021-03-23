@@ -26,6 +26,7 @@ import java.util.Objects;
 
 public class VMSelfEmployedInfo extends AndroidViewModel {
     private static final String TAG = VMSelfEmployedInfo.class.getSimpleName();
+    private ECreditApplicantInfo poInfo;
     private final GOCASApplication poGoCas;
     private final RCreditApplicant poCreditApp;
     private final RProvince poProvRepo;
@@ -58,9 +59,9 @@ public class VMSelfEmployedInfo extends AndroidViewModel {
         return poCreditApp.getCreditApplicantInfoLiveData(TransNox.getValue());
     }
 
-    public void setGOCasDetailInfo(String fsDetailInfo){
+    public void setGOCasDetailInfo(ECreditApplicantInfo fsDetailInfo){
         try{
-            poGoCas.setData(fsDetailInfo);
+            poInfo = fsDetailInfo;
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -77,41 +78,24 @@ public class VMSelfEmployedInfo extends AndroidViewModel {
         }
     }
 
-    public LiveData<Integer> getPreviousPage(){
-        MutableLiveData<Integer> loPage = new MutableLiveData<>();
-        try {
-            if(Objects.requireNonNull(poMeans.getValue()).getString("employed").equalsIgnoreCase("1")){
-                loPage.setValue(3);
-            } else {
-                loPage.setValue(2);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+    public int getPreviousPage() throws Exception{
+        if(Objects.requireNonNull(poMeans.getValue()).getString("employed").equalsIgnoreCase("1")){
+            return 3;
+        } else {
+            return 2;
         }
-        loPage.setValue(4);
-        return loPage;
     }
 
-    public LiveData<Integer> getNextPage(){
-        MutableLiveData<Integer> loPage = new MutableLiveData<>();
-        try {
-            if(poMeans.getValue().getString("employed").equalsIgnoreCase("1") &&  CreditAppConstants.employment_done == false) {
-                loPage.setValue(3);
-            } else if(poMeans.getValue().getString("financer").equalsIgnoreCase("1")  &&  CreditAppConstants.finance_done == false) {
-                loPage.setValue(5);
-            } else if(poMeans.getValue().getString("pensionx").equalsIgnoreCase("1")  &&  CreditAppConstants.pension_done == false) {
-                loPage.setValue(6);
-            } else if(poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1") ||
-                    poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("5")){
-                loPage.setValue(7);
-            } else {
-                loPage.setValue(12);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+    public int getNextPage() throws Exception{
+        if(poMeans.getValue().getString("financer").equalsIgnoreCase("1")) {
+            return 5;
+        } else if(poMeans.getValue().getString("pensionx").equalsIgnoreCase("1")) {
+            return 6;
+        } else if(poInfo.getIsSpouse().equalsIgnoreCase("1")){
+            return 7;
+        } else {
+            return 12;
         }
-
-        return loPage;
     }
     public LiveData<String[]> getAllProvinceNames(){
         return poProvRepo.getAllProvinceNames();
@@ -207,13 +191,12 @@ public class VMSelfEmployedInfo extends AndroidViewModel {
                 poGoCas.MeansInfo().SelfEmployedInfo().setBusinessLength(infoModel.getLenghtOfService());
                 poGoCas.MeansInfo().SelfEmployedInfo().setMonthlyExpense(infoModel.getMonthlyExpense());
                 poGoCas.MeansInfo().SelfEmployedInfo().setIncome(infoModel.getMonthlyIncome());
-                ECreditApplicantInfo applicantInfo = new ECreditApplicantInfo();
-                applicantInfo.setTransNox(TransNox.getValue());
-                applicantInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                applicantInfo.setDetlInfo(poGoCas.toJSONString());
-                poCreditApp.updateGOCasData(applicantInfo);
-                CreditAppConstants.self_employment_done = true;
-                callBack.onSaveSuccessResult("");
+                //poInfo.setDetlInfo(poGoCas.toJSONString());
+                poInfo.setBusnInfo(poGoCas.MeansInfo().SelfEmployedInfo().toJSONString());
+                poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
+                poInfo.setDetlInfo(poGoCas.toJSONString());
+                poCreditApp.updateGOCasData(poInfo);
+                callBack.onSaveSuccessResult(String.valueOf(getNextPage()));
             } else {
                 callBack.onFailedResult(infoModel.getMessage());
             }

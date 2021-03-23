@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.SavedStateHandle;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
@@ -19,6 +18,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
+import org.rmj.g3appdriver.utils.AgeCalculator;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalInfoModel;
@@ -28,9 +28,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class VMPersonalInfo extends AndroidViewModel {
+    private static final String TAG = "Personal Info";
     private ECreditApplicantInfo poInfo;
     private final GOCASApplication poGoCas;
-    private SavedStateHandle poStatexx;
     private final RCreditApplicant RCreditApplicant;
     private final RProvince RProvince;
     private final RTown RTown;
@@ -38,22 +38,14 @@ public class VMPersonalInfo extends AndroidViewModel {
 
     private final LiveData<List<EProvinceInfo>> provinceInfoList;
 
-    private MutableLiveData<String> TRANSNOX = new MutableLiveData<>();
-    private MutableLiveData<String> lsProvID = new MutableLiveData<>();
-    private MutableLiveData<String> lsBPlace = new MutableLiveData<>();
-    private MutableLiveData<String> lsGender = new MutableLiveData<>();
-    private MutableLiveData<String> lsCvlStats = new MutableLiveData<>();
-    private MutableLiveData<Integer> lnMthrNme = new MutableLiveData<>();
-    private MutableLiveData<String> lsCitizen = new MutableLiveData<>();
+    private final MutableLiveData<String> TRANSNOX = new MutableLiveData<>();
+    private final MutableLiveData<String> lsProvID = new MutableLiveData<>();
+    private final MutableLiveData<String> lsBPlace = new MutableLiveData<>();
+    private final MutableLiveData<String> lsGender = new MutableLiveData<>();
+    private final MutableLiveData<String> lsCvlStats = new MutableLiveData<>();
+    private final MutableLiveData<Integer> lnMthrNme = new MutableLiveData<>();
+    private final MutableLiveData<String> lsCitizen = new MutableLiveData<>();
 
-//    index position
-    private MutableLiveData<String> lsMobile1 = new MutableLiveData<>();
-    private MutableLiveData<String> lsMobile2 = new MutableLiveData<>();
-    private MutableLiveData<String> lsMobile3 = new MutableLiveData<>();
-
-    private MutableLiveData<Integer> mobileNo1Year = new MutableLiveData<>();
-    private MutableLiveData<Integer> mobileNo2Year = new MutableLiveData<>();
-    private MutableLiveData<Integer> mobileNo3Year = new MutableLiveData<>();
     public VMPersonalInfo(@NonNull Application application){
         super(application);
         RCreditApplicant = new RCreditApplicant(application);
@@ -63,10 +55,6 @@ public class VMPersonalInfo extends AndroidViewModel {
         provinceInfoList = RProvince.getAllProvinceInfo();
         poGoCas = new GOCASApplication();
         this.lnMthrNme.setValue(View.GONE);
-        this.mobileNo1Year.setValue(View.GONE);
-        this.mobileNo2Year.setValue(View.GONE);
-        this.mobileNo3Year.setValue(View.GONE);
-
     }
 
     public void setTransNox(String transNox){
@@ -116,10 +104,22 @@ public class VMPersonalInfo extends AndroidViewModel {
                 poGoCas.ApplicantInfo().setEmailAddress(0, infoModel.getEmailAdd());
                 poGoCas.ApplicantInfo().setFBAccount(infoModel.getFbAccntx());
                 poGoCas.ApplicantInfo().setViberAccount(infoModel.getVbrAccnt());
-                poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                poInfo.setDetlInfo(poGoCas.toJSONString());
+                poInfo.setApplInfo(poGoCas.ApplicantInfo().toJSONString());
+                int age = AgeCalculator.getAge(poGoCas.ApplicantInfo().getBirthdate());
+                if(age <=17 || age >= 60){
+                    poInfo.setIsComakr("1");
+                } else {
+                    poInfo.setIsComakr("0");
+                }
+
+                if(poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1") ||
+                 poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("5")){
+                    poInfo.setIsSpouse("1");
+                } else {
+                    poInfo.setIsSpouse("0");
+                }
                 RCreditApplicant.updateGOCasData(poInfo);
-                Log.e("Transnox value,  ",TRANSNOX.getValue());
+
                 callBack.onSaveSuccessResult(TRANSNOX.getValue());
             } else {
                 infoModel.clearMobileNo();
@@ -169,10 +169,6 @@ public class VMPersonalInfo extends AndroidViewModel {
         }
 
         this.lsCvlStats.setValue(lsCvlStats);
-    }
-
-    public LiveData<String> getCvlStats(){
-        return this.lsCvlStats;
     }
 
     public void setCitizenship(String lsCitizen) {

@@ -88,12 +88,7 @@
             mViewModel.setTransNox(transnox);
 
             // Set DetailInfo to goCas
-            mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), new Observer<ECreditApplicantInfo>() {
-                @Override
-                public void onChanged(ECreditApplicantInfo eCreditApplicantInfo) {
-                    mViewModel.setDetailInfo(eCreditApplicantInfo.getDetlInfo());
-                }
-            });
+            mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo));
 
             // Set province list in txtProvince
             mViewModel.getProvinceNames().observe(getViewLifecycleOwner(), new Observer<String[]>() {

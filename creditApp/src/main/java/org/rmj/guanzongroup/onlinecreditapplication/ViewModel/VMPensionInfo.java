@@ -17,14 +17,12 @@ import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PensionInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
-import java.util.Objects;
-
 public class VMPensionInfo extends AndroidViewModel {
     private static final String TAG = VMPersonalInfo.class.getSimpleName();
     private final RCreditApplicant poCreditApp;
     private final GOCASApplication poGoCas;
+    private ECreditApplicantInfo poInfo;
 
-    private final MutableLiveData<ECreditApplicantInfo> poInfo = new MutableLiveData<>();
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
     private final MutableLiveData<String> psPensionSector = new MutableLiveData<>();
     private final MutableLiveData<JSONObject> poJson = new MutableLiveData<>();
@@ -45,9 +43,8 @@ public class VMPensionInfo extends AndroidViewModel {
 
     public void setDetailInfo(ECreditApplicantInfo fsDetailInfo){
         try{
-            poInfo.setValue(fsDetailInfo);
-            setMeansInfos(poInfo.getValue().getAppMeans());
-            poGoCas.setData(fsDetailInfo.getDetlInfo());
+            poInfo = fsDetailInfo;
+            setMeansInfos(poInfo.getAppMeans());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -71,27 +68,26 @@ public class VMPensionInfo extends AndroidViewModel {
         this.psPensionSector.setValue(lngthStay);
     }
 
-    public LiveData<Integer> getNextPage(){
-        MutableLiveData<Integer> loPage = new MutableLiveData<>();
-        try {
-            if(poJson.getValue().getString("employed").equalsIgnoreCase("1") &&  CreditAppConstants.employment_done == false) {
-                loPage.setValue(3);
-            } else if(poJson.getValue().getString("sEmplyed").equalsIgnoreCase("1")  &&  CreditAppConstants.self_employment_done == false) {
-                loPage.setValue(4);
-            } else if(poJson.getValue().getString("financer").equalsIgnoreCase("1")  &&  CreditAppConstants.finance_done == false) {
-                loPage.setValue(6);
-            } else if(poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1") ||
-                    poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("5")){
-                loPage.setValue(7);
-            } else {
-                loPage.setValue(12);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+    public int getPreviousPage() throws Exception {
+        if(poJson.getValue().getString("employed").equalsIgnoreCase("1")) {
+            return 3;
+        } else if(poJson.getValue().getString("sEmplyed").equalsIgnoreCase("1")) {
+            return 4;
+        } else if(poJson.getValue().getString("financer").equalsIgnoreCase("1")) {
+            return 6;
+        } else {
+            return 2;
         }
-
-        return loPage;
     }
+
+    public int getNextPage() {
+        if(poInfo.getIsSpouse().equalsIgnoreCase("1")){
+            return 7;
+        } else {
+            return 12;
+        }
+    }
+
     public LiveData<String> getSPensionSector(){
         return this.psPensionSector;
     }
@@ -103,13 +99,13 @@ public class VMPensionInfo extends AndroidViewModel {
                 poGoCas.MeansInfo().PensionerInfo().setYearRetired(infoModel.getRetirementYear());
                 poGoCas.MeansInfo().setOtherIncomeNature(infoModel.getNatureOfIncome());
                 poGoCas.MeansInfo().setOtherIncomeAmount(infoModel.getRangeOfIncome());
-                ECreditApplicantInfo applicantInfo = poInfo.getValue();
-                applicantInfo.setTransNox(TransNox.getValue());
-                applicantInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                applicantInfo.setDetlInfo(poGoCas.toJSONString());
-                poCreditApp.updateGOCasData(applicantInfo);
-                CreditAppConstants.pension_done = true;
-                callBack.onSaveSuccessResult("Success");
+                poInfo.setTransNox(TransNox.getValue());
+                poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
+                poInfo.setPensionx(poGoCas.MeansInfo().PensionerInfo().toJSONString());
+                poInfo.setOtherInc(infoModel.getNatureOfIncome() + " " + infoModel.getRangeOfIncome());
+                //poInfo.setDetlInfo(poGoCas.toJSONString());
+                poCreditApp.updateGOCasData(poInfo);
+                callBack.onSaveSuccessResult(String.valueOf(getNextPage()));
             } else {
                 callBack.onFailedResult(infoModel.getMessage());
             }

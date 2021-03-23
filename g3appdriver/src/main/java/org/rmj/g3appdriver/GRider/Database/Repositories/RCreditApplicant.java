@@ -2,6 +2,7 @@ package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.os.Trace;
 
 import androidx.lifecycle.LiveData;
 
@@ -40,6 +41,10 @@ public class RCreditApplicant {
         new UpdateGOCasDataTask(creditApplicantInfoDao).execute(creditApplicantInfo);
     }
 
+    public void updateCurrentGOCasData(String GOCasData, String TransNox){
+        new UpdateGOCasData(creditApplicantInfoDao, GOCasData).execute(TransNox);
+    }
+
     public void deleteGOCasData(ECreditApplicantInfo creditApplicantInfo){
 
     }
@@ -55,7 +60,7 @@ public class RCreditApplicant {
     }
 
     private static class InsertNewApplicationTask extends AsyncTask<ECreditApplicantInfo, Void, Void>{
-        private DCreditApplicantInfo applicantInfo;
+        private final DCreditApplicantInfo applicantInfo;
 
         public InsertNewApplicationTask(DCreditApplicantInfo applicantInfo){
             this.applicantInfo = applicantInfo;
@@ -69,7 +74,7 @@ public class RCreditApplicant {
     }
 
     private static class UpdateGOCasDataTask extends AsyncTask<ECreditApplicantInfo, Void, Void>{
-        private DCreditApplicantInfo applicantInfo;
+        private final DCreditApplicantInfo applicantInfo;
 
         public UpdateGOCasDataTask(DCreditApplicantInfo applicantInfo){
             this.applicantInfo = applicantInfo;
@@ -81,8 +86,28 @@ public class RCreditApplicant {
             return null;
         }
     }
+
+    private static class UpdateGOCasData extends AsyncTask<String, Void, Void>{
+        private final DCreditApplicantInfo applicantInfo;
+        private final String GOCasData;
+
+        public UpdateGOCasData(DCreditApplicantInfo applicantInfo, String GOCasData){
+            this.applicantInfo = applicantInfo;
+            this.GOCasData = GOCasData;
+        }
+
+        @Override
+        protected Void doInBackground(String... transNox) {
+            String TransNox = transNox[0];
+            ECreditApplicantInfo loInfo = applicantInfo.getCurrentCreditApplicantInfo(TransNox);
+            loInfo.setDetlInfo(GOCasData);
+            applicantInfo.update(loInfo);
+            return null;
+        }
+    }
+
     public static class DeleteAllCreditTask extends AsyncTask<Void, Void, Void>{
-        private DCreditApplicantInfo creditDao;
+        private final DCreditApplicantInfo creditDao;
 
         public DeleteAllCreditTask(DCreditApplicantInfo creditDao) {
             this.creditDao = creditDao;

@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -24,6 +25,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
@@ -106,7 +108,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         mViewModel = ViewModelProviders.of(this).get(VMCoMaker.class);
         // TODO: Use the ViewModel
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo.getDetlInfo()));
+        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
         mViewModel.getSpnCMakerRelation().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBrwrRltn.setAdapter(stringArrayAdapter));
         mViewModel.getSpnCMakerIncomeSource().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnIncmSrce.setAdapter(stringArrayAdapter));
         mViewModel.getCmrPrimaryCntctPlan().observe(getViewLifecycleOwner(), integer -> tilPrmCntctPlan.setVisibility(integer));
@@ -251,14 +253,28 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
     @Override
     public void onSaveSuccessResult(String args) {
         Activity_CreditApplication.getInstance().moveToPageNumber(17);
-//        Activity_CreditApplication.getInstance().moveToPageNumber(2);
-//        startActivity(new Intent(getActivity(), Activity_ApplicationHistory.class));
-//        getActivity().finish();
     }
 
     @Override
     public void onFailedResult(String message) {
-        GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
+        if(!message.equalsIgnoreCase("no_comaker")) {
+            GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
+        } else {
+            MessageBox loDialog = new MessageBox(getActivity());
+            loDialog.initDialog();
+            loDialog.setTitle("Co-Maker Info");
+            loDialog.setMessage("Send loan application without co-maker info?");
+            loDialog.setPositiveButton("Yes", new MessageBox.DialogButton() {
+                @Override
+                public void OnButtonClick(View view, AlertDialog dialog) {
+                    //TODO: create or insert method for transferring data to main table.
+                    mViewModel.SaveCreditOnlineApplication();
+                    requireActivity().finish();
+                }
+            });
+            loDialog.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            loDialog.show();
+        }
     }
 
     class OnItemClickListener implements AdapterView.OnItemClickListener {
@@ -287,5 +303,4 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
             }
         }
     }
-
 }

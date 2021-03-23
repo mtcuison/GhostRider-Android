@@ -94,13 +94,12 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
         mViewModel.setTransNox(TransNox);
         mViewModel.getCreditApplicantInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
             try {
-                mViewModel.setGOCasDetailInfo(eCreditApplicantInfo.getDetlInfo());
+                mViewModel.setGOCasDetailInfo(eCreditApplicantInfo);
                 mViewModel.setMeansInfos(eCreditApplicantInfo.getAppMeans());
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
-        mViewModel.getCreditApplicantInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setGOCasDetailInfo(eCreditApplicantInfo.getDetlInfo()));
         mViewModel.getAllProvinceNames().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvnc.setAdapter(adapter);
@@ -171,12 +170,18 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
             mViewModel.SaveSelfEmployedInfo(infoModel, Fragment_SelfEmployedInfo.this);
         });
 
-        btnPrvs.setOnClickListener(view -> mViewModel.getPreviousPage().observe(getViewLifecycleOwner(), integer -> Activity_CreditApplication.getInstance().moveToPageNumber(integer)));
+        btnPrvs.setOnClickListener(view ->{
+            try {
+                Activity_CreditApplication.getInstance().moveToPageNumber(mViewModel.getPreviousPage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
     public void onSaveSuccessResult(String args) {
-        mViewModel.getNextPage().observe(getViewLifecycleOwner(), integer -> Activity_CreditApplication.getInstance().moveToPageNumber(integer));
+        Activity_CreditApplication.getInstance().moveToPageNumber(Integer.parseInt(args));
     }
 
     @Override

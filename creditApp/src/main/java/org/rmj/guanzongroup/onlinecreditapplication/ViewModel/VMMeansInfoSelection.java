@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -17,13 +16,12 @@ import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class VMMeansInfoSelection extends AndroidViewModel {
     private static final String TAG = VMMeansInfoSelection.class.getSimpleName();
     private final RCreditApplicant poCreditA;
     private final GOCASApplication poGOCasxx;
-    private final MutableLiveData<Integer> pnPageIDx = new MutableLiveData<>();
+    private ECreditApplicantInfo poInfo;
     private final MutableLiveData<String> psTransNo = new MutableLiveData<>();
     private final MutableLiveData<List<String>> psMeansIf = new MutableLiveData<>();
     private final MutableLiveData<JSONObject> poJsonMnx = new MutableLiveData<>();
@@ -44,68 +42,20 @@ public class VMMeansInfoSelection extends AndroidViewModel {
         return poCreditA.getCreditApplicantInfoLiveData(TransNox);
     }
 
-    public void setGOCasDetailInfo(String DetailInfo){
+    public void setGOCasDetailInfo(ECreditApplicantInfo DetailInfo){
         try{
-            poGOCasxx.setData(DetailInfo);
+            poInfo = DetailInfo;
+            poGOCasxx.setData(poInfo.getDetlInfo());
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    public boolean addMeansInfo(String MeansInfo){
-        try {
-            Objects.requireNonNull(psMeansIf.getValue()).add(MeansInfo);
-            Log.e(TAG, MeansInfo + " has been added to list");
-            Log.e(TAG, psMeansIf.getValue().get(0) + " is index 0");
-        } catch (IndexOutOfBoundsException e){
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    public boolean removeMeansInfo(String MeansInfo){
-        try {
-            for (int x = 0; x < psMeansIf.getValue().size(); x++) {
-                if (MeansInfo.equalsIgnoreCase(psMeansIf.getValue().get(x))) {
-                    psMeansIf.getValue().remove(x);
-                }
-            }
-            Log.e(TAG, MeansInfo + " has been remove to list");
-            Log.e(TAG, psMeansIf.getValue().get(0) + " is index 0");
-        } catch (IndexOutOfBoundsException e){
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    private int getNextPage(){
-        if(Objects.requireNonNull(psMeansIf.getValue()).size() > 0){
-            switch (psMeansIf.getValue().get(0)){
-                case "employed":
-                    return 3;
-                case "self-employed":
-                    return 4;
-                case "finance":
-                    return 5;
-                case "pension":
-                    return 6;
-            }
-        }
-        return 2;
-    }
-
     public void SaveMeansInfo(MeansInfo infoModel, ViewModelCallBack callBack){
         try{
             if(infoModel.isMeansInfoValid()){
-                poGOCasxx.MeansInfo().setIncomeSource("1");
-                ECreditApplicantInfo applicantInfo = new ECreditApplicantInfo();
-                applicantInfo.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
-                applicantInfo.setDetlInfo(poGOCasxx.toJSONString());
-                applicantInfo.setClientNm(poGOCasxx.ApplicantInfo().getClientName());
-                applicantInfo.setAppMeans(infoModel.getMeansInfo());
-                poCreditA.updateGOCasData(applicantInfo);
+                poInfo.setAppMeans(infoModel.getMeansInfo());
+                poCreditA.updateGOCasData(poInfo);
                 callBack.onSaveSuccessResult(getNextPage(infoModel.getMeansInfo()));
             } else {
                 callBack.onFailedResult(infoModel.getMessage());
@@ -131,15 +81,19 @@ public class VMMeansInfoSelection extends AndroidViewModel {
     }
 
     public static class MeansInfo{
-        private String Employed = "";
-        private String sEmplyed = "";
-        private String Financex = "";
-        private String Pensionx = "";
+        private String Employed;
+        private String sEmplyed;
+        private String Financex;
+        private String Pensionx;
+        private String Primaryx;
 
         private String message;
 
-        public MeansInfo(){
+        private final List<String> meansInfo;
 
+        public MeansInfo(){
+            meansInfo = new ArrayList<>();
+            meansInfo.clear();
         }
 
         public String getMessage(){
@@ -148,23 +102,69 @@ public class VMMeansInfoSelection extends AndroidViewModel {
 
         public void setEmployed(String employed) {
             Employed = employed;
+            if(employed.equalsIgnoreCase("1")) {
+                meansInfo.add("employed");
+            }
         }
 
         public void setSelfEmployed(String sEmplyed) {
             this.sEmplyed = sEmplyed;
+            if(sEmplyed.equalsIgnoreCase("1")) {
+                meansInfo.add("sEmplyed");
+            }
         }
 
         public void setFinance(String financex) {
             Financex = financex;
+            if(financex.equalsIgnoreCase("1")) {
+                meansInfo.add("financer");
+            }
         }
 
         public void setPension(String pensionx) {
             Pensionx = pensionx;
+            if(pensionx.equalsIgnoreCase("1")) {
+                meansInfo.add("pensionx");
+            }
+        }
+
+        public void setPrimaryx(String primaryx) {
+            if(primaryx.equalsIgnoreCase("Employment")){
+                Primaryx = "0";
+            } else if(primaryx.equalsIgnoreCase("Self-Employed")){
+                Primaryx = "1";
+            } else if(primaryx.equalsIgnoreCase("Financier")){
+                Primaryx = "2";
+            } else {
+                Primaryx = "3";
+            }
+        }
+
+        public String[] getSourcesOfIncome(){
+            String[] income = new String[meansInfo.size()];
+            for(int x = 0; x < meansInfo.size(); x++){
+                if(meansInfo.get(x).equalsIgnoreCase("employed")){
+                    income[x] = "Employment";
+                } else if(meansInfo.get(x).equalsIgnoreCase("sEmplyed")){
+                    income[x] = "Self-Employed";
+                } else if(meansInfo.get(x).equalsIgnoreCase("financer")){
+                    income[x] = "Financier";
+                } else if(meansInfo.get(x).equalsIgnoreCase("pensionx")){
+                    income[x] = "Pension";
+                }
+            }
+            return income;
         }
 
         public boolean isMeansInfoValid(){
-            if(Employed.isEmpty() && sEmplyed.isEmpty() && Financex.isEmpty() && Pensionx.isEmpty()){
+            if(Employed.equalsIgnoreCase("0") &&
+                    sEmplyed.equalsIgnoreCase("0") &&
+                    Financex.equalsIgnoreCase("0") &&
+                    Pensionx.equalsIgnoreCase("0")){
                 message = "Please select at least one source of income";
+                return false;
+            } else if (meansInfo.size() > 1 && Primaryx == null){
+                message = "means_info";
                 return false;
             }
             return true;
@@ -177,6 +177,20 @@ public class VMMeansInfoSelection extends AndroidViewModel {
                 loJson.put("sEmplyed", sEmplyed);
                 loJson.put("financer", Financex);
                 loJson.put("pensionx", Pensionx);
+
+                if(meansInfo.size() > 1){
+                    loJson.put("primay", Primaryx);
+                } else if (meansInfo.size() == 1){
+                    if(meansInfo.get(0).equalsIgnoreCase("employed")){
+                        loJson.put("primay", "0");
+                    } else if(meansInfo.get(0).equalsIgnoreCase("sEmplyed")){
+                        loJson.put("primay", "1");
+                    } else if(meansInfo.get(0).equalsIgnoreCase("financer")){
+                        loJson.put("primay", "2");
+                    } else if(meansInfo.get(0).equalsIgnoreCase("pensionx")){
+                        loJson.put("primay", "3");
+                    }
+                }
             } catch (JSONException e){
                 e.printStackTrace();
             }

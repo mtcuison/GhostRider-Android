@@ -60,7 +60,7 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMSpouseSelfEmployedInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo.getDetlInfo()));
+        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo));
 
         mViewModel.getProvinceName().observe(getViewLifecycleOwner(), strings -> {
                 try{

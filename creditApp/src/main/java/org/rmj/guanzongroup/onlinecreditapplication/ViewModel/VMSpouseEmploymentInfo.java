@@ -38,6 +38,7 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
     private final RProvince poProvRepo;
     private final RTown poTownRepo;
     private final ROccupation poJobRepo;
+    private ECreditApplicantInfo poInfo;
 
     private final MutableLiveData<String> psTransNo = new MutableLiveData<>();
     private final MutableLiveData<String> psSector = new MutableLiveData<>();
@@ -81,9 +82,10 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
     }
 
     //  Set Detail info to GoCas
-    public void setDetailInfo(String fsDetailInfo){
+    public void setDetailInfo(ECreditApplicantInfo fsDetailInfo){
         try{
-            poGoCas.setData(fsDetailInfo);
+            poInfo = fsDetailInfo;
+            poGoCas.setData(poInfo.getDetlInfo());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -283,11 +285,11 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
                 poGoCas.SpouseMeansInfo().EmployedInfo().setSalary(infoModel.getGrossMonthly());
                 poGoCas.SpouseMeansInfo().EmployedInfo().setCompanyNo(infoModel.getCompTelNox());
 
-                ECreditApplicantInfo info = new ECreditApplicantInfo();
-                info.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
-                info.setDetlInfo(poGoCas.toJSONString());
-                info.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                poCreditApp.updateGOCasData(info);
+                poInfo.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
+                poInfo.setSpsEmplx(poGoCas.SpouseMeansInfo().EmployedInfo().toJSONString());
+                //poInfo.setDetlInfo(poGoCas.toJSONString());
+                poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
+                poCreditApp.updateGOCasData(poInfo);
 
                 Log.e(TAG, poGoCas.SpouseMeansInfo().EmployedInfo().toJSONString());
                 Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());

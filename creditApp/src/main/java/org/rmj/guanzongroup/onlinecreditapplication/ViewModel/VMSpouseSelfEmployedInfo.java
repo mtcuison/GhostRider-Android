@@ -30,6 +30,7 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
     private final RCreditApplicant poCreditApp;
     private final RProvince poProvRepo;
     private final RTown poTownRepo;
+    private ECreditApplicantInfo poInfo;
 
     private final MutableLiveData<String> psTransNo = new MutableLiveData<>();
     private final MutableLiveData<String> psProvID = new MutableLiveData<>();
@@ -71,9 +72,10 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
         return poCreditApp.getCreditApplicantInfoLiveData(psTransNo.getValue());
     }
 
-    public void setDetailInfo(String fsDetailInfo){
+    public void setDetailInfo(ECreditApplicantInfo fsDetailInfo){
         try{
-            poGoCas.setData(fsDetailInfo);
+            poInfo = fsDetailInfo;
+            poGoCas.setData(poInfo.getDetlInfo());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -150,14 +152,11 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
                 poGoCas.SpouseMeansInfo().SelfEmployedInfo().setIncome(infoModel.getsGrossMonthly());
                 poGoCas.SpouseMeansInfo().SelfEmployedInfo().setMonthlyExpense(infoModel.getsMonthlyExps());
 
-                ECreditApplicantInfo info = new ECreditApplicantInfo();
-                info.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
-                info.setDetlInfo(poGoCas.toJSONString());
-                info.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                poCreditApp.updateGOCasData(info);
-
-                Log.e(TAG, poGoCas.SpouseMeansInfo().SelfEmployedInfo().toJSONString());
-                Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
+                poInfo.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
+                //poInfo.setDetlInfo(poGoCas.toJSONString());
+                poInfo.setSpsBusnx(poGoCas.SpouseMeansInfo().SelfEmployedInfo().toJSONString());
+                poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
+                poCreditApp.updateGOCasData(poInfo);
                 callBack.onSaveSuccessResult("Success");
             }
             else {

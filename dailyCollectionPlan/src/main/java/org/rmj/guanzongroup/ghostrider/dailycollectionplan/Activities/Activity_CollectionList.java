@@ -590,8 +590,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             public void OnDownloadClick(Dialog Dialog, String Date) {
                 if(!Date.trim().isEmpty()){
 //                    mViewModel.getCollectionListNow().observe();
-
-                    mViewModel.DownloadDcp(Date, Activity_CollectionList.this);
+                    mViewModel.DownloadDcp(AppConstants.CURRENT_DATE, Activity_CollectionList.this);
                     Dialog.dismiss();
                 } else {
                     GToast.CreateMessage(Activity_CollectionList.this, "Please enter date", GToast.ERROR).show();

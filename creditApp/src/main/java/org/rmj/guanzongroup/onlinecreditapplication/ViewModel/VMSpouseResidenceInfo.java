@@ -29,6 +29,7 @@
         private final RProvince poProvRepo; //Province Repository
         private final RTown poTownRepo; //Town Repository
         private final RBarangay poBarangay;
+        private ECreditApplicantInfo poInfo;
 
 
         private final MutableLiveData<String> TransNox = new MutableLiveData<>();
@@ -107,9 +108,10 @@
         }
 
         //  Set Detail info to GoCas
-        public void setDetailInfo(String fsDetailInfo){
+        public void setDetailInfo(ECreditApplicantInfo fsDetailInfo){
             try{
-                poGoCas.setData(fsDetailInfo);
+                poInfo = fsDetailInfo;
+                poGoCas.setData(fsDetailInfo.getDetlInfo());
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -173,11 +175,11 @@
                     //This is it papi
                     //poGoCas.ResidenceInfo().PresentAddress().get
 
-                    ECreditApplicantInfo applicantInfo = new ECreditApplicantInfo();
-                    applicantInfo.setTransNox(TransNox.getValue());
-                    applicantInfo.setDetlInfo(poGoCas.toJSONString());
-                    applicantInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                    poCreditApp.updateGOCasData(applicantInfo);
+                    poInfo.setTransNox(TransNox.getValue());
+                    poInfo.setSpsResdx(poGoCas.SpouseInfo().ResidenceInfo().toJSONString());
+                    //poInfo.setDetlInfo(poGoCas.toJSONString());
+                    poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
+                    poCreditApp.updateGOCasData(poInfo);
 
                     //Added by sir mike
                     Log.e(TAG, poGoCas.SpouseInfo().ResidenceInfo().toJSONString());

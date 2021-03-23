@@ -197,8 +197,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
 
     @Override
     public void onSaveSuccessResult(String args) {
-        mViewModel.getNextPage().observe(getViewLifecycleOwner(), integer -> Activity_CreditApplication.getInstance().moveToPageNumber(integer));
-
+        Activity_CreditApplication.getInstance().moveToPageNumber(Integer.parseInt(args));
     }
 
     @Override

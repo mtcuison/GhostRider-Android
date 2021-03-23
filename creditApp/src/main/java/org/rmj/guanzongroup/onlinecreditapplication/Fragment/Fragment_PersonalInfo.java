@@ -22,10 +22,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.OnDateSetListener;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalInfoModel;
@@ -48,14 +45,9 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
     private String psMob1NetTp = "-1";
     private String psMob2NetTp = "-1";
     private String psMob3NetTp = "-1";
-    private String psCvlStatus = "-1";
-    private String psGenderxx = "-1";
 
     private String transnox;
 
-    private MessageBox poMessage;
-    private ImageFileCreator poImage;
-    private EImageInfo poImageInfo;
     public static Fragment_PersonalInfo newInstance() {
         return new Fragment_PersonalInfo();
     }
@@ -66,7 +58,6 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         View view = inflater.inflate(R.layout.fragment_personal_info, container, false);
         infoModel = new PersonalInfoModel();
         transnox = Activity_CreditApplication.getInstance().getTransNox();
-        poMessage = new MessageBox(getContext());
         initWidgets(view);
         return view;
     }
@@ -221,8 +212,6 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         infoModel.setNickName(Objects.requireNonNull(txtNickNm.getText()).toString());
         infoModel.setBrthDate(Objects.requireNonNull(txtBirthDt.getText()).toString());
         infoModel.setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
-        infoModel.setGender(psGenderxx);
-        infoModel.setCvlStats(psCvlStatus);
 
         if(!Objects.requireNonNull(txtMobileNo1.getText()).toString().trim().isEmpty()) {
             if(Integer.parseInt(psMob1NetTp) == 1) {
@@ -263,12 +252,27 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if (spnMobile1.equals(poView)) {
                 psMob1NetTp = String.valueOf(i);
+                if(i == 1){
+                    tilMobileYr1.setVisibility(View.VISIBLE);
+                } else {
+                    tilMobileYr1.setVisibility(View.GONE);
+                }
             }
             if (spnMobile2.equals(poView)) {
                 psMob2NetTp = String.valueOf(i);
+                if(i == 1){
+                    tilMobileYr2.setVisibility(View.VISIBLE);
+                } else {
+                    tilMobileYr2.setVisibility(View.GONE);
+                }
             }
             if (spnMobile3.equals(poView)) {
                 psMob3NetTp = String.valueOf(i);
+                if(i == 1){
+                    tilMobileYr2.setVisibility(View.VISIBLE);
+                } else {
+                    tilMobileYr2.setVisibility(View.GONE);
+                }
             }
         }
     }

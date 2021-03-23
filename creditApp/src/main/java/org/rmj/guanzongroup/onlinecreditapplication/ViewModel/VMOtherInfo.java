@@ -1,18 +1,14 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.SavedStateHandle;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
@@ -22,15 +18,11 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.gocas.base.GOCASApplication;
-import org.rmj.gocas.pojo.OtherInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.DisbursementInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.OtherInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -50,14 +42,12 @@ public class VMOtherInfo extends AndroidViewModel {
     private final MutableLiveData<Integer> payerBuyer = new MutableLiveData<>();
     private final MutableLiveData<Integer> compInfoSource = new MutableLiveData<>();
 
-    private MutableLiveData<String> lsProvID = new MutableLiveData<>();
-    private MutableLiveData<String> lsBPlace = new MutableLiveData<>();
-    private String message;
+    private final MutableLiveData<String> lsProvID = new MutableLiveData<>();
+    private final MutableLiveData<String> lsBPlace = new MutableLiveData<>();
 
     private ECreditApplicantInfo poInfo;
 
     private final GOCASApplication poGoCas;
-    private SavedStateHandle poStatexx;
     private final RCreditApplicant poApplcnt;
     private final RProvince RProvince;
     private final RTown RTown;
@@ -66,7 +56,7 @@ public class VMOtherInfo extends AndroidViewModel {
 
     private final List<OtherInfoModel> otherInfo;
     private final MutableLiveData<List<OtherInfoModel>> referenceInfo = new MutableLiveData<>();
-    private Context mContext;
+
     public VMOtherInfo(@NonNull Application application) {
         super(application);
         this.poApplcnt = new RCreditApplicant(application);
@@ -75,7 +65,6 @@ public class VMOtherInfo extends AndroidViewModel {
         RCountry = new RCountry(application);
         provinceInfoList = RProvince.getAllProvinceInfo();
         otherInfo = new ArrayList<>();
-        mContext = application.getApplicationContext();
         poGoCas = new GOCASApplication();
         referenceInfo.setValue(new ArrayList<>());
         this.userBuyer.setValue(View.GONE);
@@ -97,7 +86,6 @@ public class VMOtherInfo extends AndroidViewModel {
     public void setCreditApplicantInfo(ECreditApplicantInfo applicantInfo){
         try{
             poInfo = applicantInfo;
-            poGoCas.setData(poInfo.getDetlInfo());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -276,23 +264,6 @@ public class VMOtherInfo extends AndroidViewModel {
         return liveData;
     }
 
-    public String getMessage() {
-        return message;
-    }
-    public boolean isValidSpnSource(int index){
-        if(index==0){
-            message = "Please select Company Information Source!";
-            return false;
-        }
-        return true;
-    }
-    public boolean isValidUnitPayer(int index){
-        if(index==0){
-            message = "Please select unit payer!";
-            return false;
-        }
-        return true;
-    }
     public boolean isReferenceValid(){
         return referenceInfo.getValue().size() >= 3;
     }
@@ -322,8 +293,8 @@ public class VMOtherInfo extends AndroidViewModel {
                         poGoCas.OtherInfo().setPRAddress(x, otherInfo.get(x).getAddress1());
                     }
                     poInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
-                    poInfo.setDetlInfo(poGoCas.toJSONString());
-                    poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
+                    //poInfo.setDetlInfo(poGoCas.toJSONString());
+                    poInfo.setOthrInfo(poGoCas.OtherInfo().toJSONString());
                     poApplcnt.updateGOCasData(poInfo);
                     callBack.onSaveSuccessResult("Success");
                     Log.e(TAG, "Other information result : " + poGoCas.OtherInfo().toJSONString());
@@ -347,7 +318,7 @@ public class VMOtherInfo extends AndroidViewModel {
     }
     public boolean addReference(OtherInfoModel foInfo, ExpActionListener listener){
         if(foInfo.isValidReferences()) {
-            Objects.requireNonNull(this.referenceInfo.getValue().add(foInfo));
+            this.referenceInfo.getValue().add(foInfo);
             listener.onSuccess("Success");
             return true;
 

@@ -38,8 +38,8 @@ public class CreditAppConstants {
      *            <p>11 new Fragment_SpousePensionInfo(),</p>
      *            <p>12 new Fragment_DisbursementInfo(),</p>
      *            <p>13 new Fragment_Dependent(),</p>
-     *            <p>14 new Fragment_OtherInfo(),</p>
-     *            <p>15 new Fragment_Properties(),</p>
+     *            <p>14 new Fragment_Properties(),</p>
+     *            <p>15 new Fragment_OtherInfo(),</p>
      *            <p>16 new Fragment_CoMaker()</p>
      *            <p>17 new Fragment_CoMakerResidence()</p>
      * @param allLoanUnitNames
@@ -60,8 +60,8 @@ public class CreditAppConstants {
             new Fragment_SpousePensionInfo(),
             new Fragment_DisbursementInfo(),
             new Fragment_Dependent(),
-            new Fragment_OtherInfo(),
             new Fragment_Properties(),
+            new Fragment_OtherInfo(),
             new Fragment_CoMaker(),
             new Fragment_ComakerResidence()};
 
@@ -306,11 +306,4 @@ public class CreditAppConstants {
             "User Applications",
             "Branch Applications"
     };
-
-    public static boolean employment_done = false;
-    public static boolean self_employment_done = false;
-    public static boolean finance_done = false;
-    public static boolean pension_done = false;
-
-
 }
