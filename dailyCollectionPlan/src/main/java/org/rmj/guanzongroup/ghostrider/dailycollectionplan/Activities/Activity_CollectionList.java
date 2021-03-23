@@ -407,103 +407,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                     }
                 });
             }
-        } else if(item.getItemId() == R.id.action_menu_export_collection){
-            // TODO: Exporting of DCP List
-            boolean hasUnTags = false;
-            if(plDetail.size()>0){
-                for(int x = 0; x < plDetail.size(); x++){
-                    if(plDetail.get(x).sRemCodex == null){
-                        hasUnTags = true;
-                    }
-                }
-            }
-            if(hasUnTags) {
-                DialogExportDCP loPost = new DialogExportDCP(Activity_CollectionList.this);
-                loPost.iniDialog(new DialogExportDCP.DialogPostUnfinishedListener() {
-                    @Override
-                    public void OnConfirm(AlertDialog dialog, String Remarks) {
-                        mViewModel.getExportDataList(Remarks, new VMCollectionList.FileManagerCallBack() {
-                            @Override
-                            public void OnJSONCreated(JSONObject loJson) {
-                                if(exportCollectionList(loJson)) {
-                                    Log.e("Success","Success");
-                                } else {
-                                    Log.e("Failed","Failed");
-                                }
-                            } @Override
-                            public void OnStartSaving() {
-                                poDialogx.initDialog("Daily Collection Plan", "Exporting collection details. Please wait...", false);
-                                poDialogx.show();
-                            }
-
-                            @Override
-                            public void OnSuccessResult(String[] args) {
-                                poDialogx.dismiss();
-                                poMessage.initDialog();
-                                poMessage.setTitle("Daily Collection Plan");
-                                poMessage.setMessage(args[0]);
-                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                poMessage.show();
-                            }
-
-                            @Override
-                            public void OnFailedResult(String message) {
-                                poDialogx.dismiss();
-                                poMessage.initDialog();
-                                poMessage.setTitle("Daily Collection Plan");
-                                poMessage.setMessage(message);
-                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                poMessage.show();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void OnCancel(AlertDialog dialog) {
-                        dialog.dismiss();
-                    }
-                });
-                loPost.show();
-            } else {
-                mViewModel.getExportDataList("", new VMCollectionList.FileManagerCallBack() {
-                    @Override
-                    public void OnJSONCreated(JSONObject loJson) {
-                        if(exportCollectionList(loJson)) {
-                            Log.e("Success","Success");
-                        } else {
-                            Log.e("Failed","Failed");
-                        }
-                    } @Override
-                    public void OnStartSaving() {
-                        poDialogx.initDialog("Daily Collection Plan", "Exporting collection details. Please wait...", false);
-                        poDialogx.show();
-                    }
-
-                    @Override
-                    public void OnSuccessResult(String[] args) {
-                        poDialogx.dismiss();
-                        poMessage.initDialog();
-                        poMessage.setTitle("Daily Collection Plan");
-                        poMessage.setMessage(args[0]);
-                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                        poMessage.show();
-                    }
-
-                    @Override
-                    public void OnFailedResult(String message) {
-                        poDialogx.dismiss();
-                        poMessage.initDialog();
-                        poMessage.setTitle("Daily Collection Plan");
-                        poMessage.setMessage(message);
-                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                        poMessage.show();
-                    }
-                });
-            }
-        } else if(item.getItemId() == R.id.action_menu_upload_collection){
-            // TODO: createAction for importing files from external storage
-            showImportFromFileDcp();
-            // TODO: ~> END : Import
         }
         return super.onOptionsItemSelected(item);
     }
@@ -584,25 +487,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
     }
     public void showDownloadDcp(){
-        DialogDownloadDCP dialogDownloadDCP = new DialogDownloadDCP(Activity_CollectionList.this);
-        dialogDownloadDCP.initDialog(new DialogDownloadDCP.OnDialogButtonClickListener() {
-            @Override
-            public void OnDownloadClick(Dialog Dialog, String Date) {
-                if(!Date.trim().isEmpty()){
-//                    mViewModel.getCollectionListNow().observe();
-                    mViewModel.DownloadDcp(AppConstants.CURRENT_DATE, Activity_CollectionList.this);
-                    Dialog.dismiss();
-                } else {
-                    GToast.CreateMessage(Activity_CollectionList.this, "Please enter date", GToast.ERROR).show();
-                }
-            }
-
-            @Override
-            public void OnCancel(Dialog Dialog) {
-                Dialog.dismiss();
-            }
-        });
-        dialogDownloadDCP.show();
+        mViewModel.DownloadDcp(AppConstants.CURRENT_DATE, Activity_CollectionList.this);
     }
 
     public void showImportFromFileDcp() {

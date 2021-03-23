@@ -23,10 +23,12 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
@@ -56,6 +58,7 @@ public class VMCollectionList extends AndroidViewModel {
     private final RDailyCollectionPlan poDCPRepo;
     private final RBranch poBranch;
     private final RCollectionUpdate poUpdate;
+    private final REmployee poEmploye;
     private final LiveData<List<EDCPCollectionDetail>> collectionList;
 
     private final MutableLiveData<List<DDCPCollectionDetail.CollectionDetail>> plDetail = new MutableLiveData();
@@ -79,13 +82,14 @@ public class VMCollectionList extends AndroidViewModel {
         poDCPRepo = new RDailyCollectionPlan(application);
         poBranch = new RBranch(application);
         poUpdate = new RCollectionUpdate(application);
+        poEmploye = new REmployee(application);
         this.collectionList = poDCPRepo.getCollectionDetailList();
     }
 
     @SuppressLint("SimpleDateFormat")
     public void DownloadDcp(String date, OnDownloadCollection callback){
         try{
-            @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("MMM dd, yyyy").parse(date);
+            @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
             String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(loDate));
             boolean isExist = false;
             for(int x = 0; x < masterList.getValue().size(); x++){
@@ -236,52 +240,68 @@ public class VMCollectionList extends AndroidViewModel {
                         } else {
                             try {
                                 JSONObject loJSON_Master = dcpImport.getJSONObject("master");
-                                EDCPCollectionMaster loMaster = new EDCPCollectionMaster();
 
-                                loMaster.setTransact(loJSON_Master.getString("dTransact"));
-                                loMaster.setBranchNm(loJSON_Master.getString("sBranchNm"));
-                                loMaster.setTransNox(loJSON_Master.getString("sTransNox"));
-                                loMaster.setDCPTypex(loJSON_Master.getString("cDCPTypex").charAt(0));
-                                loMaster.setEntryNox(loJSON_Master.getString("nEntryNox"));
-                                loMaster.setCollName(loJSON_Master.getString("xCollName"));
-                                loMaster.setCollctID(loJSON_Master.getString("sCollctID"));
-                                loMaster.setTranStat(loJSON_Master.getString("cTranStat").charAt(0));
-                                loMaster.setRouteNme(loJSON_Master.getString("sRouteNme"));
-                                loMaster.setReferDte(loJSON_Master.getString("dReferDte"));
-                                loMaster.setReferNox(loJSON_Master.getString("sReferNox"));
+                                new CheckLoggedUserTask(poEmploye, new CheckImport() {
+                                    @Override
+                                    public void OnCheck(boolean doesExist) {
+                                        try {
+                                            if(!doesExist) {
+                                                GToast.CreateMessage(getApplication(), "Collection list not applicable for the current logged user.", GToast.WARNING).show();
+                                            } else if(!loJSON_Master.getString("dTransact").equalsIgnoreCase(AppConstants.CURRENT_DATE)) {
+                                                GToast.CreateMessage(getApplication(), "Collection list is not applicable for the current date.", GToast.WARNING).show();
+                                            } else {
+                                                EDCPCollectionMaster loMaster = new EDCPCollectionMaster();
+
+                                                loMaster.setTransact(loJSON_Master.getString("dTransact"));
+                                                loMaster.setBranchNm(loJSON_Master.getString("sBranchNm"));
+                                                loMaster.setTransNox(loJSON_Master.getString("sTransNox"));
+                                                loMaster.setDCPTypex(loJSON_Master.getString("cDCPTypex").charAt(0));
+                                                loMaster.setEntryNox(loJSON_Master.getString("nEntryNox"));
+                                                loMaster.setCollName(loJSON_Master.getString("xCollName"));
+                                                loMaster.setCollctID(loJSON_Master.getString("sCollctID"));
+                                                loMaster.setTranStat(loJSON_Master.getString("cTranStat").charAt(0));
+                                                loMaster.setRouteNme(loJSON_Master.getString("sRouteNme"));
+                                                loMaster.setReferDte(loJSON_Master.getString("dReferDte"));
+                                                loMaster.setReferNox(loJSON_Master.getString("sReferNox"));
 
 
-                                JSONArray loJArray_detail = dcpImport.getJSONArray("detail");
-                                List<EDCPCollectionDetail> loCollectDetlList = new ArrayList<>(); // This is return
-                                for (int x = 0; x < loJArray_detail.length(); x++) {
-                                    EDCPCollectionDetail loDetail = new EDCPCollectionDetail();
-                                    JSONObject loJson = loJArray_detail.getJSONObject(x);
+                                                JSONArray loJArray_detail = dcpImport.getJSONArray("detail");
+                                                List<EDCPCollectionDetail> loCollectDetlList = new ArrayList<>(); // This is return
+                                                for (int x = 0; x < loJArray_detail.length(); x++) {
+                                                    EDCPCollectionDetail loDetail = new EDCPCollectionDetail();
+                                                    JSONObject loJson = loJArray_detail.getJSONObject(x);
 
-                                    loDetail.setTransNox(loJSON_Master.getString("sTransNox"));
-                                    loDetail.setApntUnit(loJson.getString("cApntUnit"));
-                                    loDetail.setLongitud(loJson.getString("nLongitud"));
-                                    loDetail.setAddressx(loJson.getString("sAddressx"));
-                                    loDetail.setBrgyName(loJson.getString("sBrgyName"));
-                                    loDetail.setEntryNox(Integer.parseInt(loJson.getString("nEntryNox")));
-                                    loDetail.setClientID(loJson.getString("sClientID"));
-                                    loDetail.setTownName(loJson.getString("sTownName"));
-                                    loDetail.setIsDCPxxx(loJson.getString("cIsDCPxxx"));
-                                    loDetail.setSerialID(loJson.getString("sSerialID"));
-                                    loDetail.setFullName(loJson.getString("xFullName"));
-                                    loDetail.setDueDatex(loJson.getString("dDueDatex"));
-                                    loDetail.setLatitude(loJson.getString("nLatitude"));
-                                    loDetail.setMobileNo(loJson.getString("sMobileNo"));
-                                    loDetail.setAmtDuexx(loJson.getString("nAmtDuexx"));
-                                    loDetail.setHouseNox(loJson.getString("sHouseNox"));
-                                    loDetail.setSerialNo(loJson.getString("sSerialNo"));
-                                    loDetail.setAcctNmbr(loJson.getString("sAcctNmbr"));
-                                    loDetail.setSendStat("0");
-                                    loDetail.setTranStat("0");
+                                                    loDetail.setTransNox(loJSON_Master.getString("sTransNox"));
+                                                    loDetail.setApntUnit(loJson.getString("cApntUnit"));
+                                                    loDetail.setLongitud(loJson.getString("nLongitud"));
+                                                    loDetail.setAddressx(loJson.getString("sAddressx"));
+                                                    loDetail.setBrgyName(loJson.getString("sBrgyName"));
+                                                    loDetail.setEntryNox(Integer.parseInt(loJson.getString("nEntryNox")));
+                                                    loDetail.setClientID(loJson.getString("sClientID"));
+                                                    loDetail.setTownName(loJson.getString("sTownName"));
+                                                    loDetail.setIsDCPxxx(loJson.getString("cIsDCPxxx"));
+                                                    loDetail.setSerialID(loJson.getString("sSerialID"));
+                                                    loDetail.setFullName(loJson.getString("xFullName"));
+                                                    loDetail.setDueDatex(loJson.getString("dDueDatex"));
+                                                    loDetail.setLatitude(loJson.getString("nLatitude"));
+                                                    loDetail.setMobileNo(loJson.getString("sMobileNo"));
+                                                    loDetail.setAmtDuexx(loJson.getString("nAmtDuexx"));
+                                                    loDetail.setHouseNox(loJson.getString("sHouseNox"));
+                                                    loDetail.setSerialNo(loJson.getString("sSerialNo"));
+                                                    loDetail.setAcctNmbr(loJson.getString("sAcctNmbr"));
+                                                    loDetail.setSendStat("0");
+                                                    loDetail.setTranStat("0");
 
-                                    loCollectDetlList.add(loDetail);
-                                }
+                                                    loCollectDetlList.add(loDetail);
+                                                }
 
-                                callback.OnDataExtract(loCollectDetlList, loMaster);
+                                                callback.OnDataExtract(loCollectDetlList, loMaster);
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }).execute(loJSON_Master.getString("sCollctID"));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -1117,6 +1137,32 @@ public class VMCollectionList extends AndroidViewModel {
 
             } catch(Exception e) {
                 e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            mListener.OnCheck(aBoolean);
+        }
+    }
+
+    private static class CheckLoggedUserTask extends AsyncTask<String, Void, Boolean> {
+
+        private final REmployee poEmploye;
+        private final CheckImport mListener;
+
+        public CheckLoggedUserTask(REmployee poEmploye, CheckImport mListener) {
+            this.mListener = mListener;
+            this.poEmploye = poEmploye;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            String lsUserId = poEmploye.getUserNonLiveData().getUserIDxx();
+            if(strings[0].equals(lsUserId)) {
+                return true;
             }
             return false;
         }
