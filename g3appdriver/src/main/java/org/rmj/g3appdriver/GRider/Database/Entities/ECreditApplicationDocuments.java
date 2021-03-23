@@ -5,8 +5,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "Credit_Online_Application_Documents", primaryKeys = {"sTransNox", "sFileCode"})
-public class ECreditApplicationDocuments {
+public class ECreditApplicationDocuments implements Serializable {
 
     @NonNull
     @ColumnInfo(name = "sTransNox")

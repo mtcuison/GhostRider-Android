@@ -8,9 +8,10 @@ import java.util.Locale;
 
 public class AppConstants {
 
-    public static final String APP_PUBLIC_FOLDER = "/com.epacss.ghostrider";
+    public static final String APP_PUBLIC_FOLDER = "/org.rmj.guanzongroup.ghostrider.epacss";
     public static final String SUB_FOLDER_DCP = "/DCP";
     public static final String SUB_FOLDER_CREDIT_APP = "/CreditApp";
+    public static final String SUB_FOLDER_CREDIT_APP_DOCUMENTS = "/COAD";
     public static final String SUB_FOLDER_EXPORTS = "/Exported Files";
 
     public static String ALL_DATA_SENT() throws Exception{

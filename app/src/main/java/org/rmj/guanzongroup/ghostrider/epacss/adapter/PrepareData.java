@@ -72,6 +72,9 @@ public class PrepareData {
         childModel = new MenuModel("Application List", 0,false, false, View.VISIBLE);
         childModelsList.add(childModel);
 
+        childModel = new MenuModel("Branch Application List", 0,false, false, View.VISIBLE);
+        childModelsList.add(childModel);
+
         childModel = new MenuModel("Document Scanner", 0, false, false, View.VISIBLE);
         childModelsList.add(childModel);
 

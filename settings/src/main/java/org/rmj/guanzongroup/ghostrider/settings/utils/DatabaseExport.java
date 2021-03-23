@@ -31,6 +31,9 @@ import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.APP_PUBLIC_FOLDER;
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SUB_FOLDER_EXPORTS;
+
 public class DatabaseExport {
     public Context context;
     private String FILE_FOLDER;
@@ -43,7 +46,7 @@ public class DatabaseExport {
     }
     public String export(){
         String root = Environment.getExternalStorageDirectory().toString();
-        File sd = new File(root + folder_name + "/" + FILE_FOLDER + "/");
+        File sd = new File(root + APP_PUBLIC_FOLDER + "/" + SUB_FOLDER_EXPORTS + "/");
         if (!sd.exists()) {
             sd.mkdirs();
         }

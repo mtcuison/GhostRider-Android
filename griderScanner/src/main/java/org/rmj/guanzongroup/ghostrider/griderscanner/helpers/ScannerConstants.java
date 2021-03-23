@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
 
-public class ScannerConstants {
+import java.io.Serializable;
+
+public class ScannerConstants implements Serializable {
     public static Bitmap selectedImageBitmap;
     public static Uri selectedImageUri;
     public static String cropText="Crop",backText="Close",

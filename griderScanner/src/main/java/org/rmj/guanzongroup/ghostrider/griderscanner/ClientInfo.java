@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
@@ -112,11 +113,11 @@ public class ClientInfo extends AppCompatActivity {
             loAdapter = new FileCodeAdapter(ClientInfo.this, fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
             @Override
             public void OnClick(int position) {
-                poFilexx = new ImageFileCreator(ClientInfo.this , "Credit Application Documents", "SCAN", fileCodeDetails.get(position).sFileCode, TransNox);
+                poFilexx = new ImageFileCreator(ClientInfo.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP_DOCUMENTS, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
                 poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
                     mCurrentPhotoPath = photPath;
                     ScannerConstants.Usage =camUsage;
-                    ScannerConstants.Folder = "Credit Application Documents";
+                    ScannerConstants.Folder = AppConstants.APP_PUBLIC_FOLDER;
                     ScannerConstants.FileCode = fileCodeDetails.get(position).sFileCode;
                     ScannerConstants.PhotoPath = photPath;
                     ScannerConstants.EntryNox = (position + 1);

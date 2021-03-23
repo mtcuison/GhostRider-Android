@@ -1,76 +1,80 @@
-package org.rmj.guanzongroup.ghostrider.griderscanner;
+package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
+import com.google.android.material.textfield.TextInputEditText;
+
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.ClientInfoAdapter;
-import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.FileCodeAdapter;
+import org.rmj.guanzongroup.ghostrider.griderscanner.ClientInfo;
 import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.LoanApplication;
-import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMMainScanner;
+import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.ViewModelCallBack;
+import org.rmj.guanzongroup.onlinecreditapplication.Adapter.BranchApplicationsAdapter;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.BranchApplicationModel;
+import org.rmj.guanzongroup.onlinecreditapplication.R;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMBranchApplications;
 
-import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MainScanner extends AppCompatActivity implements VMMainScanner.OnImportCallBack {
+public class Activity_BranchApplications extends AppCompatActivity implements VMBranchApplications.OnImportCallBack {
     private RecyclerView recyclerViewClient;
-    private VMMainScanner mViewModel;
+    private VMBranchApplications mViewModel;
     private LinearLayoutManager layoutManager;
-    private ClientInfoAdapter adapter;
+    private BranchApplicationsAdapter adapter;
     private LinearLayout loading;
-    private List<LoanApplication> loanList;
-    private String userBranch;
+    private List<BranchApplicationModel> loanList;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
+    private String userBranch;
+    private TextInputEditText txtSearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_scanner);
-        Toolbar toolbar = findViewById(R.id.toolbar_docScanner);
+        setContentView(R.layout.activity__branch_applications);
+        Toolbar toolbar = findViewById(R.id.toolbar_branchApplications);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        poDialogx = new LoadDialog(MainScanner.this);
-        poMessage = new MessageBox(MainScanner.this);
-        recyclerViewClient = findViewById(R.id.recyclerview_clienInfo);
-        layoutManager = new LinearLayoutManager(MainScanner.this);
+        poDialogx = new LoadDialog(Activity_BranchApplications.this);
+        poMessage = new MessageBox(Activity_BranchApplications.this);
+
+        recyclerViewClient = findViewById(R.id.recyclerview_branchApplications);
+        txtSearch = findViewById(R.id.txt_branch_search);
+        layoutManager = new LinearLayoutManager(Activity_BranchApplications.this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
-        loading = findViewById(R.id.linear_progress);
-        mViewModel = new ViewModelProvider(this).get(VMMainScanner.class);
-//        mViewModel.LoadApplications(MainScanner.this);
+        loading = findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.linear_progress);
+        mViewModel = new ViewModelProvider(Activity_BranchApplications.this).get(VMBranchApplications.class);
+
+
 
         mViewModel.getEmployeeInfo().observe(this, eEmployeeInfo -> {
-
-            mViewModel.ImportRBranchApplications(MainScanner.this, eEmployeeInfo.getBranchCD());
+            userBranch = eEmployeeInfo.getBranchCD();
+            mViewModel.setEmpBrnCD(eEmployeeInfo.getBranchCD());
+            mViewModel.ImportRBranchApplications(Activity_BranchApplications.this, eEmployeeInfo.getBranchCD());
             try {
-                mViewModel.getBranchCreditApplication(eEmployeeInfo.getBranchCD()).observe(MainScanner.this, brnCreditList -> {
+                mViewModel.getBranchCreditApplication(eEmployeeInfo.getBranchCD()).observe(Activity_BranchApplications.this, brnCreditList -> {
                     if(brnCreditList.size()>0) {
                         loading.setVisibility(View.GONE);
                         loanList = new ArrayList<>();
                         for (int x = 0; x < brnCreditList.size(); x++) {
-                            LoanApplication loan = new LoanApplication();
+                            BranchApplicationModel loan = new BranchApplicationModel();
                             loan.setsTransNox(brnCreditList.get(x).getTransNox());
                             loan.setdTransact(brnCreditList.get(x).getTransact());
                             loan.setsCredInvx(brnCreditList.get(x).getCredInvx());
@@ -87,14 +91,14 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
                             loanList.add(loan);
                             Log.e("Loan List", String.valueOf(loan));
                         }
-                        adapter = new ClientInfoAdapter(loanList, new ClientInfoAdapter.OnApplicationClickListener() {
+                        adapter = new BranchApplicationsAdapter(loanList, new BranchApplicationsAdapter.OnApplicationClickListener() {
                             @Override
-                            public void OnClick(int position, List<LoanApplication> loanLists) {
-//                                mViewModel.getDocument(loanLists.get(position).getTransNox()).observe(MainScanner.this, data -> {
+                            public void OnClick(int position, List<BranchApplicationModel> loanLists) {
+//                                mViewModel.getDocument(loanLists.get(position).getTransNox()).observe(Activity_BranchApplications.this, data -> {
 //                                    mViewModel.setDocumentInfo(data);
 //                                });
 
-                                Intent loIntent = new Intent(MainScanner.this, ClientInfo.class);
+                                Intent loIntent = new Intent(Activity_BranchApplications.this, Activity_DocumentToScan.class);
                                 loIntent.putExtra("TransNox",loanLists.get(position).getsTransNox());
                                 loIntent.putExtra("ClientNm",loanLists.get(position).getsCompnyNm());
                                 loIntent.putExtra("dTransact",loanLists.get(position).getdTransact());
@@ -106,9 +110,31 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
                             }
 
                         });
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(MainScanner.this);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_BranchApplications.this);
                         recyclerViewClient.setAdapter(adapter);
                         recyclerViewClient.setLayoutManager(layoutManager);
+
+                        txtSearch.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                try {
+                                    adapter.getSearchFilter().filter(s.toString());
+                                    adapter.notifyDataSetChanged();
+                                } catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+
+                            }
+                        });
                     }else {
                         Log.e("Application List ", String.valueOf(brnCreditList.toArray()));
                     }
@@ -117,6 +143,7 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
                 e.printStackTrace();
             }
         });
+
 
     }
     @Override
@@ -128,15 +155,16 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
     }
 
 
-
     @Override
     public void onSuccessImport() {
         poDialogx.dismiss();
     }
 
+
+
     @Override
     public void onStartImport() {
-        poDialogx.initDialog("Branch Applications Document List", "Importing Data. Please wait...", false);
+        poDialogx.initDialog("Branch Application List", "Importing Data. Please wait...", false);
         poDialogx.show();
     }
 
@@ -144,7 +172,7 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
     public void onImportFailed(String message) {
         poDialogx.dismiss();
         poMessage.initDialog();
-        poMessage.setTitle("Branch Applications Document List");
+        poMessage.setTitle("Branch Applications List");
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();

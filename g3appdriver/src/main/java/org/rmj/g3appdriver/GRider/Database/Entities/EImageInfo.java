@@ -5,8 +5,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "Image_Information")
-public class EImageInfo {
+public class EImageInfo implements Serializable {
 
     @PrimaryKey
     @NonNull

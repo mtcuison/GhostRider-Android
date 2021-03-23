@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:padding="3dp"
-            android:background="@color/textColor_Black"/>
+            android:background="@color/guanzon_orange"/>
 
         <TextView
             android:id="@+id/lbl_list_applicantName"

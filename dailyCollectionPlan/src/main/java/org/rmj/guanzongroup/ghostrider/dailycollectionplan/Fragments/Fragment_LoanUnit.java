@@ -25,6 +25,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.etc.WebFileServer;
@@ -149,7 +150,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
 
         mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
             CollId = s.getCollctID();
-            poFilexx = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, DCP_Constants.getRemarksCode(Remarksx), AccntNox);
+            poFilexx = new ImageFileCreator(getActivity(), AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_DCP, TransNox);
 
         });
         mViewModel.getClientData().observe(getViewLifecycleOwner(), data -> {
@@ -270,7 +271,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         if(requestCode == ImageFileCreator.GCAMERA){
             if(resultCode == RESULT_OK) {
                 try {
-                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(infoModel.getLuImgPath()));
+                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(poImageInfo.getFileLoct()));
                     mViewModel.saveLUnImageInfo(poImageInfo);
                     submitLUn(Remarksx);
                 } catch (Exception e) {
