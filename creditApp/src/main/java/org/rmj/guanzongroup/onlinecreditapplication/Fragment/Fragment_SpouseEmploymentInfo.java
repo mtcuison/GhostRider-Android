@@ -58,7 +58,10 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
             txtJobNme;
     private TextInputLayout tilCntryx,
             tilCompNm,
-            tilJobTitle;
+            tilJobTitle,
+            tilCmpLvl,
+            tilBizNature,
+            tilEmpLvl;
     private TextInputEditText txtCompNm,
             txtCompAd,
             txtSpcfJb,
@@ -101,6 +104,9 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         tilCntryx = v.findViewById(R.id.til_countryNme);
         tilCompNm = v.findViewById(R.id.til_companyNme);
         tilJobTitle = v.findViewById(R.id.til_job_title);
+        tilCmpLvl = v.findViewById(R.id.til_cmpLevel);
+        tilBizNature = v.findViewById(R.id.til_bizNature);
+        tilEmpLvl = v.findViewById(R.id.til_empLvl);
         txtCompNm = v.findViewById(R.id.txt_companyNme);
         txtCompAd = v.findViewById(R.id.txt_companyAdd);
         txtSpcfJb = v.findViewById(R.id.txt_specificJob);
@@ -243,8 +249,10 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
                     lnEmpInfo.setVisibility(View.VISIBLE);
                     tilCntryx.setVisibility(View.GONE);
                     tilJobTitle.setVisibility(View.VISIBLE);
+                    tilCmpLvl.setHint("Company Level (Required)");
                     tilCompNm.setHint("Company Name");
-                    spnBusNtr.setVisibility(View.VISIBLE);
+                    tilEmpLvl.setHint("Employee Level (Required)");
+                    tilBizNature.setVisibility(View.VISIBLE);
                     mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
                     mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
                 } else if (i == R.id.rb_government) {
@@ -253,8 +261,10 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
                     lnEmpInfo.setVisibility(View.VISIBLE);
                     tilCntryx.setVisibility(View.GONE);
                     tilJobTitle.setVisibility(View.GONE);
+                    tilCmpLvl.setHint("Government Level (Required)");
                     tilCompNm.setHint("Government Institution");
-                    spnBusNtr.setVisibility(View.GONE);
+                    tilEmpLvl.setHint("Employee Level (Required)");
+                    tilBizNature.setVisibility(View.GONE);
                     mViewModel.getGovernmentLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
                     mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
                 } else if (i == R.id.rb_ofw) {
@@ -262,7 +272,9 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
                     lnGovInfo.setVisibility(View.GONE);
                     lnEmpInfo.setVisibility(View.GONE);
                     tilCntryx.setVisibility(View.VISIBLE);
-                    spnBusNtr.setVisibility(View.GONE);
+                    tilCmpLvl.setHint("Region (Required)");
+                    tilEmpLvl.setHint("Overseas Work Category");
+                    tilBizNature.setVisibility(View.GONE);
                     mViewModel.getRegionList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
                     mViewModel.getWorkCategoryList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
                 }
@@ -326,27 +338,4 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         }
     }
 }
-//    }
-//    class OnJobStatusSelectedListener implements AdapterView.OnItemSelectedListener{
-//
-//        @Override
-//        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//            if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Select Employment Status (Required)")) {
-//                mViewModel.setEmploymentStatus("");
-//            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Regular")) {
-//                mViewModel.setEmploymentStatus("R");
-//            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Probationary")) {
-//                mViewModel.setEmploymentStatus("P");
-//            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Contractual")) {
-//                mViewModel.setEmploymentStatus("C");
-//            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Seasonal")) {
-//                mViewModel.setEmploymentStatus("S");
-//            }
-//        }
-//
-//        @Override
-//        public void onNothingSelected(AdapterView<?> parent) {
-//
-//        }
-//    }
 

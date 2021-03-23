@@ -13,6 +13,12 @@
             android:gravity="center"
             android:padding="5dp">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/HeaderLabelBlack"
+                android:text="@string/sLblSpouseNameInfo"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,7 +36,10 @@
                         android:id="@+id/tie_last_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="50"/>
+                        android:maxLength="50"
+                        android:inputType="textCapWords|textPersonName"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_first_name"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -45,7 +54,10 @@
                         android:id="@+id/tie_first_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="50"/>
+                        android:maxLength="50"
+                        android:inputType="textCapWords|textPersonName"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_suffix"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -67,7 +79,10 @@
                         android:id="@+id/tie_suffix"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="50"/>
+                        android:maxLength="5"
+                        android:inputType="textCapWords|textPersonName"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_midd_name"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -82,7 +97,10 @@
                         android:id="@+id/tie_midd_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="50"/>
+                        android:maxLength="50"
+                        android:inputType="textCapWords|textPersonName"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_nick_name"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -96,10 +114,19 @@
                         android:id="@+id/tie_nick_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="50"/>
+                        android:maxLength="20"
+                        android:inputType="textCapWords|textPersonName"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_birth_date"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/HeaderLabelBlack"
+                android:text="@string/sLblSpousebirthInfo"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -113,7 +140,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:inputType="number|none"
-                    android:maxLength="50"/>
+                    android:maxLength="50"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_bpProvince"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -134,7 +163,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/AutoCompleteStyleTheme"
-                        android:maxLength="50"/>
+                        android:maxLength="50"
+                        android:inputType="textCapWords|textPostalAddress"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/txt_bpTown"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -150,7 +182,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/AutoCompleteStyleTheme"
-                        android:maxLength="50"/>
+                        android:maxLength="50"
+                        android:inputType="textCapWords|textPostalAddress"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_citizenship"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -167,8 +202,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/AutoCompleteStyleTheme"
-                    android:maxLength="50"/>
+                    android:maxLength="50"
+                    android:inputType="textCapWords"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_mobileNo1"/>
             </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/HeaderLabelBlack"
+                android:text="@string/sLblSpouseContactInfo"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -366,7 +410,10 @@
                     android:id="@+id/tie_tel_no"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"/>
+                    android:maxLength="15"
+                    android:inputType="number|none"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/tie_emailAdd"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -380,7 +427,10 @@
                     android:id="@+id/tie_emailAdd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"/>
+                    android:maxLength="50"
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/tie_fbAcct"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -394,7 +444,11 @@
                     android:id="@+id/tie_fbAcct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"/>
+                    android:maxLength="50"
+                    android:inputType="textPersonName"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/tie_viberAcct"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -408,7 +462,9 @@
                     android:id="@+id/tie_viberAcct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"/>
+                    android:maxLength="11"
+                    android:inputType="number|none"
+                    android:imeOptions="actionDone"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <RelativeLayout

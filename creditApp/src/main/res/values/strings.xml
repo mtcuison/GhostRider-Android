@@ -23,6 +23,7 @@
     <string name="sLabelCivilStatus">Civil Status</string>
     <string name="sbtnNext">Next</string>
     <string name="sLabelPresAddress">Present Address</string>
+    <string name="sLabelSpousePresAddress">Spouse Residence Information</string>
     <string name="sHintLandmark">Landmark</string>
     <string name="sHintHouseNo">House No.</string>
     <string name="sHintLotNo">Phase#/Lot#/Sitio</string>
@@ -38,6 +39,7 @@
     <string name="sHintCompanyNme">Company Name</string>
     <string name="sHintAddress">Street/ Building/ Barangay</string>
     <string name="sHintPosition">Specific Job/Position</string>
+    <string name="sHeaderPosition">Position or Job Title</string>
     <string name="sHintJobTitle">Job Title</string>
     <string name="sHintLenghtService">Length Of Service</string>
     <string name="sHintMonthlyIncome">Monthly Income (Required)</string>
@@ -50,10 +52,13 @@
     <string name="sHeaderSelfEmplopyedInfo">Self Employed Info</string>
     <string name="sHeaderBizAddress">Business Address</string>
     <string name="sHeaderBizOtherInfo">Other Business Information</string>
+    <string name="sHeaderEmpOtherInfo">Other Employment Information</string>
     <string name="sHeaderLabelSector">Is dependent employed?</string>
     <string name="sHeaderLabelEmploymentTypeSector">Employment Type</string>
     <string name="sHeaderLabelSpouseEmploymentTypeSector">Spouse Employment Type</string>
-    <string name="sLabelUniformPersonnel">Is applicant uniform personnel?</string>
+    <string name="sHeaderLabelSpouseEmploymentInfo">Spouse Employment Information</string>
+    <string name="sHeaderLabelCompanyAddress">Company Address</string>
+    <string name="sLabelUniformPersonnel">Is applicant uniformed personnel?</string>
     <string name="sLabelMilitaryPersonnel">Is applicant military personnel?</string>
     <string name="sLabelPrivate">Private</string>
     <string name="sLabelGovernment">Government</string>
@@ -65,7 +70,10 @@
     <string name="sHintRangeIncm">Range of Income</string>
     <string name="sHintRetireYear">Retirement Year</string>
     <string name="sHintNatureIncm">Nature of Income</string>
+    <string name="sHintNatureBiz">Nature of Business</string>
     <string name="sLabelOtherSrcIncm">Other Source of Income</string>
+    <string name="sLabelPensionInfo">Pensioner Information</string>
+    <string name="sLabelFinancierInfo">Financier Information</string>
     <string name="sLabelSpousePension">SPOUSE PENSION INFO</string>
     <string name="sLabelBankAcc">Bank Account</string>
     <string name="sLabelCreditCard">Credit Card Account</string>
@@ -97,6 +105,9 @@
     <string name="sHintNewApplication">Create New Application</string>
     <string name="sbtnPrvs">Previous</string>
     <string name="sLblPersonalInfo">Applicant Personal Information</string>
+    <string name="sLblSpouseNameInfo">Spouse Name</string>
+    <string name="sLblSpousebirthInfo">Spouse Birth Information</string>
+    <string name="sLblSpouseContactInfo">Spouse Contact Information</string>
     <string name="sLblSpouseInfo">Spouse Information</string>
 
     <string name="header_creditApp_coMakerInfo">CO MAKER\'S INFORMATION</string>

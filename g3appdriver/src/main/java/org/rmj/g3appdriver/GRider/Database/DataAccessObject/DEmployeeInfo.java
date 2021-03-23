@@ -27,6 +27,9 @@ public interface DEmployeeInfo {
     @Query("SELECT * FROM User_Info_Master")
     LiveData<EEmployeeInfo> getEmployeeInfo();
 
+    @Query("SELECT * FROM User_Info_Master")
+    EEmployeeInfo getEmployeeInfoNonLiveData();
+
     @Query("DELETE FROM User_Info_Master")
     void deleteAllEmployeeInfo();
 
