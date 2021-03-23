@@ -106,10 +106,16 @@
 <!--                    app:queryHint="Seacrh Client Name"-->
 <!--                    app:defaultQueryHint="Seacrh Client Name"-->
 <!--                    />-->
+<!--                <androidx.appcompat.widget.SearchView-->
+<!--                    android:id="@+id/simpleSearchView"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:queryHint="Search Client Name"/>-->
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_branch_search"
                     style="@style/TextInputStyle.Edittext"
                     android:layout_width="match_parent"
+                    android:imeOptions="actionSearch"
                     android:textColor="@color/mtrl_textinput_default_box_stroke_colors"
                     android:layout_height="wrap_content" />
 

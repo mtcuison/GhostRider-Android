@@ -95,7 +95,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             // Added +1 for entry nox to increment the value which will be
             // use when inserting new AR Client info to database
             try {
-                Log.e("", "col entry no " + collectionDetail.getEntryNox());
+               // Log.e("", "col entry no " + collectionDetail.getEntryNox());
                 int lnEntry = 1 + collectionDetail.getEntryNox();
                 mViewModel.setParameter(collectionDetail.getTransNox(), lnEntry);
             } catch (Exception e){

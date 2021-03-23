@@ -86,8 +86,8 @@ public class ClientInfo extends AppCompatActivity {
     public static ContentResolver contentResolver;
     public static int  CROP_REQUEST_CODE = 1234;
 
-    public static EImageInfo poImageInfo;
-    public static ECreditApplicationDocuments poDocumentsInfo;
+    private EImageInfo poImageInfo;
+    private ECreditApplicationDocuments poDocumentsInfo;
     String TransNox;
     FileCodeAdapter loAdapter;
 
@@ -113,6 +113,8 @@ public class ClientInfo extends AppCompatActivity {
             loAdapter = new FileCodeAdapter(ClientInfo.this, fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
             @Override
             public void OnClick(int position) {
+                poImageInfo = new EImageInfo();
+                poDocumentsInfo = new ECreditApplicationDocuments();
                 poFilexx = new ImageFileCreator(ClientInfo.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP_DOCUMENTS, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
                 poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
                     mCurrentPhotoPath = photPath;
@@ -191,8 +193,9 @@ public class ClientInfo extends AppCompatActivity {
         if (requestCode == CROP_REQUEST_CODE ) {
             if(resultCode == RESULT_OK) {
                 try {
-
-                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(ScannerConstants.PhotoPath));
+                    poImageInfo = (EImageInfo) data.getSerializableExtra("poImage");
+                    poDocumentsInfo = (ECreditApplicationDocuments) data.getSerializableExtra("poDocumentsInfo");
+                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(poImageInfo.getFileLoct()));
                     mViewModel.saveImageInfo(poImageInfo);
                     mViewModel.saveDocumentInfoFromCamera(TransNox, poImageInfo.getFileCode());
                     mViewModel.PostDocumentScanDetail(poDocumentsInfo, new ViewModelCallBack() {

@@ -1,9 +1,11 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -16,19 +18,23 @@ import org.rmj.guanzongroup.onlinecreditapplication.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BranchApplicationsAdapter extends RecyclerView.Adapter<BranchApplicationsAdapter.ClientInfoViewHolder> {
+public class BranchApplicationsAdapter extends RecyclerView.Adapter<BranchApplicationsAdapter.ClientInfoViewHolder> implements Filterable{
 
     private List<BranchApplicationModel> plLoanApp;
+    private List<BranchApplicationModel> plLoanApp1;
     private List<BranchApplicationModel> plSchList;
+    private List<BranchApplicationModel> filteredList;
     private BranchApplicationsAdapter.OnVoidApplicationListener onVoidApplicationListener;
     private BranchApplicationsAdapter.OnExportGOCASListener onExportGOCASListener;
     private BranchApplicationsAdapter.OnApplicationClickListener onApplicationClickListener;
 
-    private final SearchFilter poSearch;
+//    private final SearchFilter poSearch;
+
     public BranchApplicationsAdapter(List<BranchApplicationModel> plLoanApp, BranchApplicationsAdapter.OnApplicationClickListener onApplicationClickListener) {
         this.plLoanApp = plLoanApp;
+        this.plLoanApp1 = plLoanApp;
         this.onApplicationClickListener = onApplicationClickListener;
-        this.poSearch = new SearchFilter(this);
+//        this.poSearch = new SearchFilter();
     }
     public interface OnItemClickListener {
         void OnClick(int position);
@@ -66,9 +72,9 @@ public class BranchApplicationsAdapter extends RecyclerView.Adapter<BranchApplic
         return plLoanApp.size();
     }
 
-    public SearchFilter getSearchFilter(){
-        return poSearch;
-    }
+//    public SearchFilter getSearchFilter(){
+//        return poSearch;
+//    }
     public class ClientInfoViewHolder extends RecyclerView.ViewHolder{
 
         TextView lblTransNoxxx;
@@ -115,40 +121,72 @@ public class BranchApplicationsAdapter extends RecyclerView.Adapter<BranchApplic
     public interface OnExportGOCASListener{
         void onExport(String GOCAS, String ClientName,String DateApplied);
     }
-    public class SearchFilter extends Filter {
 
-        private final BranchApplicationsAdapter poAdapter;
+//    public class SearchFilter extends Filter{
+//
+//
+//
+//        @Override
+//        protected FilterResults performFiltering(CharSequence constraint) {
+//            final FilterResults results = new FilterResults();
+//            if(constraint.length() == 0 || constraint.toString().trim().isEmpty() || constraint == null){
+//                plSchList.addAll(plLoanApp);
+//            } else {
+//                List<BranchApplicationModel> filterSearch = new ArrayList<>();
+//                for(BranchApplicationModel poLoan : plLoanApp){
+//                    String lsClientNm = poLoan.getsCompnyNm().toLowerCase();
+//                    if(lsClientNm.contains(constraint.toString().toLowerCase())){
+//                        filterSearch.add(poLoan);
+//                    }
+//                }
+//                plSchList = filterSearch;
+//            }
+//
+//            results.values = plSchList;
+//            results.count = plSchList.size();
+//            return results;
+//        }
+//
+//        @Override
+//        protected void publishResults(CharSequence constraint, FilterResults results) {
+//            plSchList = (List<BranchApplicationModel>) results.values;
+//            notifyDataSetChanged();
+//        }
+//    }
 
-        public SearchFilter(BranchApplicationsAdapter poAdapter) {
-            super();
-            this.poAdapter = poAdapter;
-        }
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
 
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            final FilterResults results = new FilterResults();
-            if(constraint.length() == 0){
-                plSchList.addAll(plLoanApp);
-            } else {
-                List<BranchApplicationModel> filterSearch = new ArrayList<>();
-                for(BranchApplicationModel poLoan : plLoanApp){
-                    String lsClientNm = poLoan.getsCompnyNm().toLowerCase();
-                    if(lsClientNm.contains(constraint.toString().toLowerCase())){
-                        filterSearch.add(poLoan);
+                if (charString.isEmpty() || charString.length()==0 || charString == null) {
+                    plLoanApp = plLoanApp1;
+
+                } else {
+                    filteredList = new ArrayList<>();
+                    for (BranchApplicationModel row : plLoanApp1) {
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or category in match match
+                        if (row.getsCompnyNm().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+
                     }
+
+                    plLoanApp = filteredList;
                 }
-                plSchList = filterSearch;
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = plLoanApp;
+                return filterResults;
             }
 
-            results.values = plSchList;
-            results.count = plSchList.size();
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            poAdapter.plSchList = (List<BranchApplicationModel>) results.values;
-            this.poAdapter.notifyDataSetChanged();
-        }
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                plLoanApp = (ArrayList<BranchApplicationModel>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

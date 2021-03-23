@@ -2,19 +2,25 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -123,7 +129,9 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
                             @Override
                             public void onTextChanged(CharSequence s, int start, int before, int count) {
                                 try {
-                                    adapter.getSearchFilter().filter(s.toString());
+
+//                                    adapter.getSearchFilter().filter(s.toString());
+                                    adapter.getFilter().filter(s.toString());
                                     adapter.notifyDataSetChanged();
                                 } catch (Exception e){
                                     e.printStackTrace();
@@ -146,6 +154,8 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
 
 
     }
+
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
