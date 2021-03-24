@@ -102,7 +102,7 @@ public class VMPensionInfo extends AndroidViewModel {
                 poInfo.setTransNox(TransNox.getValue());
                 poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
                 poInfo.setPensionx(poGoCas.MeansInfo().PensionerInfo().toJSONString());
-                poInfo.setOtherInc(infoModel.getNatureOfIncome() + " " + infoModel.getRangeOfIncome());
+                poInfo.setOtherInc(infoModel.getNatureOfIncome() + "»" + infoModel.getRangeOfIncome());
                 //poInfo.setDetlInfo(poGoCas.toJSONString());
                 poCreditApp.updateGOCasData(poInfo);
                 callBack.onSaveSuccessResult(String.valueOf(getNextPage()));

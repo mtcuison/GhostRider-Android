@@ -132,4 +132,25 @@ public class RCreditApplicant {
         loConn = null;
         return lsTransNox;
     }
+
+    private ECreditApplicantInfo poInfo;
+
+    public ECreditApplicantInfo testCreditAppModel(){
+        new testCreditAppModel(creditApplicantInfoDao).execute();
+        return poInfo;
+    }
+
+    private class testCreditAppModel extends AsyncTask<Void, Void, Void>{
+        private final DCreditApplicantInfo creditApplicantInfoDao;
+
+        public testCreditAppModel(DCreditApplicantInfo creditApplicantInfoDao) {
+            this.creditApplicantInfoDao = creditApplicantInfoDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            poInfo = creditApplicantInfoDao.getCreditApplicant();
+            return null;
+        }
+    }
 }

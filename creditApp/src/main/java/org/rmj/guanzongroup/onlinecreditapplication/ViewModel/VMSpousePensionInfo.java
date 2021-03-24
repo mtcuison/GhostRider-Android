@@ -66,7 +66,7 @@ public class VMSpousePensionInfo extends AndroidViewModel {
                 poGoCas.SpouseMeansInfo().setOtherIncomeAmount(infoModel.getsOtherSrcIncx());
 
                 poInfo.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
-                //poInfo.setDetlInfo(poGoCas.toJSONString());
+
                 poInfo.setSpsPensn(poGoCas.SpouseMeansInfo().PensionerInfo().toJSONString());
                 poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
                 poCreditApp.updateGOCasData(poInfo);

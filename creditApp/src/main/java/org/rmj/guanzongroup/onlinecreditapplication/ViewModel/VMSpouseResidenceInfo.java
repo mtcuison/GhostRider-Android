@@ -111,7 +111,6 @@
         public void setDetailInfo(ECreditApplicantInfo fsDetailInfo){
             try{
                 poInfo = fsDetailInfo;
-                poGoCas.setData(fsDetailInfo.getDetlInfo());
             } catch (Exception e){
                 e.printStackTrace();
             }

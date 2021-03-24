@@ -37,4 +37,7 @@ public interface DCreditApplicantInfo {
 
     @Query("DELETE FROM Credit_Applicant_Info")
     void deleteAllCreditApp();
+
+    @Query("SELECT * FROM Credit_Applicant_Info WHERE sTransNox = '210000000009'")
+    ECreditApplicantInfo getCreditApplicant();
 }

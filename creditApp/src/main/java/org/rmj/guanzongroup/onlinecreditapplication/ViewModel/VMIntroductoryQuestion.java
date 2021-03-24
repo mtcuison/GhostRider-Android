@@ -24,6 +24,7 @@ import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.gocas.pricelist.PriceFactory;
 import org.rmj.gocas.pricelist.Pricelist;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.CreditAppModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PurchaseInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -238,6 +239,10 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
                 ECreditApplicantInfo creditApp = new ECreditApplicantInfo();
                 creditApp.setClientNm("");
                 creditApp.setPurchase(loGoCas.PurchaseInfo().toJSONString());
+                creditApp.setDownPaym(loGoCas.PurchaseInfo().getDownPayment());
+                creditApp.setAppliedx(loGoCas.PurchaseInfo().getDateApplied());
+                creditApp.setBranchCd(loGoCas.PurchaseInfo().getPreferedBranch());
+                creditApp.setTransact("0");
                 creditApp.setTransNox(transnox);
                 oCredtRepo.insertGOCasData(creditApp);
                 Log.e("Detail info", creditApp.getPurchase());
@@ -252,5 +257,9 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
             e.printStackTrace();
             callBack.onFailedResult("Something went wrong. Required information might not provided by user.");
         }
+    }
+
+    public void tesCreditApp(){
+        Log.e(TAG, new CreditAppModel(oCredtRepo.testCreditAppModel()).getConstructedDetailedInfo());
     }
 }

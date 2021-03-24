@@ -2,7 +2,6 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -21,6 +20,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.OtherInfoModel;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalReferenceInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
 import java.util.ArrayList;
@@ -30,20 +30,11 @@ import java.util.Objects;
 public class VMOtherInfo extends AndroidViewModel {
 
     private static final String TAG = VMOtherInfo.class.getSimpleName();
-    private final MutableLiveData<String> psTranNo = new MutableLiveData<>();
-    private final MutableLiveData<String> unitUser = new MutableLiveData<>();
-    private final MutableLiveData<String> uniPurpose = new MutableLiveData<>();
-    private final MutableLiveData<String> unitPayer = new MutableLiveData<>();
-    private final MutableLiveData<String> sUserBuyer = new MutableLiveData<>();
-    private final MutableLiveData<String> sPayerBuyer = new MutableLiveData<>();
-    private final MutableLiveData<String> source = new MutableLiveData<>();
 
-    private final MutableLiveData<Integer> userBuyer = new MutableLiveData<>();
-    private final MutableLiveData<Integer> payerBuyer = new MutableLiveData<>();
-    private final MutableLiveData<Integer> compInfoSource = new MutableLiveData<>();
-
+    private String psTransNox;
     private final MutableLiveData<String> lsProvID = new MutableLiveData<>();
-    private final MutableLiveData<String> lsBPlace = new MutableLiveData<>();
+
+    private final MutableLiveData<List<PersonalReferenceInfoModel>> poReference = new MutableLiveData<>();
 
     private ECreditApplicantInfo poInfo;
 
@@ -54,9 +45,6 @@ public class VMOtherInfo extends AndroidViewModel {
     private final RCountry RCountry;
     private final LiveData<List<EProvinceInfo>> provinceInfoList;
 
-    private final List<OtherInfoModel> otherInfo;
-    private final MutableLiveData<List<OtherInfoModel>> referenceInfo = new MutableLiveData<>();
-
     public VMOtherInfo(@NonNull Application application) {
         super(application);
         this.poApplcnt = new RCreditApplicant(application);
@@ -64,23 +52,16 @@ public class VMOtherInfo extends AndroidViewModel {
         RTown = new RTown(application);
         RCountry = new RCountry(application);
         provinceInfoList = RProvince.getAllProvinceInfo();
-        otherInfo = new ArrayList<>();
         poGoCas = new GOCASApplication();
-        referenceInfo.setValue(new ArrayList<>());
-        this.userBuyer.setValue(View.GONE);
-        this.payerBuyer.setValue(View.GONE);
-        this.compInfoSource.setValue(View.GONE);
+        poReference.setValue(new ArrayList<>());
     }
-    // TODO: Implement the ViewModel
-    public LiveData<List<OtherInfoModel>> getPersonalReference() {
-        return referenceInfo;
-    }
+
     public void setTransNox(String transNox){
-        this.psTranNo.setValue(transNox);
+        this.psTransNox = transNox;
     }
 
     public LiveData<ECreditApplicantInfo> getCreditApplicationInfo(){
-        return poApplcnt.getCreditApplicantInfoLiveData(psTranNo.getValue());
+        return poApplcnt.getCreditApplicantInfoLiveData(psTransNox);
     }
 
     public void setCreditApplicantInfo(ECreditApplicantInfo applicantInfo){
@@ -90,6 +71,25 @@ public class VMOtherInfo extends AndroidViewModel {
             e.printStackTrace();
         }
     }
+
+    public LiveData<List<PersonalReferenceInfoModel>> getReferenceList(){
+        return poReference;
+    }
+
+    public void addReference(PersonalReferenceInfoModel poInfo, AddPersonalInfoListener listener){
+        try{
+            if(poInfo.isDataValid()){
+                Objects.requireNonNull(poReference.getValue()).add(poInfo);
+                listener.OnSuccess();
+            } else {
+                listener.onFailed(poInfo.getMessage());
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            listener.onFailed(e.getMessage());
+        }
+    }
+
     public LiveData<List<EProvinceInfo>> getProvinceInfoList(){
         return provinceInfoList;
     }
@@ -112,201 +112,72 @@ public class VMOtherInfo extends AndroidViewModel {
 
     public void setProvID(String ProvID) { this.lsProvID.setValue(ProvID); }
 
-    public void setTownID(String townID){
-        this.lsBPlace.setValue(townID);
+    public ArrayAdapter<String> getUnitUser(){
+        return new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER);
     }
 
-    public LiveData<Integer> setUserBuyer(){
-        return userBuyer;
-    }
-    public LiveData<Integer> setPayerBuyer(){
-        return payerBuyer;
+    public ArrayAdapter<String> getUnitPurpose(){
+        return new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PURPOSE);
     }
 
-    public LiveData<ArrayAdapter<String>> getUnitUser(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER);
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
-        return liveData;
+    public ArrayAdapter<String> getUnitPayer(){
+        return new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER);
     }
 
-    public LiveData<ArrayAdapter<String>> getUserBuyer(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER_OTHERS);
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
-        return liveData;
-    }
-
-    public LiveData<ArrayAdapter<String>> getUnitPurpose(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PURPOSE);
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
-        return liveData;
-    }
-
-    public LiveData<Integer> setCompanySource(){
-        return compInfoSource;
-    }
-
-    public void setUnitPayer(String type){
-        try {
-            if(type.equalsIgnoreCase("1")){
-                this.payerBuyer.setValue(View.VISIBLE);
-            } else {
-                this.payerBuyer.setValue(View.GONE);
-            }
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        this.unitPayer.setValue(type);
-    }
-
-    public void setUnitUser(String type)
-    {
-        try {
-            if(type.equalsIgnoreCase("1")){
-                this.userBuyer.setValue(View.VISIBLE);
-            } else {
-                this.userBuyer.setValue(View.GONE);
-            }
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        this.unitUser.setValue(type);
-    }
-    public LiveData<ArrayAdapter<String>> getUnitPayer(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER);
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
-        return liveData;
-    }
-
-    public LiveData<ArrayAdapter<String>> getPayerBuyer(){
+    public ArrayAdapter<String> getPayerBuyer(){
         ArrayAdapter<String> adapter;
         if (poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1")){
             adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PAYER);
         }else{
             adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PAYER_NO_SPOUSE);
         }
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
-        return liveData;
+        return adapter;
     }
 
-    public void setIntCompanyInfoSource(String type)
-    {
-        try {
-            if(type.equalsIgnoreCase("5")){
-                this.compInfoSource.setValue(View.VISIBLE);
-            } else {
-                this.compInfoSource.setValue(View.GONE);
-            }
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        this.source.setValue(type);
-    }
-
-
-
-
-    public LiveData<String> getSUnitUser() {
-        return this.unitUser;
-    }
-
-//    user buyer
-    public LiveData<String> getSUserBuyer() {
-        return this.sUserBuyer;
-    }
-    public void setSUserBuyer(String userBuyer) {
-         this.sUserBuyer.setValue(userBuyer);
-    }
-//    Unit Purpose
-    public LiveData<String> getSUnitPurpose() {
-        return this.uniPurpose;
-    }
-    public void setSUnitPurpose(String purpose) {
-        this.uniPurpose.setValue(purpose);
-    }
-
-
-    public LiveData<String> getSUnitPayer() {
-        return this.unitPayer;
-    }
-
-//    Payer Buyer
-    public LiveData<String> getSPayerBuyer() {
-        return this.sPayerBuyer;
-    }
-    public void setSPayerBuyer(String payerBuyer) {
-        this.sPayerBuyer.setValue(payerBuyer);
-    }
-
-    public LiveData<String> getSCompanyInfoSource() {
-        return this.source;
-    }
-    public LiveData<ArrayAdapter<String>> getIntCompanyInfoSource(){
+    public ArrayAdapter<String> getIntCompanyInfoSource(){
         ArrayAdapter<String> adapter;
         if (poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1")){
             adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.INTO_US);
         }else{
             adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.INTO_US_NO_SPOUSE);
         }
-
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
-        return liveData;
+        return adapter;
     }
 
-    public boolean isReferenceValid(){
-        return referenceInfo.getValue().size() >= 3;
-    }
-
-    public boolean SubmitOtherInfo(OtherInfoModel reference, ViewModelCallBack callBack){
+    public boolean SubmitOtherInfo(OtherInfoModel otherInfo, ViewModelCallBack callBack){
         try {
-            if(reference.isValidSpinner()){
-                if (isReferenceValid()){
-                    if (Integer.parseInt(reference.getMonthlyPayerModel()) != 1){
-                        poGoCas.OtherInfo().setUnitPayor(String.valueOf(reference.getMonthlyPayerModel()));
-                    }else{
-                        poGoCas.OtherInfo().setPayorRelation(String.valueOf(reference.getPayer2BuyerModel()));
-                    }
-                    poGoCas.OtherInfo().setUnitUser(reference.getUnitUserModel());
-                    poGoCas.OtherInfo().setPurpose(String.valueOf(reference.getUserUnitPurposeModel()));
-                    if (reference.getSourceModel().equalsIgnoreCase("Others")){
-                        poGoCas.OtherInfo().setSourceInfo(reference.getCompanyInfoSourceModel());
-
-                    }else{
-                        poGoCas.OtherInfo().setSourceInfo(reference.getSourceModel());
-                    }
-                    for(int x = 0; x < otherInfo.size(); x++){
-                        poGoCas.OtherInfo().addReference();
-                        poGoCas.OtherInfo().setPRName(x, otherInfo.get(x).getFullname());
-                        poGoCas.OtherInfo().setPRTownCity(x, otherInfo.get(x).getTownCity());
-                        poGoCas.OtherInfo().setPRMobileNo(x, otherInfo.get(x).getContactN());
-                        poGoCas.OtherInfo().setPRAddress(x, otherInfo.get(x).getAddress1());
-                    }
-                    poInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
-                    //poInfo.setDetlInfo(poGoCas.toJSONString());
-                    poInfo.setOthrInfo(poGoCas.OtherInfo().toJSONString());
-                    poApplcnt.updateGOCasData(poInfo);
-                    callBack.onSaveSuccessResult("Success");
-                    Log.e(TAG, "Other information result : " + poGoCas.OtherInfo().toJSONString());
-
-                    return true;
-                } else {
-                    callBack.onFailedResult("Please provide atleast 3 personal reference!");
-                    return false;
-
+            otherInfo.setPersonalReferences(poReference.getValue());
+            if(otherInfo.isDataValid()){
+                poGoCas.OtherInfo().setUnitUser(otherInfo.getUnitUser());
+                poGoCas.OtherInfo().setPurpose(String.valueOf(otherInfo.getUnitPrps()));
+                if (Integer.parseInt(otherInfo.getUnitPayr()) != 1){
+                    poGoCas.OtherInfo().setUnitPayor(String.valueOf(otherInfo.getUnitPayr()));
+                }else{
+                    poGoCas.OtherInfo().setPayorRelation(String.valueOf(otherInfo.getPayrRltn()));
                 }
-            }else {
-                callBack.onFailedResult(reference.getMessage());
+                if (otherInfo.getSource().equalsIgnoreCase("Others")){
+                    poGoCas.OtherInfo().setSourceInfo(otherInfo.getCompanyInfoSource());
+                }else{
+                    poGoCas.OtherInfo().setSourceInfo(otherInfo.getSource());
+                }
+                for(int x = 0; x < Objects.requireNonNull(poReference.getValue()).size(); x++){
+                    PersonalReferenceInfoModel loRef = poReference.getValue().get(x);
+                    poGoCas.OtherInfo().addReference();
+                    poGoCas.OtherInfo().setPRName(x, loRef.getFullname());
+                    poGoCas.OtherInfo().setPRTownCity(x, loRef.getTownCity());
+                    poGoCas.OtherInfo().setPRMobileNo(x, loRef.getContactN());
+                    poGoCas.OtherInfo().setPRAddress(x, loRef.getAddress1());
+                }
+
+                poInfo.setTransNox(Objects.requireNonNull(psTransNox));
+                poInfo.setOthrInfo(poGoCas.OtherInfo().toJSONString());
+                poApplcnt.updateGOCasData(poInfo);
+                callBack.onSaveSuccessResult("Success");
+                Log.e(TAG, "Other information result : " + poGoCas.OtherInfo().toJSONString());
+
+                return true;
+                } else {
+                callBack.onFailedResult(otherInfo.getMessage());
                 return false;
             }
         }catch (Exception e){
@@ -314,23 +185,15 @@ public class VMOtherInfo extends AndroidViewModel {
             callBack.onFailedResult(e.getMessage());
             return false;
         }
-
     }
-    public boolean addReference(OtherInfoModel foInfo, ExpActionListener listener){
-        if(foInfo.isValidReferences()) {
-            this.referenceInfo.getValue().add(foInfo);
-            listener.onSuccess("Success");
-            return true;
 
-        } else {
-            listener.onFailed(foInfo.getMessage());
-            return false;
-        }
-    }
     public interface ExpActionListener{
         void onSuccess(String message);
         void onFailed(String message);
     }
 
-
+    public interface AddPersonalInfoListener{
+        void OnSuccess();
+        void onFailed(String message);
+    }
 }

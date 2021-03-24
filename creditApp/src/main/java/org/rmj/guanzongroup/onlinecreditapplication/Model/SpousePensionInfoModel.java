@@ -48,7 +48,11 @@ public class SpousePensionInfoModel extends InputChecker {
     }
 
     public long getsOtherSrcIncx() {
-        return Long.parseLong(sOtherSrcIncx);
+        if(!sOtherSrc.isEmpty()) {
+            return Long.parseLong(sOtherSrcIncx);
+        } else {
+            return 0;
+        }
     }
 
     public void setsOtherSrcIncx(String sOtherSrcIncx) {

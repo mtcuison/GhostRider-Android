@@ -201,19 +201,8 @@ public class VMCoMaker extends AndroidViewModel {
         liveData.setValue(adapter);
         return liveData;
     }
+
     public LiveData<ArrayAdapter<String>> getPrmryMobileNoType(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.MOBILE_NO_TYPE);
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
-        return liveData;
-    }
-    public LiveData<ArrayAdapter<String>> getScndMobileNoType(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.MOBILE_NO_TYPE);
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
-        return liveData;
-    }
-    public LiveData<ArrayAdapter<String>> getTrtMobileNoType(){
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.MOBILE_NO_TYPE);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);

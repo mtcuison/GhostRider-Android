@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.guanzongroup.onlinecreditapplication.Model.OtherInfoModel;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalReferenceInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.util.ArrayList;
@@ -20,10 +21,10 @@ import java.util.List;
 
 public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalReferencesAdapter.ItemViewHolder>{
 
-    List<OtherInfoModel> otherInfoModels;
+    List<PersonalReferenceInfoModel> referenceInfoModels;
 
-    public PersonalReferencesAdapter(List<OtherInfoModel> otherInfoModels) {
-        this.otherInfoModels = otherInfoModels;
+    public PersonalReferencesAdapter(List<PersonalReferenceInfoModel> referenceInfoModels) {
+        this.referenceInfoModels = referenceInfoModels;
     }
 
 
@@ -34,19 +35,20 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
         return new ItemViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull PersonalReferencesAdapter.ItemViewHolder holder, int position) {
-        OtherInfoModel otherInfoModel = otherInfoModels.get(position);
+        PersonalReferenceInfoModel reference = referenceInfoModels.get(position);
 
-        holder.lblRefName.setText("Fullname. : " + otherInfoModel.getFullname());
-        holder.lblRefAddres.setText("Address : " + otherInfoModel.getAddress1());
-        holder.lblRefTown.setText("Town / City : " + otherInfoModel.getTownCity());
-        holder.lblRefContact.setText("Contanct No : " + otherInfoModel.getContactN());
+        holder.lblRefName.setText("Fullname. : " + reference.getFullname());
+        holder.lblRefAddres.setText("Address : " + reference.getAddress1());
+        holder.lblRefTown.setText("Town / City : " + reference.getTownCity());
+        holder.lblRefContact.setText("Contanct No : " + reference.getContactN());
     }
 
     @Override
     public int getItemCount() {
-        return otherInfoModels.size();
+        return referenceInfoModels.size();
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder{

@@ -214,12 +214,12 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         btnPrvs = v.findViewById(R.id.btn_creditAppPrvs);
         btnNext.setOnClickListener(v1 -> {
             infoModel = new CoMakerModel(
-                    Objects.requireNonNull(tieLastname.getText().toString()),
-                    Objects.requireNonNull(tieFrstname.getText().toString()),
-                    Objects.requireNonNull(tieMiddname.getText().toString()),
+                    Objects.requireNonNull(Objects.requireNonNull(tieLastname.getText()).toString()),
+                    Objects.requireNonNull(Objects.requireNonNull(tieFrstname.getText()).toString()),
+                    Objects.requireNonNull(Objects.requireNonNull(tieMiddname.getText()).toString()),
                     Objects.requireNonNull(tieSuffixxx.getText().toString()),
-                    Objects.requireNonNull(tieNickname.getText().toString()),
-                    Objects.requireNonNull(tieBrthDate.getText().toString()),
+                    Objects.requireNonNull(Objects.requireNonNull(tieNickname.getText()).toString()),
+                    Objects.requireNonNull(Objects.requireNonNull(tieBrthDate.getText()).toString()),
                     Objects.requireNonNull(tieBrthTown.getText().toString()),
                     Objects.requireNonNull(tieFbAcctxx.getText().toString()),
                     Objects.requireNonNull(spnIncomePosition),

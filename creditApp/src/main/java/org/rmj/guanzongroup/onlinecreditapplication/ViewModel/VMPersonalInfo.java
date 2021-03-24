@@ -68,7 +68,6 @@ public class VMPersonalInfo extends AndroidViewModel {
     public void setGOCasDetailInfo(ECreditApplicantInfo DetailInfo){
         try {
             poInfo = DetailInfo;
-            poGoCas.setData(poInfo.getDetlInfo());
         } catch (Exception e){
             e.printStackTrace();
         }
