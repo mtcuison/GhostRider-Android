@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -44,6 +45,7 @@ public class Activity_LogCollection extends AppCompatActivity {
     private LinearLayoutManager poManager;
     private TextInputEditText txtDate, txtSearch;
     private RecyclerView recyclerView;
+    private TextView txtNoLog;
 
     private List<EDCPCollectionDetail> filteredCollectionDetlx;
 
@@ -101,50 +103,58 @@ public class Activity_LogCollection extends AppCompatActivity {
 
         mViewModel.getDateTransact().observe(Activity_LogCollection.this, s -> mViewModel.getCollectionDetailForDate(s).observe(Activity_LogCollection.this, collectionDetails -> {
             try{
-                for(int z = 0; z < collectionDetails.size(); z++) {
+                if(collectionDetails.size() > 0) {
+                    txtNoLog.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+
+                    for(int z = 0; z < collectionDetails.size(); z++) {
 //                    if(collectionDetails.get(z).getRemCodex() != null) {
                         filteredCollectionDetlx.add(collectionDetails.get(z));
 //                    }
+                    }
+
+                    CollectionLogAdapter poAdapter = new CollectionLogAdapter(filteredCollectionDetlx, position -> {
+                        Intent loIntent = new Intent(Activity_LogCollection.this, Activity_LogTransaction.class);
+                        loIntent.putExtra("sTransNox", filteredCollectionDetlx.get(position).getTransNox());
+                        loIntent.putExtra("entryNox",filteredCollectionDetlx.get(position).getEntryNox());
+                        loIntent.putExtra("acctNox",filteredCollectionDetlx.get(position).getAcctNmbr());
+                        loIntent.putExtra("fullNme", filteredCollectionDetlx.get(position).getFullName());
+                        loIntent.putExtra("remCodex", filteredCollectionDetlx.get(position).getRemCodex());
+                        loIntent.putExtra("imgNme", filteredCollectionDetlx.get(position).getImageNme());
+                        loIntent.putExtra("sClientID", filteredCollectionDetlx.get(position).getClientID());
+                        loIntent.putExtra("sAddressx", filteredCollectionDetlx.get(position).getAddressx());
+                        loIntent.putExtra("sRemarksx", filteredCollectionDetlx.get(position).getRemarksx());
+                        startActivity(loIntent);
+                    });
+
+                    poManager = new LinearLayoutManager(Activity_LogCollection.this);
+                    poManager.setOrientation(RecyclerView.VERTICAL);
+                    recyclerView.setLayoutManager(poManager);
+                    recyclerView.setAdapter(poAdapter);
+                    recyclerView.getRecycledViewPool().clear();
+                    poAdapter.notifyDataSetChanged();
+
+                    txtSearch.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            poAdapter.getCollectionFilter().filter(charSequence.toString().toLowerCase());
+                            poAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                        }
+                    });
+                } else {
+                    txtNoLog.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
                 }
-
-                CollectionLogAdapter poAdapter = new CollectionLogAdapter(filteredCollectionDetlx, position -> {
-                    Intent loIntent = new Intent(Activity_LogCollection.this, Activity_LogTransaction.class);
-                    loIntent.putExtra("sTransNox", filteredCollectionDetlx.get(position).getTransNox());
-                    loIntent.putExtra("entryNox",filteredCollectionDetlx.get(position).getEntryNox());
-                    loIntent.putExtra("acctNox",filteredCollectionDetlx.get(position).getAcctNmbr());
-                    loIntent.putExtra("fullNme", filteredCollectionDetlx.get(position).getFullName());
-                    loIntent.putExtra("remCodex", filteredCollectionDetlx.get(position).getRemCodex());
-                    loIntent.putExtra("imgNme", filteredCollectionDetlx.get(position).getImageNme());
-                    loIntent.putExtra("sClientID", filteredCollectionDetlx.get(position).getClientID());
-                    loIntent.putExtra("sAddressx", filteredCollectionDetlx.get(position).getAddressx());
-                    loIntent.putExtra("sRemarksx", filteredCollectionDetlx.get(position).getRemarksx());
-                    startActivity(loIntent);
-                });
-
-                poManager = new LinearLayoutManager(Activity_LogCollection.this);
-                poManager.setOrientation(RecyclerView.VERTICAL);
-                recyclerView.setLayoutManager(poManager);
-                recyclerView.setAdapter(poAdapter);
-                recyclerView.getRecycledViewPool().clear();
-                poAdapter.notifyDataSetChanged();
-
-                txtSearch.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        poAdapter.getCollectionFilter().filter(charSequence.toString().toLowerCase());
-                        poAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-
-                    }
-                });
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -168,6 +178,7 @@ public class Activity_LogCollection extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         recyclerView = findViewById(R.id.recyclerview_collectionLog);
+        txtNoLog = findViewById(R.id.txt_no_logs);
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddrss = findViewById(R.id.lbl_headerAddress);
 

@@ -14,13 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,16 +32,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAccountDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogConfirmPost;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogDownloadDCP;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogExportDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogImportDCP;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogOtherClient;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAddCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
@@ -61,7 +56,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
     private LoadDialog poDialogx;
     private MessageBox poMessage;
-    private DialogOtherClient loDialog;
+    private DialogAddCollection loDialog;
 
     private VMCollectionList mViewModel;
 
@@ -95,7 +90,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             // Added +1 for entry nox to increment the value which will be
             // use when inserting new AR Client info to database
             try {
-                Log.e("", "col entry no " + collectionDetail.getEntryNox());
+//                Log.e("", "col entry no " + collectionDetail.getEntryNox());
                 int lnEntry = 1 + collectionDetail.getEntryNox();
                 mViewModel.setParameter(collectionDetail.getTransNox(), lnEntry);
             } catch (Exception e){
@@ -247,16 +242,18 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
             finish();
-        } else if(item.getItemId() == R.id.action_menu_ar_client){
-            mViewModel.getCollectionMaster().observe(Activity_CollectionList.this, collectionMaster -> {
+        } else if(item.getItemId() == R.id.action_menu_add_collection){
+//            mViewModel.getCollectionMaster().observe(Activity_CollectionList.this, collectionMaster -> {
                 try {
-                    loDialog = new DialogOtherClient(Activity_CollectionList.this);
-                    loDialog.initDialog(DialogOtherClient.TYPE.ACCOUNT_RECIEVABLE, new DialogOtherClient.OnDialogButtonClickListener() {
+                    loDialog = new DialogAddCollection(Activity_CollectionList.this);
+                    loDialog.initDialog(new DialogAddCollection.OnDialogButtonClickListener() {
                         @Override
-                        public void OnDownloadClick(Dialog Dialog, String args) {
-                            //Check if account entered is already added on DCP list...
-                            // args parameter from dialog refers to account number...
-                            mViewModel.importARClientInfo(args, Activity_CollectionList.this);
+                        public void OnDownloadClick(Dialog Dialog, String args, String fsType) {
+                            if(fsType.equalsIgnoreCase("0")) {
+                                mViewModel.importARClientInfo(args, Activity_CollectionList.this);
+                            } else if(fsType.equalsIgnoreCase("1")) {
+                                mViewModel.importInsuranceInfo(args, Activity_CollectionList.this);
+                            }
                         }
 
                         @Override
@@ -268,24 +265,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-            });
-        } else if(item.getItemId() == R.id.action_menu_insurance_client){
-            loDialog = new DialogOtherClient(Activity_CollectionList.this);
-            loDialog.initDialog(DialogOtherClient.TYPE.INSURANCE,new DialogOtherClient.OnDialogButtonClickListener() {
-                @Override
-                public void OnDownloadClick(Dialog Dialog, String args) {
-
-                    //Check if serial no entered is already added on DCP list...
-                    // args parameter from dialog refers to serial no...
-                    mViewModel.importInsuranceInfo(args, Activity_CollectionList.this);
-                }
-
-                @Override
-                public void OnCancel(Dialog Dialog) {
-                    Dialog.dismiss();
-                }
-            });
-            loDialog.show();
+//            });
         } else if(item.getItemId() == R.id.action_menu_post_collection){
             boolean hasUnTag = false;
             if(plDetail.size()>0){
@@ -478,7 +458,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
             if (message.equalsIgnoreCase("Record not found")){
                 dialog.dismiss();
-                showDownloadDcp();
             }else {
                 dialog.dismiss();
             }

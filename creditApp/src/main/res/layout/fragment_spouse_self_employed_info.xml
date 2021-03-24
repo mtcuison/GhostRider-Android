@@ -13,10 +13,17 @@
         android:gravity="center"
         android:padding="5dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/HeaderLabelBlack"
+            android:text="@string/sLblSpouseSelfEmployedInfo"/>
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:hint="@string/sHintNatureBiz">
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/spn_bizIndustry"
                 android:layout_width="match_parent"
@@ -45,6 +52,12 @@
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/txt_bizAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/HeaderLabelBlack"
+            android:text="@string/sHeaderBizAddress"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -106,10 +119,17 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/HeaderLabelBlack"
+            android:text="@string/sHeaderBizOtherInfo"/>
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:hint="@string/sHintBizType">
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/spn_bizType"
                 android:layout_width="match_parent"
@@ -126,7 +146,8 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:hint="@string/sHintBizSize">
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/spn_bizSize"
                 android:layout_width="match_parent"
@@ -165,7 +186,8 @@
                 style="@style/CustomDropDownTilStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5">
+                android:layout_weight="1.5"
+                android:hint="@string/sHintDuration">
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/spn_monthOrYr"
                     android:layout_width="match_parent"
