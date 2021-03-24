@@ -414,7 +414,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
     @Override
     public void OnStartSaving() {
-        poDialogx.initDialog("AR Client", "Downloading client info. Please wait...", false);
+        poDialogx.initDialog("Add Collection", "Downloading client info. Please wait...", false);
         poDialogx.show();
     }
 
@@ -422,7 +422,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     public void OnSuccessResult(String[] args) {
         poDialogx.dismiss();
         poMessage.initDialog();
-        poMessage.setTitle("AR Client");
+        poMessage.setTitle("Add Collection");
         poMessage.setMessage(args[0]);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
@@ -432,7 +432,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     public void OnFailedResult(String message) {
         poDialogx.dismiss();
         poMessage.initDialog();
-        poMessage.setTitle("AR Client");
+        poMessage.setTitle("Add Collection");
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
