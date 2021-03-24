@@ -86,6 +86,11 @@ public class DCP_Constants {
             "Change"
     };
 
+    public static String[] ADD_COLLECTION_PARAM = {
+            "Account Number",
+            "Engine Number"
+    };
+
 
     public static String getRemarksDescription(String fsCode){
         if(fsCode.equalsIgnoreCase("PAY")){

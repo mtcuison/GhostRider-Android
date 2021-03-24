@@ -198,19 +198,29 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
 
         mViewModel.getRequestCodeOptions().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnRequestCode.setAdapter(stringArrayAdapter));
         btnSubmit.setOnClickListener(v ->{
-            poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                psPhotox = photPath;
-                poImageInfo.setSourceNo(TransNox);
-                poImageInfo.setSourceCD("DCPa");
-                poImageInfo.setImageNme(FileName);
-                poImageInfo.setFileLoct(photPath);
-                poImageInfo.setFileCode("0020");
-                poImageInfo.setLatitude(String.valueOf(latitude));
-                poImageInfo.setLongitud(String.valueOf(longitude));
-                mViewModel.setImagePath(photPath);
-                mViewModel.setImgFileNme(FileName);
-                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+            poMessage.initDialog();
+            poMessage.setTitle("Customer Not Around");
+            poMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction.");
+            poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                dialog.dismiss();
+                poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                    psPhotox = photPath;
+                    poImageInfo.setSourceNo(TransNox);
+                    poImageInfo.setSourceCD("DCPa");
+                    poImageInfo.setImageNme(FileName);
+                    poImageInfo.setFileLoct(photPath);
+                    poImageInfo.setFileCode("0020");
+                    poImageInfo.setLatitude(String.valueOf(latitude));
+                    poImageInfo.setLongitud(String.valueOf(longitude));
+                    mViewModel.setImagePath(photPath);
+                    mViewModel.setImgFileNme(FileName);
+                    startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                });
             });
+            poMessage.setNegativeButton("Cancel", (view, dialog) -> {
+                dialog.dismiss();
+            });
+            poMessage.show();
         });
     }
 
