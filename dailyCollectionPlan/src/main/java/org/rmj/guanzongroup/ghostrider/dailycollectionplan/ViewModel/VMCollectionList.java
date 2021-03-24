@@ -345,17 +345,21 @@ public class VMCollectionList extends AndroidViewModel {
         try{
             boolean lbExist = false;
             List<EDCPCollectionDetail> laDetail = collectionList.getValue();
-            for(int x = 0; x < laDetail.size(); x++){
-                if(fsSerialNo.equalsIgnoreCase(laDetail.get(x).getSerialNo())){
-                    lbExist = true;
+            if(laDetail.size() > 0) {
+                for(int x = 0; x < laDetail.size(); x++){
+                    if(fsSerialNo.equalsIgnoreCase(laDetail.get(x).getSerialNo())){
+                        lbExist = true;
+                    }
                 }
-            }
-            if(!lbExist) {
-                JSONObject loJson = new JSONObject();
-                loJson.put("sSerialNo", fsSerialNo);
-                new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), WebApi.URL_GET_REG_CLIENT, callback).execute(loJson);
+                if(!lbExist) {
+                    JSONObject loJson = new JSONObject();
+                    loJson.put("sSerialNo", fsSerialNo);
+                    new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), WebApi.URL_GET_REG_CLIENT, callback).execute(loJson);
+                } else {
+                    callback.OnFailedResult("Engine no is already exist in today's collection list.");
+                }
             } else {
-                callback.OnFailedResult("Engine no is already exist in today's collection list.");
+                callback.OnFailedResult("Please download or import collection detail before adding.");
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -372,17 +376,21 @@ public class VMCollectionList extends AndroidViewModel {
         try{
             boolean lbExist = false;
             List<EDCPCollectionDetail> laDetail = collectionList.getValue();
-            for(int x = 0; x < laDetail.size(); x++){
-                if(fsAccntNox.equalsIgnoreCase(laDetail.get(x).getAcctNmbr())){
-                    lbExist = true;
+            if(laDetail.size() > 0) {
+                for(int x = 0; x < laDetail.size(); x++){
+                    if(fsAccntNox.equalsIgnoreCase(laDetail.get(x).getAcctNmbr())){
+                        lbExist = true;
+                    }
                 }
-            }
-            if(!lbExist) {
-                JSONObject loJson = new JSONObject();
-                loJson.put("sAcctNmbr", fsAccntNox);
-                new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), WebApi.URL_GET_AR_CLIENT, callback).execute(loJson);
+                if(!lbExist) {
+                    JSONObject loJson = new JSONObject();
+                    loJson.put("sAcctNmbr", fsAccntNox);
+                    new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), WebApi.URL_GET_AR_CLIENT, callback).execute(loJson);
+                } else {
+                    callback.OnFailedResult("Account number is already exist in today's collection list.");
+                }
             } else {
-                callback.OnFailedResult("Account number is already exist in today's collection list.");
+                callback.OnFailedResult("Please download or import collection detail before adding.");
             }
         } catch (Exception e){
             e.printStackTrace();

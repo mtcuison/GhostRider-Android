@@ -3,15 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_menu_ar_client"
+        android:id="@+id/action_menu_add_collection"
         android:orderInCategory="100"
-        android:title="@string/sActionMenu_ARClient"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_menu_insurance_client"
-        android:orderInCategory="100"
-        android:title="@string/sActionMenu_InsuranceClient"
+        android:title="@string/sActionMenu_AddCollection"
         app:showAsAction="never" />
 
     <item

@@ -54,6 +54,8 @@
     <string name="sLabelMilitaryPersonnel">Is applicant military personnel?</string>
     <string name="sLabelPrivate">Private</string>
     <string name="sLabelGovernment">Government</string>
+    <string name="sLabelArClient">AR Client</string>
+    <string name="sLabelInsuranceClient">Insurance Client</string>
     <string name="sLabelOFW">OFW</string>
     <string name="sHintMonthlyExp">Monthly Expense (Required)</string>
     <string name="sHintBusinessNm">Business Name</string>
@@ -89,6 +91,7 @@
     <string name="sHintDependentRelationship">Dependent Relationship</string>
     <string name="sSchoolType">School Type</string>
     <string name="sSchoolLvl">Education Level</string>
+    <string name="sHintCollectTp">Collection Type</string>
     <string name="sHintYear">Year</string>
     <string name="sHintNewApplication">Create New Application</string>
     <string name="sbtnPrvs">Previous</string>
@@ -118,6 +121,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="sActionMenu_ARClient">Get AR Client Info</string>
+    <string name="sActionMenu_AddCollection">Add Collection</string>
     <string name="sActionMenu_InsuranceClient">Get Insurance Client info</string>
     <string name="sActionMenu_postCollection">Post Collection</string>
     <string name="sActionMenu_exportFile">Export Collection File</string>
