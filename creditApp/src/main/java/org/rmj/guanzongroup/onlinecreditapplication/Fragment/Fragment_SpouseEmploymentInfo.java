@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -72,6 +73,8 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
             lnEmpInfo;
     private Button btnNext;
 
+    private TextView lblBizNature;
+
     private VMSpouseEmploymentInfo mViewModel;
     private SpouseEmploymentInfoModel infoModel;
 
@@ -92,6 +95,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         RadioGroup rgSectorx = v.findViewById(R.id.rg_sector);
         RadioGroup rgUniform = v.findViewById(R.id.rg_uniformPersonel);
         RadioGroup rgMiltary = v.findViewById(R.id.rg_militaryPersonal);
+        lblBizNature = v.findViewById(R.id.lbl_biz_nature);
         spnCmpLvl = v.findViewById(R.id.spn_employmentLevel);
         spnEmpLvl = v.findViewById(R.id.spn_employeeLevel);
         spnBusNtr = v.findViewById(R.id.spn_businessNature);
@@ -253,6 +257,8 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
                     tilCompNm.setHint("Company Name");
                     tilEmpLvl.setHint("Employee Level (Required)");
                     tilBizNature.setVisibility(View.VISIBLE);
+                    lblBizNature.setVisibility(View.VISIBLE);
+                    lblBizNature.setText("Nature of Business");
                     mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
                     mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
                 } else if (i == R.id.rb_government) {
@@ -265,6 +271,8 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
                     tilCompNm.setHint("Government Institution");
                     tilEmpLvl.setHint("Employee Level (Required)");
                     tilBizNature.setVisibility(View.GONE);
+                    lblBizNature.setVisibility(View.VISIBLE);
+                    lblBizNature.setText("Government Office");
                     mViewModel.getGovernmentLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
                     mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
                 } else if (i == R.id.rb_ofw) {
@@ -275,6 +283,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
                     tilCmpLvl.setHint("Region (Required)");
                     tilEmpLvl.setHint("Overseas Work Category");
                     tilBizNature.setVisibility(View.GONE);
+                    lblBizNature.setVisibility(View.GONE);
                     mViewModel.getRegionList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
                     mViewModel.getWorkCategoryList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
                 }

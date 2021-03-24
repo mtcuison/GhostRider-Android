@@ -36,19 +36,42 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="To download client account info. Please enter requested info below."
+            android:text="To download additional collection, please enter requested information below."
             android:textSize="16sp"
             android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"
             android:layout_marginTop="15dp"
             android:gravity="center"/>
 
+
+        <RadioGroup
+            android:id="@+id/rg_collection_tp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <RadioButton
+                android:id="@+id/rb_ar_client"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sLabelArClient"/>
+
+            <RadioButton
+                android:id="@+id/rb_insurance_client"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sLabelInsuranceClient"/>
+
+        </RadioGroup>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_dcpParameter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/TextInputStyle"
-            android:hint="Account Number"
             android:layout_marginTop="5dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -56,10 +79,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextInputStyle.Edittext"
-                android:gravity="center"
                 android:maxLength="10"
                 android:inputType="textCapWords"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:imeOptions="actionDone"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
