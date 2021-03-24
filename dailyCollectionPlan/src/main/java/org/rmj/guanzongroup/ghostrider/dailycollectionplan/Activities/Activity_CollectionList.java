@@ -243,7 +243,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         if(item.getItemId() == android.R.id.home){
             finish();
         } else if(item.getItemId() == R.id.action_menu_add_collection){
-            mViewModel.getCollectionMaster().observe(Activity_CollectionList.this, collectionMaster -> {
+//            mViewModel.getCollectionMaster().observe(Activity_CollectionList.this, collectionMaster -> {
                 try {
                     loDialog = new DialogAddCollection(Activity_CollectionList.this);
                     loDialog.initDialog(new DialogAddCollection.OnDialogButtonClickListener() {
@@ -265,7 +265,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-            });
+//            });
         } else if(item.getItemId() == R.id.action_menu_post_collection){
             boolean hasUnTag = false;
             if(plDetail.size()>0){
