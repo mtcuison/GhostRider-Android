@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -19,16 +20,17 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientInfoAdapter extends RecyclerView.Adapter<ClientInfoAdapter.ClientInfoViewHolder> {
+public class ClientInfoAdapter extends RecyclerView.Adapter<ClientInfoAdapter.ClientInfoViewHolder> implements Filterable {
 
     private List<LoanApplication> plLoanApp;
     private List<LoanApplication> plSchList;
+    private List<LoanApplication> filteredList;
     private OnVoidApplicationListener onVoidApplicationListener;
     private OnExportGOCASListener onExportGOCASListener;
     private OnApplicationClickListener onApplicationClickListener;
-
     public ClientInfoAdapter(List<LoanApplication> plLoanApp, OnApplicationClickListener onApplicationClickListener) {
         this.plLoanApp = plLoanApp;
+        this.plSchList = plLoanApp;
         this.onApplicationClickListener = onApplicationClickListener;
     }
     public interface OnItemClickListener {
@@ -115,4 +117,39 @@ public class ClientInfoAdapter extends RecyclerView.Adapter<ClientInfoAdapter.Cl
         void onExport(String GOCAS, String ClientName,String DateApplied);
     }
 
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+
+                if (charString.isEmpty() || charString.length()==0 || charString == null) {
+                    plLoanApp = plSchList;
+
+                } else {
+                    filteredList = new ArrayList<>();
+                    for (LoanApplication row : plSchList) {
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or category in match match
+                        if (row.getsCompnyNm().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+
+                    }
+
+                    plLoanApp = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = plLoanApp;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                plLoanApp = (ArrayList<LoanApplication>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
 }

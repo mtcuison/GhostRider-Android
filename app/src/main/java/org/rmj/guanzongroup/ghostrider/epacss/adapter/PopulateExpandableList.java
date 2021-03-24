@@ -7,6 +7,8 @@ import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CreditEvaluator;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.griderscanner.MainScanner;
 import org.rmj.guanzongroup.ghostrider.imgcapture.DCPPhotoCapture;
@@ -142,7 +144,19 @@ public class PopulateExpandableList {
                                 break;
                         }
                         break;
-                    case 4: break;
+                    case 4:
+                        switch(childPosition)
+                        {
+                            case 0 :
+                                Intent ciIntent = new Intent(parent.getContext(), Activity_EvaluationList.class);
+                                context.startActivity(ciIntent);
+                                break;
+                            case 1 :
+                                Intent intent1 = new Intent(parent.getContext(), Activity_CreditEvaluator.class);
+                                context.startActivity(intent1);
+                                break;
+                        }
+                        break;
                     case 5:
                         switch(childPosition)
                         {

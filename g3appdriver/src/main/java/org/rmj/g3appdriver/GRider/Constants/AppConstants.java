@@ -59,7 +59,7 @@ public class AppConstants {
         JSONObject loError = new JSONObject();
         loJson.put("result", "error");
         loError.put("code", "404");
-        loError.put("message", "No response receive from server");
+        loError.put("message", "No response receive from server.\n Please check your internet connection \n and try again later.");
         loJson.put("error", loError);
         return loJson.toString();
     }

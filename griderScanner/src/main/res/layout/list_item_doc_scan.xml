@@ -187,36 +187,6 @@
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:text="Status :"
-                android:textSize="16sp"
-                android:textColor="@color/textColor_Black"
-                android:gravity="start"
-                tools:ignore="HardcodedText"
-                android:fontFamily="@font/roboto_regular"
-                tools:targetApi="jelly_bean"/>
-
-            <TextView
-                android:id="@+id/lbl_list_applicationWithCI"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Approve with CI"
-                android:textColor="@color/textColor_Black"
-                android:gravity="end"
-                tools:ignore="HardcodedText"
-                android:fontFamily="@font/roboto_regular"
-                tools:targetApi="jelly_bean"/>
-        </LinearLayout>
-
 
 
         <View

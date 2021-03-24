@@ -34,6 +34,8 @@ public class EBranchLoanApplication {
     private String DownPaym;
     @ColumnInfo(name = "nAcctTerm")
     private String AcctTerm;
+    @ColumnInfo(name = "sCreatedx")
+    private String CreatedX;
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
     @ColumnInfo(name = "dTimeStmp")
@@ -137,6 +139,14 @@ public class EBranchLoanApplication {
 
     public void setAcctTerm(String acctTerm) {
         AcctTerm = acctTerm;
+    }
+
+    public String getCreatedX() {
+        return CreatedX;
+    }
+
+    public void setCreatedX(String createdX) {
+        CreatedX = createdX;
     }
 
     public String getTranStat() {

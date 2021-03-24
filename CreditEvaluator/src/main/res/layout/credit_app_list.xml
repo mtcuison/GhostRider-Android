@@ -5,9 +5,10 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="10dp"
-    app:cardBackgroundColor="@color/material_white"
+    app:cardBackgroundColor="@color/material_lightgrey"
     app:cardUseCompatPadding="true"
     app:cardMaxElevation="5dp"
+    android:background="@color/material_lightgrey"
     app:cardElevation="3dp"
     app:cardPreventCornerOverlap="true">
 
@@ -18,6 +19,7 @@
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/lbl_ci_transNox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="GOCAS No. : 000000000000"
@@ -28,9 +30,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@color/material_black"/>
+            android:background="@color/guanzon_orange"/>
 
         <TextView
+            android:id="@+id/lbl_ci_applicantName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Garcia, Michael Permison"
@@ -39,30 +42,31 @@
             android:textSize="16sp"
             android:layout_marginTop="5dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center">-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Transaction No. : "
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/material_black"/>
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="2"-->
+<!--                android:text="Transaction No. : "-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:textColor="@color/material_black"/>-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Transaction No. : "
-                android:gravity="end"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/material_black"/>
+<!--            <TextView-->
+<!--                android:id="@+id/lbl_ci_transNox"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Transaction No. : "-->
+<!--                android:gravity="end"-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:textColor="@color/material_black"/>-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -79,6 +83,7 @@
                 android:textColor="@color/material_black"/>
 
             <TextView
+                android:id="@+id/lbl_ci_applicationDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -88,6 +93,32 @@
                 android:textColor="@color/material_black"/>
 
         </LinearLayout>
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="2"-->
+<!--                android:text="Date Sent : "-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:textColor="@color/material_black"/>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/lbl_ci_dateSent"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Transaction No. : "-->
+<!--                android:gravity="end"-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:textColor="@color/material_black"/>-->
+
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -99,11 +130,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Date Sent : "
+                android:text="Term : "
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/material_black"/>
 
             <TextView
+                android:id="@+id/lbl_ci_accountTerm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -113,6 +145,58 @@
                 android:textColor="@color/material_black"/>
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Mobile No. : "
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/material_black"/>
+
+            <TextView
+                android:id="@+id/lbl_ci_mobileNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Transaction No. : "
+                android:gravity="end"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/material_black"/>
+
+        </LinearLayout>
+
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="2"-->
+<!--                android:text="Date Approved : "-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:textColor="@color/material_black"/>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/lbl_ci_dApproved"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:gravity="end"-->
+<!--                android:text="Transaction No. : "-->
+<!--                android:textColor="@color/material_black" />-->
+
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -124,11 +208,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Status : "
+                android:text="Model:"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/material_black"/>
 
             <TextView
+                android:id="@+id/lbl_ci_modelName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -138,6 +223,8 @@
                 android:textColor="@color/material_black"/>
 
         </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -149,11 +236,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Date Approved : "
+                android:text="Downpayment : "
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/material_black"/>
 
             <TextView
+                android:id="@+id/lbl_ci_downPayment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -167,90 +255,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@color/material_black"
-            android:layout_marginTop="30dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Model: Click 150i"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/material_black"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Transaction No. : "
-                android:gravity="end"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/material_black"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Price : Php. 76,900"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/material_black"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Transaction No. : "
-                android:gravity="end"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/material_black"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Downpayment : Php. 7,000"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/material_black"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Transaction No. : "
-                android:gravity="end"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/material_black"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Downpayment Percentage : 9.10%"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/material_black"/>
+            android:background="@color/guanzon_orange"
+            android:layout_marginTop="5dp"/>
 
     </LinearLayout>
 

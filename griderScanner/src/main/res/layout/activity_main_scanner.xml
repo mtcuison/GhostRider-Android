@@ -108,6 +108,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInputStyle.Edittext"
+                    android:id="@+id/txt_search"
                     android:layout_width="match_parent"
                     android:textColor="@color/mtrl_textinput_default_box_stroke_colors"
                     android:layout_height="wrap_content" />
@@ -132,13 +133,14 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="10dp"
+    <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_clienInfo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"/>
         
     </LinearLayout>
 

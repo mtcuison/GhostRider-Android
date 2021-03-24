@@ -43,8 +43,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 import static org.rmj.guanzongroup.ghostrider.griderscanner.ClientInfo.infoModel;
-import static org.rmj.guanzongroup.ghostrider.griderscanner.ClientInfo.poDocumentsInfo;
-import static org.rmj.guanzongroup.ghostrider.griderscanner.ClientInfo.poImageInfo;
 
 public class ImageCrop extends DocumentScanActivity {
 

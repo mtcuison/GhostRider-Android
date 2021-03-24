@@ -131,7 +131,7 @@ public class VMDocumentToScan extends AndroidViewModel {
 
     public void PostDocumentScanDetail(ECreditApplicationDocuments poDocumentsInfo, ViewModelCallBack callback) {
         try {
-            new VMClientInfo.PostDocumentScanDetail(instance, poDocumentsInfo, poDocumentsInfo.getTransNox(), poDocumentsInfo.getFileCode(), poDocumentsInfo.getEntryNox(), poDocumentsInfo.getImageNme(), poDocumentsInfo.getFileLoc(), callback).execute();
+            new PostDocumentScanDetail(instance, poDocumentsInfo, poDocumentsInfo.getTransNox(), poDocumentsInfo.getFileCode(), poDocumentsInfo.getEntryNox(), poDocumentsInfo.getImageNme(), poDocumentsInfo.getFileLoc(), callback).execute();
         } catch (Exception e) {
         }
     }

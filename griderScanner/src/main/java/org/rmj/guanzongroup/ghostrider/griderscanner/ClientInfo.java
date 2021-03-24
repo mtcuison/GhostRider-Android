@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
@@ -71,7 +72,7 @@ public class ClientInfo extends AppCompatActivity {
     TextView lblAccntTern;
     TextView lblMobileNo;
     TextView lblStatus;
-    
+
     private LoadDialog poDialogx;
     private MessageBox poMessage;
 
@@ -201,7 +202,7 @@ public class ClientInfo extends AppCompatActivity {
                     mViewModel.PostDocumentScanDetail(poDocumentsInfo, new ViewModelCallBack() {
                         @Override
                         public void OnStartSaving() {
-                            poDialogx.initDialog("Daily Collection Plan", "Posting " + ScannerConstants.FileDesc + " details. Please wait...", false);
+                            poDialogx.initDialog("Credit Online \nApplication Documents", "Posting " + ScannerConstants.FileDesc + " details. Please wait...", false);
                             poDialogx.show();
                         }
 

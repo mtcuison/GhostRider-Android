@@ -175,8 +175,6 @@ public class Activity_DocumentToScan extends AppCompatActivity {
         }
         if (requestCode == CROP_REQUEST_CODE ) {
 
-//            Log.e("poImage", data.getSerializableExtra("poImage").toString());
-//            Log.e("poDocumentsInfo", data.getSerializableExtra("poDocumentsInfo").toString());
             if(resultCode == RESULT_OK) {
                 try {
                     poImageInfo = (EImageInfo) data.getSerializableExtra("poImage");

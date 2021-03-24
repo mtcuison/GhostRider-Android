@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +36,7 @@ import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.GRider.ImportData.ImportDataCallback;
 import org.rmj.g3appdriver.GRider.ImportData.Import_CreditAppList;
 import org.rmj.g3appdriver.GRider.ImportData.Import_LoanApplications;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 
@@ -51,8 +53,8 @@ public class VMMainScanner extends AndroidViewModel {
     private final RBranchLoanApplication poCreditApp;
     private final Import_CreditAppList poImport;
     private final REmployee poEmploye;
-    private final RCreditApplicationDocument poDocument;
-    private List<DCreditApplicationDocuments.ApplicationDocument> documentInfo = new ArrayList<>();
+    private MutableLiveData<String> poBranchID;
+    private final SessionManager poSession;
     public VMMainScanner(@NonNull Application application) {
         super(application);
         this.instance = application;
@@ -61,46 +63,32 @@ public class VMMainScanner extends AndroidViewModel {
         this.poCreditApp = new RBranchLoanApplication(application);
         this.poImport = new Import_CreditAppList(application);
         poEmploye = new REmployee(application);
-        poDocument = new RCreditApplicationDocument(application);
-    }
-    public LiveData<List<EFileCode>> getFileCode(){
-        return this.collectionList;
+        poSession = new SessionManager(application);
     }
     public interface OnImportCallBack{
         void onStartImport();
         void onSuccessImport();
         void onImportFailed(String message);
     }
-//    public void LoadApplications(ViewModelCallBack callBack){
-//        poImport.ImportData(new ImportDataCallback() {
-//            @Override
-//            public void OnSuccessImportData() {
-//                callBack.onSaveSuccessResult("");
-//            }
-//
-//            @Override
-//            public void OnFailedImportData(String message) {
-//                callBack.onFailedResult(message);
-//            }
-//        });
-//    }
+
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
         return poEmploye.getEmployeeInfo();
     }
 
-    public LiveData<List<EBranchLoanApplication>> getBranchCreditApplication(String BrnCD){
-        return poCreditApp.getBranchCreditApplication(BrnCD);
+    public LiveData<List<EBranchLoanApplication>> getBranchCreditApplication(){
+        return poCreditApp.getBranchCreditApplication();
     }
-    public void ImportRBranchApplications(OnImportCallBack callBack, String brnCode){
+    public void ImportRBranchApplications(OnImportCallBack callBack){
 
         JSONObject loJson = new JSONObject();
         try {
+            String brnCD = poSession.getBranchCode();
             loJson.put("bycode", true);
-            loJson.put("value", brnCode);
+            loJson.put("value", brnCD);
+            new ImportBranchApplications(instance, callBack).execute(loJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        new ImportBranchApplications(instance, callBack).execute(loJson);
     }
 
 
@@ -138,6 +126,8 @@ public class VMMainScanner extends AndroidViewModel {
                         JSONArray laJson = jsonResponse.getJSONArray("detail");
                         if(!brnRepo.insertBranchApplicationInfos(laJson)){
                             response = AppConstants.ERROR_SAVING_TO_LOCAL();
+                        }else {
+                            brnRepo.getBranchCreditApplication();
                         }
                     }
                 } else {
@@ -171,37 +161,6 @@ public class VMMainScanner extends AndroidViewModel {
                 callback.onImportFailed(e.getMessage());
             }
         }
-//        boolean saveDetailDataToLocal(@NonNull JSONArray faJson) throws JSONException {
-//            List<EBranchLoanApplication> eBranchLoanApplications = new ArrayList<>();
-//            for(int x = 0; x < faJson.length(); x++){
-//                JSONObject loJson = faJson.getJSONObject(x);
-//                EBranchLoanApplication branchLoanApplication = new EBranchLoanApplication();
-//                branchLoanApplication.setTransNox(loJson.getString("sTransNox"));
-//                branchLoanApplication.setTransact(loJson.getString("dTransact"));
-//                branchLoanApplication.setBranchCD(loJson.getString("sBranchCd"));
-//                branchLoanApplication.setCredInvx(loJson.getString("sCredInvx"));
-//                branchLoanApplication.setCompnyNm(loJson.getString("sCompnyNm"));
-//                branchLoanApplication.setSpouseNm(loJson.getString("sSpouseNm"));
-//                branchLoanApplication.setAddressx(loJson.getString("sAddressx"));
-//                branchLoanApplication.setMobileNo(loJson.getString("sMobileNo"));
-//                branchLoanApplication.setQMAppCde(loJson.getString("sQMAppCde"));
-//                branchLoanApplication.setModelNme(loJson.getString("sModelNme"));
-//                branchLoanApplication.setDownPaym(loJson.getString("nDownPaym"));
-//                branchLoanApplication.setAcctTerm(loJson.getString("nAcctTerm"));
-//                branchLoanApplication.setTranStat(loJson.getString("cTranStat"));
-//                branchLoanApplication.setTimeStmp(loJson.getString("dTimeStmp"));
-//                eBranchLoanApplications.add(branchLoanApplication);
-//            }
-//
-//            try {
-//                brnRepo.insertDetailBulkData(eBranchLoanApplications);
-//                return true;
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return false;
-//            }
-//        }
-//
     }
 
 }

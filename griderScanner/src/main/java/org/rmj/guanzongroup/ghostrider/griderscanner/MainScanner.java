@@ -12,11 +12,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
@@ -45,78 +49,19 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
     private String userBranch;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
+    private TextInputEditText txtSearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_scanner);
         Toolbar toolbar = findViewById(R.id.toolbar_docScanner);
         setSupportActionBar(toolbar);
+        setTitle("Document Scanner");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        poDialogx = new LoadDialog(MainScanner.this);
-        poMessage = new MessageBox(MainScanner.this);
-        recyclerViewClient = findViewById(R.id.recyclerview_clienInfo);
-        layoutManager = new LinearLayoutManager(MainScanner.this);
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        loading = findViewById(R.id.linear_progress);
-        mViewModel = new ViewModelProvider(this).get(VMMainScanner.class);
-//        mViewModel.LoadApplications(MainScanner.this);
-
-        mViewModel.getEmployeeInfo().observe(this, eEmployeeInfo -> {
-
-            mViewModel.ImportRBranchApplications(MainScanner.this, eEmployeeInfo.getBranchCD());
-            try {
-                mViewModel.getBranchCreditApplication(eEmployeeInfo.getBranchCD()).observe(MainScanner.this, brnCreditList -> {
-                    if(brnCreditList.size()>0) {
-                        loading.setVisibility(View.GONE);
-                        loanList = new ArrayList<>();
-                        for (int x = 0; x < brnCreditList.size(); x++) {
-                            LoanApplication loan = new LoanApplication();
-                            loan.setsTransNox(brnCreditList.get(x).getTransNox());
-                            loan.setdTransact(brnCreditList.get(x).getTransact());
-                            loan.setsCredInvx(brnCreditList.get(x).getCredInvx());
-                            loan.setsCompnyNm(brnCreditList.get(x).getCompnyNm());
-                            loan.setsSpouseNm(brnCreditList.get(x).getSpouseNm());
-                            loan.setsAddressx(brnCreditList.get(x).getAddressx());
-                            loan.setsMobileNo(brnCreditList.get(x).getMobileNo());
-                            loan.setsQMAppCde(brnCreditList.get(x).getQMAppCde());
-                            loan.setsModelNme(brnCreditList.get(x).getModelNme());
-                            loan.setnDownPaym(brnCreditList.get(x).getDownPaym());
-                            loan.setnAcctTerm(brnCreditList.get(x).getAcctTerm());
-                            loan.setcTranStat(brnCreditList.get(x).getTranStat());
-                            loan.setdTimeStmp(brnCreditList.get(x).getTimeStmp());
-                            loanList.add(loan);
-                            Log.e("Loan List", String.valueOf(loan));
-                        }
-                        adapter = new ClientInfoAdapter(loanList, new ClientInfoAdapter.OnApplicationClickListener() {
-                            @Override
-                            public void OnClick(int position, List<LoanApplication> loanLists) {
-//                                mViewModel.getDocument(loanLists.get(position).getTransNox()).observe(MainScanner.this, data -> {
-//                                    mViewModel.setDocumentInfo(data);
-//                                });
-
-                                Intent loIntent = new Intent(MainScanner.this, ClientInfo.class);
-                                loIntent.putExtra("TransNox",loanLists.get(position).getsTransNox());
-                                loIntent.putExtra("ClientNm",loanLists.get(position).getsCompnyNm());
-                                loIntent.putExtra("dTransact",loanLists.get(position).getdTransact());
-                                loIntent.putExtra("ModelName",loanLists.get(position).getsModelNme());
-                                loIntent.putExtra("AccntTerm",loanLists.get(position).getnAcctTerm());
-                                loIntent.putExtra("MobileNo",loanLists.get(position).getsMobileNo());
-                                loIntent.putExtra("Status",loanLists.get(position).getTransactionStatus());
-                                startActivity(loIntent);
-                            }
-
-                        });
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(MainScanner.this);
-                        recyclerViewClient.setAdapter(adapter);
-                        recyclerViewClient.setLayoutManager(layoutManager);
-                    }else {
-                        Log.e("Application List ", String.valueOf(brnCreditList.toArray()));
-                    }
-                });
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+        initWidgets();
+        mViewModel = new ViewModelProvider(MainScanner.this).get(VMMainScanner.class);
+        mViewModel.ImportRBranchApplications(MainScanner.this);
+        initData();
 
     }
     @Override
@@ -132,6 +77,7 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
     @Override
     public void onSuccessImport() {
         poDialogx.dismiss();
+        initData();
     }
 
     @Override
@@ -148,5 +94,89 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
+    }
+    public void initWidgets(){
+        poDialogx = new LoadDialog(MainScanner.this);
+        poMessage = new MessageBox(MainScanner.this);
+        recyclerViewClient = findViewById(R.id.recyclerview_clienInfo);
+        txtSearch = findViewById(R.id.txt_search);
+        layoutManager = new LinearLayoutManager(MainScanner.this);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        loading = findViewById(R.id.linear_progress);
+    }
+    public void initData(){
+        mViewModel.getBranchCreditApplication().observe(MainScanner.this, brnCreditList -> {
+            if(brnCreditList.size()>0) {
+                loading.setVisibility(View.GONE);
+                loanList = new ArrayList<>();
+                poDialogx.dismiss();
+                for (int x = 0; x < brnCreditList.size(); x++) {
+                    LoanApplication loan = new LoanApplication();
+                    loan.setsTransNox(brnCreditList.get(x).getTransNox());
+                    loan.setdTransact(brnCreditList.get(x).getTransact());
+                    loan.setsCredInvx(brnCreditList.get(x).getCredInvx());
+                    loan.setsCompnyNm(brnCreditList.get(x).getCompnyNm());
+                    loan.setsSpouseNm(brnCreditList.get(x).getSpouseNm());
+                    loan.setsAddressx(brnCreditList.get(x).getAddressx());
+                    loan.setsMobileNo(brnCreditList.get(x).getMobileNo());
+                    loan.setsQMAppCde(brnCreditList.get(x).getQMAppCde());
+                    loan.setsModelNme(brnCreditList.get(x).getModelNme());
+                    loan.setnDownPaym(brnCreditList.get(x).getDownPaym());
+                    loan.setnAcctTerm(brnCreditList.get(x).getAcctTerm());
+                    loan.setcTranStat(brnCreditList.get(x).getTranStat());
+                    loan.setdTimeStmp(brnCreditList.get(x).getTimeStmp());
+                    loanList.add(loan);
+                    Log.e("Loan List", String.valueOf(loan));
+                }
+                adapter = new ClientInfoAdapter(loanList, new ClientInfoAdapter.OnApplicationClickListener() {
+                    @Override
+                    public void OnClick(int position, List<LoanApplication> loanLists) {
+//                                mViewModel.getDocument(loanLists.get(position).getTransNox()).observe(MainScanner.this, data -> {
+//                                    mViewModel.setDocumentInfo(data);
+//                                });
+
+                        Intent loIntent = new Intent(MainScanner.this, ClientInfo.class);
+                        loIntent.putExtra("TransNox",loanLists.get(position).getsTransNox());
+                        loIntent.putExtra("ClientNm",loanLists.get(position).getsCompnyNm());
+                        loIntent.putExtra("dTransact",loanLists.get(position).getdTransact());
+                        loIntent.putExtra("ModelName",loanLists.get(position).getsModelNme());
+                        loIntent.putExtra("AccntTerm",loanLists.get(position).getnAcctTerm());
+                        loIntent.putExtra("MobileNo",loanLists.get(position).getsMobileNo());
+                        loIntent.putExtra("Status",loanLists.get(position).getTransactionStatus());
+                        startActivity(loIntent);
+                    }
+
+                });
+                LinearLayoutManager layoutManager = new LinearLayoutManager(MainScanner.this);
+                recyclerViewClient.setAdapter(adapter);
+                recyclerViewClient.setLayoutManager(layoutManager);
+                adapter.notifyDataSetChanged();
+                txtSearch.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        try {
+                            adapter.getFilter().filter(s.toString());
+                            adapter.notifyDataSetChanged();
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+            }else {
+//                poDialogx.initDialog("Branch Applications Document List", "Fetching data from local database. Please wait...", false);
+//                poDialogx.show();
+                Log.e("Branch List", String.valueOf(brnCreditList));
+            }
+        });
     }
 }

@@ -70,6 +70,7 @@ dependencies {
     implementation project(':promotions')
     implementation project(':samsungKnox')
     implementation project(':approvalCode')
+    implementation project(':CreditEvaluator')
     implementation project(':cashcount')
     implementation project(':notifications')
     implementation project(':imgCapture')

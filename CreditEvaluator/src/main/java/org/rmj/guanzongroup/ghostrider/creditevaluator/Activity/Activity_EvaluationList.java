@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.onlinecreditapplication.Activity;
+package org.rmj.guanzongroup.ghostrider.creditevaluator.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,44 +20,46 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.guanzongroup.onlinecreditapplication.Adapter.BranchApplicationsAdapter;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.BranchApplicationModel;
-import org.rmj.guanzongroup.onlinecreditapplication.R;
-import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMBranchApplications;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluationAdapter;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CreditEvaluationModel;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMEvaluationList;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Activity_BranchApplications extends AppCompatActivity implements VMBranchApplications.OnImportCallBack {
+public class Activity_EvaluationList extends AppCompatActivity implements VMEvaluationList.OnImportCallBack {
     private RecyclerView recyclerViewClient;
-    private VMBranchApplications mViewModel;
+    private VMEvaluationList mViewModel;
     private LinearLayoutManager layoutManager;
-    private BranchApplicationsAdapter adapter;
+    private CreditEvaluationAdapter adapter;
     private LinearLayout loading;
-    private List<BranchApplicationModel> loanList;
+    private List<CreditEvaluationModel> creditList;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
     private String userBranch;
     private TextInputEditText txtSearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_branch_applications);
-        Toolbar toolbar = findViewById(R.id.toolbar_branchApplications);
+        super.onCreate(savedInstanceState);        
+        setContentView(R.layout.activity_evaluation_list);
+
+        Toolbar toolbar = findViewById(R.id.toolbar_creditEvalutionList);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        poDialogx = new LoadDialog(Activity_BranchApplications.this);
-        poMessage = new MessageBox(Activity_BranchApplications.this);
+        poDialogx = new LoadDialog(Activity_EvaluationList.this);
+        poMessage = new MessageBox(Activity_EvaluationList.this);
 
-        recyclerViewClient = findViewById(R.id.recyclerview_branchApplications);
-        txtSearch = findViewById(R.id.txt_branch_search);
-        layoutManager = new LinearLayoutManager(Activity_BranchApplications.this);
+        recyclerViewClient = findViewById(R.id.recyclerview_ciList);
+        txtSearch = findViewById(R.id.txt_ci_search);
+        layoutManager = new LinearLayoutManager(Activity_EvaluationList.this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
-        loading = findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.linear_progress);
-        mViewModel = new ViewModelProvider(Activity_BranchApplications.this).get(VMBranchApplications.class);
-        mViewModel.ImportRBranchApplications(Activity_BranchApplications.this);
+        loading = findViewById(R.id.linear_progress);
+        mViewModel = new ViewModelProvider(Activity_EvaluationList.this).get(VMEvaluationList.class);
+        mViewModel.ImportCIApplications(Activity_EvaluationList.this);
         initData();
+
     }
 
 
@@ -80,7 +82,7 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
 
     @Override
     public void onStartImport() {
-        poDialogx.initDialog("Branch Application List", "Importing latest data. Please wait...", false);
+        poDialogx.initDialog("CI Evaluation List", "Importing latest data. Please wait...", false);
         poDialogx.show();
     }
 
@@ -88,18 +90,18 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
     public void onImportFailed(String message) {
         poDialogx.dismiss();
         poMessage.initDialog();
-        poMessage.setTitle("Branch Applications List");
+        poMessage.setTitle("CI Evaluation List");
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
     }
     public void initData(){
-        mViewModel.getBranchCreditApplication().observe(Activity_BranchApplications.this, brnCreditList -> {
+        mViewModel.getCICreditApplication().observe(Activity_EvaluationList.this, brnCreditList -> {
             if(brnCreditList.size()>0) {
                 loading.setVisibility(View.GONE);
-                loanList = new ArrayList<>();
+                creditList = new ArrayList<>();
                 for (int x = 0; x < brnCreditList.size(); x++) {
-                    BranchApplicationModel loan = new BranchApplicationModel();
+                    CreditEvaluationModel loan = new CreditEvaluationModel();
                     loan.setsTransNox(brnCreditList.get(x).getTransNox());
                     loan.setdTransact(brnCreditList.get(x).getTransact());
                     loan.setsCredInvx(brnCreditList.get(x).getCredInvx());
@@ -113,29 +115,29 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
                     loan.setnAcctTerm(brnCreditList.get(x).getAcctTerm());
                     loan.setcTranStat(brnCreditList.get(x).getTranStat());
                     loan.setdTimeStmp(brnCreditList.get(x).getTimeStmp());
-                    loanList.add(loan);
+                    creditList.add(loan);
                     Log.e("Loan List", String.valueOf(loan));
                 }
-                adapter = new BranchApplicationsAdapter(loanList, new BranchApplicationsAdapter.OnApplicationClickListener() {
+                adapter = new CreditEvaluationAdapter(creditList, new CreditEvaluationAdapter.OnApplicationClickListener() {
                     @Override
-                    public void OnClick(int position, List<BranchApplicationModel> loanLists) {
-//                                mViewModel.getDocument(loanLists.get(position).getTransNox()).observe(Activity_BranchApplications.this, data -> {
+                    public void OnClick(int position, List<CreditEvaluationModel> creditLists) {
+//                                mViewModel.getDocument(creditLists.get(position).getTransNox()).observe(Activity_EvaluationList.this, data -> {
 //                                    mViewModel.setDocumentInfo(data);
 //                                });
 
-                        Intent loIntent = new Intent(Activity_BranchApplications.this, Activity_DocumentToScan.class);
-                        loIntent.putExtra("TransNox",loanLists.get(position).getsTransNox());
-                        loIntent.putExtra("ClientNm",loanLists.get(position).getsCompnyNm());
-                        loIntent.putExtra("dTransact",loanLists.get(position).getdTransact());
-                        loIntent.putExtra("ModelName",loanLists.get(position).getsModelNme());
-                        loIntent.putExtra("AccntTerm",loanLists.get(position).getnAcctTerm());
-                        loIntent.putExtra("MobileNo",loanLists.get(position).getsMobileNo());
-                        loIntent.putExtra("Status",loanLists.get(position).getTransactionStatus());
-                        startActivity(loIntent);
+//                                Intent loIntent = new Intent(Activity_EvaluationList.this, Activity_DocumentToScan.class);
+//                                loIntent.putExtra("TransNox",creditLists.get(position).getsTransNox());
+//                                loIntent.putExtra("ClientNm",creditLists.get(position).getsCompnyNm());
+//                                loIntent.putExtra("dTransact",creditLists.get(position).getdTransact());
+//                                loIntent.putExtra("ModelName",creditLists.get(position).getsModelNme());
+//                                loIntent.putExtra("AccntTerm",creditLists.get(position).getnAcctTerm());
+//                                loIntent.putExtra("MobileNo",creditLists.get(position).getsMobileNo());
+//                                loIntent.putExtra("Status",creditLists.get(position).getTransactionStatus());
+//                                startActivity(loIntent);
                     }
 
                 });
-                LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_BranchApplications.this);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_EvaluationList.this);
                 recyclerViewClient.setAdapter(adapter);
                 recyclerViewClient.setLayoutManager(layoutManager);
 
@@ -149,7 +151,6 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         try {
 
-//                                    adapter.getSearchFilter().filter(s.toString());
                             adapter.getFilter().filter(s.toString());
                             adapter.notifyDataSetChanged();
                         } catch (Exception e){
@@ -167,4 +168,5 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
             }
         });
     }
+    
 }
