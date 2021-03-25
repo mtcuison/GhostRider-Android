@@ -105,7 +105,7 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
     }
 
     public long getsGrossMonthly() {
-        return Long.parseLong(sGrossMonthly);
+        return Long.parseLong(sGrossMonthly.replace(",", ""));
     }
 
     public void setsGrossMonthly(String sGrossMonthly) {
@@ -113,7 +113,7 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
     }
 
     public long getsMonthlyExps() {
-        return Long.parseLong(sMonthlyExps);
+        return Long.parseLong(sMonthlyExps.replace(",", ""));
     }
 
     public void setsMonthlyExps(String sMonthlyExps) {

@@ -188,7 +188,6 @@ public class CoMakerResidenceModel {
 
     public boolean isDataValid(){
         return isLandMarkValid() &&
-                isProvinceValid() &&
                 isTownValid() &&
                 isBarangayValid() &&
                 isOwnershipValid() &&
@@ -213,7 +212,6 @@ public class CoMakerResidenceModel {
             message = "Please enter province";
             return false;
         }
-
         return true;
     }
 

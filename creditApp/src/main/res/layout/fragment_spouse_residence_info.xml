@@ -28,6 +28,7 @@
                 android:text="Living with spouse"
                 android:textColor="@color/textColor_Black"
                 tools:ignore="HardcodedText"
+                android:visibility="gone"
                 tools:targetApi="lollipop" />
 
             <LinearLayout

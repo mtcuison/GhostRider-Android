@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.json.simple.JSONObject;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRawDao;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
@@ -24,6 +25,7 @@ import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.gocas.pricelist.PriceFactory;
 import org.rmj.gocas.pricelist.Pricelist;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Data.GoCasBuilder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PurchaseInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -236,11 +238,16 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
                 loGoCas.PurchaseInfo().setDateApplied(model.getDateApplied());
                 loGoCas.PurchaseInfo().setMonthlyAmortization(model.getsMonthlyAm());
                 ECreditApplicantInfo creditApp = new ECreditApplicantInfo();
-                creditApp.setClientNm("");
-                creditApp.setDetlInfo(loGoCas.toJSONString());
+                creditApp.setPurchase(loGoCas.PurchaseInfo().toJSONString());
+                creditApp.setDownPaym(loGoCas.PurchaseInfo().getDownPayment());
+                creditApp.setAppliedx(loGoCas.PurchaseInfo().getDateApplied());
+                creditApp.setCreatedx(AppConstants.DATE_MODIFIED);
+                creditApp.setBranchCd(loGoCas.PurchaseInfo().getPreferedBranch());
+                creditApp.setTransact("0");
+                creditApp.setTransact("0");
                 creditApp.setTransNox(transnox);
                 oCredtRepo.insertGOCasData(creditApp);
-                Log.e("Detail info",creditApp.getDetlInfo());
+                Log.e("Detail info", creditApp.getPurchase());
                 callBack.onSaveSuccessResult(transnox);
             } else {
                 callBack.onFailedResult(model.getMessage());
@@ -252,5 +259,9 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
             e.printStackTrace();
             callBack.onFailedResult("Something went wrong. Required information might not provided by user.");
         }
+    }
+
+    public void tesCreditApp(){
+        Log.e(TAG, new GoCasBuilder(oCredtRepo.testCreditAppModel()).getConstructedDetailedInfo());
     }
 }

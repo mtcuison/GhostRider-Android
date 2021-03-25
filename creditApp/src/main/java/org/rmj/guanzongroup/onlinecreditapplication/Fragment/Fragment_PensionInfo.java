@@ -64,15 +64,15 @@ public class Fragment_PensionInfo extends Fragment implements ViewModelCallBack 
         mViewModel.setTransNox(TransNox);
         mViewModel.getApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
             mViewModel.setDetailInfo(eCreditApplicantInfo);
-            mViewModel.setDetailInfo(eCreditApplicantInfo);
         });
 
         mViewModel.getPensionSector().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnSector.setAdapter(stringArrayAdapter));
 
-        btnPrvs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
+        btnPrvs.setOnClickListener(view -> {
+            try {
+                Activity_CreditApplication.getInstance().moveToPageNumber(mViewModel.getPreviousPage());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
         mViewModel.getSPensionSector().observe(getViewLifecycleOwner(), s -> {
@@ -95,8 +95,7 @@ public class Fragment_PensionInfo extends Fragment implements ViewModelCallBack 
 
     @Override
     public void onSaveSuccessResult(String args) {
-        mViewModel.getNextPage().observe(getViewLifecycleOwner(), integer -> Activity_CreditApplication.getInstance().moveToPageNumber(integer));
-
+        Activity_CreditApplication.getInstance().moveToPageNumber(Integer.parseInt(args));
     }
 
     @Override

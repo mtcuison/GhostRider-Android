@@ -29,41 +29,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/bg_gradient_orange"
-        android:gravity="center_horizontal">
+        android:background="@drawable/bg_samsungknox"
+        android:gravity="center_horizontal"
+        android:paddingHorizontal="15dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginVertical="5dp">
+            android:layout_marginVertical="15dp">
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".4"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_ghostrider_logo_day" />
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="left"
+                android:gravity="center"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Daily Collection Plan"
-                    android:fontFamily="@font/roboto_bold"
-                    android:textSize="20sp"
-                    android:textColor="@color/textColor_White"
-                    android:layout_marginTop="10dp"/>
+                    android:fontFamily="@font/roboto"
+                    android:textSize="22sp"
+                    android:textColor="@color/textColor_White"/>
 
                 <TextView
                     android:id="@+id/lbl_headerBranch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/roboto_light"
                     android:textColor="@color/textColor_White"
                     android:layout_marginTop="5dp"/>
 
@@ -71,52 +65,52 @@
                     android:id="@+id/lbl_headerAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/roboto_light"
                     android:textColor="@color/textColor_White"/>
+
+                <TextView
+                    android:id="@+id/lbl_headerDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/textColor_White"
+                    android:visibility="gone"/>
             </LinearLayout>
-            </LinearLayout>
-
-        <View
-            android:id="@+id/vMargin"
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_collectionSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            style="@style/TextInputStyleHeaders">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_collectionSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#fbfbfb"
-                android:hint="Search Customer's name"/>
-        </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1.5dp"
+            android:layout_height="0.8dp"
             android:layout_marginTop="5dp"
             android:background="#fff"/>
-            <TextView
-                android:id="@+id/lbl_headerDate"
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_collectionSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/textColor_White"
-                android:layout_marginTop="15dp"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1.5dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/textColor_White"/>
+                style="@style/TextInputStyleHeaders">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_collectionSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fbfbfb"
+                    android:inputType="textCapWords|textPersonName"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1"
+                    android:hint="Search Customer's name" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_collectionList"
         android:layout_width="match_parent"
@@ -128,7 +122,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="90dp"
         android:visibility="gone">
 
         <TextView
@@ -138,32 +132,24 @@
             android:gravity="center_horizontal"
             android:fontFamily="@font/roboto"
             android:textColor="@color/material_black"
-            android:textSize="15dp"/>
+            android:textSize="15sp"/>
 
-        <View
-            android:layout_width="300dp"
-            android:layout_height="0.8dp"
-            android:background="@color/guanzon_dark_grey"
-            android:layout_marginVertical="20dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_download"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/guanzon_digital_orange"
+            android:fontFamily="@font/roboto_light"
             android:layout_width="210dp"
             android:layout_height="wrap_content"
             android:text="Download"
-            android:layout_marginTop="50dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="or"
-            android:layout_marginVertical="7dp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/material_black"
-            android:textSize="15dp"/>
+            android:layout_marginTop="30dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_import"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/guanzon_digital_orange"
+            android:fontFamily="@font/roboto_light"
             android:layout_width="210dp"
             android:layout_height="wrap_content"
             android:text="Import from File"/>

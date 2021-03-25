@@ -95,7 +95,7 @@ public class SelfEmployedInfoModel {
     }
 
     public long getMonthlyIncome() {
-        return Long.parseLong(sMnthlyIn);
+        return Long.parseLong(sMnthlyIn.replace(",", ""));
     }
 
     public void setMonthlyIncome(String sMnthlyIn) {
@@ -103,7 +103,7 @@ public class SelfEmployedInfoModel {
     }
 
     public long getMonthlyExpense() {
-        return Long.parseLong(sMnthlyEx);
+        return Long.parseLong(sMnthlyEx.replace(",", ""));
     }
 
     public void setMonthlyExpense(String sMnthlyEx) {

@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class VMDependent extends AndroidViewModel {
-
     private static final String TAG = VMDependent.class.getSimpleName();
     public final MutableLiveData<String> psTranNo = new MutableLiveData<>();
     private final MutableLiveData<String> spnSchoolType = new MutableLiveData<>();
@@ -44,7 +43,6 @@ public class VMDependent extends AndroidViewModel {
     private final MutableLiveData<String> spnEmpSector = new MutableLiveData<>();
     private final MutableLiveData<String> spnStudentStatus = new MutableLiveData<>();
     private final MutableLiveData<String> spnEmpTypeX = new MutableLiveData<>();
-
 
     private final MutableLiveData<Integer> linearEmployed = new MutableLiveData<>();
     private final MutableLiveData<Integer> linearStudent = new MutableLiveData<>();
@@ -81,7 +79,6 @@ public class VMDependent extends AndroidViewModel {
     public void setCreditApplicantInfo(ECreditApplicantInfo applicantInfo) {
         try {
             this.poInfo = applicantInfo;
-            poGoCasxx.setData(poInfo.getDetlInfo());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -241,11 +238,11 @@ public class VMDependent extends AndroidViewModel {
                 poGoCasxx.DisbursementInfo().DependentInfo().setWorkType(x, this.dependentInfo.getValue().get(x).getDpdEmployedSector());
                 poGoCasxx.DisbursementInfo().DependentInfo().setCompany(x, this.dependentInfo.getValue().get(x).getDpdCompanyName());
             }
-            poInfo.setDetlInfo(poGoCasxx.toJSONString());
+            poInfo.setDependnt(poGoCasxx.DisbursementInfo().DependentInfo().toJSONString());
+            //poInfo.setDetlInfo(poGoCasxx.toJSONString());
             poApplcnt.updateGOCasData(poInfo);
             Log.e(TAG, "Dependent info has been set." + poGoCasxx.DisbursementInfo().DependentInfo().toJSONString());
             callBack.onSaveSuccessResult("Success");
-
             return true;
         } catch (Exception e){
             e.printStackTrace();
@@ -254,21 +251,9 @@ public class VMDependent extends AndroidViewModel {
         }
   }
 
-//    public boolean AddDependent(DependentsInfoModel dependentsInfoModel , ExpActionListener listener){
-//        if(dependentsInfoModel.isDataValid()) {
-//            this.dependentInfo.getValue().add(dependentsInfoModel);
-//            listener.onSuccess("Success");
-//
-//            return true;
-//        } else {
-//            listener.onFailed(dependentsInfoModel.getMessage());
-//            return false;
-//        }
-//    }
-
     public boolean AddDependent(DependentsInfoModel foInfo , ExpActionListener listener){
         if(foInfo.isDataValid()) {
-            Objects.requireNonNull(this.dependentInfo.getValue().add(foInfo));
+            this.dependentInfo.getValue().add(foInfo);
             listener.onSuccess("Success");
             return true;
 

@@ -10,6 +10,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.gocas.base.GOCASApplication;
@@ -28,6 +29,7 @@ public class VMDisbursementInfo extends AndroidViewModel {
     private final MutableLiveData<String> typeX = new MutableLiveData<>();
     private final MutableLiveData<String> psTranNo = new MutableLiveData<>();
     private final RCreditApplicant poApplcnt;
+    private ECreditApplicantInfo poInfo;
 
     private final GOCASApplication poGoCasxx;
     public VMDisbursementInfo(@NonNull Application application)
@@ -45,11 +47,29 @@ public class VMDisbursementInfo extends AndroidViewModel {
         return poApplcnt.getCreditApplicantInfoLiveData(psTranNo.getValue());
     }
 
-    public void setCreditApplicantInfo(String applicantInfo){
+    public void setCreditApplicantInfo(ECreditApplicantInfo applicantInfo){
         try{
-            poGoCasxx.setData(applicantInfo);
+            poInfo = applicantInfo;
+            poGoCasxx.setData(poInfo.getDetlInfo());
         } catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    public int getPreviousPage() throws Exception{
+        JSONObject loJson = new JSONObject(poInfo.getAppMeans());
+        if(poInfo.getIsSpouse().equalsIgnoreCase("1")){
+            return 11;
+        } else if(loJson.getString("pensionx").equalsIgnoreCase("1")){
+            return 6;
+        } else if(loJson.getString("financer").equalsIgnoreCase("1")){
+            return 5;
+        } else if(loJson.getString("sEmplyed").equalsIgnoreCase("1")){
+            return 4;
+        } else if(loJson.getString("employed").equalsIgnoreCase("1")){
+            return 3;
+        } else {
+            return 2;
         }
     }
 
@@ -64,43 +84,8 @@ public class VMDisbursementInfo extends AndroidViewModel {
         return liveData;
     }
 
-
-//    public boolean SubmitApplicationInfo(DisbursementInfoModel disbursementInfo,ViewModelCallBack callBack){
-//        try {
-//
-//            if (disbursementInfo.isDataValid()){
-////                poGoCasxx.DisbursementInfo().Expenses().setElectricBill(disbursementInfo.getElctX());
-//                poGoCasxx.DisbursementInfo().Expenses().setElectricBill(disbursementInfo.getElctX());
-//                poGoCasxx.DisbursementInfo().Expenses().setFoodAllowance(disbursementInfo.getFoodX());
-//                poGoCasxx.DisbursementInfo().Expenses().setWaterBill(disbursementInfo.getWaterX());
-//                poGoCasxx.DisbursementInfo().Expenses().setLoanAmount((disbursementInfo.getLoans()));
-//                poGoCasxx.DisbursementInfo().BankAccount().setBankName(Objects.requireNonNull(disbursementInfo.getBankN()));
-//                poGoCasxx.DisbursementInfo().BankAccount().setAccountType(Objects.requireNonNull(disbursementInfo.getStypeX()));
-//                poGoCasxx.DisbursementInfo().CreditCard().setBankName(Objects.requireNonNull(disbursementInfo.getCcBnk()));
-//                poGoCasxx.DisbursementInfo().CreditCard().setCreditLimit(Objects.requireNonNull(disbursementInfo.getLimitCC()));
-//                poGoCasxx.DisbursementInfo().CreditCard().setMemberSince(Objects.requireNonNull(disbursementInfo.getYearS()));
-//                ECreditApplicantInfo info = new ECreditApplicantInfo();
-//                info.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
-//                info.setDetlInfo(poGoCasxx.toJSONString());
-//                info.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
-//                poApplcnt.updateGOCasData(info);
-//                Log.e("Disbursement Data", String.valueOf(info.getDetlInfo()));
-//                callBack.onSaveSuccessResult("Success");
-//                return true;
-//            } else {
-//                callBack.onFailedResult(disbursementInfo.getMessage());
-//                return false;
-//            }
-//        } catch (Exception e){
-//           e.printStackTrace();
-//            callBack.onFailedResult(e.getMessage());
-//            return false;
-//        }
-//    }
-
     public boolean SubmitApplicationInfo(DisbursementInfoModel disbursementInfo,ViewModelCallBack callBack) {
         try {
-
             new UpdateTask(poApplcnt, disbursementInfo, callBack).execute();
             return true;
         } catch (NullPointerException e) {
@@ -114,6 +99,7 @@ public class VMDisbursementInfo extends AndroidViewModel {
             return false;
         }
     }
+
     private  class UpdateTask extends AsyncTask<RCreditApplicant, Void, String> {
         private final RCreditApplicant poDcp;
         private final DisbursementInfoModel infoModel;
@@ -137,14 +123,12 @@ public class VMDisbursementInfo extends AndroidViewModel {
                     poGoCasxx.DisbursementInfo().BankAccount().setBankName(Objects.requireNonNull(infoModel.getBankN()));
                     poGoCasxx.DisbursementInfo().BankAccount().setAccountType(Objects.requireNonNull(infoModel.getStypeX()));
                     poGoCasxx.DisbursementInfo().CreditCard().setBankName(Objects.requireNonNull(infoModel.getCcBnk()));
-                    poGoCasxx.DisbursementInfo().CreditCard().setCreditLimit(Objects.requireNonNull(infoModel.getLimitCC()));
-                    poGoCasxx.DisbursementInfo().CreditCard().setMemberSince(Objects.requireNonNull(infoModel.getYearS()));
-                    ECreditApplicantInfo info = new ECreditApplicantInfo();
-                    info.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
-                    info.setDetlInfo(poGoCasxx.toJSONString());
-                    info.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
-                    poApplcnt.updateGOCasData(info);
-                    Log.e("Disbursement Data", String.valueOf(info.getDetlInfo()));
+                    poGoCasxx.DisbursementInfo().CreditCard().setCreditLimit(infoModel.getLimitCC());
+                    poGoCasxx.DisbursementInfo().CreditCard().setMemberSince(infoModel.getYearS());
+                    poInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
+                    poInfo.setDisbrsmt(poGoCasxx.DisbursementInfo().toJSONString());
+                    poApplcnt.updateGOCasData(poInfo);
+                    Log.e("Disbursement Data", String.valueOf(poInfo.getDetlInfo()));
                     return "success";
                 }else {
                     return infoModel.getMessage();
@@ -166,6 +150,4 @@ public class VMDisbursementInfo extends AndroidViewModel {
             }
         }
     }
-
-
 }

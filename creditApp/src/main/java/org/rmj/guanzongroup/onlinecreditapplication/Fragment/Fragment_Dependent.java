@@ -140,8 +140,6 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         });
         mViewModel.getSchoolTypeX().observe(getViewLifecycleOwner(), s -> {
             actSchoolType.setSelection(Integer.parseInt(s));
-            //mRelationPosition = Integer.parseInt(s);
-            Log.e("Employee ", s);
         });
         mViewModel.getSchoolLvlX().observe(getViewLifecycleOwner(), s -> {
             actSchoolLvl.setSelection(Integer.parseInt(s));
@@ -241,7 +239,6 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
 
     @Override
     public void onSaveSuccessResult(String args) {
-
         Activity_CreditApplication.getInstance().moveToPageNumber(14);
     }
 
