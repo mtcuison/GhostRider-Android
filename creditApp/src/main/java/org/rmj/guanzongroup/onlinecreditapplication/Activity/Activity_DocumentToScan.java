@@ -161,6 +161,7 @@ public class Activity_DocumentToScan extends AppCompatActivity {
         lblModelName.setText(getIntent().getStringExtra("ModelName"));
         lblAccntTern.setText(getIntent().getStringExtra("AccntTerm"));
         lblMobileNo.setText(getIntent().getStringExtra("MobileNo"));
+        ScannerConstants.SubFolder = getIntent().getStringExtra("SubFolder");
 //        lblSentStatus.setVisibility(poLoan.getSendStatus());
     }
     @Override

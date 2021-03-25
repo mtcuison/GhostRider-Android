@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMClientInfo;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.ViewModelCallBack;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -203,6 +205,7 @@ public class VMDocumentToScan extends AndroidViewModel {
                         if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
                             String lsTransNo = (String) loUpload.get("sTransNox");
                             poImage.updateImageInfo(lsTransNo, psTransNox);
+//                            UpdateFileNameAndFolder(lsTransNo, psTransNox, pnEntryNox, psFileCode,psFileLoc, psImageName);
 
                         } else {
 
@@ -255,4 +258,18 @@ public class VMDocumentToScan extends AndroidViewModel {
 
 
     }
+//    public static void UpdateFileNameAndFolder(String newTransNox, String oldTransNox, int entryNox, String fileCode, String fileLoc, String oldImgName){
+//        String root = Environment.getExternalStorageDirectory().toString();
+//        File dir = new File(root + "/"+ AppConstants.APP_PUBLIC_FOLDER + "/" + oldTransNox + "/");
+//        File newDir = new File(root + "/"+ AppConstants.APP_PUBLIC_FOLDER + "/" + newTransNox + "/");
+//
+//        if(dir.exists()){
+//            dir.renameTo(newDir);
+//            File from = new File(dir,oldImgName);
+//            String newImgName = newTransNox + "_" + entryNox + "_" +fileCode + ".png";
+//            File to = new File(dir,newImgName);
+//            if(from.exists())
+//                from.renameTo(to);
+//        }
+//    }
 }

@@ -20,12 +20,13 @@ public class ScannerConstants implements Serializable {
     public static String PhotoPath;
 
     public static String Folder;
+    public static String SubFolder;
     public static String Usage;
     public static int EntryNox;
     public static String FileName;
     public static String FileDesc;
     public static double Latt;
     public static double Longi;
-    public static String SourceCode = "COAD";
+    public static String SourceCode;
 
 }
