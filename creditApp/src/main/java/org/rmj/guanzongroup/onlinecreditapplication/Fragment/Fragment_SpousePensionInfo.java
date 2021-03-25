@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.TextFormatter;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SpousePensionInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -54,7 +55,7 @@ public class Fragment_SpousePensionInfo extends Fragment implements ViewModelCal
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMSpousePensionInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo.getDetlInfo()));
+        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo));
     }
 
     private void initWidgets(View v) {
@@ -68,6 +69,8 @@ public class Fragment_SpousePensionInfo extends Fragment implements ViewModelCal
         btnNext = v.findViewById(R.id.btn_creditAppNext);
         btnPrvs = v.findViewById(R.id.btn_creditAppPrvs);
 
+        txtPensionAmt.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(txtPensionAmt));
+        txtOtherSrcInc.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(txtOtherSrcInc));
         rgPensionSector.setOnCheckedChangeListener((group, checkedId) -> {
            if(checkedId == rbGovt.getId()) {
                mViewModel.setPensionSec("0");
@@ -96,7 +99,7 @@ public class Fragment_SpousePensionInfo extends Fragment implements ViewModelCal
 
     @Override
     public void onSaveSuccessResult(String args) {
-
+        Activity_CreditApplication.getInstance().moveToPageNumber(12);
     }
 
     @Override

@@ -149,7 +149,7 @@
               android:layout_width="match_parent"
                android:layout_height="wrap_content"
               android:inputType="number|none"
-              android:maxLength="6"/>
+              android:maxLength="10"/>
        </com.google.android.material.textfield.TextInputLayout>
 
        <com.google.android.material.textfield.TextInputLayout
@@ -163,15 +163,43 @@
               android:id="@+id/tie_cap_dbmYearStarted"
               android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:maxLength="50"/>
+              android:inputType="number|none"
+               android:maxLength="3"/>
        </com.google.android.material.textfield.TextInputLayout>
 
-       <com.google.android.material.button.MaterialButton
-           android:id="@+id/btn_creditAppNext"
-           android:layout_width="wrap_content"
+
+       <RelativeLayout
+           android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:text="@string/sbtnNext"
-           style="@style/MaterialButtonAccent"/>
+           android:orientation="horizontal"
+           android:layout_marginBottom="30dp">
+
+           <Button
+               android:id="@+id/btn_creditAppPrvs"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/sbtnPrvs"
+               style="@style/NavigationButton"
+               android:drawableStart="@drawable/ic_nav_left"
+               android:drawableLeft="@drawable/ic_nav_left"
+               android:layout_alignParentStart="true"
+               android:layout_alignParentLeft="true"
+               android:layout_centerVertical="true"
+               tools:ignore="RelativeOverlap"  />
+
+           <Button
+               android:id="@+id/btn_creditAppNext"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/sbtnNext"
+               style="@style/NavigationButton"
+               android:drawableEnd="@drawable/ic_nav_right"
+               android:drawableRight="@drawable/ic_nav_right"
+               android:layout_alignParentEnd="true"
+               android:layout_alignParentRight="true"
+               android:layout_centerVertical="true"
+               tools:ignore="RelativeOverlap" />
+       </RelativeLayout>
 
    </LinearLayout>
 

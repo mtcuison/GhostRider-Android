@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -17,10 +16,10 @@ import android.widget.CheckBox;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMProperties;
 
 public class Fragment_Properties extends Fragment implements ViewModelCallBack {
 
@@ -94,7 +93,7 @@ public class Fragment_Properties extends Fragment implements ViewModelCallBack {
 
     @Override
     public void onSaveSuccessResult(String args) {
-        Activity_CreditApplication.getInstance().moveToPageNumber(16);
+        Activity_CreditApplication.getInstance().moveToPageNumber(15);
     }
 
     @Override

@@ -27,11 +27,11 @@ public class VMFinance extends AndroidViewModel {
     private final RCreditApplicant poCreditApp;
     private final RCountry poCountry;
     private final GOCASApplication poGoCas;
+    private ECreditApplicantInfo poInfo;
 
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
-    private final MutableLiveData<ECreditApplicantInfo> poInfo = new MutableLiveData<>();
     private final MutableLiveData<String> psFinanceSource = new MutableLiveData<>();
-    private final MutableLiveData<JSONObject> poJson = new MutableLiveData<>();
+    private JSONObject poJson;
 
     public VMFinance(@NonNull Application application) {
         super(application);
@@ -50,9 +50,8 @@ public class VMFinance extends AndroidViewModel {
 
     public void setGOCasApplication(ECreditApplicantInfo sDetailInfo){
         try{
-            poInfo.setValue(sDetailInfo);
-            setMeansInfos(poInfo.getValue().getAppMeans());
-            this.poGoCas.setData(sDetailInfo.getDetlInfo());
+            poInfo = sDetailInfo;
+            setMeansInfos(poInfo.getAppMeans());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -82,32 +81,30 @@ public class VMFinance extends AndroidViewModel {
 
     public void setMeansInfos(String foJson){
         try{
-            poJson.setValue(new JSONObject(foJson));
+            poJson = new JSONObject(foJson);
         } catch (JSONException e){
             e.printStackTrace();
         }
     }
 
-    public LiveData<Integer> getNextPage(){
-        MutableLiveData<Integer> loPage = new MutableLiveData<>();
-        try {
-            if(poJson.getValue().getString("employed").equalsIgnoreCase("1") &&  CreditAppConstants.employment_done == false) {
-                loPage.setValue(3);
-            } else if(poJson.getValue().getString("sEmplyed").equalsIgnoreCase("1")  &&  CreditAppConstants.self_employment_done == false) {
-                loPage.setValue(4);
-            } else if(poJson.getValue().getString("pensionx").equalsIgnoreCase("1")  &&  CreditAppConstants.pension_done == false) {
-                loPage.setValue(6);
-            } else if(poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1") ||
-                    poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("5")){
-                loPage.setValue(7);
-            } else {
-                loPage.setValue(12);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+    public int getPreviousPage() throws Exception{
+        if(poJson.getString("sEmplyed").equalsIgnoreCase("1")){
+            return 4;
+        } else if(poJson.getString("employed").equalsIgnoreCase("1")){
+            return 3;
+        } else {
+            return 2;
         }
+    }
 
-        return loPage;
+    public int getNextPage() throws Exception{
+        if(poJson.getString("pensionx").equalsIgnoreCase("1")) {
+            return 6;
+        } else if(poInfo.getIsSpouse().equalsIgnoreCase("1")){
+            return 7;
+        } else {
+            return 12;
+        }
     }
     public void SaveFinancierInfo(FinanceInfoModel infoModel, ViewModelCallBack callBack){
         try{
@@ -119,13 +116,9 @@ public class VMFinance extends AndroidViewModel {
                 poGoCas.MeansInfo().FinancerInfo().setMobileNo(infoModel.getMobileNo());
                 poGoCas.MeansInfo().FinancerInfo().setFBAccount(infoModel.getFacebook());
                 poGoCas.MeansInfo().FinancerInfo().setEmailAddress(infoModel.getEmail());
-                ECreditApplicantInfo applicantInfo = poInfo.getValue();
-                applicantInfo.setTransNox(Objects.requireNonNull(TransNox.getValue()));
-                applicantInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                applicantInfo.setDetlInfo(poGoCas.toJSONString());
-                poCreditApp.updateGOCasData(applicantInfo);
-                CreditAppConstants.finance_done = true;
-                callBack.onSaveSuccessResult(TransNox.getValue());
+                poInfo.setFinancex(poGoCas.MeansInfo().FinancerInfo().toJSONString());
+                poCreditApp.updateGOCasData(poInfo);
+                callBack.onSaveSuccessResult(String.valueOf(getNextPage()));
             } else {
                 callBack.onFailedResult(infoModel.getMessage());
             }

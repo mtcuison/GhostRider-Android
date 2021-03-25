@@ -21,11 +21,16 @@ import android.widget.RadioGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Data.UploadCreditApp;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerResidenceModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMComakerResidence;
+
+import java.util.Objects;
 
 public class Fragment_ComakerResidence extends Fragment implements ViewModelCallBack {
 
@@ -55,6 +60,9 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
     private Button btnNext;
     private Button btnPrvs;
 
+    MessageBox poMessage;
+    private LoadDialog poDialogx;
+
     public static Fragment_ComakerResidence newInstance() {
         return new Fragment_ComakerResidence();
     }
@@ -63,6 +71,8 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comaker_residence, container, false);
+        poMessage = new MessageBox(getActivity());
+        poDialogx = new LoadDialog(getActivity());
         initWidgets(view);
         return view;
     }
@@ -179,11 +189,45 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
     @Override
     public void onSaveSuccessResult(String args) {
 
+        mViewModel.SaveCreditOnlineApplication(new UploadCreditApp.OnUploadLoanApplication() {
+            @Override
+            public void OnUpload() {
+                poDialogx.initDialog("Credit Application", "Sending loan application. Please wait...", false);
+                poDialogx.show();
+            }
+
+            @Override
+            public void OnSuccess(String ClientName) {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Application");
+                poMessage.setMessage("Loan application of " + ClientName + " has been sent.");
+                poMessage.setPositiveButton("Okay", (view1, dialog1) -> {
+                    dialog1.dismiss();
+                    requireActivity().finish();
+                });
+                poMessage.show();
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Application");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view1, dialog1) -> dialog1.dismiss());
+                poMessage.show();
+            }
+        });
     }
 
     @Override
     public void onFailedResult(String message) {
-
+        poMessage.initDialog();
+        poMessage.setTitle("Credit Application");
+        poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view1, dialog1) -> dialog1.dismiss());
+        poMessage.show();
     }
 
 

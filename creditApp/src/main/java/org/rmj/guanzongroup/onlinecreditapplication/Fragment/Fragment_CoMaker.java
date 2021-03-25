@@ -2,7 +2,6 @@ package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
 import androidx.lifecycle.ViewModelProviders;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,16 +16,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.gocas.base.GOCASApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Data.UploadCreditApp;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.OnDateSetListener;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -36,15 +34,8 @@ import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMCoMaker;
 import java.util.Objects;
 
 public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
-
     private VMCoMaker mViewModel;
     private static final String TAG = Fragment_CoMaker.class.getSimpleName();
-
-    private String TransNox;
-    private GOCASApplication poGoCas;
-
-    private String ProvID = "";
-    private String TownID = "";
 
     private String spnIncomePosition = "-1";
     private String spnCoRelationPosition = "-1";
@@ -71,20 +62,15 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
     private TextInputEditText tieTrtCntctPlan;
     private TextInputEditText tieFbAcctxx;
     //    private Spinner spnBrwrRltn;
-    private LinearLayout linearPrmContact;
-    private LinearLayout linearScnContact;
-    private LinearLayout linearTrtContact;
     private AutoCompleteTextView spnPrmCntct;
     private AutoCompleteTextView spnScnCntct;
     private AutoCompleteTextView spnTrtCntct;
-    private TextInputLayout tilPrimaryCntctStats;
-    private TextInputLayout tilScnCntctStats;
-    private TextInputLayout tilTrtCntctStats;
     private AutoCompleteTextView spnIncmSrce;
     private AutoCompleteTextView spnBrwrRltn;
     private Button btnPrvs;
     private Button btnNext;
     private CoMakerModel infoModel;
+    private LoadDialog poDialogx;
 
     public static Fragment_CoMaker newInstance() {
         return new Fragment_CoMaker();
@@ -94,8 +80,8 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comaker, container, false);
-        TransNox = Activity_CreditApplication.getInstance().getTransNox();
         infoModel = new CoMakerModel();
+        poDialogx = new LoadDialog(getActivity());
         setupWidgets(view);
         return view;
     }
@@ -106,7 +92,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         mViewModel = ViewModelProviders.of(this).get(VMCoMaker.class);
         // TODO: Use the ViewModel
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo.getDetlInfo()));
+        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
         mViewModel.getSpnCMakerRelation().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBrwrRltn.setAdapter(stringArrayAdapter));
         mViewModel.getSpnCMakerIncomeSource().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnIncmSrce.setAdapter(stringArrayAdapter));
         mViewModel.getCmrPrimaryCntctPlan().observe(getViewLifecycleOwner(), integer -> tilPrmCntctPlan.setVisibility(integer));
@@ -198,26 +184,22 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         tieFbAcctxx = v.findViewById(R.id.tie_cap_cmrFacebookacc);
         spnIncmSrce = v.findViewById(R.id.spinner_cap_cmrIncomeSrc);
         spnBrwrRltn = v.findViewById(R.id.spinner_cap_cmrBarrowerRelation);
-        linearPrmContact = v.findViewById(R.id.linear_cmrPrimaryContact);
         spnPrmCntct = v.findViewById(R.id.spinner_cap_cmrPrimaryCntctStats);
         spnScnCntct = v.findViewById(R.id.spinner_cap_cmrSecondaryCntctStats);
         spnTrtCntct = v.findViewById(R.id.spinner_cap_cmrTertiaryCntctStats);
 
-        tilPrimaryCntctStats = v.findViewById(R.id.til_cap_cmrPrimaryCntctStats);
-        tilScnCntctStats = v.findViewById(R.id.til_cap_cmrSecondaryCntctStats);
-        tilTrtCntctStats = v.findViewById(R.id.til_cap_cmrTertiaryCntctStats);
-
         tieBrthDate.addTextChangedListener(new OnDateSetListener(tieBrthDate));
         btnNext = v.findViewById(R.id.btn_creditAppNext);
         btnPrvs = v.findViewById(R.id.btn_creditAppPrvs);
+        btnPrvs.setOnClickListener(v12 -> Activity_CreditApplication.getInstance().moveToPageNumber(15));
         btnNext.setOnClickListener(v1 -> {
             infoModel = new CoMakerModel(
-                    Objects.requireNonNull(tieLastname.getText().toString()),
-                    Objects.requireNonNull(tieFrstname.getText().toString()),
-                    Objects.requireNonNull(tieMiddname.getText().toString()),
+                    Objects.requireNonNull(Objects.requireNonNull(tieLastname.getText()).toString()),
+                    Objects.requireNonNull(Objects.requireNonNull(tieFrstname.getText()).toString()),
+                    Objects.requireNonNull(Objects.requireNonNull(tieMiddname.getText()).toString()),
                     Objects.requireNonNull(tieSuffixxx.getText().toString()),
-                    Objects.requireNonNull(tieNickname.getText().toString()),
-                    Objects.requireNonNull(tieBrthDate.getText().toString()),
+                    Objects.requireNonNull(Objects.requireNonNull(tieNickname.getText()).toString()),
+                    Objects.requireNonNull(Objects.requireNonNull(tieBrthDate.getText()).toString()),
                     Objects.requireNonNull(tieBrthTown.getText().toString()),
                     Objects.requireNonNull(tieFbAcctxx.getText().toString()),
                     Objects.requireNonNull(spnIncomePosition),
@@ -251,14 +233,51 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
     @Override
     public void onSaveSuccessResult(String args) {
         Activity_CreditApplication.getInstance().moveToPageNumber(17);
-//        Activity_CreditApplication.getInstance().moveToPageNumber(2);
-//        startActivity(new Intent(getActivity(), Activity_ApplicationHistory.class));
-//        getActivity().finish();
     }
 
     @Override
     public void onFailedResult(String message) {
-        GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
+        if(!message.equalsIgnoreCase("no_comaker")) {
+            GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
+        } else {
+            MessageBox loDialog = new MessageBox(getActivity());
+            loDialog.initDialog();
+            loDialog.setTitle("Co-Maker Info");
+            loDialog.setMessage("Send loan application without co-maker info?");
+            loDialog.setPositiveButton("Yes", (view, dialog) -> {
+                dialog.dismiss();
+                mViewModel.SaveCreditOnlineApplication(new UploadCreditApp.OnUploadLoanApplication() {
+                    @Override
+                    public void OnUpload() {
+                        poDialogx.initDialog("Credit Application", "Sending loan application. Please wait...", false);
+                        poDialogx.show();
+                    }
+
+                    @Override
+                    public void OnSuccess(String clientName) {
+                        poDialogx.dismiss();
+                        loDialog.initDialog();
+                        loDialog.setTitle("Credit Application");
+                        loDialog.setMessage("Loan application of " + clientName + " has been sent.");
+                        loDialog.setPositiveButton("Okay", (view1, dialog1) -> dialog1.dismiss());
+                        loDialog.show();
+                    }
+
+                    @Override
+                    public void OnFailed(String message1) {
+                        poDialogx.dismiss();
+                        loDialog.initDialog();
+                        loDialog.setTitle("Credit Application");
+                        loDialog.setMessage(message1);
+                        loDialog.setPositiveButton("Okay", (view1, dialog1) -> dialog1.dismiss());
+                        loDialog.show();
+                    }
+                });
+                requireActivity().finish();
+            });
+            loDialog.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            loDialog.show();
+        }
     }
 
     class OnItemClickListener implements AdapterView.OnItemClickListener {
@@ -287,5 +306,4 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
             }
         }
     }
-
 }

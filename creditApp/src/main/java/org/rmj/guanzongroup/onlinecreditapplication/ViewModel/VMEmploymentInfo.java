@@ -2,7 +2,6 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -38,9 +37,9 @@ public class VMEmploymentInfo extends AndroidViewModel {
     private final ROccupation poJobRepo;
     private final RCreditApplicant poCredtAp;
     private final GOCASApplication poGoCasxx;
+    private ECreditApplicantInfo poInfo;
 
     private final MutableLiveData<JSONObject> poJson = new MutableLiveData<>();
-    private final MutableLiveData<ECreditApplicantInfo> poInfo = new MutableLiveData<>();
     private final MutableLiveData<String> psTransNo = new MutableLiveData<>();
     private final MutableLiveData<String> psSectorx = new MutableLiveData<>();
     private final MutableLiveData<String> psUniform = new MutableLiveData<>();
@@ -69,8 +68,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
 
     public void setCreditApplicantInfo(ECreditApplicantInfo foInfo){
         try{
-            poInfo.setValue(foInfo);
-            poGoCasxx.setData(foInfo.getDetlInfo());
+            poInfo = foInfo;
             setMeansInfos(foInfo.getAppMeans());
         } catch (Exception e){
             e.printStackTrace();
@@ -219,14 +217,10 @@ public class VMEmploymentInfo extends AndroidViewModel {
                 poGoCasxx.MeansInfo().EmployedInfo().setLengthOfService(infoModel.getLengthOfService());
                 poGoCasxx.MeansInfo().EmployedInfo().setSalary(infoModel.getMonthlyIncome());
                 poGoCasxx.MeansInfo().EmployedInfo().setCompanyNo(infoModel.getContact());
-                ECreditApplicantInfo info = poInfo.getValue();
-                Objects.requireNonNull(info).setTransNox(Objects.requireNonNull(psTransNo.getValue()));
-                info.setDetlInfo(poGoCasxx.toJSONString());
-                info.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
-                poCredtAp.updateGOCasData(info);
-                Log.e("Data info ", info.getDetlInfo());
-                CreditAppConstants.employment_done = true;
-                callBack.onSaveSuccessResult("Success");
+
+                poInfo.setEmplymnt(poGoCasxx.MeansInfo().EmployedInfo().toJSONString());
+                poCredtAp.updateGOCasData(poInfo);
+                callBack.onSaveSuccessResult(String.valueOf(getNextPage()));
             } else {
                 callBack.onFailedResult(infoModel.getMessage());
             }
@@ -236,25 +230,17 @@ public class VMEmploymentInfo extends AndroidViewModel {
         }
     }
 
-    public LiveData<Integer> getNextPage(){
-        MutableLiveData<Integer> loPage = new MutableLiveData<>();
-        try {
-            if(Objects.requireNonNull(poJson.getValue()).getString("sEmplyed").equalsIgnoreCase("1") && !CreditAppConstants.self_employment_done) {
-                loPage.setValue(4);
-            } else if(poJson.getValue().getString("financer").equalsIgnoreCase("1")  && !CreditAppConstants.finance_done) {
-                loPage.setValue(5);
-            } else if(poJson.getValue().getString("pensionx").equalsIgnoreCase("1")  && !CreditAppConstants.pension_done) {
-                loPage.setValue(6);
-            } else if(poGoCasxx.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1") ||
-                    poGoCasxx.ApplicantInfo().getCivilStatus().equalsIgnoreCase("5")){
-                loPage.setValue(7);
-            } else {
-                loPage.setValue(12);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+    public int getNextPage() throws Exception{
+        if(Objects.requireNonNull(poJson.getValue()).getString("sEmplyed").equalsIgnoreCase("1")) {
+            return 4;
+        } else if(poJson.getValue().getString("financer").equalsIgnoreCase("1")) {
+            return 5;
+        } else if(poJson.getValue().getString("pensionx").equalsIgnoreCase("1")) {
+            return 6;
+        } else if(poInfo.getIsSpouse().equalsIgnoreCase("1")){
+            return 7;
+        } else {
+            return 12;
         }
-
-        return loPage;
     }
 }

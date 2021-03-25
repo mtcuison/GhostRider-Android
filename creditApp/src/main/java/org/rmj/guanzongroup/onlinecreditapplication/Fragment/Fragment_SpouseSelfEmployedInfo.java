@@ -26,6 +26,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.TextFormatter;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SpouseSelfEmployedInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -60,7 +61,7 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMSpouseSelfEmployedInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo.getDetlInfo()));
+        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo));
 
         mViewModel.getProvinceName().observe(getViewLifecycleOwner(), strings -> {
                 try{
@@ -133,6 +134,8 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
         btnNext = v.findViewById(R.id.btn_creditAppNext);
         btnPrvs = v.findViewById(R.id.btn_creditAppPrvs);
 
+        txtMonthlyInc.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(txtMonthlyInc));
+        txtMonthlyExp.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(txtMonthlyExp));
         spnMonthOrYr.setOnItemClickListener(new OnItemClickListener(spnMonthOrYr));
         spnBizIndustry.setOnItemClickListener(new OnItemClickListener(spnBizIndustry));
         spnBizType.setOnItemClickListener(new OnItemClickListener(spnBizType));
@@ -153,7 +156,7 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
 
     @Override
     public void onSaveSuccessResult(String args) {
-        Activity_CreditApplication.getInstance().moveToPageNumber(6);
+        Activity_CreditApplication.getInstance().moveToPageNumber(11);
     }
 
     @Override

@@ -43,14 +43,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_cap_sUsr2buyr"
+                android:id="@+id/til_cap_otherUser"
                 style="@style/CustomDropDownTilStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Other User">
 
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                    android:id="@+id/spinner_cap_sUsr2buyr"
+                    android:id="@+id/spinner_cap_otherUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
@@ -104,14 +104,16 @@
                     android:clickable="false"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_cap_sPyr2Buyr"
+                android:id="@+id/til_cap_otherPayer"
                 style="@style/CustomDropDownTilStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Other Payer">
+
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                    android:id="@+id/spinner_cap_sPyr2Buyr"
+                    android:id="@+id/spinner_cap_otherPayer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
@@ -146,14 +148,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_cap_CompanyInfoSource"
+                android:id="@+id/til_cap_otherSource"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sHintSpecify"
                 style="@style/TextInputStyle">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_cap_CompanyInfoSource"
+                    android:id="@+id/tie_cap_otherSource"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"/>
