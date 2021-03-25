@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.BranchApplicationsAdapter;
@@ -135,6 +136,7 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
                         loIntent.putExtra("AccntTerm",loanLists.get(position).getnAcctTerm());
                         loIntent.putExtra("MobileNo",loanLists.get(position).getsMobileNo());
                         loIntent.putExtra("Status",loanLists.get(position).getTransactionStatus());
+                        loIntent.putExtra("SubFolder", AppConstants.SUB_FOLDER_CREDIT_APP);
                         startActivity(loIntent);
                     }
 
