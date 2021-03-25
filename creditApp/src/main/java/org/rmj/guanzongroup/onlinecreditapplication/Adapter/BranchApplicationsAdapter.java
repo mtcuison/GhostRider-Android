@@ -89,13 +89,13 @@ public class BranchApplicationsAdapter extends RecyclerView.Adapter<BranchApplic
         public ClientInfoViewHolder(@NonNull View itemView, BranchApplicationsAdapter.OnApplicationClickListener onApplicationClickListener) {
             super(itemView);
 
-            lblTransNoxxx = itemView.findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_list_transNox);
-            lblClientName = itemView.findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_list_applicantName);
-            lblAppltnDate = itemView.findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_list_applicationDate);
-            lblStatus = itemView.findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_list_applicationWithCI);
-            lblModelName = itemView.findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_modelName);
-            lblAccntTern = itemView.findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_accntTerm);
-            lblMobileNo = itemView.findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_mobileNo);
+            lblTransNoxxx = itemView.findViewById(R.id.lbl_list_transNox);
+            lblClientName = itemView.findViewById(R.id.lbl_list_applicantName);
+            lblAppltnDate = itemView.findViewById(R.id.lbl_list_applicationDate);
+            lblStatus = itemView.findViewById(R.id.lbl_list_applicationWithCI);
+            lblModelName = itemView.findViewById(R.id.lbl_modelName);
+            lblAccntTern = itemView.findViewById(R.id.lbl_accntTerm);
+            lblMobileNo = itemView.findViewById(R.id.lbl_mobileNo);
 
 
             itemView.setOnClickListener(v12 -> {

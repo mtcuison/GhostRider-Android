@@ -50,6 +50,7 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
     private LoadDialog poDialogx;
     private MessageBox poMessage;
     private TextInputEditText txtSearch;
+    private LinearLayout layoutNoRecord;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +104,7 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
         layoutManager = new LinearLayoutManager(MainScanner.this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         loading = findViewById(R.id.linear_progress);
+        layoutNoRecord = findViewById(R.id.layout_scanner_noRecord);
     }
     public void initData(){
         mViewModel.getBranchCreditApplication().observe(MainScanner.this, brnCreditList -> {
@@ -162,6 +164,11 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
                         try {
                             adapter.getFilter().filter(s.toString());
                             adapter.notifyDataSetChanged();
+                            if (adapter.getItemCount() == 0){
+                                layoutNoRecord.setVisibility(View.VISIBLE);
+                            }else {
+                                layoutNoRecord.setVisibility(View.GONE);
+                            }
                         } catch (Exception e){
                             e.printStackTrace();
                         }

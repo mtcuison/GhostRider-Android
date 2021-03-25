@@ -8,7 +8,7 @@
             android:label="CI Evaluation"/>
         <activity android:name=".Activity.Activity_CreditEvaluator"
             android:screenOrientation="userPortrait"
-            android:label="CI Evaluation Log"/>
+            android:label="CI Evaluation"/>
     </application>
 
 </manifest>

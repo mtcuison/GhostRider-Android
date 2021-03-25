@@ -164,7 +164,7 @@ public class ClientInfo extends AppCompatActivity {
         lblTransNoxxx = findViewById(R.id.lbl_list_transNox);
         lblClientName = findViewById(R.id.lbl_list_applicantName);
         lblAppltnDate = findViewById(R.id.lbl_list_applicationDate);
-        lblStatus = findViewById(R.id.lbl_list_applicationWithCI);
+//        lblStatus = findViewById(R.id.lbl_list_applicationWithCI);
         lblModelName = findViewById(R.id.lbl_modelName);
         lblAccntTern = findViewById(R.id.lbl_accntTerm);
         lblMobileNo = findViewById(R.id.lbl_mobileNo);
@@ -175,7 +175,7 @@ public class ClientInfo extends AppCompatActivity {
         lblTransNoxxx.setText(TransNox);
         lblClientName.setText(getIntent().getStringExtra("ClientNm"));
         lblAppltnDate.setText(getIntent().getStringExtra("dTransact"));
-        lblStatus.setText(getIntent().getStringExtra("Status"));
+//        lblStatus.setText(getIntent().getStringExtra("Status"));
         lblModelName.setText(getIntent().getStringExtra("ModelName"));
         lblAccntTern.setText(getIntent().getStringExtra("AccntTerm"));
         lblMobileNo.setText(getIntent().getStringExtra("MobileNo"));

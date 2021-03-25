@@ -139,17 +139,17 @@ public class Activity_DocumentToScan extends AppCompatActivity {
     public void initWidgets(){
         poDialogx = new LoadDialog(Activity_DocumentToScan.this);
         poMessage = new MessageBox(Activity_DocumentToScan.this);
-        recyclerView = findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.recyclerview_fileCodeInfo);
+        recyclerView = findViewById(R.id.recyclerview_docScan);
         layoutManager = new LinearLayoutManager(Activity_DocumentToScan.this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
 
-        lblTransNoxxx = findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_list_transNox);
-        lblClientName = findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_list_applicantName);
-        lblAppltnDate = findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_list_applicationDate);
-        lblStatus = findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_list_applicationWithCI);
-        lblModelName = findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_modelName);
-        lblAccntTern = findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_accntTerm);
-        lblMobileNo = findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_mobileNo);
+        lblTransNoxxx = findViewById(R.id.lbl_list_transNox);
+        lblClientName = findViewById(R.id.lbl_list_applicantName);
+        lblAppltnDate = findViewById(R.id.lbl_list_applicationDate);
+        lblStatus = findViewById(R.id.lbl_list_applicationWithCI);
+        lblModelName = findViewById(R.id.lbl_modelName);
+        lblAccntTern = findViewById(R.id.lbl_accntTerm);
+        lblMobileNo = findViewById(R.id.lbl_mobileNo);
 
     }
     public void setData(){

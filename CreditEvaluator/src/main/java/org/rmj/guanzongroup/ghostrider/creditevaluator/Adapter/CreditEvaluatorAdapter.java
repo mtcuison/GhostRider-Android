@@ -5,34 +5,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.TextFormatter;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CreditEvaluationModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.TextFormatter.getDecimalFormattedString;
-
-public class CreditEvaluationAdapter extends RecyclerView.Adapter<CreditEvaluationAdapter.CreditEvaluationViewHolder> implements Filterable{
+public class CreditEvaluatorAdapter extends RecyclerView.Adapter<CreditEvaluatorAdapter.CreditEvaluationViewHolder> implements Filterable{
 
     private List<CreditEvaluationModel> plLoanApp;
     private List<CreditEvaluationModel> plLoanApp1;
     private List<CreditEvaluationModel> plSchList;
     private List<CreditEvaluationModel> filteredList;
-    private CreditEvaluationAdapter.OnVoidApplicationListener onVoidApplicationListener;
-    private CreditEvaluationAdapter.OnExportGOCASListener onExportGOCASListener;
-    private CreditEvaluationAdapter.OnApplicationClickListener onApplicationClickListener;
+    private CreditEvaluatorAdapter.OnVoidApplicationListener onVoidApplicationListener;
+    private CreditEvaluatorAdapter.OnExportGOCASListener onExportGOCASListener;
+    private CreditEvaluatorAdapter.OnApplicationClickListener onApplicationClickListener;
 
 //    private final SearchFilter poSearch;
 
-    public CreditEvaluationAdapter(List<CreditEvaluationModel> plLoanApp, CreditEvaluationAdapter.OnApplicationClickListener onApplicationClickListener) {
+    public CreditEvaluatorAdapter(List<CreditEvaluationModel> plLoanApp, CreditEvaluatorAdapter.OnApplicationClickListener onApplicationClickListener) {
         this.plLoanApp = plLoanApp;
         this.plLoanApp1 = plLoanApp;
         this.onApplicationClickListener = onApplicationClickListener;
@@ -45,9 +41,9 @@ public class CreditEvaluationAdapter extends RecyclerView.Adapter<CreditEvaluati
     }
     @NonNull
     @Override
-    public CreditEvaluationAdapter.CreditEvaluationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CreditEvaluatorAdapter.CreditEvaluationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.credit_app_list, parent, false);
-        return new CreditEvaluationAdapter.CreditEvaluationViewHolder(view,onApplicationClickListener);
+        return new CreditEvaluatorAdapter.CreditEvaluationViewHolder(view,onApplicationClickListener);
     }
 
     @Override
@@ -60,6 +56,7 @@ public class CreditEvaluationAdapter extends RecyclerView.Adapter<CreditEvaluati
         holder.lblMobileNo.setText(poLoan.getsMobileNo());
         holder.lblAccountTerm.setText(poLoan.getnAcctTerm());
         holder.lblModelName.setText(poLoan.getsModelNme());
+        holder.lblDownPayment.setText("Php " + poLoan.getnDownPaym());
     }
 
     @Override
@@ -81,7 +78,7 @@ public class CreditEvaluationAdapter extends RecyclerView.Adapter<CreditEvaluati
         TextView lblModelName;
         TextView lblDownPayment;
 
-        public CreditEvaluationViewHolder(@NonNull View itemView, CreditEvaluationAdapter.OnApplicationClickListener onApplicationClickListener) {
+        public CreditEvaluationViewHolder(@NonNull View itemView, CreditEvaluatorAdapter.OnApplicationClickListener onApplicationClickListener) {
             super(itemView);
 
             lblTransNoxxx = itemView.findViewById(R.id.lbl_ci_transNox);
@@ -94,10 +91,10 @@ public class CreditEvaluationAdapter extends RecyclerView.Adapter<CreditEvaluati
 
 
             itemView.setOnClickListener(v12 -> {
-                if(CreditEvaluationAdapter.this.onApplicationClickListener !=null){
+                if(CreditEvaluatorAdapter.this.onApplicationClickListener !=null){
                     int lnPos = getAdapterPosition();
                     if(lnPos != RecyclerView.NO_POSITION){
-                        CreditEvaluationAdapter.this.onApplicationClickListener.OnClick(lnPos, plLoanApp);
+                        CreditEvaluatorAdapter.this.onApplicationClickListener.OnClick(lnPos, plLoanApp);
                     }
                 }
             });

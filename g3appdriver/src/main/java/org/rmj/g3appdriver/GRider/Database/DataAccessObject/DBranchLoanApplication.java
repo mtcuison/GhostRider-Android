@@ -28,9 +28,20 @@ public interface DBranchLoanApplication {
     @Delete
     void delete(EBranchLoanApplication branchLoanApplication);
 
-    @Query("SELECT * FROM Credit_Online_Application_List WHERE sBranchCD = (SELECT sBranchCD FROM User_Info_Master) ")
+    @Query("SELECT * FROM Credit_Online_Application_List " +
+            "WHERE sBranchCD = (SELECT sBranchCD FROM User_Info_Master) ")
     LiveData<List<EBranchLoanApplication>> getAllBranchCreditApplication();
-    @Query("SELECT * FROM Credit_Online_Application_List WHERE sCredInvx  = (SELECT sEmployID FROM User_Info_Master) ")
-//    @Query("SELECT * FROM Credit_Online_Application_List WHERE sCreatedx  = 'GAP0190799'")
+
+    @Query("SELECT * FROM Credit_Online_Application_List " +
+            "WHERE sBranchCD = (SELECT sBranchCD FROM User_Info_Master)")
     LiveData<List<EBranchLoanApplication>> getAllCICreditApplication();
+
+//    @Query("SELECT * FROM Credit_Online_Application_List " +
+//            "WHERE cTranStat != 4 AND " +
+//            "sCreatedx  = (SELECT sEmployID FROM User_Info_Master) ")
+
+    @Query("SELECT * FROM Credit_Online_Application_List " +
+            "WHERE cTranStat != 4 AND " +
+            "sCreatedx  = 'GAP020200310' ")
+    LiveData<List<EBranchLoanApplication>> getAllCICreditApplicationLog();
 }

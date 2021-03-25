@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,7 +19,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluationAdapter;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluationListAdapter;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CreditEvaluationModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMEvaluationList;
@@ -33,17 +32,25 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
     private RecyclerView recyclerViewClient;
     private VMEvaluationList mViewModel;
     private LinearLayoutManager layoutManager;
-    private CreditEvaluationAdapter adapter;
+    private CreditEvaluationListAdapter adapter;
     private LinearLayout loading;
     private List<CreditEvaluationModel> creditList;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
     private String userBranch;
     private TextInputEditText txtSearch;
+    private LinearLayout layoutNoRecord;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);        
         setContentView(R.layout.activity_evaluation_list);
+        initWidgets();
+        mViewModel = new ViewModelProvider(Activity_EvaluationList.this).get(VMEvaluationList.class);
+        mViewModel.ImportCIApplications(Activity_EvaluationList.this);
+        initData();
+
+    }
+    private void initWidgets(){
 
         Toolbar toolbar = findViewById(R.id.toolbar_creditEvalutionList);
         setSupportActionBar(toolbar);
@@ -56,10 +63,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
         layoutManager = new LinearLayoutManager(Activity_EvaluationList.this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         loading = findViewById(R.id.linear_progress);
-        mViewModel = new ViewModelProvider(Activity_EvaluationList.this).get(VMEvaluationList.class);
-        mViewModel.ImportCIApplications(Activity_EvaluationList.this);
-        initData();
-
+        layoutNoRecord = findViewById(R.id.layout_ci_noRecord);
     }
 
 
@@ -118,7 +122,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
                     creditList.add(loan);
                     Log.e("Loan List", String.valueOf(loan));
                 }
-                adapter = new CreditEvaluationAdapter(creditList, new CreditEvaluationAdapter.OnApplicationClickListener() {
+                adapter = new CreditEvaluationListAdapter(creditList, new CreditEvaluationListAdapter.OnApplicationClickListener() {
                     @Override
                     public void OnClick(int position, List<CreditEvaluationModel> creditLists) {
 //                                mViewModel.getDocument(creditLists.get(position).getTransNox()).observe(Activity_EvaluationList.this, data -> {
@@ -153,6 +157,11 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
 
                             adapter.getFilter().filter(s.toString());
                             adapter.notifyDataSetChanged();
+                            if (adapter.getItemCount() == 0){
+                                layoutNoRecord.setVisibility(View.VISIBLE);
+                            }else {
+                                layoutNoRecord.setVisibility(View.GONE);
+                            }
                         } catch (Exception e){
                             e.printStackTrace();
                         }

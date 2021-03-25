@@ -153,6 +153,9 @@ public class RBranchLoanApplication {
     public LiveData<List<EBranchLoanApplication>> getCICreditApplication(){
         return docsDao.getAllCICreditApplication();
     }
+    public LiveData<List<EBranchLoanApplication>> getAllCICreditApplicationLog(){
+        return docsDao.getAllCICreditApplicationLog();
+    }
     public void insertDetailBulkData(List<EBranchLoanApplication> eBranchLoanApplications){
         new InsertBulkBranchApplicationListAsyncTask(docsDao).execute(eBranchLoanApplications);
     }

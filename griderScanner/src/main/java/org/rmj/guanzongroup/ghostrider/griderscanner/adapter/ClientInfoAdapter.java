@@ -53,10 +53,11 @@ public class ClientInfoAdapter extends RecyclerView.Adapter<ClientInfoAdapter.Cl
         holder.lblTransNoxxx.setText("TransNox. :"+poLoan.getsTransNox());
         holder.lblClientName.setText(poLoan.getsCompnyNm());
         holder.lblAppltnDate.setText(poLoan.getdTransact());
-        holder.lblStatus.setText(poLoan.getTransactionStatus());
         holder.lblAccntTern.setText(poLoan.getnAcctTerm());
         holder.lblModelName.setText(poLoan.getsModelNme());
         holder.lblMobileNo.setText(poLoan.getsMobileNo());
+
+//        holder.lblStatus.setText(poLoan.getTransactionStatus());
 //        holder.lblApplResult.setText(poLoan.getTransactionStatus());
 //
 //        holder.btnVoid.setVisibility(poLoan.getVoidStatus());
@@ -87,7 +88,7 @@ public class ClientInfoAdapter extends RecyclerView.Adapter<ClientInfoAdapter.Cl
             lblTransNoxxx = itemView.findViewById(R.id.lbl_list_transNox);
             lblClientName = itemView.findViewById(R.id.lbl_list_applicantName);
             lblAppltnDate = itemView.findViewById(R.id.lbl_list_applicationDate);
-            lblStatus = itemView.findViewById(R.id.lbl_list_applicationWithCI);
+//            lblStatus = itemView.findViewById(R.id.lbl_list_applicationWithCI);
             lblModelName = itemView.findViewById(R.id.lbl_modelName);
             lblAccntTern = itemView.findViewById(R.id.lbl_accntTerm);
             lblMobileNo = itemView.findViewById(R.id.lbl_mobileNo);

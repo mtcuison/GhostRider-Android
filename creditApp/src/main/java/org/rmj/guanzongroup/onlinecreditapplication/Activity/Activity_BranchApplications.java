@@ -40,10 +40,17 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
     private MessageBox poMessage;
     private String userBranch;
     private TextInputEditText txtSearch;
+    private LinearLayout layoutNoRecord;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_branch_applications);
+        initWidgets();
+        mViewModel = new ViewModelProvider(Activity_BranchApplications.this).get(VMBranchApplications.class);
+        mViewModel.ImportRBranchApplications(Activity_BranchApplications.this);
+        initData();
+    }
+    private void initWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar_branchApplications);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -54,12 +61,9 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
         txtSearch = findViewById(R.id.txt_branch_search);
         layoutManager = new LinearLayoutManager(Activity_BranchApplications.this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
-        loading = findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.linear_progress);
-        mViewModel = new ViewModelProvider(Activity_BranchApplications.this).get(VMBranchApplications.class);
-        mViewModel.ImportRBranchApplications(Activity_BranchApplications.this);
-        initData();
+        loading = findViewById(R.id.linear_progress);
+        layoutNoRecord = findViewById(R.id.layout_branch_noRecord);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -152,6 +156,11 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
 //                                    adapter.getSearchFilter().filter(s.toString());
                             adapter.getFilter().filter(s.toString());
                             adapter.notifyDataSetChanged();
+                            if (adapter.getItemCount() == 0){
+                                layoutNoRecord.setVisibility(View.VISIBLE);
+                            }else {
+                                layoutNoRecord.setVisibility(View.GONE);
+                            }
                         } catch (Exception e){
                             e.printStackTrace();
                         }
