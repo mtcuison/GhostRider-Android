@@ -24,7 +24,7 @@ public class SpousePensionInfoModel extends InputChecker {
     }
 
     public long getsPensionAmt() {
-        return Long.parseLong(sPensionAmt);
+        return Long.parseLong(sPensionAmt.replace(",", ""));
     }
 
     public void setsPensionAmt(String sPensionAmt) {
@@ -48,7 +48,11 @@ public class SpousePensionInfoModel extends InputChecker {
     }
 
     public long getsOtherSrcIncx() {
-        return Long.parseLong(sOtherSrcIncx);
+        if(!sOtherSrc.isEmpty()) {
+            return Long.parseLong(sOtherSrcIncx.replace(",", ""));
+        } else {
+            return 0;
+        }
     }
 
     public void setsOtherSrcIncx(String sOtherSrcIncx) {

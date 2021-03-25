@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.google.android.material.button.MaterialButton;
@@ -48,8 +49,8 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
     private TextInputEditText tieLimit;
     private TextInputEditText tieYearS;
 
-    private MaterialButton btnPrev;
-    private MaterialButton btnNext;
+    private Button btnPrev;
+    private Button btnNext;
 
     public static Fragment_DisbursementInfo newInstance() {
         return new Fragment_DisbursementInfo();
@@ -85,7 +86,13 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
         btnNext = view.findViewById(R.id.btn_creditAppNext);
         btnPrev = view.findViewById(R.id.btn_creditAppPrvs);
 
-        btnPrev.setOnClickListener(v -> Activity_CreditApplication.getInstance().moveToPageNumber(11));
+        btnPrev.setOnClickListener(v -> {
+            try {
+                Activity_CreditApplication.getInstance().moveToPageNumber(mViewModel.getPreviousPage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 
@@ -94,11 +101,9 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMDisbursementInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo.getDetlInfo()));
-       // mViewModel.getTypeX().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnTypex.setAdapter(stringArrayAdapter));
-        mViewModel.getAccountType().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnTypex.setAdapter(stringArrayAdapter));
+        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
 
-        // TODO: Use the ViewModel
+        mViewModel.getAccountType().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnTypex.setAdapter(stringArrayAdapter));
 
         tieElctx.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieElctx));
         tieWater.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieWater));
@@ -135,39 +140,5 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
     public void onFailedResult(String message) {
         GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
     }
-//    private static class SpinnerSelectionListener implements AdapterView.OnItemSelectedListener{
-//        private final VMDisbursementInfo vm;
-//
-//        SpinnerSelectionListener(VMDisbursementInfo viewModel){
-//            this.vm = viewModel;
-//        }
-//
-//        @Override
-//        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//            String type = "";
-//            if(adapterView.getId() == R.id.spinner_cap_dbmAccountType){
-//
-//                switch (i){
-//                    case 0:
-//                        break;
-//                    case 1:
-//                        type = "0";
-//                        break;
-//                    case 2:
-//                        type = "1";
-//                        break;
-//                    case 3:
-//                        type = "2";
-//                        break;
-//
-//                }
-//                vm.setType(type);
-//            }
-//        }
-//
-//        @Override
-//        public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//        }
-//    }
+
 }

@@ -33,7 +33,7 @@ public class OtherInfoModelTest {
     }
     @Test
     public void test_isValidSpinner() {
-        assertTrue(infoModels.isValidSpinner());
+        assertTrue(infoModels.isDataValid());
     }
 
     @Test

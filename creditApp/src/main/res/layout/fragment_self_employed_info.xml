@@ -42,24 +42,6 @@
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_businessNature"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle.Edittext"
-                android:maxLines="1"
-                android:inputType="textCapWords"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/txt_businessName"
-                android:maxLength="100"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sHintBusinessNm"
-            style="@style/TextInputStyle">
-
-            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txt_businessName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -208,7 +190,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="number|none"
                     android:nextFocusForward="@id/txt_monthlyInc"
-                    android:maxLength="50"/>
+                    android:maxLength="3"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

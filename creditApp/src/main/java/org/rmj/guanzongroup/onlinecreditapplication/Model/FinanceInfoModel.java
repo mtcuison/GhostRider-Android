@@ -36,7 +36,7 @@ public class FinanceInfoModel {
     }
 
     public long getRangeOfIncome() {
-        return Long.parseLong(sFIncme);
+        return Long.parseLong(sFIncme.replace(",", ""));
     }
 
     public void setRangeOfIncome(String sFIncme) {

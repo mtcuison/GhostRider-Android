@@ -62,10 +62,11 @@ public class Fragment_Finance extends Fragment implements ViewModelCallBack {
         btnNext = view.findViewById(R.id.btn_creditAppNext);
         btnPrvs = view.findViewById(R.id.btn_creditAppPrvs);
 
-        btnPrvs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+        btnPrvs.setOnClickListener(v -> {
+            try {
+                Activity_CreditApplication.getInstance().moveToPageNumber(mViewModel.getPreviousPage());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
@@ -119,9 +120,7 @@ public class Fragment_Finance extends Fragment implements ViewModelCallBack {
 
     @Override
     public void onSaveSuccessResult(String args) {
-//        Activity_CreditApplication.getInstance().moveToPageNumber(Integer.parseInt(args));
-        mViewModel.getNextPage().observe(getViewLifecycleOwner(), integer -> Activity_CreditApplication.getInstance().moveToPageNumber(integer));
-
+        Activity_CreditApplication.getInstance().moveToPageNumber(Integer.parseInt(args));
     }
 
 

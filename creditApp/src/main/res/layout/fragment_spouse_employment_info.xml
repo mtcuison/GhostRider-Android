@@ -352,7 +352,7 @@
                         android:id="@+id/txt_lenghtService"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="5"
+                        android:maxLength="3"
                         android:inputType="number|none"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
@@ -404,7 +404,7 @@
                     android:id="@+id/txt_companyContact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="15"
+                    android:maxLength="11"
                     android:inputType="number|none"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>

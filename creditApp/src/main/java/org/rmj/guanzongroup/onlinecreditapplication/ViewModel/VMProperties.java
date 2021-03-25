@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
+package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
 
@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
-import org.rmj.g3appdriver.utils.AgeCalculator;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -49,7 +48,6 @@ public class VMProperties extends AndroidViewModel {
 
     public void setCreditApplicantInfo(ECreditApplicantInfo applicantInfo) throws Exception{
         this.poInfo = applicantInfo;
-        poGOcas.setData(poInfo.getDetlInfo());
     }
 
     public void SavePropertiesInfo(ViewModelCallBack callBack){
@@ -62,6 +60,7 @@ public class VMProperties extends AndroidViewModel {
         poGOcas.DisbursementInfo().PropertiesInfo().WithAirCon(psAirConxx);
         poGOcas.DisbursementInfo().PropertiesInfo().WithRefrigerator(psFridgexx);
         poGOcas.DisbursementInfo().PropertiesInfo().WithTelevision(psTelevsnx);
+        poInfo.setProperty(poGOcas.DisbursementInfo().PropertiesInfo().toJSONString());
         poCreditApp.updateGOCasData(poInfo);
         callBack.onSaveSuccessResult(psTransNox.getValue());
     }

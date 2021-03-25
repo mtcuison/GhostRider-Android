@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void initWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("HOME");
         setSupportActionBar(toolbar);
         /*Edited by mike*/
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

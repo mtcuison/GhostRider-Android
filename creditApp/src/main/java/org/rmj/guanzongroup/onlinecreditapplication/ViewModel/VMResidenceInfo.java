@@ -22,7 +22,6 @@ import org.rmj.guanzongroup.onlinecreditapplication.Model.ResidenceInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
 import java.util.List;
-import java.util.Objects;
 
 public class VMResidenceInfo extends AndroidViewModel {
     private ECreditApplicantInfo poInfo;
@@ -40,9 +39,6 @@ public class VMResidenceInfo extends AndroidViewModel {
     private final MutableLiveData<String> psPTownD = new MutableLiveData<>();
     private final MutableLiveData<String> psPBrgyD = new MutableLiveData<>();
 
-    private final MutableLiveData<String> spnLgnthStayPosition = new MutableLiveData<>();
-    private final MutableLiveData<String> spnHouseHoldPosition = new MutableLiveData<>();
-    private final MutableLiveData<String> spnHouseTypePosition = new MutableLiveData<>();
     public VMResidenceInfo(@NonNull Application application) {
         super(application);
         this.RCreditApplicant = new RCreditApplicant(application);
@@ -84,32 +80,9 @@ public class VMResidenceInfo extends AndroidViewModel {
         return RCreditApplicant.getCreditApplicantInfoLiveData(TRANSNOX.getValue());
     }
 
-    public LiveData<String> getSpnLgnthStayPosition(){
-        return this.spnLgnthStayPosition;
-    }
-
-    public LiveData<String> getSpnHouseHoldPosition(){
-        return this.spnHouseHoldPosition;
-    }
-    public LiveData<String> getSpnHouseTypePosition(){
-        return this.spnHouseTypePosition;
-    }
-    public void setSpnHouseTypePosition(String position){
-        this.spnHouseTypePosition.setValue(position);
-    }
-
-    public void setSpnHouseHoldPosition(String position){
-        this.spnHouseHoldPosition.setValue(position);
-    }
-
-    public void setSpnLgnthStayPosition(String position){
-        this.spnLgnthStayPosition.setValue(position);
-    }
-
     public void setGOCasDetailInfo(ECreditApplicantInfo DetailInfo){
         try{
-            this.poInfo = DetailInfo;
-            poGoCas.setData(poInfo.getDetlInfo());
+            poInfo = DetailInfo;
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -205,7 +178,8 @@ public class VMResidenceInfo extends AndroidViewModel {
                 poGoCas.ResidenceInfo().PermanentAddress().setAddress2(infoModel.getPermanentAddress2());
                 poGoCas.ResidenceInfo().PermanentAddress().setTownCity(infoModel.getPermanentMunicipalID());
                 poGoCas.ResidenceInfo().PermanentAddress().setBarangay(infoModel.getPermanentBarangayID());
-                poInfo.setDetlInfo(poGoCas.toJSONString());
+                poInfo.setResidnce(poGoCas.ResidenceInfo().toJSONString());
+                //poInfo.setDetlInfo(poGoCas.toJSONString());
                 RCreditApplicant.updateGOCasData(poInfo);
                 callBack.onSaveSuccessResult("Success");
             } else {

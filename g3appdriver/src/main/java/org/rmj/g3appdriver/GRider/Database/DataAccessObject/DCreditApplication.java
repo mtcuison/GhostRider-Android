@@ -30,6 +30,16 @@ public interface DCreditApplication {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBulkData(List<ECreditApplication> creditApplications);
 
+    @Query("SELECT * FROM Credit_Online_Application WHERE sTransNox =:TransNox")
+    ECreditApplication getLoanInfoOfTransNox(String TransNox);
+
+    @Query("UPDATE Credit_Online_Application SET " +
+            "sTransNox =:TransNox, " +
+            "cSendStat = '1', " +
+            "dModified =:DateTime " +
+            "WHERE sTransNox =:oldTransNox")
+    void updateSentLoanAppl(String oldTransNox, String TransNox, String DateTime);
+
     @Query("Select a.sGOCASNox, " +
             "a.sTransNox, " +
             "b.sBranchNm, " +

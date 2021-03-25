@@ -1,151 +1,100 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OtherInfoModel {
-    private String Fullname;
-    private String Address1;
-    private String TownCity;
-    private String ContactN;
-    private String message;
 
     //Spinner Values
     private String unitUser;
-    private String userBuyer;
-    private String unitPurpose;
-    private String monthlyPayer;
-    private String payer2Buyer;
+    private String unitPayr;
+    private String unitPrps;
+    private String payrRltn;
     private String source;
     private String companyInfoSource;
 
+    private List<PersonalReferenceInfoModel> poRefInfo;
+
+    private String message;
 
     public OtherInfoModel(){
-
-    }
-
-
-//    public OtherInfoModel(String unitUser,
-//                          String userBuyer,
-//                          String unitPurpose,
-//                          String monthlyPayer,
-//                          String payer2Buyer,
-//                          String source,
-//                          String companyInfoSource){
-//
-//        this.unitUser = unitUser;
-//        this.userBuyer = userBuyer;
-//        this.unitPurpose = unitPurpose;
-//        this.monthlyPayer = monthlyPayer;
-//        this.payer2Buyer = payer2Buyer;
-//        this.source = source;
-//        this.companyInfoSource = companyInfoSource;
-//
-//    }
-
-    public OtherInfoModel(String fullname,
-                              String address1,
-                              String townCity,
-                              String contactN){
-        this.Fullname = fullname;
-        this.Address1 = address1;
-        this.TownCity = townCity;
-        this.ContactN = contactN;
+        poRefInfo = new ArrayList<>();
     }
 
     public String getMessage() {
         return message;
     }
-    public String getFullname() {
-        return Fullname;
+
+    public void setPersonalReferences(List<PersonalReferenceInfoModel> poRefInfo){
+        this.poRefInfo = poRefInfo;
     }
 
-    public String getAddress1() {
-        return Address1;
-    }
-
-    public String getTownCity() {
-        return TownCity;
-    }
-
-    public String getContactN() {
-        return ContactN;
-    }
-//  Spinner Set Value
-    public void setUnitUserModel(String type) {
-         this.unitUser = type;
-    }
-
-    public void setUserBuyerModel(String type) {
-        this.userBuyer = type;
-    }
-
-    public void setUserUnitPurposeModel(String type) {
-        this.unitPurpose = type;
-    }
-
-    public void setMonthlyPayerModel(String type) {
-        this.monthlyPayer = type;
-    }
-
-    public void setPayer2BuyerModel(String type) {
-        this.payer2Buyer = type;
-    }
-
-    public void setSourceModel(String type) {
-        this.source = type;
-    }
-
-    public void setCompanyInfoSourceModel(String type) {
-         this.companyInfoSource = type;
-    }
-
-    //Spinner get Values
-    public String getUnitUserModel() {
+    public String getUnitUser() {
         return unitUser;
     }
 
-    public String getUserBuyerModel() {
-        return userBuyer;
+    public void setUnitUser(String unitUser) {
+        this.unitUser = unitUser;
     }
 
-    public String getUserUnitPurposeModel() {
-        return unitPurpose;
+    public String getUnitPayr() {
+        return unitPayr;
     }
 
-    public String getMonthlyPayerModel() {
-        return monthlyPayer;
+    public void setUnitPayr(String unitPayr) {
+        this.unitPayr = unitPayr;
     }
 
-    public String getPayer2BuyerModel() {
-        return payer2Buyer;
+    public String getUnitPrps() {
+        return unitPrps;
     }
 
-    public String getSourceModel() {
+    public void setUnitPrps(String unitPrps) {
+        this.unitPrps = unitPrps;
+    }
+
+    public String getPayrRltn() {
+        return payrRltn;
+    }
+
+    public void setPayrRltn(String payrRltn) {
+        this.payrRltn = payrRltn;
+    }
+
+    public String getSource() {
         return source;
     }
 
-    public String getCompanyInfoSourceModel() {
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getCompanyInfoSource() {
         return companyInfoSource;
     }
-    public boolean isValidSpinner(){
+
+    public void setCompanyInfoSource(String companyInfoSource) {
+        this.companyInfoSource = companyInfoSource;
+    }
+
+    public boolean isDataValid(){
         return isUnitUserModel() &&
                 isUnitPurposeModel() &&
-                isMonthlyPayerModel() &&
-                isSourceModel();
+                isSourceModel() &&
+                isReferencesValid();
     }
 
     private boolean isUnitUserModel(){
-        if(Integer.parseInt(unitUser) < 0){
+        if(unitUser == null){
             message = "Please select unit user";
             return false;
-        }
-        else if(Integer.parseInt(unitUser) == 1){
+        } else if(Integer.parseInt(unitUser) == 1){
             return isUserBuyerModel();
         }
         return true;
     }
     private boolean isUserBuyerModel(){
-        if(Integer.parseInt(userBuyer) < 0){
+        if(unitPayr == null){
             message = "Please select other user";
             return false;
         }
@@ -153,23 +102,14 @@ public class OtherInfoModel {
     }
 
     private boolean isUnitPurposeModel(){
-        if(Integer.parseInt(unitPurpose) < 0 ){
+        if(unitPrps == null){
             message = "Please select unit purpose";
             return false;
         }
         return true;
     }
-    private boolean isMonthlyPayerModel(){
-        if(Integer.parseInt(monthlyPayer) < 0){
-            message = "Please select monthly";
-            return false;
-        }else if(Integer.parseInt(monthlyPayer) == 1){
-            return isPayer2BuyerModel();
-        }
-        return true;
-    }
     private boolean isPayer2BuyerModel(){
-        if(Integer.parseInt(payer2Buyer) < 0){
+        if(payrRltn == null){
             message = "Please select other payer";
             return false;
         }
@@ -193,48 +133,11 @@ public class OtherInfoModel {
         return true;
     }
 
-
-    public boolean isValidReferences(){
-        return isFullname() &&
-                isContactValid() &&
-                isAddress1() &&
-                isTownCity();
-    }
-
-    private boolean isFullname(){
-        if(Fullname.trim().isEmpty()){
-            message = "Please enter reference fullname!";
+    private boolean isReferencesValid(){
+        if(poRefInfo.size() < 2){
+            message = "Please provide 3 personal references";
             return false;
         }
         return true;
     }
-    private boolean isAddress1(){
-        if(Address1.trim().isEmpty()){
-            message = "Please enter Address!";
-            return false;
-        }
-        return true;
-    }
-    private boolean isTownCity(){
-        if(TownCity.trim().isEmpty()){
-            message = "Please enter Municipality!";
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isContactValid(){
-        if(ContactN.trim().isEmpty()){
-            message = "Please enter Contact Number!";
-            return false;
-        } else if (!ContactN.trim().substring(0,2).equalsIgnoreCase("09")){
-            message = "Contact number must start with " + ContactN.trim().substring(0,2);
-            return false;
-        } else if(ContactN.length() != 11){
-            message = "Please provide valid contact no!";
-            return false;
-        }
-        return true;
-    }
-
 }
