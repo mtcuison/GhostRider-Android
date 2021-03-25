@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.guanzongroup.ghostrider.griderscanner.R;
@@ -250,7 +251,7 @@ public class ImageCrop extends DocumentScanActivity {
     public String saveToInternalStorage(Bitmap bitmapImage) {
 
         String root = Environment.getExternalStorageDirectory().toString();
-        File sd = new File(root + "/"+ getPackageName() + "/" + "COAD" + "/");
+        File sd = new File(root + "/"+ AppConstants.APP_PUBLIC_FOLDER + "/" + ScannerConstants.SubFolder + "/" +ScannerConstants.TransNox + "/");
         getRealPathFromURI (ScannerConstants.PhotoPath);
 //        deleteRecursive(sd);
         String imageFileName = ScannerConstants.TransNox + "_" + ScannerConstants.EntryNox + "_" +ScannerConstants.FileCode + ".png";
@@ -277,9 +278,7 @@ public class ImageCrop extends DocumentScanActivity {
         poImageInfo.setFileCode(ScannerConstants.FileCode);
         poImageInfo.setLatitude(String.valueOf(ScannerConstants.Latt));
         poImageInfo.setLongitud(String.valueOf(ScannerConstants.Longi));
-//                        mViewModel.setLatitude(String.valueOf(latitude));
-//                        mViewModel.setLongitude(String.valueOf(longitude));
-//                        mViewModel.setImgName(FileName);
+
         poDocumentsInfo.setEntryNox(ScannerConstants.EntryNox);
         poDocumentsInfo.setTransNox(ScannerConstants.TransNox);
         poDocumentsInfo.setImageNme(imageFileName);

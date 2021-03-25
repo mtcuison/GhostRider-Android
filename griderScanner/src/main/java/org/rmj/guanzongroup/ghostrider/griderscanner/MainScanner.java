@@ -145,6 +145,7 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
                         loIntent.putExtra("AccntTerm",loanLists.get(position).getnAcctTerm());
                         loIntent.putExtra("MobileNo",loanLists.get(position).getsMobileNo());
                         loIntent.putExtra("Status",loanLists.get(position).getTransactionStatus());
+                        loIntent.putExtra("SubFolder", "DocumentScanner");
                         startActivity(loIntent);
                     }
 

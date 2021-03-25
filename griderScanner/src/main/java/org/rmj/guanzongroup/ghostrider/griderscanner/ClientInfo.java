@@ -83,7 +83,7 @@ public class ClientInfo extends AppCompatActivity {
     public ImageView imgBitmap;
     public static String mCurrentPhotoPath;
     public static ImageFileCreator poFilexx;
-    private final String FOLDER_NAME = "DocumentScan";
+    private String subFolder = "";
     public static ContentResolver contentResolver;
     public static int  CROP_REQUEST_CODE = 1234;
 
@@ -179,6 +179,7 @@ public class ClientInfo extends AppCompatActivity {
         lblModelName.setText(getIntent().getStringExtra("ModelName"));
         lblAccntTern.setText(getIntent().getStringExtra("AccntTerm"));
         lblMobileNo.setText(getIntent().getStringExtra("MobileNo"));
+        ScannerConstants.SubFolder = getIntent().getStringExtra("SubFolder");
 //        lblSentStatus.setVisibility(poLoan.getSendStatus());
     }
     @Override
