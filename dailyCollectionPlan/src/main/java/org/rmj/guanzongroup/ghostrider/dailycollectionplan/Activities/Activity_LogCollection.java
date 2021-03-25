@@ -107,6 +107,7 @@ public class Activity_LogCollection extends AppCompatActivity {
                     txtNoLog.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
 
+                    filteredCollectionDetlx.clear();
                     for(int z = 0; z < collectionDetails.size(); z++) {
 //                    if(collectionDetails.get(z).getRemCodex() != null) {
                         filteredCollectionDetlx.add(collectionDetails.get(z));
