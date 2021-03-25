@@ -5,12 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.GRider.Etc.LocationTrack;
 
@@ -18,6 +20,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.APP_PUBLIC_FOLDER;
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SUB_FOLDER_EXPORTS;
 
 public class ImageFileCreator {
     public static final String TAG = ImageFileCreator.class.getSimpleName();
@@ -27,9 +32,10 @@ public class ImageFileCreator {
     private String imgName;
     private  String folder_name;
     private String TransNox, FileCode;
+    private int EntryNox;
     String currentPhotoPath;
     private double latitude, longitude;
-
+    private String FOLDER_DIRECTORY, SUB_FOLDER;
     GeoLocator poLocator;
     LocationTrack locationTrack;
 
@@ -52,17 +58,17 @@ public class ImageFileCreator {
 
     public ImageFileCreator(Context context,String folder, String usage, String imgName) {
         this.poContext = context;
-        this.folder_name = folder;
-        this.cameraUsage = usage;
+        this.FOLDER_DIRECTORY = folder;
+        this.SUB_FOLDER = usage;
         this.imgName = imgName;
     }
-
-    public ImageFileCreator(Context context,String folder, String usage, String fileCode, String transNox) {
+    public ImageFileCreator(Context context,String packageName, String subFolder, String fileCode, int entryNox, String transNox) {
         this.poContext = context;
-        this.folder_name = folder;
+        this.FOLDER_DIRECTORY = packageName;
         this.FileCode = fileCode;
         this.TransNox = transNox;
-        this.cameraUsage = usage;
+        this.SUB_FOLDER = subFolder;
+        this.EntryNox = entryNox;
     }
 
     public void setImageName(String fsName){
@@ -103,10 +109,13 @@ public class ImageFileCreator {
                         generateImageFileName(),
                         latitude,
                         longitude);
+
+
             }
         }
     }
     public File createImageFile() throws IOException {
+
         image = new File(
                 generateMainStorageDir(),
 //                generateStorageDir(),
@@ -114,11 +123,13 @@ public class ImageFileCreator {
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
+
+        Log.e(TAG, currentPhotoPath);
         return image;
     }
     public File createScanImageFile() throws IOException {
         docImage = new File(
-                generateMainStorageDir(),
+                generateMainStorageDirScan(),
 //                generateStorageDir(),
                 generateImageScanFileName());
 
@@ -131,13 +142,10 @@ public class ImageFileCreator {
 ///CreateFile for Document Scanner Camera
     private File createImageScanFile() throws IOException {
 
-        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = TransNox + "_" + FileCode + "_" + timeStamp + ".png";
-        File storageDir = poContext.getExternalFilesDir(folder_name + "/" + cameraUsage + "/");
-        //File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-//        String imageFileName = "cropped_" + timeStamp + ".png";
-        File mypath = new File(storageDir, imageFileName);
+        String root = Environment.getExternalStorageDirectory().toString();
+        File sd = new File(root + "/"+ poContext.getPackageName() + "/" + "COAD" + "/");
+        String imageFileName = TransNox + "_" + EntryNox + "_" + FileCode + ".png";
+        File mypath = new File(sd, imageFileName);
         currentPhotoPath = mypath.getAbsolutePath();
         return mypath;
     }
@@ -148,11 +156,11 @@ public class ImageFileCreator {
     }
 
     public String generateImageFileName() {
-        String lsResult = cameraUsage + "_" + generateTimestamp() + ".png";
+        String lsResult = imgName + "_" + generateTimestamp() + ".png";
         return lsResult;
     }
     public String generateImageScanFileName() {
-        String lsResult = TransNox + "_" + FileCode + "_" + generateTimestamp() + ".png";
+        String lsResult = TransNox + "_" + EntryNox + "_" + FileCode + ".png";
         return lsResult;
     }
 
@@ -166,7 +174,19 @@ public class ImageFileCreator {
     }
 
     public File generateMainStorageDir() {
-        return poContext.getExternalFilesDir( "/"+ folder_name + "/" + cameraUsage);
+        String root = Environment.getExternalStorageDirectory().toString();
+        File sd = new File(root + FOLDER_DIRECTORY + "/" + SUB_FOLDER + "/");
+        if (!sd.exists()) {
+            sd.mkdirs();
+        }
+        return sd;
+//        return sd;
+    }
+    public File generateMainStorageDirScan() {
+
+        String root = Environment.getExternalStorageDirectory().toString();
+        File sd = new File(root + "/"+ FOLDER_DIRECTORY+ "/" + SUB_FOLDER+ "/");
+        return sd;
     }
 
 
@@ -191,7 +211,7 @@ public class ImageFileCreator {
 
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(poContext,
-                        "org.rmj.guanzongroup.ghostrider.epacss"+ ".provider",
+                        poContext.getPackageName()+ ".provider",
                         photoFile);
 
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);

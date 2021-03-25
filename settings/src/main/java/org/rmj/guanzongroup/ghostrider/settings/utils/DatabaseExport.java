@@ -19,9 +19,6 @@ import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 
-import com.facebook.share.model.ShareMessengerGenericTemplateContent;
-import com.facebook.share.model.ShareMessengerGenericTemplateElement;
-import com.facebook.share.model.ShareMessengerURLActionButton;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +27,9 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.APP_PUBLIC_FOLDER;
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SUB_FOLDER_EXPORTS;
 
 public class DatabaseExport {
     public Context context;
@@ -43,7 +43,7 @@ public class DatabaseExport {
     }
     public String export(){
         String root = Environment.getExternalStorageDirectory().toString();
-        File sd = new File(root + folder_name + "/" + FILE_FOLDER + "/");
+        File sd = new File(root + APP_PUBLIC_FOLDER + "/" + SUB_FOLDER_EXPORTS + "/");
         if (!sd.exists()) {
             sd.mkdirs();
         }

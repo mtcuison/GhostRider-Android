@@ -42,6 +42,9 @@ public interface DEmployeeInfo {
     @Query("SELECT sClientID FROM User_Info_Master")
     LiveData<String> getClientID();
 
+    @Query("SELECT sBranchCD FROM User_Info_Master")
+    LiveData<String> getSBranchID();
+
     @Query("SELECT * FROM User_Info_Master")
     Cursor getUserInfo();
 

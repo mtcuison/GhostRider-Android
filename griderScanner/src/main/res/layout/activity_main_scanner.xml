@@ -108,6 +108,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInputStyle.Edittext"
+                    android:id="@+id/txt_search"
                     android:layout_width="match_parent"
                     android:textColor="@color/mtrl_textinput_default_box_stroke_colors"
                     android:layout_height="wrap_content" />
@@ -132,14 +133,50 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="10dp"
+    <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_clienInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        
+        <LinearLayout
+            android:id="@+id/layout_scanner_noRecord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            android:padding="10dp"
+            android:background="@drawable/background_no_record"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_toast_warning"
+                    tools:ignore="UseAppTint"
+                    android:layout_gravity="end|center_vertical"
+                    app:tint="@color/guanzon_orange" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="18dp"
+                android:textColor="@color/guanzon_digital_orange"
+                android:fontFamily="@font/roboto_medium"
+                android:text="No record found."/>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

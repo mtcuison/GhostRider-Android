@@ -26,6 +26,7 @@ public class LoanApplication implements Serializable {
     private String cTranStat;
     private String dTimeStmp;
 
+    private String IsWithCI;
     public LoanApplication() {
     }
 
@@ -138,6 +139,22 @@ public class LoanApplication implements Serializable {
     public String getcTranStat() {
         return cTranStat;
     }
+    public String getTransactionStatus() {
+        if(cTranStat.equalsIgnoreCase("0") || cTranStat.isEmpty()){
+            return "Waiting for approval.";
+        } else if(cTranStat.equalsIgnoreCase("1")){
+            return "For C.I";
+        }else{
+            return "Approve";
+        }
+
+    }
+    private String getCIStat(){
+        if(IsWithCI.equalsIgnoreCase("1")){
+            return "For C.I";
+        }
+        return "Approve";
+    }
 
     public void setcTranStat(String cTranStat) {
         this.cTranStat = cTranStat;
@@ -149,5 +166,12 @@ public class LoanApplication implements Serializable {
 
     public void setdTimeStmp(String dTimeStmp) {
         this.dTimeStmp = dTimeStmp;
+    }
+
+    public void setIsWithCI(String isWithCI) {
+        IsWithCI = isWithCI;
+    }
+    public String getLoanCIResult() {
+        return IsWithCI;
     }
 }

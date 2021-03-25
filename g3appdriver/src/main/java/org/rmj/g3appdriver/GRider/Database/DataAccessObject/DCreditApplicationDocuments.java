@@ -15,7 +15,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import java.util.List;
 
 @Dao
-public interface DCreditApplicationDocuments {
+    public interface DCreditApplicationDocuments {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(ECreditApplicationDocuments documentsInfo);
@@ -47,12 +47,6 @@ public interface DCreditApplicationDocuments {
     @Query("SELECT a.sTransNox, a.sFileCode, a.nEntryNox, b.sImageNme, b.sFileLoct FROM Credit_Online_Application_Documents a LEFT JOIN image_information b ON a.sFileCode = b.sFileCode AND a.sTransNox = b.sSourceNo WHERE a.sTransNox =:TransNox  AND b.sSourceNo =:TransNox  GROUP BY a.sFileCode  ORDER BY a.nEntryNox ASC")
     LiveData<List<ApplicationDocument>> getDocument(String TransNox);
 
-
-    @Query("SELECT * FROM Credit_Online_Application_Documents " +
-            "WHERE sTransNox =:TransNox " +
-            "AND sFileCode =:FileCD")
-    LiveData<List<ApplicationDocument>> getDocumentByTransNox(String TransNox,String FileCD);
-
     @Query("INSERT INTO Credit_Online_Application_Documents (sTransNox, sFileCode, nEntryNox) " +
             "SELECT a.sTransNox, b.sFileCode, b.nEntryNox FROM Credit_Online_Application_List a LEFT JOIN EDocSys_File b " +
             "WHERE a.sTransNox =:TransNox AND b.sFileCode !='0021' AND b.sFileCode !='0020' ")
@@ -67,7 +61,6 @@ public interface DCreditApplicationDocuments {
             "ORDER BY a.nEntryNox ASC")
     LiveData<List<ApplicationDocument>> getDocumentInfo(String TransNox);
 
-
     class ApplicationDocument{
         public String sTransNox;
         public String sFileCode;
@@ -75,6 +68,5 @@ public interface DCreditApplicationDocuments {
         public String sImageNme;
         public String sFileLoc;
         public String sBriefDsc;
-
     }
 }

@@ -26,8 +26,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
@@ -70,7 +72,7 @@ public class ClientInfo extends AppCompatActivity {
     TextView lblAccntTern;
     TextView lblMobileNo;
     TextView lblStatus;
-    
+
     private LoadDialog poDialogx;
     private MessageBox poMessage;
 
@@ -85,8 +87,8 @@ public class ClientInfo extends AppCompatActivity {
     public static ContentResolver contentResolver;
     public static int  CROP_REQUEST_CODE = 1234;
 
-    public static EImageInfo poImageInfo;
-    public static ECreditApplicationDocuments poDocumentsInfo;
+    private EImageInfo poImageInfo;
+    private ECreditApplicationDocuments poDocumentsInfo;
     String TransNox;
     FileCodeAdapter loAdapter;
 
@@ -112,11 +114,13 @@ public class ClientInfo extends AppCompatActivity {
             loAdapter = new FileCodeAdapter(ClientInfo.this, fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
             @Override
             public void OnClick(int position) {
-                poFilexx = new ImageFileCreator(ClientInfo.this , "Credit Application Documents", "SCAN", fileCodeDetails.get(position).sFileCode, TransNox);
+                poImageInfo = new EImageInfo();
+                poDocumentsInfo = new ECreditApplicationDocuments();
+                poFilexx = new ImageFileCreator(ClientInfo.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP_DOCUMENTS, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
                 poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
                     mCurrentPhotoPath = photPath;
                     ScannerConstants.Usage =camUsage;
-                    ScannerConstants.Folder = "Credit Application Documents";
+                    ScannerConstants.Folder = AppConstants.APP_PUBLIC_FOLDER;
                     ScannerConstants.FileCode = fileCodeDetails.get(position).sFileCode;
                     ScannerConstants.PhotoPath = photPath;
                     ScannerConstants.EntryNox = (position + 1);
@@ -160,7 +164,7 @@ public class ClientInfo extends AppCompatActivity {
         lblTransNoxxx = findViewById(R.id.lbl_list_transNox);
         lblClientName = findViewById(R.id.lbl_list_applicantName);
         lblAppltnDate = findViewById(R.id.lbl_list_applicationDate);
-        lblStatus = findViewById(R.id.lbl_list_applicationWithCI);
+//        lblStatus = findViewById(R.id.lbl_list_applicationWithCI);
         lblModelName = findViewById(R.id.lbl_modelName);
         lblAccntTern = findViewById(R.id.lbl_accntTerm);
         lblMobileNo = findViewById(R.id.lbl_mobileNo);
@@ -171,7 +175,7 @@ public class ClientInfo extends AppCompatActivity {
         lblTransNoxxx.setText(TransNox);
         lblClientName.setText(getIntent().getStringExtra("ClientNm"));
         lblAppltnDate.setText(getIntent().getStringExtra("dTransact"));
-        lblStatus.setText(getIntent().getStringExtra("Status"));
+//        lblStatus.setText(getIntent().getStringExtra("Status"));
         lblModelName.setText(getIntent().getStringExtra("ModelName"));
         lblAccntTern.setText(getIntent().getStringExtra("AccntTerm"));
         lblMobileNo.setText(getIntent().getStringExtra("MobileNo"));
@@ -190,14 +194,15 @@ public class ClientInfo extends AppCompatActivity {
         if (requestCode == CROP_REQUEST_CODE ) {
             if(resultCode == RESULT_OK) {
                 try {
-
-                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(ScannerConstants.PhotoPath));
+                    poImageInfo = (EImageInfo) data.getSerializableExtra("poImage");
+                    poDocumentsInfo = (ECreditApplicationDocuments) data.getSerializableExtra("poDocumentsInfo");
+                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(poImageInfo.getFileLoct()));
                     mViewModel.saveImageInfo(poImageInfo);
                     mViewModel.saveDocumentInfoFromCamera(TransNox, poImageInfo.getFileCode());
                     mViewModel.PostDocumentScanDetail(poDocumentsInfo, new ViewModelCallBack() {
                         @Override
                         public void OnStartSaving() {
-                            poDialogx.initDialog("Daily Collection Plan", "Posting " + ScannerConstants.FileDesc + " details. Please wait...", false);
+                            poDialogx.initDialog("Credit Online \nApplication Documents", "Posting " + ScannerConstants.FileDesc + " details. Please wait...", false);
                             poDialogx.show();
                         }
 

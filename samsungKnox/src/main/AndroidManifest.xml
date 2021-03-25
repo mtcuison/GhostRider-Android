@@ -4,6 +4,7 @@
 
     <application>
         <activity android:name=".Activity_Knox"
+            android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:label="Samsung Knox"/>
     </application>

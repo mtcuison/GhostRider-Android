@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -89,7 +90,7 @@ public class Fragment_IncTransaction extends Fragment {
         AccntNox = Activity_Transaction.getInstance().getAccntNox();
         Remarksx = Activity_Transaction.getInstance().getRemarksCode();
 
-        poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, DCP_Constants.getRemarksCode(Remarksx), AccntNox);
+        poImage = new ImageFileCreator(getActivity(), AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_DCP, TransNox);
 
         mViewModel.setParameter(TransNox, EntryNox, Remarksx);
         mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {

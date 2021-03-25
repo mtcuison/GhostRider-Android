@@ -146,13 +146,6 @@ public class Fragment_CoMakerTest {
             Assert.assertEquals(primaryContact,infoModel.getCoMobileNo(x));
             System.out.print("contact no" + infoModel.getCoMobileNo(x) + "\n");
         }
-//        Assert.assertEquals(luHouseNo,infoModel.getLuHouseNo());
-//        Assert.assertEquals(luBrgy,infoModel.getLuBrgy());
-//        Assert.assertEquals(bTown,infoModel.getLuTown());
-//        Assert.assertEquals(luPhune,infoModel.getLuPhone());
-//        Assert.assertEquals(luMobile,infoModel.getLuMobile());
-//        Assert.assertEquals(luEmail,infoModel.getLuEmail());
-//        Assert.assertEquals(luIMGPath,infoModel.getLuImgPath());
 
         System.out.print("\nFirstname: " + infoModel.getCoFrstName() + "\n");
         System.out.print("Middle Name:" + infoModel.getCoMiddName() + "\n");

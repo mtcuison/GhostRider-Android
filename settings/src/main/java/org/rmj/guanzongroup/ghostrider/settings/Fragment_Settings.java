@@ -23,10 +23,6 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
-import com.facebook.share.model.ShareMessengerGenericTemplateContent;
-import com.facebook.share.model.ShareMessengerGenericTemplateElement;
-import com.facebook.share.model.ShareMessengerURLActionButton;
-import com.facebook.share.widget.MessageDialog;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
@@ -137,20 +133,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
                 }
             });
         }
-        try {
-            PackageInfo info = getActivity().getPackageManager().getPackageInfo(
-                    getActivity().getPackageName(),
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.e("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
 
-        } catch (NoSuchAlgorithmException e) {
-
-        }
         if (phonePref != null) {
             phonePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
