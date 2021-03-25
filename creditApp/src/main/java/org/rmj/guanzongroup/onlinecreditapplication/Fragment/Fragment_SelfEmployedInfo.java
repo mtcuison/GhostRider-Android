@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +34,7 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
             spnBussTyp,
             spnBussSze,
             spnLngSrvc;
+
     private String bussNtrPosition = "-1",
             bussTypPosition = "-1",
             bussSzePosition = "-1",

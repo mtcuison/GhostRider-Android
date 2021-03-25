@@ -10,34 +10,26 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.SavedStateHandle;
-import androidx.lifecycle.ViewModel;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Data.UploadCreditApp;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.CreditAppModel;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.OtherInfoModel;
+import org.rmj.guanzongroup.onlinecreditapplication.Data.GoCasBuilder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class VMCoMaker extends AndroidViewModel {
     private static final String TAG = VMCoMaker.class.getSimpleName();
@@ -57,6 +49,7 @@ public class VMCoMaker extends AndroidViewModel {
     private MutableLiveData<String> lsProvID = new MutableLiveData<>();
     private MutableLiveData<String> lsBPlace = new MutableLiveData<>();
 
+    private final Application instance;
     private final GOCASApplication poGoCas;
     private final RCreditApplicant poApplcnt;
     private final RCreditApplication poCreditApp;
@@ -68,6 +61,7 @@ public class VMCoMaker extends AndroidViewModel {
 
     public VMCoMaker(@NonNull Application application) {
         super(application);
+        this.instance = application;
         this.poApplcnt = new RCreditApplicant(application);
         this.poCreditApp = new RCreditApplication(application);
         RProvince = new RProvince(application);
@@ -306,9 +300,9 @@ public class VMCoMaker extends AndroidViewModel {
         }
     }
 
-    public void SaveCreditOnlineApplication(){
+    public void SaveCreditOnlineApplication(UploadCreditApp.OnUploadLoanApplication listener){
         ECreditApplication loCreditApp = new ECreditApplication();
-        CreditAppModel loModel = new CreditAppModel(poInfo);
+        GoCasBuilder loModel = new GoCasBuilder(poInfo);
         loCreditApp.setTransNox(poCreditApp.getGOCasNextCode());
         loCreditApp.setBranchCd(poInfo.getBranchCd());
         loCreditApp.setClientNm(poInfo.getClientNm());
@@ -321,7 +315,6 @@ public class VMCoMaker extends AndroidViewModel {
         loCreditApp.setTimeStmp(AppConstants.DATE_MODIFIED);
         loCreditApp.setSendStat("0");
         poCreditApp.insertCreditApplication(loCreditApp);
+        new UploadCreditApp(instance).UploadLoanApplication(loCreditApp.getTransNox(), listener);
     }
-//
-//    private static class SendApplicantData extends AsyncTask<>
 }

@@ -20,6 +20,7 @@ import android.widget.Button;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
@@ -42,13 +43,16 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
     private PersonalReferencesAdapter adapter;
     private OtherInfoModel otherInfo;
     private AutoCompleteTextView spnUnitUser;
+    private TextInputLayout tilOthrUser;
     private AutoCompleteTextView spnUnitPrps;
     private AutoCompleteTextView spnUnitPayr;
+    private TextInputLayout tilOthrPayr;
     private AutoCompleteTextView spnSourcexx;
-    private AutoCompleteTextView spnUserBuyr;
-    private AutoCompleteTextView spnPayrBuyr;
+    private TextInputLayout tilOtherSrc;
+    private AutoCompleteTextView spnOthrUser;
+    private AutoCompleteTextView spnOthrPayr;
 
-    private TextInputEditText tieSpcfSrc;
+    private TextInputEditText tieOthrSrc;
     private TextInputEditText tieRefAdd1;
     private TextInputEditText tieRefName;
     private TextInputEditText tieRefCntc;
@@ -88,18 +92,19 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
             recyclerView.setAdapter(adapter);
         });
         spnUnitUser.setAdapter(mViewModel.getUnitUser());
+        spnOthrUser.setAdapter(mViewModel.getOtherUnitUser());
         spnUnitPrps.setAdapter(mViewModel.getUnitPurpose());
+        spnUnitPayr.setAdapter(mViewModel.getUnitUser());
+        spnOthrPayr.setAdapter(mViewModel.getPayerBuyer());
         spnSourcexx.setAdapter(mViewModel.getIntCompanyInfoSource());
-        spnUserBuyr.setAdapter(mViewModel.getUnitPayer());
-        spnPayrBuyr.setAdapter(mViewModel.getPayerBuyer());
 
         spnUnitUser.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnUnitUser));
         spnUnitPayr.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnUnitPayr));
         spnSourcexx.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnSourcexx));
 
         spnUnitPrps.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnUnitPrps));
-        spnUserBuyr.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnUserBuyr));
-        spnPayrBuyr.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnPayrBuyr));
+        spnOthrUser.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnOthrUser));
+        spnOthrPayr.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnOthrPayr));
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             tieAddProv.setAdapter(adapter);
@@ -131,12 +136,15 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
     private void setupWidgets(View view){
         spnUnitUser = view.findViewById(R.id.spinner_cap_unitUser);
+        tilOthrUser = view.findViewById(R.id.til_cap_otherUser);
         spnUnitPrps = view.findViewById(R.id.spinner_cap_purposeOfBuying);
         spnUnitPayr = view.findViewById(R.id.spinner_cap_monthlyPayer);
-        spnUserBuyr = view.findViewById(R.id.spinner_cap_sUsr2buyr);
-        spnPayrBuyr = view.findViewById(R.id.spinner_cap_sPyr2Buyr);
+        tilOthrPayr = view.findViewById(R.id.til_cap_otherPayer);
+        spnOthrUser = view.findViewById(R.id.spinner_cap_otherUser);
+        spnOthrPayr = view.findViewById(R.id.spinner_cap_otherPayer);
         spnSourcexx = view.findViewById(R.id.spinner_cap_source);
-        tieSpcfSrc = view.findViewById(R.id.tie_cap_CompanyInfoSource);
+        tieOthrSrc = view.findViewById(R.id.tie_cap_otherSource);
+        tilOtherSrc = view.findViewById(R.id.til_cap_otherSource);
         tieRefName = view.findViewById(R.id.tie_cap_referenceName);
         tieRefCntc = view.findViewById(R.id.tie_cap_refereceContact);
         tieRefAdd1 = view.findViewById(R.id.tie_cap_refereceAddress);
@@ -145,6 +153,9 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
         recyclerView = view.findViewById(R.id.recyclerview_references);
         btnAddReferencex = view.findViewById(R.id.btn_fragment_others_addReference);
 
+        tilOthrUser.setVisibility(View.GONE);
+        tilOthrPayr.setVisibility(View.GONE);
+        tilOtherSrc.setVisibility(View.GONE);
         btnNext = view.findViewById(R.id.btn_creditAppNext);
         btnPrevs = view.findViewById(R.id.btn_creditAppPrvs);
 
@@ -154,7 +165,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
             adapter.notifyDataSetChanged();
         });
         btnNext.setOnClickListener(v -> {
-            otherInfo.setCompanyInfoSource(Objects.requireNonNull(tieSpcfSrc.getText()).toString());
+            otherInfo.setCompanyInfoSource(Objects.requireNonNull(tieOthrSrc.getText()).toString());
             mViewModel.SubmitOtherInfo(otherInfo, Fragment_OtherInfo.this);
         });
     }
@@ -207,23 +218,32 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
             if(spnUnitUser.equals(poView)){
                 otherInfo.setUnitUser(String.valueOf(i));
-            }
-            if(spnUnitPayr.equals(poView)){
+                if(i == 1){
+                    tilOthrUser.setVisibility(View.VISIBLE);
+                } else {
+                    tilOthrUser.setVisibility(View.GONE);
+                }
+            } else if(spnUnitPayr.equals(poView)){
                 otherInfo.setUnitPayr(String.valueOf(i));
-            }
-            if(spnSourcexx.equals(poView)){
+                if(i == 1){
+                    tilOthrPayr.setVisibility(View.VISIBLE);
+                } else {
+                    tilOthrPayr.setVisibility(View.GONE);
+                }
+            } else if(spnSourcexx.equals(poView)){
                 otherInfo.setSource(String.valueOf(i));
-            }
-            if(spnUnitPrps.equals(poView)){
+                if(i == 1){
+                    tilOtherSrc.setVisibility(View.VISIBLE);
+                } else {
+                    tilOtherSrc.setVisibility(View.GONE);
+                }
+            } else if(spnUnitPrps.equals(poView)){
                 otherInfo.setUnitPrps(String.valueOf(i));
-            }
-            if(spnUserBuyr.equals(poView)){
+            } else if(spnOthrUser.equals(poView)){
                 otherInfo.setPayrRltn(String.valueOf(i));
-            }
-            if(spnPayrBuyr.equals(poView)){
+            } else if(spnOthrPayr.equals(poView)){
                 otherInfo.setUnitUser(String.valueOf(i));
             }
         }

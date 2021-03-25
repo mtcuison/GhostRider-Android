@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.onlinecreditapplication.Model;
+package org.rmj.guanzongroup.onlinecreditapplication.Data;
 
 import android.util.Log;
 
@@ -9,19 +9,20 @@ import org.rmj.gocas.base.GOCASApplication;
 
 import java.util.Objects;
 
-public class CreditAppModel {
-    private static final String TAG = CreditAppModel.class.getSimpleName();
+public class GoCasBuilder {
+    private static final String TAG = GoCasBuilder.class.getSimpleName();
 
     private final GOCASApplication poGOCas;
     private final ECreditApplicantInfo poInfo;
 
-    public CreditAppModel(ECreditApplicantInfo foInfo){
+    public GoCasBuilder(ECreditApplicantInfo foInfo){
         this.poInfo = foInfo;
         this.poGOCas = new GOCASApplication();
     }
 
     public void createDetailInfo(){
         try {
+            setupPurchaseInfo();
             setupApplicantInfo();
             setupResidenceInfo();
             setupMeansInfo();
@@ -45,15 +46,24 @@ public class CreditAppModel {
 
     public String getConstructedDetailedInfo(){
         createDetailInfo();
-        return poGOCas.toJSONString();
+        String lsGOCas = poGOCas.toJSONString();
+        return lsGOCas;
     }
 
-    /**
-     *
-     * @throws Exception uses org.JSONObject for setting applicant info...
-     */
+    private void setupPurchaseInfo() throws Exception {
+        JSONObject loPurchase = new JSONObject(poInfo.getPurchase());
+        poGOCas.PurchaseInfo().setAppliedFor("0");
+        poGOCas.PurchaseInfo().setCustomerType(loPurchase.getString("cApplType"));
+        poGOCas.PurchaseInfo().setPreferedBranch(loPurchase.getString("sBranchCd"));
+        poGOCas.PurchaseInfo().setBrandName(loPurchase.getString("sUnitAppl"));
+        poGOCas.PurchaseInfo().setModelID(loPurchase.getString("sModelIDx"));
+        poGOCas.PurchaseInfo().setDownPayment(Double.parseDouble(loPurchase.getString("nDownPaym")));
+        poGOCas.PurchaseInfo().setAccountTerm(Integer.parseInt(loPurchase.getString("nAcctTerm")));
+        poGOCas.PurchaseInfo().setDateApplied(loPurchase.getString("dAppliedx"));
+        poGOCas.PurchaseInfo().setMonthlyAmortization(Double.parseDouble(loPurchase.getString("nMonAmort")));
+    }
+
     private void setupApplicantInfo() throws Exception{
-        String lsApp = poInfo.getApplInfo();
         JSONObject loAppl = new JSONObject(poInfo.getApplInfo());
         poGOCas.ApplicantInfo().setLastName(loAppl.getString("sLastName"));
         poGOCas.ApplicantInfo().setFirstName(loAppl.getString("sFrstName"));
@@ -187,18 +197,18 @@ public class CreditAppModel {
 
     private void setupPension() throws Exception{
         if(poInfo.getPensionx() != null){
-            JSONObject loPension = new JSONObject(poInfo.getPensionx());
+            JSONObject loMeans = new JSONObject(poInfo.getPensionx());
+            JSONObject loPension = loMeans.getJSONObject("pensioner");
             poGOCas.MeansInfo().PensionerInfo().setSource(loPension.getString("cPenTypex"));
             poGOCas.MeansInfo().PensionerInfo().setAmount(Long.parseLong(loPension.getString("nPensionx")));
             poGOCas.MeansInfo().PensionerInfo().setYearRetired(Integer.parseInt(loPension.getString("nRetrYear")));
 
-            if(poInfo.getOtherInc() != null) {
-                String[] lsOther = poInfo.getOtherInc().split("»");
-                poGOCas.MeansInfo().setOtherIncomeNature(lsOther[0]);
-                poGOCas.MeansInfo().setOtherIncomeAmount(Long.parseLong(lsOther[1]));
-            } else {
-                poGOCas.MeansInfo().setOtherIncomeNature("");
-                poGOCas.MeansInfo().setOtherIncomeAmount(0);
+            JSONObject loOther = loMeans.getJSONObject("other_income");
+            try {
+                poGOCas.MeansInfo().setOtherIncomeNature(loOther.getString("sOthrIncm"));
+                poGOCas.MeansInfo().setOtherIncomeAmount(Long.parseLong(loOther.getString("nOthrIncm")));
+            } catch (Exception e){
+                e.printStackTrace();
             }
         }
     }
@@ -226,11 +236,17 @@ public class CreditAppModel {
 
             JSONArray loPhone = loSpouse.getJSONArray("landline");
             poGOCas.SpouseInfo().PersonalInfo().setPhoneNoQty(1);
-            poGOCas.SpouseInfo().PersonalInfo().setPhoneNo(0, loPhone.getJSONObject(0).getString("sPhoneNox"));
+            for(int x = 0; x < loPhone.length(); x++) {
+                JSONObject phone = loPhone.getJSONObject(x);
+                poGOCas.SpouseInfo().PersonalInfo().setPhoneNo(x, phone.getString("sPhoneNox"));
+            }
 
             JSONArray loEmail = loSpouse.getJSONArray("email_address");
-            poGOCas.ApplicantInfo().setEmailAddQty(1);
-            poGOCas.SpouseInfo().PersonalInfo().setEmailAddress(0, loEmail.getJSONObject(0).getString("sEmailAdd"));
+            poGOCas.SpouseInfo().PersonalInfo().setEmailAddQty(loEmail.length());
+            for(int x = 0; x < loEmail.length(); x++) {
+                JSONObject email = loEmail.getJSONObject(x);
+                poGOCas.SpouseInfo().PersonalInfo().setEmailAddress(x, email.getString("sEmailAdd"));
+            }
 
             JSONObject loFacebook = loSpouse.getJSONObject("facebook");
             poGOCas.ApplicantInfo().setFBAccount(loFacebook.getString("sFBAcctxx"));
@@ -241,12 +257,13 @@ public class CreditAppModel {
     private void setupSpouseResidence() throws Exception{
         if(poInfo.getSpsResdx() != null){
             JSONObject loResd = new JSONObject(poInfo.getSpsResdx());
-            poGOCas.SpouseInfo().ResidenceInfo().PresentAddress().setLandMark(loResd.getString("sLandMark"));
-            poGOCas.SpouseInfo().ResidenceInfo().PresentAddress().setHouseNo(loResd.getString("sHouseNox"));
-            poGOCas.SpouseInfo().ResidenceInfo().PresentAddress().setAddress1(loResd.getString("sAddress1"));
-            poGOCas.SpouseInfo().ResidenceInfo().PresentAddress().setAddress2(loResd.getString("sAddress2"));
-            poGOCas.SpouseInfo().ResidenceInfo().PresentAddress().setTownCity(loResd.getString("sTownIDxx"));
-            poGOCas.SpouseInfo().ResidenceInfo().PresentAddress().setBarangay(loResd.getString("sBrgyIDxx"));
+            JSONObject loPresent = loResd.getJSONObject("present_address");
+            poGOCas.SpouseInfo().ResidenceInfo().PresentAddress().setLandMark(loPresent.getString("sLandMark"));
+            poGOCas.SpouseInfo().ResidenceInfo().PresentAddress().setHouseNo(loPresent.getString("sHouseNox"));
+            poGOCas.SpouseInfo().ResidenceInfo().PresentAddress().setAddress1(loPresent.getString("sAddress1"));
+            poGOCas.SpouseInfo().ResidenceInfo().PresentAddress().setAddress2(loPresent.getString("sAddress2"));
+            poGOCas.SpouseInfo().ResidenceInfo().PresentAddress().setTownCity(loPresent.getString("sTownIDxx"));
+            poGOCas.SpouseInfo().ResidenceInfo().PresentAddress().setBarangay(loPresent.getString("sBrgyIDxx"));
         }
     }
 
@@ -277,26 +294,33 @@ public class CreditAppModel {
     private void setupSpsSelfEmployed() throws Exception{
         if(poInfo.getSpsBusnx() != null){
             JSONObject loSEmpl = new JSONObject(poInfo.getSpsBusnx());
-            poGOCas.MeansInfo().SelfEmployedInfo().setNatureOfBusiness(loSEmpl.getString("sIndstBus"));
-            poGOCas.MeansInfo().SelfEmployedInfo().setNameOfBusiness(loSEmpl.getString("sBusiness"));
-            poGOCas.MeansInfo().SelfEmployedInfo().setBusinessAddress(loSEmpl.getString("sBusAddrx"));
-            poGOCas.MeansInfo().SelfEmployedInfo().setCompanyTown(loSEmpl.getString("sBusTownx"));
-            poGOCas.MeansInfo().SelfEmployedInfo().setBusinessType(loSEmpl.getString("cBusTypex"));
-            poGOCas.MeansInfo().SelfEmployedInfo().setOwnershipSize(loSEmpl.getString("cOwnSizex"));
-            poGOCas.MeansInfo().SelfEmployedInfo().setBusinessLength(Double.parseDouble(loSEmpl.getString("nBusLenxx")));
-            poGOCas.MeansInfo().SelfEmployedInfo().setMonthlyExpense(Long.parseLong(loSEmpl.getString("nMonExpns")));
-            poGOCas.MeansInfo().SelfEmployedInfo().setIncome(Long.parseLong(loSEmpl.getString("nBusIncom")));
+            poGOCas.SpouseMeansInfo().SelfEmployedInfo().setNatureOfBusiness(loSEmpl.getString("sIndstBus"));
+            poGOCas.SpouseMeansInfo().SelfEmployedInfo().setNameOfBusiness(loSEmpl.getString("sBusiness"));
+            poGOCas.SpouseMeansInfo().SelfEmployedInfo().setBusinessAddress(loSEmpl.getString("sBusAddrx"));
+            poGOCas.SpouseMeansInfo().SelfEmployedInfo().setCompanyTown(loSEmpl.getString("sBusTownx"));
+            poGOCas.SpouseMeansInfo().SelfEmployedInfo().setBusinessType(loSEmpl.getString("cBusTypex"));
+            poGOCas.SpouseMeansInfo().SelfEmployedInfo().setOwnershipSize(loSEmpl.getString("cOwnSizex"));
+            poGOCas.SpouseMeansInfo().SelfEmployedInfo().setBusinessLength(Double.parseDouble(loSEmpl.getString("nBusLenxx")));
+            poGOCas.SpouseMeansInfo().SelfEmployedInfo().setMonthlyExpense(Long.parseLong(loSEmpl.getString("nMonExpns")));
+            poGOCas.SpouseMeansInfo().SelfEmployedInfo().setIncome(Long.parseLong(loSEmpl.getString("nBusIncom")));
         }
     }
 
     private void setupSpsPension() throws Exception {
         if(poInfo.getSpsPensn() != null){
-            JSONObject loPension = new JSONObject(poInfo.getSpsPensn());
+            JSONObject loMeans = new JSONObject(poInfo.getSpsPensn());
+            JSONObject loPension = loMeans.getJSONObject("pensioner");
             poGOCas.SpouseMeansInfo().PensionerInfo().setSource(loPension.getString("cPenTypex"));
             poGOCas.SpouseMeansInfo().PensionerInfo().setAmount(Long.parseLong(loPension.getString("nPensionx")));
             poGOCas.SpouseMeansInfo().PensionerInfo().setYearRetired(Integer.parseInt(loPension.getString("nRetrYear")));
-            poGOCas.SpouseMeansInfo().setOtherIncomeNature(loPension.getString("sOthrIncm"));
-            poGOCas.SpouseMeansInfo().setOtherIncomeAmount(Long.parseLong(loPension.getString("nOthrIncm")));
+
+            JSONObject loOther = loMeans.getJSONObject("other_income");
+            try {
+                poGOCas.SpouseMeansInfo().setOtherIncomeNature(loOther.getString("sOthrIncm"));
+                poGOCas.SpouseMeansInfo().setOtherIncomeAmount(Long.parseLong(loOther.getString("nOthrIncm")));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -373,13 +397,14 @@ public class CreditAppModel {
         poGOCas.OtherInfo().setSourceInfo(loOther.getString("sSrceInfo"));
 
         JSONArray loRef = loOther.getJSONArray("personal_reference");
-        for(int x = 0; x < loOther.length(); x++){
+        for(int x = 0; x < loRef.length(); x++){
             JSONObject reference = loRef.getJSONObject(x);
             poGOCas.OtherInfo().addReference();
             poGOCas.OtherInfo().setPRName(x, reference.getString("sRefrNmex"));
             poGOCas.OtherInfo().setPRTownCity(x, reference.getString("sRefrTown"));
             poGOCas.OtherInfo().setPRMobileNo(x, reference.getString("sRefrMPNx"));
             poGOCas.OtherInfo().setPRAddress(x, reference.getString("sRefrAddx"));
+            Log.e(TAG, "Count = " + x);
         }
     }
 

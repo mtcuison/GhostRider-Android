@@ -236,8 +236,6 @@ public class VMSpouseInfo extends AndroidViewModel {
                 poGoCas.SpouseInfo().PersonalInfo().setViberAccount(infoModel.getVbrAcct());
                 poInfo.setTransNox(TransNox.getValue());
                 poInfo.setSpousexx(poGoCas.SpouseInfo().PersonalInfo().toJSONString());
-                //poInfo.setDetlInfo(poGoCas.toJSONString());
-                poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
                 poCreditApp.updateGOCasData(poInfo);
 
                 //Added by sir mike

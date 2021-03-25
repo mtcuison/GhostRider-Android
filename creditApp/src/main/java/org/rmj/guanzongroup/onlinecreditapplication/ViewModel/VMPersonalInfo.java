@@ -103,6 +103,7 @@ public class VMPersonalInfo extends AndroidViewModel {
                 poGoCas.ApplicantInfo().setEmailAddress(0, infoModel.getEmailAdd());
                 poGoCas.ApplicantInfo().setFBAccount(infoModel.getFbAccntx());
                 poGoCas.ApplicantInfo().setViberAccount(infoModel.getVbrAccnt());
+                poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
                 poInfo.setApplInfo(poGoCas.ApplicantInfo().toJSONString());
                 int age = AgeCalculator.getAge(poGoCas.ApplicantInfo().getBirthdate());
                 if(age <=17 || age >= 60){
@@ -118,7 +119,6 @@ public class VMPersonalInfo extends AndroidViewModel {
                     poInfo.setIsSpouse("0");
                 }
                 RCreditApplicant.updateGOCasData(poInfo);
-
                 callBack.onSaveSuccessResult(TRANSNOX.getValue());
             } else {
                 infoModel.clearMobileNo();

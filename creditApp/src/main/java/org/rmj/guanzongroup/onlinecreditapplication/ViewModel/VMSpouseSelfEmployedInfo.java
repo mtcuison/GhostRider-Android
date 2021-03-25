@@ -153,9 +153,7 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
                 poGoCas.SpouseMeansInfo().SelfEmployedInfo().setMonthlyExpense(infoModel.getsMonthlyExps());
 
                 poInfo.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
-                //poInfo.setDetlInfo(poGoCas.toJSONString());
                 poInfo.setSpsBusnx(poGoCas.SpouseMeansInfo().SelfEmployedInfo().toJSONString());
-                poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
                 poCreditApp.updateGOCasData(poInfo);
                 callBack.onSaveSuccessResult("Success");
             }

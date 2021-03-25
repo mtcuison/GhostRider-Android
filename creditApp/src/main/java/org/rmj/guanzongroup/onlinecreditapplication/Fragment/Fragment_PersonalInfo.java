@@ -269,9 +269,9 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
             if (spnMobile3.equals(poView)) {
                 psMob3NetTp = String.valueOf(i);
                 if(i == 1){
-                    tilMobileYr2.setVisibility(View.VISIBLE);
+                    tilMobileYr3.setVisibility(View.VISIBLE);
                 } else {
-                    tilMobileYr2.setVisibility(View.GONE);
+                    tilMobileYr3.setVisibility(View.GONE);
                 }
             }
         }

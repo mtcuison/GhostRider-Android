@@ -127,8 +127,6 @@ public class VMDisbursementInfo extends AndroidViewModel {
                     poGoCasxx.DisbursementInfo().CreditCard().setMemberSince(infoModel.getYearS());
                     poInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
                     poInfo.setDisbrsmt(poGoCasxx.DisbursementInfo().toJSONString());
-                    //poInfo.setDetlInfo(poGoCasxx.toJSONString());
-                    poInfo.setClientNm(poGoCasxx.ApplicantInfo().getClientName());
                     poApplcnt.updateGOCasData(poInfo);
                     Log.e("Disbursement Data", String.valueOf(poInfo.getDetlInfo()));
                     return "success";

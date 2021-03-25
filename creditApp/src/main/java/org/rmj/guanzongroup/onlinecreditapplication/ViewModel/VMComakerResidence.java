@@ -8,17 +8,22 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Data.UploadCreditApp;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerResidenceModel;
+import org.rmj.guanzongroup.onlinecreditapplication.Data.GoCasBuilder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
 import java.util.List;
@@ -28,15 +33,16 @@ public class VMComakerResidence extends AndroidViewModel {
     private ECreditApplicantInfo poInfo;
     private final GOCASApplication poGoCas;
     private final RCreditApplicant poCreditApp;
+    private final RCreditApplication poApplx;
     private final RProvince poProvnce;
     private final RTown poTownRpo;
     private final RBarangay poBarangy;
+    private final Application instance;
 
-    private MutableLiveData<String> psTransNox = new MutableLiveData<>();
+    private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
 
-    private MutableLiveData<String> psProvID = new MutableLiveData<>();
-    private MutableLiveData<String> psTownID = new MutableLiveData<>();
-    private MutableLiveData<String> psBrgyID = new MutableLiveData<>();
+    private final MutableLiveData<String> psProvID = new MutableLiveData<>();
+    private final MutableLiveData<String> psTownID = new MutableLiveData<>();
 
     public VMComakerResidence(@NonNull Application application) {
         super(application);
@@ -45,6 +51,8 @@ public class VMComakerResidence extends AndroidViewModel {
         this.poProvnce = new RProvince(application);
         this.poTownRpo = new RTown(application);
         this.poBarangy = new RBarangay(application);
+        this.poApplx = new RCreditApplication(application);
+        this.instance = application;
     }
 
     public void setTransNox(String transNox){
@@ -129,12 +137,29 @@ public class VMComakerResidence extends AndroidViewModel {
             poGoCas.CoMakerInfo().ResidenceInfo().setRentExpenses(infoModel.getsExpenses());
             poGoCas.CoMakerInfo().ResidenceInfo().setRentNoYears(infoModel.getsLenghtSt());
             poGoCas.CoMakerInfo().ResidenceInfo().hasGarage(infoModel.getsHasGarge());
-            //poInfo.setDetlInfo(poGoCas.toJSONString());
             poInfo.setCmResidx(poGoCas.CoMakerInfo().ResidenceInfo().toJSONString());
             poCreditApp.updateGOCasData(poInfo);
+            callBack.onSaveSuccessResult("success");
         } else {
             callBack.onFailedResult(infoModel.getMessage());
         }
     }
 
+    public void SaveCreditOnlineApplication(UploadCreditApp.OnUploadLoanApplication listener){
+        ECreditApplication loCreditApp = new ECreditApplication();
+        GoCasBuilder loModel = new GoCasBuilder(poInfo);
+        loCreditApp.setTransNox(poCreditApp.getGOCasNextCode());
+        loCreditApp.setBranchCd(poInfo.getBranchCd());
+        loCreditApp.setClientNm(poInfo.getClientNm());
+        loCreditApp.setUnitAppl(poInfo.getAppliedx());
+        loCreditApp.setSourceCD("APP");
+        loCreditApp.setDetlInfo(loModel.getConstructedDetailedInfo());
+        loCreditApp.setDownPaym(poInfo.getDownPaym());
+        loCreditApp.setCreatedx(poInfo.getCreatedx());
+        loCreditApp.setTransact(poInfo.getTransact());
+        loCreditApp.setTimeStmp(AppConstants.DATE_MODIFIED);
+        loCreditApp.setSendStat("0");
+        poApplx.insertCreditApplication(loCreditApp);
+        new UploadCreditApp(instance).UploadLoanApplication(loCreditApp.getTransNox(), listener);
+    }
 }

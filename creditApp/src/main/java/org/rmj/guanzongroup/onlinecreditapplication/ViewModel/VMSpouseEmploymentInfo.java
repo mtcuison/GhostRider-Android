@@ -287,8 +287,6 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
 
                 poInfo.setTransNox(Objects.requireNonNull(psTransNo.getValue()));
                 poInfo.setSpsEmplx(poGoCas.SpouseMeansInfo().EmployedInfo().toJSONString());
-                //poInfo.setDetlInfo(poGoCas.toJSONString());
-                poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
                 poCreditApp.updateGOCasData(poInfo);
 
                 Log.e(TAG, poGoCas.SpouseMeansInfo().EmployedInfo().toJSONString());

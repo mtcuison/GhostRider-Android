@@ -176,8 +176,6 @@
 
                     poInfo.setTransNox(TransNox.getValue());
                     poInfo.setSpsResdx(poGoCas.SpouseInfo().ResidenceInfo().toJSONString());
-                    //poInfo.setDetlInfo(poGoCas.toJSONString());
-                    poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
                     poCreditApp.updateGOCasData(poInfo);
 
                     //Added by sir mike

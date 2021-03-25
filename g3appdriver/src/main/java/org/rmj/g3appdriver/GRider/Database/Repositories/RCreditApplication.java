@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
@@ -41,6 +42,14 @@ public class RCreditApplication {
 
     public LiveData<List<ECreditApplication>> getAllCreditOnlineApplication(){
         return allCreditApplication;
+    }
+
+    public ECreditApplication getLoanInfoOfTransNox(String TransNox){
+        return creditApplicationDao.getLoanInfoOfTransNox(TransNox);
+    }
+
+    public void updateSentLoanAppl(String oldTransNox, String TransNox){
+        creditApplicationDao.updateSentLoanAppl(oldTransNox, TransNox, AppConstants.DATE_MODIFIED);
     }
 
     public LiveData<List<DCreditApplication.ApplicationLog>> getApplicationHistory(){

@@ -116,6 +116,20 @@ public class VMOtherInfo extends AndroidViewModel {
         return new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER);
     }
 
+    public ArrayAdapter<String> getOtherUnitUser(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER_OTHERS);
+        try {
+            if (poInfo.getIsSpouse().equalsIgnoreCase("1")) {
+                adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER_OTHERS);
+            } else {
+                adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER_OTHERS_NO_SPOUSE);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return adapter;
+    }
+
     public ArrayAdapter<String> getUnitPurpose(){
         return new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PURPOSE);
     }
@@ -125,11 +139,15 @@ public class VMOtherInfo extends AndroidViewModel {
     }
 
     public ArrayAdapter<String> getPayerBuyer(){
-        ArrayAdapter<String> adapter;
-        if (poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1")){
-            adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PAYER);
-        }else{
-            adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PAYER_NO_SPOUSE);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PAYER);
+        try {
+            if (poInfo.getIsSpouse().equalsIgnoreCase("1")) {
+                adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PAYER);
+            } else {
+                adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PAYER_NO_SPOUSE);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
         return adapter;
     }

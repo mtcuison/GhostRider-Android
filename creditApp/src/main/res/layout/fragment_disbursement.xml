@@ -149,7 +149,7 @@
               android:layout_width="match_parent"
                android:layout_height="wrap_content"
               android:inputType="number|none"
-              android:maxLength="6"/>
+              android:maxLength="10"/>
        </com.google.android.material.textfield.TextInputLayout>
 
        <com.google.android.material.textfield.TextInputLayout
@@ -163,7 +163,8 @@
               android:id="@+id/tie_cap_dbmYearStarted"
               android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:maxLength="50"/>
+              android:inputType="number|none"
+               android:maxLength="3"/>
        </com.google.android.material.textfield.TextInputLayout>
 
 
