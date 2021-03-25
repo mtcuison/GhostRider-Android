@@ -60,8 +60,6 @@ public class CreditEvaluationAdapter extends RecyclerView.Adapter<CreditEvaluati
         holder.lblMobileNo.setText(poLoan.getsMobileNo());
         holder.lblAccountTerm.setText(poLoan.getnAcctTerm());
         holder.lblModelName.setText(poLoan.getsModelNme());
-
-
     }
 
     @Override
