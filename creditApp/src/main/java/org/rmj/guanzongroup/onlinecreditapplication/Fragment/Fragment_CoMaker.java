@@ -76,7 +76,6 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
     private CoMakerModel infoModel;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
-    private ImageFileCreator poImage;
 
     public static Fragment_CoMaker newInstance() {
         return new Fragment_CoMaker();
@@ -89,7 +88,6 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         infoModel = new CoMakerModel();
         poDialogx = new LoadDialog(getActivity());
         poMessage = new MessageBox(getActivity());
-        poImage = new ImageFileCreator(getActivity(), AppConstants.APP_PUBLIC_FOLDER);
         setupWidgets(view);
         return view;
     }
@@ -253,22 +251,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
             poMessage.setMessage("Send loan application without co-maker info?");
             poMessage.setPositiveButton("Yes", (view, dialog) -> {
                 dialog.dismiss();
-                poMessage.initDialog();
-                poMessage.setTitle("Credit Application");
-                poMessage.setMessage("Please take a picture of applicant to continue.");
-                poMessage.setPositiveButton("Open Camera", new MessageBox.DialogButton() {
-                    @Override
-                    public void OnButtonClick(View view, AlertDialog dialog) {
-
-                    }
-                });
-                poMessage.setNegativeButton("Later", new MessageBox.DialogButton() {
-                    @Override
-                    public void OnButtonClick(View view, AlertDialog dialog) {
-                        dialog.dismiss();
-                    }
-                });
-                poMessage.show();
+                saveApplicantInfo();
             });
             poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
             poMessage.show();

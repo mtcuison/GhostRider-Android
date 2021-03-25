@@ -4,9 +4,10 @@
     package="org.rmj.guanzongroup.onlinecreditapplication">
 
     <application>
-        <activity android:name=".Activity.Activity_DocumentToScan"
+        <activity
+            android:name=".Activity.Activity_DocumentToScan"
             android:screenOrientation="userPortrait"
-            android:label="Credit Online Application"></activity>
+            android:label="Credit Online Application" />
         <activity android:name=".Activity.Activity_BranchApplications"
             android:screenOrientation="userPortrait"
             android:label="Credit Online Application"/>
