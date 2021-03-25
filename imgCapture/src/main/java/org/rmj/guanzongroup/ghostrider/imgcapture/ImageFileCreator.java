@@ -56,6 +56,7 @@ public class ImageFileCreator {
         this.cameraUsage = usage;
         this.imgName = imgName;
     }
+
     public ImageFileCreator(Context context,String folder, String usage, String fileCode, String transNox) {
         this.poContext = context;
         this.folder_name = folder;
@@ -102,8 +103,6 @@ public class ImageFileCreator {
                         generateImageFileName(),
                         latitude,
                         longitude);
-
-
             }
         }
     }
