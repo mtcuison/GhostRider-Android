@@ -70,6 +70,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
     private MaterialButton btnDownload, btnImport;
     private LinearLayout lnImportPanel;
+    private TextView lblNoName;
 
     private String FILENAME;
     private final String FILE_TYPE = "-mob.txt";
@@ -169,6 +170,13 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                     try {
                         loAdapter.getCollectionSearch().filter(charSequence.toString());
                         loAdapter.notifyDataSetChanged();
+                        if(loAdapter.getItemCount() == 0) {
+                            recyclerView.setVisibility(View.GONE);
+                            lblNoName.setVisibility(View.VISIBLE);
+                        } else {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            lblNoName.setVisibility(View.GONE);
+                        }
                     } catch (Exception e){
                         e.printStackTrace();
                     }
@@ -212,6 +220,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         btnDownload = findViewById(R.id.btn_download);
         btnImport = findViewById(R.id.btn_import);
         lnImportPanel = findViewById(R.id.ln_import_panel);
+        lblNoName = findViewById(R.id.txt_no_name);
 
         recyclerView = findViewById(R.id.recyclerview_collectionList);
         layoutManager = new LinearLayoutManager(Activity_CollectionList.this);
