@@ -164,6 +164,7 @@
         <item name="android:layout_margin">2dp</item>
         <item name="colorPrimary">@color/text_color_hint</item>
         <item name="boxStrokeColor">@color/text_input_layout_stroke_color</item>
+        <item name="boxStrokeWidth">0.8dp</item>
         <item name="hintTextColor">@color/mtrl_textinput_default_box_stroke_colors</item>
         <item name="android:textColorHint">@color/text_color_hint</item>
         <item name="colorControlActivated">@color/mtrl_textinput_default_box_stroke_colors</item>

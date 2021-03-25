@@ -39,6 +39,7 @@
             android:text="There are remaining untag collection on collection list. Please enter remarks to post all collection detail."
             android:textSize="16sp"
             android:padding="10dp"
+            android:gravity="center_horizontal"
             android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"
             android:layout_marginTop="15dp"/>

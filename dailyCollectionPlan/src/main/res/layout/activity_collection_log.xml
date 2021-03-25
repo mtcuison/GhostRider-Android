@@ -27,75 +27,94 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/appbar_collectionLog"
-        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:background="@drawable/bg_samsungknox"
+        android:gravity="center_horizontal"
+        android:paddingHorizontal="15dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="Transaction List"
-            android:textColor="@color/textColor_Black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/lbl_headerBranch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/textColor_Black"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/lbl_headerAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/textColor_Black"
-            android:textSize="16sp"
-            tools:ignore="DuplicateIds" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_collectionDate"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TextInputStyle">
+            android:orientation="vertical"
+            android:layout_marginVertical="15dp"
+            android:gravity="center">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_collectionDate"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TextInputStyle.Edittext"
-                android:hint="Collection Date"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:focusedByDefault="false"
-                tools:targetApi="o" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:fontFamily="@font/roboto"
+                android:text="Transaction Log"
+                android:textColor="@color/textColor_White"
+                android:textSize="22sp" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_collectionSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/TextInputStyle">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_collectionSearch"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/lbl_headerBranch"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TextInputStyle.Edittext"
-                android:hint="Search Customer's name"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/textColor_White"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:id="@+id/lbl_headerAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/textColor_White"/>
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1.5dp"
+            android:layout_height="0.8dp"
             android:layout_marginTop="5dp"
-            android:background="@color/guanzon_orange" />
-        android:layout_below="@+id/appbar_dcp">
+            android:background="#fff"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_collectionDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyleHeaders">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_collectionDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fbfbfb"
+                    android:hint="Collection Date"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:focusedByDefault="false"
+                    tools:targetApi="o" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_collectionSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyleHeaders">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_collectionSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fbfbfb"
+                    android:inputType="textCapWords|textPersonName"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1"
+                    android:hint="Search Customer's name"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
