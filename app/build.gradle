@@ -56,13 +56,6 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.preference:preference:1.1.0'
 
-    implementation 'com.facebook.android:facebook-core:[8,9)'
-    implementation 'com.facebook.android:facebook-login:[8,9)'
-    implementation 'com.facebook.android:facebook-share:[8,9)'
-    implementation 'com.facebook.android:facebook-messenger:[8,9)'
-    implementation 'com.facebook.android:facebook-applinks:[8,9)'
-    implementation 'com.facebook.android:facebook-common:8.2.0@aar'
-
     implementation project(':authLibrary')
     implementation project(':g3appdriver')
     implementation project(':creditApp')

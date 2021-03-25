@@ -19,9 +19,6 @@ import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 
-import com.facebook.share.model.ShareMessengerGenericTemplateContent;
-import com.facebook.share.model.ShareMessengerGenericTemplateElement;
-import com.facebook.share.model.ShareMessengerURLActionButton;
 
 import java.io.File;
 import java.io.FileInputStream;
