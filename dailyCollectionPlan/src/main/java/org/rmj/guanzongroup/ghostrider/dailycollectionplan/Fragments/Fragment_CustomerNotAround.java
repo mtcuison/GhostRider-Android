@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
@@ -114,7 +115,9 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 mViewModel.setCurrentCollectionDetail(collectionDetail);
 
                 mViewModel.setAccountNo(collectionDetail.getAcctNmbr());
-                poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, ImageFileCreator.FILE_CODE.CNA, collectionDetail.getAcctNmbr());
+//                poImage = new ImageFileCreator(getActivity(), DCP_Constants.FOLDER_NAME, ImageFileCreator.FILE_CODE.CNA, collectionDetail.getAcctNmbr());
+                poImage = new ImageFileCreator(getActivity(), AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_DCP, TransNox);
+
             } catch (Exception e){
                 e.printStackTrace();
             }

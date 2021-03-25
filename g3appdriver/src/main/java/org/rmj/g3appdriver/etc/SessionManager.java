@@ -151,5 +151,6 @@ public class SessionManager {
     public String getPositionID(){
         return pref.getString(KEY_POSITION_ID, "");
     }
+
 }
 

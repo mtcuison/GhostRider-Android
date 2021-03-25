@@ -40,6 +40,8 @@ public class EEmployeeInfo {
     private String MobileNo;
     @ColumnInfo(name = "dSessionx")
     private String Sessionx;
+    @ColumnInfo(name = "sEmployID")
+    private String EmployID;
 
     public EEmployeeInfo() {
     }
@@ -163,5 +165,14 @@ public class EEmployeeInfo {
 
     public void setSessionx(String sessionx) {
         Sessionx = sessionx;
+    }
+
+
+    public String getEmployID() {
+        return EmployID;
+    }
+
+    public void setEmployID(String employID) {
+        EmployID = employID;
     }
 }

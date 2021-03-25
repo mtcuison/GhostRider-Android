@@ -7,6 +7,8 @@ import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CreditEvaluator;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.griderscanner.MainScanner;
 import org.rmj.guanzongroup.ghostrider.imgcapture.DCPPhotoCapture;
@@ -18,6 +20,7 @@ import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalSe
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_BranchApplications;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
 import org.rmj.guanzongroup.promotions.Activity_RaffleEntry;
 
@@ -128,16 +131,32 @@ public class PopulateExpandableList {
                                 context.startActivity(intent);
                                 break;
                             case 2:
+                                Intent branch = new Intent(parent.getContext(), Activity_BranchApplications.class);
+                                context.startActivity(branch);
+                                break;
+                            case 3:
                                 Intent scanner = new Intent(parent.getContext(), MainScanner.class);
                                 context.startActivity(scanner);
                                 break;
-                            case 3:
+                            case 4:
                                 Intent photoCapture= new Intent(parent.getContext(), DCPPhotoCapture.class);
                                 context.startActivity(photoCapture);
                                 break;
                         }
                         break;
-                    case 4: break;
+                    case 4:
+                        switch(childPosition)
+                        {
+                            case 0 :
+                                Intent ciIntent = new Intent(parent.getContext(), Activity_EvaluationList.class);
+                                context.startActivity(ciIntent);
+                                break;
+                            case 1 :
+                                Intent intent1 = new Intent(parent.getContext(), Activity_CreditEvaluator.class);
+                                context.startActivity(intent1);
+                                break;
+                        }
+                        break;
                     case 5:
                         switch(childPosition)
                         {

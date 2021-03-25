@@ -12,6 +12,8 @@ public class EBranchLoanApplication {
     @NonNull
     @ColumnInfo(name = "sTransNox")
     private String TransNox;
+    @ColumnInfo(name = "sBranchCD")
+    private String BranchCD;
     @ColumnInfo(name = "dTransact")
     private String Transact;
     @ColumnInfo(name = "sCredInvx")
@@ -32,6 +34,8 @@ public class EBranchLoanApplication {
     private String DownPaym;
     @ColumnInfo(name = "nAcctTerm")
     private String AcctTerm;
+    @ColumnInfo(name = "sCreatedx")
+    private String CreatedX;
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
     @ColumnInfo(name = "dTimeStmp")
@@ -47,6 +51,14 @@ public class EBranchLoanApplication {
 
     public void setTransNox(@NonNull String transNox) {
         TransNox = transNox;
+    }
+
+    public String getBranchCD() {
+        return BranchCD;
+    }
+
+    public void setBranchCD(@NonNull String branchCD) {
+        BranchCD = branchCD;
     }
 
     public String getTransact() {
@@ -127,6 +139,14 @@ public class EBranchLoanApplication {
 
     public void setAcctTerm(String acctTerm) {
         AcctTerm = acctTerm;
+    }
+
+    public String getCreatedX() {
+        return CreatedX;
+    }
+
+    public void setCreatedX(String createdX) {
+        CreatedX = createdX;
     }
 
     public String getTranStat() {

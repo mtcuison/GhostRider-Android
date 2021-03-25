@@ -1,4 +1,5 @@
 package org.rmj.guanzongroup.ghostrider.griderscanner;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -33,6 +34,7 @@ import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMClientInfo;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -41,8 +43,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 import static org.rmj.guanzongroup.ghostrider.griderscanner.ClientInfo.infoModel;
-import static org.rmj.guanzongroup.ghostrider.griderscanner.ClientInfo.poDocumentsInfo;
-import static org.rmj.guanzongroup.ghostrider.griderscanner.ClientInfo.poImageInfo;
 
 public class ImageCrop extends DocumentScanActivity {
 
@@ -53,6 +53,9 @@ public class ImageCrop extends DocumentScanActivity {
     private ProgressBar progressBar;
     public static Bitmap cropImage;
     private VMClientInfo mViewModel;
+
+    private EImageInfo poImageInfo;
+    private ECreditApplicationDocuments poDocumentsInfo;
     private final View.OnClickListener btnImageEnhanceClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -74,7 +77,10 @@ public class ImageCrop extends DocumentScanActivity {
                                 hideProgressBar();
                                 if (cropImage != null) {
                                     ScannerConstants.selectedImageBitmap = cropImage;
-                                    setResult(RESULT_OK);
+                                    Intent intent = new Intent();
+                                    intent.putExtra("poImage", (Serializable) poImageInfo);
+                                    intent.putExtra("poDocumentsInfo", (Serializable) poDocumentsInfo);
+                                    setResult(RESULT_OK,intent);
                                     finish();
                                 }
                             })
@@ -194,6 +200,8 @@ public class ImageCrop extends DocumentScanActivity {
     }
 
     private void initView() {
+        poImageInfo = new EImageInfo();
+        poDocumentsInfo = new ECreditApplicationDocuments();
         mViewModel = new ViewModelProvider(this).get(VMClientInfo.class);
         Button btnImageCrop = findViewById(R.id.btnImageCrop);
         Button btnClose = findViewById(R.id.btnClose);
@@ -217,7 +225,7 @@ public class ImageCrop extends DocumentScanActivity {
         ivRotate.setOnClickListener(onRotateClick);
         ivInvert.setOnClickListener(btnInvertColor);
         ivRebase.setOnClickListener(btnRebase);
-        Toolbar toolbar = findViewById(R.id.toolbar_scanner);
+        Toolbar toolbar = findViewById(R.id.toolbar_crop);
         setSupportActionBar(toolbar);
         setTitle("Image Crop");
         startCropping();
@@ -243,12 +251,9 @@ public class ImageCrop extends DocumentScanActivity {
 
         String root = Environment.getExternalStorageDirectory().toString();
         File sd = new File(root + "/"+ getPackageName() + "/" + "COAD" + "/");
-        poImageInfo = new EImageInfo();
-        poDocumentsInfo = new ECreditApplicationDocuments();
         getRealPathFromURI (ScannerConstants.PhotoPath);
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        deleteRecursive(sd);
         String imageFileName = ScannerConstants.TransNox + "_" + ScannerConstants.EntryNox + "_" +ScannerConstants.FileCode + ".png";
-        File storageDir = getExternalFilesDir( "/" + ScannerConstants.Folder + "/" + ScannerConstants.Usage);
         if (!sd.exists()) {
             sd.mkdirs();
         }
@@ -264,8 +269,6 @@ public class ImageCrop extends DocumentScanActivity {
         }
         Log.e("Crop Image Path", mypath.getAbsolutePath());
 
-        infoModel = new CreditAppDocumentModel();
-        infoModel.setDocFilePath(mypath.getAbsolutePath());
         poImageInfo.setDtlSrcNo(ScannerConstants.TransNox);
         poImageInfo.setSourceNo(ScannerConstants.TransNox);
         poImageInfo.setSourceCD("COAD");
@@ -289,6 +292,7 @@ public class ImageCrop extends DocumentScanActivity {
 
     }
     public String getRealPathFromURI (String contentUri) {
+
         File target = new File(contentUri);
         if (target.exists() && target.isFile() && target.canWrite()) {
             target.delete();
@@ -296,7 +300,16 @@ public class ImageCrop extends DocumentScanActivity {
         }
         return target.toString();
     }
+    public void deleteRecursive(File fileOrDirectory) {
 
+        if (fileOrDirectory.isDirectory()) {
+            for (File child : fileOrDirectory.listFiles()) {
+                deleteRecursive(child);
+            }
+        }
+
+        fileOrDirectory.delete();
+    }
 
 
 }

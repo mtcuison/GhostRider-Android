@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.Activity_BranchApplications"
+    android:background="@drawable/bg_gradient_light"
+    android:theme="@style/GhostRiderMaterialTheme"
+    tools:ignore="MissingDefaultResource">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_branchApplications"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/material_tool_bar"
+            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+    <LinearLayout
+        android:id="@+id/linear_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:gravity="center">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/guanzon_orange"
+            tools:targetApi="lollipop" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_gradient_orange"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginVertical="5dp">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".4"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_ghostrider_logo_day" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Credit Online Application List"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/mtrl_textinput_default_box_stroke_colors"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GMC Dagupan - Honda"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/mtrl_textinput_default_box_stroke_colors"
+                    android:layout_marginTop="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Guanzon Bldg., Perez Blvd."
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="@color/mtrl_textinput_default_box_stroke_colors"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            >
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Search Client Name"
+                style="@style/TextInputStyleHeaders">
+<!--                <androidx.appcompat.widget.SearchView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:queryHint="Seacrh Client Name"-->
+<!--                    app:defaultQueryHint="Seacrh Client Name"-->
+<!--                    />-->
+<!--                <androidx.appcompat.widget.SearchView-->
+<!--                    android:id="@+id/simpleSearchView"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:queryHint="Search Client Name"/>-->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_branch_search"
+                    style="@style/TextInputStyle.Edittext"
+                    android:layout_width="match_parent"
+                    android:imeOptions="actionSearch"
+                    android:textColor="@color/mtrl_textinput_default_box_stroke_colors"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/mtrl_textinput_default_box_stroke_colors"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/guanzon_orange"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_branchApplications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:id="@+id/layout_branch_noRecord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            android:padding="10dp"
+            android:background="@drawable/background_no_record"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_toast_warning"
+                    tools:ignore="UseAppTint"
+                    android:layout_gravity="end|center_vertical"
+                    app:tint="@color/guanzon_orange" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="18dp"
+                android:textColor="@color/guanzon_digital_orange"
+                android:fontFamily="@font/roboto_medium"
+                android:text="No record found."/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

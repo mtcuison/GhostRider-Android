@@ -6,11 +6,17 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -25,8 +31,17 @@ public class Import_CreditAppList implements ImportInstance{
     private static final String TAG = Import_CreditAppList.class.getSimpleName();
     private final Application instance;
 
+    private final RCreditApplication db;
+    private final ConnectionUtil loConnectx;
+    private final HttpHeaders loHeaders;
+    private final REmployee poUser;
+    private String brnCode;
     public Import_CreditAppList(Application application){
         this.instance = application;
+        this.db = new RCreditApplication(application);
+        this.loConnectx = new ConnectionUtil(application);
+        this.loHeaders = HttpHeaders.getInstance(application);
+        this.poUser = new REmployee(application);
     }
 
     @Override
@@ -34,7 +49,7 @@ public class Import_CreditAppList implements ImportInstance{
         try {
             JSONObject loJson = new JSONObject();
             loJson.put("bycode", true);
-            loJson.put("value", "M001");
+            loJson.put("value", poUser.getEmployeeInfo().getValue().getBranchCD());
             new ImportDataTask(instance, callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
@@ -66,7 +81,7 @@ public class Import_CreditAppList implements ImportInstance{
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
-                        if(!poLoan.insertApplicationInfos(laJson)){
+                        if(!poLoan.insertBranchApplicationInfos(laJson)){
                             response = AppConstants.ERROR_SAVING_TO_LOCAL();
                         }
                     } else {

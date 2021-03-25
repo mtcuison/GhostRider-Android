@@ -3,7 +3,8 @@
     package="com.example.imgcapture">
 
     <application>
-        <activity android:name="org.rmj.guanzongroup.ghostrider.imgcapture.DCPPhotoCapture" />
+        <activity android:name="org.rmj.guanzongroup.ghostrider.imgcapture.DCPPhotoCapture"
+            android:screenOrientation="userPortrait"/>
     </application>
 
 </manifest>

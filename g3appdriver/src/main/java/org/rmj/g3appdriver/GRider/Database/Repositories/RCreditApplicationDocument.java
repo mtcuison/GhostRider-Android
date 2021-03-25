@@ -53,9 +53,6 @@ public class RCreditApplicationDocument {
     public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentInfos(String TransNox){
         return documentsDao.getDocumentInfo(TransNox);
     }
-    public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentByTransNox(String TransNox, String FileCD){
-        return documentsDao.getDocumentByTransNox(TransNox,FileCD);
-    }
 
 
 

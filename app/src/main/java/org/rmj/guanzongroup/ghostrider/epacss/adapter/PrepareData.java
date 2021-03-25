@@ -69,7 +69,10 @@ public class PrepareData {
         childModel = new MenuModel("Loan Application", 0, false, false , View.VISIBLE);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Application List", 0,false, false, View.VISIBLE);
+        childModel = new MenuModel("User Application List", 0,false, false, View.VISIBLE);
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Branch Application List", 0,false, false, View.VISIBLE);
         childModelsList.add(childModel);
 
         childModel = new MenuModel("Document Scanner", 0, false, false, View.VISIBLE);
@@ -82,10 +85,16 @@ public class PrepareData {
         }
 
         //TODO: Change the value of View to VISIBLE if CI Evaluator is ready for implementation...
-        menuModel = new MenuModel("Credit Online Evaluation",  R.drawable.ic_menu_credit_investigate,false, false, View.GONE);
+        childModelsList = new ArrayList<>();
+        menuModel = new MenuModel("CI Evaluation",  R.drawable.ic_menu_credit_investigate,true, true, View.VISIBLE);
         listDataHeader.add(menuModel);
+        childModel = new MenuModel("CI Evaluation List", 0, false, false , View.VISIBLE);
+        childModelsList.add(childModel);
+        childModel = new MenuModel("CI Evaluation History", 0, false, false , View.VISIBLE);
+        childModelsList.add(childModel);
+
         if (menuModel.hasChildren) {
-            listDataChild.put(menuModel, null);
+            listDataChild.put(menuModel, childModelsList);
         }
 
         //TODO: Change the value of View to VISIBLE if PET Manager is ready for implementation...
@@ -167,7 +176,7 @@ public class PrepareData {
             listDataChild.put(menuModel, childModelsList);
         }
 
-        menuModel = new MenuModel("Raffle Entry",  R.drawable.ic_approval_reference,false, false, View.VISIBLE);
+        menuModel = new MenuModel("Raffle Entry",  R.drawable.ic_approval_reference,false, false, View.GONE);
         listDataHeader.add(menuModel);
         if (!menuModel.hasChildren) {
             listDataChild.put(menuModel, null);

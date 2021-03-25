@@ -139,6 +139,7 @@ public class VMLogin extends AndroidViewModel {
             employeeInfo.setPositnID(jsonInfo.getString("sPositnID"));
             employeeInfo.setEmpLevID(jsonInfo.getString("sEmpLevID"));
             employeeInfo.setAllowUpd(jsonInfo.getString("cAllowUpd"));
+            employeeInfo.setEmployID(jsonInfo.getString("sEmployID"));
             employeeInfo.setLoginxxx(AppConstants.DATE_MODIFIED);
             employeeInfo.setSessionx(AppConstants.CURRENT_DATE);
             REmployee.insertEmployee(employeeInfo);

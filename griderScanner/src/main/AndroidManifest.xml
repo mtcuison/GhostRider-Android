@@ -3,18 +3,18 @@
     package="org.rmj.guanzongroup.ghostrider.griderscanner">
 
     <application>
-        <activity android:name=".ClientInfo"></activity>
-        <activity android:name=".MainScanner" />
+        <activity android:name=".ClientInfo"
+            android:screenOrientation="userPortrait"></activity>
+        <activity android:name=".MainScanner"
+            android:screenOrientation="userPortrait" />
         <activity
             android:name=".ImageCrop"
+            android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".GriderScanner"
+            android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
-
-        <service
-            android:name=".service.DataImportService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
 
     </application>
 

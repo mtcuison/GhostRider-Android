@@ -72,8 +72,7 @@ public class DataImportService extends JobService {
                 new Import_AreaPerformance(getApplication()),
                 new Import_Occupations(getApplication()),
                 new Import_BranchPerformance(getApplication()),
-                new Import_LoanApplications(getApplication()),
-                new Import_CreditAppList(getApplication())};
+                new Import_LoanApplications(getApplication())};
 
         if(poConfig.isAppFirstLaunch()) {
             GNotifBuilder.createNotification(getApplication(), GNotifBuilder.JOB_SERVICE, "Downloading local resources...", GNotifBuilder.APP_DATA_DOWNLOAD).show();

@@ -210,12 +210,8 @@ public class VMClientInfo extends AndroidViewModel {
 //
                         if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success"))
                         {
-
-//                            Log.e(TAG, "Image file of Account No. " + psTransNox + ", Entry No. "+ pnEntryNox+ " was uploaded successfully");
                             String lsTransNo = (String) loUpload.get("sTransNox");
                             poImage.updateImageInfo(lsTransNo, psTransNox);
-                            //poDcp.updateCollectionDetailImage(loDetail.sAcctNmbr);
-
 
                         } else {
 

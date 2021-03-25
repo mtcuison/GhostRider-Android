@@ -45,51 +45,18 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:padding="3dp"
-            android:background="@color/textColor_Black"/>
+            android:background="@color/guanzon_orange"/>
 
         <TextView
             android:id="@+id/lbl_list_applicantName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Garcia, Michael Permison"
-            android:textSize="16sp"
+            android:textSize="17sp"
             android:textColor="@color/textColor_Black"
             tools:ignore="HardcodedText"
             android:fontFamily="@font/roboto_medium"
             tools:targetApi="jelly_bean"/>
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:layout_marginTop="10dp">-->
-
-<!--            <TextView-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:fontFamily="@font/roboto_regular"-->
-<!--                android:gravity="start"-->
-<!--                android:text="Transaction No. :"-->
-<!--                android:textColor="@color/textColor_Black"-->
-<!--                android:textSize="16sp"-->
-<!--                tools:ignore="HardcodedText"-->
-<!--                tools:targetApi="jelly_bean" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/lbl_list_applicationTransNo"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:text="#437Z19000052"-->
-<!--                android:textSize="16sp"-->
-<!--                android:textColor="@color/textColor_Black"-->
-<!--                android:gravity="end"-->
-<!--                tools:ignore="HardcodedText"-->
-<!--                android:fontFamily="@font/roboto_regular"-->
-<!--                tools:targetApi="jelly_bean"/>-->
-
-<!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -220,43 +187,13 @@
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:text="Status :"
-                android:textSize="16sp"
-                android:textColor="@color/textColor_Black"
-                android:gravity="start"
-                tools:ignore="HardcodedText"
-                android:fontFamily="@font/roboto_regular"
-                tools:targetApi="jelly_bean"/>
-
-            <TextView
-                android:id="@+id/lbl_list_applicationWithCI"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Approve with CI"
-                android:textColor="@color/textColor_Black"
-                android:gravity="end"
-                tools:ignore="HardcodedText"
-                android:fontFamily="@font/roboto_regular"
-                tools:targetApi="jelly_bean"/>
-        </LinearLayout>
-
 
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:padding="3dp"
-            android:background="@color/textColor_Black"/>
+            android:background="@color/guanzon_orange"/>
 
 
     </LinearLayout>
