@@ -45,7 +45,7 @@ public class Activity_LogCollection extends AppCompatActivity {
     private LinearLayoutManager poManager;
     private TextInputEditText txtDate, txtSearch;
     private RecyclerView recyclerView;
-    private TextView txtNoLog;
+    private TextView txtNoLog, txtNoName;
 
     private List<EDCPCollectionDetail> filteredCollectionDetlx;
 
@@ -145,6 +145,13 @@ public class Activity_LogCollection extends AppCompatActivity {
                         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                             poAdapter.getCollectionFilter().filter(charSequence.toString().toLowerCase());
                             poAdapter.notifyDataSetChanged();
+                            if(poAdapter.getItemCount() == 0) {
+                                txtNoName.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                            } else {
+                                txtNoName.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                            }
                         }
 
                         @Override
@@ -180,6 +187,7 @@ public class Activity_LogCollection extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerview_collectionLog);
         txtNoLog = findViewById(R.id.txt_no_logs);
+        txtNoName = findViewById(R.id.txt_no_name);
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddrss = findViewById(R.id.lbl_headerAddress);
 
