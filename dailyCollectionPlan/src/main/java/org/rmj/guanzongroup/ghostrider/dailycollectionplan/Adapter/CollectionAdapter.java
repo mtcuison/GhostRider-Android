@@ -140,7 +140,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         protected FilterResults performFiltering(CharSequence charSequence) {
             final FilterResults results = new FilterResults();
             if(charSequence.length() == 0){
-                collctFilter = plCollection;
+                collctFilter = (plCollection);
             } else {
                 List<EDCPCollectionDetail> filterSearch = new ArrayList<>();
                 for(EDCPCollectionDetail plan : plCollection){

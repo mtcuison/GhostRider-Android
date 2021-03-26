@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
@@ -45,7 +46,8 @@ public class Activity_LogCollection extends AppCompatActivity {
     private LinearLayoutManager poManager;
     private TextInputEditText txtDate, txtSearch;
     private RecyclerView recyclerView;
-    private TextView txtNoLog;
+    private TextView txtNoLog, txtNoName;
+    private TextInputLayout tilSearch;
 
     private List<EDCPCollectionDetail> filteredCollectionDetlx;
 
@@ -106,7 +108,10 @@ public class Activity_LogCollection extends AppCompatActivity {
                 if(collectionDetails.size() > 0) {
                     txtNoLog.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
+                    tilSearch.setVisibility(View.VISIBLE);
+                    txtSearch.setText("");
 
+                    filteredCollectionDetlx.clear();
                     for(int z = 0; z < collectionDetails.size(); z++) {
 //                    if(collectionDetails.get(z).getRemCodex() != null) {
                         filteredCollectionDetlx.add(collectionDetails.get(z));
@@ -142,8 +147,22 @@ public class Activity_LogCollection extends AppCompatActivity {
 
                         @Override
                         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            poAdapter.getCollectionFilter().filter(charSequence.toString().toLowerCase());
-                            poAdapter.notifyDataSetChanged();
+                            if(!charSequence.toString().trim().isEmpty()) {
+                                poAdapter.getCollectionFilter().filter(charSequence.toString().toLowerCase());
+                                poAdapter.notifyDataSetChanged();
+                                if(poAdapter.getItemCount() == 0) {
+                                    txtNoName.setVisibility(View.VISIBLE);
+                                    recyclerView.setVisibility(View.GONE);
+                                } else {
+                                    txtNoName.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                }
+                            } else {
+                                poAdapter.getCollectionFilter().filter(charSequence.toString().toLowerCase());
+                                poAdapter.notifyDataSetChanged();
+                                txtNoName.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                            }
                         }
 
                         @Override
@@ -153,7 +172,9 @@ public class Activity_LogCollection extends AppCompatActivity {
                     });
                 } else {
                     txtNoLog.setVisibility(View.VISIBLE);
+                    txtNoName.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
+                    tilSearch.setVisibility(View.GONE);
                 }
             } catch (Exception e){
                 e.printStackTrace();
@@ -179,11 +200,13 @@ public class Activity_LogCollection extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerview_collectionLog);
         txtNoLog = findViewById(R.id.txt_no_logs);
+        txtNoName = findViewById(R.id.txt_no_name);
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddrss = findViewById(R.id.lbl_headerAddress);
 
         txtDate = findViewById(R.id.txt_collectionDate);
         txtSearch = findViewById(R.id.txt_collectionSearch);
+        tilSearch = findViewById(R.id.til_collectionSearch);
         filteredCollectionDetlx = new ArrayList<>();
 
         try {
