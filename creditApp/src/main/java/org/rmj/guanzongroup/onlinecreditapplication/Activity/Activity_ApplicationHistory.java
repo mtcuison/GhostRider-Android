@@ -35,7 +35,6 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
 
     private Toolbar toolbar;
     private TextInputEditText txtSearch;
-    private Spinner spnFilter;
     private RecyclerView recyclerView;
 
     private List<LoanApplication> loanList;
@@ -48,18 +47,6 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
         initWidgets();
         mViewModel = new ViewModelProvider(this).get(VMApplicationHistory.class);
         mViewModel.LoadApplications(Activity_ApplicationHistory.this);
-        mViewModel.getFilterList().observe(this, stringArrayAdapter -> spnFilter.setAdapter(stringArrayAdapter));
-        spnFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         mViewModel.getApplicationHistory().observe(Activity_ApplicationHistory.this, applicationLogs -> {
             if(applicationLogs.size()>0) {
                 loanList = new ArrayList<>();
@@ -133,7 +120,6 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         txtSearch = findViewById(R.id.txt_Search);
-        spnFilter = findViewById(R.id.spn_applicationFilter);
         recyclerView = findViewById(R.id.rectangles_applicationHistory);
     }
 

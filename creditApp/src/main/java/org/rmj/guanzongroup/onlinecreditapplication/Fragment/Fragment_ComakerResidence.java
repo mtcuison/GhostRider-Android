@@ -172,16 +172,16 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
         mViewModel.getLenghtOfStay().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnLgnthStay.setAdapter(stringArrayAdapter));
 
         btnNext.setOnClickListener(v -> {
-            infoModel.setsLandMark(txtLandMark.getText().toString());
-            infoModel.setsHouseNox(txtHouseNox.getText().toString());
-            infoModel.setsAddress1(txtAddress1.getText().toString());
-            infoModel.setsAddress2(txtAddress2.getText().toString());
+            infoModel.setsLandMark(Objects.requireNonNull(txtLandMark.getText()).toString());
+            infoModel.setsHouseNox(Objects.requireNonNull(txtHouseNox.getText()).toString());
+            infoModel.setsAddress1(Objects.requireNonNull(txtAddress1.getText()).toString());
+            infoModel.setsAddress2(Objects.requireNonNull(txtAddress2.getText()).toString());
             infoModel.setsProvncNm(txtProvince.getText().toString());
             infoModel.setsMuncplNm(txtMunicipality.getText().toString());
             infoModel.setsBrgyName(txtBarangay.getText().toString());
-            infoModel.setsRelation(txtRelationship.getText().toString());
-            infoModel.setsLenghtSt(txtLgnthStay.getText().toString());
-            infoModel.setsExpenses(txtMonthlyExp.getText().toString());
+            infoModel.setsRelation(Objects.requireNonNull(txtRelationship.getText()).toString());
+            infoModel.setsLenghtSt(Objects.requireNonNull(txtLgnthStay.getText()).toString());
+            infoModel.setsExpenses(Objects.requireNonNull(txtMonthlyExp.getText()).toString());
             mViewModel.SaveCoMakerResidence(infoModel, Fragment_ComakerResidence.this);
         });
     }

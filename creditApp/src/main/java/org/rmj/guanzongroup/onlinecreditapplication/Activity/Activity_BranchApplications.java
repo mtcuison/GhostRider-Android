@@ -78,7 +78,6 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
     @Override
     public void onSuccessImport() {
         poDialogx.dismiss();
-        initData();
     }
 
 
@@ -98,6 +97,7 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
     }
+
     public void initData(){
         mViewModel.getBranchCreditApplication().observe(Activity_BranchApplications.this, brnCreditList -> {
             if(brnCreditList.size()>0) {
@@ -124,9 +124,6 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
                 adapter = new BranchApplicationsAdapter(loanList, new BranchApplicationsAdapter.OnApplicationClickListener() {
                     @Override
                     public void OnClick(int position, List<BranchApplicationModel> loanLists) {
-//                                mViewModel.getDocument(loanLists.get(position).getTransNox()).observe(Activity_BranchApplications.this, data -> {
-//                                    mViewModel.setDocumentInfo(data);
-//                                });
 
                         Intent loIntent = new Intent(Activity_BranchApplications.this, Activity_DocumentToScan.class);
                         loIntent.putExtra("TransNox",loanLists.get(position).getsTransNox());
@@ -154,8 +151,6 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         try {
-
-//                                    adapter.getSearchFilter().filter(s.toString());
                             adapter.getFilter().filter(s.toString());
                             adapter.notifyDataSetChanged();
                             if (adapter.getItemCount() == 0){

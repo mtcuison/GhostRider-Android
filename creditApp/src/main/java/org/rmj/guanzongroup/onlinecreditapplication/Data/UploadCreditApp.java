@@ -37,7 +37,7 @@ public class UploadCreditApp {
     }
 
     private static class UploadTask extends AsyncTask<String, Void, String>{
-        private final Application application;
+        private final Application instance;
         private final HttpHeaders poHeaders;
         private final ConnectionUtil poConn;
         private final RCreditApplication poCreditApp;
@@ -45,10 +45,10 @@ public class UploadCreditApp {
         private ECreditApplication poInfo;
 
         public UploadTask(Application application, OnUploadLoanApplication listener) {
-            this.application = application;
-            this.poHeaders = HttpHeaders.getInstance(application);
-            this.poConn = new ConnectionUtil(application);
-            this.poCreditApp = new RCreditApplication(application);
+            this.instance = application;
+            this.poHeaders = HttpHeaders.getInstance(instance);
+            this.poConn = new ConnectionUtil(instance);
+            this.poCreditApp = new RCreditApplication(instance);
             this.mListener = listener;
         }
 

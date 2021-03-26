@@ -46,13 +46,6 @@ public class VMApplicationHistory extends AndroidViewModel {
         return poCreditApp.getApplicationHistory();
     }
 
-    public LiveData<ArrayAdapter<String>> getFilterList(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.APPLICATION_FILTER);
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
-        return liveData;
-    }
-
     public void ExportGOCasInfo(String TransNox){
 
     }

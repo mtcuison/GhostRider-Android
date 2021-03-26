@@ -106,13 +106,6 @@ public class Fragment_SelfieLogin extends Fragment {
             }
         });
 
-        mViewModel.getCurrentLogTimeIfExist().observe(getViewLifecycleOwner(), eImageInfos -> {
-            if(currentDateLog.size() > 0){
-                //lblTimeLog.setText(currentDateLog.get(0).getLogTimex());
-            }
-            currentDateLog = eImageInfos;
-        });
-
         mViewModel.getAllEmployeeTimeLog().observe(getViewLifecycleOwner(), eLog_selfies -> {
             TimeLogAdapter logAdapter = new TimeLogAdapter(eLog_selfies, sTransNox -> {
                 GToast.CreateMessage(getActivity(), "Feature not yet implemented", GToast.INFORMATION).show();
@@ -184,10 +177,10 @@ public class Fragment_SelfieLogin extends Fragment {
     }
 
     private void initCamera(){
-        ImageFileCreator loImage = new ImageFileCreator(getActivity(), "SelfieLogin", "LOG", "");
+        ImageFileCreator loImage = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_SELFIE_LOG, poUser.getUserIDxx());
         loImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
             this.photPath = photPath;
-            poLog.setEmployID(poUser.getClientID());
+            poLog.setEmployID(poUser.getEmployID());
             poLog.setLogTimex(AppConstants.DATE_MODIFIED);
             poLog.setLatitude(String.valueOf(latitude));
             poLog.setLongitud(String.valueOf(longitude));

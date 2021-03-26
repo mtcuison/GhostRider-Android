@@ -122,7 +122,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
             CollId = s.getCollctID();
             ptpCollName.setText(s.getCollName());
-            poImage = new ImageFileCreator(getActivity(), AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_DCP, TransNox);
+            poImage = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_DCP, TransNox);
         });
 
         mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
@@ -194,8 +194,6 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                //cameraCapture(mCurrentPhotoPath);
-                //showDialog();}
             }else {
                 infoModel.setPtpImgPath("");
             }
@@ -214,7 +212,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         poMessage.setMessage(args[0]);
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
             dialog.dismiss();
-            Objects.requireNonNull(getActivity()).finish();
+            requireActivity().finish();
         });
         poMessage.show();
     }

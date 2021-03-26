@@ -260,8 +260,4 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
             callBack.onFailedResult("Something went wrong. Required information might not provided by user.");
         }
     }
-
-    public void tesCreditApp(){
-        Log.e(TAG, new GoCasBuilder(oCredtRepo.testCreditAppModel()).getConstructedDetailedInfo());
-    }
 }

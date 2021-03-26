@@ -2,6 +2,8 @@ package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,9 +22,11 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Data.UploadCreditApp;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.OnDateSetListener;
@@ -71,6 +75,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
     private Button btnNext;
     private CoMakerModel infoModel;
     private LoadDialog poDialogx;
+    private MessageBox poMessage;
 
     public static Fragment_CoMaker newInstance() {
         return new Fragment_CoMaker();
@@ -82,6 +87,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         View view = inflater.inflate(R.layout.fragment_comaker, container, false);
         infoModel = new CoMakerModel();
         poDialogx = new LoadDialog(getActivity());
+        poMessage = new MessageBox(getActivity());
         setupWidgets(view);
         return view;
     }
@@ -240,43 +246,15 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         if(!message.equalsIgnoreCase("no_comaker")) {
             GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
         } else {
-            MessageBox loDialog = new MessageBox(getActivity());
-            loDialog.initDialog();
-            loDialog.setTitle("Co-Maker Info");
-            loDialog.setMessage("Send loan application without co-maker info?");
-            loDialog.setPositiveButton("Yes", (view, dialog) -> {
+            poMessage.initDialog();
+            poMessage.setTitle("Credit Application");
+            poMessage.setMessage("Send loan application without co-maker info?");
+            poMessage.setPositiveButton("Yes", (view, dialog) -> {
                 dialog.dismiss();
-                mViewModel.SaveCreditOnlineApplication(new UploadCreditApp.OnUploadLoanApplication() {
-                    @Override
-                    public void OnUpload() {
-                        poDialogx.initDialog("Credit Application", "Sending loan application. Please wait...", false);
-                        poDialogx.show();
-                    }
-
-                    @Override
-                    public void OnSuccess(String clientName) {
-                        poDialogx.dismiss();
-                        loDialog.initDialog();
-                        loDialog.setTitle("Credit Application");
-                        loDialog.setMessage("Loan application of " + clientName + " has been sent.");
-                        loDialog.setPositiveButton("Okay", (view1, dialog1) -> dialog1.dismiss());
-                        loDialog.show();
-                    }
-
-                    @Override
-                    public void OnFailed(String message1) {
-                        poDialogx.dismiss();
-                        loDialog.initDialog();
-                        loDialog.setTitle("Credit Application");
-                        loDialog.setMessage(message1);
-                        loDialog.setPositiveButton("Okay", (view1, dialog1) -> dialog1.dismiss());
-                        loDialog.show();
-                    }
-                });
-                requireActivity().finish();
+                saveApplicantInfo();
             });
-            loDialog.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
-            loDialog.show();
+            poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            poMessage.show();
         }
     }
 
@@ -305,5 +283,42 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
                 mViewModel.setSpnCMakerRelation(String.valueOf(i));
             }
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    private void saveApplicantInfo(){
+        mViewModel.SaveCreditOnlineApplication(new UploadCreditApp.OnUploadLoanApplication() {
+            @Override
+            public void OnUpload() {
+                poDialogx.initDialog("Credit Application", "Sending loan application. Please wait...", false);
+                poDialogx.show();
+            }
+
+            @Override
+            public void OnSuccess(String clientName) {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Application");
+                poMessage.setMessage("Loan application of " + clientName + " has been sent.");
+                poMessage.setPositiveButton("Okay", (view1, dialog1) -> dialog1.dismiss());
+                poMessage.show();
+            }
+
+            @Override
+            public void OnFailed(String message1) {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Credit Application");
+                poMessage.setMessage(message1);
+                poMessage.setPositiveButton("Okay", (view1, dialog1) -> dialog1.dismiss());
+                poMessage.show();
+            }
+        });
+        requireActivity().finish();
     }
 }
