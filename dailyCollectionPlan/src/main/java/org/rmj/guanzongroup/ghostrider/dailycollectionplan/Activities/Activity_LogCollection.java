@@ -157,6 +157,8 @@ public class Activity_LogCollection extends AppCompatActivity {
                                     txtNoName.setVisibility(View.GONE);
                                     recyclerView.setVisibility(View.VISIBLE);
                                 }
+                            } else {
+                                txtNoName.setVisibility(View.GONE);
                             }
                         }
 
