@@ -11,6 +11,7 @@ import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.GRider.Etc.LocationTrack;
 
@@ -51,13 +52,13 @@ public class ImageFileCreator {
         this.cameraUsage = usage;
     }
 
-    public ImageFileCreator(Context context,String folder, String usage, String imgName) {
+    public ImageFileCreator(Context context, String usage, String imgName) {
         this.poContext = context;
-        this.FOLDER_DIRECTORY = folder;
+        this.FOLDER_DIRECTORY = AppConstants.APP_PUBLIC_FOLDER;
         this.SUB_FOLDER = usage;
         this.imgName = imgName;
     }
-    public ImageFileCreator(Context context,String packageName, String subFolder, String fileCode, int entryNox, String transNox) {
+    public ImageFileCreator(Context context, String packageName, String subFolder, String fileCode, int entryNox, String transNox) {
         this.poContext = context;
         this.FOLDER_DIRECTORY = packageName;
         this.FileCode = fileCode;

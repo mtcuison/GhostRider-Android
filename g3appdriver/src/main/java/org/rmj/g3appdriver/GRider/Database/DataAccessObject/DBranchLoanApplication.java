@@ -19,7 +19,7 @@ public interface DBranchLoanApplication {
     @Insert
     void insert(EBranchLoanApplication branchLoanApplication);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBulkData(List<EBranchLoanApplication> branchLoanApplication);
 
     @Update
@@ -44,4 +44,7 @@ public interface DBranchLoanApplication {
             "WHERE cTranStat != 4 AND " +
             "sCreatedx  = 'GAP020200310' ")
     LiveData<List<EBranchLoanApplication>> getAllCICreditApplicationLog();
+
+    @Insert
+    void insertNewApplication(EBranchLoanApplication loanApplication);
 }
