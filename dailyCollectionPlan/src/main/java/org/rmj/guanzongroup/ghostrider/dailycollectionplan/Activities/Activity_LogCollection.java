@@ -109,6 +109,7 @@ public class Activity_LogCollection extends AppCompatActivity {
                     txtNoLog.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                     tilSearch.setVisibility(View.VISIBLE);
+                    txtSearch.setText("");
 
                     filteredCollectionDetlx.clear();
                     for(int z = 0; z < collectionDetails.size(); z++) {
@@ -164,6 +165,7 @@ public class Activity_LogCollection extends AppCompatActivity {
                     });
                 } else {
                     txtNoLog.setVisibility(View.VISIBLE);
+                    txtNoName.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
                     tilSearch.setVisibility(View.GONE);
                 }
