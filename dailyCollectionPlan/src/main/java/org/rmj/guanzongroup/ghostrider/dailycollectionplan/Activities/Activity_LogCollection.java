@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
@@ -46,6 +47,7 @@ public class Activity_LogCollection extends AppCompatActivity {
     private TextInputEditText txtDate, txtSearch;
     private RecyclerView recyclerView;
     private TextView txtNoLog, txtNoName;
+    private TextInputLayout tilSearch;
 
     private List<EDCPCollectionDetail> filteredCollectionDetlx;
 
@@ -106,6 +108,7 @@ public class Activity_LogCollection extends AppCompatActivity {
                 if(collectionDetails.size() > 0) {
                     txtNoLog.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
+                    tilSearch.setVisibility(View.VISIBLE);
 
                     filteredCollectionDetlx.clear();
                     for(int z = 0; z < collectionDetails.size(); z++) {
@@ -162,6 +165,7 @@ public class Activity_LogCollection extends AppCompatActivity {
                 } else {
                     txtNoLog.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
+                    tilSearch.setVisibility(View.GONE);
                 }
             } catch (Exception e){
                 e.printStackTrace();
@@ -193,6 +197,7 @@ public class Activity_LogCollection extends AppCompatActivity {
 
         txtDate = findViewById(R.id.txt_collectionDate);
         txtSearch = findViewById(R.id.txt_collectionSearch);
+        tilSearch = findViewById(R.id.til_collectionSearch);
         filteredCollectionDetlx = new ArrayList<>();
 
         try {
