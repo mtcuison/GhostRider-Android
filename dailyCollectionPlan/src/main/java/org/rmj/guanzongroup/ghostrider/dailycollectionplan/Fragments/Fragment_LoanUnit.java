@@ -150,11 +150,10 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
 
         mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
             CollId = s.getCollctID();
-            poFilexx = new ImageFileCreator(getActivity(), AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_DCP, TransNox);
+            poFilexx = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_DCP, TransNox);
 
         });
         mViewModel.getClientData().observe(getViewLifecycleOwner(), data -> {
-            //showOldClientData(data);
             mViewModel.setClientData(data);
         });
         mViewModel.getClient(TransNox, AccntNox).observe(getViewLifecycleOwner(), data -> {

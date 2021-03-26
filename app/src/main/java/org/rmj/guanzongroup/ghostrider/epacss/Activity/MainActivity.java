@@ -22,6 +22,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 
 import com.google.android.material.navigation.NavigationView;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -89,14 +90,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         });
+
+        mViewModel.getUnsentLoanApplication().observe(this, eCreditApplications -> {
+            try{
+                 poNetRecvr.setLoanApplications(eCreditApplications);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void initWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("HOME");
         setSupportActionBar(toolbar);
-        /*Edited by mike*/
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         /*Edited by mike*/

@@ -90,7 +90,7 @@ public class Fragment_IncTransaction extends Fragment {
         AccntNox = Activity_Transaction.getInstance().getAccntNox();
         Remarksx = Activity_Transaction.getInstance().getRemarksCode();
 
-        poImage = new ImageFileCreator(getActivity(), AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_DCP, TransNox);
+        poImage = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_DCP, TransNox);
 
         mViewModel.setParameter(TransNox, EntryNox, Remarksx);
         mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {

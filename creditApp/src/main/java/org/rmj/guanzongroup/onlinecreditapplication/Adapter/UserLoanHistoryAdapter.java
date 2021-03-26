@@ -20,7 +20,7 @@ import java.util.List;
 
 public class UserLoanHistoryAdapter extends RecyclerView.Adapter<UserLoanHistoryAdapter.LoanViewHolder> {
 
-    private List<LoanApplication> plLoanApp;
+    private final List<LoanApplication> plLoanApp;
     private List<LoanApplication> plSchList;
     private final LoanApplicantListActionListener mListener;
     private final SearchFilter poSearch;

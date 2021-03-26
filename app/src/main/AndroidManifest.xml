@@ -61,6 +61,7 @@
         <activity
             android:name=".Activity.MainActivity"
             android:screenOrientation="userPortrait"
+            android:label="Home"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
 
         <service
