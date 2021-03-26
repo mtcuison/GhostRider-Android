@@ -147,14 +147,16 @@ public class Activity_LogCollection extends AppCompatActivity {
 
                         @Override
                         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            poAdapter.getCollectionFilter().filter(charSequence.toString().toLowerCase());
-                            poAdapter.notifyDataSetChanged();
-                            if(poAdapter.getItemCount() == 0) {
-                                txtNoName.setVisibility(View.VISIBLE);
-                                recyclerView.setVisibility(View.GONE);
-                            } else {
-                                txtNoName.setVisibility(View.GONE);
-                                recyclerView.setVisibility(View.VISIBLE);
+                            if(!charSequence.toString().trim().isEmpty()) {
+                                poAdapter.getCollectionFilter().filter(charSequence.toString().toLowerCase());
+                                poAdapter.notifyDataSetChanged();
+                                if(poAdapter.getItemCount() == 0) {
+                                    txtNoName.setVisibility(View.VISIBLE);
+                                    recyclerView.setVisibility(View.GONE);
+                                } else {
+                                    txtNoName.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                }
                             }
                         }
 
