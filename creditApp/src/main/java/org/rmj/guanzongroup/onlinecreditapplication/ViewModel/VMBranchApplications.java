@@ -18,6 +18,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
@@ -54,6 +55,8 @@ public class VMBranchApplications extends AndroidViewModel {
     private final RBranchLoanApplication poCreditApp;
     private final Import_CreditAppList poImport;
     private final REmployee poEmploye;
+    private final List<ECreditApplication> eCreditApplication;
+    private final RCreditApplication rCreditApp;
     private final SessionManager poSession;
     public VMBranchApplications(@NonNull Application application) {
         super(application);
@@ -64,6 +67,9 @@ public class VMBranchApplications extends AndroidViewModel {
         this.poImport = new Import_CreditAppList(application);
         poEmploye = new REmployee(application);
         poEmploye.getEmployeeInfo();
+
+        rCreditApp = new RCreditApplication(application);
+        eCreditApplication = rCreditApp.getAllCreditOnlineApplication().getValue();
         poSession = new SessionManager(application);
     }
     public interface OnImportCallBack{
@@ -134,6 +140,8 @@ public class VMBranchApplications extends AndroidViewModel {
                         }
                     }
                 } else {
+
+//                    brnRepo.insertBranchApplicationInfos(laJson);
                     response = AppConstants.SERVER_NO_RESPONSE();
                 }
             } catch (Exception e){

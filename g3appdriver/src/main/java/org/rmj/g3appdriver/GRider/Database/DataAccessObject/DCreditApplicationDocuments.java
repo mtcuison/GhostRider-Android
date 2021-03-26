@@ -31,6 +31,12 @@ import java.util.List;
             "AND sFileCode =:sFileCD")
     void updateDocumentsInfo(String TransNox, String sFileCD);
 
+    @Query("UPDATE Credit_Online_Application_Documents " +
+            "SET sFileLoc = (SELECT sFileLoct FROM Image_Information WHERE sSourceNo =:TransNox AND sFileCode = Credit_Online_Application_Documents.sFileCode), " +
+            "sImageNme = (SELECT sImageNme FROM Image_Information WHERE sSourceNo =:TransNox AND sFileCode = Credit_Online_Application_Documents.sFileCode) " +
+            "WHERE sTransNox =:TransNox ")
+    void updateDocumentsInfos(String TransNox);
+
 
     @Query("SELECT * FROM Credit_Online_Application_Documents " +
             "WHERE sTransNox = (SELECT sTransNox " +

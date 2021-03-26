@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -92,13 +94,19 @@ public class Activity_DocumentToScan extends AppCompatActivity {
         ScannerConstants.TransNox = lblTransNoxxx.getText().toString();
         mViewModel.initAppDocs(TransNox);
         mViewModel.setsTransNox(TransNox);
+        initFileCode();
+
+
+
+    }
+    public void initFileCode(){
         mViewModel.getDocumentInfos(TransNox).observe(Activity_DocumentToScan.this, fileCodeDetails -> {
             loAdapter = new DocumentToScanAdapter(Activity_DocumentToScan.this, fileCodeDetails, new DocumentToScanAdapter.OnItemClickListener() {
                 @Override
                 public void OnClick(int position) {
                     poImageInfo = new EImageInfo();
                     poDocumentsInfo = new ECreditApplicationDocuments();
-                    poFilexx = new ImageFileCreator(Activity_DocumentToScan.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP_DOCUMENTS, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
+                    poFilexx = new ImageFileCreator(Activity_DocumentToScan.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
                     poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
                         mCurrentPhotoPath = photPath;
                         ScannerConstants.Usage =camUsage;
@@ -124,16 +132,21 @@ public class Activity_DocumentToScan extends AppCompatActivity {
             recyclerView.getRecycledViewPool().clear();
             loAdapter.notifyDataSetChanged();
         });
-
-
-
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
             finish();
+        }else if(item.getItemId() == R.id.action_menu_post_application){
+
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.action_menu_credit_app_list, menu);
+
+        return true;
     }
 
     public void initWidgets(){
@@ -152,6 +165,7 @@ public class Activity_DocumentToScan extends AppCompatActivity {
         lblMobileNo = findViewById(R.id.lbl_mobileNo);
 
     }
+
     public void setData(){
         TransNox = getIntent().getStringExtra("TransNox");
         lblTransNoxxx.setText(TransNox);
@@ -168,6 +182,7 @@ public class Activity_DocumentToScan extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ImageFileCreator.GCAMERA){
+
             if(resultCode == RESULT_OK) {
                 cameraCapture(mCurrentPhotoPath);
                 startActivityForResult(new Intent(this, ImageCrop.class), CROP_REQUEST_CODE);
@@ -183,7 +198,7 @@ public class Activity_DocumentToScan extends AppCompatActivity {
                     poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(poImageInfo.getFileLoct()));
                     mViewModel.saveImageInfo(poImageInfo);
                     mViewModel.saveDocumentInfoFromCamera(TransNox, poImageInfo.getFileCode());
-                    mViewModel.PostDocumentScanDetail(poDocumentsInfo, new ViewModelCallBack() {
+                    mViewModel.PostDocumentScanDetail(poImageInfo,poDocumentsInfo, new ViewModelCallBack() {
                         @Override
                         public void OnStartSaving() {
                             poDialogx.initDialog("Credit Online \nApplication Documents", "Posting " + ScannerConstants.FileDesc + " details. Please wait...", false);
@@ -206,7 +221,10 @@ public class Activity_DocumentToScan extends AppCompatActivity {
                             poMessage.initDialog();
                             poMessage.setTitle("Credit Online \nApplication Documents");
                             poMessage.setMessage(args[0]);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                            poMessage.setPositiveButton("Okay", (view, dialog) ->{
+//                                initFileCode();
+                                dialog.dismiss();
+                            });
                             poMessage.show();
                         }
 

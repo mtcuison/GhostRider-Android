@@ -186,6 +186,9 @@ public class ImageFileCreator {
 
         String root = Environment.getExternalStorageDirectory().toString();
         File sd = new File(root + "/"+ FOLDER_DIRECTORY+ "/" + SUB_FOLDER+ "/");
+        if (!sd.exists() && !sd.mkdirs()){
+            Log.d(TAG, "failed to create directory");
+        }
         return sd;
     }
 
@@ -201,17 +204,15 @@ public class ImageFileCreator {
             File photoFile = null;
             try {
                 photoFile = createScanImageFile();
-                latitude = poLocator.getLattitude();
-                longitude = poLocator.getLongitude();
-
-            } catch (IOException ex) {
-                // Error occurred while creating the File...
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
             // Continue only if the File was successfully created
 
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(poContext,
-                        poContext.getPackageName()+ ".provider",
+                        "org.rmj.guanzongroup.ghostrider.epacss.provider",
                         photoFile);
 
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
@@ -222,8 +223,6 @@ public class ImageFileCreator {
                         generateImageScanFileName(),
                         latitude,
                         longitude);
-
-
             }
         }
     }

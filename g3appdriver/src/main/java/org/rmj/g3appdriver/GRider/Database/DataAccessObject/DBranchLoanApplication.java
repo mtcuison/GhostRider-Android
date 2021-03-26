@@ -44,4 +44,42 @@ public interface DBranchLoanApplication {
             "WHERE cTranStat != 4 AND " +
             "sCreatedx  = 'GAP020200310' ")
     LiveData<List<EBranchLoanApplication>> getAllCICreditApplicationLog();
+
+
+//    @Query("Select a.sTransNox, " +
+//            "a.sBranchCd, " +
+//            "a.dCreatedx, " +
+//            "a.sCreatedx, " +
+//            "a.sClientNm, " +
+//            "a.sDetlInfo, " +
+//            "a.cSendStat, " +
+//            "a.cTranStat, " +
+//            "a.dReceived, " +
+//            "a.dVerified " +
+//            "From Credit_Online_Application a " +
+//            "Left Join Branch_Info b " +
+//            "ON a.sBranchCd = b.sBranchCd " +
+//            "WHERE cTranStat != 4 " +
+//            "AND sCreatedx = (SELECT sUserIDxx From User_Info_Master) " +
+//            "ORDER BY a.dCreatedx DESC")
+//    LiveData<List<BranchCreditApplication>> getAllBranchCreditApplicationLocal();
+//
+//    class BranchCreditApplication{
+//        public String sTransNox;
+//        public String sBranchCD;
+//        public String dTransact;
+//        public String CredInvx;
+//        public String sCompnyNm;
+//        public String sSpouseNm;
+//        public String sAddressx;
+//        public String sMobileNo;
+//        public String sQMAppCde;
+//        public String sModelNme;
+//        public String nDownPaym;
+//        public String nAcctTerm;
+//        public String sCreatedx;
+//        public String cTranStat;
+//        public String dTimeStmp;
+//    }
+
 }
