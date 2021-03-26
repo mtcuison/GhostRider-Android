@@ -116,6 +116,7 @@
     <string name="sBrgy">Barangay</string>
     <string name="sLblRemarks">Remarks</string>
     <string name="sLblNoTransactionLogInDate">No transaction log on this date.</string>
+    <string name="sLblNoTransactionLogInName">Customer name does not exist in the list.</string>
     <string name="sActionMenu_TransactionList">Transaction List</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -114,7 +114,7 @@ public class CollectionLogAdapter extends RecyclerView.Adapter<CollectionLogAdap
         protected FilterResults performFiltering(CharSequence charSequence) {
             final FilterResults results = new FilterResults();
             if(charSequence.length() == 0){
-                detailsFilter.addAll(collectionDetails);
+                detailsFilter = (collectionDetails);
             } else {
                 List<EDCPCollectionDetail> filterSearch = new ArrayList<>();
                 for(EDCPCollectionDetail plan : collectionDetails){

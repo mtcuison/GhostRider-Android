@@ -54,10 +54,6 @@ public class VMSelfieLogin extends AndroidViewModel {
         return poUser.getUserInfo();
     }
 
-    public LiveData<List<ELog_Selfie>> getCurrentLogTimeIfExist(){
-        return poLog.getCurrentLogTimeIfExist(AppConstants.CURRENT_DATE);
-    }
-
     public LiveData<List<ELog_Selfie>> getAllEmployeeTimeLog(){
         return poLog.getAllEmployeeTimeLog();
     }

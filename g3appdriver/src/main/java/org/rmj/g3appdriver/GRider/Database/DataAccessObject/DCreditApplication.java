@@ -40,6 +40,24 @@ public interface DCreditApplication {
             "WHERE sTransNox =:oldTransNox")
     void updateSentLoanAppl(String oldTransNox, String TransNox, String DateTime);
 
+    @Query("UPDATE Credit_Online_Application_List SET " +
+            "sTransNox =:TransNox " +
+            "WHERE sTransNox =:oldTransNox")
+    void updateApplicationListTransNox(String oldTransNox, String TransNox);
+
+    @Query("UPDATE Credit_Online_Application_List SET " +
+            "sTransNox =:TransNox " +
+            "WHERE sTransNox =:oldTransNox")
+    void updateApplicationImageTransNox(String oldTransNox, String TransNox);
+
+    @Query("UPDATE Credit_Online_Application_Documents SET " +
+            "sTransNox =:TransNox " +
+            "WHERE sTransNox =:oldTransNox")
+    void updateApplicationDocsTransNox(String oldTransNox, String TransNox);
+
+    @Query("SELECT * FROM Credit_Online_Application WHERE cSendStat <> '1'")
+    LiveData<List<ECreditApplication>> getUnsentLoanApplication();
+
     @Query("Select a.sGOCASNox, " +
             "a.sTransNox, " +
             "b.sBranchNm, " +

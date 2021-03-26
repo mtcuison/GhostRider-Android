@@ -12,11 +12,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
@@ -36,18 +38,18 @@ public class VMCoMaker extends AndroidViewModel {
     public MutableLiveData<String> psTranNo = new MutableLiveData<>();
 
     private final MutableLiveData<String> spnCMakerRelation = new MutableLiveData<>();
-    private MutableLiveData<String> spnCMakeIncomeSource = new MutableLiveData<>();
-    private MutableLiveData<String> spnCMakeNetworkStats = new MutableLiveData<>();
-    private MutableLiveData<String> primaryContact = new MutableLiveData<>();
-    private MutableLiveData<String> secondaryContact = new MutableLiveData<>();
-    private MutableLiveData<String> tertiaryContact = new MutableLiveData<>();
+    private final MutableLiveData<String> spnCMakeIncomeSource = new MutableLiveData<>();
+    private final MutableLiveData<String> spnCMakeNetworkStats = new MutableLiveData<>();
+    private final MutableLiveData<String> primaryContact = new MutableLiveData<>();
+    private final MutableLiveData<String> secondaryContact = new MutableLiveData<>();
+    private final MutableLiveData<String> tertiaryContact = new MutableLiveData<>();
 
-    private MutableLiveData<Integer> cmrTertiaryCntctPlan = new MutableLiveData<>();
-    private MutableLiveData<Integer> cmrSecondaryCntctPlan = new MutableLiveData<>();
-    private MutableLiveData<Integer> cmrPrimaryCntctPlan = new MutableLiveData<>();
+    private final MutableLiveData<Integer> cmrTertiaryCntctPlan = new MutableLiveData<>();
+    private final MutableLiveData<Integer> cmrSecondaryCntctPlan = new MutableLiveData<>();
+    private final MutableLiveData<Integer> cmrPrimaryCntctPlan = new MutableLiveData<>();
 
-    private MutableLiveData<String> lsProvID = new MutableLiveData<>();
-    private MutableLiveData<String> lsBPlace = new MutableLiveData<>();
+    private final MutableLiveData<String> lsProvID = new MutableLiveData<>();
+    private final MutableLiveData<String> lsBPlace = new MutableLiveData<>();
 
     private final Application instance;
     private final GOCASApplication poGoCas;
@@ -57,6 +59,7 @@ public class VMCoMaker extends AndroidViewModel {
     private final RTown RTown;
     private final RCountry RCountry;
     private ECreditApplicantInfo poInfo;
+    private final RBranchLoanApplication poLoan;
     private final LiveData<List<EProvinceInfo>> provinceInfoList;
 
     public VMCoMaker(@NonNull Application application) {
@@ -72,6 +75,7 @@ public class VMCoMaker extends AndroidViewModel {
         this.cmrPrimaryCntctPlan.setValue(View.GONE);
         this.cmrSecondaryCntctPlan.setValue(View.GONE);
         this.cmrTertiaryCntctPlan.setValue(View.GONE);
+        this.poLoan = new RBranchLoanApplication(application);
     }
 
     public void setTransNox(String transNox){
@@ -169,11 +173,6 @@ public class VMCoMaker extends AndroidViewModel {
         this.spnCMakeIncomeSource.setValue(type);
     }
 
-    public void setSpnCMakeNetworkStats(String type)
-    {
-        this.spnCMakeNetworkStats.setValue(type);
-    }
-
     public LiveData<String> getCMakerRelation(){
         return this.spnCMakerRelation;
     }
@@ -191,13 +190,6 @@ public class VMCoMaker extends AndroidViewModel {
     }
     public LiveData<ArrayAdapter<String>> getSpnCMakerIncomeSource(){
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.CO_MAKER_INCOME_SOURCE);
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
-        return liveData;
-    }
-
-    public LiveData<ArrayAdapter<String>> getPrmryMobileNoType(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.MOBILE_NO_TYPE);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
         return liveData;
@@ -243,7 +235,7 @@ public class VMCoMaker extends AndroidViewModel {
             return false;
         }
     }
-    private  class UpdateTask extends AsyncTask<RCreditApplicant, Void, String> {
+    private class UpdateTask extends AsyncTask<RCreditApplicant, Void, String> {
         private final RCreditApplicant poDcp;
         private final CoMakerModel infoModel;
         private final ViewModelCallBack callback;
@@ -303,6 +295,8 @@ public class VMCoMaker extends AndroidViewModel {
     public void SaveCreditOnlineApplication(UploadCreditApp.OnUploadLoanApplication listener){
         ECreditApplication loCreditApp = new ECreditApplication();
         GoCasBuilder loModel = new GoCasBuilder(poInfo);
+        GOCASApplication loGOCas = new GOCASApplication();
+        loGOCas.setData(loModel.getConstructedDetailedInfo());
         loCreditApp.setTransNox(poCreditApp.getGOCasNextCode());
         loCreditApp.setBranchCd(poInfo.getBranchCd());
         loCreditApp.setClientNm(poInfo.getClientNm());
@@ -314,7 +308,19 @@ public class VMCoMaker extends AndroidViewModel {
         loCreditApp.setTransact(poInfo.getTransact());
         loCreditApp.setTimeStmp(AppConstants.DATE_MODIFIED);
         loCreditApp.setSendStat("0");
+
+        EBranchLoanApplication loLoan = new EBranchLoanApplication();
+        loLoan.setTransNox(poLoan.getGOCasNextCode());
+        loLoan.setBranchCD(loCreditApp.getBranchCd());
+        loLoan.setTransact(loCreditApp.getTransact());
+        loLoan.setCompnyNm(loCreditApp.getBranchCd());
+        loLoan.setDownPaym(String.valueOf(loGOCas.PurchaseInfo().getDownPayment()));
+        loLoan.setAcctTerm(String.valueOf(loGOCas.PurchaseInfo().getAccountTerm()));
+        loLoan.setCreatedX(loCreditApp.getCreatedx());
+        loLoan.setTranStat("0");
+        loLoan.setTimeStmp(AppConstants.DATE_MODIFIED);
         poCreditApp.insertCreditApplication(loCreditApp);
+        poLoan.insertNewLoanApplication(loLoan);
         new UploadCreditApp(instance).UploadLoanApplication(loCreditApp.getTransNox(), listener);
     }
 }

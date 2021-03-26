@@ -52,8 +52,16 @@ public class RCreditApplication {
         creditApplicationDao.updateSentLoanAppl(oldTransNox, TransNox, AppConstants.DATE_MODIFIED);
     }
 
+    public void updateApplicationListTransNox(String oldTransNox, String TransNox){
+        creditApplicationDao.updateApplicationListTransNox(oldTransNox, TransNox);
+    }
+
     public LiveData<List<DCreditApplication.ApplicationLog>> getApplicationHistory(){
         return creditApplicationDao.getApplicationHistory();
+    }
+
+    public LiveData<List<ECreditApplication>> getUnsentLoanApplication(){
+        return creditApplicationDao.getUnsentLoanApplication();
     }
 
     public void insertBulkData(List<ECreditApplication> creditApplications){
