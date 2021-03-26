@@ -158,7 +158,10 @@ public class Activity_LogCollection extends AppCompatActivity {
                                     recyclerView.setVisibility(View.VISIBLE);
                                 }
                             } else {
+                                poAdapter.getCollectionFilter().filter(charSequence.toString().toLowerCase());
+                                poAdapter.notifyDataSetChanged();
                                 txtNoName.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
                             }
                         }
 
