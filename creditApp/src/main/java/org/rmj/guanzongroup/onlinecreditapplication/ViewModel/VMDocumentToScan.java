@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -131,9 +132,9 @@ public class VMDocumentToScan extends AndroidViewModel {
         }
     }
 
-    public void PostDocumentScanDetail(ECreditApplicationDocuments poDocumentsInfo, ViewModelCallBack callback) {
+    public void PostDocumentScanDetail(EImageInfo psImageInfo,ECreditApplicationDocuments poDocumentsInfo, ViewModelCallBack callback) {
         try {
-            new PostDocumentScanDetail(instance, poDocumentsInfo, poDocumentsInfo.getTransNox(), poDocumentsInfo.getFileCode(), poDocumentsInfo.getEntryNox(), poDocumentsInfo.getImageNme(), poDocumentsInfo.getFileLoc(), callback).execute();
+            new PostDocumentScanDetail(instance,imgInfo,psImageInfo, poDocumentsInfo, poDocumentsInfo.getTransNox(), poDocumentsInfo.getFileCode(), poDocumentsInfo.getEntryNox(), poDocumentsInfo.getImageNme(), poDocumentsInfo.getFileLoc(), callback).execute();
         } catch (Exception e) {
         }
     }
@@ -154,7 +155,9 @@ public class VMDocumentToScan extends AndroidViewModel {
         private final String psFileLoc;
         private final ECreditApplicationDocuments poDocumentsInfos;
 
-        public PostDocumentScanDetail(Application instance, ECreditApplicationDocuments poDocumentsInfo, String TransNox, String FilCode, int EntryNox, String ImgName,
+        private final List<EImageInfo> imageInfo;
+        private final EImageInfo psImgInfo;
+        public PostDocumentScanDetail(Application instance,List<EImageInfo> imgListInfos, EImageInfo psImgInfo, ECreditApplicationDocuments poDocumentsInfo, String TransNox, String FilCode, int EntryNox, String ImgName,
                                       String FileLoc, ViewModelCallBack callback) {
             this.poConn = new ConnectionUtil(instance);
             this.poUser = new SessionManager(instance);
@@ -164,6 +167,8 @@ public class VMDocumentToScan extends AndroidViewModel {
             this.psFileCode = FilCode;
             this.psFileLoc = FileLoc;
             this.poDocumentsInfos = poDocumentsInfo;
+            this.imageInfo = imgListInfos;
+            this.psImgInfo = psImgInfo;
             this.callback = callback;
             this.poDcp = new RDailyCollectionPlan(instance);
             this.poImage = new RImageInfo(instance);
@@ -180,44 +185,58 @@ public class VMDocumentToScan extends AndroidViewModel {
                 if (!poConn.isDeviceConnected()) {
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-
                     String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
                     String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
                     if (lsClient.isEmpty() || lsAccess.isEmpty()) {
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
                     } else {
-                        org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(psFileLoc,
-                                lsAccess,
-                                psFileCode,
-                                psTransNox,
-                                psImageName,
-                                poUser.getBranchCode(),
-                                "COAD",
-                                psTransNox,
-                                "");
+//                        if (imageInfo.size() > 0){
+//                            for (int x = 0; x < imageInfo.size(); x++) {
+//                                EImageInfo imgDetails = imageInfo.get(x);
+//                                if (imgDetails.getSourceNo() != null){
+                                    org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(psFileLoc,
+                                            lsAccess,
+                                            psFileCode,
+                                            psTransNox,
+                                            psImageName,
+                                            poUser.getBranchCode(),
+                                            "COAD",
+                                            psTransNox,
+                                            "");
 
 
-                        String lsResponse = (String) loUpload.get("result");
-                        lsResult = String.valueOf(loUpload);
-                        Log.e(TAG, "Uploading image result : " + lsResponse);
+                                    String lsResponse = (String) loUpload.get("result");
+                                    lsResult = String.valueOf(loUpload);
+                                    Log.e(TAG, "Uploading image result : " + lsResponse);
 //
-                        if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
-                            String lsTransNo = (String) loUpload.get("sTransNox");
-                            poImage.updateImageInfo(lsTransNo, psTransNox);
-//                            UpdateFileNameAndFolder(lsTransNo, psTransNox, pnEntryNox, psFileCode,psFileLoc, psImageName);
+                                    if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
+                                        String lsTransNo = (String) loUpload.get("sTransNox");
+                                        poImage.updateImageInfo(lsTransNo, psImgInfo.getTransNox());
+                                        //poImage.updateImageInfo(lsTransNo, psFileCode);
 
-                        } else {
+                                        //poImage.updateImageInfo(lsTransNo, psTransNox);
+//
+                                            Log.e(TAG, "Image info has been updated!");
 
-                            Log.e(TAG, "Image file of Account No. " + psTransNox + ", Entry No. " + pnEntryNox + " was not uploaded to server.");
+//                                      UpdateFileNameAndFolder(lsTransNo, psTransNox, pnEntryNox, psFileCode,psFileLoc, psImageName);
 
-                            Log.e(TAG, "Reason : " + lsResponse);
-                            JSONObject loError = new JSONObject(lsResponse);
-                            lsResult = loError.getString("message");
-                            Log.e(TAG, "Reason : " + loError.getString("message"));
-                        }
+                                    } else {
 
-                        Thread.sleep(1000);
+                                        Log.e(TAG, "Image file of Account No. " + psTransNox + ", Entry No. " + pnEntryNox + " was not uploaded to server.");
+
+                                        Log.e(TAG, "Reason : " + lsResponse);
+                                        JSONObject loError = new JSONObject(lsResponse);
+                                        lsResult = loError.getString("message");
+                                        Log.e(TAG, "Reason : " + loError.getString("message"));
+                                    }
+
+                                    Thread.sleep(1000);
+//                                }
+
+//                            }
+
+//                        }
                     }
                 }
 
@@ -239,7 +258,6 @@ public class VMDocumentToScan extends AndroidViewModel {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-
                 JSONObject loJson = new JSONObject(s);
                 if (loJson.getString("result").equalsIgnoreCase("success")) {
                     callback.OnSuccessResult(new String[]{ScannerConstants.FileDesc + " has been posted successfully."});
