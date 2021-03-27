@@ -10,11 +10,13 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
@@ -38,6 +40,7 @@ public class VMComakerResidence extends AndroidViewModel {
     private final RTown poTownRpo;
     private final RBarangay poBarangy;
     private final Application instance;
+    private final RBranchLoanApplication poLoan;
 
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
 
@@ -53,6 +56,7 @@ public class VMComakerResidence extends AndroidViewModel {
         this.poBarangy = new RBarangay(application);
         this.poApplx = new RCreditApplication(application);
         this.instance = application;
+        this.poLoan = new RBranchLoanApplication(application);
     }
 
     public void setTransNox(String transNox){
@@ -148,6 +152,8 @@ public class VMComakerResidence extends AndroidViewModel {
     public void SaveCreditOnlineApplication(UploadCreditApp.OnUploadLoanApplication listener){
         ECreditApplication loCreditApp = new ECreditApplication();
         GoCasBuilder loModel = new GoCasBuilder(poInfo);
+        GOCASApplication loGOCas = new GOCASApplication();
+        loGOCas.setData(loModel.getConstructedDetailedInfo());
         loCreditApp.setTransNox(poCreditApp.getGOCasNextCode());
         loCreditApp.setBranchCd(poInfo.getBranchCd());
         loCreditApp.setClientNm(poInfo.getClientNm());
@@ -159,7 +165,17 @@ public class VMComakerResidence extends AndroidViewModel {
         loCreditApp.setTransact(poInfo.getTransact());
         loCreditApp.setTimeStmp(AppConstants.DATE_MODIFIED);
         loCreditApp.setSendStat("0");
-        poApplx.insertCreditApplication(loCreditApp);
-        new UploadCreditApp(instance).UploadLoanApplication(loCreditApp.getTransNox(), listener);
+
+        EBranchLoanApplication loLoan = new EBranchLoanApplication();
+        loLoan.setTransNox(poLoan.getGOCasNextCode());
+        loLoan.setBranchCD(loCreditApp.getBranchCd());
+        loLoan.setTransact(loCreditApp.getTransact());
+        loLoan.setCompnyNm(loCreditApp.getBranchCd());
+        loLoan.setDownPaym(String.valueOf(loGOCas.PurchaseInfo().getDownPayment()));
+        loLoan.setAcctTerm(String.valueOf(loGOCas.PurchaseInfo().getAccountTerm()));
+        loLoan.setCreatedX(loCreditApp.getCreatedx());
+        loLoan.setTranStat("0");
+        loLoan.setTimeStmp(AppConstants.DATE_MODIFIED);
+        new UploadCreditApp(instance).UploadLoanApplication(loCreditApp, loLoan, listener);
     }
 }

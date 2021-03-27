@@ -48,7 +48,7 @@ public class RImageInfo {
         new InsertTask(imageDao, "update").execute(imageInfo);
     }
 
-    public LiveData<List<EImageInfo>> getUnsentSelfieLogImageList(){
+    public List<EImageInfo> getUnsentSelfieLogImageList(){
         return imageDao.getUnsentLoginImageInfo();
     }
 
@@ -61,7 +61,7 @@ public class RImageInfo {
      * @return returns a LiveData List of all unsent image info...
      */
     public LiveData<List<EImageInfo>> getUnsentImageList(){
-        return imageDao.getUnsentImageInfoList();
+        return imageDao.getUnsentDCPImageInfoList();
     }
 
     public LiveData<List<EImageInfo>> getAllImageInfo(){
@@ -77,8 +77,13 @@ public class RImageInfo {
         return imageDao.getCurrentLogTimeIfExist(DateLog);
     }
 
-    public LiveData<List<EImageInfo>> getLoginImageInfo(){
-        return imageDao.getUnsentLoginImageInfo();
+    /**
+     *
+     * @param TransNox pass the transaction no. of Credit_Online_Application
+     * @return list of all scanned documents which are stored in local while internet is not available
+     */
+    public List<EImageInfo> getUnsentLoanAppDocFiles(String TransNox){
+        return imageDao.getUnsentLoanAppDocFiles(TransNox);
     }
 
     private static class InsertTask extends AsyncTask<EImageInfo, Void, String>{

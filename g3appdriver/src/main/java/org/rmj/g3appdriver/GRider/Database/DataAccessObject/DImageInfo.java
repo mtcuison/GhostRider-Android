@@ -20,6 +20,12 @@ public interface DImageInfo {
     @Update
     void update(EImageInfo imageInfo);
 
+    /**
+     *
+     * @param TransNox pass the new transaction no which will be return by API after uploading image...
+     * @param DateModifield call the AppConstants.DATE_MODIFIED to set the current date time for dTimeStmp
+     * @param oldTransNox pass the old transaction no. of image info before uploading image to server...
+     */
     @Query("UPDATE Image_Information " +
             "SET sTransNox =:TransNox, " +
             "cSendStat = '1', " +
@@ -35,7 +41,7 @@ public interface DImageInfo {
 
     /**
      *
-     * @return returns a LiveData List of all unsent image info...
+     * @return returns a LiveData List of all unsent DCP image info...
      */
     @Query("SELECT * FROM Image_Information " +
             "WHERE cSendStat = 0 " +
@@ -43,7 +49,7 @@ public interface DImageInfo {
             "FROM LR_DCP_Collection_Master " +
             "ORDER BY dTransact DESC LIMIT 1) " +
             "AND sFileCode = (SELECT sFileCode FROM EDocSys_File WHERE sBarrcode = 'DCP001')")
-    LiveData<List<EImageInfo>> getUnsentImageInfoList();
+    LiveData<List<EImageInfo>> getUnsentDCPImageInfoList();
 
     @Query("SELECT * FROM Image_Information")
     LiveData<List<EImageInfo>> getImageInfoList();
@@ -64,5 +70,26 @@ public interface DImageInfo {
     LiveData<List<EImageInfo>> getCurrentLogTimeIfExist(String DateLog);
 
     @Query("SELECT * FROM Image_Information WHERE sFileCode = '0021' AND cSendStat <> '1'")
-    LiveData<List<EImageInfo>> getUnsentLoginImageInfo();
+    List<EImageInfo> getUnsentLoginImageInfo();
+
+    /**
+     *
+     * @param oldTransNox pass the old SourceNo of Image_Information which is not sent to server
+     * @param TransNox pass the new Transaction No which is return by API after sending Credit_Online_Application
+     */
+    @Query("UPDATE Image_Information SET sSourceNo =:TransNox WHERE sSourceNo =:oldTransNox AND cSendStat <> '1'")
+    void updateLoanApplicationImageSourceNo(String oldTransNox, String TransNox);
+
+    /**
+     *
+     * @param TransNox pass the transaction no. of Credit_Online_Application
+     * @return list of all scanned documents which are stored in local while internet is not available
+     */
+    @Query("SELECT * FROM Image_Information " +
+            "WHERE sSourceNo = (SELECT sTransNox " +
+            "FROM Credit_Online_Application WHERE sTransNox =:TransNox) " +
+            "AND cSendStat <>'1' " +
+            "AND sFileCode <> '0020' " +
+            "AND sFileCode <> '0021'")
+    List<EImageInfo> getUnsentLoanAppDocFiles(String TransNox);
 }

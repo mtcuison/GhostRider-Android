@@ -28,6 +28,7 @@ import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_DocumentToScan;
 import org.rmj.guanzongroup.onlinecreditapplication.Data.UploadCreditApp;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.OnDateSetListener;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
@@ -40,7 +41,7 @@ import java.util.Objects;
 public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
     private VMCoMaker mViewModel;
     private static final String TAG = Fragment_CoMaker.class.getSimpleName();
-
+    private String TransNox;
     private String spnIncomePosition = "-1";
     private String spnCoRelationPosition = "-1";
     private String spnPrmryCntctPosition = "-1";
@@ -76,6 +77,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
     private CoMakerModel infoModel;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
+    private ImageFileCreator poImageFile;
 
     public static Fragment_CoMaker newInstance() {
         return new Fragment_CoMaker();
@@ -96,8 +98,8 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMCoMaker.class);
-        // TODO: Use the ViewModel
-        mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
+        TransNox = Activity_CreditApplication.getInstance().getTransNox();
+        mViewModel.setTransNox(TransNox);
         mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
         mViewModel.getSpnCMakerRelation().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBrwrRltn.setAdapter(stringArrayAdapter));
         mViewModel.getSpnCMakerIncomeSource().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnIncmSrce.setAdapter(stringArrayAdapter));
@@ -288,7 +290,6 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
     }
 
     private void saveApplicantInfo(){
@@ -305,7 +306,10 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
                 poMessage.initDialog();
                 poMessage.setTitle("Credit Application");
                 poMessage.setMessage("Loan application of " + clientName + " has been sent.");
-                poMessage.setPositiveButton("Okay", (view1, dialog1) -> dialog1.dismiss());
+                poMessage.setPositiveButton("Okay", (view1, dialog1) -> {
+                    dialog1.dismiss();
+                    requireActivity().finish();
+                });
                 poMessage.show();
             }
 
@@ -315,10 +319,12 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
                 poMessage.initDialog();
                 poMessage.setTitle("Credit Application");
                 poMessage.setMessage(message1);
-                poMessage.setPositiveButton("Okay", (view1, dialog1) -> dialog1.dismiss());
+                poMessage.setPositiveButton("Okay", (view1, dialog1) -> {
+                        dialog1.dismiss();
+                        requireActivity().finish();
+                });
                 poMessage.show();
             }
         });
-        requireActivity().finish();
     }
 }

@@ -124,7 +124,6 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
                 adapter = new BranchApplicationsAdapter(loanList, new BranchApplicationsAdapter.OnApplicationClickListener() {
                     @Override
                     public void OnClick(int position, List<BranchApplicationModel> loanLists) {
-
                         Intent loIntent = new Intent(Activity_BranchApplications.this, Activity_DocumentToScan.class);
                         loIntent.putExtra("TransNox",loanLists.get(position).getsTransNox());
                         loIntent.putExtra("ClientNm",loanLists.get(position).getsCompnyNm());

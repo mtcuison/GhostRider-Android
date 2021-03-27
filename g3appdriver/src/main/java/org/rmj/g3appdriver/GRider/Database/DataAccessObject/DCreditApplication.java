@@ -56,7 +56,9 @@ public interface DCreditApplication {
     void updateApplicationDocsTransNox(String oldTransNox, String TransNox);
 
     @Query("SELECT * FROM Credit_Online_Application WHERE cSendStat <> '1'")
-    LiveData<List<ECreditApplication>> getUnsentLoanApplication();
+    List<ECreditApplication> getUnsentLoanApplication();
+
+
 
     @Query("Select a.sGOCASNox, " +
             "a.sTransNox, " +

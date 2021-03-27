@@ -23,14 +23,12 @@ import java.util.List;
     @Update
     void update(ECreditApplicationDocuments documentsInfo);
 
-
     @Query("UPDATE Credit_Online_Application_Documents " +
             "SET sFileLoc = (SELECT sFileLoct FROM Image_Information WHERE sSourceNo =:TransNox AND sFileCode=:sFileCD), " +
             "sImageNme = (SELECT sImageNme FROM Image_Information WHERE sSourceNo =:TransNox AND sFileCode=:sFileCD) " +
             "WHERE sTransNox =:TransNox " +
             "AND sFileCode =:sFileCD")
     void updateDocumentsInfo(String TransNox, String sFileCD);
-
 
     @Query("SELECT * FROM Credit_Online_Application_Documents " +
             "WHERE sTransNox = (SELECT sTransNox " +

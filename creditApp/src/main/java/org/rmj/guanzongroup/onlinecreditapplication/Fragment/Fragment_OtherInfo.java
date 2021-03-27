@@ -234,7 +234,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
                 }
             } else if(spnSourcexx.equals(poView)){
                 otherInfo.setSource(String.valueOf(i));
-                if(i == 1){
+                if(i == 5){
                     tilOtherSrc.setVisibility(View.VISIBLE);
                 } else {
                     tilOtherSrc.setVisibility(View.GONE);

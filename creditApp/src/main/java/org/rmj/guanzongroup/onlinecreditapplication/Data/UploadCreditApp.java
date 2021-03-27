@@ -10,7 +10,9 @@ import androidx.annotation.RequiresApi;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
@@ -32,23 +34,35 @@ public class UploadCreditApp {
         this.application = application;
     }
 
-    public void UploadLoanApplication(String TransNox, OnUploadLoanApplication listener){
-        new UploadTask(application, listener).execute(TransNox);
+    public void UploadLoanApplication(ECreditApplication foUserApp,
+                                      EBranchLoanApplication foBranchApp,
+                                      OnUploadLoanApplication listener){
+        new UploadTask(application, foUserApp, foBranchApp, listener).execute();
     }
 
-    private static class UploadTask extends AsyncTask<String, Void, String>{
+
+
+    private static class UploadTask extends AsyncTask<Void, Void, String>{
         private final Application instance;
         private final HttpHeaders poHeaders;
         private final ConnectionUtil poConn;
         private final RCreditApplication poCreditApp;
+        private final RBranchLoanApplication poLoan;
         private final OnUploadLoanApplication mListener;
-        private ECreditApplication poInfo;
+        private final ECreditApplication poInfo;
+        private final EBranchLoanApplication poBranchApp;
 
-        public UploadTask(Application application, OnUploadLoanApplication listener) {
+        public UploadTask(Application application,
+                          ECreditApplication foUserApp,
+                          EBranchLoanApplication foBranchApp,
+                          OnUploadLoanApplication listener) {
             this.instance = application;
+            this.poInfo = foUserApp;
+            this.poBranchApp = foBranchApp;
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
             this.poCreditApp = new RCreditApplication(instance);
+            this.poLoan = new RBranchLoanApplication(instance);
             this.mListener = listener;
         }
 
@@ -60,12 +74,12 @@ public class UploadCreditApp {
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
-        protected String doInBackground(String... strings) {
-            String TransNox = strings[0];
+        protected String doInBackground(Void... strings) {
             String lsResult;
             try {
+                poCreditApp.insertCreditApplication(poInfo);
+                poLoan.insertNewLoanApplication(poBranchApp);
                 if (poConn.isDeviceConnected()) {
-                    poInfo = poCreditApp.getLoanInfoOfTransNox(TransNox);
                     JSONObject params = new JSONObject(poInfo.getDetlInfo());
                     params.put("dCreatedx", poInfo.getClientNm());
 
@@ -83,7 +97,7 @@ public class UploadCreditApp {
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }
                 } else {
-                    lsResult = AppConstants.NO_INTERNET();
+                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Unable to connect. Loan Application will be sent automatically if internet is available.");
                 }
             } catch (Exception e){
                 e.printStackTrace();
