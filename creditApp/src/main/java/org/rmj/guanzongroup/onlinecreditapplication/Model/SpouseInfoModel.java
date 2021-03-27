@@ -257,15 +257,15 @@
                 return false;
             }
 
-            if(Integer.parseInt(mobileNoList.get(0).getIsPostPd()) < 0){
+            else if(Integer.parseInt(mobileNoList.get(0).getIsPostPd()) < 0){
                 message = "Please select sim card type";
                 return false;
             }
-            if(!mobileNoList.get(0).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
+            else if(!mobileNoList.get(0).getMobileNo().substring(0, 2).equalsIgnoreCase("09")){
                 message = "Contact number must start with '09'";
                 return false;
             }
-            if(mobileNoList.get(0).getMobileNo().length() != 11){
+            else if(mobileNoList.get(0).getMobileNo().length() != 11){
                 message = "Please enter primary contact info";
                 return false;
             }
