@@ -41,20 +41,4 @@ public class VMMainActivity extends AndroidViewModel {
     public InternetStatusReciever getInternetReceiver(){
         return poNetRecvr;
     }
-
-    public LiveData<List<EImageInfo>> getUnsentSelfieLogImageList(){
-        return poImage.getUnsentSelfieLogImageList();
-    }
-
-    public LiveData<List<ELog_Selfie>> getUnsentSelfieLoginList(){
-        return poSelfie.getUnsentSelfieLogin();
-    }
-
-    public LiveData<List<EDCPCollectionDetail>> getUnsentPaidCollection(){
-        return poDcp.getUnsentPaidCollection();
-    }
-
-    public LiveData<List<ECreditApplication>> getUnsentLoanApplication(){
-        return poCreditApp.getUnsentLoanApplication();
-    }
 }

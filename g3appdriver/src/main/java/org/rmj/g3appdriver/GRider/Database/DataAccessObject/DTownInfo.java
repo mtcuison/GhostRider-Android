@@ -59,6 +59,13 @@ public interface DTownInfo {
             "a.sProvIDxx = b.sProvIDxx AND a.sTownIDxx  =:townID")
     LiveData<BrgyTownProvinceInfo> getTownProvinceInfo(String townID);
 
+    @Query("SELECT a.sTownName, b.sProvName " +
+            "FROM Town_Info a " +
+            "LEFT JOIN Province_Info b " +
+            "ON a.sProvIDxx = b.sProvIDxx " +
+            "WHERE sTownIDxx =:TownID")
+    TownProvinceName getTownProvinceNames(String TownID);
+
     class TownProvinceInfo{
         public String sTownIDxx;
         public String sProvIDxx;
@@ -69,5 +76,10 @@ public interface DTownInfo {
         public String sTownName;
         public String sProvName;
         public String sBrgyName;
+    }
+
+    class TownProvinceName{
+        public String sTownName;
+        public String sProvName;
     }
 }

@@ -30,7 +30,7 @@ public class RLogSelfie {
         return selfieDao.getCurrentTimeLogIfExist(DateLog);
     }
 
-    public LiveData<List<ELog_Selfie>> getUnsentSelfieLogin(){
+    public List<ELog_Selfie> getUnsentSelfieLogin(){
         return selfieDao.getUnsentSelfieLogin();
     }
 

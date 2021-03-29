@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.etc.OnDateSetListener;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import com.google.android.material.button.MaterialButton;
@@ -35,9 +36,6 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogImagePreview;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.OnBirthSetListener;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.LoanUnitModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLoanUnit;
@@ -244,7 +242,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
 
         spnCivilStats.setOnItemClickListener(new Fragment_LoanUnit.OnItemClickListener(spnCivilStats));
 
-        tieBDate.addTextChangedListener(new OnBirthSetListener(tieBDate));
+        tieBDate.addTextChangedListener(new OnDateSetListener(tieBDate));
 
         rgGender.setOnCheckedChangeListener((radioGroup, i) -> {
             if(i == R.id.rb_male){

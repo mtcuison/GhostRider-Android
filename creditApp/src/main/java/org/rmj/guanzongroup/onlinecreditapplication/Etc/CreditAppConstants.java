@@ -14,6 +14,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_PensionInf
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_PersonalInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_Properties;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_ResidenceInfo;
+import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_ReviewLoanApp;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SelfEmployedInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpouseEmploymentInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpouseInfo;
@@ -63,7 +64,8 @@ public class CreditAppConstants {
             new Fragment_Properties(),
             new Fragment_OtherInfo(),
             new Fragment_CoMaker(),
-            new Fragment_ComakerResidence()};
+            new Fragment_ComakerResidence(),
+            new Fragment_ReviewLoanApp()};
 
     public static String[] APPLICATION_TYPE = {
             "Motorcycle",

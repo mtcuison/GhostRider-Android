@@ -4,7 +4,7 @@
     <string name="sHintSuffix">Suffix</string>
     <string name="sHintMiddName">MiddleName</string>
     <string name="sHintNickname">NickName</string>
-    <string name="sHintBirthDate">Birth Date (DD/MM/YYYY)</string>
+    <string name="sHintBirthDate">Birth Date (MM/DD/YYYY)</string>
     <string name="sHintBpProv">Province (Birth Place)</string>
     <string name="sGenderMale">Male</string>
     <string name="sGenderFmale">Female</string>

@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc;
+package org.rmj.g3appdriver.etc;
 
 import android.annotation.SuppressLint;
 import android.text.Editable;
@@ -8,13 +8,12 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
 
-public class OnBirthSetListener implements TextWatcher {
-    private TextInputEditText inputEditText;
+public class OnDateSetListener implements TextWatcher {
+    private final TextInputEditText inputEditText;
 
-    public OnBirthSetListener(TextInputEditText editText){
+    public OnDateSetListener(TextInputEditText editText){
         this.inputEditText = editText;
     }
-
 
     Calendar cal = Calendar.getInstance();
     String current = "";
@@ -40,13 +39,13 @@ public class OnBirthSetListener implements TextWatcher {
             if (clean.equals(cleanC)) sel--;
 
             if (clean.length() < 8){
-                String ddmmyyyy = "DDMMYYYY";
-                clean = clean + ddmmyyyy.substring(clean.length());
+                String mmddyyyy = "MMDDYYYY";
+                clean = clean + mmddyyyy.substring(clean.length());
             }else{
                 //This part makes sure that when we finish entering numbers
                 //the date is correct, fixing it otherwise
-                int day  = Integer.parseInt(clean.substring(0,2));
-                int mon  = Integer.parseInt(clean.substring(2,4));
+                int day  = Integer.parseInt(clean.substring(2,4));
+                int mon  = Integer.parseInt(clean.substring(0,2));
                 int year = Integer.parseInt(clean.substring(4,8));
 
                 mon = mon < 1 ? 1 : Math.min(mon, 12);
@@ -58,7 +57,7 @@ public class OnBirthSetListener implements TextWatcher {
                 //would be automatically corrected to 28/02/2012
 
                 day = Math.min(day, cal.getActualMaximum(Calendar.DATE));
-                clean = String.format("%02d%02d%02d",day, mon, year);
+                clean = String.format("%02d%02d%02d", mon, day, year);
             }
 
             clean = String.format("%s/%s/%s", clean.substring(0, 2),

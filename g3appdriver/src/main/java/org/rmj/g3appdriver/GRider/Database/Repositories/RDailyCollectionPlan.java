@@ -62,7 +62,7 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectionDetailLog();
     }
 
-    public LiveData<List<EDCPCollectionDetail>> getUnsentPaidCollection(){
+    public List<EDCPCollectionDetail> getUnsentPaidCollection(){
         return detailDao.getUnsentPaidCollection();
     }
 

@@ -29,7 +29,7 @@ public class RCreditApplication {
     }
 
     public void insertCreditApplication(ECreditApplication creditApplication){
-        new InsertDataTask(creditApplicationDao).execute(creditApplication);
+        creditApplicationDao.insert(creditApplication);
     }
 
     public void updateCreditApplication(ECreditApplication creditApplication){
@@ -60,7 +60,7 @@ public class RCreditApplication {
         return creditApplicationDao.getApplicationHistory();
     }
 
-    public LiveData<List<ECreditApplication>> getUnsentLoanApplication(){
+    public List<ECreditApplication> getUnsentLoanApplication(){
         return creditApplicationDao.getUnsentLoanApplication();
     }
 
@@ -71,20 +71,6 @@ public class RCreditApplication {
     //GET ALL CREDIT APP BY BRANCH
     public LiveData<List<DCreditApplication.ApplicationLog>> getApplicationByBranch(String BranchID){
         return creditApplicationDao.getApplicationByBranch(BranchID);
-    }
-
-    private static class InsertDataTask extends AsyncTask<ECreditApplication, Void, String>{
-        private final DCreditApplication creditApplicationDao;
-
-        public InsertDataTask(DCreditApplication creditApplicationDao) {
-            this.creditApplicationDao = creditApplicationDao;
-        }
-
-        @Override
-        protected String doInBackground(ECreditApplication... eCreditApplications) {
-            creditApplicationDao.insert(eCreditApplications[0]);
-            return null;
-        }
     }
 
     public String getGOCasNextCode(){

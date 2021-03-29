@@ -35,4 +35,7 @@ public interface DMcBrand {
 
     @Query("SELECT MAX(dTimeStmp) FROM MC_Brand")
     String getLatestDataTime();
+
+    @Query("SELECT * FROM MC_Brand WHERE sBrandIDx=:BrandID")
+    EMcBrand getMcBrandInfo(String BrandID);
 }

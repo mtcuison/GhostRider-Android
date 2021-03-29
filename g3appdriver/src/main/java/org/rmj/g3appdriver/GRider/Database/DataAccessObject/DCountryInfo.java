@@ -38,4 +38,7 @@ public interface DCountryInfo {
 
     @Query("SELECT MAX(dTimeStmp) FROM Country_Info")
     String getLatestDataTime();
+
+    @Query("SELECT * FROM Country_Info WHERE sCntryCde=:ID")
+    ECountryInfo getCountryInfo(String ID);
 }
