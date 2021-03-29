@@ -186,7 +186,7 @@ public class Activity_DocumentToScan extends AppCompatActivity {
 
     public void setData(){
         TransNox = getIntent().getStringExtra("TransNox");
-        lblTransNoxxx.setText(TransNox);
+        lblTransNoxxx.setText("TransNox. :" + TransNox);
         lblClientName.setText(getIntent().getStringExtra("ClientNm"));
         lblAppltnDate.setText(getIntent().getStringExtra("dTransact"));
         lblStatus.setText(getIntent().getStringExtra("Status"));
