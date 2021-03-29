@@ -96,14 +96,27 @@
             app:layout_constraintTop_toBottomOf="@id/ln_client_info"/>
 
 
+        <TextView
+            android:id="@+id/lbl_check_payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:background="@drawable/border_label"
+            android:text="@string/sLblCheckPayment"
+            android:textColor="@color/guanzon_digital_orange"
+            app:layout_constraintTop_toBottomOf="@id/divider1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="15dp"
+            android:visibility="gone"/>
+
         <LinearLayout
             android:id="@+id/ln_clientDetl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider1"
+            app:layout_constraintTop_toBottomOf="@id/lbl_check_payment"
             app:layout_constraintRight_toRightOf="parent">
 
             <LinearLayout
