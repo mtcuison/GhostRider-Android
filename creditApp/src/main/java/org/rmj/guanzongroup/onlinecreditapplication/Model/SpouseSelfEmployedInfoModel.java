@@ -80,6 +80,10 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
 
     public double getsBizYrs() {
         try{
+            if(sMonthOrYear == null) {
+                return 0.0;
+            }
+
             if(Integer.parseInt(sMonthOrYear) == 0) {
                 double ldValue = Double.parseDouble(sBizYrs);
                 return ldValue / 12;
@@ -105,7 +109,10 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
     }
 
     public long getsGrossMonthly() {
-        return Long.parseLong(sGrossMonthly.replace(",", ""));
+        if(!sGrossMonthly.equalsIgnoreCase("")){
+            return Long.parseLong(sGrossMonthly.replace(",", ""));
+        }
+        return 0;
     }
 
     public void setsGrossMonthly(String sGrossMonthly) {
@@ -113,7 +120,10 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
     }
 
     public long getsMonthlyExps() {
-        return Long.parseLong(sMonthlyExps.replace(",", ""));
+        if(!sMonthlyExps.equalsIgnoreCase("")) {
+            return Long.parseLong(sMonthlyExps.replace(",", ""));
+        }
+        return 0;
     }
 
     public void setsMonthlyExps(String sMonthlyExps) {
@@ -205,7 +215,8 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
     }
 
     private boolean isBizYrsValid() {
-        if(isStringAllZero(sBizYrs) || sBizYrs.trim().isEmpty()) {
+        if(sBizYrs == null || isStringAllZero(sBizYrs) || sBizYrs.trim().isEmpty()) {
+            if(sMonthOrYear == null) { return false; }
             String lsMosYr = (sMonthOrYear.equalsIgnoreCase("0")) ? "Month" : "Year";
             sMsg = "Please enter " + lsMosYr + ".";
             return false;
