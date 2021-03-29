@@ -192,9 +192,9 @@ public class Fragment_SpouseResidenceInfo extends Fragment implements ViewModelC
         infoModel.setHouseNox(Objects.requireNonNull(txtHouseNox.getText().toString()));
         infoModel.setAddress1(Objects.requireNonNull(txtAddress1.getText().toString()));
         infoModel.setAddress2(Objects.requireNonNull(txtAddress2.getText().toString()));
-        infoModel.setProvince(txtProvince.getText().toString());
-        infoModel.setTown(txtTown.getText().toString());
-        infoModel.setBarangay(txtBarangay.getText().toString());
+        infoModel.setProvince(Objects.requireNonNull(txtProvince.getText().toString()));
+        infoModel.setTown(Objects.requireNonNull(txtTown.getText().toString()));
+        infoModel.setBarangay(Objects.requireNonNull(txtBarangay.getText().toString()));
 
         mViewModel.Save(infoModel, Fragment_SpouseResidenceInfo.this);
     }

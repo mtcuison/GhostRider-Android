@@ -26,55 +26,76 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Loan Application List"
-            android:textSize="20sp"
-            android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/textColor_Black"
-            android:layout_marginTop="5dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="GMC Dagupan - Honda"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/textColor_Black"
-            android:layout_marginTop="5dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/textColor_Black"/>
-
-        <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Search Loan Applicant"
-            android:layout_marginTop="5dp"
-            style="@style/TextInputStyle">
+            android:orientation="vertical"
+            android:background="@drawable/bg_samsungknox"
+            android:paddingHorizontal="15dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_Search"
-                style="@style/TextInputStyle.Edittext"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginVertical="15dp"
+                android:gravity="center_horizontal">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loan Application List"
+                    android:textSize="22sp"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/textColor_White"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1.5dp"
-            android:layout_marginTop="3dp"
-            android:background="@color/guanzon_orange"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GMC Dagupan - Honda"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/textColor_White"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Guanzon Bldg., Perez Blvd., Dagupan City"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/textColor_White"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginTop="5dp"
+                android:background="#fff"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Search Loan Applicant"
+                    style="@style/TextInputStyleHeaders">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_Search"
+                        style="@style/TextInputStyle.Edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/textColor_White"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rectangles_applicationHistory"
