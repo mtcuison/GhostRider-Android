@@ -74,10 +74,14 @@
         }
 
         public boolean isSpouseResidenceInfoValid() {
-            return isLandmarkValid() &&
-                    isProvinceValid() &&
-                    isTownValid() &&
-                    isBarangayValid();
+            if(isLandmarkValid() || !houseNox.trim().isEmpty() || !address1.trim().isEmpty() || !address2.trim().isEmpty() || isProvinceValid() || isTownValid() || isBarangayValid()) {
+                return isLandmarkValid() &&
+                        isProvinceValid() &&
+                        isTownValid() &&
+                        isBarangayValid();
+            } else {
+                return true;
+            }
         }
 
         private boolean isLandmarkValid(){
@@ -89,7 +93,7 @@
         }
 
         private boolean isProvinceValid(){
-            if(province.trim().isEmpty()){
+            if(province == null || province.trim().isEmpty()){
                 message = "Please provide Province.";
                 return false;
             }
@@ -97,7 +101,7 @@
         }
 
         private boolean isTownValid(){
-            if(town.trim().isEmpty()){
+            if(town == null || town.trim().isEmpty()){
                 message = "Please provide Town.";
                 return false;
             }
@@ -105,7 +109,7 @@
         }
 
         private boolean isBarangayValid(){
-            if(barangay.trim().isEmpty()){
+            if(barangay == null || barangay.trim().isEmpty()){
                 message = "Please provide Barangay.";
                 return false;
             }
