@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +17,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.guanzongroup.ghostrider.griderscanner.dialog.DialogImagePreview;
-import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMClientInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static org.rmj.guanzongroup.ghostrider.griderscanner.ClientInfo.contentResolver;
+import static org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_DocumentToScan.contentResolver;
 
 public class DocumentToScanAdapter extends RecyclerView.Adapter<DocumentToScanAdapter.FileCodeViewHolder> {
 
@@ -36,8 +37,7 @@ public class DocumentToScanAdapter extends RecyclerView.Adapter<DocumentToScanAd
 
     private List<DCreditApplicationDocuments.ApplicationDocument> documentsInfo;
     private final DocumentToScanAdapter.OnItemClickListener mListener;
-    DialogImagePreview dialogPreview;
-    private VMClientInfo mvModel;
+    DialogImagePreview dialogPreview;;
     private Context aContext;
 
 
@@ -64,8 +64,9 @@ public class DocumentToScanAdapter extends RecyclerView.Adapter<DocumentToScanAd
             holder.lbl_fileDsc.setText(document.sBriefDsc);
             holder.lbl_fileLoc.setText(document.sFileLoc);
             if (document.sImageNme != null){
-                holder.fileStat.setImageResource(org.rmj.guanzongroup.ghostrider.griderscanner.R.drawable.ic_baseline_done_24);
-                holder.fileStat.setTag(org.rmj.guanzongroup.ghostrider.griderscanner.R.drawable.ic_baseline_done_24);
+                holder.fileStat.setImageResource(R.drawable.ic_baseline_done_24);
+                holder.fileStat.setTag(R.drawable.ic_baseline_done_24);
+                Log.e("Adapter", document.sFileLoc);
             }
 
         }catch (NullPointerException e){
@@ -85,15 +86,16 @@ public class DocumentToScanAdapter extends RecyclerView.Adapter<DocumentToScanAd
 
     public static class FileCodeViewHolder extends RecyclerView.ViewHolder {
 
+        public EFileCode loPlan;
         public TextView lbl_fileDsc;
         public TextView lbl_fileLoc;
         public ImageView fileStat;
         private List<DCreditApplicationDocuments.ApplicationDocument> documentsInfo;
         public FileCodeViewHolder(Context mContext, @NonNull View itemView, DocumentToScanAdapter.OnItemClickListener listener) {
             super(itemView);
-            lbl_fileDsc = itemView.findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_fileCode);
-            lbl_fileLoc = itemView.findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.lbl_fileLoc);
-            fileStat = itemView.findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.tick_cross);
+            lbl_fileDsc = itemView.findViewById(R.id.lbl_fileCode);
+            lbl_fileLoc = itemView.findViewById(R.id.lbl_fileLoc);
+            fileStat = itemView.findViewById(R.id.tick_cross);
 
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
@@ -104,9 +106,7 @@ public class DocumentToScanAdapter extends RecyclerView.Adapter<DocumentToScanAd
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(
                                 contentResolver, Uri.fromFile(new File(lbl_fileLoc.getText().toString())));
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
-                    }catch (IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     DialogImagePreview loDialog = new DialogImagePreview(mContext, bitmap,lbl_fileDsc.getText().toString());

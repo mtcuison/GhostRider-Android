@@ -19,8 +19,11 @@ import android.widget.LinearLayout;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.BranchApplicationsAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.BranchApplicationModel;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -169,7 +172,7 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
                     }
                 });
             }else {
-                Log.e("Application List ", String.valueOf(brnCreditList.toArray()));
+                layoutNoRecord.setVisibility(View.VISIBLE);
             }
         });
     }
