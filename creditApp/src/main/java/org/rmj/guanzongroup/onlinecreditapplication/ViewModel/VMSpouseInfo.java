@@ -1,22 +1,24 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
+import android.media.tv.TvTrackInfo;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
@@ -33,13 +35,13 @@ public class VMSpouseInfo extends AndroidViewModel {
     private final RProvince poProvRepo; //Province Repository
     private final RTown poTownRepo; //Town Repository
     private final RCountry RCountry;
-    private ECreditApplicantInfo poInfo;
 
     // Declare variable what you need to observe
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
     private final MutableLiveData<String> psProvID = new MutableLiveData<>();
     private final MutableLiveData<String> psTownID = new MutableLiveData<>();
     private MutableLiveData<String> lsCitizen = new MutableLiveData<>();
+
 
     private MutableLiveData<String> lsMobile1 = new MutableLiveData<>();
     private MutableLiveData<String> lsMobile2 = new MutableLiveData<>();
@@ -48,7 +50,6 @@ public class VMSpouseInfo extends AndroidViewModel {
     private MutableLiveData<Integer> mobileNo1Year = new MutableLiveData<>();
     private MutableLiveData<Integer> mobileNo2Year = new MutableLiveData<>();
     private MutableLiveData<Integer> mobileNo3Year = new MutableLiveData<>();
-
     public VMSpouseInfo(@NonNull Application application) { // Application is context
         super(application);
         poGoCas = new GOCASApplication();
@@ -71,10 +72,10 @@ public class VMSpouseInfo extends AndroidViewModel {
         return poCreditApp.getCreditApplicantInfoLiveData(TransNox.getValue());
     }
 
-   //  Set Detail info to GoCas
-    public void setDetailInfo(ECreditApplicantInfo fsDetailInfo){
+    //  Set Detail info to GoCas
+    public void setDetailInfo(String fsDetailInfo){
         try{
-            poInfo = fsDetailInfo;
+            poGoCas.setData(fsDetailInfo);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -115,21 +116,6 @@ public class VMSpouseInfo extends AndroidViewModel {
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
         return liveData;
-    }
-
-    public int getPreviousPage() throws Exception{
-        JSONObject loJson = new JSONObject(poInfo.getAppMeans());
-        if(loJson.getString("pensionx").equalsIgnoreCase("1")){
-            return 6;
-        } else if(loJson.getString("financer").equalsIgnoreCase("1")){
-            return 5;
-        } else if(loJson.getString("sEmplyed").equalsIgnoreCase("1")){
-            return 4;
-        } else if(loJson.getString("employed").equalsIgnoreCase("1")){
-            return 3;
-        } else {
-            return 2;
-        }
     }
 
     //Province and Town ID Setters inputs in the ViewModel.
@@ -234,16 +220,20 @@ public class VMSpouseInfo extends AndroidViewModel {
                 poGoCas.SpouseInfo().PersonalInfo().setEmailAddress(0, infoModel.getEmailAdd());
                 poGoCas.SpouseInfo().PersonalInfo().setFBAccount(infoModel.getFBacct());
                 poGoCas.SpouseInfo().PersonalInfo().setViberAccount(infoModel.getVbrAcct());
-                poInfo.setTransNox(TransNox.getValue());
-                poInfo.setSpousexx(poGoCas.SpouseInfo().PersonalInfo().toJSONString());
-                poCreditApp.updateGOCasData(poInfo);
+
+
+                ECreditApplicantInfo applicantInfo = new ECreditApplicantInfo();
+                applicantInfo.setTransNox(TransNox.getValue());
+                applicantInfo.setDetlInfo(poGoCas.toJSONString());
+                applicantInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
+                poCreditApp.updateGOCasData(applicantInfo);
 
                 //Added by sir mike
                 Log.e(TAG, poGoCas.SpouseInfo().PersonalInfo().toJSONString());
                 Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
                 callBack.onSaveSuccessResult(TransNox.getValue());
 
-//                Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
+                //                Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
             } else {
                 callBack.onFailedResult(infoModel.getMessage());
             }

@@ -223,6 +223,7 @@ public class EmploymentInfoModel {
                 isSpecificJobValid() &&
                 isEmploymentStatusValid() &&
                 isLengthOfServiceValid() &&
+                isSpnLengthOfServiceValid() &&
                 isMonthlySalaryValid() &&
                 isCompanyContactValid();
     }
@@ -368,11 +369,19 @@ public class EmploymentInfoModel {
 
     private boolean isLengthOfServiceValid(){
         if(sSectorxx.equalsIgnoreCase("0") || sSectorxx.equalsIgnoreCase("1")) {
-            if (sLengthxx == null || Integer.parseInt(sLengthxx) < 0) {
+            if (sLengthxx == null || sLengthxx.isEmpty()) {
                 message = "Please enter length of service";
                 return false;
             }
         }
+        return true;
+    }
+    private boolean isSpnLengthOfServiceValid(){
+        if (cIsYearxx == null || cIsYearxx.isEmpty()) {
+            message = "Please enter length of service\n Month/Year";
+            return false;
+        }
+
         return true;
     }
 

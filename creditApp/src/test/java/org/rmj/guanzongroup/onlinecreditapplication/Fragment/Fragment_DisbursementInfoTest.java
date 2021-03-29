@@ -44,6 +44,7 @@ public class Fragment_DisbursementInfoTest {
         infoModels.setLimitCC("20000");
         infoModels.setYearS("2");
         mViewModel.setTransNox("Z3TXCBMCHCAO");
+
     }
 
     @After
@@ -51,7 +52,7 @@ public class Fragment_DisbursementInfoTest {
     }
     @Test
     public void test_setCreditApplicantInfo() throws Exception{
-        Assert.assertEquals("Z3TXCBMCHCAO" ,infoModels.getTransNo() );
+        Assert.assertEquals("Z3TXCBMCHCAO" ,mViewModel.getTransNox() );
         Assert.assertEquals(Double.parseDouble("1000") ,infoModels.getElctX(),0.0 );
         Assert.assertEquals(Double.parseDouble("1000") ,infoModels.getWaterX(),0.0 );
         Assert.assertEquals(Double.parseDouble("3000") ,infoModels.getFoodX(),0.0 );
@@ -62,7 +63,7 @@ public class Fragment_DisbursementInfoTest {
         Assert.assertEquals(Double.parseDouble("20000") ,infoModels.getLimitCC() ,0.0);
         Assert.assertEquals(2 ,infoModels.getYearS());
 
-        System.out.print("\nTransNox : " + infoModels.getTransNo() + "\n");
+        System.out.print("\nTransNox : " + mViewModel.getTransNox() + "\n");
         System.out.print("\nElectric Bill : " + infoModels.getElctX() + "\n");
         System.out.print("Water Bill : " + infoModels.getWaterX() + "\n");
         System.out.print("Food Allowance : " + infoModels.getFoodX() + "\n");

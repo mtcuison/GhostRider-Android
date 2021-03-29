@@ -70,7 +70,7 @@ public class UserLoanHistoryAdapter extends RecyclerView.Adapter<UserLoanHistory
 
     @Override
     public int getItemCount() {
-        return plLoanApp.size();
+        return plSchList.size();
     }
 
     public SearchFilter getSearchFilter(){
@@ -150,7 +150,7 @@ public class UserLoanHistoryAdapter extends RecyclerView.Adapter<UserLoanHistory
         protected FilterResults performFiltering(CharSequence constraint) {
             final FilterResults results = new FilterResults();
             if(constraint.length() == 0){
-                plSchList.addAll(plLoanApp);
+                plSchList = plLoanApp;
             } else {
                 List<LoanApplication> filterSearch = new ArrayList<>();
                 for(LoanApplication poLoan : plLoanApp){

@@ -95,7 +95,6 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         spnMobile2 = v.findViewById(R.id.spn_mobile2Type);
         spnMobile3 = v.findViewById(R.id.spn_mobile3Type);
         txtBirthDt.addTextChangedListener(new OnDateSetListener(txtBirthDt));
-
         MaterialButton btnNext = v.findViewById(R.id.btn_creditAppNext);
 
         btnNext.setOnClickListener(view -> SavePersonalInfo());
@@ -257,6 +256,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
                 } else {
                     tilMobileYr1.setVisibility(View.GONE);
                 }
+
             }
             if (spnMobile2.equals(poView)) {
                 psMob2NetTp = String.valueOf(i);

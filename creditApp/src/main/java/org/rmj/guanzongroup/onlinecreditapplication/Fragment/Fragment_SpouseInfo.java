@@ -136,7 +136,12 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
 
 
         // Set DetailInfo to goCas
-        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo));
+        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), new Observer<ECreditApplicantInfo>() {
+            @Override
+            public void onChanged(ECreditApplicantInfo eCreditApplicantInfo) {
+                mViewModel.setDetailInfo(eCreditApplicantInfo.getDetlInfo());
+            }
+        });
 
         // Set province list in txtProvince
         mViewModel.getProvinceNames().observe(getViewLifecycleOwner(), new Observer<String[]>() {
@@ -236,66 +241,64 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
             Log.e("Mobile 3 ", s);
         });
 
-    mViewModel.getMobileNo1Year().observe(getViewLifecycleOwner(), integer -> tilMobileYr1.setVisibility(integer));
-    mViewModel.getMobileNo2Year().observe(getViewLifecycleOwner(), integer -> tilMobileYr2.setVisibility(integer));
-    mViewModel.getMobileNo3Year().observe(getViewLifecycleOwner(), integer -> tilMobileYr3.setVisibility(integer));
+        mViewModel.getMobileNo1Year().observe(getViewLifecycleOwner(), integer -> tilMobileYr1.setVisibility(integer));
+        mViewModel.getMobileNo2Year().observe(getViewLifecycleOwner(), integer -> tilMobileYr2.setVisibility(integer));
+        mViewModel.getMobileNo3Year().observe(getViewLifecycleOwner(), integer -> tilMobileYr3.setVisibility(integer));
 
         spnMobile1.setOnItemClickListener(new OnItemClickListener(spnMobile1));
-    spnMobile2.setOnItemClickListener(new OnItemClickListener(spnMobile2));
-    spnMobile3.setOnItemClickListener(new OnItemClickListener(spnMobile3));
+        spnMobile2.setOnItemClickListener(new OnItemClickListener(spnMobile2));
+        spnMobile3.setOnItemClickListener(new OnItemClickListener(spnMobile3));
 
 
 
         txtBDate.addTextChangedListener(new OnDateSetListener(txtBDate));
-        btnPrvs.setOnClickListener(view -> {
-            try {
-                Activity_CreditApplication.getInstance().moveToPageNumber(mViewModel.getPreviousPage());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(1));
 
-        btnNext.setOnClickListener(v -> {
-            //Set the model for validation
-            infoModel.setLastName(txtLastName.getText().toString());
-            infoModel.setFrstName(txtFirstName.getText().toString());
-            infoModel.setMiddName(txtMiddName.getText().toString());
-            infoModel.setSuffix(txtSuffix.getText().toString());
-            infoModel.setNickName(txtNickName.getText().toString());
-            infoModel.setBirthDate(txtBDate.getText().toString());
-            infoModel.setProvNme(txtProvince.getText().toString());
-            infoModel.setTownNme(txtTownxx.getText().toString());
-            infoModel.setCitizenx(txtCitizenx.getText().toString());
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            if(!Objects.requireNonNull(txtPrimeCntc.getText()).toString().trim().isEmpty()) {
-                if(Integer.parseInt(spnMobile1Position) == 1) {
-                    infoModel.setMobileNo(txtPrimeCntc.getText().toString(),spnMobile1Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));
-                } else {
-                    infoModel.setMobileNo(txtPrimeCntc.getText().toString(), spnMobile1Position, 0);
+                //Set the model for validation
+                infoModel.setLastName(txtLastName.getText().toString());
+                infoModel.setFrstName(txtFirstName.getText().toString());
+                infoModel.setMiddName(txtMiddName.getText().toString());
+                infoModel.setSuffix(txtSuffix.getText().toString());
+                infoModel.setNickName(txtNickName.getText().toString());
+                infoModel.setBirthDate(txtBDate.getText().toString());
+                infoModel.setProvNme(txtProvince.getText().toString());
+                infoModel.setTownNme(txtTownxx.getText().toString());
+                infoModel.setCitizenx(txtCitizenx.getText().toString());
+
+                if(!Objects.requireNonNull(txtPrimeCntc.getText()).toString().trim().isEmpty()) {
+                    if(Integer.parseInt(spnMobile1Position) == 1) {
+                        infoModel.setMobileNo(txtPrimeCntc.getText().toString(),spnMobile1Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));
+                    } else {
+                        infoModel.setMobileNo(txtPrimeCntc.getText().toString(), spnMobile1Position, 0);
+                    }
                 }
-            }
-            if(!Objects.requireNonNull(txtSecCntct.getText()).toString().trim().isEmpty()) {
-                if(Integer.parseInt(spnMobile2Position) == 1) {
-                    infoModel.setMobileNo(txtSecCntct.getText().toString(), spnMobile2Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr2.getText()).toString()));
-                } else {
-                    infoModel.setMobileNo(txtSecCntct.getText().toString(), spnMobile2Position, 0);
+                if(!Objects.requireNonNull(txtSecCntct.getText()).toString().trim().isEmpty()) {
+                    if(Integer.parseInt(spnMobile2Position) == 1) {
+                        infoModel.setMobileNo(txtSecCntct.getText().toString(), spnMobile2Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr2.getText()).toString()));
+                    } else {
+                        infoModel.setMobileNo(txtSecCntct.getText().toString(), spnMobile2Position, 0);
+                    }
                 }
-            }
-            if(!Objects.requireNonNull(txtThirCntct.getText()).toString().trim().isEmpty()) {
-                if(Integer.parseInt(spnMobile3Position) == 1) {
-                    infoModel.setMobileNo(txtThirCntct.getText().toString(), spnMobile3Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr3.getText()).toString()));
-                } else {
-                    infoModel.setMobileNo(txtThirCntct.getText().toString(), spnMobile3Position, 0);
+                if(!Objects.requireNonNull(txtThirCntct.getText()).toString().trim().isEmpty()) {
+                    if(Integer.parseInt(spnMobile3Position) == 1) {
+                        infoModel.setMobileNo(txtThirCntct.getText().toString(), spnMobile3Position, Integer.parseInt(Objects.requireNonNull(txtMobileYr3.getText()).toString()));
+                    } else {
+                        infoModel.setMobileNo(txtThirCntct.getText().toString(), spnMobile3Position, 0);
+                    }
                 }
+
+                infoModel.setPhoneNo(txtTelNox.getText().toString());
+                infoModel.setEmailAdd(txtEmailAdd.getText().toString());
+                infoModel.setFBacct(txtFbAcct.getText().toString());
+                infoModel.setVbrAcct(txtViberAcct.getText().toString());
+
+                // Trigger save() with SpouseInfoModel instance with data set.
+                mViewModel.Save(infoModel, Fragment_SpouseInfo.this);
             }
-
-            infoModel.setPhoneNo(txtTelNox.getText().toString());
-            infoModel.setEmailAdd(txtEmailAdd.getText().toString());
-            infoModel.setFBacct(txtFbAcct.getText().toString());
-            infoModel.setVbrAcct(txtViberAcct.getText().toString());
-
-            // Trigger save() with SpouseInfoModel instance with data set.
-            mViewModel.Save(infoModel, Fragment_SpouseInfo.this);
         });
 
     }
@@ -303,7 +306,7 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
     @SuppressLint("RestrictedApi")
     @Override
     public void onSaveSuccessResult(String args) {
-        Activity_CreditApplication.getInstance().moveToPageNumber(8);
+        Activity_CreditApplication.getInstance().moveToPageNumber(3);
     }
 
     @Override

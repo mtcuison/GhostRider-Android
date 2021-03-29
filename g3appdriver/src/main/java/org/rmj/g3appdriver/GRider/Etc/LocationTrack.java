@@ -184,7 +184,7 @@ public class LocationTrack extends Service implements LocationListener {
         geocoder = new Geocoder(mContext, Locale.getDefault());
 
         try {
-            addresses = geocoder.getFromLocation(latt, longi, 1);
+            addresses = geocoder.getFromLocation(latt, longi,1);
             address = addresses.get(0).getAddressLine(0);
             city = addresses.get(0).getLocality();
             state = addresses.get(0).getAdminArea();

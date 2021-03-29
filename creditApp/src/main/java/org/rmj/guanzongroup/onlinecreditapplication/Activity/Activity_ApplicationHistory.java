@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
     private Toolbar toolbar;
     private TextInputEditText txtSearch;
     private RecyclerView recyclerView;
+    private LinearLayout noRecord;
 
     private List<LoanApplication> loanList;
     private UserLoanHistoryAdapter adapter;
@@ -101,6 +103,11 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                         try {
                             adapter.getSearchFilter().filter(s.toString());
                             adapter.notifyDataSetChanged();
+                            if (adapter.getItemCount() == 0){
+                                noRecord.setVisibility(View.VISIBLE);
+                            }else {
+                                noRecord.setVisibility(View.GONE);
+                            }
                         } catch (Exception e){
                             e.printStackTrace();
                         }
@@ -121,6 +128,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         txtSearch = findViewById(R.id.txt_Search);
         recyclerView = findViewById(R.id.rectangles_applicationHistory);
+        noRecord = findViewById(R.id.layout_application_history_noRecord);
     }
 
     @Override

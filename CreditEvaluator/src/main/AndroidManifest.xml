@@ -3,12 +3,15 @@
     package="org.rmj.guanzongroup.ghostrider.creditevaluator">
 
     <application>
-        <activity android:name=".Activity.Activity_EvaluationList"
-            android:screenOrientation="userPortrait"
-            android:label="CI Evaluation"/>
-        <activity android:name=".Activity.Activity_CreditEvaluator"
-            android:screenOrientation="userPortrait"
-            android:label="CI Evaluation"/>
+        <activity android:name=".Activity.Activity_CIApplication"></activity>
+        <activity
+            android:name=".Activity.Activity_EvaluationList"
+            android:label="CI Evaluation"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".Activity.Activity_CreditEvaluator"
+            android:label="CI Evaluation"
+            android:screenOrientation="userPortrait" />
     </application>
 
 </manifest>

@@ -42,6 +42,9 @@ public class VMDisbursementInfo extends AndroidViewModel {
     public void setTransNox(String transNox){
         this.psTranNo.setValue(transNox);
     }
+    public String getTransNox(){
+        return this.psTranNo.getValue();
+    }
 
     public LiveData<ECreditApplicantInfo> getCreditApplicationInfo(){
         return poApplcnt.getCreditApplicantInfoLiveData(psTranNo.getValue());

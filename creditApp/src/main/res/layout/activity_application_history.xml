@@ -103,7 +103,42 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:padding="10dp"/>
+        <LinearLayout
+            android:id="@+id/layout_application_history_noRecord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            android:padding="10dp"
+            android:background="@drawable/background_no_record"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_toast_warning"
+                    tools:ignore="UseAppTint"
+                    android:layout_gravity="end|center_vertical"
+                    app:tint="@color/guanzon_orange" />
+            </LinearLayout>
 
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="18dp"
+                android:textColor="@color/guanzon_digital_orange"
+                android:fontFamily="@font/roboto_medium"
+                android:text="No record found."/>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
