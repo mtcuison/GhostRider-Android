@@ -24,7 +24,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.OnDateSetListener;
+import org.rmj.g3appdriver.etc.OnDateSetListener;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;

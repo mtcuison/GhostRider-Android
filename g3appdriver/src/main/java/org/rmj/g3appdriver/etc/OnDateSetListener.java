@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc;
+package org.rmj.g3appdriver.etc;
 
 import android.annotation.SuppressLint;
 import android.text.Editable;
@@ -8,13 +8,12 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
 
-public class OnBirthSetListener implements TextWatcher {
-    private TextInputEditText inputEditText;
+public class OnDateSetListener implements TextWatcher {
+    private final TextInputEditText inputEditText;
 
-    public OnBirthSetListener(TextInputEditText editText){
+    public OnDateSetListener(TextInputEditText editText){
         this.inputEditText = editText;
     }
-
 
     Calendar cal = Calendar.getInstance();
     String current = "";
@@ -61,8 +60,8 @@ public class OnBirthSetListener implements TextWatcher {
                 clean = String.format("%02d%02d%02d", mon, day, year);
             }
 
-            clean = String.format("%s/%s/%s", clean.substring(2, 4),
-                    clean.substring(0, 2),
+            clean = String.format("%s/%s/%s", clean.substring(0, 2),
+                    clean.substring(2, 4),
                     clean.substring(4, 8));
 
             sel = Math.max(sel, 0);

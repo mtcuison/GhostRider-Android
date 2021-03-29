@@ -13,7 +13,7 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.OnBirthSetListener;
+import org.rmj.g3appdriver.etc.OnDateSetListener;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.Objects;
@@ -56,7 +56,7 @@ public class DialogCheckPayment {
 
         txtBankNme.setOnItemClickListener((parent, view1, position, id) -> lsBank = txtBankNme.getText().toString());
 
-        txtCheckDt.addTextChangedListener(new OnBirthSetListener(txtCheckDt));
+        txtCheckDt.addTextChangedListener(new OnDateSetListener(txtCheckDt));
 
         btnConfirm.setOnClickListener(v -> {
             String lsCheckDt = Objects.requireNonNull(txtCheckDt.getText()).toString();

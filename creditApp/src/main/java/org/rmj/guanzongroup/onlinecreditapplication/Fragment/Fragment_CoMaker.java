@@ -2,7 +2,6 @@ package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
 import androidx.lifecycle.ViewModelProviders;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -22,15 +21,13 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_DocumentToScan;
 import org.rmj.guanzongroup.onlinecreditapplication.Data.UploadCreditApp;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.OnDateSetListener;
+import org.rmj.g3appdriver.etc.OnDateSetListener;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
