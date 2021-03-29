@@ -24,7 +24,11 @@ public class SpousePensionInfoModel extends InputChecker {
     }
 
     public long getsPensionAmt() {
-        return Long.parseLong(sPensionAmt.replace(",", ""));
+        if(!sPensionAmt.equalsIgnoreCase("")) {
+            return Long.parseLong(sPensionAmt.replace(",", ""));
+        } else {
+            return 0;
+        }
     }
 
     public void setsPensionAmt(String sPensionAmt) {
@@ -32,7 +36,11 @@ public class SpousePensionInfoModel extends InputChecker {
     }
 
     public int getsRetirementYr() {
-        return Integer.parseInt(sRetirementYr);
+        if(!sRetirementYr.equalsIgnoreCase("")) {
+            return Integer.parseInt(sRetirementYr);
+        } else {
+            return 0;
+        }
     }
 
     public void setsRetirementYr(String sRetirementYr) {
@@ -49,7 +57,11 @@ public class SpousePensionInfoModel extends InputChecker {
 
     public long getsOtherSrcIncx() {
         if(!sOtherSrc.isEmpty()) {
-            return Long.parseLong(sOtherSrcIncx.replace(",", ""));
+            if(!sOtherSrcIncx.equalsIgnoreCase("")) {
+                return Long.parseLong(sOtherSrcIncx.replace(",", ""));
+            } else {
+                return 0;
+            }
         } else {
             return 0;
         }
@@ -60,14 +72,21 @@ public class SpousePensionInfoModel extends InputChecker {
     }
 
     public boolean isPensionDataValid(){
-        return isPensionSectorValid() &&
-                isPensionAmtValid() &&
-                isRetirementYrValid() &&
-                isOtherSrcIncxValid();
+        if(isPensionSectorValid() ||
+                isPensionAmtValid() ||
+                isRetirementYrValid()) {
+
+            return isPensionSectorValid() &&
+                    isPensionAmtValid() &&
+                    isRetirementYrValid() &&
+                    isOtherSrcIncxValid();
+        } else {
+            return true;
+        }
     }
 
     private boolean isPensionSectorValid() {
-        if(sPensionSector.isEmpty()) {
+        if(sPensionSector == null) {
             sMgs = "Please select pension sector.";
             return false;
         }
@@ -83,7 +102,7 @@ public class SpousePensionInfoModel extends InputChecker {
     }
 
     private boolean isRetirementYrValid() {
-        if(sRetirementYr.trim().isEmpty()) {
+        if(isStringAllZero(sRetirementYr) || sRetirementYr.trim().isEmpty()) {
             sMgs = "Please enter retirement year.";
             return false;
         }

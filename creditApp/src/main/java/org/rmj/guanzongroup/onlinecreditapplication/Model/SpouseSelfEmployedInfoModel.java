@@ -80,6 +80,10 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
 
     public double getsBizYrs() {
         try{
+            if(sMonthOrYear == null) {
+                return 0.0;
+            }
+
             if(Integer.parseInt(sMonthOrYear) == 0) {
                 double ldValue = Double.parseDouble(sBizYrs);
                 return ldValue / 12;
@@ -105,7 +109,10 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
     }
 
     public long getsGrossMonthly() {
-        return Long.parseLong(sGrossMonthly.replace(",", ""));
+        if(!sGrossMonthly.equalsIgnoreCase("")){
+            return Long.parseLong(sGrossMonthly.replace(",", ""));
+        }
+        return 0;
     }
 
     public void setsGrossMonthly(String sGrossMonthly) {
@@ -113,7 +120,10 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
     }
 
     public long getsMonthlyExps() {
-        return Long.parseLong(sMonthlyExps.replace(",", ""));
+        if(!sMonthlyExps.equalsIgnoreCase("")) {
+            return Long.parseLong(sMonthlyExps.replace(",", ""));
+        }
+        return 0;
     }
 
     public void setsMonthlyExps(String sMonthlyExps) {
@@ -121,19 +131,35 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
     }
 
     public boolean isSpouseInfoValid() {
-        return isBizIndustryValid() &&
-                isBizNameValid() &&
-                isProvIdValid() &&
-                isTownIdValid() &&
-                isBizTypeValid() &&
-                isBizSizeValid() &&
-                isBizYrsValid() &&
-                isGrossMonthlyValid() &&
-                isMonthlyExpsValid();
+        if(isBizIndustryValid() ||
+                isBizNameValid() ||
+                isProvIdValid() ||
+                isTownIdValid() ||
+                isBizTypeValid() ||
+                isBizSizeValid() ||
+                isMonthOrYearValid() ||
+                isBizYrsValid() ||
+                isGrossMonthlyValid() ||
+                isMonthlyExpsValid()) {
+
+            return isBizIndustryValid() &&
+                    isBizNameValid() &&
+                    isProvIdValid() &&
+                    isTownIdValid() &&
+                    isBizTypeValid() &&
+                    isBizSizeValid() &&
+                    isMonthOrYearValid() &&
+                    isBizYrsValid() &&
+                    isGrossMonthlyValid() &&
+                    isMonthlyExpsValid();
+
+        } else {
+            return true;
+        }
     }
 
     private boolean isBizIndustryValid() {
-        if(sBizIndustry.isEmpty()) {
+        if(sBizIndustry == null || sBizIndustry.isEmpty()) {
             sMsg = "Please select business industry.";
             return false;
         }
@@ -149,7 +175,7 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
     }
 
     private boolean isProvIdValid() {
-        if(sProvId.isEmpty()) {
+        if(sProvId == null || sProvId.equalsIgnoreCase("")) {
             sMsg = "Please enter Province.";
             return false;
         }
@@ -157,7 +183,7 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
     }
 
     private boolean isTownIdValid() {
-        if(sTownId.isEmpty()) {
+        if(sTownId == null || sTownId.equalsIgnoreCase("")) {
             sMsg = "Please enter Town";
             return false;
         }
@@ -165,7 +191,7 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
     }
 
     private boolean isBizTypeValid() {
-        if(sBizType.isEmpty()) {
+        if(sBizType == null || sBizType.isEmpty()) {
             sMsg = "Please select type of business";
             return false;
         }
@@ -173,23 +199,26 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
     }
 
     private boolean isBizSizeValid() {
-        if(sBizSize.isEmpty()) {
+        if(sBizSize == null || sBizSize.isEmpty()) {
             sMsg = "Please select size of business";
             return false;
         }
         return true;
     }
 
-    private String isMonthOrYear() {
-        if(sMonthOrYear == "0") {
-            return "Month";
+    private boolean isMonthOrYearValid() {
+        if(sMonthOrYear == null || sMonthOrYear.equalsIgnoreCase("")) {
+            sMsg = "Please select duration of business";
+            return false;
         }
-        return "Year";
+        return true;
     }
 
     private boolean isBizYrsValid() {
-        if(isStringAllZero(sBizYrs) || sBizYrs.trim().isEmpty()) {
-            sMsg = "Please enter " + isMonthOrYear() + ".";
+        if(sBizYrs == null || isStringAllZero(sBizYrs) || sBizYrs.trim().isEmpty()) {
+            if(sMonthOrYear == null) { return false; }
+            String lsMosYr = (sMonthOrYear.equalsIgnoreCase("0")) ? "Month" : "Year";
+            sMsg = "Please enter " + lsMosYr + ".";
             return false;
         }
         return true;
