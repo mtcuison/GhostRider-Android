@@ -43,6 +43,9 @@ public class RImageInfo {
     public void updateImageInfo(String TransNox, String oldTransNox){
         imageDao.updateImageInfo(TransNox, AppConstants.DATE_MODIFIED, oldTransNox);
     }
+    public void updateImageInfos(String TransNox, String sourceNo){
+        imageDao.updateImageInfos(TransNox, AppConstants.DATE_MODIFIED, sourceNo);
+    }
 
     public void updateImageInfo(EImageInfo imageInfo){
         new InsertTask(imageDao, "update").execute(imageInfo);

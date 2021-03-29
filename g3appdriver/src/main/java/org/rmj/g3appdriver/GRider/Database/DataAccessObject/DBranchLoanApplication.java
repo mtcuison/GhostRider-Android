@@ -13,7 +13,6 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 
 import java.util.List;
-
 @Dao
 public interface DBranchLoanApplication {
     @Insert
@@ -33,7 +32,7 @@ public interface DBranchLoanApplication {
     LiveData<List<EBranchLoanApplication>> getAllBranchCreditApplication();
 
     @Query("SELECT * FROM Credit_Online_Application_List " +
-            "WHERE sBranchCD = (SELECT sBranchCD FROM User_Info_Master)")
+            "WHERE sCredInvx = (SELECT sEmployID FROM User_Info_Master)")
     LiveData<List<EBranchLoanApplication>> getAllCICreditApplication();
 
 //    @Query("SELECT * FROM Credit_Online_Application_List " +
@@ -42,7 +41,7 @@ public interface DBranchLoanApplication {
 
     @Query("SELECT * FROM Credit_Online_Application_List " +
             "WHERE cTranStat != 4 AND " +
-            "sCreatedx  = 'GAP020200310' ")
+            "sCredInvx  = (SELECT sEmployID FROM User_Info_Master)")
     LiveData<List<EBranchLoanApplication>> getAllCICreditApplicationLog();
 
     @Insert

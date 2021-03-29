@@ -11,6 +11,7 @@ import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
@@ -54,7 +55,9 @@ public class RCreditApplicationDocument {
         return documentsDao.getDocumentInfo(TransNox);
     }
 
-
+    public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentDetailForPosting(){
+        return documentsDao.getDocumentDetailForPosting();
+    }
 
     private static class InsertTask extends AsyncTask<ECreditApplicationDocuments, Void, String>{
         private final DCreditApplicationDocuments documentsDao;
@@ -91,7 +94,8 @@ public class RCreditApplicationDocument {
         @Override
         protected String doInBackground(String... transNox) {
             if (documentsDao.getDuplicateTransNox(transNox[0]).size()>0){
-                Log.e(TAG, "Credit document Already exist.");
+                documentsDao.updateDocumentsInfos(transNox[0]);
+
             } else {
                 documentsDao.insertDocumentByTransNox(transNox[0]);
                 Log.e(TAG, "Document info has been save in background!");
@@ -111,7 +115,7 @@ public class RCreditApplicationDocument {
         protected String doInBackground(String... transNox) {
             if (documentsDao.getDuplicateTransNox(transNox[0]).size()>0){
                 documentsDao.updateDocumentsInfo(transNox[0],sFileCd);
-                Log.e(TAG, "Credit document Already exist.");
+                Log.e(TAG, "Credit document updated.");
             }
             return null;
         }
