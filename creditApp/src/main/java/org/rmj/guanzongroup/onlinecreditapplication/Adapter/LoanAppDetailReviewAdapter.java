@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,6 @@ public class LoanAppDetailReviewAdapter extends RecyclerView.Adapter<LoanAppDeta
     private final OnActionButtonClickListener mListener;
 
     public interface OnActionButtonClickListener{
-        void onSave();
         void onInfoClickListener();
     }
 
@@ -46,7 +46,6 @@ public class LoanAppDetailReviewAdapter extends RecyclerView.Adapter<LoanAppDeta
         holder.lnContnt.setVisibility(loDetail.isContent());
         holder.lblDetail.setText(loDetail.getLabel());
         holder.lblContnt.setText(loDetail.getContent());
-        holder.btnSave.setVisibility(loDetail.isFooter());
     }
 
     @Override
@@ -61,7 +60,6 @@ public class LoanAppDetailReviewAdapter extends RecyclerView.Adapter<LoanAppDeta
         TextView lblHeader;
         TextView lblDetail;
         TextView lblContnt;
-        MaterialButton btnSave;
 
         public DetailViewHolder(@NonNull View itemView, OnActionButtonClickListener listener) {
             super(itemView);
@@ -71,9 +69,6 @@ public class LoanAppDetailReviewAdapter extends RecyclerView.Adapter<LoanAppDeta
             lnContnt = itemView.findViewById(R.id.linear_list_content);
             lblDetail = itemView.findViewById(R.id.lbl_list_detailInfo);
             lblContnt = itemView.findViewById(R.id.lbl_list_detailContent);
-            btnSave = itemView.findViewById(R.id.btn_loanAppSave);
-
-            btnSave.setOnClickListener(v -> listener.onSave());
         }
     }
 }

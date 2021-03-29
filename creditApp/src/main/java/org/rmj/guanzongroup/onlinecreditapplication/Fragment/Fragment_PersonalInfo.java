@@ -196,7 +196,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
     @Override
     public void onSaveSuccessResult(String args) {
 
-        Activity_CreditApplication.getInstance().moveToPageNumber(7);
+        Activity_CreditApplication.getInstance().moveToPageNumber(1);
     }
 
     @Override

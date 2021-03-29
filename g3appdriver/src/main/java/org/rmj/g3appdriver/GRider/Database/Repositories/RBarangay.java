@@ -54,6 +54,10 @@ public class RBarangay {
         return barangayDao.getBarangayInfoFromID(fsID);
     }
 
+    public DBarangayInfo.BrgyTownProvNames getAddressInfo(String BrgyID){
+        return barangayDao.getAddressInfo(BrgyID);
+    }
+
     public String getLatestDataTime(){
         return barangayDao.getLatestDataTime();
     }

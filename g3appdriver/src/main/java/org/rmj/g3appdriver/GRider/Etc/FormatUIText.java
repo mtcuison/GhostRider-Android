@@ -28,6 +28,24 @@ public class FormatUIText {
 
     /**
      *
+     * @param date pass date string in format MM/dd/yyyy
+     * @return returns tring value of MMMM dd, yyyy
+     *
+     *
+     */
+    @SuppressLint("SimpleDateFormat")
+    public static String getBirthDateUIFormat(String date){
+        try {
+            Date parseDate = new SimpleDateFormat("MM/dd/yyyy").parse(date);
+            return new SimpleDateFormat("MMMM dd, yyyy").format(parseDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    /**
+     *
      * @param date
      * @return
      *

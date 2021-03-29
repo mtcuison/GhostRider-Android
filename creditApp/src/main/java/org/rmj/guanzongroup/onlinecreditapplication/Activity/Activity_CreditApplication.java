@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
@@ -41,6 +43,20 @@ public class Activity_CreditApplication extends AppCompatActivity {
         instance = this;
         transNox = getIntent().getStringExtra("transno");
         initWidgets();
+    }
+
+    @Override
+    public void onBackPressed() {
+        MessageBox loMessage = new MessageBox(Activity_CreditApplication.this);
+        loMessage.initDialog();
+        loMessage.setTitle("Loan Application");
+        loMessage.setMessage("Exit loan application?");
+        loMessage.setPositiveButton("Yes", (view, dialog) -> {
+            dialog.dismiss();
+            finish();
+        });
+        loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
+        loMessage.show();
     }
 
     private void initWidgets(){

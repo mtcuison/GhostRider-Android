@@ -41,6 +41,10 @@ public class RMcBrand {
         return mcBrandDao.getLatestDataTime();
     }
 
+    public EMcBrand getMcBrandInfo(String BrandID){
+        return mcBrandDao.getMcBrandInfo(BrandID);
+    }
+
     public void insertBrandInfo(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
 

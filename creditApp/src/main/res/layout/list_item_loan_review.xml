@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -51,7 +51,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
-            android:gravity="center"
             android:text="Client Name: "
             android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_medium"/>
@@ -65,13 +64,5 @@
             android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_regular"/>
     </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_loanAppSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/GhostRider_Button"
-        android:text="Save Application Info"
-        android:layout_marginTop="15dp"/>
 
 </LinearLayout>
