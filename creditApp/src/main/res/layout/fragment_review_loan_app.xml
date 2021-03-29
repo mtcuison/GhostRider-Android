@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Fragment.Fragment_ReviewLoanApp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".4"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/img_loanApplicant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_user_profile"/>
+
+            <ImageButton
+                android:id="@+id/btn_camera"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_alignEnd="@+id/img_loanApplicant"
+                android:layout_alignRight="@+id/img_loanApplicant"
+                android:layout_alignBottom="@+id/img_loanApplicant"
+                android:layout_marginEnd="-24dp"
+                android:layout_marginRight="-24dp"
+                android:layout_marginBottom="-1dp"
+                android:src="@drawable/ic_camera"
+                android:tint="@color/guanzon_orange" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/lbl_clientNme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Doe, John C."
+            android:textColor="@color/textColor_Black"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_black"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_applicationInfo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="10dp"/>
+
+</LinearLayout>

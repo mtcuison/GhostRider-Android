@@ -186,7 +186,6 @@ public class VMOtherInfo extends AndroidViewModel {
                     poGoCas.OtherInfo().setPRMobileNo(x, loRef.getContactN());
                     poGoCas.OtherInfo().setPRAddress(x, loRef.getAddress1());
                 }
-
                 poInfo.setTransNox(Objects.requireNonNull(psTransNox));
                 poInfo.setOthrInfo(poGoCas.OtherInfo().toJSONString());
                 poApplcnt.updateGOCasData(poInfo);
