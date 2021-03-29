@@ -67,37 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initWidgets();
         mViewModel = new ViewModelProvider(this).get(VMMainActivity.class);
         poNetRecvr = mViewModel.getInternetReceiver();
-        mViewModel.getUnsentSelfieLogImageList().observe(this, eImageInfos -> {
-            try {
-                poNetRecvr.setLoginImageInfo(eImageInfos);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
-        mViewModel.getUnsentSelfieLoginList().observe(this, eLog_selfies -> {
-            try{
-                poNetRecvr.setLoginDetails(eLog_selfies);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
-        mViewModel.getUnsentPaidCollection().observe(this, edcpCollectionDetails -> {
-            try{
-                poNetRecvr.setDCPPaidInfo(edcpCollectionDetails);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
-        mViewModel.getUnsentLoanApplication().observe(this, eCreditApplications -> {
-            try{
-                 poNetRecvr.setLoanApplications(eCreditApplications);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)

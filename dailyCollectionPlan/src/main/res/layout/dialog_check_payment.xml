@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/TextInputStyle"
-            android:hint="Check Date (DD/MM/YYYY)"
+            android:hint="Check Date (MM/DD/YYYY)"
             android:layout_marginTop="5dp">
 
             <com.google.android.material.textfield.TextInputEditText

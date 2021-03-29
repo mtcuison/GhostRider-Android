@@ -188,37 +188,7 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
 
     @Override
     public void onSaveSuccessResult(String args) {
-
-        mViewModel.SaveCreditOnlineApplication(new UploadCreditApp.OnUploadLoanApplication() {
-            @Override
-            public void OnUpload() {
-                poDialogx.initDialog("Credit Application", "Sending loan application. Please wait...", false);
-                poDialogx.show();
-            }
-
-            @Override
-            public void OnSuccess(String ClientName) {
-                poDialogx.dismiss();
-                poMessage.initDialog();
-                poMessage.setTitle("Credit Application");
-                poMessage.setMessage("Loan application of " + ClientName + " has been sent.");
-                poMessage.setPositiveButton("Okay", (view1, dialog1) -> {
-                    dialog1.dismiss();
-                    requireActivity().finish();
-                });
-                poMessage.show();
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                poDialogx.dismiss();
-                poMessage.initDialog();
-                poMessage.setTitle("Credit Application");
-                poMessage.setMessage(message);
-                poMessage.setPositiveButton("Okay", (view1, dialog1) -> dialog1.dismiss());
-                poMessage.show();
-            }
-        });
+        Activity_CreditApplication.getInstance().moveToPageNumber(18);
     }
 
     @Override

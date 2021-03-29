@@ -35,4 +35,7 @@ public interface DMcModel {
 
     @Query("SELECT MAX(dTimeStmp) FROM Mc_Model")
     String getLatestDataTime();
+
+    @Query("SELECT * FROM Mc_Model WHERE sModelIDx =:ModelID")
+    EMcModel getModelInfo(String ModelID);
 }

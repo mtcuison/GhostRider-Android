@@ -76,9 +76,11 @@ public class  MessageBox {
     }
 
     public void show() {
-        poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
-        poDialogx.show();
+        if(!poDialogx.isShowing()) {
+            poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
+            poDialogx.show();
+        }
     }
 
     public interface DialogButton{

@@ -61,6 +61,10 @@ public class RTown {
         return townDao.getTownProvinceInfo();
     }
 
+    public DTownInfo.TownProvinceName getTownProvinceName(String TownID){
+        return townDao.getTownProvinceNames(TownID);
+    }
+
     public void saveTownInfo(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
 

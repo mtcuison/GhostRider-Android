@@ -19,7 +19,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogPaidTr
 public class Fragment_Log_Paid_Transaction extends Fragment {
     private VMLogPaidTransaction mViewModel;
     private TextView txtAcctNo, txtClientName, txtClientAddress;
-    private TextView txtPaymentTp, txtPRNoxx, txtTransAmtx, txtDiscount, txtPenalty, txtTotalAmtx, txtRemarksx;
+    private TextView txtPaymentTp, txtPRNoxx, txtTransAmtx, txtDiscount, txtPenalty, txtTotalAmtx, txtRemarksx, txtCheckPayment;
 
     public Fragment_Log_Paid_Transaction() { }
 
@@ -47,13 +47,22 @@ public class Fragment_Log_Paid_Transaction extends Fragment {
                 Activity_LogTransaction.remCodex);
 
         mViewModel.getPostedCollectionDetail().observe(getViewLifecycleOwner(), collectPaidDetl -> {
-            txtPaymentTp.setText(DCP_Constants.PAYMENT_TYPE[Integer.parseInt(collectPaidDetl.getTranType())]);
-            txtPRNoxx.setText(collectPaidDetl.getPRNoxxxx());
-            txtTransAmtx.setText(getString(R.string.peso_sign) + collectPaidDetl.getTranAmtx());
-            txtDiscount.setText(getString(R.string.peso_sign) + collectPaidDetl.getDiscount());
-            txtPenalty.setText(getString(R.string.peso_sign) + collectPaidDetl.getOthersxx());
-            txtTotalAmtx.setText(getString(R.string.peso_sign) + collectPaidDetl.getTranTotl());
-            txtRemarksx.setText(collectPaidDetl.getRemarksx());
+            try {
+                if(collectPaidDetl.getBankIDxx() != null) {
+                    txtCheckPayment.setVisibility(View.VISIBLE);
+                } else {
+                    txtCheckPayment.setVisibility(View.GONE);
+                }
+                txtPaymentTp.setText(DCP_Constants.PAYMENT_TYPE[Integer.parseInt(collectPaidDetl.getTranType())]);
+                txtPRNoxx.setText(collectPaidDetl.getPRNoxxxx());
+                txtTransAmtx.setText(getString(R.string.peso_sign) + collectPaidDetl.getTranAmtx());
+                txtDiscount.setText(getString(R.string.peso_sign) + collectPaidDetl.getDiscount());
+                txtPenalty.setText(getString(R.string.peso_sign) + collectPaidDetl.getOthersxx());
+                txtTotalAmtx.setText(getString(R.string.peso_sign) + collectPaidDetl.getTranTotl());
+                txtRemarksx.setText(collectPaidDetl.getRemarksx());
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -70,5 +79,6 @@ public class Fragment_Log_Paid_Transaction extends Fragment {
         txtPenalty = v.findViewById(R.id.txt_penalty);
         txtTotalAmtx = v.findViewById(R.id.txt_total_amount);
         txtRemarksx = v.findViewById(R.id.txt_remarks);
+        txtCheckPayment = v.findViewById(R.id.lbl_check_payment);
     }
 }

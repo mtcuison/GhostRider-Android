@@ -119,7 +119,7 @@ public interface DDCPCollectionDetail {
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailForDate(String dTransact);
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1' AND sRemCodex == 'PAY'")
-    LiveData<List<EDCPCollectionDetail>> getUnsentPaidCollection();
+    List<EDCPCollectionDetail> getUnsentPaidCollection();
 
     @Query("SELECT a.sTransNox, " +
             "a.nEntryNox, " +

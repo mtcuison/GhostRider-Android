@@ -10,14 +10,18 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
@@ -43,11 +47,6 @@ public class InternetStatusReciever extends BroadcastReceiver {
 
     private ConnectionUtil poConn;
 
-    private List<ELog_Selfie> loginDetails = new ArrayList<>();
-    private List<EImageInfo> loginImageInfo = new ArrayList<>();
-    private List<EDCPCollectionDetail> collectionDetails = new ArrayList<>();
-    private List<ECreditApplication> loanApplications = new ArrayList<>();
-
     public InternetStatusReciever(Application instance) {
         this.instance = instance;
     }
@@ -64,22 +63,6 @@ public class InternetStatusReciever extends BroadcastReceiver {
         }
     }
 
-    public void setLoginImageInfo(List<EImageInfo> imageInfoList){
-        this.loginImageInfo = imageInfoList;
-    }
-
-    public void setDCPPaidInfo(List<EDCPCollectionDetail> collectionDetails){
-        this.collectionDetails = collectionDetails;
-    }
-
-    public void setLoginDetails(List<ELog_Selfie> loginDetails){
-        this.loginDetails = loginDetails;
-    }
-
-    public void setLoanApplications(List<ECreditApplication> loanApplications){
-        this.loanApplications = loanApplications;
-    }
-
     private class SendDataTask extends AsyncTask<Void, String, String>{
         private final Application instance;
 
@@ -91,8 +74,25 @@ public class InternetStatusReciever extends BroadcastReceiver {
         private final RImageInfo poImage;
         private final RDailyCollectionPlan poDcp;
         private final RCreditApplication poCreditApp;
+        private final RBranchLoanApplication poLoan;
+        private final RCreditApplicationDocument poDocs;
+
+        private String lsClient;
+        private String lsAccess;
 
         private String Message;
+
+        private List<ELog_Selfie> loginDetails = new ArrayList<>();
+        private List<EImageInfo> loginImageInfo = new ArrayList<>();
+        private List<EDCPCollectionDetail> collectionDetails = new ArrayList<>();
+        private List<ECreditApplication> loanApplications = new ArrayList<>();
+        private List<EImageInfo> loanDocs = new ArrayList<>();
+
+        /**
+         * this List handles all the sent application to sever
+         *
+         */
+        private List<ECreditApplication> sentAppl = new ArrayList<>();
 
         public SendDataTask(Application instance) {
             this.instance = instance;
@@ -103,6 +103,8 @@ public class InternetStatusReciever extends BroadcastReceiver {
             this.poDcp = new RDailyCollectionPlan(instance);
             this.poLog = new RLogSelfie(instance);
             this.poCreditApp = new RCreditApplication(instance);
+            this.poLoan = new RBranchLoanApplication(instance);
+            this.poDocs = new RCreditApplicationDocument(instance);
         }
 
         @Override
@@ -114,12 +116,16 @@ public class InternetStatusReciever extends BroadcastReceiver {
         @Override
         protected String doInBackground(Void... voids) {
             Message = "Local data and server is updated.";
-
+            loginDetails = poLog.getUnsentSelfieLogin();
+            loginImageInfo = poImage.getUnsentSelfieLogImageList();
+            collectionDetails = poDcp.getUnsentPaidCollection();
+            loanApplications = poCreditApp.getUnsentLoanApplication();
+            //loanDocs = poImage.getUnsentLoanAppDocFiles();
             uploadLoginImages();
             uploadLoginDetails();
             uploadPaidCollectionDetail();
             uploadLoanApplications();
-
+            uploadLoanApplicationsDocuments();
             return Message;
         }
 
@@ -137,11 +143,11 @@ public class InternetStatusReciever extends BroadcastReceiver {
         void uploadLoginImages(){
             if(loginImageInfo.size() > 0 || loginDetails.size() > 0 || collectionDetails.size() > 0) {
                 publishProgress("Requesting access token...");
-                String lsClient = RequestClientToken("IntegSys", poSession.getClientId(), poSession.getUserID());
-                String lsAccess = RequestAccessToken(lsClient);
+                lsClient = RequestClientToken("IntegSys", poSession.getClientId(), poSession.getUserID());
+                lsAccess = RequestAccessToken(lsClient);
 
                 if (loginImageInfo.size() > 0) {
-                    if (lsAccess.isEmpty()) {
+                    if (!lsAccess.isEmpty()) {
                         publishProgress("Sending selfie log images...");
                         boolean[] isSent = new boolean[loginImageInfo.size()];
                         for (int x = 0; x < loginImageInfo.size(); x++) {
@@ -341,6 +347,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                             if(result.equalsIgnoreCase("success")){
                                 String lsTransNox = loResponse.getString("sTransNox");
                                 poCreditApp.updateSentLoanAppl(loLoan.getTransNox(), lsTransNox);
+                                sentAppl.add(loLoan);
                                 isSent[x] = true;
                             } else {
                                 isSent[x] = false;
@@ -363,6 +370,77 @@ public class InternetStatusReciever extends BroadcastReceiver {
                     Message = Message + "Loan Applications has been sent.\n";
                 } else {
                     Message = Message + "Unable to send some loan applications.\n";
+                }
+            }
+        }
+
+        void uploadLoanApplicationsDocuments(){
+            if (lsClient == null || lsAccess == null || lsClient.isEmpty() || lsAccess.isEmpty()) {
+                lsClient = RequestClientToken("IntegSys", poSession.getClientId(), poSession.getUserID());
+                lsAccess = RequestAccessToken(lsClient);
+            }
+
+            if(sentAppl.size() > 0) {
+                for (int i = 0; i < sentAppl.size(); i++) {
+                    loanDocs = poImage.getUnsentLoanAppDocFiles(sentAppl.get(i).getTransNox());
+
+                    if(loanDocs.size() > 0) {
+
+                        if (!lsAccess.isEmpty()) {
+                            for(int x = 0; x < loanDocs.size(); x++){
+                                try{
+                                    publishProgress("Sending selfie log images...");
+                                    boolean[] isSent = new boolean[loanDocs.size()];
+                                    try {
+                                        EImageInfo loImage = loanDocs.get(x);
+                                        org.json.simple.JSONObject loResult = WebFileServer.UploadFile(
+                                                loImage.getFileLoct(),
+                                                lsAccess,
+                                                loImage.getFileCode(),
+                                                loImage.getDtlSrcNo(),
+                                                loImage.getImageNme(),
+                                                poSession.getBranchCode(),
+                                                loImage.getSourceCD(),
+                                                loImage.getTransNox(),
+                                                "");
+
+                                        String lsResponse = (String) loResult.get("result");
+                                        Log.e(TAG, "Uploading image result : " + lsResponse);
+
+                                        if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
+                                            String lsTransNo = (String) loResult.get("sTransNox");
+                                            poImage.updateImageInfo(lsTransNo, loImage.getTransNox());
+                                            isSent[x] = true;
+                                        } else {
+                                            isSent[x] = false;
+                                        }
+
+                                        Thread.sleep(1000);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        isSent[x] = false;
+                                    }
+                                    boolean allDataSent = true;
+                                    for (boolean b : isSent)
+                                        if (!b) {
+                                            allDataSent = false;
+                                            break;
+                                        }
+                                    if (allDataSent) {
+                                        Message = "All selfie login images has been sent.\n ";
+                                    } else {
+                                        Message = "Some selfie login images has been sent.\n ";
+                                    }
+                                } catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else {
+                            Message = "Failed to send images. Reason: failed requesting access token.\n ";
+                            publishProgress("Failed requesting access token. Sending selfie image failed...");
+                        }
+                    }
+
                 }
             }
         }

@@ -46,8 +46,7 @@ public class GoCasBuilder {
 
     public String getConstructedDetailedInfo(){
         createDetailInfo();
-        String lsGOCas = poGOCas.toJSONString();
-        return lsGOCas;
+        return poGOCas.toJSONString();
     }
 
     private void setupPurchaseInfo() throws Exception {

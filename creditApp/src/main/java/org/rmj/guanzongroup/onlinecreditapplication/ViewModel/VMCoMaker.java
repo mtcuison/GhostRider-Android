@@ -16,6 +16,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
@@ -268,7 +269,6 @@ public class VMCoMaker extends AndroidViewModel {
                     poGoCas.CoMakerInfo().setFBAccount(infoModel.getCoFbAccntx());
                     poInfo.setComakerx(poGoCas.CoMakerInfo().toJSONString());
                     poDcp.updateGOCasData(poInfo);
-                    Log.e(TAG, "Co-Maker info has been set." + poGoCas.toJSONString());
                     return "success";
                 } else if(!infoModel.isCoMakerInfoValid() && poInfo.getIsComakr().equalsIgnoreCase("1")){
                     return "no_comaker";
@@ -290,37 +290,5 @@ public class VMCoMaker extends AndroidViewModel {
                 callback.onFailedResult(s);
             }
         }
-    }
-
-    public void SaveCreditOnlineApplication(UploadCreditApp.OnUploadLoanApplication listener){
-        ECreditApplication loCreditApp = new ECreditApplication();
-        GoCasBuilder loModel = new GoCasBuilder(poInfo);
-        GOCASApplication loGOCas = new GOCASApplication();
-        loGOCas.setData(loModel.getConstructedDetailedInfo());
-        loCreditApp.setTransNox(poCreditApp.getGOCasNextCode());
-        loCreditApp.setBranchCd(poInfo.getBranchCd());
-        loCreditApp.setClientNm(poInfo.getClientNm());
-        loCreditApp.setUnitAppl(poInfo.getAppliedx());
-        loCreditApp.setSourceCD("APP");
-        loCreditApp.setDetlInfo(loModel.getConstructedDetailedInfo());
-        loCreditApp.setDownPaym(poInfo.getDownPaym());
-        loCreditApp.setCreatedx(poInfo.getCreatedx());
-        loCreditApp.setTransact(poInfo.getTransact());
-        loCreditApp.setTimeStmp(AppConstants.DATE_MODIFIED);
-        loCreditApp.setSendStat("0");
-
-        EBranchLoanApplication loLoan = new EBranchLoanApplication();
-        loLoan.setTransNox(poLoan.getGOCasNextCode());
-        loLoan.setBranchCD(loCreditApp.getBranchCd());
-        loLoan.setTransact(loCreditApp.getTransact());
-        loLoan.setCompnyNm(loCreditApp.getClientNm());
-        loLoan.setDownPaym(String.valueOf(loGOCas.PurchaseInfo().getDownPayment()));
-        loLoan.setAcctTerm(String.valueOf(loGOCas.PurchaseInfo().getAccountTerm()));
-        loLoan.setCreatedX(loCreditApp.getCreatedx());
-        loLoan.setTranStat("0");
-        loLoan.setTimeStmp(AppConstants.DATE_MODIFIED);
-        poCreditApp.insertCreditApplication(loCreditApp);
-        poLoan.insertNewLoanApplication(loLoan);
-        new UploadCreditApp(instance).UploadLoanApplication(loCreditApp.getTransNox(), listener);
     }
 }

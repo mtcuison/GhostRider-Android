@@ -74,7 +74,7 @@ public class VMMeansInfoSelection extends AndroidViewModel {
              return "4";
          } else if(loJson.getString("financer").equalsIgnoreCase("1")){
              return "5";
-         } else if(loJson.getString("pension").equalsIgnoreCase("1")){
+         } else if(loJson.getString("pensionx").equalsIgnoreCase("1")){
              return "6";
          }
         return foJSon;

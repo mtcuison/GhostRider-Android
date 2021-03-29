@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linear_list_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="15dp">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:layout_weight="1"
+            android:background="@color/guanzon_orange"/>
+
+        <TextView
+            android:id="@+id/lbl_list_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Personal Info"
+            android:textSize="16sp"
+            android:textColor="@color/material_black"
+            android:fontFamily="@font/roboto_black"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:layout_weight="1"
+            android:background="@color/guanzon_orange"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_list_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/lbl_list_detailInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:text="Client Name: "
+            android:textColor="@color/material_black"
+            android:fontFamily="@font/roboto_medium"/>
+
+        <TextView
+            android:id="@+id/lbl_list_detailContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Client Name: "
+            android:textColor="@color/material_black"
+            android:fontFamily="@font/roboto_regular"/>
+    </LinearLayout>
+
+</LinearLayout>

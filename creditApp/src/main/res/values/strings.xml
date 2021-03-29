@@ -4,7 +4,7 @@
     <string name="sHintSuffix">Suffix</string>
     <string name="sHintMiddName">MiddleName</string>
     <string name="sHintNickname">NickName</string>
-    <string name="sHintBirthDate">Birth Date (DD/MM/YYYY)</string>
+    <string name="sHintBirthDate">Birth Date (MM/DD/YYYY)</string>
     <string name="sHintBpProv">Province (Birth Place)</string>
     <string name="sGenderMale">Male</string>
     <string name="sGenderFmale">Female</string>
@@ -105,7 +105,7 @@
     <string name="sHintDuration">Duration</string>
     <string name="sSchoolLvl">Education Level</string>
     <string name="sHintYear">Year</string>
-    <string name="sHintNewApplication">Create New Application</string>
+    <string name="sHintNewApplication">Create Application</string>
     <string name="sbtnPrvs">Previous</string>
     <string name="sLblPersonalInfo">Applicant Personal Information</string>
     <string name="sLblSpouseNameInfo">Spouse Name</string>

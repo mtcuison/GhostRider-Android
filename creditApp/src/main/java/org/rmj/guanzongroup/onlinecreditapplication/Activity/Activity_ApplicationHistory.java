@@ -85,7 +85,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
 
                     @Override
                     public void OnPreview(String TransNox) {
-                        //Intent loIntent = new Intent(Activity_ApplicationHistory.class);
+
                     }
                 });
                 LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_ApplicationHistory.this);
