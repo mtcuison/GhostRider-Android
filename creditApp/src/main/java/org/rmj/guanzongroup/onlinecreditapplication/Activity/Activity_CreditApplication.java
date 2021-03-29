@@ -12,6 +12,8 @@ import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_MeansInfoSelection;
+import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_PersonalInfo;
+import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpouseInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.util.Objects;
@@ -49,7 +51,7 @@ public class Activity_CreditApplication extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Bundle loBundle = new Bundle();
         loBundle.putString("transno", transNox);
-        Fragment_MeansInfoSelection personalInfo = new Fragment_MeansInfoSelection();
+        Fragment_SpouseInfo personalInfo = new Fragment_SpouseInfo();
         personalInfo.setArguments(loBundle);
         viewPager = findViewById(R.id.viewpager_creditApp);
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), CreditAppConstants.APPLICATION_PAGES));

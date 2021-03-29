@@ -292,7 +292,7 @@ public class PersonalInfoModel implements Parcelable {
     }
 
     private boolean isCivilStatusValid(){
-        if(Integer.parseInt(CvlStats) < 0){
+        if(CvlStats == null || Integer.parseInt(CvlStats) < 0){
             message = "Please select civil status";
             return false;
         }

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -139,6 +140,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
 //                                loIntent.putExtra("MobileNo",creditLists.get(position).getsMobileNo());
 //                                loIntent.putExtra("Status",creditLists.get(position).getTransactionStatus());
 //                                startActivity(loIntent);
+
                     }
 
                 });

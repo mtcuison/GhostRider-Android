@@ -16,12 +16,12 @@ public class OtherInfoModelTest {
     public void setUp() throws Exception {
         infoModels = new OtherInfoModel();
         arrayList = new ArrayList<>();
-        infoModels = new OtherInfoModel("Jonathan Sabiniano", "Cawayan Bogtong", "0335", "09452086661");
+//        infoModels = new OtherInfoModel("Jonathan Sabiniano", "Cawayan Bogtong", "0335", "09452086661");
         arrayList.add(infoModels);
-        infoModels.setUnitUserModel("0");
-        infoModels.setUserUnitPurposeModel("2");
-        infoModels.setMonthlyPayerModel("0");
-        infoModels.setSourceModel("0");
+        infoModels.setUnitUser("0");
+        infoModels.setUnitPrps("2");
+        infoModels.setUnitPayr("0");
+        infoModels.setSource("0");
     }
 
     @After
@@ -38,14 +38,14 @@ public class OtherInfoModelTest {
 
     @Test
     public void test_isValidReferences() {
-        assertTrue(infoModels.isValidReferences());
-        System.out.println("Full Name : " + infoModels.getFullname());
-        System.out.println("Address : " + infoModels.getAddress1());
-        System.out.println("Town ID : " + infoModels.getTownCity());
-        System.out.println("Contact No: " + infoModels.getContactN());
-        System.out.println("Unit User index: " + infoModels.getUnitUserModel());
-        System.out.println("Unit Purpose index: " + infoModels.getUserUnitPurposeModel());
-        System.out.println("Payer index: " + infoModels.getMonthlyPayerModel());
-        System.out.println("Company Source index: " + infoModels.getSourceModel());
+//        assertTrue(infoModels.isValidReferences());
+//        System.out.println("Full Name : " + infoModels.getFullname());
+//        System.out.println("Address : " + infoModels.getAddress1());
+//        System.out.println("Town ID : " + infoModels.getTownCity());
+//        System.out.println("Contact No: " + infoModels.getContactN());
+//        System.out.println("Unit User index: " + infoModels.getUnitUserModel());
+//        System.out.println("Unit Purpose index: " + infoModels.getUserUnitPurposeModel());
+//        System.out.println("Payer index: " + infoModels.getMonthlyPayerModel());
+//        System.out.println("Company Source index: " + infoModels.getSourceModel());
     }
 }

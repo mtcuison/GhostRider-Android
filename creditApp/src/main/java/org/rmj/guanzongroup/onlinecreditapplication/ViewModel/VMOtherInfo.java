@@ -76,17 +76,20 @@ public class VMOtherInfo extends AndroidViewModel {
         return poReference;
     }
 
-    public void addReference(PersonalReferenceInfoModel poInfo, AddPersonalInfoListener listener){
+    public boolean addReference(PersonalReferenceInfoModel poInfo, AddPersonalInfoListener listener){
         try{
             if(poInfo.isDataValid()){
                 Objects.requireNonNull(poReference.getValue()).add(poInfo);
                 listener.OnSuccess();
+                return true;
             } else {
                 listener.onFailed(poInfo.getMessage());
+                return false;
             }
         } catch (Exception e){
             e.printStackTrace();
             listener.onFailed(e.getMessage());
+            return false;
         }
     }
 

@@ -313,7 +313,7 @@ public class VMCoMaker extends AndroidViewModel {
         loLoan.setTransNox(poLoan.getGOCasNextCode());
         loLoan.setBranchCD(loCreditApp.getBranchCd());
         loLoan.setTransact(loCreditApp.getTransact());
-        loLoan.setCompnyNm(loCreditApp.getBranchCd());
+        loLoan.setCompnyNm(loCreditApp.getClientNm());
         loLoan.setDownPaym(String.valueOf(loGOCas.PurchaseInfo().getDownPayment()));
         loLoan.setAcctTerm(String.valueOf(loGOCas.PurchaseInfo().getAccountTerm()));
         loLoan.setCreatedX(loCreditApp.getCreatedx());
