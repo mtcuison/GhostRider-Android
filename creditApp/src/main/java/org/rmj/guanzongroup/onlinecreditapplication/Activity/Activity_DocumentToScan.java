@@ -76,7 +76,8 @@ public class Activity_DocumentToScan extends AppCompatActivity {
     String TransNox;
     DocumentToScanAdapter loAdapter;
 
-    private List<DCreditApplicationDocuments.ApplicationDocument> documentInfo;
+    private List<DCreditApplicationDocuments.ApplicationDocument> documentDetails;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +87,14 @@ public class Activity_DocumentToScan extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         mViewModel = new ViewModelProvider(this).get(VMDocumentToScan.class);
         sViewModel = new ViewModelProvider(this).get(VMMainScanner.class);
+//        mViewModel.getDocumentInfos().observe(this, collectionDetails -> {
+//            try {
+//                plDetail = collectionDetails;
+//                mViewModel.setCollectionListForPosting(collectionDetails);
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
         docInfo =  new ArrayList<>();
         initWidgets();
         contentResolver = this.getContentResolver();
@@ -95,6 +104,16 @@ public class Activity_DocumentToScan extends AppCompatActivity {
         mViewModel.initAppDocs(TransNox);
         mViewModel.setsTransNox(TransNox);
         initFileCode();
+        mViewModel.getDocumentDetailForPosting().observe(this, documentList -> {
+            try {
+                documentDetails = documentList;
+                mViewModel.setDocumentListForPosting(documentList);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getDocumentDetailForPosting().observe(Activity_DocumentToScan.this, documentList -> mViewModel.setDocumentListForPosting(documentList));
 
 
 
@@ -137,8 +156,6 @@ public class Activity_DocumentToScan extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
             finish();
-        }else if(item.getItemId() == R.id.action_menu_post_application){
-
         }
         return super.onOptionsItemSelected(item);
     }
@@ -163,6 +180,7 @@ public class Activity_DocumentToScan extends AppCompatActivity {
         lblModelName = findViewById(R.id.lbl_modelName);
         lblAccntTern = findViewById(R.id.lbl_accntTerm);
         lblMobileNo = findViewById(R.id.lbl_mobileNo);
+        documentDetails = new ArrayList<>();
 
     }
 
@@ -182,11 +200,12 @@ public class Activity_DocumentToScan extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ImageFileCreator.GCAMERA){
-
             if(resultCode == RESULT_OK) {
                 cameraCapture(mCurrentPhotoPath);
                 startActivityForResult(new Intent(this, ImageCrop.class), CROP_REQUEST_CODE);
 
+            }else {
+                ScannerConstants.selectedImageBitmap = null;
             }
         }
         if (requestCode == CROP_REQUEST_CODE ) {

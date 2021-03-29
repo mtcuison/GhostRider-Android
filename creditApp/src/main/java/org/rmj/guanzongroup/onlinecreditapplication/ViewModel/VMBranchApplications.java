@@ -38,6 +38,7 @@ import org.rmj.g3appdriver.GRider.ImportData.Import_CreditAppList;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.gocas.base.GOCASApplication;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class VMBranchApplications extends AndroidViewModel {
     private final RBranchLoanApplication poCreditApp;
     private final Import_CreditAppList poImport;
     private final REmployee poEmploye;
-    private final List<ECreditApplication> eCreditApplication;
+    private List<ECreditApplication> eCreditApplication;
     private final RCreditApplication rCreditApp;
     private final SessionManager poSession;
     public VMBranchApplications(@NonNull Application application) {
@@ -71,6 +72,7 @@ public class VMBranchApplications extends AndroidViewModel {
         rCreditApp = new RCreditApplication(application);
         eCreditApplication = rCreditApp.getAllCreditOnlineApplication().getValue();
         poSession = new SessionManager(application);
+
     }
     public interface OnImportCallBack{
         void onStartImport();
@@ -83,6 +85,7 @@ public class VMBranchApplications extends AndroidViewModel {
     }
 
     public LiveData<List<EBranchLoanApplication>> getBranchCreditApplication(){
+//
         return poCreditApp.getBranchCreditApplication();
     }
     public void ImportRBranchApplications(OnImportCallBack callBack){
@@ -103,19 +106,22 @@ public class VMBranchApplications extends AndroidViewModel {
     }
 
 
-    private static class ImportBranchApplications extends AsyncTask<JSONObject, Void, String>{
+    private class ImportBranchApplications extends AsyncTask<JSONObject, Void, String>{
         private final HttpHeaders headers;
         private final RBranchLoanApplication brnRepo;
         private final ConnectionUtil conn;
         private final WebApi webApi;
         private final OnImportCallBack callback;
-
+        private final List<ECreditApplication> eCreditApplications;
+        private final RCreditApplication rCreditApps;
         public ImportBranchApplications(Application instance,  OnImportCallBack callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.brnRepo = new RBranchLoanApplication(instance);
             this.conn = new ConnectionUtil(instance);
             this.webApi = new WebApi(instance);
             this.callback = callback;
+            this.rCreditApps = new RCreditApplication(instance);
+            this.eCreditApplications = rCreditApps.getAllCreditOnlineApplication().getValue();
         }
 
         @Override
@@ -137,11 +143,10 @@ public class VMBranchApplications extends AndroidViewModel {
                         JSONArray laJson = jsonResponse.getJSONArray("detail");
                         if(!brnRepo.insertBranchApplicationInfos(laJson)){
                             response = AppConstants.ERROR_SAVING_TO_LOCAL();
+                            //brnRepo.insertFromApplication();
                         }
                     }
                 } else {
-
-//                    brnRepo.insertBranchApplicationInfos(laJson);
                     response = AppConstants.SERVER_NO_RESPONSE();
                 }
             } catch (Exception e){
@@ -165,6 +170,9 @@ public class VMBranchApplications extends AndroidViewModel {
                     callback.onImportFailed(message);
                 }
             } catch (JSONException e) {
+                e.printStackTrace();
+                callback.onImportFailed(e.getMessage());
+            }catch (NullPointerException e) {
                 e.printStackTrace();
                 callback.onImportFailed(e.getMessage());
             } catch (Exception e) {

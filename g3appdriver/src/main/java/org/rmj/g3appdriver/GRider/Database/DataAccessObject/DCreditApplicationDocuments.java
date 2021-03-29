@@ -67,6 +67,9 @@ import java.util.List;
             "ORDER BY a.nEntryNox ASC")
     LiveData<List<ApplicationDocument>> getDocumentInfo(String TransNox);
 
+    @Query("SELECT a.sTransNox, a.sFileCode, a.nEntryNox, a.sImageNme, a.sFileLoc FROM Credit_Online_Application_Documents a LEFT JOIN Image_Information b ON a.sFileCode = b.sFileCode AND a.sTransNox = b.sSourceNo WHERE b.cSendStat != 1")
+    LiveData<List<ApplicationDocument>> getDocumentDetailForPosting();
+
     class ApplicationDocument{
         public String sTransNox;
         public String sFileCode;

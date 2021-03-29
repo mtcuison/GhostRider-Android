@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
@@ -55,6 +56,7 @@ public class VMDocumentToScan extends AndroidViewModel {
     private final MutableLiveData<Integer> nEntryNox = new MutableLiveData<>();
     private final MutableLiveData<String> sFileLoc = new MutableLiveData<>();
 
+    private final MutableLiveData<List<DCreditApplicationDocuments.ApplicationDocument>> plDetail = new MutableLiveData();
     public VMDocumentToScan(@NonNull Application application) {
         super(application);
         this.instance = application;
@@ -85,6 +87,14 @@ public class VMDocumentToScan extends AndroidViewModel {
     public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentInfos(String TransNox) {
         return this.poDocument.getDocumentInfos(TransNox);
     }
+    public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentDetailForPosting() {
+        return this.poDocument.getDocumentDetailForPosting();
+    }
+    public void setDocumentListForPosting(List<DCreditApplicationDocuments.ApplicationDocument> documentList){
+        this.plDetail.setValue(documentList);
+    }
+
+
 
     public void initAppDocs(String transNox) {
         try {

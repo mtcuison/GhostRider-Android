@@ -11,6 +11,7 @@ import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.AppDatabase;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
@@ -54,7 +55,9 @@ public class RCreditApplicationDocument {
         return documentsDao.getDocumentInfo(TransNox);
     }
 
-
+    public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentDetailForPosting(){
+        return documentsDao.getDocumentDetailForPosting();
+    }
 
     private static class InsertTask extends AsyncTask<ECreditApplicationDocuments, Void, String>{
         private final DCreditApplicationDocuments documentsDao;

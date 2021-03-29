@@ -21,6 +21,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluationListAdapter;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluatorAdapter;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CreditEvaluationModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCreditEvaluator;
@@ -31,10 +32,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class Activity_CreditEvaluator extends AppCompatActivity implements VMCreditEvaluator.OnImportCallBack {
+    private static final String TAG = Activity_CreditEvaluator.class.getSimpleName();
     private RecyclerView recyclerViewClient;
     private VMCreditEvaluator mViewModel;
     private LinearLayoutManager layoutManager;
-    private CreditEvaluationListAdapter adapter;
+    private CreditEvaluatorAdapter adapter;
     private LinearLayout loading;
     private List<CreditEvaluationModel> creditList;
     private LoadDialog poDialogx;
@@ -125,9 +127,12 @@ public class Activity_CreditEvaluator extends AppCompatActivity implements VMCre
                     loan.setcTranStat(brnCreditList.get(x).getTranStat());
                     loan.setdTimeStmp(brnCreditList.get(x).getTimeStmp());
                     creditList.add(loan);
-                    Log.e("Loan List", String.valueOf(loan));
+                    if (brnCreditList.get(x).getCreatedX().equalsIgnoreCase("GAP0190799")){
+                        Log.e(TAG, "sCredInvx = " + brnCreditList.get(x).getCredInvx());
+                    }
+
                 }
-                adapter = new CreditEvaluationListAdapter(creditList, new CreditEvaluationListAdapter.OnApplicationClickListener() {
+                adapter = new CreditEvaluatorAdapter(creditList, new CreditEvaluatorAdapter.OnApplicationClickListener() {
                     @Override
                     public void OnClick(int position, List<CreditEvaluationModel> creditLists) {
 //                                mViewModel.getDocument(creditLists.get(position).getTransNox()).observe(Activity_CreditEvaluator.this, data -> {
@@ -149,6 +154,7 @@ public class Activity_CreditEvaluator extends AppCompatActivity implements VMCre
                 LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_CreditEvaluator.this);
                 recyclerViewClient.setAdapter(adapter);
                 recyclerViewClient.setLayoutManager(layoutManager);
+                adapter.notifyDataSetChanged();
 
                 txtSearch.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -164,6 +170,7 @@ public class Activity_CreditEvaluator extends AppCompatActivity implements VMCre
                             adapter.notifyDataSetChanged();
                             if (adapter.getItemCount() == 0){
                                 layoutNoRecord.setVisibility(View.VISIBLE);
+
                             }else {
                                 layoutNoRecord.setVisibility(View.GONE);
                             }
@@ -178,7 +185,7 @@ public class Activity_CreditEvaluator extends AppCompatActivity implements VMCre
                     }
                 });
             }else {
-                Log.e("Application List ", String.valueOf(brnCreditList.toArray()));
+                layoutNoRecord.setVisibility(View.VISIBLE);
             }
         });
     }
