@@ -40,20 +40,20 @@ public class RBranchLoanApplication {
                 JSONObject loJson = faJson.getJSONObject(x);
                 EBranchLoanApplication loanInfo = new EBranchLoanApplication();
                 loanInfo.setTransNox(loJson.getString("sTransNox"));
-                loanInfo.setTransNox(loJson.getString("sBranchCd"));
-                loanInfo.setTransNox(loJson.getString("dTransact"));
-                loanInfo.setTransNox(loJson.getString("sCredInvx"));
-                loanInfo.setTransNox(loJson.getString("sCompnyNm"));
-                loanInfo.setTransNox(loJson.getString("sSpouseNm"));
-                loanInfo.setTransNox(loJson.getString("sAddressx"));
-                loanInfo.setTransNox(loJson.getString("sMobileNo"));
-                loanInfo.setTransNox(loJson.getString("sQMAppCde"));
-                loanInfo.setTransNox(loJson.getString("sModelNme"));
-                loanInfo.setTransNox(loJson.getString("nDownPaym"));
-                loanInfo.setTransNox(loJson.getString("nAcctTerm"));
-                loanInfo.setTransNox(loJson.getString("sCreatedx"));
-                loanInfo.setTransNox(loJson.getString("cTranStat"));
-                loanInfo.setTransNox(loJson.getString("dTimeStmp"));
+                loanInfo.setBranchCD(loJson.getString("sBranchCd"));
+                loanInfo.setTransact(loJson.getString("dTransact"));
+                loanInfo.setCredInvx(loJson.getString("sCredInvx"));
+                loanInfo.setCompnyNm(loJson.getString("sCompnyNm"));
+                loanInfo.setSpouseNm(loJson.getString("sSpouseNm"));
+                loanInfo.setAddressx(loJson.getString("sAddressx"));
+                loanInfo.setMobileNo(loJson.getString("sMobileNo"));
+                loanInfo.setQMAppCde(loJson.getString("sQMAppCde"));
+                loanInfo.setModelNme(loJson.getString("sModelNme"));
+                loanInfo.setDownPaym(loJson.getString("nDownPaym"));
+                loanInfo.setAcctTerm(loJson.getString("nAcctTerm"));
+                loanInfo.setCreatedX(loJson.getString("sCreatedx"));
+                loanInfo.setTranStat(loJson.getString("cTranStat"));
+                loanInfo.setTimeStmp(loJson.getString("dTimeStmp"));
                 loanApplications.add(loanInfo);
             }
             docsDao.insertBulkData(loanApplications);
@@ -80,6 +80,7 @@ public class RBranchLoanApplication {
 
     public void insertNewLoanApplication(EBranchLoanApplication loanApplication){
         docsDao.insertNewApplication(loanApplication);
+
     }
 
     private static class InsertBulkBranchApplicationListAsyncTask extends AsyncTask<List<EBranchLoanApplication>, Void, Void> {

@@ -181,9 +181,7 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
                     }
                 });
             }else {
-//                poDialogx.initDialog("Branch Applications Document List", "Fetching data from local database. Please wait...", false);
-//                poDialogx.show();
-                Log.e("Branch List", String.valueOf(brnCreditList));
+                layoutNoRecord.setVisibility(View.VISIBLE);
             }
         });
     }

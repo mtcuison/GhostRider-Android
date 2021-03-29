@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Activity_EvaluationList extends AppCompatActivity implements VMEvaluationList.OnImportCallBack {
+    private static final String TAG = Activity_EvaluationList.class.getSimpleName();
     private RecyclerView recyclerViewClient;
     private VMEvaluationList mViewModel;
     private LinearLayoutManager layoutManager;
@@ -120,7 +121,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
                     loan.setcTranStat(brnCreditList.get(x).getTranStat());
                     loan.setdTimeStmp(brnCreditList.get(x).getTimeStmp());
                     creditList.add(loan);
-                    Log.e("Loan List", String.valueOf(loan));
+                    Log.e(TAG, String.valueOf(loan));
                 }
                 adapter = new CreditEvaluationListAdapter(creditList, new CreditEvaluationListAdapter.OnApplicationClickListener() {
                     @Override
@@ -144,7 +145,12 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
                 LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_EvaluationList.this);
                 recyclerViewClient.setAdapter(adapter);
                 recyclerViewClient.setLayoutManager(layoutManager);
-
+                adapter.notifyDataSetChanged();
+                if (adapter.getItemCount() == 0){
+                    layoutNoRecord.setVisibility(View.VISIBLE);
+                }else {
+                    layoutNoRecord.setVisibility(View.GONE);
+                }
                 txtSearch.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -173,7 +179,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
                     }
                 });
             }else {
-                Log.e("Application List ", String.valueOf(brnCreditList.toArray()));
+                layoutNoRecord.setVisibility(View.VISIBLE);
             }
         });
     }

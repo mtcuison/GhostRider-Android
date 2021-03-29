@@ -116,7 +116,8 @@ public class ClientInfo extends AppCompatActivity {
             public void OnClick(int position) {
                 poImageInfo = new EImageInfo();
                 poDocumentsInfo = new ECreditApplicationDocuments();
-                poFilexx = new ImageFileCreator(ClientInfo.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP_DOCUMENTS, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
+//                poFilexx = new ImageFileCreator(ClientInfo.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP_DOCUMENTS, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
+                poFilexx = new ImageFileCreator(ClientInfo.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
                 poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
                     mCurrentPhotoPath = photPath;
                     ScannerConstants.Usage =camUsage;
@@ -172,7 +173,7 @@ public class ClientInfo extends AppCompatActivity {
     }
     public void setData(){
         TransNox = getIntent().getStringExtra("TransNox");
-        lblTransNoxxx.setText(TransNox);
+        lblTransNoxxx.setText("TransNox. :" + TransNox);
         lblClientName.setText(getIntent().getStringExtra("ClientNm"));
         lblAppltnDate.setText(getIntent().getStringExtra("dTransact"));
 //        lblStatus.setText(getIntent().getStringExtra("Status"));

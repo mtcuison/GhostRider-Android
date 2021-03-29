@@ -27,6 +27,13 @@ public interface DImageInfo {
             "WHERE sTransNox =:oldTransNox")
     void updateImageInfo(String TransNox, String DateModifield, String oldTransNox);
 
+    @Query("UPDATE Image_Information " +
+            "SET sTransNox =:TransNox, " +
+            "cSendStat = '1', " +
+            "dSendDate =:DateModifield " +
+            "WHERE sFileCode =:fileCode")
+    void updateImageInfos(String TransNox, String DateModifield, String fileCode);
+
     @Query("SELECT * FROM Image_Information " +
             "WHERE sSourceNo = (SELECT sTransNox " +
             "FROM LR_DCP_Collection_Master " +
