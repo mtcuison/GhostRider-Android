@@ -44,4 +44,19 @@ public interface DBarangayInfo {
 
     @Query("SELECT sBrgyName FROM Barangay_Info WHERE sBrgyIDxx = :fsID")
     LiveData<String> getBarangayInfoFromID(String fsID);
+
+    @Query("SELECT a.sBrgyName, " +
+            "b.sTownName, " +
+            "c.sProvName FROM Barangay_Info a " +
+            "LEFT JOIN Town_Info b ON a.sTownIDxx = b.sTownIDxx " +
+            "LEFT JOIN Province_Info c ON b.sProvIDxx = c.sProvIDxx " +
+            "WHERE a.sBrgyIDxx =:BrgyID")
+    BrgyTownProvNames getAddressInfo(String BrgyID);
+
+
+    class BrgyTownProvNames{
+        public String sBrgyName;
+        public String sTownName;
+        public String sProvName;
+    }
 }

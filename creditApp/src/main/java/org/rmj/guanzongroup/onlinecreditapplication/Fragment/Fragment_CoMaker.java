@@ -250,7 +250,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
             poMessage.setMessage("Send loan application without co-maker info?");
             poMessage.setPositiveButton("Yes", (view, dialog) -> {
                 dialog.dismiss();
-                saveApplicantInfo();
+                Activity_CreditApplication.getInstance().moveToPageNumber(18);
             });
             poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
             poMessage.show();
@@ -287,41 +287,5 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void saveApplicantInfo(){
-        mViewModel.SaveCreditOnlineApplication(new UploadCreditApp.OnUploadLoanApplication() {
-            @Override
-            public void OnUpload() {
-                poDialogx.initDialog("Credit Application", "Sending loan application. Please wait...", false);
-                poDialogx.show();
-            }
-
-            @Override
-            public void OnSuccess(String clientName) {
-                poDialogx.dismiss();
-                poMessage.initDialog();
-                poMessage.setTitle("Credit Application");
-                poMessage.setMessage("Loan application of " + clientName + " has been sent.");
-                poMessage.setPositiveButton("Okay", (view1, dialog1) -> {
-                    dialog1.dismiss();
-                    requireActivity().finish();
-                });
-                poMessage.show();
-            }
-
-            @Override
-            public void OnFailed(String message1) {
-                poDialogx.dismiss();
-                poMessage.initDialog();
-                poMessage.setTitle("Credit Application");
-                poMessage.setMessage(message1);
-                poMessage.setPositiveButton("Okay", (view1, dialog1) -> {
-                        dialog1.dismiss();
-                        requireActivity().finish();
-                });
-                poMessage.show();
-            }
-        });
     }
 }

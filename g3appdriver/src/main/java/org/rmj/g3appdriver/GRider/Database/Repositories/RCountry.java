@@ -55,6 +55,10 @@ public class RCountry {
         return countryDao.getLatestDataTime();
     }
 
+    public ECountryInfo getCountryInfo(String ID){
+        return countryDao.getCountryInfo(ID);
+    }
+
     public void insertCountryInfo(JSONArray faJson) throws Exception{
         GConnection loConn = DbConnection.doConnect(application);
 

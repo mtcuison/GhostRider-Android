@@ -50,6 +50,10 @@ public class RMcModel {
         mcModelDao.insertBulkData(modelList);
     }
 
+    public EMcModel getModelInfo(String TransNox){
+        return mcModelDao.getModelInfo(TransNox);
+    }
+
     public void saveMcModelInfo(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
 
