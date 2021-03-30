@@ -802,7 +802,7 @@ public class VMCollectionList extends AndroidViewModel {
                                             isDataSent[x] = true;
 
                                             //call sending CNA details....
-                                            sendCNADetails(loDetail.sRemCodex, loDetail.sAcctNmbr);
+                                            sendCNADetails(loDetail.sRemCodex, loDetail.sTransNox);
                                         } else {
                                             JSONObject loError = loResponse.getJSONObject("error");
                                             Log.e(TAG, loError.getString("message"));
@@ -862,7 +862,7 @@ public class VMCollectionList extends AndroidViewModel {
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        void sendCNADetails(String fsRemCode, String fsAccntNo) throws Exception {
+        void sendCNADetails(String fsRemCode, String fsTransno) throws Exception {
             if (fsRemCode != null && fsRemCode.equalsIgnoreCase("CNA")) {
                 if (paAddress.size() == 0) {
                     Log.e(TAG, "paAddress is Empty");
@@ -885,7 +885,7 @@ public class VMCollectionList extends AndroidViewModel {
                         param.put("nLongitud", Double.parseDouble(info.getLongitud()));
                         param.put("sRemarksx", info.getRemarksx());
                         param.put("sSourceCD", "DCPa");
-                        param.put("sSourceNo", info.getTransNox());
+                        param.put("sSourceNo", fsTransno);
 
                         Log.e("Address JsonParam", param.toString());
 
@@ -922,7 +922,7 @@ public class VMCollectionList extends AndroidViewModel {
                         param.put("cPrimaryx", info.getPrimaryx());
                         param.put("sRemarksx", info.getRemarksx());
                         param.put("sSourceCD", "DCPa");
-                        param.put("sSourceNo", info.getTransNox());
+                        param.put("sSourceNo", fsTransno);
 
                         Log.e("Mobile JsonParam", param.toString());
 
