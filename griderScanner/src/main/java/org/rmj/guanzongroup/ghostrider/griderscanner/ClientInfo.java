@@ -107,7 +107,7 @@ public class ClientInfo extends AppCompatActivity {
         contentResolver = this.getContentResolver();
         setData();
 
-        ScannerConstants.TransNox = lblTransNoxxx.getText().toString();
+        ScannerConstants.TransNox = TransNox; //lblTransNoxxx.getText().toString()
         mViewModel.initAppDocs(TransNox);
         mViewModel.setsTransNox(TransNox);
         mViewModel.getDocumentInfos(TransNox).observe(ClientInfo.this, fileCodeDetails -> {
@@ -173,7 +173,7 @@ public class ClientInfo extends AppCompatActivity {
     }
     public void setData(){
         TransNox = getIntent().getStringExtra("TransNox");
-        lblTransNoxxx.setText("TransNox. :" + TransNox);
+        lblTransNoxxx.setText("Trans. No: " + TransNox);
         lblClientName.setText(getIntent().getStringExtra("ClientNm"));
         lblAppltnDate.setText(getIntent().getStringExtra("dTransact"));
 //        lblStatus.setText(getIntent().getStringExtra("Status"));
