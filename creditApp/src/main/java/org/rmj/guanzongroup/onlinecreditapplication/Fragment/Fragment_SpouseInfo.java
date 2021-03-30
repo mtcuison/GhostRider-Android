@@ -253,7 +253,7 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
 
 
         txtBDate.addTextChangedListener(new OnDateSetListener(txtBDate));
-        btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(1));
+        btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(6));
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -307,7 +307,7 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
     @SuppressLint("RestrictedApi")
     @Override
     public void onSaveSuccessResult(String args) {
-        Activity_CreditApplication.getInstance().moveToPageNumber(3);
+        Activity_CreditApplication.getInstance().moveToPageNumber(8);
     }
 
     @Override

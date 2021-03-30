@@ -171,7 +171,10 @@ public class SpouseEmploymentInfoModel {
     }
 
     public long getGrossMonthly() {
-        return Long.parseLong(grossMonthly.replace(",", ""));
+        if(!grossMonthly.equalsIgnoreCase("")) {
+            return Long.parseLong(grossMonthly.replace(",", ""));
+        }
+        return 0;
     }
 
     public void setGrossMonthly(String grossMonthly) {
