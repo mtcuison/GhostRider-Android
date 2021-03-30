@@ -11,43 +11,29 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.rmj.apprdiver.util.WebFile;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
-import org.rmj.g3appdriver.GRider.ImportData.ImportDataCallback;
-import org.rmj.g3appdriver.GRider.ImportData.Import_LoanApplications;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 public class VMClientInfo extends AndroidViewModel {
     private static final String TAG = VMClientInfo.class.getSimpleName();
@@ -137,10 +123,10 @@ public class VMClientInfo extends AndroidViewModel {
         }
     }
 
-    public void PostDocumentScanDetail( ECreditApplicationDocuments poDocumentsInfo,ViewModelCallBack callback){
+    public void PostDocumentScanDetail( ECreditApplicationDocuments poDocumentsInfo,ViewModelCallBack callback) {
         try {
-            new PostDocumentScanDetail(instance,poDocumentsInfo, poDocumentsInfo.getTransNox(), poDocumentsInfo.getFileCode(), poDocumentsInfo.getEntryNox(), poDocumentsInfo.getImageNme(),poDocumentsInfo.getFileLoc(),callback).execute();
-        }catch (Exception e){
+            new PostDocumentScanDetail(instance, poDocumentsInfo, poDocumentsInfo.getTransNox(), poDocumentsInfo.getFileCode(), poDocumentsInfo.getEntryNox(), poDocumentsInfo.getImageNme(), poDocumentsInfo.getFileLoc(), callback).execute();
+        } catch (Exception e) {
         }
     }
 
@@ -160,8 +146,8 @@ public class VMClientInfo extends AndroidViewModel {
         private final String psFileLoc;
         private final ECreditApplicationDocuments poDocumentsInfos;
 
-        public PostDocumentScanDetail(Application instance,ECreditApplicationDocuments poDocumentsInfo, String TransNox, String FilCode, int EntryNox, String ImgName,
-                                      String FileLoc, ViewModelCallBack callback){
+        public PostDocumentScanDetail(Application instance, ECreditApplicationDocuments poDocumentsInfo, String TransNox, String FilCode, int EntryNox, String ImgName,
+                                      String FileLoc, ViewModelCallBack callback) {
             this.poConn = new ConnectionUtil(instance);
             this.poUser = new SessionManager(instance);
             this.pnEntryNox = EntryNox;
@@ -183,51 +169,49 @@ public class VMClientInfo extends AndroidViewModel {
         protected String doInBackground(Void... voids) {
             String lsResult;
             try {
-                if(!poConn.isDeviceConnected()){
+                if (!poConn.isDeviceConnected()) {
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
 
                     String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
                     String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
-                    if(lsClient.isEmpty() || lsAccess.isEmpty()){
+                    if (lsClient.isEmpty() || lsAccess.isEmpty()) {
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
                     } else {
-                        org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(psFileLoc,
-                                lsAccess,
-                                psFileCode,
-                                psTransNox,
-                                psImageName,
-                                poUser.getBranchCode(),
-                                "COAD",
-                                psTransNox,
-                                "");
+                        JSONObject loUpload = WebFileServer.UploadFile(psFileLoc,
+                                                                        lsAccess,
+                                                                        psFileCode,
+                                                                        psTransNox,
+                                                                        psImageName,
+                                                                        poUser.getBranchCode(),
+                                                                        "COAD",
+                                                                        psTransNox,
+                                                                        "");
 
 
                         String lsResponse = (String) loUpload.get("result");
                         lsResult = String.valueOf(loUpload);
                         Log.e(TAG, "Uploading image result : " + lsResponse);
-//
-                        if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success"))
-                        {
+
+                        if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
                             String lsTransNo = (String) loUpload.get("sTransNox");
                             poImage.updateImageInfo(lsTransNo, psTransNox);
-
                         } else {
-
-                            Log.e(TAG, "Image file of Account No. " + psTransNox + ", Entry No. "+ pnEntryNox+ " was not uploaded to server.");
-
+                            Log.e(TAG, "Image file of Account No. " + psTransNox + ", Entry No. " + pnEntryNox + " was not uploaded to server.");
                             Log.e(TAG, "Reason : " + lsResponse);
-                            JSONObject loError = new JSONObject(lsResponse);
-                            lsResult =loError.getString("message");
-                            Log.e(TAG, "Reason : " + loError.getString("message"));
+
+                            JSONParser loParser = new JSONParser();
+                            JSONObject loError = (JSONObject) loParser.parse((String) loUpload.get("error"));
+                            lsResult = (String) loError.get("message");
+                            Log.e(TAG, "Reason : " + lsResult);
                         }
 
                         Thread.sleep(1000);
                     }
                 }
 
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
             }
@@ -241,32 +225,136 @@ public class VMClientInfo extends AndroidViewModel {
         }
 
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONParser loParser = new JSONParser();
+                JSONObject loJson = (JSONObject) loParser.parse(s);
+                if ("success".equalsIgnoreCase((String) loJson.get("result"))) {
+                    callback.OnSuccessResult(new String[]{ScannerConstants.FileDesc + " has been posted successfully."});
+                } else {
+                    JSONObject loError = (JSONObject) loParser.parse((String) loJson.get("error"));
+                    callback.OnFailedResult((String) loError.get("message"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+    //mac 2021.03.30
+    //  download image from server
+    public void DownloadDocumentFile(ECreditApplicationDocuments poDocumentsInfo, String fsSourceNo, ViewModelCallBack callback) {
+        try {
+            new DownloadDocumentFile(instance, poDocumentsInfo, fsSourceNo, callback).execute();
+        } catch (Exception e) {
+        }
+    }
+
+    public static class DownloadDocumentFile extends AsyncTask<Void, Void, String> {
+        private final ConnectionUtil poConn;
+        private final ViewModelCallBack callback;
+        private final SessionManager poUser;
+        private final RImageInfo poImage;
+        private final ECreditApplicationDocuments poFileInfo;
+        private final String psSourceNo;
+
+        public DownloadDocumentFile(Application instance, ECreditApplicationDocuments foFileInfo, String fsSourceNo, ViewModelCallBack callback) {
+            this.poConn = new ConnectionUtil(instance);
+            this.poUser = new SessionManager(instance);
+            this.poFileInfo = foFileInfo;
+            this.psSourceNo = fsSourceNo;
+            this.callback = callback;
+            this.poImage = new RImageInfo(instance);
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected String doInBackground(Void... voids) {
+            String lsResult;
+            try {
+                if (!poConn.isDeviceConnected()) {
+                    lsResult = AppConstants.NO_INTERNET();
+                } else {
+
+                    String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                    String lsAccess = WebFileServer.RequestAccessToken(lsClient);
+
+                    if (lsClient.isEmpty() || lsAccess.isEmpty()) {
+                        lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
+                    } else {
+                        JSONObject loDownload = WebFileServer.DownloadFile(lsAccess,
+                                                                            poFileInfo.getFileCode(),
+                                                                            "",
+                                                                            poFileInfo.getImageNme(),
+                                                                            "COAD",
+                                                                            psSourceNo,
+                                                                            "");
+
+                        String lsResponse = (String) loDownload.get("result");
+                        lsResult = String.valueOf(loDownload);
+                        Log.e(TAG, "Downloading image result : " + lsResponse);
+
+                        if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
+                            //convert to image and save to proper file location
+                            if (WebFile.Base64ToFile((String) loDownload.get("data"),
+                                                        (String) loDownload.get("hash"),
+                                                        poFileInfo.getFileLoc(),
+                                                        (String) loDownload.get("filename")))
+                                Log.d(TAG, "File hash was converted to file successfully.");
+                            else
+                                Log.e(TAG, "Unable to convert file.");
+                            //end - convert to image and save to proper file location
+
+                            //insert entry to image info
+                            EImageInfo loImage = new EImageInfo();
+                            loImage.setTransNox((String) loDownload.get("transnox"));
+                            //loImage....
+                            //end - insert entry to image info
+
+                            //todo:
+                            //insert/update entry to credit_online_application_documents
+                        } else {
+                            Log.e(TAG, "Unable to download image from server. Transaction No.: " + poFileInfo.getTransNox() + ", Filename: " + poFileInfo.getImageNme() + ".");
+                            Log.e(TAG, "Reason : " + lsResponse);
+
+                            JSONParser loParser = new JSONParser();
+                            JSONObject loError = (JSONObject) loParser.parse((String) loDownload.get("error"));
+                            lsResult = (String) loError.get("message");
+                            Log.e(TAG, "Reason : " + lsResult);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+            }
+            return lsResult;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnStartSaving();
+        }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            try{
-
-                JSONObject loJson = new JSONObject(s);
-                if(loJson.getString("result").equalsIgnoreCase("success")){
-                    callback.OnSuccessResult(new String[]{ScannerConstants.FileDesc +" has been posted successfully."});
+            try {
+                JSONParser loParser = new JSONParser();
+                JSONObject loJson = (JSONObject) loParser.parse(s);
+                if ("success".equalsIgnoreCase((String) loJson.get("result"))) {
+                    callback.OnSuccessResult(new String[]{ScannerConstants.FileDesc + " has been downloaded successfully."});
                 } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    callback.OnFailedResult(loError.getString("message"));
+                    JSONObject loError = (JSONObject) loParser.parse((String) loJson.get("error"));
+                    callback.OnFailedResult((String) loError.get("message"));
                 }
-            } catch (JSONException e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-//            this.cancel(true);
-
         }
-
-
     }
-
-
+    //end - mac 2021.03.30
 }
