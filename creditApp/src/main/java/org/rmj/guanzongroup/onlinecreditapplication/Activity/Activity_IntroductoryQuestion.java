@@ -173,7 +173,6 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
 
         mViewModel.getMonthlyAmort().observe(this, s -> txtAmort.setText(s));
         btnCreate.setOnClickListener(view -> submitNewApplication());
-        //btnCreate.setOnClickListener(v -> mViewModel.tesCreditApp());
     }
 
     private void initWidgets(){

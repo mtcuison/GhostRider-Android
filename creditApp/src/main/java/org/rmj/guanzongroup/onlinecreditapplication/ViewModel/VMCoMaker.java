@@ -250,7 +250,8 @@ public class VMCoMaker extends AndroidViewModel {
         @Override
         protected String doInBackground(RCreditApplicant... rApplicant) {
             try{
-                if(infoModel.isCoMakerInfoValid() && poInfo.getIsComakr().equalsIgnoreCase("1")) {
+//                && poInfo.getIsComakr().equalsIgnoreCase("1")
+                if(infoModel.isCoMakerInfoValid() ) {
                     poGoCas.CoMakerInfo().setLastName(infoModel.getCoLastName());
                     poGoCas.CoMakerInfo().setFirstName(infoModel.getCoFrstName());
                     poGoCas.CoMakerInfo().setMiddleName(infoModel.getCoMiddName());

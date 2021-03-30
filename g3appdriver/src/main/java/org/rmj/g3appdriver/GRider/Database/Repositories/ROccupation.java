@@ -34,6 +34,10 @@ public class ROccupation {
         OccupationDao.insertBulkData(occupationInfos);
     }
 
+    public String getOccupationName(String ID){
+        return OccupationDao.getOccupationName(ID);
+    }
+
     public String getLatestDataTime(){
         return OccupationDao.getLatestDataTime();
     }

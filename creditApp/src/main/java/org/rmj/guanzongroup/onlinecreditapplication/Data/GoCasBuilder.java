@@ -324,61 +324,67 @@ public class GoCasBuilder {
     }
 
     private void setupDisbursementInfo() throws Exception{
-        JSONObject loDisb = new JSONObject(poInfo.getDisbrsmt());
-        JSONObject loExp = loDisb.getJSONObject("monthly_expenses");
-        poGOCas.DisbursementInfo().Expenses().setElectricBill(Double.parseDouble(loExp.getString("nElctrcBl")));
-        poGOCas.DisbursementInfo().Expenses().setFoodAllowance(Double.parseDouble(loExp.getString("nFoodAllw")));
-        poGOCas.DisbursementInfo().Expenses().setWaterBill(Double.parseDouble(loExp.getString("nWaterBil")));
-        poGOCas.DisbursementInfo().Expenses().setLoanAmount(Double.parseDouble((loExp.getString("nLoanAmtx"))));
+        if(poInfo.getDisbrsmt() != null) {
+            JSONObject loDisb = new JSONObject(poInfo.getDisbrsmt());
+            JSONObject loExp = loDisb.getJSONObject("monthly_expenses");
+            poGOCas.DisbursementInfo().Expenses().setElectricBill(Double.parseDouble(loExp.getString("nElctrcBl")));
+            poGOCas.DisbursementInfo().Expenses().setFoodAllowance(Double.parseDouble(loExp.getString("nFoodAllw")));
+            poGOCas.DisbursementInfo().Expenses().setWaterBill(Double.parseDouble(loExp.getString("nWaterBil")));
+            poGOCas.DisbursementInfo().Expenses().setLoanAmount(Double.parseDouble((loExp.getString("nLoanAmtx"))));
 
-        JSONObject loBank = loDisb.getJSONObject("bank_account");
-        poGOCas.DisbursementInfo().BankAccount().setBankName(Objects.requireNonNull(loBank.getString("sBankName")));
-        poGOCas.DisbursementInfo().BankAccount().setAccountType(Objects.requireNonNull(loBank.getString("sAcctType")));
+            JSONObject loBank = loDisb.getJSONObject("bank_account");
+            poGOCas.DisbursementInfo().BankAccount().setBankName(Objects.requireNonNull(loBank.getString("sBankName")));
+            poGOCas.DisbursementInfo().BankAccount().setAccountType(Objects.requireNonNull(loBank.getString("sAcctType")));
 
-        JSONObject loCrdit = loDisb.getJSONObject("credit_card");
-        poGOCas.DisbursementInfo().CreditCard().setBankName(Objects.requireNonNull(loCrdit.getString("sBankName")));
-        poGOCas.DisbursementInfo().CreditCard().setCreditLimit(Double.parseDouble(loCrdit.getString("nCrdLimit")));
-        poGOCas.DisbursementInfo().CreditCard().setMemberSince(Integer.parseInt(loCrdit.getString("nSinceYrx")));
+            JSONObject loCrdit = loDisb.getJSONObject("credit_card");
+            poGOCas.DisbursementInfo().CreditCard().setBankName(Objects.requireNonNull(loCrdit.getString("sBankName")));
+            poGOCas.DisbursementInfo().CreditCard().setCreditLimit(Double.parseDouble(loCrdit.getString("nCrdLimit")));
+            poGOCas.DisbursementInfo().CreditCard().setMemberSince(Integer.parseInt(loCrdit.getString("nSinceYrx")));
+        }
     }
 
     private void setupDependentInfo() throws Exception {
-        JSONObject loDependent = new JSONObject(poInfo.getDependnt());
-        Log.e(TAG, poInfo.getDependnt());
-        JSONArray loDpd = loDependent.getJSONArray("children");
-        for(int x = 0; x < loDpd.length(); x++) {
-            JSONObject dpd = loDpd.getJSONObject(x);
-            poGOCas.DisbursementInfo().DependentInfo().addDependent();
-            poGOCas.DisbursementInfo().DependentInfo().setFullName(x, dpd.getString("sFullName"));
-            poGOCas.DisbursementInfo().DependentInfo().setRelation(x, dpd.getString("sReltnCde"));
-            poGOCas.DisbursementInfo().DependentInfo().setAge(x, Integer.parseInt(dpd.getString("nDepdAgex")));
-            poGOCas.DisbursementInfo().DependentInfo().IsStudent(x, dpd.getString("cIsPupilx"));
-            poGOCas.DisbursementInfo().DependentInfo().IsWorking(x, dpd.getString("cHasWorkx"));
-            poGOCas.DisbursementInfo().DependentInfo().IsDependent(x, dpd.getString("cDependnt"));
-            poGOCas.DisbursementInfo().DependentInfo().IsHouseHold(x, dpd.getString("cHouseHld"));
-            poGOCas.DisbursementInfo().DependentInfo().IsMarried(x, dpd.getString("cIsMarrdx"));
-            poGOCas.DisbursementInfo().DependentInfo().setSchoolName(x, dpd.getString("sSchlName"));
-            poGOCas.DisbursementInfo().DependentInfo().setSchoolAddress(x, dpd.getString("sSchlAddr"));
-            poGOCas.DisbursementInfo().DependentInfo().setSchoolTown(x, dpd.getString("sSchlTown"));
-            poGOCas.DisbursementInfo().DependentInfo().setEducationalLevel(x, dpd.getString("sEducLevl"));
-            poGOCas.DisbursementInfo().DependentInfo().IsPrivateSchool(x, dpd.getString("cIsPrivte"));
-            poGOCas.DisbursementInfo().DependentInfo().IsScholar(x, dpd.getString("cIsSchlrx"));
-            poGOCas.DisbursementInfo().DependentInfo().IsWorking(x, dpd.getString("cHasWorkx"));
-            poGOCas.DisbursementInfo().DependentInfo().setWorkType(x, dpd.getString("cWorkType"));
-            poGOCas.DisbursementInfo().DependentInfo().setCompany(x, dpd.getString("sCompanyx"));
+        if(poInfo.getDependnt() != null) {
+            JSONObject loDependent = new JSONObject(poInfo.getDependnt());
+            Log.e(TAG, poInfo.getDependnt());
+            JSONArray loDpd = loDependent.getJSONArray("children");
+            for (int x = 0; x < loDpd.length(); x++) {
+                JSONObject dpd = loDpd.getJSONObject(x);
+                poGOCas.DisbursementInfo().DependentInfo().addDependent();
+                poGOCas.DisbursementInfo().DependentInfo().setFullName(x, dpd.getString("sFullName"));
+                poGOCas.DisbursementInfo().DependentInfo().setRelation(x, dpd.getString("sReltnCde"));
+                poGOCas.DisbursementInfo().DependentInfo().setAge(x, Integer.parseInt(dpd.getString("nDepdAgex")));
+                poGOCas.DisbursementInfo().DependentInfo().IsStudent(x, dpd.getString("cIsPupilx"));
+                poGOCas.DisbursementInfo().DependentInfo().IsWorking(x, dpd.getString("cHasWorkx"));
+                poGOCas.DisbursementInfo().DependentInfo().IsDependent(x, dpd.getString("cDependnt"));
+                poGOCas.DisbursementInfo().DependentInfo().IsHouseHold(x, dpd.getString("cHouseHld"));
+                poGOCas.DisbursementInfo().DependentInfo().IsMarried(x, dpd.getString("cIsMarrdx"));
+                poGOCas.DisbursementInfo().DependentInfo().setSchoolName(x, dpd.getString("sSchlName"));
+                poGOCas.DisbursementInfo().DependentInfo().setSchoolAddress(x, dpd.getString("sSchlAddr"));
+                poGOCas.DisbursementInfo().DependentInfo().setSchoolTown(x, dpd.getString("sSchlTown"));
+                poGOCas.DisbursementInfo().DependentInfo().setEducationalLevel(x, dpd.getString("sEducLevl"));
+                poGOCas.DisbursementInfo().DependentInfo().IsPrivateSchool(x, dpd.getString("cIsPrivte"));
+                poGOCas.DisbursementInfo().DependentInfo().IsScholar(x, dpd.getString("cIsSchlrx"));
+                poGOCas.DisbursementInfo().DependentInfo().IsWorking(x, dpd.getString("cHasWorkx"));
+                poGOCas.DisbursementInfo().DependentInfo().setWorkType(x, dpd.getString("cWorkType"));
+                poGOCas.DisbursementInfo().DependentInfo().setCompany(x, dpd.getString("sCompanyx"));
+            }
         }
     }
 
     private void setupProperty() throws Exception {
-        JSONObject loProperty = new JSONObject(poInfo.getProperty());
-        poGOCas.DisbursementInfo().PropertiesInfo().setLotName1(loProperty.getString("sProprty1"));
-        poGOCas.DisbursementInfo().PropertiesInfo().setLotName2(loProperty.getString("sProprty2"));
-        poGOCas.DisbursementInfo().PropertiesInfo().setLotName3(loProperty.getString("sProprty3"));
-        poGOCas.DisbursementInfo().PropertiesInfo().Has4Wheels(loProperty.getString("cWith4Whl"));
-        poGOCas.DisbursementInfo().PropertiesInfo().Has3Wheels(loProperty.getString("cWith3Whl"));
-        poGOCas.DisbursementInfo().PropertiesInfo().Has2Wheels(loProperty.getString("cWith2Whl"));
-        poGOCas.DisbursementInfo().PropertiesInfo().WithAirCon(loProperty.getString("cWithACxx"));
-        poGOCas.DisbursementInfo().PropertiesInfo().WithRefrigerator(loProperty.getString("cWithRefx"));
-        poGOCas.DisbursementInfo().PropertiesInfo().WithTelevision(loProperty.getString("cWithTVxx"));
+        if(poInfo.getProperty() != null) {
+            JSONObject loProperty = new JSONObject(poInfo.getProperty());
+            poGOCas.DisbursementInfo().PropertiesInfo().setLotName1(loProperty.getString("sProprty1"));
+            poGOCas.DisbursementInfo().PropertiesInfo().setLotName2(loProperty.getString("sProprty2"));
+            poGOCas.DisbursementInfo().PropertiesInfo().setLotName3(loProperty.getString("sProprty3"));
+            poGOCas.DisbursementInfo().PropertiesInfo().Has4Wheels(loProperty.getString("cWith4Whl"));
+            poGOCas.DisbursementInfo().PropertiesInfo().Has3Wheels(loProperty.getString("cWith3Whl"));
+            poGOCas.DisbursementInfo().PropertiesInfo().Has2Wheels(loProperty.getString("cWith2Whl"));
+            poGOCas.DisbursementInfo().PropertiesInfo().WithAirCon(loProperty.getString("cWithACxx"));
+            poGOCas.DisbursementInfo().PropertiesInfo().WithRefrigerator(loProperty.getString("cWithRefx"));
+            poGOCas.DisbursementInfo().PropertiesInfo().WithTelevision(loProperty.getString("cWithTVxx"));
+        }
     }
 
     private void setupOtherInfo() throws Exception {

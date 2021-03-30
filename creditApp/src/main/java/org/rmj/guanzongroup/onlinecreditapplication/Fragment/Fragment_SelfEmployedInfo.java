@@ -158,7 +158,7 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
         spnBussSze.setOnItemClickListener(new OnItemClickListener(spnBussSze));
         spnLngSrvc.setOnItemClickListener(new OnItemClickListener(spnLngSrvc));
         btnNext.setOnClickListener(view -> {
-            infoModel.setNatureOfBusiness(bussNtrPosition);
+            infoModel.setNatureOfBusiness(spnBussNtr.getText().toString());
             infoModel.setTypeOfBusiness(bussTypPosition);
             infoModel.setSizeOfBusiness(bussSzePosition);
             infoModel.setNameOfBusiness(Objects.requireNonNull(txtBussName.getText()).toString());

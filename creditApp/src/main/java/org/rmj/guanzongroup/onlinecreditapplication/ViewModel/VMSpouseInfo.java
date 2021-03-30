@@ -36,6 +36,8 @@ public class VMSpouseInfo extends AndroidViewModel {
     private final RTown poTownRepo; //Town Repository
     private final RCountry RCountry;
 
+    private ECreditApplicantInfo poInfo;
+
     // Declare variable what you need to observe
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
     private final MutableLiveData<String> psProvID = new MutableLiveData<>();
@@ -73,9 +75,9 @@ public class VMSpouseInfo extends AndroidViewModel {
     }
 
     //  Set Detail info to GoCas
-    public void setDetailInfo(String fsDetailInfo){
+    public void setDetailInfo(ECreditApplicantInfo fsDetailInfo){
         try{
-            poGoCas.setData(fsDetailInfo);
+            poInfo = fsDetailInfo;
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -220,13 +222,9 @@ public class VMSpouseInfo extends AndroidViewModel {
                 poGoCas.SpouseInfo().PersonalInfo().setEmailAddress(0, infoModel.getEmailAdd());
                 poGoCas.SpouseInfo().PersonalInfo().setFBAccount(infoModel.getFBacct());
                 poGoCas.SpouseInfo().PersonalInfo().setViberAccount(infoModel.getVbrAcct());
-
-
-                ECreditApplicantInfo applicantInfo = new ECreditApplicantInfo();
-                applicantInfo.setTransNox(TransNox.getValue());
-                applicantInfo.setDetlInfo(poGoCas.toJSONString());
-                applicantInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                poCreditApp.updateGOCasData(applicantInfo);
+                poInfo.setTransNox(TransNox.getValue());
+                poInfo.setSpousexx(poGoCas.SpouseInfo().PersonalInfo().toJSONString());
+                poCreditApp.updateGOCasData(poInfo);
 
                 //Added by sir mike
                 Log.e(TAG, poGoCas.SpouseInfo().PersonalInfo().toJSONString());
