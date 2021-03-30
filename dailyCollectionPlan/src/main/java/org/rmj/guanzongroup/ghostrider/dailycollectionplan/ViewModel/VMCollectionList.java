@@ -885,7 +885,7 @@ public class VMCollectionList extends AndroidViewModel {
                         param.put("nLongitud", Double.parseDouble(info.getLongitud()));
                         param.put("sRemarksx", info.getRemarksx());
                         param.put("sSourceCD", "DCPa");
-                        param.put("sSourceNo", fsAccntNo);
+                        param.put("sSourceNo", info.getTransNox());
 
                         Log.e("Address JsonParam", param.toString());
 
@@ -922,7 +922,7 @@ public class VMCollectionList extends AndroidViewModel {
                         param.put("cPrimaryx", info.getPrimaryx());
                         param.put("sRemarksx", info.getRemarksx());
                         param.put("sSourceCD", "DCPa");
-                        param.put("sSourceNo", fsAccntNo);
+                        param.put("sSourceNo", info.getTransNox());
 
                         Log.e("Mobile JsonParam", param.toString());
 
