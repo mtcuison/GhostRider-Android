@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
+import android.util.Log;
+
 public class SpouseEmploymentInfoModel {
 
     // Private Sector Attrs
@@ -390,7 +392,9 @@ public class SpouseEmploymentInfoModel {
 
     private boolean isMonthOrYearValid() {
         if(sector.equalsIgnoreCase("1") || sector.equalsIgnoreCase("0")) {
-            if(monthOrYear == null || monthOrYear.equalsIgnoreCase("")) {
+            Log.e("Sector", sector);
+            Log.e("monthOrYr", monthOrYear);
+            if(monthOrYear == null || monthOrYear.equalsIgnoreCase("-1")) {
                 message = "Please select duration of length of service";
                 return false;
             }
