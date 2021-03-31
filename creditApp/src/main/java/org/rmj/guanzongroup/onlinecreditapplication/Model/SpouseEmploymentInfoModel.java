@@ -223,21 +223,25 @@ public class SpouseEmploymentInfoModel {
 
 //    __ GLOBAL TEST__
     public boolean isSpouseEmploymentInfoValid() {
-        return isUniformedPersonnelValid() &&
-                isMilitaryPersonnelValid() &&
-                isCompanyLvlValid() &&
-                isEmployeeLvlValid() &&
-                isBizIndustryValid() &&
-                isCompanyNameValid() &&
-                isCompAddressValid() &&
-                isJobTitleValid() &&
-                isJobSpecificValid() &&
-                isEmploymentStatValid() &&
-                isMonthOrYearValid() &&
-                isLengthOfServiceValid() &&
-                isGrossMonthlyValid() &&
-                isCompTelNoxValid() &&
-                isOFWFieldsValid();
+        if(isCompanyLvlValid() || isEmployeeLvlValid()) {
+            return isUniformedPersonnelValid() &&
+                    isMilitaryPersonnelValid() &&
+                    isCompanyLvlValid() &&
+                    isEmployeeLvlValid() &&
+                    isBizIndustryValid() &&
+                    isCompanyNameValid() &&
+                    isCompAddressValid() &&
+                    isJobTitleValid() &&
+                    isJobSpecificValid() &&
+                    isEmploymentStatValid() &&
+                    isMonthOrYearValid() &&
+                    isLengthOfServiceValid() &&
+                    isGrossMonthlyValid() &&
+                    isCompTelNoxValid() &&
+                    isOFWFieldsValid();
+        } else {
+            return true;
+        }
     }
 
     private boolean isUniformedPersonnelValid() {
