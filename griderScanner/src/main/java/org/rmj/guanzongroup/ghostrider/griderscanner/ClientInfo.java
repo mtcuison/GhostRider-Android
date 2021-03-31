@@ -107,30 +107,65 @@ public class ClientInfo extends AppCompatActivity {
         contentResolver = this.getContentResolver();
         setData();
 
-        ScannerConstants.TransNox = TransNox; //lblTransNoxxx.getText().toString()
+        ScannerConstants.TransNox = TransNox;
         mViewModel.initAppDocs(TransNox);
         mViewModel.setsTransNox(TransNox);
         mViewModel.getDocumentInfos(TransNox).observe(ClientInfo.this, fileCodeDetails -> {
+
             loAdapter = new FileCodeAdapter(ClientInfo.this, fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
             @Override
             public void OnClick(int position) {
-                poImageInfo = new EImageInfo();
-                poDocumentsInfo = new ECreditApplicationDocuments();
-//                poFilexx = new ImageFileCreator(ClientInfo.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP_DOCUMENTS, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
-                poFilexx = new ImageFileCreator(ClientInfo.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
-                poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                    mCurrentPhotoPath = photPath;
-                    ScannerConstants.Usage =camUsage;
-                    ScannerConstants.Folder = AppConstants.APP_PUBLIC_FOLDER;
-                    ScannerConstants.FileCode = fileCodeDetails.get(position).sFileCode;
-                    ScannerConstants.PhotoPath = photPath;
-                    ScannerConstants.EntryNox = (position + 1);
-                    ScannerConstants.FileName = FileName;
-                    ScannerConstants.FileDesc = fileCodeDetails.get(position).sBriefDsc;
-                    ScannerConstants.Latt = latitude;
-                    ScannerConstants.Longi = longitude;
-                    startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                mViewModel.DownloadDocumentFile(fileCodeDetails.get(position), TransNox, new ViewModelCallBack() {
+                    @Override
+                    public void OnStartSaving() {
+                        poDialogx.initDialog("Credit Online \nApplication Documents", "Fetching document file. Please wait...", false);
+                        poDialogx.show();
+                    }
+
+                    @Override
+                    public void onSaveSuccessResult(String args) {
+
+                    }
+
+                    @Override
+                    public void onFailedResult(String message) {
+
+                    }
+
+                    @Override
+                    public void OnSuccessResult(String[] strings) {
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Credit Online \nApplication Documents");
+                        poMessage.setMessage(strings[0]);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+
+                    @Override
+                    public void OnFailedResult(String message) {
+                        poDialogx.dismiss();
+                        poImageInfo = new EImageInfo();
+                        poDocumentsInfo = new ECreditApplicationDocuments();
+                        poFilexx = new ImageFileCreator(ClientInfo.this , AppConstants.APP_PUBLIC_FOLDER, ScannerConstants.SubFolder, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
+                        // poFilexx = new ImageFileCreator(ClientInfo.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
+                        poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                            mCurrentPhotoPath = photPath;
+                            ScannerConstants.Usage =camUsage;
+                            ScannerConstants.Folder = AppConstants.APP_PUBLIC_FOLDER;
+                            ScannerConstants.FileCode = fileCodeDetails.get(position).sFileCode;
+                            ScannerConstants.PhotoPath = photPath;
+                            ScannerConstants.EntryNox = (position + 1);
+                            ScannerConstants.FileName = FileName;
+                            ScannerConstants.FileDesc = fileCodeDetails.get(position).sBriefDsc;
+                            ScannerConstants.Latt = latitude;
+                            ScannerConstants.Longi = longitude;
+                            startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                        });
+                    }
                 });
+
+//
             }
 
                 @Override

@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.ghostrider.griderscanner.viewModel;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,7 @@ import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -245,7 +247,7 @@ public class VMClientInfo extends AndroidViewModel {
 
     //mac 2021.03.30
     //  download image from server
-    public void DownloadDocumentFile(ECreditApplicationDocuments poDocumentsInfo, String fsSourceNo, ViewModelCallBack callback) {
+    public void DownloadDocumentFile(DCreditApplicationDocuments.ApplicationDocument poDocumentsInfo, String fsSourceNo, ViewModelCallBack callback) {
         try {
             new DownloadDocumentFile(instance, poDocumentsInfo, fsSourceNo, callback).execute();
         } catch (Exception e) {
@@ -257,10 +259,10 @@ public class VMClientInfo extends AndroidViewModel {
         private final ViewModelCallBack callback;
         private final SessionManager poUser;
         private final RImageInfo poImage;
-        private final ECreditApplicationDocuments poFileInfo;
+        private final DCreditApplicationDocuments.ApplicationDocument poFileInfo;
         private final String psSourceNo;
 
-        public DownloadDocumentFile(Application instance, ECreditApplicationDocuments foFileInfo, String fsSourceNo, ViewModelCallBack callback) {
+        public DownloadDocumentFile(Application instance, DCreditApplicationDocuments.ApplicationDocument foFileInfo, String fsSourceNo, ViewModelCallBack callback) {
             this.poConn = new ConnectionUtil(instance);
             this.poUser = new SessionManager(instance);
             this.poFileInfo = foFileInfo;
@@ -284,10 +286,16 @@ public class VMClientInfo extends AndroidViewModel {
                     if (lsClient.isEmpty() || lsAccess.isEmpty()) {
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
                     } else {
+                        String imageName = poFileInfo.sTransNox + "_" + poFileInfo.nEntryNox + "_" + poFileInfo.sFileCode + ".png";
+                        String root = Environment.getExternalStorageDirectory().toString();
+                        File fileLoc = new File(root + "/"+ AppConstants.APP_PUBLIC_FOLDER + "/" + ScannerConstants.SubFolder  +"/" + poFileInfo.sTransNox + "/");
+                        if (!fileLoc.exists()) {
+                            fileLoc.mkdirs();
+                        }
                         JSONObject loDownload = WebFileServer.DownloadFile(lsAccess,
-                                                                            poFileInfo.getFileCode(),
+                                                                            poFileInfo.sFileCode,
                                                                             "",
-                                                                            poFileInfo.getImageNme(),
+                                                                            imageName,
                                                                             "COAD",
                                                                             psSourceNo,
                                                                             "");
@@ -300,23 +308,27 @@ public class VMClientInfo extends AndroidViewModel {
                             //convert to image and save to proper file location
                             if (WebFile.Base64ToFile((String) loDownload.get("data"),
                                                         (String) loDownload.get("hash"),
-                                                        poFileInfo.getFileLoc(),
-                                                        (String) loDownload.get("filename")))
+                                                        fileLoc.getAbsolutePath(),
+                                                        (String) loDownload.get("filename"))){
                                 Log.d(TAG, "File hash was converted to file successfully.");
-                            else
+                                //insert entry to image info
+                                EImageInfo loImage = new EImageInfo();
+                                loImage.setTransNox((String) loDownload.get("transnox"));
+                                loImage.setMD5Hashx((String) loDownload.get("hash"));
+                                loImage.setImageNme((String) loDownload.get("filename"));
+                                //loImage....
+                                //end - insert entry to image info
+
+                                //todo:
+                                //insert/update entry to credit_online_application_documents
+
+                            } else
                                 Log.e(TAG, "Unable to convert file.");
                             //end - convert to image and save to proper file location
 
-                            //insert entry to image info
-                            EImageInfo loImage = new EImageInfo();
-                            loImage.setTransNox((String) loDownload.get("transnox"));
-                            //loImage....
-                            //end - insert entry to image info
 
-                            //todo:
-                            //insert/update entry to credit_online_application_documents
                         } else {
-                            Log.e(TAG, "Unable to download image from server. Transaction No.: " + poFileInfo.getTransNox() + ", Filename: " + poFileInfo.getImageNme() + ".");
+                            Log.e(TAG, "Unable to download image from server. Transaction No.: " + poFileInfo.sTransNox + ", Filename: " + imageName + ".");
                             Log.e(TAG, "Reason : " + lsResponse);
 
                             JSONParser loParser = new JSONParser();
@@ -324,6 +336,8 @@ public class VMClientInfo extends AndroidViewModel {
                             lsResult = (String) loError.get("message");
                             Log.e(TAG, "Reason : " + lsResult);
                         }
+
+                        Thread.sleep(1000);
                     }
                 }
             } catch (Exception e) {
