@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;

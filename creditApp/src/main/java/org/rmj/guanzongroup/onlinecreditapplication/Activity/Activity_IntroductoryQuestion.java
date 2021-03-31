@@ -67,6 +67,11 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
             }
         });
 
+        mViewModel.getAllBranchNames().observe(this, strings -> {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
+            txtBranchNm.setAdapter(adapter);
+        });
+
         txtBranchNm.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBranchInfo().observe(this, eBranchInfos -> {
             for(int x = 0; x < eBranchInfos.size(); x++){
                 if(txtBranchNm.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getBranchNm())){
@@ -98,7 +103,6 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
         mViewModel.getBrandID().observe(this, s -> mViewModel.getAllBrandModelName(s).observe(this, strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
             txtModelNm.setAdapter(adapter);
-            Log.e(TAG, "Array Adapter has been updated.");
         }));
 
         txtModelNm.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBrandModelInfo().observe(this, eMcModels -> {

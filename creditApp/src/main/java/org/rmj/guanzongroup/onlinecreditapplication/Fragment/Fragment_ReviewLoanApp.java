@@ -79,7 +79,7 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
         btnPrvs = v.findViewById(R.id.btn_creditAppPrvs);
 
         plDetail = new ArrayList<>();
-        String lsImageNme = TransNox + "_" + "20_0029";
+        String lsImageNme = TransNox + "200029";
         poCamera = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_CREDIT_APP, lsImageNme);
         poImage = new EImageInfo();
         poImage.setImageNme(lsImageNme);

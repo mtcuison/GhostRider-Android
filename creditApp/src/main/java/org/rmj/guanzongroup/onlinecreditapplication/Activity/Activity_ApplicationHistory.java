@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 
+import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,7 +21,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.LoanApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.UserLoanHistoryAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -42,11 +49,15 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
     private List<LoanApplication> loanList;
     private UserLoanHistoryAdapter adapter;
 
+    private ImageFileCreator poCamera;
+    private EImageInfo poImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_history);
         initWidgets();
+        poImage = new EImageInfo();
         mViewModel = new ViewModelProvider(this).get(VMApplicationHistory.class);
         mViewModel.LoadApplications(Activity_ApplicationHistory.this);
         mViewModel.getApplicationHistory().observe(Activity_ApplicationHistory.this, applicationLogs -> {
@@ -86,6 +97,24 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                     @Override
                     public void OnPreview(String TransNox) {
 
+                    }
+
+                    @Override
+                    public void OnCamera(String TransNox) {
+                        poCamera = new ImageFileCreator(Activity_ApplicationHistory.this,
+                                AppConstants.APP_PUBLIC_FOLDER,
+                                AppConstants.SUB_FOLDER_CREDIT_APP,
+                                "0029",
+                                20, TransNox+"200029");
+                        poCamera.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                            poImage.setFileLoct(photPath);
+                            poImage.setFileCode("0029");
+                            poImage.setLatitude(String.valueOf(latitude));
+                            poImage.setLongitud(String.valueOf(longitude));
+                            poImage.setSourceNo(TransNox);
+                            poImage.setMD5Hashx(WebFileServer.createMD5Hash(photPath));
+                            startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                        });
                     }
                 });
                 LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_ApplicationHistory.this);
@@ -152,5 +181,11 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
     @Override
     public void onFailedResult(String message) {
         GToast.CreateMessage(Activity_ApplicationHistory.this, message, GToast.WARNING).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mViewModel.saveImageFile(poImage);
     }
 }

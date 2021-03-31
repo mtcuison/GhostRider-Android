@@ -125,7 +125,12 @@ public class Activity_DocumentToScan extends AppCompatActivity {
                 public void OnClick(int position) {
                     poImageInfo = new EImageInfo();
                     poDocumentsInfo = new ECreditApplicationDocuments();
-                    poFilexx = new ImageFileCreator(Activity_DocumentToScan.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
+                    poFilexx = new ImageFileCreator(Activity_DocumentToScan.this,
+                            AppConstants.APP_PUBLIC_FOLDER,
+                            AppConstants.SUB_FOLDER_CREDIT_APP,
+                            fileCodeDetails.get(position).sFileCode,
+                            fileCodeDetails.get(position).nEntryNox,
+                            TransNox);
                     poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
                         mCurrentPhotoPath = photPath;
                         ScannerConstants.Usage =camUsage;
