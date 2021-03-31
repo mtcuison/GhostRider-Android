@@ -140,7 +140,7 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
         mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), new Observer<ECreditApplicantInfo>() {
             @Override
             public void onChanged(ECreditApplicantInfo eCreditApplicantInfo) {
-                mViewModel.setDetailInfo(eCreditApplicantInfo.getDetlInfo());
+                mViewModel.setDetailInfo(eCreditApplicantInfo);
             }
         });
 

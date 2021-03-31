@@ -123,11 +123,12 @@ public class SelfEmployedInfoModel {
     }
 
     boolean isBusinessNatureValid(){
-        if(Integer.parseInt(sBussNtrx) < 0){
-            message = "Please select nature of business";
+        if(!sBussNtrx.isEmpty()) {
+            return true;
+        } else {
+            message = "Please select business nature";
             return false;
         }
-        return true;
     }
 
     boolean isBusinessNameValid(){

@@ -38,26 +38,31 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
     private static final String TAG = Fragment_EmploymentInfo.class.getSimpleName();
     private VMEmploymentInfo mViewModel;
     private EmploymentInfoModel infoModel;
-//    private Spinner spnEmpSts, spnServce;
+
     private AutoCompleteTextView spnCmpLvl,
             spnEmpLvl,
             spnBusNtr,
             spnEmpSts,
             spnServce;
+
     private AutoCompleteTextView txtCntryx,
             txtProvNm,
             txtTownNm,
             txtJobNme;
+
     private TextInputLayout tilCntryx,
             tilCompNm;
+
     private TextInputEditText txtCompNm,
             txtCompAd,
             txtSpcfJb,
             txtLngthS,
             txtEsSlry,
             txtCompCn;
+
     private LinearLayout lnGovInfo,
             lnEmpInfo;
+
     private Button btnNext;
 
     public static Fragment_EmploymentInfo newInstance() {
@@ -237,7 +242,6 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
                 } else if (adapterView.getItemAtPosition(i).toString().equalsIgnoreCase("Seasonal")) {
                     mViewModel.setEmploymentStatus("S");
                 }
-//                GToast.CreateMessage(getActivity(), adapterView.getItemAtPosition(i).toString(), GToast.INFORMATION).show();
             }
         }
     }

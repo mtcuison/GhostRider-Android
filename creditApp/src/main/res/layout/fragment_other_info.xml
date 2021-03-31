@@ -267,7 +267,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight=".5"
-                        android:hint="@string/sHintBpProv"
+                        android:hint="@string/sHintProvince"
                         android:textColorHint="@color/guanzon_dark_grey"
                         tools:ignore="HardcodedText">
 
