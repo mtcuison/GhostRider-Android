@@ -10,6 +10,7 @@ import androidx.room.Update;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
+import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 
 import java.util.List;
@@ -61,7 +62,7 @@ import java.util.List;
     @Query("SELECT * FROM Credit_Online_Application_Documents WHERE sTransNox =:TransNox")
     List<ECreditApplicationDocuments> getDuplicateTransNox(String TransNox);
 
-    @Query("SELECT a.sTransNox, a.sFileCode, b.sBriefDsc, a.nEntryNox, a.sImageNme, a.sFileLoc " +
+    @Query("SELECT a.sTransNox, a.sFileCode, b.sBriefDsc, a.nEntryNox, a.sImageNme, a.sFileLoc, a.sSendStat " +
             "FROM Credit_Online_Application_Documents a LEFT JOIN EDocSys_File b " +
             "ON a.sFileCode = b.sFileCode WHERE a.sTransNox =:TransNox " +
             "ORDER BY a.nEntryNox ASC")
@@ -70,6 +71,14 @@ import java.util.List;
     @Query("SELECT a.sTransNox, a.sFileCode, a.nEntryNox, a.sImageNme, a.sFileLoc FROM Credit_Online_Application_Documents a LEFT JOIN Image_Information b ON a.sFileCode = b.sFileCode AND a.sTransNox = b.sSourceNo WHERE b.cSendStat != 1")
     LiveData<List<ApplicationDocument>> getDocumentDetailForPosting();
 
+    @Query("SELECT * FROM EDocSys_File WHERE  sFileCode !='0021' AND sFileCode !='0020' ")
+    LiveData<List<EFileCode>> getDocumentInfoByFile();
+
+    @Query("UPDATE Credit_Online_Application_Documents " +
+            "SET sSendStat = '1' " +
+            "WHERE sTransNox =:TransNox " +
+            "AND sFileCode =:fileCode ")
+    void updateDocumentsInfoByFile(String TransNox, String fileCode);
     class ApplicationDocument{
         public String sTransNox;
         public String sFileCode;
@@ -77,5 +86,6 @@ import java.util.List;
         public String sImageNme;
         public String sFileLoc;
         public String sBriefDsc;
+        public String sSendStat;
     }
 }

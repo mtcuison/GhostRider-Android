@@ -69,6 +69,9 @@ public class DocumentToScanAdapter extends RecyclerView.Adapter<DocumentToScanAd
                 Log.e("Adapter", document.sFileLoc);
             }
 
+            if (document.sSendStat != null){
+                holder.imgDB.setVisibility(View.VISIBLE);
+            }
         }catch (NullPointerException e){
             e.printStackTrace();
         }catch (Exception e){
@@ -90,12 +93,14 @@ public class DocumentToScanAdapter extends RecyclerView.Adapter<DocumentToScanAd
         public TextView lbl_fileDsc;
         public TextView lbl_fileLoc;
         public ImageView fileStat;
+        public ImageView imgDB;
         private List<DCreditApplicationDocuments.ApplicationDocument> documentsInfo;
         public FileCodeViewHolder(Context mContext, @NonNull View itemView, DocumentToScanAdapter.OnItemClickListener listener) {
             super(itemView);
             lbl_fileDsc = itemView.findViewById(R.id.lbl_fileCode);
             lbl_fileLoc = itemView.findViewById(R.id.lbl_fileLoc);
             fileStat = itemView.findViewById(R.id.tick_cross);
+            imgDB = itemView.findViewById(org.rmj.guanzongroup.ghostrider.griderscanner.R.id.imgDB);
 
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();

@@ -16,6 +16,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
+import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 
 import java.util.List;
@@ -54,6 +55,17 @@ public class RCreditApplicationDocument {
     public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentInfos(String TransNox){
         return documentsDao.getDocumentInfo(TransNox);
     }
+//    public Live
+
+
+
+    public LiveData<List<EFileCode>> getDocumentInfoByFile(){
+        return documentsDao.getDocumentInfoByFile();
+    }
+    public void updateDocumentsInfoByFile(String transNox, String sFileCD){
+        new updateDocumentsInfoByFile(documentsDao,sFileCD).execute(transNox);
+    }
+
 
     public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentDetailForPosting(){
         return documentsDao.getDocumentDetailForPosting();
@@ -115,6 +127,24 @@ public class RCreditApplicationDocument {
         protected String doInBackground(String... transNox) {
             if (documentsDao.getDuplicateTransNox(transNox[0]).size()>0){
                 documentsDao.updateDocumentsInfo(transNox[0],sFileCd);
+                Log.e(TAG, "Credit document updated.");
+            }
+            return null;
+        }
+    }
+
+    private static class updateDocumentsInfoByFile extends AsyncTask<String, Void, String>{
+        private final DCreditApplicationDocuments documentsDao;
+        private final String sFileCd;
+        public updateDocumentsInfoByFile(DCreditApplicationDocuments documentsDao, String fileCode) {
+            this.documentsDao = documentsDao;
+            this.sFileCd = fileCode;
+        }
+
+        @Override
+        protected String doInBackground(String... transNox) {
+            if (documentsDao.getDuplicateTransNox(transNox[0]).size()>0){
+                documentsDao.updateDocumentsInfoByFile(transNox[0],sFileCd);
                 Log.e(TAG, "Credit document updated.");
             }
             return null;
