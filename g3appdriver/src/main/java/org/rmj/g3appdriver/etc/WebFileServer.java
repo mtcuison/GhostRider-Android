@@ -130,6 +130,19 @@ public class WebFileServer {
                 fsUniqueVl);
     }
 
+    /**
+     * CheckFile
+     * @param fsAcsToken Access Token
+     * @param fsSourceCd Source Code
+     * @param fsSourceNo Source No/Reference No
+     * @return JSONObject
+     */
+    public static JSONObject CheckFile(String fsAcsToken, String fsSourceCd, String fsSourceNo){
+        return WebFile.CheckFile(fsAcsToken,
+                                    fsSourceCd,
+                                    fsSourceNo);
+    }
+
     public static String createMD5Hash(String FilePath) {
             String lsResult = WebFile.md5Hash(FilePath);
             return lsResult;
