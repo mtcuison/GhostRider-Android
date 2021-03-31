@@ -1,11 +1,9 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
-import android.media.tv.TvTrackInfo;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -18,7 +16,6 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
@@ -42,16 +39,16 @@ public class VMSpouseInfo extends AndroidViewModel {
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
     private final MutableLiveData<String> psProvID = new MutableLiveData<>();
     private final MutableLiveData<String> psTownID = new MutableLiveData<>();
-    private MutableLiveData<String> lsCitizen = new MutableLiveData<>();
+    private final MutableLiveData<String> lsCitizen = new MutableLiveData<>();
 
 
-    private MutableLiveData<String> lsMobile1 = new MutableLiveData<>();
-    private MutableLiveData<String> lsMobile2 = new MutableLiveData<>();
-    private MutableLiveData<String> lsMobile3 = new MutableLiveData<>();
+    private final MutableLiveData<String> lsMobile1 = new MutableLiveData<>();
+    private final MutableLiveData<String> lsMobile2 = new MutableLiveData<>();
+    private final MutableLiveData<String> lsMobile3 = new MutableLiveData<>();
 
-    private MutableLiveData<Integer> mobileNo1Year = new MutableLiveData<>();
-    private MutableLiveData<Integer> mobileNo2Year = new MutableLiveData<>();
-    private MutableLiveData<Integer> mobileNo3Year = new MutableLiveData<>();
+    private final MutableLiveData<Integer> mobileNo1Year = new MutableLiveData<>();
+    private final MutableLiveData<Integer> mobileNo2Year = new MutableLiveData<>();
+    private final MutableLiveData<Integer> mobileNo3Year = new MutableLiveData<>();
     public VMSpouseInfo(@NonNull Application application) { // Application is context
         super(application);
         poGoCas = new GOCASApplication();
