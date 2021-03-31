@@ -36,4 +36,7 @@ public interface DOccupationInfo {
 
     @Query("SELECT MAX(dTimeStmp) FROM Occupation_Info")
     String getLatestDataTime();
+
+    @Query("SELECT sOccptnNm FROM Occupation_Info WHERE sOccptnID=:ID")
+    String getOccupationName(String ID);
 }

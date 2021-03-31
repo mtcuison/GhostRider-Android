@@ -8,6 +8,7 @@
     tools:context=".Activity.Activity_ApplicationHistory"
     android:background="@drawable/bg_gradient_light"
     android:theme="@style/GhostRiderMaterialTheme">
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,60 +31,62 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="0dp"
+            android:layout_weight=".4"
             android:background="@drawable/bg_samsungknox"
+            android:gravity="center"
+            android:orientation="vertical"
             android:paddingHorizontal="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginVertical="15dp"
-                android:gravity="center_horizontal">
+                android:layout_marginVertical="5dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Loan Application List"
-                    android:textSize="22sp"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="GMC Dagupan - Honda"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/roboto_light"
+                    android:text="Loan Application List"
                     android:textColor="@color/textColor_White"
-                    android:layout_marginTop="5dp"/>
+                    android:textSize="22sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Guanzon Bldg., Perez Blvd., Dagupan City"
-                    android:textSize="15sp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/roboto_light"
-                    android:textColor="@color/textColor_White"/>
+                    android:text="GMC Dagupan - Honda"
+                    android:textColor="@color/textColor_White"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_light"
+                    android:text="Guanzon Bldg., Perez Blvd., Dagupan City"
+                    android:textColor="@color/textColor_White"
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.8dp"
-                android:layout_marginTop="5dp"
-                android:background="#fff"/>
+                android:background="#fff" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="15dp">
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="5dp">
+
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputStyleHeaders"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Search Loan Applicant"
-                    style="@style/TextInputStyleHeaders">
+                    android:hint="Search Loan Applicant">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_Search"
@@ -91,7 +94,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:textColor="@color/textColor_White"/>
+                        android:imeOptions="actionDone"
+                        android:inputType="textCapWords"
+                        android:maxLines="1"
+                        android:textColor="@color/textColor_White" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -100,9 +106,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rectangles_applicationHistory"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_marginTop="5dp"
             android:padding="10dp"/>
+
         <LinearLayout
             android:id="@+id/layout_application_history_noRecord"
             android:layout_width="match_parent"
@@ -111,8 +119,8 @@
             android:layout_marginTop="20dp"
             android:visibility="gone"
             android:padding="10dp"
-            android:background="@drawable/background_no_record"
-            >
+            android:background="@drawable/background_no_record">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"

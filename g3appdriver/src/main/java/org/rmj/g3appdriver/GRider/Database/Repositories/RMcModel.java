@@ -112,7 +112,7 @@ public class RMcModel {
                 //compare date if the record from API is newer than the database record
                 if (!ldDate1.equals(ldDate2)){
                     //create update statement
-                    lsSQL = "UPDATE Town_Info SET" +
+                    lsSQL = "UPDATE Mc_Model SET" +
                             "   sModelCde = " + SQLUtil.toSQL(loJson.getString("sModelCde")) +
                             ",  sModelNme = " + SQLUtil.toSQL(loJson.getString("sModelNme")) +
                             ",  sBrandIDx = " + SQLUtil.toSQL(loJson.getString("sBrandIDx")) +

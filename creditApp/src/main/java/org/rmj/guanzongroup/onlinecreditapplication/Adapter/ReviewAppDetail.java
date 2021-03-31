@@ -50,15 +50,8 @@ public class ReviewAppDetail {
         return View.GONE;
     }
 
-    public int isFooter(){
-        if(!isFooter){
-            return View.VISIBLE;
-        }
-        return View.GONE;
-    }
-
     public String getLabel() {
-        return psLabel;
+        return psLabel + " :";
     }
 
     public String getContent() {

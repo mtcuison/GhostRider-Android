@@ -140,7 +140,7 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
         mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), new Observer<ECreditApplicantInfo>() {
             @Override
             public void onChanged(ECreditApplicantInfo eCreditApplicantInfo) {
-                mViewModel.setDetailInfo(eCreditApplicantInfo.getDetlInfo());
+                mViewModel.setDetailInfo(eCreditApplicantInfo);
             }
         });
 
@@ -307,7 +307,7 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
     @SuppressLint("RestrictedApi")
     @Override
     public void onSaveSuccessResult(String args) {
-        Activity_CreditApplication.getInstance().moveToPageNumber(3);
+        Activity_CreditApplication.getInstance().moveToPageNumber(8);
     }
 
     @Override

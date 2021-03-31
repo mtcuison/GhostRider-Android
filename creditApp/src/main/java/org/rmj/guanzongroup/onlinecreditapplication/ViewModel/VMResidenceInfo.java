@@ -179,7 +179,6 @@ public class VMResidenceInfo extends AndroidViewModel {
                 poGoCas.ResidenceInfo().PermanentAddress().setTownCity(infoModel.getPermanentMunicipalID());
                 poGoCas.ResidenceInfo().PermanentAddress().setBarangay(infoModel.getPermanentBarangayID());
                 poInfo.setResidnce(poGoCas.ResidenceInfo().toJSONString());
-                //poInfo.setDetlInfo(poGoCas.toJSONString());
                 RCreditApplicant.updateGOCasData(poInfo);
                 callBack.onSaveSuccessResult("Success");
             } else {

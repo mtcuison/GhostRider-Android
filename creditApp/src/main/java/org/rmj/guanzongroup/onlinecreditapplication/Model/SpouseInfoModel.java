@@ -162,6 +162,9 @@
         }
 
 
+        public void clearMobileNo(){
+            mobileNoList.clear();
+        }
 
 
 

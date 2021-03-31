@@ -237,6 +237,7 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
                 loGoCas.PurchaseInfo().setAccountTerm(model.getsAccTermxx());
                 loGoCas.PurchaseInfo().setDateApplied(model.getDateApplied());
                 loGoCas.PurchaseInfo().setMonthlyAmortization(model.getsMonthlyAm());
+
                 ECreditApplicantInfo creditApp = new ECreditApplicantInfo();
                 creditApp.setPurchase(loGoCas.PurchaseInfo().toJSONString());
                 creditApp.setDownPaym(loGoCas.PurchaseInfo().getDownPayment());
@@ -247,7 +248,6 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
                 creditApp.setTransact("0");
                 creditApp.setTransNox(transnox);
                 oCredtRepo.insertGOCasData(creditApp);
-                Log.e("Detail info", creditApp.getPurchase());
                 callBack.onSaveSuccessResult(transnox);
             } else {
                 callBack.onFailedResult(model.getMessage());

@@ -23,6 +23,8 @@ import com.google.android.material.button.MaterialButton;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
@@ -50,6 +52,11 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
     private ImageFileCreator poCamera;
     private EImageInfo poImage;
 
+    private LoadDialog poDialogx;
+    private MessageBox poMessage;
+
+    private boolean hasImage = false;
+
     public static Fragment_ReviewLoanApp newInstance() {
         return new Fragment_ReviewLoanApp();
     }
@@ -76,6 +83,8 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
         poCamera = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_CREDIT_APP, lsImageNme);
         poImage = new EImageInfo();
         poImage.setImageNme(lsImageNme);
+        poDialogx = new LoadDialog(getActivity());
+        poMessage = new MessageBox(getActivity());
     }
 
     @Override
@@ -93,7 +102,23 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
             getActivity().startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
         }));
 
-        btnSave.setOnClickListener(v -> mViewModel.SaveCreditOnlineApplication(Fragment_ReviewLoanApp.this));
+        btnSave.setOnClickListener(v -> {
+            poMessage.initDialog();
+            poMessage.setTitle("Loan Application");
+            poMessage.setMessage("Please take a picture of the loan applicant.");
+            poMessage.setPositiveButton("Open Camera", (view, dialog) -> poCamera.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                hasImage = true;
+                poImage.setFileLoct(photPath);
+                poImage.setFileCode("0029");
+                poImage.setLatitude(String.valueOf(latitude));
+                poImage.setLongitud(String.valueOf(longitude));
+                poImage.setSourceNo(TransNox);
+                poImage.setMD5Hashx(WebFileServer.createMD5Hash(photPath));
+                getActivity().startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+            }));
+            poMessage.setNegativeButton("Later", (view, dialog) -> mViewModel.SaveCreditOnlineApplication(Fragment_ReviewLoanApp.this));
+            poMessage.show();
+        });
 
         btnPrvs.setOnClickListener(v -> {
             if(poInfo.getCmResidx() != null) {
@@ -114,11 +139,8 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
         });
 
         mViewModel.getAppDetail().observe(getViewLifecycleOwner(), reviewAppDetails -> {
-            LoanAppDetailReviewAdapter loAdapter = new LoanAppDetailReviewAdapter(reviewAppDetails, new LoanAppDetailReviewAdapter.OnActionButtonClickListener() {
-                @Override
-                public void onInfoClickListener() {
+            LoanAppDetailReviewAdapter loAdapter = new LoanAppDetailReviewAdapter(reviewAppDetails, () -> {
 
-                }
             });
             LinearLayoutManager loManager = new LinearLayoutManager(getActivity());
             loManager.setOrientation(RecyclerView.VERTICAL);
@@ -129,22 +151,45 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
 
     @Override
     public void OnUpload() {
-
+        poDialogx.initDialog("Loan Application","Saving application. Please wait...", false);
+        poDialogx.show();
     }
 
     @Override
     public void OnSuccess(String ClientName) {
-
+        poDialogx.dismiss();
+        poMessage.initDialog();
+        poMessage.setTitle("Loan Application");
+        poMessage.setMessage("Loan application of " + ClientName + "'s has been sent to server.");
+        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+            dialog.dismiss();
+            requireActivity().finish();
+        });
+        poMessage.show();
     }
 
     @Override
     public void OnFailed(String message) {
-
+        poDialogx.dismiss();
+        poMessage.initDialog();
+        poMessage.setTitle("Loan Application");
+        poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+            dialog.dismiss();
+            requireActivity().finish();
+        });
+        poMessage.show();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mViewModel.saveImageFile(poImage);
+        if(!hasImage) {
+            mViewModel.saveImageFile(poImage);
+            hasImage = true;
+        } else {
+            mViewModel.saveImageFile(poImage);
+            mViewModel.SaveCreditOnlineApplication(Fragment_ReviewLoanApp.this);
+        }
     }
 }

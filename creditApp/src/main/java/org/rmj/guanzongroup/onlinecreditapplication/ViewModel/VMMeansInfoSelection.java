@@ -45,7 +45,6 @@ public class VMMeansInfoSelection extends AndroidViewModel {
     public void setGOCasDetailInfo(ECreditApplicantInfo DetailInfo){
         try{
             poInfo = DetailInfo;
-            poGOCasxx.setData(poInfo.getDetlInfo());
         } catch (Exception e){
             e.printStackTrace();
         }
