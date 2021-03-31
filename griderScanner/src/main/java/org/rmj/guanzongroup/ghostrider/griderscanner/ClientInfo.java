@@ -113,52 +113,44 @@ public class ClientInfo extends AppCompatActivity {
         ScannerConstants.TransNox = TransNox;
         mViewModel.initAppDocs(TransNox);
         mViewModel.setsTransNox(TransNox);
-
-        mViewModel.getDocumentInfos(TransNox).observe(ClientInfo.this, fileCodeDetails -> {
-            loAdapter = new FileCodeAdapter(ClientInfo.this, fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
+        mViewModel.CheckFile( TransNox, new ViewModelCallBack() {
             @Override
-            public void OnClick(int position) {
-                ScannerConstants.FileDesc = fileCodeDetails.get(position).sBriefDsc;
-                mViewModel.DownloadDocumentFile(fileCodeDetails.get(position), TransNox, new ViewModelCallBack() {
-                    @Override
-                    public void OnStartSaving() {
-                        poDialogx.initDialog("Credit Online \nApplication Documents", "Checking document file from server. Please wait...", false);
-                        poDialogx.show();
-                    }
+            public void OnStartSaving() {
+                poDialogx.initDialog("Credit Online \nApplication Documents", "Checking document file from server. Please wait...", false);
+                poDialogx.show();
+            }
 
-                    @Override
-                    public void onSaveSuccessResult(String args) {
+            @Override
+            public void onSaveSuccessResult(String args) {
 
-                    }
+            }
 
-                    @Override
-                    public void onFailedResult(String message) {
+            @Override
+            public void onFailedResult(String message) {
 
-                    }
+            }
 
-                    @Override
-                    public void OnSuccessResult(String[] strings) {
-                        poDialogx.dismiss();
-                        Bitmap bitmap = null;
-                        try {
-                            bitmap = MediaStore.Images.Media.getBitmap(
-                                    contentResolver, Uri.fromFile(new File(ScannerConstants.PhotoPath)));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        DialogImagePreview loDialog = new DialogImagePreview(ClientInfo.this, bitmap, fileCodeDetails.get(position).sBriefDsc);
-                        loDialog.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
-                            @Override
-                            public void OnCancel(Dialog Dialog) {
-                                Dialog.dismiss();
-                            }
-                        });
-                        loDialog.show();
-                    }
+            @Override
+            public void OnSuccessResult(String[] args) {
+                poDialogx.dismiss();
+                GNotifBuilder.createNotification(ClientInfo.this, "Document Scanner", args[0],APP_SYNC_DATA).show();
 
-                    @Override
-                    public void OnFailedResult(String message) {
-                        poDialogx.dismiss();
+            }
+
+            @Override
+            public void OnFailedResult(String message) {
+                poDialogx.dismiss();
+                GNotifBuilder.createNotification(ClientInfo.this, "Document Scanner", message,APP_SYNC_DATA).show();
+
+            }
+        });
+        mViewModel.getDocumentInfos(TransNox).observe(ClientInfo.this, fileCodeDetails -> {
+
+            loAdapter = new FileCodeAdapter(ClientInfo.this, fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
+                @Override
+                public void OnClick(int position) {
+                    ScannerConstants.FileDesc = fileCodeDetails.get(position).sBriefDsc;
+                    if (fileCodeDetails.get(position).sSendStat == null && fileCodeDetails.get(position).sImageNme == null){
                         poImageInfo = new EImageInfo();
                         poDocumentsInfo = new ECreditApplicationDocuments();
                         poFilexx = new ImageFileCreator(ClientInfo.this , AppConstants.APP_PUBLIC_FOLDER, ScannerConstants.SubFolder, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
@@ -176,11 +168,55 @@ public class ClientInfo extends AppCompatActivity {
                             ScannerConstants.Longi = longitude;
                             startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                         });
+                    }else{
+                        mViewModel.DownloadDocumentFile(fileCodeDetails.get(position), TransNox, new ViewModelCallBack() {
+                            @Override
+                            public void OnStartSaving() {
+                                poDialogx.initDialog("Credit Online \nApplication Documents", "Downloading document file from server. Please wait...", false);
+                                poDialogx.show();
+                            }
+
+                            @Override
+                            public void onSaveSuccessResult(String args) {
+
+                            }
+
+                            @Override
+                            public void onFailedResult(String message) {
+
+                            }
+
+                            @Override
+                            public void OnSuccessResult(String[] strings) {
+                                poDialogx.dismiss();
+                                Bitmap bitmap = null;
+                                try {
+                                    bitmap = MediaStore.Images.Media.getBitmap(
+                                            contentResolver, Uri.fromFile(new File(ScannerConstants.PhotoPath)));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                DialogImagePreview loDialog = new DialogImagePreview(ClientInfo.this, bitmap, fileCodeDetails.get(position).sBriefDsc);
+                                loDialog.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
+                                    @Override
+                                    public void OnCancel(Dialog Dialog) {
+                                        Dialog.dismiss();
+                                    }
+                                });
+                                loDialog.show();
+                            }
+
+                            @Override
+                            public void OnFailedResult(String message) {
+                                poDialogx.dismiss();
+
+                            }
+                        });
                     }
-                });
+
 
 //
-            }
+                }
 
                 @Override
                 public void OnActionButtonClick() {
@@ -194,7 +230,6 @@ public class ClientInfo extends AppCompatActivity {
         });
 
 
-
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -203,7 +238,6 @@ public class ClientInfo extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     public void initWidgets(){
         poDialogx = new LoadDialog(ClientInfo.this);
         poMessage = new MessageBox(ClientInfo.this);

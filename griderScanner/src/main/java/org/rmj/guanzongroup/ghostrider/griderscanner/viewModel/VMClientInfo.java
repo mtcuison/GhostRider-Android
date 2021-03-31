@@ -12,6 +12,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.json.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.rmj.apprdiver.util.WebFile;
@@ -79,6 +80,9 @@ public class VMClientInfo extends AndroidViewModel {
     public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentInfos(String TransNox){
         return this.poDocument.getDocumentInfos(TransNox);
     }
+    public LiveData<List<EFileCode>> getDocumentInfoByFile(){
+        return this.poDocument.getDocumentInfoByFile();
+    }
 
     public void initAppDocs(String transNox){
         try{
@@ -87,13 +91,21 @@ public class VMClientInfo extends AndroidViewModel {
             e.printStackTrace();
         }
     }
-        public void saveDocumentInfoFromCamera(String TransNox, String FileCD){
-            try{
-                poDocument.updateDocumentsInfo(TransNox, FileCD);
+    public void saveDocumentInfoFromCamera(String TransNox, String FileCD){
+        try{
+            poDocument.updateDocumentsInfo(TransNox, FileCD);
 
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void updateDocumentInfoFromServer(String TransNox, String FileCD){
+        try{
+            poDocument.updateDocumentsInfoByFile(TransNox, FileCD);
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void saveImageInfo(EImageInfo foImage){
@@ -328,8 +340,8 @@ public class VMClientInfo extends AndroidViewModel {
                                 loImage.setSendStat('1');
                                 //loImage....
                                 ScannerConstants.PhotoPath = loImage.getFileLoct();
-
-                                saveImageInfo(loImage);
+                                poImage.insertImageInfo(loImage);
+//                                saveImageInfo(loImage);
                                 //end - insert entry to image info
                                 saveDocumentInfoFromCamera(poFileInfo.sTransNox, poFileInfo.sFileCode);
                                 //todo:
@@ -388,4 +400,94 @@ public class VMClientInfo extends AndroidViewModel {
         }
     }
     //end - mac 2021.03.30
+
+    public void CheckFile(String fsSourceNo, ViewModelCallBack callback) {
+        try {
+            new CheckFile(instance, fsSourceNo, callback).execute();
+        } catch (Exception e) {
+        }
+    }
+
+    public class CheckFile extends AsyncTask<Void, Void, String> {
+        private final ConnectionUtil poConn;
+        private final ViewModelCallBack callback;
+        private final SessionManager poUser;
+        private final RImageInfo poImage;
+        private final String psSourceNo;
+        public CheckFile(Application instance, String fsSourceNo, ViewModelCallBack callback) {
+            this.poConn = new ConnectionUtil(instance);
+            this.poUser = new SessionManager(instance);
+            this.psSourceNo = fsSourceNo;
+            this.callback = callback;
+            this.poImage = new RImageInfo(instance);
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected String doInBackground(Void... voids) {
+            String lsResult;
+            try {
+                if (!poConn.isDeviceConnected()) {
+                    lsResult = AppConstants.NO_INTERNET();
+                } else {
+
+                    String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                    String lsAccess = WebFileServer.RequestAccessToken(lsClient);
+
+                    if (lsClient.isEmpty() || lsAccess.isEmpty()) {
+                        lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
+                    } else {
+                        JSONObject loDownload = WebFileServer.CheckFile(lsAccess,
+                                "COAD",
+                                psSourceNo);
+
+                        String lsResponse = (String) loDownload.get("result");
+                        lsResult = String.valueOf(loDownload);
+                        Log.e(TAG, "File result : " + lsResponse);
+
+                        if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
+                            //convert to image and save to proper file location
+                            org.json.simple.JSONArray laJson = (org.json.simple.JSONArray)loDownload.get("detail");
+                            for (int x = 0; x <  laJson.size(); x++){
+
+
+                                org.json.simple.JSONObject obj = (org.json.simple.JSONObject) laJson.get(x);;
+                                updateDocumentInfoFromServer(psSourceNo,obj.get("sFileCode").toString());
+
+                            }
+                            Log.e(TAG, String.valueOf(loDownload));
+                        }
+
+                        Thread.sleep(1000);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+            }
+            return lsResult;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnStartSaving();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                org.json.JSONObject loJson = new org.json.JSONObject(s);
+                if (loJson.getString("result").equalsIgnoreCase("success")) {
+                    callback.OnSuccessResult(new String[]{"File has been downloaded successfully."});
+                } else {
+                    org.json.JSONObject loError = loJson.getJSONObject("error");
+                    callback.OnFailedResult(loError.getString("message"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

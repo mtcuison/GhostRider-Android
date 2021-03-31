@@ -73,7 +73,10 @@ public class FileCodeAdapter extends RecyclerView.Adapter<FileCodeAdapter.FileCo
                 holder.fileStat.setImageResource(drawable.ic_baseline_done_24);
                 holder.fileStat.setTag(R.drawable.ic_baseline_done_24);
             }
-
+            if (document.sSendStat != null){
+                holder.imgDB.setVisibility(View.VISIBLE);
+            }
+            Log.e("FileCodeAdapter", "sSendStat = " + document.sSendStat + " " + position);
         }catch (NullPointerException e){
             e.printStackTrace();
         }catch (Exception e){
@@ -95,12 +98,14 @@ public class FileCodeAdapter extends RecyclerView.Adapter<FileCodeAdapter.FileCo
         public TextView lbl_fileDsc;
         public TextView lbl_fileLoc;
         public ImageView fileStat;
+        public ImageView imgDB;
         private List<DCreditApplicationDocuments.ApplicationDocument> documentsInfo;
         public FileCodeViewHolder(Context mContext, @NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             lbl_fileDsc = itemView.findViewById(id.lbl_fileCode);
             lbl_fileLoc = itemView.findViewById(id.lbl_fileLoc);
             fileStat = itemView.findViewById(id.tick_cross);
+            imgDB = itemView.findViewById(R.id.imgDB);
 
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
