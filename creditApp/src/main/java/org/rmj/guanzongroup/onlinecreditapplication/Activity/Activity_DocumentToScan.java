@@ -205,11 +205,14 @@ public class Activity_DocumentToScan extends AppCompatActivity {
                                     }
                                 });
                                 loDialog.show();
+                                GNotifBuilder.createNotification(Activity_DocumentToScan.this, "Document Scanner", strings[0],APP_SYNC_DATA).show();
+
                             }
 
                             @Override
                             public void OnFailedResult(String message) {
                                 poDialogx.dismiss();
+                                GNotifBuilder.createNotification(Activity_DocumentToScan.this, "Document Scanner", message,APP_SYNC_DATA).show();
 
                             }
                         });
@@ -297,8 +300,6 @@ public class Activity_DocumentToScan extends AppCompatActivity {
                     mViewModel.PostDocumentScanDetail(poImageInfo,poDocumentsInfo, new ViewModelCallBack() {
                         @Override
                         public void OnStartSaving() {
-                            poDialogx.initDialog("Credit Online \nApplication Documents", "Posting " + ScannerConstants.FileDesc + " details. Please wait...", false);
-                            poDialogx.show();
                         }
 
                         @Override
@@ -313,14 +314,12 @@ public class Activity_DocumentToScan extends AppCompatActivity {
 
                         @Override
                         public void OnSuccessResult(String[] args) {
-                            poDialogx.show();
                             GNotifBuilder.createNotification(Activity_DocumentToScan.this, "Document Scanner", args[0],APP_SYNC_DATA).show();
 
                         }
 
                         @Override
                         public void OnFailedResult(String message) {
-                            poDialogx.show();
                             GNotifBuilder.createNotification(Activity_DocumentToScan.this, "Document Scanner", message,APP_SYNC_DATA).show();
 
                         }

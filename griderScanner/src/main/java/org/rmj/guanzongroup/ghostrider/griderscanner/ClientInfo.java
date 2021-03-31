@@ -204,11 +204,14 @@ public class ClientInfo extends AppCompatActivity {
                                     }
                                 });
                                 loDialog.show();
+                                GNotifBuilder.createNotification(ClientInfo.this, "Document Scanner", strings[0],APP_SYNC_DATA).show();
+
                             }
 
                             @Override
                             public void OnFailedResult(String message) {
                                 poDialogx.dismiss();
+                                GNotifBuilder.createNotification(ClientInfo.this, "Document Scanner", message,APP_SYNC_DATA).show();
 
                             }
                         });
