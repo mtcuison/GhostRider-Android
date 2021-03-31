@@ -1,7 +1,9 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,11 +29,14 @@ import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.griderscanner.ImageCrop;
+import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.FileCodeAdapter;
+import org.rmj.guanzongroup.ghostrider.griderscanner.dialog.DialogImagePreview;
 import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
 import org.rmj.guanzongroup.ghostrider.griderscanner.model.CreditAppDocumentModel;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMMainScanner;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
+import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.DocumentToScanAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMDocumentToScan;
@@ -41,6 +46,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder.APP_SYNC_DATA;
 
 public class Activity_DocumentToScan extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -100,45 +107,116 @@ public class Activity_DocumentToScan extends AppCompatActivity {
         contentResolver = this.getContentResolver();
         setData();
 
-        ScannerConstants.TransNox = lblTransNoxxx.getText().toString();
+        ScannerConstants.TransNox = TransNox;
         mViewModel.initAppDocs(TransNox);
         mViewModel.setsTransNox(TransNox);
         initFileCode();
-        mViewModel.getDocumentDetailForPosting().observe(this, documentList -> {
-            try {
-                documentDetails = documentList;
-                mViewModel.setDocumentListForPosting(documentList);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
-        mViewModel.getDocumentDetailForPosting().observe(Activity_DocumentToScan.this, documentList -> mViewModel.setDocumentListForPosting(documentList));
-
-
 
     }
     public void initFileCode(){
+        mViewModel.CheckFile( TransNox, new ViewModelCallBack() {
+            @Override
+            public void OnStartSaving() {
+                poDialogx.initDialog("Credit Online \nApplication Documents", "Checking document file from server. Please wait...", false);
+                poDialogx.show();
+            }
+
+            @Override
+            public void onSaveSuccessResult(String args) {
+
+            }
+
+            @Override
+            public void onFailedResult(String message) {
+
+            }
+
+            @Override
+            public void OnSuccessResult(String[] args) {
+                poDialogx.dismiss();
+                GNotifBuilder.createNotification(Activity_DocumentToScan.this, "Document Scanner", args[0],APP_SYNC_DATA).show();
+
+            }
+
+            @Override
+            public void OnFailedResult(String message) {
+                poDialogx.dismiss();
+                GNotifBuilder.createNotification(Activity_DocumentToScan.this, "Document Scanner", message,APP_SYNC_DATA).show();
+
+            }
+        });
         mViewModel.getDocumentInfos(TransNox).observe(Activity_DocumentToScan.this, fileCodeDetails -> {
+
             loAdapter = new DocumentToScanAdapter(Activity_DocumentToScan.this, fileCodeDetails, new DocumentToScanAdapter.OnItemClickListener() {
                 @Override
                 public void OnClick(int position) {
-                    poImageInfo = new EImageInfo();
-                    poDocumentsInfo = new ECreditApplicationDocuments();
-                    poFilexx = new ImageFileCreator(Activity_DocumentToScan.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
-                    poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                        mCurrentPhotoPath = photPath;
-                        ScannerConstants.Usage =camUsage;
-                        ScannerConstants.Folder = AppConstants.APP_PUBLIC_FOLDER;
-                        ScannerConstants.FileCode = fileCodeDetails.get(position).sFileCode;
-                        ScannerConstants.PhotoPath = photPath;
-                        ScannerConstants.EntryNox = (position + 1);
-                        ScannerConstants.FileName = FileName;
-                        ScannerConstants.FileDesc = fileCodeDetails.get(position).sBriefDsc;
-                        ScannerConstants.Latt = latitude;
-                        ScannerConstants.Longi = longitude;
-                        startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
-                    });
+                    ScannerConstants.FileDesc = fileCodeDetails.get(position).sBriefDsc;
+                    if (fileCodeDetails.get(position).sSendStat == null && fileCodeDetails.get(position).sImageNme == null){
+                        poImageInfo = new EImageInfo();
+                        poDocumentsInfo = new ECreditApplicationDocuments();
+                        poFilexx = new ImageFileCreator(Activity_DocumentToScan.this , AppConstants.APP_PUBLIC_FOLDER, ScannerConstants.SubFolder, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
+                        // poFilexx = new ImageFileCreator(Activity_DocumentToScan.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
+                        poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                            mCurrentPhotoPath = photPath;
+                            ScannerConstants.Usage =camUsage;
+                            ScannerConstants.Folder = AppConstants.APP_PUBLIC_FOLDER;
+                            ScannerConstants.FileCode = fileCodeDetails.get(position).sFileCode;
+                            ScannerConstants.PhotoPath = photPath;
+                            ScannerConstants.EntryNox = (position + 1);
+                            ScannerConstants.FileName = FileName;
+                            ScannerConstants.FileDesc = fileCodeDetails.get(position).sBriefDsc;
+                            ScannerConstants.Latt = latitude;
+                            ScannerConstants.Longi = longitude;
+                            startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                        });
+                    }else{
+                        mViewModel.DownloadDocumentFile(fileCodeDetails.get(position), TransNox, new ViewModelCallBack() {
+                            @Override
+                            public void OnStartSaving() {
+                                poDialogx.initDialog("Credit Online \nApplication Documents", "Downloading document file from server. Please wait...", false);
+                                poDialogx.show();
+                            }
+
+                            @Override
+                            public void onSaveSuccessResult(String args) {
+
+                            }
+
+                            @Override
+                            public void onFailedResult(String message) {
+
+                            }
+
+                            @Override
+                            public void OnSuccessResult(String[] strings) {
+                                poDialogx.dismiss();
+                                Bitmap bitmap = null;
+                                try {
+                                    bitmap = MediaStore.Images.Media.getBitmap(
+                                            contentResolver, Uri.fromFile(new File(ScannerConstants.PhotoPath)));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                DialogImagePreview loDialog = new DialogImagePreview(Activity_DocumentToScan.this, bitmap, fileCodeDetails.get(position).sBriefDsc);
+                                loDialog.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
+                                    @Override
+                                    public void OnCancel(Dialog Dialog) {
+                                        Dialog.dismiss();
+                                    }
+                                });
+                                loDialog.show();
+                            }
+
+                            @Override
+                            public void OnFailedResult(String message) {
+                                poDialogx.dismiss();
+
+                            }
+                        });
+                    }
+
+
+//
                 }
 
                 @Override
@@ -235,25 +313,16 @@ public class Activity_DocumentToScan extends AppCompatActivity {
 
                         @Override
                         public void OnSuccessResult(String[] args) {
-                            poDialogx.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Credit Online \nApplication Documents");
-                            poMessage.setMessage(args[0]);
-                            poMessage.setPositiveButton("Okay", (view, dialog) ->{
-//                                initFileCode();
-                                dialog.dismiss();
-                            });
-                            poMessage.show();
+                            poDialogx.show();
+                            GNotifBuilder.createNotification(Activity_DocumentToScan.this, "Document Scanner", args[0],APP_SYNC_DATA).show();
+
                         }
 
                         @Override
                         public void OnFailedResult(String message) {
-                            poDialogx.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Credit Online \nApplication Documents");
-                            poMessage.setMessage(message);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                            poMessage.show();
+                            poDialogx.show();
+                            GNotifBuilder.createNotification(Activity_DocumentToScan.this, "Document Scanner", message,APP_SYNC_DATA).show();
+
                         }
                     });
                     loAdapter.notifyDataSetChanged();
