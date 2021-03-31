@@ -21,6 +21,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/HeaderLabelBlack"
+                android:text="@string/sLblOtherInfo"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 style="@style/Regular_Label"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:text="@string/sLabelQUnitUser"/>
@@ -165,15 +171,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#F88222"
-                android:fontFamily="@font/roboto_medium"
-                android:layout_marginTop="10dp"
-                android:padding="10dp"
-                android:text="PERSONAL REFERENCES"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/material_white"
-                tools:ignore="HardcodedText"
-                tools:targetApi="jelly_bean" />
+                style="@style/HeaderLabelBlack"
+                android:text="@string/sLblPersonalRefs"/>
 
             <LinearLayout
                 android:id="@+id/linear_references"
@@ -319,13 +318,14 @@
                     android:id="@+id/btn_fragment_others_addReference"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cornerRadius="10dp"
                     style="@style/MaterialButtonAccent"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/roboto_thin"
+                    android:textColor="@color/textColor_White"
                     android:text="Add Reference"
                     tools:targetApi="lollipop"
-                    android:layout_gravity="right"
-                    tools:ignore="HardcodedText" />
+                    android:layout_gravity="center_horizontal"
+                    tools:ignore="HardcodedText"
+                    android:layout_marginTop="10dp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_references"

@@ -76,6 +76,10 @@
     <string name="sLabelFinancierInfo">Financier Information</string>
     <string name="sLabelSpousePension">SPOUSE PENSION INFO</string>
     <string name="sLabelBankAcc">Bank Account</string>
+    <string name="sLblDisbursementInfo">Disbursement Information</string>
+    <string name="sLblDependentInfo">Dependent Information</string>
+    <string name="sLblOtherInfo">Other Information</string>
+    <string name="sLblPersonalRefs">Personal References</string>
     <string name="sLabelCreditCard">Credit Card Account</string>
     <string name="sHintElectric">Electricity</string>
     <string name="sHintFood">Food</string>
@@ -114,7 +118,10 @@
     <string name="sLblSpouseContactInfo">Spouse Contact Information</string>
     <string name="sLblSpouseInfo">Spouse Information</string>
 
-    <string name="header_creditApp_coMakerInfo">CO MAKER\'S INFORMATION</string>
+    <string name="header_creditApp_coMakerInfo">Co-Maker Information</string>
+    <string name="header_creditApp_coMaker_birth_Info">Co-Maker Birth Information</string>
+    <string name="header_creditApp_coMaker_contact_Info">Co-Maker Contact Information</string>
+    <string name="header_creditApp_coMaker_src">Co-Maker Source of Income</string>
     <string name="header_creditApp_birthPlace">BIRTH PLACE</string>
     <string name="header_creditApp_birthdayInfo">BIRTHDATE</string>
     <string name="header_creditApp_contact">CONTACT</string>
