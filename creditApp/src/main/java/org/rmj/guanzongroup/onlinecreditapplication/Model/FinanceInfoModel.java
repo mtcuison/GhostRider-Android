@@ -36,6 +36,9 @@ public class FinanceInfoModel {
     }
 
     public long getRangeOfIncome() {
+        if(sFIncme == null || sFIncme.isEmpty()){
+            return 0;
+        }
         return Long.parseLong(sFIncme.replace(",", ""));
     }
 

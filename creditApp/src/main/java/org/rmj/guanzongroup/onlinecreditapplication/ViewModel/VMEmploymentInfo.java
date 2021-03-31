@@ -204,7 +204,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
                 poGoCasxx.MeansInfo().EmployedInfo().setGovernmentLevel(infoModel.getGovermentLevel());
                 poGoCasxx.MeansInfo().EmployedInfo().setOFWRegion(infoModel.getOfwRegion());
                 poGoCasxx.MeansInfo().EmployedInfo().setCompanyLevel(infoModel.getCompanyLevel());
-                poGoCasxx.MeansInfo().EmployedInfo().setEmployeeLevel(infoModel.getEmploymentSector());
+                poGoCasxx.MeansInfo().EmployedInfo().setEmployeeLevel(infoModel.getEmployeeLevel());
                 poGoCasxx.MeansInfo().EmployedInfo().setOFWCategory(infoModel.getOfwWorkCategory());
                 poGoCasxx.MeansInfo().EmployedInfo().setOFWNation(infoModel.getCountry());
                 poGoCasxx.MeansInfo().EmployedInfo().setNatureofBusiness(infoModel.getBusinessNature());

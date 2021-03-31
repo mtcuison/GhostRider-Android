@@ -101,7 +101,7 @@ public class UploadCreditApp {
                 }
             } catch (Exception e){
                 e.printStackTrace();
-                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Something went wrong on local. Please Report to MIS.\n Message: " + e.getMessage());
             }
             return lsResult;
         }

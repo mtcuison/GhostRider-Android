@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -56,7 +57,6 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_personal_info, container, false);
-        infoModel = new PersonalInfoModel();
         transnox = Activity_CreditApplication.getInstance().getTransNox();
         initWidgets(view);
         return view;
@@ -113,6 +113,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
                 e.printStackTrace();
             }
         });
+        mViewModel.getPersonalInfoModel().observe(getViewLifecycleOwner(), personalInfoModel -> infoModel = personalInfoModel);
 
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);

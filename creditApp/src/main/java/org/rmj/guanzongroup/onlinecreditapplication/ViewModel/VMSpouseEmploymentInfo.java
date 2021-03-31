@@ -277,7 +277,8 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
                 poGoCas.SpouseMeansInfo().EmployedInfo().setOFWNation(infoModel.getCountry());
                 poGoCas.SpouseMeansInfo().EmployedInfo().setNatureofBusiness(infoModel.getBizIndustry());
                 poGoCas.SpouseMeansInfo().EmployedInfo().setCompanyName(infoModel.getCompanyName());
-                poGoCas.SpouseMeansInfo().EmployedInfo().setCompanyAddress(infoModel.getCompTown());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setCompanyAddress(infoModel.getCompAddress());
+                poGoCas.SpouseMeansInfo().EmployedInfo().setCompanyTown(infoModel.getCompTown());
                 poGoCas.SpouseMeansInfo().EmployedInfo().setPosition(infoModel.getJobTitle());
                 poGoCas.SpouseMeansInfo().EmployedInfo().setJobDescription(infoModel.getJobSpecific());
                 poGoCas.SpouseMeansInfo().EmployedInfo().setEmployeeStatus(infoModel.getEmploymentStat());
