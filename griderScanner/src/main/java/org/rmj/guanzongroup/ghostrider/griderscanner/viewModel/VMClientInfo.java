@@ -328,6 +328,7 @@ public class VMClientInfo extends AndroidViewModel {
                                 loImage.setSendStat('1');
                                 //loImage....
                                 ScannerConstants.PhotoPath = loImage.getFileLoct();
+
                                 saveImageInfo(loImage);
                                 //end - insert entry to image info
                                 saveDocumentInfoFromCamera(poFileInfo.sTransNox, poFileInfo.sFileCode);

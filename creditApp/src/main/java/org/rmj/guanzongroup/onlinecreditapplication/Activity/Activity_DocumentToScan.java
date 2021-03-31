@@ -36,6 +36,7 @@ import org.rmj.guanzongroup.ghostrider.griderscanner.model.CreditAppDocumentMode
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMMainScanner;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
+import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.DocumentToScanAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMDocumentToScan;
@@ -45,6 +46,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder.APP_SYNC_DATA;
 
 public class Activity_DocumentToScan extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -116,14 +119,12 @@ public class Activity_DocumentToScan extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-
         mViewModel.getDocumentDetailForPosting().observe(Activity_DocumentToScan.this, documentList -> mViewModel.setDocumentListForPosting(documentList));
-
-
 
     }
     public void initFileCode(){
         mViewModel.getDocumentInfos(TransNox).observe(Activity_DocumentToScan.this, fileCodeDetails -> {
+
             loAdapter = new DocumentToScanAdapter(Activity_DocumentToScan.this, fileCodeDetails, new DocumentToScanAdapter.OnItemClickListener() {
                 @Override
                 public void OnClick(int position) {
@@ -283,25 +284,13 @@ public class Activity_DocumentToScan extends AppCompatActivity {
 
                         @Override
                         public void OnSuccessResult(String[] args) {
-                            poDialogx.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Credit Online \nApplication Documents");
-                            poMessage.setMessage(args[0]);
-                            poMessage.setPositiveButton("Okay", (view, dialog) ->{
-//                                initFileCode();
-                                dialog.dismiss();
-                            });
-                            poMessage.show();
+                            GNotifBuilder.createNotification(Activity_DocumentToScan.this, "Document Scanner", args[0],APP_SYNC_DATA).show();
+
                         }
 
                         @Override
                         public void OnFailedResult(String message) {
-                            poDialogx.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Credit Online \nApplication Documents");
-                            poMessage.setMessage(message);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                            poMessage.show();
+                            GNotifBuilder.createNotification(Activity_DocumentToScan.this, "Document Scanner", message,APP_SYNC_DATA).show();
                         }
                     });
                     loAdapter.notifyDataSetChanged();
