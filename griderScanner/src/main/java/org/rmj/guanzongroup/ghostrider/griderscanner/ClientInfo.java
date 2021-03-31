@@ -4,44 +4,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
-import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.ClientFileCodeAdapter;
 import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.FileCodeAdapter;
-import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.LoanApplication;
-import org.rmj.guanzongroup.ghostrider.griderscanner.dialog.DialogImagePreview;
 import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
 import org.rmj.guanzongroup.ghostrider.griderscanner.model.CreditAppDocumentModel;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMClientInfo;
@@ -50,10 +34,7 @@ import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.ViewModelCallBack
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -63,7 +44,6 @@ public class ClientInfo extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private VMClientInfo mViewModel;
     private VMMainScanner sViewModel;
-
 
     TextView lblTransNoxxx;
     TextView lblClientName;

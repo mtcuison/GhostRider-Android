@@ -1,15 +1,12 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -105,14 +102,17 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                                 AppConstants.APP_PUBLIC_FOLDER,
                                 AppConstants.SUB_FOLDER_CREDIT_APP,
                                 "0029",
-                                20, TransNox+"200029");
+                                20,
+                                TransNox);
                         poCamera.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
                             poImage.setFileLoct(photPath);
                             poImage.setFileCode("0029");
+                            poImage.setSourceCD("COAD");
                             poImage.setLatitude(String.valueOf(latitude));
                             poImage.setLongitud(String.valueOf(longitude));
                             poImage.setSourceNo(TransNox);
-                            poImage.setMD5Hashx(WebFileServer.createMD5Hash(photPath));
+                            poImage.setImageNme(FileName);
+                            poImage.setCaptured(AppConstants.DATE_MODIFIED);
                             startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                         });
                     }
@@ -186,6 +186,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        poImage.setMD5Hashx(WebFileServer.createMD5Hash(poImage.getFileLoct()));
         mViewModel.saveImageFile(poImage);
     }
 }

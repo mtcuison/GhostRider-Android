@@ -281,10 +281,6 @@ public class Activity_DocumentToScan extends AppCompatActivity {
         } catch (IOException e) {
             return false;
         }
-
         return ScannerConstants.selectedImageBitmap != null;
     }
-
-
-
 }
