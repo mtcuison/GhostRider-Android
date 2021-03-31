@@ -230,10 +230,12 @@ public class VMSpouseInfo extends AndroidViewModel {
 
                 //                Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
             } else {
+                infoModel.clearMobileNo();
                 callBack.onFailedResult(infoModel.getMessage());
             }
         } catch (Exception e){
             e.printStackTrace();
+            infoModel.clearMobileNo();
             callBack.onFailedResult(e.getMessage());
         }
     }

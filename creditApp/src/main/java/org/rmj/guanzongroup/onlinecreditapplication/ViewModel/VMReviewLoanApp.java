@@ -212,10 +212,10 @@ public class VMReviewLoanApp extends AndroidViewModel {
                   Permanent Residence Info
                  */
                 loListDetl.add(new ReviewAppDetail(true, "Permanent Residence Info", "", ""));
-                loListDetl.add(new ReviewAppDetail(false, "", "Landmark", ""));
-                loListDetl.add(new ReviewAppDetail(false, "", "House No", ""));
-                loListDetl.add(new ReviewAppDetail(false, "", "Sitio/Lot No.", ""));
-                loListDetl.add(new ReviewAppDetail(false, "", "Street", ""));
+                loListDetl.add(new ReviewAppDetail(false, "", "Landmark", loGOCas.ResidenceInfo().PermanentAddress().getLandMark()));
+                loListDetl.add(new ReviewAppDetail(false, "", "House No", loGOCas.ResidenceInfo().PermanentAddress().getHouseNo()));
+                loListDetl.add(new ReviewAppDetail(false, "", "Sitio/Lot No.", loGOCas.ResidenceInfo().PermanentAddress().getAddress1()));
+                loListDetl.add(new ReviewAppDetail(false, "", "Street", loGOCas.ResidenceInfo().PermanentAddress().getAddress2()));
 
                 DBarangayInfo.BrgyTownProvNames loPermanent = poBarangay.getAddressInfo(loGOCas.ResidenceInfo().PermanentAddress().getBarangay());
                 loListDetl.add(new ReviewAppDetail(false, "", "Barangay", loPermanent.sBrgyName));
@@ -618,7 +618,6 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     String rfBirthPlace = rfBPlace.sTownName + ", " + rfBPlace.sProvName;
                     loListDetl.add(new ReviewAppDetail(false, "", "Town ", rfBirthPlace));
                     loListDetl.add(new ReviewAppDetail(false, "", "Address ", loExp.get("sRefrAddx").toString()));
-                    loListDetl.add(new ReviewAppDetail(false, "", "", ""));
                 }
 
 //                CO-MAKER

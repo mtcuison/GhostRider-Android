@@ -38,6 +38,8 @@ public class VMPersonalInfo extends AndroidViewModel {
 
     private final LiveData<List<EProvinceInfo>> provinceInfoList;
 
+    private final MutableLiveData<PersonalInfoModel> poModel = new MutableLiveData<>();
+
     private final MutableLiveData<String> TRANSNOX = new MutableLiveData<>();
     private final MutableLiveData<String> lsProvID = new MutableLiveData<>();
     private final MutableLiveData<String> lsBPlace = new MutableLiveData<>();
@@ -55,6 +57,11 @@ public class VMPersonalInfo extends AndroidViewModel {
         provinceInfoList = RProvince.getAllProvinceInfo();
         poGoCas = new GOCASApplication();
         this.lnMthrNme.setValue(View.GONE);
+        this.poModel.setValue(new PersonalInfoModel());
+    }
+
+    public LiveData<PersonalInfoModel> getPersonalInfoModel(){
+        return poModel;
     }
 
     public void setTransNox(String transNox){
@@ -80,6 +87,7 @@ public class VMPersonalInfo extends AndroidViewModel {
             infoModel.setGender(lsGender.getValue());
             infoModel.setCvlStats(lsCvlStats.getValue());
             if(infoModel.isPersonalInfoValid()) {
+                poModel.setValue(infoModel);
                 poGoCas.ApplicantInfo().setLastName(infoModel.getLastName());
                 poGoCas.ApplicantInfo().setFirstName(infoModel.getFrstName());
                 poGoCas.ApplicantInfo().setMiddleName(infoModel.getMiddName());
