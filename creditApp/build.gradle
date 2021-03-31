@@ -67,6 +67,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation project(':g3appdriver')
+    implementation project(':appdriver') //implement GhostRider Application Driver
     implementation project(':imgCapture')
     implementation project(':griderScanner')
     compileOnly files('libs/appdroid-release.aar')

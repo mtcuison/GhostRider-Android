@@ -115,10 +115,11 @@ public class ClientInfo extends AppCompatActivity {
             loAdapter = new FileCodeAdapter(ClientInfo.this, fileCodeDetails, new FileCodeAdapter.OnItemClickListener() {
             @Override
             public void OnClick(int position) {
+                ScannerConstants.FileDesc = fileCodeDetails.get(position).sBriefDsc;
                 mViewModel.DownloadDocumentFile(fileCodeDetails.get(position), TransNox, new ViewModelCallBack() {
                     @Override
                     public void OnStartSaving() {
-                        poDialogx.initDialog("Credit Online \nApplication Documents", "Fetching document file. Please wait...", false);
+                        poDialogx.initDialog("Credit Online \nApplication Documents", "Checking document file from server. Please wait...", false);
                         poDialogx.show();
                     }
 
@@ -135,11 +136,43 @@ public class ClientInfo extends AppCompatActivity {
                     @Override
                     public void OnSuccessResult(String[] strings) {
                         poDialogx.dismiss();
-                        poMessage.initDialog();
-                        poMessage.setTitle("Credit Online \nApplication Documents");
-                        poMessage.setMessage(strings[0]);
-                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                        poMessage.show();
+                        Bitmap bitmap = null;
+                        try {
+                            bitmap = MediaStore.Images.Media.getBitmap(
+                                    contentResolver, Uri.fromFile(new File(ScannerConstants.PhotoPath)));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        DialogImagePreview loDialog = new DialogImagePreview(ClientInfo.this, bitmap, fileCodeDetails.get(position).sBriefDsc);
+                        loDialog.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
+                            @Override
+                            public void OnCancel(Dialog Dialog) {
+                                Dialog.dismiss();
+                            }
+                        });
+                        loDialog.show();
+//                        poMessage.initDialog();
+//                        poMessage.setTitle("Credit Online \nApplication Documents");
+//                        poMessage.setMessage(strings[0]);
+//                        poMessage.setPositiveButton("Okay", (view, dialog) ->{
+//                            dialog.dismiss();
+//                            Bitmap bitmap = null;
+//                            try {
+//                                bitmap = MediaStore.Images.Media.getBitmap(
+//                                        contentResolver, Uri.fromFile(new File(ScannerConstants.PhotoPath)));
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                            DialogImagePreview loDialog = new DialogImagePreview(ClientInfo.this, bitmap, fileCodeDetails.get(position).sBriefDsc);
+//                            loDialog.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
+//                                @Override
+//                                public void OnCancel(Dialog Dialog) {
+//                                    Dialog.dismiss();
+//                                }
+//                            });
+//                            loDialog.show();
+//                        });
+//                        poMessage.show();
                     }
 
                     @Override
@@ -259,7 +292,9 @@ public class ClientInfo extends AppCompatActivity {
                             poMessage.initDialog();
                             poMessage.setTitle("Credit Online \nApplication Documents");
                             poMessage.setMessage(args[0]);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                                    dialog.dismiss(); }
+                            );
                             poMessage.show();
                         }
 

@@ -111,6 +111,8 @@
             android:layout_marginTop="20dp"
             android:visibility="gone"
             android:padding="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/background_no_record"
             >
             <LinearLayout

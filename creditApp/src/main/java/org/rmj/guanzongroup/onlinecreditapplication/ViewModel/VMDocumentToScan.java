@@ -15,6 +15,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.rmj.apprdiver.util.WebFile;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
@@ -285,6 +287,146 @@ public class VMDocumentToScan extends AndroidViewModel {
         }
 
 
+    }
+    //mac 2021.03.30
+    //  download image from server
+    public void DownloadDocumentFile(DCreditApplicationDocuments.ApplicationDocument poDocumentsInfo, String fsSourceNo, ViewModelCallBack callback) {
+        try {
+            new DownloadDocumentFile(instance, poDocumentsInfo, fsSourceNo, callback).execute();
+        } catch (Exception e) {
+        }
+    }
+
+    public class DownloadDocumentFile extends AsyncTask<Void, Void, String> {
+        private final ConnectionUtil poConn;
+        private final ViewModelCallBack callback;
+        private final SessionManager poUser;
+        private final RImageInfo poImage;
+        private final DCreditApplicationDocuments.ApplicationDocument poFileInfo;
+        private final String psSourceNo;
+
+        public DownloadDocumentFile(Application instance, DCreditApplicationDocuments.ApplicationDocument foFileInfo, String fsSourceNo, ViewModelCallBack callback) {
+            this.poConn = new ConnectionUtil(instance);
+            this.poUser = new SessionManager(instance);
+            this.poFileInfo = foFileInfo;
+            this.psSourceNo = fsSourceNo;
+            this.callback = callback;
+            this.poImage = new RImageInfo(instance);
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected String doInBackground(Void... voids) {
+            String lsResult;
+            try {
+                if (!poConn.isDeviceConnected()) {
+                    lsResult = AppConstants.NO_INTERNET();
+                } else {
+
+                    String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                    String lsAccess = WebFileServer.RequestAccessToken(lsClient);
+
+                    if (lsClient.isEmpty() || lsAccess.isEmpty()) {
+                        lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
+                    } else {
+                        String imageName = poFileInfo.sTransNox + "_" + poFileInfo.nEntryNox + "_" + poFileInfo.sFileCode + ".png";
+                        String root = Environment.getExternalStorageDirectory().toString();
+                        File fileLoc = new File(root + "/"+ AppConstants.APP_PUBLIC_FOLDER + "/" + ScannerConstants.SubFolder  +"/" + poFileInfo.sTransNox + "/");
+                        if (!fileLoc.exists()) {
+                            fileLoc.mkdirs();
+                        }
+                        org.json.simple.JSONObject loDownload = WebFileServer.DownloadFile(lsAccess,
+                                poFileInfo.sFileCode,
+                                "",
+                                imageName,
+                                "COAD",
+                                psSourceNo,
+                                "");
+
+                        String lsResponse = (String) loDownload.get("result");
+                        lsResult = String.valueOf(loDownload);
+                        Log.e(TAG, "Downloading image result : " + lsResponse);
+
+                        if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
+                            //convert to image and save to proper file location
+                            JSONParser loParser = new JSONParser();
+                            loDownload = (org.json.simple.JSONObject) loParser.parse(loDownload.get("payload").toString());
+                            String location = fileLoc.getAbsolutePath() + "/";
+                            if (WebFile.Base64ToFile((String) loDownload.get("data"),
+                                    (String) loDownload.get("hash"),
+                                    location,
+                                    (String) loDownload.get("filename"))){
+                                Log.d(TAG, "File hash was converted to file successfully.");
+                                //insert entry to image info
+                                EImageInfo loImage = new EImageInfo();
+                                loImage.setTransNox((String) loDownload.get("transnox"));
+                                loImage.setSourceCD("COAD");
+                                loImage.setSourceNo(poFileInfo.sTransNox);
+                                loImage.setDtlSrcNo(poFileInfo.sTransNox);
+                                loImage.setFileCode(poFileInfo.sFileCode);
+                                loImage.setMD5Hashx((String) loDownload.get("hash"));
+                                loImage.setFileLoct(fileLoc.getAbsolutePath() +"/" + imageName);
+                                loImage.setImageNme((String) loDownload.get("filename"));
+                                loImage.setSendStat('1');
+                                //loImage....
+                                ScannerConstants.PhotoPath = loImage.getFileLoct();
+                                saveImageInfo(loImage);
+                                //end - insert entry to image info
+                                saveDocumentInfoFromCamera(poFileInfo.sTransNox, poFileInfo.sFileCode);
+                                //todo:
+                                //insert/update entry to credit_online_application_documents
+                                //end - convert to image and save to proper file location
+                            } else{
+                                Log.e(TAG, "Unable to convert file.");
+                                //Log.e(TAG, (String) loDownload.get("hash"));
+                                callback.OnFailedResult("Unable to convert file.");
+
+                            }
+
+
+
+
+                        }
+
+                        Thread.sleep(1000);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+            }
+            return lsResult;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnStartSaving();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                org.json.JSONObject loJson = new org.json.JSONObject(s);
+                if (loJson.getString("result").equalsIgnoreCase("success")) {
+                    callback.OnSuccessResult(new String[]{ScannerConstants.FileDesc + " has been downloaded successfully."});
+                } else {
+                    org.json.JSONObject loError = loJson.getJSONObject("error");
+                    callback.OnFailedResult(loError.getString("message"));
+                }
+//                JSONParser loParser = new JSONParser();
+//                JSONObject loJson = (JSONObject) loParser.parse(s);
+//                if ("success".equalsIgnoreCase((String) loJson.get("result"))) {
+//                    callback.OnSuccessResult(new String[]{ScannerConstants.FileDesc + " has been downloaded successfully."});
+//                } else {
+//                    JSONObject loError = (JSONObject) loParser.parse((String) loJson.get("error"));
+//                    callback.OnFailedResult((String) loError.get("message"));
+//                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 //    public static void UpdateFileNameAndFolder(String newTransNox, String oldTransNox, int entryNox, String fileCode, String fileLoc, String oldImgName){
 //        String root = Environment.getExternalStorageDirectory().toString();
