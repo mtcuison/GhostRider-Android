@@ -229,84 +229,6 @@ public class Activity_DocumentToScan extends AppCompatActivity {
             recyclerView.getRecycledViewPool().clear();
             loAdapter.notifyDataSetChanged();
         });
-
-//        mViewModel.getDocumentInfos(TransNox).observe(Activity_DocumentToScan.this, fileCodeDetails -> {
-//
-//            loAdapter = new DocumentToScanAdapter(Activity_DocumentToScan.this, fileCodeDetails, new DocumentToScanAdapter.OnItemClickListener() {
-//                @Override
-//                public void OnClick(int position) {
-//                    ScannerConstants.FileDesc = fileCodeDetails.get(position).sBriefDsc;
-//                    mViewModel.DownloadDocumentFile(fileCodeDetails.get(position), TransNox, new ViewModelCallBack() {
-//                        @Override
-//                        public void OnStartSaving() {
-//                            poDialogx.initDialog("Credit Online \nApplication Documents", "Checking document file from server. Please wait...", false);
-//                            poDialogx.show();
-//                        }
-//
-//                        @Override
-//                        public void onSaveSuccessResult(String args) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onFailedResult(String message) {
-//
-//                        }
-//
-//                        @Override
-//                        public void OnSuccessResult(String[] strings) {
-//                            poDialogx.dismiss();
-//                            Bitmap bitmap = null;
-//                            try {
-//                                bitmap = MediaStore.Images.Media.getBitmap(
-//                                        contentResolver, Uri.fromFile(new File(ScannerConstants.PhotoPath)));
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-//                            DialogImagePreview loDialog = new DialogImagePreview(Activity_DocumentToScan.this, bitmap, fileCodeDetails.get(position).sBriefDsc);
-//                            loDialog.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
-//                                @Override
-//                                public void OnCancel(Dialog Dialog) {
-//                                    Dialog.dismiss();
-//                                }
-//                            });
-//                            loDialog.show();
-//                        }
-//
-//                        @Override
-//                        public void OnFailedResult(String message) {
-//                            poDialogx.dismiss();
-//                            poImageInfo = new EImageInfo();
-//                            poDocumentsInfo = new ECreditApplicationDocuments();
-//                            poFilexx = new ImageFileCreator(Activity_DocumentToScan.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
-//                            poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-//                                mCurrentPhotoPath = photPath;
-//                                ScannerConstants.Usage =camUsage;
-//                                ScannerConstants.Folder = AppConstants.APP_PUBLIC_FOLDER;
-//                                ScannerConstants.FileCode = fileCodeDetails.get(position).sFileCode;
-//                                ScannerConstants.PhotoPath = photPath;
-//                                ScannerConstants.EntryNox = (position + 1);
-//                                ScannerConstants.FileName = FileName;
-//                                ScannerConstants.FileDesc = fileCodeDetails.get(position).sBriefDsc;
-//                                ScannerConstants.Latt = latitude;
-//                                ScannerConstants.Longi = longitude;
-//                                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
-//                            });
-//                        }
-//                    });
-//
-//                }
-//
-//                @Override
-//                public void OnActionButtonClick() {
-//
-//                }
-//            });
-//            recyclerView.setLayoutManager(layoutManager);
-//            recyclerView.setAdapter(loAdapter);
-//            recyclerView.getRecycledViewPool().clear();
-//            loAdapter.notifyDataSetChanged();
-//        });
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -391,13 +313,16 @@ public class Activity_DocumentToScan extends AppCompatActivity {
 
                         @Override
                         public void OnSuccessResult(String[] args) {
+                            poDialogx.show();
                             GNotifBuilder.createNotification(Activity_DocumentToScan.this, "Document Scanner", args[0],APP_SYNC_DATA).show();
 
                         }
 
                         @Override
                         public void OnFailedResult(String message) {
+                            poDialogx.show();
                             GNotifBuilder.createNotification(Activity_DocumentToScan.this, "Document Scanner", message,APP_SYNC_DATA).show();
+
                         }
                     });
                     loAdapter.notifyDataSetChanged();

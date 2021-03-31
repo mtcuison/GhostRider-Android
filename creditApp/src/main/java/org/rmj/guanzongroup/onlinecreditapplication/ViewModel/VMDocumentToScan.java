@@ -240,14 +240,6 @@ public class VMDocumentToScan extends AndroidViewModel {
 
 //                                      UpdateFileNameAndFolder(lsTransNo, psTransNox, pnEntryNox, psFileCode,psFileLoc, psImageName);
 
-                                    } else {
-
-                                        Log.e(TAG, "Image file of Account No. " + psTransNox + ", Entry No. " + pnEntryNox + " was not uploaded to server.");
-
-                                        Log.e(TAG, "Reason : " + lsResponse);
-                                        JSONObject loError = new JSONObject(lsResponse);
-                                        lsResult = loError.getString("message");
-                                        Log.e(TAG, "Reason : " + loError.getString("message"));
                                     }
 
                                     Thread.sleep(1000);

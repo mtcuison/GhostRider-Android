@@ -212,15 +212,16 @@ public class VMClientInfo extends AndroidViewModel {
                         if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
                             String lsTransNo = (String) loUpload.get("sTransNox");
                             poImage.updateImageInfo(lsTransNo, psTransNox);
-                        } else {
-                            Log.e(TAG, "Image file of Account No. " + psTransNox + ", Entry No. " + pnEntryNox + " was not uploaded to server.");
-                            Log.e(TAG, "Reason : " + lsResponse);
-
-                            JSONParser loParser = new JSONParser();
-                            JSONObject loError = (JSONObject) loParser.parse((String) loUpload.get("error"));
-                            lsResult = (String) loError.get("message");
-                            Log.e(TAG, "Reason : " + lsResult);
                         }
+//                        else {
+//                            Log.e(TAG, "Image file of Account No. " + psTransNox + ", Entry No. " + pnEntryNox + " was not uploaded to server.");
+//                            Log.e(TAG, "Reason : " + lsResponse);
+//
+//                            JSONParser loParser = new JSONParser();
+//                            JSONObject loError = (JSONObject) loParser.parse((String) loUpload.get("error"));
+//                            lsResult = (String) loError.get("message");
+//                            Log.e(TAG, "Reason : " + lsResult);
+//                        }
 
                         Thread.sleep(1000);
                     }
