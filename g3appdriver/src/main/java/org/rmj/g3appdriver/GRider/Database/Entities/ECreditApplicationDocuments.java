@@ -22,6 +22,9 @@ public class ECreditApplicationDocuments implements Serializable {
     private String ImageNme;
     @ColumnInfo(name = "sFileLoc")
     private String FileLoc;
+    @ColumnInfo(name = "sSendStat")
+    private String SendStat;
+
     public ECreditApplicationDocuments() {
     }
 
@@ -72,5 +75,12 @@ public class ECreditApplicationDocuments implements Serializable {
     }
     public void setFileLoc(String fileLoc) {
         FileLoc = fileLoc;
+    }
+
+    public String getSendStat() {
+        return SendStat;
+    }
+    public void setSendStat(String sendStat) {
+        SendStat = sendStat;
     }
 }

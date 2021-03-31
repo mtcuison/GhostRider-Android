@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
+import android.util.Log;
+
 public class SpouseEmploymentInfoModel {
 
     // Private Sector Attrs
@@ -171,7 +173,10 @@ public class SpouseEmploymentInfoModel {
     }
 
     public long getGrossMonthly() {
-        return Long.parseLong(grossMonthly.replace(",", ""));
+        if(!grossMonthly.equalsIgnoreCase("")) {
+            return Long.parseLong(grossMonthly.replace(",", ""));
+        }
+        return 0;
     }
 
     public void setGrossMonthly(String grossMonthly) {
@@ -218,21 +223,25 @@ public class SpouseEmploymentInfoModel {
 
 //    __ GLOBAL TEST__
     public boolean isSpouseEmploymentInfoValid() {
-        return isUniformedPersonnelValid() &&
-                isMilitaryPersonnelValid() &&
-                isCompanyLvlValid() &&
-                isEmployeeLvlValid() &&
-                isBizIndustryValid() &&
-                isCompanyNameValid() &&
-                isCompAddressValid() &&
-                isJobTitleValid() &&
-                isJobSpecificValid() &&
-                isEmploymentStatValid() &&
-                isMonthOrYearValid() &&
-                isLengthOfServiceValid() &&
-                isGrossMonthlyValid() &&
-                isCompTelNoxValid() &&
-                isOFWFieldsValid();
+        if(isCompanyLvlValid() || isEmployeeLvlValid()) {
+            return isUniformedPersonnelValid() &&
+                    isMilitaryPersonnelValid() &&
+                    isCompanyLvlValid() &&
+                    isEmployeeLvlValid() &&
+                    isBizIndustryValid() &&
+                    isCompanyNameValid() &&
+                    isCompAddressValid() &&
+                    isJobTitleValid() &&
+                    isJobSpecificValid() &&
+                    isEmploymentStatValid() &&
+                    isMonthOrYearValid() &&
+                    isLengthOfServiceValid() &&
+                    isGrossMonthlyValid() &&
+                    isCompTelNoxValid() &&
+                    isOFWFieldsValid();
+        } else {
+            return true;
+        }
     }
 
     private boolean isUniformedPersonnelValid() {
@@ -387,7 +396,9 @@ public class SpouseEmploymentInfoModel {
 
     private boolean isMonthOrYearValid() {
         if(sector.equalsIgnoreCase("1") || sector.equalsIgnoreCase("0")) {
-            if(monthOrYear == null || monthOrYear.equalsIgnoreCase("")) {
+            Log.e("Sector", sector);
+            Log.e("monthOrYr", monthOrYear);
+            if(monthOrYear == null || monthOrYear.equalsIgnoreCase("-1")) {
                 message = "Please select duration of length of service";
                 return false;
             }
