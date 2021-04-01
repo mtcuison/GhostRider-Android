@@ -103,7 +103,6 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
 
                     @Override
                     public void OnCamera(String TransNox) {
-                        //new CheckImageFileTask().execute(TransNox);
 
                     }
                 });
@@ -178,8 +177,6 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
         super.onActivityResult(requestCode, resultCode, data);
         poImage.setMD5Hashx(WebFileServer.createMD5Hash(poImage.getFileLoct()));
         mViewModel.saveImageFile(poImage);
-
-        WebFileServer.CheckFile("", "", "", "");
     }
 
     private class CheckImageFileTask extends AsyncTask<String, Void, String>{
@@ -205,7 +202,11 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                 String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
                 if(!lsAccess.isEmpty()){
-                    org.json.simple.JSONObject loUpload = WebFileServer.CheckFile(lsAccess, "0029", "COAD", TransNox);
+                    org.json.simple.JSONObject loUpload = WebFileServer.CheckFile(lsAccess,
+                            "0029",
+                            poUser.getBranchCode(),
+                            "COAD",
+                            TransNox);
 
                     lsResponse = (String) loUpload.get("result");
                     Log.e(TAG, "Uploading image result : " + lsResponse);

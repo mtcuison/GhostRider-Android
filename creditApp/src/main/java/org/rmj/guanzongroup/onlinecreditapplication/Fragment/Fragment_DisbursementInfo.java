@@ -110,12 +110,9 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
         tieFoodx.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieFoodx));
         tieLoans.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieLoans));
         tieLimit.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieLimit));
-        spnTypex.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                typeX = String.valueOf(position);
-                mViewModel.setType(typeX);
-            }
+        spnTypex.setOnItemClickListener((parent, view, position, id) -> {
+            typeX = String.valueOf(position);
+            mViewModel.setType(typeX);
         });
         btnNext.setOnClickListener(view -> {
             infoModel.setStypeX(typeX);

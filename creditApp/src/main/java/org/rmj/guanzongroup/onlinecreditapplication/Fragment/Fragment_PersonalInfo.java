@@ -211,7 +211,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         infoModel.setNickName(Objects.requireNonNull(txtNickNm.getText()).toString());
         infoModel.setBrthDate(Objects.requireNonNull(txtBirthDt.getText()).toString());
         infoModel.setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
-
+        infoModel.clearMobileNo();
         if(!Objects.requireNonNull(txtMobileNo1.getText()).toString().trim().isEmpty()) {
             if(Integer.parseInt(psMob1NetTp) == 1) {
                 infoModel.setMobileNo(txtMobileNo1.getText().toString(), psMob1NetTp, Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));

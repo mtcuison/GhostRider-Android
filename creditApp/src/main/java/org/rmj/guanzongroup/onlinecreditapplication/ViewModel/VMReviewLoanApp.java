@@ -327,7 +327,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     loListDetl.add(new ReviewAppDetail(true, "Financier Info", "", ""));
                     loListDetl.add(new ReviewAppDetail(false, "", "Source", parseFinancier(loGOCas.MeansInfo().FinancerInfo().getSource())));
                     loListDetl.add(new ReviewAppDetail(false, "", "Financier Name", loGOCas.MeansInfo().FinancerInfo().getFinancerName()));
-                    loListDetl.add(new ReviewAppDetail(false, "", "Estimated Amount", FormatUIText.getCurrencyUIFormat(loGOCas.MeansInfo().FinancerInfo().getSource())));
+                    loListDetl.add(new ReviewAppDetail(false, "", "Estimated Amount", FormatUIText.getCurrencyUIFormat(String.valueOf(loGOCas.MeansInfo().FinancerInfo().getAmount()))));
 
                     ECountryInfo loCntryFn = poCountry.getCountryInfo(loGOCas.MeansInfo().FinancerInfo().getCountry());
                     String lsCountry = loCntryFn.getCntryNme();
