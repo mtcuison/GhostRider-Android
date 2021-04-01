@@ -137,8 +137,9 @@ public class WebFileServer {
      * @param fsSourceNo Source No/Reference No
      * @return JSONObject
      */
-    public static JSONObject CheckFile(String fsAcsToken, String fsSourceCd, String fsSourceNo){
+    public static JSONObject CheckFile(String fsAcsToken, String fsFileType, String fsSourceCd, String fsSourceNo){
         return WebFile.CheckFile(fsAcsToken,
+                                    fsFileType,
                                     fsSourceCd,
                                     fsSourceNo);
     }

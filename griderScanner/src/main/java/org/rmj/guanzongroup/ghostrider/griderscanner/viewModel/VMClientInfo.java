@@ -439,8 +439,9 @@ public class VMClientInfo extends AndroidViewModel {
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
                     } else {
                         JSONObject loDownload = WebFileServer.CheckFile(lsAccess,
-                                "COAD",
-                                psSourceNo);
+                                                                        "",
+                                                                        "COAD",
+                                                                        psSourceNo);
 
                         String lsResponse = (String) loDownload.get("result");
                         lsResult = String.valueOf(loDownload);
