@@ -85,8 +85,8 @@ public class ImageFileCreator {
             File photoFile = null;
             try {
                 photoFile = createImageFile();
-                latitude = poLocator.getLattitude();
-                longitude = poLocator.getLongitude();
+                latitude = locationTrack.getLatitude();
+                longitude = locationTrack.getLongitude();
 
             } catch (IOException ex) {
                 // Error occurred while creating the File...
