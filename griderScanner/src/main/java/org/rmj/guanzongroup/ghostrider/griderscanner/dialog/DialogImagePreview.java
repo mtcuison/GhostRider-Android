@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.ghostrider.griderscanner.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.g3appdriver.utils.DeviceDimensionsHelper;
 import org.rmj.guanzongroup.ghostrider.griderscanner.R;
 import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
 
@@ -54,14 +57,16 @@ public class DialogImagePreview {
         ImageView imgPreview = view.findViewById(R.id.imgPreview);
         TextView dTitle = view.findViewById(R.id.dialogTitle);
         dTitle.setText(dialogTitle);
+
         MaterialButton btnCancel = view.findViewById(R.id.btnPreviewOkay);
         try {
             if (ImgBitmap != null){
                 imgPreview.setVisibility(View.VISIBLE);
-                imgPreview.setImageBitmap(ImgBitmap);
+                imgPreview.setImageBitmap(DeviceDimensionsHelper.scaleToActualAspectRatio(context,ImgBitmap));
+//                imgPreview.setImageBitmap(bMapScaled);
             }
         }catch (NullPointerException e){
-
+            e.printStackTrace();
         }
 
 
