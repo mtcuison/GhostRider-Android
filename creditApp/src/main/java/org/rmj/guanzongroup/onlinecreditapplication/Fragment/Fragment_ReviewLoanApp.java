@@ -103,21 +103,24 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
         }));
 
         btnSave.setOnClickListener(v -> {
-            poMessage.initDialog();
-            poMessage.setTitle("Loan Application");
-            poMessage.setMessage("Please take a picture of the loan applicant.");
-            poMessage.setPositiveButton("Open Camera", (view, dialog) -> poCamera.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                hasImage = true;
-                poImage.setFileLoct(photPath);
-                poImage.setFileCode("0029");
-                poImage.setLatitude(String.valueOf(latitude));
-                poImage.setLongitud(String.valueOf(longitude));
-                poImage.setSourceNo(TransNox);
-                poImage.setMD5Hashx(WebFileServer.createMD5Hash(photPath));
-                getActivity().startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
-            }));
-            poMessage.setNegativeButton("Later", (view, dialog) -> mViewModel.SaveCreditOnlineApplication(Fragment_ReviewLoanApp.this));
-            poMessage.show();
+            if(!hasImage) {
+                poMessage.initDialog();
+                poMessage.setTitle("Loan Application");
+                poMessage.setMessage("Please take a picture of the loan applicant.");
+                poMessage.setPositiveButton("Open Camera", (view, dialog) -> poCamera.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                    poImage.setFileLoct(photPath);
+                    poImage.setFileCode("0029");
+                    poImage.setLatitude(String.valueOf(latitude));
+                    poImage.setLongitud(String.valueOf(longitude));
+                    poImage.setSourceNo(TransNox);
+                    poImage.setMD5Hashx(WebFileServer.createMD5Hash(photPath));
+                    getActivity().startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                }));
+                poMessage.setNegativeButton("Later", (view, dialog) -> mViewModel.SaveCreditOnlineApplication(Fragment_ReviewLoanApp.this));
+                poMessage.show();
+            } else {
+                mViewModel.SaveCreditOnlineApplication(Fragment_ReviewLoanApp.this);
+            }
         });
 
         btnPrvs.setOnClickListener(v -> {
@@ -184,12 +187,10 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(!hasImage) {
-            mViewModel.saveImageFile(poImage);
-            hasImage = true;
-        } else {
+        if(!hasImage){
             mViewModel.saveImageFile(poImage);
             mViewModel.SaveCreditOnlineApplication(Fragment_ReviewLoanApp.this);
+            hasImage = true;
         }
     }
 }
