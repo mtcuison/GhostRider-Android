@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -389,7 +390,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     //Spouse Info End
 
                     // TODO: Spouse Residence Info Start
-                    if(loGOCas.SpouseInfo().ResidenceInfo().PresentAddress().getLandMark() != null &&
+                    if(!loGOCas.SpouseInfo().ResidenceInfo().PresentAddress().getLandMark().equalsIgnoreCase("") &&
                             loGOCas.SpouseInfo().ResidenceInfo().PresentAddress().getTownCity() != null &&
                             loGOCas.SpouseInfo().ResidenceInfo().PresentAddress().getBarangay() != null) {
                         loListDetl.add(new ReviewAppDetail(true, "Spouse Residence Information", "", ""));
@@ -408,10 +409,11 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     //Spouse Residence Info End
 
                     // TODO: Spouse Employment Info Start
-                    if(loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyName() != null ||
-                            loGOCas.SpouseMeansInfo().EmployedInfo().getOFWCategory() != null) {
+                    if(!loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyName().equalsIgnoreCase("") ||
+                            !loGOCas.SpouseMeansInfo().EmployedInfo().getOFWCategory().equalsIgnoreCase("")) {
                         loListDetl.add(new ReviewAppDetail(true, "Spouse Employment Type", "", ""));
                         if(loGOCas.SpouseMeansInfo().EmployedInfo().getEmploymentSector().equalsIgnoreCase("1")) {
+                            Log.e("EmployDetails", loGOCas.SpouseMeansInfo().EmployedInfo().toJSONString());
                             // Private Sector
                             int lnCmpLvl = Integer.parseInt(loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyLevel());
                             loListDetl.add(new ReviewAppDetail(false, "", "Company Level", CreditAppConstants.COMPANY_LEVEL[lnCmpLvl]));
