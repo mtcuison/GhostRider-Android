@@ -89,6 +89,8 @@ public class UploadCreditApp {
         protected String doInBackground(Void... strings) {
             String lsResult;
             try {
+                poImage.setTransNox(poImgMngr.getImageNextCode());
+                poImgMngr.insertImageInfo(poImage);
                 poCreditApp.insertCreditApplication(poInfo);
                 poLoan.insertNewLoanApplication(poBranchApp);
                 if (poConn.isDeviceConnected()) {
@@ -129,6 +131,7 @@ public class UploadCreditApp {
                                 if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
                                     String lsTransNo = (String) loUpload.get("sTransNox");
                                     poImgMngr.updateImageInfo(lsTransNo, poImage.getTransNox());
+                                    lsResponse = (String) loUpload.toJSONString();
                                 } else {
                                     lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Loan application has been sent. But failed to upload customer photo.");
                                 }

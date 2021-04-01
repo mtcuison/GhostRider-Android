@@ -65,7 +65,8 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_review_loan_app, container, false);
-        TransNox = Activity_CreditApplication.getInstance().getTransNox();
+//        TransNox = Activity_CreditApplication.getInstance().getTransNox();
+        TransNox = "210000000006";
         initWidgets(v);
         return v;
     }
@@ -79,7 +80,7 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
         btnPrvs = v.findViewById(R.id.btn_creditAppPrvs);
 
         plDetail = new ArrayList<>();
-        String lsImageNme = TransNox + "200029";
+        String lsImageNme = TransNox;
         poCamera = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_CREDIT_APP, lsImageNme);
         poImage = new EImageInfo();
         poImage.setImageNme(lsImageNme);
@@ -98,7 +99,6 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
             poImage.setLatitude(String.valueOf(latitude));
             poImage.setLongitud(String.valueOf(longitude));
             poImage.setSourceNo(TransNox);
-            poImage.setMD5Hashx(WebFileServer.createMD5Hash(photPath));
             getActivity().startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
         }));
 
@@ -113,10 +113,13 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
                     poImage.setLatitude(String.valueOf(latitude));
                     poImage.setLongitud(String.valueOf(longitude));
                     poImage.setSourceNo(TransNox);
-                    poImage.setMD5Hashx(WebFileServer.createMD5Hash(photPath));
-                    getActivity().startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                    startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                    dialog.dismiss();
                 }));
-                poMessage.setNegativeButton("Later", (view, dialog) -> mViewModel.SaveCreditOnlineApplication(Fragment_ReviewLoanApp.this));
+                poMessage.setNegativeButton("Later", (view, dialog) -> {
+                    dialog.dismiss();
+                    mViewModel.SaveCreditOnlineApplication(Fragment_ReviewLoanApp.this);
+                });
                 poMessage.show();
             } else {
                 mViewModel.SaveCreditOnlineApplication(Fragment_ReviewLoanApp.this);
@@ -187,10 +190,8 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(!hasImage){
-            mViewModel.saveImageFile(poImage);
-            mViewModel.SaveCreditOnlineApplication(Fragment_ReviewLoanApp.this);
-            hasImage = true;
-        }
+        poImage.setMD5Hashx(WebFileServer.createMD5Hash(poImage.getFileLoct()));
+        mViewModel.saveImageFile(poImage);
+        mViewModel.SaveCreditOnlineApplication(Fragment_ReviewLoanApp.this);
     }
 }

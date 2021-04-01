@@ -31,12 +31,12 @@ public class VMDisbursementInfo extends AndroidViewModel {
     private final RCreditApplicant poApplcnt;
     private ECreditApplicantInfo poInfo;
 
-    private final GOCASApplication poGoCasxx;
+    private final DisbursementInfo poGoCasxx;
     public VMDisbursementInfo(@NonNull Application application)
     {
         super(application);
         this.poApplcnt = new RCreditApplicant(application);
-        this.poGoCasxx = new GOCASApplication();
+        this.poGoCasxx = new DisbursementInfo();
     }
 
     public void setTransNox(String transNox){
@@ -117,17 +117,17 @@ public class VMDisbursementInfo extends AndroidViewModel {
         protected String doInBackground(RCreditApplicant... rApplicant) {
             try{
                 if (infoModel.isDataValid()){
-                    poGoCasxx.DisbursementInfo().Expenses().setElectricBill(infoModel.getElctX());
-                    poGoCasxx.DisbursementInfo().Expenses().setFoodAllowance(infoModel.getFoodX());
-                    poGoCasxx.DisbursementInfo().Expenses().setWaterBill(infoModel.getWaterX());
-                    poGoCasxx.DisbursementInfo().Expenses().setLoanAmount((infoModel.getLoans()));
-                    poGoCasxx.DisbursementInfo().BankAccount().setBankName(Objects.requireNonNull(infoModel.getBankN()));
-                    poGoCasxx.DisbursementInfo().BankAccount().setAccountType(Objects.requireNonNull(infoModel.getStypeX()));
-                    poGoCasxx.DisbursementInfo().CreditCard().setBankName(Objects.requireNonNull(infoModel.getCcBnk()));
-                    poGoCasxx.DisbursementInfo().CreditCard().setCreditLimit(infoModel.getLimitCC());
-                    poGoCasxx.DisbursementInfo().CreditCard().setMemberSince(infoModel.getYearS());
+                    poGoCasxx.Expenses().setElectricBill(infoModel.getElctX());
+                    poGoCasxx.Expenses().setFoodAllowance(infoModel.getFoodX());
+                    poGoCasxx.Expenses().setWaterBill(infoModel.getWaterX());
+                    poGoCasxx.Expenses().setLoanAmount((infoModel.getLoans()));
+                    poGoCasxx.BankAccount().setBankName(Objects.requireNonNull(infoModel.getBankN()));
+                    poGoCasxx.BankAccount().setAccountType(Objects.requireNonNull(infoModel.getStypeX()));
+                    poGoCasxx.CreditCard().setBankName(Objects.requireNonNull(infoModel.getCcBnk()));
+                    poGoCasxx.CreditCard().setCreditLimit(infoModel.getLimitCC());
+                    poGoCasxx.CreditCard().setMemberSince(infoModel.getYearS());
                     poInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
-                    poInfo.setDisbrsmt(poGoCasxx.DisbursementInfo().toJSONString());
+                    poInfo.setDisbrsmt(poGoCasxx.toJSONString());
                     poApplcnt.updateGOCasData(poInfo);
                     return "success";
                 }else {

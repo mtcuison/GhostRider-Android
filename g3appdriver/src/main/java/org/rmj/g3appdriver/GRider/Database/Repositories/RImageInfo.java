@@ -33,6 +33,7 @@ public class RImageInfo {
     }
 
     public void insertImageInfo(EImageInfo imageInfo){
+        imageInfo.setTransNox(getImageNextCode());
         new InsertTask(imageDao, "insert").execute(imageInfo);
     }
 

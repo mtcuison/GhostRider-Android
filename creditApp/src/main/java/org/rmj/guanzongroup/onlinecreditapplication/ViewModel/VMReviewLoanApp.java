@@ -16,12 +16,14 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EMcBrand;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcModel;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RMcBrand;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RMcModel;
 import org.rmj.g3appdriver.GRider.Database.Repositories.ROccupation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
@@ -68,7 +70,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
 
     public LiveData<ECreditApplicantInfo> getApplicantInfo(){
         return poCreditApp.getCreditApplicantInfoLiveData(TransNox);
-//        return poCreditApp.getCreditApplicantInfoLiveData("210000000023");
+//        return poCreditApp.getCreditApplicantInfoLiveData("210000000006");
     }
 
     public void setCreditAppInfo(ECreditApplicantInfo foInfo){
@@ -143,6 +145,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
                 loGOCas.setData(new GoCasBuilder(poInfo).getConstructedDetailedInfo());
                 loListDetl.add(new ReviewAppDetail(true, "Purchase Info", "", ""));
                 loListDetl.add(new ReviewAppDetail(false, "", "Branch", loGOCas.PurchaseInfo().getPreferedBranch()));
+
                 loListDetl.add(new ReviewAppDetail(false, "", "Unit Applied", loGOCas.PurchaseInfo().getBrandName()));
 
                 EMcModel loModel = poModel.getModelInfo(loGOCas.PurchaseInfo().getModelID());
@@ -550,7 +553,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     if (!loGOCas.DisbursementInfo().CreditCard().getBankName().isEmpty()){
                         loListDetl.add(new ReviewAppDetail(false, "", "Bank Name",loGOCas.DisbursementInfo().CreditCard().getBankName()));
                         loListDetl.add(new ReviewAppDetail(false, "", "Account Limit",String.valueOf(loGOCas.DisbursementInfo().CreditCard().getCreditLimit())));
-                        loListDetl.add(new ReviewAppDetail(false, "", "Length of Use",String.valueOf(loGOCas.DisbursementInfo().CreditCard().getMemberSince())));
+                        //loListDetl.add(new ReviewAppDetail(false, "", "Length of Use",String.valueOf(loGOCas.DisbursementInfo().CreditCard().getMemberSince())));
                     }
                 }
 //                DEPENDENT
@@ -578,13 +581,11 @@ public class VMReviewLoanApp extends AndroidViewModel {
                         String SchooBirthPlace = SchooPlace.sTownName + ", " + SchooPlace.sProvName;
                         loListDetl.add(new ReviewAppDetail(false, "", "School Town ", SchooBirthPlace));
 
-                        loListDetl.add(new ReviewAppDetail(false, "", "Address ", loExp.get("sRefrAddx").toString()));
-                        loListDetl.add(new ReviewAppDetail(false, "", "", ""));
                     }
+
                     if(loExp.get("cHasWorkx").toString().equalsIgnoreCase("1")) {
                         loListDetl.add(new ReviewAppDetail(false, "", "Work Type", parseDpdntWorkType(loExp.get("cWorkType").toString())));
                         loListDetl.add(new ReviewAppDetail(false, "", "Company Name", loExp.get("sCompanyx").toString()));
-
                     }
                 }
 
