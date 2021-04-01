@@ -466,6 +466,7 @@ public class VMDocumentToScan extends AndroidViewModel {
                     } else {
                         org.json.simple.JSONObject loDownload = WebFileServer.CheckFile(lsAccess,
                                                                                         "",
+                                                                                        "",
                                                                                         "COAD",
                                                                                         psSourceNo);
 
