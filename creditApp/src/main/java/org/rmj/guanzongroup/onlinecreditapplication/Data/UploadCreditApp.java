@@ -12,12 +12,18 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
+
+import java.util.Objects;
 
 public class UploadCreditApp {
     private static final String TAG = UploadCreditApp.class.getSimpleName();
@@ -36,11 +42,10 @@ public class UploadCreditApp {
 
     public void UploadLoanApplication(ECreditApplication foUserApp,
                                       EBranchLoanApplication foBranchApp,
+                                      EImageInfo foImage,
                                       OnUploadLoanApplication listener){
-        new UploadTask(application, foUserApp, foBranchApp, listener).execute();
+        new UploadTask(application, foUserApp, foBranchApp, foImage, listener).execute();
     }
-
-
 
     private static class UploadTask extends AsyncTask<Void, Void, String>{
         private final Application instance;
@@ -48,21 +53,28 @@ public class UploadCreditApp {
         private final ConnectionUtil poConn;
         private final RCreditApplication poCreditApp;
         private final RBranchLoanApplication poLoan;
+        private final RImageInfo poImgMngr;
         private final OnUploadLoanApplication mListener;
         private final ECreditApplication poInfo;
         private final EBranchLoanApplication poBranchApp;
+        private final EImageInfo poImage;
+        private final SessionManager poUser;
 
         public UploadTask(Application application,
                           ECreditApplication foUserApp,
                           EBranchLoanApplication foBranchApp,
+                          EImageInfo foImage,
                           OnUploadLoanApplication listener) {
             this.instance = application;
             this.poInfo = foUserApp;
             this.poBranchApp = foBranchApp;
+            this.poImage = foImage;
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
             this.poCreditApp = new RCreditApplication(instance);
             this.poLoan = new RBranchLoanApplication(instance);
+            this.poUser = new SessionManager(instance);
+            this.poImgMngr = new RImageInfo(instance);
             this.mListener = listener;
         }
 
@@ -91,6 +103,36 @@ public class UploadCreditApp {
                         if(result.equalsIgnoreCase("success")){
                             String lsTransNox = loResponse.getString("sTransNox");
                             poCreditApp.updateSentLoanAppl(poInfo.getTransNox(), lsTransNox);
+
+                            Thread.sleep(1000);
+
+                            String lsClient = WebFileServer.RequestClientToken("IntegSys",
+                                                                                            poUser.getClientId(),
+                                                                                            poUser.getUserID());
+                            String lsAccess = WebFileServer.RequestAccessToken(lsClient);
+
+                            if(!lsAccess.isEmpty()){
+                                org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
+                                        poImage.getFileLoct(),
+                                        lsAccess,
+                                        poImage.getFileCode(),
+                                        poImage.getDtlSrcNo(),
+                                        poImage.getImageNme(),
+                                        poUser.getBranchCode(),
+                                        poImage.getSourceCD(),
+                                        poImage.getSourceCD(),
+                                        "");
+
+                                lsResponse = (String) loUpload.get("result");
+                                Log.e(TAG, "Uploading image result : " + lsResponse);
+
+                                if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
+                                    String lsTransNo = (String) loUpload.get("sTransNox");
+                                    poImgMngr.updateImageInfo(lsTransNo, poImage.getTransNox());
+                                } else {
+                                    lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Loan application has been sent. But failed to upload customer photo.");
+                                }
+                            }
                         }
                         lsResult = lsResponse;
                     } else {

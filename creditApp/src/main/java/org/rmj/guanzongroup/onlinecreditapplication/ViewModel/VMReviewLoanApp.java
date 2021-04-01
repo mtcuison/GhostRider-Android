@@ -42,6 +42,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
     private final RCreditApplicant poCreditApp;
     private final RBranchLoanApplication poLoan;
     private final RImageInfo poImage;
+    private EImageInfo poPhoto;
     private String TransNox;
 
     private ECreditApplicantInfo poInfo = new ECreditApplicantInfo();
@@ -80,6 +81,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
     }
 
     public void saveImageFile(EImageInfo foImage){
+        this.poPhoto = foImage;
         poImage.insertImageInfo(foImage);
     }
 
@@ -110,7 +112,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
         loLoan.setCreatedX(loCreditApp.getCreatedx());
         loLoan.setTranStat("0");
         loLoan.setTimeStmp(AppConstants.DATE_MODIFIED);
-        new UploadCreditApp(instance).UploadLoanApplication(loCreditApp, loLoan, listener);
+        new UploadCreditApp(instance).UploadLoanApplication(loCreditApp, loLoan, poPhoto, listener);
     }
 
     private static class FetchReviewDetail extends AsyncTask<ECreditApplicantInfo, Void, List<ReviewAppDetail>>{

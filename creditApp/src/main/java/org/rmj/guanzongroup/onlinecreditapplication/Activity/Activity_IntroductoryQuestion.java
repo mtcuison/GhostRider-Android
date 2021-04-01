@@ -295,6 +295,11 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
         getViewModelStore().clear();
+        super.onDestroy();
     }
 }
