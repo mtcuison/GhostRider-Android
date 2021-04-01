@@ -15,10 +15,8 @@ public class DeviceDimensionsHelper {
             int bitmapHeight = bitmap.getHeight();
             int bitmapWidth = bitmap.getWidth();
 
-
             if (bitmapWidth > deviceWidth) {
                 flag = false;
-
                 int scaledWidth = deviceWidth;
                 int scaledHeight = (scaledWidth * bitmapHeight) / bitmapWidth;
 
