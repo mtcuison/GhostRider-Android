@@ -9,7 +9,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.ImportData.ImportDataCallback;
 import org.rmj.g3appdriver.GRider.ImportData.Import_LoanApplications;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
@@ -21,11 +23,13 @@ public class VMApplicationHistory extends AndroidViewModel {
     private static final String TAG = VMApplicationHistory.class.getSimpleName();
     private final RCreditApplication poCreditApp;
     private final Import_LoanApplications poImport;
+    private final RImageInfo poImage;
 
     public VMApplicationHistory(@NonNull Application application) {
         super(application);
         this.poCreditApp = new RCreditApplication(application);
         this.poImport = new Import_LoanApplications(application);
+        this.poImage = new RImageInfo(application);
     }
 
     public void LoadApplications(ViewModelCallBack callBack){
@@ -56,5 +60,10 @@ public class VMApplicationHistory extends AndroidViewModel {
 
     public void UpdateGOCasInfo(String TransNox){
 
+    }
+
+    public void saveImageFile(EImageInfo foImage) {
+        foImage.setTransNox(poImage.getImageNextCode());
+        poImage.insertImageInfo(foImage);
     }
 }

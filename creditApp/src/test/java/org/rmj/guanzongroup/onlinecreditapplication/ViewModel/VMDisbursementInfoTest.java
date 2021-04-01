@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.rmj.g3appdriver.utils.CodeGenerator;
+import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DisbursementInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.robolectric.RobolectricTestRunner;
@@ -28,12 +29,15 @@ public class VMDisbursementInfoTest{
     @Mock
     ViewModelCallBack callBack;
 
+    @Mock
+    GOCASApplication poGOcas;
+
     @Before
     public void setUp() throws Exception {
         mViewModel = new VMDisbursementInfo(ApplicationProvider.getApplicationContext());
         infoModels = new DisbursementInfoModel();
         transnox = new CodeGenerator().generateTransNox();
-
+        poGOcas = new GOCASApplication();
         infoModels.setTransNo("Z3TXCBMCHCAO");
         infoModels.setElctX("1000");
         infoModels.setWaterX("1000");
@@ -45,6 +49,11 @@ public class VMDisbursementInfoTest{
         infoModels.setLimitCC("20000");
         infoModels.setYearS("2");
         mViewModel.setTransNox("Z3TXCBMCHCAO");
+
+        poGOcas.DisbursementInfo().Expenses().setElectricBill(2000);
+        poGOcas.DisbursementInfo().Expenses().setFoodAllowance(2000);
+        poGOcas.DisbursementInfo().Expenses().setWaterBill(2000);
+        poGOcas.DisbursementInfo().Expenses().setLoanAmount(2000);
     }
 
     @After
@@ -78,11 +87,16 @@ public class VMDisbursementInfoTest{
     }
     @Test
     public void test_setCreditApplicantInfo() throws Exception{
-
         Assert.assertTrue(mViewModel.SubmitApplicationInfo(infoModels, callBack));
         if(mViewModel.SubmitApplicationInfo(infoModels, callBack)){
             System.out.println("Submit Success.");
         }
     }
 
+    public void testDibursementGOCas(){
+        Assert.assertEquals(2000, poGOcas.DisbursementInfo().Expenses().getElectricBill());
+        Assert.assertEquals(2000, poGOcas.DisbursementInfo().Expenses().getElectricBill());
+        Assert.assertEquals(2000, poGOcas.DisbursementInfo().Expenses().getElectricBill());
+        Assert.assertEquals(2000, poGOcas.DisbursementInfo().Expenses().getElectricBill());
+    }
 }

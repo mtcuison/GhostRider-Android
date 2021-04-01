@@ -161,7 +161,6 @@ public class ImageFileCreator {
     }
 
     public String generateDCPImageFileName() {
-
         return imgName + "_" + generateTimestamp() + "_";
     }
 
@@ -179,9 +178,8 @@ public class ImageFileCreator {
 //        return sd;
     }
     public File generateMainStorageDirScan() {
-
         String root = Environment.getExternalStorageDirectory().toString();
-        File sd = new File(root + "/"+ FOLDER_DIRECTORY+ "/" + SUB_FOLDER+ "/");
+        File sd = new File(root + "/"+ FOLDER_DIRECTORY+ "/" + SUB_FOLDER+ "/" + TransNox + "/");
         if (!sd.exists() && !sd.mkdirs()){
             Log.d(TAG, "failed to create directory");
         }

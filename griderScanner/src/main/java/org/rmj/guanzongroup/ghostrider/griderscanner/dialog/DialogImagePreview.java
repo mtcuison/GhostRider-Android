@@ -6,9 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -21,12 +18,6 @@ import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.utils.DeviceDimensionsHelper;
 import org.rmj.guanzongroup.ghostrider.griderscanner.R;
-import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
-
-import java.io.File;
-import java.io.IOException;
-
-import static org.rmj.guanzongroup.ghostrider.griderscanner.ClientInfo.contentResolver;
 
 
 public class DialogImagePreview {
@@ -49,7 +40,7 @@ public class DialogImagePreview {
 
     public void initDialog(OnDialogButtonClickListener listener){
         AlertDialog.Builder loBuilder = new AlertDialog.Builder(context);
-        View view = LayoutInflater.from(context).inflate(R.layout.fragment_dialog_image_preview, null, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_image_preview, null, false);
         loBuilder.setCancelable(false)
                 .setView(view);
         poDialogx = loBuilder.create();

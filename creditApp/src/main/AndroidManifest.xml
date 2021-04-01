@@ -4,19 +4,21 @@
     package="org.rmj.guanzongroup.onlinecreditapplication">
 
     <application>
+        <activity android:name=".Activity.Activity_PendingLoanApplications"></activity>
         <activity
             android:name=".Activity.Activity_DocumentToScan"
-            android:screenOrientation="userPortrait"
-            android:label="Credit Online Application" />
-        <activity android:name=".Activity.Activity_BranchApplications"
-            android:screenOrientation="userPortrait"
-            android:label="Credit Online Application"/>
+            android:label="Credit Online Application"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".Activity.Activity_BranchApplications"
+            android:label="Credit Online Application"
+            android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_ApplicationHistory"
             android:label="Credit Online Application"
             android:screenOrientation="userPortrait"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activity.Activity_IntroductoryQuestion"
             android:label="Credit Online Application"
