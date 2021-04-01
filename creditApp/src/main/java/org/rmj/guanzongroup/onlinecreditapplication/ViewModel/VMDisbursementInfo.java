@@ -53,7 +53,6 @@ public class VMDisbursementInfo extends AndroidViewModel {
     public void setCreditApplicantInfo(ECreditApplicantInfo applicantInfo){
         try{
             poInfo = applicantInfo;
-            poGoCasxx.setData(poInfo.getDetlInfo());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -118,7 +117,6 @@ public class VMDisbursementInfo extends AndroidViewModel {
         protected String doInBackground(RCreditApplicant... rApplicant) {
             try{
                 if (infoModel.isDataValid()){
-//                poGoCasxx.DisbursementInfo().Expenses().setElectricBill(infoModel.getElctX());
                     poGoCasxx.DisbursementInfo().Expenses().setElectricBill(infoModel.getElctX());
                     poGoCasxx.DisbursementInfo().Expenses().setFoodAllowance(infoModel.getFoodX());
                     poGoCasxx.DisbursementInfo().Expenses().setWaterBill(infoModel.getWaterX());
@@ -131,7 +129,6 @@ public class VMDisbursementInfo extends AndroidViewModel {
                     poInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
                     poInfo.setDisbrsmt(poGoCasxx.DisbursementInfo().toJSONString());
                     poApplcnt.updateGOCasData(poInfo);
-                    Log.e("Disbursement Data", String.valueOf(poInfo.getDetlInfo()));
                     return "success";
                 }else {
                     return infoModel.getMessage();

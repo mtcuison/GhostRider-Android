@@ -205,7 +205,7 @@ public class GoCasBuilder {
             JSONObject loOther = loMeans.getJSONObject("other_income");
             try {
                 poGOCas.MeansInfo().setOtherIncomeNature(loOther.getString("sOthrIncm"));
-                poGOCas.MeansInfo().setOtherIncomeAmount(Long.parseLong(loOther.getString("nOthrIncm")));
+                //poGOCas.MeansInfo().setOtherIncomeAmount(Long.parseLong(loOther.getString("nOthrIncm")));
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -281,6 +281,7 @@ public class GoCasBuilder {
             poGOCas.SpouseMeansInfo().EmployedInfo().setNatureofBusiness(loEmpl.getString("sIndstWrk"));
             poGOCas.SpouseMeansInfo().EmployedInfo().setCompanyName(loEmpl.getString("sEmployer"));
             poGOCas.SpouseMeansInfo().EmployedInfo().setCompanyAddress(loEmpl.getString("sWrkAddrx"));
+            poGOCas.SpouseMeansInfo().EmployedInfo().setCompanyTown(loEmpl.getString("sWrkTownx"));
             poGOCas.SpouseMeansInfo().EmployedInfo().setPosition(loEmpl.getString("sPosition"));
             poGOCas.SpouseMeansInfo().EmployedInfo().setJobDescription(loEmpl.getString("sFunction"));
             poGOCas.SpouseMeansInfo().EmployedInfo().setEmployeeStatus(loEmpl.getString("cEmpStatx"));
@@ -316,7 +317,7 @@ public class GoCasBuilder {
             JSONObject loOther = loMeans.getJSONObject("other_income");
             try {
                 poGOCas.SpouseMeansInfo().setOtherIncomeNature(loOther.getString("sOthrIncm"));
-                poGOCas.SpouseMeansInfo().setOtherIncomeAmount(Long.parseLong(loOther.getString("nOthrIncm")));
+                //poGOCas.SpouseMeansInfo().setOtherIncomeAmount(Long.parseLong(loOther.getString("nOthrIncm")));
             } catch (Exception e){
                 e.printStackTrace();
             }

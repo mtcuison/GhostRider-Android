@@ -59,7 +59,7 @@ public class Fragment_Properties extends Fragment implements ViewModelCallBack {
         btnPrvs = view.findViewById(R.id.btn_creditAppPrvs);
         btnNext = view.findViewById(R.id.btn_creditAppNext);
 
-        btnPrvs.setOnClickListener(v -> Activity_CreditApplication.getInstance().moveToPageNumber(14));
+        btnPrvs.setOnClickListener(v -> Activity_CreditApplication.getInstance().moveToPageNumber(13));
     }
 
     @Override

@@ -442,7 +442,6 @@ public class InternetStatusReciever extends BroadcastReceiver {
                             publishProgress("Failed requesting access token. Sending selfie image failed...");
                         }
                     }
-
                 }
             }
         }

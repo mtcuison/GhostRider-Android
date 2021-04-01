@@ -79,6 +79,7 @@ public class Import_LoanApplications implements ImportInstance{
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                e.getCause();
             }
             return response;
         }

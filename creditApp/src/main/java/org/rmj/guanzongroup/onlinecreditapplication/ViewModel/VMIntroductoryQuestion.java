@@ -243,9 +243,9 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
                 creditApp.setDownPaym(loGoCas.PurchaseInfo().getDownPayment());
                 creditApp.setAppliedx(loGoCas.PurchaseInfo().getDateApplied());
                 creditApp.setCreatedx(AppConstants.DATE_MODIFIED);
+                creditApp.setTransact(AppConstants.CURRENT_DATE);
                 creditApp.setBranchCd(loGoCas.PurchaseInfo().getPreferedBranch());
-                creditApp.setTransact("0");
-                creditApp.setTransact("0");
+                creditApp.setTranStat("0");
                 creditApp.setTransNox(transnox);
                 oCredtRepo.insertGOCasData(creditApp);
                 callBack.onSaveSuccessResult(transnox);

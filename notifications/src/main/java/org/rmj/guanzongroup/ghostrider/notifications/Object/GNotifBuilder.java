@@ -24,7 +24,6 @@ public class GNotifBuilder {
     public static int APP_DATA_DOWNLOAD = 413;
     public static int APP_SYNC_DATA = 314;
 
-
     public static int SENDING_SELFIE_IMAGES = 124;
     public static int SENDING_SELFIELOG = 241;
     public static int SENDING_DCP_DATA = 412;

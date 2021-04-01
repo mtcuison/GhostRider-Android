@@ -37,6 +37,7 @@ public class UserLoanHistoryAdapter extends RecyclerView.Adapter<UserLoanHistory
         void OnUpdate(String TransNox);
         void OnDelete(String TransNox);
         void OnPreview(String TransNox);
+        void OnCamera(String TransNox);
     }
 
     @NonNull
@@ -88,7 +89,7 @@ public class UserLoanHistoryAdapter extends RecyclerView.Adapter<UserLoanHistory
         TextView lblDateApprov;
         TextView lblDateSentxx;
         TextView lblSentStatus;
-        ImageButton btnVoid;
+        ImageButton btnVoid, btnPhoto;
         MaterialButton btnExpt;
         MaterialButton btnUpdt;
 
@@ -104,6 +105,7 @@ public class UserLoanHistoryAdapter extends RecyclerView.Adapter<UserLoanHistory
             lblDateSentxx = itemView.findViewById(R.id.lbl_listLog_dateSent);
             lblSentStatus = itemView.findViewById(R.id.lbl_applicationSent);
             btnVoid = itemView.findViewById(R.id.btn_deleteApplication);
+            btnPhoto = itemView.findViewById(R.id.btn_camera);
             btnUpdt = itemView.findViewById(R.id.btn_applicationUpdate);
             btnExpt = itemView.findViewById(R.id.btn_applicationExport);
 
@@ -125,6 +127,13 @@ public class UserLoanHistoryAdapter extends RecyclerView.Adapter<UserLoanHistory
                 int lnPos = getAdapterPosition();
                 if(lnPos != RecyclerView.NO_POSITION){
                     listener.OnExport(poLoan.getTransNox());
+                }
+            });
+
+            btnPhoto.setOnClickListener(v -> {
+                int lnPos = getAdapterPosition();
+                if(lnPos != RecyclerView.NO_POSITION){
+                    listener.OnCamera(poLoan.getTransNox());
                 }
             });
 
