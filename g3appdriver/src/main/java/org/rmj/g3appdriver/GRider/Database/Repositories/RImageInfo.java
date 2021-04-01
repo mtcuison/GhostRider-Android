@@ -88,6 +88,9 @@ public class RImageInfo {
     public List<EImageInfo> getUnsentLoanAppDocFiles(String TransNox){
         return imageDao.getUnsentLoanAppDocFiles(TransNox);
     }
+    public List<EImageInfo> getUnsentLoanAppDocFiless(String TransNox){
+        return imageDao.getUnsentLoanAppDocFiless(TransNox);
+    }
 
     private static class InsertTask extends AsyncTask<EImageInfo, Void, String>{
         private final DImageInfo imageDao;

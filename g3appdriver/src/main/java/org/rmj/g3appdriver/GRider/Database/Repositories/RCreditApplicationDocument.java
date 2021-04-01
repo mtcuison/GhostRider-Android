@@ -16,6 +16,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 
@@ -66,6 +67,11 @@ public class RCreditApplicationDocument {
         new updateDocumentsInfoByFile(documentsDao,sFileCD).execute(transNox);
     }
 
+
+
+    public List<ECreditApplicationDocuments> getUnsentApplicationDocumentss(){
+        return documentsDao.getUnsentApplicationDocumentss();
+    }
 
     public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentDetailForPosting(){
         return documentsDao.getDocumentDetailForPosting();

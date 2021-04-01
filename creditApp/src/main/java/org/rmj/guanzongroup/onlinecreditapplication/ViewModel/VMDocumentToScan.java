@@ -92,6 +92,7 @@ public class VMDocumentToScan extends AndroidViewModel {
     public LiveData<List<DCreditApplicationDocuments.ApplicationDocument>> getDocumentDetailForPosting() {
         return this.poDocument.getDocumentDetailForPosting();
     }
+
     public void setDocumentListForPosting(List<DCreditApplicationDocuments.ApplicationDocument> documentList){
         this.plDetail.setValue(documentList);
     }
