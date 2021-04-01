@@ -2,7 +2,6 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -43,6 +42,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
     private final RCreditApplicant poCreditApp;
     private final RBranchLoanApplication poLoan;
     private final RImageInfo poImage;
+    private EImageInfo poPhoto;
     private String TransNox;
 
     private ECreditApplicantInfo poInfo = new ECreditApplicantInfo();
@@ -81,6 +81,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
     }
 
     public void saveImageFile(EImageInfo foImage){
+        this.poPhoto = foImage;
         poImage.insertImageInfo(foImage);
     }
 
@@ -111,7 +112,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
         loLoan.setCreatedX(loCreditApp.getCreatedx());
         loLoan.setTranStat("0");
         loLoan.setTimeStmp(AppConstants.DATE_MODIFIED);
-        new UploadCreditApp(instance).UploadLoanApplication(loCreditApp, loLoan, listener);
+        new UploadCreditApp(instance).UploadLoanApplication(loCreditApp, loLoan, poPhoto, listener);
     }
 
     private static class FetchReviewDetail extends AsyncTask<ECreditApplicantInfo, Void, List<ReviewAppDetail>>{
@@ -326,7 +327,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     loListDetl.add(new ReviewAppDetail(true, "Financier Info", "", ""));
                     loListDetl.add(new ReviewAppDetail(false, "", "Source", parseFinancier(loGOCas.MeansInfo().FinancerInfo().getSource())));
                     loListDetl.add(new ReviewAppDetail(false, "", "Financier Name", loGOCas.MeansInfo().FinancerInfo().getFinancerName()));
-                    loListDetl.add(new ReviewAppDetail(false, "", "Estimated Amount", FormatUIText.getCurrencyUIFormat(loGOCas.MeansInfo().FinancerInfo().getSource())));
+                    loListDetl.add(new ReviewAppDetail(false, "", "Estimated Amount", FormatUIText.getCurrencyUIFormat(String.valueOf(loGOCas.MeansInfo().FinancerInfo().getAmount()))));
 
                     ECountryInfo loCntryFn = poCountry.getCountryInfo(loGOCas.MeansInfo().FinancerInfo().getCountry());
                     String lsCountry = loCntryFn.getCntryNme();
@@ -356,8 +357,6 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     loListDetl.add(new ReviewAppDetail(false, "", "Middle Name", loGOCas.SpouseInfo().PersonalInfo().getMiddleName()));
                     loListDetl.add(new ReviewAppDetail(false, "", "Suffix", loGOCas.SpouseInfo().PersonalInfo().getSuffixName()));
                     loListDetl.add(new ReviewAppDetail(false, "", "Nickname", loGOCas.SpouseInfo().PersonalInfo().getNickName()));
-
-                    loListDetl.add(new ReviewAppDetail(true, "Spouse Birth Information", "", ""));
                     loListDetl.add(new ReviewAppDetail(false, "", "Birthdate", loGOCas.SpouseInfo().PersonalInfo().getBirthdate()));
 
                     DTownInfo.TownProvinceName loBPlaceS = poTown.getTownProvinceName(loGOCas.SpouseInfo().PersonalInfo().getBirthPlace());
@@ -368,7 +367,6 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     String lsCitizenS = loCountryS.getNational();
                     loListDetl.add(new ReviewAppDetail(false, "", "Citizenship", lsCitizenS));
 
-                    loListDetl.add(new ReviewAppDetail(true, "Spouse Contact Information", "", ""));
                     int lnMobilQt = loGOCas.SpouseInfo().PersonalInfo().getMobileNoQty();
                     String[] lsMobilTp = {"Primary", "2nd", "3rd"};
                     for (int i = 0; i < lnMobilQt; i++) {
@@ -390,7 +388,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     //Spouse Info End
 
                     // TODO: Spouse Residence Info Start
-                    if(!loGOCas.SpouseInfo().ResidenceInfo().PresentAddress().getLandMark().equalsIgnoreCase("") &&
+                    if(loGOCas.SpouseInfo().ResidenceInfo().PresentAddress().getLandMark() != null &&
                             loGOCas.SpouseInfo().ResidenceInfo().PresentAddress().getTownCity() != null &&
                             loGOCas.SpouseInfo().ResidenceInfo().PresentAddress().getBarangay() != null) {
                         loListDetl.add(new ReviewAppDetail(true, "Spouse Residence Information", "", ""));
@@ -409,18 +407,16 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     //Spouse Residence Info End
 
                     // TODO: Spouse Employment Info Start
-                    if(!loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyName().equalsIgnoreCase("") ||
-                            !loGOCas.SpouseMeansInfo().EmployedInfo().getOFWCategory().equalsIgnoreCase("")) {
-                        loListDetl.add(new ReviewAppDetail(true, "Spouse Employment Type", "", ""));
+                    if(loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyName() != null ||
+                            loGOCas.SpouseMeansInfo().EmployedInfo().getOFWCategory() != null) {
+                        loListDetl.add(new ReviewAppDetail(true, "Spouse Employment Information", "", ""));
                         if(loGOCas.SpouseMeansInfo().EmployedInfo().getEmploymentSector().equalsIgnoreCase("1")) {
-                            Log.e("EmployDetails", loGOCas.SpouseMeansInfo().EmployedInfo().toJSONString());
                             // Private Sector
                             int lnCmpLvl = Integer.parseInt(loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyLevel());
                             loListDetl.add(new ReviewAppDetail(false, "", "Company Level", CreditAppConstants.COMPANY_LEVEL[lnCmpLvl]));
                             int lmEmpLvl = Integer.parseInt(loGOCas.SpouseMeansInfo().EmployedInfo().getEmployeeLevel());
                             loListDetl.add(new ReviewAppDetail(false, "", "Employee Level", CreditAppConstants.EMPLOYEE_LEVEL[lmEmpLvl]));
 
-                            loListDetl.add(new ReviewAppDetail(true, "Nature of Business", "", ""));
                             int lnBizNatr = Integer.parseInt(loGOCas.SpouseMeansInfo().EmployedInfo().getNatureofBusiness());
                             loListDetl.add(new ReviewAppDetail(false, "", "Business Industry", CreditAppConstants.BUSINESS_NATURE[lnBizNatr]));
                             loListDetl.add(new ReviewAppDetail(false, "", "Company Name", loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyName()));
@@ -435,16 +431,15 @@ public class VMReviewLoanApp extends AndroidViewModel {
                             // String lsBizAdrs = loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyAddress() + ", " + lsBizTown;
                             // loListDetl.add(new ReviewAppDetail(false, "", "Business Address", lsBizAdrs));
 
-                            loListDetl.add(new ReviewAppDetail(true, "Position or Job Title", "", ""));
-
-                            loListDetl.add(new ReviewAppDetail(false, "", "Job Title", loGOCas.SpouseMeansInfo().EmployedInfo().getPosition()));
+                            String lsPosition = poJobx.getOccupationName(loGOCas.SpouseMeansInfo().EmployedInfo().getPosition());
+                            loListDetl.add(new ReviewAppDetail(false, "", "Job Title", lsPosition));
                             loListDetl.add(new ReviewAppDetail(false, "", "Specific Job/Position", loGOCas.SpouseMeansInfo().EmployedInfo().getJobDescription()));
 
                             loListDetl.add(new ReviewAppDetail(false, "", "Employment Status", parseEmployeeStatus(loGOCas.SpouseMeansInfo().EmployedInfo().getEmployeeStatus())));
 
                             String lsLength = loGOCas.SpouseMeansInfo().EmployedInfo().getLengthOfService() + " year/s";
                             loListDetl.add(new ReviewAppDetail(false, "", "Length of Service", lsLength));
-                            loListDetl.add(new ReviewAppDetail(false, "", "Gross Monthly Income", String.valueOf(loGOCas.SpouseMeansInfo().EmployedInfo().getSalary())));
+                            loListDetl.add(new ReviewAppDetail(false, "", "Gross Monthly Income", FormatUIText.getCurrencyUIFormat(String.valueOf(loGOCas.SpouseMeansInfo().EmployedInfo().getSalary()))));
                             loListDetl.add(new ReviewAppDetail(false, "", "Company Contact No.", String.valueOf(loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyNo())));
                         } else if(loGOCas.SpouseMeansInfo().EmployedInfo().getEmploymentSector().equalsIgnoreCase("0")) {
                             // Government Sector
@@ -485,12 +480,11 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     // TODO: Spouse Self Employed Info Start
                     if(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getNameOfBusiness() !=null &&
                             loGOCas.SpouseMeansInfo().SelfEmployedInfo().getNatureOfBusiness() != null) {
-                        loListDetl.add(new ReviewAppDetail(true, "Spouse Self Employed Information", "", ""));
+                        loListDetl.add(new ReviewAppDetail(true, "Spouse Business Information", "", ""));
                         loListDetl.add(new ReviewAppDetail(false, "", "Business Name", loGOCas.SpouseMeansInfo().SelfEmployedInfo().getNameOfBusiness()));
                         int lnBzNatur = Integer.parseInt(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getNatureOfBusiness());
                         loListDetl.add(new ReviewAppDetail(false, "", "Nature of Business", CreditAppConstants.BUSINESS_NATURE[lnBzNatur]));
 
-                        loListDetl.add(new ReviewAppDetail(true, "Business Address", "", ""));
                         DTownInfo.TownProvinceName loAddrs = poTown.getTownProvinceName(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getBusinessTown());
                         loListDetl.add(new ReviewAppDetail(false, "", "Street/Bldg./Barangay", loGOCas.SpouseMeansInfo().SelfEmployedInfo().getBusinessAddress()));
                         loListDetl.add(new ReviewAppDetail(false, "", "Province", loAddrs.sProvName));
@@ -501,7 +495,6 @@ public class VMReviewLoanApp extends AndroidViewModel {
                         // String lsBizAdrs = loGOCas.SpouseMeansInfo().SelfEmployedInfo().getBusinessAddress() + ", " + lsBizTown;
                         // loListDetl.add(new ReviewAppDetail(false, "", "Business Address", lsBizAdrs));
 
-                        loListDetl.add(new ReviewAppDetail(true, "Other Business Information", "", ""));
                         int lnBizType = Integer.parseInt(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getBusinessType());
                         loListDetl.add(new ReviewAppDetail(false, "", "Business Type", CreditAppConstants.BUSINESS_TYPE[lnBizType]));
 
@@ -511,8 +504,8 @@ public class VMReviewLoanApp extends AndroidViewModel {
                         String lsBizAge = loGOCas.SpouseMeansInfo().SelfEmployedInfo().getBusinessLength() + " Year/s";
                         loListDetl.add(new ReviewAppDetail(false, "", "Length of Service", lsBizAge));
 
-                        loListDetl.add(new ReviewAppDetail(false, "", "Gross Monthly Income", String.valueOf(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getIncome())));
-                        loListDetl.add(new ReviewAppDetail(false, "", "Monthly Expenses", String.valueOf(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getMonthlyExpense())));
+                        loListDetl.add(new ReviewAppDetail(false, "", "Gross Monthly Income", FormatUIText.getCurrencyUIFormat(String.valueOf(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getIncome()))));
+                        loListDetl.add(new ReviewAppDetail(false, "", "Monthly Expenses", FormatUIText.getCurrencyUIFormat(String.valueOf(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getMonthlyExpense()))));
                     }
                     // Spouse Self Employed Info End
 
@@ -523,16 +516,15 @@ public class VMReviewLoanApp extends AndroidViewModel {
                         String[] lsSource = {"Government", "Private"};
                         int lnSource = Integer.parseInt(loGOCas.SpouseMeansInfo().PensionerInfo().getSource());
                         loListDetl.add(new ReviewAppDetail(false, "", "Pension Source", lsSource[lnSource]));
-                        loListDetl.add(new ReviewAppDetail(false, "", "Pension Income", String.valueOf(loGOCas.SpouseMeansInfo().PensionerInfo().getAmount())));
+                        loListDetl.add(new ReviewAppDetail(false, "", "Pension Income", FormatUIText.getCurrencyUIFormat(String.valueOf(loGOCas.SpouseMeansInfo().PensionerInfo().getAmount()))));
 
-                        if(loGOCas.SpouseMeansInfo().getOtherIncomeNature() != null) {
-                            loListDetl.add(new ReviewAppDetail(true, "Other Source of Income", "", ""));
-                            loListDetl.add(new ReviewAppDetail(false, "", "Nature of Income", loGOCas.SpouseMeansInfo().getOtherIncomeNature()));
-                            loListDetl.add(new ReviewAppDetail(false, "", "Range of Income", String.valueOf(loGOCas.SpouseMeansInfo().getOtherIncomeAmount())));
-                        }
+//                        if(loGOCas.SpouseMeansInfo().getOtherIncomeNature() != null) {
+//                            loListDetl.add(new ReviewAppDetail(true, "Other Source of Income", "", ""));
+//                            loListDetl.add(new ReviewAppDetail(false, "", "Nature of Income", loGOCas.SpouseMeansInfo().getOtherIncomeNature()));
+//                            loListDetl.add(new ReviewAppDetail(false, "", "Range of Income", String.valueOf(loGOCas.SpouseMeansInfo().getOtherIncomeAmount())));
+//                        }
                     }
                     // Spouse Pension Info End
-
 
                 }
                 if(loGOCas.DisbursementInfo().Expenses().getElectricBill() > 0.0 || loGOCas.DisbursementInfo().Expenses().getFoodAllowance() > 0.0 ||
@@ -562,7 +554,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     }
                 }
 //                DEPENDENT
-
+                loListDetl.add(new ReviewAppDetail(true, "Dependent Info", "", ""));
                 org.json.JSONObject loDependent = new org.json.JSONObject(poInfo.getDependnt());
                 org.json.JSONArray loDeptArray = loDependent.getJSONArray("children");
                 for (int x = 0; x < loDeptArray.length(); x++){
@@ -594,8 +586,6 @@ public class VMReviewLoanApp extends AndroidViewModel {
                         loListDetl.add(new ReviewAppDetail(false, "", "Company Name", loExp.get("sCompanyx").toString()));
 
                     }
-
-                    loListDetl.add(new ReviewAppDetail(false, "", "", ""));
                 }
 
 //                OTHER INFO
@@ -618,8 +608,8 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     loListDetl.add(new ReviewAppDetail(false, "", "Mobile No. ", loExp.get("sRefrMPNx").toString()));
                     DTownInfo.TownProvinceName rfBPlace = poTown.getTownProvinceName(loExp.get("sRefrTown").toString());
                     String rfBirthPlace = rfBPlace.sTownName + ", " + rfBPlace.sProvName;
-                    loListDetl.add(new ReviewAppDetail(false, "", "Town ", rfBirthPlace));
                     loListDetl.add(new ReviewAppDetail(false, "", "Address ", loExp.get("sRefrAddx").toString()));
+                    loListDetl.add(new ReviewAppDetail(false, "", "Town ", rfBirthPlace));
                 }
 
 //                CO-MAKER

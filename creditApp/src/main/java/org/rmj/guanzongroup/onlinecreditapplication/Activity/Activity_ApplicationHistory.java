@@ -1,15 +1,17 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,7 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.LoanApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.UserLoanHistoryAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -42,11 +51,15 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
     private List<LoanApplication> loanList;
     private UserLoanHistoryAdapter adapter;
 
+    private ImageFileCreator poCamera;
+    private EImageInfo poImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_history);
         initWidgets();
+        poImage = new EImageInfo();
         mViewModel = new ViewModelProvider(this).get(VMApplicationHistory.class);
         mViewModel.LoadApplications(Activity_ApplicationHistory.this);
         mViewModel.getApplicationHistory().observe(Activity_ApplicationHistory.this, applicationLogs -> {
@@ -85,6 +98,11 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
 
                     @Override
                     public void OnPreview(String TransNox) {
+
+                    }
+
+                    @Override
+                    public void OnCamera(String TransNox) {
 
                     }
                 });
@@ -152,5 +170,79 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
     @Override
     public void onFailedResult(String message) {
         GToast.CreateMessage(Activity_ApplicationHistory.this, message, GToast.WARNING).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        poImage.setMD5Hashx(WebFileServer.createMD5Hash(poImage.getFileLoct()));
+        mViewModel.saveImageFile(poImage);
+    }
+
+    private class CheckImageFileTask extends AsyncTask<String, Void, String>{
+        private String TransNox;
+        private ConnectionUtil poConn;
+        private SessionManager poUser;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            poConn = new ConnectionUtil(Activity_ApplicationHistory.this);
+            poUser = new SessionManager(Activity_ApplicationHistory.this);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            TransNox = strings[0];
+            String lsResponse = "";
+            if(poConn.isDeviceConnected()){
+                String lsClient = WebFileServer.RequestClientToken("IntegSys",
+                        poUser.getClientId(),
+                        poUser.getUserID());
+                String lsAccess = WebFileServer.RequestAccessToken(lsClient);
+
+                if(!lsAccess.isEmpty()){
+                    org.json.simple.JSONObject loUpload = WebFileServer.CheckFile(lsAccess,
+                            "0029",
+                            poUser.getBranchCode(),
+                            "COAD",
+                            TransNox);
+
+                    lsResponse = (String) loUpload.get("result");
+                    Log.e(TAG, "Uploading image result : " + lsResponse);
+
+                    if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
+                        String lsTransNo = (String) loUpload.get("sTransNox");
+                        //poImgMngr.updateImageInfo(lsTransNo, poImage.getTransNox());
+                    } else {
+                        lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Loan application has been sent. But failed to upload customer photo.");
+                    }
+                }
+            }
+            return lsResponse;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            poCamera = new ImageFileCreator(Activity_ApplicationHistory.this,
+                    AppConstants.APP_PUBLIC_FOLDER,
+                    AppConstants.SUB_FOLDER_CREDIT_APP,
+                    "0029",
+                    20,
+                    TransNox);
+            poCamera.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                poImage.setFileLoct(photPath);
+                poImage.setFileCode("0029");
+                poImage.setSourceCD("COAD");
+                poImage.setLatitude(String.valueOf(latitude));
+                poImage.setLongitud(String.valueOf(longitude));
+                poImage.setSourceNo(TransNox);
+                poImage.setImageNme(FileName);
+                poImage.setCaptured(AppConstants.DATE_MODIFIED);
+                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+            });
+        }
     }
 }

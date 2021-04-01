@@ -149,7 +149,7 @@ public class LoanApplication {
     }
 
     public String getDateApproved() {
-        return new FormatUIText().getParseDateTime(dApproved);
+        return FormatUIText.getParseDateTime(dApproved);
     }
 
     public void setDateApproved(String dApproved) {

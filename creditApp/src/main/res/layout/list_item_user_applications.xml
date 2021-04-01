@@ -9,9 +9,6 @@
     app:cardCornerRadius="10dp"
     app:cardPreventCornerOverlap="true"
     app:cardElevation="5dp"
-    android:layout_marginLeft="3dp"
-    android:layout_marginRight="3dp"
-    android:layout_marginTop="3dp"
     android:layout_marginBottom="5dp">
 
     <LinearLayout
@@ -19,8 +16,8 @@
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:paddingBottom="15dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -72,16 +69,57 @@
             android:padding="3dp"
             android:background="@color/textColor_Black"/>
 
-        <TextView
-            android:id="@+id/lbl_listLog_applicantName"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Garcia, Michael Permison"
-            android:textSize="16sp"
-            android:textColor="@color/textColor_Black"
-            tools:ignore="HardcodedText"
-            android:fontFamily="@font/roboto_medium"
-            tools:targetApi="jelly_bean"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/lbl_listLog_applicantName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Garcia, Michael Permison"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_Black"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_medium"
+                tools:targetApi="jelly_bean"/>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_weight=".2">
+
+                <ImageButton
+                    android:id="@+id/btn_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_camera_black_24"
+                    android:scaleType="centerInside"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:tint="@color/guanzon_orange"/>
+
+                <TextView
+                    android:id="@+id/lbl_badge_selfieLog"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_alignRight="@+id/btn_camera"
+                    android:background="@drawable/bg_badge_red"
+                    android:fontFamily="@font/roboto_black"
+                    android:gravity="center"
+                    android:text="!"
+                    android:textColor="@color/textColor_White"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_alignEnd="@+id/btn_camera"
+                    android:layout_marginRight="10dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
