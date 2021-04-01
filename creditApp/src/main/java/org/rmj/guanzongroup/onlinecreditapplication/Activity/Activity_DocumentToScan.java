@@ -197,6 +197,7 @@ public class Activity_DocumentToScan extends AppCompatActivity {
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
+
                                 DialogImagePreview loDialog = new DialogImagePreview(Activity_DocumentToScan.this, bitmap, fileCodeDetails.get(position).sBriefDsc);
                                 loDialog.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
                                     @Override
