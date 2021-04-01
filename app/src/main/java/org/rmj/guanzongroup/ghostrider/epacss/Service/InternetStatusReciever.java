@@ -87,6 +87,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
         private List<EDCPCollectionDetail> collectionDetails = new ArrayList<>();
         private List<ECreditApplication> loanApplications = new ArrayList<>();
         private List<EImageInfo> loanDocs = new ArrayList<>();
+        private List<ECreditApplicationDocuments> docsFile = new ArrayList<>();
 
         /**
          * this List handles all the sent application to sever
@@ -120,6 +121,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
             loginImageInfo = poImage.getUnsentSelfieLogImageList();
             collectionDetails = poDcp.getUnsentPaidCollection();
             loanApplications = poCreditApp.getUnsentLoanApplication();
+            docsFile = poDocs.getUnsentApplicationDocumentss();
             //loanDocs = poImage.getUnsentLoanAppDocFiles();
             uploadLoginImages();
             uploadLoginDetails();
@@ -380,9 +382,9 @@ public class InternetStatusReciever extends BroadcastReceiver {
                 lsAccess = RequestAccessToken(lsClient);
             }
 
-            if(sentAppl.size() > 0) {
-                for (int i = 0; i < sentAppl.size(); i++) {
-                    loanDocs = poImage.getUnsentLoanAppDocFiles(sentAppl.get(i).getTransNox());
+            if(docsFile.size() > 0) {
+                for (int i = 0; i < docsFile.size(); i++) {
+                    loanDocs = poImage.getUnsentLoanAppDocFiles(docsFile.get(i).getTransNox());
 
                     if(loanDocs.size() > 0) {
 

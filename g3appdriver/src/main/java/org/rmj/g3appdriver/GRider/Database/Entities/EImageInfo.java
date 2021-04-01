@@ -35,7 +35,7 @@ public class EImageInfo implements Serializable {
     @ColumnInfo(name = "dCaptured")
     private String Captured;
     @ColumnInfo(name = "cSendStat")
-    private char SendStat;
+    private String SendStat;
     @ColumnInfo(name = "dSendDate")
     private String SendDate;
 
@@ -131,12 +131,12 @@ public class EImageInfo implements Serializable {
         Captured = captured;
     }
 
-    public char getSendStat() {
-        return SendStat;
+    public String getSendStat() {
+        return this.SendStat;
     }
 
-    public void setSendStat(char sendStat) {
-        SendStat = sendStat;
+    public void setSendStat(String sendStat) {
+        this.SendStat = sendStat;
     }
 
     public String getSendDate() {

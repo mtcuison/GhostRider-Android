@@ -83,6 +83,7 @@ public class RBranchLoanApplication {
 
     }
 
+
     private static class InsertBulkBranchApplicationListAsyncTask extends AsyncTask<List<EBranchLoanApplication>, Void, Void> {
         private DBranchLoanApplication detailDao;
 

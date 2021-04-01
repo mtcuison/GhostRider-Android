@@ -128,7 +128,6 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
                     loan.setcTranStat(brnCreditList.get(x).getTranStat());
                     loan.setdTimeStmp(brnCreditList.get(x).getTimeStmp());
                     loanList.add(loan);
-                    Log.e("Loan List", String.valueOf(loan));
                 }
                 adapter = new ClientInfoAdapter(loanList, new ClientInfoAdapter.OnApplicationClickListener() {
                     @Override
