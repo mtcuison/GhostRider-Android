@@ -111,17 +111,18 @@ public class DocumentToScanAdapter extends RecyclerView.Adapter<DocumentToScanAd
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(
                                 contentResolver, Uri.fromFile(new File(lbl_fileLoc.getText().toString())));
+                        DialogImagePreview loDialog = new DialogImagePreview(mContext, bitmap,lbl_fileDsc.getText().toString());
+                        loDialog.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
+                            @Override
+                            public void OnCancel(Dialog Dialog) {
+                                Dialog.dismiss();
+                            }
+                        });
+                        loDialog.show();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    DialogImagePreview loDialog = new DialogImagePreview(mContext, bitmap,lbl_fileDsc.getText().toString());
-                    loDialog.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
-                        @Override
-                        public void OnCancel(Dialog Dialog) {
-                            Dialog.dismiss();
-                        }
-                    });
-                    loDialog.show();
+
                 }
             });
 

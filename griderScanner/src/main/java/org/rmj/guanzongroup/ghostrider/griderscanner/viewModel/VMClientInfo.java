@@ -145,7 +145,7 @@ public class VMClientInfo extends AndroidViewModel {
         }
     }
 
-    public static class PostDocumentScanDetail extends AsyncTask<Void, Void, String> {
+    public class PostDocumentScanDetail extends AsyncTask<Void, Void, String> {
         private final ConnectionUtil poConn;
         private final ViewModelCallBack callback;
         private final SessionManager poUser;
@@ -212,6 +212,8 @@ public class VMClientInfo extends AndroidViewModel {
                         if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
                             String lsTransNo = (String) loUpload.get("sTransNox");
                             poImage.updateImageInfo(lsTransNo, psTransNox);
+                            updateDocumentInfoFromServer(psTransNox,psFileCode);
+
                         }
 //                        else {
 //                            Log.e(TAG, "Image file of Account No. " + psTransNox + ", Entry No. " + pnEntryNox + " was not uploaded to server.");
@@ -338,9 +340,13 @@ public class VMClientInfo extends AndroidViewModel {
                                 loImage.setMD5Hashx((String) loDownload.get("hash"));
                                 loImage.setFileLoct(fileLoc.getAbsolutePath() +"/" + imageName);
                                 loImage.setImageNme((String) loDownload.get("filename"));
-                                loImage.setSendStat('1');
+                                loImage.setLatitude("0.0");
+                                loImage.setLongitud("0.0");
+                                loImage.setSendDate(AppConstants.DATE_MODIFIED);
+                                loImage.setSendStat("1");
                                 //loImage....
                                 ScannerConstants.PhotoPath = loImage.getFileLoct();
+                                Log.e(TAG, String.valueOf(loImage.getSendStat()));
                                 poImage.insertImageInfo(loImage);
 //                                saveImageInfo(loImage);
                                 //end - insert entry to image info

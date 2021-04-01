@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
@@ -39,17 +40,6 @@ import java.util.List;
     void updateDocumentsInfos(String TransNox);
 
 
-    @Query("SELECT * FROM Credit_Online_Application_Documents " +
-            "WHERE sTransNox = (SELECT sTransNox " +
-            "FROM LR_DCP_Collection_Master " +
-            "ORDER BY dTransact DESC LIMIT 1)")
-    LiveData<List<ECreditApplicationDocuments>> getDocumentInfo();
-
-    @Query("SELECT * FROM Credit_Online_Application_Documents " +
-            "WHERE sTransNox = (SELECT sTransNox " +
-            "FROM LR_DCP_Collection_Master " +
-            "ORDER BY dTransact DESC LIMIT 1)")
-    LiveData<List<ECreditApplicationDocuments>> getDocumentInfoList();
 
     @Query("SELECT a.sTransNox, a.sFileCode, a.nEntryNox, b.sImageNme, b.sFileLoct FROM Credit_Online_Application_Documents a LEFT JOIN image_information b ON a.sFileCode = b.sFileCode AND a.sTransNox = b.sSourceNo WHERE a.sTransNox =:TransNox  AND b.sSourceNo =:TransNox  GROUP BY a.sFileCode  ORDER BY a.nEntryNox ASC")
     LiveData<List<ApplicationDocument>> getDocument(String TransNox);
@@ -74,11 +64,15 @@ import java.util.List;
     @Query("SELECT * FROM EDocSys_File WHERE  sFileCode !='0021' AND sFileCode !='0020' ")
     LiveData<List<EFileCode>> getDocumentInfoByFile();
 
+    @Query("SELECT * FROM Credit_Online_Application_Documents WHERE sSendStat != '1' GROUP BY sTransNox")
+    List<ECreditApplicationDocuments> getUnsentApplicationDocumentss();
+
     @Query("UPDATE Credit_Online_Application_Documents " +
             "SET sSendStat = '1' " +
             "WHERE sTransNox =:TransNox " +
             "AND sFileCode =:fileCode ")
     void updateDocumentsInfoByFile(String TransNox, String fileCode);
+
     class ApplicationDocument{
         public String sTransNox;
         public String sFileCode;

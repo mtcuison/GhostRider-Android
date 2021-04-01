@@ -120,7 +120,7 @@ public class ImageFileCreator {
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
 
-        Log.e(TAG, currentPhotoPath);
+        Log.e(TAG, currentPhotoPath + " createImageFile");
         return image;
     }
     public File createScanImageFile() throws IOException {
@@ -170,7 +170,7 @@ public class ImageFileCreator {
 
     public File generateMainStorageDir() {
         String root = Environment.getExternalStorageDirectory().toString();
-        File sd = new File(root + FOLDER_DIRECTORY + "/" + SUB_FOLDER + "/");
+        File sd = new File(root + FOLDER_DIRECTORY + "/" + SUB_FOLDER + "/" + TransNox +"/");
         if (!sd.exists()) {
             sd.mkdirs();
         }
@@ -224,42 +224,7 @@ public class ImageFileCreator {
 
     //CreateFile for Document Scanner Camera
 
-    public void CreateDCPFile(OnImageFileDCPWithLocationCreatedListener listener) {
-        poLocator = new GeoLocator(poContext, (Activity) poContext);
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(poContext.getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createDCPImageFile();
-                latitude = poLocator.getLattitude();
-                longitude = poLocator.getLongitude();
-            } catch (IOException ex) {
-                // Error occurred while creating the File...
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(poContext,
-                        "org.rmj.guanzongroup.ghostrider.epacss"+ ".provider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                listener.OpenDCPCameraWithLocation(
-                        takePictureIntent,
-                        currentPhotoPath,
-                        latitude,
-                        longitude);
-            }
-        }
-    }
 
-    public File createDCPImageFile() throws IOException {
-        image = new File(generateMainStorageDir(), generateImageFileName());
-
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
     public boolean galleryAddPic(String photoPath) {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(photoPath);

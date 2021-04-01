@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.rmj.guanzongroup.ghostrider.griderscanner">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application>
         <activity android:name=".ClientInfo"
             android:screenOrientation="userPortrait"></activity>
@@ -15,7 +15,6 @@
             android:name=".GriderScanner"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
-
     </application>
 
 </manifest>
