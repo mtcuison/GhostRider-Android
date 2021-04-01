@@ -408,8 +408,8 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     //Spouse Residence Info End
 
                     // TODO: Spouse Employment Info Start
-                    if(!loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyName().equalsIgnoreCase("")||
-                            !loGOCas.SpouseMeansInfo().EmployedInfo().getOFWCategory().equalsIgnoreCase("")) {
+                    if(!loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyLevel().equalsIgnoreCase("null") &&
+                            !loGOCas.SpouseMeansInfo().EmployedInfo().getEmployeeLevel().equalsIgnoreCase("null")) {
                         loListDetl.add(new ReviewAppDetail(true, "Spouse Employment Information", "", ""));
                         if(loGOCas.SpouseMeansInfo().EmployedInfo().getEmploymentSector().equalsIgnoreCase("1")) {
                             // Private Sector
