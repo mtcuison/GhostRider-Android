@@ -465,8 +465,9 @@ public class VMDocumentToScan extends AndroidViewModel {
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
                     } else {
                         org.json.simple.JSONObject loDownload = WebFileServer.CheckFile(lsAccess,
-                                "COAD",
-                                psSourceNo);
+                                                                                        "",
+                                                                                        "COAD",
+                                                                                        psSourceNo);
 
                         String lsResponse = (String) loDownload.get("result");
                         lsResult = String.valueOf(loDownload);
