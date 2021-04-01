@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -388,7 +389,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     //Spouse Info End
 
                     // TODO: Spouse Residence Info Start
-                    if(loGOCas.SpouseInfo().ResidenceInfo().PresentAddress().getLandMark() != null &&
+                    if(!loGOCas.SpouseInfo().ResidenceInfo().PresentAddress().getLandMark().equalsIgnoreCase("") &&
                             loGOCas.SpouseInfo().ResidenceInfo().PresentAddress().getTownCity() != null &&
                             loGOCas.SpouseInfo().ResidenceInfo().PresentAddress().getBarangay() != null) {
                         loListDetl.add(new ReviewAppDetail(true, "Spouse Residence Information", "", ""));
@@ -407,8 +408,8 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     //Spouse Residence Info End
 
                     // TODO: Spouse Employment Info Start
-                    if(loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyName() != null ||
-                            loGOCas.SpouseMeansInfo().EmployedInfo().getOFWCategory() != null) {
+                    if(!loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyLevel().equalsIgnoreCase("null") &&
+                            !loGOCas.SpouseMeansInfo().EmployedInfo().getEmployeeLevel().equalsIgnoreCase("null")) {
                         loListDetl.add(new ReviewAppDetail(true, "Spouse Employment Information", "", ""));
                         if(loGOCas.SpouseMeansInfo().EmployedInfo().getEmploymentSector().equalsIgnoreCase("1")) {
                             // Private Sector
@@ -478,8 +479,9 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     //Spouse Employment Info End
 
                     // TODO: Spouse Self Employed Info Start
-                    if(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getNameOfBusiness() !=null &&
+                    if(!loGOCas.SpouseMeansInfo().SelfEmployedInfo().getNameOfBusiness().equalsIgnoreCase("") &&
                             loGOCas.SpouseMeansInfo().SelfEmployedInfo().getNatureOfBusiness() != null) {
+                        Log.e("spsSlefEmplyed", loGOCas.SpouseMeansInfo().SelfEmployedInfo().toJSONString());
                         loListDetl.add(new ReviewAppDetail(true, "Spouse Business Information", "", ""));
                         loListDetl.add(new ReviewAppDetail(false, "", "Business Name", loGOCas.SpouseMeansInfo().SelfEmployedInfo().getNameOfBusiness()));
                         int lnBzNatur = Integer.parseInt(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getNatureOfBusiness());
@@ -512,6 +514,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     // TODO: Spouse Pension Info Start
                     if(loGOCas.SpouseMeansInfo().PensionerInfo().getSource() != null &&
                             loGOCas.SpouseMeansInfo().PensionerInfo().getAmount() != 0) {
+                        Log.e("SpousePensionerVal", loGOCas.SpouseMeansInfo().PensionerInfo().toJSONString());
                         loListDetl.add(new ReviewAppDetail(true, "Spouse Pension Information", "", ""));
                         String[] lsSource = {"Government", "Private"};
                         int lnSource = Integer.parseInt(loGOCas.SpouseMeansInfo().PensionerInfo().getSource());

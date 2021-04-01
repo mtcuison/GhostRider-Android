@@ -222,8 +222,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         spnEmpSts.setOnItemClickListener(new OnItemClickListener(spnEmpSts));
         btnNext.setOnClickListener(view -> {
             infoModel.setCompanyName(Objects.requireNonNull(txtCompNm.getText()).toString());
-            infoModel.setCompAddress(txtCompAd.getText().toString());
-            infoModel.setCompTown(Objects.requireNonNull(txtCompAd.getText()).toString());
+            infoModel.setCompAddress(Objects.requireNonNull(txtCompAd.getText()).toString());
             infoModel.setJobSpecific(Objects.requireNonNull(txtSpcfJb.getText()).toString());
             infoModel.setLengthOfService(Objects.requireNonNull(txtLngthS.getText()).toString());
             infoModel.setMonthOrYear(spnServcePosition);
