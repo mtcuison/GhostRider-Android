@@ -1,11 +1,8 @@
 package org.rmj.g3appdriver.utils;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.TypedValue;
 
 public class DeviceDimensionsHelper {
 
