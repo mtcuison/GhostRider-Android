@@ -19,7 +19,7 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest=Config.NONE)
-public class Fragment_DisbursementInfoTest {
+public class Fragment_DisbursementInfoTest implements ViewModelCallBack{
     private String transnox;
     private VMDisbursementInfo mViewModel;
     private DisbursementInfoModel infoModels;
@@ -52,6 +52,7 @@ public class Fragment_DisbursementInfoTest {
     }
     @Test
     public void test_setCreditApplicantInfo() throws Exception{
+
         Assert.assertEquals("Z3TXCBMCHCAO" ,mViewModel.getTransNox() );
         Assert.assertEquals(Double.parseDouble("1000") ,infoModels.getElctX(),0.0 );
         Assert.assertEquals(Double.parseDouble("1000") ,infoModels.getWaterX(),0.0 );
@@ -74,8 +75,17 @@ public class Fragment_DisbursementInfoTest {
         System.out.print("Credit Card Limit" + infoModels.getLimitCC() + "\n");
         System.out.print("Credit Card Years" + infoModels.getYearS() + "\n");
 
-        Assert.assertTrue(mViewModel.SubmitApplicationInfo(infoModels, callBack));
+        Assert.assertTrue(mViewModel.SubmitApplicationInfo(infoModels, Fragment_DisbursementInfoTest.this));
     }
 
 
+    @Override
+    public void onSaveSuccessResult(String args) {
+        System.out.println("onSaveSuccessResult" + args);
+    }
+
+    @Override
+    public void onFailedResult(String message) {
+        System.out.println("onSaveSuccessResult" + message);
+    }
 }

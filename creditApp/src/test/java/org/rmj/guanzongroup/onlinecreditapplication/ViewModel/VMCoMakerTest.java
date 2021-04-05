@@ -100,6 +100,53 @@ public class VMCoMakerTest {
     @Test
     public void test_submitCoMaker(){
         try {
+
+            mViewModel.setTransNox(TransNox);
+            TransNox = "Z3TXCBMCHCAO";
+            lName = "Sabiniano";
+            fName = "Jonathan";
+            mName = "Tamayo";
+            suffix = "";
+            nName= "";
+            bDate= "03/06/1990";
+            bTown= "20";
+            fbAcct= "";
+            srcIncome = "2";
+            coRelation = "2";
+            primaryContact = "09452086661";
+            secondaryContact = "";
+            tertiaryContact = "";
+            primarySimStats  = "0";
+            secondarySimStats  = "0";
+            tertiarySimStats  = "0";
+            primaryContactPlan  = "0";
+            secondaryContactPlan  = "0";
+            tertiaryContactPlan  = "0";
+
+            mViewModel.setTransNox(TransNox);
+            infoModel = new CoMakerModel(lName, fName, mName, suffix, nName,bDate, bTown, fbAcct, srcIncome, coRelation);
+
+            if(!Objects.requireNonNull(primaryContact.isEmpty())) {
+                if(Integer.parseInt(primarySimStats) == 1) {
+                    infoModel.setCoMobileNo(primaryContact, primarySimStats, Integer.parseInt(primaryContactPlan));
+                } else {
+                    infoModel.setCoMobileNo(primaryContact, primarySimStats, 0);
+                }
+            }
+            if(!Objects.requireNonNull(secondaryContact.isEmpty())) {
+                if(Integer.parseInt(secondarySimStats) == 1) {
+                    infoModel.setCoMobileNo(secondaryContact, secondarySimStats, Integer.parseInt(secondaryContactPlan));
+                } else {
+                    infoModel.setCoMobileNo(secondaryContact, secondarySimStats, 0);
+                }
+            }
+            if(!Objects.requireNonNull(tertiaryContact.isEmpty())) {
+                if(Integer.parseInt(tertiarySimStats)  == 1) {
+                    infoModel.setCoMobileNo(tertiaryContact, tertiarySimStats, Integer.parseInt(tertiaryContactPlan));
+                } else {
+                    infoModel.setCoMobileNo(tertiaryContact, tertiarySimStats, 0);
+                }
+            }
             assertTrue(mViewModel.SubmitComaker(infoModel,callBack));
         }catch (NullPointerException e){
             e.printStackTrace();
@@ -143,14 +190,6 @@ public class VMCoMakerTest {
             Assert.assertEquals(primaryContact,infoModel.getCoMobileNo(x));
             System.out.print("contact no" + infoModel.getCoMobileNo(x) + "\n");
         }
-//        Assert.assertEquals(luHouseNo,infoModel.getLuHouseNo());
-//        Assert.assertEquals(luBrgy,infoModel.getLuBrgy());
-//        Assert.assertEquals(bTown,infoModel.getLuTown());
-//        Assert.assertEquals(luPhune,infoModel.getLuPhone());
-//        Assert.assertEquals(luMobile,infoModel.getLuMobile());
-//        Assert.assertEquals(luEmail,infoModel.getLuEmail());
-//        Assert.assertEquals(luIMGPath,infoModel.getLuImgPath());
-
         System.out.print("\nFirstname: " + infoModel.getCoFrstName() + "\n");
         System.out.print("Middle Name:" + infoModel.getCoMiddName() + "\n");
         System.out.print("Lastname" + infoModel.getCoLastName() + "\n");

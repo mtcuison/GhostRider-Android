@@ -88,7 +88,7 @@ public class VMDisbursementInfo extends AndroidViewModel {
 
     public boolean SubmitApplicationInfo(DisbursementInfoModel disbursementInfo,ViewModelCallBack callBack) {
         try {
-            new UpdateTask(poApplcnt, disbursementInfo, callBack).execute();
+            new UpdateTask(poApplcnt, disbursementInfo, psTranNo.getValue(), callBack).execute();
             return true;
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -106,10 +106,11 @@ public class VMDisbursementInfo extends AndroidViewModel {
         private final RCreditApplicant poDcp;
         private final DisbursementInfoModel infoModel;
         private final ViewModelCallBack callback;
-
-        public UpdateTask(RCreditApplicant poDcp, DisbursementInfoModel infoModel, ViewModelCallBack callback) {
+        private final String transNox;
+        public UpdateTask(RCreditApplicant poDcp, DisbursementInfoModel infoModel, String transNox, ViewModelCallBack callback) {
             this.poDcp = poDcp;
             this.infoModel = infoModel;
+            this.transNox = transNox;
             this.callback = callback;
         }
 
@@ -126,14 +127,17 @@ public class VMDisbursementInfo extends AndroidViewModel {
                     poGoCasxx.DisbursementInfo().CreditCard().setBankName(Objects.requireNonNull(infoModel.getCcBnk()));
                     poGoCasxx.DisbursementInfo().CreditCard().setCreditLimit(infoModel.getLimitCC());
                     poGoCasxx.DisbursementInfo().CreditCard().setMemberSince(infoModel.getYearS());
-                    poInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
+                    poInfo.setTransNox(Objects.requireNonNull(transNox));
                     poInfo.setDisbrsmt(poGoCasxx.DisbursementInfo().toJSONString());
-                    poApplcnt.updateGOCasData(poInfo);
+                    poDcp.updateGOCasData(poInfo);
                     return "success";
                 }else {
                     return infoModel.getMessage();
                 }
-            } catch (Exception e){
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                return e.getMessage();
+            }catch (Exception e){
                 e.printStackTrace();
                 return e.getMessage();
             }

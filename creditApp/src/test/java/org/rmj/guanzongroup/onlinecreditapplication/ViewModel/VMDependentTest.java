@@ -48,6 +48,7 @@ public class VMDependentTest implements ViewModelCallBack, VMDependent.ExpAction
             IsMarriedx;
     private String TransNox;
     private DependentsInfoModel infoModel;
+    private List<DependentsInfoModel> infoModelList;
     private VMDependent mViewModel;
     private Fragment_Dependent fragment;
     @Mock
@@ -61,7 +62,7 @@ public class VMDependentTest implements ViewModelCallBack, VMDependent.ExpAction
         infoModel = new DependentsInfoModel();
         fragment = new Fragment_Dependent();
 
-        TransNox = "Z3TXCBMCHCAO";
+        TransNox = "C10A02100005";
         dpdName = "Jonathan Sabiniano";
         mRelationPosition = "2";
         dpdAge = "30";
@@ -80,10 +81,7 @@ public class VMDependentTest implements ViewModelCallBack, VMDependent.ExpAction
         HouseHoldx = "1";
         IsMarriedx = "0";
         mViewModel.setTransNox(TransNox);
-
-
-
-
+        infoModelList = new ArrayList<>();
     }
 
     @After
@@ -105,8 +103,10 @@ public class VMDependentTest implements ViewModelCallBack, VMDependent.ExpAction
     @Test
     public void test_submitDependent(){
         try {
-            addDependent();
-            Assert.assertTrue(mViewModel.SubmitDependentInfo(this));
+            if (addDependent().size()>0){
+                Assert.assertTrue(mViewModel.SubmitDependentInfo(this));
+            }
+
         }catch (NullPointerException e){
             e.printStackTrace();
         } catch (Exception e){
@@ -117,27 +117,28 @@ public class VMDependentTest implements ViewModelCallBack, VMDependent.ExpAction
     @Override
     public void onSaveSuccessResult(String args) {
 
-        System.out.println("Submit " + args);
+        System.out.println("onSaveSuccessResult " + args);
     }
 
     @Override
     public void onFailedResult(String message) {
 
-        System.out.print("Submit " + message);
+        System.out.print("onFailedResult " + message);
     }
 
     @Override
     public void onSuccess(String message) {
 
-        System.out.println("Add " + message);
+        System.out.println("onSuccess " + message);
     }
 
     @Override
     public void onFailed(String message) {
 
-        System.out.println("Add " + message);
+        System.out.println("onFailed " + message);
     }
-    public void addDependent(){
+    public List<DependentsInfoModel> addDependent(){
+
         for (int i = 0;i<=3; i++){
             infoModel = new DependentsInfoModel(dpdName ,
                     mRelationPosition ,
@@ -156,8 +157,10 @@ public class VMDependentTest implements ViewModelCallBack, VMDependent.ExpAction
                     Dependentx,
                     HouseHoldx,
                     IsMarriedx);
+            infoModelList.add(infoModel);
             Assert.assertEquals(true, mViewModel.AddDependent(infoModel, this));
         }
+        return infoModelList;
     }
     @Test
     public void test_getInfoModels(){

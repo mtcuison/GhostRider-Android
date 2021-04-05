@@ -7,6 +7,7 @@ public class OtherInfoModel {
 
     //Spinner Values
     private String unitUser;
+    private String transNox;
     private String unitPayr;
     private String unitPrps;
     private String payrRltn;
@@ -27,6 +28,14 @@ public class OtherInfoModel {
 
     public void setPersonalReferences(List<PersonalReferenceInfoModel> poRefInfo){
         this.poRefInfo = poRefInfo;
+    }
+
+    public String getTransNox() {
+        return this.transNox;
+    }
+
+    public void setTransNox(String transNox) {
+        this.transNox = transNox;
     }
 
     public String getUnitUser() {

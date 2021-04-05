@@ -124,14 +124,10 @@ public class VMClientInfo extends AndroidViewModel {
             }
             if (isImgExist){
                 foImage.setTransNox(tansNo);
-                Log.e("Img TransNox", tansNo);
                 poImage.updateImageInfo(foImage);
-                Log.e("VMClient ", "Image info has been updated!");
             }else{
                 foImage.setTransNox(poImage.getImageNextCode());
                 poImage.insertImageInfo(foImage);
-                Log.e("VMClient ", "Image info has been save!");
-
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -207,7 +203,6 @@ public class VMClientInfo extends AndroidViewModel {
 
                         String lsResponse = (String) loUpload.get("result");
                         lsResult = String.valueOf(loUpload);
-                        Log.e(TAG, "Uploading image result : " + lsResponse);
 
                         if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
                             String lsTransNo = (String) loUpload.get("sTransNox");
@@ -216,13 +211,10 @@ public class VMClientInfo extends AndroidViewModel {
 
                         }
 //                        else {
-//                            Log.e(TAG, "Image file of Account No. " + psTransNox + ", Entry No. " + pnEntryNox + " was not uploaded to server.");
-//                            Log.e(TAG, "Reason : " + lsResponse);
 //
 //                            JSONParser loParser = new JSONParser();
 //                            JSONObject loError = (JSONObject) loParser.parse((String) loUpload.get("error"));
 //                            lsResult = (String) loError.get("message");
-//                            Log.e(TAG, "Reason : " + lsResult);
 //                        }
 
                         Thread.sleep(1000);
@@ -318,7 +310,6 @@ public class VMClientInfo extends AndroidViewModel {
 
                         String lsResponse = (String) loDownload.get("result");
                         lsResult = String.valueOf(loDownload);
-                        Log.e(TAG, "Downloading image result : " + lsResponse);
 
                         if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
                             //convert to image and save to proper file location
@@ -329,7 +320,6 @@ public class VMClientInfo extends AndroidViewModel {
                                                         (String) loDownload.get("hash"),
                                                         location,
                                                         (String) loDownload.get("filename"))){
-                                Log.d(TAG, "File hash was converted to file successfully.");
                                 //insert entry to image info
                                 EImageInfo loImage = new EImageInfo();
                                 loImage.setTransNox((String) loDownload.get("transnox"));
@@ -346,7 +336,6 @@ public class VMClientInfo extends AndroidViewModel {
                                 loImage.setSendStat("1");
                                 //loImage....
                                 ScannerConstants.PhotoPath = loImage.getFileLoct();
-                                Log.e(TAG, String.valueOf(loImage.getSendStat()));
                                 poImage.insertImageInfo(loImage);
 //                                saveImageInfo(loImage);
                                 //end - insert entry to image info
@@ -355,8 +344,6 @@ public class VMClientInfo extends AndroidViewModel {
                                 //insert/update entry to credit_online_application_documents
                                 //end - convert to image and save to proper file location
                             } else{
-                                Log.e(TAG, "Unable to convert file.");
-                                //Log.e(TAG, (String) loDownload.get("hash"));
                                 callback.OnFailedResult("Unable to convert file.");
 
                             }
@@ -452,7 +439,6 @@ public class VMClientInfo extends AndroidViewModel {
 
                         String lsResponse = (String) loDownload.get("result");
                         lsResult = String.valueOf(loDownload);
-                        Log.e(TAG, "File result : " + lsResponse);
 
                         if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
                             //convert to image and save to proper file location
@@ -464,7 +450,6 @@ public class VMClientInfo extends AndroidViewModel {
                                 updateDocumentInfoFromServer(psSourceNo,obj.get("sFileCode").toString());
 
                             }
-                            Log.e(TAG, String.valueOf(loDownload));
                         }
 
                         Thread.sleep(1000);

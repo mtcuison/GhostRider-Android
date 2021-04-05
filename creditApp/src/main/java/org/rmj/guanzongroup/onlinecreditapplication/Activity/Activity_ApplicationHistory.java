@@ -64,6 +64,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
         mViewModel.LoadApplications(Activity_ApplicationHistory.this);
         mViewModel.getApplicationHistory().observe(Activity_ApplicationHistory.this, applicationLogs -> {
             if(applicationLogs.size()>0) {
+                noRecord.setVisibility(View.GONE);
                 loanList = new ArrayList<>();
                 for (int x = 0; x < applicationLogs.size(); x++) {
                     LoanApplication loan = new LoanApplication();
@@ -137,6 +138,9 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                     }
                 });
             }
+            else
+                noRecord.setVisibility(View.VISIBLE);
+
         });
     }
 

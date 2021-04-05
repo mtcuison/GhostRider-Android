@@ -122,7 +122,6 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
                     loan.setcTranStat(brnCreditList.get(x).getTranStat());
                     loan.setdTimeStmp(brnCreditList.get(x).getTimeStmp());
                     creditList.add(loan);
-                    Log.e(TAG, String.valueOf(loan));
                 }
                 adapter = new CreditEvaluationListAdapter(creditList, new CreditEvaluationListAdapter.OnApplicationClickListener() {
                     @Override

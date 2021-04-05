@@ -127,10 +127,6 @@ public class Activity_CreditEvaluator extends AppCompatActivity implements VMCre
                     loan.setcTranStat(brnCreditList.get(x).getTranStat());
                     loan.setdTimeStmp(brnCreditList.get(x).getTimeStmp());
                     creditList.add(loan);
-                    if (brnCreditList.get(x).getCreatedX().equalsIgnoreCase("GAP0190799")){
-                        Log.e(TAG, "sCredInvx = " + brnCreditList.get(x).getCredInvx());
-                    }
-
                 }
                 adapter = new CreditEvaluatorAdapter(creditList, new CreditEvaluatorAdapter.OnApplicationClickListener() {
                     @Override
