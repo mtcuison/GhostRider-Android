@@ -57,7 +57,7 @@ public class Fragment_SelfieLogin extends Fragment {
     private EImageInfo poImage;
     private ELog_Selfie poLog;
 
-    private LoadDialog poLoad;
+//    private LoadDialog poLoad;
     private MessageBox poMessage;
 
     private String photPath;
@@ -85,7 +85,7 @@ public class Fragment_SelfieLogin extends Fragment {
 
         poImage = new EImageInfo();
         poLog = new ELog_Selfie();
-        poLoad = new LoadDialog(getActivity());
+//        poLoad = new LoadDialog(getActivity());
         poMessage = new MessageBox(getActivity());
 
         currentDateLog = new ArrayList<>();
@@ -141,28 +141,28 @@ public class Fragment_SelfieLogin extends Fragment {
                 mViewModel.loginTimeKeeper(poLog, poImage, new VMSelfieLogin.OnLoginTimekeeperListener() {
                     @Override
                     public void OnLogin() {
-                        poLoad.initDialog("Selfie Login", "Uploading your login time. Please wait...", false);
-                        poLoad.show();
+//                        poLoad.initDialog("Selfie Login", "Uploading your login time. Please wait...", false);
+//                        poLoad.show();
                     }
 
                     @Override
                     public void OnSuccess(String args) {
-                        poLoad.dismiss();
-                        poMessage.initDialog();
-                        poMessage.setTitle("Selfie Login");
-                        poMessage.setMessage(args);
-                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                        poMessage.show();
+//                        poLoad.dismiss();
+//                        poMessage.initDialog();
+//                        poMessage.setTitle("Selfie Login");
+//                        poMessage.setMessage(args);
+//                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+//                        poMessage.show();
                     }
 
                     @Override
                     public void OnFailed(String message) {
-                        poLoad.dismiss();
-                        poMessage.initDialog();
-                        poMessage.setTitle("Selfie Login");
-                        poMessage.setMessage(message);
-                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                        poMessage.show();
+//                        poLoad.dismiss();
+//                        poMessage.initDialog();
+//                        poMessage.setTitle("Selfie Login");
+//                        poMessage.setMessage(message);
+//                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+//                        poMessage.show();
                     }
                 });
             }

@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,13 +25,16 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.LoanApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Adapter.UserLoanHistoryAdapter;
+import org.rmj.guanzongroup.onlinecreditapplication.Adapter.UserLoanApplicationsAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMApplicationHistory;
@@ -49,10 +54,13 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
     private LinearLayout noRecord;
 
     private List<LoanApplication> loanList;
-    private UserLoanHistoryAdapter adapter;
+    private UserLoanApplicationsAdapter adapter;
 
     private ImageFileCreator poCamera;
     private EImageInfo poImage;
+
+    private LoadDialog poDialogx;
+    private MessageBox poMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +68,8 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
         setContentView(R.layout.activity_application_history);
         initWidgets();
         poImage = new EImageInfo();
+        poDialogx = new LoadDialog(Activity_ApplicationHistory.this);
+        poMessage = new MessageBox(Activity_ApplicationHistory.this);
         mViewModel = new ViewModelProvider(this).get(VMApplicationHistory.class);
         mViewModel.LoadApplications(Activity_ApplicationHistory.this);
         mViewModel.getApplicationHistory().observe(Activity_ApplicationHistory.this, applicationLogs -> {
@@ -78,10 +88,11 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                     loan.setSendStatus(applicationLogs.get(x).cSendStat);
                     loan.setTransactionStatus(applicationLogs.get(x).cTranStat);
                     loan.setDateSent(applicationLogs.get(x).dReceived);
+                    loan.setcCaptured(applicationLogs.get(x).cCaptured);
                     loan.setDateApproved(applicationLogs.get(x).dVerified);
                     loanList.add(loan);
                 }
-                adapter = new UserLoanHistoryAdapter(loanList, new UserLoanHistoryAdapter.LoanApplicantListActionListener() {
+                adapter = new UserLoanApplicationsAdapter(loanList, new UserLoanApplicationsAdapter.LoanApplicantListActionListener() {
                     @Override
                     public void OnExport(String TransNox) {
                         mViewModel.ExportGOCasInfo(TransNox);
@@ -104,7 +115,23 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
 
                     @Override
                     public void OnCamera(String TransNox) {
-
+                        poCamera = new ImageFileCreator(Activity_ApplicationHistory.this,
+                                AppConstants.APP_PUBLIC_FOLDER,
+                                AppConstants.SUB_FOLDER_CREDIT_APP,
+                                "0029",
+                                20,
+                                TransNox);
+                        poCamera.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                            poImage.setFileLoct(photPath);
+                            poImage.setFileCode("0029");
+                            poImage.setSourceCD("COAD");
+                            poImage.setLatitude(String.valueOf(latitude));
+                            poImage.setLongitud(String.valueOf(longitude));
+                            poImage.setSourceNo(TransNox);
+                            poImage.setImageNme(FileName);
+                            poImage.setCaptured(AppConstants.DATE_MODIFIED);
+                            startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                        });
                     }
                 });
                 LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_ApplicationHistory.this);
@@ -179,74 +206,10 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        poImage.setMD5Hashx(WebFileServer.createMD5Hash(poImage.getFileLoct()));
-        mViewModel.saveImageFile(poImage);
-    }
-
-    private class CheckImageFileTask extends AsyncTask<String, Void, String>{
-        private String TransNox;
-        private ConnectionUtil poConn;
-        private SessionManager poUser;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            poConn = new ConnectionUtil(Activity_ApplicationHistory.this);
-            poUser = new SessionManager(Activity_ApplicationHistory.this);
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            TransNox = strings[0];
-            String lsResponse = "";
-            if(poConn.isDeviceConnected()){
-                String lsClient = WebFileServer.RequestClientToken("IntegSys",
-                        poUser.getClientId(),
-                        poUser.getUserID());
-                String lsAccess = WebFileServer.RequestAccessToken(lsClient);
-
-                if(!lsAccess.isEmpty()){
-                    org.json.simple.JSONObject loUpload = WebFileServer.CheckFile(lsAccess,
-                            "0029",
-                            poUser.getBranchCode(),
-                            "COAD",
-                            TransNox);
-
-                    lsResponse = (String) loUpload.get("result");
-                    Log.e(TAG, "Uploading image result : " + lsResponse);
-
-                    if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
-                        String lsTransNo = (String) loUpload.get("sTransNox");
-                        //poImgMngr.updateImageInfo(lsTransNo, poImage.getTransNox());
-                    } else {
-                        lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Loan application has been sent. But failed to upload customer photo.");
-                    }
-                }
-            }
-            return lsResponse;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-            poCamera = new ImageFileCreator(Activity_ApplicationHistory.this,
-                    AppConstants.APP_PUBLIC_FOLDER,
-                    AppConstants.SUB_FOLDER_CREDIT_APP,
-                    "0029",
-                    20,
-                    TransNox);
-            poCamera.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                poImage.setFileLoct(photPath);
-                poImage.setFileCode("0029");
-                poImage.setSourceCD("COAD");
-                poImage.setLatitude(String.valueOf(latitude));
-                poImage.setLongitud(String.valueOf(longitude));
-                poImage.setSourceNo(TransNox);
-                poImage.setImageNme(FileName);
-                poImage.setCaptured(AppConstants.DATE_MODIFIED);
-                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
-            });
+        if(ImageFileCreator.GCAMERA == requestCode && resultCode == RESULT_OK){
+            poImage.setMD5Hashx(WebFileServer.createMD5Hash(poImage.getFileLoct()));
+            mViewModel.saveImageFile(poImage);
+            mViewModel.uploadImage(poImage);
         }
     }
 }

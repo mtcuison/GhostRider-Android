@@ -89,6 +89,7 @@
                 tools:targetApi="jelly_bean"/>
 
             <RelativeLayout
+                android:id="@+id/relative_camera"
                 android:layout_width="0dp"
                 android:layout_height="42dp"
                 android:layout_weight=".2">
@@ -118,6 +119,16 @@
                     android:layout_marginRight="10dp" />
 
             </RelativeLayout>
+
+            <ImageButton
+                android:id="@+id/btn_preview"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_weight=".2"
+                android:src="@drawable/ic_image_preview"
+                android:scaleType="centerInside"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:tint="@color/guanzon_orange"/>
 
         </LinearLayout>
 

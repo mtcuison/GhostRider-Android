@@ -30,6 +30,7 @@ public class GNotifBuilder {
     public static int SENDING_DCP_IMAGES = 421;
 
     public static String JOB_SERVICE = "GRider System Service";
+    public static String SELFIE_LOGIN_SERVICE = "Selfie Login Service";
     public static String BROADCAST_RECEIVER = "Internet Sync Service";
 
     private static final String CHANNEL_DESC = "DRider Background Sending Data";

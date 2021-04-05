@@ -25,12 +25,11 @@ public class VMDisbursementInfoTest{
     private String transnox;
     private VMDisbursementInfo mViewModel;
     private DisbursementInfoModel infoModels;
+    GOCASApplication poGOcas;
 
     @Mock
     ViewModelCallBack callBack;
 
-    @Mock
-    GOCASApplication poGOcas;
 
     @Before
     public void setUp() throws Exception {
@@ -93,6 +92,7 @@ public class VMDisbursementInfoTest{
         }
     }
 
+    @Test
     public void testDibursementGOCas(){
         Assert.assertEquals(2000, poGOcas.DisbursementInfo().Expenses().getElectricBill());
         Assert.assertEquals(2000, poGOcas.DisbursementInfo().Expenses().getElectricBill());

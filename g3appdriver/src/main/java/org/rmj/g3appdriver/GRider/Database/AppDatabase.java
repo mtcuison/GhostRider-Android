@@ -41,6 +41,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRaffleInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRawDao;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DUncapturedClient;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
@@ -77,6 +78,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ERaffleInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESCA_Request;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
 
 @Database(entities = {
         EBranchInfo.class,
@@ -114,7 +116,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
         EClientUpdate.class,
         EBankInfo.class,
         ELog_Selfie.class,
-        EBranchLoanApplication.class}, version = 1, exportSchema = false)
+        EBranchLoanApplication.class,
+        EUncapturedClient.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static AppDatabase instance;
@@ -151,6 +154,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DBankInfo BankInfoDao();
     public abstract DLog_Selfie SelfieDao();
     public abstract DBranchLoanApplication CreditAppDocsDao();
+    public abstract DUncapturedClient UncapturedDao();
 
 
     public static synchronized AppDatabase getInstance(Context context){

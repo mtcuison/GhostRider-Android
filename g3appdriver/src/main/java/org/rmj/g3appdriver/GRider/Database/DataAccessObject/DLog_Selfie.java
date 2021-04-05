@@ -16,7 +16,7 @@ public interface DLog_Selfie {
     @Insert
     void insertLoginSelfie(ELog_Selfie log_selfie);
 
-    @Query("SELECT * FROM Employee_Log_Selfie WHERE dLogTimex LIKE:DateLog")
+    @Query("SELECT * FROM Employee_Log_Selfie WHERE dLogTimex LIKE:DateLog AND cSendStat = \"1\" ")
     LiveData<List<ELog_Selfie>> getCurrentTimeLogIfExist(String DateLog);
 
     @Query("UPDATE Employee_Log_Selfie " +
