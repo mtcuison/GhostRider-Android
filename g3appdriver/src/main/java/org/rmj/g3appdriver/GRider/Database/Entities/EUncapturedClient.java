@@ -17,9 +17,18 @@ public class EUncapturedClient {
     @ColumnInfo(name = "sSourceNo")
     private String SourceNo;
 
-    public EUncapturedClient(@NonNull String transNox, String clientNm, String sourceNo) {
+    public EUncapturedClient() {
+    }
+
+    public void setTransNox(@NonNull String transNox) {
         TransNox = transNox;
+    }
+
+    public void setClientNm(String clientNm) {
         ClientNm = clientNm;
+    }
+
+    public void setSourceNo(String sourceNo) {
         SourceNo = sourceNo;
     }
 

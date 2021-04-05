@@ -68,6 +68,8 @@ public class ECreditApplication {
     private String Division;
     @ColumnInfo(name = "cApplStat")
     private String ApplStat;
+    @ColumnInfo(name = "cCaptured")
+    private String Captured;
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
 
@@ -305,6 +307,14 @@ public class ECreditApplication {
 
     public void setApplStat(String applStat) {
         ApplStat = applStat;
+    }
+
+    public String getCaptured() {
+        return Captured;
+    }
+
+    public void setCaptured(String captured) {
+        Captured = captured;
     }
 
     public String getTimeStmp() {

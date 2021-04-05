@@ -18,5 +18,5 @@ public interface DUncapturedClient {
     @Delete
     void delete(EUncapturedClient uncapturedClient);
 
-    LiveData<List<EUncapturedClient>> getUncapturedClientList();
+    //LiveData<List<EUncapturedClient>> getUncapturedClientList();
 }
