@@ -109,6 +109,7 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
     public void initData(){
         mViewModel.getBranchCreditApplication().observe(MainScanner.this, brnCreditList -> {
             if(brnCreditList.size()>0) {
+                layoutNoRecord.setVisibility(View.GONE);
                 loading.setVisibility(View.GONE);
                 loanList = new ArrayList<>();
                 poDialogx.dismiss();
@@ -132,10 +133,6 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
                 adapter = new ClientInfoAdapter(loanList, new ClientInfoAdapter.OnApplicationClickListener() {
                     @Override
                     public void OnClick(int position, List<LoanApplication> loanLists) {
-//                                mViewModel.getDocument(loanLists.get(position).getTransNox()).observe(MainScanner.this, data -> {
-//                                    mViewModel.setDocumentInfo(data);
-//                                });
-
                         Intent loIntent = new Intent(MainScanner.this, ClientInfo.class);
                         loIntent.putExtra("TransNox",loanLists.get(position).getsTransNox());
                         loIntent.putExtra("ClientNm",loanLists.get(position).getsCompnyNm());

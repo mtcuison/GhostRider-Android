@@ -166,6 +166,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
         });
         btnNext.setOnClickListener(v -> {
             otherInfo.setCompanyInfoSource(Objects.requireNonNull(tieOthrSrc.getText()).toString());
+            otherInfo.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
             mViewModel.SubmitOtherInfo(otherInfo, Fragment_OtherInfo.this);
         });
     }

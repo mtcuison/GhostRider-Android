@@ -15,6 +15,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
@@ -28,6 +29,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DependentsInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DisbursementInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.OtherInfoModel;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalReferenceInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
 import java.util.ArrayList;
@@ -216,40 +218,120 @@ public class VMDependent extends AndroidViewModel {
     }
 
 
-    public boolean SubmitDependentInfo(ViewModelCallBack callBack){
+//    public boolean SubmitDependentInfo(ViewModelCallBack callBack){
+//        try {
+//            for (int x = 0; x < dependentInfo.getValue().size(); x++) {
+//                poGoCasxx.DisbursementInfo().DependentInfo().addDependent();
+//                poGoCasxx.DisbursementInfo().DependentInfo().setFullName(x, this.dependentInfo.getValue().get(x).getDpdFullName());
+//                poGoCasxx.DisbursementInfo().DependentInfo().setRelation(x, this.dependentInfo.getValue().get(x).getDpdRlationship());
+//                poGoCasxx.DisbursementInfo().DependentInfo().setAge(x, Integer.parseInt(this.dependentInfo.getValue().get(x).getDpdAge()));
+//                poGoCasxx.DisbursementInfo().DependentInfo().IsStudent(x, this.dependentInfo.getValue().get(x).getIsStudent());
+//                poGoCasxx.DisbursementInfo().DependentInfo().IsWorking(x, this.dependentInfo.getValue().get(x).getIsEmployed());
+//                poGoCasxx.DisbursementInfo().DependentInfo().IsDependent(x, this.dependentInfo.getValue().get(x).getIsDependent());
+//                poGoCasxx.DisbursementInfo().DependentInfo().IsHouseHold(x, this.dependentInfo.getValue().get(x).getIsHouseHold());
+//                poGoCasxx.DisbursementInfo().DependentInfo().IsMarried(x, this.dependentInfo.getValue().get(x).getIsMarried());
+//                poGoCasxx.DisbursementInfo().DependentInfo().setSchoolName(x, this.dependentInfo.getValue().get(x).getDpdSchoolName());
+//                poGoCasxx.DisbursementInfo().DependentInfo().setSchoolAddress(x, this.dependentInfo.getValue().get(x).getDpdSchoolAddress());
+//                poGoCasxx.DisbursementInfo().DependentInfo().setSchoolTown(x, this.dependentInfo.getValue().get(x).getDpdSchoolTown());
+//                poGoCasxx.DisbursementInfo().DependentInfo().setEducationalLevel(x, this.dependentInfo.getValue().get(x).getDpdEducLevel());
+//                poGoCasxx.DisbursementInfo().DependentInfo().IsPrivateSchool(x, this.dependentInfo.getValue().get(x).getDpdSchoolType());
+//                poGoCasxx.DisbursementInfo().DependentInfo().IsScholar(x, this.dependentInfo.getValue().get(x).getDpdIsScholar());
+//                poGoCasxx.DisbursementInfo().DependentInfo().IsWorking(x, this.dependentInfo.getValue().get(x).getIsEmployed());
+//                poGoCasxx.DisbursementInfo().DependentInfo().setWorkType(x, this.dependentInfo.getValue().get(x).getDpdEmployedSector());
+//                poGoCasxx.DisbursementInfo().DependentInfo().setCompany(x, this.dependentInfo.getValue().get(x).getDpdCompanyName());
+//            }
+//            poInfo.setDependnt(poGoCasxx.DisbursementInfo().DependentInfo().toJSONString());
+//            //poInfo.setDetlInfo(poGoCasxx.toJSONString());
+//            poApplcnt.updateGOCasData(poInfo);
+//            Log.e(TAG, "Dependent info has been set." + poGoCasxx.DisbursementInfo().DependentInfo().toJSONString());
+//            callBack.onSaveSuccessResult("Success");
+//            return true;
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            callBack.onFailedResult(e.getMessage());
+//            return false;
+//        }
+//  }
+
+    public boolean SubmitDependentInfo(ViewModelCallBack callBack) {
         try {
-            for (int x = 0; x < dependentInfo.getValue().size(); x++) {
-                poGoCasxx.DisbursementInfo().DependentInfo().addDependent();
-                poGoCasxx.DisbursementInfo().DependentInfo().setFullName(x, this.dependentInfo.getValue().get(x).getDpdFullName());
-                poGoCasxx.DisbursementInfo().DependentInfo().setRelation(x, this.dependentInfo.getValue().get(x).getDpdRlationship());
-                poGoCasxx.DisbursementInfo().DependentInfo().setAge(x, Integer.parseInt(this.dependentInfo.getValue().get(x).getDpdAge()));
-                poGoCasxx.DisbursementInfo().DependentInfo().IsStudent(x, this.dependentInfo.getValue().get(x).getIsStudent());
-                poGoCasxx.DisbursementInfo().DependentInfo().IsWorking(x, this.dependentInfo.getValue().get(x).getIsEmployed());
-                poGoCasxx.DisbursementInfo().DependentInfo().IsDependent(x, this.dependentInfo.getValue().get(x).getIsDependent());
-                poGoCasxx.DisbursementInfo().DependentInfo().IsHouseHold(x, this.dependentInfo.getValue().get(x).getIsHouseHold());
-                poGoCasxx.DisbursementInfo().DependentInfo().IsMarried(x, this.dependentInfo.getValue().get(x).getIsMarried());
-                poGoCasxx.DisbursementInfo().DependentInfo().setSchoolName(x, this.dependentInfo.getValue().get(x).getDpdSchoolName());
-                poGoCasxx.DisbursementInfo().DependentInfo().setSchoolAddress(x, this.dependentInfo.getValue().get(x).getDpdSchoolAddress());
-                poGoCasxx.DisbursementInfo().DependentInfo().setSchoolTown(x, this.dependentInfo.getValue().get(x).getDpdSchoolTown());
-                poGoCasxx.DisbursementInfo().DependentInfo().setEducationalLevel(x, this.dependentInfo.getValue().get(x).getDpdEducLevel());
-                poGoCasxx.DisbursementInfo().DependentInfo().IsPrivateSchool(x, this.dependentInfo.getValue().get(x).getDpdSchoolType());
-                poGoCasxx.DisbursementInfo().DependentInfo().IsScholar(x, this.dependentInfo.getValue().get(x).getDpdIsScholar());
-                poGoCasxx.DisbursementInfo().DependentInfo().IsWorking(x, this.dependentInfo.getValue().get(x).getIsEmployed());
-                poGoCasxx.DisbursementInfo().DependentInfo().setWorkType(x, this.dependentInfo.getValue().get(x).getDpdEmployedSector());
-                poGoCasxx.DisbursementInfo().DependentInfo().setCompany(x, this.dependentInfo.getValue().get(x).getDpdCompanyName());
-            }
-            poInfo.setDependnt(poGoCasxx.DisbursementInfo().DependentInfo().toJSONString());
-            //poInfo.setDetlInfo(poGoCasxx.toJSONString());
-            poApplcnt.updateGOCasData(poInfo);
-            Log.e(TAG, "Dependent info has been set." + poGoCasxx.DisbursementInfo().DependentInfo().toJSONString());
-            callBack.onSaveSuccessResult("Success");
+            new UpdateTask(poApplcnt, poInfo, dependentInfo.getValue(), callBack).execute();
             return true;
-        } catch (Exception e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
-            callBack.onFailedResult(e.getMessage());
+            callBack.onFailedResult("NullPointerException error");
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            callBack.onFailedResult("Exception error");
             return false;
         }
-  }
+    }
+    private class UpdateTask extends AsyncTask<RCreditApplicant, Void, String> {
+        private final RCreditApplicant poDcp;
+        private final ECreditApplicantInfo poInfo;
+        private final ViewModelCallBack callback;
+        private final List<DependentsInfoModel> dependentsInfoModels;
+        public UpdateTask(RCreditApplicant poDcp, ECreditApplicantInfo poInfo, List<DependentsInfoModel> dependentsInfoModels, ViewModelCallBack callback) {
+            this.poDcp = poDcp;
+            this.poInfo = poInfo;
+            this.dependentsInfoModels = dependentsInfoModels;
+            this.callback = callback;
+        }
+
+        @Override
+        protected String doInBackground(RCreditApplicant... rApplicant) {
+            try{
+                for (int x = 0; x < dependentsInfoModels.size(); x++) {
+                    poGoCasxx.DisbursementInfo().DependentInfo().addDependent();
+                    poGoCasxx.DisbursementInfo().DependentInfo().setFullName(x, this.dependentsInfoModels.get(x).getDpdFullName());
+                    poGoCasxx.DisbursementInfo().DependentInfo().setRelation(x, this.dependentsInfoModels.get(x).getDpdRlationship());
+                    poGoCasxx.DisbursementInfo().DependentInfo().setAge(x, Integer.parseInt(this.dependentsInfoModels.get(x).getDpdAge()));
+                    poGoCasxx.DisbursementInfo().DependentInfo().IsStudent(x, this.dependentsInfoModels.get(x).getIsStudent());
+                    poGoCasxx.DisbursementInfo().DependentInfo().IsWorking(x, this.dependentsInfoModels.get(x).getIsEmployed());
+                    poGoCasxx.DisbursementInfo().DependentInfo().IsDependent(x, this.dependentsInfoModels.get(x).getIsDependent());
+                    poGoCasxx.DisbursementInfo().DependentInfo().IsHouseHold(x, this.dependentsInfoModels.get(x).getIsHouseHold());
+                    poGoCasxx.DisbursementInfo().DependentInfo().IsMarried(x, this.dependentsInfoModels.get(x).getIsMarried());
+                    poGoCasxx.DisbursementInfo().DependentInfo().setSchoolName(x, this.dependentsInfoModels.get(x).getDpdSchoolName());
+                    poGoCasxx.DisbursementInfo().DependentInfo().setSchoolAddress(x, this.dependentsInfoModels.get(x).getDpdSchoolAddress());
+                    poGoCasxx.DisbursementInfo().DependentInfo().setSchoolTown(x, this.dependentsInfoModels.get(x).getDpdSchoolTown());
+                    poGoCasxx.DisbursementInfo().DependentInfo().setEducationalLevel(x, this.dependentsInfoModels.get(x).getDpdEducLevel());
+                    poGoCasxx.DisbursementInfo().DependentInfo().IsPrivateSchool(x, this.dependentsInfoModels.get(x).getDpdSchoolType());
+                    poGoCasxx.DisbursementInfo().DependentInfo().IsScholar(x, this.dependentsInfoModels.get(x).getDpdIsScholar());
+                    poGoCasxx.DisbursementInfo().DependentInfo().IsWorking(x, this.dependentsInfoModels.get(x).getIsEmployed());
+                    poGoCasxx.DisbursementInfo().DependentInfo().setWorkType(x, this.dependentsInfoModels.get(x).getDpdEmployedSector());
+                    poGoCasxx.DisbursementInfo().DependentInfo().setCompany(x, this.dependentsInfoModels.get(x).getDpdCompanyName());
+
+                }
+                poInfo.setDependnt(poGoCasxx.DisbursementInfo().DependentInfo().toJSONString());
+                poDcp.updateGOCasData(poInfo);
+                return "success";
+
+            }catch (NullPointerException e){
+                e.printStackTrace();
+                return e.getMessage();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                return e.getMessage();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s.equalsIgnoreCase("success")){
+                callback.onSaveSuccessResult(psTranNo.getValue());
+            } else {
+                callback.onFailedResult(s);
+            }
+        }
+    }
+
+    public interface AddPersonalInfoListener{
+        void OnSuccess();
+        void onFailed(String message);
+    }
 
     public boolean AddDependent(DependentsInfoModel foInfo , ExpActionListener listener){
         if(foInfo.isDataValid()) {

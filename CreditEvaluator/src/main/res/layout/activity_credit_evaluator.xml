@@ -105,9 +105,12 @@
                     android:id="@+id/txt_evaluator_search"
                     style="@style/TextInputStyle.Edittext"
                     android:layout_width="match_parent"
-                    android:imeOptions="actionSearch"
+                    android:layout_height="wrap_content"
                     android:textColor="@color/mtrl_textinput_default_box_stroke_colors"
-                    android:layout_height="wrap_content" />
+                    android:fontFamily="@font/roboto"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

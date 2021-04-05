@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,11 +59,6 @@ public class BranchApplicationsAdapter extends RecyclerView.Adapter<BranchApplic
         holder.lblAccntTern.setText(poLoan.getnAcctTerm());
         holder.lblModelName.setText(poLoan.getsModelNme());
         holder.lblMobileNo.setText(poLoan.getsMobileNo());
-//        holder.lblApplResult.setText(poLoan.getTransactionStatus());
-//
-//        holder.btnVoid.setVisibility(poLoan.getVoidStatus());
-//
-//        holder.lblSentStatus.setVisibility(poLoan.getSendStatus());
     }
 
     @Override
@@ -121,38 +115,6 @@ public class BranchApplicationsAdapter extends RecyclerView.Adapter<BranchApplic
     public interface OnExportGOCASListener{
         void onExport(String GOCAS, String ClientName,String DateApplied);
     }
-
-//    public class SearchFilter extends Filter{
-//
-//
-//
-//        @Override
-//        protected FilterResults performFiltering(CharSequence constraint) {
-//            final FilterResults results = new FilterResults();
-//            if(constraint.length() == 0 || constraint.toString().trim().isEmpty() || constraint == null){
-//                plSchList.addAll(plLoanApp);
-//            } else {
-//                List<BranchApplicationModel> filterSearch = new ArrayList<>();
-//                for(BranchApplicationModel poLoan : plLoanApp){
-//                    String lsClientNm = poLoan.getsCompnyNm().toLowerCase();
-//                    if(lsClientNm.contains(constraint.toString().toLowerCase())){
-//                        filterSearch.add(poLoan);
-//                    }
-//                }
-//                plSchList = filterSearch;
-//            }
-//
-//            results.values = plSchList;
-//            results.count = plSchList.size();
-//            return results;
-//        }
-//
-//        @Override
-//        protected void publishResults(CharSequence constraint, FilterResults results) {
-//            plSchList = (List<BranchApplicationModel>) results.values;
-//            notifyDataSetChanged();
-//        }
-//    }
 
     @Override
     public Filter getFilter() {

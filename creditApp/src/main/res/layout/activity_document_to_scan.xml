@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/bg_gradient_light"
+    android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".Activity.Activity_DocumentToScan">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
