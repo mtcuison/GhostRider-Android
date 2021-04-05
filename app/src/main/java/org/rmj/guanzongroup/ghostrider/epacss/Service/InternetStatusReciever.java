@@ -222,6 +222,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
 
                         if (lsResponse == null) {
                             Log.e(TAG, "Sending selfie log info. Server no response");
+                            publishProgress("Sending selfie log info. Server no response");
                             isSent[x] = false;
                         } else {
                             JSONObject loResponse = new JSONObject(lsResponse);
@@ -231,6 +232,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                                 String OldTrans = selfieLog.getTransNox();
                                 poLog.updateEmployeeLogStatus(TransNox, OldTrans);
                                 Log.e(TAG, "Selfie log has been uploaded successfully.");
+                                publishProgress("Selfie log has been uploaded successfully.");
                                 isSent[x] = true;
                             } else {
                                 isSent[x] = false;
