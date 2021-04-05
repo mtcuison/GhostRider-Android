@@ -68,6 +68,10 @@ public class RCreditApplication {
         creditApplicationDao.insertBulkData(creditApplications);
     }
 
+    public void updateCustomerImageStat(String TransNox){
+        creditApplicationDao.updateCustomerImageStat(TransNox);
+    }
+
     //GET ALL CREDIT APP BY BRANCH
     public LiveData<List<DCreditApplication.ApplicationLog>> getApplicationByBranch(String BranchID){
         return creditApplicationDao.getApplicationByBranch(BranchID);

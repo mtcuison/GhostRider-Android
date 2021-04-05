@@ -15,6 +15,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -24,24 +26,20 @@ import java.util.List;
 
 public class Import_LoanApplications implements ImportInstance{
     public static final String TAG = Import_LoanApplications.class.getSimpleName();
-    private final RCreditApplication db;
-    private final ConnectionUtil loConnectx;
-    private final HttpHeaders loHeaders;
-    private final REmployee poUser;
+    private final Application instance;
+    private final SessionManager poUser;
 
     public Import_LoanApplications(Application application) {
-        this.db = new RCreditApplication(application);
-        this.loConnectx = new ConnectionUtil(application);
-        this.loHeaders = HttpHeaders.getInstance(application);
-        this.poUser = new REmployee(application);
+        this.instance = application;
+        this.poUser = new SessionManager(application);
     }
 
     @Override
     public void ImportData(ImportDataCallback callback) {
         try{
             JSONObject loJson = new JSONObject();
-            loJson.put("sUserIDxx", poUser.getUserID().getValue());
-            new ImportDataTask(db, loConnectx, loHeaders, callback).execute(loJson);
+            loJson.put("sUserIDxx", poUser.getUserID());
+            new ImportDataTask(instance, callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -51,12 +49,14 @@ public class Import_LoanApplications implements ImportInstance{
         private final RCreditApplication db;
         private final ConnectionUtil loConnectx;
         private final HttpHeaders loHeaders;
+        private final SessionManager poUser;
         private final ImportDataCallback callback;
 
-        public ImportDataTask(RCreditApplication db, ConnectionUtil loConnectx, HttpHeaders loHeaders, ImportDataCallback callback) {
-            this.db = db;
-            this.loConnectx = loConnectx;
-            this.loHeaders = loHeaders;
+        public ImportDataTask(Application application, ImportDataCallback callback) {
+            this.db = new RCreditApplication(application);
+            this.loConnectx = new ConnectionUtil(application);
+            this.loHeaders = HttpHeaders.getInstance(application);
+            this.poUser = new SessionManager(application);
             this.callback = callback;
         }
 
@@ -73,6 +73,23 @@ public class Import_LoanApplications implements ImportInstance{
                     if (lsResult.equalsIgnoreCase("success")) {
                         JSONArray laJson = loJson.getJSONArray("detail");
                         saveDataToLocal(laJson);
+
+                        Thread.sleep(500);
+
+                        String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                        String lsAccess = WebFileServer.RequestAccessToken(lsClient);
+                        org.json.simple.JSONObject loResult = WebFileServer.CheckFile(lsAccess,
+                                "0029",
+                                poUser.getBranchCode(),
+                                "",
+                                "");
+                        lsResult = (String) loResult.get("result");
+                        if(lsResult.equalsIgnoreCase("success")){
+                            JSONObject loResponse = new JSONObject(loResult.toJSONString());
+                            String lsArray = loResponse.getString("detail");
+                            JSONArray loArr = new JSONArray(lsArray);
+                            updateCustomerImageStat(loArr);
+                        }
                     }
                 } else {
                     response = AppConstants.NO_INTERNET();
@@ -134,9 +151,18 @@ public class Import_LoanApplications implements ImportInstance{
                 info.setTranStat(loJson.getString("cTranStat"));
                 info.setDivision(loJson.getString("cDivision"));
                 info.setReceived(loJson.getString("dReceived"));
+                info.setCaptured("0");
                 creditApplications.add(info);
             }
             db.insertBulkData(creditApplications);
+        }
+
+        private void updateCustomerImageStat(JSONArray faJson) throws Exception{
+            for(int x = 0; x < faJson.length(); x++){
+                JSONObject loJSon = faJson.getJSONObject(x);
+                String Transnox = loJSon.getString("sReferNox");
+                db.updateCustomerImageStat(Transnox);
+            }
         }
     }
 }

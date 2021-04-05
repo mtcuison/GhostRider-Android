@@ -30,6 +30,9 @@ public interface DCreditApplication {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBulkData(List<ECreditApplication> creditApplications);
 
+    @Query("UPDATE Credit_Online_Application SET cCaptured = '1' WHERE sTransNox =:TransNox")
+    void updateCustomerImageStat(String TransNox);
+
     @Query("SELECT * FROM Credit_Online_Application WHERE sTransNox =:TransNox")
     ECreditApplication getLoanInfoOfTransNox(String TransNox);
 
@@ -70,7 +73,8 @@ public interface DCreditApplication {
             "a.cSendStat, " +
             "a.cTranStat, " +
             "a.dReceived, " +
-            "a.dVerified " +
+            "a.dVerified, " +
+            "a.cCaptured " +
             "From Credit_Online_Application a " +
             "Left Join Branch_Info b " +
             "ON a.sBranchCd = b.sBranchCd " +
@@ -91,6 +95,7 @@ public interface DCreditApplication {
         public String cTranStat;
         public String dReceived;
         public String dVerified;
+        public String cCaptured;
     }
 
     @Query("SELECT a.sGOCASNox," +

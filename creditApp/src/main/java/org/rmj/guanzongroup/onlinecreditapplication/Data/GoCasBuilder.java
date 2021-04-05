@@ -205,7 +205,7 @@ public class GoCasBuilder {
             JSONObject loOther = loMeans.getJSONObject("other_income");
             try {
                 poGOCas.MeansInfo().setOtherIncomeNature(loOther.getString("sOthrIncm"));
-                //poGOCas.MeansInfo().setOtherIncomeAmount(Long.parseLong(loOther.getString("nOthrIncm")));
+                // poGOCas.MeansInfo().setOtherIncomeAmount(Long.parseLong(loOther.getString("nOthrIncm")));
             } catch (Exception e){
                 e.printStackTrace();
             }

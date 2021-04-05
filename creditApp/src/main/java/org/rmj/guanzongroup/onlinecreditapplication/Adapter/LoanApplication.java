@@ -20,6 +20,7 @@ public class LoanApplication {
     private String cSendStat;
     private String cTranStat;
     private String dDateSent;
+    private String cCaptured;
     private String dApproved;
 
     public LoanApplication() {
@@ -116,6 +117,14 @@ public class LoanApplication {
         this.cUnitAppl = cUnitAppl;
     }
 
+    public String getcCaptured() {
+        return cCaptured;
+    }
+
+    public void setcCaptured(String cCaptured) {
+        this.cCaptured = cCaptured;
+    }
+
     public int getSendStatus() {
         if(cSendStat.equalsIgnoreCase("1")){
             return View.VISIBLE;
@@ -149,7 +158,10 @@ public class LoanApplication {
     }
 
     public String getDateApproved() {
-        return FormatUIText.getParseDateTime(dApproved);
+        if(!dApproved.equalsIgnoreCase("null")) {
+            return FormatUIText.getParseDateTime(dApproved);
+        }
+        return "";
     }
 
     public void setDateApproved(String dApproved) {
@@ -172,6 +184,13 @@ public class LoanApplication {
 
     public int getVoidStatus(){
         if(cSendStat.equalsIgnoreCase("1")){
+            return View.GONE;
+        }
+        return View.VISIBLE;
+    }
+
+    public int captureCustomerPhoto(){
+        if(cCaptured.equalsIgnoreCase("1")){
             return View.GONE;
         }
         return View.VISIBLE;

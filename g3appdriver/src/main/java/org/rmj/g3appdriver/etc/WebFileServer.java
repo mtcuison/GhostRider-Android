@@ -139,8 +139,8 @@ public class WebFileServer {
      */
     public static JSONObject CheckFile(String fsAcsToken, String fsFileType, String fsBranchCd, String fsSourceCd, String fsSourceNo){
         return WebFile.CheckFile(fsAcsToken,
-                                    fsBranchCd,
                                     fsFileType,
+                                    fsBranchCd,
                                     fsSourceCd,
                                     fsSourceNo);
     }

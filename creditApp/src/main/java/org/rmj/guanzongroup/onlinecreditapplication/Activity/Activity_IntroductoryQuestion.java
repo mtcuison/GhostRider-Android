@@ -94,7 +94,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
             for(int x = 0; x < eMcBrands.size(); x++){
                 if(txtBrandNm.getText().toString().equalsIgnoreCase(eMcBrands.get(x).getBrandNme())){
                     mViewModel.setLsBrandID(eMcBrands.get(x).getBrandIDx());
-                    model.setsBrandIDxx(eMcBrands.get(x).getBrandIDx());
+                    model.setsBrandIDxx(eMcBrands.get(x).getBrandNme());
                     break;
                 }
             }

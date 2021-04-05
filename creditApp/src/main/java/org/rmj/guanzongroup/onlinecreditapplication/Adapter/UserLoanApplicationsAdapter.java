@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,14 +19,14 @@ import org.rmj.guanzongroup.onlinecreditapplication.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserLoanHistoryAdapter extends RecyclerView.Adapter<UserLoanHistoryAdapter.LoanViewHolder> {
+public class UserLoanApplicationsAdapter extends RecyclerView.Adapter<UserLoanApplicationsAdapter.LoanViewHolder> {
 
     private final List<LoanApplication> plLoanApp;
     private List<LoanApplication> plSchList;
     private final LoanApplicantListActionListener mListener;
     private final SearchFilter poSearch;
 
-    public UserLoanHistoryAdapter(List<LoanApplication> plLoanApp, LoanApplicantListActionListener listener) {
+    public UserLoanApplicationsAdapter(List<LoanApplication> plLoanApp, LoanApplicantListActionListener listener) {
         this.plLoanApp = plLoanApp;
         this.plSchList = plLoanApp;
         this.mListener = listener;
@@ -67,6 +68,16 @@ public class UserLoanHistoryAdapter extends RecyclerView.Adapter<UserLoanHistory
         holder.lblApplResult.setText(poLoan.getTransactionStatus());
         holder.lblDateApprov.setText(poLoan.getDateApproved());
         holder.lblSentStatus.setVisibility(poLoan.getSendStatus());
+        if(poLoan.getcCaptured().equalsIgnoreCase("1")){
+            holder.btnPreview.setVisibility(View.VISIBLE);
+        } else {
+            holder.btnPreview.setVisibility(View.GONE);
+        }
+        if(poLoan.getcCaptured().equalsIgnoreCase("1")){
+            holder.rtlCamera.setVisibility(View.GONE);
+        } else {
+            holder.rtlCamera.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -89,7 +100,8 @@ public class UserLoanHistoryAdapter extends RecyclerView.Adapter<UserLoanHistory
         TextView lblDateApprov;
         TextView lblDateSentxx;
         TextView lblSentStatus;
-        ImageButton btnVoid, btnPhoto;
+        ImageButton btnVoid, btnPhoto, btnPreview;
+        RelativeLayout rtlCamera;
         MaterialButton btnExpt;
         MaterialButton btnUpdt;
 
@@ -106,8 +118,10 @@ public class UserLoanHistoryAdapter extends RecyclerView.Adapter<UserLoanHistory
             lblSentStatus = itemView.findViewById(R.id.lbl_applicationSent);
             btnVoid = itemView.findViewById(R.id.btn_deleteApplication);
             btnPhoto = itemView.findViewById(R.id.btn_camera);
+            btnPreview = itemView.findViewById(R.id.btn_preview);
             btnUpdt = itemView.findViewById(R.id.btn_applicationUpdate);
             btnExpt = itemView.findViewById(R.id.btn_applicationExport);
+            rtlCamera = itemView.findViewById(R.id.relative_camera);
 
             btnVoid.setOnClickListener(v1 -> {
                 int lnPos = getAdapterPosition();
@@ -148,9 +162,9 @@ public class UserLoanHistoryAdapter extends RecyclerView.Adapter<UserLoanHistory
 
     public class SearchFilter extends Filter{
 
-        private final UserLoanHistoryAdapter poAdapter;
+        private final UserLoanApplicationsAdapter poAdapter;
 
-        public SearchFilter(UserLoanHistoryAdapter poAdapter) {
+        public SearchFilter(UserLoanApplicationsAdapter poAdapter) {
             super();
             this.poAdapter = poAdapter;
         }
