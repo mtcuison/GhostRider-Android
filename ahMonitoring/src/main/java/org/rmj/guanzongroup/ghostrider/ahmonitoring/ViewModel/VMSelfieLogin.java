@@ -25,6 +25,7 @@ import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 
 import java.util.List;
 
@@ -87,6 +88,7 @@ public class VMSelfieLogin extends AndroidViewModel {
         private final ELog_Selfie selfieLog;
         private final SessionManager poUser;
         private final OnLoginTimekeeperListener callback;
+        private final Application application;
 
         public LoginTimekeeperTask(EImageInfo foImage, ELog_Selfie logInfo, Application instance, OnLoginTimekeeperListener callback){
             this.poImageInfo = foImage;
@@ -97,12 +99,14 @@ public class VMSelfieLogin extends AndroidViewModel {
             this.poLog = new RLogSelfie(instance);
             this.poUser = new SessionManager(instance);
             this.callback = callback;
+            this.application = instance;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             callback.OnLogin();
+            GNotifBuilder.createNotification(application, GNotifBuilder.SELFIE_LOGIN_SERVICE, "Login time uploading..", GNotifBuilder.SENDING_SELFIELOG).show();
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -179,10 +183,12 @@ public class VMSelfieLogin extends AndroidViewModel {
                 String lsResult = loJson.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
                     callback.OnSuccess("Login successfully");
+                    GNotifBuilder.createNotification(application, GNotifBuilder.SELFIE_LOGIN_SERVICE, "Login success", GNotifBuilder.SENDING_SELFIELOG).show();
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     String message = loError.getString("message");
                     callback.OnFailed(message);
+                    GNotifBuilder.createNotification(application, GNotifBuilder.SELFIE_LOGIN_SERVICE, message, GNotifBuilder.SENDING_SELFIELOG).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
