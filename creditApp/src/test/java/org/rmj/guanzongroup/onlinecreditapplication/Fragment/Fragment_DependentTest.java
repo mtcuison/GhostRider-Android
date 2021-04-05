@@ -110,8 +110,9 @@ public class Fragment_DependentTest implements ViewModelCallBack, VMDependent.Ex
     public void test_submitDependent(){
         try {
             addDependent();
-            if (addDependent().size() >0)
+            if (addDependent().size() >0){
                 Assert.assertTrue(mViewModel.SubmitDependentInfo(this));
+            }
         }catch (NullPointerException e){
             e.printStackTrace();
         } catch (Exception e){

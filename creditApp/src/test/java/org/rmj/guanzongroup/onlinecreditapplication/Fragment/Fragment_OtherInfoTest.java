@@ -55,6 +55,7 @@ public class Fragment_OtherInfoTest implements ViewModelCallBack, VMOtherInfo.Ex
         //infoModel = new OtherInfoModel(refName, refAddress, refTown, refContact);
         mViewModel.setTransNox( "C10A02100005");
         infoModel.setTransNox("C10A02100005");
+        arrayList = new ArrayList<>();
     }
 
     @After
@@ -105,6 +106,7 @@ public class Fragment_OtherInfoTest implements ViewModelCallBack, VMOtherInfo.Ex
             mViewModel.addReference(poRefInfo, new VMOtherInfo.AddPersonalInfoListener() {
                 @Override
                 public void OnSuccess() {
+                    arrayList.add(poRefInfo);
                     System.out.println("Add Success");
                 }
 
@@ -115,6 +117,7 @@ public class Fragment_OtherInfoTest implements ViewModelCallBack, VMOtherInfo.Ex
             });
 
         }
+        infoModel.setPersonalReferences(arrayList);
        // assertTrue( mViewModel.SubmitOtherInfo(infoModel, Fragment_OtherInfoTest.this));
 
         mViewModel.setTransNox( "C10A02100005");
