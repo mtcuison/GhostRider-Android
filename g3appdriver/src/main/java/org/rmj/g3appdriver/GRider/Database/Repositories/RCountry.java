@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCountryInfo;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
@@ -27,8 +27,8 @@ public class RCountry {
     private final Application application;
 
     public RCountry(Application application){
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        this.countryDao = appDatabase.CountryDao();
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        this.countryDao = GGCGriderDB.CountryDao();
         this.allCountryInfo = countryDao.getAllCountryInfo();
         this.allCountryNames = countryDao.getAllCountryNames();
         this.allCountryCitizenNames = countryDao.getAllCountryCitizenNames();

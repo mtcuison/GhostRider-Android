@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DApprovalCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECodeApproval;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESCA_Request;
@@ -16,8 +16,8 @@ public class RApprovalCode {
     private final DApprovalCode approvalDao;
 
     public RApprovalCode(Application application){
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        approvalDao = appDatabase.ApprovalDao();
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        approvalDao = GGCGriderDB.ApprovalDao();
     }
 
     public void insert(ECodeApproval codeApproval){

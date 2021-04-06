@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
@@ -24,8 +24,8 @@ public class RImageInfo {
 
     public RImageInfo(Application application){
         this.application = application;
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        this.imageDao = appDatabase.ImageInfoDao();
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        this.imageDao = GGCGriderDB.ImageInfoDao();
     }
 
     public LiveData<EImageInfo> getImageLocation(String sDtlSrcNo, String sImageNme) {

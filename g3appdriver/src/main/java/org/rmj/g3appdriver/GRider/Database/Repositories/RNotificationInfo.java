@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationRecipient;
@@ -19,8 +19,8 @@ public class RNotificationInfo {
     private final LiveData<List<DNotifications.UserNotificationInfo>> userNotificationList;
 
     public RNotificationInfo(Application application){
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        notificationDao = appDatabase.NotificationDao();
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        notificationDao = GGCGriderDB.NotificationDao();
         clientNotificationList = notificationDao.getClientNotificationList();
         userNotificationList = notificationDao.getUserNotificationList();
     }

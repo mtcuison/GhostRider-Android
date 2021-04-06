@@ -2,7 +2,6 @@ package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -10,14 +9,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
-import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class RBranchLoanApplication {
@@ -29,8 +26,8 @@ public class RBranchLoanApplication {
 
     public RBranchLoanApplication(Application application){
         this.application = application;
-        AppDatabase database = AppDatabase.getInstance(application);
-        this.docsDao = AppDatabase.getInstance(application).CreditAppDocsDao();
+        GGC_GriderDB database = GGC_GriderDB.getInstance(application);
+        this.docsDao = GGC_GriderDB.getInstance(application).CreditAppDocsDao();
     }
 
     public boolean insertBranchApplicationInfos(JSONArray faJson) throws Exception {

@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRaffleInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERaffleBasis;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERaffleInfo;
@@ -18,8 +18,8 @@ public class RRaffleInfo {
     private final LiveData<String[]> allRaffleBasisDesc;
 
     public RRaffleInfo(Application application) {
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        raffleDao = appDatabase.RaffleDao();
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        raffleDao = GGCGriderDB.RaffleDao();
         allRaffleBasis = raffleDao.getRaffleBasis();
         allRaffleBasisDesc = raffleDao.getRaffleBasisDesc();
     }

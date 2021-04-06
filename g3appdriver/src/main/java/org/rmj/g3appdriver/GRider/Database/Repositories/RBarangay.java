@@ -1,11 +1,10 @@
     package org.rmj.g3appdriver.GRider.Database.Repositories;
 
     import android.app.Application;
-    import android.os.AsyncTask;
 
     import androidx.lifecycle.LiveData;
 
-    import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+    import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
     import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBarangayInfo;
     import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 
@@ -16,8 +15,8 @@ public class RBarangay {
     private final LiveData<List<EBarangayInfo>> allBarangayInfo;
 
     public RBarangay(Application application){
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        barangayDao = appDatabase.BarangayDao();
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        barangayDao = GGCGriderDB.BarangayDao();
         allBarangayInfo = barangayDao.getAllBarangayInfo();
     }
 

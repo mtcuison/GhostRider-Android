@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMcBrand;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcBrand;
@@ -27,8 +27,8 @@ public class RMcBrand {
 
     public RMcBrand(Application application){
         this.application = application;
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        mcBrandDao = appDatabase.McBrandDao();
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        mcBrandDao = GGCGriderDB.McBrandDao();
         allBrandNames = mcBrandDao.getAllBrandName();
         allMcBrand = mcBrandDao.getAllMcBrand();
     }

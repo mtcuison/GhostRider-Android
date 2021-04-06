@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientInfo;
 
@@ -13,7 +13,7 @@ public class RClient {
     private LiveData<EClientInfo> clientInfo;
 
     public RClient(Application application){
-        AppDatabase database = AppDatabase.getInstance(application);
+        GGC_GriderDB database = GGC_GriderDB.getInstance(application);
         clientDao = database.ClientDao();
         clientInfo = clientDao.getClientInfo();
     }

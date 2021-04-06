@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.etc.SessionManager;
@@ -17,7 +17,7 @@ public class REmployee {
 
 
     public REmployee(Application application){
-        AppDatabase database = AppDatabase.getInstance(application);
+        GGC_GriderDB database = GGC_GriderDB.getInstance(application);
         employeeDao = database.EmployeeDao();
         employeeInfo = employeeDao.getEmployeeInfo();
         poSession = new SessionManager(application);

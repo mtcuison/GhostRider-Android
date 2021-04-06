@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBankInfo;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
@@ -25,7 +25,7 @@ public class RBankInfo {
 
     public RBankInfo(Application application){
         this.instance = application;
-        AppDatabase db = AppDatabase.getInstance(instance);
+        GGC_GriderDB db = GGC_GriderDB.getInstance(instance);
         bankDao = db.BankInfoDao();
     }
 

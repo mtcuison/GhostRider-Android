@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DFileCode;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
@@ -26,7 +26,7 @@ public class RFileCode {
 
     public RFileCode(Application application) {
         this.application=application;
-        this.fileCodeDao = AppDatabase.getInstance(application).FileCodeDao();
+        this.fileCodeDao = GGC_GriderDB.getInstance(application).FileCodeDao();
         this.allFileCode = fileCodeDao.selectFileCodeList();
     }
 
