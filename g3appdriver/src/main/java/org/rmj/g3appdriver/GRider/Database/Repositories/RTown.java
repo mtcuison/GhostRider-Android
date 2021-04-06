@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
@@ -27,8 +27,8 @@ public class RTown {
 
     public RTown(Application application){
         this.application = application;
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        townDao = appDatabase.TownDao();
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        townDao = GGCGriderDB.TownDao();
         allTownInfo = townDao.getAllTownInfo();
     }
 

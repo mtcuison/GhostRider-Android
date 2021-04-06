@@ -1,7 +1,6 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -13,7 +12,7 @@ import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
@@ -33,9 +32,9 @@ public class RDailyCollectionPlan {
 
     public RDailyCollectionPlan(Application application){
         this.application = application;
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        detailDao = appDatabase.DcpDetailDao();
-        masterDao = appDatabase.DcpMasterDao();
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        detailDao = GGCGriderDB.DcpDetailDao();
+        masterDao = GGCGriderDB.DcpMasterDao();
     }
 
     public void insertDetailBulkData(List<EDCPCollectionDetail> collectionDetails){

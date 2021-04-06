@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DLog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
@@ -22,7 +22,7 @@ public class RLogSelfie {
 
     public RLogSelfie(Application application){
         this.instance = application;
-        this.selfieDao = AppDatabase.getInstance(application).SelfieDao();
+        this.selfieDao = GGC_GriderDB.getInstance(application).SelfieDao();
     }
 
     public LiveData<List<ELog_Selfie>> getCurrentLogTimeIfExist(String fsDate){

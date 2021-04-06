@@ -118,9 +118,9 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         ELog_Selfie.class,
         EBranchLoanApplication.class,
         EUncapturedClient.class}, version = 1, exportSchema = false)
-public abstract class AppDatabase extends RoomDatabase {
+public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
-    private static AppDatabase instance;
+    private static GGC_GriderDB instance;
 
     public abstract DEmployeeInfo EmployeeDao();
     public abstract DFileCode FileCodeDao();
@@ -157,10 +157,10 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DUncapturedClient UncapturedDao();
 
 
-    public static synchronized AppDatabase getInstance(Context context){
+    public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                    AppDatabase.class, "GGC_ISysDBF.db")
+                    GGC_GriderDB.class, "GGC_ISysDBF.db")
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallBack)
                     .build();
