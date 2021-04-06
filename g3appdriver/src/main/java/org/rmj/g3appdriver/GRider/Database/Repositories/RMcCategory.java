@@ -1,7 +1,6 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -10,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMcCategory;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcCategory;
@@ -27,8 +26,8 @@ public class RMcCategory {
 
     public RMcCategory(Application application){
         this.application = application;
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        mcCategoryDao = appDatabase.McCategoryDao();
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        mcCategoryDao = GGCGriderDB.McCategoryDao();
         allMcCategory = mcCategoryDao.getAllMcCategory();
     }
 

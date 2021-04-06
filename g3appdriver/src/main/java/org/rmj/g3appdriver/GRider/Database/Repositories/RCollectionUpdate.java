@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAddressRequest;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMobileRequest;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
@@ -26,7 +26,7 @@ public class RCollectionUpdate {
 
     public RCollectionUpdate(Application application){
         this.application = application;
-        AppDatabase db = AppDatabase.getInstance(application);
+        GGC_GriderDB db = GGC_GriderDB.getInstance(application);
         addressDao = db.AddressRequestDao();
         mobileDao = db.MobileRequestDao();
     }

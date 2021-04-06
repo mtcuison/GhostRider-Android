@@ -1,14 +1,13 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
@@ -23,8 +22,8 @@ public class RCreditApplication {
 
     public RCreditApplication(Application application){
         this.app = application;
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        creditApplicationDao = appDatabase.CreditApplicationDao();
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        creditApplicationDao = GGCGriderDB.CreditApplicationDao();
         allCreditApplication = creditApplicationDao.getAllCreditApplication();
     }
 

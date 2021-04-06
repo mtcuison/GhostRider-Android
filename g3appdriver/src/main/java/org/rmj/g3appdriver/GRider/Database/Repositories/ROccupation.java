@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DOccupationInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EOccupationInfo;
 
@@ -16,8 +16,8 @@ public class ROccupation {
     private final LiveData<List<EOccupationInfo>> allOccupationInfo;
 
     public ROccupation(Application application){
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        OccupationDao = appDatabase.OccupationDao();
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        OccupationDao = GGCGriderDB.OccupationDao();
         allOccupationNameList = OccupationDao.getOccupationNameList();
         allOccupationInfo = OccupationDao.getAllOccupationInfo();
     }

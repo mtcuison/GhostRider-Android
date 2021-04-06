@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMcModelPrice;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcModelPrice;
@@ -26,8 +26,8 @@ public class RMcModelPrice {
 
     public RMcModelPrice(Application application){
         this.application = application;
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        mcModelPriceDao = appDatabase.McModelPriceDao();
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        mcModelPriceDao = GGCGriderDB.McModelPriceDao();
     }
 
     public void insertBulkData(List<EMcModelPrice> modelPrices){
