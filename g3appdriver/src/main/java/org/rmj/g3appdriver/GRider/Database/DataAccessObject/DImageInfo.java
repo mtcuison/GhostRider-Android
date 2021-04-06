@@ -17,6 +17,9 @@ public interface DImageInfo {
     @Insert
     void insert(EImageInfo imageInfo);
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void importCreditAppImageInfo(EImageInfo imageInfo);
+
     @Update
     void update(EImageInfo imageInfo);
 
