@@ -2,9 +2,13 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -32,16 +36,24 @@ import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.guanzongroup.ghostrider.griderscanner.dialog.DialogImagePreview;
+import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
+import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.LoanApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.UserLoanApplicationsAdapter;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.DownloadImageCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMApplicationHistory;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder.APP_SYNC_DATA;
 
 public class Activity_ApplicationHistory extends AppCompatActivity implements ViewModelCallBack {
     private static final String TAG = Activity_ApplicationHistory.class.getSimpleName();
@@ -110,16 +122,45 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
 
                     @Override
                     public void OnPreview(String TransNox) {
+                        mViewModel.getImageLogPreview(TransNox).observe(Activity_ApplicationHistory.this, eImageInfo->{
+                            if (eImageInfo != null){
+                                onPreviewImage(eImageInfo);
+                        }else{
+                            mViewModel.DownloadDocumentFile(TransNox, new DownloadImageCallBack() {
+                                @Override
+                                public void OnStartSaving() {
+                                    poDialogx.initDialog("Credit Online \nApplication", "Downloading document file from server. Please wait...", false);
+                                    poDialogx.show();
+                                }
 
+                                @Override
+                                public void onSaveSuccessResult(String args) {
+                                    poDialogx.dismiss();
+                                    onPreviewImage(eImageInfo);
+                                    GNotifBuilder.createNotification(Activity_ApplicationHistory.this, "Applicant Photo", args,APP_SYNC_DATA).show();
+
+                                }
+
+                                @Override
+                                public void onFailedResult(String message) {
+                                    poDialogx.dismiss();
+                                    GNotifBuilder.createNotification(Activity_ApplicationHistory.this, "Applicant Photo", message,APP_SYNC_DATA).show();
+
+                                }
+                            });
+                        }
+                        });
+
+//
                     }
 
                     @Override
-                    public void OnCamera(String TransNox) {
+                    public void OnCamera(String TransNox, String cCaptured) {
                         poCamera = new ImageFileCreator(Activity_ApplicationHistory.this,
                                 AppConstants.APP_PUBLIC_FOLDER,
                                 AppConstants.SUB_FOLDER_CREDIT_APP,
                                 "0029",
-                                20,
+                                0,
                                 TransNox);
                         poCamera.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
                             poImage.setFileLoct(photPath);
@@ -211,5 +252,24 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
             mViewModel.saveImageFile(poImage);
             mViewModel.uploadImage(poImage);
         }
+    }
+    public void onPreviewImage(EImageInfo eImageInfo){
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(
+                    getContentResolver(), Uri.fromFile(new File(eImageInfo.getFileLoct())));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        DialogImagePreview loDialog = new DialogImagePreview(Activity_ApplicationHistory.this, bitmap, "Applicant Photo");
+        loDialog.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
+            @Override
+            public void OnCancel(Dialog Dialog) {
+                Dialog.dismiss();
+            }
+        });
+        loDialog.show();
+
     }
 }
