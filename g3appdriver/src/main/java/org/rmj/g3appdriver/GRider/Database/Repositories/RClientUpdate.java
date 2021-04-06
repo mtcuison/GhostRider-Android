@@ -1,9 +1,7 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
-import android.database.Cursor;
 import android.os.AsyncTask;
-import android.telephony.ims.RcsUceAdapter;
 
 import androidx.lifecycle.LiveData;
 
@@ -11,7 +9,7 @@ import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
@@ -26,7 +24,7 @@ public class RClientUpdate {
     private JSONObject poDetail;
 
     public RClientUpdate(Application application){
-        this.clientDao = AppDatabase.getInstance(application).ClientUpdateDao();
+        this.clientDao = GGC_GriderDB.getInstance(application).ClientUpdateDao();
         this.app = application;
     }
 

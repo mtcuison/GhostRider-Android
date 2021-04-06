@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 
@@ -20,8 +20,8 @@ public class RProvince {
     private LiveData<List<EProvinceInfo>> searchProvinceName;
 
     public RProvince(Application application){
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        provinceDao = appDatabase.ProvinceDao();
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        provinceDao = GGCGriderDB.ProvinceDao();
         allProvinceInfo = provinceDao.getAllProvinceInfo();
         allProvinceNames = provinceDao.getAllProvinceNames();
     }

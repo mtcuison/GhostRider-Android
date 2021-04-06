@@ -6,14 +6,10 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
@@ -25,7 +21,6 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import static org.rmj.g3appdriver.utils.WebApi.URL_BRANCH_LOAN_APP;
-import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_BRANCHES;
 
 public class Import_CreditAppList implements ImportInstance{
     private static final String TAG = Import_CreditAppList.class.getSimpleName();

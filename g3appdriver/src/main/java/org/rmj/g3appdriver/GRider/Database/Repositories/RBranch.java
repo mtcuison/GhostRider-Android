@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.GRider.Database.AppDatabase;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
@@ -30,8 +30,8 @@ public class RBranch {
 
     public RBranch(Application application){
         this.application = application;
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        branchInfoDao = appDatabase.BranchDao();
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        branchInfoDao = GGCGriderDB.BranchDao();
         allMcBranchNames = branchInfoDao.getMCBranchNames();
         allMcBranchInfo = branchInfoDao.getAllMcBranchInfo();
         allBranchNames = branchInfoDao.getAllBranchNames();
