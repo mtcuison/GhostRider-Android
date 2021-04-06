@@ -195,7 +195,10 @@ public class EmploymentInfoModel {
     }
 
     public long getMonthlyIncome() {
-        return Long.parseLong(sMonthlyx.replace(",", ""));
+        if(!sMonthlyx.equalsIgnoreCase("")) {
+            return Long.parseLong(sMonthlyx.replace(",", ""));
+        }
+        return 0;
     }
 
     public void setsMonthlyIncome(String sMonthlyx) {
@@ -377,11 +380,12 @@ public class EmploymentInfoModel {
         return true;
     }
     private boolean isSpnLengthOfServiceValid(){
-        if (cIsYearxx == null || cIsYearxx.isEmpty()) {
-            message = "Please enter length of service\n Month/Year";
-            return false;
+        if(sSectorxx.equalsIgnoreCase("1") || sSectorxx.equalsIgnoreCase("0")) {
+            if (cIsYearxx == null || cIsYearxx.isEmpty()) {
+                message = "Please enter length of service\n Month/Year";
+                return false;
+            }
         }
-
         return true;
     }
 
