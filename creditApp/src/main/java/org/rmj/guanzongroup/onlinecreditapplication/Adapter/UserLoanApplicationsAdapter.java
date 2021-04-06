@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Adapter;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ public class UserLoanApplicationsAdapter extends RecyclerView.Adapter<UserLoanAp
         void OnUpdate(String TransNox);
         void OnDelete(String TransNox);
         void OnPreview(String TransNox);
-        void OnCamera(String TransNox);
+        void OnCamera(String TransNox, String cCaptured);
     }
 
     @NonNull
@@ -70,14 +71,18 @@ public class UserLoanApplicationsAdapter extends RecyclerView.Adapter<UserLoanAp
         holder.lblSentStatus.setVisibility(poLoan.getSendStatus());
         if(poLoan.getcCaptured().equalsIgnoreCase("1")){
             holder.btnPreview.setVisibility(View.VISIBLE);
-        } else {
-            holder.btnPreview.setVisibility(View.GONE);
-        }
-        if(poLoan.getcCaptured().equalsIgnoreCase("1")){
             holder.rtlCamera.setVisibility(View.GONE);
         } else {
+            holder.btnPreview.setVisibility(View.GONE);
             holder.rtlCamera.setVisibility(View.VISIBLE);
         }
+
+        Log.e("poLoan", poLoan.getcCaptured());
+//        if(poLoan.getcCaptured().equalsIgnoreCase("1")){
+//            holder.rtlCamera.setVisibility(View.GONE);
+//        } else {
+//            holder.rtlCamera.setVisibility(View.VISIBLE);
+//        }
     }
 
     @Override
@@ -147,11 +152,11 @@ public class UserLoanApplicationsAdapter extends RecyclerView.Adapter<UserLoanAp
             btnPhoto.setOnClickListener(v -> {
                 int lnPos = getAdapterPosition();
                 if(lnPos != RecyclerView.NO_POSITION){
-                    listener.OnCamera(poLoan.getTransNox());
+                    listener.OnCamera(poLoan.getTransNox(),poLoan.getcCaptured());
                 }
             });
 
-            itemView.setOnClickListener(v12 -> {
+            btnPreview.setOnClickListener(v12 -> {
                 int lnPos = getAdapterPosition();
                 if(lnPos != RecyclerView.NO_POSITION){
                     listener.OnPreview(poLoan.getTransNox());
