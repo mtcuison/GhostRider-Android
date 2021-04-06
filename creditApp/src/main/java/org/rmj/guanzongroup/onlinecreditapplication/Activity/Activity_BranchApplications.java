@@ -104,6 +104,7 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
     public void initData(){
         mViewModel.getBranchCreditApplication().observe(Activity_BranchApplications.this, brnCreditList -> {
             if(brnCreditList.size()>0) {
+                layoutNoRecord.setVisibility(View.GONE);
                 loading.setVisibility(View.GONE);
                 loanList = new ArrayList<>();
                 for (int x = 0; x < brnCreditList.size(); x++) {
@@ -122,7 +123,6 @@ public class Activity_BranchApplications extends AppCompatActivity implements VM
                     loan.setcTranStat(brnCreditList.get(x).getTranStat());
                     loan.setdTimeStmp(brnCreditList.get(x).getTimeStmp());
                     loanList.add(loan);
-                    Log.e("Loan List", String.valueOf(loan));
                 }
                 adapter = new BranchApplicationsAdapter(loanList, new BranchApplicationsAdapter.OnApplicationClickListener() {
                     @Override

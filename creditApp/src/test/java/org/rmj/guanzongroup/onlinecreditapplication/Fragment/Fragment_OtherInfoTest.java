@@ -6,16 +6,21 @@ import android.util.Log;
 import androidx.test.core.app.ApplicationProvider;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.OtherInfoModel;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalReferenceInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMCoMaker;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMOtherInfo;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -31,6 +36,10 @@ public class Fragment_OtherInfoTest implements ViewModelCallBack, VMOtherInfo.Ex
     String refTown;
     private OtherInfoModel infoModel;
     private VMOtherInfo mViewModel;
+
+
+    private ArrayList<PersonalReferenceInfoModel> arrayList;
+    private  PersonalReferenceInfoModel poRefInfo;
     @Mock
     VMOtherInfo.ExpActionListener listener;
     @Mock
@@ -40,11 +49,13 @@ public class Fragment_OtherInfoTest implements ViewModelCallBack, VMOtherInfo.Ex
         mViewModel = new VMOtherInfo(ApplicationProvider.getApplicationContext());
         infoModel = new OtherInfoModel();
         refName = "Jonathan Sabiniano";
-        refContact = "09452086661";
+        refContact = "0945208666";
         refAddress = "Cawayan Bogtong";
         refTown = "20";
         //infoModel = new OtherInfoModel(refName, refAddress, refTown, refContact);
-        mViewModel.setTransNox( "Z3TXCBMCHCAO");
+        mViewModel.setTransNox( "C10A02100005");
+        infoModel.setTransNox("C10A02100005");
+        arrayList = new ArrayList<>();
     }
 
     @After
@@ -71,38 +82,68 @@ public class Fragment_OtherInfoTest implements ViewModelCallBack, VMOtherInfo.Ex
     }
     @Test
     public void test_submitOtherInfo(){
-
-        infoModel.setUnitUser("1");
-        infoModel.setUnitPrps("1");
-        infoModel.setUnitPayr("1");
-        infoModel.setUnitUser("1");
+//        int i = 0;
+//        for (int x = 0; x < 3; x++){
+//            i++;
+//            infoModel = new OtherInfoModel();
+//            infoModel.setUnitUser("0");
+//            infoModel.setUnitPrps("2");
+//            infoModel.setUnitPayr("0");
+//            infoModel.setSource("0");
+//            infoModel.setPayrRltn("2");
+//            poRefInfo = new PersonalReferenceInfoModel("Jonathan Sabiniano", "Cawayan Bogtong", "0335", "09452086661");
+//            arrayList.add(poRefInfo);
+//        }
+//        infoModel.setPersonalReferences(arrayList);
+        infoModel.setUnitUser("0");
+        infoModel.setUnitPrps("2");
+        infoModel.setUnitPayr("0");
+        infoModel.setSource("5");
+        infoModel.setPayrRltn("2");
         infoModel.setCompanyInfoSource("Guanzon Group of Companies");
         for (int i  = 0; i <= 3; i++){
-            //mViewModel.addReference(infoModel, Fragment_OtherInfoTest.this);
+            poRefInfo = new PersonalReferenceInfoModel(refName, refAddress, refTown, refContact + i);
+            mViewModel.addReference(poRefInfo, new VMOtherInfo.AddPersonalInfoListener() {
+                @Override
+                public void OnSuccess() {
+                    arrayList.add(poRefInfo);
+                    System.out.println("Add Success");
+                }
+
+                @Override
+                public void onFailed(String message) {
+                    System.out.println(message);
+                }
+            });
+
         }
-        assertTrue( mViewModel.SubmitOtherInfo(infoModel, Fragment_OtherInfoTest.this));
-        assertEquals(true, mViewModel.SubmitOtherInfo(infoModel, Fragment_OtherInfoTest.this));
+        infoModel.setPersonalReferences(arrayList);
+       // assertTrue( mViewModel.SubmitOtherInfo(infoModel, Fragment_OtherInfoTest.this));
+
+        mViewModel.setTransNox( "C10A02100005");
+        infoModel.setTransNox("C10A02100005");
+        Assert.assertTrue(mViewModel.SubmitOtherInfo(infoModel, Fragment_OtherInfoTest.this));
 
     }
 
     @Override
     public void onSuccess(String message) {
-        System.out.println(message);
+        System.out.println("onSuccess " + message);
     }
 
     @Override
     public void onFailed(String message) {
-        System.out.println(message);
+        System.out.println("onFailed " + message);
     }
 
     @Override
     public void onSaveSuccessResult(String args) {
 
-        System.out.println(args);
+        System.out.println("onSaveSuccessResult " + args);
     }
 
     @Override
     public void onFailedResult(String message) {
-        System.out.println(message);
+        System.out.println("onFailedResult " + message);
     }
 }

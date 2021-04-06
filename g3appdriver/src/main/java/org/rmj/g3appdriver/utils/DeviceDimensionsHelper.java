@@ -1,11 +1,8 @@
 package org.rmj.g3appdriver.utils;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.TypedValue;
 
 public class DeviceDimensionsHelper {
 
@@ -18,10 +15,8 @@ public class DeviceDimensionsHelper {
             int bitmapHeight = bitmap.getHeight();
             int bitmapWidth = bitmap.getWidth();
 
-
             if (bitmapWidth > deviceWidth) {
                 flag = false;
-
                 int scaledWidth = deviceWidth;
                 int scaledHeight = (scaledWidth * bitmapHeight) / bitmapWidth;
 

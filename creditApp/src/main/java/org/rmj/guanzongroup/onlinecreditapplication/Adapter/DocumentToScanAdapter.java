@@ -69,7 +69,6 @@ public class DocumentToScanAdapter extends RecyclerView.Adapter<DocumentToScanAd
             if (document.sImageNme != null){
                 holder.fileStat.setImageResource(R.drawable.ic_baseline_done_24);
                 holder.fileStat.setTag(R.drawable.ic_baseline_done_24);
-                Log.e("Adapter", document.sFileLoc);
             }
 
             if (document.sSendStat != null){

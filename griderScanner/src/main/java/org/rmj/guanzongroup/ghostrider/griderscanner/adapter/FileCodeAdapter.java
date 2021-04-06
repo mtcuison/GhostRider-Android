@@ -76,7 +76,6 @@ public class FileCodeAdapter extends RecyclerView.Adapter<FileCodeAdapter.FileCo
             if (document.sSendStat != null){
                 holder.imgDB.setVisibility(View.VISIBLE);
             }
-            Log.e("FileCodeAdapter", "sSendStat = " + document.sSendStat + " " + position);
         }catch (NullPointerException e){
             e.printStackTrace();
         }catch (Exception e){

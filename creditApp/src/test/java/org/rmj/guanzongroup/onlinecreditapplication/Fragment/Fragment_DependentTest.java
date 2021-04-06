@@ -19,6 +19,8 @@ import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMOtherInfo;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
@@ -48,6 +50,7 @@ public class Fragment_DependentTest implements ViewModelCallBack, VMDependent.Ex
             IsMarriedx;
     private String TransNox;
     private DependentsInfoModel infoModel;
+    private List<DependentsInfoModel> arrayList;
     private VMDependent mViewModel;
     private Fragment_Dependent fragment;
     @Mock
@@ -80,6 +83,7 @@ public class Fragment_DependentTest implements ViewModelCallBack, VMDependent.Ex
         HouseHoldx = "1";
         IsMarriedx = "0";
         mViewModel.setTransNox(TransNox);
+        arrayList = new ArrayList<>();
 
 
 
@@ -106,7 +110,9 @@ public class Fragment_DependentTest implements ViewModelCallBack, VMDependent.Ex
     public void test_submitDependent(){
         try {
             addDependent();
-            Assert.assertTrue(mViewModel.SubmitDependentInfo(this));
+            if (addDependent().size() >0){
+                Assert.assertTrue(mViewModel.SubmitDependentInfo(this));
+            }
         }catch (NullPointerException e){
             e.printStackTrace();
         } catch (Exception e){
@@ -137,7 +143,7 @@ public class Fragment_DependentTest implements ViewModelCallBack, VMDependent.Ex
 
         System.out.println("Add " + message);
     }
-    public void addDependent(){
+    public List<DependentsInfoModel> addDependent(){
         for (int i = 0;i<=3; i++){
             infoModel = new DependentsInfoModel(dpdName ,
                     mRelationPosition ,
@@ -156,8 +162,10 @@ public class Fragment_DependentTest implements ViewModelCallBack, VMDependent.Ex
                     Dependentx,
                     HouseHoldx,
                     IsMarriedx);
+            arrayList.add(infoModel);
             Assert.assertEquals(true, mViewModel.AddDependent(infoModel, this));
         }
+        return arrayList;
     }
     @Test
     public void test_getInfoModels(){

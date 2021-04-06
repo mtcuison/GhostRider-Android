@@ -7,8 +7,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,7 +27,6 @@ import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.griderscanner.ImageCrop;
-import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.FileCodeAdapter;
 import org.rmj.guanzongroup.ghostrider.griderscanner.dialog.DialogImagePreview;
 import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
 import org.rmj.guanzongroup.ghostrider.griderscanner.model.CreditAppDocumentModel;
@@ -94,14 +91,6 @@ public class Activity_DocumentToScan extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         mViewModel = new ViewModelProvider(this).get(VMDocumentToScan.class);
         sViewModel = new ViewModelProvider(this).get(VMMainScanner.class);
-//        mViewModel.getDocumentInfos().observe(this, collectionDetails -> {
-//            try {
-//                plDetail = collectionDetails;
-//                mViewModel.setCollectionListForPosting(collectionDetails);
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        });
         docInfo =  new ArrayList<>();
         initWidgets();
         contentResolver = this.getContentResolver();
@@ -241,12 +230,7 @@ public class Activity_DocumentToScan extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.action_menu_credit_app_list, menu);
 
-        return true;
-    }
 
     public void initWidgets(){
         poDialogx = new LoadDialog(Activity_DocumentToScan.this);
@@ -276,7 +260,6 @@ public class Activity_DocumentToScan extends AppCompatActivity {
         lblAccntTern.setText(getIntent().getStringExtra("AccntTerm"));
         lblMobileNo.setText(getIntent().getStringExtra("MobileNo"));
         ScannerConstants.SubFolder = getIntent().getStringExtra("SubFolder");
-//        lblSentStatus.setVisibility(poLoan.getSendStatus());
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

@@ -83,15 +83,12 @@ public class RCreditApplicationDocument {
         protected String doInBackground(ECreditApplicationDocuments... creditApplicationDocuments) {
             if (transInfo.equalsIgnoreCase("insert")){
                 documentsDao.insert(creditApplicationDocuments[0]);
-                Log.e(TAG, "Document info has been save in background!");
             }
             else if(transInfo.equalsIgnoreCase("update")){
                 documentsDao.update(creditApplicationDocuments[0]);
-                Log.e(TAG, "Document info without has been update in background!");
             }
             else if(transInfo.equalsIgnoreCase("updates")){
                 documentsDao.update(creditApplicationDocuments[0]);
-                Log.e(TAG, "Document info with Image has been update in background!");
             }
             return null;
         }
@@ -110,7 +107,6 @@ public class RCreditApplicationDocument {
 
             } else {
                 documentsDao.insertDocumentByTransNox(transNox[0]);
-                Log.e(TAG, "Document info has been save in background!");
             }
             return null;
         }
@@ -127,7 +123,6 @@ public class RCreditApplicationDocument {
         protected String doInBackground(String... transNox) {
             if (documentsDao.getDuplicateTransNox(transNox[0]).size()>0){
                 documentsDao.updateDocumentsInfo(transNox[0],sFileCd);
-                Log.e(TAG, "Credit document updated.");
             }
             return null;
         }
@@ -145,7 +140,6 @@ public class RCreditApplicationDocument {
         protected String doInBackground(String... transNox) {
             if (documentsDao.getDuplicateTransNox(transNox[0]).size()>0){
                 documentsDao.updateDocumentsInfoByFile(transNox[0],sFileCd);
-                Log.e(TAG, "Credit document updated.");
             }
             return null;
         }

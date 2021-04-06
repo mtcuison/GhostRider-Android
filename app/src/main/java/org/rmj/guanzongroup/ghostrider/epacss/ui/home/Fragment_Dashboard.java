@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,6 +97,7 @@ public class Fragment_Dashboard extends Fragment {
                 lblEmailx = eEmployeeInfo.getEmailAdd();
                 lblUserNm = eEmployeeInfo.getUserName();
                 lblPstion = DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx());
+                Log.e("User ID", eEmployeeInfo.getUserIDxx());
             } catch (Exception e){
                 e.printStackTrace();
             }
