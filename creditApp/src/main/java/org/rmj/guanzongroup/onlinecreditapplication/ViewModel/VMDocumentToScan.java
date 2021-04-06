@@ -346,7 +346,7 @@ public class VMDocumentToScan extends AndroidViewModel {
                                 "");
 
                         String lsResponse = (String) loDownload.get("result");
-                        lsResult = String.valueOf(loDownload);
+//                        lsResult = String.valueOf(loDownload);
                         Log.e(TAG, "Downloading image result : " + lsResponse);
 
                         if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
@@ -375,22 +375,28 @@ public class VMDocumentToScan extends AndroidViewModel {
                                 loImage.setSendStat("1");
                                 //loImage....
                                 ScannerConstants.PhotoPath = loImage.getFileLoct();
-                                poImage.insertImageInfo(loImage);
+                                poImage.insertDownloadedImageInfo(loImage);
                                 //end - insert entry to image info
+                                Log.e(TAG,loDownload.get("transnox").toString());
                                 saveDocumentInfoFromCamera(poFileInfo.sTransNox, poFileInfo.sFileCode);
                                 //todo:
                                 //insert/update entry to credit_online_application_documents
                                 //end - convert to image and save to proper file location
+                                loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"message\":\""+ ScannerConstants.FileDesc + " has been downloaded successfully." + "\"}");
+                                lsResult = String.valueOf(loDownload);
+                               // callback.OnSuccessResult(new String[]{ScannerConstants.FileDesc + " has been downloaded successfully."});
                             } else{
                                 Log.e(TAG, "Unable to convert file.");
                                 //Log.e(TAG, (String) loDownload.get("hash"));
-                                callback.OnFailedResult("Unable to convert file.");
+                                //JSONObject jsonobj=new JSONObject("{result:success,message:Unable to convert file.}");
+
+                                loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"message\":\"Unable to convert file.\"}");
+                                lsResult = String.valueOf(loDownload);
+                               // callback.OnFailedResult("Unable to convert file.");
 
                             }
-
-
-
-
+                        }else{
+                            lsResult = String.valueOf(loDownload);
                         }
 
                         Thread.sleep(1000);
@@ -415,19 +421,11 @@ public class VMDocumentToScan extends AndroidViewModel {
             try {
                 org.json.JSONObject loJson = new org.json.JSONObject(s);
                 if (loJson.getString("result").equalsIgnoreCase("success")) {
-                    callback.OnSuccessResult(new String[]{ScannerConstants.FileDesc + " has been downloaded successfully."});
+                    callback.OnSuccessResult(new String[]{loJson.getString("message")});
                 } else {
                     org.json.JSONObject loError = loJson.getJSONObject("error");
                     callback.OnFailedResult(loError.getString("message"));
                 }
-//                JSONParser loParser = new JSONParser();
-//                JSONObject loJson = (JSONObject) loParser.parse(s);
-//                if ("success".equalsIgnoreCase((String) loJson.get("result"))) {
-//                    callback.OnSuccessResult(new String[]{ScannerConstants.FileDesc + " has been downloaded successfully."});
-//                } else {
-//                    JSONObject loError = (JSONObject) loParser.parse((String) loJson.get("error"));
-//                    callback.OnFailedResult((String) loError.get("message"));
-//                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -500,6 +498,8 @@ public class VMDocumentToScan extends AndroidViewModel {
                 e.printStackTrace();
                 lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
             }
+
+            Log.e(TAG, "doInBackground " + lsResult);
             return lsResult;
         }
 
@@ -513,6 +513,7 @@ public class VMDocumentToScan extends AndroidViewModel {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
+                Log.e(TAG, "onPostExecute " + s);
                 org.json.JSONObject loJson = new org.json.JSONObject(s);
                 if (loJson.getString("result").equalsIgnoreCase("success")) {
                     callback.OnSuccessResult(new String[]{"File has been downloaded successfully."});

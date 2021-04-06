@@ -339,18 +339,26 @@ public class VMClientInfo extends AndroidViewModel {
                                 poImage.insertImageInfo(loImage);
 //                                saveImageInfo(loImage);
                                 //end - insert entry to image info
+                                Log.e(TAG,loDownload.get("transnox").toString());
                                 saveDocumentInfoFromCamera(poFileInfo.sTransNox, poFileInfo.sFileCode);
                                 //todo:
                                 //insert/update entry to credit_online_application_documents
                                 //end - convert to image and save to proper file location
+                                loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"message\":\""+ ScannerConstants.FileDesc + " has been downloaded successfully." + "\"}");
+                                lsResult = String.valueOf(loDownload);
+                                // callback.OnSuccessResult(new String[]{ScannerConstants.FileDesc + " has been downloaded successfully."});
                             } else{
-                                callback.OnFailedResult("Unable to convert file.");
+                                Log.e(TAG, "Unable to convert file.");
+                                //Log.e(TAG, (String) loDownload.get("hash"));
+                                //JSONObject jsonobj=new JSONObject("{result:success,message:Unable to convert file.}");
+
+                                loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"message\":\"Unable to convert file.\"}");
+                                lsResult = String.valueOf(loDownload);
+                                // callback.OnFailedResult("Unable to convert file.");
 
                             }
-
-
-
-
+                        }else{
+                            lsResult = String.valueOf(loDownload);
                         }
 
                         Thread.sleep(1000);

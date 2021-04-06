@@ -36,6 +36,10 @@ public class RImageInfo {
         imageInfo.setTransNox(getImageNextCode());
         new InsertTask(imageDao, "insert").execute(imageInfo);
     }
+    public void insertDownloadedImageInfo(EImageInfo imageInfo){
+
+        new InsertTask(imageDao, "insert").execute(imageInfo);
+    }
 
     public LiveData<EImageInfo> getImageInfo(String sTransNox){
         return imageDao.getImageInfo();
@@ -74,6 +78,9 @@ public class RImageInfo {
 
     public LiveData<List<EImageInfo>> getImageListInfo(String transNox){
         return imageDao.getImageListInfo(transNox);
+    }
+    public LiveData<EImageInfo> getImageLogPreview(String transNox){
+        return imageDao.getImageLogPreview(transNox);
     }
 
     public LiveData<List<EImageInfo>> getCurrentLogTimeIfExist(String fsDate){

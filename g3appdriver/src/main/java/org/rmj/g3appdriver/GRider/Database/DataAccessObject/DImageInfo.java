@@ -65,6 +65,9 @@ public interface DImageInfo {
     @Query("SELECT * FROM Image_Information WHERE sSourceNo =:TransNox")
     LiveData<List<EImageInfo>> getImageListInfo(String TransNox);
 
+    @Query("SELECT * FROM Image_Information WHERE sSourceNo =:TransNox AND sFileCode='0029'")
+    LiveData<EImageInfo> getImageLogPreview(String TransNox);
+
     @Update
     void updateImageInfo(EImageInfo imageInfo);
 
