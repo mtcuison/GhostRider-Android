@@ -51,7 +51,8 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
             txtJobNme;
 
     private TextInputLayout tilCntryx,
-            tilCompNm;
+            tilCompNm,
+            tilBizNatr;
 
     private TextInputEditText txtCompNm,
             txtCompAd,
@@ -95,6 +96,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         txtJobNme = v.findViewById(R.id.txt_jobPosition);
         tilCntryx = v.findViewById(R.id.til_countryNme);
         tilCompNm = v.findViewById(R.id.til_companyNme);
+        tilBizNatr = v.findViewById(R.id.til_bizNature);
         txtCompNm = v.findViewById(R.id.txt_companyNme);
         txtCompAd = v.findViewById(R.id.txt_companyAdd);
         txtSpcfJb = v.findViewById(R.id.txt_specificJob);
@@ -258,6 +260,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
                     tilCntryx.setVisibility(View.GONE);
                     tilCompNm.setHint("Company Name");
                     spnBusNtr.setVisibility(View.VISIBLE);
+                    tilBizNatr.setVisibility(View.VISIBLE);
                     mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
                     mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
                 } else if (i == R.id.rb_government) {
@@ -268,6 +271,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
                     tilCntryx.setVisibility(View.GONE);
                     tilCompNm.setHint("Government Institution");
                     spnBusNtr.setVisibility(View.GONE);
+                    tilBizNatr.setVisibility(View.GONE);
                     mViewModel.getGovernmentLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
                     mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
                 } else if (i == R.id.rb_ofw) {
@@ -277,6 +281,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
                     lnEmpInfo.setVisibility(View.GONE);
                     tilCntryx.setVisibility(View.VISIBLE);
                     spnBusNtr.setVisibility(View.GONE);
+                    tilBizNatr.setVisibility(View.GONE);
                     mViewModel.getRegionList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
                     mViewModel.getWorkCategoryList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
                 }
