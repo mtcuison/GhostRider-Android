@@ -265,7 +265,6 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
                     mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
                 } else if (i == R.id.rb_government) {
                     mViewModel.setEmploymentSector("0");
-                    mViewModel.setEmploymentSector("1");
                     lnGovInfo.setVisibility(View.VISIBLE);
                     lnEmpInfo.setVisibility(View.VISIBLE);
                     tilCntryx.setVisibility(View.GONE);
@@ -276,7 +275,6 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
                     mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
                 } else if (i == R.id.rb_ofw) {
                     mViewModel.setEmploymentSector("2");
-                    mViewModel.setEmploymentSector("1");
                     lnGovInfo.setVisibility(View.GONE);
                     lnEmpInfo.setVisibility(View.GONE);
                     tilCntryx.setVisibility(View.VISIBLE);
