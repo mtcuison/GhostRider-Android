@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -156,6 +157,8 @@ public class Activity_DocumentToScan extends AppCompatActivity {
                             ScannerConstants.FileDesc = fileCodeDetails.get(position).sBriefDsc;
                             ScannerConstants.Latt = latitude;
                             ScannerConstants.Longi = longitude;
+                            Log.e("latitude", String.valueOf(latitude));
+                            Log.e("longitude", String.valueOf(longitude));
                             startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                         });
                     }else{

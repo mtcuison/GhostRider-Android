@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient_light"
     android:orientation="vertical"
-    android:padding="12dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="5dp"
     tools:context=".ui.home.Fragment_Dashboard">
 
+    <!--    header start -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:id="@+id/header_dashboard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight=".5"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/body_dashboard">
 
         <View
             android:layout_width="match_parent"
@@ -24,8 +32,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginVertical="5dp">
+            android:layout_marginVertical="5dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="0dp"
@@ -101,19 +109,26 @@
             android:text="@string/lsMainWebsite"
             android:textColor="@color/material_black" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@color/guanzon_orange" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1.5dp"
-        android:background="@color/guanzon_orange" />
+    <!--    header start -->
 
+<!--    body start -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/body_dashboard"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="5dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/header_dashboard"
+        app:layout_constraintBottom_toTopOf="@+id/footer_dashboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -413,13 +428,19 @@
         </LinearLayout>
 
     </LinearLayout>
+<!--    body end -->
 
+<!--    footer start -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:id="@+id/footer_dashboard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight=".1"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/tvCopyright"
@@ -444,7 +465,7 @@
             android:textSize="11sp"
             tools:ignore="SmallSp" />
 
-
     </LinearLayout>
 
-</LinearLayout>
+    <!--    footer end -->
+</androidx.constraintlayout.widget.ConstraintLayout>

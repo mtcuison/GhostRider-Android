@@ -46,6 +46,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Model.DownloadImageCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMApplicationHistory;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMBranchApplications;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,7 +56,7 @@ import java.util.Objects;
 
 import static org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder.APP_SYNC_DATA;
 
-public class Activity_ApplicationHistory extends AppCompatActivity implements ViewModelCallBack {
+public class Activity_ApplicationHistory extends AppCompatActivity implements ViewModelCallBack, VMApplicationHistory.OnImportCallBack {
     private static final String TAG = Activity_ApplicationHistory.class.getSimpleName();
 
     private VMApplicationHistory mViewModel;
@@ -83,7 +84,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
         poDialogx = new LoadDialog(Activity_ApplicationHistory.this);
         poMessage = new MessageBox(Activity_ApplicationHistory.this);
         mViewModel = new ViewModelProvider(this).get(VMApplicationHistory.class);
-        mViewModel.LoadApplications(Activity_ApplicationHistory.this);
+        mViewModel.ImportLoanApplication(Activity_ApplicationHistory.this);
         mViewModel.getApplicationHistory().observe(Activity_ApplicationHistory.this, applicationLogs -> {
             if(applicationLogs.size()>0) {
                 noRecord.setVisibility(View.GONE);
@@ -155,7 +156,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                     }
 
                     @Override
-                    public void OnCamera(String TransNox, String cCaptured) {
+                    public void OnCamera(String TransNox) {
                         poCamera = new ImageFileCreator(Activity_ApplicationHistory.this,
                                 AppConstants.APP_PUBLIC_FOLDER,
                                 AppConstants.SUB_FOLDER_CREDIT_APP,
@@ -270,6 +271,24 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
             }
         });
         loDialog.show();
+
+    }
+
+    @Override
+    public void onStartImport() {
+        poDialogx.initDialog("Loan Application List", "Importing latest data. Please wait...", false);
+        poDialogx.show();
+    }
+
+    @Override
+    public void onSuccessImport() {
+        poDialogx.dismiss();
+    }
+
+    @Override
+    public void onImportFailed(String message) {
+        poDialogx.dismiss();
+        GNotifBuilder.createNotification(Activity_ApplicationHistory.this, "Applicant Photo", message,APP_SYNC_DATA).show();
 
     }
 }

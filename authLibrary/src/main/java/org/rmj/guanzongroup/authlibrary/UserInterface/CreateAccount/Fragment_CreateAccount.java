@@ -40,14 +40,14 @@ public class Fragment_CreateAccount extends Fragment implements CreateAccountCal
         dialog = new LoadDialog(getActivity());
 
         tieLastname = v.findViewById(R.id.tie_ca_lastName);
-        tieFirstname = v.findViewById(R.id.tie_ca_firstName);
-        tieMiddname = v.findViewById(R.id.tie_ca_middleName);
-        tieSuffix = v.findViewById(R.id.tie_ca_suffix);
-        tieEmail = v.findViewById(R.id.tie_ca_email);
-        tiePassword = v.findViewById(R.id.tie_ca_password);
-        tiecPassword = v.findViewById(R.id.tie_ca_confirmPass);
-        tieMobileno = v.findViewById(R.id.tie_ca_mobileNumber);
-        btnSubmit = v.findViewById(R.id.btn_createAccount);
+//        tieFirstname = v.findViewById(R.id.tie_ca_firstName);
+//        tieMiddname = v.findViewById(R.id.tie_ca_middleName);
+//        tieSuffix = v.findViewById(R.id.tie_ca_suffix);
+//        tieEmail = v.findViewById(R.id.tie_ca_email);
+//        tiePassword = v.findViewById(R.id.tie_ca_password);
+//        tiecPassword = v.findViewById(R.id.tie_ca_confirmPass);
+//        tieMobileno = v.findViewById(R.id.tie_ca_mobileNumber);
+//        btnSubmit = v.findViewById(R.id.btn_createAccount);
         return v;
     }
 
@@ -55,18 +55,18 @@ public class Fragment_CreateAccount extends Fragment implements CreateAccountCal
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMCreateAccount.class);
-        btnSubmit.setOnClickListener(view -> {
-            AccountInfo accountInfo = new AccountInfo();
-            accountInfo.setLastName(Objects.requireNonNull(tieLastname.getText()).toString());
-            accountInfo.setFrstName(Objects.requireNonNull(tieFirstname.getText()).toString());
-            accountInfo.setMiddName(Objects.requireNonNull(tieMiddname.getText()).toString());
-            accountInfo.setSuffix(Objects.requireNonNull(tieSuffix.getText()).toString());
-            accountInfo.setEmail(Objects.requireNonNull(tieEmail.getText()).toString());
-            accountInfo.setPassword(Objects.requireNonNull(tiePassword.getText()).toString());
-            accountInfo.setcPasswrd(Objects.requireNonNull(tiecPassword.getText()).toString());
-            accountInfo.setMobileNo(Objects.requireNonNull(tieMobileno.getText()).toString());
-            mViewModel.SubmitInfo(accountInfo, Fragment_CreateAccount.this);
-        });
+//        btnSubmit.setOnClickListener(view -> {
+////            AccountInfo accountInfo = new AccountInfo();
+////            accountInfo.setLastName(Objects.requireNonNull(tieLastname.getText()).toString());
+////            accountInfo.setFrstName(Objects.requireNonNull(tieFirstname.getText()).toString());
+////            accountInfo.setMiddName(Objects.requireNonNull(tieMiddname.getText()).toString());
+////            accountInfo.setSuffix(Objects.requireNonNull(tieSuffix.getText()).toString());
+////            accountInfo.setEmail(Objects.requireNonNull(tieEmail.getText()).toString());
+////            accountInfo.setPassword(Objects.requireNonNull(tiePassword.getText()).toString());
+////            accountInfo.setcPasswrd(Objects.requireNonNull(tiecPassword.getText()).toString());
+////            accountInfo.setMobileNo(Objects.requireNonNull(tieMobileno.getText()).toString());
+////            mViewModel.SubmitInfo(accountInfo, Fragment_CreateAccount.this);
+//        });
     }
 
     @Override

@@ -6,7 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".Fragment.Fragment_GetOfflinePin"
-    android:theme="@style/GhostRiderMaterialTheme">
+    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:background="@drawable/bg_gradient_light">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_header"

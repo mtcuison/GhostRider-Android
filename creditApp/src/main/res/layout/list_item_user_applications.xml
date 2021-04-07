@@ -92,6 +92,7 @@
                 android:id="@+id/relative_camera"
                 android:layout_width="0dp"
                 android:layout_height="42dp"
+                android:visibility="gone"
                 android:layout_weight=".2">
 
                 <ImageButton
@@ -125,10 +126,12 @@
                 android:layout_width="0dp"
                 android:layout_height="42dp"
                 android:layout_weight=".2"
+                android:visibility="gone"
                 android:src="@drawable/ic_image_preview"
                 android:scaleType="centerInside"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:tint="@color/guanzon_orange"/>
+
 
         </LinearLayout>
 

@@ -39,7 +39,7 @@ public class UserLoanApplicationsAdapter extends RecyclerView.Adapter<UserLoanAp
         void OnUpdate(String TransNox);
         void OnDelete(String TransNox);
         void OnPreview(String TransNox);
-        void OnCamera(String TransNox, String cCaptured);
+        void OnCamera(String TransNox);
     }
 
     @NonNull
@@ -77,12 +77,6 @@ public class UserLoanApplicationsAdapter extends RecyclerView.Adapter<UserLoanAp
             holder.rtlCamera.setVisibility(View.VISIBLE);
         }
 
-        Log.e("poLoan", poLoan.getcCaptured());
-//        if(poLoan.getcCaptured().equalsIgnoreCase("1")){
-//            holder.rtlCamera.setVisibility(View.GONE);
-//        } else {
-//            holder.rtlCamera.setVisibility(View.VISIBLE);
-//        }
     }
 
     @Override
@@ -152,7 +146,7 @@ public class UserLoanApplicationsAdapter extends RecyclerView.Adapter<UserLoanAp
             btnPhoto.setOnClickListener(v -> {
                 int lnPos = getAdapterPosition();
                 if(lnPos != RecyclerView.NO_POSITION){
-                    listener.OnCamera(poLoan.getTransNox(),poLoan.getcCaptured());
+                    listener.OnCamera(poLoan.getTransNox());
                 }
             });
 
