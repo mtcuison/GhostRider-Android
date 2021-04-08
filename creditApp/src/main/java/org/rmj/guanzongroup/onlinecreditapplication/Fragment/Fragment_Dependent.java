@@ -25,33 +25,20 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
-import org.jetbrains.annotations.NotNull;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.DependentAdapter;
-import org.rmj.guanzongroup.onlinecreditapplication.Adapter.PersonalReferencesAdapter;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DependentsInfoModel;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.OtherInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMDependent;
-import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMOtherInfo;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VMDependent.ExpActionListener{
 
@@ -346,7 +333,7 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         }
 
         @Override
-        public void onItemClick(@NotNull AdapterView<?> adapterView, @NotNull View view, int i, long l) {
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if(spinView.getId() == R.id.spinner_cap_dpdRelation){
                 String type = "";
                 switch (i){
