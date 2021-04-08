@@ -1,6 +1,11 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.guanzongroup.ghostrider.griderscanner.dialog.DialogImagePreview;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +34,12 @@ public class UserLoanApplicationsAdapter extends RecyclerView.Adapter<UserLoanAp
     private List<LoanApplication> plSchList;
     private final LoanApplicantListActionListener mListener;
     private final SearchFilter poSearch;
-
-    public UserLoanApplicationsAdapter(List<LoanApplication> plLoanApp, LoanApplicantListActionListener listener) {
+    private final Context mContex;
+    public UserLoanApplicationsAdapter(Context context, List<LoanApplication> plLoanApp, LoanApplicantListActionListener listener) {
         this.plLoanApp = plLoanApp;
         this.plSchList = plLoanApp;
         this.mListener = listener;
+        this.mContex = context;
         this.poSearch = new SearchFilter(this);
     }
 
@@ -38,7 +47,7 @@ public class UserLoanApplicationsAdapter extends RecyclerView.Adapter<UserLoanAp
         void OnExport(String TransNox);
         void OnUpdate(String TransNox);
         void OnDelete(String TransNox);
-        void OnPreview(String TransNox);
+        void OnPreview(int position);
         void OnCamera(String TransNox);
     }
 
@@ -46,7 +55,7 @@ public class UserLoanApplicationsAdapter extends RecyclerView.Adapter<UserLoanAp
     @Override
     public LoanViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_user_applications, parent, false);
-        return new LoanViewHolder(view, mListener);
+        return new LoanViewHolder(mContex,view, mListener);
     }
 
     @SuppressLint("SetTextI18n")
@@ -69,14 +78,13 @@ public class UserLoanApplicationsAdapter extends RecyclerView.Adapter<UserLoanAp
         holder.lblApplResult.setText(poLoan.getTransactionStatus());
         holder.lblDateApprov.setText(poLoan.getDateApproved());
         holder.lblSentStatus.setVisibility(poLoan.getSendStatus());
-        if(poLoan.getcCaptured().equalsIgnoreCase("1")){
-            holder.btnPreview.setVisibility(View.VISIBLE);
-            holder.rtlCamera.setVisibility(View.GONE);
-        } else {
-            holder.btnPreview.setVisibility(View.GONE);
-            holder.rtlCamera.setVisibility(View.VISIBLE);
+        if (poLoan.getcCaptured().equalsIgnoreCase("1")){
+            if (poLoan.getsFileLoct() != null){
+                holder.btnPreview.setTag(R.drawable.ic_camera_black_24);
+                Log.e("photo Path", poLoan.getsFileLoct());
+            }
+            holder.btnPreview.setImageResource(R.drawable.ic_image_preview);
         }
-
     }
 
     @Override
@@ -104,7 +112,7 @@ public class UserLoanApplicationsAdapter extends RecyclerView.Adapter<UserLoanAp
         MaterialButton btnExpt;
         MaterialButton btnUpdt;
 
-        public LoanViewHolder(@NonNull View itemView, LoanApplicantListActionListener listener) {
+        public LoanViewHolder(Context mContext, @NonNull View itemView, LoanApplicantListActionListener listener) {
             super(itemView);
 
             lblGoCasNoxxx = itemView.findViewById(R.id.lbl_listLog_GoCasNo);
@@ -143,18 +151,40 @@ public class UserLoanApplicationsAdapter extends RecyclerView.Adapter<UserLoanAp
                 }
             });
 
-            btnPhoto.setOnClickListener(v -> {
-                int lnPos = getAdapterPosition();
-                if(lnPos != RecyclerView.NO_POSITION){
-                    listener.OnCamera(poLoan.getTransNox());
-                }
-            });
+//            btnPhoto.setOnClickListener(v -> {
+//                int lnPos = getAdapterPosition();
+//                if(lnPos != RecyclerView.NO_POSITION){
+//                    listener.OnCamera(poLoan.getTransNox(),poLoan.getcCaptured());
+//                }
+//            });
 
             btnPreview.setOnClickListener(v12 -> {
                 int lnPos = getAdapterPosition();
-                if(lnPos != RecyclerView.NO_POSITION){
-                    listener.OnPreview(poLoan.getTransNox());
+                if (lnPos != RecyclerView.NO_POSITION && btnPreview.getTag() == null) {
+                    listener.OnPreview(lnPos);
+                }else {
+                    if (poLoan.getsFileLoct() != null){
+                        Bitmap bitmap = null;
+                        try {
+                            bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), Uri.fromFile(new File(poLoan.getsFileLoct())));
+                            DialogImagePreview loDialog = new DialogImagePreview(mContext, bitmap,"Applicant Photo");
+                            loDialog.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
+                                @Override
+                                public void OnCancel(Dialog Dialog) {
+                                    Dialog.dismiss();
+                                }
+                            });
+                            loDialog.show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+                        listener.OnPreview(lnPos);
+                    }
+
+
                 }
+
             });
         }
     }

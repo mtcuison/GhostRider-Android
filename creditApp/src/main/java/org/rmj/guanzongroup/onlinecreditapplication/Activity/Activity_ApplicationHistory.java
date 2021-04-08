@@ -103,9 +103,10 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                     loan.setDateSent(applicationLogs.get(x).dReceived);
                     loan.setcCaptured(applicationLogs.get(x).cCaptured);
                     loan.setDateApproved(applicationLogs.get(x).dVerified);
+                    loan.setsFileLoct(applicationLogs.get(x).sFileLoct);
                     loanList.add(loan);
                 }
-                adapter = new UserLoanApplicationsAdapter(loanList, new UserLoanApplicationsAdapter.LoanApplicantListActionListener() {
+                adapter = new UserLoanApplicationsAdapter(Activity_ApplicationHistory.this,loanList, new UserLoanApplicationsAdapter.LoanApplicantListActionListener() {
                     @Override
                     public void OnExport(String TransNox) {
                         mViewModel.ExportGOCasInfo(TransNox);
@@ -122,12 +123,27 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                     }
 
                     @Override
-                    public void OnPreview(String TransNox) {
-                        mViewModel.getImageLogPreview(TransNox).observe(Activity_ApplicationHistory.this, eImageInfo->{
-                            if (eImageInfo != null){
-                                onPreviewImage(eImageInfo);
+                    public void OnPreview(int pos) {
+                        if (Integer.parseInt(applicationLogs.get(pos).cCaptured) == 0 && applicationLogs.get(pos).sFileLoct == null) {
+                            poCamera = new ImageFileCreator(Activity_ApplicationHistory.this,
+                                    AppConstants.APP_PUBLIC_FOLDER,
+                                    AppConstants.SUB_FOLDER_CREDIT_APP,
+                                    "0029",
+                                    0,
+                                    applicationLogs.get(pos).sTransNox);
+                            poCamera.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                                poImage.setFileLoct(photPath);
+                                poImage.setFileCode("0029");
+                                poImage.setSourceCD("COAD");
+                                poImage.setLatitude(String.valueOf(latitude));
+                                poImage.setLongitud(String.valueOf(longitude));
+                                poImage.setSourceNo(applicationLogs.get(pos).sTransNox);
+                                poImage.setImageNme(FileName);
+                                poImage.setCaptured(AppConstants.DATE_MODIFIED);
+                                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                            });
                         }else{
-                            mViewModel.DownloadDocumentFile(TransNox, new DownloadImageCallBack() {
+                            mViewModel.DownloadDocumentFile(applicationLogs.get(pos).sTransNox, new DownloadImageCallBack() {
                                 @Override
                                 public void OnStartSaving() {
                                     poDialogx.initDialog("Credit Online \nApplication", "Downloading document file from server. Please wait...", false);
@@ -137,8 +153,8 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                                 @Override
                                 public void onSaveSuccessResult(String args) {
                                     poDialogx.dismiss();
-                                    onPreviewImage(eImageInfo);
-                                    GNotifBuilder.createNotification(Activity_ApplicationHistory.this, "Applicant Photo", args,APP_SYNC_DATA).show();
+                                    onPreviewImage(args);
+                                    GNotifBuilder.createNotification(Activity_ApplicationHistory.this, "Applicant Photo", "Applicant photo has been downloaded successfully.",APP_SYNC_DATA).show();
 
                                 }
 
@@ -150,9 +166,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                                 }
                             });
                         }
-                        });
 
-//
                     }
 
                     @Override
@@ -252,13 +266,14 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
             poImage.setMD5Hashx(WebFileServer.createMD5Hash(poImage.getFileLoct()));
             mViewModel.saveImageFile(poImage);
             mViewModel.uploadImage(poImage);
+            mViewModel.saveApplicantImageFromCamera(poImage.getSourceNo());
         }
     }
-    public void onPreviewImage(EImageInfo eImageInfo){
+    public void onPreviewImage(String FileLoct){
         Bitmap bitmap = null;
         try {
             bitmap = MediaStore.Images.Media.getBitmap(
-                    getContentResolver(), Uri.fromFile(new File(eImageInfo.getFileLoct())));
+                    getContentResolver(), Uri.fromFile(new File(FileLoct)));
         } catch (IOException e) {
             e.printStackTrace();
         }

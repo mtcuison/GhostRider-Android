@@ -97,7 +97,14 @@ public class VMApplicationHistory extends AndroidViewModel {
         foImage.setTransNox(poImage.getImageNextCode());
         poImage.insertImageInfo(foImage);
     }
+    public void saveApplicantImageFromCamera(String TransNox) {
+        try {
+            poCreditApp.updateApplicantImageStat(TransNox);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void uploadImage(EImageInfo foImage){
         new UploadImageFileTask(instance, foImage).execute(foImage.getSourceNo());
     }
@@ -215,9 +222,9 @@ public class VMApplicationHistory extends AndroidViewModel {
                     if (lsClient.isEmpty() || lsAccess.isEmpty()) {
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
                     } else {
-                        String imageName = psSourceNo + "_20_" + "0029.png";
+                        String imageName = psSourceNo + "_0_" + "0029.png";
                         String root = Environment.getExternalStorageDirectory().toString();
-                        File fileLoc = new File(root + "/"+ AppConstants.APP_PUBLIC_FOLDER + "/" + ScannerConstants.SubFolder  +"/" + psSourceNo + "/");
+                        File fileLoc = new File(root + "/"+ AppConstants.APP_PUBLIC_FOLDER + "/CreditApp/" + psSourceNo + "/");
                         if (!fileLoc.exists()) {
                             fileLoc.mkdirs();
                         }
@@ -258,6 +265,8 @@ public class VMApplicationHistory extends AndroidViewModel {
                                 //loImage....
                                 ScannerConstants.PhotoPath = loImage.getFileLoct();
                                 poImage.insertDownloadedImageInfo(loImage);
+
+                                poCreditApp.updateApplicantImageStat(psSourceNo);
                                 //end - insert entry to image info
                                 Log.e(TAG,loDownload.get("transnox").toString());
                                 //todo:
@@ -265,7 +274,7 @@ public class VMApplicationHistory extends AndroidViewModel {
                                 //end - convert to image and save to proper file location
 
 //                               new string response for success to convert file notification
-                                loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"message\":\""+ ScannerConstants.FileDesc + " has been downloaded successfully." + "\"}");
+                                loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"message\":\""+ fileLoc.getAbsolutePath() +"/" + imageName + "\"}");
                                 lsResult = String.valueOf(loDownload);
 
                             } else{
