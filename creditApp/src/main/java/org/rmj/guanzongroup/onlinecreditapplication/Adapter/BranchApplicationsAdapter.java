@@ -52,7 +52,7 @@ public class BranchApplicationsAdapter extends RecyclerView.Adapter<BranchApplic
         BranchApplicationModel poLoan = plLoanApp.get(position);
 
 
-        holder.lblTransNoxxx.setText("TransNox. :"+poLoan.getsTransNox());
+        holder.lblTransNoxxx.setText("Transaction No. :"+poLoan.getsTransNox());
         holder.lblClientName.setText(poLoan.getsCompnyNm());
         holder.lblAppltnDate.setText(poLoan.getdTransact());
         holder.lblStatus.setText(poLoan.getTransactionStatus());
