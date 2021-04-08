@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient_light"
     android:orientation="vertical"
-    android:padding="12dp"
+    android:paddingLeft="12dp"
+    android:paddingTop="5dp"
+    android:paddingRight="12dp"
     tools:context=".ui.home.Fragment_Dashboard">
 
+    <!--    header start -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:id="@+id/header_dashboard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight=".5"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/body_dashboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <View
             android:layout_width="match_parent"
@@ -24,8 +32,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginVertical="5dp">
+            android:layout_marginVertical="5dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="0dp"
@@ -101,19 +109,26 @@
             android:text="@string/lsMainWebsite"
             android:textColor="@color/material_black" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@color/guanzon_orange" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1.5dp"
-        android:background="@color/guanzon_orange" />
+    <!--    header start -->
 
+    <!--    body start -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/body_dashboard"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_marginTop="5dp"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/footer_dashboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_dashboard">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -139,8 +154,8 @@
                         android:id="@+id/linear_userProfile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center_horizontal">
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="36dp"
@@ -163,14 +178,14 @@
                         android:layout_alignEnd="@+id/linear_userProfile"
                         android:layout_alignRight="@+id/linear_userProfile"
                         android:layout_marginTop="0dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
                         android:background="@drawable/bg_badge_red"
                         android:fontFamily="@font/roboto_black"
                         android:gravity="center"
                         android:text="!"
-                        android:visibility="gone"
-                        android:layout_marginRight="8dp"
                         android:textColor="@color/textColor_White"
-                        android:layout_marginEnd="8dp"/>
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -195,8 +210,8 @@
                         android:id="@+id/linear_selfieLogin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center_horizontal">
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="36dp"
@@ -220,13 +235,13 @@
                         android:layout_alignEnd="@+id/linear_selfieLogin"
                         android:layout_alignRight="@+id/linear_selfieLogin"
                         android:layout_marginTop="0dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
                         android:background="@drawable/bg_badge_red"
                         android:fontFamily="@font/roboto_black"
                         android:gravity="center"
                         android:text="!"
-                        android:layout_marginRight="8dp"
-                        android:textColor="#ffff"
-                        android:layout_marginEnd="8dp"/>
+                        android:textColor="#ffff" />
 
                 </RelativeLayout>
 
@@ -251,8 +266,8 @@
                         android:id="@+id/linear_messages"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center_horizontal">
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="36dp"
@@ -275,14 +290,14 @@
                         android:layout_alignEnd="@+id/linear_messages"
                         android:layout_alignRight="@+id/linear_messages"
                         android:layout_marginTop="0dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
                         android:background="@drawable/bg_badge_red"
                         android:fontFamily="@font/roboto_black"
                         android:gravity="center"
                         android:text="99"
-                        android:visibility="gone"
-                        android:layout_marginRight="8dp"
                         android:textColor="@color/textColor_White"
-                        android:layout_marginEnd="8dp" />
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -313,8 +328,8 @@
                         android:id="@+id/linear_notifications"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center_horizontal">
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="36dp"
@@ -337,14 +352,14 @@
                         android:layout_alignEnd="@+id/linear_notifications"
                         android:layout_alignRight="@+id/linear_notifications"
                         android:layout_marginTop="0dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginRight="12dp"
                         android:background="@drawable/bg_badge_red"
                         android:fontFamily="@font/roboto_black"
                         android:gravity="center"
                         android:text="99"
-                        android:visibility="gone"
-                        android:layout_marginRight="12dp"
                         android:textColor="@color/textColor_White"
-                        android:layout_marginEnd="12dp" />
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -413,13 +428,19 @@
         </LinearLayout>
 
     </LinearLayout>
+    <!--    body end -->
 
+    <!--    footer start -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:id="@+id/footer_dashboard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight=".1"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/tvCopyright"
@@ -444,7 +465,7 @@
             android:textSize="11sp"
             tools:ignore="SmallSp" />
 
-
     </LinearLayout>
 
-</LinearLayout>
+    <!--    footer end -->
+</androidx.constraintlayout.widget.ConstraintLayout>

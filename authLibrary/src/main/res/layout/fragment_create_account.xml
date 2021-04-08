@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/GhostRiderMaterialTheme"
+    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
     style="@style/MasterViewGroupStyle_Light"
     tools:context=".UserInterface.CreateAccount.Fragment_CreateAccount">
 
@@ -62,7 +62,6 @@
                 android:inputType="textPersonName|textCapWords"
                 android:fontFamily="@font/roboto"
                 android:maxLength="50"
-                android:cursorVisible="false"
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/tie_ca_firstName"/>
 
@@ -84,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName|textCapWords"
                 android:maxLength="50"
-                android:cursorVisible="false"
+                
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/tie_ca_middleName"
                 android:fontFamily="@font/roboto"/>
@@ -109,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName|textCapWords"
                 android:maxLength="50"
-                android:cursorVisible="false"
+                
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/tie_ca_suffix"
                 android:fontFamily="@font/roboto"/>
@@ -132,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName|textCapWords"
                 android:maxLength="5"
-                android:cursorVisible="false"
+                
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/tie_ca_email"
                 android:fontFamily="@font/roboto"/>
@@ -155,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:maxLength="50"
-                android:cursorVisible="false"
+                
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/tie_ca_password"
                 android:fontFamily="@font/roboto"/>
@@ -179,7 +178,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:maxLength="20"
-                android:cursorVisible="false"
+                
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/tie_ca_confirmPass"
                 android:fontFamily="@font/roboto"/>
@@ -203,7 +202,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:maxLength="20"
-                android:cursorVisible="false"
+                
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/tie_ca_mobileNumber"
                 android:fontFamily="@font/roboto"/>
@@ -226,7 +225,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="number|none"
                 android:maxLength="11"
-                android:cursorVisible="false"
+                
                 android:imeOptions="actionDone"
                 android:fontFamily="@font/roboto"/>
 

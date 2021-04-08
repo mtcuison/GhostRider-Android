@@ -473,7 +473,6 @@ public class VMDocumentToScan extends AndroidViewModel {
                                                                                         "",
                                                                                         "COAD",
                                                                                         psSourceNo);
-
                         String lsResponse = (String) loDownload.get("result");
                         lsResult = String.valueOf(loDownload);
                         Log.e(TAG, "File result : " + lsResponse);

@@ -14,10 +14,10 @@ import java.util.List;
 @Dao
 public interface DImageInfo {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(EImageInfo imageInfo);
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(EImageInfo imageInfo);
 
     /**

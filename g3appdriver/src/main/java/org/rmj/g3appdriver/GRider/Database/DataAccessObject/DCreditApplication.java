@@ -9,6 +9,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public interface DCreditApplication {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBulkData(List<ECreditApplication> creditApplications);
 
-    @Query("UPDATE Credit_Online_Application SET cCaptured = '1' WHERE sTransNox =:TransNox")
+    @Query("UPDATE Credit_Online_Application SET cCaptured = '1', sFileLoct = (SELECT sFileLoct FROM Image_Information WHERE sSourceNo =:TransNox) WHERE sTransNox =:TransNox")
     void updateCustomerImageStat(String TransNox);
 
     @Query("SELECT * FROM Credit_Online_Application WHERE sTransNox =:TransNox")
@@ -62,6 +63,11 @@ public interface DCreditApplication {
     List<ECreditApplication> getUnsentLoanApplication();
 
 
+    @Query("SELECT * FROM Credit_Online_Application WHERE sTransNox =:TransNox")
+    List<ApplicationLog> getDuplicateTransNox(String TransNox);
+
+    @Query("UPDATE Credit_Online_Application SET sFileLoct = (SELECT sFileLoct FROM Image_Information WHERE sSourceNo =:TransNox) WHERE sTransNox =:TransNox")
+    void updateApplicantImageStat(String TransNox);
 
     @Query("Select a.sGOCASNox, " +
             "a.sTransNox, " +
@@ -74,12 +80,16 @@ public interface DCreditApplication {
             "a.cTranStat, " +
             "a.dReceived, " +
             "a.dVerified, " +
-            "a.cCaptured " +
+            "a.cCaptured, " +
+            "c.sFileLoct " +
             "From Credit_Online_Application a " +
             "Left Join Branch_Info b " +
+            "Left Join Image_Information c " +
             "ON a.sBranchCd = b.sBranchCd " +
+            "OR a.sTransNox = c.sSourceNo " +
             "WHERE cTranStat != 4 " +
             "AND sCreatedx = (SELECT sUserIDxx From User_Info_Master) " +
+            "GROUP BY a.sTransNox " +
             "ORDER BY a.dCreatedx DESC")
     LiveData<List<ApplicationLog>> getApplicationHistory();
 
@@ -96,6 +106,7 @@ public interface DCreditApplication {
         public String dReceived;
         public String dVerified;
         public String cCaptured;
+        public String sFileLoct;
     }
 
     @Query("SELECT a.sGOCASNox," +
@@ -108,8 +119,8 @@ public interface DCreditApplication {
             "a.cSendStat," +
             "a.cTranStat," +
             "a.dReceived," +
-            "a.dVerified F" +
-            "ROM Credit_Online_Application a " +
+            "a.dVerified " +
+            "FROM Credit_Online_Application a " +
             "LEFT JOIN Branch_Info b " +
             "ON a.sBranchCd = b.sBranchCd " +
             "WHERE cTranStat != 4 " +
