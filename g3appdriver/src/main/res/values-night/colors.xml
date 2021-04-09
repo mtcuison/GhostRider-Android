@@ -10,6 +10,7 @@
     <color name="hintColor_Orange">#F47422</color>
     <color name="progressDialogTint">#878787</color>
     <color name="material_lightgrey">#636363</color>
+    <color name="material_lightgrey_selector">#636363</color>
 
     <color name="material_nav_light_gradient">#575757</color>
     <color name="material_nav_dark_gradient">#101010</color>
