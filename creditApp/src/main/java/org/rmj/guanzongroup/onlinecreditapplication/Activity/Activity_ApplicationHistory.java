@@ -146,7 +146,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                             mViewModel.DownloadDocumentFile(applicationLogs.get(pos).sTransNox, new DownloadImageCallBack() {
                                 @Override
                                 public void OnStartSaving() {
-                                    poDialogx.initDialog("Credit Online \nApplication", "Downloading document file from server. Please wait...", false);
+                                    poDialogx.initDialog("Credit Online \nApplication", "Downloading applicant photo from server. Please wait...", false);
                                     poDialogx.show();
                                 }
 
@@ -303,7 +303,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
     @Override
     public void onImportFailed(String message) {
         poDialogx.dismiss();
-        GNotifBuilder.createNotification(Activity_ApplicationHistory.this, "Applicant Photo", message,APP_SYNC_DATA).show();
+        GNotifBuilder.createNotification(Activity_ApplicationHistory.this, "Loan Application List", message,APP_SYNC_DATA).show();
 
     }
 }

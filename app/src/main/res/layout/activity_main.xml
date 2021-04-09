@@ -28,6 +28,7 @@
                 android:layout_height="match_parent"
                 android:groupIndicator="@drawable/nav_dropdown_indicator"
                 android:childDivider="@null"
+                android:background="@android:color/transparent"
                 android:divider="@null"
                 android:choiceMode="singleChoice"
                 android:listSelector="@color/material_lightgrey"

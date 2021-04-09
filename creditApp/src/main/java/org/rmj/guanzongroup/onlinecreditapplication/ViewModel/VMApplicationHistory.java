@@ -237,7 +237,6 @@ public class VMApplicationHistory extends AndroidViewModel {
                                 "");
 
                         String lsResponse = (String) loDownload.get("result");
-
                         if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
                             //convert to image and save to proper file location
                             JSONParser loParser = new JSONParser();
@@ -274,13 +273,11 @@ public class VMApplicationHistory extends AndroidViewModel {
                                 //end - convert to image and save to proper file location
 
 //                               new string response for success to convert file notification
-                                loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"message\":\""+ fileLoc.getAbsolutePath() +"/" + imageName + "\"}");
+                                loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"convert\":\"true\",\"message\":\""+ fileLoc.getAbsolutePath() +"/" + imageName + "\"}");
                                 lsResult = String.valueOf(loDownload);
-
                             } else{
                                 Log.e(TAG, "Unable to convert file.");
-//                               new string response for unable to convert file notification
-                                loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"message\":\"Unable to convert file.\"}");
+                                loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"convert\":\"false\",\"message\":\"Unable to convert file.\"}");
                                 lsResult = String.valueOf(loDownload);
 
                             }
@@ -311,7 +308,11 @@ public class VMApplicationHistory extends AndroidViewModel {
             try {
                 org.json.JSONObject loJson = new org.json.JSONObject(s);
                 if (loJson.getString("result").equalsIgnoreCase("success")) {
-                    callback.onSaveSuccessResult(loJson.getString("message"));
+                    if (loJson.getString("convert").equalsIgnoreCase(String.valueOf(true))){
+                        callback.onSaveSuccessResult(loJson.getString("message"));
+                    }else{
+                        callback.onFailedResult(loJson.getString("message"));
+                    }
                 } else {
                     org.json.JSONObject loError = loJson.getJSONObject("error");
                     callback.onFailedResult(loError.getString("message"));

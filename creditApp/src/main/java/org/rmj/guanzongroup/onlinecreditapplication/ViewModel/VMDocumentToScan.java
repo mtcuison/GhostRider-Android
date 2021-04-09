@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -19,7 +18,6 @@ import org.json.simple.parser.JSONParser;
 import org.rmj.apprdiver.util.WebFile;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
@@ -131,20 +129,15 @@ public class VMDocumentToScan extends AndroidViewModel {
                 if (foImage.getSourceNo().equalsIgnoreCase(imgInfo.get(i).getSourceNo())
                         && foImage.getDtlSrcNo().equalsIgnoreCase(imgInfo.get(i).getDtlSrcNo())) {
                     tansNo = imgInfo.get(i).getTransNox();
-//                    File finalFile = new File(getRealPathFromURI(imgInfo.get(i).getFileLoct()));
-//                    finalFile.delete();
                     isImgExist = true;
                 }
             }
             if (isImgExist) {
                 foImage.setTransNox(tansNo);
-                Log.e("Img TransNox", tansNo);
                 poImage.updateImageInfo(foImage);
-                Log.e("VMClient ", "Image info has been updated!");
             } else {
                 foImage.setTransNox(poImage.getImageNextCode());
                 poImage.insertImageInfo(foImage);
-                Log.e("VMClient ", "Image info has been save!");
 
             }
         } catch (Exception e) {
@@ -211,46 +204,28 @@ public class VMDocumentToScan extends AndroidViewModel {
                     if (lsClient.isEmpty() || lsAccess.isEmpty()) {
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
                     } else {
-//                        if (imageInfo.size() > 0){
-//                            for (int x = 0; x < imageInfo.size(); x++) {
-//                                EImageInfo imgDetails = imageInfo.get(x);
-//                                if (imgDetails.getSourceNo() != null){
-                                    org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(psFileLoc,
-                                            lsAccess,
-                                            psFileCode,
-                                            psTransNox,
-                                            psImageName,
-                                            poUser.getBranchCode(),
-                                            "COAD",
-                                            psTransNox,
-                                            "");
+                        org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(psFileLoc,
+                                lsAccess,
+                                psFileCode,
+                                psTransNox,
+                                psImageName,
+                                poUser.getBranchCode(),
+                                "COAD",
+                                psTransNox,
+                                "");
 
 
-                                    String lsResponse = (String) loUpload.get("result");
-                                    lsResult = String.valueOf(loUpload);
-                                    Log.e(TAG, "Uploading image result : " + lsResponse);
-//
-                                    if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
-                                        String lsTransNo = (String) loUpload.get("sTransNox");
-//                                        poImage.updateImageInfo(lsTransNo, psImgInfo.getTransNox());
-                                        poImage.updateImageInfo(lsTransNo, psImgInfo.getTransNox());
-                                        updateDocumentInfoFromServer(psTransNox,psFileCode);
-                                        //poImage.updateImageInfo(lsTransNo, psFileCode);
+                        String lsResponse = (String) loUpload.get("result");
+                        lsResult = String.valueOf(loUpload);
+                        if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
+                            String lsTransNo = (String) loUpload.get("sTransNox");
+                            poImage.updateImageInfo(lsTransNo, psImgInfo.getTransNox());
+                            updateDocumentInfoFromServer(psTransNox,psFileCode);
+    //                                      UpdateFileNameAndFolder(lsTransNo, psTransNox, pnEntryNox, psFileCode,psFileLoc, psImageName);
 
-                                        //poImage.updateImageInfo(lsTransNo, psTransNox);
-//
-                                            Log.e(TAG, "Image info has been updated!");
+                        }
 
-//                                      UpdateFileNameAndFolder(lsTransNo, psTransNox, pnEntryNox, psFileCode,psFileLoc, psImageName);
-
-                                    }
-
-                                    Thread.sleep(1000);
-//                                }
-
-//                            }
-
-//                        }
+                        Thread.sleep(1000);
                     }
                 }
 
@@ -377,23 +352,16 @@ public class VMDocumentToScan extends AndroidViewModel {
                                 ScannerConstants.PhotoPath = loImage.getFileLoct();
                                 poImage.insertDownloadedImageInfo(loImage);
                                 //end - insert entry to image info
-                                Log.e(TAG,loDownload.get("transnox").toString());
                                 saveDocumentInfoFromCamera(poFileInfo.sTransNox, poFileInfo.sFileCode);
                                 //todo:
                                 //insert/update entry to credit_online_application_documents
                                 //end - convert to image and save to proper file location
-                                loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"message\":\""+ ScannerConstants.FileDesc + " has been downloaded successfully." + "\"}");
+                                loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"convert\":\"true\",\"message\":\""+ ScannerConstants.FileDesc + " has been downloaded successfully." + "\"}");
                                 lsResult = String.valueOf(loDownload);
-                               // callback.OnSuccessResult(new String[]{ScannerConstants.FileDesc + " has been downloaded successfully."});
                             } else{
                                 Log.e(TAG, "Unable to convert file.");
-                                //Log.e(TAG, (String) loDownload.get("hash"));
-                                //JSONObject jsonobj=new JSONObject("{result:success,message:Unable to convert file.}");
-
-                                loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"message\":\"Unable to convert file.\"}");
+                                loDownload = (org.json.simple.JSONObject) loParser.parse("{\"result\":\"success\",\"convert\":\"false\",\"message\":\"Unable to convert file.\"}");
                                 lsResult = String.valueOf(loDownload);
-                               // callback.OnFailedResult("Unable to convert file.");
-
                             }
                         }else{
                             lsResult = String.valueOf(loDownload);
@@ -421,7 +389,11 @@ public class VMDocumentToScan extends AndroidViewModel {
             try {
                 org.json.JSONObject loJson = new org.json.JSONObject(s);
                 if (loJson.getString("result").equalsIgnoreCase("success")) {
-                    callback.OnSuccessResult(new String[]{loJson.getString("message")});
+                    if (loJson.getString("convert").equalsIgnoreCase(String.valueOf(true))){
+                        callback.OnSuccessResult(new String[]{loJson.getString("message")});
+                    }else{
+                        callback.onFailedResult(loJson.getString("message"));
+                    }
                 } else {
                     org.json.JSONObject loError = loJson.getJSONObject("error");
                     callback.OnFailedResult(loError.getString("message"));
@@ -475,8 +447,6 @@ public class VMDocumentToScan extends AndroidViewModel {
                                                                                         psSourceNo);
                         String lsResponse = (String) loDownload.get("result");
                         lsResult = String.valueOf(loDownload);
-                        Log.e(TAG, "File result : " + lsResponse);
-
                         if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
                             //convert to image and save to proper file location
                             org.json.simple.JSONArray laJson = (org.json.simple.JSONArray)loDownload.get("detail");
@@ -487,7 +457,6 @@ public class VMDocumentToScan extends AndroidViewModel {
                                 updateDocumentInfoFromServer(psSourceNo,obj.get("sFileCode").toString());
 
                             }
-                            Log.e(TAG, String.valueOf(loDownload));
                         }
 
                         Thread.sleep(1000);
@@ -498,7 +467,6 @@ public class VMDocumentToScan extends AndroidViewModel {
                 lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
             }
 
-            Log.e(TAG, "doInBackground " + lsResult);
             return lsResult;
         }
 
@@ -512,7 +480,6 @@ public class VMDocumentToScan extends AndroidViewModel {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-                Log.e(TAG, "onPostExecute " + s);
                 org.json.JSONObject loJson = new org.json.JSONObject(s);
                 if (loJson.getString("result").equalsIgnoreCase("success")) {
                     callback.OnSuccessResult(new String[]{"File has been downloaded successfully."});
