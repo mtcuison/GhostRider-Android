@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
+import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 
@@ -122,7 +123,7 @@ public class PrepareData {
         listDataHeader.add(menuModel);
         Log.e("department", sessionManager.getPositionID());
 
-        if (sessionManager.getPositionID().equalsIgnoreCase("036")){
+        if (sessionManager.getPositionID().equalsIgnoreCase(DeptCode.MOBILE_PHONE)){
             childModel = new MenuModel("Activate", 0, false, false , View.VISIBLE);
             childModelsList.add(childModel);
         } else {
@@ -130,7 +131,7 @@ public class PrepareData {
             childModelsList.add(childModel);
         }
 
-        if (sessionManager.getPositionID().equalsIgnoreCase("068")){
+        if (sessionManager.getPositionID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
             childModel = new MenuModel("Unlock", 0,false, false, View.VISIBLE);
             childModelsList.add(childModel);
 
