@@ -46,6 +46,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Model.DownloadImageCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMApplicationHistory;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMBranchApplications;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,7 +56,7 @@ import java.util.Objects;
 
 import static org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder.APP_SYNC_DATA;
 
-public class Activity_ApplicationHistory extends AppCompatActivity implements ViewModelCallBack {
+public class Activity_ApplicationHistory extends AppCompatActivity implements ViewModelCallBack, VMApplicationHistory.OnImportCallBack {
     private static final String TAG = Activity_ApplicationHistory.class.getSimpleName();
 
     private VMApplicationHistory mViewModel;
@@ -83,7 +84,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
         poDialogx = new LoadDialog(Activity_ApplicationHistory.this);
         poMessage = new MessageBox(Activity_ApplicationHistory.this);
         mViewModel = new ViewModelProvider(this).get(VMApplicationHistory.class);
-        mViewModel.LoadApplications(Activity_ApplicationHistory.this);
+        mViewModel.ImportLoanApplication(Activity_ApplicationHistory.this);
         mViewModel.getApplicationHistory().observe(Activity_ApplicationHistory.this, applicationLogs -> {
             if(applicationLogs.size()>0) {
                 noRecord.setVisibility(View.GONE);
@@ -102,9 +103,10 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                     loan.setDateSent(applicationLogs.get(x).dReceived);
                     loan.setcCaptured(applicationLogs.get(x).cCaptured);
                     loan.setDateApproved(applicationLogs.get(x).dVerified);
+                    loan.setsFileLoct(applicationLogs.get(x).sFileLoct);
                     loanList.add(loan);
                 }
-                adapter = new UserLoanApplicationsAdapter(loanList, new UserLoanApplicationsAdapter.LoanApplicantListActionListener() {
+                adapter = new UserLoanApplicationsAdapter(Activity_ApplicationHistory.this,loanList, new UserLoanApplicationsAdapter.LoanApplicantListActionListener() {
                     @Override
                     public void OnExport(String TransNox) {
                         mViewModel.ExportGOCasInfo(TransNox);
@@ -121,23 +123,38 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                     }
 
                     @Override
-                    public void OnPreview(String TransNox) {
-                        mViewModel.getImageLogPreview(TransNox).observe(Activity_ApplicationHistory.this, eImageInfo->{
-                            if (eImageInfo != null){
-                                onPreviewImage(eImageInfo);
+                    public void OnPreview(int pos) {
+                        if (Integer.parseInt(applicationLogs.get(pos).cCaptured) == 0 && applicationLogs.get(pos).sFileLoct == null) {
+                            poCamera = new ImageFileCreator(Activity_ApplicationHistory.this,
+                                    AppConstants.APP_PUBLIC_FOLDER,
+                                    AppConstants.SUB_FOLDER_CREDIT_APP,
+                                    "0029",
+                                    0,
+                                    applicationLogs.get(pos).sTransNox);
+                            poCamera.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                                poImage.setFileLoct(photPath);
+                                poImage.setFileCode("0029");
+                                poImage.setSourceCD("COAD");
+                                poImage.setLatitude(String.valueOf(latitude));
+                                poImage.setLongitud(String.valueOf(longitude));
+                                poImage.setSourceNo(applicationLogs.get(pos).sTransNox);
+                                poImage.setImageNme(FileName);
+                                poImage.setCaptured(AppConstants.DATE_MODIFIED);
+                                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                            });
                         }else{
-                            mViewModel.DownloadDocumentFile(TransNox, new DownloadImageCallBack() {
+                            mViewModel.DownloadDocumentFile(applicationLogs.get(pos).sTransNox, new DownloadImageCallBack() {
                                 @Override
                                 public void OnStartSaving() {
-                                    poDialogx.initDialog("Credit Online \nApplication", "Downloading document file from server. Please wait...", false);
+                                    poDialogx.initDialog("Credit Online \nApplication", "Downloading applicant photo from server. Please wait...", false);
                                     poDialogx.show();
                                 }
 
                                 @Override
                                 public void onSaveSuccessResult(String args) {
                                     poDialogx.dismiss();
-                                    onPreviewImage(eImageInfo);
-                                    GNotifBuilder.createNotification(Activity_ApplicationHistory.this, "Applicant Photo", args,APP_SYNC_DATA).show();
+                                    onPreviewImage(args);
+                                    GNotifBuilder.createNotification(Activity_ApplicationHistory.this, "Applicant Photo", "Applicant photo has been downloaded successfully.",APP_SYNC_DATA).show();
 
                                 }
 
@@ -149,13 +166,11 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                                 }
                             });
                         }
-                        });
 
-//
                     }
 
                     @Override
-                    public void OnCamera(String TransNox, String cCaptured) {
+                    public void OnCamera(String TransNox) {
                         poCamera = new ImageFileCreator(Activity_ApplicationHistory.this,
                                 AppConstants.APP_PUBLIC_FOLDER,
                                 AppConstants.SUB_FOLDER_CREDIT_APP,
@@ -251,13 +266,14 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
             poImage.setMD5Hashx(WebFileServer.createMD5Hash(poImage.getFileLoct()));
             mViewModel.saveImageFile(poImage);
             mViewModel.uploadImage(poImage);
+            mViewModel.saveApplicantImageFromCamera(poImage.getSourceNo());
         }
     }
-    public void onPreviewImage(EImageInfo eImageInfo){
+    public void onPreviewImage(String FileLoct){
         Bitmap bitmap = null;
         try {
             bitmap = MediaStore.Images.Media.getBitmap(
-                    getContentResolver(), Uri.fromFile(new File(eImageInfo.getFileLoct())));
+                    getContentResolver(), Uri.fromFile(new File(FileLoct)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -270,6 +286,24 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
             }
         });
         loDialog.show();
+
+    }
+
+    @Override
+    public void onStartImport() {
+        poDialogx.initDialog("Loan Application List", "Importing latest data. Please wait...", false);
+        poDialogx.show();
+    }
+
+    @Override
+    public void onSuccessImport() {
+        poDialogx.dismiss();
+    }
+
+    @Override
+    public void onImportFailed(String message) {
+        poDialogx.dismiss();
+        GNotifBuilder.createNotification(Activity_ApplicationHistory.this, "Loan Application List", message,APP_SYNC_DATA).show();
 
     }
 }

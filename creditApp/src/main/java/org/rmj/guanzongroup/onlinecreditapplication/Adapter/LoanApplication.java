@@ -22,6 +22,7 @@ public class LoanApplication {
     private String dDateSent;
     private String cCaptured;
     private String dApproved;
+    private String sFileLoct;
 
     public LoanApplication() {
     }
@@ -194,5 +195,13 @@ public class LoanApplication {
             return View.GONE;
         }
         return View.VISIBLE;
+    }
+
+    public String getsFileLoct() {
+        return sFileLoct;
+    }
+
+    public void setsFileLoct(String fileLoct) {
+        this.sFileLoct = fileLoct;
     }
 }

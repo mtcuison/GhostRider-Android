@@ -10,9 +10,10 @@
     <color name="hintColor_Orange">#F47422</color>
     <color name="progressDialogTint">#878787</color>
     <color name="material_lightgrey">#636363</color>
+    <color name="material_lightgrey_selector">#636363</color>
 
-    <color name="material_nav_light_gradient">#FFFFFF</color>
-    <color name="material_nav_dark_gradient">#DBDBDB</color>
+    <color name="material_nav_light_gradient">#575757</color>
+    <color name="material_nav_dark_gradient">#101010</color>
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#e2e2e2</color>
     <color name="mtrl_textinput_default_box_stroke_colors" tools:override="true">#fbfbfb</color>
@@ -46,4 +47,5 @@
 
     <color name="check_green">#00b300</color>
     <color name="cross_red">#d51010</color>
+    <color name="guanzon_orange_day">#fefefe</color>
 </resources>

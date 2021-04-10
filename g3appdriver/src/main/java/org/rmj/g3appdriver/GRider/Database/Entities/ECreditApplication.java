@@ -72,6 +72,8 @@ public class ECreditApplication {
     private String Captured;
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
+    @ColumnInfo(name = "sFileLoct")
+    private String FileLoct;
 
     public ECreditApplication() {
     }
@@ -323,5 +325,13 @@ public class ECreditApplication {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
+    }
+
+    public String getFileLoct() {
+        return FileLoct;
+    }
+
+    public void setFileLoct(String fileLoct) {
+        FileLoct = fileLoct;
     }
 }

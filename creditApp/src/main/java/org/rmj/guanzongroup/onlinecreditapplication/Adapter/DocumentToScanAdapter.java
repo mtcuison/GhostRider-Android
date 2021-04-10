@@ -128,7 +128,6 @@ public class DocumentToScanAdapter extends RecyclerView.Adapter<DocumentToScanAd
                 }
             });
 
-
         }
     }
 

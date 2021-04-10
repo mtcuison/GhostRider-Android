@@ -198,6 +198,10 @@ public class ImageFileCreator {
             File photoFile = null;
             try {
                 photoFile = createScanImageFile();
+//                SET IMAGE LATITUDE AND LONGITUDE
+                latitude = locationTrack.getLatitude();
+                longitude = locationTrack.getLongitude();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

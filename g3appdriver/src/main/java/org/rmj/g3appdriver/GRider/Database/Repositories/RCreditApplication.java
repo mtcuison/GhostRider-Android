@@ -1,12 +1,14 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
@@ -75,7 +77,26 @@ public class RCreditApplication {
     public LiveData<List<DCreditApplication.ApplicationLog>> getApplicationByBranch(String BranchID){
         return creditApplicationDao.getApplicationByBranch(BranchID);
     }
+//    public void updateApplicantImageStat( String TransNox){
+//        creditApplicationDao.updateApplicantImageStat(TransNox);
+//    }
+    public void updateApplicantImageStat(String transNox){
+        new UpdateByTransNox(creditApplicationDao).execute(transNox);
+    }
+    private static class UpdateByTransNox extends AsyncTask<String, Void, String> {
+        private final DCreditApplication documentsDao;
+        public UpdateByTransNox(DCreditApplication documentsDao) {
+            this.documentsDao = documentsDao;
+        }
 
+        @Override
+        protected String doInBackground(String... transNox) {
+            if (documentsDao.getDuplicateTransNox(transNox[0]).size()>0){
+                documentsDao.updateApplicantImageStat(transNox[0]);
+            }
+            return null;
+        }
+    }
     public String getGOCasNextCode(){
         String lsTransNox = "";
         GConnection loConn = DbConnection.doConnect(app);
