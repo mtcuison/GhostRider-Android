@@ -7,20 +7,25 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluationListAdapter;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Dialog.DialogAddApplication;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CreditEvaluationModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMEvaluationList;
@@ -41,7 +46,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
     private MessageBox poMessage;
     private String userBranch;
     private TextInputEditText txtSearch;
-    private LinearLayout layoutNoRecord;
+    private TextView layoutNoRecord;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);        
@@ -68,11 +73,37 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
         layoutNoRecord = findViewById(R.id.layout_ci_noRecord);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.action_menu_credit_evaluator_list, menu);
+
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
             finish();
+        } else if(item.getItemId() == R.id.action_menu_add_application) {
+            try {
+                DialogAddApplication loDialog = new DialogAddApplication(Activity_EvaluationList.this);
+                loDialog.initDialog(new DialogAddApplication.OnDialogButtonClickListener() {
+                    @Override
+                    public void OnDownloadClick(Dialog Dialog, String args) {
+                        GToast.CreateMessage(Activity_EvaluationList.this,
+                                "Add Application is under development.",
+                                GToast.INFORMATION).show();
+                    }
+
+                    @Override
+                    public void OnCancel(Dialog Dialog) {
+                        Dialog.dismiss();
+                    }
+                });
+                loDialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
