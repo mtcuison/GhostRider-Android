@@ -32,12 +32,20 @@ public class VMSpousePensionInfo extends AndroidViewModel {
         this.poCreditApp = new RCreditApplicant(application);
     }
 
-    public void setTransNox(String transNox) {
+    public boolean setTransNox(String transNox) {
         this.psTransNo.setValue(transNox);
+        if(!this.psTransNo.getValue().equalsIgnoreCase(transNox)) {
+            return false;
+        }
+        return true;
     }
 
-    public void setPensionSec(String fsPensionSec) {
+    public boolean setPensionSec(String fsPensionSec) {
         this.psPensionSec.setValue(fsPensionSec);
+        if(!this.psPensionSec.getValue().equalsIgnoreCase(fsPensionSec)) {
+            return false;
+        }
+        return true;
     }
 
     public LiveData<ECreditApplicantInfo> getActiveGOCasApplication(){
