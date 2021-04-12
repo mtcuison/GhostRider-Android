@@ -46,7 +46,6 @@ public class RBranch {
         GConnection loConn = DbConnection.doConnect(application);
         boolean result = true;
         if (loConn == null){
-            Log.e(TAG, "Connection was not initialized.");
             result = false;
         }
 
@@ -117,14 +116,10 @@ public class RBranch {
                 if (loConn.executeUpdate(lsSQL) <= 0) {
                     Log.e(TAG, loConn.getMessage());
                     result = false;
-                } else {
-                    Log.d(TAG, "Branch info saved successfully.");
                 }
-            } else {
-                Log.d(TAG, "No record to update. Branch info maybe on its latest on local database.");
             }
         }
-        Log.e(TAG, "Branch info has been save to local.");
+        //.e(TAG, "Branch info has been save to local.");
 
         //terminate object connection
         loConn = null;

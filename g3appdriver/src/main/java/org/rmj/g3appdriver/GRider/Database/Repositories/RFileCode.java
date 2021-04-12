@@ -103,13 +103,13 @@ public class RFileCode {
                     Log.e(TAG, loConn.getMessage());
                     result = false;
                 } else {
-                    Log.d(TAG, "FileCode info saved successfully.");
+                    //Log.d(TAG, "FileCode info saved successfully.");
                 }
             } else {
-                Log.d(TAG, "No record to update. FileCode info maybe on its latest on local database.");
+                //Log.d(TAG, "No record to update. FileCode info maybe on its latest on local database.");
             }
         }
-        Log.e(TAG, "FileCode info has been save to local.");
+        //Log.e(TAG, "FileCode info has been save to local.");
 
         //terminate object connection
         loConn = null;

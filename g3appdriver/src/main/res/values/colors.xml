@@ -47,4 +47,7 @@
     <color name="cross_red">#ac0d0d</color>
 
     <color name="guanzon_orange_day">#FF8200</color>
+
+    <color name="branch_opening_late">#F86060</color>
+    <color name="branch_opening">#f2f2f2</color>
 </resources>
