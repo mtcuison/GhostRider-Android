@@ -23,6 +23,7 @@ import android.widget.TextView;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
+import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMDashboard;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;

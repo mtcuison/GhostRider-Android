@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.epacss.ui.HomeContainer;
+package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
