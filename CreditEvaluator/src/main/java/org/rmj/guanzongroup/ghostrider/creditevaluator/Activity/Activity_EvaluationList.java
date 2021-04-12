@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -41,7 +42,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
     private MessageBox poMessage;
     private String userBranch;
     private TextInputEditText txtSearch;
-    private LinearLayout layoutNoRecord;
+    private TextView layoutNoRecord;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);        
