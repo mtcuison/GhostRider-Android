@@ -12,7 +12,10 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 public interface DRawDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertTokenInfo(ETokenInfo tokenInfo);
+    void insertTokenInfo(ETokenInfo tokenInfo);
+
+    @Query("DELETE FROM App_Token_Info")
+    void clearTokenInfo();
 
     @Query("SELECT  " +
             "a.sModelIDx AS ModelIDx, " +

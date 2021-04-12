@@ -63,7 +63,7 @@ public class RCountry {
         GConnection loConn = DbConnection.doConnect(application);
 
         if (loConn == null){
-            Log.e(TAG, "Connection was not initialized");
+            //Log.e(TAG, "Connection was not initialized");
             return;
         }
 
@@ -112,15 +112,15 @@ public class RCountry {
             if(!lsSQL.isEmpty()){
                 Log.d(TAG, lsSQL);
                 if(loConn.executeUpdate(lsSQL) <= 0){
-                    Log.e(TAG, loConn.getMessage());
+                    //Log.e(TAG, loConn.getMessage());
                 } else {
-                    Log.d(TAG, "Country info save successfully");
+                    //Log.d(TAG, "Country info save successfully");
                 }
             } else {
-                Log.d(TAG, "No record to update. Country maybe on its latest on local database.");
+                //Log.d(TAG, "No record to update. Country maybe on its latest on local database.");
             }
         }
-        Log.e(TAG, "Country info has been save to local.");
+        //Log.e(TAG, "Country info has been save to local.");
 
         loConn = null;
     }

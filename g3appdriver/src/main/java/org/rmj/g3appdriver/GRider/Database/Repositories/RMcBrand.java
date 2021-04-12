@@ -49,7 +49,7 @@ public class RMcBrand {
         GConnection loConn = DbConnection.doConnect(application);
 
         if (loConn == null){
-            Log.e(TAG, "Connection was not initialized.");
+            //Log.e(TAG, "Connection was not initialized.");
             return;
         }
 
@@ -93,17 +93,12 @@ public class RMcBrand {
             }
 
             if(!lsSQL.isEmpty()){
-                Log.d(TAG, lsSQL);
                 if(loConn.executeUpdate(lsSQL) <= 0){
-                    Log.e(TAG, loConn.getMessage());
-                } else {
-                    Log.d(TAG, "Brand info save successfully");
+                    //Log.e(TAG, loConn.getMessage());
                 }
-            } else {
-                Log.d(TAG, "No record to update. Brand maybe on its latest on local database.");
             }
         }
-        Log.e(TAG, "Brand info has been save to local.");
+        //Log.e(TAG, "Brand info has been save to local.");
 
         loConn = null;
     }

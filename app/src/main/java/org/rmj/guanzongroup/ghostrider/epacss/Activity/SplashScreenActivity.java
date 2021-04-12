@@ -29,6 +29,7 @@ import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataImportService;
+import org.rmj.guanzongroup.ghostrider.epacss.Service.GMessagingService;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSplashScreen;
 
 import java.text.SimpleDateFormat;
@@ -59,7 +60,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             Log.e(TAG, "Export directory already exist.");
         }
         mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
-        mViewModel.setupTokenInfo("sample token info");
+        startService(new Intent(SplashScreenActivity.this, GMessagingService.class));
         mViewModel.isPermissionsGranted().observe(this, isGranted -> {
             if(!isGranted){
                 mViewModel.getPermisions().observe(this, strings -> ActivityCompat.requestPermissions(SplashScreenActivity.this, strings, AppConstants.PERMISION_REQUEST_CODE));
@@ -129,17 +130,18 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == AppConstants.PERMISION_REQUEST_CODE){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == AppConstants.PERMISION_REQUEST_CODE) {
             boolean lbIsGrnt = true;
-            for(int x = 0 ; x < grantResults.length; x++){
-                if(ContextCompat.checkSelfPermission(SplashScreenActivity.this, permissions[x]) != grantResults[x]){
+            for (int x = 0; x < grantResults.length; x++) {
+                if (ContextCompat.checkSelfPermission(SplashScreenActivity.this, permissions[x]) != grantResults[x]) {
                     lbIsGrnt = false;
                     break;
                 }
                 Log.e("Permission", permissions[x] + " Granted " + grantResults[x]);
 
             }
-            if(lbIsGrnt){
+            if (lbIsGrnt) {
                 mViewModel.setPermissionsGranted(true);
             }
         }

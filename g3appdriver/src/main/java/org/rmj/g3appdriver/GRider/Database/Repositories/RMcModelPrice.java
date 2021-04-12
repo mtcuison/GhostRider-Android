@@ -24,25 +24,25 @@ public class RMcModelPrice {
     private final DMcModelPrice mcModelPriceDao;
     private LiveData<List<EMcModelPrice>> allMcModelPrice;
 
-    public RMcModelPrice(Application application){
+    public RMcModelPrice(Application application) {
         this.application = application;
         GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
         mcModelPriceDao = GGCGriderDB.McModelPriceDao();
     }
 
-    public void insertBulkData(List<EMcModelPrice> modelPrices){
+    public void insertBulkData(List<EMcModelPrice> modelPrices) {
         mcModelPriceDao.insertBulkdData(modelPrices);
     }
 
-    public String getLatestDataTime(){
+    public String getLatestDataTime() {
         return mcModelPriceDao.getLatestDataTime();
     }
 
     public void saveMcModelPrice(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
 
-        if (loConn == null){
-            Log.e(TAG, "Connection was not initialized.");
+        if (loConn == null) {
+            //Log.e(TAG, "Connection was not initialized.");
             return;
         }
 
@@ -50,7 +50,7 @@ public class RMcModelPrice {
         String lsSQL;
         ResultSet loRS;
 
-        for(int x = 0; x < faJson.length(); x++){
+        for (int x = 0; x < faJson.length(); x++) {
             loJson = new JSONObject(faJson.getString(x));
 
             //check if record already exists on database
@@ -60,9 +60,9 @@ public class RMcModelPrice {
 
             lsSQL = "";
             //record does not exists
-            if (!loRS.next()){
+            if (!loRS.next()) {
                 //check if the record is active
-                if ("1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
+                if ("1".equalsIgnoreCase(loJson.getString("cRecdStat"))) {
                     //create insert statement
                     lsSQL = "INSERT INTO Mc_Model_Price" +
                             "(sModelIDx " +
@@ -92,7 +92,7 @@ public class RMcModelPrice {
                 Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
 
                 //compare date if the record from API is newer than the database record
-                if (!ldDate1.equals(ldDate2)){
+                if (!ldDate1.equals(ldDate2)) {
                     //create update statement
                     lsSQL = "UPDATE Mc_Model_Price SET" +
                             " nSelPrice = " + SQLUtil.toSQL(loJson.getString("nSelPrice")) +
@@ -108,17 +108,12 @@ public class RMcModelPrice {
                 }
             }
 
-            if (!lsSQL.isEmpty()){
-                Log.d(TAG, lsSQL);
-                if(loConn.executeUpdate(lsSQL) <= 0){
-                    Log.e(TAG, loConn.getMessage());
-                } else
-                    Log.d(TAG, "Model Price info saved successfully.");
-            } else {
-                Log.d(TAG, "No record to update. Model Price info maybe on its latest on local database.");
+            if (!lsSQL.isEmpty()) {
+                if (loConn.executeUpdate(lsSQL) <= 0) {
+                    //Log.e(TAG, loConn.getMessage());
+                }
             }
         }
-        Log.e(TAG, "Model Price info has been save to local.");
 
         //terminate object connection
         loConn = null;

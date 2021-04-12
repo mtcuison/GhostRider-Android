@@ -28,19 +28,22 @@ public class VMSplashScreen extends AndroidViewModel {
     private final MutableLiveData<Boolean> pbSession = new MutableLiveData<>();
     private final MutableLiveData<Integer> pnSession = new MutableLiveData<>();
     private final REmployee poUserDbx;
-    private final AppTokenManager poTokenInf;
     private final AppConfigPreference poConfigx;
     private final SessionManager poSession;
     private final ConnectionUtil poConn;
+    private final AppTokenManager poToken;
 
     public VMSplashScreen(@NonNull Application application) {
         super(application);
         poUserDbx = new REmployee(application);
-        poTokenInf = new AppTokenManager(application);
         poConfigx = AppConfigPreference.getInstance(application);
         poSession = new SessionManager(application);
         poConfigx.setTemp_ProductID("IntegSys");
         poConn = new ConnectionUtil(application);
+        poToken = new AppTokenManager(application);
+        ETokenInfo loToken = new ETokenInfo();
+        loToken.setTokenInf("temp_token");
+        poToken.setTokenInfo(loToken);
         paPermisions.setValue(new String[]{
                 Manifest.permission.INTERNET,
                 Manifest.permission.ACCESS_NETWORK_STATE,
@@ -52,12 +55,6 @@ public class VMSplashScreen extends AndroidViewModel {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION});
         pbGranted.setValue(hasPermissions(application.getApplicationContext(), paPermisions.getValue()));
-    }
-
-    public void setupTokenInfo(String tokenInfo){
-        ETokenInfo loToken = new ETokenInfo();
-        loToken.setTokenInf(tokenInfo);
-        poTokenInf.setTokenInfo(loToken);
     }
 
     public LiveData<Boolean> isPermissionsGranted(){
