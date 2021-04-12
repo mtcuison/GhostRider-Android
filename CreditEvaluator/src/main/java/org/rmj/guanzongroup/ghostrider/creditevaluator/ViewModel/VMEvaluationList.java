@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
@@ -80,6 +81,31 @@ public class VMEvaluationList extends AndroidViewModel {
             e.printStackTrace();
         }
 
+    }
+
+    public void importApplicationInfo(String fsTransNo, ViewModelCallback callback){
+//        try{
+//            boolean lbExist = false;
+//            List<CIEntity> laDetail = evaluationList.getValue();
+//            if(laDetail.size() > 0) {
+//                for(int x = 0; x < laDetail.size(); x++){
+//                    if(fsAccntNox.equalsIgnoreCase(laDetail.get(x).getAcctNmbr())){
+//                        lbExist = true;
+//                    }
+//                }
+//                if(!lbExist) {
+//                    JSONObject loJson = new JSONObject();
+//                    loJson.put("sAcctNmbr", fsAccntNox);
+//                    new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), WebApi.URL_GET_AR_CLIENT, callback).execute(loJson);
+//                } else {
+//                    callback.OnFailedResult("Account number is already exist in today's collection list.");
+//                }
+//            } else {
+//                callback.OnFailedResult("Please download or import collection detail before adding.");
+//            }
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
     }
 
 
