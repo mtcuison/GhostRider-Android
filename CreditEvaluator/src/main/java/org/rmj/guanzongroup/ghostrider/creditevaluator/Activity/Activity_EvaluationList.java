@@ -95,7 +95,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements ViewMo
                                 "Add Application is under development.",
                                 GToast.INFORMATION).show();
                          // TODO: import single application
-//                        mViewModel.importApplicationInfo(fsTransNo, callback);
+                        mViewModel.importApplicationInfo("fsTransNo", Activity_EvaluationList.this);
                     }
 
                     @Override
