@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="25dp"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="true"
+    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:background="@color/material_lightgrey"
+    android:layout_marginHorizontal="60dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_dialog"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/lbl_dialogTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:text="Approve Application"
+            android:textAlignment="center"
+            android:textColor="@color/material_black"
+            android:textSize="21sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingLeft="5dp"
+            android:paddingTop="15dp"
+            android:text="Please provide reason for approval."
+            android:textColor="@color/material_black" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/TextInputStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Reason">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_ci_reason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:gravity="top|left"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:scrollHorizontally="false" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.7dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/guanzon_orange" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_dialogCancel"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/material_black"
+                app:rippleColor="@color/guanzon_digital_orange" />
+
+            <View
+                android:id="@+id/view_midBorder"
+                android:layout_width="0.7dp"
+                android:layout_height="match_parent"
+                android:background="@color/guanzon_orange"
+                android:visibility="visible" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_dialogConfirm"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Confirm"
+                android:textAllCaps="false"
+                android:textColor="@color/material_black"
+                app:rippleColor="@color/guanzon_digital_orange" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
