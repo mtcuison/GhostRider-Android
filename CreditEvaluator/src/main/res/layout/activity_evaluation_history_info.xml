@@ -219,10 +219,9 @@
     </LinearLayout>
 
     <!-- Fragment of scrolling details -->
-    <FrameLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".Activity.Activity_EvaluationHistoryInfo"
-        android:id="@+id/frameLayout"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
