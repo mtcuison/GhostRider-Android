@@ -35,6 +35,8 @@
     <color name="guanzon_digital_orange_mid">#ff8f1a</color>
     <color name="guanzon_digital_orange_lighten">#FFA84D</color>
     <color name="footer_dark_grey">#393939</color>
+    <color name="success_green">#009A17</color>
+    <color name="error_red">#CD001A</color>
 
     <color name="light_preview_img">#e2e2e2</color>
     <color name="spinner_background">#FBFBFB</color>
