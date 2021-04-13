@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.Activity_EvaluationHistoryInfo">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_evaluation_history_info"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/material_tool_bar"
+            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/ln_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:id="@+id/ln_header_transNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="@string/sLblTransNo"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/textColor_Black"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/lbl_transNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="M00112001786"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/textColor_Black"
+                android:textSize="15sp"
+                android:gravity="end"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.6dp"
+            android:background="#535353"
+            android:layout_marginVertical="5dp"/>
+
+        <LinearLayout
+            android:id="@+id/ln_header_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginVertical="5dp">
+
+            <ImageView
+                android:id="@+id/iv_customer"
+                android:layout_width="85dp"
+                android:layout_height="94dp"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="12dp">
+
+                <TextView
+                    android:id="@+id/lbl_customer_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dela Cruz, Juan Pedro Jose G."
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/textColor_Black"
+                    android:textSize="17sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintHorizontal_bias="0"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sLblLoanUnit"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/textColor_Black"
+                    android:textSize="15sp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/lbl_loan_unit"/>
+
+                <TextView
+                    android:id="@+id/lbl_loan_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Honda CB650 R 2021"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/textColor_Black"
+                    android:textSize="15sp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lbl_customer_name"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sLblDownpayment"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/textColor_Black"
+                    android:textSize="15sp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/lbl_downpayment"/>
+
+                <TextView
+                    android:id="@+id/lbl_downpayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="P 250,000.00"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/textColor_Black"
+                    android:textSize="15sp"
+                    android:layout_marginTop="1dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lbl_loan_unit"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sLblTerms"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/textColor_Black"
+                    android:textSize="15sp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/lbl_terms"/>
+
+                <TextView
+                    android:id="@+id/lbl_terms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="6 months"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/textColor_Black"
+                    android:textSize="15sp"
+                    android:layout_marginTop="1dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lbl_downpayment"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.6dp"
+            android:background="#535353"
+            android:layout_marginVertical="5dp"/>
+
+        <LinearLayout
+            android:id="@+id/ln_header_approval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginVertical="5dp">
+
+            <TextView
+                android:id="@+id/lbl_approved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sLblApproved"
+                android:textSize="13sp"
+                android:fontFamily="@font/roboto"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/border_label_success"
+                android:textColor="@color/success_green"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/lbl_disapproved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sLblDisapproved"
+                android:textSize="13sp"
+                android:fontFamily="@font/roboto"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/border_label_error"
+                android:textColor="@color/error_red"/>
+
+            <TextView
+                android:id="@+id/lbl_approval_reason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reason: No doubt. Richest person in their brgy."
+                android:textColor="@color/textColor_Black"
+                android:textSize="13sp"
+                android:fontFamily="@font/roboto"
+                android:gravity="end"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Fragment of scrolling details -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
