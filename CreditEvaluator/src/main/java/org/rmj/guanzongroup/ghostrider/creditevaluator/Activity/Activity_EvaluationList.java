@@ -29,12 +29,13 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.Dialog.DialogAddApplicati
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CreditEvaluationModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMEvaluationList;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.ViewModelCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Activity_EvaluationList extends AppCompatActivity implements VMEvaluationList.OnImportCallBack {
+public class Activity_EvaluationList extends AppCompatActivity implements ViewModelCallback, VMEvaluationList.OnImportCallBack {
     private static final String TAG = Activity_EvaluationList.class.getSimpleName();
     private RecyclerView recyclerViewClient;
     private VMEvaluationList mViewModel;
@@ -93,6 +94,8 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
                         GToast.CreateMessage(Activity_EvaluationList.this,
                                 "Add Application is under development.",
                                 GToast.INFORMATION).show();
+                         // TODO: import single application
+                        mViewModel.importApplicationInfo("fsTransNo", Activity_EvaluationList.this);
                     }
 
                     @Override
@@ -214,5 +217,19 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
             }
         });
     }
-    
+
+    @Override
+    public void OnStartSaving() {
+
+    }
+
+    @Override
+    public void OnSuccessResult(String[] args) {
+
+    }
+
+    @Override
+    public void OnFailedResult(String message) {
+
+    }
 }

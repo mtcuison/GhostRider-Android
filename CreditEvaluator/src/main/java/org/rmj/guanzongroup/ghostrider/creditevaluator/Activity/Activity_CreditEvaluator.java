@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -45,7 +46,7 @@ public class Activity_CreditEvaluator extends AppCompatActivity implements VMCre
     private MessageBox poMessage;
     private String userBranch;
     private TextInputEditText txtSearch;
-    private LinearLayout layoutNoRecord;
+    private TextView layoutNoRecord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
