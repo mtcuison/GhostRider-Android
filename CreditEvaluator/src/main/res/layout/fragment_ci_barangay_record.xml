@@ -56,17 +56,19 @@
                         tools:targetApi="jelly_bean"/>
                 </RadioGroup>
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_ci_record"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Water"
+                    android:hint="Record"
+                    android:visibility="gone"
                     style="@style/TextInputStyle">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/tie_ci_record"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number|none"
-                        android:maxLength="6"/>
+                        android:inputType="textCapWords"
+                        android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
             <!--    Neighbor 1-->
@@ -84,15 +86,15 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Water"
+                    android:hint="Fullname"
                     style="@style/TextInputStyle">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/tie_ci_neighborName1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number|none"
-                        android:maxLength="6"/>
+                        android:inputType="textCapWords"
+                        android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -118,21 +120,18 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/CustomDropDownTilStyle"
+                        style="@style/TextInputStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
-
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                            android:id="@+id/spinner_ci_NeighborContact1"
-                            android:layout_width="fill_parent"
+                        
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_ci_NeighborContact1"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:hint="Contact"
-                            android:inputType="none"
-                            android:padding="16dp" />
+                            android:imeOptions="actionNext"
+                            android:inputType="number|none"
+                            android:maxLength="11" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
                 <RadioGroup
@@ -176,7 +175,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Water"
+                    android:hint="Fullname"
                     style="@style/TextInputStyle">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -210,7 +209,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/CustomDropDownTilStyle"
+                        style="@style/TextInputStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
@@ -219,12 +218,8 @@
                             android:id="@+id/spinner_ci_NeighborContact2"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:hint="Contact"
-                            android:inputType="none"
-                            android:padding="16dp" />
+                            android:inputType="number|none"
+                            android:maxLength="6" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
                 <RadioGroup
@@ -301,7 +296,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/CustomDropDownTilStyle"
+                        style="@style/TextInputStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
@@ -310,12 +305,8 @@
                             android:id="@+id/spinner_ci_NeighborContact3"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:hint="Contact"
-                            android:inputType="none"
-                            android:padding="16dp" />
+                            android:inputType="number|none"
+                            android:maxLength="6"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
                 <RadioGroup

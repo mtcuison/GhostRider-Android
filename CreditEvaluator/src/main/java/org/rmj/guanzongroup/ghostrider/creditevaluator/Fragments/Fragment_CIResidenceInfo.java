@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
@@ -84,6 +85,10 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                 tiwLandmark.setText(eciEvaluation.getLandMark());
 //                House Ownership
                 if (eciEvaluation.getOwnershp() != null){
+//                    Loop for radio button not clickable
+                    for(int i = 0; i < rgHouseOwnership.getChildCount(); i++){
+                        ((RadioButton)rgHouseOwnership.getChildAt(i)).setClickable(false);
+                    }
                     if(eciEvaluation.getOwnershp().equalsIgnoreCase("0")){
                         rgHouseOwnership.check(R.id.rb_ci_owner);
                     }
@@ -93,9 +98,13 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                     else if(eciEvaluation.getOwnershp().equalsIgnoreCase("2")){
                         rgHouseOwnership.check(R.id.rb_ci_careTaker);
                     }
+
                 }
 //                HouseHolds
                 if(eciEvaluation.getOwnOther() != null){
+                    for(int i = 0; i < rgHouseHolds.getChildCount(); i++){
+                        ((RadioButton)rgHouseHolds.getChildAt(i)).setClickable(false);
+                    }
                     if(eciEvaluation.getOwnOther().equalsIgnoreCase("0")){
                         rgHouseHolds.check(R.id.rb_ci_family);
                     }
@@ -108,6 +117,9 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                 }
 //                House Type
                 if (eciEvaluation.getHouseTyp() != null){
+                    for(int i = 0; i < rgHouseType.getChildCount(); i++){
+                        ((RadioButton)rgHouseType.getChildAt(i)).setClickable(false);
+                    }
                     if(eciEvaluation.getHouseTyp().equalsIgnoreCase("0")){
                         rgHouseType.check(R.id.rb_ci_houseConcrete);
                     }
@@ -120,6 +132,9 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                 }
 //                Has Garage
                if (eciEvaluation.getGaragexx() != null){
+                   for(int i = 0; i < rgGarage.getChildCount(); i++){
+                       ((RadioButton)rgGarage.getChildAt(i)).setClickable(false);
+                   }
                    if(eciEvaluation.getGaragexx().equalsIgnoreCase("0")){
                        rgGarage.check(R.id.rb_ci_yes);
                    }else if(eciEvaluation.getGaragexx().equalsIgnoreCase("1")){
@@ -265,6 +280,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                 try {
                     poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(poImageInfo.getFileLoct()));
                     mViewModel.saveResidenceImageInfo(poImageInfo);
+                    submitResidence();
                     mViewModel.PostResidenceDetail(poImageInfo, new VMCIResidenceInfo.OnImportCallBack() {
                         @Override
                         public void onPostResidenceInfo() {
@@ -298,7 +314,6 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
 //
 //                        }
                     });
-                    submitResidence();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
