@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeContainer;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_AH_Dashboard;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Dashboard;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_MessageList;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
@@ -22,9 +24,9 @@ import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
 public class Fragment_HomeContainer extends Fragment {
 
     private VMHomeContainer galleryViewModel;
+    private TextView lblHeader;
 
-//    private final Fragment[] fragment = {new Fragment_Home(),new Fragment_MessageList(), new Fragment_NotificationList()};
-    private final Fragment[] fragment = {new Fragment_Dashboard(),new Fragment_MessageList(),new Fragment_NotificationList()};
+    private final Fragment[] fragment = {new Fragment_AH_Dashboard(),new Fragment_MessageList(),new Fragment_NotificationList()};
 
     private final int[] toggled_icons = {R.drawable.ic_home_dashboard_toggled,
                                         R.drawable.ic_baseline_settings_24,
@@ -34,12 +36,15 @@ public class Fragment_HomeContainer extends Fragment {
                                 R.drawable.ic_baseline_settings_24,
                                 R.drawable.ic_home_notification};
 
+    private final String[] header = {"Dashboard", "Messages", "Notifications"};
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         galleryViewModel = new ViewModelProvider(this).get(VMHomeContainer.class);
         View root = inflater.inflate(R.layout.fragment_home_container, container, false);
         TabLayout tabLayout = root.findViewById(R.id.tab_home);
         ViewPager viewPager = root.findViewById(R.id.viewpager_home);
+        lblHeader = root.findViewById(R.id.lbl_dashBoardHeader);
         viewPager.setAdapter(new FragmentAdapter(getChildFragmentManager(), fragment));
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(toggled_icons[0]);
@@ -51,6 +56,7 @@ public class Fragment_HomeContainer extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 tabLayout.getTabAt(tab.getPosition()).setIcon(toggled_icons[tab.getPosition()]);
+                lblHeader.setText(header[tab.getPosition()]);
             }
 
             @Override
