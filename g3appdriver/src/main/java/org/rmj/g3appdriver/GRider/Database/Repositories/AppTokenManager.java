@@ -25,6 +25,7 @@ public class AppTokenManager {
 
         @Override
         protected String doInBackground(ETokenInfo... eTokenInfos) {
+            dao.clearTokenInfo();
             dao.insertTokenInfo(eTokenInfos[0]);
             return "";
         }

@@ -42,8 +42,8 @@ public class RMcTermCategory {
     public void saveTermCategory(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
 
-        if (loConn == null){
-            Log.e(TAG, "Connection was not initialized.");
+        if (loConn == null) {
+            //Log.e(TAG, "Connection was not initialized.");
             return;
         }
 
@@ -51,7 +51,7 @@ public class RMcTermCategory {
         String lsSQL;
         ResultSet loRS;
 
-        for(int x = 0; x < faJson.length(); x++){
+        for (int x = 0; x < faJson.length(); x++) {
             loJson = new JSONObject(faJson.getString(x));
 
             //check if record already exists on database
@@ -62,7 +62,7 @@ public class RMcTermCategory {
 
             lsSQL = "";
             //record does not exists
-            if (!loRS.next()){
+            if (!loRS.next()) {
                 //create insert statement
                 lsSQL = "INSERT INTO MC_Term_Category" +
                         "(sMCCatIDx" +
@@ -83,7 +83,7 @@ public class RMcTermCategory {
                 Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
 
                 //compare date if the record from API is newer than the database record
-                if (!ldDate1.equals(ldDate2)){
+                if (!ldDate1.equals(ldDate2)) {
                     //create update statement
                     lsSQL = "UPDATE MC_Term_Category SET" +
                             "  nSelPrice = " + SQLUtil.toSQL(loJson.getString("sMCCatIDx")) +
@@ -95,17 +95,14 @@ public class RMcTermCategory {
                 }
             }
 
-            if (!lsSQL.isEmpty()){
-                Log.d(TAG, lsSQL);
-                if(loConn.executeUpdate(lsSQL) <= 0){
-                    Log.e(TAG, loConn.getMessage());
-                } else
-                    Log.d(TAG, "Mc Term Category info saved successfully.");
-            } else {
-                Log.d(TAG, "No record to update. Mc Term Category info maybe on its latest on local database.");
+            if (!lsSQL.isEmpty()) {
+                if (loConn.executeUpdate(lsSQL) <= 0) {
+                    //Log.e(TAG, loConn.getMessage());
+                } else {
+                    //Log.d(TAG, "Mc Term Category info saved successfully.");
+                }
             }
         }
-        Log.e(TAG, "Mc Term Category info has been save to local.");
 
         //terminate object connection
         loConn = null;

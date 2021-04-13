@@ -68,8 +68,8 @@ public class RTown {
     public void saveTownInfo(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
 
-        if (loConn == null){
-            Log.e(TAG, "Connection was not initialized.");
+        if (loConn == null) {
+            //Log.e(TAG, "Connection was not initialized.");
             return;
         }
 
@@ -77,7 +77,7 @@ public class RTown {
         String lsSQL;
         ResultSet loRS;
 
-        for(int x = 0; x < faJson.length(); x++){
+        for (int x = 0; x < faJson.length(); x++) {
             loJson = new JSONObject(faJson.getString(x));
 
             //check if record already exists on database
@@ -87,9 +87,9 @@ public class RTown {
 
             lsSQL = "";
             //record does not exists
-            if (!loRS.next()){
+            if (!loRS.next()) {
                 //check if the record is active
-                if ("1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
+                if ("1".equalsIgnoreCase(loJson.getString("cRecdStat"))) {
                     //create insert statement
                     lsSQL = "INSERT INTO Town_Info" +
                             "(sTownIDxx" +
@@ -117,7 +117,7 @@ public class RTown {
                 Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
 
                 //compare date if the record from API is newer than the database record
-                if (!ldDate1.equals(ldDate2)){
+                if (!ldDate1.equals(ldDate2)) {
                     //create update statement
                     lsSQL = "UPDATE Town_Info SET" +
                             "   sTownName = " + SQLUtil.toSQL(loJson.getString("sTownName")) +
@@ -132,17 +132,14 @@ public class RTown {
                 }
             }
 
-            if (!lsSQL.isEmpty()){
-                Log.d(TAG, lsSQL);
-                if(loConn.executeUpdate(lsSQL) <= 0){
-                    Log.e(TAG, loConn.getMessage());
-                } else
-                    Log.d(TAG, "Town info saved successfully.");
-            } else {
-                Log.d(TAG, "No record to update. Town info maybe on its latest on local database.");
+            if (!lsSQL.isEmpty()) {
+                if (loConn.executeUpdate(lsSQL) <= 0) {
+                    //Log.e(TAG, loConn.getMessage());
+                } else {
+                    //Log.d(TAG, "Town info saved successfully.");
+                }
             }
         }
-        Log.e(TAG, "Town info has been save to local.");
 
         //terminate object connection
         loConn = null;

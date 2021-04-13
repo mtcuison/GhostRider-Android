@@ -4,12 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
 import org.rmj.guanzongroup.ghostrider.notifications.R;
+
+import java.util.Date;
 
 public class GNotifBuilder {
 

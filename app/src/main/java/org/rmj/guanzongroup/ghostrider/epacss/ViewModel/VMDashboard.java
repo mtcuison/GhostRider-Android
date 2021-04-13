@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
+package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
 import android.app.Application;
 import android.os.Build;
