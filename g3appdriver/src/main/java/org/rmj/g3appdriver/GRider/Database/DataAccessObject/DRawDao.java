@@ -17,6 +17,9 @@ public interface DRawDao {
     @Query("DELETE FROM App_Token_Info")
     void clearTokenInfo();
 
+    @Query("SELECT sTokenInf FROM App_Token_Info")
+    String getTokenInfo();
+
     @Query("SELECT  " +
             "a.sModelIDx AS ModelIDx, " +
             "a.sModelNme AS ModelNme, " +
