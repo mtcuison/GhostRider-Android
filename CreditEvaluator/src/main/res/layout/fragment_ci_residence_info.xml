@@ -168,6 +168,44 @@
                             tools:targetApi="jelly_bean"/>
                     </RadioGroup>
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        style="@style/Regular_Label"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/material_black"
+                        android:text="With Safe Garage"/>
+
+                    <RadioGroup
+                        android:id="@+id/rg_ci_garage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb_ci_yes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Yes"
+                            android:layout_weight="1"/>
+
+                        <RadioButton
+                            android:id="@+id/rb_ci_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="No"
+                            android:layout_weight="1"/>
+
+                    </RadioGroup>
+
+                </LinearLayout>
 
             </LinearLayout>
 
