@@ -5,10 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:background="@drawable/bg_gradient_light"
     tools:context=".Activity.Activity_CIApplication">
-
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,8 +22,8 @@
 
     </com.google.android.material.appbar.AppBarLayout>
     <org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.NonSwipeableViewPager
-        android:id="@+id/viewpager_ciApp"
+        android:id="@+id/viewpager_ciContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
+        android:layout_height="match_parent"
+        />
 </LinearLayout>

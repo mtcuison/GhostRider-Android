@@ -17,6 +17,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchPerformance;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCountryInfo;
@@ -48,6 +49,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECodeApproval;
@@ -117,7 +119,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         EBankInfo.class,
         ELog_Selfie.class,
         EBranchLoanApplication.class,
-        EUncapturedClient.class}, version = 1, exportSchema = false)
+        EUncapturedClient.class,
+        ECIEvaluation.class}, version = 1, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -155,6 +158,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DLog_Selfie SelfieDao();
     public abstract DBranchLoanApplication CreditAppDocsDao();
     public abstract DUncapturedClient UncapturedDao();
+    public abstract DCIEvaluation CIDao();
 
 
     public static synchronized GGC_GriderDB getInstance(Context context){

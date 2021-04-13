@@ -52,6 +52,9 @@ public class ImageFileCreator {
         this.cameraUsage = usage;
     }
 
+    public void setTransNox(String transNox){
+        this.TransNox = transNox;
+    }
     public ImageFileCreator(Context context, String usage, String imgName) {
         this.poContext = context;
         this.FOLDER_DIRECTORY = AppConstants.APP_PUBLIC_FOLDER;
