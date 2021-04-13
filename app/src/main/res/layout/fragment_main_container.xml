@@ -7,9 +7,61 @@
     android:orientation="vertical"
     tools:context=".ui.HomeContainer.Fragment_HomeContainer">
 
-    <org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NonSwipeableViewPager
-        android:id="@+id/viewpager_mainContainer"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="MissingClass" />
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_above="@id/appbar_home">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/img_dashboard_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/dashboard_bubble_header"
+                android:scaleType="centerCrop"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/img_dashboard_header"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="-140dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NonSwipeableViewPager
+                        android:id="@+id/viewpager_mainContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:ignore="MissingClass" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/lbl_dashBoardHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/roboto_black"
+                android:text="Dashboard"
+                android:textColor="@color/textColor_Black"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
 </LinearLayout>

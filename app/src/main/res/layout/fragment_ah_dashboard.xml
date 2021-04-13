@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.home.Fragment_AH_Dashboard">
+    tools:context=".ui.home.Fragment_AH_Dashboard"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,8 +14,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/img_dashboard_header">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -40,7 +40,44 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:paddingHorizontal="10dp"
-                            android:paddingTop="70dp">
+                            android:layout_marginTop="10dp">
+
+                            <TextView
+                                android:id="@+id/lbl_userFullName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="3dp"
+                                android:textSize="16sp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Doe, John MIS"
+                                android:gravity="end"
+                                android:textColor="@color/material_black" />
+
+
+                            <TextView
+                                android:id="@+id/lbl_userEmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="3dp"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="johnDoe123@gmail.com"
+                                android:gravity="end"
+                                android:textColor="@color/material_black" />
+
+                            <TextView
+                                android:id="@+id/lbl_userBranchArea"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="Area Head - NCR"
+                                android:gravity="end"
+                                android:textColor="@color/material_black" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/guanzon_orange" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -74,11 +111,48 @@
                                 android:text="@string/lsMainWebsite"
                                 android:textColor="@color/material_black" />
 
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Selfie Login"
+                                android:gravity="center_vertical"
+                                app:icon="@drawable/ic_dashboard_selfie"
+                                app:iconTint="@color/textColor_Black"
+                                style="@style/Widget.AppCompat.Button.Borderless"
+                                android:textColor="@color/textColor_Black"/>
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:background="@color/guanzon_orange"
-                                android:layout_marginTop="10dp"/>
+                                android:background="@color/guanzon_orange" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Settings"
+                                android:gravity="center_vertical"
+                                app:icon="@drawable/ic_dashboard_settings"
+                                app:iconTint="@color/textColor_Black"
+                                style="@style/Widget.AppCompat.Button.Borderless"
+                                android:textColor="@color/textColor_Black"/>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/guanzon_orange" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Logout"
+                                android:gravity="center_vertical"
+                                app:icon="@drawable/ic_dashboard_logout"
+                                app:iconTint="@color/textColor_Black"
+                                style="@style/Widget.AppCompat.Button.Borderless"
+                                android:textColor="@color/textColor_Black"/>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/guanzon_orange" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -91,7 +165,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:layout_marginBottom="5dp"
-                                    android:fontFamily="@font/roboto_regular"
+                                    android:fontFamily="@font/roboto_medium"
                                     android:text="Daily Branch Opening"
                                     android:textColor="@color/material_black" />
 
@@ -110,8 +184,42 @@
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/recyclerview_branchOpening"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="250dp"/>
 
+                            <LinearLayout
+                                android:id="@+id/footer_dashboard"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent">
+
+                                <TextView
+                                    android:id="@+id/tvCopyright"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="3dp"
+                                    android:fontFamily="@font/roboto_light"
+                                    android:text="@string/sLblCopyright"
+                                    android:textColor="@color/footer_dark_grey"
+                                    android:textSize="11sp"
+                                    tools:ignore="SmallSp" />
+
+                                <TextView
+                                    android:id="@+id/lbl_versionInfo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/roboto_light"
+                                    android:text="@string/lblBuildVersion"
+                                    android:textColor="@color/footer_dark_grey"
+                                    android:textSize="11sp"
+                                    tools:ignore="SmallSp" />
+
+                            </LinearLayout>
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
@@ -121,13 +229,13 @@
                 <ImageView
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginLeft="30dp"
                     android:background="@drawable/circular_imageview"
                     android:padding="10dp"
-                    android:src="@drawable/ic_ghostrider_logo_day" />
+                    android:src="@drawable/ic_ghostrider_logo_day"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp" />
 
             </RelativeLayout>
 
