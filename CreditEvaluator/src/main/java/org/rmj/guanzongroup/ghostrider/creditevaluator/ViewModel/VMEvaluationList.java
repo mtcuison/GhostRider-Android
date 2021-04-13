@@ -17,10 +17,12 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
@@ -80,6 +82,31 @@ public class VMEvaluationList extends AndroidViewModel {
             e.printStackTrace();
         }
 
+    }
+
+    public void importApplicationInfo(String fsTransNo, ViewModelCallback callback) {
+//        try{
+//            boolean lbExist = false;
+//            List<CIEntity> laDetail = evaluationList.getValue();
+//            if(laDetail.size() > 0) {
+//                for(int x = 0; x < laDetail.size(); x++){
+//                    if(fsAccntNox.equalsIgnoreCase(laDetail.get(x).getAcctNmbr())){
+//                        lbExist = true;
+//                    }
+//                }
+//                if(!lbExist) {
+//                    JSONObject loJson = new JSONObject();
+//                    loJson.put("sAcctNmbr", fsAccntNox);
+//                    new ImportApplicationInfoTask(instance, psTransNox.getValue(), WebApi.URL_GET_AR_CLIENT, callback).execute(loJson);
+//                } else {
+//                    callback.OnFailedResult("Account number is already exist in today's collection list.");
+//                }
+//            } else {
+//                callback.OnFailedResult("Please download or import collection detail before adding.");
+//            }
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
     }
 
 
@@ -153,6 +180,93 @@ public class VMEvaluationList extends AndroidViewModel {
             }
         }
 
+    }
+
+    private static class ImportApplicationInfoTask extends AsyncTask<JSONObject, Void, String> {
+        private final HttpHeaders headers;
+        private final RDailyCollectionPlan dcpRepo;
+        private final ConnectionUtil conn;
+        private final ViewModelCallback callback;
+        private final String sTransNox;
+        private final String Url;
+
+        public ImportApplicationInfoTask(Application instance, String TransNox, String Url, ViewModelCallback callback) {
+            this.headers = HttpHeaders.getInstance(instance);
+            this.dcpRepo = new RDailyCollectionPlan(instance);
+            this.conn = new ConnectionUtil(instance);
+            this.callback = callback;
+            this.sTransNox = TransNox;
+            this.Url = Url;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnStartSaving();
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected String doInBackground(JSONObject... strings) {
+            String response = "";
+            try{
+                if(conn.isDeviceConnected()) {
+                    response = WebClient.httpsPostJSon(Url, strings[0].toString(), headers.getHeaders());
+                    JSONObject jsonResponse = new JSONObject(response);
+                    String lsResult = jsonResponse.getString("result");
+                    if (lsResult.equalsIgnoreCase("success")) {
+                        saveDetailDataToLocal(jsonResponse.getJSONObject("data"));
+                    }
+                } else {
+                    response = AppConstants.SERVER_NO_RESPONSE();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject loJson = new JSONObject(s);
+                Log.e(TAG, loJson.getString("result"));
+                String lsResult = loJson.getString("result");
+                if(lsResult.equalsIgnoreCase("success")){
+                    callback.OnSuccessResult(new String[]{"Client Account info has been saved."});
+                } else {
+                    JSONObject loError = loJson.getJSONObject("error");
+                    String message = loError.getString("message");
+                    callback.OnFailedResult(message);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                callback.OnFailedResult(e.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.OnFailedResult(e.getMessage());
+            }
+        }
+
+        void saveDetailDataToLocal(JSONObject foData) throws JSONException {
+            Log.e(TAG, foData.toString());
+            EDCPCollectionDetail collectionDetail = new EDCPCollectionDetail();
+            collectionDetail.setTransNox(sTransNox);
+            collectionDetail.setAcctNmbr(foData.getString("sAcctNmbr"));
+            collectionDetail.setFullName(foData.getString("xFullName"));
+            collectionDetail.setIsDCPxxx("0");
+            collectionDetail.setMobileNo(foData.getString("sMobileNo"));
+            collectionDetail.setHouseNox(foData.getString("sHouseNox"));
+            collectionDetail.setAddressx(foData.getString("sAddressx"));
+            collectionDetail.setBrgyName(foData.getString("sBrgyName"));
+            collectionDetail.setTownName(foData.getString("sTownName"));
+            collectionDetail.setClientID(foData.getString("sClientID"));
+            collectionDetail.setSerialID(foData.getString("sSerialID"));
+            collectionDetail.setSerialNo(foData.getString("sSerialNo"));
+            collectionDetail.setTranStat("0");
+            dcpRepo.insertCollectionDetail(collectionDetail);
+        }
     }
 
 }
