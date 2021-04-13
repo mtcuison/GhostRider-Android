@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Editable;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -22,6 +24,7 @@ import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluationListAdapter;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluatorAdapter;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Dialog.DialogCIReason;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CreditEvaluationModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCreditEvaluator;
@@ -43,7 +46,7 @@ public class Activity_CreditEvaluator extends AppCompatActivity implements VMCre
     private MessageBox poMessage;
     private String userBranch;
     private TextInputEditText txtSearch;
-    private LinearLayout layoutNoRecord;
+    private TextView layoutNoRecord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,7 @@ public class Activity_CreditEvaluator extends AppCompatActivity implements VMCre
 
         mViewModel = new ViewModelProvider(Activity_CreditEvaluator.this).get(VMCreditEvaluator.class);
 //        mViewModel.ImportCIApplications(Activity_CreditEvaluator.this);
-        mViewModel.ImportCIApplications(Activity_CreditEvaluator.this);
+//        mViewModel.ImportCIApplications(Activity_CreditEvaluator.this);
         initData();
 
 
@@ -131,6 +134,17 @@ public class Activity_CreditEvaluator extends AppCompatActivity implements VMCre
                 adapter = new CreditEvaluatorAdapter(creditList, new CreditEvaluatorAdapter.OnApplicationClickListener() {
                     @Override
                     public void OnClick(int position, List<CreditEvaluationModel> creditLists) {
+                        DialogCIReason loDialog = new DialogCIReason(Activity_CreditEvaluator.this);
+                        loDialog.initDialogCIReason((dialog, remarksCode) -> {
+//                            Intent loIntent = new Intent(Activity_CollectionList.this, Activity_Transaction.class);
+//                            loIntent.putExtra("remarksx", remarksCode);
+//                            loIntent.putExtra("transnox", collectionDetails.get(position).getTransNox());
+//                            loIntent.putExtra("entrynox", collectionDetails.get(position).getEntryNox());
+//                            loIntent.putExtra("accntnox", collectionDetails.get(position).getAcctNmbr());
+//                            startActivity(loIntent);
+//                            dialog.dismiss();
+                        });
+                        loDialog.show();
 //                                mViewModel.getDocument(creditLists.get(position).getTransNox()).observe(Activity_CreditEvaluator.this, data -> {
 //                                    mViewModel.setDocumentInfo(data);
 //                                });

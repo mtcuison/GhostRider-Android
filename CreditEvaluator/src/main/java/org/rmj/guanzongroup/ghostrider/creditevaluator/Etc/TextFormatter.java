@@ -38,7 +38,6 @@ public class TextFormatter {
 
                 if (!value.equals(""))
                 {
-
                     if(value.startsWith(".")){
                         txtBox.setText("0.");
                     }

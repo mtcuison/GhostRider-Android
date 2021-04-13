@@ -32,7 +32,8 @@ public interface DBranchLoanApplication {
     LiveData<List<EBranchLoanApplication>> getAllBranchCreditApplication();
 
     @Query("SELECT * FROM Credit_Online_Application_List " +
-            "WHERE sCredInvx = (SELECT sEmployID FROM User_Info_Master)")
+            "WHERE cTranStat != 4 AND " +
+            "sBranchCD = (SELECT sBranchCD FROM User_Info_Master)")
     LiveData<List<EBranchLoanApplication>> getAllCICreditApplication();
 
     @Query("SELECT * FROM Credit_Online_Application_List " +
