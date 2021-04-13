@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fillViewport="true"
+    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    android:background="@drawable/bg_gradient_light"
+    tools:context=".Fragments.Fragment_CIBarangayRecord">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include
+            layout="@layout/layout_ci_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".Fragments.Fragment_CIResidenceInfo"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/HeaderLabelBlack"
+            android:text="Barangay Record &amp; Neighbor's Info"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RadioGroup
+                    android:id="@+id/rg_ci_brgyRecord"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_ci_noRecord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="No Barangay Record"
+                        android:layout_weight="1"
+                        tools:targetApi="jelly_bean" />
+
+                    <RadioButton
+                        android:id="@+id/rb_ci_withRecord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Has Barangay Record"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        tools:targetApi="jelly_bean"/>
+                </RadioGroup>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Water"
+                    style="@style/TextInputStyle">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_ci_record"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number|none"
+                        android:maxLength="6"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+            <!--    Neighbor 1-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Neighbor 1 :"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/material_black"
+                    />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Water"
+                    style="@style/TextInputStyle">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_ci_neighborName1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number|none"
+                        android:maxLength="6"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CustomDropDownTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                            android:id="@+id/spinner_ci_NeighborRelation1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:hint="Relationship"
+                            android:inputType="none"
+                            android:padding="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CustomDropDownTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                            android:id="@+id/spinner_ci_NeighborContact1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:hint="Contact"
+                            android:inputType="none"
+                            android:padding="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <RadioGroup
+                    android:id="@+id/rg_ci_Feedback1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_ci_postiveFeed1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Positive Feedback"
+                        android:layout_weight="1"
+                        tools:targetApi="jelly_bean" />
+
+                    <RadioButton
+                        android:id="@+id/rb_ci_negativeFeed1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Negative Feedback"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        tools:targetApi="jelly_bean"/>
+                </RadioGroup>
+            </LinearLayout>
+            <!--    Neighbor 2-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Neighbor 1 :"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/material_black"
+                    />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Water"
+                    style="@style/TextInputStyle">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_ci_neighborName2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number|none"
+                        android:maxLength="6"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CustomDropDownTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                            android:id="@+id/spinner_ci_NeighborRelation2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:hint="Relationship"
+                            android:inputType="none"
+                            android:padding="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CustomDropDownTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                            android:id="@+id/spinner_ci_NeighborContact2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:hint="Contact"
+                            android:inputType="none"
+                            android:padding="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <RadioGroup
+                    android:id="@+id/rg_ci_Feedback2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_ci_postiveFeed2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Positive Feedback"
+                        android:layout_weight="1"
+                        tools:targetApi="jelly_bean" />
+
+                    <RadioButton
+                        android:id="@+id/rb_ci_negativeFeed2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Negative Feedback"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        tools:targetApi="jelly_bean"/>
+                </RadioGroup>
+            </LinearLayout>
+            <!--    Neighbor 3-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Neighbor 3 :"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/material_black"
+                    />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Water"
+                    style="@style/TextInputStyle">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_ci_neighborName3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number|none"
+                        android:maxLength="6"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CustomDropDownTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                            android:id="@+id/spinner_ci_NeighborRelation3"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:hint="Relationship"
+                            android:inputType="none"
+                            android:padding="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CustomDropDownTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                            android:id="@+id/spinner_ci_NeighborContact3"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:hint="Contact"
+                            android:inputType="none"
+                            android:padding="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <RadioGroup
+                    android:id="@+id/rg_ci_Feedback3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_ci_postiveFeed3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Positive Feedback"
+                        android:layout_weight="1"
+                        tools:targetApi="jelly_bean" />
+
+                    <RadioButton
+                        android:id="@+id/rb_ci_negativeFeed3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Negative Feedback"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        tools:targetApi="jelly_bean"/>
+                </RadioGroup>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

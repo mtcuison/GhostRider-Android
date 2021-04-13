@@ -148,7 +148,6 @@
                     app:tint="@color/guanzon_orange" />
             </LinearLayout>
 
-
             <TextView
                 android:layout_weight="1"
                 android:layout_gravity="center"
