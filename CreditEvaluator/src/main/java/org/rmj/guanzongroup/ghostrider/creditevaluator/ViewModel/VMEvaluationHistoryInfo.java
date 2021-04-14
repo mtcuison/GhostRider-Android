@@ -24,12 +24,12 @@ public class VMEvaluationHistoryInfo extends AndroidViewModel {
 
     private final MutableLiveData<List<EvaluationHistoryInfoModel>> plDetail = new MutableLiveData<>();
 
-    public VMEvaluationHistoryInfo(@NonNull Application application, String fsTransNo, ECIEvaluation foCredtEv) {
+    public VMEvaluationHistoryInfo(@NonNull Application application, ECIEvaluation foCredtEv) {
         super(application);
         this.instance = application;
         this.poCredtEv = foCredtEv;
         this.poInvestx = new RCIEvaluation(application);
-        this.psTransNo = fsTransNo;
+        this.psTransNo = poCredtEv.getTransNox();
         this.plDetail.setValue(new ArrayList<>());
         setCreditEvaluationDetl();
     }
