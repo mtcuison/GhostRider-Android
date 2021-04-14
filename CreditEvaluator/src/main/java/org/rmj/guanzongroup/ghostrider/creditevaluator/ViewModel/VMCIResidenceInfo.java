@@ -1,10 +1,8 @@
 package org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Environment;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -13,41 +11,28 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.rmj.apprdiver.util.WebFile;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
-import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.ImportData.Import_LoanApplications;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIResidenceInfo;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIResidenceInfoModel;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class VMCIResidenceInfo  extends AndroidViewModel {
+public class VMCIResidenceInfo extends AndroidViewModel {
     private static final String TAG = VMCIResidenceInfo.class.getSimpleName();
     private final Application instance;
     private final RCIEvaluation poCI;
@@ -94,7 +79,8 @@ public class VMCIResidenceInfo  extends AndroidViewModel {
     public void insertNewCiApplication(ECIEvaluation eciEvaluation){
         poCI.insertCiApplication(eciEvaluation);
 
-    }public void updateCiResidence(CIResidenceInfo infoModel){
+    }
+    public void updateCiResidence(CIResidenceInfoModel infoModel){
         evaluation.setLatitude(nLatitude.getValue());
         evaluation.setLongitud(nLogitude.getValue());
         evaluation.setOwnershp(infoModel.getOwnershp());
@@ -111,7 +97,7 @@ public class VMCIResidenceInfo  extends AndroidViewModel {
                 nLogitude.getValue());
 //        poCI.updateCiResidence(evaluation);
     }
-    public void updateCIResidences(CIResidenceInfo infoModel){
+    public void updateCIResidences(CIResidenceInfoModel infoModel){
         evaluation.setLatitude(nLatitude.getValue());
         evaluation.setLongitud(nLogitude.getValue());
         evaluation.setOwnershp(infoModel.getOwnershp());
@@ -144,16 +130,7 @@ public class VMCIResidenceInfo  extends AndroidViewModel {
             e.printStackTrace();
         }
     }
-//    public void saveResidenceImageInfo(EImageInfo foImage){
-//        try{
-//            foImage.setTransNox(poImage.getImageNextCode());
-//            poImage.insertImageInfo(foImage);
-//            Log.e(TAG, "Image info has been save!");
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
-    public boolean saveCIResidence(CIResidenceInfo infoModel, ViewModelCallBack callback) {
+    public boolean saveCIResidence(CIResidenceInfoModel infoModel, ViewModelCallBack callback) {
         try {
 
             new UpdateTask(poCI, infoModel, callback).execute(poCIDetail.getValue());
@@ -170,15 +147,15 @@ public class VMCIResidenceInfo  extends AndroidViewModel {
         }
     }
 
-    //Added by Mike 2021/02/27
+    //Added by Jonathan 2021/04/13
     //Need AsyncTask for background threading..
     //RoomDatabase requires background task in order to manipulate Tables...
     private  class UpdateTask extends AsyncTask<ECIEvaluation, Void, String> {
         private final RCIEvaluation poCIEvaluation;
-        private final CIResidenceInfo infoModel;
+        private final CIResidenceInfoModel infoModel;
         private final ViewModelCallBack callback;
 
-        public UpdateTask(RCIEvaluation poCIEvaluation, CIResidenceInfo infoModel, ViewModelCallBack callback) {
+        public UpdateTask(RCIEvaluation poCIEvaluation, CIResidenceInfoModel infoModel, ViewModelCallBack callback) {
             this.poCIEvaluation = poCIEvaluation;
             this.infoModel = infoModel;
             this.callback = callback;

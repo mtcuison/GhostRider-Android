@@ -217,7 +217,7 @@
                 android:layout_gravity="right"
                 android:paddingLeft="20dp"
                 android:paddingRight="25dp"
-                android:text="\t\tNext\t"
+                android:text="\t\Save\t"
                 style="@style/NavigationButton"
                 android:drawableRight="@drawable/ic_nav_right"
                 android:drawableEnd="@drawable/ic_nav_right" />

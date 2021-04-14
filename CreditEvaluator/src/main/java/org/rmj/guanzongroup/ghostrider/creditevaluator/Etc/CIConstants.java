@@ -12,8 +12,8 @@ public class CIConstants {
     public static final String SUB_FOLDER_DCP = "/CIEValuation";
     public static Fragment[] CI_HOME_PAGES = {
             new Fragment_CIResidenceInfo(),
-            new Fragment_CIBarangayRecord(),
             new Fragment_CIDisbursementInfo(),
+            new Fragment_CIBarangayRecord(),
             new Fragment_CICharacterTraits()
     };
 

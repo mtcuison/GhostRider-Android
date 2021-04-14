@@ -1,6 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.creditevaluator.Model;
 
-public class CIResidenceInfo {
+public class CIResidenceInfoModel {
 
     String TransNox;
     String LandMark;
@@ -11,7 +11,7 @@ public class CIResidenceInfo {
     String Latitude;
     String Longitud;
     String message;
-    public CIResidenceInfo() {
+    public CIResidenceInfoModel() {
     }
 
     public boolean isValidData(){

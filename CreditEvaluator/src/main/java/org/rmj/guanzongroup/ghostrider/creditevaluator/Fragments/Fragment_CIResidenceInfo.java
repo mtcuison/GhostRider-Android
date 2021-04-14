@@ -7,9 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -20,26 +17,21 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.CIConstants;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIResidenceInfo;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIResidenceInfoModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIResidenceInfo;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCreditEvaluator;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 
 import static android.app.Activity.RESULT_OK;
-import static org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.CIConstants.APP_PUBLIC_FOLDER;
 import static org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.CIConstants.SUB_FOLDER_DCP;
 import static org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder.APP_SYNC_DATA;
 //import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIResidenceInfo;
@@ -50,7 +42,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
     private TextInputEditText tiwLandmark;
     private RadioGroup rgHouseOwnership,rgHouseType,rgHouseHolds,rgGarage;
     private MaterialButton btnNext;
-    private CIResidenceInfo residenceInfo;
+    private CIResidenceInfoModel residenceInfo;
     private MessageBox poMessage;
     private ImageFileCreator poFilexx;
     private EImageInfo poImageInfo;
@@ -62,7 +54,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_ci_residence_info, container, false);
-        residenceInfo = new CIResidenceInfo();
+        residenceInfo = new CIResidenceInfoModel();
         poFilexx = new ImageFileCreator(getActivity(), SUB_FOLDER_DCP, Activity_CIApplication.getInstance().getTransNox());
         poFilexx.setTransNox(Activity_CIApplication.getInstance().getTransNox());
 //        poFilexx = new ImageFileCreator(Fragment_CIResidenceInfo.this , CIConstants.APP_PUBLIC_FOLDER, CIConstants.SUB_FOLDER_DCP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
@@ -146,7 +138,9 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                 }
                 if(eciEvaluation.getLongitud() != null){
                     residenceInfo.setLongitud(eciEvaluation.getLongitud());
+                    btnNext.setText("Next");
                 }
+
             }else {
                 ECIEvaluation eciEvaluation1 = new ECIEvaluation();
                 eciEvaluation1.setTransNox(Activity_CIApplication.getInstance().getTransNox());
@@ -285,34 +279,18 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                         @Override
                         public void onPostResidenceInfo() {
 
+                            GNotifBuilder.createNotification(getActivity(), "CI Evaluation", "Residence Info Picture posting...",APP_SYNC_DATA).show();
                         }
 
                         @Override
                         public void onSuccessResidenceInfo() {
-
+                            GNotifBuilder.createNotification(getActivity(), "CI Evaluation", "Residence Info Post Successfulluy",APP_SYNC_DATA).show();
                         }
 
                         @Override
                         public void onFailedResidenceInfo(String message) {
-
+                            GNotifBuilder.createNotification(getActivity(), "CI Evaluation", message,APP_SYNC_DATA).show();
                         }
-
-//                        @Override
-//                        public void onPostResidenceInfo() {
-//
-//                        }
-//
-//                        @Override
-//                        public void onSuccessResidenceInfo() {
-//                            GNotifBuilder.createNotification(getActivity(), "CI Evaluation", "Residence Info Post Successfulluy",APP_SYNC_DATA).show();
-//
-//                        }
-//
-//                        @Override
-//                        public void onFailedResidenceInfo(String message) {
-//                            GNotifBuilder.createNotification(getActivity(), "CI Evaluation", message,APP_SYNC_DATA).show();
-//
-//                        }
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
