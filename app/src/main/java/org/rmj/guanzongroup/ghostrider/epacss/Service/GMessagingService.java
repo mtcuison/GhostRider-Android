@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.epacss.Service;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -27,6 +29,7 @@ public class GMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         //Generate Channel ID in order to display multiple notifications
+        Log.d(TAG, remoteMessage.getData().get("msgtype"));
         int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
         GNotifBuilder.createNotification(GMessagingService.this,
                 remoteMessage.getData().get("title"),

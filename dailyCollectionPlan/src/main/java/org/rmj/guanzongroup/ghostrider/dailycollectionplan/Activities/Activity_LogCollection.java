@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,8 +14,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -24,6 +27,8 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionLogAdapter;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogCollectedCash;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogRemitCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionLog;
 
@@ -48,6 +53,7 @@ public class Activity_LogCollection extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TextView txtNoLog, txtNoName;
     private TextInputLayout tilSearch;
+    private LinearLayout linearCashInfo;
 
     private List<EDCPCollectionDetail> filteredCollectionDetlx;
 
@@ -207,6 +213,7 @@ public class Activity_LogCollection extends AppCompatActivity {
         txtDate = findViewById(R.id.txt_collectionDate);
         txtSearch = findViewById(R.id.txt_collectionSearch);
         tilSearch = findViewById(R.id.til_collectionSearch);
+        linearCashInfo = findViewById(R.id.linear_collectionCashInfo);
         filteredCollectionDetlx = new ArrayList<>();
 
         try {
@@ -216,6 +223,21 @@ public class Activity_LogCollection extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        linearCashInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogCollectedCash poCash = new DialogCollectedCash(Activity_LogCollection.this);
+                poCash.initDialog();
+                poCash.show();
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.action_menu_dcp_log, menu);
+        return true;
     }
 
     @Override
@@ -233,6 +255,20 @@ public class Activity_LogCollection extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
             finish();
+        } else if(item.getItemId() == R.id.action_menu_remit_collection){
+            DialogRemitCollection poRemit = new DialogRemitCollection(Activity_LogCollection.this);
+            poRemit.initDialog(new DialogRemitCollection.RemitDialogListener() {
+                @Override
+                public void OnConfirm(AlertDialog dialog) {
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void OnCancel(AlertDialog dialog) {
+                    dialog.dismiss();
+                }
+            });
+            poRemit.show();
         }
         return super.onOptionsItemSelected(item);
     }

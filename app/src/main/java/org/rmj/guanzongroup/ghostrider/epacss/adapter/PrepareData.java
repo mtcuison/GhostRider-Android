@@ -121,9 +121,9 @@ public class PrepareData {
         childModelsList = new ArrayList<>();
         menuModel = new MenuModel("Samsung Knox",  R.drawable.ic_menu_knox,true, true, View.VISIBLE);
         listDataHeader.add(menuModel);
-        Log.e("department", sessionManager.getPositionID());
+        Log.e("department", sessionManager.getDeptID());
 
-        if (sessionManager.getPositionID().equalsIgnoreCase(DeptCode.MOBILE_PHONE)){
+        if (sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MOBILE_PHONE)){
             childModel = new MenuModel("Activate", 0, false, false , View.VISIBLE);
             childModelsList.add(childModel);
         } else {
@@ -131,7 +131,7 @@ public class PrepareData {
             childModelsList.add(childModel);
         }
 
-        if (sessionManager.getPositionID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
+        if (sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
             childModel = new MenuModel("Unlock", 0,false, false, View.VISIBLE);
             childModelsList.add(childModel);
 
