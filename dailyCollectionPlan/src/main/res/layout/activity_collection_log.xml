@@ -35,34 +35,83 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginVertical="15dp"
-            android:gravity="center">
+            android:orientation="horizontal"
+            android:layout_marginVertical="5dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="Transaction Log"
-                android:textColor="@color/textColor_White"
-                android:textSize="22sp" />
+                android:layout_weight="1"
+                android:gravity="start"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/lbl_headerBranch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:fontFamily="@font/roboto_light"
-                android:textColor="@color/textColor_White"
-                android:layout_marginTop="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Transaction Log"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/lbl_headerAddress"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/lbl_headerBranch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:id="@+id/lbl_headerAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/black"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_collectionCashInfo"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:fontFamily="@font/roboto_light"
-                android:textColor="@color/textColor_White"/>
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="end"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Total Collection"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:drawableTint="@color/black"
+                    android:drawablePadding="5dp"
+                    app:drawableLeftCompat="@drawable/ic_toast_info"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:text="Total Remitted: 10,000"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:text="Cash-On-Hand: 10,000"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -76,31 +125,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="15dp"
-            android:orientation="vertical">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_collectionDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyleHeaders">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_collectionDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#fbfbfb"
-                    android:hint="Collection Date"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:focusedByDefault="false"
-                    tools:targetApi="o" />
-            </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_collectionSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 style="@style/TextInputStyleHeaders">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -112,6 +144,26 @@
                     android:imeOptions="actionSearch"
                     android:maxLines="1"
                     android:hint="Search Customer's name"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_collectionDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="Date"
+                style="@style/TextInputStyleHeaders">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_collectionDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fbfbfb"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:focusedByDefault="false"
+                    tools:targetApi="o" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>

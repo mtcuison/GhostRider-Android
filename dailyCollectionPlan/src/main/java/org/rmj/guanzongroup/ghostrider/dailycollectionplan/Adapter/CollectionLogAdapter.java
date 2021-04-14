@@ -80,8 +80,6 @@ public class CollectionLogAdapter extends RecyclerView.Adapter<CollectionLogAdap
                 lblEntryNo,
                 lblRemarks;
 
-        MaterialButton btnSeeDetx;
-
         public CollectionViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
 
@@ -90,9 +88,8 @@ public class CollectionLogAdapter extends RecyclerView.Adapter<CollectionLogAdap
             lblRemCode = itemView.findViewById(R.id.lbl_dcpRemarkCode);
             lblEntryNo = itemView.findViewById(R.id.lbl_dcpNox);
             lblRemarks = itemView.findViewById(R.id.lbl_dcpRemarks);
-            btnSeeDetx = itemView.findViewById(R.id.btn_see_details);
 
-            btnSeeDetx.setOnClickListener(v -> {
+            itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
                     listener.OnClick(position);
