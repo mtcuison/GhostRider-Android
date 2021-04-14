@@ -9,6 +9,6 @@
         android:id="@+id/nav_home"
         android:name="org.rmj.guanzongroup.ghostrider.epacss.ui.HomeContainer.Fragment_MainContainer"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_main_container" />
 
 </navigation>

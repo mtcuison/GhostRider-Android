@@ -179,7 +179,6 @@ public class VMPromiseToPay extends AndroidViewModel {
         @Override
         protected String doInBackground(EDCPCollectionDetail... detail) {
             try {
-
                 infoModel.setPtpBranch(psBrnchCd.getValue());
                 if (!infoModel.isDataValid()) {
                     return infoModel.getMessage();
