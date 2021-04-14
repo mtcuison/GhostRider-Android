@@ -1,6 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.creditevaluator.Model;
 
 public class EvaluationHistoryInfoModel {
-    // TODO: Create evaluation history validations
+    // TODO: Create evaluation history info validations
 
 }
