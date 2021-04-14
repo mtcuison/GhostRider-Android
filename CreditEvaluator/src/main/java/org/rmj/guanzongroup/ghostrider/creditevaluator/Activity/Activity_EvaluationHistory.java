@@ -19,7 +19,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluatorAdapter;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluationHistoryAdapter;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Dialog.DialogCIReason;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CreditEvaluationModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
@@ -34,7 +34,7 @@ public class Activity_EvaluationHistory extends AppCompatActivity implements VME
     private RecyclerView recyclerViewClient;
     private VMEvaluationHistory mViewModel;
     private LinearLayoutManager layoutManager;
-    private CreditEvaluatorAdapter adapter;
+    private CreditEvaluationHistoryAdapter adapter;
     private LinearLayout loading;
     private List<CreditEvaluationModel> creditList;
     private LoadDialog poDialogx;
@@ -126,7 +126,7 @@ public class Activity_EvaluationHistory extends AppCompatActivity implements VME
                     loan.setdTimeStmp(brnCreditList.get(x).getTimeStmp());
                     creditList.add(loan);
                 }
-                adapter = new CreditEvaluatorAdapter(creditList, new CreditEvaluatorAdapter.OnApplicationClickListener() {
+                adapter = new CreditEvaluationHistoryAdapter(creditList, new CreditEvaluationHistoryAdapter.OnApplicationClickListener() {
                     @Override
                     public void OnClick(int position, List<CreditEvaluationModel> creditLists) {
                         DialogCIReason loDialog = new DialogCIReason(Activity_EvaluationHistory.this);
