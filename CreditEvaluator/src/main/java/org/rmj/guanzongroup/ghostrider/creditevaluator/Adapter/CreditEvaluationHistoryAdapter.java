@@ -16,19 +16,19 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreditEvaluatorAdapter extends RecyclerView.Adapter<CreditEvaluatorAdapter.CreditEvaluationViewHolder> implements Filterable{
+public class CreditEvaluationHistoryAdapter extends RecyclerView.Adapter<CreditEvaluationHistoryAdapter.CreditEvaluationViewHolder> implements Filterable{
 
     private List<CreditEvaluationModel> plLoanApp;
     private List<CreditEvaluationModel> plLoanApp1;
     private List<CreditEvaluationModel> plSchList;
     private List<CreditEvaluationModel> filteredList;
-    private CreditEvaluatorAdapter.OnVoidApplicationListener onVoidApplicationListener;
-    private CreditEvaluatorAdapter.OnExportGOCASListener onExportGOCASListener;
-    private CreditEvaluatorAdapter.OnApplicationClickListener onApplicationClickListener;
+    private CreditEvaluationHistoryAdapter.OnVoidApplicationListener onVoidApplicationListener;
+    private CreditEvaluationHistoryAdapter.OnExportGOCASListener onExportGOCASListener;
+    private CreditEvaluationHistoryAdapter.OnApplicationClickListener onApplicationClickListener;
 
 //    private final SearchFilter poSearch;
 
-    public CreditEvaluatorAdapter(List<CreditEvaluationModel> plLoanApp, CreditEvaluatorAdapter.OnApplicationClickListener onApplicationClickListener) {
+    public CreditEvaluationHistoryAdapter(List<CreditEvaluationModel> plLoanApp, CreditEvaluationHistoryAdapter.OnApplicationClickListener onApplicationClickListener) {
         this.plLoanApp = plLoanApp;
         this.plLoanApp1 = plLoanApp;
         this.onApplicationClickListener = onApplicationClickListener;
@@ -41,9 +41,9 @@ public class CreditEvaluatorAdapter extends RecyclerView.Adapter<CreditEvaluator
     }
     @NonNull
     @Override
-    public CreditEvaluatorAdapter.CreditEvaluationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CreditEvaluationHistoryAdapter.CreditEvaluationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.credit_app_list, parent, false);
-        return new CreditEvaluatorAdapter.CreditEvaluationViewHolder(view,onApplicationClickListener);
+        return new CreditEvaluationHistoryAdapter.CreditEvaluationViewHolder(view,onApplicationClickListener);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class CreditEvaluatorAdapter extends RecyclerView.Adapter<CreditEvaluator
         TextView lblModelName;
         TextView lblDownPayment;
 
-        public CreditEvaluationViewHolder(@NonNull View itemView, CreditEvaluatorAdapter.OnApplicationClickListener onApplicationClickListener) {
+        public CreditEvaluationViewHolder(@NonNull View itemView, CreditEvaluationHistoryAdapter.OnApplicationClickListener onApplicationClickListener) {
             super(itemView);
 
             lblTransNoxxx = itemView.findViewById(R.id.lbl_ci_transNox);
@@ -91,10 +91,10 @@ public class CreditEvaluatorAdapter extends RecyclerView.Adapter<CreditEvaluator
 
 
             itemView.setOnClickListener(v12 -> {
-                if(CreditEvaluatorAdapter.this.onApplicationClickListener !=null){
+                if(CreditEvaluationHistoryAdapter.this.onApplicationClickListener !=null){
                     int lnPos = getAdapterPosition();
                     if(lnPos != RecyclerView.NO_POSITION){
-                        CreditEvaluatorAdapter.this.onApplicationClickListener.OnClick(lnPos, plLoanApp);
+                        CreditEvaluationHistoryAdapter.this.onApplicationClickListener.OnClick(lnPos, plLoanApp);
                     }
                 }
             });
