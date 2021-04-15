@@ -7,12 +7,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -22,24 +19,22 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluationListAdapter;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluatorAdapter;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluationHistoryAdapter;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Dialog.DialogCIReason;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CreditEvaluationModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCreditEvaluator;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMEvaluationList;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMEvaluationHistory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Activity_CreditEvaluator extends AppCompatActivity implements VMCreditEvaluator.OnImportCallBack {
-    private static final String TAG = Activity_CreditEvaluator.class.getSimpleName();
+public class Activity_EvaluationHistory extends AppCompatActivity implements VMEvaluationHistory.OnImportCallBack {
+    private static final String TAG = Activity_EvaluationHistory.class.getSimpleName();
     private RecyclerView recyclerViewClient;
-    private VMCreditEvaluator mViewModel;
+    private VMEvaluationHistory mViewModel;
     private LinearLayoutManager layoutManager;
-    private CreditEvaluatorAdapter adapter;
+    private CreditEvaluationHistoryAdapter adapter;
     private LinearLayout loading;
     private List<CreditEvaluationModel> creditList;
     private LoadDialog poDialogx;
@@ -51,12 +46,12 @@ public class Activity_CreditEvaluator extends AppCompatActivity implements VMCre
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_credit_evaluator);
+        setContentView(R.layout.activity_evaluation_history);
         initWidgets();
 
-        mViewModel = new ViewModelProvider(Activity_CreditEvaluator.this).get(VMCreditEvaluator.class);
-//        mViewModel.ImportCIApplications(Activity_CreditEvaluator.this);
-//        mViewModel.ImportCIApplications(Activity_CreditEvaluator.this);
+        mViewModel = new ViewModelProvider(Activity_EvaluationHistory.this).get(VMEvaluationHistory.class);
+//        mViewModel.ImportCIApplications(Activity_EvaluationHistory.this);
+//        mViewModel.ImportCIApplications(Activity_EvaluationHistory.this);
         initData();
 
 
@@ -66,12 +61,12 @@ public class Activity_CreditEvaluator extends AppCompatActivity implements VMCre
         Toolbar toolbar = findViewById(R.id.toolbar_evaluator);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        poDialogx = new LoadDialog(Activity_CreditEvaluator.this);
-        poMessage = new MessageBox(Activity_CreditEvaluator.this);
+        poDialogx = new LoadDialog(Activity_EvaluationHistory.this);
+        poMessage = new MessageBox(Activity_EvaluationHistory.this);
 
         recyclerViewClient = findViewById(R.id.recyclerview_evaluatorList);
         txtSearch = findViewById(R.id.txt_evaluator_search);
-        layoutManager = new LinearLayoutManager(Activity_CreditEvaluator.this);
+        layoutManager = new LinearLayoutManager(Activity_EvaluationHistory.this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         loading = findViewById(R.id.linear_progress);
         layoutNoRecord = findViewById(R.id.layout_noRecord);
@@ -110,7 +105,7 @@ public class Activity_CreditEvaluator extends AppCompatActivity implements VMCre
         poMessage.show();
     }
     public void initData(){
-        mViewModel.getAllCICreditApplicationLog().observe(Activity_CreditEvaluator.this, brnCreditList -> {
+        mViewModel.getAllCICreditApplicationLog().observe(Activity_EvaluationHistory.this, brnCreditList -> {
             if(brnCreditList.size()>0) {
                 loading.setVisibility(View.GONE);
                 creditList = new ArrayList<>();
@@ -131,10 +126,25 @@ public class Activity_CreditEvaluator extends AppCompatActivity implements VMCre
                     loan.setdTimeStmp(brnCreditList.get(x).getTimeStmp());
                     creditList.add(loan);
                 }
-                adapter = new CreditEvaluatorAdapter(creditList, new CreditEvaluatorAdapter.OnApplicationClickListener() {
+                adapter = new CreditEvaluationHistoryAdapter(creditList, new CreditEvaluationHistoryAdapter.OnApplicationClickListener() {
                     @Override
                     public void OnClick(int position, List<CreditEvaluationModel> creditLists) {
-//                                Intent loIntent = new Intent(Activity_CreditEvaluator.this, Activity_DocumentToScan.class);
+                        DialogCIReason loDialog = new DialogCIReason(Activity_EvaluationHistory.this);
+                        loDialog.initDialogCIReason((dialog, remarksCode) -> {
+//                            Intent loIntent = new Intent(Activity_CollectionList.this, Activity_Transaction.class);
+//                            loIntent.putExtra("remarksx", remarksCode);
+//                            loIntent.putExtra("transnox", collectionDetails.get(position).getTransNox());
+//                            loIntent.putExtra("entrynox", collectionDetails.get(position).getEntryNox());
+//                            loIntent.putExtra("accntnox", collectionDetails.get(position).getAcctNmbr());
+//                            startActivity(loIntent);
+//                            dialog.dismiss();
+                        });
+                        loDialog.show();
+//                                mViewModel.getDocument(creditLists.get(position).getTransNox()).observe(Activity_EvaluationHistory.this, data -> {
+//                                    mViewModel.setDocumentInfo(data);
+//                                });
+
+//                                Intent loIntent = new Intent(Activity_EvaluationHistory.this, Activity_DocumentToScan.class);
 //                                loIntent.putExtra("TransNox",creditLists.get(position).getsTransNox());
 //                                loIntent.putExtra("ClientNm",creditLists.get(position).getsCompnyNm());
 //                                loIntent.putExtra("dTransact",creditLists.get(position).getdTransact());
@@ -146,7 +156,7 @@ public class Activity_CreditEvaluator extends AppCompatActivity implements VMCre
                     }
 
                 });
-                LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_CreditEvaluator.this);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_EvaluationHistory.this);
                 recyclerViewClient.setAdapter(adapter);
                 recyclerViewClient.setLayoutManager(layoutManager);
                 adapter.notifyDataSetChanged();

@@ -30,15 +30,15 @@ import java.util.List;
 
 import static org.rmj.g3appdriver.utils.WebApi.URL_BRANCH_LOAN_APP;
 
-public class VMCreditEvaluator extends AndroidViewModel {
-    private static final String TAG = VMCreditEvaluator.class.getSimpleName();
+public class VMEvaluationHistory extends AndroidViewModel {
+    private static final String TAG = VMEvaluationHistory.class.getSimpleName();
     private final Application instance;
     private final RFileCode peFileCode;
     private final LiveData<List<EFileCode>> collectionList;
     private final RBranchLoanApplication poCreditApp;
     private final Import_CreditAppList poImport;
     private final REmployee poEmploye;
-    public VMCreditEvaluator(@NonNull Application application) {
+    public VMEvaluationHistory(@NonNull Application application) {
         super(application);
         this.instance = application;
         peFileCode = new RFileCode(application);
@@ -70,7 +70,7 @@ public class VMCreditEvaluator extends AndroidViewModel {
         try {
             loJson.put("bycode", false);
             loJson.put("value","");
-            new VMCreditEvaluator.ImportBranchApplications(instance, callBack).execute(loJson);
+            new VMEvaluationHistory.ImportBranchApplications(instance, callBack).execute(loJson);
 //            loJson.put("value", empBrnCD);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -84,7 +84,7 @@ public class VMCreditEvaluator extends AndroidViewModel {
         private final RBranchLoanApplication brnRepo;
         private final ConnectionUtil conn;
         private final WebApi webApi;
-        private final VMCreditEvaluator.OnImportCallBack callback;
+        private final VMEvaluationHistory.OnImportCallBack callback;
 
         public ImportBranchApplications(Application instance,  OnImportCallBack callback) {
             this.headers = HttpHeaders.getInstance(instance);

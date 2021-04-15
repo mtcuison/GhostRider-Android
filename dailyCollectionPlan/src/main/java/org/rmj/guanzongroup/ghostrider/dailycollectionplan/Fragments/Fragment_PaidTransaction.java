@@ -108,7 +108,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         });
 
         mViewModel.getPaymentType().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnType.setAdapter(stringArrayAdapter));
-
+        spnType.setSelection(1);
         mViewModel.getTotalAmount().observe(getViewLifecycleOwner(), aFloat -> txtTotAmnt.setText(String.valueOf(aFloat)));
 
         cbCheckPymnt.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -179,7 +179,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
     public void OnFailedResult(String message) {
         poDialog.dismiss();
         poMessage.initDialog();
-        poMessage.setTitle("Transaction Failed");
+        poMessage.setTitle("Transaction Completed");
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
@@ -221,6 +221,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         public void afterTextChanged(Editable editable) {
             FormatCurrency(inputEditText);
         }
+
         private void FormatCurrency(TextInputEditText txt){
             try
             {

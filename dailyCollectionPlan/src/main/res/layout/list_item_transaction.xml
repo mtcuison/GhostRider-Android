@@ -98,16 +98,6 @@
                 android:fontFamily="@font/roboto_regular"
                 android:layout_alignParentLeft="true"/>
 
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_see_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="See Details"
-                android:backgroundTint="@color/guanzon_digital_orange"
-                android:fontFamily="@font/roboto_light"
-                android:textColor="@color/white"
-                android:layout_alignParentRight="true"/>
         </RelativeLayout>
 
     </LinearLayout>

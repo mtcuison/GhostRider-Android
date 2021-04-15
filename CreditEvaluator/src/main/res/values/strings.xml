@@ -1,3 +1,10 @@
 <resources>
-
+    <string name="sLblTransNo">Transaction no. :</string>
+    <string name="sLblLoanUnit">Loan Unit :</string>
+    <string name="sLblDownpayment">Downpayment :</string>
+    <string name="sLblTerms">Terms :</string>
+    <string name="sLblApproved">Approved</string>
+    <string name="sLblDisapproved">Disapproved</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.epacss.ui.HomeContainer;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMMainContainer;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.appConstants;
@@ -52,8 +54,16 @@ public class Fragment_MainContainer extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMMainContainer.class);
 
-        viewPager.setAdapter(new FragmentAdapter(getParentFragmentManager(), appConstants.APPLICATION_HOME_PAGES));
-        // TODO: Use the ViewModel
+        mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), new Observer<EEmployeeInfo>() {
+            @Override
+            public void onChanged(EEmployeeInfo eEmployeeInfo) {
+                try {
+                    viewPager.setAdapter(new FragmentAdapter(getParentFragmentManager(), appConstants.getHomePages(Integer.parseInt(eEmployeeInfo.getEmpLevID()))));
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
     public static void moveToPageNumber(int fnPageNum){
         viewPager.setCurrentItem(fnPageNum);
