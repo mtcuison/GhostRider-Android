@@ -129,30 +129,7 @@ public class Activity_EvaluationHistory extends AppCompatActivity implements VME
                 adapter = new CreditEvaluationHistoryAdapter(creditList, new CreditEvaluationHistoryAdapter.OnApplicationClickListener() {
                     @Override
                     public void OnClick(int position, List<CreditEvaluationModel> creditLists) {
-                        DialogCIReason loDialog = new DialogCIReason(Activity_EvaluationHistory.this);
-                        loDialog.initDialogCIReason((dialog, remarksCode) -> {
-//                            Intent loIntent = new Intent(Activity_CollectionList.this, Activity_Transaction.class);
-//                            loIntent.putExtra("remarksx", remarksCode);
-//                            loIntent.putExtra("transnox", collectionDetails.get(position).getTransNox());
-//                            loIntent.putExtra("entrynox", collectionDetails.get(position).getEntryNox());
-//                            loIntent.putExtra("accntnox", collectionDetails.get(position).getAcctNmbr());
-//                            startActivity(loIntent);
-//                            dialog.dismiss();
-                        });
-                        loDialog.show();
-//                                mViewModel.getDocument(creditLists.get(position).getTransNox()).observe(Activity_EvaluationHistory.this, data -> {
-//                                    mViewModel.setDocumentInfo(data);
-//                                });
 
-//                                Intent loIntent = new Intent(Activity_EvaluationHistory.this, Activity_DocumentToScan.class);
-//                                loIntent.putExtra("TransNox",creditLists.get(position).getsTransNox());
-//                                loIntent.putExtra("ClientNm",creditLists.get(position).getsCompnyNm());
-//                                loIntent.putExtra("dTransact",creditLists.get(position).getdTransact());
-//                                loIntent.putExtra("ModelName",creditLists.get(position).getsModelNme());
-//                                loIntent.putExtra("AccntTerm",creditLists.get(position).getnAcctTerm());
-//                                loIntent.putExtra("MobileNo",creditLists.get(position).getsMobileNo());
-//                                loIntent.putExtra("Status",creditLists.get(position).getTransactionStatus());
-//                                startActivity(loIntent);
                     }
 
                 });
