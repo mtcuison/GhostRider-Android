@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.ViewCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
@@ -22,14 +23,28 @@ public class Activity_CIApplication extends AppCompatActivity {
     private static final String TAG = Activity_CIApplication.class.getSimpleName();
     private static Activity_CIApplication instance;
     private ViewPager viewPager;
-    private String transNox;
-
+    private String transNox, sCompnyNm, dTransact, sModelNm, nTerm, nMobile;
     public static Activity_CIApplication getInstance(){
         return instance;
     }
-
     public String getTransNox(){
         return transNox;
+    }
+
+    public String getsCompnyNm(){
+        return sCompnyNm;
+    }
+    public String getdTransact(){
+        return dTransact;
+    }
+    public String getsModelNm(){
+        return sModelNm;
+    }
+    public String getnTerm(){
+        return nTerm;
+    }
+    public String getnMobile(){
+        return nMobile;
     }
 
     public void moveToPageNumber(int fnPageNum){
@@ -41,7 +56,13 @@ public class Activity_CIApplication extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ci_application);
         instance = this;
+
         transNox = getIntent().getStringExtra("transno");
+        sCompnyNm = getIntent().getStringExtra("ClientNm");
+        dTransact = getIntent().getStringExtra("dTransact");
+        sModelNm = getIntent().getStringExtra("ModelName");
+        nTerm = getIntent().getStringExtra("term");
+        nMobile = getIntent().getStringExtra("MobileNo");
         initWidgets();
     }
 

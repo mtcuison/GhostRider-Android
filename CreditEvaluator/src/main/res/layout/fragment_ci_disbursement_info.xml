@@ -127,8 +127,7 @@
                     android:inputType="number|none"
                     android:clickable="false"
                     android:textColor="@color/textColor_Black"
-                    android:enabled="false"
-                    android:maxLength="6"/>
+                    android:enabled="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>

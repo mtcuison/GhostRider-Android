@@ -1,73 +1,82 @@
 package org.rmj.guanzongroup.ghostrider.creditevaluator.Model;
 
 public class CIDisbursementInfoModel {
-    private String dbmWater;
-    private String dbmElectricity;
-    private String dbmFood;
-    private String dbmLoans;
 
-    public String getDbmWater() {
-        return dbmWater;
-    }
+    private String ciDbmWater;
+    private String ciDbmElectricity;
+    private String ciDbmFood;
+    private String ciDbmLoans;
 
-    public void setDbmWater(String dbmWater) {
-        this.dbmWater = dbmWater;
-    }
-
-    public String getDbmElectricity() {
-        return dbmElectricity;
-    }
-
-    public void setDbmElectricity(String dbmElectricity) {
-        this.dbmElectricity = dbmElectricity;
-    }
-
-    public String getDbmFood() {
-        return dbmFood;
-    }
-
-    public void setDbmFood(String dbmFood) {
-        this.dbmFood = dbmFood;
-    }
-
-    public String getDbmLoans() {
-        return dbmLoans;
-    }
-
-    public void setDbmLoans(String dbmLoans) {
-        this.dbmLoans = dbmLoans;
-    }
-
-    public String getDbmEducation() {
-        return dbmEducation;
-    }
-
-    public void setDbmEducation(String dbmEducation) {
-        this.dbmEducation = dbmEducation;
-    }
-
-    public String getDbmOthers() {
-        return dbmOthers;
-    }
-
-    public void setDbmOthers(String dbmOthers) {
-        this.dbmOthers = dbmOthers;
-    }
-
-    public String getDbmTotalExpenses() {
-        return dbmTotalExpenses;
-    }
-
-    public void setDbmTotalExpenses(String dbmTotalExpenses) {
-        this.dbmTotalExpenses = dbmTotalExpenses;
-    }
-
-    private String dbmEducation;
-    private String dbmOthers;
-    private String dbmTotalExpenses;
+    private String ciDbmEducation;
+    private String ciDbmOthers;
+    private String ciDbmTotalExpenses;
     private String message;
     public CIDisbursementInfoModel() {
     }
 
     public String getMessage() { return message; }
+
+    public String getCiDbmWater() {
+        return ciDbmWater;
+    }
+
+    public void setCiDbmWater(String ciDbmWater) {
+        this.ciDbmWater = ciDbmWater;
+    }
+
+    public String getCiDbmElectricity() {
+        return ciDbmElectricity;
+    }
+
+    public void setCiDbmElectricity(String ciDbmElectricity) {
+        this.ciDbmElectricity = ciDbmElectricity;
+    }
+
+    public String getCiDbmFood() {
+        return ciDbmFood;
+    }
+
+    public void setCiDbmFood(String ciDbmFood) {
+        this.ciDbmFood = ciDbmFood;
+    }
+
+    public String getCiDbmLoans() {
+        return ciDbmLoans;
+    }
+
+    public void setCiDbmLoans(String ciDbmLoans) {
+        this.ciDbmLoans = ciDbmLoans;
+    }
+
+    public String getCiDbmEducation() {
+        return ciDbmEducation;
+    }
+
+    public void setCiDbmEducation(String ciDbmEducation) {
+        this.ciDbmEducation = ciDbmEducation;
+    }
+
+    public String getCiDbmOthers() {
+        return ciDbmOthers;
+    }
+
+    public void setCiDbmOthers(String ciDbmOthers) {
+        this.ciDbmOthers = ciDbmOthers;
+    }
+
+    public String getCiDbmTotalExpenses() {
+        return ciDbmTotalExpenses;
+    }
+
+    public void setCiDbmTotalExpenses(String ciDbmTotalExpenses) {
+        this.ciDbmTotalExpenses = ciDbmTotalExpenses;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+
+
+
 }

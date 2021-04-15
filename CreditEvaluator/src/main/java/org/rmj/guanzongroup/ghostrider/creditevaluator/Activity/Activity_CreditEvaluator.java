@@ -134,21 +134,6 @@ public class Activity_CreditEvaluator extends AppCompatActivity implements VMCre
                 adapter = new CreditEvaluatorAdapter(creditList, new CreditEvaluatorAdapter.OnApplicationClickListener() {
                     @Override
                     public void OnClick(int position, List<CreditEvaluationModel> creditLists) {
-                        DialogCIReason loDialog = new DialogCIReason(Activity_CreditEvaluator.this);
-                        loDialog.initDialogCIReason((dialog, remarksCode) -> {
-//                            Intent loIntent = new Intent(Activity_CollectionList.this, Activity_Transaction.class);
-//                            loIntent.putExtra("remarksx", remarksCode);
-//                            loIntent.putExtra("transnox", collectionDetails.get(position).getTransNox());
-//                            loIntent.putExtra("entrynox", collectionDetails.get(position).getEntryNox());
-//                            loIntent.putExtra("accntnox", collectionDetails.get(position).getAcctNmbr());
-//                            startActivity(loIntent);
-//                            dialog.dismiss();
-                        });
-                        loDialog.show();
-//                                mViewModel.getDocument(creditLists.get(position).getTransNox()).observe(Activity_CreditEvaluator.this, data -> {
-//                                    mViewModel.setDocumentInfo(data);
-//                                });
-
 //                                Intent loIntent = new Intent(Activity_CreditEvaluator.this, Activity_DocumentToScan.class);
 //                                loIntent.putExtra("TransNox",creditLists.get(position).getsTransNox());
 //                                loIntent.putExtra("ClientNm",creditLists.get(position).getsCompnyNm());

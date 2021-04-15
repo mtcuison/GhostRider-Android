@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +44,12 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
     private TextInputEditText tieFullname3, tieContact3, tieFBRemark3, tieRel3;
     private MaterialButton btnNext, btnPrevious, btnAdd1, btnAdd2, btnAdd3;
 
+    private TextView sCompnyNm;
+    private TextView dTransact;
+    private TextView sModelNm;
+    private TextView nTerm;
+    private TextView nMobile;
+    private TextView sTransNox;
     List<CIBarangayRecordInfoModel> arrayList = new ArrayList<>();
     public static Fragment_CIBarangayRecord newInstance() {
         return new Fragment_CIBarangayRecord();
@@ -54,6 +61,7 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
         View root = inflater.inflate(R.layout.fragment_ci_barangay_record, container, false);
         ciModel = new CIBarangayRecordInfoModel();
         initWidgets(root);
+        initClientInfo();
         return root;
     }
     public void initWidgets(View view){
@@ -91,6 +99,22 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
         btnNext = view.findViewById(R.id.btn_ciAppNext);
         btnPrevious = view.findViewById(R.id.btn_ciAppPrvs);
 
+        sCompnyNm = view.findViewById(R.id.lbl_ci_applicantName);
+        dTransact = view.findViewById(R.id.lbl_ci_applicationDate);
+        sModelNm = view.findViewById(R.id.lbl_ci_modelName);
+        nTerm = view.findViewById(R.id.lbl_ci_accntTerm);
+        nMobile = view.findViewById(R.id.lbl_ci_mobileNo);
+        sTransNox = view.findViewById(R.id.lbl_ci_transNox);
+
+    }
+
+    public void initClientInfo(){
+        sTransNox.setText(Activity_CIApplication.getInstance().getTransNox());
+        sCompnyNm.setText(Activity_CIApplication.getInstance().getsCompnyNm());
+        dTransact.setText(Activity_CIApplication.getInstance().getdTransact());
+        sModelNm.setText(Activity_CIApplication.getInstance().getsModelNm());
+        nTerm.setText(Activity_CIApplication.getInstance().getnTerm());
+        nMobile.setText(Activity_CIApplication.getInstance().getnMobile());
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -115,8 +139,6 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
             ciModel.setNeighbr1(tieFullname1.getText().toString());
             ciModel.setReltnCD1(tieRel1.getText().toString());
             ciModel.setMobileN1(tieContact1.getText().toString());
-
-            arrayList.add(ciModel);
             mViewModel.saveNeighbor(ciModel, "Neighbor1",Fragment_CIBarangayRecord.this);
         });
 
@@ -125,8 +147,6 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
             ciModel.setNeighbr2(tieFullname2.getText().toString());
             ciModel.setReltnCD2(tieRel2.getText().toString());
             ciModel.setMobileN2(tieContact2.getText().toString());
-
-            arrayList.add(ciModel);
             mViewModel.saveNeighbor(ciModel, "Neighbor2",Fragment_CIBarangayRecord.this);
         });
 
@@ -135,7 +155,6 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
             ciModel.setNeighbr3(tieFullname3.getText().toString());
             ciModel.setReltnCD3(tieRel3.getText().toString());
             ciModel.setMobileN3(tieContact3.getText().toString());
-            arrayList.add(ciModel);
             mViewModel.saveNeighbor(ciModel, "Neighbor3",Fragment_CIBarangayRecord.this);
         });
         btnNext.setOnClickListener(v -> {
@@ -226,7 +245,6 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
     }
 
     public void setData(ECIEvaluation eciEvaluation){
-
         if (eciEvaluation.getHasRecrd() != null){
 //                    Loop for radio button not clickable
             for(int i = 0; i < rgRecord.getChildCount(); i++){

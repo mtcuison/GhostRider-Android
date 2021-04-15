@@ -26,6 +26,7 @@ import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIDisbursementInfoModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIResidenceInfoModel;
 
 import java.math.BigDecimal;
@@ -51,11 +52,8 @@ public class VMCIDisbursement extends AndroidViewModel {
     private final MutableLiveData<Double> nFoodx = new MutableLiveData<>();
     private final MutableLiveData<Double> nLoans = new MutableLiveData<>();
     private final MutableLiveData<Double> nEducation = new MutableLiveData<>();
-    private final MutableLiveData<Double> Others = new MutableLiveData<>();
-    private final MutableLiveData<Double> nTotalExpenses = new MutableLiveData<>();
-    private final MutableLiveData<String> sTotalExpenses = new MutableLiveData<>();
-
-
+    private final MutableLiveData<Double> pnOthers = new MutableLiveData<>();
+    private final MutableLiveData<Double> pnTotalx = new MutableLiveData<>();
     public VMCIDisbursement(@NonNull Application application) {
         super(application);
         this.instance = application;
@@ -63,7 +61,12 @@ public class VMCIDisbursement extends AndroidViewModel {
         this.evaluation = new ECIEvaluation();
         this.poImage = new RImageInfo(application);
         this.poUser = new SessionManager(application);
-        this.nTotalExpenses.setValue(0.0);
+        this.nWater.setValue((double) 0);
+        this.nElctx.setValue((double) 0);
+        this.nFoodx.setValue((double) 0);
+        this.nLoans.setValue((double) 0);
+        this.nEducation.setValue((double) 0);
+        this.pnOthers.setValue((double) 0);
     }
 
 
@@ -75,15 +78,48 @@ public class VMCIDisbursement extends AndroidViewModel {
         this.sTransNox.setValue(transNox);
     }
 
-
+    private void calculateTotal(){
+        double waterBill = nWater.getValue();
+        double electBill = nElctx.getValue();
+        double foodAllow = nFoodx.getValue();
+        double loans = nLoans.getValue();
+        double educAllow = nEducation.getValue();
+        double otherExp = pnOthers.getValue();
+        double lnTotal = waterBill + electBill + foodAllow + loans + educAllow + otherExp;
+        pnTotalx.setValue(lnTotal);
+    }
+    public void setnWater(Double fnAmount){
+        this.nWater.setValue(fnAmount);
+        calculateTotal();
+    }
+    public void setnElctx(Double fnAmount){
+        this.nElctx.setValue(fnAmount);
+        calculateTotal();
+    }
+    public void setnFoodx(Double fnAmount){
+        this.nFoodx.setValue(fnAmount);
+        calculateTotal();
+    }
+    public void setnLoans(Double fnAmount){
+        this.nLoans.setValue(fnAmount);
+        calculateTotal();
+    }
+    public void setnEducation(Double fnAmount){
+        this.nEducation.setValue(fnAmount);
+        calculateTotal();
+    }
+    public void setOthers(Double fnAmount){
+        this.pnOthers.setValue(fnAmount);
+        calculateTotal();
+    }
+    public LiveData<Double> getTotalAmount(){
+        return pnTotalx;
+    }
     public LiveData<ECIEvaluation> getCIByTransNox(String transNox) {
         return poCI.getAllCIApplication(transNox);
     }
-    public LiveData<String> getTotalExpenses(){
-        return sTotalExpenses;
-    }
 
-    public boolean saveCIResidence(CIResidenceInfoModel infoModel, ViewModelCallBack callback) {
+    public boolean saveCIDisbursement(CIDisbursementInfoModel infoModel, ViewModelCallBack callback) {
         try {
 
             new UpdateTask(poCI, infoModel, callback).execute(poCIDetail.getValue());
@@ -105,10 +141,10 @@ public class VMCIDisbursement extends AndroidViewModel {
     //RoomDatabase requires background task in order to manipulate Tables...
     private class UpdateTask extends AsyncTask<ECIEvaluation, Void, String> {
         private final RCIEvaluation poCIEvaluation;
-        private final CIResidenceInfoModel infoModel;
+        private final CIDisbursementInfoModel infoModel;
         private final ViewModelCallBack callback;
 
-        public UpdateTask(RCIEvaluation poCIEvaluation, CIResidenceInfoModel infoModel, ViewModelCallBack callback) {
+        public UpdateTask(RCIEvaluation poCIEvaluation, CIDisbursementInfoModel infoModel, ViewModelCallBack callback) {
             this.poCIEvaluation = poCIEvaluation;
             this.infoModel = infoModel;
             this.callback = callback;
@@ -118,22 +154,17 @@ public class VMCIDisbursement extends AndroidViewModel {
         protected String doInBackground(ECIEvaluation... detail) {
             try {
                 boolean isExist = false;
-                if (!infoModel.isValidData()) {
-                    return infoModel.getMessage();
-                } else {
-                    ECIEvaluation loDetail = detail[0];
-                    loDetail.setWaterBil(infoModel.getLandMark());
-                    loDetail.setElctrcBl(infoModel.getOwnOther());
-                    loDetail.setFoodAllw(infoModel.getOwnershp());
-                    loDetail.setLoanAmtx(infoModel.getHouseTyp());
-                    loDetail.setEducExpn(infoModel.getGaragexx());
-                    loDetail.setOthrExpn(infoModel.getLatitude());
+                ECIEvaluation loDetail = detail[0];
+                loDetail.setWaterBil(infoModel.getCiDbmWater());
+                loDetail.setElctrcBl(infoModel.getCiDbmElectricity());
+                loDetail.setFoodAllw(infoModel.getCiDbmFood());
+                loDetail.setLoanAmtx(infoModel.getCiDbmLoans());
+                loDetail.setEducExpn(infoModel.getCiDbmEducation());
+                loDetail.setOthrExpn(infoModel.getCiDbmOthers());
+                poCIEvaluation.updateCiDisbursement(loDetail);
+                Log.e(TAG, "CI Residence info has been updated!");
+                return "success";
 
-                    loDetail.setLongitud(infoModel.getLongitud());
-                    poCIEvaluation.updateCiDisbursement(loDetail);
-                    Log.e(TAG, "CI Residence info has been updated!");
-                    return "success";
-                }
             } catch (Exception e) {
                 e.printStackTrace();
                 return e.getMessage();
@@ -145,7 +176,7 @@ public class VMCIDisbursement extends AndroidViewModel {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (s.equalsIgnoreCase("success")) {
-                callback.onSaveSuccessResult("Residence info has been save.");
+                callback.onSaveSuccessResult("Disbursement info has been save.");
             } else {
                 callback.onFailedResult(s);
             }

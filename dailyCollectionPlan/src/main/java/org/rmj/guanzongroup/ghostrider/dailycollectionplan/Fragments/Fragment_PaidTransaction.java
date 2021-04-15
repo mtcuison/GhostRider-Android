@@ -170,7 +170,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         poMessage.setMessage(args[0]);
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
             dialog.dismiss();
-            Objects.requireNonNull(getActivity()).finish();
+            requireActivity().finish();
         });
         poMessage.show();
     }

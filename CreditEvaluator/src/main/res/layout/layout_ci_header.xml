@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ci_header"
     tools:ignore="MissingDefaultResource">
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,6 +61,17 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lbl_ci_transNox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Garcia, Michael Permison"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_Black"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto_medium"
+                tools:targetApi="jelly_bean"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
@@ -67,7 +79,7 @@
                 android:background="@color/guanzon_orange"/>
 
             <TextView
-                android:id="@+id/lbl_list_applicantName"
+                android:id="@+id/lbl_ci_applicantName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Garcia, Michael Permison"
@@ -95,7 +107,7 @@
                     tools:targetApi="jelly_bean"/>
 
                 <TextView
-                    android:id="@+id/lbl_list_applicationDate"
+                    android:id="@+id/lbl_ci_applicationDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -127,16 +139,16 @@
                     tools:targetApi="jelly_bean"/>
 
                 <TextView
-                    android:id="@+id/lbl_modelName"
+                    android:id="@+id/lbl_ci_modelName"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="22dp"
                     android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="end"
                     android:text="December 12, 2019"
                     android:textColor="@color/textColor_Black"
-                    android:gravity="end"
                     tools:ignore="HardcodedText"
-                    android:fontFamily="@font/roboto_regular"
-                    tools:targetApi="jelly_bean"/>
+                    tools:targetApi="jelly_bean" />
 
             </LinearLayout>
 
@@ -159,7 +171,7 @@
                     tools:targetApi="jelly_bean"/>
 
                 <TextView
-                    android:id="@+id/lbl_accntTerm"
+                    android:id="@+id/lbl_ci_accntTerm"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -190,7 +202,7 @@
                     tools:targetApi="jelly_bean"/>
 
                 <TextView
-                    android:id="@+id/lbl_mobileNo"
+                    android:id="@+id/lbl_ci_mobileNo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

@@ -48,7 +48,7 @@
                     tools:targetApi="jelly_bean" />
 
                 <CheckBox
-                    android:id="@+id/cb_cap_HouseHold"
+                    android:id="@+id/cb_ci_womanizer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Womanizer"
@@ -57,7 +57,7 @@
                     tools:targetApi="jelly_bean" />
 
                 <CheckBox
-                    android:id="@+id/cb_cap_Married"
+                    android:id="@+id/cb_ci_heavyBrwr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Heavy Borrower"
@@ -65,15 +65,17 @@
                     android:fontFamily="@font/roboto_regular"
                     tools:targetApi="jelly_bean" />
 
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Quarrelsome"
-                    tools:ignore="HardcodedText"
-                    android:fontFamily="@font/roboto_regular"
-                    tools:targetApi="jelly_bean" />
+<!--                <CheckBox-->
+<!--                    android:id="@+id/cb_ci_quarrel"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Quarrelsome"-->
+<!--                    tools:ignore="HardcodedText"-->
+<!--                    android:fontFamily="@font/roboto_regular"-->
+<!--                    tools:targetApi="jelly_bean" />-->
 
                 <CheckBox
+                    android:id="@+id/cb_ci_repo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="with Repossessions"
@@ -82,6 +84,7 @@
                     tools:targetApi="jelly_bean" />
 
                 <CheckBox
+                    android:id="@+id/cb_ci_mort"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="With Mortage Properties"
@@ -90,6 +93,7 @@
                     tools:targetApi="jelly_bean" />
 
                 <CheckBox
+                    android:id="@+id/cb_ci_arrogance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Arrogance"
@@ -98,14 +102,66 @@
                     tools:targetApi="jelly_bean" />
 
                 <CheckBox
+                    android:id="@+id/cb_ci_others"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Others"
                     tools:ignore="HardcodedText"
                     android:fontFamily="@font/roboto_regular"
                     tools:targetApi="jelly_bean" />
-            </LinearLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_ci_cRemarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Remarks"
+                    android:visibility="gone"
+                    style="@style/TextInputStyle">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_ci_cRemarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:maxLength="50" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="8dp"
+                android:padding="3dp"
+                android:background="@color/guanzon_orange"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_ciAppPrvs"
+                    style="@style/NavigationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_nav_left"
+                    android:drawableLeft="@drawable/ic_nav_left"
+                    android:drawablePadding="5dp"
+                    android:text="Previous"
+                    android:textAlignment="textStart"
+                    android:gravity="start"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/btn_ciAppNext"
+                    style="@style/NavigationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Approval"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:gravity="end"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

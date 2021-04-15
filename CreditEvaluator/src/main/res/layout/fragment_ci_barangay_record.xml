@@ -156,7 +156,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Neighbor 1 :"
+                    android:text="Neighbor 2 :"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/material_black"
                     />

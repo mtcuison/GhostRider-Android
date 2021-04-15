@@ -21,9 +21,10 @@
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
     <org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.NonSwipeableViewPager
         android:id="@+id/viewpager_ciContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         />
 </LinearLayout>

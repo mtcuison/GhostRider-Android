@@ -40,37 +40,38 @@ public class CIBarangayRecordInfoModel {
                 isFeedBck1();
     }
     private boolean isNeighbr1(){
-        if (this.Neighbr1 == null){
+        if (this.Neighbr1 == null || this.Neighbr1.trim().isEmpty()){
             message = "Please enter neighbor 1 fullname.";
             return false;
         }
         return true;
     }
     private boolean isReltnCD1(){
-        if (this.ReltnCD1 == null){
+        if (this.ReltnCD1 == null || this.ReltnCD1.trim().isEmpty()){
             message = "Please enter neighbor 1 relationship.";
             return false;
         }
         return true;
     }
     private boolean isMobileN1(){
-        if (this.MobileN1 == null){
+        if (this.MobileN1 == null || this.MobileN1.trim().isEmpty()){
             message = "Please enter neighbor 1 mobile no.";
             return false;
         }
         return true;
     }
     private boolean isFeedBck1(){
-        if (this.FeedBck1 == null){
+        if (this.FeedBck1 == null || this.FeedBck1.trim().isEmpty()){
             message = "Please select neighbor 1 feedback.";
-        }
-        if (Integer.parseInt(this.FeedBck1) == 1){
-            return isFBRemrk1();
+        }else {
+            if(Integer.parseInt(this.FeedBck1) == 1){
+                return isFBRemrk1();
+            }
         }
         return true;
     }
     private boolean isFBRemrk1(){
-        if (this.FBRemrk1 == null){
+        if (this.FBRemrk1 == null || this.FBRemrk1.trim().isEmpty()){
             message = "Please enter neighbor 1 remarks.";
             return false;
         }
@@ -85,37 +86,38 @@ public class CIBarangayRecordInfoModel {
                 isFeedBck2();
     }
     private boolean isNeighbr2(){
-        if (this.Neighbr2 == null){
+        if (this.Neighbr2 == null || this.Neighbr2.trim().isEmpty()){
             message = "Please enter neighbor 2 fullname.";
             return false;
         }
         return true;
     }
     private boolean isReltnCD2(){
-        if (this.ReltnCD2 == null){
+        if (this.ReltnCD2 == null || this.ReltnCD2.trim().isEmpty()){
             message = "Please enter neighbor 2 relationship.";
             return false;
         }
         return true;
     }
     private boolean isMobileN2(){
-        if (this.MobileN2 == null){
+        if (this.MobileN2 == null || this.MobileN2.trim().isEmpty()){
             message = "Please enter neighbor 2 mobile no.";
             return false;
         }
         return true;
     }
     private boolean isFeedBck2(){
-        if (this.FeedBck2 == null){
+        if (this.FeedBck2 == null || this.FeedBck2.trim().isEmpty()){
             message = "Please select neighbor 2 feedback.";
-        }
-        if (Integer.parseInt(this.FeedBck2) == 1){
-            return isFBRemrk2();
+        }else {
+            if(Integer.parseInt(this.FeedBck2) == 1){
+                return isFBRemrk1();
+            }
         }
         return true;
     }
     private boolean isFBRemrk2(){
-        if (this.FBRemrk2 == null){
+        if (this.FBRemrk2 == null || this.FBRemrk2.trim().isEmpty()){
             message = "Please enter neighbor 2 remarks.";
             return false;
         }
@@ -123,7 +125,8 @@ public class CIBarangayRecordInfoModel {
     }
 
 
-    //    NEIGHBOR 2
+
+    //    NEIGHBOR 3
     public boolean isValidNeigbor3(){
         return isNeighbr3() &&
                 isReltnCD3() &&
@@ -131,42 +134,44 @@ public class CIBarangayRecordInfoModel {
                 isFeedBck3();
     }
     private boolean isNeighbr3(){
-        if (this.Neighbr3 == null){
+        if (this.Neighbr3 == null || this.Neighbr3.trim().isEmpty()){
             message = "Please enter neighbor 3 fullname.";
             return false;
         }
         return true;
     }
     private boolean isReltnCD3(){
-        if (this.ReltnCD3 == null){
+        if (this.ReltnCD3 == null || this.ReltnCD3.trim().isEmpty()){
             message = "Please enter neighbor 3 relationship.";
             return false;
         }
         return true;
     }
     private boolean isMobileN3(){
-        if (this.MobileN3 == null){
+        if (this.MobileN3 == null || this.MobileN3.trim().isEmpty()){
             message = "Please enter neighbor 3 mobile no.";
             return false;
         }
         return true;
     }
     private boolean isFeedBck3(){
-        if (this.FeedBck3 == null){
+        if (this.FeedBck3 == null || this.FeedBck3.trim().isEmpty()){
             message = "Please select neighbor 3 feedback.";
-        }
-        if (Integer.parseInt(this.FeedBck3) == 1){
-            return isFBRemrk3();
+        }else {
+            if(Integer.parseInt(this.FeedBck3) == 1){
+                return isFBRemrk1();
+            }
         }
         return true;
     }
     private boolean isFBRemrk3(){
-        if (this.FBRemrk3 == null){
+        if (this.FBRemrk3 == null || this.FBRemrk3.trim().isEmpty()){
             message = "Please enter neighbor 3 remarks.";
             return false;
         }
         return true;
     }
+
 
     public boolean isValidNeighbor(){
         return isValidNeigbor1() &&
