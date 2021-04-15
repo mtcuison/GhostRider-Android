@@ -107,8 +107,10 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
             lblAddress.setText(eBranchInfo.getAddressx());
         });
 
-        mViewModel.getPaymentType().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnType.setAdapter(stringArrayAdapter));
-        spnType.setSelection(1);
+        mViewModel.getPaymentType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnType.setAdapter(stringArrayAdapter);
+            spnType.setSelection(1);
+        });
         mViewModel.getTotalAmount().observe(getViewLifecycleOwner(), aFloat -> txtTotAmnt.setText(String.valueOf(aFloat)));
 
         cbCheckPymnt.setOnCheckedChangeListener((buttonView, isChecked) -> {

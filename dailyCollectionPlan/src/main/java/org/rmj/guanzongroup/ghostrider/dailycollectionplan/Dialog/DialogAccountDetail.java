@@ -10,14 +10,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
@@ -66,7 +64,7 @@ public class DialogAccountDetail {
 //        TextView lblTranDte = view.findViewById(R.id.lbl_dcpTranDate);
         TextView lblAccntNo = view.findViewById(R.id.lbl_dcpAccNo);
         TextView lblSerialx = view.findViewById(R.id.lbl_dcpPRNo);
-        TextView lblAmountx = view.findViewById(R.id.lbl_dcpAmount);
+        TextView lblAmountx = view.findViewById(R.id.lbl_dcpAmountDue);
         TextView lblDueDate = view.findViewById(R.id.lbl_dcpDueDate);
 //        TextView lblOthersx = view.findViewById(R.id.lbl_dcpOthers);
         TextView transType = view.findViewById(R.id.lbl_transaction_type);

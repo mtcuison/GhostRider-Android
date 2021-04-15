@@ -26,6 +26,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionMaster;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DFileCode;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DImageInfo;
@@ -60,6 +61,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
@@ -120,7 +122,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         ELog_Selfie.class,
         EBranchLoanApplication.class,
         EUncapturedClient.class,
-        ECIEvaluation.class}, version = 1, exportSchema = false)
+        ECIEvaluation.class,
+        EDCP_Remittance.class}, version = 1, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -159,6 +162,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DBranchLoanApplication CreditAppDocsDao();
     public abstract DUncapturedClient UncapturedDao();
     public abstract DCIEvaluation CIDao();
+    public abstract DDCP_Remittance DCPRemitanceDao();
 
 
     public static synchronized GGC_GriderDB getInstance(Context context){

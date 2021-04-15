@@ -201,7 +201,7 @@
                         android:fontFamily="@font/roboto_regular"/>
 
                     <TextView
-                        android:id="@+id/lbl_dcpAmount"
+                        android:id="@+id/lbl_dcpAmountDue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

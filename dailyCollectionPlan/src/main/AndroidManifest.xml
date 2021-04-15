@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.rmj.guanzongroup.ghostrider.dailycollectionplan">
+
     <application>
-        <activity android:name=".Activities.Activity_LogCollection"
+        <activity android:name=".Activities.Activity_CollectionRemittance"></activity>
+        <activity
+            android:name=".Activities.Activity_LogCollection"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"/>
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Activities.Activity_CollectionList"
             android:screenOrientation="userPortrait"
