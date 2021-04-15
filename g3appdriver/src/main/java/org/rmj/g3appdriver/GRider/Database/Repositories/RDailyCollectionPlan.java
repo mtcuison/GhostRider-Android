@@ -112,6 +112,18 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectionDetailForDate(dTransact);
     }
 
+    public LiveData<String> getCollectedTotalCheckPayment(){
+        return detailDao.getCollectedCheckTotalPayment(AppConstants.CURRENT_DATE);
+    }
+
+    public LiveData<String> getCollectedTotalPayment(){
+        return detailDao.getCollectedTotalPayment(AppConstants.CURRENT_DATE);
+    }
+
+    public LiveData<String> getCollectedTotal(){
+        return detailDao.getCollectedTotal(AppConstants.CURRENT_DATE);
+    }
+
     public LiveData<EDCPCollectionDetail> getDuplicateSerialEntry(String SerialNo){
         return detailDao.getDuplicateSerialEntry(SerialNo);
     }

@@ -27,7 +27,6 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionLogAdapter;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogCollectedCash;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogRemitCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionLog;
@@ -46,7 +45,7 @@ public class Activity_LogCollection extends AppCompatActivity {
 
     private VMCollectionLog mViewModel;
 
-    private TextView lblBranch, lblAddrss;
+    private TextView lblBranch, lblAddrss, lblTotRemit, lblCashOH, lblTotalClt;
     //private CollectionLogAdapter poAdapter;
     private LinearLayoutManager poManager;
     private TextInputEditText txtDate, txtSearch;
@@ -57,6 +56,7 @@ public class Activity_LogCollection extends AppCompatActivity {
 
     private List<EDCPCollectionDetail> filteredCollectionDetlx;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +65,12 @@ public class Activity_LogCollection extends AppCompatActivity {
 
         mViewModel = new ViewModelProvider(this).get(VMCollectionLog.class);
         mViewModel.getUserBranchInfo().observe(Activity_LogCollection.this, eBranchInfo -> {
-            lblBranch.setText(eBranchInfo.getBranchNm());
-            lblAddrss.setText(eBranchInfo.getAddressx());
+            try {
+                lblBranch.setText(eBranchInfo.getBranchNm());
+                lblAddrss.setText(eBranchInfo.getAddressx());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
 
         mViewModel.getAllAddress().observe(Activity_LogCollection.this, eAddressUpdates -> {
@@ -116,6 +120,7 @@ public class Activity_LogCollection extends AppCompatActivity {
                     recyclerView.setVisibility(View.VISIBLE);
                     tilSearch.setVisibility(View.VISIBLE);
                     txtSearch.setText("");
+                    linearCashInfo.setVisibility(View.VISIBLE);
 
                     filteredCollectionDetlx.clear();
                     for(int z = 0; z < collectionDetails.size(); z++) {
@@ -181,12 +186,12 @@ public class Activity_LogCollection extends AppCompatActivity {
                     txtNoName.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
                     tilSearch.setVisibility(View.GONE);
+                    linearCashInfo.setVisibility(View.GONE);
                 }
             } catch (Exception e){
                 e.printStackTrace();
             }
         }));
-
 
         mViewModel.getUnsentImageInfoList().observe(Activity_LogCollection.this, eImageInfos -> {
             try{
@@ -196,7 +201,23 @@ public class Activity_LogCollection extends AppCompatActivity {
             }
         });
 
-        //btnPost.setOnClickListener(view -> mViewModel.PostLRCollectionDetail(Activity_LogCollection.this));
+        mViewModel.getCollectedTotal().observe(this, s -> {
+            try {
+                lblTotalClt.setText("Total Collection : " + FormatUIText.getCurrencyUIFormat(s));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getTotalRemittedCollection().observe(this, s -> {
+            try{
+                lblTotRemit.setText("Total Remitted : " + FormatUIText.getCurrencyUIFormat(s));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+
     }
 
     private void initWidgets(){
@@ -209,6 +230,9 @@ public class Activity_LogCollection extends AppCompatActivity {
         txtNoName = findViewById(R.id.txt_no_name);
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddrss = findViewById(R.id.lbl_headerAddress);
+        lblTotRemit = findViewById(R.id.lbl_totalRemitCollection);
+        lblCashOH = findViewById(R.id.lbl_totalCashOnHand);
+        lblTotalClt = findViewById(R.id.lbl_totalCollected);
 
         txtDate = findViewById(R.id.txt_collectionDate);
         txtSearch = findViewById(R.id.txt_collectionSearch);
@@ -224,13 +248,8 @@ public class Activity_LogCollection extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        linearCashInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogCollectedCash poCash = new DialogCollectedCash(Activity_LogCollection.this);
-                poCash.initDialog();
-                poCash.show();
-            }
+        linearCashInfo.setOnClickListener(v -> {
+            startActivity(new Intent(Activity_LogCollection.this, Activity_CollectionRemittance.class));
         });
     }
 

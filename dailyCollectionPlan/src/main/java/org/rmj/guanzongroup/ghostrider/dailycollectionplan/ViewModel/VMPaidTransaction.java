@@ -172,7 +172,6 @@ public class VMPaidTransaction extends AndroidViewModel {
                     detail.setOthersxx(infoModel.getOthersx().replace(",", ""));
                     detail.setTranTotl(infoModel.getTotAmnt().replace(",", ""));
                     detail.setRemarksx(infoModel.getRemarks());
-                    detail.setSendStat("0");
                     detail.setTranStat("1");
                     detail.setModified(AppConstants.DATE_MODIFIED);
                     poDcp.updateCollectionDetailInfo(detail);

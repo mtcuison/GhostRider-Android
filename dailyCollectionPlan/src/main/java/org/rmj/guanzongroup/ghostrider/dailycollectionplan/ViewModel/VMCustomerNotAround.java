@@ -388,7 +388,6 @@ public class VMCustomerNotAround extends AndroidViewModel {
         protected String doInBackground(EDCPCollectionDetail... detail) {
             Objects.requireNonNull(detail[0]).setRemCodex(RemarksCode);
             detail[0].setTranStat("1");
-            detail[0].setSendStat("0");
             detail[0].setModified(AppConstants.DATE_MODIFIED);
             poDcp.updateCollectionDetailInfo(detail[0]);
             return null;

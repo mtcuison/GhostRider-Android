@@ -35,14 +35,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_marginVertical="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="start"
+                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <TextView
@@ -76,40 +75,53 @@
                 android:id="@+id/linear_collectionCashInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="vertical"
-                android:gravity="end"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="5dp"
                 android:clickable="true"
                 android:focusable="true">
 
                 <TextView
+                    android:id="@+id/lbl_totalCollected"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:text="Total Collection"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     app:drawableTint="@color/black"
                     android:drawablePadding="5dp"
                     app:drawableLeftCompat="@drawable/ic_toast_info"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="Total Remitted: 10,000"
-                    android:fontFamily="@font/roboto_light"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="5dp"/>
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="Cash-On-Hand: 10,000"
-                    android:fontFamily="@font/roboto_light"
-                    android:textColor="@color/black"
-                    android:gravity="center_vertical"/>
+                    <TextView
+                        android:id="@+id/lbl_totalRemitCollection"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="15sp"
+                        android:gravity="center"
+                        android:text="Total Remitted: 10,000"
+                        android:fontFamily="@font/roboto_light"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/lbl_totalCashOnHand"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="15sp"
+                        android:gravity="center"
+                        android:text="Cash-On-Hand: 10,000"
+                        android:fontFamily="@font/roboto_light"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -151,7 +163,7 @@
                 android:id="@+id/til_collectionDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1.5"
                 android:hint="Date"
                 style="@style/TextInputStyleHeaders">
 
