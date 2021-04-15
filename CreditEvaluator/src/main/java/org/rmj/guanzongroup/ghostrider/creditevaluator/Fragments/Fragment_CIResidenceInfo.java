@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +19,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
@@ -24,11 +28,14 @@ import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIResidenceInfo;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIResidenceInfoModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIResidenceInfo;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 import static org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.CIConstants.SUB_FOLDER_DCP;
@@ -41,10 +48,16 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
     private TextInputEditText tiwLandmark;
     private RadioGroup rgHouseOwnership,rgHouseType,rgHouseHolds,rgGarage;
     private MaterialButton btnNext;
-    private CIResidenceInfo residenceInfo;
+    private CIResidenceInfoModel residenceInfo;
     private MessageBox poMessage;
     private ImageFileCreator poFilexx;
     private EImageInfo poImageInfo;
+    private TextView sCompnyNm;
+    private TextView dTransact;
+    private TextView sModelNm;
+    private TextView nTerm;
+    private TextView nMobile;
+    private TextView sTransNox;
     public static Fragment_CIResidenceInfo newInstance() {
         return new Fragment_CIResidenceInfo();
     }
@@ -53,13 +66,14 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_ci_residence_info, container, false);
-        residenceInfo = new CIResidenceInfo();
+        residenceInfo = new CIResidenceInfoModel();
         poFilexx = new ImageFileCreator(getActivity(), SUB_FOLDER_DCP, Activity_CIApplication.getInstance().getTransNox());
         poFilexx.setTransNox(Activity_CIApplication.getInstance().getTransNox());
 //        poFilexx = new ImageFileCreator(Fragment_CIResidenceInfo.this , CIConstants.APP_PUBLIC_FOLDER, CIConstants.SUB_FOLDER_DCP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
 
         poMessage = new MessageBox(getContext());
         initWidgets(root);
+        initClientInfo();
         return root;
     }
 
@@ -70,12 +84,21 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
         mViewModel.setsTransNox(Activity_CIApplication.getInstance().getTransNox());
         mViewModel.setnLatitude("0.0");
         mViewModel.setnLogitude("0.0");
+        Log.e("TRansNox",Activity_CIApplication.getInstance().getTransNox());
         mViewModel.getCIByTransNox(Activity_CIApplication.getInstance().getTransNox()).observe(getViewLifecycleOwner(), eciEvaluation -> {
-            if (eciEvaluation != null){
+            if (eciEvaluation != null){;
+                rgHouseOwnership.clearCheck();
+                rgHouseHolds.clearCheck();
+                rgHouseType.clearCheck();
+                rgGarage.clearCheck();
                 mViewModel.setCurrentCIDetail(eciEvaluation);
                 tiwLandmark.setText(eciEvaluation.getLandMark());
 //                House Ownership
                 if (eciEvaluation.getOwnershp() != null){
+//                    Loop for radio button not clickable
+                    for(int i = 0; i < rgHouseOwnership.getChildCount(); i++){
+                        ((RadioButton)rgHouseOwnership.getChildAt(i)).setClickable(false);
+                    }
                     if(eciEvaluation.getOwnershp().equalsIgnoreCase("0")){
                         rgHouseOwnership.check(R.id.rb_ci_owner);
                     }
@@ -85,9 +108,13 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                     else if(eciEvaluation.getOwnershp().equalsIgnoreCase("2")){
                         rgHouseOwnership.check(R.id.rb_ci_careTaker);
                     }
+
                 }
 //                HouseHolds
                 if(eciEvaluation.getOwnOther() != null){
+                    for(int i = 0; i < rgHouseHolds.getChildCount(); i++){
+                        ((RadioButton)rgHouseHolds.getChildAt(i)).setClickable(false);
+                    }
                     if(eciEvaluation.getOwnOther().equalsIgnoreCase("0")){
                         rgHouseHolds.check(R.id.rb_ci_family);
                     }
@@ -100,6 +127,9 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                 }
 //                House Type
                 if (eciEvaluation.getHouseTyp() != null){
+                    for(int i = 0; i < rgHouseType.getChildCount(); i++){
+                        ((RadioButton)rgHouseType.getChildAt(i)).setClickable(false);
+                    }
                     if(eciEvaluation.getHouseTyp().equalsIgnoreCase("0")){
                         rgHouseType.check(R.id.rb_ci_houseConcrete);
                     }
@@ -112,6 +142,9 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                 }
 //                Has Garage
                if (eciEvaluation.getGaragexx() != null){
+                   for(int i = 0; i < rgGarage.getChildCount(); i++){
+                       ((RadioButton)rgGarage.getChildAt(i)).setClickable(false);
+                   }
                    if(eciEvaluation.getGaragexx().equalsIgnoreCase("0")){
                        rgGarage.check(R.id.rb_ci_yes);
                    }else if(eciEvaluation.getGaragexx().equalsIgnoreCase("1")){
@@ -123,10 +156,20 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                 }
                 if(eciEvaluation.getLongitud() != null){
                     residenceInfo.setLongitud(eciEvaluation.getLongitud());
+                    btnNext.setText("Next");
                 }
+
             }else {
                 ECIEvaluation eciEvaluation1 = new ECIEvaluation();
                 eciEvaluation1.setTransNox(Activity_CIApplication.getInstance().getTransNox());
+                eciEvaluation1.setTranStat("0");
+                eciEvaluation1.setGamblerx("0");
+                eciEvaluation1.setWomanizr("0");
+                eciEvaluation1.setHvyBrwer("0");
+                eciEvaluation1.setWithRepo("0");
+                eciEvaluation1.setWithMort("0");
+                eciEvaluation1.setArrogant("0");
+                eciEvaluation1.setOtherBad("0");
                 mViewModel.insertNewCiApplication(eciEvaluation1);
             }
         });
@@ -139,6 +182,13 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
         });
     }
     public void  initWidgets(View view){
+        sCompnyNm = view.findViewById(R.id.lbl_ci_applicantName);
+        dTransact = view.findViewById(R.id.lbl_ci_applicationDate);
+        sModelNm = view.findViewById(R.id.lbl_ci_modelName);
+        nTerm = view.findViewById(R.id.lbl_ci_accntTerm);
+        nMobile = view.findViewById(R.id.lbl_ci_mobileNo);
+        sTransNox = view.findViewById(R.id.lbl_ci_transNox);
+
         tiwLandmark = view.findViewById(R.id.tie_landmark);
         rgHouseHolds = view.findViewById(R.id.rg_ci_houseHold);
         rgHouseOwnership = view.findViewById(R.id.rg_ci_ownership);
@@ -148,6 +198,14 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
 
     }
 
+    public void initClientInfo(){
+        sTransNox.setText(Activity_CIApplication.getInstance().getTransNox());
+        sCompnyNm.setText(Activity_CIApplication.getInstance().getsCompnyNm());
+        dTransact.setText(Activity_CIApplication.getInstance().getdTransact());
+        sModelNm.setText(Activity_CIApplication.getInstance().getsModelNm());
+        nTerm.setText(Activity_CIApplication.getInstance().getnTerm());
+        nMobile.setText(Activity_CIApplication.getInstance().getnMobile());
+    }
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -257,40 +315,24 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                 try {
                     poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(poImageInfo.getFileLoct()));
                     mViewModel.saveResidenceImageInfo(poImageInfo);
+                    submitResidence();
                     mViewModel.PostResidenceDetail(poImageInfo, new VMCIResidenceInfo.OnImportCallBack() {
                         @Override
                         public void onPostResidenceInfo() {
 
+                            GNotifBuilder.createNotification(getActivity(), "CI Evaluation", "Residence Info Picture posting...",APP_SYNC_DATA).show();
                         }
 
                         @Override
                         public void onSuccessResidenceInfo() {
-
+                            GNotifBuilder.createNotification(getActivity(), "CI Evaluation", "Residence Info Post Successfulluy",APP_SYNC_DATA).show();
                         }
 
                         @Override
                         public void onFailedResidenceInfo(String message) {
-
+                            GNotifBuilder.createNotification(getActivity(), "CI Evaluation", message,APP_SYNC_DATA).show();
                         }
-
-//                        @Override
-//                        public void onPostResidenceInfo() {
-//
-//                        }
-//
-//                        @Override
-//                        public void onSuccessResidenceInfo() {
-//                            GNotifBuilder.createNotification(getActivity(), "CI Evaluation", "Residence Info Post Successfulluy",APP_SYNC_DATA).show();
-//
-//                        }
-//
-//                        @Override
-//                        public void onFailedResidenceInfo(String message) {
-//                            GNotifBuilder.createNotification(getActivity(), "CI Evaluation", message,APP_SYNC_DATA).show();
-//
-//                        }
                     });
-                    submitResidence();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -300,8 +342,8 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
             }
         }
     }
-public void submitResidence(){
-    residenceInfo.setLandMark(tiwLandmark.getText().toString());
-    mViewModel.saveCIResidence(residenceInfo, Fragment_CIResidenceInfo.this);
-}
+    public void submitResidence(){
+        residenceInfo.setLandMark(tiwLandmark.getText().toString());
+        mViewModel.saveCIResidence(residenceInfo, Fragment_CIResidenceInfo.this);
+    }
 }

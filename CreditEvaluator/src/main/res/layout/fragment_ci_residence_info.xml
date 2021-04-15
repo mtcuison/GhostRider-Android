@@ -188,21 +188,18 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/rb_ci_yes"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Yes"
-                            android:layout_weight="1"/>
-
                         <RadioButton
                             android:id="@+id/rb_ci_no"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="No"
                             android:layout_weight="1"/>
-
+                        <RadioButton
+                            android:id="@+id/rb_ci_yes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Yes"
+                            android:layout_weight="1"/>
                     </RadioGroup>
 
                 </LinearLayout>
@@ -217,7 +214,7 @@
                 android:layout_gravity="right"
                 android:paddingLeft="20dp"
                 android:paddingRight="25dp"
-                android:text="\t\tNext\t"
+                android:text="\t\Save\t"
                 style="@style/NavigationButton"
                 android:drawableRight="@drawable/ic_nav_right"
                 android:drawableEnd="@drawable/ic_nav_right" />
