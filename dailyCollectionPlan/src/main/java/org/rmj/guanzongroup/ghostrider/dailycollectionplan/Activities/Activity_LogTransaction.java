@@ -25,6 +25,7 @@ public class Activity_LogTransaction extends AppCompatActivity {
     private static final String TAG = Activity_LogTransaction.class.getSimpleName();
     private static Activity_LogTransaction instance;
     public static String transNox, fullNme, entryNox, acctNox, remCodex, imgNme, clientID, clientAddress, remarks ;
+    public static String psTransTp;
 
     public static Activity_LogTransaction getInstance(){
         return instance;
@@ -43,6 +44,7 @@ public class Activity_LogTransaction extends AppCompatActivity {
         clientID = getIntent().getStringExtra("sClientID");
         clientAddress = getIntent().getStringExtra("sAddressx");
         remarks = getIntent().getStringExtra("sRemarksx");
+        psTransTp = DCP_Constants.getRemarksDescription(remCodex);
 
 
         Toolbar toolbar = findViewById(R.id.toolbar_transaction);
@@ -51,7 +53,7 @@ public class Activity_LogTransaction extends AppCompatActivity {
 
         ViewPager viewPager = findViewById(R.id.viewpager_transaction);
 
-        getSupportActionBar().setTitle(DCP_Constants.getRemarksDescription(remCodex));
+        getSupportActionBar().setTitle("GhostRider Android");
 
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getTransactionFragment(remCodex)));
     }
