@@ -72,6 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/TextInputStyle"
+            android:hint="Client Name"
             android:layout_marginTop="5dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -83,6 +84,7 @@
                 android:inputType="textCapWords"
                 android:maxLines="1"
                 android:imeOptions="actionDone"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
@@ -95,7 +97,7 @@
             android:id="@+id/btn_dcpDownload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Download"
+            android:text="Search Client"
             app:rippleColor="@color/guanzon_orange"
             android:textColor="@color/material_black"
             style="@style/Widget.AppCompat.Button.Borderless"/>
