@@ -18,28 +18,28 @@ import java.util.List;
 public class VMEvaluationHistoryInfo extends AndroidViewModel {
     private static final String TAG = VMEvaluationHistoryInfo.class.getSimpleName();
     private final Application instance;
-    private final ECIEvaluation poCredtEv;
     private final RCIEvaluation poInvestx;
-    private final String psTransNo;
+    private ECIEvaluation poCredtEv;
 
-    private final MutableLiveData<List<EvaluationHistoryInfoModel>> plDetail = new MutableLiveData<>();
+    private final MutableLiveData<String> psTransNo = new MutableLiveData<>();
 
-    public VMEvaluationHistoryInfo(@NonNull Application application, ECIEvaluation foCredtEv) {
+    public VMEvaluationHistoryInfo(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poCredtEv = foCredtEv;
         this.poInvestx = new RCIEvaluation(application);
-        this.psTransNo = poCredtEv.getTransNox();
-        this.plDetail.setValue(new ArrayList<>());
-        setCreditEvaluationDetl();
     }
 
-    public LiveData<List<EvaluationHistoryInfoModel>> getCreditEvaluationDetl() {
-        return plDetail;
+    public void setCreditEvaluationObject(ECIEvaluation foCredtEv) {
+        this.poCredtEv = foCredtEv;
+        setTransNo(this.poCredtEv.getTransNox());
     }
 
-    private void setCreditEvaluationDetl() {
-        new CustomerEvaluationDetailTask(instance, plDetail::setValue).execute(poCredtEv);
+    public void onFetchCreditEvaluationDetail(OnFetchCustomerEvaluationInfo fmListenr) {
+        new CustomerEvaluationDetailTask(this.instance, fmListenr).execute(this.poCredtEv);
+    }
+
+    private void setTransNo(String fsTransNo) {
+        this.psTransNo.setValue(fsTransNo);
     }
 
     private static class CustomerEvaluationDetailTask extends AsyncTask<ECIEvaluation, Void, List<EvaluationHistoryInfoModel>> {

@@ -17,6 +17,7 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMEvaluationHistory;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMEvaluationHistoryInfo;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
@@ -42,8 +43,11 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
         initWidgets();
         initIntentValues();
 
-        mViewModel.getCreditEvaluationDetl().observe(this, evaluationDetail -> {
-            this.poAdapter = new CreditEvaluationHistoryInfoAdapter(evaluationDetail);
+        // Set ViewModel Parameters
+        // mViewModel.setCreditEvaluationObject();
+
+        mViewModel.onFetchCreditEvaluationDetail(evaluationDetl -> {
+            this.poAdapter = new CreditEvaluationHistoryInfoAdapter(evaluationDetl);
             // Displaying Evaluation Info
             // Must be inside mViewModel method call
             poLayout.setOrientation(RecyclerView.VERTICAL);

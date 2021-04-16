@@ -24,7 +24,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CreditEvaluator;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationHistory;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Dialog.DialogCIReason;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CharacterTraitsInfoModel;
