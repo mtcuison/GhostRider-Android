@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -24,11 +26,17 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Fragments.Fragment_CIBarangayRecord;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CharacterTraitsInfoModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIBarangayRecords;
 
 public class DialogCIReason {
     Context mContex;
     private AlertDialog poDialogx;
+    private CharacterTraitsInfoModel infoModel;
+    private String approval = "";
     public DialogCIReason(Context context){
         this.mContex = context;
     }
@@ -40,11 +48,40 @@ public class DialogCIReason {
                 .setView(view);
         poDialogx = loBuilder.create();
         poDialogx.setCancelable(false);
+        infoModel = new CharacterTraitsInfoModel();
+        RadioGroup rgApproval = view.findViewById(R.id.rgApproval);
+//        rgApproval.setOnCheckedChangeListener(new OnApprovalSelectionListener(rgApproval));
+        rgApproval.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton checkedRadioButton = (RadioButton)group.findViewById(checkedId);
+                // This puts the value (true/false) into the variable
+                boolean isChecked = checkedRadioButton.isChecked();
+                // If the radiobutton that has changed in check state is now checked...
+                if (checkedId == R.id.rb_ci_approved)
+                {
+                    // Changes the textview's text to "Checked: example radiobutton text"
+                    approval = "1";
+                    Log.e("transtat value", approval);
 
+                }else{
+                    approval = "3";
+                    Log.e("transtat value", approval);
+                }
+            }
+        });
         TextInputEditText tieReason = view.findViewById(R.id.txt_ci_reason);
         Button btnConfirm = view.findViewById(R.id.btn_dialogConfirm);
         Button btnCancelx = view.findViewById(R.id.btn_dialogCancel);
-       // btnConfirm.setOnClickListener(view1 -> listener.OnClick(poDialogx, spnTransact.getSelectedItem().toString()));
+        btnConfirm.setOnClickListener(view1 -> {
+            if (approval.isEmpty()){
+                GToast.CreateMessage(mContex, "Please select approval/disapproval status.",GToast.WARNING).show();
+            }else if(tieReason.getText().toString().isEmpty()){
+                GToast.CreateMessage(mContex, "Please enter reason for approval/disapproval evaluation.",GToast.WARNING).show();
+            }else{
+                listener.OnClick(poDialogx, approval, tieReason.getText().toString());
+            }
+        });
 
         btnCancelx.setOnClickListener(view12 -> dismiss());
     }
@@ -63,8 +100,35 @@ public class DialogCIReason {
     }
 
     public interface DialogButtonClickListener{
-        void OnClick(Dialog dialog, String remarksCode);
+        void OnClick(Dialog dialog, String transtat, String reason);
     }
+    class OnApprovalSelectionListener implements RadioGroup.OnCheckedChangeListener{
 
+        View rbView;
+        OnApprovalSelectionListener(View view)
+        {
+            this.rbView = view;
+        }
+
+
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if(rbView.getId() == R.id.rg_ci_brgyRecord){
+                if(checkedId == R.id.rb_ci_approved) {
+                    infoModel.setcTranstat("1");
+                    approval = "1";
+
+                    Log.e("dialogtranstat",approval + " value");
+                }
+                else {
+                    infoModel.setcTranstat("3");
+                    approval = "3";
+
+                    Log.e("dialogtranstat",approval + " value");
+                }
+
+            }
+        }
+    }
 
 }

@@ -44,7 +44,6 @@ public class ECIEvaluation {
     private String HasRecrd;
 
 
-
     @ColumnInfo(name = "sRemRecrd")
     private String RemRecrd;
 

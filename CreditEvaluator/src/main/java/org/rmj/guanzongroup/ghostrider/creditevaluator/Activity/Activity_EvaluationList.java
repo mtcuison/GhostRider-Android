@@ -163,15 +163,15 @@ public class Activity_EvaluationList extends AppCompatActivity implements ViewMo
 //                                mViewModel.getDocument(creditLists.get(position).getTransNox()).observe(Activity_EvaluationList.this, data -> {
 //                                    mViewModel.setDocumentInfo(data);
 //                                });
-                                Intent loIntent = new Intent(Activity_EvaluationList.this, Activity_CIApplication.class);
-                                loIntent.putExtra("transno",creditLists.get(position).getsTransNox());
-                                loIntent.putExtra("ClientNm",creditLists.get(position).getsCompnyNm());
-                                loIntent.putExtra("dTransact",creditLists.get(position).getdTransact());
-                                loIntent.putExtra("ModelName",creditLists.get(position).getsModelNme());
-                                loIntent.putExtra("AccntTerm",creditLists.get(position).getnAcctTerm());
-                                loIntent.putExtra("MobileNo",creditLists.get(position).getsMobileNo());
-                                loIntent.putExtra("Status",creditLists.get(position).getTransactionStatus());
-                                startActivity(loIntent);
+                        Intent loIntent = new Intent(Activity_EvaluationList.this, Activity_CIApplication.class);
+                        loIntent.putExtra("transno",creditLists.get(position).getsTransNox());
+                        loIntent.putExtra("ClientNm",creditLists.get(position).getsCompnyNm());
+                        loIntent.putExtra("dTransact",creditLists.get(position).getdTransact());
+                        loIntent.putExtra("ModelName",creditLists.get(position).getsModelNme());
+                        loIntent.putExtra("MobileNo",creditLists.get(position).getsMobileNo());
+                        loIntent.putExtra("term",creditLists.get(position).getnAcctTerm());
+                        loIntent.putExtra("Status",creditLists.get(position).getTransactionStatus());
+                        startActivity(loIntent);
 
                     }
 

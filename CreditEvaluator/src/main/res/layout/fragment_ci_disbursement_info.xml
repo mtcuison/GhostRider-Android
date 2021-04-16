@@ -43,7 +43,7 @@
                     android:id="@+id/tie_ci_dbmWater"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number|none"
+                    android:inputType="numberDecimal|number|none"
                     android:maxLength="6"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,10 +125,42 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number|none"
-                    android:enabled="false"
-                    android:maxLength="6"/>
+                    android:clickable="false"
+                    android:textColor="@color/textColor_Black"
+                    android:enabled="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_ciAppPrvs"
+                style="@style/NavigationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_nav_left"
+                android:drawableLeft="@drawable/ic_nav_left"
+                android:drawablePadding="5dp"
+                android:text="Previous"
+                android:textAlignment="textStart"
+                android:gravity="start"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btn_ciAppNext"
+                style="@style/NavigationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_nav_right"
+                android:drawableRight="@drawable/ic_nav_right"
+                android:text="Next"
+                android:layout_weight="1"
+                android:textAlignment="textEnd"
+                android:gravity="end"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

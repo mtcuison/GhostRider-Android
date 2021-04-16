@@ -1,7 +1,10 @@
 package org.rmj.g3appdriver.GRider.Constants;
 
+import android.icu.util.TimeZone;
+
 import org.json.JSONObject;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -120,4 +123,8 @@ public class AppConstants {
     public static String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
     public static String CURRENT_DATE = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+    public static String CURRENT_TIME = String.valueOf(new Timestamp(new Date().getTime()));
+
+
 }

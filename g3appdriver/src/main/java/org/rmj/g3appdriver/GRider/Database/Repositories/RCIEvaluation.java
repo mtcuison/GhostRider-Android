@@ -52,6 +52,22 @@ public class RCIEvaluation {
     public void updateCiResidences(ECIEvaluation eciEvaluation){
         ciDao.update(eciEvaluation);
     }
+    public void updateCiNeighbor1(ECIEvaluation eciEvaluation){
+        ciDao.update(eciEvaluation);
+    }
+    public void updateCiNeighbor2(ECIEvaluation eciEvaluation){
+        ciDao.update(eciEvaluation);
+    }
+    public void updateCiNeighbor3(ECIEvaluation eciEvaluation){
+        ciDao.update(eciEvaluation);
+    }
+
+    public void updateCiNeighbor(ECIEvaluation eciEvaluation){
+        ciDao.update(eciEvaluation);
+    }
+    public void updateCiDisbursement(ECIEvaluation eciEvaluation){
+        ciDao.update(eciEvaluation);
+    }
     public void updateCiResidence(ECIEvaluation eciEvaluation){
         new InsertTask(ciDao, "update").execute(eciEvaluation);
     }
