@@ -45,7 +45,7 @@ public class DialogRemitCollection {
         poDialogx = loBuilder.create();
         poDialogx.setCancelable(false);
 
-        rgRemitance = view.findViewById(R.id.rg_remitance);
+        rgRemitance = view.findViewById(R.id.rg_remittanceOutlet);
         txtBranch = view.findViewById(R.id.txt_remitBranch);
         txtBankNm = view.findViewById(R.id.txt_remitBankNme);
         txtAmount = view.findViewById(R.id.txt_remitAmount);
@@ -58,6 +58,8 @@ public class DialogRemitCollection {
         linearPaym = view.findViewById(R.id.linear_remitPartner);
         btnConfirm = view.findViewById(R.id.btn_confirm);
         btnCancel = view.findViewById(R.id.btn_cancel);
+
+
 
         rgRemitance.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rb_remitBranch) {
