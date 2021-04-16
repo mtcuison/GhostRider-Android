@@ -50,7 +50,7 @@ public class Fragment_Log_Paid_Transaction extends Fragment {
 
         mViewModel.getPostedCollectionDetail().observe(getViewLifecycleOwner(), collectPaidDetl -> {
             try {
-                if(collectPaidDetl.getBankIDxx() != null) {
+                if(!collectPaidDetl.getBankIDxx().equalsIgnoreCase("")) {
                     txtCheckPayment.setVisibility(View.VISIBLE);
                 } else {
                     txtCheckPayment.setVisibility(View.GONE);
