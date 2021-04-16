@@ -26,27 +26,27 @@ public class RDCP_Remittance {
         remitDao.updateSendStatus(AppConstants.DATE_MODIFIED, TransNox);
     }
 
-    public LiveData<String> getTotalRemittedCollection(){
-        return remitDao.getTotalRemittedCollection(AppConstants.CURRENT_DATE);
+    public LiveData<String> getTotalRemittedCollection(String dTransact){
+        return remitDao.getTotalRemittedCollection(dTransact);
     }
 
-    public LiveData<String> getTotalCashRemittedCollection(){
-        return remitDao.getTotalCashRemittedCollection(AppConstants.CURRENT_DATE);
+    public LiveData<String> getTotalCashRemittedCollection(String dTransact){
+        return remitDao.getTotalCashRemittedCollection(dTransact);
     }
 
-    public LiveData<String> getTotalCheckRemittedCollection(){
-        return remitDao.getTotalCheckRemittedCollection(AppConstants.CURRENT_DATE);
+    public LiveData<String> getTotalCheckRemittedCollection(String dTransact){
+        return remitDao.getTotalCheckRemittedCollection(dTransact);
     }
 
-    public LiveData<String> getTotalBranchRemittedCollection(){
-        return remitDao.getTotalBranchRemittedCollection(AppConstants.CURRENT_DATE);
+    public LiveData<String> getTotalBranchRemittedCollection(String dTransact){
+        return remitDao.getTotalBranchRemittedCollection(dTransact);
     }
 
-    public LiveData<String> getTotalBankRemittedCollection(){
-        return remitDao.getTotalBankRemittedCollection(AppConstants.CURRENT_DATE);
+    public LiveData<String> getTotalBankRemittedCollection(String dTransact){
+        return remitDao.getTotalBankRemittedCollection(dTransact);
     }
 
-    public LiveData<String> getTotalOtherRemittedCollection(){
-        return remitDao.getTotalOtherRemittedCollection(AppConstants.CURRENT_DATE);
+    public LiveData<String> getTotalOtherRemittedCollection(String dTransact){
+        return remitDao.getTotalOtherRemittedCollection(dTransact);
     }
 }

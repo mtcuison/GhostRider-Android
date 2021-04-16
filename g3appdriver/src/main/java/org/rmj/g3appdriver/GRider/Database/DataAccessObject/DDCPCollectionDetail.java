@@ -126,6 +126,16 @@ public interface DDCPCollectionDetail {
             "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact)")
     LiveData<String> getCollectedTotal(String dTransact);
 
+    @Query("SELECT (SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail " +
+            "WHERE sTransNox = (" +
+            "SELECT sTransNox FROM LR_DCP_Collection_Master " +
+            "WHERE dTransact =:dTransact)) - (" +
+            "SELECT SUM(nAmountxx) FROM LR_DCP_Remittance " +
+            "WHERE sTransNox = (" +
+            "SELECT sTransNox FROM LR_DCP_Collection_Master " +
+            "WHERE dTransact =:dTransact)) AS CASH_ON_HAND")
+    LiveData<String> getCashOnHand(String dTransact);
+
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +
             "WHERE sTransNox = (SELECT sTransNox FROM " +
             "LR_DCP_Collection_Master WHERE dTransact =:dTransact) " +

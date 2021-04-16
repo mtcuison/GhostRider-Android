@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,7 +25,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionLogAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogRemitCollection;
@@ -56,6 +60,12 @@ public class Activity_LogCollection extends AppCompatActivity {
 
     private List<EDCPCollectionDetail> filteredCollectionDetlx;
 
+    private List<EBankInfo> poBankList = new ArrayList<>();
+    private List<EBranchInfo> poBrnchList = new ArrayList<>();
+
+    private String psCltCheck;
+    private String psCltCashx;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +88,22 @@ public class Activity_LogCollection extends AppCompatActivity {
                 mViewModel.setAddressList(eAddressUpdates);
             }
             catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getBankInfoList().observe(Activity_LogCollection.this, eBankInfos -> {
+            try {
+                poBankList = eBankInfos;
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getBranchInfoList().observe(Activity_LogCollection.this, eBranchInfos -> {
+            try {
+                poBrnchList = eBranchInfos;
+            } catch (Exception e){
                 e.printStackTrace();
             }
         });
@@ -181,6 +207,16 @@ public class Activity_LogCollection extends AppCompatActivity {
 
                         }
                     });
+
+                    mViewModel.getCollectedTotal(s).observe(this, value -> lblTotalClt.setText("Total Collection : " + FormatUIText.getCurrencyUIFormat(value)));
+
+                    mViewModel.getCashOnHand(s).observe(this, value -> lblCashOH.setText("Cash-On-Hand : " + FormatUIText.getCurrencyUIFormat(value)));
+
+                    mViewModel.getTotalRemittedCollection(s).observe(this, value -> lblTotRemit.setText("Total Remitted : " + FormatUIText.getCurrencyUIFormat(value)));
+
+                    mViewModel.getCollectedCheckPayment(s).observe(this, value -> psCltCheck = value );
+
+                    mViewModel.getCollectedCashPayment(s).observe(this, value -> psCltCashx = value);
                 } else {
                     txtNoLog.setVisibility(View.VISIBLE);
                     txtNoName.setVisibility(View.GONE);
@@ -200,24 +236,6 @@ public class Activity_LogCollection extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-
-        mViewModel.getCollectedTotal().observe(this, s -> {
-            try {
-                lblTotalClt.setText("Total Collection : " + FormatUIText.getCurrencyUIFormat(s));
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
-        mViewModel.getTotalRemittedCollection().observe(this, s -> {
-            try{
-                lblTotRemit.setText("Total Remitted : " + FormatUIText.getCurrencyUIFormat(s));
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
-
     }
 
     private void initWidgets(){
@@ -249,7 +267,16 @@ public class Activity_LogCollection extends AppCompatActivity {
         }
 
         linearCashInfo.setOnClickListener(v -> {
-            startActivity(new Intent(Activity_LogCollection.this, Activity_CollectionRemittance.class));
+            try {
+                Intent loIntent = new Intent(Activity_LogCollection.this, Activity_CollectionRemittance.class);
+                String lsDate = Objects.requireNonNull(txtDate.getText()).toString();
+                @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("MMM dd, yyyy").parse(lsDate);
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat loFormatter = new SimpleDateFormat("yyyy-MM-dd");
+                loIntent.putExtra("dTransact", loFormatter.format(Objects.requireNonNull(loDate)));
+                startActivity(loIntent);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
     }
 
@@ -276,9 +303,13 @@ public class Activity_LogCollection extends AppCompatActivity {
             finish();
         } else if(item.getItemId() == R.id.action_menu_remit_collection){
             DialogRemitCollection poRemit = new DialogRemitCollection(Activity_LogCollection.this);
+            poRemit.setPoBankList(poBankList);
+            poRemit.setPoBrnchList(poBrnchList);
+            poRemit.setPsCltCheck(psCltCheck);
+            poRemit.setPsCltCashx(psCltCashx);
             poRemit.initDialog(new DialogRemitCollection.RemitDialogListener() {
                 @Override
-                public void OnConfirm(AlertDialog dialog) {
+                public void OnConfirm(AlertDialog dialog, EDCP_Remittance remittance) {
                     dialog.dismiss();
                 }
 
@@ -290,9 +321,5 @@ public class Activity_LogCollection extends AppCompatActivity {
             poRemit.show();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public String getDate(){
-        return "Collection For " + FormatUIText.getParseDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
     }
 }

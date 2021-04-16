@@ -11,11 +11,13 @@ import androidx.lifecycle.MutableLiveData;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
@@ -35,6 +37,7 @@ public class VMCollectionLog extends AndroidViewModel {
     private final RImageInfo poImage;
     private final RDCP_Remittance poRemit;
     private final RCollectionUpdate poUpdate;
+    private final RBankInfo poBank;
 
     private final MutableLiveData<EDCPCollectionMaster> poMaster = new MutableLiveData<>();
     private final MutableLiveData<List<EImageInfo>> plImageLst = new MutableLiveData<>();
@@ -52,6 +55,7 @@ public class VMCollectionLog extends AndroidViewModel {
         this.poUpdate = new RCollectionUpdate(application);
         this.dTransact.setValue(AppConstants.CURRENT_DATE);
         this.poRemit = new RDCP_Remittance(application);
+        this.poBank = new RBankInfo(application);
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
@@ -74,12 +78,32 @@ public class VMCollectionLog extends AndroidViewModel {
         return poImage.getUnsentImageList();
     }
 
-    public LiveData<String> getCollectedTotal(){
-        return poDcp.getCollectedTotal();
+    public LiveData<String> getCollectedTotal(String fsTrasact){
+        return poDcp.getCollectedTotal(fsTrasact);
     }
 
-    public LiveData<String> getTotalRemittedCollection(){
-        return poRemit.getTotalRemittedCollection();
+    public LiveData<String> getCashOnHand(String fsTransact){
+        return poDcp.getCashOnHand(fsTransact);
+    }
+
+    public LiveData<String> getCollectedCheckPayment(String fsTrasact){
+        return poDcp.getCollectedTotalCheckPayment(fsTrasact);
+    }
+
+    public LiveData<String> getCollectedCashPayment(String fsTrasact){
+        return poDcp.getCollectedTotalPayment(fsTrasact);
+    }
+
+    public LiveData<List<EBankInfo>> getBankInfoList(){
+        return poBank.getBankInfoList();
+    }
+
+    public LiveData<List<EBranchInfo>> getBranchInfoList(){
+        return poBranch.getAllBranchInfo();
+    }
+
+    public LiveData<String> getTotalRemittedCollection(String fsTrasact){
+        return poRemit.getTotalRemittedCollection(fsTrasact);
     }
 
     public void setDateTransact(String fsTransact){
