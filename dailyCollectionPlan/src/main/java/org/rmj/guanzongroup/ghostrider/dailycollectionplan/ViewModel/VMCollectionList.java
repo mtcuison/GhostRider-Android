@@ -76,6 +76,12 @@ public class VMCollectionList extends AndroidViewModel {
         void OnDownloadFailed(String message);
     }
 
+    public interface OnDownloadClientList{
+        void OnDownload();
+        void OnSuccessDownload(List<EDCPCollectionDetail> collectionDetails);
+        void OnFailedDownload(String message);
+    }
+
     public VMCollectionList(@NonNull Application application) {
         super(application);
         this.instance = application;
@@ -337,7 +343,7 @@ public class VMCollectionList extends AndroidViewModel {
                 if(!lbExist) {
                     JSONObject loJson = new JSONObject();
                     loJson.put("sSerialNo", fsSerialNo);
-                    new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), WebApi.URL_GET_REG_CLIENT, callback).execute(loJson);
+                    //new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), WebApi.URL_GET_REG_CLIENT, callback).execute(loJson);
                 } else {
                     callback.OnFailedResult("Engine no is already exist in today's collection list.");
                 }
@@ -355,7 +361,7 @@ public class VMCollectionList extends AndroidViewModel {
         return exportAsync.JSONExport;
     }
 
-    public void importARClientInfo(String fsAccntNox, ViewModelCallback callback){
+    public void importARClientInfo(String fsAccntNox, OnDownloadClientList callback){
         try{
             boolean lbExist = false;
             List<EDCPCollectionDetail> laDetail = collectionList.getValue();
@@ -370,10 +376,10 @@ public class VMCollectionList extends AndroidViewModel {
                     loJson.put("sAcctNmbr", fsAccntNox);
                     new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), WebApi.URL_GET_AR_CLIENT, callback).execute(loJson);
                 } else {
-                    callback.OnFailedResult("Account number is already exist in today's collection list.");
+                    callback.OnFailedDownload("Account number is already exist in today's collection list.");
                 }
             } else {
-                callback.OnFailedResult("Please download or import collection detail before adding.");
+                callback.OnFailedDownload("Please download or import collection detail before adding.");
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -384,12 +390,13 @@ public class VMCollectionList extends AndroidViewModel {
         private final HttpHeaders headers;
         private final RDailyCollectionPlan dcpRepo;
         private final ConnectionUtil conn;
-        private final ViewModelCallback callback;
+        private final OnDownloadClientList callback;
         private final String sTransNox;
         private final int nEntryNox;
         private final String Url;
+        private final List<EDCPCollectionDetail> collectionDetails = new ArrayList<>();
 
-        public ImportData(Application instance, String TransNox, int EntryNox, String Url, ViewModelCallback callback) {
+        public ImportData(Application instance, String TransNox, int EntryNox, String Url, OnDownloadClientList callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.dcpRepo = new RDailyCollectionPlan(instance);
             this.conn = new ConnectionUtil(instance);
@@ -402,7 +409,7 @@ public class VMCollectionList extends AndroidViewModel {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            callback.OnStartSaving();
+            callback.OnDownload();
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -434,18 +441,18 @@ public class VMCollectionList extends AndroidViewModel {
                 Log.e(TAG, loJson.getString("result"));
                 String lsResult = loJson.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccessResult(new String[]{"Client Account info has been saved."});
+                    //callback.OnSuccessDownload("");
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     String message = loError.getString("message");
-                    callback.OnFailedResult(message);
+                    callback.OnFailedDownload(message);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                callback.OnFailedResult(e.getMessage());
+                callback.OnFailedDownload(e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
-                callback.OnFailedResult(e.getMessage());
+                callback.OnFailedDownload(e.getMessage());
             }
         }
 

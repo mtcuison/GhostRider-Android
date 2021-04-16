@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -13,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogRemitCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -30,7 +30,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection_remittance);
         mViewModel = new ViewModelProvider(this).get(VMCollectionRemittance.class);
-
+        mViewModel.setTransact(getIntent().getStringExtra("dTransact"));
         Toolbar toolbar = findViewById(R.id.toolbar_collectionRemit);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -104,8 +104,8 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
             DialogRemitCollection poRemit = new DialogRemitCollection(Activity_CollectionRemittance.this);
             poRemit.initDialog(new DialogRemitCollection.RemitDialogListener() {
                 @Override
-                public void OnConfirm(AlertDialog dialog) {
-                    dialog.dismiss();
+                public void OnConfirm(AlertDialog dialog, EDCP_Remittance remittance) {
+
                 }
 
                 @Override

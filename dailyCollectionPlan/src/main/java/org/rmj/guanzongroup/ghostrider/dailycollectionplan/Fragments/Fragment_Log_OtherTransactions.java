@@ -33,7 +33,7 @@ public class Fragment_Log_OtherTransactions extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment__other_transactions_log, container, false);
+        View view = inflater.inflate(R.layout.fragment_other_transactions_log, container, false);
         mViewModel = ViewModelProviders.of(this).get(VMLogOtherTransactions.class);
         initWidgets(view);
         return view;
