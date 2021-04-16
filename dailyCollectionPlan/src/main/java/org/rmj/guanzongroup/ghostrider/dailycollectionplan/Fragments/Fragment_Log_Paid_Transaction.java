@@ -18,8 +18,8 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogPaidTr
 
 public class Fragment_Log_Paid_Transaction extends Fragment {
     private VMLogPaidTransaction mViewModel;
-    private TextView txtAcctNo, txtClientName, txtClientAddress;
-    private TextView txtPaymentTp, txtPRNoxx, txtTransAmtx, txtDiscount, txtPenalty, txtTotalAmtx, txtRemarksx, txtCheckPayment;
+    private TextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo;
+    private TextView txtPaymentTp, txtPRNoxx, txtTransAmtx, txtDiscount, txtPenalty, txtTotalAmtx, txtRemarksx, txtCheckPayment, txtListHeader;
 
     public Fragment_Log_Paid_Transaction() { }
 
@@ -42,13 +42,15 @@ public class Fragment_Log_Paid_Transaction extends Fragment {
         txtAcctNo.setText(Activity_LogTransaction.acctNox);
         txtClientName.setText(Activity_LogTransaction.fullNme);
         txtClientAddress.setText(Activity_LogTransaction.clientAddress);
+        txtTransNo.setText(Activity_LogTransaction.transNox);
+        txtListHeader.setText(Activity_LogTransaction.psTransTp + " Transaction");
         mViewModel.setParameters(Activity_LogTransaction.transNox,
                 Activity_LogTransaction.acctNox,
                 Activity_LogTransaction.remCodex);
 
         mViewModel.getPostedCollectionDetail().observe(getViewLifecycleOwner(), collectPaidDetl -> {
             try {
-                if(collectPaidDetl.getBankIDxx() != null) {
+                if(!collectPaidDetl.getBankIDxx().equalsIgnoreCase("")) {
                     txtCheckPayment.setVisibility(View.VISIBLE);
                 } else {
                     txtCheckPayment.setVisibility(View.GONE);
@@ -71,6 +73,8 @@ public class Fragment_Log_Paid_Transaction extends Fragment {
         txtAcctNo = v.findViewById(R.id.txt_acctNo);
         txtClientName = v.findViewById(R.id.txt_clientName);
         txtClientAddress = v.findViewById(R.id.txt_client_address);
+        txtTransNo = v.findViewById(R.id.txt_transno);
+        txtListHeader = v.findViewById(R.id.lbl_list_header);
 
         txtPaymentTp = v.findViewById(R.id.txt_payment_type);
         txtPRNoxx = v.findViewById(R.id.txt_pr_no);
