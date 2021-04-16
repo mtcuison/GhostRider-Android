@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -74,6 +75,7 @@ public class DialogRemitCollection {
         this.psCltCashx = psCltCashx;
     }
 
+    @SuppressLint("SetTextI18n")
     public void initDialog(RemitDialogListener listener){
         AlertDialog.Builder loBuilder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_remit_collection, null, false);
@@ -94,6 +96,7 @@ public class DialogRemitCollection {
         linearBrnch = view.findViewById(R.id.linear_remitBranch);
         linearBank = view.findViewById(R.id.linear_remitBank);
         linearPaym = view.findViewById(R.id.linear_remitPartner);
+        Button btnRemitAll = view.findViewById(R.id.btn_remitAll);
         Button btnConfirm = view.findViewById(R.id.btn_confirm);
         Button btnCancel = view.findViewById(R.id.btn_cancel);
 
@@ -115,14 +118,33 @@ public class DialogRemitCollection {
 
         txtAmount.addTextChangedListener(new FormatUIText.CurrencyFormat(txtAmount));
 
-        txtAmount.setText(psCltCashx);
+        btnRemitAll.setText("Total Cash-On-Hand" + FormatUIText.getCurrencyUIFormat(psCltCashx));
+
         rgRemitType.setOnCheckedChangeListener((group, checkedId) -> {
             if(checkedId == R.id.rb_remitCash){
                 poRemit.setPaymForm("0");
-                txtAmount.setText(psCltCashx);
+                txtAmount.setText("");
+                if(psCltCashx != null) {
+                    if (!psCltCashx.isEmpty()) {
+                        btnRemitAll.setText("Total Cash-On-Hand" + FormatUIText.getCurrencyUIFormat(psCltCashx));
+                    } else {
+                        btnRemitAll.setText("No Cash On Hand");
+                    }
+                } else {
+                    btnRemitAll.setText("No Cash On Hand");
+                }
             } else if(checkedId == R.id.rb_remitCheck){
                 poRemit.setPaymForm("1");
-                txtAmount.setText(psCltCheck);
+                txtAmount.setText("");
+                if(psCltCheck != null) {
+                    if (!psCltCheck.isEmpty()) {
+                        btnRemitAll.setText("Total Cash-On-Hand" + FormatUIText.getCurrencyUIFormat(psCltCheck));
+                    } else {
+                        btnRemitAll.setText("No Check Payment On Hand");
+                    }
+                } else {
+                    btnRemitAll.setText("No Check Payment On Hand");
+                }
             }
         });
 
@@ -139,12 +161,20 @@ public class DialogRemitCollection {
                 linearPaym.setVisibility(View.GONE);
                 tilRefNox.setVisibility(View.VISIBLE);
                 poRemit.setRemitTyp("1");
-            } else{
+            } else {
                 linearBrnch.setVisibility(View.GONE);
                 linearBank.setVisibility(View.GONE);
                 linearPaym.setVisibility(View.VISIBLE);
                 tilRefNox.setVisibility(View.VISIBLE);
                 poRemit.setRemitTyp("2");
+            }
+        });
+
+        btnRemitAll.setOnClickListener(v -> {
+            if(poRemit.getPaymForm().equalsIgnoreCase("0")){
+                txtAmount.setText(psCltCashx);
+            } else {
+                txtAmount.setText(psCltCheck);
             }
         });
 

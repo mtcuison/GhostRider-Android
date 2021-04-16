@@ -191,6 +191,7 @@
                     android:layout_height="wrap_content"
                     style="@style/TextInputStyle.Edittext"
                     android:gravity="center"
+                    android:text="Cebuana Lhuillier"
                     android:inputType="textShortMessage"
                     android:maxLines="1"
                     android:imeOptions="actionNext"
@@ -225,7 +226,8 @@
             android:layout_height="wrap_content"
             style="@style/TextInputStyle"
             android:hint="Amount"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txt_remitAmount"
@@ -236,8 +238,16 @@
                 android:inputType="number|none"
                 android:maxLines="1"
                 android:imeOptions="actionDone"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
+        <Button
+            android:id="@+id/btn_remitAll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:textColor="@color/textColor_Black"
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
 
         <View
             android:layout_width="match_parent"

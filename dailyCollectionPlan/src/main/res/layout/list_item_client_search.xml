@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/lbl_AccountNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="M001150256"
+        android:textSize="15sp"
+        android:textColor="@color/textColor_Black"
+        android:fontFamily="@font/roboto_medium"/>
+
+    <TextView
+        android:id="@+id/lbl_clientNm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dolleton St. 7c Ilaya"
+        android:textSize="15sp"
+        android:textColor="@color/textColor_Black"
+        android:fontFamily="@font/roboto_medium"/>
+
+    <TextView
+        android:id="@+id/lbl_addressx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="27, Pogo Grande, Alabang, Muntinlupa"
+        android:textSize="15sp"
+        android:textColor="@color/textColor_Black"
+        android:fontFamily="@font/roboto_regular"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/guanzon_orange"
+        android:layout_marginTop="5dp"/>
+</LinearLayout>

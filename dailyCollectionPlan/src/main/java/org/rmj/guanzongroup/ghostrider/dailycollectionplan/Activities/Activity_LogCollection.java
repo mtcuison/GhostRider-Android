@@ -30,6 +30,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionLogAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogRemitCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -59,6 +60,8 @@ public class Activity_LogCollection extends AppCompatActivity {
     private LinearLayout linearCashInfo;
 
     private List<EDCPCollectionDetail> filteredCollectionDetlx;
+
+    private boolean hasLog = true;
 
     private List<EBankInfo> poBankList = new ArrayList<>();
     private List<EBranchInfo> poBrnchList = new ArrayList<>();
@@ -142,6 +145,7 @@ public class Activity_LogCollection extends AppCompatActivity {
         mViewModel.getDateTransact().observe(Activity_LogCollection.this, s -> mViewModel.getCollectionDetailForDate(s).observe(Activity_LogCollection.this, collectionDetails -> {
             try{
                 if(collectionDetails.size() > 0) {
+                    hasLog = true;
                     txtNoLog.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                     tilSearch.setVisibility(View.VISIBLE);
@@ -218,6 +222,7 @@ public class Activity_LogCollection extends AppCompatActivity {
 
                     mViewModel.getCollectedCashPayment(s).observe(this, value -> psCltCashx = value);
                 } else {
+                    hasLog = false;
                     txtNoLog.setVisibility(View.VISIBLE);
                     txtNoName.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
@@ -302,23 +307,32 @@ public class Activity_LogCollection extends AppCompatActivity {
         if(item.getItemId() == android.R.id.home){
             finish();
         } else if(item.getItemId() == R.id.action_menu_remit_collection){
-            DialogRemitCollection poRemit = new DialogRemitCollection(Activity_LogCollection.this);
-            poRemit.setPoBankList(poBankList);
-            poRemit.setPoBrnchList(poBrnchList);
-            poRemit.setPsCltCheck(psCltCheck);
-            poRemit.setPsCltCashx(psCltCashx);
-            poRemit.initDialog(new DialogRemitCollection.RemitDialogListener() {
-                @Override
-                public void OnConfirm(AlertDialog dialog, EDCP_Remittance remittance) {
-                    dialog.dismiss();
-                }
+            if(hasLog) {
+                DialogRemitCollection poRemit = new DialogRemitCollection(Activity_LogCollection.this);
+                poRemit.setPoBankList(poBankList);
+                poRemit.setPoBrnchList(poBrnchList);
+                poRemit.setPsCltCheck(psCltCheck);
+                poRemit.setPsCltCashx(psCltCashx);
+                poRemit.initDialog(new DialogRemitCollection.RemitDialogListener() {
+                    @Override
+                    public void OnConfirm(AlertDialog dialog, EDCP_Remittance remittance) {
+                        dialog.dismiss();
+                    }
 
-                @Override
-                public void OnCancel(AlertDialog dialog) {
-                    dialog.dismiss();
-                }
-            });
-            poRemit.show();
+                    @Override
+                    public void OnCancel(AlertDialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
+                poRemit.show();
+            } else {
+                MessageBox loMessage = new MessageBox(Activity_LogCollection.this);
+                loMessage.initDialog();
+                loMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                loMessage.setMessage("There's no collection record for this date.");
+                loMessage.setTitle("No Record Found");
+                loMessage.show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
