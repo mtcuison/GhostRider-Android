@@ -18,6 +18,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 
@@ -32,6 +33,7 @@ public class VMCollectionLog extends AndroidViewModel {
     private final RDailyCollectionPlan poDcp;
     private final RBranch poBranch;
     private final RImageInfo poImage;
+    private final RDCP_Remittance poRemit;
     private final RCollectionUpdate poUpdate;
 
     private final MutableLiveData<EDCPCollectionMaster> poMaster = new MutableLiveData<>();
@@ -49,6 +51,7 @@ public class VMCollectionLog extends AndroidViewModel {
         this.poImage = new RImageInfo(application);
         this.poUpdate = new RCollectionUpdate(application);
         this.dTransact.setValue(AppConstants.CURRENT_DATE);
+        this.poRemit = new RDCP_Remittance(application);
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
@@ -71,6 +74,14 @@ public class VMCollectionLog extends AndroidViewModel {
         return poImage.getUnsentImageList();
     }
 
+    public LiveData<String> getCollectedTotal(){
+        return poDcp.getCollectedTotal();
+    }
+
+    public LiveData<String> getTotalRemittedCollection(){
+        return poRemit.getTotalRemittedCollection();
+    }
+
     public void setDateTransact(String fsTransact){
         try {
             @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(fsTransact);
@@ -79,7 +90,6 @@ public class VMCollectionLog extends AndroidViewModel {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
     }
 
     public LiveData<String> getDateTransact(){

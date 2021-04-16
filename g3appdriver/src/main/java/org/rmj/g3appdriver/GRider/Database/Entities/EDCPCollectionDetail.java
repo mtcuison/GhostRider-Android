@@ -15,75 +15,85 @@ public class EDCPCollectionDetail {
     @ColumnInfo(name = "nEntryNox")
     private int EntryNox;
     @ColumnInfo(name = "sAcctNmbr")
-    private String AcctNmbr;
+    private String AcctNmbr = "";
     @ColumnInfo(name = "xFullName")
-    private String FullName;
+    private String FullName = "";
     @ColumnInfo(name = "sPRNoxxxx")
-    private String PRNoxxxx;
+    private String PRNoxxxx = "";
     @ColumnInfo(name = "nTranAmtx")
-    private String TranAmtx;
+    private String TranAmtx = "0";
     @ColumnInfo(name = "nDiscount")
-    private String Discount;
+    private String Discount = "0";
     @ColumnInfo(name = "nOthersxx")
-    private String Othersxx;
+    private String Othersxx = "0";
     @ColumnInfo(name = "sRemarksx")
-    private String Remarksx;
+    private String Remarksx = "";
     @ColumnInfo(name = "sBankIDxx")
-    private String BankIDxx;
+    private String BankIDxx = "";
     @ColumnInfo(name = "sCheckDte")
-    private String CheckDte;
+    private String CheckDte = "";
     @ColumnInfo(name = "sCheckNox")
-    private String CheckNox;
+    private String CheckNox = "";
     @ColumnInfo(name = "sCheckAct")
-    private String CheckAct;
+    private String CheckAct = "";
     @ColumnInfo(name = "dPromised")
-    private String Promised;
+    private String Promised = "";
     @ColumnInfo(name = "sRemCodex")
-    private String RemCodex;
+    private String RemCodex = "";
     @ColumnInfo(name = "cTranType")
-    private String TranType;
+    private String TranType = "";
     @ColumnInfo(name = "nTranTotl")
-    private String TranTotl;
+    private String TranTotl = "0";
     @ColumnInfo(name = "sReferNox")
-    private String ReferNox;
+    private String ReferNox = "";
     @ColumnInfo(name = "cPaymForm")
-    private String PaymForm;
+    private String PaymForm = "";
     @ColumnInfo(name = "cIsDCPxxx")
-    private String IsDCPxxx;
+    private String IsDCPxxx = "";
     @ColumnInfo(name = "sMobileNo")
-    private String MobileNo;
+    private String MobileNo = "";
     @ColumnInfo(name = "sHouseNox")
-    private String HouseNox;
+    private String HouseNox = "";
     @ColumnInfo(name = "sAddressx")
-    private String Addressx;
+    private String Addressx = "";
     @ColumnInfo(name = "sBrgyName")
-    private String BrgyName;
+    private String BrgyName = "";
     @ColumnInfo(name = "sTownName")
-    private String TownName;
+    private String TownName = "";
+    @ColumnInfo(name = "nMonAmort")
+    private String MonAmort = "0";
     @ColumnInfo(name = "nAmtDuexx")
-    private String AmtDuexx;
+    private String AmtDuexx = "";
     @ColumnInfo(name = "cApntUnit")
-    private String ApntUnit;
+    private String ApntUnit = "";
     @ColumnInfo(name = "sBranchCd")
-    private String BranchCd;
+    private String BranchCd = "";
     @ColumnInfo(name = "dDueDatex")
-    private String DueDatex;
+    private String DueDatex = "";
     @ColumnInfo(name = "sImageNme")
-    private String ImageNme;
+    private String ImageNme = "";
     @ColumnInfo(name = "nLongitud")
-    private String Longitud;
+    private String Longitud = "";
     @ColumnInfo(name = "nLatitude")
-    private String Latitude;
+    private String Latitude = "";
     @ColumnInfo(name = "sClientID")
-    private String ClientID;
+    private String ClientID = "";
     @ColumnInfo(name = "sSerialID")
-    private String SerialID;
+    private String SerialID = "";
     @ColumnInfo(name = "sSerialNo")
-    private String SerialNo;
+    private String SerialNo = "";
+    @ColumnInfo(name = "nLastPaym")
+    private String LastPaym = "0";
+    @ColumnInfo(name = "dLastPaym")
+    private String LastPaid = "0";
+    @ColumnInfo(name = "nABalance")
+    private String ABalance = "0";
+    @ColumnInfo(name = "nDelayAvg")
+    private String DelayAvg = "0";
     @ColumnInfo(name = "cTranStat")
-    private String TranStat;
+    private String TranStat = "0";
     @ColumnInfo(name = "cSendStat")
-    private String SendStat;
+    private String SendStat = "0";
     @ColumnInfo(name = "dSendDate")
     private String SendDate;
     @ColumnInfo(name = "dModified")
@@ -293,6 +303,14 @@ public class EDCPCollectionDetail {
         TownName = townName;
     }
 
+    public String getMonAmort() {
+        return MonAmort;
+    }
+
+    public void setMonAmort(String monAmort) {
+        MonAmort = monAmort;
+    }
+
     public String getAmtDuexx() {
         return AmtDuexx;
     }
@@ -371,6 +389,38 @@ public class EDCPCollectionDetail {
 
     public void setSerialNo(String serialNo) {
         SerialNo = serialNo;
+    }
+
+    public String getLastPaym() {
+        return LastPaym;
+    }
+
+    public void setLastPaym(String lastPaym) {
+        LastPaym = lastPaym;
+    }
+
+    public String getLastPaid() {
+        return LastPaid;
+    }
+
+    public void setLastPaid(String lastPaid) {
+        LastPaid = lastPaid;
+    }
+
+    public String getABalance() {
+        return ABalance;
+    }
+
+    public void setABalance(String ABalance) {
+        this.ABalance = ABalance;
+    }
+
+    public String getDelayAvg() {
+        return DelayAvg;
+    }
+
+    public void setDelayAvg(String delayAvg) {
+        DelayAvg = delayAvg;
     }
 
     public String getTranStat() {

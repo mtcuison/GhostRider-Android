@@ -97,6 +97,7 @@ public class VMCollectionList extends AndroidViewModel {
                     isExist = true;
                 }
             }
+
             if(!isExist) {
                 JSONObject loJson = new JSONObject();
                 loJson.put("sEmployID", "M00110006088");
@@ -131,14 +132,6 @@ public class VMCollectionList extends AndroidViewModel {
         return poBranch.getUserBranchInfo();
     }
 
-    public LiveData<EDCPCollectionMaster> getCollectionMaster(){
-        return poDCPRepo.getCollectionMaster();
-    }
-
-    public LiveData<EDCPCollectionDetail> getDuplicateSerialEntry(String SerialNo){
-        return poDCPRepo.getDuplicateSerialEntry(SerialNo);
-    }
-
     public void setParameter(String fsTransNox, int fnEntryNox){
         try{
             this.psTransNox.setValue(fsTransNox);
@@ -168,19 +161,16 @@ public class VMCollectionList extends AndroidViewModel {
     public void importDCPFile(String importFileName, ViewModelCallback callback) throws JSONException {
         JSONObject dcpImport = readDCPImportFileContent(importFileName);
         if(dcpImport != null)  {
-            extractDCPImportDetails(dcpImport, new ImportJSONCallback() {
-                @Override
-                public void OnDataExtract(List<EDCPCollectionDetail> collectionDetlList, EDCPCollectionMaster collectionMaster) {
-                    if (importDCPMasterData(collectionMaster)) {
-                        boolean isCollectDetlInserted = importDCPListBulkData(collectionDetlList);
-                        if (isCollectDetlInserted) {
-                            callback.OnSuccessResult(new String[]{"Collection detail imported successfully."});
-                        } else {
-                            callback.OnFailedResult("Collection Detail Import Failed: DETAIL");
-                        }
+            extractDCPImportDetails(dcpImport, (collectionDetlList, collectionMaster) -> {
+                if (importDCPMasterData(collectionMaster)) {
+                    boolean isCollectDetlInserted = importDCPListBulkData(collectionDetlList);
+                    if (isCollectDetlInserted) {
+                        callback.OnSuccessResult(new String[]{"Collection detail imported successfully."});
                     } else {
-                        callback.OnFailedResult("Collection Detail Import Failed: MASTER");
+                        callback.OnFailedResult("Collection Detail Import Failed: DETAIL");
                     }
+                } else {
+                    callback.OnFailedResult("Collection Detail Import Failed: MASTER");
                 }
             });
         }
@@ -229,9 +219,7 @@ public class VMCollectionList extends AndroidViewModel {
 
     private void extractDCPImportDetails(JSONObject dcpImport, ImportJSONCallback callback) {
         try {
-
             if (dcpImport.has("master")  && dcpImport.has("detail")) {
-
                 new CheckImportDataTask(poDCPRepo, doesExist -> {
                     if(doesExist) {
                         GToast.CreateMessage(getApplication(), "Collection list already exist.", GToast.WARNING).show();
@@ -285,9 +273,11 @@ public class VMCollectionList extends AndroidViewModel {
                                             loDetail.setHouseNox(loJson.getString("sHouseNox"));
                                             loDetail.setSerialNo(loJson.getString("sSerialNo"));
                                             loDetail.setAcctNmbr(loJson.getString("sAcctNmbr"));
-                                            loDetail.setSendStat("0");
-                                            loDetail.setTranStat("0");
-
+                                            loDetail.setLastPaym(loJson.getString("nLastPaym"));
+                                            loDetail.setLastPaid(loJson.getString("dLastPaym"));
+                                            loDetail.setABalance(loJson.getString("nABalance"));
+                                            loDetail.setDelayAvg(loJson.getString("nDelayAvg"));
+                                            loDetail.setMonAmort(loJson.getString("nMonAmort"));
                                             loCollectDetlList.add(loDetail);
                                         }
 
@@ -475,7 +465,6 @@ public class VMCollectionList extends AndroidViewModel {
             collectionDetail.setClientID(foData.getString("sClientID"));
             collectionDetail.setSerialID(foData.getString("sSerialID"));
             collectionDetail.setSerialNo(foData.getString("sSerialNo"));
-            collectionDetail.setTranStat("0");
             dcpRepo.insertCollectionDetail(collectionDetail);
             dcpRepo.updateEntryMaster(nEntryNox);
         }
@@ -596,13 +585,15 @@ public class VMCollectionList extends AndroidViewModel {
                 collectionDetail.setApntUnit(loJson.getString("cApntUnit"));
                 collectionDetail.setDueDatex(loJson.getString("dDueDatex"));
                 collectionDetail.setLongitud(loJson.getString("nLongitud"));
-                collectionDetail.setTranStat("0");
-                collectionDetail.setSendStat("0");
                 collectionDetail.setLatitude(loJson.getString("nLatitude"));
                 collectionDetail.setClientID(loJson.getString("sClientID"));
                 collectionDetail.setSerialID(loJson.getString("sSerialID"));
                 collectionDetail.setSerialNo(loJson.getString("sSerialNo"));
-                collectionDetail.setTranStat("0");
+                collectionDetail.setLastPaym(loJson.getString("nLastPaym"));
+                collectionDetail.setLastPaid(loJson.getString("dLastPaym"));
+                collectionDetail.setABalance(loJson.getString("nABalance"));
+                collectionDetail.setDelayAvg(loJson.getString("nDelayAvg"));
+                collectionDetail.setMonAmort(loJson.getString("nMonAmort"));
                 collectionDetails.add(collectionDetail);
             }
             dcpRepo.insertDetailBulkData(collectionDetails);
