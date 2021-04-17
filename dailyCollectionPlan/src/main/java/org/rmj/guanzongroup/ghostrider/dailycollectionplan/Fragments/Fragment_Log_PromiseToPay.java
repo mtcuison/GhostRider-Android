@@ -17,13 +17,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogTransaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogDisplayImage;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogPromiseToPay;
 
 public class Fragment_Log_PromiseToPay extends Fragment {
     private VMLogPromiseToPay mViewModel;
-    private TextView txtAcctNo, txtClientName, txtClientAddress;
-    private TextView txtPTPDate, txtBranchName, txtRemarks;
+    private DialogDisplayImage poDialogx;
+    private TextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo;
+    private TextView txtPTPDate, txtBranchName, txtRemarks, txtTransTp;
     private ImageView ivTransImage;
     private LinearLayout lnBranchName;
 
@@ -48,12 +50,24 @@ public class Fragment_Log_PromiseToPay extends Fragment {
         txtAcctNo.setText(Activity_LogTransaction.acctNox);
         txtClientName.setText(Activity_LogTransaction.fullNme);
         txtClientAddress.setText(Activity_LogTransaction.clientAddress);
+        txtTransNo.setText(Activity_LogTransaction.transNox);
+        txtTransTp.setText(Activity_LogTransaction.psTransTp);
         mViewModel.setParameters(Activity_LogTransaction.transNox,
                 Activity_LogTransaction.acctNox,
                 Activity_LogTransaction.remCodex);
 
         mViewModel.getImageLocation(Activity_LogTransaction.acctNox, Activity_LogTransaction.imgNme)
-                .observe(getViewLifecycleOwner(), eImageInfo -> setPic(eImageInfo.getFileLoct()));
+                .observe(getViewLifecycleOwner(), eImageInfo -> {
+                    setPic(eImageInfo.getFileLoct());
+                    ivTransImage.setOnClickListener(view -> {
+                        poDialogx = new DialogDisplayImage(getActivity(),
+                                Activity_LogTransaction.acctNox, eImageInfo.getFileLoct());
+                        poDialogx.initDialog(dialog -> {
+                            dialog.dismiss();
+                        });
+                        poDialogx.show();
+                    });
+                });
 
         mViewModel.getPostedCollectionDetail().observe(getViewLifecycleOwner(), collectDetl -> {
             txtPTPDate.setText(collectDetl.getPromised());
@@ -72,6 +86,8 @@ public class Fragment_Log_PromiseToPay extends Fragment {
         txtAcctNo = v.findViewById(R.id.txt_acctNo);
         txtClientName = v.findViewById(R.id.txt_clientName);
         txtClientAddress = v.findViewById(R.id.txt_client_address);
+        txtTransNo = v.findViewById(R.id.txt_transno);
+        txtTransTp = v.findViewById(R.id.lbl_list_header);
         txtPTPDate = v.findViewById(R.id.txt_ptp_date);
         txtBranchName = v.findViewById(R.id.txt_branch_name);
         txtRemarks = v.findViewById(R.id.txt_remarks);
