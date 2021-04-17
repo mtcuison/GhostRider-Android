@@ -203,7 +203,6 @@ public class VMLoanUnit extends AndroidViewModel {
                 detail.setAddressx(infoModel.getLuStreet());
                 detail.setTownName(infoModel.getLuTown());
                 detail.setMobileNo(infoModel.getLuMobile());
-                detail.setSendStat("0");
                 detail.setModified(AppConstants.DATE_MODIFIED);
                 poDcp.updateCollectionDetailInfo(detail);
                 //Log.e(TAG, "Promise to Pay info has been set." + poDcp.getCollectionDetail(psTransNox.getValue(),psEntryNox.getValue()).getValue().toString());
@@ -344,7 +343,6 @@ public class VMLoanUnit extends AndroidViewModel {
                     loDetail.setTownName(lsTownID.getValue());
                     loDetail.setMobileNo(infoModel.getLuMobile());
                     loDetail.setTranStat("1");
-                    loDetail.setSendStat("0");
                     loDetail.setLatitude(sLatitude.getValue());
                     loDetail.setLongitud(sLongitude.getValue());
                     loDetail.setImageNme(sImgName.getValue());

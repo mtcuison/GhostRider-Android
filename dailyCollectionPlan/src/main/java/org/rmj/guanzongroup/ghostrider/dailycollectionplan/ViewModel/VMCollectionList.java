@@ -76,6 +76,12 @@ public class VMCollectionList extends AndroidViewModel {
         void OnDownloadFailed(String message);
     }
 
+    public interface OnDownloadClientList{
+        void OnDownload();
+        void OnSuccessDownload(List<EDCPCollectionDetail> collectionDetails);
+        void OnFailedDownload(String message);
+    }
+
     public VMCollectionList(@NonNull Application application) {
         super(application);
         this.instance = application;
@@ -97,6 +103,7 @@ public class VMCollectionList extends AndroidViewModel {
                     isExist = true;
                 }
             }
+
             if(!isExist) {
                 JSONObject loJson = new JSONObject();
                 loJson.put("sEmployID", "M00110006088");
@@ -131,14 +138,6 @@ public class VMCollectionList extends AndroidViewModel {
         return poBranch.getUserBranchInfo();
     }
 
-    public LiveData<EDCPCollectionMaster> getCollectionMaster(){
-        return poDCPRepo.getCollectionMaster();
-    }
-
-    public LiveData<EDCPCollectionDetail> getDuplicateSerialEntry(String SerialNo){
-        return poDCPRepo.getDuplicateSerialEntry(SerialNo);
-    }
-
     public void setParameter(String fsTransNox, int fnEntryNox){
         try{
             this.psTransNox.setValue(fsTransNox);
@@ -168,19 +167,16 @@ public class VMCollectionList extends AndroidViewModel {
     public void importDCPFile(String importFileName, ViewModelCallback callback) throws JSONException {
         JSONObject dcpImport = readDCPImportFileContent(importFileName);
         if(dcpImport != null)  {
-            extractDCPImportDetails(dcpImport, new ImportJSONCallback() {
-                @Override
-                public void OnDataExtract(List<EDCPCollectionDetail> collectionDetlList, EDCPCollectionMaster collectionMaster) {
-                    if (importDCPMasterData(collectionMaster)) {
-                        boolean isCollectDetlInserted = importDCPListBulkData(collectionDetlList);
-                        if (isCollectDetlInserted) {
-                            callback.OnSuccessResult(new String[]{"Collection detail imported successfully."});
-                        } else {
-                            callback.OnFailedResult("Collection Detail Import Failed: DETAIL");
-                        }
+            extractDCPImportDetails(dcpImport, (collectionDetlList, collectionMaster) -> {
+                if (importDCPMasterData(collectionMaster)) {
+                    boolean isCollectDetlInserted = importDCPListBulkData(collectionDetlList);
+                    if (isCollectDetlInserted) {
+                        callback.OnSuccessResult(new String[]{"Collection detail imported successfully."});
                     } else {
-                        callback.OnFailedResult("Collection Detail Import Failed: MASTER");
+                        callback.OnFailedResult("Collection Detail Import Failed: DETAIL");
                     }
+                } else {
+                    callback.OnFailedResult("Collection Detail Import Failed: MASTER");
                 }
             });
         }
@@ -229,9 +225,7 @@ public class VMCollectionList extends AndroidViewModel {
 
     private void extractDCPImportDetails(JSONObject dcpImport, ImportJSONCallback callback) {
         try {
-
             if (dcpImport.has("master")  && dcpImport.has("detail")) {
-
                 new CheckImportDataTask(poDCPRepo, doesExist -> {
                     if(doesExist) {
                         GToast.CreateMessage(getApplication(), "Collection list already exist.", GToast.WARNING).show();
@@ -285,9 +279,11 @@ public class VMCollectionList extends AndroidViewModel {
                                             loDetail.setHouseNox(loJson.getString("sHouseNox"));
                                             loDetail.setSerialNo(loJson.getString("sSerialNo"));
                                             loDetail.setAcctNmbr(loJson.getString("sAcctNmbr"));
-                                            loDetail.setSendStat("0");
-                                            loDetail.setTranStat("0");
-
+                                            loDetail.setLastPaym(loJson.getString("nLastPaym"));
+                                            loDetail.setLastPaid(loJson.getString("dLastPaym"));
+                                            loDetail.setABalance(loJson.getString("nABalance"));
+                                            loDetail.setDelayAvg(loJson.getString("nDelayAvg"));
+                                            loDetail.setMonAmort(loJson.getString("nMonAmort"));
                                             loCollectDetlList.add(loDetail);
                                         }
 
@@ -347,7 +343,7 @@ public class VMCollectionList extends AndroidViewModel {
                 if(!lbExist) {
                     JSONObject loJson = new JSONObject();
                     loJson.put("sSerialNo", fsSerialNo);
-                    new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), WebApi.URL_GET_REG_CLIENT, callback).execute(loJson);
+                    //new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), WebApi.URL_GET_REG_CLIENT, callback).execute(loJson);
                 } else {
                     callback.OnFailedResult("Engine no is already exist in today's collection list.");
                 }
@@ -365,7 +361,7 @@ public class VMCollectionList extends AndroidViewModel {
         return exportAsync.JSONExport;
     }
 
-    public void importARClientInfo(String fsAccntNox, ViewModelCallback callback){
+    public void importARClientInfo(String fsAccntNox, OnDownloadClientList callback){
         try{
             boolean lbExist = false;
             List<EDCPCollectionDetail> laDetail = collectionList.getValue();
@@ -380,10 +376,10 @@ public class VMCollectionList extends AndroidViewModel {
                     loJson.put("sAcctNmbr", fsAccntNox);
                     new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), WebApi.URL_GET_AR_CLIENT, callback).execute(loJson);
                 } else {
-                    callback.OnFailedResult("Account number is already exist in today's collection list.");
+                    callback.OnFailedDownload("Account number is already exist in today's collection list.");
                 }
             } else {
-                callback.OnFailedResult("Please download or import collection detail before adding.");
+                callback.OnFailedDownload("Please download or import collection detail before adding.");
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -394,12 +390,13 @@ public class VMCollectionList extends AndroidViewModel {
         private final HttpHeaders headers;
         private final RDailyCollectionPlan dcpRepo;
         private final ConnectionUtil conn;
-        private final ViewModelCallback callback;
+        private final OnDownloadClientList callback;
         private final String sTransNox;
         private final int nEntryNox;
         private final String Url;
+        private final List<EDCPCollectionDetail> collectionDetails = new ArrayList<>();
 
-        public ImportData(Application instance, String TransNox, int EntryNox, String Url, ViewModelCallback callback) {
+        public ImportData(Application instance, String TransNox, int EntryNox, String Url, OnDownloadClientList callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.dcpRepo = new RDailyCollectionPlan(instance);
             this.conn = new ConnectionUtil(instance);
@@ -412,7 +409,7 @@ public class VMCollectionList extends AndroidViewModel {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            callback.OnStartSaving();
+            callback.OnDownload();
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -444,18 +441,18 @@ public class VMCollectionList extends AndroidViewModel {
                 Log.e(TAG, loJson.getString("result"));
                 String lsResult = loJson.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccessResult(new String[]{"Client Account info has been saved."});
+                    //callback.OnSuccessDownload("");
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     String message = loError.getString("message");
-                    callback.OnFailedResult(message);
+                    callback.OnFailedDownload(message);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                callback.OnFailedResult(e.getMessage());
+                callback.OnFailedDownload(e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
-                callback.OnFailedResult(e.getMessage());
+                callback.OnFailedDownload(e.getMessage());
             }
         }
 
@@ -475,7 +472,6 @@ public class VMCollectionList extends AndroidViewModel {
             collectionDetail.setClientID(foData.getString("sClientID"));
             collectionDetail.setSerialID(foData.getString("sSerialID"));
             collectionDetail.setSerialNo(foData.getString("sSerialNo"));
-            collectionDetail.setTranStat("0");
             dcpRepo.insertCollectionDetail(collectionDetail);
             dcpRepo.updateEntryMaster(nEntryNox);
         }
@@ -596,13 +592,15 @@ public class VMCollectionList extends AndroidViewModel {
                 collectionDetail.setApntUnit(loJson.getString("cApntUnit"));
                 collectionDetail.setDueDatex(loJson.getString("dDueDatex"));
                 collectionDetail.setLongitud(loJson.getString("nLongitud"));
-                collectionDetail.setTranStat("0");
-                collectionDetail.setSendStat("0");
                 collectionDetail.setLatitude(loJson.getString("nLatitude"));
                 collectionDetail.setClientID(loJson.getString("sClientID"));
                 collectionDetail.setSerialID(loJson.getString("sSerialID"));
                 collectionDetail.setSerialNo(loJson.getString("sSerialNo"));
-                collectionDetail.setTranStat("0");
+                collectionDetail.setLastPaym(loJson.getString("nLastPaym"));
+                collectionDetail.setLastPaid(loJson.getString("dLastPaym"));
+                collectionDetail.setABalance(loJson.getString("nABalance"));
+                collectionDetail.setDelayAvg(loJson.getString("nDelayAvg"));
+                collectionDetail.setMonAmort(loJson.getString("nMonAmort"));
                 collectionDetails.add(collectionDetail);
             }
             dcpRepo.insertDetailBulkData(collectionDetails);

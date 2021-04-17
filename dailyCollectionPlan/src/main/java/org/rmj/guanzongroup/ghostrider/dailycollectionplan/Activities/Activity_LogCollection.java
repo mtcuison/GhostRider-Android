@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,10 +25,13 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionLogAdapter;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogCollectedCash;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogRemitCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionLog;
@@ -46,7 +50,7 @@ public class Activity_LogCollection extends AppCompatActivity {
 
     private VMCollectionLog mViewModel;
 
-    private TextView lblBranch, lblAddrss;
+    private TextView lblBranch, lblAddrss, lblTotRemit, lblCashOH, lblTotalClt;
     //private CollectionLogAdapter poAdapter;
     private LinearLayoutManager poManager;
     private TextInputEditText txtDate, txtSearch;
@@ -57,6 +61,15 @@ public class Activity_LogCollection extends AppCompatActivity {
 
     private List<EDCPCollectionDetail> filteredCollectionDetlx;
 
+    private boolean hasLog = true;
+
+    private List<EBankInfo> poBankList = new ArrayList<>();
+    private List<EBranchInfo> poBrnchList = new ArrayList<>();
+
+    private String psCltCheck;
+    private String psCltCashx;
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +78,12 @@ public class Activity_LogCollection extends AppCompatActivity {
 
         mViewModel = new ViewModelProvider(this).get(VMCollectionLog.class);
         mViewModel.getUserBranchInfo().observe(Activity_LogCollection.this, eBranchInfo -> {
-            lblBranch.setText(eBranchInfo.getBranchNm());
-            lblAddrss.setText(eBranchInfo.getAddressx());
+            try {
+                lblBranch.setText(eBranchInfo.getBranchNm());
+                lblAddrss.setText(eBranchInfo.getAddressx());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
 
         mViewModel.getAllAddress().observe(Activity_LogCollection.this, eAddressUpdates -> {
@@ -74,6 +91,22 @@ public class Activity_LogCollection extends AppCompatActivity {
                 mViewModel.setAddressList(eAddressUpdates);
             }
             catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getBankInfoList().observe(Activity_LogCollection.this, eBankInfos -> {
+            try {
+                poBankList = eBankInfos;
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getBranchInfoList().observe(Activity_LogCollection.this, eBranchInfos -> {
+            try {
+                poBrnchList = eBranchInfos;
+            } catch (Exception e){
                 e.printStackTrace();
             }
         });
@@ -112,10 +145,12 @@ public class Activity_LogCollection extends AppCompatActivity {
         mViewModel.getDateTransact().observe(Activity_LogCollection.this, s -> mViewModel.getCollectionDetailForDate(s).observe(Activity_LogCollection.this, collectionDetails -> {
             try{
                 if(collectionDetails.size() > 0) {
+                    hasLog = true;
                     txtNoLog.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                     tilSearch.setVisibility(View.VISIBLE);
                     txtSearch.setText("");
+                    linearCashInfo.setVisibility(View.VISIBLE);
 
                     filteredCollectionDetlx.clear();
                     for(int z = 0; z < collectionDetails.size(); z++) {
@@ -176,17 +211,28 @@ public class Activity_LogCollection extends AppCompatActivity {
 
                         }
                     });
+
+                    mViewModel.getCollectedTotal(s).observe(this, value -> lblTotalClt.setText("Total Collection : " + FormatUIText.getCurrencyUIFormat(value)));
+
+                    mViewModel.getCashOnHand(s).observe(this, value -> lblCashOH.setText("Cash-On-Hand : " + FormatUIText.getCurrencyUIFormat(value)));
+
+                    mViewModel.getTotalRemittedCollection(s).observe(this, value -> lblTotRemit.setText("Total Remitted : " + FormatUIText.getCurrencyUIFormat(value)));
+
+                    mViewModel.getCollectedCheckPayment(s).observe(this, value -> psCltCheck = value );
+
+                    mViewModel.getCollectedCashPayment(s).observe(this, value -> psCltCashx = value);
                 } else {
+                    hasLog = false;
                     txtNoLog.setVisibility(View.VISIBLE);
                     txtNoName.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
                     tilSearch.setVisibility(View.GONE);
+                    linearCashInfo.setVisibility(View.GONE);
                 }
             } catch (Exception e){
                 e.printStackTrace();
             }
         }));
-
 
         mViewModel.getUnsentImageInfoList().observe(Activity_LogCollection.this, eImageInfos -> {
             try{
@@ -195,8 +241,6 @@ public class Activity_LogCollection extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-
-        //btnPost.setOnClickListener(view -> mViewModel.PostLRCollectionDetail(Activity_LogCollection.this));
     }
 
     private void initWidgets(){
@@ -209,6 +253,9 @@ public class Activity_LogCollection extends AppCompatActivity {
         txtNoName = findViewById(R.id.txt_no_name);
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddrss = findViewById(R.id.lbl_headerAddress);
+        lblTotRemit = findViewById(R.id.lbl_totalRemitCollection);
+        lblCashOH = findViewById(R.id.lbl_totalCashOnHand);
+        lblTotalClt = findViewById(R.id.lbl_totalCollected);
 
         txtDate = findViewById(R.id.txt_collectionDate);
         txtSearch = findViewById(R.id.txt_collectionSearch);
@@ -224,12 +271,16 @@ public class Activity_LogCollection extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        linearCashInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogCollectedCash poCash = new DialogCollectedCash(Activity_LogCollection.this);
-                poCash.initDialog();
-                poCash.show();
+        linearCashInfo.setOnClickListener(v -> {
+            try {
+                Intent loIntent = new Intent(Activity_LogCollection.this, Activity_CollectionRemittance.class);
+                String lsDate = Objects.requireNonNull(txtDate.getText()).toString();
+                @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("MMM dd, yyyy").parse(lsDate);
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat loFormatter = new SimpleDateFormat("yyyy-MM-dd");
+                loIntent.putExtra("dTransact", loFormatter.format(Objects.requireNonNull(loDate)));
+                startActivity(loIntent);
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
     }
@@ -256,24 +307,33 @@ public class Activity_LogCollection extends AppCompatActivity {
         if(item.getItemId() == android.R.id.home){
             finish();
         } else if(item.getItemId() == R.id.action_menu_remit_collection){
-            DialogRemitCollection poRemit = new DialogRemitCollection(Activity_LogCollection.this);
-            poRemit.initDialog(new DialogRemitCollection.RemitDialogListener() {
-                @Override
-                public void OnConfirm(AlertDialog dialog) {
-                    dialog.dismiss();
-                }
+            if(hasLog) {
+                DialogRemitCollection poRemit = new DialogRemitCollection(Activity_LogCollection.this);
+                poRemit.setPoBankList(poBankList);
+                poRemit.setPoBrnchList(poBrnchList);
+                poRemit.setPsCltCheck(psCltCheck);
+                poRemit.setPsCltCashx(psCltCashx);
+                poRemit.initDialog(new DialogRemitCollection.RemitDialogListener() {
+                    @Override
+                    public void OnConfirm(AlertDialog dialog, EDCP_Remittance remittance) {
+                        dialog.dismiss();
+                    }
 
-                @Override
-                public void OnCancel(AlertDialog dialog) {
-                    dialog.dismiss();
-                }
-            });
-            poRemit.show();
+                    @Override
+                    public void OnCancel(AlertDialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
+                poRemit.show();
+            } else {
+                MessageBox loMessage = new MessageBox(Activity_LogCollection.this);
+                loMessage.initDialog();
+                loMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                loMessage.setMessage("There's no collection record for this date.");
+                loMessage.setTitle("No Record Found");
+                loMessage.show();
+            }
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public String getDate(){
-        return "Collection For " + FormatUIText.getParseDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
     }
 }

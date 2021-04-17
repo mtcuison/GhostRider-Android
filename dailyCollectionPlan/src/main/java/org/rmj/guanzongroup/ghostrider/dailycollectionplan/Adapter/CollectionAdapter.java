@@ -10,11 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.CollectionPlan;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.ArrayList;
@@ -60,13 +58,17 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             holder.lblClient.setText(collection.getFullName());
             holder.lblAdd1xx.setText(collection.getAddressx());
             holder.lblMobile.setText(collection.getMobileNo());
-            holder.lblBalanc.setText("");
-            holder.lblAmount.setText(FormatUIText.getCurrencyUIFormat(collection.getAmtDuexx()));
             if (collection.getRemCodex() == null || collection.getRemCodex().isEmpty()){
                 holder.lblStatus.setText("");
             }else{
                 holder.lblStatus.setText(DCP_Constants.getRemarksDescription(collection.getRemCodex()));
             }
+            holder.lblMnthAm.setText(FormatUIText.getCurrencyUIFormat(collection.getMonAmort()));
+            holder.lblBalnce.setText(FormatUIText.getCurrencyUIFormat(collection.getABalance()));
+            holder.lblAmount.setText(FormatUIText.getCurrencyUIFormat(collection.getAmtDuexx()));
+            holder.lblDelayx.setText(collection.getDelayAvg());
+            holder.lblLastPy.setText(FormatUIText.getCurrencyUIFormat(collection.getLastPaym()));
+            holder.lblLastPd.setText(FormatUIText.formatGOCasBirthdate(collection.getLastPaid()));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -89,20 +91,27 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         public TextView lblClient;
         public TextView lblAdd1xx;
         public TextView lblMobile;
-        public TextView lblBalanc;
         public TextView lblAmount;
         public TextView lblStatus;
+        public TextView lblMnthAm;
+        public TextView lblBalnce;
+        public TextView lblDelayx;
+        public TextView lblLastPy;
+        public TextView lblLastPd;
 
         public CollectionViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             lblAcctNo = itemView.findViewById(R.id.lbl_AccountNo);
-//            lblDCPNox = itemView.findViewById(R.id.lbl_dcpNox);
             lblClient = itemView.findViewById(R.id.lbl_clientNm);
             lblAdd1xx = itemView.findViewById(R.id.lbl_dcpAddress1);
             lblMobile = itemView.findViewById(R.id.lbl_dcpContact);
-            lblBalanc = itemView.findViewById(R.id.lbl_dcpBalance);
-            lblAmount = itemView.findViewById(R.id.lbl_dcpAmount);
+            lblMnthAm = itemView.findViewById(R.id.lbl_dcpAmortization);
+            lblAmount = itemView.findViewById(R.id.lbl_dcpAmountDue);
             lblStatus = itemView.findViewById(R.id.lbl_dcpStatus);
+            lblBalnce = itemView.findViewById(R.id.lbl_dcpBalance);
+            lblDelayx = itemView.findViewById(R.id.lbl_dcpDelayAvg);
+            lblLastPy = itemView.findViewById(R.id.lbl_dcpAmountLastPay);
+            lblLastPd = itemView.findViewById(R.id.lbl_dcpLastPaid);
 
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();

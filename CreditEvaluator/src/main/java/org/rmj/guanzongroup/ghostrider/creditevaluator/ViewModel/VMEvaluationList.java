@@ -264,7 +264,6 @@ public class VMEvaluationList extends AndroidViewModel {
             collectionDetail.setClientID(foData.getString("sClientID"));
             collectionDetail.setSerialID(foData.getString("sSerialID"));
             collectionDetail.setSerialNo(foData.getString("sSerialNo"));
-            collectionDetail.setTranStat("0");
             dcpRepo.insertCollectionDetail(collectionDetail);
         }
     }

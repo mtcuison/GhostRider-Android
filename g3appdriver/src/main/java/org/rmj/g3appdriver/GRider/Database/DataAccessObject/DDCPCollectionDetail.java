@@ -79,7 +79,7 @@ public interface DDCPCollectionDetail {
     @Insert
     void insertBulkData(List<EDCPCollectionDetail> collectionDetails);
 
-    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1' AND sRemCodex <> 'PAID' ORDER BY dModified ASC")
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1' ORDER BY dModified ASC")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailList();
 
     @Query("SELECT * FROM Client_Update_Request WHERE sDtlSrcNo = :AccountNox")
@@ -111,6 +111,30 @@ public interface DDCPCollectionDetail {
             "FROM LR_DCP_Collection_Master " +
             "ORDER BY dTransact DESC LIMIT 1)")
     void updateCustomerDetailImage(String AccountNo);
+
+    @Query("SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail " +
+            "WHERE sCheckNox <> '' AND  sCheckDte <> '' AND sCheckAct <> '' " +
+            "AND sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact)")
+    LiveData<String> getCollectedCheckTotalPayment(String dTransact);
+
+    @Query("SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail " +
+            "WHERE sCheckNox == '' AND  sCheckDte == '' AND sCheckAct == '' " +
+            "AND sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact)")
+    LiveData<String> getCollectedTotalPayment(String dTransact);
+
+    @Query("SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail " +
+            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact)")
+    LiveData<String> getCollectedTotal(String dTransact);
+
+    @Query("SELECT (SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail " +
+            "WHERE sTransNox = (" +
+            "SELECT sTransNox FROM LR_DCP_Collection_Master " +
+            "WHERE dTransact =:dTransact)) - (" +
+            "SELECT SUM(nAmountxx) FROM LR_DCP_Remittance " +
+            "WHERE sTransNox = (" +
+            "SELECT sTransNox FROM LR_DCP_Collection_Master " +
+            "WHERE dTransact =:dTransact)) AS CASH_ON_HAND")
+    LiveData<String> getCashOnHand(String dTransact);
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +
             "WHERE sTransNox = (SELECT sTransNox FROM " +

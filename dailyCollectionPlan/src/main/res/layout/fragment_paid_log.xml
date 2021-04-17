@@ -9,8 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/ln_client_info"
@@ -20,7 +19,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="10dp">
+            android:background="@color/guanzon_digital_orange"
+            android:padding="10dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,95 +29,174 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/textColor_Black"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/textColor_White"
+                    android:textSize="13sp"
                     android:text="Account Number: "/>
                 <TextView
                     android:id="@+id/txt_acctNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/textColor_Black"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/textColor_White"
+                    android:textSize="13sp"
                     android:layout_weight="1"
                     android:gravity="end"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="3dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".5"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/textColor_Black"
-                    android:text="Client Name: "/>
+                android:orientation="vertical"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="3dp">
                 <TextView
                     android:id="@+id/txt_clientName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/textColor_Black"
-                    android:layout_weight="1"
-                    android:gravity="end"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="3dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".5"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/textColor_Black"
-                    android:text="Address: "/>
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/textColor_White"
+                    android:textSize="20sp"/>
+
                 <TextView
                     android:id="@+id/txt_client_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/textColor_Black"
-                    android:layout_weight="1"
-                    android:gravity="end"/>
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/textColor_White"
+                    android:textSize="15sp"
+                    android:layout_marginTop="3dp"/>
             </LinearLayout>
         </LinearLayout>
 
-        <View
-            android:id="@+id/divider1"
+        <LinearLayout
+            android:id="@+id/ln_list_header"
             android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:background="@color/guanzon_digital_orange"
-            app:layout_constraintTop_toBottomOf="@id/ln_client_info"/>
-
-
-        <TextView
-            android:id="@+id/lbl_check_payment"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:background="@drawable/border_label"
-            android:text="@string/sLblCheckPayment"
-            android:textColor="@color/guanzon_digital_orange"
-            app:layout_constraintTop_toBottomOf="@id/divider1"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
             android:layout_marginTop="15dp"
-            android:visibility="gone"/>
+            android:layout_marginBottom="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ln_client_info"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight=".6"
+                android:background="@color/guanzon_digital_orange"/>
+
+            <TextView
+                android:id="@+id/lbl_list_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/material_black"
+                android:fontFamily="@font/roboto_bold"
+                android:layout_marginHorizontal="10dp"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight=".6"
+                android:background="@color/guanzon_digital_orange"/>
+
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_remarks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ln_list_header"
+            app:layout_constraintRight_toRightOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="8dp">
+                <TextView
+                    android:id="@+id/lbl_detail_remarks"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Remarks:"
+                    android:textColor="@color/textColor_Black"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:id="@+id/lbl_check_payment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_label"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/sLblCheckPayment"
+                    android:textColor="@color/guanzon_digital_orange"
+                    android:textSize="11sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/txt_remarks"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/textColor_Black"
+                    android:maxLines="3"
+                    android:lines="3"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lbl_detail_remarks"
+                    android:layout_marginVertical="10dp"/>
+                <View
+                    android:id="@+id/cv_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="0.4dp"
+                    android:background="@color/textColor_Black"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/lbl_detail_transno"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginBottom="3dp"/>
+                <TextView
+                    android:id="@+id/lbl_detail_transno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Transaction No.:"
+                    android:textColor="@color/textColor_Black"
+                    android:textSize="11sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/txt_transno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/textColor_Black"
+                    android:textSize="11sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:id="@+id/ln_clientDetl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lbl_check_payment"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/cv_remarks"
+            app:layout_constraintRight_toRightOf="parent"
+            android:paddingHorizontal="20dp"
+            android:layout_marginTop="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -130,7 +209,7 @@
                     android:text="Payment Type: "
                     android:layout_weight=".1"
                     android:textColor="@color/material_black"
-                    android:fontFamily="@font/roboto"/>
+                    android:fontFamily="@font/roboto_medium"/>
 
                 <TextView
                     android:id="@+id/txt_payment_type"
@@ -154,7 +233,7 @@
                     android:text="P.R. No.: "
                     android:layout_weight=".1"
                     android:textColor="@color/material_black"
-                    android:fontFamily="@font/roboto"/>
+                    android:fontFamily="@font/roboto_medium"/>
 
                 <TextView
                     android:id="@+id/txt_pr_no"
@@ -175,10 +254,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Amount: "
+                    android:text="Amount Paid: "
                     android:layout_weight=".1"
                     android:textColor="@color/material_black"
-                    android:fontFamily="@font/roboto"/>
+                    android:fontFamily="@font/roboto_medium"/>
 
                 <TextView
                     android:id="@+id/txt_trans_amount"
@@ -202,7 +281,7 @@
                     android:text="Discount/Rebate: "
                     android:layout_weight=".1"
                     android:textColor="@color/material_black"
-                    android:fontFamily="@font/roboto"/>
+                    android:fontFamily="@font/roboto_medium"/>
 
                 <TextView
                     android:id="@+id/txt_discount"
@@ -226,7 +305,7 @@
                     android:text="Others/Penalty: "
                     android:layout_weight=".1"
                     android:textColor="@color/material_black"
-                    android:fontFamily="@font/roboto"/>
+                    android:fontFamily="@font/roboto_medium"/>
 
                 <TextView
                     android:id="@+id/txt_penalty"
@@ -250,7 +329,7 @@
                     android:text="Total Amount: "
                     android:layout_weight=".1"
                     android:textColor="@color/material_black"
-                    android:fontFamily="@font/roboto"/>
+                    android:fontFamily="@font/roboto_medium"/>
 
                 <TextView
                     android:id="@+id/txt_total_amount"
@@ -263,36 +342,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Remarks: "
-                    android:layout_weight=".1"
-                    android:textColor="@color/material_black"
-                    android:fontFamily="@font/roboto"/>
-
-                <TextView
-                    android:id="@+id/txt_remarks"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:textColor="@color/material_black"
-                    android:fontFamily="@font/roboto"/>
-
-            </LinearLayout>
-
         </LinearLayout>
-
-
-
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
