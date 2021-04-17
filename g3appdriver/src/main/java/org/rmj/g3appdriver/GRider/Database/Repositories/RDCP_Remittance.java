@@ -1,6 +1,8 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
+import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
@@ -16,6 +18,10 @@ public class RDCP_Remittance {
 
     public RDCP_Remittance(Application application) {
         this.remitDao = GGC_GriderDB.getInstance(application).DCPRemitanceDao();
+    }
+
+    public void initializeRemittance(String dTransact){
+        new InitializeRemitTask().execute(dTransact);
     }
 
     public void insert(EDCP_Remittance remittance){
@@ -48,5 +54,18 @@ public class RDCP_Remittance {
 
     public LiveData<String> getTotalOtherRemittedCollection(String dTransact){
         return remitDao.getTotalOtherRemittedCollection(dTransact);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class InitializeRemitTask extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String dTransact = strings[0];
+            if(remitDao.checkRemittanceExist(dTransact) == null){
+                remitDao.initializeCurrentDayRemittanceField(dTransact);
+            }
+            return null;
+        }
     }
 }

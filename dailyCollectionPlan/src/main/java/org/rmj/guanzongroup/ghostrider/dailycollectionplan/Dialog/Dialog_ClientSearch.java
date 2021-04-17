@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +23,8 @@ public class Dialog_ClientSearch {
     private final Context context;
 
     public interface OnClientSelectListener{
-        void OnSelect(EDCPCollectionDetail detail);
+        void OnSelect(AlertDialog dialog, EDCPCollectionDetail detail);
+        void OnCancel(AlertDialog dialog);
     }
 
     public Dialog_ClientSearch(Context context) {
@@ -38,11 +40,17 @@ public class Dialog_ClientSearch {
         poDialogx.setCancelable(false);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview_clientSearchList);
-        AdapterClientSearchList loAdapter = new AdapterClientSearchList(collectionDetails, listener::OnSelect);
+        Button btnCancel = view.findViewById(R.id.btn_cancel);
+
+        AdapterClientSearchList loAdapter = new AdapterClientSearchList(collectionDetails, detail -> listener.OnSelect(poDialogx, detail));
         LinearLayoutManager loManage = new LinearLayoutManager(context);
         loManage.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setAdapter(loAdapter);
         recyclerView.setLayoutManager(loManage);
+
+        btnCancel.setOnClickListener(v -> {
+            listener.OnCancel(poDialogx);
+        });
     }
 
     public void show(){
