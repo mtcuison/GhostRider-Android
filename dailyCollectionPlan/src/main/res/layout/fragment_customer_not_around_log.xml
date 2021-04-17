@@ -9,8 +9,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="10dp">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/ln_client_info"
@@ -20,7 +19,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="10dp">
+        android:background="@color/guanzon_digital_orange"
+        android:padding="10dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,78 +29,52 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/textColor_White"
+                android:textSize="13sp"
                 android:text="Account Number: "/>
             <TextView
                 android:id="@+id/txt_acctNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/textColor_White"
+                android:textSize="13sp"
                 android:layout_weight="1"
                 android:gravity="end"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="3dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
-                android:text="Client Name: "/>
+            android:orientation="vertical"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="3dp">
             <TextView
                 android:id="@+id/txt_clientName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
-                android:layout_weight="1"
-                android:gravity="end"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="3dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
-                android:text="Address: "/>
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/textColor_White"
+                android:textSize="20sp"/>
+
             <TextView
                 android:id="@+id/txt_client_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/textColor_Black"
-                android:layout_weight="1"
-                android:gravity="end"/>
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/textColor_White"
+                android:textSize="15sp"
+                android:layout_marginTop="3dp"/>
         </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:id="@+id/divider1"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:background="@color/guanzon_digital_orange"
-        app:layout_constraintTop_toBottomOf="@id/ln_client_info"/>
 
     <ImageView
         android:id="@+id/iv_transaction_img"
         android:layout_width="0dp"
         android:layout_height="300dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider1"
+        app:layout_constraintTop_toBottomOf="@id/ln_client_info"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="10dp"/>
 
