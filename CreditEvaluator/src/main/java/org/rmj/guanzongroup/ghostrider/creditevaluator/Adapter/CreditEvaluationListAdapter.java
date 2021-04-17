@@ -18,6 +18,7 @@ import java.util.List;
 
 public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEvaluationListAdapter.CreditEvaluationViewHolder> implements Filterable{
 
+    private static final String TAG = CreditEvaluationListAdapter.class.getSimpleName();
     private List<CreditEvaluationModel> plLoanApp;
     private List<CreditEvaluationModel> plLoanApp1;
     private List<CreditEvaluationModel> plSchList;

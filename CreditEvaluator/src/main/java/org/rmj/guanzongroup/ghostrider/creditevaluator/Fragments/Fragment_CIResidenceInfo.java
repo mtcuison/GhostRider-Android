@@ -19,11 +19,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
@@ -34,16 +31,13 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIResidenceIn
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
 import static android.app.Activity.RESULT_OK;
 import static org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.CIConstants.SUB_FOLDER_DCP;
 import static org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder.APP_SYNC_DATA;
-//import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIResidenceInfo;
 
 public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallBack {
 
+    private static final String TAG = Fragment_CIResidenceInfo.class.getSimpleName();
     private VMCIResidenceInfo mViewModel;
     private TextInputEditText tiwLandmark;
     private RadioGroup rgHouseOwnership,rgHouseType,rgHouseHolds,rgGarage;
@@ -66,11 +60,12 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_ci_residence_info, container, false);
-        residenceInfo = new CIResidenceInfoModel();
+
         poFilexx = new ImageFileCreator(getActivity(), SUB_FOLDER_DCP, Activity_CIApplication.getInstance().getTransNox());
         poFilexx.setTransNox(Activity_CIApplication.getInstance().getTransNox());
 //        poFilexx = new ImageFileCreator(Fragment_CIResidenceInfo.this , CIConstants.APP_PUBLIC_FOLDER, CIConstants.SUB_FOLDER_DCP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
 
+        residenceInfo = new CIResidenceInfoModel();
         poMessage = new MessageBox(getContext());
         initWidgets(root);
         initClientInfo();
@@ -80,19 +75,24 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMCIResidenceInfo.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(VMCIResidenceInfo.class);
         mViewModel.setsTransNox(Activity_CIApplication.getInstance().getTransNox());
         mViewModel.setnLatitude("0.0");
         mViewModel.setnLogitude("0.0");
-        Log.e("TRansNox",Activity_CIApplication.getInstance().getTransNox());
+        Log.e(TAG,Activity_CIApplication.getInstance().getTransNox());
         mViewModel.getCIByTransNox(Activity_CIApplication.getInstance().getTransNox()).observe(getViewLifecycleOwner(), eciEvaluation -> {
-            if (eciEvaluation != null){;
-                rgHouseOwnership.clearCheck();
-                rgHouseHolds.clearCheck();
-                rgHouseType.clearCheck();
-                rgGarage.clearCheck();
+            rgHouseOwnership.clearCheck();
+            rgHouseHolds.clearCheck();
+            rgHouseType.clearCheck();
+            rgGarage.clearCheck();
+            tiwLandmark.setText("");
+            if (eciEvaluation != null){
                 mViewModel.setCurrentCIDetail(eciEvaluation);
-                tiwLandmark.setText(eciEvaluation.getLandMark());
+                if (eciEvaluation.getOwnershp() != null){
+                    tiwLandmark.setText(eciEvaluation.getLandMark());
+                    tiwLandmark.setEnabled(false);
+                }
+
 //                House Ownership
                 if (eciEvaluation.getOwnershp() != null){
 //                    Loop for radio button not clickable
@@ -220,7 +220,13 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
         {
             showDialogImg();
         }else {
-            GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
+            poMessage.initDialog();
+            poMessage.setTitle("CI Evaluation");
+            poMessage.setMessage(message);
+            poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                dialog.dismiss();
+            });
+            poMessage.show();
         }
 
     }

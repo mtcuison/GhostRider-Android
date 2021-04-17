@@ -29,6 +29,7 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIResidenceInfoModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -80,33 +81,8 @@ public class VMCIResidenceInfo extends AndroidViewModel {
         poCI.insertCiApplication(eciEvaluation);
 
     }
-    public void updateCiResidence(CIResidenceInfoModel infoModel){
-        evaluation.setLatitude(nLatitude.getValue());
-        evaluation.setLongitud(nLogitude.getValue());
-        evaluation.setOwnershp(infoModel.getOwnershp());
-        evaluation.setOwnOther(infoModel.getOwnOther());
-        evaluation.setHouseTyp(infoModel.getHouseTyp());
-        evaluation.setGaragexx(infoModel.getGaragexx());
-        poCI.updateCiResidence(sTransNox.getValue(),
-                infoModel.getLandMark(),
-                infoModel.getOwnershp(),
-                infoModel.getOwnOther(),
-                infoModel.getHouseTyp(),
-                infoModel.getGaragexx(),
-                nLatitude.getValue(),
-                nLogitude.getValue());
-//        poCI.updateCiResidence(evaluation);
-    }
-    public void updateCIResidences(CIResidenceInfoModel infoModel){
-        evaluation.setLatitude(nLatitude.getValue());
-        evaluation.setLongitud(nLogitude.getValue());
-        evaluation.setOwnershp(infoModel.getOwnershp());
-        evaluation.setOwnOther(infoModel.getOwnOther());
-        evaluation.setHouseTyp(infoModel.getHouseTyp());
-        evaluation.setGaragexx(infoModel.getGaragexx());
-        poCI.updateCiResidence(evaluation);
 
-    }
+
     public void saveResidenceImageInfo(EImageInfo foImage) {
         try {
             boolean isImgExist = false;

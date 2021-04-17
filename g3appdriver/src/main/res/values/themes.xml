@@ -69,6 +69,7 @@
         <item name="android:textColor">@color/material_black</item>
     </style>
 
+
     <style name="AutoCompleteStyleTheme">
         <item name="colorControlActivated">@color/guanzon_orange</item>
         <item name="android:paddingTop">15dp</item>
