@@ -1,10 +1,13 @@
 package org.rmj.guanzongroup.ghostrider.creditevaluator.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.OnLifecycleEvent;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
@@ -18,6 +21,8 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.Fragments.Fragment_CIResi
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 
 import java.util.Objects;
+
+import static androidx.lifecycle.Lifecycle.Event.ON_STOP;
 
 public class Activity_CIApplication extends AppCompatActivity {
     private static final String TAG = Activity_CIApplication.class.getSimpleName();
@@ -73,6 +78,7 @@ public class Activity_CIApplication extends AppCompatActivity {
         loMessage.setTitle("CI Evaluation");
         loMessage.setMessage("Exit ci evaluation?");
         loMessage.setPositiveButton("Yes", (view, dialog) -> {
+
             dialog.dismiss();
             finish();
         });
@@ -99,7 +105,7 @@ public class Activity_CIApplication extends AppCompatActivity {
             MessageBox loMessage = new MessageBox(Activity_CIApplication.this);
             loMessage.initDialog();
             loMessage.setTitle("CI Evaluation");
-            loMessage.setMessage("Exit ci evaluation?");
+            loMessage.setMessage("Are you sure to exit ci evaluation?");
             loMessage.setPositiveButton("Yes", (view, dialog) -> {
                 dialog.dismiss();
                 finish();
@@ -115,4 +121,5 @@ public class Activity_CIApplication extends AppCompatActivity {
         super.onDestroy();
         getViewModelStore().clear();
     }
+
 }

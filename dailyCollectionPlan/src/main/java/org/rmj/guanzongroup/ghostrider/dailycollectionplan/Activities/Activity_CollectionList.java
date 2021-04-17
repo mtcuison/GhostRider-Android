@@ -32,6 +32,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionAdapter;
@@ -39,6 +42,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAccountD
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogConfirmPost;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogImportDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAddCollection;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.Dialog_ClientSearch;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
@@ -248,29 +252,138 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         if(item.getItemId() == android.R.id.home){
             finish();
         } else if(item.getItemId() == R.id.action_menu_add_collection){
-//            mViewModel.getCollectionMaster().observe(Activity_CollectionList.this, collectionMaster -> {
-//                try {
-//                    loDialog = new DialogAddCollection(Activity_CollectionList.this);
-//                    loDialog.initDialog(new DialogAddCollection.OnDialogButtonClickListener() {
-//                        @Override
-//                        public void OnDownloadClick(Dialog Dialog, String args, String fsType) {
-//                            if(fsType.equalsIgnoreCase("0")) {
-//                                mViewModel.importARClientInfo(args, Activity_CollectionList.this);
-//                            } else if(fsType.equalsIgnoreCase("1")) {
-//                                mViewModel.importInsuranceInfo(args, Activity_CollectionList.this);
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void OnCancel(Dialog Dialog) {
-//                            Dialog.dismiss();
-//                        }
-//                    });
-//                    loDialog.show();
-//                } catch (Exception e){
-//                    e.printStackTrace();
-//                }
-//            });
+            try {
+                loDialog = new DialogAddCollection(Activity_CollectionList.this);
+                loDialog.initDialog(new DialogAddCollection.OnDialogButtonClickListener() {
+                    @Override
+                    public void OnDownloadClick(Dialog Dialog, String clientName, String fsType) {
+                        Dialog.dismiss();
+                        if(fsType.equalsIgnoreCase("0")) {
+                            Dialog_ClientSearch loClient = new Dialog_ClientSearch(Activity_CollectionList.this);
+                            mViewModel.importARClientInfo(clientName, new VMCollectionList.OnDownloadClientList() {
+                                @Override
+                                public void OnDownload() {
+                                    poDialogx.initDialog("Daily Collection Plan", "Searching client. Please wait...", false);
+                                    poDialogx.show();
+                                }
+
+                                @Override
+                                public void OnSuccessDownload(List<EDCPCollectionDetail> collectionDetails) {
+                                    poDialogx.dismiss();
+                                    loClient.initDialog(collectionDetails, new Dialog_ClientSearch.OnClientSelectListener() {
+                                        @Override
+                                        public void OnSelect(AlertDialog clientDialog, EDCPCollectionDetail detail) {
+                                            /**
+                                             * validation if user accidentally tap on list on
+                                             *
+                                             */
+                                            poMessage.initDialog();
+                                            poMessage.setTitle("Add Collection");
+                                            poMessage.setMessage("Add " + detail.getFullName() + " with account number " +
+                                                    detail.getAcctNmbr() + " to list of collection?");
+                                            poMessage.setPositiveButton("Yes", (view, msgDialog) -> {
+                                                clientDialog.dismiss();
+                                                mViewModel.insertAddedCollectionDetail(detail, message -> {
+                                                    GToast.CreateMessage(Activity_CollectionList.this, message, GToast.INFORMATION).show();
+                                                    msgDialog.dismiss();
+                                                });
+                                            });
+                                            poMessage.setNegativeButton("No", (view, msgDialog) -> msgDialog.dismiss());
+                                            poMessage.show();
+                                        }
+
+                                        @Override
+                                        public void OnCancel(AlertDialog clientDialog) {
+                                            clientDialog.dismiss();
+
+                                            /*
+                                            Show Add collection dialog if user cancels search client list
+                                             */
+                                            loDialog.show();
+                                        }
+                                    });
+                                    loClient.show();
+                                }
+
+                                @Override
+                                public void OnFailedDownload(String message) {
+                                    poDialogx.dismiss();
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Daily Collection Plan");
+                                    poMessage.setMessage(message);
+                                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                    poMessage.show();
+                                }
+                            });
+                        } else if(fsType.equalsIgnoreCase("1")) {
+                            Dialog_ClientSearch loClient = new Dialog_ClientSearch(Activity_CollectionList.this);
+                            mViewModel.importInsuranceInfo(clientName, new VMCollectionList.OnDownloadClientList() {
+                                @Override
+                                public void OnDownload() {
+                                    poDialogx.initDialog("Daily Collection Plan", "Searching client. Please wait...", false);
+                                    poDialogx.show();
+                                }
+
+                                @Override
+                                public void OnSuccessDownload(List<EDCPCollectionDetail> collectionDetails) {
+                                    poDialogx.dismiss();
+                                    loClient.initDialog(collectionDetails, new Dialog_ClientSearch.OnClientSelectListener() {
+                                        @Override
+                                        public void OnSelect(AlertDialog clientDialog, EDCPCollectionDetail detail) {
+                                            /**
+                                             * validation if user accidentally tap on list on
+                                             *
+                                             */
+                                            poMessage.initDialog();
+                                            poMessage.setTitle("Add Collection");
+                                            poMessage.setMessage("Add " + detail.getFullName() + " with account number " +
+                                                    detail.getAcctNmbr() + " to list of collection?");
+                                            poMessage.setPositiveButton("Yes", (view, msgDialog) -> {
+                                                clientDialog.dismiss();
+                                                mViewModel.insertAddedCollectionDetail(detail, message -> {
+                                                    GToast.CreateMessage(Activity_CollectionList.this, message, GToast.INFORMATION).show();
+                                                    msgDialog.dismiss();
+                                                });
+                                            });
+                                            poMessage.setNegativeButton("No", (view, msgDialog) -> msgDialog.dismiss());
+                                            poMessage.show();
+                                        }
+
+                                        @Override
+                                        public void OnCancel(AlertDialog clientDialog) {
+                                            clientDialog.dismiss();
+
+                                            /*
+                                            Show Add collection dialog if user cancels search client list
+                                             */
+                                            loDialog.show();
+                                        }
+                                    });
+                                    loClient.show();
+                                }
+
+                                @Override
+                                public void OnFailedDownload(String message) {
+                                    poDialogx.dismiss();
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Daily Collection Plan");
+                                    poMessage.setMessage(message);
+                                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                    poMessage.show();
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void OnCancel(Dialog Dialog) {
+                        Dialog.dismiss();
+                    }
+                });
+                loDialog.show();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         } else if(item.getItemId() == R.id.action_menu_post_collection){
             boolean hasUnTag = false;
             if(plDetail.size()>0){

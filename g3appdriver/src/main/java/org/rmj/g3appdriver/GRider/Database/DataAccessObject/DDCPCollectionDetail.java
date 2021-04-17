@@ -21,6 +21,16 @@ public interface DDCPCollectionDetail {
     @Update
     void update(EDCPCollectionDetail collectionDetail);
 
+    @Query("SELECT sAcctNmbr FROM LR_DCP_Collection_Detail " +
+            "WHERE sAcctNmbr =:AccountNox " +
+            "AND sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1)")
+    String getClientDuplicateAccNox(String AccountNox);
+
+    @Query("SELECT sSerialNo FROM LR_DCP_Collection_Detail " +
+            "WHERE sSerialNo =:SerialNox " +
+            "AND sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1)")
+    String getClientDuplicateSerialNox(String SerialNox);
+
     /**
      *
      * @param EntryNox specific entry number of collection detail

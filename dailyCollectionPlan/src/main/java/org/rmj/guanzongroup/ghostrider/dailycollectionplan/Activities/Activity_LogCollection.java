@@ -154,9 +154,7 @@ public class Activity_LogCollection extends AppCompatActivity {
 
                     filteredCollectionDetlx.clear();
                     for(int z = 0; z < collectionDetails.size(); z++) {
-//                    if(collectionDetails.get(z).getRemCodex() != null) {
                         filteredCollectionDetlx.add(collectionDetails.get(z));
-//                    }
                     }
 
                     CollectionLogAdapter poAdapter = new CollectionLogAdapter(filteredCollectionDetlx, position -> {
@@ -211,6 +209,8 @@ public class Activity_LogCollection extends AppCompatActivity {
 
                         }
                     });
+
+                    mViewModel.initializeRemittedCollection(s);
 
                     mViewModel.getCollectedTotal(s).observe(this, value -> lblTotalClt.setText("Total Collection : " + FormatUIText.getCurrencyUIFormat(value)));
 

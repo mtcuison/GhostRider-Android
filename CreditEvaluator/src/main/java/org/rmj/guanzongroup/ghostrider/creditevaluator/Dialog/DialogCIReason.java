@@ -50,7 +50,6 @@ public class DialogCIReason {
         poDialogx.setCancelable(false);
         infoModel = new CharacterTraitsInfoModel();
         RadioGroup rgApproval = view.findViewById(R.id.rgApproval);
-//        rgApproval.setOnCheckedChangeListener(new OnApprovalSelectionListener(rgApproval));
         rgApproval.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -60,11 +59,11 @@ public class DialogCIReason {
                 // If the radiobutton that has changed in check state is now checked...
                 if (checkedId == R.id.rb_ci_approved)
                 {
-                    // Changes the textview's text to "Checked: example radiobutton text"
+                    // Set value of cTranstat when check approval"
                     approval = "1";
-                    Log.e("transtat value", approval);
 
                 }else{
+                    // Set value of cTranstat when check disapproval"
                     approval = "3";
                     Log.e("transtat value", approval);
                 }
@@ -101,34 +100,6 @@ public class DialogCIReason {
 
     public interface DialogButtonClickListener{
         void OnClick(Dialog dialog, String transtat, String reason);
-    }
-    class OnApprovalSelectionListener implements RadioGroup.OnCheckedChangeListener{
-
-        View rbView;
-        OnApprovalSelectionListener(View view)
-        {
-            this.rbView = view;
-        }
-
-
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if(rbView.getId() == R.id.rg_ci_brgyRecord){
-                if(checkedId == R.id.rb_ci_approved) {
-                    infoModel.setcTranstat("1");
-                    approval = "1";
-
-                    Log.e("dialogtranstat",approval + " value");
-                }
-                else {
-                    infoModel.setcTranstat("3");
-                    approval = "3";
-
-                    Log.e("dialogtranstat",approval + " value");
-                }
-
-            }
-        }
     }
 
 }

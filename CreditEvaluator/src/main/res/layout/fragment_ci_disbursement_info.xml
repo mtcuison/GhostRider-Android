@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -16,8 +17,7 @@
         <include
             layout="@layout/layout_ci_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:context=".Fragments.Fragment_CIResidenceInfo"/>
+            android:layout_height="wrap_content"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,21 +44,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal|number|none"
-                    android:maxLength="6"/>
+                    android:textColor="@color/textColor_Black"
+                    android:maxLength="10"/>
             </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Electricity"
+                android:hint="ELectricity"
                 style="@style/TextInputStyle">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_ci_dbmElectricity"
+                    android:id="@+id/tie_ci_dbmElecX"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number|none"
-                    android:maxLength="6"/>
+                    android:inputType="numberDecimal|number|none"
+                    android:textColor="@color/textColor_Black"
+                    android:maxLength="10"/>
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -71,8 +73,9 @@
                     android:id="@+id/tie_ci_dbmFood"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number|none"
-                    android:maxLength="6"/>
+                    android:inputType="numberDecimal|number|none"
+                    android:textColor="@color/textColor_Black"
+                    android:maxLength="10"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -85,8 +88,9 @@
                     android:id="@+id/tie_ci_dbmLoans"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number|none"
-                    android:maxLength="6"/>
+                    android:inputType="numberDecimal|number|none"
+                    android:textColor="@color/textColor_Black"
+                    android:maxLength="10"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -98,8 +102,9 @@
                     android:id="@+id/tie_ci_dbmEducation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number|none"
-                    android:maxLength="6"/>
+                    android:inputType="numberDecimal|number|none"
+                    android:textColor="@color/textColor_Black"
+                    android:maxLength="10"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -111,8 +116,9 @@
                     android:id="@+id/tie_ci_dbmOthers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number|none"
-                    android:maxLength="6"/>
+                    android:inputType="numberDecimal|number|none"
+                    android:textColor="@color/textColor_Black"
+                    android:maxLength="10"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -140,27 +146,28 @@
             <Button
                 android:id="@+id/btn_ciAppPrvs"
                 style="@style/NavigationButton"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_nav_left"
-                android:drawableLeft="@drawable/ic_nav_left"
-                android:drawablePadding="5dp"
+                app:icon="@drawable/ic_nav_left"
                 android:text="Previous"
+                app:iconGravity="start"
+                app:iconTint="@color/material_black"
                 android:textAlignment="textStart"
-                android:gravity="start"
-                android:layout_weight="1" />
-
+                android:layout_weight="1"
+                android:gravity="start|center_vertical" />
+            
             <Button
                 android:id="@+id/btn_ciAppNext"
                 style="@style/NavigationButton"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_nav_right"
-                android:drawableRight="@drawable/ic_nav_right"
+                app:icon="@drawable/ic_nav_right"
+                app:iconGravity="end"
+                app:iconTint="@color/material_black"
                 android:text="Next"
-                android:layout_weight="1"
                 android:textAlignment="textEnd"
-                android:gravity="end"/>
+                android:layout_weight="1"
+                android:gravity="end|center_vertical" />
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -78,7 +78,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
 
         mViewModel.getTotalBranchRemittedCollection().observe(this, s -> {
             try {
-                lblRmtBrnch.setText("Check : " + FormatUIText.getCurrencyUIFormat(s));
+                lblRmtBrnch.setText("Branch : " + FormatUIText.getCurrencyUIFormat(s));
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -86,7 +86,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
 
         mViewModel.getTotalBankRemittedCollection().observe(this, s -> {
             try {
-                lblRmtBankx.setText("Check : " + FormatUIText.getCurrencyUIFormat(s));
+                lblRmtBankx.setText("Bank : " + FormatUIText.getCurrencyUIFormat(s));
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -94,7 +94,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
 
         mViewModel.getTotalOtherRemittedCollection().observe(this, s -> {
             try {
-                lblRmtOther.setText("Check : " + FormatUIText.getCurrencyUIFormat(s));
+                lblRmtOther.setText("Payment Partners : " + FormatUIText.getCurrencyUIFormat(s));
             } catch (Exception e){
                 e.printStackTrace();
             }

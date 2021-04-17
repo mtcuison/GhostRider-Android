@@ -78,6 +78,10 @@ public class VMCollectionLog extends AndroidViewModel {
         return poImage.getUnsentImageList();
     }
 
+    public void initializeRemittedCollection(String dTransact){
+        poRemit.initializeRemittance(dTransact);
+    }
+
     public LiveData<String> getCollectedTotal(String fsTrasact){
         return poDcp.getCollectedTotal(fsTrasact);
     }

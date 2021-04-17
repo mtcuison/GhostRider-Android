@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CreditEvaluationModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 
@@ -18,6 +19,7 @@ import java.util.List;
 
 public class CreditEvaluationHistoryAdapter extends RecyclerView.Adapter<CreditEvaluationHistoryAdapter.CreditEvaluationViewHolder> implements Filterable{
 
+    private static final String TAG = CreditEvaluationHistoryAdapter.class.getSimpleName();
     private List<CreditEvaluationModel> plLoanApp;
     private List<CreditEvaluationModel> plLoanApp1;
     private List<CreditEvaluationModel> plSchList;
