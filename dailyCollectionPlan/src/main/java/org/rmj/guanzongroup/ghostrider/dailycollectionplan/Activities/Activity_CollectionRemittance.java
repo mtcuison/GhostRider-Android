@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -95,6 +96,22 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
         mViewModel.getTotalOtherRemittedCollection().observe(this, s -> {
             try {
                 lblRmtOther.setText("Payment Partners : " + FormatUIText.getCurrencyUIFormat(s));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getCashOnHand().observe(this, s -> {
+            try {
+                lblOHCashxx.setText("Cash : " + FormatUIText.getCurrencyUIFormat(s));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getCheckOnHand().observe(this, s -> {
+            try {
+                lblOHCheckx.setText("Check : " + FormatUIText.getCurrencyUIFormat(s));
             } catch (Exception e){
                 e.printStackTrace();
             }

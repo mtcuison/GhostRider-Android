@@ -134,7 +134,6 @@
             android:textColor="@color/material_black"
             android:textSize="15sp"/>
 
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_download"
             android:textColor="@color/white"

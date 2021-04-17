@@ -56,6 +56,14 @@ public class RDCP_Remittance {
         return remitDao.getTotalOtherRemittedCollection(dTransact);
     }
 
+    public LiveData<String> getCheckOnHand(String dTransact){
+        return remitDao.getCheckOnHand(dTransact);
+    }
+
+    public LiveData<String> getCashOnHand(String dTransact){
+        return remitDao.getCashOnHand(dTransact);
+    }
+
     @SuppressLint("StaticFieldLeak")
     private class InitializeRemitTask extends AsyncTask<String, Void, String>{
 

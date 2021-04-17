@@ -63,4 +63,12 @@ public class VMCollectionRemittance extends AndroidViewModel {
     public LiveData<String> getTotalOtherRemittedCollection(){
         return poRemit.getTotalOtherRemittedCollection(dTransact);
     }
+
+    public LiveData<String> getCashOnHand(){
+        return poRemit.getCashOnHand(dTransact);
+    }
+
+    public LiveData<String> getCheckOnHand(){
+        return poRemit.getCheckOnHand(dTransact);
+    }
 }
