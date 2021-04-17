@@ -33,7 +33,7 @@ public class CharacterTraitsInfoModel {
         return true;
     }
     public boolean isApproved(){
-        if (this.cTranstat == null || this.cTranstat.isEmpty()){
+        if (this.cTranstat == null || this.cTranstat.equalsIgnoreCase("0")){
             message = "Please select approval/disapproval status.";
             return false;
         }
@@ -112,6 +112,4 @@ public class CharacterTraitsInfoModel {
     public void setCbOthers(String cbOthers) {
         this.cbOthers = cbOthers;
     }
-
-
 }

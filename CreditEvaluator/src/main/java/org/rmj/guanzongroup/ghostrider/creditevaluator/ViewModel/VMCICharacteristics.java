@@ -50,8 +50,8 @@ public class VMCICharacteristics extends AndroidViewModel {
     }
 
 
-    public LiveData<ECIEvaluation> getCIByTransNox(String transNox) {
-        return poCI.getAllCIApplication(transNox);
+    public LiveData<ECIEvaluation> getCIByTransNox() {
+        return poCI.getAllCIApplication(sTransNox.getValue());
     }
 
     public boolean saveCICHaracterTraits(CharacterTraitsInfoModel infoModel, ViewModelCallBack callback) {
@@ -100,11 +100,13 @@ public class VMCICharacteristics extends AndroidViewModel {
                     loDetail.setArrogant(infoModel.getCbArrogance());
                     loDetail.setOtherBad(infoModel.getCbOthers());
                     loDetail.setRemarksx(infoModel.getsRemarks());
+                    loDetail.setTranStat(infoModel.getcTranstat());
                     loDetail.setApproved(AppConstants.DATE_MODIFIED);
                     loDetail.setTimeStmp(AppConstants.DATE_MODIFIED);
                     loDetail.setReceived(AppConstants.DATE_MODIFIED);
+                    loDetail.setCredInvx(poUser.getUserID());
                     poCIEvaluation.updateCiDisbursement(loDetail);
-                    Log.e(TAG, "CI Residence info has been updated!");
+                    Log.e(TAG, "Applicant's character traits info has been updated!");
 
                     return "success";
                 }
@@ -119,7 +121,7 @@ public class VMCICharacteristics extends AndroidViewModel {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (s.equalsIgnoreCase("success")) {
-                callback.onSaveSuccessResult("Character traits info has been save.");
+                callback.onSaveSuccessResult("TransNox : "+sTransNox.getValue() + " has evaluated successfully.");
             } else {
                 callback.onFailedResult(s);
             }
