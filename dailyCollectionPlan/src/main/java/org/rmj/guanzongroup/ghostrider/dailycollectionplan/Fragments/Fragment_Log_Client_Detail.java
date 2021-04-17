@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogTransaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogDisplayImage;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogClientDetail;
@@ -23,8 +24,9 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogClient
 public class Fragment_Log_Client_Detail extends Fragment {
 
     private VMLogClientDetail mViewModel;
+    private DialogDisplayImage poDialogx;
     private ImageView ivTransImage;
-    private TextView txtAcctNo, txtClientName, txtClientAddress, txtFullname,
+    private TextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo, txtTransTp, txtFullname,
     txtAddress,
     txtGender,
     txtCivilStat,
@@ -58,10 +60,21 @@ public class Fragment_Log_Client_Detail extends Fragment {
         txtAcctNo.setText(Activity_LogTransaction.acctNox);
         txtClientName.setText(Activity_LogTransaction.fullNme);
         txtClientAddress.setText(Activity_LogTransaction.clientAddress);
+        txtTransNo.setText(Activity_LogTransaction.transNox);
+        txtTransTp.setText(Activity_LogTransaction.psTransTp);
+        txtRemarks.setText(Activity_LogTransaction.remarks);
 
         mViewModel.getImageLocation(Activity_LogTransaction.acctNox, Activity_LogTransaction.imgNme)
                 .observe(getViewLifecycleOwner(), eImageInfo -> {
                     setPic(eImageInfo.getFileLoct());
+                    ivTransImage.setOnClickListener(view -> {
+                        poDialogx = new DialogDisplayImage(getActivity(),
+                                Activity_LogTransaction.acctNox, eImageInfo.getFileLoct());
+                        poDialogx.initDialog(dialog -> {
+                            dialog.dismiss();
+                        });
+                        poDialogx.show();
+                    });
                 });
 
         mViewModel.getClientUpdateInfo(Activity_LogTransaction.acctNox).observe(getViewLifecycleOwner(), clientDetl -> {
@@ -96,6 +109,8 @@ public class Fragment_Log_Client_Detail extends Fragment {
         txtAcctNo = v.findViewById(R.id.txt_acctNo);
         txtClientName = v.findViewById(R.id.txt_clientName);
         txtClientAddress = v.findViewById(R.id.txt_client_address);
+        txtTransNo = v.findViewById(R.id.txt_transno);
+        txtTransTp = v.findViewById(R.id.lbl_list_header);
         txtFullname = v.findViewById(R.id.txt_fullname);
         txtAddress = v.findViewById(R.id.txt_address);
         txtGender = v.findViewById(R.id.txt_gender);
