@@ -45,4 +45,23 @@ public interface DDCP_Remittance {
     @Query("SELECT SUM(nAmountxx) FROM LR_DCP_Remittance " +
             "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master " +
             "WHERE dTransact =:dTransact) AND cRemitTyp = '2'")
-    LiveData<String> getTotalOtherRemittedCollection(String dTransact);}
+    LiveData<String> getTotalOtherRemittedCollection(String dTransact);
+
+    @Query("INSERT INTO LR_DCP_Remittance(" +
+            "sTransNox, " +
+            "nEntryNox, " +
+            "dTransact, " +
+            "cSendStat, " +
+            "nAmountxx)" +
+            "VALUES (" +
+            "(SELECT sTransNox FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1)," +
+            "(SELECT COUNT(nEntryNox) + 1 FROM LR_DCP_Remittance WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1)), " +
+            ":dTransact, " +
+            "'0', " +
+            "'0')")
+    void initializeCurrentDayRemittanceField(String dTransact);
+
+    @Query("SELECT sTransNox FROM LR_DCP_Remittance " +
+            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact)")
+    String checkRemittanceExist(String dTransact);
+}

@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,11 +35,16 @@ public class AdapterClientSearchList extends RecyclerView.Adapter<AdapterClientS
         return new ClientListHolder(view, mListener);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ClientListHolder holder, int position) {
         EDCPCollectionDetail loDetail = collectionDetails.get(position);
         holder.loDetail = collectionDetails.get(position);
-        holder.lblAccNox.setText(loDetail.getAcctNmbr());
+        if(!loDetail.getAcctNmbr().isEmpty()) {
+            holder.lblAccNox.setText("Account No. : " + loDetail.getAcctNmbr());
+        } else {
+            holder.lblAccNox.setText("MC Serial No. : " + loDetail.getSerialNo());
+        }
         holder.lblClientNm.setText(loDetail.getFullName());
         String lsAddress = "";
         if(!loDetail.getHouseNox().isEmpty()){

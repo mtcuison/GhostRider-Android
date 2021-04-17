@@ -7,27 +7,23 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
+
+import java.util.Objects;
 
 public class DialogAddCollection {
     private static final String TAG = DialogAddCollection.class.getSimpleName();
 
     private AlertDialog poDialogx;
     private final Context context;
-    private TextInputLayout tilParms;
     private String psType = "";
 
     public DialogAddCollection(Context context) {
@@ -42,7 +38,6 @@ public class DialogAddCollection {
         poDialogx = loBuilder.create();
         poDialogx.setCancelable(false);
 
-        tilParms = view.findViewById(R.id.til_dcpParameter);
         TextInputEditText txtAccntNo = view.findViewById(R.id.txt_dcpParameter);
         RadioGroup rgColllect = view.findViewById(R.id.rg_collection_tp);
         RadioButton rbArClient = view.findViewById(R.id.rb_ar_client);
@@ -56,9 +51,9 @@ public class DialogAddCollection {
             if(!rbArClient.isChecked() && !rbInsrnce.isChecked()) {
                 GToast.CreateMessage(context,"Please select a collection type.", GToast.WARNING).show();
             }
-            else if(txtAccntNo.getText().toString().trim().isEmpty()) {
+            else if(Objects.requireNonNull(txtAccntNo.getText()).toString().trim().isEmpty()) {
                 GToast.CreateMessage(context,
-                        "Please enter " + DCP_Constants.ADD_COLLECTION_PARAM[Integer.parseInt(psType)] + ".",
+                        "Please enter client name.",
                         GToast.WARNING).show();
             } else {
                 listener.OnDownloadClick(poDialogx,
@@ -82,10 +77,8 @@ public class DialogAddCollection {
         public void onCheckedChanged(RadioGroup radioGroup, int i) {
             if(radioGroup.getId() == R.id.rg_collection_tp){
                 if (i == R.id.rb_ar_client) {
-                    tilParms.setHint(DCP_Constants.ADD_COLLECTION_PARAM[0]);
                     psType = "0";
                 } else if (i == R.id.rb_insurance_client) {
-                    tilParms.setHint(DCP_Constants.ADD_COLLECTION_PARAM[1]);
                     psType = "1";
                 }
             }

@@ -30,6 +30,10 @@ public class RDailyCollectionPlan {
     private final DDCPCollectionMaster masterDao;
     private final Application application;
 
+    public interface OnClientAccNoxInserted{
+        void OnInsert(String message);
+    }
+
     public RDailyCollectionPlan(Application application){
         this.application = application;
         GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
@@ -41,8 +45,8 @@ public class RDailyCollectionPlan {
         new InsertBulkDCPListAsyncTask(detailDao).execute(collectionDetails);
     }
 
-    public void insertCollectionDetail(EDCPCollectionDetail collectionDetail){
-        detailDao.insert(collectionDetail);
+    public void insertCollectionDetail(EDCPCollectionDetail collectionDetail, OnClientAccNoxInserted listener){
+        new InsertCollectionDetailTask(listener).execute(collectionDetail);
     }
 
     public void insertMasterData(EDCPCollectionMaster collectionMaster){
@@ -142,6 +146,40 @@ public class RDailyCollectionPlan {
 
     public EDCPCollectionDetail checkCollectionImport(String sTransNox, int nEntryNox) {
         return detailDao.checkCollectionImport(sTransNox,nEntryNox);
+    }
+
+    private class InsertCollectionDetailTask extends AsyncTask<EDCPCollectionDetail, Void, String>{
+        private OnClientAccNoxInserted mListener;
+
+        public InsertCollectionDetailTask(OnClientAccNoxInserted mListener) {
+            this.mListener = mListener;
+        }
+
+        @Override
+        protected String doInBackground(EDCPCollectionDetail... edcpCollectionDetails) {
+            if(!edcpCollectionDetails[0].getAcctNmbr().isEmpty()) {
+                if (detailDao.getClientDuplicateAccNox(edcpCollectionDetails[0].getAcctNmbr()) == null) {
+                    detailDao.insert(edcpCollectionDetails[0]);
+                    return "New customer has been added to collection list.";
+                } else {
+                    return "Customer already existed in current collection list";
+                }
+            } else if(!edcpCollectionDetails[0].getSerialNo().isEmpty()){
+                if (detailDao.getClientDuplicateSerialNox(edcpCollectionDetails[0].getSerialNo()) == null) {
+                    detailDao.insert(edcpCollectionDetails[0]);
+                    return "New customer has been added to collection list.";
+                } else {
+                    return "Customer already existed in current collection list";
+                }
+            }
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            mListener.OnInsert(s);
+        }
     }
 
 
