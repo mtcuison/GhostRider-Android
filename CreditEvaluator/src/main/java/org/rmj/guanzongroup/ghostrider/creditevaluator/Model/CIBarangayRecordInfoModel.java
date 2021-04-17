@@ -111,7 +111,7 @@ public class CIBarangayRecordInfoModel {
             message = "Please select neighbor 2 feedback.";
         }else {
             if(Integer.parseInt(this.FeedBck2) == 1){
-                return isFBRemrk1();
+                return isFBRemrk2();
             }
         }
         return true;
@@ -159,7 +159,7 @@ public class CIBarangayRecordInfoModel {
             message = "Please select neighbor 3 feedback.";
         }else {
             if(Integer.parseInt(this.FeedBck3) == 1){
-                return isFBRemrk1();
+                return isFBRemrk3();
             }
         }
         return true;
@@ -180,7 +180,7 @@ public class CIBarangayRecordInfoModel {
                 isHasRecord();
     }
     public boolean isHasRecord(){
-        if (this.HasRecrd == null){
+        if (this.HasRecrd == null || this.HasRecrd.trim().isEmpty()){
             message = "Please select applicant brgy. record.";
             return false;
         }
@@ -190,7 +190,7 @@ public class CIBarangayRecordInfoModel {
         return true;
     }
     private boolean isRemRecrd(){
-        if (this.RemRecrd == null){
+        if (this.RemRecrd == null || this.RemRecrd.trim().isEmpty()){
             message = "Please enter record remarks.";
             return false;
         }

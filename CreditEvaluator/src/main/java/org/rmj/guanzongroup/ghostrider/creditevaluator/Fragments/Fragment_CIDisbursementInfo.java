@@ -36,6 +36,7 @@ import java.util.StringTokenizer;
 
 public class Fragment_CIDisbursementInfo extends Fragment implements ViewModelCallBack {
 
+    private static final String TAG = Fragment_CIDisbursementInfo.class.getSimpleName();
     private VMCIDisbursement mViewModel;
     DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
     private CIDisbursementInfoModel infoModel;

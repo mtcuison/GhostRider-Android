@@ -249,27 +249,27 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             finish();
         } else if(item.getItemId() == R.id.action_menu_add_collection){
 //            mViewModel.getCollectionMaster().observe(Activity_CollectionList.this, collectionMaster -> {
-                try {
-                    loDialog = new DialogAddCollection(Activity_CollectionList.this);
-                    loDialog.initDialog(new DialogAddCollection.OnDialogButtonClickListener() {
-                        @Override
-                        public void OnDownloadClick(Dialog Dialog, String args, String fsType) {
-                            if(fsType.equalsIgnoreCase("0")) {
-                                mViewModel.importARClientInfo(args, Activity_CollectionList.this);
-                            } else if(fsType.equalsIgnoreCase("1")) {
-                                mViewModel.importInsuranceInfo(args, Activity_CollectionList.this);
-                            }
-                        }
-
-                        @Override
-                        public void OnCancel(Dialog Dialog) {
-                            Dialog.dismiss();
-                        }
-                    });
-                    loDialog.show();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+//                try {
+//                    loDialog = new DialogAddCollection(Activity_CollectionList.this);
+//                    loDialog.initDialog(new DialogAddCollection.OnDialogButtonClickListener() {
+//                        @Override
+//                        public void OnDownloadClick(Dialog Dialog, String args, String fsType) {
+//                            if(fsType.equalsIgnoreCase("0")) {
+//                                mViewModel.importARClientInfo(args, Activity_CollectionList.this);
+//                            } else if(fsType.equalsIgnoreCase("1")) {
+//                                mViewModel.importInsuranceInfo(args, Activity_CollectionList.this);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void OnCancel(Dialog Dialog) {
+//                            Dialog.dismiss();
+//                        }
+//                    });
+//                    loDialog.show();
+//                } catch (Exception e){
+//                    e.printStackTrace();
+//                }
 //            });
         } else if(item.getItemId() == R.id.action_menu_post_collection){
             boolean hasUnTag = false;

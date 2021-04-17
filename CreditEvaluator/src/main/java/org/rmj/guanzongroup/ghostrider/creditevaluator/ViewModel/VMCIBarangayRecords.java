@@ -240,6 +240,8 @@ public class VMCIBarangayRecords extends AndroidViewModel {
                             return infoModel.getMessage();
                         }else{
                             ECIEvaluation loDetail = detail[0];
+                            Log.e("Has record",infoModel.getHasRecrd());
+                            Log.e("Rem record",infoModel.getRemRecrd());
                             loDetail.setRemRecrd(infoModel.getRemRecrd());
                             loDetail.setHasRecrd(infoModel.getHasRecrd());
                             poCIEvaluation.updateCiNeighbor(loDetail);

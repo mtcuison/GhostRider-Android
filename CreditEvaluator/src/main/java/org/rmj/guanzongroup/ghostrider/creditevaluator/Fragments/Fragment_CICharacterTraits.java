@@ -36,6 +36,7 @@ import static org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder
 
 public class Fragment_CICharacterTraits extends Fragment implements ViewModelCallBack {
 
+    private static final String TAG = Fragment_CICharacterTraits.class.getSimpleName();
     private VMCICharacteristics mViewModel;
     private CheckBox cbGambler, cbWomanizer, cbHeavyBrrw, cbQuarrel, cbRepo, cbMortage, cbArrogance, cbOthers;
     private TextInputEditText cRemarks;

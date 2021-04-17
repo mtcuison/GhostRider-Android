@@ -15,7 +15,7 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 import java.util.List;
 
 public class CreditEvaluationHistoryInfoAdapter extends RecyclerView.Adapter<CreditEvaluationHistoryInfoAdapter.DataViewHolder> {
-
+    private static final String TAG = CreditEvaluationHistoryInfoAdapter.class.getSimpleName();
     private final List<EvaluationHistoryInfoModel> plCredit;
 
     public CreditEvaluationHistoryInfoAdapter(List<EvaluationHistoryInfoModel> flCredit) {

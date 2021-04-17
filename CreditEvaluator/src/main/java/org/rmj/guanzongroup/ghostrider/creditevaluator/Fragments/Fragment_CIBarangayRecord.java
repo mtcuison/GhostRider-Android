@@ -47,6 +47,7 @@ import static androidx.lifecycle.Lifecycle.Event.ON_STOP;
 
 public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCallBack, LifecycleObserver {
 
+    private static final String TAG = Fragment_CIBarangayRecord.class.getSimpleName();
     private VMCIBarangayRecords mViewModel;
     private CIBarangayRecordInfoModel ciModel;
     private RadioGroup rgRecord,rgFeedbak1,rgFeedbak2,rgFeedbak3;
@@ -189,8 +190,16 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
         });
         btnNext.setOnClickListener(v -> {
             try {
-                ciModel.setRemRecrd(tieRecord.getText().toString());
-                mViewModel.saveNeighbor(ciModel, "Neighbor",Fragment_CIBarangayRecord.this);
+                if (btnAdd1.getVisibility() != View.GONE){
+                    errorMessage("Please fill out neighbor 1 fields and save first!");
+                }else if (btnAdd3.getVisibility() != View.GONE){
+                    errorMessage("Please fill out neighbor 2 fields and save first!");
+                } else if (btnAdd3.getVisibility() != View.GONE){
+                    errorMessage("Please fill out neighbor 3 fields and save first!");
+                }else{
+                    ciModel.setRemRecrd(tieRecord.getText().toString());
+                    mViewModel.saveNeighbor(ciModel, "Neighbor",Fragment_CIBarangayRecord.this);
+                }
             }catch (NullPointerException e){
                 e.printStackTrace();
             }
@@ -313,6 +322,7 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
             });
             mViewModel.getsFeedback1().observe(getViewLifecycleOwner(), val ->{
                 rgFeedbak1.clearCheck();
+                tilFBRemark2.setVisibility(View.GONE);
                 if (!val.trim().isEmpty()){
                     for(int i = 0; i < rgFeedbak1.getChildCount(); i++){
                         ((RadioButton)rgFeedbak1.getChildAt(i)).setClickable(false);
@@ -320,16 +330,19 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
                 }
                 if(val.equalsIgnoreCase("0")){
                     rgFeedbak1.check(R.id.rb_ci_postiveFeed1);
+                    tilFBRemark1.setVisibility(View.GONE);
                 }
                 else if(val.equalsIgnoreCase("1")){
                     rgFeedbak1.check(R.id.rb_ci_negativeFeed1);
-                    ciModel.setFBRemrk1(val);
+                    mViewModel.getsFBRemark1().observe(getViewLifecycleOwner(), remarks ->{
+                        ciModel.setFBRemrk1(remarks);
+                        tieFBRemark1.setText(remarks);
+                    });
                     tilFBRemark1.setVisibility(View.VISIBLE);
                     tieFBRemark1.setClickable(false);
                     tieFBRemark1.setEnabled(false);
                 }
                 ciModel.setFeedBck1(val);
-                tieFBRemark1.setText(val);
             });
 //            Neighbor 2
             mViewModel.getsNeigbor2().observe(getViewLifecycleOwner(), val ->{
@@ -356,6 +369,7 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
             });
             mViewModel.getsFeedback2().observe(getViewLifecycleOwner(), val ->{
                 rgFeedbak2.clearCheck();
+                tilFBRemark2.setVisibility(View.GONE);
                 if (!val.trim().isEmpty()){
                     for(int i = 0; i < rgFeedbak2.getChildCount(); i++){
                         ((RadioButton)rgFeedbak2.getChildAt(i)).setClickable(false);
@@ -363,16 +377,19 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
                 }
                 if(val.equalsIgnoreCase("0")){
                     rgFeedbak2.check(R.id.rb_ci_postiveFeed2);
+                    tilFBRemark2.setVisibility(View.GONE);
                 }
                 else if(val.equalsIgnoreCase("1")){
                     rgFeedbak2.check(R.id.rb_ci_negativeFeed2);
-                    ciModel.setFBRemrk2(val);
                     tilFBRemark2.setVisibility(View.VISIBLE);
                     tieFBRemark2.setClickable(false);
                     tieFBRemark2.setEnabled(false);
                 }
+                mViewModel.getsFBRemark2().observe(getViewLifecycleOwner(), remarks ->{
+                    ciModel.setFBRemrk2(remarks);
+                    tieFBRemark2.setText(remarks);
+                });
                 ciModel.setFeedBck2(val);
-                tieFBRemark2.setText(val);
             });
 //        Neighbor 3
             mViewModel.getsNeigbor3().observe(getViewLifecycleOwner(), val ->{
@@ -399,6 +416,7 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
             });
             mViewModel.getsFeedback3().observe(getViewLifecycleOwner(), val ->{
                 rgFeedbak3.clearCheck();
+                tilFBRemark3.setVisibility(View.GONE);
                 if (!val.trim().isEmpty()){
                     for(int i = 0; i < rgFeedbak3.getChildCount(); i++){
                         ((RadioButton)rgFeedbak3.getChildAt(i)).setClickable(false);
@@ -406,81 +424,57 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
                 }
                 if(val.equalsIgnoreCase("0")){
                     rgFeedbak3.check(R.id.rb_ci_postiveFeed3);
+                    tilFBRemark3.setVisibility(View.GONE);
                 }
                 else if(val.equalsIgnoreCase("1")){
                     rgFeedbak3.check(R.id.rb_ci_negativeFeed3);
-                    ciModel.setFBRemrk3(val);
+                    mViewModel.getsFBRemark3().observe(getViewLifecycleOwner(), remarks ->{
+                        ciModel.setFBRemrk3(remarks);
+                        tieFBRemark3.setText(remarks);
+                    });
                     tilFBRemark3.setVisibility(View.VISIBLE);
                     tieFBRemark3.setClickable(false);
                     tieFBRemark3.setEnabled(false);
                 }
                 ciModel.setFeedBck3(val);
-                tieFBRemark3.setText(val);
             });
-//            mViewModel.getsHasRecord().observe(getViewLifeCycleOwner(), val ->{
-//                for(int i = 0; i < rgRecord.getChildCount(); i++){
-//                    ((RadioButton)rgRecord.getChildAt(i)).setClickable(false);
-//                }
-//                if(mViewModel.getsHasRecord().getValue().equalsIgnoreCase("0")){
-//                    ciModel.setHasRecrd("0");
-//                    rgRecord.check(R.id.rb_ci_noRecord);
-//                }
-//                else {
-//                    ciModel.setHasRecrd("1");
-//                    ciModel.setRemRecrd(mViewModel.getsRemRecord().getValue());
-//                    rgRecord.check(R.id.rb_ci_withRecord);
-//                    tilRecord.setVisibility(View.VISIBLE);
-//                    tieRecord.setText(mViewModel.getsRemRecord().getValue());
-//                    tieRecord.setClickable(false);
-//                    tieRecord.setEnabled(false);
-//                }
-//            });
+            mViewModel.getsHasRecord().observe(getViewLifecycleOwner(), val ->{
+                rgRecord.clearCheck();
+                tilRecord.setVisibility(View.GONE);
+                if (!val.trim().isEmpty()){
+                    for(int i = 0; i < rgRecord.getChildCount(); i++){
+                        ((RadioButton)rgRecord.getChildAt(i)).setClickable(false);
+                    }
+                }
+                if(val.equalsIgnoreCase("0")){
+                    rgRecord.check(R.id.rb_ci_noRecord);
+                    tilRecord.setVisibility(View.GONE);
+                }
+                else if(val.equalsIgnoreCase("1")){
+                    rgRecord.check(R.id.rb_ci_withRecord);
+                    mViewModel.getsRemRecord().observe(getViewLifecycleOwner(), remarks ->{
+                        ciModel.setRemRecrd(remarks);
+                        tieRecord.setText(remarks);
+                    });
+                    tilRecord.setVisibility(View.VISIBLE);
+                    tieRecord.setClickable(false);
+                    tieRecord.setEnabled(false);
+                }
+                ciModel.setFeedBck3(val);
+            });
         }catch (NullPointerException e){
             e.printStackTrace();
         }
 
     }
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        Log.e("onResume", String.valueOf(viewLifecycleOwner.getLifecycle()));
-//        if (viewLifecycleOwner != null) {
-//            viewLifecycleOwner.getLifecycle().handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
-//        }
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        try {
-//            Log.e("onPause", String.valueOf(viewLifecycleOwner.getLifecycle()));
-//            if (viewLifecycleOwner != null) {
-//                viewLifecycleOwner.getLifecycle().handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
-//            }
-//        }catch (NullPointerException e){
-//            e.printStackTrace();
-//        }catch (RuntimeException e){
-//            e.printStackTrace();
-//        }
-//
-//        super.onPause();
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        Log.e("onStop", String.valueOf(viewLifecycleOwner.getLifecycle()));
-//        if (viewLifecycleOwner != null) {
-//            viewLifecycleOwner.getLifecycle().handleLifecycleEvent(Lifecycle.Event.ON_STOP);
-//        }
-//        super.onStop();
-//    }
-//
-//    @Override
-//    public void onDestroyView() {
-//        Log.e("onDestroyView", String.valueOf(viewLifecycleOwner.getLifecycle()));
-//        if (viewLifecycleOwner != null) {
-//            viewLifecycleOwner.getLifecycle().handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
-//            viewLifecycleOwner = null;
-//        }
-//        super.onDestroyView();
-//    }
+    public void errorMessage(String message){
+        poMessage.initDialog();
+        poMessage.setTitle("CI Evaluation");
+        poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+            dialog.dismiss();
+        });
+        poMessage.show();
+    }
+
 }

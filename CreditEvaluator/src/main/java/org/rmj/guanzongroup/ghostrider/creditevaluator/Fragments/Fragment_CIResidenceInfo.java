@@ -17,14 +17,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
@@ -35,16 +31,13 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIResidenceIn
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
 import static android.app.Activity.RESULT_OK;
 import static org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.CIConstants.SUB_FOLDER_DCP;
 import static org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder.APP_SYNC_DATA;
-//import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIResidenceInfo;
 
 public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallBack {
 
+    private static final String TAG = Fragment_CIResidenceInfo.class.getSimpleName();
     private VMCIResidenceInfo mViewModel;
     private TextInputEditText tiwLandmark;
     private RadioGroup rgHouseOwnership,rgHouseType,rgHouseHolds,rgGarage;
@@ -86,7 +79,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
         mViewModel.setsTransNox(Activity_CIApplication.getInstance().getTransNox());
         mViewModel.setnLatitude("0.0");
         mViewModel.setnLogitude("0.0");
-        Log.e("TRansNox",Activity_CIApplication.getInstance().getTransNox());
+        Log.e(TAG,Activity_CIApplication.getInstance().getTransNox());
         mViewModel.getCIByTransNox(Activity_CIApplication.getInstance().getTransNox()).observe(getViewLifecycleOwner(), eciEvaluation -> {
             rgHouseOwnership.clearCheck();
             rgHouseHolds.clearCheck();

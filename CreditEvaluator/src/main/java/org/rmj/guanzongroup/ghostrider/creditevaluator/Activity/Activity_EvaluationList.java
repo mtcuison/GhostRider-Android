@@ -42,7 +42,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements ViewMo
     private LinearLayoutManager layoutManager;
     private CreditEvaluationListAdapter adapter;
     private LinearLayout loading;
-    private List<CreditEvaluationModel> creditList;
+    private List<CreditEvaluationModel> ciEvaluationList;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
     private String userBranch;
@@ -136,41 +136,39 @@ public class Activity_EvaluationList extends AppCompatActivity implements ViewMo
         poMessage.show();
     }
     public void initData(){
-        mViewModel.getCICreditApplication().observe(Activity_EvaluationList.this, brnCreditList -> {
-            if(brnCreditList.size()>0) {
+        mViewModel.getCICreditApplication().observe(Activity_EvaluationList.this, ciList -> {
+            if(ciList.size()>0) {
                 loading.setVisibility(View.GONE);
-                creditList = new ArrayList<>();
-                for (int x = 0; x < brnCreditList.size(); x++) {
+                ciEvaluationList = new ArrayList<>();
+                for (int x = 0; x < ciList.size(); x++) {
                     CreditEvaluationModel loan = new CreditEvaluationModel();
-                    loan.setsTransNox(brnCreditList.get(x).getTransNox());
-                    loan.setdTransact(brnCreditList.get(x).getTransact());
-                    loan.setsCredInvx(brnCreditList.get(x).getCredInvx());
-                    loan.setsCompnyNm(brnCreditList.get(x).getCompnyNm());
-                    loan.setsSpouseNm(brnCreditList.get(x).getSpouseNm());
-                    loan.setsAddressx(brnCreditList.get(x).getAddressx());
-                    loan.setsMobileNo(brnCreditList.get(x).getMobileNo());
-                    loan.setsQMAppCde(brnCreditList.get(x).getQMAppCde());
-                    loan.setsModelNme(brnCreditList.get(x).getModelNme());
-                    loan.setnDownPaym(brnCreditList.get(x).getDownPaym());
-                    loan.setnAcctTerm(brnCreditList.get(x).getAcctTerm());
-                    loan.setcTranStat(brnCreditList.get(x).getTranStat());
-                    loan.setdTimeStmp(brnCreditList.get(x).getTimeStmp());
-                    creditList.add(loan);
+                    loan.setsTransNox(ciList.get(x).getTransNox());
+                    loan.setdTransact(ciList.get(x).getTransact());
+                    loan.setsCredInvx(ciList.get(x).getCredInvx());
+                    loan.setsCompnyNm(ciList.get(x).getCompnyNm());
+                    loan.setsSpouseNm(ciList.get(x).getSpouseNm());
+                    loan.setsAddressx(ciList.get(x).getAddressx());
+                    loan.setsMobileNo(ciList.get(x).getMobileNo());
+                    loan.setsQMAppCde(ciList.get(x).getQMAppCde());
+                    loan.setsModelNme(ciList.get(x).getModelNme());
+                    loan.setnDownPaym(ciList.get(x).getDownPaym());
+                    loan.setnAcctTerm(ciList.get(x).getAcctTerm());
+                    loan.setcTranStat(ciList.get(x).getTranStat());
+                    loan.setdTimeStmp(ciList.get(x).getTimeStmp());
+                    ciEvaluationList.add(loan);
                 }
-                adapter = new CreditEvaluationListAdapter(creditList, new CreditEvaluationListAdapter.OnApplicationClickListener() {
+                adapter = new CreditEvaluationListAdapter(ciEvaluationList, new CreditEvaluationListAdapter.OnApplicationClickListener() {
                     @Override
-                    public void OnClick(int position, List<CreditEvaluationModel> creditLists) {
-//                                mViewModel.getDocument(creditLists.get(position).getTransNox()).observe(Activity_EvaluationList.this, data -> {
-//                                    mViewModel.setDocumentInfo(data);
-//                                });
+                    public void OnClick(int position, List<CreditEvaluationModel> ciEvaluationLists) {
+//
                         Intent loIntent = new Intent(Activity_EvaluationList.this, Activity_CIApplication.class);
-                        loIntent.putExtra("transno",creditLists.get(position).getsTransNox());
-                        loIntent.putExtra("ClientNm",creditLists.get(position).getsCompnyNm());
-                        loIntent.putExtra("dTransact",creditLists.get(position).getdTransact());
-                        loIntent.putExtra("ModelName",creditLists.get(position).getsModelNme());
-                        loIntent.putExtra("MobileNo",creditLists.get(position).getsMobileNo());
-                        loIntent.putExtra("term",creditLists.get(position).getnAcctTerm());
-                        loIntent.putExtra("Status",creditLists.get(position).getTransactionStatus());
+                        loIntent.putExtra("transno",ciEvaluationLists.get(position).getsTransNox());
+                        loIntent.putExtra("ClientNm",ciEvaluationLists.get(position).getsCompnyNm());
+                        loIntent.putExtra("dTransact",ciEvaluationLists.get(position).getdTransact());
+                        loIntent.putExtra("ModelName",ciEvaluationLists.get(position).getsModelNme());
+                        loIntent.putExtra("MobileNo",ciEvaluationLists.get(position).getsMobileNo());
+                        loIntent.putExtra("term",ciEvaluationLists.get(position).getnAcctTerm());
+                        loIntent.putExtra("Status",ciEvaluationLists.get(position).getTransactionStatus());
                         startActivity(loIntent);
 
                     }
