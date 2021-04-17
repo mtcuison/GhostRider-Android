@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ghostrider.creditevaluator.Fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LifecycleRegistry;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
@@ -21,6 +30,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIBarangayRecordInfoModel;
@@ -29,10 +39,13 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIBarangayRec
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIResidenceInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import static androidx.lifecycle.Lifecycle.Event.ON_STOP;
 //import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIBarangayRecord;
 
-public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCallBack {
+public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCallBack, LifecycleObserver {
 
     private VMCIBarangayRecords mViewModel;
     private CIBarangayRecordInfoModel ciModel;
@@ -50,6 +63,8 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
     private TextView nTerm;
     private TextView nMobile;
     private TextView sTransNox;
+
+    private MessageBox poMessage;
     List<CIBarangayRecordInfoModel> arrayList = new ArrayList<>();
     public static Fragment_CIBarangayRecord newInstance() {
         return new Fragment_CIBarangayRecord();
@@ -59,6 +74,7 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_ci_barangay_record, container, false);
+        poMessage = new MessageBox(getContext());
         ciModel = new CIBarangayRecordInfoModel();
         initWidgets(root);
         initClientInfo();
@@ -119,13 +135,15 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         mViewModel = new ViewModelProvider(this).get(VMCIBarangayRecords.class);
         // TODO: Use the ViewModel
-        mViewModel.getCIByTransNox(Activity_CIApplication.getInstance().getTransNox()).observe(getViewLifecycleOwner(), eciEvaluation -> {
 
+        mViewModel.setsTransNox(Activity_CIApplication.getInstance().getTransNox());
+        mViewModel.getCIByTransNox().observe(getViewLifecycleOwner(), eciEvaluation -> {
             mViewModel.setCurrentCIDetail(eciEvaluation);
-            setData(eciEvaluation);
         });
+
         rgRecord.setOnCheckedChangeListener(new ONCIBarangayRecord(rgRecord,mViewModel));
         rgFeedbak1.setOnCheckedChangeListener(new ONCIBarangayRecord(rgFeedbak1,mViewModel));
         rgFeedbak2.setOnCheckedChangeListener(new ONCIBarangayRecord(rgFeedbak2,mViewModel));
@@ -135,32 +153,49 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
             Activity_CIApplication.getInstance().moveToPageNumber(1);
         });
         btnAdd1.setOnClickListener(v -> {
+            try {
             ciModel.setFBRemrk1(tieFBRemark1.getText().toString());
             ciModel.setNeighbr1(tieFullname1.getText().toString());
             ciModel.setReltnCD1(tieRel1.getText().toString());
             ciModel.setMobileN1(tieContact1.getText().toString());
             mViewModel.saveNeighbor(ciModel, "Neighbor1",Fragment_CIBarangayRecord.this);
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
         });
 
         btnAdd2.setOnClickListener(v -> {
-            ciModel.setFBRemrk2(tieFBRemark2.getText().toString());
-            ciModel.setNeighbr2(tieFullname2.getText().toString());
-            ciModel.setReltnCD2(tieRel2.getText().toString());
-            ciModel.setMobileN2(tieContact2.getText().toString());
-            mViewModel.saveNeighbor(ciModel, "Neighbor2",Fragment_CIBarangayRecord.this);
+            try {
+                ciModel.setFBRemrk2(tieFBRemark2.getText().toString());
+                ciModel.setNeighbr2(tieFullname2.getText().toString());
+                ciModel.setReltnCD2(tieRel2.getText().toString());
+                ciModel.setMobileN2(tieContact2.getText().toString());
+                mViewModel.saveNeighbor(ciModel, "Neighbor2",Fragment_CIBarangayRecord.this);
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
         });
 
         btnAdd3.setOnClickListener(v -> {
-            ciModel.setFBRemrk3(tieFBRemark3.getText().toString());
-            ciModel.setNeighbr3(tieFullname3.getText().toString());
-            ciModel.setReltnCD3(tieRel3.getText().toString());
-            ciModel.setMobileN3(tieContact3.getText().toString());
-            mViewModel.saveNeighbor(ciModel, "Neighbor3",Fragment_CIBarangayRecord.this);
+            try {
+                ciModel.setFBRemrk3(tieFBRemark3.getText().toString());
+                ciModel.setNeighbr3(tieFullname3.getText().toString());
+                ciModel.setReltnCD3(tieRel3.getText().toString());
+                ciModel.setMobileN3(tieContact3.getText().toString());
+                mViewModel.saveNeighbor(ciModel, "Neighbor3",Fragment_CIBarangayRecord.this);
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
         });
         btnNext.setOnClickListener(v -> {
-            ciModel.setRemRecrd(tieRecord.getText().toString());
-            mViewModel.saveNeighbor(ciModel, "Neighbor",Fragment_CIBarangayRecord.this);
+            try {
+                ciModel.setRemRecrd(tieRecord.getText().toString());
+                mViewModel.saveNeighbor(ciModel, "Neighbor",Fragment_CIBarangayRecord.this);
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
         });
+        setData();
     }
 
     @SuppressLint("RestrictedApi")
@@ -179,7 +214,14 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
 
     @Override
     public void onFailedResult(String message) {
-        GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
+        poMessage.initDialog();
+        poMessage.setTitle("CI Evaluation");
+        poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+            dialog.dismiss();
+        });
+        poMessage.show();
+
 
     }
 
@@ -244,113 +286,201 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
         }
     }
 
-    public void setData(ECIEvaluation eciEvaluation){
-        if (eciEvaluation.getHasRecrd() != null){
-//                    Loop for radio button not clickable
-            for(int i = 0; i < rgRecord.getChildCount(); i++){
-                ((RadioButton)rgRecord.getChildAt(i)).setClickable(false);
-            }
-            if(eciEvaluation.getHasRecrd().equalsIgnoreCase("0")){
-                ciModel.setHasRecrd("0");
-                rgRecord.check(R.id.rb_ci_noRecord);
-            }
-            else {
-                ciModel.setHasRecrd("1");
-                ciModel.setRemRecrd(eciEvaluation.getRemRecrd());
-                rgRecord.check(R.id.rb_ci_withRecord);
-                tilRecord.setVisibility(View.VISIBLE);
-                tieRecord.setText(eciEvaluation.getRemRecrd());
-                tieRecord.setClickable(false);
-            }
+    public void setData(){
+        try {
+//            Neighbor 1
+            mViewModel.getsNeigbor1().observe(getViewLifecycleOwner(), val ->{
+                if (!val.trim().isEmpty()){
+                    ciModel.setNeighbr1(val);
+                    tieFullname1.setEnabled(false);
+                }
+                tieFullname1.setText(val);
+            });
+            mViewModel.getsRel1().observe(getViewLifecycleOwner(), val ->{
+                if (!val.trim().isEmpty()){
+                    ciModel.setReltnCD1(val);
+                    tieRel1.setEnabled(false);
+                }
+                tieRel1.setText(val);
+            });
+            mViewModel.getsMobile1().observe(getViewLifecycleOwner(), val ->{
+                if (!val.trim().isEmpty()){
+                    ciModel.setMobileN1(val);
+                    tieContact1.setEnabled(false);
+                    btnAdd1.setVisibility(View.GONE);
+                }
+                tieContact1.setText(val);
+            });
+            mViewModel.getsFeedback1().observe(getViewLifecycleOwner(), val ->{
+                rgFeedbak1.clearCheck();
+                if (!val.trim().isEmpty()){
+                    for(int i = 0; i < rgFeedbak1.getChildCount(); i++){
+                        ((RadioButton)rgFeedbak1.getChildAt(i)).setClickable(false);
+                    }
+                }
+                if(val.equalsIgnoreCase("0")){
+                    rgFeedbak1.check(R.id.rb_ci_postiveFeed1);
+                }
+                else if(val.equalsIgnoreCase("1")){
+                    rgFeedbak1.check(R.id.rb_ci_negativeFeed1);
+                    ciModel.setFBRemrk1(val);
+                    tilFBRemark1.setVisibility(View.VISIBLE);
+                    tieFBRemark1.setClickable(false);
+                    tieFBRemark1.setEnabled(false);
+                }
+                ciModel.setFeedBck1(val);
+                tieFBRemark1.setText(val);
+            });
+//            Neighbor 2
+            mViewModel.getsNeigbor2().observe(getViewLifecycleOwner(), val ->{
+                if (!val.trim().isEmpty()){
+                    ciModel.setNeighbr2(val);
+                    tieFullname2.setEnabled(false);
+                }
+                tieFullname2.setText(val);
+            });
+            mViewModel.getsRel2().observe(getViewLifecycleOwner(), val ->{
+                if (!val.trim().isEmpty()){
+                    ciModel.setReltnCD2(val);
+                    tieRel2.setEnabled(false);
+                }
+                tieRel2.setText(val);
+            });
+            mViewModel.getsMobile2().observe(getViewLifecycleOwner(), val ->{
+                if (!val.trim().isEmpty()){
+                    ciModel.setMobileN2(val);
+                    tieContact2.setEnabled(false);
+                    btnAdd2.setVisibility(View.GONE);
+                }
+                tieContact2.setText(val);
+            });
+            mViewModel.getsFeedback2().observe(getViewLifecycleOwner(), val ->{
+                rgFeedbak2.clearCheck();
+                if (!val.trim().isEmpty()){
+                    for(int i = 0; i < rgFeedbak2.getChildCount(); i++){
+                        ((RadioButton)rgFeedbak2.getChildAt(i)).setClickable(false);
+                    }
+                }
+                if(val.equalsIgnoreCase("0")){
+                    rgFeedbak2.check(R.id.rb_ci_postiveFeed2);
+                }
+                else if(val.equalsIgnoreCase("1")){
+                    rgFeedbak2.check(R.id.rb_ci_negativeFeed2);
+                    ciModel.setFBRemrk2(val);
+                    tilFBRemark2.setVisibility(View.VISIBLE);
+                    tieFBRemark2.setClickable(false);
+                    tieFBRemark2.setEnabled(false);
+                }
+                ciModel.setFeedBck2(val);
+                tieFBRemark2.setText(val);
+            });
+//        Neighbor 3
+            mViewModel.getsNeigbor3().observe(getViewLifecycleOwner(), val ->{
+                if (!val.trim().isEmpty()){
+                    ciModel.setNeighbr3(val);
+                    tieFullname3.setEnabled(false);
+                }
+                tieFullname3.setText(val);
+            });
+            mViewModel.getsRel3().observe(getViewLifecycleOwner(), val ->{
+                if (!val.trim().isEmpty()){
+                    ciModel.setReltnCD3(val);
+                    tieRel3.setEnabled(false);
+                }
+                tieRel3.setText(val);
+            });
+            mViewModel.getsMobile3().observe(getViewLifecycleOwner(), val ->{
+                if (!val.trim().isEmpty()){
+                    ciModel.setMobileN3(val);
+                    tieContact3.setEnabled(false);
+                    btnAdd3.setVisibility(View.GONE);
+                }
+                tieContact3.setText(val);
+            });
+            mViewModel.getsFeedback3().observe(getViewLifecycleOwner(), val ->{
+                rgFeedbak3.clearCheck();
+                if (!val.trim().isEmpty()){
+                    for(int i = 0; i < rgFeedbak3.getChildCount(); i++){
+                        ((RadioButton)rgFeedbak3.getChildAt(i)).setClickable(false);
+                    }
+                }
+                if(val.equalsIgnoreCase("0")){
+                    rgFeedbak3.check(R.id.rb_ci_postiveFeed3);
+                }
+                else if(val.equalsIgnoreCase("1")){
+                    rgFeedbak3.check(R.id.rb_ci_negativeFeed3);
+                    ciModel.setFBRemrk3(val);
+                    tilFBRemark3.setVisibility(View.VISIBLE);
+                    tieFBRemark3.setClickable(false);
+                    tieFBRemark3.setEnabled(false);
+                }
+                ciModel.setFeedBck3(val);
+                tieFBRemark3.setText(val);
+            });
+//            mViewModel.getsHasRecord().observe(getViewLifeCycleOwner(), val ->{
+//                for(int i = 0; i < rgRecord.getChildCount(); i++){
+//                    ((RadioButton)rgRecord.getChildAt(i)).setClickable(false);
+//                }
+//                if(mViewModel.getsHasRecord().getValue().equalsIgnoreCase("0")){
+//                    ciModel.setHasRecrd("0");
+//                    rgRecord.check(R.id.rb_ci_noRecord);
+//                }
+//                else {
+//                    ciModel.setHasRecrd("1");
+//                    ciModel.setRemRecrd(mViewModel.getsRemRecord().getValue());
+//                    rgRecord.check(R.id.rb_ci_withRecord);
+//                    tilRecord.setVisibility(View.VISIBLE);
+//                    tieRecord.setText(mViewModel.getsRemRecord().getValue());
+//                    tieRecord.setClickable(false);
+//                    tieRecord.setEnabled(false);
+//                }
+//            });
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
 
-        }
-//                Neighbor 1
-        if(eciEvaluation.getFeedBck1() != null){
-            for(int i = 0; i < rgFeedbak1.getChildCount(); i++){
-                ((RadioButton)rgFeedbak1.getChildAt(i)).setClickable(false);
-            }
-            if(eciEvaluation.getFeedBck1().equalsIgnoreCase("0")){
-                rgFeedbak1.check(R.id.rb_ci_postiveFeed1);
-            }
-            else {
-                rgFeedbak1.check(R.id.rb_ci_negativeFeed1);
-                ciModel.setFBRemrk1(eciEvaluation.getFBRemrk1());
-            }
-
-            ciModel.setFeedBck1(eciEvaluation.getFeedBck1());
-        }
-        if (eciEvaluation.getNeighbr1() != null){
-            ciModel.setNeighbr1(eciEvaluation.getNeighbr1());
-            tieFullname1.setText(eciEvaluation.getNeighbr1());
-        }
-
-        if (eciEvaluation.getMobileN1() != null){
-            ciModel.setMobileN1(eciEvaluation.getMobileN1());
-            tieContact1.setText(eciEvaluation.getMobileN1());
-            btnAdd1.setVisibility(View.GONE);
-        }
-        if (eciEvaluation.getReltnCD1() != null){
-            ciModel.setReltnCD1(eciEvaluation.getReltnCD1());
-            tieRel1.setText(eciEvaluation.getReltnCD1());
-        }
-
-//                Neighbor 2
-        if(eciEvaluation.getFeedBck2() != null){
-            for(int i = 0; i < rgFeedbak2.getChildCount(); i++){
-                ((RadioButton)rgFeedbak2.getChildAt(i)).setClickable(false);
-            }
-            if(eciEvaluation.getFeedBck2().equalsIgnoreCase("0")){
-                rgFeedbak2.check(R.id.rb_ci_postiveFeed2);
-            }
-            else {
-                rgFeedbak2.check(R.id.rb_ci_negativeFeed2);
-                ciModel.setFBRemrk2(eciEvaluation.getFBRemrk2());
-            }
-
-            ciModel.setFeedBck2(eciEvaluation.getFeedBck2());
-        }
-        if (eciEvaluation.getNeighbr2() != null){
-            ciModel.setNeighbr2(eciEvaluation.getNeighbr2());
-            tieFullname2.setText(eciEvaluation.getNeighbr2());
-        }
-
-        if (eciEvaluation.getMobileN2() != null){
-            ciModel.setMobileN2(eciEvaluation.getMobileN2());
-            tieContact2.setText(eciEvaluation.getMobileN2());
-            btnAdd2.setVisibility(View.GONE);
-        }
-        if (eciEvaluation.getReltnCD2() != null){
-            ciModel.setReltnCD2(eciEvaluation.getReltnCD2());
-            tieRel2.setText(eciEvaluation.getReltnCD2());
-        }
-//                Feedback 3
-        if(eciEvaluation.getFeedBck3() != null){
-            for(int i = 0; i < rgFeedbak3.getChildCount(); i++){
-                ((RadioButton)rgFeedbak3.getChildAt(i)).setClickable(false);
-            }
-            if(eciEvaluation.getFeedBck3().equalsIgnoreCase("0")){
-                rgFeedbak3.check(R.id.rb_ci_postiveFeed3);
-            }
-            else {
-                rgFeedbak3.check(R.id.rb_ci_negativeFeed3);
-                ciModel.setFBRemrk3(eciEvaluation.getFBRemrk3());
-            }
-
-            ciModel.setFeedBck3(eciEvaluation.getFeedBck3());
-        }
-        if (eciEvaluation.getNeighbr3() != null){
-            ciModel.setNeighbr3(eciEvaluation.getNeighbr3());
-            tieFullname3.setText(eciEvaluation.getNeighbr3());
-        }
-
-        if (eciEvaluation.getMobileN3() != null){
-            ciModel.setMobileN3(eciEvaluation.getMobileN3());
-            tieContact3.setText(eciEvaluation.getMobileN3());
-            btnAdd3.setVisibility(View.GONE);
-        }
-        if (eciEvaluation.getReltnCD3() != null){
-            ciModel.setReltnCD3(eciEvaluation.getReltnCD3());
-            tieRel3.setText(eciEvaluation.getReltnCD3());
-        }
     }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        Log.e("onResume", String.valueOf(viewLifecycleOwner.getLifecycle()));
+//        if (viewLifecycleOwner != null) {
+//            viewLifecycleOwner.getLifecycle().handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+//        }
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        try {
+//            Log.e("onPause", String.valueOf(viewLifecycleOwner.getLifecycle()));
+//            if (viewLifecycleOwner != null) {
+//                viewLifecycleOwner.getLifecycle().handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
+//            }
+//        }catch (NullPointerException e){
+//            e.printStackTrace();
+//        }catch (RuntimeException e){
+//            e.printStackTrace();
+//        }
+//
+//        super.onPause();
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        Log.e("onStop", String.valueOf(viewLifecycleOwner.getLifecycle()));
+//        if (viewLifecycleOwner != null) {
+//            viewLifecycleOwner.getLifecycle().handleLifecycleEvent(Lifecycle.Event.ON_STOP);
+//        }
+//        super.onStop();
+//    }
+//
+//    @Override
+//    public void onDestroyView() {
+//        Log.e("onDestroyView", String.valueOf(viewLifecycleOwner.getLifecycle()));
+//        if (viewLifecycleOwner != null) {
+//            viewLifecycleOwner.getLifecycle().handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+//            viewLifecycleOwner = null;
+//        }
+//        super.onDestroyView();
+//    }
 }

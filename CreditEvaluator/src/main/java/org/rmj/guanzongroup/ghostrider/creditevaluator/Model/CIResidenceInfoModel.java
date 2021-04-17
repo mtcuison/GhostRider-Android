@@ -32,27 +32,27 @@ public class CIResidenceInfoModel {
         return true;
     }
     private boolean isOwnershp(){
-        if (this.Ownershp.trim().isEmpty()){
+        if (this.Ownershp == null){
             message = "Please select House ownership.";
             return false;
         }
         return true;
     }
     private boolean isOtherOwner(){
-        if (this.OwnOther.trim().isEmpty()){
+        if (this.OwnOther == null){
             message = "Please select household.";
             return false;
         }
         return true;
     }private boolean isHouseTyp(){
-        if (this.HouseTyp.trim().isEmpty()){
+        if (this.HouseTyp == null){
             message = "Please select house type.";
             return false;
         }
         return true;
     }
     private boolean isGaragexx(){
-        if (this.Garagexx.trim().isEmpty()){
+        if (this.Garagexx == null){
             message = "Please select if available house garage.";
             return false;
         }
@@ -60,7 +60,7 @@ public class CIResidenceInfoModel {
     }
 
     private boolean isLatLongg(){
-        if (this.Longitud == null || this.Latitude == null || this.Longitud.trim().isEmpty() || this.Latitude.trim().isEmpty()){
+        if (this.Longitud == null || this.Latitude == null || this.Longitud == null || this.Latitude == null){
             message = "empty";
             return false;
         }

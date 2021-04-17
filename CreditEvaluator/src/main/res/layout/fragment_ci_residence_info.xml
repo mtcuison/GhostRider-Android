@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:fillViewport="true"
     android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
@@ -43,6 +44,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
+                        android:textColor="@color/textColor_Black"
                         android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <LinearLayout
@@ -68,7 +70,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
                             android:text="Owned"
-                            tools:targetApi="jelly_bean" />
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange" />
 
                         <RadioButton
                             android:id="@+id/rb_ci_rent"
@@ -76,14 +79,16 @@
                             android:layout_height="wrap_content"
                             android:text="Rent"
                             android:fontFamily="@font/roboto_regular"
-                            tools:targetApi="jelly_bean"/>
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange"/>
                         <RadioButton
                             android:id="@+id/rb_ci_careTaker"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Care-Taker"
                             android:fontFamily="@font/roboto_regular"
-                            tools:targetApi="jelly_bean"/>
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange"/>
                     </RadioGroup>
                 </LinearLayout>
                 <LinearLayout
@@ -109,7 +114,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
                             android:text="Living with Family"
-                            tools:targetApi="jelly_bean" />
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange" />
 
                         <RadioButton
                             android:id="@+id/rb_ci_familySiblings"
@@ -117,14 +123,16 @@
                             android:layout_height="wrap_content"
                             android:text="Living with Family(Parents and Siblings)"
                             android:fontFamily="@font/roboto_regular"
-                            tools:targetApi="jelly_bean"/>
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange"/>
                         <RadioButton
                             android:id="@+id/rb_ci_relatives"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Living with Relatives"
                             android:fontFamily="@font/roboto_regular"
-                            tools:targetApi="jelly_bean"/>
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange"/>
                     </RadioGroup>
                 </LinearLayout>
                 <LinearLayout
@@ -150,7 +158,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
                             android:text="Concrete"
-                            tools:targetApi="jelly_bean" />
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange" />
 
                         <RadioButton
                             android:id="@+id/rb_ci_houseCombine"
@@ -158,14 +167,16 @@
                             android:layout_height="wrap_content"
                             android:text="Combination ( Wood and Concrete)"
                             android:fontFamily="@font/roboto_regular"
-                            tools:targetApi="jelly_bean"/>
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange"/>
                         <RadioButton
                             android:id="@+id/rb_ci_houseWood"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Wood / Nipa"
                             android:fontFamily="@font/roboto_regular"
-                            tools:targetApi="jelly_bean"/>
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange"/>
                     </RadioGroup>
                 </LinearLayout>
                 <LinearLayout
@@ -193,31 +204,35 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="No"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1"
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange"/>
                         <RadioButton
                             android:id="@+id/rb_ci_yes"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Yes"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1"
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange"/>
                     </RadioGroup>
 
                 </LinearLayout>
 
             </LinearLayout>
 
-
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/btn_ciAppNext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:paddingLeft="20dp"
-                android:paddingRight="25dp"
-                android:text="\t\Save\t"
                 style="@style/NavigationButton"
-                android:drawableRight="@drawable/ic_nav_right"
-                android:drawableEnd="@drawable/ic_nav_right" />
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_nav_right"
+                app:iconGravity="end"
+                app:iconTint="@color/material_black"
+                android:text="Next"
+                android:textAlignment="textEnd"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical" />
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -23,8 +23,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CreditEvaluator;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Dialog.DialogCIReason;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CharacterTraitsInfoModel;
@@ -50,6 +50,7 @@ public class Fragment_CICharacterTraits extends Fragment implements ViewModelCal
     private TextView sTransNox;
 
     private CharacterTraitsInfoModel infoModel;
+    private MessageBox poMessage;
     public static Fragment_CICharacterTraits newInstance() {
         return new Fragment_CICharacterTraits();
     }
@@ -58,7 +59,7 @@ public class Fragment_CICharacterTraits extends Fragment implements ViewModelCal
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_ci_character_traits, container, false);
-        infoModel = new CharacterTraitsInfoModel();
+        poMessage = new MessageBox(getContext());
         initWidgets(root);
         initClientInfo();
         return root;
@@ -99,7 +100,8 @@ public class Fragment_CICharacterTraits extends Fragment implements ViewModelCal
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMCICharacteristics.class);
-        mViewModel.getCIByTransNox(Activity_CIApplication.getInstance().getTransNox()).observe(getViewLifecycleOwner(), eciEvaluation -> {
+        mViewModel.setsTransNox(Activity_CIApplication.getInstance().getTransNox());
+        mViewModel.getCIByTransNox().observe(getViewLifecycleOwner(), eciEvaluation -> {
             mViewModel.setCurrentCIDetail(eciEvaluation);
             initData(eciEvaluation);
         });
@@ -112,7 +114,7 @@ public class Fragment_CICharacterTraits extends Fragment implements ViewModelCal
         cbArrogance.setOnCheckedChangeListener(new OnCharacterTraitSelectionListener(cbArrogance));
         cbOthers.setOnCheckedChangeListener(new OnCharacterTraitSelectionListener(cbOthers));
         btnNext.setOnClickListener(v ->  {
-            if (infoModel.getcTranstat() != null || infoModel.getsRemarks() != null){
+            if (Integer.parseInt(infoModel.getcTranstat()) > 0 || infoModel.getsRemarks() != null){
                 mViewModel.saveCICHaracterTraits(infoModel, Fragment_CICharacterTraits.this);
             }else{
                 initDialog();
@@ -131,6 +133,7 @@ public class Fragment_CICharacterTraits extends Fragment implements ViewModelCal
         cbMortage.setChecked(false);
         cbArrogance.setChecked(false);
         cbOthers.setChecked(false);
+        infoModel = new CharacterTraitsInfoModel();
         if (eciEvaluation.getGamblerx() != null && eciEvaluation.getGamblerx().equalsIgnoreCase("1")){
             infoModel.setCbGambler(eciEvaluation.getGamblerx());
             cbGambler.setChecked(true);
@@ -179,8 +182,13 @@ public class Fragment_CICharacterTraits extends Fragment implements ViewModelCal
 
     @Override
     public void onFailedResult(String message) {
-        GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
-
+        poMessage.initDialog();
+        poMessage.setTitle("CI Evaluation");
+        poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+            dialog.dismiss();
+        });
+        poMessage.show();
     }
     class OnCharacterTraitSelectionListener implements CheckBox.OnCheckedChangeListener{
 

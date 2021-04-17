@@ -46,7 +46,6 @@ public class VMCIDisbursement extends AndroidViewModel {
     private final MutableLiveData<ECIEvaluation> poCIDetail = new MutableLiveData<>();
     private final MutableLiveData<String> sTransNox = new MutableLiveData<>();
 
-    private final DecimalFormat currency_total = new DecimalFormat("#########.###");
     private final MutableLiveData<Double> nWater = new MutableLiveData<>();
     private final MutableLiveData<Double> nElctx = new MutableLiveData<>();
     private final MutableLiveData<Double> nFoodx = new MutableLiveData<>();
@@ -67,6 +66,7 @@ public class VMCIDisbursement extends AndroidViewModel {
         this.nLoans.setValue((double) 0);
         this.nEducation.setValue((double) 0);
         this.pnOthers.setValue((double) 0);
+        this.pnTotalx.setValue((double) 0);
     }
 
 
@@ -87,6 +87,10 @@ public class VMCIDisbursement extends AndroidViewModel {
         double otherExp = pnOthers.getValue();
         double lnTotal = waterBill + electBill + foodAllow + loans + educAllow + otherExp;
         pnTotalx.setValue(lnTotal);
+    }
+    public void setPnTotalx(Double fnAmount){
+        this.pnTotalx.setValue(fnAmount);
+        calculateTotal();
     }
     public void setnWater(Double fnAmount){
         this.nWater.setValue(fnAmount);
@@ -115,8 +119,8 @@ public class VMCIDisbursement extends AndroidViewModel {
     public LiveData<Double> getTotalAmount(){
         return pnTotalx;
     }
-    public LiveData<ECIEvaluation> getCIByTransNox(String transNox) {
-        return poCI.getAllCIApplication(transNox);
+    public LiveData<ECIEvaluation> getCIByTransNox() {
+        return poCI.getAllCIApplication(sTransNox.getValue());
     }
 
     public boolean saveCIDisbursement(CIDisbursementInfoModel infoModel, ViewModelCallBack callback) {
@@ -162,7 +166,7 @@ public class VMCIDisbursement extends AndroidViewModel {
                 loDetail.setEducExpn(infoModel.getCiDbmEducation());
                 loDetail.setOthrExpn(infoModel.getCiDbmOthers());
                 poCIEvaluation.updateCiDisbursement(loDetail);
-                Log.e(TAG, "CI Residence info has been updated!");
+                Log.e(TAG, "Disbursement info has been updated!");
                 return "success";
 
             } catch (Exception e) {

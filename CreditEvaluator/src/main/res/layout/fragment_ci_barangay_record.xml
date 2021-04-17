@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -15,8 +16,7 @@
         <include
             layout="@layout/layout_ci_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:context=".Fragments.Fragment_CIResidenceInfo"/>
+            android:layout_height="wrap_content"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,6 +50,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
+                        android:textColor="@color/material_black"
                         android:maxLength="50" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,6 +71,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapWords"
+                            android:textColor="@color/material_black"
                             android:maxLength="50" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,6 +88,7 @@
                             android:layout_height="wrap_content"
                             android:imeOptions="actionNext"
                             android:inputType="number|none"
+                            android:textColor="@color/material_black"
                             android:maxLength="11" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
@@ -102,7 +105,8 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="Positive Feedback"
                         android:layout_weight="1"
-                        tools:targetApi="jelly_bean" />
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange" />
 
                     <RadioButton
                         android:id="@+id/rb_ci_negativeFeed1"
@@ -111,7 +115,8 @@
                         android:text="Negative Feedback"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_regular"
-                        tools:targetApi="jelly_bean"/>
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange"/>
                 </RadioGroup>
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_ci_fbRemark1"
@@ -126,6 +131,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
+                        android:textColor="@color/material_black"
                         android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -148,7 +154,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="8dp"
                 android:padding="3dp"
-                android:background="@color/guanzon_orange"/>
+                android:background="@color/guanzon_digital_orange"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -171,6 +177,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
+                        android:textColor="@color/material_black"
                         android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <LinearLayout
@@ -189,8 +196,9 @@
                             android:id="@+id/tie_ci_neighborRel2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textCapWords"
-                            android:maxLength="50" />
+                        android:inputType="textCapWords"
+                        android:textColor="@color/material_black"
+                        android:maxLength="50" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -206,6 +214,7 @@
                             android:layout_height="wrap_content"
                             android:imeOptions="actionNext"
                             android:inputType="number|none"
+                            android:textColor="@color/material_black"
                             android:maxLength="11" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
@@ -222,7 +231,8 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="Positive Feedback"
                         android:layout_weight="1"
-                        tools:targetApi="jelly_bean" />
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange" />
 
                     <RadioButton
                         android:id="@+id/rb_ci_negativeFeed2"
@@ -231,7 +241,8 @@
                         android:text="Negative Feedback"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_regular"
-                        tools:targetApi="jelly_bean"/>
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange"/>
                 </RadioGroup>
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_ci_fbRemark2"
@@ -246,6 +257,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
+                        android:textColor="@color/material_black"
                         android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -268,7 +280,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="8dp"
                 android:padding="3dp"
-                android:background="@color/guanzon_orange"/>
+                android:background="@color/guanzon_digital_orange"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -291,6 +303,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
+                        android:textColor="@color/material_black"
                         android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <LinearLayout
@@ -309,8 +322,9 @@
                             android:id="@+id/tie_ci_neighborRel3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textCapWords"
-                            android:maxLength="50" />
+                        android:inputType="textCapWords"
+                        android:textColor="@color/material_black"
+                        android:maxLength="50" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -326,6 +340,7 @@
                             android:layout_height="wrap_content"
                             android:imeOptions="actionNext"
                             android:inputType="number|none"
+                            android:textColor="@color/material_black"
                             android:maxLength="11" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
@@ -342,7 +357,8 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="Positive Feedback"
                         android:layout_weight="1"
-                        tools:targetApi="jelly_bean" />
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange" />
 
                     <RadioButton
                         android:id="@+id/rb_ci_negativeFeed3"
@@ -351,7 +367,8 @@
                         android:text="Negative Feedback"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_regular"
-                        tools:targetApi="jelly_bean"/>
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange"/>
                 </RadioGroup>
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_ci_fbRemark3"
@@ -366,6 +383,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
+                        android:textColor="@color/material_black"
                         android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -387,7 +405,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="8dp"
                 android:padding="3dp"
-                android:background="@color/guanzon_orange"/>
+                android:background="@color/guanzon_digital_orange"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -412,7 +430,8 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="No Barangay Record"
                         android:layout_weight="1"
-                        tools:targetApi="jelly_bean" />
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange" />
 
                     <RadioButton
                         android:id="@+id/rb_ci_withRecord"
@@ -421,7 +440,8 @@
                         android:text="Has Barangay Record"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_regular"
-                        tools:targetApi="jelly_bean"/>
+                            tools:targetApi="jelly_bean"
+                            android:buttonTint="@color/guanzon_digital_orange"/>
                 </RadioGroup>
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_ci_record"
@@ -437,6 +457,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
+                        android:textColor="@color/material_black"
                         android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -447,7 +468,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="8dp"
                 android:padding="3dp"
-                android:background="@color/guanzon_orange"/>
+                android:background="@color/guanzon_digital_orange"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -457,27 +478,28 @@
                 <Button
                     android:id="@+id/btn_ciAppPrvs"
                     style="@style/NavigationButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_nav_left"
-                    android:drawableLeft="@drawable/ic_nav_left"
-                    android:drawablePadding="5dp"
+                    app:icon="@drawable/ic_nav_left"
                     android:text="Previous"
+                    app:iconGravity="start"
+                    app:iconTint="@color/material_black"
                     android:textAlignment="textStart"
-                    android:gravity="start"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:gravity="start|center_vertical" />
 
                 <Button
                     android:id="@+id/btn_ciAppNext"
                     style="@style/NavigationButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_nav_right"
-                    android:drawableRight="@drawable/ic_nav_right"
+                    app:icon="@drawable/ic_nav_right"
+                    app:iconGravity="end"
+                    app:iconTint="@color/material_black"
                     android:text="Next"
-                    android:layout_weight="1"
                     android:textAlignment="textEnd"
-                    android:gravity="end"/>
+                    android:layout_weight="1"
+                    android:gravity="end|center_vertical" />
             </LinearLayout>
         </LinearLayout>
 

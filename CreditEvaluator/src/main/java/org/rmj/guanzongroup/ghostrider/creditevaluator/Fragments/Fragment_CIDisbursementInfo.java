@@ -25,6 +25,7 @@ import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIDisbursementInfoModel;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CharacterTraitsInfoModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIDisbursement;
 
@@ -36,7 +37,7 @@ import java.util.StringTokenizer;
 public class Fragment_CIDisbursementInfo extends Fragment implements ViewModelCallBack {
 
     private VMCIDisbursement mViewModel;
-    private final DecimalFormat currency_total = new DecimalFormat("###,###,###.###");
+    DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
     private CIDisbursementInfoModel infoModel;
     private TextInputEditText tieWater,
             tieElctx,
@@ -68,7 +69,7 @@ public class Fragment_CIDisbursementInfo extends Fragment implements ViewModelCa
     }
     void initWidgets(View view){
         tieWater = view.findViewById(R.id.tie_ci_dbmWater);
-        tieElctx = view.findViewById(R.id.tie_ci_dbmElectricity);
+        tieElctx = view.findViewById(R.id.tie_ci_dbmElecX);
         tieFoodx = view.findViewById(R.id.tie_ci_dbmFood);
         tieLoans = view.findViewById(R.id.tie_ci_dbmLoans);
         tieEducation = view.findViewById(R.id.tie_ci_dbmEducation);
@@ -99,15 +100,16 @@ public class Fragment_CIDisbursementInfo extends Fragment implements ViewModelCa
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMCIDisbursement.class);
-        mViewModel.getCIByTransNox(Activity_CIApplication.getInstance().getTransNox()).observe(getViewLifecycleOwner(), eciEvaluation -> {
+        mViewModel.setsTransNox(Activity_CIApplication.getInstance().getTransNox());
+        mViewModel.getCIByTransNox().observe(getViewLifecycleOwner(), eciEvaluation -> {
             mViewModel.setCurrentCIDetail(eciEvaluation);
             initData(eciEvaluation);
         });
-        mViewModel.getTotalAmount().observe(getViewLifecycleOwner(), total-> tieTotalExpenses.setText(String.valueOf(total)));
+        mViewModel.getTotalAmount().observe(getViewLifecycleOwner(), total-> tieTotalExpenses.setText(formatter.format(total)));
         tieWater.addTextChangedListener(new OnAmountEnterTextWatcher(tieWater));
         tieElctx.addTextChangedListener(new OnAmountEnterTextWatcher(tieElctx));
         tieFoodx.addTextChangedListener(new OnAmountEnterTextWatcher(tieFoodx));
-        tieLoans.addTextChangedListener(new OnAmountEnterTextWatcher(tieWater));
+        tieLoans.addTextChangedListener(new OnAmountEnterTextWatcher(tieLoans));
         tieEducation.addTextChangedListener(new OnAmountEnterTextWatcher(tieEducation));
         tieOthers.addTextChangedListener(new OnAmountEnterTextWatcher(tieOthers));
         btnNext.setOnClickListener(v -> {
@@ -131,40 +133,47 @@ public class Fragment_CIDisbursementInfo extends Fragment implements ViewModelCa
             tieLoans.setText("");
             tieEducation.setText("");
             tieOthers.setText("");
+            tieTotalExpenses.setText("");
 
-            if (eciEvaluation.getWaterBil() != null){
+            if (eciEvaluation.getWaterBil() != null && !eciEvaluation.getWaterBil().trim().isEmpty()){
                 tieWater.setText(eciEvaluation.getWaterBil());
+                tieWater.setEnabled(false);
                 mViewModel.setnWater(Double.valueOf(tieWater.getText().toString().replace(",", "")));
             }
 
-            if (eciEvaluation.getElctrcBl() != null){
+            if (eciEvaluation.getElctrcBl() != null && !eciEvaluation.getElctrcBl().trim().isEmpty()){
                 tieElctx.setText(eciEvaluation.getElctrcBl());
+                tieElctx.setEnabled(false);
                 mViewModel.setnElctx(Double.valueOf(tieElctx.getText().toString().replace(",", "")));
             }
 
-            if (eciEvaluation.getFoodAllw() != null){
+            if (eciEvaluation.getFoodAllw() != null && !eciEvaluation.getFoodAllw().trim().isEmpty()){
                 tieFoodx.setText(eciEvaluation.getFoodAllw());
+                tieFoodx.setEnabled(false);
                 mViewModel.setnFoodx(Double.valueOf(tieFoodx.getText().toString().replace(",", "")));
             }
 
-            if (eciEvaluation.getLoanAmtx() != null){
+            if (eciEvaluation.getLoanAmtx() != null && !eciEvaluation.getLoanAmtx().trim().isEmpty()){
                 tieLoans.setText(eciEvaluation.getLoanAmtx());
+                tieLoans.setEnabled(false);
                 mViewModel.setnLoans(Double.valueOf(tieLoans.getText().toString().replace(",", "")));
             }
 
-            if (eciEvaluation.getEducExpn() != null){
+            if (eciEvaluation.getEducExpn() != null && !eciEvaluation.getEducExpn().trim().isEmpty()){
                 tieEducation.setText(eciEvaluation.getEducExpn());
+                tieEducation.setEnabled(false);
                 mViewModel.setnEducation(Double.valueOf(tieEducation.getText().toString().replace(",", "")));
             }
 
-            if (eciEvaluation.getOthrExpn() != null){
+            if (eciEvaluation.getOthrExpn() != null && !eciEvaluation.getOthrExpn().trim().isEmpty()){
                 tieOthers.setText(eciEvaluation.getOthrExpn());
-                mViewModel.setnEducation(Double.valueOf(tieOthers.getText().toString().replace(",", "")));
+                tieOthers.setEnabled(false);
+                mViewModel.setOthers(Double.valueOf(tieOthers.getText().toString().replace(",", "")));
             }
         }catch (NullPointerException e){
-
+            e.printStackTrace();
         }catch (NumberFormatException e){
-
+            e.printStackTrace();
         }
 
     };
@@ -202,7 +211,7 @@ public class Fragment_CIDisbursementInfo extends Fragment implements ViewModelCa
                 if(!Objects.requireNonNull(inputEditText.getText()).toString().trim().isEmpty()) {
                     if (inputEditText.getId() == R.id.tie_ci_dbmWater) {
                         mViewModel.setnWater(Double.valueOf(inputEditText.getText().toString().replace(",", "")));
-                    } else if (inputEditText.getId() == R.id.tie_ci_dbmElectricity) {
+                    } else if (inputEditText.getId() == R.id.tie_ci_dbmElecX) {
                         mViewModel.setnElctx(Double.valueOf(inputEditText.getText().toString().replace(",", "")));
                     } else if (inputEditText.getId() == R.id.tie_ci_dbmFood) {
                         mViewModel.setnFoodx(Double.valueOf(inputEditText.getText().toString().replace(",", "")));
@@ -212,6 +221,20 @@ public class Fragment_CIDisbursementInfo extends Fragment implements ViewModelCa
                         mViewModel.setnEducation(Double.valueOf(inputEditText.getText().toString().replace(",", "")));
                     } else if (inputEditText.getId() == R.id.tie_ci_dbmOthers) {
                         mViewModel.setOthers(Double.valueOf(inputEditText.getText().toString().replace(",", "")));
+                    }
+                }else {
+                    if (inputEditText.getId() == R.id.tie_ci_dbmWater) {
+                        mViewModel.setnWater(Double.valueOf(0));
+                    } else if (inputEditText.getId() == R.id.tie_ci_dbmElecX) {
+                        mViewModel.setnElctx(Double.valueOf(0));
+                    } else if (inputEditText.getId() == R.id.tie_ci_dbmFood) {
+                        mViewModel.setnFoodx(Double.valueOf(0));
+                    }else if (inputEditText.getId() == R.id.tie_ci_dbmLoans) {
+                        mViewModel.setnLoans(Double.valueOf(0));
+                    } else if (inputEditText.getId() == R.id.tie_ci_dbmEducation) {
+                        mViewModel.setnEducation(Double.valueOf(0));
+                    } else if (inputEditText.getId() == R.id.tie_ci_dbmOthers) {
+                        mViewModel.setOthers(Double.valueOf(0));
                     }
                 }
                 inputEditText.addTextChangedListener(this);

@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -66,11 +67,12 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_ci_residence_info, container, false);
-        residenceInfo = new CIResidenceInfoModel();
+
         poFilexx = new ImageFileCreator(getActivity(), SUB_FOLDER_DCP, Activity_CIApplication.getInstance().getTransNox());
         poFilexx.setTransNox(Activity_CIApplication.getInstance().getTransNox());
 //        poFilexx = new ImageFileCreator(Fragment_CIResidenceInfo.this , CIConstants.APP_PUBLIC_FOLDER, CIConstants.SUB_FOLDER_DCP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
 
+        residenceInfo = new CIResidenceInfoModel();
         poMessage = new MessageBox(getContext());
         initWidgets(root);
         initClientInfo();
@@ -80,19 +82,24 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMCIResidenceInfo.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(VMCIResidenceInfo.class);
         mViewModel.setsTransNox(Activity_CIApplication.getInstance().getTransNox());
         mViewModel.setnLatitude("0.0");
         mViewModel.setnLogitude("0.0");
         Log.e("TRansNox",Activity_CIApplication.getInstance().getTransNox());
         mViewModel.getCIByTransNox(Activity_CIApplication.getInstance().getTransNox()).observe(getViewLifecycleOwner(), eciEvaluation -> {
-            if (eciEvaluation != null){;
-                rgHouseOwnership.clearCheck();
-                rgHouseHolds.clearCheck();
-                rgHouseType.clearCheck();
-                rgGarage.clearCheck();
+            rgHouseOwnership.clearCheck();
+            rgHouseHolds.clearCheck();
+            rgHouseType.clearCheck();
+            rgGarage.clearCheck();
+            tiwLandmark.setText("");
+            if (eciEvaluation != null){
                 mViewModel.setCurrentCIDetail(eciEvaluation);
-                tiwLandmark.setText(eciEvaluation.getLandMark());
+                if (eciEvaluation.getOwnershp() != null){
+                    tiwLandmark.setText(eciEvaluation.getLandMark());
+                    tiwLandmark.setEnabled(false);
+                }
+
 //                House Ownership
                 if (eciEvaluation.getOwnershp() != null){
 //                    Loop for radio button not clickable
@@ -220,7 +227,13 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
         {
             showDialogImg();
         }else {
-            GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
+            poMessage.initDialog();
+            poMessage.setTitle("CI Evaluation");
+            poMessage.setMessage(message);
+            poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                dialog.dismiss();
+            });
+            poMessage.show();
         }
 
     }
