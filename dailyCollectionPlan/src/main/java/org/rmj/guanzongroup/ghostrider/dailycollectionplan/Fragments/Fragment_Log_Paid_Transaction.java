@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogTransaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogPaidTransaction;
@@ -39,14 +39,14 @@ public class Fragment_Log_Paid_Transaction extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // TODO: Functions
-        txtAcctNo.setText(Activity_LogTransaction.acctNox);
-        txtClientName.setText(Activity_LogTransaction.fullNme);
-        txtClientAddress.setText(Activity_LogTransaction.clientAddress);
-        txtTransNo.setText(Activity_LogTransaction.transNox);
-        txtListHeader.setText(Activity_LogTransaction.psTransTp + " Transaction");
-        mViewModel.setParameters(Activity_LogTransaction.transNox,
-                Activity_LogTransaction.acctNox,
-                Activity_LogTransaction.remCodex);
+        txtAcctNo.setText(Activity_TransactionDetail.acctNox);
+        txtClientName.setText(Activity_TransactionDetail.fullNme);
+        txtClientAddress.setText(Activity_TransactionDetail.clientAddress);
+        txtTransNo.setText(Activity_TransactionDetail.transNox);
+        txtListHeader.setText(Activity_TransactionDetail.psTransTp + " Transaction");
+        mViewModel.setParameters(Activity_TransactionDetail.transNox,
+                Activity_TransactionDetail.acctNox,
+                Activity_TransactionDetail.remCodex);
 
         mViewModel.getPostedCollectionDetail().observe(getViewLifecycleOwner(), collectPaidDetl -> {
             try {

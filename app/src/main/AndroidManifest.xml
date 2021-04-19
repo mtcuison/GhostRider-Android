@@ -15,15 +15,20 @@
     <uses-permission android:name="Manifest.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <uses-feature android:name="android.hardware.location.gps" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_SECURE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_SYNC_SETTINGS"
         tools:ignore="ProtectedPermissions" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -37,18 +42,24 @@
     <application
         android:name=".themeController.DarkThemeApplication"
         android:allowBackup="false"
-        android:requestLegacyExternalStorage="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/grider_launcher_foreground"
         android:label="@string/menu_home"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/grider_launcher_foreground_round"
-        android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
-        android:hardwareAccelerated="true">
+        android:manageSpaceActivity=".Activity.Activity_DataManager"
+        android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
+
+        <activity android:name=".Activity.Activity_DataManager"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".Activity.SettingsActivity"
+            android:name=".Activity.Activity_Settings"
             android:label="@string/title_activity_settings"
-            android:screenOrientation="userPortrait"/>
+            android:screenOrientation="userPortrait" />
         <activity
-            android:name=".Activity.SplashScreenActivity"
+            android:name=".Activity.Activity_SplashScreen"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
@@ -59,16 +70,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.MainActivity"
-            android:screenOrientation="userPortrait"
+            android:name=".Activity.Activity_Main"
             android:label="Home"
+            android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
 
         <service
             android:name=".Service.DataImportService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
-
         <service
             android:name=".Service.GMessagingService"
             tools:ignore="ExportedService,InnerclassSeparator">
@@ -86,7 +95,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

@@ -32,7 +32,7 @@ import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
-import org.rmj.guanzongroup.ghostrider.epacss.Activity.SplashScreenActivity;
+import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.Dialog.DialogUserProfile;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.settings.Activity_Settings;
@@ -199,7 +199,7 @@ public class Fragment_Dashboard extends Fragment {
             requireActivity().finish();
             new REmployee(requireActivity().getApplication()).LogoutUserSession();
             AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
-            startActivity(new Intent(getActivity(), SplashScreenActivity.class));
+            startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
         });
         loMessage.setTitle("GhostRider Session");
         loMessage.setMessage("Are you sure you want to end session/logout?");

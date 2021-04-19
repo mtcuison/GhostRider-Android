@@ -23,7 +23,6 @@ import org.rmj.g3appdriver.GRider.ImportData.ImportTown;
 import org.rmj.g3appdriver.GRider.ImportData.Import_AreaPerformance;
 import org.rmj.g3appdriver.GRider.ImportData.Import_BankList;
 import org.rmj.g3appdriver.GRider.ImportData.Import_BranchPerformance;
-import org.rmj.g3appdriver.GRider.ImportData.Import_CreditAppList;
 import org.rmj.g3appdriver.GRider.ImportData.Import_LoanApplications;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SCARequest;

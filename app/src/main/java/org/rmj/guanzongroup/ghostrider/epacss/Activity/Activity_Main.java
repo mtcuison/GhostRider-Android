@@ -16,14 +16,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.google.android.material.navigation.NavigationView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -39,8 +36,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private static final String TAG = MainActivity.class.getSimpleName();
+public class Activity_Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = Activity_Main.class.getSimpleName();
     private VMMainActivity mViewModel;
 
     private InternetStatusReciever poNetRecvr;
@@ -80,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels;
 
-        loMessage = new MessageBox(MainActivity.this);
+        loMessage = new MessageBox(Activity_Main.this);
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setIndicatorBoundsRelative(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
 
@@ -125,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(poNetRecvr);
-        AppConfigPreference.getInstance(MainActivity.this).setIsAppFirstLaunch(false);
+        AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
         Log.e(TAG, "Internet status receiver has been unregistered.");
     }
 
@@ -146,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialog.dismiss();
                 finish();
                 new REmployee(getApplication()).LogoutUserSession();
-                AppConfigPreference.getInstance(MainActivity.this).setIsAppFirstLaunch(false);
+                AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
             });
             loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
             loMessage.setTitle("GhostRider");

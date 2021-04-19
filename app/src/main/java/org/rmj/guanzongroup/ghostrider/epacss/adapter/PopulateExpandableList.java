@@ -24,10 +24,10 @@ import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_BranchAppl
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
 import org.rmj.guanzongroup.promotions.Activity_RaffleEntry;
 
-import static org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity.expListView;
-import static org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity.listAdapter;
-import static org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity.listDataChild;
-import static org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity.listDataHeader;
+import static org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main.expListView;
+import static org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main.listAdapter;
+import static org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main.listDataChild;
+import static org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main.listDataHeader;
 
 public class PopulateExpandableList {
     private static final String TAG = PopulateExpandableList.class.getSimpleName();
