@@ -20,9 +20,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionDetail;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.MobileInfoAdapter_Log;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogDisplayImage;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogCustomerNotAround;
 
@@ -32,7 +33,8 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
     private VMLogCustomerNotAround mViewModel;
     private MobileInfoAdapter_Log mobileAdapter;
     private AddressInfoAdapter_Log addressAdapter;
-    private TextView txtAcctNo, txtClientName, txtClientAddress;
+    private DialogDisplayImage poDialogx;
+    private TextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo, txtTransTp;
     private RecyclerView rvMobileNox, rvAddress;
     private ImageView ivTransImage;
     private LinearLayout lnMobilenox, lnAddressx;
@@ -48,16 +50,25 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        txtAcctNo.setText(Activity_TransactionDetail.acctNox);
-        txtClientName.setText(Activity_TransactionDetail.fullNme);
-        txtClientAddress.setText(Activity_TransactionDetail.clientAddress);
-        mViewModel.setClientID(Activity_TransactionDetail.clientID);
+        txtAcctNo.setText(Activity_LogTransaction.acctNox);
+        txtClientName.setText(Activity_LogTransaction.fullNme);
+        txtClientAddress.setText(Activity_LogTransaction.clientAddress);
+        txtTransNo.setText(Activity_LogTransaction.transNox);
+        txtTransTp.setText(Activity_LogTransaction.psTransTp);
+        mViewModel.setClientID(Activity_LogTransaction.clientID);
         //Image Location
-        mViewModel.getImageLocation(Activity_TransactionDetail.acctNox, Activity_TransactionDetail.imgNme)
+        mViewModel.getImageLocation(Activity_LogTransaction.acctNox, Activity_LogTransaction.imgNme)
                 .observe(getViewLifecycleOwner(), eImageInfo -> {
-            // TODO: Display Image
                     setPic(eImageInfo.getFileLoct());
-        });
+                    ivTransImage.setOnClickListener(view -> {
+                        poDialogx = new DialogDisplayImage(getActivity(),
+                                Activity_LogTransaction.acctNox, eImageInfo.getFileLoct());
+                        poDialogx.initDialog(dialog -> {
+                            dialog.dismiss();
+                        });
+                        poDialogx.show();
+                    });
+                });
 
         mViewModel.getCNA_MobileDataList().observe(getViewLifecycleOwner(), cna_mobileInfos -> {
             if (!cna_mobileInfos.isEmpty()) {
@@ -101,6 +112,8 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
         txtAcctNo = v.findViewById(R.id.txt_acctNo);
         txtClientName = v.findViewById(R.id.txt_clientName);
         txtClientAddress = v.findViewById(R.id.txt_client_address);
+        txtTransNo = v.findViewById(R.id.txt_transno);
+        txtTransTp = v.findViewById(R.id.lbl_list_header);
         lnMobilenox = v.findViewById(R.id.ln_mobileNox);
         lnAddressx = v.findViewById(R.id.ln_addressx);
         rvMobileNox = v.findViewById(R.id.rv_mobileNox);
