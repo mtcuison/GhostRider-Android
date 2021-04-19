@@ -50,7 +50,7 @@ public class Fragment_Log_OtherTransactions extends Fragment {
         txtClientAddress.setText(Activity_LogTransaction.clientAddress);
         txtTransNo.setText(Activity_LogTransaction.transNox);
         txtTransTp.setText((Activity_LogTransaction.psTransTp.equalsIgnoreCase("OTH"))
-                ? "Other Transaction" : "");
+                ? "Other Transaction" : Activity_LogTransaction.psTransTp);
         txtRemarks.setText(Activity_LogTransaction.remarks);
         //Image Location
         if(!IMAGE_NAME.equalsIgnoreCase("")){
