@@ -48,24 +48,44 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
         this.poTownRepo = new RTown(application);
     }
 
-    public void setTransNox(String transNox){
+    public boolean setTransNox(String transNox){
         this.psTransNo.setValue(transNox);
+        if(!this.psTransNo.getValue().equalsIgnoreCase(transNox)) {
+            return false;
+        }
+        return true;
     }
 
-    public void setBizIndustry(String bizIndustryIndex) {
+    public boolean setBizIndustry(String bizIndustryIndex) {
         this.psBizIndustry.setValue(bizIndustryIndex);
+        if(!psBizIndustry.getValue().equalsIgnoreCase(bizIndustryIndex)) {
+            return false;
+        }
+        return true;
     }
 
-    public void setBizType(String bizTypeIndex) {
+    public boolean setBizType(String bizTypeIndex) {
         this.psBizType.setValue(bizTypeIndex);
+        if(!this.psBizType.getValue().equalsIgnoreCase(bizTypeIndex)) {
+            return false;
+        }
+        return true;
     }
 
-    public void setBizSize(String bizSizeIndex) {
+    public boolean setBizSize(String bizSizeIndex) {
         this.psBizSize.setValue(bizSizeIndex);
+        if(!this.psBizSize.getValue().equalsIgnoreCase(bizSizeIndex)) {
+            return false;
+        }
+        return true;
     }
 
-    public void setMosOrYr(String mosOrYrIndex) {
+    public boolean setMosOrYr(String mosOrYrIndex) {
         this.psMosOrYr.setValue(mosOrYrIndex);
+        if(!this.psMosOrYr.getValue().equalsIgnoreCase(mosOrYrIndex)) {
+            return false;
+        }
+        return true;
     }
 
     public LiveData<ECreditApplicantInfo> getActiveGOCasApplication(){
@@ -88,8 +108,12 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
         return poProvRepo.getAllProvinceInfo();
     }
 
-    public void setProvinceID(String ID){
+    public boolean setProvinceID(String ID){
         this.psProvID.setValue(ID);
+        if(!this.psProvID.getValue().equalsIgnoreCase(ID)) {
+            return false;
+        }
+        return true;
     }
 
     public LiveData<String[]> getTownNameList(){
@@ -100,8 +124,12 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
         return poTownRepo.getTownInfoFromProvince(psProvID.getValue());
     }
 
-    public void setTownID(String ID){
+    public boolean setTownID(String ID){
         this.psTownID.setValue(ID);
+        if(!this.psTownID.getValue().equalsIgnoreCase(ID)) {
+            return false;
+        }
+        return true;
     }
 
     public LiveData<ArrayAdapter<String>> getNatureOfBusiness(){
