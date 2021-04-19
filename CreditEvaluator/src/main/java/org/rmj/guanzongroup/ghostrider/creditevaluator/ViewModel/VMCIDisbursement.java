@@ -157,7 +157,6 @@ public class VMCIDisbursement extends AndroidViewModel {
         @Override
         protected String doInBackground(ECIEvaluation... detail) {
             try {
-                boolean isExist = false;
                 ECIEvaluation loDetail = detail[0];
                 loDetail.setWaterBil(infoModel.getCiDbmWater());
                 loDetail.setElctrcBl(infoModel.getCiDbmElectricity());

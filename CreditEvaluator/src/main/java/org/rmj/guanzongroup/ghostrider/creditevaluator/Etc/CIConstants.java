@@ -17,4 +17,20 @@ public class CIConstants {
             new Fragment_CIBarangayRecord(),
             new Fragment_CICharacterTraits()
     };
+    public static String[] HOUSEHOLDS ={
+            "Living with Family(Spouse, Children)",
+            "Living with Family(Father, Mother, Sibling)",
+            "Living with Relatives"};
+
+    public static String[] HOUSE_TYPE = {
+            "Concrete",
+            "Concrete and Wood",
+            "Wood"};
+    public static String[] HOUSE_OWNERSHIP = {
+            "Owned",
+            "Rent",
+            "Care-Taker"};
+    public static String[] GARAGEXX = {
+            "No",
+            "Yes"};
 }
