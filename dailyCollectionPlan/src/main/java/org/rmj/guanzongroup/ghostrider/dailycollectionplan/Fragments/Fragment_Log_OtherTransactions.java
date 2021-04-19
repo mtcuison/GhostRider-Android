@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogTransaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogDisplayImage;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogOtherTransactions;
 
@@ -22,9 +24,10 @@ public class Fragment_Log_OtherTransactions extends Fragment {
     private static final String TAG = Fragment_Log_OtherTransactions.class.getSimpleName();
     private final String IMAGE_NAME = Activity_LogTransaction.imgNme;
     private VMLogOtherTransactions mViewModel;
-    private TextView txtAcctNo, txtClientName, txtClientAddress, txtRemarks;
+    private DialogDisplayImage poDialogx;
+    private TextView txtAcctNo, txtClientName, txtClientAddress, txtRemarks, txtTransNo, txtTransTp;
     private ImageView ivTransImage;
-    private View divDivider;
+    private View divDivider, floatRemarks;
 
     public static Fragment_Log_OtherTransactions newInstance(String param1, String param2) {
         return new Fragment_Log_OtherTransactions();
@@ -45,17 +48,28 @@ public class Fragment_Log_OtherTransactions extends Fragment {
         txtAcctNo.setText(Activity_LogTransaction.acctNox);
         txtClientName.setText(Activity_LogTransaction.fullNme);
         txtClientAddress.setText(Activity_LogTransaction.clientAddress);
+        txtTransNo.setText(Activity_LogTransaction.transNox);
+        txtTransTp.setText((Activity_LogTransaction.psTransTp.equalsIgnoreCase("OTH"))
+                ? "Other Transaction" : "");
         txtRemarks.setText(Activity_LogTransaction.remarks);
         //Image Location
-        if(IMAGE_NAME != null){
-            mViewModel.getImageLocation(Activity_LogTransaction.acctNox, IMAGE_NAME)
+        if(!IMAGE_NAME.equalsIgnoreCase("")){
+            mViewModel.getImageLocation(Activity_LogTransaction.acctNox, Activity_LogTransaction.imgNme)
                     .observe(getViewLifecycleOwner(), eImageInfo -> {
-                        // TODO: Display Image
                         setPic(eImageInfo.getFileLoct());
+                        ivTransImage.setOnClickListener(view -> {
+                            poDialogx = new DialogDisplayImage(getActivity(),
+                                    Activity_LogTransaction.acctNox, eImageInfo.getFileLoct());
+                            poDialogx.initDialog(dialog -> {
+                                dialog.dismiss();
+                            });
+                            poDialogx.show();
+                        });
                     });
         } else {
             ivTransImage.setVisibility(View.GONE);
-            divDivider.setVisibility(View.INVISIBLE);
+            divDivider.setVisibility(View.GONE);
+            floatRemarks.setVisibility(View.VISIBLE);
         }
 
     }
@@ -65,8 +79,11 @@ public class Fragment_Log_OtherTransactions extends Fragment {
         txtAcctNo = v.findViewById(R.id.txt_acctNo);
         txtClientName = v.findViewById(R.id.txt_clientName);
         txtClientAddress = v.findViewById(R.id.txt_client_address);
-        txtRemarks = v.findViewById(R.id.tv_remarks);
+        txtTransNo = v.findViewById(R.id.txt_transno);
+        txtTransTp = v.findViewById(R.id.lbl_list_header);
+        txtRemarks = v.findViewById(R.id.txt_remarks);
         divDivider = v.findViewById(R.id.divider2);
+        floatRemarks = v.findViewById(R.id.view_float_remarks);
     }
 
     private void setPic(String photoPath) {
@@ -93,13 +110,13 @@ public class Fragment_Log_OtherTransactions extends Fragment {
 
         Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
 
-//        Bitmap bOutput;
-//        float degrees = 90;//rotation degree
-//        Matrix matrix = new Matrix();
-//        matrix.setRotate(degrees);
-//        bOutput = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        Bitmap bOutput;
+        float degrees = 90;//rotation degree
+        Matrix matrix = new Matrix();
+        matrix.setRotate(degrees);
+        bOutput = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
-        ivTransImage.setImageBitmap(bitmap);
+        ivTransImage.setImageBitmap(bOutput);
     }
 
 }
