@@ -28,7 +28,8 @@ public class GMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        //Generate Channel ID in order to display multiple notifications
+
+
         Log.d(TAG, remoteMessage.getData().get("msgtype"));
         int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
         GNotifBuilder.createNotification(GMessagingService.this,

@@ -11,8 +11,8 @@ import org.rmj.guanzongroup.ghostrider.epacss.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity.listDataChild;
-import static org.rmj.guanzongroup.ghostrider.epacss.Activity.MainActivity.listDataHeader;
+import static org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main.listDataChild;
+import static org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main.listDataHeader;
 
 public class PrepareData {
     SessionManager sessionManager;

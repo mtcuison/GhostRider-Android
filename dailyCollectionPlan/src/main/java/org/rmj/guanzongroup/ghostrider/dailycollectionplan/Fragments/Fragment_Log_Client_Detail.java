@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogTransaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogDisplayImage;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
@@ -57,19 +57,19 @@ public class Fragment_Log_Client_Detail extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        txtAcctNo.setText(Activity_LogTransaction.acctNox);
-        txtClientName.setText(Activity_LogTransaction.fullNme);
-        txtClientAddress.setText(Activity_LogTransaction.clientAddress);
-        txtTransNo.setText(Activity_LogTransaction.transNox);
-        txtTransTp.setText(Activity_LogTransaction.psTransTp);
-        txtRemarks.setText(Activity_LogTransaction.remarks);
+        txtAcctNo.setText(Activity_TransactionDetail.acctNox);
+        txtClientName.setText(Activity_TransactionDetail.fullNme);
+        txtClientAddress.setText(Activity_TransactionDetail.clientAddress);
+        txtTransNo.setText(Activity_TransactionDetail.transNox);
+        txtTransTp.setText(Activity_TransactionDetail.psTransTp);
+        txtRemarks.setText(Activity_TransactionDetail.remarks);
 
-        mViewModel.getImageLocation(Activity_LogTransaction.acctNox, Activity_LogTransaction.imgNme)
+        mViewModel.getImageLocation(Activity_TransactionDetail.acctNox, Activity_TransactionDetail.imgNme)
                 .observe(getViewLifecycleOwner(), eImageInfo -> {
                     setPic(eImageInfo.getFileLoct());
                     ivTransImage.setOnClickListener(view -> {
                         poDialogx = new DialogDisplayImage(getActivity(),
-                                Activity_LogTransaction.acctNox, eImageInfo.getFileLoct());
+                                Activity_TransactionDetail.acctNox, eImageInfo.getFileLoct());
                         poDialogx.initDialog(dialog -> {
                             dialog.dismiss();
                         });
@@ -77,7 +77,7 @@ public class Fragment_Log_Client_Detail extends Fragment {
                     });
                 });
 
-        mViewModel.getClientUpdateInfo(Activity_LogTransaction.acctNox).observe(getViewLifecycleOwner(), clientDetl -> {
+        mViewModel.getClientUpdateInfo(Activity_TransactionDetail.acctNox).observe(getViewLifecycleOwner(), clientDetl -> {
             txtFullname.setText(clientDetl.getLastName() + ", "
                     + clientDetl .getFrstName() + ", "
                     + clientDetl.getMiddName() + " "

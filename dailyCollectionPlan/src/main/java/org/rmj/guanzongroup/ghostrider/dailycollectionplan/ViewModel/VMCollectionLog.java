@@ -78,10 +78,6 @@ public class VMCollectionLog extends AndroidViewModel {
         return poImage.getUnsentImageList();
     }
 
-    public void initializeRemittedCollection(String dTransact){
-        poRemit.initializeRemittance(dTransact);
-    }
-
     public LiveData<String> getCollectedTotal(String fsTrasact){
         return poDcp.getCollectedTotal(fsTrasact);
     }
@@ -90,12 +86,12 @@ public class VMCollectionLog extends AndroidViewModel {
         return poDcp.getCashOnHand(fsTransact);
     }
 
-    public LiveData<String> getCollectedCheckPayment(String fsTrasact){
-        return poDcp.getCollectedTotalCheckPayment(fsTrasact);
+    public void Calculate_COH_Remitted(String fsTrasact, RDCP_Remittance.OnCalculateCallback callback){
+        poRemit.Calculate_COH_Remitted(fsTrasact, callback);
     }
 
-    public LiveData<String> getCollectedCashPayment(String fsTrasact){
-        return poDcp.getCollectedTotalPayment(fsTrasact);
+    public void Calculate_Check_Remitted(String fsTrasact, RDCP_Remittance.OnCalculateCallback callback){
+        poRemit.Calculate_Check_Remitted(fsTrasact, callback);
     }
 
     public LiveData<List<EBankInfo>> getBankInfoList(){
