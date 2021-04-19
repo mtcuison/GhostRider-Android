@@ -14,13 +14,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogTransaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogOtherTransactions;
 
 public class Fragment_Log_OtherTransactions extends Fragment {
     private static final String TAG = Fragment_Log_OtherTransactions.class.getSimpleName();
-    private final String IMAGE_NAME = Activity_LogTransaction.imgNme;
+    private final String IMAGE_NAME = Activity_TransactionDetail.imgNme;
     private VMLogOtherTransactions mViewModel;
     private TextView txtAcctNo, txtClientName, txtClientAddress, txtRemarks;
     private ImageView ivTransImage;
@@ -42,13 +42,13 @@ public class Fragment_Log_OtherTransactions extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        txtAcctNo.setText(Activity_LogTransaction.acctNox);
-        txtClientName.setText(Activity_LogTransaction.fullNme);
-        txtClientAddress.setText(Activity_LogTransaction.clientAddress);
-        txtRemarks.setText(Activity_LogTransaction.remarks);
+        txtAcctNo.setText(Activity_TransactionDetail.acctNox);
+        txtClientName.setText(Activity_TransactionDetail.fullNme);
+        txtClientAddress.setText(Activity_TransactionDetail.clientAddress);
+        txtRemarks.setText(Activity_TransactionDetail.remarks);
         //Image Location
         if(IMAGE_NAME != null){
-            mViewModel.getImageLocation(Activity_LogTransaction.acctNox, IMAGE_NAME)
+            mViewModel.getImageLocation(Activity_TransactionDetail.acctNox, IMAGE_NAME)
                     .observe(getViewLifecycleOwner(), eImageInfo -> {
                         // TODO: Display Image
                         setPic(eImageInfo.getFileLoct());

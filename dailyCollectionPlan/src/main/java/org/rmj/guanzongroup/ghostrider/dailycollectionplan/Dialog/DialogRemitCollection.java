@@ -234,6 +234,12 @@ public class DialogRemitCollection {
             } else if(Objects.requireNonNull(txtAmount.getText()).toString().isEmpty()){
                 GToast.CreateMessage(context, "Please enter amount", GToast.ERROR).show();
                 return false;
+            } else if(txtAmount.getText().toString().equalsIgnoreCase("0.0")){
+                GToast.CreateMessage(context, "Unable to remit 0 amount", GToast.ERROR).show();
+                return false;
+            } else if(txtAmount.getText().toString().equalsIgnoreCase("0")){
+                GToast.CreateMessage(context, "Unable to remit 0 amount", GToast.ERROR).show();
+                return false;
             }
         } else {
             if(Objects.requireNonNull(txtPaymPnr.getText()).toString().isEmpty()){

@@ -1,6 +1,5 @@
 package org.rmj.g3appdriver.GRider.Database.DataAccessObject;
 
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -46,6 +45,26 @@ public interface DDCP_Remittance {
             "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master " +
             "WHERE dTransact =:dTransact) AND cRemitTyp = '2'")
     LiveData<String> getTotalOtherRemittedCollection(String dTransact);
+
+    @Query("SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail " +
+            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact) " +
+            "AND sCheckNox == '' AND sCheckDte == '' AND sCheckAct == ''")
+    String getCollectedCash(String dTransact);
+
+    @Query("SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail " +
+            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact) " +
+            "AND sCheckNox <> '' AND sCheckDte <> '' AND sCheckAct <> ''")
+    String getCollectedCheck(String dTransact);
+
+    @Query("SELECT SUM(nAmountxx) FROM LR_DCP_Remittance " +
+            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact) " +
+            "AND cPaymForm ='1'")
+    String getRemittedCheck(String dTransact);
+
+    @Query("SELECT SUM(nAmountxx) FROM LR_DCP_Remittance " +
+            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact) " +
+            "AND cPaymForm ='0'")
+    String getRemittedCash(String dTransact);
 
     @Query("INSERT INTO LR_DCP_Remittance(" +
             "sTransNox, " +

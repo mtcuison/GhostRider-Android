@@ -6,7 +6,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -24,7 +23,6 @@ import android.widget.TextView;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.TransparentToolbar;
 import org.rmj.g3appdriver.utils.AppDirectoryCreator;
-import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
@@ -32,13 +30,11 @@ import org.rmj.guanzongroup.ghostrider.epacss.Service.DataImportService;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.GMessagingService;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSplashScreen;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
-public class SplashScreenActivity extends AppCompatActivity {
-    public static final String TAG = SplashScreenActivity.class.getSimpleName();
+public class Activity_SplashScreen extends AppCompatActivity {
+    public static final String TAG = Activity_SplashScreen.class.getSimpleName();
 
     private ProgressBar prgrssBar;
     private TextView lblVrsion;
@@ -50,7 +46,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        new TransparentToolbar(SplashScreenActivity.this).SetupActionbar();
+        new TransparentToolbar(Activity_SplashScreen.this).SetupActionbar();
         mMakeDir = new AppDirectoryCreator();
         prgrssBar = findViewById(R.id.progress_splashscreen);
         lblVrsion = findViewById(R.id.lbl_versionInfo);
@@ -62,10 +58,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
         try {
             mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
-            startService(new Intent(SplashScreenActivity.this, GMessagingService.class));
+            startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
             mViewModel.isPermissionsGranted().observe(this, isGranted -> {
                 if(!isGranted){
-                    mViewModel.getPermisions().observe(this, strings -> ActivityCompat.requestPermissions(SplashScreenActivity.this, strings, AppConstants.PERMISION_REQUEST_CODE));
+                    mViewModel.getPermisions().observe(this, strings -> ActivityCompat.requestPermissions(Activity_SplashScreen.this, strings, AppConstants.PERMISION_REQUEST_CODE));
                 } else {
                     mViewModel.isLoggedIn().observe(this, isValid -> {
                         if (isValid) {
@@ -89,17 +85,17 @@ public class SplashScreenActivity extends AppCompatActivity {
                                                     }
                                                 }
                                                 if (aBoolean) {
-                                                    startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                                                    startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
                                                     finish();
                                                 } else {
-                                                    startActivityForResult(new Intent(SplashScreenActivity.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+                                                    startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
                                                 }
                                             });
 
                                         });
 
                                     } else {
-                                        startActivityForResult(new Intent(SplashScreenActivity.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+                                        startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
                                     }
                                 } catch (Exception e){
                                     e.printStackTrace();
@@ -117,7 +113,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             }
-                            startActivityForResult(new Intent(SplashScreenActivity.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+                            startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
                         }
                     });
                 }
@@ -141,7 +137,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (requestCode == AppConstants.PERMISION_REQUEST_CODE) {
             boolean lbIsGrnt = true;
             for (int x = 0; x < grantResults.length; x++) {
-                if (ContextCompat.checkSelfPermission(SplashScreenActivity.this, permissions[x]) != grantResults[x]) {
+                if (ContextCompat.checkSelfPermission(Activity_SplashScreen.this, permissions[x]) != grantResults[x]) {
                     lbIsGrnt = false;
                     break;
                 }
@@ -158,7 +154,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
-            startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+            startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
             finish();
         } else if(resultCode == RESULT_CANCELED){
             finish();

@@ -1088,9 +1088,7 @@ public class VMCollectionList extends AndroidViewModel {
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
-
             JSONExport = jsonObject;
-
             if(JSONExport != null){
                 callBack.OnJSONCreated(jsonObject);
                 callBack.OnSuccessResult(new String[]{"Collection list exported successfully."});

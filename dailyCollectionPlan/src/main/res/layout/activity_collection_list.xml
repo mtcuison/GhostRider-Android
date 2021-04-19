@@ -114,7 +114,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_collectionList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:id="@+id/ln_import_panel"
@@ -122,8 +122,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="20dp"
         android:visibility="gone">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_img_empty_list"/>
 
         <TextView
             android:layout_width="wrap_content"
