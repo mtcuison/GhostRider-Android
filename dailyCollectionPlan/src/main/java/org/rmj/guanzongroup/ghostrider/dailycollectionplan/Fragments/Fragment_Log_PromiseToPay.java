@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogTransaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogDisplayImage;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogPromiseToPay;
@@ -47,21 +47,21 @@ public class Fragment_Log_PromiseToPay extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // TODO: Do the coding here
-        txtAcctNo.setText(Activity_LogTransaction.acctNox);
-        txtClientName.setText(Activity_LogTransaction.fullNme);
-        txtClientAddress.setText(Activity_LogTransaction.clientAddress);
-        txtTransNo.setText(Activity_LogTransaction.transNox);
-        txtTransTp.setText(Activity_LogTransaction.psTransTp);
-        mViewModel.setParameters(Activity_LogTransaction.transNox,
-                Activity_LogTransaction.acctNox,
-                Activity_LogTransaction.remCodex);
+        txtAcctNo.setText(Activity_TransactionDetail.acctNox);
+        txtClientName.setText(Activity_TransactionDetail.fullNme);
+        txtClientAddress.setText(Activity_TransactionDetail.clientAddress);
+        txtTransNo.setText(Activity_TransactionDetail.transNox);
+        txtTransTp.setText(Activity_TransactionDetail.psTransTp);
+        mViewModel.setParameters(Activity_TransactionDetail.transNox,
+                Activity_TransactionDetail.acctNox,
+                Activity_TransactionDetail.remCodex);
 
-        mViewModel.getImageLocation(Activity_LogTransaction.acctNox, Activity_LogTransaction.imgNme)
+        mViewModel.getImageLocation(Activity_TransactionDetail.acctNox, Activity_TransactionDetail.imgNme)
                 .observe(getViewLifecycleOwner(), eImageInfo -> {
                     setPic(eImageInfo.getFileLoct());
                     ivTransImage.setOnClickListener(view -> {
                         poDialogx = new DialogDisplayImage(getActivity(),
-                                Activity_LogTransaction.acctNox, eImageInfo.getFileLoct());
+                                Activity_TransactionDetail.acctNox, eImageInfo.getFileLoct());
                         poDialogx.initDialog(dialog -> {
                             dialog.dismiss();
                         });

@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +28,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionLogAdapter;
@@ -42,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 public class Activity_LogCollection extends AppCompatActivity {
@@ -56,6 +55,7 @@ public class Activity_LogCollection extends AppCompatActivity {
     private TextInputEditText txtDate, txtSearch;
     private RecyclerView recyclerView;
     private TextView txtNoLog, txtNoName;
+    private LinearLayout lnEmptyList;
     private TextInputLayout tilSearch;
     private LinearLayout linearCashInfo;
 
@@ -146,19 +146,17 @@ public class Activity_LogCollection extends AppCompatActivity {
             try{
                 if(collectionDetails.size() > 0) {
                     hasLog = true;
-                    txtNoLog.setVisibility(View.GONE);
+                    lnEmptyList.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                     tilSearch.setVisibility(View.VISIBLE);
                     txtSearch.setText("");
                     linearCashInfo.setVisibility(View.VISIBLE);
 
                     filteredCollectionDetlx.clear();
-                    for(int z = 0; z < collectionDetails.size(); z++) {
-                        filteredCollectionDetlx.add(collectionDetails.get(z));
-                    }
+                    filteredCollectionDetlx.addAll(collectionDetails);
 
                     CollectionLogAdapter poAdapter = new CollectionLogAdapter(filteredCollectionDetlx, position -> {
-                        Intent loIntent = new Intent(Activity_LogCollection.this, Activity_LogTransaction.class);
+                        Intent loIntent = new Intent(Activity_LogCollection.this, Activity_TransactionDetail.class);
                         loIntent.putExtra("sTransNox", filteredCollectionDetlx.get(position).getTransNox());
                         loIntent.putExtra("entryNox",filteredCollectionDetlx.get(position).getEntryNox());
                         loIntent.putExtra("acctNox",filteredCollectionDetlx.get(position).getAcctNmbr());
@@ -210,7 +208,7 @@ public class Activity_LogCollection extends AppCompatActivity {
                         }
                     });
 
-                    mViewModel.initializeRemittedCollection(s);
+//                    mViewModel.initializeRemittedCollection(s);
 
                     mViewModel.getCollectedTotal(s).observe(this, value -> lblTotalClt.setText("Total Collection : " + FormatUIText.getCurrencyUIFormat(value)));
 
@@ -218,12 +216,12 @@ public class Activity_LogCollection extends AppCompatActivity {
 
                     mViewModel.getTotalRemittedCollection(s).observe(this, value -> lblTotRemit.setText("Total Remitted : " + FormatUIText.getCurrencyUIFormat(value)));
 
-                    mViewModel.getCollectedCheckPayment(s).observe(this, value -> psCltCheck = value );
+                    mViewModel.Calculate_Check_Remitted(s, result -> psCltCheck = result);
 
-                    mViewModel.getCollectedCashPayment(s).observe(this, value -> psCltCashx = value);
+                    mViewModel.Calculate_COH_Remitted(s, result -> psCltCashx = result);
                 } else {
                     hasLog = false;
-                    txtNoLog.setVisibility(View.VISIBLE);
+                    lnEmptyList.setVisibility(View.VISIBLE);
                     txtNoName.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
                     tilSearch.setVisibility(View.GONE);
@@ -251,6 +249,7 @@ public class Activity_LogCollection extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview_collectionLog);
         txtNoLog = findViewById(R.id.txt_no_logs);
         txtNoName = findViewById(R.id.txt_no_name);
+        lnEmptyList = findViewById(R.id.linear_empty_list);
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddrss = findViewById(R.id.lbl_headerAddress);
         lblTotRemit = findViewById(R.id.lbl_totalRemitCollection);

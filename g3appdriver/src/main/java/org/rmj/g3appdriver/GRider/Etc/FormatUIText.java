@@ -120,14 +120,15 @@ public class FormatUIText {
     }
 
     public static String getCurrencyUIFormat(String price){
+        String lsResult = "₱ 0.00";
         try {
             DecimalFormat currency_total = new DecimalFormat("₱ ###,###,###.###");
             BigDecimal loBigDecimal = new BigDecimal(price);
-            String ls = currency_total.format(loBigDecimal);
-            return ls;
+            lsResult = currency_total.format(loBigDecimal);
+            return lsResult;
         } catch (Exception e){
             e.printStackTrace();
-            return "";
+            return lsResult;
         }
     }
 

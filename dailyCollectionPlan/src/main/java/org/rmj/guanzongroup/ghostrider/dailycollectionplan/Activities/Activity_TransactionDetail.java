@@ -21,13 +21,13 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.Objects;
 
-public class Activity_LogTransaction extends AppCompatActivity {
-    private static final String TAG = Activity_LogTransaction.class.getSimpleName();
-    private static Activity_LogTransaction instance;
+public class Activity_TransactionDetail extends AppCompatActivity {
+    private static final String TAG = Activity_TransactionDetail.class.getSimpleName();
+    private static Activity_TransactionDetail instance;
     public static String transNox, fullNme, entryNox, acctNox, remCodex, imgNme, clientID, clientAddress, remarks ;
     public static String psTransTp;
 
-    public static Activity_LogTransaction getInstance(){
+    public static Activity_TransactionDetail getInstance(){
         return instance;
     }
 

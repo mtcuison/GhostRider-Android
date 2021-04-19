@@ -38,7 +38,7 @@ import static android.Manifest.permission.CAMERA;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CAMERA_REQUEST;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LOCATION_REQUEST;
 
-public class SettingsActivity extends AppCompatActivity {
+public class Activity_Settings extends AppCompatActivity {
 
     private VMSettings mViewModel;
     private MessageBox loMessage;

@@ -16,6 +16,10 @@ public class RDCP_Remittance {
 
     private final DDCP_Remittance remitDao;
 
+    public interface OnCalculateCallback{
+        void OnCalculate(String result);
+    }
+
     public RDCP_Remittance(Application application) {
         this.remitDao = GGC_GriderDB.getInstance(application).DCPRemitanceDao();
     }
@@ -56,6 +60,22 @@ public class RDCP_Remittance {
         return remitDao.getTotalOtherRemittedCollection(dTransact);
     }
 
+    public LiveData<String> getCheckOnHand(String dTransact){
+        return remitDao.getCheckOnHand(dTransact);
+    }
+
+    public LiveData<String> getCashOnHand(String dTransact){
+        return remitDao.getCashOnHand(dTransact);
+    }
+
+    public void Calculate_COH_Remitted(String dTransact, OnCalculateCallback callback){
+        new Calc_COH_Remitted(callback).execute(dTransact);
+    }
+
+    public void Calculate_Check_Remitted(String dTransact, OnCalculateCallback callback){
+        new Calc_Check_Remitted(callback).execute(dTransact);
+    }
+
     @SuppressLint("StaticFieldLeak")
     private class InitializeRemitTask extends AsyncTask<String, Void, String>{
 
@@ -66,6 +86,88 @@ public class RDCP_Remittance {
                 remitDao.initializeCurrentDayRemittanceField(dTransact);
             }
             return null;
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class Calc_COH_Remitted extends AsyncTask<String, Void, String>{
+        private final OnCalculateCallback mListner;
+
+        public Calc_COH_Remitted(OnCalculateCallback mListner) {
+            this.mListner = mListner;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String dTransact = strings[0];
+            String lsResultx = "0";
+            try {
+                double lnCashOHx = 0;
+                String lsCashOHx = remitDao.getCollectedCash(dTransact);
+                if(lsCashOHx != null) {
+                    lnCashOHx = Integer.parseInt(lsCashOHx);
+                }
+
+                double lnRemittd = 0;
+                String lsRemittd = remitDao.getRemittedCash(dTransact);
+                if(lsRemittd != null){
+                    lnRemittd = Double.parseDouble(lsRemittd);
+                }
+
+                double lnTotalxx = lnCashOHx - lnRemittd;
+
+                lsResultx = String.valueOf(lnTotalxx);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            return lsResultx;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            mListner.OnCalculate(s);
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class Calc_Check_Remitted extends AsyncTask<String, Void, String>{
+        private final OnCalculateCallback mListner;
+
+        public Calc_Check_Remitted(OnCalculateCallback mListner) {
+            this.mListner = mListner;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String dTransact = strings[0];
+            String lsResultx = "0";
+            try {
+                double lnCashOHx = 0;
+                String lsCashOHx = remitDao.getCollectedCheck(dTransact);
+                if(lsCashOHx != null) {
+                    lnCashOHx = Integer.parseInt(lsCashOHx);
+                }
+
+                double lnRemittd = 0;
+                String lsRemittd = remitDao.getRemittedCheck(dTransact);
+                if(lsRemittd != null){
+                    lnRemittd = Double.parseDouble(lsRemittd);
+                }
+
+                double lnTotalxx = lnCashOHx - lnRemittd;
+
+                lsResultx = String.valueOf(lnTotalxx);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            return lsResultx;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            mListner.OnCalculate(s);
         }
     }
 }

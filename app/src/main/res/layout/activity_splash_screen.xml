@@ -8,7 +8,7 @@
     android:background="@drawable/bg_gradient_light"
     android:paddingHorizontal="30dp"
     android:paddingVertical="15dp"
-    tools:context=".Activity.SplashScreenActivity" >
+    tools:context=".Activity.Activity_SplashScreen" >
 
     <ImageView
         android:id="@+id/imgLogo"
