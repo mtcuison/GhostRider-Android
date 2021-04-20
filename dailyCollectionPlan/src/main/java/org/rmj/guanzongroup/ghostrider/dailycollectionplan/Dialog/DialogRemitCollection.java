@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -18,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
@@ -40,6 +40,7 @@ public class DialogRemitCollection {
 
     private String psCltCheck = "";
     private String psCltCashx = "";
+    private String psTransact = "";
 
     public interface RemitDialogListener{
         void OnConfirm(AlertDialog dialog, EDCP_Remittance remittance);
@@ -73,6 +74,10 @@ public class DialogRemitCollection {
 
     public void setPsCltCashx(String psCltCashx) {
         this.psCltCashx = psCltCashx;
+    }
+
+    public void setPsTransact(String psTransact) {
+        this.psTransact = psTransact;
     }
 
     @SuppressLint("SetTextI18n")
@@ -182,21 +187,20 @@ public class DialogRemitCollection {
             if(isDataValid()) {
                 switch (poRemit.getRemitTyp()) {
                     case "0":
-                        poRemit.setAmountxx(Objects.requireNonNull(txtAmount.getText()).toString());
-                        poRemit.setAmountxx(Objects.requireNonNull(txtAmount.getText()).toString());
+                        poRemit.setCompnyNm(txtBranch.getText().toString());
                         break;
                     case "1":
                         poRemit.setCompnyNm(Objects.requireNonNull(txtBankNm.getText()).toString());
                         poRemit.setBankAcct(Objects.requireNonNull(txtAccNo.getText()).toString());
-                        poRemit.setReferNox(Objects.requireNonNull(txtRefNox.getText()).toString());
-                        poRemit.setAmountxx(Objects.requireNonNull(txtAmount.getText()).toString());
                         break;
                     case "2":
                         poRemit.setCompnyNm(Objects.requireNonNull(txtPaymPnr.getText()).toString());
-                        poRemit.setBankAcct(Objects.requireNonNull(txtRefNox.getText()).toString());
-                        poRemit.setAmountxx(Objects.requireNonNull(txtAmount.getText()).toString());
+                        poRemit.setReferNox(Objects.requireNonNull(txtRefNox.getText()).toString());
                         break;
                 }
+                poRemit.setTransact(psTransact);
+                poRemit.setAmountxx(txtAmount.getText().toString().replace(",", ""));
+                poRemit.setTimeStmp(AppConstants.DATE_MODIFIED);
                 listener.OnConfirm(poDialogx, poRemit);
             }
         });

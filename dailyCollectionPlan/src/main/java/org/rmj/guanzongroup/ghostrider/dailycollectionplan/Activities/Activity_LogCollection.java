@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,13 +29,14 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionLogAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogRemitCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionLog;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionRemittance;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,6 +50,8 @@ public class Activity_LogCollection extends AppCompatActivity {
     private static final String TAG = Activity_LogCollection.class.getSimpleName();
 
     private VMCollectionLog mViewModel;
+    private LoadDialog poDialogx;
+    private MessageBox poMessage;
 
     private TextView lblBranch, lblAddrss, lblTotRemit, lblCashOH, lblTotalClt;
     //private CollectionLogAdapter poAdapter;
@@ -75,6 +79,8 @@ public class Activity_LogCollection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection_log);
         initWidgets();
+        poDialogx = new LoadDialog(Activity_LogCollection.this);
+        poMessage = new MessageBox(Activity_LogCollection.this);
 
         mViewModel = new ViewModelProvider(this).get(VMCollectionLog.class);
         mViewModel.getUserBranchInfo().observe(Activity_LogCollection.this, eBranchInfo -> {
@@ -210,11 +216,25 @@ public class Activity_LogCollection extends AppCompatActivity {
 
 //                    mViewModel.initializeRemittedCollection(s);
 
-                    mViewModel.getCollectedTotal(s).observe(this, value -> lblTotalClt.setText("Total Collection : " + FormatUIText.getCurrencyUIFormat(value)));
+                    mViewModel.getCollectedTotal(s).observe(this, value -> {
+                        try {
+                            mViewModel.setnTotCollt(Double.parseDouble(value));
+                            lblTotalClt.setText("Total Collection : " + FormatUIText.getCurrencyUIFormat(value));
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
 
-                    mViewModel.getCashOnHand(s).observe(this, value -> lblCashOH.setText("Cash-On-Hand : " + FormatUIText.getCurrencyUIFormat(value)));
+                    mViewModel.getTotalRemittedCollection(s).observe(this, value -> {
+                        try {
+                            mViewModel.setnTotRemit(Double.parseDouble(value));
+                            lblTotRemit.setText("Total Remitted : " + FormatUIText.getCurrencyUIFormat(value));
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
 
-                    mViewModel.getTotalRemittedCollection(s).observe(this, value -> lblTotRemit.setText("Total Remitted : " + FormatUIText.getCurrencyUIFormat(value)));
+                    mViewModel.getCashOnHand().observe(this, s1 -> lblCashOH.setText("Cash-On-Hand : " + FormatUIText.getCurrencyUIFormat(s1)));
 
                     mViewModel.Calculate_Check_Remitted(s, result -> psCltCheck = result);
 
@@ -307,23 +327,58 @@ public class Activity_LogCollection extends AppCompatActivity {
             finish();
         } else if(item.getItemId() == R.id.action_menu_remit_collection){
             if(hasLog) {
-                DialogRemitCollection poRemit = new DialogRemitCollection(Activity_LogCollection.this);
-                poRemit.setPoBankList(poBankList);
-                poRemit.setPoBrnchList(poBrnchList);
-                poRemit.setPsCltCheck(psCltCheck);
-                poRemit.setPsCltCashx(psCltCashx);
-                poRemit.initDialog(new DialogRemitCollection.RemitDialogListener() {
-                    @Override
-                    public void OnConfirm(AlertDialog dialog, EDCP_Remittance remittance) {
-                        dialog.dismiss();
-                    }
+                try {
+                    DialogRemitCollection poRemit = new DialogRemitCollection(Activity_LogCollection.this);
+                    String lsDate = Objects.requireNonNull(txtDate.getText()).toString();
+                    @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("MMM dd, yyyy").parse(lsDate);
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat loFormatter = new SimpleDateFormat("yyyy-MM-dd");
+                    poRemit.setPoBankList(poBankList);
+                    poRemit.setPoBrnchList(poBrnchList);
+                    poRemit.setPsCltCheck(psCltCheck);
+                    poRemit.setPsCltCashx(psCltCashx);
+                    poRemit.setPsTransact(loFormatter.format(loDate));
+                    poRemit.initDialog(new DialogRemitCollection.RemitDialogListener() {
+                        @Override
+                        public void OnConfirm(AlertDialog dialog, EDCP_Remittance remittance) {
+                            dialog.dismiss();
+                            mViewModel.RemitCollection(remittance, new VMCollectionRemittance.OnRemitCollectionCallback() {
+                                @Override
+                                public void OnRemit() {
+                                    poDialogx.initDialog("Remit Collection", "Sending your remittance. Please wait...", false);
+                                    poDialogx.show();
+                                }
 
-                    @Override
-                    public void OnCancel(AlertDialog dialog) {
-                        dialog.dismiss();
-                    }
-                });
-                poRemit.show();
+                                @Override
+                                public void OnSuccess() {
+                                    poDialogx.dismiss();
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Remit Collection");
+                                    poMessage.setMessage("Your remittance has been sent successfully.");
+                                    poMessage.setPositiveButton("Okay", (view, dialog1) -> dialog1.dismiss());
+                                    poMessage.show();
+                                }
+
+                                @Override
+                                public void OnFailed(String message) {
+                                    poDialogx.dismiss();
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Remit Collection");
+                                    poMessage.setMessage(message);
+                                    poMessage.setPositiveButton("Okay", (view, dialog1) -> dialog1.dismiss());
+                                    poMessage.show();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void OnCancel(AlertDialog dialog) {
+                            dialog.dismiss();
+                        }
+                    });
+                    poRemit.show();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             } else {
                 MessageBox loMessage = new MessageBox(Activity_LogCollection.this);
                 loMessage.initDialog();

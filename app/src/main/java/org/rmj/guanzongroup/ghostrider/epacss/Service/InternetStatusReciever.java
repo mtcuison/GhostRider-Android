@@ -69,8 +69,8 @@ public class InternetStatusReciever extends BroadcastReceiver {
         private final HttpHeaders poHeaders;
         private final SessionManager poSession;
         private final Telephony poDevice;
-        private final RLogSelfie poLog;
 
+        private final RLogSelfie poLog;
         private final RImageInfo poImage;
         private final RDailyCollectionPlan poDcp;
         private final RCreditApplication poCreditApp;
@@ -99,8 +99,8 @@ public class InternetStatusReciever extends BroadcastReceiver {
             this.instance = instance;
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poSession = new SessionManager(instance);
-            this.poImage = new RImageInfo(instance);
             this.poDevice = new Telephony(instance);
+            this.poImage = new RImageInfo(instance);
             this.poDcp = new RDailyCollectionPlan(instance);
             this.poLog = new RLogSelfie(instance);
             this.poCreditApp = new RCreditApplication(instance);

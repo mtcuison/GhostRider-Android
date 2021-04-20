@@ -32,8 +32,16 @@ public class RDCP_Remittance {
         remitDao.insert(remittance);
     }
 
-    public void updateSendStat(String TransNox){
-        remitDao.updateSendStatus(AppConstants.DATE_MODIFIED, TransNox);
+    public String getTransnoxMaster(String dTransact){
+        return remitDao.getMasterTransNox(dTransact);
+    }
+
+    public String getRemittanceEntry(String dTransact){
+        return remitDao.getRemittanceEntry(dTransact);
+    }
+
+    public void updateSendStat(String TransNox, String EntryNox){
+        remitDao.updateSendStatus(AppConstants.DATE_MODIFIED, TransNox, EntryNox);
     }
 
     public LiveData<String> getTotalRemittedCollection(String dTransact){

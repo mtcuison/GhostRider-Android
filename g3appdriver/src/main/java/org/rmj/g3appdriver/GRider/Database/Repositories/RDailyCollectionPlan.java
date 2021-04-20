@@ -83,7 +83,6 @@ public class RDailyCollectionPlan {
 
     public void updateCollectionDetailInfo(EDCPCollectionDetail collectionDetail){
         detailDao.update(collectionDetail);
-        //detailDao.updateCollectionDetailInfo(collectionDetail.getEntryNox(), collectionDetail.getRemCodex(),AppConstants.DATE_MODIFIED);
     }
 
     public void updateCollectionDetail(int EntryNox, String RemCode, String Remarks){
@@ -124,8 +123,8 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectedTotal(dTransact);
     }
 
-    public LiveData<String> getCashOnHand(String dTransact){
-        return detailDao.getCashOnHand(dTransact);
+    public LiveData<String> getTotalRemittedPayment(String dTransact){
+        return detailDao.getTotalRemittedPayment(dTransact);
     }
 
     public LiveData<EDCPCollectionDetail> getDuplicateSerialEntry(String SerialNo){

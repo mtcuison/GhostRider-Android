@@ -47,8 +47,10 @@
         android:label="@string/menu_home"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/grider_launcher_foreground_round"
-        android:manageSpaceActivity=".Activity.Activity_DataManager"
         android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
+
+<!--        android:manageSpaceActivity=".Activity.Activity_DataManager"-->
+<!--        android:process=":manager"-->
 
         <activity android:name=".Activity.Activity_DataManager"
             android:screenOrientation="userPortrait"

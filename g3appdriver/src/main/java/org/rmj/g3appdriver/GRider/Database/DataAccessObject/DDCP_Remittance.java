@@ -10,11 +10,41 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 @Dao
 public interface DDCP_Remittance {
 
+//    @Query("INSERT INTO LR_DCP_Remittance(" +
+//            "sTransNox, " +
+//            "nEntryNox, " +
+//            "dTransact, " +
+//            "cPaymForm, " +
+//            "cRemitTyp, " +
+//            "sCompnyNm, " +
+//            "sBankAcct, " +
+//            "sReferNox, " +
+//            "nAmountxx, " +
+//            "dTimeStmp) VALUES (" +
+//            "(SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact), " +
+//            "(SELECT COUNT(sTransNox) + 1 FROM LR_DCP_Remittance WHERE dTransact =:dTransact), " +
+//            ":dTransact, " +
+//            ":cPaymForm, " +
+//            ":cRemitTyp, " +
+//            ":sCompnyNm, " +
+//            ":sBankAcct, " +
+//            ":sReferNox, " +
+//            ":nAmountxx, " +
+//            ":dTimeStmp)")
+//    void insert(String dTransact, String cPaymForm, String cRemitTyp, String sCompnyNm, String sBankAcct, String sReferNox, String nAmountxx, String dTimeStmp);
+
     @Insert
     void insert(EDCP_Remittance remittance);
 
-    @Query("UPDATE LR_DCP_Remittance SET cSendStat = 1, dDateSent =:DateSend WHERE sTransNox =:TransNox")
-    void updateSendStatus(String DateSend, String TransNox);
+    @Query("SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact")
+    String getMasterTransNox(String dTransact);
+
+    @Query("SELECT COUNT(nEntryNox) + 1 FROM LR_DCP_Remittance " +
+            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact)")
+    String getRemittanceEntry(String dTransact);
+
+    @Query("UPDATE LR_DCP_Remittance SET cSendStat = 1, dDateSent =:DateSend WHERE sTransNox =:TransNox AND nEntryNox =:EntryNox")
+    void updateSendStatus(String DateSend, String TransNox, String EntryNox);
 
     @Query("SELECT SUM(nAmountxx) FROM LR_DCP_Remittance " +
             "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master " +
