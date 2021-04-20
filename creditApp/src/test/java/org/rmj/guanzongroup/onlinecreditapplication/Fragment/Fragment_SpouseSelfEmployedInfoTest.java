@@ -22,17 +22,15 @@ import org.robolectric.annotation.Config;
 public class Fragment_SpouseSelfEmployedInfoTest extends TestCase {
     private SpouseSelfEmployedInfoModel infoModel;
     private VMSpouseSelfEmployedInfo mViewModel;
-    private ECreditApplicantInfo poInfo;
     private boolean cTransNox, cBizIndsx, cProvIdxx, cTownIdxx, cBizType, cBizSize, cMosYrxx;
 
     @Before
     public void setUp() {
-        poInfo = TestConstants.getDummyCreditApp();
         infoModel = new SpouseSelfEmployedInfoModel();
         mViewModel = new VMSpouseSelfEmployedInfo(TestConstants.APPLICATION);
 
         cTransNox = mViewModel.setTransNox(TestConstants.TRANSACTION_NO);
-        mViewModel.setDetailInfo(poInfo);
+        mViewModel.setDetailInfo(TestConstants.getDummyCreditApp());
         cBizIndsx = mViewModel.setBizIndustry(TestConstants.STRING_ONE);
         infoModel.setsBizName(TestConstants.FAKE_COMPANY);
         infoModel.setsBizAddress(TestConstants.FAKE_CODE);
