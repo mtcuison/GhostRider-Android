@@ -62,7 +62,6 @@ public interface DCreditApplication {
     @Query("SELECT * FROM Credit_Online_Application WHERE cSendStat <> '1'")
     List<ECreditApplication> getUnsentLoanApplication();
 
-
     @Query("SELECT * FROM Credit_Online_Application WHERE sTransNox =:TransNox")
     List<ApplicationLog> getDuplicateTransNox(String TransNox);
 

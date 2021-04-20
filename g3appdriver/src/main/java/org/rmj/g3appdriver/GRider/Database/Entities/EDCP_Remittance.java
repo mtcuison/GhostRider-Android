@@ -20,23 +20,23 @@ public class EDCP_Remittance {
     @ColumnInfo(name = "dTransact")
     private String Transact = AppConstants.CURRENT_DATE;
     @ColumnInfo(name = "cPaymForm")
-    private String PaymForm;
+    private String PaymForm = "";
     @ColumnInfo(name = "cRemitTyp")
-    private String RemitTyp;
+    private String RemitTyp = "";
     @ColumnInfo(name = "sCompnyNm")
-    private String CompnyNm;
+    private String CompnyNm = "";
     @ColumnInfo(name = "sBankAcct")
-    private String BankAcct;
+    private String BankAcct = "";
     @ColumnInfo(name = "sReferNox")
-    private String ReferNox;
+    private String ReferNox = "";
     @ColumnInfo(name = "nAmountxx")
     private String Amountxx = "0";
     @ColumnInfo(name = "cSendStat")
     private String SendStat = "0";
     @ColumnInfo(name = "dDateSent")
-    private String DateSent;
+    private String DateSent = "";
     @ColumnInfo(name = "dTimeStmp")
-    private String TimeStmp = AppConstants.DATE_MODIFIED;
+    private String TimeStmp = "";
 
     public EDCP_Remittance() {
     }
