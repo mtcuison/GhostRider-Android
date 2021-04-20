@@ -12,12 +12,13 @@ public class TestConstants {
     public static final String STRING_ZERO = "0";
     public static final String STRING_ONE = "1";
     public static final String STRING_TWO = "2";
-    public static final String FAKE_STRING = "Fake String";
+    public static final String FAKE_STRING = "ABCDE12345";
     public static final String FAKE_JSON = "{\"key\":\"value\"}";
     public static final String FAKE_CODE = "00123";
     public static final String FAKE_NUMBER = "0123456789";
     public static final String FAKE_STRING_AMOUNT = "50,000";
     public static final String FAKE_DATE = "01-01-1990";
+    public static final String FAKE_YEAR = "1999";
     public static final String FAKE_COMPANY = "Guanzon Group of Companies";
     public static final double FAKE_DBLE_AMOUNT = 20000.00;
 
