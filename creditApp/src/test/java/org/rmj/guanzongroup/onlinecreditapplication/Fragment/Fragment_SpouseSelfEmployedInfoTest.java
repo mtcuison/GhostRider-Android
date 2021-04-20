@@ -23,9 +23,7 @@ public class Fragment_SpouseSelfEmployedInfoTest extends TestCase {
     private SpouseSelfEmployedInfoModel infoModel;
     private VMSpouseSelfEmployedInfo mViewModel;
     private ECreditApplicantInfo poInfo;
-
-//    @Mock
-//    ECreditApplicantInfo poInfo;
+    private boolean cTransNox, cBizIndsx, cProvIdxx, cTownIdxx, cBizType, cBizSize, cMosYrxx;
 
     @Before
     public void setUp() {
@@ -33,54 +31,54 @@ public class Fragment_SpouseSelfEmployedInfoTest extends TestCase {
         infoModel = new SpouseSelfEmployedInfoModel();
         mViewModel = new VMSpouseSelfEmployedInfo(TestConstants.APPLICATION);
 
-        mViewModel.setTransNox(TestConstants.TRANSACTION_NO);
+        cTransNox = mViewModel.setTransNox(TestConstants.TRANSACTION_NO);
         mViewModel.setDetailInfo(poInfo);
-        mViewModel.setBizIndustry(TestConstants.STRING_ONE);
+        cBizIndsx = mViewModel.setBizIndustry(TestConstants.STRING_ONE);
         infoModel.setsBizName(TestConstants.FAKE_COMPANY);
         infoModel.setsBizAddress(TestConstants.FAKE_CODE);
-        mViewModel.setProvinceID(TestConstants.FAKE_CODE);
-        mViewModel.setTownID(TestConstants.FAKE_CODE);
-        mViewModel.setBizType(TestConstants.STRING_ZERO);
-        mViewModel.setBizSize(TestConstants.STRING_TWO);
+        cProvIdxx = mViewModel.setProvinceID(TestConstants.FAKE_CODE);
+        cTownIdxx = mViewModel.setTownID(TestConstants.FAKE_CODE);
+        cBizType = mViewModel.setBizType(TestConstants.STRING_ZERO);
+        cBizSize = mViewModel.setBizSize(TestConstants.STRING_TWO);
         infoModel.setsBizYrs(TestConstants.STRING_TWO);
-        mViewModel.setMosOrYr(TestConstants.STRING_ZERO);
+        cMosYrxx = mViewModel.setMosOrYr(TestConstants.STRING_ZERO);
         infoModel.setsGrossMonthly(TestConstants.FAKE_STRING_AMOUNT);
         infoModel.setsMonthlyExps("25,000");
     }
 
     @Test
     public void testSetTransNox() {
-        assertTrue(mViewModel.setTransNox("M001210001"));
+        assertTrue(cTransNox);
     }
 
     @Test
     public void testSetBizIndustry() {
-        assertTrue(mViewModel.setBizIndustry(TestConstants.STRING_ONE));
+        assertTrue(cBizIndsx);
     }
 
     @Test
     public void testSetBizType() {
-        assertTrue(mViewModel.setBizType(TestConstants.STRING_ZERO));
+        assertTrue(cBizType);
     }
 
     @Test
     public void testSetBizSize() {
-        assertTrue(mViewModel.setBizSize(TestConstants.STRING_TWO));
+        assertTrue(cBizSize);
     }
 
     @Test
     public void testSetMosOrYr() {
-        assertTrue(mViewModel.setMosOrYr(TestConstants.STRING_ZERO));
+        assertTrue(cMosYrxx);
     }
 
     @Test
     public void testSetProvinceId() {
-        assertTrue(mViewModel.setProvinceID(TestConstants.FAKE_CODE));
+        assertTrue(cProvIdxx);
     }
 
     @Test
     public void testSetTownId() {
-        assertTrue(mViewModel.setTownID(TestConstants.FAKE_CODE));
+        assertTrue(cTownIdxx);
     }
 
     @Test
