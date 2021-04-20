@@ -113,7 +113,6 @@ public class VMCIResidenceInfo extends AndroidViewModel {
             return true;
         } catch (NullPointerException e) {
             e.printStackTrace();
-//            callback.OnFailedResult(e.getMessage());
             callback.onFailedResult("NullPointerException error");
             return false;
         } catch (Exception e) {
@@ -181,6 +180,10 @@ public class VMCIResidenceInfo extends AndroidViewModel {
         }
     }
 
+    //Added by Jonathan 2021/04/13
+    //Need AsyncTask for background threading..
+    //RoomDatabase requires background task in order to manipulate Tables...
+    //Residence Image Post to server
     public class PostResidenceDetail extends AsyncTask<Void, Void, String> {
         private final ConnectionUtil poConn;
         private final OnImportCallBack callback;

@@ -313,8 +313,6 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("REQUEST CODE", String.valueOf(requestCode));
-        Log.e("RESULT CODE", String.valueOf(resultCode));
         if(requestCode == ImageFileCreator.GCAMERA){
             if(resultCode == RESULT_OK) {
                 try {

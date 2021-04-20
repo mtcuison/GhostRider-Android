@@ -71,19 +71,16 @@ public class VMCIBarangayRecords extends AndroidViewModel {
         this.sMobile1.setValue("");
         this.sFBRemark1.setValue("");
         this.sFeedback1.setValue("");
-
         this.sNeigbor2.setValue("");
         this.sRel2.setValue("");
         this.sMobile2.setValue("");
         this.sFBRemark2.setValue("");
         this.sFeedback2.setValue("");
-
         this.sNeigbor3.setValue("");
         this.sRel3.setValue("");
         this.sMobile3.setValue("");
         this.sFBRemark3.setValue("");
         this.sFeedback3.setValue("");
-
         this.sHasRecord.setValue("");
         this.sRemRecord.setValue("");
     }
@@ -91,7 +88,7 @@ public class VMCIBarangayRecords extends AndroidViewModel {
         void onSuccessNeighbor(String args);
         void onFailedNeighbor(String message);
     }
-
+// Set field value after fetching from local database
     public void setCurrentCIDetail(ECIEvaluation detail){
         try {
             if(detail.getReltnCD1() != null){
@@ -267,35 +264,21 @@ public class VMCIBarangayRecords extends AndroidViewModel {
         }
     }
 
-    //    Neigbor  1
+    //  Getter  Neigbor  1
     public LiveData<String> getsNeigbor1() {
         return this.sNeigbor1;
     }
 
     public LiveData<String> getsRel1() {
-        try {
-
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
         return this.sRel1;
     }
 
     public LiveData<String> getsMobile1() {
-        try {
-
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
         return this.sMobile1;
     }
 
     public LiveData<String> getsFBRemark1() {
-        try {
-
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
+       
         return this.sFBRemark1;
     }
 
@@ -303,7 +286,7 @@ public class VMCIBarangayRecords extends AndroidViewModel {
 
         return this.sFeedback1;
     }
-    //    Neigbor  2
+    //  Getter  Neigbor  2
     public LiveData<String> getsNeigbor2() {
         return this.sNeigbor2;
     }
@@ -323,7 +306,7 @@ public class VMCIBarangayRecords extends AndroidViewModel {
     public LiveData<String> getsFeedback2() {
         return this.sFeedback2;
     }
-    //    Neigbor  3
+    //  Getter  Neigbor  3
     public LiveData<String> getsNeigbor3() {
         return this.sNeigbor3;
     }
@@ -352,61 +335,4 @@ public class VMCIBarangayRecords extends AndroidViewModel {
         return this.sRemRecord;
     }
 
-
-    //   Setter Neigbor  3
-//    public void setsNeigbor3(String val) {
-//        try {
-//
-//            if(val != null || !val.trim().isEmpty()){
-//                this.sNeigbor3.setValue(val);
-//            }
-//        }catch (NullPointerException e){
-//            e.printStackTrace();
-//        }
-//
-//    }
-
-//    public void setsRel3(String val) {
-//        try {
-//            if(val != null || !val.trim().isEmpty()){
-//                this.sRel3.setValue(val);
-//            }
-//        }catch (NullPointerException e){
-//            e.printStackTrace();
-//        }
-//
-//    }
-
-//    public void setsMobile3(String val) {
-//        try {
-//            if(val != null || !val.trim().isEmpty()){
-//                this.sMobile3.setValue(val);
-//            }
-//        }catch (NullPointerException e){
-//            e.printStackTrace();
-//        }
-//
-//    }
-
-//    public void setsFBRemark3(String val) {
-//        try {
-//            if(val != null || !val.trim().isEmpty()){
-//                this.sFBRemark3.setValue(val);
-//            }
-//        }catch (NullPointerException e){
-//            e.printStackTrace();
-//        }
-//
-//    }
-
-//    public void setsFeedback3(String val) {
-//        try {
-//            if(val != null || !val.trim().isEmpty()){
-//                this.sFeedback3.setValue(poCIDetail.getValue().getFeedBck3());
-//            }
-//        }catch (NullPointerException e){
-//            e.printStackTrace();
-//        }
-//
-//    }
 }

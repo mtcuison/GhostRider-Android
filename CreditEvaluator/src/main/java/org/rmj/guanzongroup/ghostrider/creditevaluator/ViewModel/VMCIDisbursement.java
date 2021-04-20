@@ -39,9 +39,6 @@ public class VMCIDisbursement extends AndroidViewModel {
     private static final String TAG = VMCIResidenceInfo.class.getSimpleName();
     private final Application instance;
     private final RCIEvaluation poCI;
-    private final ECIEvaluation evaluation;
-    private final RImageInfo poImage;
-    private final SessionManager poUser;
 
     private final MutableLiveData<ECIEvaluation> poCIDetail = new MutableLiveData<>();
     private final MutableLiveData<String> sTransNox = new MutableLiveData<>();
@@ -57,9 +54,6 @@ public class VMCIDisbursement extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.poCI = new RCIEvaluation(application);
-        this.evaluation = new ECIEvaluation();
-        this.poImage = new RImageInfo(application);
-        this.poUser = new SessionManager(application);
         this.nWater.setValue((double) 0);
         this.nElctx.setValue((double) 0);
         this.nFoodx.setValue((double) 0);
@@ -78,6 +72,8 @@ public class VMCIDisbursement extends AndroidViewModel {
         this.sTransNox.setValue(transNox);
     }
 
+    //Added by Jonathan 2021/04/13
+    //Computation for all monthly expenses
     private void calculateTotal(){
         double waterBill = nWater.getValue();
         double electBill = nElctx.getValue();
@@ -88,10 +84,9 @@ public class VMCIDisbursement extends AndroidViewModel {
         double lnTotal = waterBill + electBill + foodAllow + loans + educAllow + otherExp;
         pnTotalx.setValue(lnTotal);
     }
-    public void setPnTotalx(Double fnAmount){
-        this.pnTotalx.setValue(fnAmount);
-        calculateTotal();
-    }
+
+    //Added by Jonathan 2021/04/13
+    //set  monthly expenses value
     public void setnWater(Double fnAmount){
         this.nWater.setValue(fnAmount);
         calculateTotal();
@@ -130,7 +125,6 @@ public class VMCIDisbursement extends AndroidViewModel {
             return true;
         } catch (NullPointerException e) {
             e.printStackTrace();
-//            callback.OnFailedResult(e.getMessage());
             callback.onFailedResult("NullPointerException error");
             return false;
         } catch (Exception e) {
