@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogTransaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.MobileInfoAdapter_Log;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogDisplayImage;
@@ -50,19 +50,19 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        txtAcctNo.setText(Activity_LogTransaction.acctNox);
-        txtClientName.setText(Activity_LogTransaction.fullNme);
-        txtClientAddress.setText(Activity_LogTransaction.clientAddress);
-        txtTransNo.setText(Activity_LogTransaction.transNox);
-        txtTransTp.setText(Activity_LogTransaction.psTransTp);
-        mViewModel.setClientID(Activity_LogTransaction.clientID);
+        txtAcctNo.setText(Activity_TransactionDetail.acctNox);
+        txtClientName.setText(Activity_TransactionDetail.fullNme);
+        txtClientAddress.setText(Activity_TransactionDetail.clientAddress);
+        txtTransNo.setText(Activity_TransactionDetail.transNox);
+        txtTransTp.setText(Activity_TransactionDetail.psTransTp);
+        mViewModel.setClientID(Activity_TransactionDetail.clientID);
         //Image Location
-        mViewModel.getImageLocation(Activity_LogTransaction.acctNox, Activity_LogTransaction.imgNme)
+        mViewModel.getImageLocation(Activity_TransactionDetail.acctNox, Activity_TransactionDetail.imgNme)
                 .observe(getViewLifecycleOwner(), eImageInfo -> {
                     setPic(eImageInfo.getFileLoct());
                     ivTransImage.setOnClickListener(view -> {
                         poDialogx = new DialogDisplayImage(getActivity(),
-                                Activity_LogTransaction.acctNox, eImageInfo.getFileLoct());
+                                Activity_TransactionDetail.acctNox, eImageInfo.getFileLoct());
                         poDialogx.initDialog(dialog -> {
                             dialog.dismiss();
                         });
