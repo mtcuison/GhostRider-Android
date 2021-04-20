@@ -1,18 +1,13 @@
 package org.rmj.guanzongroup.ghostrider.creditevaluator.Activity;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.ViewCompat;
-import androidx.core.widget.NestedScrollView;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.OnLifecycleEvent;
 import androidx.viewpager.widget.ViewPager;
-
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.FragmentAdapter;
@@ -21,8 +16,6 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.Fragments.Fragment_CIResi
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 
 import java.util.Objects;
-
-import static androidx.lifecycle.Lifecycle.Event.ON_STOP;
 
 public class Activity_CIApplication extends AppCompatActivity {
     private static final String TAG = Activity_CIApplication.class.getSimpleName();
@@ -61,7 +54,7 @@ public class Activity_CIApplication extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ci_application);
         instance = this;
-
+//      Header detail
         transNox = getIntent().getStringExtra("transno");
         sCompnyNm = getIntent().getStringExtra("ClientNm");
         dTransact = getIntent().getStringExtra("dTransact");

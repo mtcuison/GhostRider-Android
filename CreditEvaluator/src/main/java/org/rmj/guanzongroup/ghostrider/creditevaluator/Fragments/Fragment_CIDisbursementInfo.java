@@ -3,9 +3,7 @@ package org.rmj.guanzongroup.ghostrider.creditevaluator.Fragments;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,16 +18,13 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIDisbursementInfoModel;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CharacterTraitsInfoModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIDisbursement;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Objects;
 import java.util.StringTokenizer;
@@ -122,9 +117,7 @@ public class Fragment_CIDisbursementInfo extends Fragment implements ViewModelCa
             infoModel.setCiDbmOthers(tieOthers.getText().toString());
             mViewModel.saveCIDisbursement(infoModel, Fragment_CIDisbursementInfo.this);
         });
-        btnPrevious.setOnClickListener(v ->
-                Activity_CIApplication.getInstance().moveToPageNumber(0));
-        // TODO: Use the ViewModel
+        btnPrevious.setOnClickListener(v -> Activity_CIApplication.getInstance().moveToPageNumber(0));
     }
     public void initData(ECIEvaluation eciEvaluation){
         try {

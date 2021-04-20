@@ -39,7 +39,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
 
     private static final String TAG = Fragment_CIResidenceInfo.class.getSimpleName();
     private VMCIResidenceInfo mViewModel;
-    private TextInputEditText tiwLandmark;
+    private TextInputEditText tieLandmark;
     private RadioGroup rgHouseOwnership,rgHouseType,rgHouseHolds,rgGarage;
     private MaterialButton btnNext;
     private CIResidenceInfoModel residenceInfo;
@@ -85,12 +85,12 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
             rgHouseHolds.clearCheck();
             rgHouseType.clearCheck();
             rgGarage.clearCheck();
-            tiwLandmark.setText("");
+            tieLandmark.setText("");
             if (eciEvaluation != null){
                 mViewModel.setCurrentCIDetail(eciEvaluation);
                 if (eciEvaluation.getOwnershp() != null){
-                    tiwLandmark.setText(eciEvaluation.getLandMark());
-                    tiwLandmark.setEnabled(false);
+                    tieLandmark.setText(eciEvaluation.getLandMark());
+                    tieLandmark.setEnabled(false);
                 }
 
 //                House Ownership
@@ -145,9 +145,9 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                    for(int i = 0; i < rgGarage.getChildCount(); i++){
                        ((RadioButton)rgGarage.getChildAt(i)).setClickable(false);
                    }
-                   if(eciEvaluation.getGaragexx().equalsIgnoreCase("0")){
+                   if(eciEvaluation.getGaragexx().equalsIgnoreCase("1")){
                        rgGarage.check(R.id.rb_ci_yes);
-                   }else if(eciEvaluation.getGaragexx().equalsIgnoreCase("1")){
+                   }else if(eciEvaluation.getGaragexx().equalsIgnoreCase("0")){
                        rgGarage.check(R.id.rb_ci_no);
                    }
                }
@@ -189,7 +189,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
         nMobile = view.findViewById(R.id.lbl_ci_mobileNo);
         sTransNox = view.findViewById(R.id.lbl_ci_transNox);
 
-        tiwLandmark = view.findViewById(R.id.tie_landmark);
+        tieLandmark = view.findViewById(R.id.tie_landmark);
         rgHouseHolds = view.findViewById(R.id.rg_ci_houseHold);
         rgHouseOwnership = view.findViewById(R.id.rg_ci_ownership);
         rgHouseType = view.findViewById(R.id.rg_ci_houseType);
@@ -210,7 +210,6 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
     @SuppressLint("RestrictedApi")
     @Override
     public void onSaveSuccessResult(String args) {
-
         Activity_CIApplication.getInstance().moveToPageNumber(1);
     }
 
@@ -302,10 +301,10 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
             }
             if(rbView.getId() == R.id.rg_ci_garage){
                 if(checkedId == R.id.rb_ci_yes) {
-                    residenceInfo.setGaragexx("0");
+                    residenceInfo.setGaragexx("1");
                 }
                 else if(checkedId == R.id.rb_ci_no) {
-                    residenceInfo.setGaragexx("1");
+                    residenceInfo.setGaragexx("0");
                 }
             }
         }
@@ -314,8 +313,6 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("REQUEST CODE", String.valueOf(requestCode));
-        Log.e("RESULT CODE", String.valueOf(resultCode));
         if(requestCode == ImageFileCreator.GCAMERA){
             if(resultCode == RESULT_OK) {
                 try {
@@ -349,7 +346,8 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
         }
     }
     public void submitResidence(){
-        residenceInfo.setLandMark(tiwLandmark.getText().toString());
+        residenceInfo.setLandMark(tieLandmark.getText().toString());
+
         mViewModel.saveCIResidence(residenceInfo, Fragment_CIResidenceInfo.this);
     }
 }

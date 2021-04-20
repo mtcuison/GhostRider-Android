@@ -2,11 +2,9 @@ package org.rmj.guanzongroup.ghostrider.creditevaluator.Fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -14,37 +12,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LifecycleRegistry;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.OnLifecycleEvent;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIBarangayRecordInfoModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIBarangayRecords;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIResidenceInfo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import static androidx.lifecycle.Lifecycle.Event.ON_STOP;
-//import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIBarangayRecord;
-
 public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCallBack, LifecycleObserver {
 
     private static final String TAG = Fragment_CIBarangayRecord.class.getSimpleName();
@@ -66,7 +49,7 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
     private TextView sTransNox;
 
     private MessageBox poMessage;
-    List<CIBarangayRecordInfoModel> arrayList = new ArrayList<>();
+
     public static Fragment_CIBarangayRecord newInstance() {
         return new Fragment_CIBarangayRecord();
     }

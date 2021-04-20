@@ -1,10 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.creditevaluator.Fragments;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +19,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Dialog.DialogCIReason;
@@ -177,7 +173,6 @@ public class Fragment_CICharacterTraits extends Fragment implements ViewModelCal
     @Override
     public void onSaveSuccessResult(String args) {
         GNotifBuilder.createNotification(getActivity(), "CI Evaluation", args,APP_SYNC_DATA).show();
-
         getActivity().finish();
     }
 
