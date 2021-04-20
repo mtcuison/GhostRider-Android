@@ -73,8 +73,12 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
         this.pnCountry.setValue(View.GONE);
     }
 
-    public void setTransNox(String transNox){
+    public boolean setTransNox(String transNox){
         this.psTransNo.setValue(transNox);
+        if(!this.psTransNo.getValue().equalsIgnoreCase(transNox)) {
+            return false;
+        }
+        return true;
     }
 
     public LiveData<ECreditApplicantInfo> getActiveGOCasApplication(){
@@ -91,7 +95,7 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
         }
     }
 
-    public void setEmploymentSector(String sector){
+    public boolean setEmploymentSector(String sector){
         if(sector.equalsIgnoreCase("0")){
             this.pnCountry.setValue(View.GONE);
             this.pnGovInfo.setValue(View.VISIBLE);
@@ -105,6 +109,10 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
             this.pnGovInfo.setValue(View.GONE);
         }
         this.psSector.setValue(sector);
+        if(!this.psSector.getValue().equalsIgnoreCase(sector)) {
+            return false;
+        }
+        return true;
     }
 
     public void setPsCmpLvl(String compLvl){
