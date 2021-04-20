@@ -50,6 +50,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_ci_neighborRel1"
                         android:textColor="@color/material_black"
                         android:maxLength="50" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -71,6 +73,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapWords"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@id/tie_ci_NeighborContact1"
                             android:textColor="@color/material_black"
                             android:maxLength="50" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -86,7 +90,7 @@
                             android:id="@+id/tie_ci_NeighborContact1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="actionDone"
                             android:inputType="number|none"
                             android:textColor="@color/material_black"
                             android:maxLength="11" />
@@ -115,8 +119,8 @@
                         android:text="Negative Feedback"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_regular"
-                            tools:targetApi="jelly_bean"
-                            android:buttonTint="@color/guanzon_digital_orange"/>
+                        tools:targetApi="jelly_bean"
+                        android:buttonTint="@color/guanzon_digital_orange"/>
                 </RadioGroup>
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_ci_fbRemark1"
@@ -177,6 +181,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_ci_neighborRel2"
                         android:textColor="@color/material_black"
                         android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
@@ -196,9 +202,11 @@
                             android:id="@+id/tie_ci_neighborRel2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                        android:inputType="textCapWords"
-                        android:textColor="@color/material_black"
-                        android:maxLength="50" />
+                            android:inputType="textCapWords"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@id/tie_ci_NeighborContact2"
+                            android:textColor="@color/material_black"
+                            android:maxLength="50" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -212,7 +220,7 @@
                             android:id="@+id/tie_ci_NeighborContact2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="actionDone"
                             android:inputType="number|none"
                             android:textColor="@color/material_black"
                             android:maxLength="11" />
@@ -231,8 +239,8 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="Positive Feedback"
                         android:layout_weight="1"
-                            tools:targetApi="jelly_bean"
-                            android:buttonTint="@color/guanzon_digital_orange" />
+                        tools:targetApi="jelly_bean"
+                        android:buttonTint="@color/guanzon_digital_orange" />
 
                     <RadioButton
                         android:id="@+id/rb_ci_negativeFeed2"
@@ -303,6 +311,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/tie_ci_neighborRel3"
                         android:textColor="@color/material_black"
                         android:maxLength="50"/>
                 </com.google.android.material.textfield.TextInputLayout>
@@ -322,9 +332,11 @@
                             android:id="@+id/tie_ci_neighborRel3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                        android:inputType="textCapWords"
-                        android:textColor="@color/material_black"
-                        android:maxLength="50" />
+                            android:inputType="textCapWords"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@id/tie_ci_NeighborContact3"
+                            android:textColor="@color/material_black"
+                            android:maxLength="50" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -338,7 +350,7 @@
                             android:id="@+id/tie_ci_NeighborContact3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="actionDone"
                             android:inputType="number|none"
                             android:textColor="@color/material_black"
                             android:maxLength="11" />
@@ -430,8 +442,8 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="No Barangay Record"
                         android:layout_weight="1"
-                            tools:targetApi="jelly_bean"
-                            android:buttonTint="@color/guanzon_digital_orange" />
+                        tools:targetApi="jelly_bean"
+                        android:buttonTint="@color/guanzon_digital_orange" />
 
                     <RadioButton
                         android:id="@+id/rb_ci_withRecord"

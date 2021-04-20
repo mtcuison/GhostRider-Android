@@ -15,14 +15,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogTransaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogDisplayImage;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogOtherTransactions;
 
 public class Fragment_Log_OtherTransactions extends Fragment {
     private static final String TAG = Fragment_Log_OtherTransactions.class.getSimpleName();
-    private final String IMAGE_NAME = Activity_LogTransaction.imgNme;
+    private final String IMAGE_NAME = Activity_TransactionDetail.imgNme;
     private VMLogOtherTransactions mViewModel;
     private DialogDisplayImage poDialogx;
     private TextView txtAcctNo, txtClientName, txtClientAddress, txtRemarks, txtTransNo, txtTransTp;
@@ -45,21 +45,21 @@ public class Fragment_Log_OtherTransactions extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        txtAcctNo.setText(Activity_LogTransaction.acctNox);
-        txtClientName.setText(Activity_LogTransaction.fullNme);
-        txtClientAddress.setText(Activity_LogTransaction.clientAddress);
-        txtTransNo.setText(Activity_LogTransaction.transNox);
-        txtTransTp.setText((Activity_LogTransaction.psTransTp.equalsIgnoreCase("OTH"))
-                ? "Other Transaction" : Activity_LogTransaction.psTransTp);
-        txtRemarks.setText(Activity_LogTransaction.remarks);
+        txtAcctNo.setText(Activity_TransactionDetail.acctNox);
+        txtClientName.setText(Activity_TransactionDetail.fullNme);
+        txtClientAddress.setText(Activity_TransactionDetail.clientAddress);
+        txtTransNo.setText(Activity_TransactionDetail.transNox);
+        txtTransTp.setText((Activity_TransactionDetail.psTransTp.equalsIgnoreCase("OTH"))
+                ? "Other Transaction" : Activity_TransactionDetail.psTransTp);
+        txtRemarks.setText(Activity_TransactionDetail.remarks);
         //Image Location
         if(!IMAGE_NAME.equalsIgnoreCase("")){
-            mViewModel.getImageLocation(Activity_LogTransaction.acctNox, Activity_LogTransaction.imgNme)
+            mViewModel.getImageLocation(Activity_TransactionDetail.acctNox, Activity_TransactionDetail.imgNme)
                     .observe(getViewLifecycleOwner(), eImageInfo -> {
                         setPic(eImageInfo.getFileLoct());
                         ivTransImage.setOnClickListener(view -> {
                             poDialogx = new DialogDisplayImage(getActivity(),
-                                    Activity_LogTransaction.acctNox, eImageInfo.getFileLoct());
+                                    Activity_TransactionDetail.acctNox, eImageInfo.getFileLoct());
                             poDialogx.initDialog(dialog -> {
                                 dialog.dismiss();
                             });
