@@ -463,6 +463,15 @@ public class VMCollectionList extends AndroidViewModel {
                 collectionDetail.setClientID(loJson.getString("sClientID"));
                 collectionDetail.setSerialID(loJson.getString("sSerialID"));
                 collectionDetail.setSerialNo(loJson.getString("sSerialNo"));
+                collectionDetail.setLongitud(loJson.getString("nLongitud"));
+                collectionDetail.setLatitude(loJson.getString("nLatitude"));
+                collectionDetail.setDueDatex(loJson.getString("dDueDatex"));
+                collectionDetail.setMonAmort(loJson.getString("nMonAmort"));
+                collectionDetail.setLastPaym(loJson.getString("nLastPaym"));
+                collectionDetail.setLastPaid(loJson.getString("dLastPaym"));
+                collectionDetail.setAmtDuexx(loJson.getString("nAmtDuexx"));
+                collectionDetail.setABalance(loJson.getString("nABalance"));
+                collectionDetail.setDelayAvg(loJson.getString("nDelayAvg"));
                 collectionDetails.add(collectionDetail);
             }
         }

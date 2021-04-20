@@ -106,7 +106,7 @@
                         android:layout_weight="1"
                         android:textSize="15sp"
                         android:gravity="center"
-                        android:text="Total Remitted: 10,000"
+                        android:text="Total Remitted :"
                         android:fontFamily="@font/roboto_light"
                         android:textColor="@color/textColor_White" />
 
@@ -117,7 +117,7 @@
                         android:layout_weight="1"
                         android:textSize="15sp"
                         android:gravity="center"
-                        android:text="Cash-On-Hand: 10,000"
+                        android:text="Cash-On-Hand :"
                         android:fontFamily="@font/roboto_light"
                         android:textColor="@color/textColor_White"/>
 
