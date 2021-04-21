@@ -55,9 +55,14 @@
         }
 
         // Set TransNox to be saved in applicant info entity
-        public void setTransNox(String fsTransNox){
+        public boolean setTransNox(String fsTransNox){
             this.TransNox.setValue(fsTransNox);
+            if(!this.TransNox.getValue().equalsIgnoreCase(fsTransNox)) {
+                return false;
+            }
+            return true;
         }
+
         public void setProvinceID(String fsID){
             this.psProvID.setValue(fsID);
         }
@@ -108,11 +113,13 @@
         }
 
         //  Set Detail info to GoCas
-        public void setDetailInfo(ECreditApplicantInfo fsDetailInfo){
+        public boolean setDetailInfo(ECreditApplicantInfo fsDetailInfo){
             try{
                 poInfo = fsDetailInfo;
+                return true;
             } catch (Exception e){
                 e.printStackTrace();
+                return false;
             }
         }
 
@@ -156,13 +163,11 @@
             return poBarangay.getBarangayInfoFromID(fsID);
         }
 
-        public void Save(SpouseResidenceInfoModel infoModel, ViewModelCallBack callBack){
+        public boolean Save(SpouseResidenceInfoModel infoModel, ViewModelCallBack callBack){
             try {
-
                 infoModel.setProvince(psProvID.getValue());
                 infoModel.setTown(psTownID.getValue());
                 infoModel.setBarangay(psBrgyID.getValue());
-
                 if(infoModel.isSpouseResidenceInfoValid()) {
                     poGoCas.SpouseInfo().ResidenceInfo().PresentAddress().setLandMark(infoModel.getLandmark());
                     poGoCas.SpouseInfo().ResidenceInfo().PresentAddress().setHouseNo(infoModel.getHouseNox());
@@ -170,9 +175,6 @@
                     poGoCas.SpouseInfo().ResidenceInfo().PresentAddress().setAddress2(infoModel.getAddress2());
                     poGoCas.SpouseInfo().ResidenceInfo().PresentAddress().setTownCity(infoModel.getTown());
                     poGoCas.SpouseInfo().ResidenceInfo().PresentAddress().setBarangay(infoModel.getBarangay());
-
-                    //This is it papi
-                    //poGoCas.ResidenceInfo().PresentAddress().get
 
                     poInfo.setTransNox(TransNox.getValue());
                     poInfo.setSpsResdx(poGoCas.SpouseInfo().ResidenceInfo().toJSONString());
@@ -182,14 +184,16 @@
                     Log.e(TAG, poGoCas.SpouseInfo().ResidenceInfo().toJSONString());
                     Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
                     callBack.onSaveSuccessResult(TransNox.getValue());
+                    return true;
                 } else {
                     callBack.onFailedResult(infoModel.getMessage());
+                    return false;
                 }
-
             }
             catch (Exception e) {
                 e.printStackTrace();
                 callBack.onFailedResult(e.getMessage());
+                return false;
             }
         }
 
