@@ -155,7 +155,11 @@ public class VMCIResidenceInfo extends AndroidViewModel {
                     poCIEvaluation.updateCiResidences(loDetail);
                     return "success";
                 }
-            } catch (Exception e){
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                return e.getMessage();
+            }
+            catch (Exception e){
                 e.printStackTrace();
                 return e.getMessage();
             }
