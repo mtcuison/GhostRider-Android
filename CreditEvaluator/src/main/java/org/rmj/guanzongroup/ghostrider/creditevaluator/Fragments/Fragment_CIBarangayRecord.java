@@ -138,11 +138,11 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
         });
         btnAdd1.setOnClickListener(v -> {
             try {
-            ciModel.setFBRemrk1(tieFBRemark1.getText().toString());
-            ciModel.setNeighbr1(tieFullname1.getText().toString());
-            ciModel.setReltnCD1(tieRel1.getText().toString());
-            ciModel.setMobileN1(tieContact1.getText().toString());
-            mViewModel.saveNeighbor(ciModel, "Neighbor1",Fragment_CIBarangayRecord.this);
+                ciModel.setFBRemrk1(tieFBRemark1.getText().toString());
+                ciModel.setNeighbr1(tieFullname1.getText().toString());
+                ciModel.setReltnCD1(tieRel1.getText().toString());
+                ciModel.setMobileN1(tieContact1.getText().toString());
+                mViewModel.saveNeighbor(ciModel, "Neighbor1",Fragment_CIBarangayRecord.this);
             }catch (NullPointerException e){
                 e.printStackTrace();
             }
@@ -305,7 +305,7 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
             });
             mViewModel.getsFeedback1().observe(getViewLifecycleOwner(), val ->{
                 rgFeedbak1.clearCheck();
-                tilFBRemark2.setVisibility(View.GONE);
+                tilFBRemark1.setVisibility(View.GONE);
                 if (!val.trim().isEmpty()){
                     for(int i = 0; i < rgFeedbak1.getChildCount(); i++){
                         ((RadioButton)rgFeedbak1.getChildAt(i)).setClickable(false);

@@ -209,6 +209,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
     @SuppressLint("RestrictedApi")
     @Override
     public void onSaveSuccessResult(String args) {
+        Log.e(TAG, args);
         Activity_CIApplication.getInstance().moveToPageNumber(1);
     }
 
