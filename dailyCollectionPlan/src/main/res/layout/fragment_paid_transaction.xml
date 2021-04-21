@@ -162,24 +162,63 @@
                 android:nextFocusForward="@id/txt_dcpAmount"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TextInputStyle"
-            android:hint="Amount"
-            android:layout_marginTop="5dp">
+            android:orientation="horizontal"
+            android:gravity="center">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_dcpAmount"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/TextInputStyle.Edittext"
-                android:inputType="number|none"
-                android:maxLength="10"
-                android:maxLines="1"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/txt_dcpDiscount"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_weight="1"
+                style="@style/TextInputStyle"
+                android:hint="Amount"
+                android:layout_marginTop="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_dcpAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextInputStyle.Edittext"
+                    android:inputType="number|none"
+                    android:maxLength="10"
+                    android:maxLines="1"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_dcpDiscount"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_clearText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:textAllCaps="false"
+                android:text="Clear"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/textColor_Black"
+                style="@style/MaterialButtonLight"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_amortization"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="Monthly Amort"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/textColor_Black"
+            style="@style/MaterialButtonLight"/>
+
+        <Button
+            android:id="@+id/btn_remainbalance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="Remaining Balance"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/textColor_Black"
+            style="@style/MaterialButtonLight"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -262,7 +301,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/MaterialButtonAccent"
-            android:text="Confirm"/>
+            android:text="Save Payment"/>
 
     </LinearLayout>
 

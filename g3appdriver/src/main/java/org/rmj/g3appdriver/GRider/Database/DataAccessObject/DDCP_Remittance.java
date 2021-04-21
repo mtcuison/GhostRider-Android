@@ -10,29 +10,6 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 @Dao
 public interface DDCP_Remittance {
 
-//    @Query("INSERT INTO LR_DCP_Remittance(" +
-//            "sTransNox, " +
-//            "nEntryNox, " +
-//            "dTransact, " +
-//            "cPaymForm, " +
-//            "cRemitTyp, " +
-//            "sCompnyNm, " +
-//            "sBankAcct, " +
-//            "sReferNox, " +
-//            "nAmountxx, " +
-//            "dTimeStmp) VALUES (" +
-//            "(SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact), " +
-//            "(SELECT COUNT(sTransNox) + 1 FROM LR_DCP_Remittance WHERE dTransact =:dTransact), " +
-//            ":dTransact, " +
-//            ":cPaymForm, " +
-//            ":cRemitTyp, " +
-//            ":sCompnyNm, " +
-//            ":sBankAcct, " +
-//            ":sReferNox, " +
-//            ":nAmountxx, " +
-//            ":dTimeStmp)")
-//    void insert(String dTransact, String cPaymForm, String cRemitTyp, String sCompnyNm, String sBankAcct, String sReferNox, String nAmountxx, String dTimeStmp);
-
     @Insert
     void insert(EDCP_Remittance remittance);
 
@@ -83,8 +60,18 @@ public interface DDCP_Remittance {
 
     @Query("SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail " +
             "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact) " +
+            "AND sCheckNox == '' AND sCheckDte == '' AND sCheckAct == ''")
+    LiveData<String> getTotalCollectedCash(String dTransact);
+
+    @Query("SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail " +
+            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact) " +
             "AND sCheckNox <> '' AND sCheckDte <> '' AND sCheckAct <> ''")
     String getCollectedCheck(String dTransact);
+
+    @Query("SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail " +
+            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact) " +
+            "AND sCheckNox <> '' AND sCheckDte <> '' AND sCheckAct <> ''")
+    LiveData<String> getTotalCollectedCheck(String dTransact);
 
     @Query("SELECT SUM(nAmountxx) FROM LR_DCP_Remittance " +
             "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact) " +

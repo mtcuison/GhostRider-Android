@@ -42,6 +42,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DOccupationInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRaffleInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRawDao;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRemittanceAccounts;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DUncapturedClient;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
@@ -79,6 +80,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERaffleBasis;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERaffleInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.ERemittanceAccounts;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESCA_Request;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
@@ -123,7 +125,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         EBranchLoanApplication.class,
         EUncapturedClient.class,
         ECIEvaluation.class,
-        EDCP_Remittance.class}, version = 1, exportSchema = false)
+        EDCP_Remittance.class,
+        ERemittanceAccounts.class}, version = 1, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -163,6 +166,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DUncapturedClient UncapturedDao();
     public abstract DCIEvaluation CIDao();
     public abstract DDCP_Remittance DCPRemitanceDao();
+    public abstract DRemittanceAccounts RemitanceAccDao();
 
 
     public static synchronized GGC_GriderDB getInstance(Context context){
