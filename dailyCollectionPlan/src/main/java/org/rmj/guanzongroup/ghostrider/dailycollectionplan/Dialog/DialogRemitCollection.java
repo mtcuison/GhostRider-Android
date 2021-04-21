@@ -11,6 +11,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -35,49 +36,52 @@ public class DialogRemitCollection {
     private final Context context;
     private final EDCP_Remittance poRemit;
 
-    private List<EBankInfo> poBankList = new ArrayList<>();
-    private List<EBranchInfo> poBrnchList = new ArrayList<>();
+    private String psTotCash;
+    private String psTotChck;
+    private String psRmtBrnh;
+    private String psRmtBank;
+    private String psRmtOthr;
+    private String psCashOHx;
+    private String psCheckOH;
 
-    private String psCltCheck = "";
-    private String psCltCashx = "";
-    private String psTransact = "";
-
-    public interface RemitDialogListener{
-        void OnConfirm(AlertDialog dialog, EDCP_Remittance remittance);
-        void OnCancel(AlertDialog dialog);
+    public void setCollectedCash(String psTotCash) {
+        this.psTotCash = psTotCash;
     }
 
-    private AutoCompleteTextView txtBranch, txtBankNm;
-    private TextInputEditText txtAmount, txtAccNo, txtRefNox, txtPaymPnr;
-    private LinearLayout linearBrnch, linearBank, linearPaym;
-    private TextInputLayout tilRefNox;
+    public void setCollectedCheck(String psTotChck) {
+        this.psTotChck = psTotChck;
+    }
+
+    public void setRemittedBranch(String psRmtBrnh) {
+        this.psRmtBrnh = psRmtBrnh;
+    }
+
+    public void setRemittedBank(String psRmtBank) {
+        this.psRmtBank = psRmtBank;
+    }
+
+    public void setRemittedOthers(String psRmtOthr) {
+        this.psRmtOthr = psRmtOthr;
+    }
+
+    public void setCashOnHand(String psCashOHx) {
+        this.psCashOHx = psCashOHx;
+    }
+
+    public void setCheckOnHand(String psCheckOH) {
+        this.psCheckOH = psCheckOH;
+    }
+
+    public interface RemitDialogListener{
+        void OnRemit(AlertDialog dialog);
+        void OnCancel(AlertDialog dialog);
+    }
 
     public DialogRemitCollection(Context context) {
         this.context = context;
         this.poRemit = new EDCP_Remittance();
         this.poRemit.setRemitTyp("0");
         this.poRemit.setPaymForm("0");
-    }
-
-    public void setPoBankList(List<EBankInfo> poBankList) {
-        this.poBankList = poBankList;
-
-    }
-
-    public void setPoBrnchList(List<EBranchInfo> poBrnchList) {
-        this.poBrnchList = poBrnchList;
-    }
-
-    public void setPsCltCheck(String psCltCheck) {
-        this.psCltCheck = psCltCheck;
-    }
-
-    public void setPsCltCashx(String psCltCashx) {
-        this.psCltCashx = psCltCashx;
-    }
-
-    public void setPsTransact(String psTransact) {
-        this.psTransact = psTransact;
     }
 
     @SuppressLint("SetTextI18n")
@@ -89,121 +93,25 @@ public class DialogRemitCollection {
         poDialogx = loBuilder.create();
         poDialogx.setCancelable(false);
 
-        RadioGroup rgRemitType = view.findViewById(R.id.rg_remittance);
-        RadioGroup rgRemitance = view.findViewById(R.id.rg_remittanceOutlet);
-        txtBranch = view.findViewById(R.id.txt_remitBranch);
-        txtBankNm = view.findViewById(R.id.txt_remitBankNme);
-        txtAmount = view.findViewById(R.id.txt_remitAmount);
-        txtAccNo = view.findViewById(R.id.txt_remitAccNo);
-        txtRefNox = view.findViewById(R.id.txt_remitReferenceNo);
-        txtPaymPnr = view.findViewById(R.id.txt_remitPaymPartner);
-        tilRefNox = view.findViewById(R.id.til_remitReferenceNo);
-        linearBrnch = view.findViewById(R.id.linear_remitBranch);
-        linearBank = view.findViewById(R.id.linear_remitBank);
-        linearPaym = view.findViewById(R.id.linear_remitPartner);
-        Button btnRemitAll = view.findViewById(R.id.btn_remitAll);
-        Button btnConfirm = view.findViewById(R.id.btn_confirm);
+        TextView lblCltdCash = view.findViewById(R.id.lbl_collectedCash);
+        TextView lblCltdChck = view.findViewById(R.id.lbl_collectedCheck);
+        TextView lblRmtBrnch = view.findViewById(R.id.lbl_remittanceBranch);
+        TextView lblRmtBankx = view.findViewById(R.id.lbl_remittanceBank);
+        TextView lblRmtOther = view.findViewById(R.id.lbl_remittanceOthers);
+        TextView lblOHCashxx = view.findViewById(R.id.lbl_remittanceCash);
+        TextView lblOHCheckx = view.findViewById(R.id.lbl_remittanceCheck);
+        Button btnRemit = view.findViewById(R.id.btn_confirm);
         Button btnCancel = view.findViewById(R.id.btn_cancel);
 
-        String[] laBranchNm = new String[poBrnchList.size()];
-        for(int x = 0; x < poBrnchList.size(); x++){
-            laBranchNm[x] = poBrnchList.get(x).getBranchNm();
-        }
+        lblCltdCash.setText("Total Collected Cash : " + FormatUIText.getCurrencyUIFormat(psTotCash));
+        lblCltdChck.setText("Total Collected Check : " + FormatUIText.getCurrencyUIFormat(psTotChck));
+        lblRmtBrnch.setText("Remitted on Branch : " + FormatUIText.getCurrencyUIFormat(psRmtBrnh));
+        lblRmtBankx.setText("Remitted on Bank : " + FormatUIText.getCurrencyUIFormat(psRmtBank));
+        lblRmtOther.setText("Remitted on Payment Partner : " + FormatUIText.getCurrencyUIFormat(psRmtOthr));
+        lblOHCashxx.setText("Cash-On-Hand : " + FormatUIText.getCurrencyUIFormat(psCashOHx));
+        lblOHCheckx.setText("Check-On-Hand : " + FormatUIText.getCurrencyUIFormat(psCheckOH));
 
-        String[] laBankName = new String[poBankList.size()];
-        for(int x = 0; x < poBankList.size(); x++){
-            laBankName[x] = poBankList.get(x).getBankName();
-        }
-
-        txtBranch.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line, laBranchNm));
-        txtBankNm.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line, laBankName));
-
-        txtBranch.setOnItemClickListener((parent, view1, position, id) -> poRemit.setCompnyNm(txtBranch.getText().toString()));
-        txtBankNm.setOnItemClickListener((parent, view12, position, id) -> poRemit.setCompnyNm(txtBankNm.getText().toString()));
-
-        txtAmount.addTextChangedListener(new FormatUIText.CurrencyFormat(txtAmount));
-
-        btnRemitAll.setText("Total Cash-On-Hand" + FormatUIText.getCurrencyUIFormat(psCltCashx));
-
-        rgRemitType.setOnCheckedChangeListener((group, checkedId) -> {
-            if(checkedId == R.id.rb_remitCash){
-                poRemit.setPaymForm("0");
-                txtAmount.setText("");
-                if(psCltCashx != null) {
-                    if (!psCltCashx.isEmpty()) {
-                        btnRemitAll.setText("Total Cash-On-Hand" + FormatUIText.getCurrencyUIFormat(psCltCashx));
-                    } else {
-                        btnRemitAll.setText("No Cash On Hand");
-                    }
-                } else {
-                    btnRemitAll.setText("No Cash On Hand");
-                }
-            } else if(checkedId == R.id.rb_remitCheck){
-                poRemit.setPaymForm("1");
-                txtAmount.setText("");
-                if(psCltCheck != null) {
-                    if (!psCltCheck.isEmpty()) {
-                        btnRemitAll.setText("Total Cash-On-Hand" + FormatUIText.getCurrencyUIFormat(psCltCheck));
-                    } else {
-                        btnRemitAll.setText("No Check Payment On Hand");
-                    }
-                } else {
-                    btnRemitAll.setText("No Check Payment On Hand");
-                }
-            }
-        });
-
-        rgRemitance.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.rb_remitBranch) {
-                linearBrnch.setVisibility(View.VISIBLE);
-                linearBank.setVisibility(View.GONE);
-                linearPaym.setVisibility(View.GONE);
-                tilRefNox.setVisibility(View.GONE);
-                poRemit.setRemitTyp("0");
-            } else if(checkedId == R.id.rb_remitBank){
-                linearBrnch.setVisibility(View.GONE);
-                linearBank.setVisibility(View.VISIBLE);
-                linearPaym.setVisibility(View.GONE);
-                tilRefNox.setVisibility(View.VISIBLE);
-                poRemit.setRemitTyp("1");
-            } else {
-                linearBrnch.setVisibility(View.GONE);
-                linearBank.setVisibility(View.GONE);
-                linearPaym.setVisibility(View.VISIBLE);
-                tilRefNox.setVisibility(View.VISIBLE);
-                poRemit.setRemitTyp("2");
-            }
-        });
-
-        btnRemitAll.setOnClickListener(v -> {
-            if(poRemit.getPaymForm().equalsIgnoreCase("0")){
-                txtAmount.setText(psCltCashx);
-            } else {
-                txtAmount.setText(psCltCheck);
-            }
-        });
-
-        btnConfirm.setOnClickListener(v -> {
-            if(isDataValid()) {
-                switch (poRemit.getRemitTyp()) {
-                    case "0":
-                        poRemit.setCompnyNm(txtBranch.getText().toString());
-                        break;
-                    case "1":
-                        poRemit.setCompnyNm(Objects.requireNonNull(txtBankNm.getText()).toString());
-                        poRemit.setBankAcct(Objects.requireNonNull(txtAccNo.getText()).toString());
-                        break;
-                    case "2":
-                        poRemit.setCompnyNm(Objects.requireNonNull(txtPaymPnr.getText()).toString());
-                        poRemit.setReferNox(Objects.requireNonNull(txtRefNox.getText()).toString());
-                        break;
-                }
-                poRemit.setTransact(psTransact);
-                poRemit.setAmountxx(txtAmount.getText().toString().replace(",", ""));
-                poRemit.setTimeStmp(AppConstants.DATE_MODIFIED);
-                listener.OnConfirm(poDialogx, poRemit);
-            }
-        });
+        btnRemit.setOnClickListener(v -> listener.OnRemit(poDialogx));
 
         btnCancel.setOnClickListener(v -> listener.OnCancel(poDialogx));
     }
@@ -214,49 +122,5 @@ public class DialogRemitCollection {
             poDialogx.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
             poDialogx.show();
         }
-    }
-
-    private boolean isDataValid(){
-        if(poRemit.getRemitTyp().equalsIgnoreCase("0")){
-            if(txtBranch.getText().toString().isEmpty()){
-                GToast.CreateMessage(context, "Please enter branch", GToast.ERROR).show();
-                return false;
-            } else if(Objects.requireNonNull(txtAmount.getText()).toString().isEmpty()){
-                GToast.CreateMessage(context, "Please enter amount", GToast.ERROR).show();
-                return false;
-            }
-        } else if(poRemit.getRemitTyp().equalsIgnoreCase("1")){
-            if(txtBankNm.getText().toString().isEmpty()){
-                GToast.CreateMessage(context, "Please enter bank", GToast.ERROR).show();
-                return false;
-            } else if(Objects.requireNonNull(txtAccNo.getText()).toString().isEmpty()){
-                GToast.CreateMessage(context, "Please enter account no", GToast.ERROR).show();
-                return false;
-            } else if(Objects.requireNonNull(txtRefNox.getText()).toString().isEmpty()){
-                GToast.CreateMessage(context, "Please enter reference no", GToast.ERROR).show();
-                return false;
-            } else if(Objects.requireNonNull(txtAmount.getText()).toString().isEmpty()){
-                GToast.CreateMessage(context, "Please enter amount", GToast.ERROR).show();
-                return false;
-            } else if(txtAmount.getText().toString().equalsIgnoreCase("0.0")){
-                GToast.CreateMessage(context, "Unable to remit 0 amount", GToast.ERROR).show();
-                return false;
-            } else if(txtAmount.getText().toString().equalsIgnoreCase("0")){
-                GToast.CreateMessage(context, "Unable to remit 0 amount", GToast.ERROR).show();
-                return false;
-            }
-        } else {
-            if(Objects.requireNonNull(txtPaymPnr.getText()).toString().isEmpty()){
-                GToast.CreateMessage(context, "Please enter payment partner", GToast.ERROR).show();
-                return false;
-            } else if(Objects.requireNonNull(txtRefNox.getText()).toString().isEmpty()){
-                GToast.CreateMessage(context, "Please enter reference no", GToast.ERROR).show();
-                return false;
-            } else if(Objects.requireNonNull(txtAmount.getText()).toString().isEmpty()){
-                GToast.CreateMessage(context, "Please enter amount", GToast.ERROR).show();
-                return false;
-            }
-        }
-        return true;
     }
 }
