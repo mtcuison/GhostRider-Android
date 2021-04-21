@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SpousePensionInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
+import org.rmj.guanzongroup.onlinecreditapplication.TestConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMCoMaker;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpousePensionInfo;
 import org.robolectric.RobolectricTestRunner;
@@ -24,46 +25,47 @@ import java.util.Objects;
 public class Fragment_SpousePensionInfoTest extends TestCase {
     private SpousePensionInfoModel infoModel;
     private VMSpousePensionInfo mViewModel;
-
-    private static final String TRANSACTION_NO = "Z3TXCBMCHCAO";
-    private static final String TEST_STRING = "ABCDE12345";
-    private static final String STRING_ZERO = "0";
-    private static final String STRING_ONE = "1";
-    private static final String PENSION_AMOUNT = "10,000";
-    private static final String RETIREMENT_YEAR = "1999";
-    private static final String OTHER_INCOME_SOURCE = "BUSINESS";
-    private static final String OTHER_INCOME_AMOUNT = "25,000";
-
-    private boolean isPension, isTransNo;
-
-    @Mock
-    ViewModelCallBack callback;
+    private boolean cPension, cTransNox, cDetlInfo;
 
     @Before
     public void setUp() {
         infoModel = new SpousePensionInfoModel();
-        mViewModel = new VMSpousePensionInfo(ApplicationProvider.getApplicationContext());
+        mViewModel = new VMSpousePensionInfo(TestConstants.APPLICATION);
 
-        isTransNo =mViewModel.setTransNox(TRANSACTION_NO);
-        isPension = mViewModel.setPensionSec(STRING_ZERO);
-        infoModel.setsPensionAmt(PENSION_AMOUNT);
-        infoModel.setsRetirementYr(RETIREMENT_YEAR);
-        infoModel.setsOtherSrc(OTHER_INCOME_SOURCE);
-        infoModel.setsOtherSrcIncx(OTHER_INCOME_AMOUNT);
+        cDetlInfo = mViewModel.setDetailInfo(TestConstants.getDummyCreditApp());
+        cTransNox = mViewModel.setTransNox(TestConstants.TRANSACTION_NO);
+        cPension = mViewModel.setPensionSec(TestConstants.STRING_ZERO);
+        infoModel.setsPensionAmt(TestConstants.FAKE_STRING_AMOUNT);
+        infoModel.setsRetirementYr(TestConstants.FAKE_YEAR);
+        infoModel.setsOtherSrc(TestConstants.FAKE_STRING);
+        infoModel.setsOtherSrcIncx(TestConstants.FAKE_STRING_AMOUNT);
     }
+
+//    @Test
+//    public void test_setDetailInfo() { assertTrue(cDetlInfo); }
 
     @Test
     public void test_setTransNox() {
-        assertTrue(isTransNo);
+        assertTrue(cTransNox);
     }
 
     @Test
     public void test_setPensionSec() {
-        assertTrue(isPension);
+        assertTrue(cPension);
     }
 
-//    @Test
-//    public void test_Save() {
-//        assertTrue(mViewModel.Save(infoModel, callback));
-//    }
+    @Test
+    public void test_Save() {
+        assertTrue(mViewModel.Save(infoModel, new ViewModelCallBack() {
+            @Override
+            public void onSaveSuccessResult(String args) {
+                System.out.print(args);
+            }
+
+            @Override
+            public void onFailedResult(String message) {
+                System.out.print(message);
+            }
+        }));
+    }
 }

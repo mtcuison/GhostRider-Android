@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -332,42 +331,12 @@ public class Activity_LogCollection extends AppCompatActivity {
                     String lsDate = Objects.requireNonNull(txtDate.getText()).toString();
                     @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("MMM dd, yyyy").parse(lsDate);
                     @SuppressLint("SimpleDateFormat") SimpleDateFormat loFormatter = new SimpleDateFormat("yyyy-MM-dd");
-                    poRemit.setPoBankList(poBankList);
-                    poRemit.setPoBrnchList(poBrnchList);
-                    poRemit.setPsCltCheck(psCltCheck);
-                    poRemit.setPsCltCashx(psCltCashx);
-                    poRemit.setPsTransact(loFormatter.format(loDate));
                     poRemit.initDialog(new DialogRemitCollection.RemitDialogListener() {
                         @Override
-                        public void OnConfirm(AlertDialog dialog, EDCP_Remittance remittance) {
+                        public void OnRemit(AlertDialog dialog) {
                             dialog.dismiss();
-                            mViewModel.RemitCollection(remittance, new VMCollectionRemittance.OnRemitCollectionCallback() {
-                                @Override
-                                public void OnRemit() {
-                                    poDialogx.initDialog("Remit Collection", "Sending your remittance. Please wait...", false);
-                                    poDialogx.show();
-                                }
-
-                                @Override
-                                public void OnSuccess() {
-                                    poDialogx.dismiss();
-                                    poMessage.initDialog();
-                                    poMessage.setTitle("Remit Collection");
-                                    poMessage.setMessage("Your remittance has been sent successfully.");
-                                    poMessage.setPositiveButton("Okay", (view, dialog1) -> dialog1.dismiss());
-                                    poMessage.show();
-                                }
-
-                                @Override
-                                public void OnFailed(String message) {
-                                    poDialogx.dismiss();
-                                    poMessage.initDialog();
-                                    poMessage.setTitle("Remit Collection");
-                                    poMessage.setMessage(message);
-                                    poMessage.setPositiveButton("Okay", (view, dialog1) -> dialog1.dismiss());
-                                    poMessage.show();
-                                }
-                            });
+                            startActivity(new Intent(Activity_LogCollection.this, Activity_CollectionRemittance.class));
+                            finish();
                         }
 
                         @Override
