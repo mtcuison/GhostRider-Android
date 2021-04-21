@@ -153,10 +153,13 @@ public class VMCIResidenceInfo extends AndroidViewModel {
                     loDetail.setLatitude(infoModel.getLatitude());
                     loDetail.setLongitud(infoModel.getLongitud());
                     poCIEvaluation.updateCiResidences(loDetail);
-                    Log.e(TAG, "CI Residence info has been updated!");
                     return "success";
                 }
-            } catch (Exception e){
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                return e.getMessage();
+            }
+            catch (Exception e){
                 e.printStackTrace();
                 return e.getMessage();
             }

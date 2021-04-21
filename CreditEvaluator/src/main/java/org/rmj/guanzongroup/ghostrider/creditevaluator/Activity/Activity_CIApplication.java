@@ -69,7 +69,7 @@ public class Activity_CIApplication extends AppCompatActivity {
         MessageBox loMessage = new MessageBox(Activity_CIApplication.this);
         loMessage.initDialog();
         loMessage.setTitle("CI Evaluation");
-        loMessage.setMessage("Exit ci evaluation?");
+        loMessage.setMessage("Are you sure to exit ci evaluation?");
         loMessage.setPositiveButton("Yes", (view, dialog) -> {
 
             dialog.dismiss();
