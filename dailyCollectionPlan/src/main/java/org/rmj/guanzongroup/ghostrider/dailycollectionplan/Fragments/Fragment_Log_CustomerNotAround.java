@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -64,7 +63,9 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
                     ivTransImage.setOnClickListener(view -> {
                         poDialogx = new DialogDisplayImage(getActivity(),
                                 Activity_TransactionDetail.acctNox, eImageInfo.getFileLoct());
-                        poDialogx.initDialog(Dialog::dismiss);
+                        poDialogx.initDialog(dialog -> {
+                            dialog.dismiss();
+                        });
                         poDialogx.show();
                     });
                 });

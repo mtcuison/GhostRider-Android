@@ -160,7 +160,7 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
         return liveData;
     }
 
-    public void Save(SpouseSelfEmployedInfoModel infoModel, ViewModelCallBack callBack) {
+    public boolean Save(SpouseSelfEmployedInfoModel infoModel, ViewModelCallBack callBack) {
         try {
             infoModel.setsBizIndustry(psBizIndustry.getValue());
             infoModel.setsProvId(psProvID.getValue());
@@ -183,14 +183,17 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
                 poInfo.setSpsBusnx(poGoCas.SpouseMeansInfo().SelfEmployedInfo().toJSONString());
                 poCreditApp.updateGOCasData(poInfo);
                 callBack.onSaveSuccessResult("Success");
+                return true;
             }
             else {
                 callBack.onFailedResult(infoModel.getsMsg());
+                return false;
             }
         }
         catch(Exception e) {
             e.printStackTrace();
             callBack.onFailedResult(e.getMessage());
+            return false;
         }
     }
 
