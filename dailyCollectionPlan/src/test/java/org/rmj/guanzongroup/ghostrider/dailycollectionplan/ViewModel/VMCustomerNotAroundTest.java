@@ -21,7 +21,6 @@ import org.robolectric.annotation.Config;
 
 import java.util.List;
 
-import kotlin.jvm.JvmField;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest=Config.NONE)

@@ -5,11 +5,13 @@ import android.os.Build;
 import androidx.test.core.app.ApplicationProvider;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.CIConstants;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIResidenceInfoModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIResidenceInfo;
@@ -35,7 +37,7 @@ public class Fragment_CIResidenceInfoTest {
     ViewModelCallBack callBack;
     @Before
     public void setUp() throws Exception {
-        TransNox = "C0YNQ2100035";
+        TransNox = "C0YNQ2100036";
         LandMark = "Sample Landmark";
         Ownershp = "0";
         OwnOther = "1";
@@ -55,7 +57,7 @@ public class Fragment_CIResidenceInfoTest {
     public void test_saveCIResisdenceInfo(){
         try {
             mViewModel.setsTransNox(TransNox);
-
+            mViewModel.getCIByTransNox(TransNox).observeForever(observe -> System.out.println(observe.getLandMark()));
             infoModel.setTransNox(TransNox);
             infoModel.setLandMark(LandMark);
             infoModel.setOwnershp(Ownershp);
@@ -64,7 +66,38 @@ public class Fragment_CIResidenceInfoTest {
             infoModel.setGaragexx(Garagexx);
             infoModel.setLatitude(Latitude);
             infoModel.setLongitud(Longitud);
-            System.out.println("TransNox = " + infoModel.getTransNox());
+
+            Assert.assertEquals(LandMark ,infoModel.getLandMark());
+            Assert.assertEquals(Ownershp ,infoModel.getOwnershp());
+            Assert.assertEquals(OwnOther ,infoModel.getOwnOther());
+            Assert.assertEquals(HouseTyp ,infoModel.getHouseTyp());
+            Assert.assertEquals(Garagexx ,infoModel.getGaragexx());
+            Assert.assertEquals(Latitude ,infoModel.getLatitude());
+            Assert.assertEquals(Longitud ,infoModel.getLongitud());
+
+            System.out.println("TransNox = " + TransNox + ", infoModel value = " + infoModel.getTransNox());
+            for (int x = 0; x < CIConstants.HOUSE_OWNERSHIP.length; x++){
+                if (x == Integer.parseInt(Ownershp)){
+                    System.out.println("Ownershp = " + CIConstants.HOUSE_OWNERSHIP[x] + ", infoModel value = " + infoModel.getOwnershp());
+                }
+            }
+            for (int x = 0;x < CIConstants.HOUSEHOLDS.length; x++){
+                if (x == Integer.parseInt(OwnOther)){
+                    System.out.println("OwnOther = " + CIConstants.HOUSEHOLDS[x] + ", infoModel value = " + infoModel.getOwnOther());
+                }
+            }
+            for (int x = 0;x < CIConstants.HOUSE_TYPE.length; x++){
+                if (x == Integer.parseInt(HouseTyp)){
+                    System.out.println("HouseTyp = " + CIConstants.HOUSE_TYPE[x] + ", infoModel value = " + infoModel.getHouseTyp());
+                }
+            }
+            for (int x = 0;x < CIConstants.GARAGEXX.length; x++){
+                if (x == Integer.parseInt(Garagexx)){
+                    System.out.println("Has Garage = " + CIConstants.GARAGEXX[x] + ", infoModel value = " + infoModel.getGaragexx());
+                }
+            }
+            System.out.println("Latitude = " + Latitude + ", infoModel value = " + infoModel.getLatitude());
+            System.out.println("Longitud = " + Longitud + ", infoModel value = " + infoModel.getLongitud());
             assertTrue(mViewModel.saveCIResidence(infoModel,callBack));
         }catch (NullPointerException e){
             e.printStackTrace();

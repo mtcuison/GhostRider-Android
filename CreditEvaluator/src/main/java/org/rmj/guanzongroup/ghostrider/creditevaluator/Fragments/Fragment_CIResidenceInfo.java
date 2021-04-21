@@ -79,7 +79,6 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
         mViewModel.setsTransNox(Activity_CIApplication.getInstance().getTransNox());
         mViewModel.setnLatitude("0.0");
         mViewModel.setnLogitude("0.0");
-        Log.e(TAG,Activity_CIApplication.getInstance().getTransNox());
         mViewModel.getCIByTransNox(Activity_CIApplication.getInstance().getTransNox()).observe(getViewLifecycleOwner(), eciEvaluation -> {
             rgHouseOwnership.clearCheck();
             rgHouseHolds.clearCheck();
@@ -210,6 +209,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
     @SuppressLint("RestrictedApi")
     @Override
     public void onSaveSuccessResult(String args) {
+        Log.e(TAG, args);
         Activity_CIApplication.getInstance().moveToPageNumber(1);
     }
 
