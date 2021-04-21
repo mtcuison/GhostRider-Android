@@ -257,8 +257,12 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
         return poJobRepo.getAllOccupationInfo();
     }
 
-    public void setJobTitle(String ID){
+    public boolean setJobTitle(String ID){
         this.psJobTitle.setValue(ID);
+        if(!this.psJobTitle.getValue().equalsIgnoreCase(ID)) {
+            return false;
+        }
+        return true;
     }
 
     public LiveData<ArrayAdapter<String>> getEmploymentStatus(){
@@ -268,8 +272,12 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
         return liveData;
     }
 
-    public void setEmploymentStatus(String status){
+    public boolean setEmploymentStatus(String status){
         this.psEmpStat.setValue(status);
+        if(!this.psEmpStat.getValue().equalsIgnoreCase(status)) {
+            return false;
+        }
+        return true;
     }
 
     public LiveData<ArrayAdapter<String>> getLengthOfService(){
@@ -279,7 +287,7 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
         return liveData;
     }
 
-    public void Save(SpouseEmploymentInfoModel infoModel, ViewModelCallBack callBack){
+    public boolean Save(SpouseEmploymentInfoModel infoModel, ViewModelCallBack callBack){
         try{
             infoModel.setSector(psSector.getValue());
             infoModel.setUniformedPersonnel(psUniform.getValue());
@@ -321,12 +329,15 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
                 Log.e(TAG, poGoCas.SpouseMeansInfo().EmployedInfo().toJSONString());
                 Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
                 callBack.onSaveSuccessResult("Success");
+                return true;
             } else {
                 callBack.onFailedResult(infoModel.getMessage());
+                return false;
             }
         } catch (Exception e){
             e.printStackTrace();
             callBack.onFailedResult(e.getMessage());
+            return false;
         }
     }
 

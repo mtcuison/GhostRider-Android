@@ -4,16 +4,24 @@ import android.os.Build;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SpouseEmploymentInfoModel;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.TestConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpouseEmploymentInfo;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.FAKE_CODE;
+import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.FAKE_COMPANY;
+import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.FAKE_STRING;
+import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.FAKE_STRING_AMOUNT;
+import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.STRING_ONE;
+import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.STRING_TWO;
+import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.STRING_ZERO;
 import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.displayArrayAdapterItem;
 import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.displayValue;
 
@@ -22,7 +30,8 @@ import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.display
 public class Fragment_SpouseEmploymentInfoTest extends TestCase {
     private VMSpouseEmploymentInfo mViewModel;
     private SpouseEmploymentInfoModel infoModel;
-    private boolean cTransNox, cSectorxx, isUniform, isMlitary, cProvIdxx, cTownIdxx, cCountryx;
+    private boolean cTransNox, cSectorxx, isUniform, isMlitary, cProvIdxx, cTownIdxx, cCountryx,
+    cJobTitle, cEmpStatx;
 
     @Before
     public void setUp() {
@@ -41,6 +50,8 @@ public class Fragment_SpouseEmploymentInfoTest extends TestCase {
         cProvIdxx = mViewModel.setProvinceID(FAKE_CODE);
         cTownIdxx = mViewModel.setTownID(FAKE_CODE);
         cCountryx = mViewModel.setCountry(FAKE_CODE);
+        cJobTitle = mViewModel.setJobTitle(STRING_TWO);
+        cEmpStatx = mViewModel.setEmploymentStatus(FAKE_STRING);
     }
 
     @Test
@@ -158,5 +169,126 @@ public class Fragment_SpouseEmploymentInfoTest extends TestCase {
         assertTrue(cCountryx);
     }
 
+    @Test
+    public void test_setJobTitle() {
+        assertTrue(cJobTitle);
+    }
+
+    @Test
+    public void test_getEmploymentStatus() {
+        mViewModel.getEmploymentStatus().observeForever(stringArrayAdapter -> {
+            assertNotNull(stringArrayAdapter);
+            displayArrayAdapterItem(stringArrayAdapter, "Employment Status");
+        });
+    }
+
+    @Test
+    public void test_setEmploymentStatus() {
+        assertTrue(cEmpStatx);
+    }
+
+    @Test
+    public void test_getLengthOfService() {
+        mViewModel.getLengthOfService().observeForever(stringArrayAdapter -> {
+            assertNotNull(stringArrayAdapter);
+            displayArrayAdapterItem(stringArrayAdapter, "Length of Service");
+        });
+    }
+
+    @Test
+    public void test_Save_PrivateEmp() {
+        setPrivateEmployment();
+        assertTrue(mViewModel.Save(infoModel, new ViewModelCallBack() {
+            @Override
+            public void onSaveSuccessResult(String args) {
+                System.out.println(args);
+            }
+
+            @Override
+            public void onFailedResult(String message) {
+                System.out.println(message);
+            }
+        }));
+    }
+
+    @Test
+    public void test_Save_GovernmentEmp() {
+        setGovEmployment();
+        assertTrue(mViewModel.Save(infoModel, new ViewModelCallBack() {
+            @Override
+            public void onSaveSuccessResult(String args) {
+                System.out.println(args);
+            }
+
+            @Override
+            public void onFailedResult(String message) {
+                System.out.println(message);
+            }
+        }));
+    }
+
+    @Test
+    public void test_Save_OfwEmp() {
+        setOfwEmployment();
+        assertTrue(mViewModel.Save(infoModel, new ViewModelCallBack() {
+            @Override
+            public void onSaveSuccessResult(String args) {
+                System.out.println(args);
+            }
+
+            @Override
+            public void onFailedResult(String message) {
+                System.out.println(message);
+            }
+        }));
+    }
+
+    @After
+    public void tearDown() {
+        mViewModel = null;
+        infoModel = null;
+    }
+
+    private void setPrivateEmployment() {
+        infoModel.setSector(STRING_ONE);
+        infoModel.setCompanyLvl(STRING_TWO);
+        infoModel.setEmployeeLvl(STRING_ONE);
+        infoModel.setBizIndustry(STRING_TWO);
+        infoModel.setCompanyName(FAKE_COMPANY);
+        infoModel.setCompAddress(FAKE_STRING);
+        infoModel.setCompTown(FAKE_CODE);
+        infoModel.setJobTitle(STRING_TWO);
+        infoModel.setJobSpecific(FAKE_STRING);
+        infoModel.setEmploymentStat(STRING_ONE);
+        infoModel.setLengthOfService(STRING_TWO);
+        infoModel.setGrossMonthly(FAKE_STRING_AMOUNT);
+    }
+
+    private void setGovEmployment() {
+        infoModel.setSector(STRING_ZERO);
+        infoModel.setUniformedPersonnel(STRING_ZERO);
+        infoModel.setMilitaryPersonnel(STRING_ONE);
+        infoModel.setCompanyLvl(STRING_TWO);
+        infoModel.setEmployeeLvl(STRING_ONE);
+        infoModel.setBizIndustry(STRING_TWO);
+        infoModel.setCompanyName(FAKE_COMPANY);
+        infoModel.setCompAddress(FAKE_STRING);
+        infoModel.setCompTown(FAKE_CODE);
+        infoModel.setJobTitle(STRING_TWO);
+        infoModel.setJobSpecific(FAKE_STRING);
+        infoModel.setEmploymentStat(STRING_ONE);
+        infoModel.setLengthOfService(STRING_TWO);
+        infoModel.setGrossMonthly(FAKE_STRING_AMOUNT);
+    }
+
+    private void setOfwEmployment() {
+        infoModel.setSector(STRING_TWO);
+        infoModel.setCompanyLvl(STRING_TWO);
+        infoModel.setEmployeeLvl(STRING_ONE);
+        infoModel.setCountry(STRING_TWO);
+        infoModel.setLengthOfService(STRING_TWO);
+        infoModel.setMonthOrYear(STRING_ZERO);
+        infoModel.setGrossMonthly(FAKE_STRING_AMOUNT);
+    }
 
 }
