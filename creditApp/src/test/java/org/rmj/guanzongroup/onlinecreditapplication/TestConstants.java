@@ -60,6 +60,10 @@ public class TestConstants {
         return loCredit;
     }
 
+    public static void displayValue(String fsLabel, String fsValue) {
+        System.out.println(fsLabel + ": " + fsValue);
+    }
+
     public static void displayArrayAdapterItem(ArrayAdapter<String> fsAdapter, String fsType) {
         System.out.println("\n" + fsType.toUpperCase() + " ITEMS");
         for(int x = 0; x < fsAdapter.getCount(); x++) {

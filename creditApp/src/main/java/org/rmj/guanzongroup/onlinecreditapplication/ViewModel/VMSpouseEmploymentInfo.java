@@ -142,12 +142,20 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
         return this.psService;
     }
 
-    public void setUniformPersonnel(String isUniform){
+    public boolean setUniformPersonnel(String isUniform){
         this.psUniform.setValue(isUniform);
+        if(!this.psUniform.getValue().equalsIgnoreCase(isUniform)) {
+            return false;
+        }
+        return true;
     }
 
-    public void setMilitaryPersonnel(String isMilitary){
+    public boolean setMilitaryPersonnel(String isMilitary){
         this.psMilitary.setValue(isMilitary);
+        if(!this.psMilitary.getValue().equalsIgnoreCase(isMilitary)) {
+            return false;
+        }
+        return true;
     }
 
     public LiveData<ArrayAdapter<String>> getCompanyLevelList(){
@@ -201,8 +209,12 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
         return poProvRepo.getAllProvinceInfo();
     }
 
-    public void setProvinceID(String ID){
+    public boolean setProvinceID(String ID){
         this.psProvID.setValue(ID);
+        if(!this.psProvID.getValue().equalsIgnoreCase(ID)) {
+            return false;
+        }
+        return true;
     }
 
     public LiveData<String[]> getTownNameList(){
@@ -213,8 +225,12 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
         return poTownRepo.getTownInfoFromProvince(psProvID.getValue());
     }
 
-    public void setTownID(String ID){
+    public boolean setTownID(String ID){
         this.psTownID.setValue(ID);
+        if(!this.psTownID.getValue().equalsIgnoreCase(ID)) {
+            return false;
+        }
+        return true;
     }
 
     public LiveData<String[]> getCountryNameList(){
@@ -225,8 +241,12 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
         return poCountry.getAllCountryInfo();
     }
 
-    public void setCountry(String ID){
+    public boolean setCountry(String ID){
         this.psCountry.setValue(ID);
+        if(!this.psCountry.getValue().equalsIgnoreCase(ID)) {
+            return false;
+        }
+        return true;
     }
 
     public LiveData<String[]> getJobTitleNameList(){
