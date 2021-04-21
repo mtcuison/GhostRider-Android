@@ -5,6 +5,7 @@ import android.os.Build;
 import androidx.test.core.app.ApplicationProvider;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,6 +66,20 @@ public class Fragment_CIDisbursementInfoTest {
             infoModel.setCiDbmLoans(ciDbmLoans);
             infoModel.setCiDbmOthers(ciDbmOthers);
             infoModel.setCiDbmEducation(ciDbmEducation);
+
+            Assert.assertEquals(ciDbmWater ,infoModel.getCiDbmWater());
+            Assert.assertEquals(ciDbmElectricity ,infoModel.getCiDbmElectricity());
+            Assert.assertEquals(ciDbmFood ,infoModel.getCiDbmFood());
+            Assert.assertEquals(ciDbmLoans ,infoModel.getCiDbmLoans());
+            Assert.assertEquals(ciDbmOthers ,infoModel.getCiDbmOthers());
+            Assert.assertEquals(ciDbmEducation ,infoModel.getCiDbmEducation());
+
+            System.out.print("\nciDbmWater : " +infoModel.getCiDbmWater() + "\n");
+            System.out.print("ciDbmElectricity : " +infoModel.getCiDbmElectricity() + "\n");
+            System.out.print("ciDbmFood : " +infoModel.getCiDbmFood() + "\n");
+            System.out.print("ciDbmLoans : " +infoModel.getCiDbmLoans() + "\n");
+            System.out.print("ciDbmOthers : " +infoModel.getCiDbmOthers() + "\n");
+            System.out.print("ciDbmEducation : " +infoModel.getCiDbmEducation() + "\n");
             assertTrue(mViewModel.saveCIDisbursement(infoModel,callBack));
         }catch (NullPointerException e){
             e.printStackTrace();

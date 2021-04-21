@@ -61,11 +61,10 @@ public class CIBarangayRecordInfoModel {
         return true;
     }
     private boolean isFeedBck1(){
-        if (FeedBck1 == null || FeedBck1.trim().isEmpty()){
+        if (this.FeedBck1 == null || this.FeedBck1.trim().isEmpty()){
             message = "Please select neighbor 1 feedback.";
-            return false;
         }else {
-            if(Integer.parseInt(FeedBck1) == 1){
+            if(Integer.parseInt(this.FeedBck1) == 1){
                 return isFBRemrk1();
             }
         }
@@ -108,12 +107,12 @@ public class CIBarangayRecordInfoModel {
         return true;
     }
     private boolean isFeedBck2(){
-        if (FeedBck2 == null || FeedBck2.trim().isEmpty()){
+        if (this.FeedBck2 == null || this.FeedBck2.trim().isEmpty()){
             message = "Please select neighbor 2 feedback.";
-            return false;
-        }
-        if(this.FeedBck2.equalsIgnoreCase("1")){
-            return isFBRemrk2();
+        }else {
+            if(Integer.parseInt(this.FeedBck2) == 1){
+                return isFBRemrk2();
+            }
         }
         return true;
     }
@@ -158,7 +157,6 @@ public class CIBarangayRecordInfoModel {
     private boolean isFeedBck3(){
         if (this.FeedBck3 == null || this.FeedBck3.trim().isEmpty()){
             message = "Please select neighbor 3 feedback.";
-            return false;
         }else {
             if(Integer.parseInt(this.FeedBck3) == 1){
                 return isFBRemrk3();
