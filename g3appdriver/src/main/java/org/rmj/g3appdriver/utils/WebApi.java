@@ -180,4 +180,5 @@ public class WebApi {
     public static String URL_BRANCH_LOAN_APP = "https://restgk.guanzongroup.com.ph/integsys/param/download_credit_online_application_list.php";
     public static String URL_DCP_REMITTANCE = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_remit.php";
     public static String URL_DCP_LOCATION_REPORT = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_remit.php";
+    public static String URL_BRANCH_REMITTANCE_ACC = "https://restgk.guanzongroup.com.ph/integsys/param/download_branch_bank_account.php";
 }

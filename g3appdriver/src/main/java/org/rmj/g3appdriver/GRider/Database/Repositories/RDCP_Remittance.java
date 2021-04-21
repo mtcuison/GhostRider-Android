@@ -68,6 +68,14 @@ public class RDCP_Remittance {
         return remitDao.getTotalOtherRemittedCollection(dTransact);
     }
 
+    public LiveData<String> getTotalCollectedCash(String dTransact){
+        return remitDao.getTotalCollectedCash(dTransact);
+    }
+
+    public LiveData<String> getTotalCollectedCheck(String dTransact){
+        return remitDao.getTotalCollectedCheck(dTransact);
+    }
+
     public LiveData<String> getCheckOnHand(String dTransact){
         return remitDao.getCheckOnHand(dTransact);
     }

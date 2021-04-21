@@ -66,13 +66,11 @@
     <string name="sHintRetireYear">Retirement Year</string>
     <string name="sHintNatureIncm">Nature of Income</string>
     <string name="sLabelOtherSrcIncm">Other Source of Income</string>
-    <string name="sLabelBankAcc">Bank Account</string>
     <string name="sLabelCreditCard">Credit Card Account</string>
     <string name="sHintElectric">Electricity</string>
     <string name="sHintFood">Food</string>
     <string name="sHintWater">Water</string>
     <string name="sHintLoan">Loan</string>
-    <string name="sHintBankNme">Name of Bank</string>
     <string name="sHintAmountLmt">Amount Limit</string>
     <string name="sHintUseLenght">Length of Use</string>
     <string name="sBtnAddDependent">Add Dependent</string>

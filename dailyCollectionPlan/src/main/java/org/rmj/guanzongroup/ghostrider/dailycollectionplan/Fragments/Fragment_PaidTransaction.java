@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Editable;
@@ -7,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -43,7 +45,10 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
     private Spinner spnType;
     private TextInputEditText txtPrNoxx, txtRemarks, txtAmount, txtDiscount, txtOthers, txtTotAmnt;
+    private Button btnAmort, btnRBlnce, btnClear;
     private MaterialButton btnConfirm;
+
+    private String psMonthAmt, psRBalance;
 
     public static Fragment_PaidTransaction newInstance() {
         return new Fragment_PaidTransaction();
@@ -76,6 +81,9 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         txtOthers = v.findViewById(R.id.txt_dcpOthers);
         txtTotAmnt = v.findViewById(R.id.txt_dcpTotAmount);
         btnConfirm = v.findViewById(R.id.btn_confirm);
+        btnAmort = v.findViewById(R.id.btn_amortization);
+        btnRBlnce = v.findViewById(R.id.btn_remainbalance);
+        btnClear = v.findViewById(R.id.btn_clearText);
 
         txtAmount.addTextChangedListener(new OnAmountEnterTextWatcher(txtAmount));
         txtDiscount.addTextChangedListener(new OnAmountEnterTextWatcher(txtDiscount));
@@ -83,6 +91,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         txtTotAmnt.addTextChangedListener(new FormatUIText.CurrencyFormat(txtTotAmnt));
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -97,6 +106,10 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                 lblClientNm.setText(collectionDetail.getFullName());
                 lblTransNo.setText(collectionDetail.getTransNox());
                 mViewModel.setCurrentCollectionDetail(collectionDetail);
+                psMonthAmt = collectionDetail.getMonAmort();
+                psRBalance = collectionDetail.getABalance();
+                btnAmort.setText("Amortization : " + FormatUIText.getCurrencyUIFormat(collectionDetail.getMonAmort()));
+                btnRBlnce.setText("Remaining Balance : " + FormatUIText.getCurrencyUIFormat(collectionDetail.getABalance()));
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -111,6 +124,8 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
             spnType.setAdapter(stringArrayAdapter);
             spnType.setSelection(1);
         });
+
+
         mViewModel.getTotalAmount().observe(getViewLifecycleOwner(), aFloat -> txtTotAmnt.setText(String.valueOf(aFloat)));
 
         cbCheckPymnt.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -144,6 +159,12 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                 });
             }
         });
+
+        btnAmort.setOnClickListener(v -> txtAmount.setText(psMonthAmt));
+
+        btnRBlnce.setOnClickListener(v -> txtAmount.setText(psRBalance));
+
+        btnClear.setOnClickListener(v -> txtAmount.setText(""));
 
         btnConfirm.setOnClickListener(view -> {
             infoModel.setRemarksCode(Remarksx);
