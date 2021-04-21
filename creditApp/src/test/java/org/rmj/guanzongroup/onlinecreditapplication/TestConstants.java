@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication;
 
 import android.app.Application;
+import android.widget.ArrayAdapter;
 
 import androidx.test.core.app.ApplicationProvider;
 
@@ -57,6 +58,14 @@ public class TestConstants {
         loCredit.setDownPaym(FAKE_DBLE_AMOUNT);
         loCredit.setTranStat(STRING_ZERO);
         return loCredit;
+    }
+
+    public static void displayArrayAdapterItem(ArrayAdapter<String> fsAdapter, String fsType) {
+        System.out.println("\n" + fsType.toUpperCase() + " ITEMS");
+        for(int x = 0; x < fsAdapter.getCount(); x++) {
+            final int lnItemNox = x+1;
+            System.out.println(fsType + " Item " + lnItemNox + ": " + fsAdapter.getItem(x));
+        }
     }
 
 }

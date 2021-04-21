@@ -17,6 +17,8 @@ import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMSpouseSelfEmploy
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.displayArrayAdapterItem;
+
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest = Config.NONE)
 public class Fragment_SpouseSelfEmployedInfoTest extends TestCase {
@@ -124,14 +126,6 @@ public class Fragment_SpouseSelfEmployedInfoTest extends TestCase {
                 System.out.println(message);
             }
         }));
-    }
-
-    private void displayArrayAdapterItem(ArrayAdapter<String> fsAdapter, String fsType) {
-        System.out.println("\n" + fsType.toUpperCase() + " ITEMS");
-        for(int x = 0; x < fsAdapter.getCount(); x++) {
-            final int lnItemNox = x+1;
-            System.out.println(fsType + " Item " + lnItemNox + ": " + fsAdapter.getItem(x));
-        }
     }
 
 }
