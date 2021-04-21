@@ -18,6 +18,7 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIAppli
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIBarangayRecordInfoModel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +89,7 @@ public class VMCIBarangayRecords extends AndroidViewModel {
         void onSuccessNeighbor(String args);
         void onFailedNeighbor(String message);
     }
-// Set field value after fetching from local database
+    // Set field value after fetching from local database
     public void setCurrentCIDetail(ECIEvaluation detail){
         try {
             if(detail.getReltnCD1() != null){
@@ -196,57 +197,61 @@ public class VMCIBarangayRecords extends AndroidViewModel {
         protected String doInBackground(ECIEvaluation... detail) {
             try {
 
-                    if(btnText.equalsIgnoreCase("Neighbor1")){
-                        if (!infoModel.isValidNeigbor1()) {
-                            return infoModel.getMessage();
-                        } else {
-                            ECIEvaluation loDetail = detail[0];
-                            loDetail.setNeighbr1(infoModel.getNeighbr1());
-                            loDetail.setReltnCD1(infoModel.getReltnCD1());
-                            loDetail.setFeedBck1(infoModel.getFeedBck1());
-                            loDetail.setFBRemrk1(infoModel.getFBRemrk1());
-                            loDetail.setMobileN1(infoModel.getMobileN1());
-                            poCIEvaluation.updateCiNeighbor1(loDetail);
-                        }
-                    }else if(btnText.equalsIgnoreCase("Neighbor2")){
-                        if (!infoModel.isValidNeigbor2()) {
-                            return infoModel.getMessage();
-                        } else {
-                            ECIEvaluation loDetail = detail[0];
-                            loDetail.setNeighbr2(infoModel.getNeighbr2());
-                            loDetail.setReltnCD2(infoModel.getReltnCD2());
-                            loDetail.setFeedBck2(infoModel.getFeedBck2());
-                            loDetail.setFBRemrk2(infoModel.getFBRemrk2());
-                            loDetail.setMobileN2(infoModel.getMobileN2());
-                            poCIEvaluation.updateCiNeighbor2(loDetail);
-                        }
-                    }else if(btnText.equalsIgnoreCase("Neighbor3")){
-                        if (!infoModel.isValidNeigbor3()) {
-                            return infoModel.getMessage();
-                            } else {
-                            ECIEvaluation loDetail = detail[0];
-                            loDetail.setNeighbr3(infoModel.getNeighbr3());
-                            loDetail.setReltnCD3(infoModel.getReltnCD3());
-                            loDetail.setFeedBck3(infoModel.getFeedBck3());
-                            loDetail.setFBRemrk3(infoModel.getFBRemrk3());
-                            loDetail.setMobileN3(infoModel.getMobileN3());
-                            poCIEvaluation.updateCiNeighbor3(loDetail);
-                        }
-                    }else {
-                        if (!infoModel.isValidNeighbor()) {
-                            return infoModel.getMessage();
-                        }else{
-                            ECIEvaluation loDetail = detail[0];
-                            Log.e("Has record",infoModel.getHasRecrd());
-                            Log.e("Rem record",infoModel.getRemRecrd());
-                            loDetail.setRemRecrd(infoModel.getRemRecrd());
-                            loDetail.setHasRecrd(infoModel.getHasRecrd());
-                            poCIEvaluation.updateCiNeighbor(loDetail);
-                        }
+                if(btnText.equalsIgnoreCase("Neighbor1")){
+                    if (!infoModel.isValidNeigbor1()) {
+                        return infoModel.getMessage();
+                    } else {
+                        ECIEvaluation loDetail = detail[0];
+                        loDetail.setNeighbr1(infoModel.getNeighbr1());
+                        loDetail.setReltnCD1(infoModel.getReltnCD1());
+                        loDetail.setFeedBck1(infoModel.getFeedBck1());
+                        loDetail.setFBRemrk1(infoModel.getFBRemrk1());
+                        loDetail.setMobileN1(infoModel.getMobileN1());
+                        poCIEvaluation.updateCiNeighbor1(loDetail);
                     }
-                    return "success";
+                }else if(btnText.equalsIgnoreCase("Neighbor2")){
+                    if (!infoModel.isValidNeigbor2()) {
+                        return infoModel.getMessage();
+                    } else {
+                        ECIEvaluation loDetail = detail[0];
+                        loDetail.setNeighbr2(infoModel.getNeighbr2());
+                        loDetail.setReltnCD2(infoModel.getReltnCD2());
+                        loDetail.setFeedBck2(infoModel.getFeedBck2());
+                        loDetail.setFBRemrk2(infoModel.getFBRemrk2());
+                        loDetail.setMobileN2(infoModel.getMobileN2());
+                        poCIEvaluation.updateCiNeighbor2(loDetail);
+                    }
+                }else if(btnText.equalsIgnoreCase("Neighbor3")){
+                    if (!infoModel.isValidNeigbor3()) {
+                        return infoModel.getMessage();
+                    } else {
+                        ECIEvaluation loDetail = detail[0];
+                        loDetail.setNeighbr3(infoModel.getNeighbr3());
+                        loDetail.setReltnCD3(infoModel.getReltnCD3());
+                        loDetail.setFeedBck3(infoModel.getFeedBck3());
+                        loDetail.setFBRemrk3(infoModel.getFBRemrk3());
+                        loDetail.setMobileN3(infoModel.getMobileN3());
+                        poCIEvaluation.updateCiNeighbor3(loDetail);
+                    }
+                }else {
 
-            } catch (Exception e){
+                    if (!infoModel.isValidNeighbor()) {
+                        return infoModel.getMessage();
+                    }else{
+                        ECIEvaluation loDetail = detail[0];
+                        Log.e("Has record",infoModel.getHasRecrd());
+                        Log.e("Rem record",infoModel.getRemRecrd());
+                        loDetail.setRemRecrd(infoModel.getRemRecrd());
+                        loDetail.setHasRecrd(infoModel.getHasRecrd());
+                        poCIEvaluation.updateCiNeighbor(loDetail);
+                    }
+                }
+                return "success";
+
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                return e.getMessage();
+            }catch (Exception e){
                 e.printStackTrace();
                 return e.getMessage();
             }
@@ -278,7 +283,7 @@ public class VMCIBarangayRecords extends AndroidViewModel {
     }
 
     public LiveData<String> getsFBRemark1() {
-       
+
         return this.sFBRemark1;
     }
 

@@ -19,6 +19,9 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_T
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.List;
+
+
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest=Config.NONE)
 public class VMCustomerNotAroundTest extends TestCase {

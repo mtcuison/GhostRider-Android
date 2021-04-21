@@ -165,7 +165,6 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                                     poMessage.setMessage(message);
                                     poMessage.setPositiveButton("Okay", (view, dialog) -> {
                                         dialog.dismiss();
-                                        finish();
                                     });
                                     poMessage.show();
                                     //GNotifBuilder.createNotification(Activity_ApplicationHistory.this, "Applicant Photo", message,APP_SYNC_DATA).show();

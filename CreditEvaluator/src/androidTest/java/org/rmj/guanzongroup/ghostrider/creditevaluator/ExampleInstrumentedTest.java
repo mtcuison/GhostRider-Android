@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("org.rmj.guanzongroup.ghostrider.creditevaluator.test", appContext.getPackageName());
+        assertEquals("org.rmj.guanzongroup.ghostrider.creditevaluator.androidTest", appContext.getPackageName());
     }
 }
