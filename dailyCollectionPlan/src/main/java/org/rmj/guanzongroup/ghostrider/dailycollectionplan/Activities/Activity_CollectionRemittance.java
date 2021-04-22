@@ -21,6 +21,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
@@ -38,7 +39,15 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
     private EDCP_Remittance poRemit;
 
     private Toolbar toolbar;
-    private TextView lblBranch, lblAddrss;
+    private TextView lblBranch,
+            lblAddrss,
+            lblCltdCash,
+            lblCltdChck,
+            lblRmtBrnch,
+            lblRmtBankx,
+            lblRmtOther,
+            lblOHCashxx,
+            lblOHCheckx;
     private AutoCompleteTextView txtBranch, txtAccNox;
     private TextInputEditText txtAmount, txtAccName, txtRefNox;
     private LinearLayout linearBrnch, linearBank;
@@ -86,6 +95,48 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                 poRemit.setBankAcct(eBranchInfo.getBranchCd());
                 poRemit.setPaymForm("0");
                 poRemit.setRemitTyp("0");
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getTotalCollectedCash().observe(this, s -> {
+            try {
+                lblCltdCash.setText("Total Collected Cash : " + FormatUIText.getCurrencyUIFormat(s));
+                mViewModel.Calculate_COH_Remitted(result -> lblOHCashxx.setText("Cash-On-Hand : " + FormatUIText.getCurrencyUIFormat(result)));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getTotalCollectedCheck().observe(this, s -> {
+            try {
+                lblCltdChck.setText("Total Collected Check : " + FormatUIText.getCurrencyUIFormat(s));
+                mViewModel.Calculate_Check_Remitted(result -> lblOHCheckx.setText("Check-On-Hand : " + FormatUIText.getCurrencyUIFormat(result)));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getTotalBranchRemittedCollection().observe(this, s -> {
+            try {
+                lblRmtBrnch.setText("Remitted on Branch : " + FormatUIText.getCurrencyUIFormat(s));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getTotalBankRemittedCollection().observe(this, s -> {
+            try {
+                lblRmtBankx.setText("Remitted on Bank : " + FormatUIText.getCurrencyUIFormat(s));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getTotalOtherRemittedCollection().observe(this, s -> {
+            try {
+                lblRmtOther.setText("Remitted on Payment Partner : " + FormatUIText.getCurrencyUIFormat(s));
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -308,6 +359,13 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
         tilRefNox = findViewById(R.id.til_remitReferenceNo);
         linearBrnch = findViewById(R.id.linear_remitBranch);
         linearBank = findViewById(R.id.linear_remitBankOthers);
+        lblCltdCash = findViewById(R.id.lbl_collectedCash);
+        lblCltdChck = findViewById(R.id.lbl_collectedCheck);
+        lblRmtBrnch = findViewById(R.id.lbl_remittanceBranch);
+        lblRmtBankx = findViewById(R.id.lbl_remittanceBank);
+        lblRmtOther = findViewById(R.id.lbl_remittanceOthers);
+        lblOHCashxx = findViewById(R.id.lbl_remittanceCash);
+        lblOHCheckx = findViewById(R.id.lbl_remittanceCheck);
         btnRemitAll = findViewById(R.id.btn_remitAll);
         btnRemit = findViewById(R.id.btn_confirm);
 
