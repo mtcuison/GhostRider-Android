@@ -24,7 +24,16 @@ public class CreditEvaluationModelTest {
     }
     @Test
     public void getFAKEDATA() throws JSONException, ParseException {
-
+        String str = "[{\"No\":\"17\",\"Name\":\"Andrew\"},{\"No\":\"18\",\"Name\":\"Peter\"}, {\"No\":\"19\",\"Name\":\"Tom\"}]";
+        JSONArray array = new JSONArray();
+        JSONObject json = new JSONObject(str);
+        System.out.println("json" +array.toString());
+        for(int i=0; i < array.length(); i++)
+        {
+            JSONObject object = array.getJSONObject(i);
+            System.out.println(object.getString("No"));
+            System.out.println(object.getString("Name"));
+        }
         List<CreditEvaluationModel> infoList = new ArrayList<>();
         String FAKE_DATA = "[{\"cTranStat\": \"1\",\"dTimeStmp\": \"2021-03-24 14:34:03\",\"dTransact\": \"2021-03-24\",\"nAcctTerm\": \"6\",\"nDownPaym\": \"200.00\",\"sAddressx\": \"156 Ambuetel, Ambuetel, Calasiao\",\"sCompnyNm\": \"Soriano, Reynaldo Uson\",\"sCredInvx\": \"M00115000623\",\"sMobileNo\": \"09095651819\",\"sModelNme\": \"TMX 125 ALPHA - CCG125MII\",\"sQMAppCde\": \"empty\",\"sSpouseNm\": \"Soriano, Rosita Sanchez\",\"sTransNox\": \"C0YNQ2100036\"}, "+
                 "{\"cTranStat\": \"1\",\"dTimeStmp\": \"2021-03-25 11:22:53\",\"dTransact\": \"2021-03-25\",\"nAcctTerm\": \"6\",\"nDownPaym\": \"200.00\",\"sAddressx\": \"156 Dinalaoan, Dinalaoan, Calasiao\", \"sCompnyNm\": \"Soriano, Reynaldo Uson\",\"sCredInvx\": \"M00115000623\",\"sMobileNo\": \"09095651819\",\"sModelNme\": \"TMX 125 ALPHA - CCG125MII\",\"sQMAppCde\": \"empty\",\"sSpouseNm\": \"Soriano, Rosita Sanchez\",\"sTransNox\": \"C0YNQ2100037\"}, "+
@@ -36,8 +45,6 @@ public class CreditEvaluationModelTest {
                 "{\"cTranStat\": \"1\", \"dTimeStmp\": \"2021-04-15 09:48:14\", \"dTransact\": \"2021-04-15\", \"nAcctTerm\": \"6\", \"nDownPaym\": \"200.00\", \"sAddressx\": \"349 Puelay, Caranglaan, Dagupan City\", \"sCompnyNm\": \"Dela Cruz, Ricardo Jr. Mariñas\", \"sCredInvx\": \"M00115000623\", \"sMobileNo\": \"09433933345\", \"sModelNme\": \"CLICK 150 I - ACB150CBTL\", \"sQMAppCde\": \"empty\", \"sSpouseNm\": \"Dela Cruz, Faye Colobong\",\"sTransNox\": \"C0YNQ2100045\"},"+
                 "{\"cTranStat\": \"1\",\"dTimeStmp\": \"2021-04-17 14:31:30\",\"dTransact\": \"2021-04-17\",\"nAcctTerm\": \"6\",\"nDownPaym\": \"200.00\",\"sAddressx\": \"45 Ayusip St., Bonuan Boquig, Dagupan City\",\"sCompnyNm\": \"Leal, Gerald Pablo\",\"sCredInvx\": \"M00115000623\",\"sMobileNo\": \"09677655976\",\"sModelNme\": \"Click 125i - ACB125CBFL\", \"sQMAppCde\": \"empty\",\"sSpouseNm\": \"Leal, Jean Gonzales\",\"sTransNox\": \"C0YNQ2100046\"},"+
                 "{\"cTranStat\": \"1\",\"dTimeStmp\": \"2021-04-20 13:22:57\",\"dTransact\": \"2021-04-20\",\"nAcctTerm\": \"6\",\"nDownPaym\": \"200.00\",\"sAddressx\": \"65 Kanit Lucao, Lucao, Dagupan City\",\"sCompnyNm\": \"Muyalde, Perfecto Jr. Calimlim\",\"sCredInvx\": \"M00115000623\",\"sMobileNo\": \"09187588288\",\"sModelNme\": \"CLICK125i - ACB125CBFM\",\"sQMAppCde\": \"empty\",\"sSpouseNm\": \"Ortequiro, Sharlyn Genovania\",\"sTransNox\": \"C0YNQ2100047\"}]";
-//        Gson g = new Gson();
-//        CreditEvaluationModel s = g.fromJson(FAKE_DATA, CreditEvaluationModel.class);
 
         JSONArray jsonArray = new JSONArray(FAKE_DATA);
         for (int i=0;i<jsonArray.length();i++){
