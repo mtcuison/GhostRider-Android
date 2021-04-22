@@ -62,8 +62,12 @@ public class VMSpouseInfo extends AndroidViewModel {
     }
 
     // Set TransNox to be saved in applicant info entity
-    public void setTransNox(String fsTransNox){
+    public boolean setTransNox(String fsTransNox){
         this.TransNox.setValue(fsTransNox);
+        if(!this.TransNox.getValue().equalsIgnoreCase(fsTransNox)) {
+            return false;
+        }
+        return true;
     }
 
     // Get single and current input record based from transNox
@@ -72,11 +76,13 @@ public class VMSpouseInfo extends AndroidViewModel {
     }
 
     //  Set Detail info to GoCas
-    public void setDetailInfo(ECreditApplicantInfo fsDetailInfo){
+    public boolean setDetailInfo(ECreditApplicantInfo fsDetailInfo){
         try{
             poInfo = fsDetailInfo;
+            return true;
         } catch (Exception e){
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -118,14 +124,26 @@ public class VMSpouseInfo extends AndroidViewModel {
     }
 
     //Province and Town ID Setters inputs in the ViewModel.
-    public void setProvinceID(String fsID){
+    public boolean setProvinceID(String fsID){
         this.psProvID.setValue(fsID);
+        if(!this.psProvID.getValue().equalsIgnoreCase(fsID)) {
+            return false;
+        }
+        return true;
     }
-    public void setTownID(String fsID){
+    public boolean setTownID(String fsID){
         this.psTownID.setValue(fsID);
+        if(!this.psTownID.getValue().equalsIgnoreCase(fsID)) {
+            return false;
+        }
+        return true;
     }
-    public void setCitizenship(String lsCitizen) {
+    public boolean setCitizenship(String lsCitizen) {
         this.lsCitizen.setValue(lsCitizen);
+        if(!this.lsCitizen.getValue().equalsIgnoreCase(lsCitizen)) {
+            return false;
+        }
+        return true;
     }
 
     public LiveData<Integer> getMobileNo3Year(){
@@ -188,10 +206,10 @@ public class VMSpouseInfo extends AndroidViewModel {
         }
         this.lsMobile3.setValue(mobile3);
     }
-    public void Save(SpouseInfoModel infoModel, ViewModelCallBack callBack){
+    public boolean Save(SpouseInfoModel infoModel, ViewModelCallBack callBack) {
         try{
             infoModel.setBirthPlace(psTownID.getValue());
-            if(infoModel.isSpouseInfoValid()){
+            if(infoModel.isSpouseInfoValid()) {
                 // Get all the set data from fragment_spouse
                 poGoCas.SpouseInfo().PersonalInfo().setLastName(infoModel.getLastName());
                 poGoCas.SpouseInfo().PersonalInfo().setFirstName(infoModel.getFrstName());
@@ -202,7 +220,6 @@ public class VMSpouseInfo extends AndroidViewModel {
                 poGoCas.SpouseInfo().PersonalInfo().setBirthPlace(psTownID.getValue());
                 poGoCas.SpouseInfo().PersonalInfo().setCitizenship(lsCitizen.getValue());
 
-                // Contact?
                 poGoCas.SpouseInfo().PersonalInfo().setMobileNoQty(infoModel.getMobileNoQty());
                 for (int x = 0; x < infoModel.getMobileNoQty(); x++) {
                     // Debugging purposes
@@ -211,7 +228,6 @@ public class VMSpouseInfo extends AndroidViewModel {
                     poGoCas.SpouseInfo().PersonalInfo().IsMobilePostpaid(x, infoModel.getPostPaid(x));
                     poGoCas.SpouseInfo().PersonalInfo().setPostPaidYears(x, infoModel.getPostYear(x));
                 }
-                // Contact?
 
                 poGoCas.SpouseInfo().PersonalInfo().setPhoneNoQty(1);
                 poGoCas.SpouseInfo().PersonalInfo().setEmailAddQty(1);
@@ -223,20 +239,20 @@ public class VMSpouseInfo extends AndroidViewModel {
                 poInfo.setSpousexx(poGoCas.SpouseInfo().PersonalInfo().toJSONString());
                 poCreditApp.updateGOCasData(poInfo);
 
-                //Added by sir mike
                 Log.e(TAG, poGoCas.SpouseInfo().PersonalInfo().toJSONString());
                 Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
                 callBack.onSaveSuccessResult(TransNox.getValue());
-
-                //                Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
+                return true;
             } else {
                 infoModel.clearMobileNo();
                 callBack.onFailedResult(infoModel.getMessage());
+                return false;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             infoModel.clearMobileNo();
             callBack.onFailedResult(e.getMessage());
+            return false;
         }
     }
 }
