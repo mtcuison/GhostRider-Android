@@ -71,6 +71,10 @@
         }
         public void setBrgyID(String fsID) {this.psBrgyID.setValue(fsID);}
 
+        public MutableLiveData<String> getPsProvID() {
+            return psProvID;
+        }
+
         public MutableLiveData<String> getPsTownID() {
             return psTownID;
         }

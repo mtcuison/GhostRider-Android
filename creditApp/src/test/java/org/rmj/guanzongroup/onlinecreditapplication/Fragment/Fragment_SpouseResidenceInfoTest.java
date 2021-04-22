@@ -47,17 +47,18 @@ public class Fragment_SpouseResidenceInfoTest extends TestCase {
     }
 
     @Test
+    public void test_getPsProvID() {
+        mViewModel.getPsProvID().observeForever(value -> assertEquals(FAKE_CODE, value));
+    }
+
+    @Test
     public void test_getPsTownID() {
-        mViewModel.getPsTownID().observeForever(value -> {
-            assertEquals(FAKE_CODE, value);
-        });
+        mViewModel.getPsTownID().observeForever(value -> assertEquals(FAKE_CODE, value));
     }
 
     @Test
     public void test_getPsBrgyID() {
-        mViewModel.getPsBrgyID().observeForever(value -> {
-            assertEquals(FAKE_CODE, value);
-        });
+        mViewModel.getPsBrgyID().observeForever(value -> assertEquals(FAKE_CODE, value));
     }
 
     @Test
