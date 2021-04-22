@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,7 +13,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -27,15 +25,12 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionLogAdapter;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogRemitCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionLog;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionRemittance;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -304,12 +299,6 @@ public class Activity_LogCollection extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.action_menu_dcp_log, menu);
-        return true;
-    }
-
-    @Override
     public void onBackPressed() {
         finish();
     }
@@ -324,38 +313,6 @@ public class Activity_LogCollection extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
             finish();
-        } else if(item.getItemId() == R.id.action_menu_remit_collection){
-            if(hasLog) {
-                try {
-                    DialogRemitCollection poRemit = new DialogRemitCollection(Activity_LogCollection.this);
-                    String lsDate = Objects.requireNonNull(txtDate.getText()).toString();
-                    @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("MMM dd, yyyy").parse(lsDate);
-                    @SuppressLint("SimpleDateFormat") SimpleDateFormat loFormatter = new SimpleDateFormat("yyyy-MM-dd");
-                    poRemit.initDialog(new DialogRemitCollection.RemitDialogListener() {
-                        @Override
-                        public void OnRemit(AlertDialog dialog) {
-                            dialog.dismiss();
-                            startActivity(new Intent(Activity_LogCollection.this, Activity_CollectionRemittance.class));
-                            finish();
-                        }
-
-                        @Override
-                        public void OnCancel(AlertDialog dialog) {
-                            dialog.dismiss();
-                        }
-                    });
-                    poRemit.show();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            } else {
-                MessageBox loMessage = new MessageBox(Activity_LogCollection.this);
-                loMessage.initDialog();
-                loMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                loMessage.setMessage("There's no collection record for this date.");
-                loMessage.setTitle("No Record Found");
-                loMessage.show();
-            }
         }
         return super.onOptionsItemSelected(item);
     }

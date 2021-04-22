@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
-                android:text="Collection Remittance"
+                android:text="Collection Detail \n and Remittance"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -67,207 +67,349 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="@drawable/background_dialog">
-
-        <RadioGroup
-            android:id="@+id/rg_remittance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <RadioButton
-                android:id="@+id/rb_remitCash"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Cash Remittance"
-                android:checked="true"/>
-
-            <RadioButton
-                android:id="@+id/rb_remitCheck"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Check Remittance"/>
-
-        </RadioGroup>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/guanzon_orange"
-            android:layout_marginTop="15dp"
-            android:layout_marginHorizontal="5dp"/>
-
-        <RadioGroup
-            android:id="@+id/rg_remittanceOutlet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <RadioButton
-                android:id="@+id/rb_remitBranch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Branch"
-                android:checked="true"/>
-
-            <RadioButton
-                android:id="@+id/rb_remitBank"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Bank"/>
-
-            <RadioButton
-                android:id="@+id/rb_remitPaymPnr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Payment Partner"/>
-
-        </RadioGroup>
+        android:scrollbars="none">
 
         <LinearLayout
-            android:id="@+id/linear_remitBranch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle"
-                android:hint="Branch Name"
-                android:layout_marginTop="5dp">
-
-                <AutoCompleteTextView
-                    android:id="@+id/txt_remitBranch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/AutoCompleteTextStyle"
-                    android:gravity="center"
-                    android:inputType="textAutoComplete"
-                    android:maxLines="1"
-                    android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/txt_remitAmount"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_remitBankOthers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:gravity="center"
+            android:padding="10dp">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/TextInputStyle"
-                android:hint="Account Name"
-                android:layout_marginTop="5dp">
+                android:text="Total Collection :"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginTop="5dp"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_remitAccName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/TextInputStyle.Edittext"
-                    android:gravity="center"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/txt_remitAcctNox"/>
-            </com.google.android.material.textfield.TextInputLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/guanzon_orange"
+                android:layout_marginTop="10dp"/>
 
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
+                android:id="@+id/lbl_collectedCash"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/TextInputStyle"
-                android:hint="Account Number"
-                android:layout_marginTop="5dp">
+                android:text="Cash : "
+                android:padding="10dp"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"
+                android:layout_marginTop="5dp"/>
 
-                <AutoCompleteTextView
-                    android:id="@+id/txt_remitAcctNox"
+            <TextView
+                android:id="@+id/lbl_collectedCheck"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Check : "
+                android:padding="10dp"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total Remitted Collection :"
+                android:textSize="16sp"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginTop="5dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/guanzon_orange"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Remitted Collection : "
+                android:padding="5dp"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:id="@+id/lbl_remittanceBranch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Branch : "
+                android:paddingLeft="20dp"
+                android:paddingVertical="3dp"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular" />
+
+            <TextView
+                android:id="@+id/lbl_remittanceBank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bank : "
+                android:paddingLeft="20dp"
+                android:paddingVertical="3dp"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular" />
+
+            <TextView
+                android:id="@+id/lbl_remittanceOthers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Others : "
+                android:paddingLeft="20dp"
+                android:paddingVertical="3dp"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="On-Hand : "
+                android:padding="5dp"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:id="@+id/lbl_remittanceCash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingVertical="3dp"
+                android:paddingLeft="20dp"
+                android:text="Cash : "
+                android:textColor="@color/textColor_Black" />
+
+            <TextView
+                android:id="@+id/lbl_remittanceCheck"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Check : "
+                android:paddingLeft="20dp"
+                android:paddingVertical="3dp"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/guanzon_orange"
+                android:layout_marginTop="15dp"
+                android:layout_marginHorizontal="5dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/background_dialog">
+
+                <RadioGroup
+                    android:id="@+id/rg_remittance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/AutoCompleteTextStyle"
-                    android:gravity="center"
-                    android:inputType="textAutoComplete"
-                    android:maxLines="1"
-                    android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/txt_remitReferenceNo"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <RadioButton
+                        android:id="@+id/rb_remitCash"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Cash Remittance"
+                        android:checked="true"/>
+
+                    <RadioButton
+                        android:id="@+id/rb_remitCheck"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Check Remittance"/>
+
+                </RadioGroup>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/guanzon_orange"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginHorizontal="5dp"/>
+
+                <RadioGroup
+                    android:id="@+id/rg_remittanceOutlet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <RadioButton
+                        android:id="@+id/rb_remitBranch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Branch"
+                        android:checked="true"/>
+
+                    <RadioButton
+                        android:id="@+id/rb_remitBank"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Bank"/>
+
+                    <RadioButton
+                        android:id="@+id/rb_remitPaymPnr"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Payment Partner"/>
+
+                </RadioGroup>
+
+                <LinearLayout
+                    android:id="@+id/linear_remitBranch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/TextInputStyle"
+                        android:hint="Branch Name"
+                        android:layout_marginTop="5dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/txt_remitBranch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/AutoCompleteTextStyle"
+                            android:gravity="center"
+                            android:inputType="textAutoComplete"
+                            android:maxLines="1"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@id/txt_remitAmount"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_remitBankOthers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/TextInputStyle"
+                        android:hint="Account Name"
+                        android:layout_marginTop="5dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txt_remitAccName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/TextInputStyle.Edittext"
+                            android:gravity="center"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@id/txt_remitAcctNox"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/TextInputStyle"
+                        android:hint="Account Number"
+                        android:layout_marginTop="5dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/txt_remitAcctNox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/AutoCompleteTextStyle"
+                            android:gravity="center"
+                            android:inputType="textAutoComplete"
+                            android:maxLines="1"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@id/txt_remitReferenceNo"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_remitReferenceNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextInputStyle"
+                    android:hint="Reference No"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_remitReferenceNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/TextInputStyle.Edittext"
+                        android:gravity="center"
+                        android:inputType="number|none"
+                        android:maxLines="1"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/txt_remitAmount"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextInputStyle"
+                    android:hint="Amount"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_remitAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/TextInputStyle.Edittext"
+                        android:gravity="center"
+                        android:inputType="number|none"
+                        android:maxLines="1"
+                        android:imeOptions="actionDone"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btn_remitAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:textColor="@color/textColor_Black"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"/>
+
+                <Button
+                    android:id="@+id/btn_confirm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remit Collected Payments"
+                    app:rippleColor="@color/guanzon_orange"
+                    android:textColor="@color/material_black"
+                    style="@style/MaterialButtonAccent"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_remitReferenceNo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/TextInputStyle"
-            android:hint="Reference No"
-            android:layout_marginTop="5dp"
-            android:visibility="gone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_remitReferenceNo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle.Edittext"
-                android:gravity="center"
-                android:inputType="number|none"
-                android:maxLines="1"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/txt_remitAmount"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/TextInputStyle"
-            android:hint="Amount"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_remitAmount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle.Edittext"
-                android:gravity="center"
-                android:inputType="number|none"
-                android:maxLines="1"
-                android:imeOptions="actionDone"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/btn_remitAll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:textColor="@color/textColor_Black"
-            style="@style/Widget.MaterialComponents.Button.TextButton"/>
-
-        <Button
-            android:id="@+id/btn_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remit Collected Payments"
-            app:rippleColor="@color/guanzon_orange"
-            android:textColor="@color/material_black"
-            style="@style/MaterialButtonAccent"/>
-
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
