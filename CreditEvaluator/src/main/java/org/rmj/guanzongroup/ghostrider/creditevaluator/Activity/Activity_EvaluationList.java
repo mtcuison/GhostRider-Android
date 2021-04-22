@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
@@ -155,7 +157,10 @@ public class Activity_EvaluationList extends AppCompatActivity implements ViewMo
                     loan.setcTranStat(ciList.get(x).getTranStat());
                     loan.setdTimeStmp(ciList.get(x).getTimeStmp());
                     ciEvaluationList.add(loan);
+
                 }
+                String json = new Gson().toJson(ciEvaluationList);
+                Log.e(TAG, json);
                 adapter = new CreditEvaluationListAdapter(ciEvaluationList, new CreditEvaluationListAdapter.OnApplicationClickListener() {
                     @Override
                     public void OnClick(int position, List<CreditEvaluationModel> ciEvaluationLists) {
