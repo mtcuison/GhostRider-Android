@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +31,8 @@ import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMIntroductoryQuestion;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class Activity_IntroductoryQuestion extends AppCompatActivity implements ViewModelCallBack {
@@ -36,10 +41,10 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
     public static String lsCustType = "-1";
     public static String spnTermPosition = "36";
     private VMIntroductoryQuestion mViewModel;
-    PurchaseInfoModel model;
+    private PurchaseInfoModel model;
     private TextView lblBranchNm, lblBrandAdd, lblDate;
     private AutoCompleteTextView txtBranchNm, txtBrandNm, txtModelNm;
-    private TextInputEditText txtDownPymnt, txtAmort;
+    private TextInputEditText txtDownPymnt, txtAmort, txtDTarget;
     private AutoCompleteTextView spnApplType, spnCustomerType, spnTerm;
     private MaterialButton btnCreate;
     public static Activity_IntroductoryQuestion newInstance() {
@@ -65,6 +70,20 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
             } catch (Exception e){
                 e.printStackTrace();
             }
+        });
+
+        txtDTarget.setOnClickListener(v -> {
+            final Calendar newCalendar = Calendar.getInstance();
+            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+            final DatePickerDialog  StartTime = new DatePickerDialog(this, (view131, year, monthOfYear, dayOfMonth) -> {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                String lsDate = dateFormatter.format(newDate.getTime());
+                txtDTarget.setText(lsDate);
+                model.setdTargetDte(lsDate);
+            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            StartTime.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            StartTime.show();
         });
 
         mViewModel.getAllBranchNames().observe(this, strings -> {
@@ -191,6 +210,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
         txtModelNm = findViewById(R.id.txt_modelName);
         txtDownPymnt = findViewById(R.id.txt_downpayment);
         txtAmort = findViewById(R.id.txt_monthlyAmort);
+        txtDTarget = findViewById(R.id.txt_dateTarget);
         spnApplType = findViewById(R.id.spn_applicationType);
         spnCustomerType = findViewById(R.id.spn_customerType);
         spnTerm = findViewById(R.id.spn_installmentTerm);
