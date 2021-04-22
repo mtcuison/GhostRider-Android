@@ -55,6 +55,7 @@ public class CIResidenceInfoModelTest {
         infoModel.setGaragexx(Garagexx);
         infoModel.setLatitude(Latitude);
         infoModel.setLongitud(Longitud);
+
         assertEquals(TransNox, infoModel.getTransNox());
         assertEquals(LandMark, infoModel.getLandMark());
         assertEquals(Ownershp, infoModel.getOwnershp());

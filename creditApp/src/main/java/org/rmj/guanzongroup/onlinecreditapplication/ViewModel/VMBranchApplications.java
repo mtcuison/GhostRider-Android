@@ -141,6 +141,8 @@ public class VMBranchApplications extends AndroidViewModel {
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
                         JSONArray laJson = jsonResponse.getJSONArray("detail");
+
+                        Log.e(TAG, laJson.toString());
                         if(!brnRepo.insertBranchApplicationInfos(laJson)){
                             response = AppConstants.ERROR_SAVING_TO_LOCAL();
                             //brnRepo.insertFromApplication();
