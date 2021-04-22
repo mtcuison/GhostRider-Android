@@ -31,6 +31,11 @@ public class SpouseResidenceInfoModelTest extends TestCase {
     }
 
     @Test
+    public void test_getLandmark() {
+        assertEquals("Guanzon Bldg.", infoModel.getLandmark());
+    }
+
+    @Test
     public void test_getHouseNox() {
         assertEquals(HOUSENOX, infoModel.getHouseNox());
     }
@@ -41,7 +46,22 @@ public class SpouseResidenceInfoModelTest extends TestCase {
     }
 
     @Test
-    public void testGetAddress2() {
+    public void test_getAddress2() {
         assertEquals(ADDRESS2, infoModel.getAddress2());
+    }
+
+    @Test
+    public void test_getProvince() {
+        assertEquals("2132", infoModel.getProvince());
+    }
+
+    @Test
+    public void test_getTown() {
+        assertEquals("21318", infoModel.getTown());
+    }
+
+    @Test
+    public void test_getBarangay() {
+        assertEquals("21321", infoModel.getBarangay());
     }
 }
