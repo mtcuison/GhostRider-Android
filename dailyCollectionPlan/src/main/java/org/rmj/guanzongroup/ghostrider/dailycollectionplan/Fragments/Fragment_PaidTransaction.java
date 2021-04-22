@@ -164,7 +164,12 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
         btnRBlnce.setOnClickListener(v -> txtAmount.setText(psRBalance));
 
-        btnClear.setOnClickListener(v -> txtAmount.setText(""));
+        btnClear.setOnClickListener(v -> {
+            txtAmount.setText("");
+            txtDiscount.setText("");
+            txtOthers.setText("");
+            txtTotAmnt.setText("");
+        });
 
         btnConfirm.setOnClickListener(view -> {
             infoModel.setRemarksCode(Remarksx);
