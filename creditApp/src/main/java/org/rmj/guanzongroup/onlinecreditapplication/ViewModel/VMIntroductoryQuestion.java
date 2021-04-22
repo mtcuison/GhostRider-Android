@@ -229,6 +229,7 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
             if(model.isPurchaseInfoValid()) {
                 GOCASApplication loGoCas = new GOCASApplication();
                 loGoCas.PurchaseInfo().setAppliedFor("0");
+                loGoCas.PurchaseInfo().setTargetPurchase(model.getdTargetDte());
                 loGoCas.PurchaseInfo().setCustomerType(model.getsCustTypex());
                 loGoCas.PurchaseInfo().setPreferedBranch(model.getsBranchCde());
                 loGoCas.PurchaseInfo().setBrandName(model.getsBrandIDxx());

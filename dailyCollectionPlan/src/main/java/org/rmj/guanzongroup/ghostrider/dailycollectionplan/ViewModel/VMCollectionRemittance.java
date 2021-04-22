@@ -44,8 +44,6 @@ public class VMCollectionRemittance extends AndroidViewModel {
     private double nTotCashx = 0;
     private double nTotCheck = 0;
 
-    private final MutableLiveData<String> psPaymForm = new MutableLiveData<>();
-    private final MutableLiveData<String> psRemitTyp = new MutableLiveData<>();
     private final MutableLiveData<String> psCashOHnd = new MutableLiveData<>();
     private final MutableLiveData<String> psCheckOHx = new MutableLiveData<>();
 
@@ -93,14 +91,6 @@ public class VMCollectionRemittance extends AndroidViewModel {
 
     public void setTransact(String dTransact) {
         this.dTransact = dTransact;
-    }
-
-    public void setPaymentForm(String fsPaymForm) {
-        this.psPaymForm.setValue(fsPaymForm);
-    }
-
-    public void setRemitType(String fsRemitTyp) {
-        this.psRemitTyp.setValue(fsRemitTyp);
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
@@ -275,7 +265,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(Void... voids) {
-            String lsResult = "";
+            String lsResult;
             try{
                 List<ERemittanceAccounts> loAccounts = poRemittance.getRemittanceAccountIfExist();
                 if(loAccounts.size() == 0) {

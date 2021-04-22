@@ -156,7 +156,6 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
         });
 
         ptpDate.setOnClickListener(v ->  {
-            Log.e("remarks ", Remarksx);
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
             final DatePickerDialog  StartTime = new DatePickerDialog(getActivity(), (view131, year, monthOfYear, dayOfMonth) -> {
