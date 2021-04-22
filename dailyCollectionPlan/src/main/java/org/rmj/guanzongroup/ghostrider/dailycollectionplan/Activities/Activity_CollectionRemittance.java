@@ -21,7 +21,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
@@ -227,24 +226,29 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                 linearBank.setVisibility(View.GONE);
                 tilRefNox.setVisibility(View.GONE);
                 poRemit.setRemitTyp("0");
-
+                txtAccName.setText("");
+                txtAccNox.setText("");
             } else if(checkedId == R.id.rb_remitBank){
                 linearBrnch.setVisibility(View.GONE);
                 linearBank.setVisibility(View.VISIBLE);
                 tilRefNox.setVisibility(View.VISIBLE);
+                txtAccName.setText("");
+                txtAccNox.setText("");
                 poRemit.setRemitTyp("1");
 
                 mViewModel.getRemittanceBankAccountsList().observe(this, remittanceAccounts -> {
                     try {
                         String[] lsAccounts = new String[remittanceAccounts.size()];
                         for(int x = 0; x < remittanceAccounts.size(); x++){
-                            lsAccounts[x] = remittanceAccounts.get(x).getActNumbr();
+                            lsAccounts[x] = remittanceAccounts.get(x).getActNumbr() + " (" + remittanceAccounts.get(x).getActNamex() +")";
                         }
                         txtAccNox.setAdapter(new ArrayAdapter<>(Activity_CollectionRemittance.this, android.R.layout.simple_spinner_dropdown_item, lsAccounts));
 
                         txtAccNox.setOnItemClickListener((parent, view, position, id) -> {
                             for(int x = 0; x < remittanceAccounts.size(); x++){
-                                if(txtAccNox.getText().toString().equalsIgnoreCase(remittanceAccounts.get(x).getActNumbr())){
+                                String[] lsSplitStr = txtAccNox.getText().toString().split(" ");
+                                String lsAcctNox = lsSplitStr[0];
+                                if(lsAcctNox.equalsIgnoreCase(remittanceAccounts.get(x).getActNumbr())){
                                     txtAccName.setText(remittanceAccounts.get(x).getActNamex());
                                     break;
                                 }
@@ -260,18 +264,21 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                 linearBank.setVisibility(View.VISIBLE);
                 tilRefNox.setVisibility(View.VISIBLE);
                 poRemit.setRemitTyp("2");
-
+                txtAccName.setText("");
+                txtAccNox.setText("");
                 mViewModel.getRemittanceOtherAccountList().observe(this, remittanceAccounts -> {
                     try {
                         String[] lsAccounts = new String[remittanceAccounts.size()];
                         for(int x = 0; x < remittanceAccounts.size(); x++){
-                            lsAccounts[x] = remittanceAccounts.get(x).getActNumbr();
+                            lsAccounts[x] = remittanceAccounts.get(x).getActNumbr() + " (" + remittanceAccounts.get(x).getActNamex() +")";
                         }
                         txtAccNox.setAdapter(new ArrayAdapter<>(Activity_CollectionRemittance.this, android.R.layout.simple_spinner_dropdown_item, lsAccounts));
 
                         txtAccNox.setOnItemClickListener((parent, view, position, id) -> {
                             for(int x = 0; x < remittanceAccounts.size(); x++){
-                                if(txtAccNox.getText().toString().equalsIgnoreCase(remittanceAccounts.get(x).getActNumbr())){
+                                String[] lsSplitStr = txtAccNox.getText().toString().split(" ");
+                                String lsAcctNox = lsSplitStr[0];
+                                if(lsAcctNox.equalsIgnoreCase(remittanceAccounts.get(x).getActNumbr())){
                                     txtAccName.setText(remittanceAccounts.get(x).getActNamex());
                                     break;
                                 }

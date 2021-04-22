@@ -1,13 +1,17 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
+import android.annotation.SuppressLint;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class PurchaseInfoModel {
 
     private String sAppTypex;
     private String sCustTypex;
+    private String dTargetDte;
     private String sBranchCde;
     private String sBrandIDxx;
     private String sModelIDxx;
@@ -37,6 +41,21 @@ public class PurchaseInfoModel {
 
     public void setsCustTypex(String sCustTypex) {
         this.sCustTypex = sCustTypex;
+    }
+
+    public String getdTargetDte() {
+        return dTargetDte;
+    }
+
+    public void setdTargetDte(String dTargetDte) {
+        try {
+            String lsSelectedDate = Objects.requireNonNull(dTargetDte);
+            @SuppressLint("SimpleDateFormat") Date parseDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsSelectedDate);
+            @SuppressLint("SimpleDateFormat") String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(parseDate));
+            this.dTargetDte = lsDate;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public String getsBranchCde() {
