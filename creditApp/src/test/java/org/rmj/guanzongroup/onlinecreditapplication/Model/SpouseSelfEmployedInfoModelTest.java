@@ -71,4 +71,28 @@ public class SpouseSelfEmployedInfoModelTest extends TestCase {
     public void testGetsBizSize() {
         assertEquals(STRING_ZERO, infoModel.getsBizSize());
     }
+
+    @Test
+    public void testGetsBizYrs() {
+        double lnService = (Double.parseDouble(STRING_TWO)) / 12;
+        assertEquals(lnService, infoModel.getsBizYrs());
+    }
+
+    @Test
+    public void testGetsMonthOrYear() {
+        assertEquals(STRING_ZERO, infoModel.getsMonthOrYear());
+    }
+
+    @Test
+    public void testGetsGrossMonthly() {
+        long lnSalary = Long.parseLong(FAKE_STRING_AMOUNT.replace(",",""));
+        assertEquals(lnSalary, infoModel.getsGrossMonthly());
+    }
+
+    @Test
+    public void testGetsMonthlyExps() {
+        long lnExpense = Long.parseLong(FAKE_STRING_AMOUNT.replace(",",""));
+        assertEquals(lnExpense, infoModel.getsMonthlyExps());
+    }
+
 }
