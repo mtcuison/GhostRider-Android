@@ -218,7 +218,7 @@ public interface DDCPCollectionDetail {
             "WHERE sTransNox = :TransNox " +
             "AND sAcctNmbr = :Acctnox " +
             "AND sRemCodex = :RemCode " +
-            "AND cSendStat = 1")
+            "AND cTranStat = 2")
     LiveData<EDCPCollectionDetail> getPostedCollectionDetail(String TransNox, String Acctnox, String RemCode);
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox = :sTransNox AND nEntryNox = :nEntryNox")
