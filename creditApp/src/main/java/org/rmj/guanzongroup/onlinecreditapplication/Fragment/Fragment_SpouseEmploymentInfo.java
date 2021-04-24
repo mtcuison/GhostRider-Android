@@ -152,7 +152,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
             Log.e("Employee ", s);
         });
         mViewModel.getPsBsnssLvl().observe(getViewLifecycleOwner(), s -> {
-            spnBusNtr.setSelection(Integer.parseInt(s));
+            spnBusNtr.setSelection(s.length());
             Log.e("Business ", s);
         });
         mViewModel.getCountryNameList().observe(getViewLifecycleOwner(), strings -> {
@@ -324,7 +324,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
             }
             if (spnBusNtr.equals(poView)) {
                 spnBusNtrPosition = String.valueOf(i);
-                mViewModel.setPsBsnssLvl(String.valueOf(i));
+                mViewModel.setPsBsnssLvl(adapterView.getItemAtPosition(i).toString());
             }
             if (spnServce.equals(poView)) {
                 spnServcePosition = String.valueOf(i);

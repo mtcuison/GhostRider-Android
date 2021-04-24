@@ -23,6 +23,11 @@
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_businessNature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/spn_businessNature"
                 android:layout_width="match_parent"

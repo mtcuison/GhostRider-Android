@@ -135,8 +135,7 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
 
         mViewModel.getLenghtOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnLngSrvc.setAdapter(stringArrayAdapter));
         mViewModel.getPsBsnssNature().observe(getViewLifecycleOwner(), s -> {
-            bussNtrPosition = s;
-            spnBussNtr.setSelection(Integer.parseInt(s));
+            spnBussNtr.setSelection(s.length());
         });
         mViewModel.getPsBsnssType().observe(getViewLifecycleOwner(), s -> {
             bussTypPosition = s;
@@ -198,7 +197,7 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if (spnBussNtr.equals(poView)) {
                 bussNtrPosition = String.valueOf(i);
-                mViewModel.setPsBsnssNature(bussNtrPosition);
+                mViewModel.setPsBsnssNature(adapterView.getItemAtPosition(i).toString());
             }
             if (spnBussTyp.equals(poView)) {
                 bussTypPosition = String.valueOf(i);
