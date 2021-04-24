@@ -38,12 +38,17 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull PersonalReferencesAdapter.ItemViewHolder holder, int position) {
+        int lnSizexxx = referenceInfoModels.size();
+        int lnCurrent = position+1;
         PersonalReferenceInfoModel reference = referenceInfoModels.get(position);
 
         holder.lblRefName.setText("Fullname. : " + reference.getFullname());
         holder.lblRefAddres.setText("Address : " + reference.getAddress1());
         holder.lblRefTown.setText("Town / City : " + reference.getTownCity());
         holder.lblRefContact.setText("Contanct No : " + reference.getContactN());
+        if(lnCurrent!=lnSizexxx){
+            holder.vDivider.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -56,6 +61,7 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
         private TextView lblRefAddres;
         private TextView lblRefTown;
         private TextView lblRefContact;
+        private View vDivider;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,6 +70,7 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
             lblRefAddres = itemView.findViewById(R.id.lbl_itemRefAddress);
             lblRefTown = itemView.findViewById(R.id.lbl_itemRefTown);
             lblRefContact = itemView.findViewById(R.id.lbl_itemRefContactN);
+            vDivider = itemView.findViewById(R.id.view_divider);
         }
     }
 
