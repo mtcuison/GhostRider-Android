@@ -209,7 +209,12 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         poMessage.initDialog();
         poMessage.setTitle("Transaction Completed");
         poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+            dialog.dismiss();
+            if(message.equalsIgnoreCase("Collection info has been save.")){
+                requireActivity().finish();
+            }
+        });
         poMessage.show();
     }
 
