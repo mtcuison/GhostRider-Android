@@ -102,7 +102,7 @@ public class VMCollectionList extends AndroidViewModel {
 
             if(!isExist) {
                 JSONObject loJson = new JSONObject();
-                loJson.put("sEmployID", "M00120001544");
+                loJson.put("sEmployID", "M00110006088");
                 loJson.put("dTransact", lsDate);
                 loJson.put("cDCPTypex", "1");
                 new ImportLRCollection(instance, masterList.getValue(), callback).execute(loJson);

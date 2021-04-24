@@ -25,4 +25,5 @@ public class Fragment_SelfEmployedInfoTest {
         mViewModel = new VMSelfEmployedInfo(app);
     }
 
+
 }

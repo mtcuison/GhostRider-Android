@@ -206,7 +206,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
                 } else {
                     JSONObject param = new JSONObject();
                     param.put("sTransNox", loRemit.getTransNox());
-                    param.put("nEntryNox", 2);
+                    param.put("nEntryNox", loRemit.getEntryNox());
                     param.put("dTransact", loRemit.getTransact());
                     param.put("cRemitTyp", loRemit.getRemitTyp());
                     param.put("sCompnyNm", loRemit.getCompnyNm());

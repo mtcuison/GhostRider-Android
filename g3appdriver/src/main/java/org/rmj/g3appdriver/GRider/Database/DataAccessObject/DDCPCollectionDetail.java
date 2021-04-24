@@ -89,7 +89,7 @@ public interface DDCPCollectionDetail {
     @Insert
     void insertBulkData(List<EDCPCollectionDetail> collectionDetails);
 
-    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1' ORDER BY dModified ASC")
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cTranStat != '2' ORDER BY dModified ASC")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailList();
 
     @Query("SELECT * FROM Client_Update_Request WHERE sDtlSrcNo = :AccountNox")
@@ -143,7 +143,7 @@ public interface DDCPCollectionDetail {
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +
             "WHERE sTransNox = (SELECT sTransNox FROM " +
             "LR_DCP_Collection_Master WHERE dTransact =:dTransact) " +
-            "AND cSendStat = \"1\"")
+            "AND cTranStat = '2'")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailForDate(String dTransact);
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1' AND sRemCodex == 'PAY'")
