@@ -51,7 +51,6 @@ public class CollectionLogAdapter extends RecyclerView.Adapter<CollectionLogAdap
         try {
             EDCPCollectionDetail detail = detailsFilter.get(position);
             holder.detail = detailsFilter.get(position);
-
             holder.lblAccntNo.setText("Account No. : " + detail.getAcctNmbr());
             holder.lblClntNme.setText(detail.getFullName());
             holder.lblRemCode.setText(DCP_Constants.getRemarksDescription(detail.getRemCodex()));

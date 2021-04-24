@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.GRider.Etc.LocationTrack;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CreditEvaluationModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 
@@ -43,6 +45,7 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
     @NonNull
     @Override
     public CreditEvaluationListAdapter.CreditEvaluationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.e(TAG, String.valueOf(viewType));
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.credit_app_list, parent, false);
         return new CreditEvaluationListAdapter.CreditEvaluationViewHolder(view,onApplicationClickListener);
     }
