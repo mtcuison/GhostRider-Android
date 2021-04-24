@@ -108,10 +108,10 @@ public class DeptCode {
         return "";
     }
 
-    private static int RANK_FILE = 0;
-    private static int SUPERVISOR = 1;
-    private static int DEPARTMENT_HEAD = 2;
-    private static int BEANCH_HEAD = 3;
-    private static int AREA_MANAGER = 4;
-    private static int GENERAL_MANAGER = 5;
+    public static int LEVEL_RANK_FILE = 0;
+    public static int LEVEL_SUPERVISOR = 1;
+    public static int LEVEL_DEPARTMENT_HEAD = 2;
+    public static int LEVEL_BEANCH_HEAD = 3;
+    public static int LEVEL_AREA_MANAGER = 4;
+    public static int LEVEL_GENERAL_MANAGER = 5;
 }

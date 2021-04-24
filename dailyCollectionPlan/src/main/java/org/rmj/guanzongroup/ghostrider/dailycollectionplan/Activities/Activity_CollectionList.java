@@ -652,7 +652,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                     boolean res = myExternalFile.delete();
                     Log.e("Export Message", "File already exists(" + res + "). Overwritten the previous file.");
                 }
-                FileOutputStream fos = null;
+                FileOutputStream fos;
                 fos = new FileOutputStream(myExternalFile);
                 fos.write(fileContent.getBytes());
             }
