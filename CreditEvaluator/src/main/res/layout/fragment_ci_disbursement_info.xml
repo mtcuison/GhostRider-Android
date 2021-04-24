@@ -14,167 +14,194 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-        <include
-            layout="@layout/layout_ci_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/HeaderLabelBlack"
-            android:text="Disbursement Info"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp">
-            <TextView
+            app:cardCornerRadius="1dp"
+            app:cardBackgroundColor="@color/material_lightgrey"
+            app:cardUseCompatPadding="false"
+            android:background="@color/material_lightgrey"
+            app:cardPreventCornerOverlap="true">
+            <include
+                layout="@layout/layout_ci_header"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Expenses :"
-                />
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Water"
-                style="@style/TextInputStyle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_ci_dbmWater"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal|number|none"
-                    android:textColor="@color/textColor_Black"
-                    android:maxLength="10"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="ELectricity"
-                style="@style/TextInputStyle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_ci_dbmElecX"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal|number|none"
-                    android:textColor="@color/textColor_Black"
-                    android:maxLength="10"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Food"
-                style="@style/TextInputStyle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_ci_dbmFood"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal|number|none"
-                    android:textColor="@color/textColor_Black"
-                    android:maxLength="10"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Loans"
-                style="@style/TextInputStyle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_ci_dbmLoans"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal|number|none"
-                    android:textColor="@color/textColor_Black"
-                    android:maxLength="10"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Education"
-                style="@style/TextInputStyle">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_ci_dbmEducation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal|number|none"
-                    android:textColor="@color/textColor_Black"
-                    android:maxLength="10"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Others"
-                style="@style/TextInputStyle">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_ci_dbmOthers"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal|number|none"
-                    android:textColor="@color/textColor_Black"
-                    android:maxLength="10"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Total Expenses "
-                style="@style/TextInputStyle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_ci_dbmExpenses"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number|none"
-                    android:clickable="false"
-                    android:textColor="@color/textColor_Black"
-                    android:enabled="false"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/guanzon_digital_orange"/>
-
-        <LinearLayout
+                android:layout_height="wrap_content"/>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:orientation="horizontal">
+            app:cardBackgroundColor="@color/material_lightgrey"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            app:cardMaxElevation="5dp"
+            android:background="@color/material_lightgrey"
+            app:cardPreventCornerOverlap="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/HeaderLabelBlack"
+                    android:text="Disbursement Info"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Expenses :"
+                        />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Water"
+                        style="@style/TextInputStyle">
 
-            <Button
-                android:id="@+id/btn_ciAppPrvs"
-                style="@style/NavigationButton"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                app:icon="@drawable/ic_nav_left"
-                android:text="Previous"
-                app:iconGravity="start"
-                app:iconTint="@color/material_black"
-                android:textAlignment="textStart"
-                android:layout_weight="1"
-                android:gravity="start|center_vertical" />
-            
-            <Button
-                android:id="@+id/btn_ciAppNext"
-                style="@style/NavigationButton"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                app:icon="@drawable/ic_nav_right"
-                app:iconGravity="end"
-                app:iconTint="@color/material_black"
-                android:text="Next"
-                android:textAlignment="textEnd"
-                android:layout_weight="1"
-                android:gravity="end|center_vertical" />
-        </LinearLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_ci_dbmWater"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal|number|none"
+                            android:textColor="@color/textColor_Black"
+                            android:maxLength="10"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="ELectricity"
+                        style="@style/TextInputStyle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_ci_dbmElecX"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal|number|none"
+                            android:textColor="@color/textColor_Black"
+                            android:maxLength="10"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Food"
+                        style="@style/TextInputStyle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_ci_dbmFood"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal|number|none"
+                            android:textColor="@color/textColor_Black"
+                            android:maxLength="10"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Loans"
+                        style="@style/TextInputStyle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_ci_dbmLoans"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal|number|none"
+                            android:textColor="@color/textColor_Black"
+                            android:maxLength="10"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Education"
+                        style="@style/TextInputStyle">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_ci_dbmEducation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal|number|none"
+                            android:textColor="@color/textColor_Black"
+                            android:maxLength="10"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Others"
+                        style="@style/TextInputStyle">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_ci_dbmOthers"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal|number|none"
+                            android:textColor="@color/textColor_Black"
+                            android:maxLength="10"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Total Expenses "
+                        style="@style/TextInputStyle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_ci_dbmExpenses"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number|none"
+                            android:clickable="false"
+                            android:textColor="@color/textColor_Black"
+                            android:enabled="false"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/guanzon_digital_orange"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_ciAppPrvs"
+                        style="@style/NavigationButton"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        app:icon="@drawable/ic_nav_left"
+                        android:text="Previous"
+                        app:iconGravity="start"
+                        app:iconTint="@color/material_black"
+                        android:textAlignment="textStart"
+                        android:layout_weight="1"
+                        android:gravity="start|center_vertical" />
+
+                    <Button
+                        android:id="@+id/btn_ciAppNext"
+                        style="@style/NavigationButton"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        app:icon="@drawable/ic_nav_right"
+                        app:iconGravity="end"
+                        app:iconTint="@color/material_black"
+                        android:text="Next"
+                        android:textAlignment="textEnd"
+                        android:layout_weight="1"
+                        android:gravity="end|center_vertical" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
