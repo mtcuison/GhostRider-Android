@@ -122,7 +122,7 @@ public class FormatUIText {
     public static String getCurrencyUIFormat(String price){
         String lsResult = "₱ 0.00";
         try {
-            DecimalFormat currency_total = new DecimalFormat("₱ ###,###,###.###");
+            DecimalFormat currency_total = new DecimalFormat("₱ ###,###,###.##");
             BigDecimal loBigDecimal = new BigDecimal(price);
             lsResult = currency_total.format(loBigDecimal);
             return lsResult;
