@@ -4,150 +4,173 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context=".Fragment.Fragment_Properties"
     android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_cap_propertyLot1"
-        style="@style/TextInputStyle"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Lot 1 Address">
+        style="@style/HeaderLabelBlack"
+        android:text="@string/sLblPropertyInfo"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tie_cap_propertyLot1"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_cap_propertyLot1"
+            style="@style/TextInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:imeOptions="actionNext"
-            android:inputType="textPersonName"
-            android:digits="@string/free_text_restriction"
-            android:maxLength="50"
-            android:nextFocusForward="@id/tie_cap_cmrFirstname"
-            android:textColor="@color/material_black"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="Lot 1 Address">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_cap_propertyLot2"
-        style="@style/TextInputStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Lot 2 Address">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_cap_propertyLot1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                android:digits="@string/free_text_restriction"
+                android:maxLength="50"
+                android:nextFocusForward="@id/tie_cap_cmrFirstname"
+                android:textColor="@color/material_black"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tie_cap_propertyLot2"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_cap_propertyLot2"
+            style="@style/TextInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:imeOptions="actionNext"
-            android:inputType="textPersonName"
-            android:digits="@string/free_text_restriction"
-            android:maxLength="50"
-            android:nextFocusForward="@id/tie_cap_cmrFirstname"
-            android:textColor="@color/material_black"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="Lot 2 Address">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_cap_propertyLot3"
-        style="@style/TextInputStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Lot 3 Address">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_cap_propertyLot2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                android:digits="@string/free_text_restriction"
+                android:maxLength="50"
+                android:nextFocusForward="@id/tie_cap_cmrFirstname"
+                android:textColor="@color/material_black"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tie_cap_propertyLot3"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_cap_propertyLot3"
+            style="@style/TextInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:imeOptions="actionNext"
-            android:inputType="textPersonName"
-            android:digits="@string/free_text_restriction"
-            android:maxLength="50"
-            android:nextFocusForward="@id/tie_cap_cmrFirstname"
-            android:textColor="@color/material_black"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="Lot 3 Address">
 
-    <CheckBox
-        android:id="@+id/cb_4Wheels"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_cap_propertyLot3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                android:digits="@string/free_text_restriction"
+                android:maxLength="50"
+                android:nextFocusForward="@id/tie_cap_cmrFirstname"
+                android:textColor="@color/material_black"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/textColor_Black"/>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Customer owns a 4 wheel vehicle"
-        android:fontFamily="@font/roboto_medium"
-        tools:ignore="HardcodedText" />
-
-    <CheckBox
-        android:id="@+id/cb_3Wheels"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Customer owns a 3 wheel vehicle (Ex. Tricycle)."
-        android:fontFamily="@font/roboto_medium"
-        tools:ignore="HardcodedText" />
-
-    <CheckBox
-        android:id="@+id/cb_2Wheels"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Customer owns a 2 wheel vehicle (Bike, Single Motorcycle)."
-        android:fontFamily="@font/roboto_medium"
-        tools:ignore="HardcodedText" />
-
-    <CheckBox
-        android:id="@+id/cb_Aircon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Customer owns an air condition"
-        android:fontFamily="@font/roboto_medium"
-        tools:ignore="HardcodedText" />
-
-    <CheckBox
-        android:id="@+id/cb_refrigerator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Customer owns refrigerator"
-        android:fontFamily="@font/roboto_medium"
-        tools:ignore="HardcodedText" />
-
-    <CheckBox
-        android:id="@+id/cb_television"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Customer owns television/smart TV"
-        android:fontFamily="@font/roboto_medium"
-        tools:ignore="HardcodedText" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_creditAppPrvs"
-            android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <CheckBox
+            android:id="@+id/cb_4Wheels"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sbtnPrvs"
-            style="@style/NavigationButton"
-            android:drawableStart="@drawable/ic_nav_left"
-            android:drawableLeft="@drawable/ic_nav_left"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            tools:ignore="RelativeOverlap"  />
+            android:text="Customer owns a 4 wheel vehicle"
+            android:fontFamily="@font/roboto_medium"
+            tools:ignore="HardcodedText"
+            android:layout_marginTop="10dp"/>
 
-        <Button
-            android:id="@+id/btn_creditAppNext"
-            android:layout_width="wrap_content"
+        <CheckBox
+            android:id="@+id/cb_3Wheels"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sbtnNext"
-            style="@style/NavigationButton"
-            android:drawableEnd="@drawable/ic_nav_right"
-            android:drawableRight="@drawable/ic_nav_right"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            tools:ignore="RelativeOverlap" />
-    </RelativeLayout>
+            android:text="Customer owns a 3 wheel vehicle (Ex. Tricycle)."
+            android:fontFamily="@font/roboto_medium"
+            tools:ignore="HardcodedText" />
+
+        <CheckBox
+            android:id="@+id/cb_2Wheels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Customer owns a 2 wheel vehicle (Bike, Single Motorcycle)."
+            android:fontFamily="@font/roboto_medium"
+            tools:ignore="HardcodedText" />
+
+        <CheckBox
+            android:id="@+id/cb_Aircon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Customer owns an air condition"
+            android:fontFamily="@font/roboto_medium"
+            tools:ignore="HardcodedText" />
+
+        <CheckBox
+            android:id="@+id/cb_refrigerator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Customer owns refrigerator"
+            android:fontFamily="@font/roboto_medium"
+            tools:ignore="HardcodedText" />
+
+        <CheckBox
+            android:id="@+id/cb_television"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Customer owns television/smart TV"
+            android:fontFamily="@font/roboto_medium"
+            tools:ignore="HardcodedText" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:id="@+id/btn_creditAppPrvs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sbtnPrvs"
+                style="@style/NavigationButton"
+                android:drawableStart="@drawable/ic_nav_left"
+                android:drawableLeft="@drawable/ic_nav_left"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                tools:ignore="RelativeOverlap"  />
+
+            <Button
+                android:id="@+id/btn_creditAppNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sbtnNext"
+                style="@style/NavigationButton"
+                android:drawableEnd="@drawable/ic_nav_right"
+                android:drawableRight="@drawable/ic_nav_right"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                tools:ignore="RelativeOverlap" />
+        </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>
