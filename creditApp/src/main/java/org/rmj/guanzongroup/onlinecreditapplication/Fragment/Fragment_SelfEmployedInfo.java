@@ -136,7 +136,6 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
         mViewModel.getLenghtOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnLngSrvc.setAdapter(stringArrayAdapter));
         mViewModel.getPsBsnssNature().observe(getViewLifecycleOwner(), s -> {
             bussNtrPosition = s;
-            spnBussNtr.setSelection(Integer.parseInt(s));
         });
         mViewModel.getPsBsnssType().observe(getViewLifecycleOwner(), s -> {
             bussTypPosition = s;
