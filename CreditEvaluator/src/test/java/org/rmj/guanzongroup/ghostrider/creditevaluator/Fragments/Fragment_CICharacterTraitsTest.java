@@ -63,7 +63,6 @@ public class Fragment_CICharacterTraitsTest {
         infoModel.setcTranstat(cTranstat);
         infoModel.setsRemarks(sRemarks);
 
-
         Assert.assertEquals(cbGambler ,infoModel.getCbGambler());
         Assert.assertEquals(cbWomanizer ,infoModel.getCbWomanizer());
         Assert.assertEquals(cbHeavyBrrw ,infoModel.getCbHeavyBrrw());

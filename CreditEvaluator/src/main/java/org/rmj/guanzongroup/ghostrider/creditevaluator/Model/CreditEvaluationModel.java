@@ -154,7 +154,9 @@ public class CreditEvaluationModel implements Serializable {
     }
 
     public String getdTimeStmp() {
-        return  new FormatUIText().getParseUIDateTime(dTimeStmp);
+        return  new FormatUIText().getParseDateTime(dTimeStmp);
+
+        //return  new FormatUIText().getParseUIDateTime(dTimeStmp);
     }
 
     public void setdTimeStmp(String dTimeStmp) {

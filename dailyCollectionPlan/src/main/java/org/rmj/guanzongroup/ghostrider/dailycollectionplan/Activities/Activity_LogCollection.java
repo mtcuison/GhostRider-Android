@@ -22,12 +22,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionLogAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionLog;
@@ -44,25 +40,23 @@ public class Activity_LogCollection extends AppCompatActivity {
     private static final String TAG = Activity_LogCollection.class.getSimpleName();
 
     private VMCollectionLog mViewModel;
-    private LoadDialog poDialogx;
-    private MessageBox poMessage;
 
-    private TextView lblBranch, lblAddrss, lblTotRemit, lblCashOH, lblTotalClt;
-    //private CollectionLogAdapter poAdapter;
+    private TextView lblBranch,
+                        lblAddrss,
+                        txtNoLog,
+                        txtNoName,
+                        lblTotRemit,
+                        lblCashOH,
+                        lblTotalClt;
+
     private LinearLayoutManager poManager;
     private TextInputEditText txtDate, txtSearch;
     private RecyclerView recyclerView;
-    private TextView txtNoLog, txtNoName;
     private LinearLayout lnEmptyList;
     private TextInputLayout tilSearch;
     private LinearLayout linearCashInfo;
 
     private List<EDCPCollectionDetail> filteredCollectionDetlx;
-
-    private boolean hasLog = true;
-
-    private List<EBankInfo> poBankList = new ArrayList<>();
-    private List<EBranchInfo> poBrnchList = new ArrayList<>();
 
     private String psCltCheck;
     private String psCltCashx;
@@ -73,8 +67,6 @@ public class Activity_LogCollection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection_log);
         initWidgets();
-        poDialogx = new LoadDialog(Activity_LogCollection.this);
-        poMessage = new MessageBox(Activity_LogCollection.this);
 
         mViewModel = new ViewModelProvider(this).get(VMCollectionLog.class);
         mViewModel.getUserBranchInfo().observe(Activity_LogCollection.this, eBranchInfo -> {
@@ -91,22 +83,6 @@ public class Activity_LogCollection extends AppCompatActivity {
                 mViewModel.setAddressList(eAddressUpdates);
             }
             catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-
-        mViewModel.getBankInfoList().observe(Activity_LogCollection.this, eBankInfos -> {
-            try {
-                poBankList = eBankInfos;
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
-        mViewModel.getBranchInfoList().observe(Activity_LogCollection.this, eBranchInfos -> {
-            try {
-                poBrnchList = eBranchInfos;
-            } catch (Exception e){
                 e.printStackTrace();
             }
         });
@@ -145,7 +121,6 @@ public class Activity_LogCollection extends AppCompatActivity {
         mViewModel.getDateTransact().observe(Activity_LogCollection.this, s -> mViewModel.getCollectionDetailForDate(s).observe(Activity_LogCollection.this, collectionDetails -> {
             try{
                 if(collectionDetails.size() > 0) {
-                    hasLog = true;
                     lnEmptyList.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                     tilSearch.setVisibility(View.VISIBLE);
@@ -208,8 +183,6 @@ public class Activity_LogCollection extends AppCompatActivity {
                         }
                     });
 
-//                    mViewModel.initializeRemittedCollection(s);
-
                     mViewModel.getCollectedTotal(s).observe(this, value -> {
                         try {
                             mViewModel.setnTotCollt(Double.parseDouble(value));
@@ -221,8 +194,8 @@ public class Activity_LogCollection extends AppCompatActivity {
 
                     mViewModel.getTotalRemittedCollection(s).observe(this, value -> {
                         try {
-                            mViewModel.setnTotRemit(Double.parseDouble(value));
                             lblTotRemit.setText("Total Remitted : " + FormatUIText.getCurrencyUIFormat(value));
+                            mViewModel.setnTotRemit(Double.parseDouble(value));
                         } catch (Exception e){
                             e.printStackTrace();
                         }
@@ -234,7 +207,6 @@ public class Activity_LogCollection extends AppCompatActivity {
 
                     mViewModel.Calculate_COH_Remitted(s, result -> psCltCashx = result);
                 } else {
-                    hasLog = false;
                     lnEmptyList.setVisibility(View.VISIBLE);
                     txtNoName.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);

@@ -54,14 +54,11 @@ public class Fragment_MainContainer extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMMainContainer.class);
 
-        mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), new Observer<EEmployeeInfo>() {
-            @Override
-            public void onChanged(EEmployeeInfo eEmployeeInfo) {
-                try {
-                    viewPager.setAdapter(new FragmentAdapter(getParentFragmentManager(), appConstants.getHomePages(Integer.parseInt(eEmployeeInfo.getEmpLevID()))));
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+        mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
+            try {
+                viewPager.setAdapter(new FragmentAdapter(getParentFragmentManager(), appConstants.getHomePages(Integer.parseInt(eEmployeeInfo.getEmpLevID()))));
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
     }

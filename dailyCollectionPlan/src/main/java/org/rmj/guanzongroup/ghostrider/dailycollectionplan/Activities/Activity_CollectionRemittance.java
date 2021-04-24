@@ -245,11 +245,12 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                         txtAccNox.setAdapter(new ArrayAdapter<>(Activity_CollectionRemittance.this, android.R.layout.simple_spinner_dropdown_item, lsAccounts));
 
                         txtAccNox.setOnItemClickListener((parent, view, position, id) -> {
+                            String[] lsSplitStr = txtAccNox.getText().toString().split(" ");
+                            String lsAcctNox = lsSplitStr[0];
                             for(int x = 0; x < remittanceAccounts.size(); x++){
-                                String[] lsSplitStr = txtAccNox.getText().toString().split(" ");
-                                String lsAcctNox = lsSplitStr[0];
                                 if(lsAcctNox.equalsIgnoreCase(remittanceAccounts.get(x).getActNumbr())){
                                     txtAccName.setText(remittanceAccounts.get(x).getActNamex());
+                                    txtAccNox.setText(remittanceAccounts.get(x).getActNumbr());
                                     break;
                                 }
                             }
@@ -258,7 +259,6 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 });
-
             } else {
                 linearBrnch.setVisibility(View.GONE);
                 linearBank.setVisibility(View.VISIBLE);
@@ -275,11 +275,12 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                         txtAccNox.setAdapter(new ArrayAdapter<>(Activity_CollectionRemittance.this, android.R.layout.simple_spinner_dropdown_item, lsAccounts));
 
                         txtAccNox.setOnItemClickListener((parent, view, position, id) -> {
+                            String[] lsSplitStr = txtAccNox.getText().toString().split(" ");
+                            String lsAcctNox = lsSplitStr[0];
                             for(int x = 0; x < remittanceAccounts.size(); x++){
-                                String[] lsSplitStr = txtAccNox.getText().toString().split(" ");
-                                String lsAcctNox = lsSplitStr[0];
                                 if(lsAcctNox.equalsIgnoreCase(remittanceAccounts.get(x).getActNumbr())){
                                     txtAccName.setText(remittanceAccounts.get(x).getActNamex());
+                                    txtAccNox.setText(remittanceAccounts.get(x).getActNumbr());
                                     break;
                                 }
                             }
@@ -308,11 +309,11 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                     case "1":
                     case "2":
                         poRemit.setCompnyNm(Objects.requireNonNull(txtAccName.getText()).toString());
-                        poRemit.setCompnyNm(Objects.requireNonNull(txtAccNox.getText()).toString());
+                        poRemit.setBankAcct(Objects.requireNonNull(txtAccNox.getText()).toString());
                         poRemit.setReferNox(Objects.requireNonNull(txtRefNox.getText()).toString());
                         break;
                 }
-                poRemit.setAmountxx(txtAmount.getText().toString().replace(",", ""));
+                poRemit.setAmountxx(Objects.requireNonNull(txtAmount.getText()).toString().replace(",", ""));
                 poRemit.setTimeStmp(AppConstants.DATE_MODIFIED);
                 mViewModel.RemitCollection(poRemit, new VMCollectionRemittance.OnRemitCollectionCallback() {
                     @Override
