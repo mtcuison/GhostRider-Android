@@ -1,0 +1,8 @@
+<component name="CopyrightManager">
+  <settings default="MIS-SEG Copyright 2021">
+    <LanguageOptions name="JAVA">
+      <option name="fileTypeOverride" value="3" />
+      <option name="box" value="true" />
+    </LanguageOptions>
+  </settings>
+</component>
