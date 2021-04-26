@@ -37,6 +37,7 @@ import org.rmj.g3appdriver.GRider.ImportData.Import_BranchPerformance;
 import org.rmj.g3appdriver.GRider.ImportData.Import_LoanApplications;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SCARequest;
+import org.rmj.g3appdriver.GRider.ImportData.Import_SysConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 
@@ -82,7 +83,8 @@ public class DataImportService extends JobService {
                 new Import_AreaPerformance(getApplication()),
                 new Import_Occupations(getApplication()),
                 new Import_BranchPerformance(getApplication()),
-                new Import_LoanApplications(getApplication())};
+                new Import_LoanApplications(getApplication()),
+                new Import_SysConfig(getApplication())};
 
         if(poConfig.isAppFirstLaunch()) {
             GNotifBuilder.createNotification(getApplication(), GNotifBuilder.JOB_SERVICE, "Downloading local resources...", GNotifBuilder.APP_DATA_DOWNLOAD).show();
