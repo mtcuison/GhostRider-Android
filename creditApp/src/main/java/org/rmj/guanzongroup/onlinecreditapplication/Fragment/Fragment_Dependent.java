@@ -121,15 +121,15 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         mViewModel.setLinearEmployed().observe(getViewLifecycleOwner(), integer -> linearEmployd.setVisibility(integer));
         // TODO: Use the ViewModel
         mViewModel.getRelationX().observe(getViewLifecycleOwner(), s -> {
-            actRelationx.setSelection(Integer.parseInt(s));
+            actRelationx.setSelection(s.length());
             mRelationPosition = Integer.parseInt(s);
             Log.e("Employee ", s);
         });
         mViewModel.getSchoolTypeX().observe(getViewLifecycleOwner(), s -> {
-            actSchoolType.setSelection(Integer.parseInt(s));
+            actSchoolType.setSelection(s.length());
         });
         mViewModel.getSchoolLvlX().observe(getViewLifecycleOwner(), s -> {
-            actSchoolLvl.setSelection(Integer.parseInt(s));
+            actSchoolLvl.setSelection(s.length());
             mEducLvlPosition = Integer.parseInt(s);
             Log.e("Employee ", s);
         });

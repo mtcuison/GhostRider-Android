@@ -123,15 +123,25 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         mViewModel = new ViewModelProvider(this).get(VMEmploymentInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
         mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
-        mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
+        mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnCmpLvl.setAdapter(stringArrayAdapter);
+            spnCmpLvl.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
-        mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
+        mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnEmpLvl.setAdapter(stringArrayAdapter);
+            spnEmpLvl.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
-        mViewModel.getBusinessNature().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBusNtr.setAdapter(stringArrayAdapter));
+        mViewModel.getBusinessNature().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnBusNtr.setAdapter(stringArrayAdapter);
+            spnBusNtr.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
         mViewModel.getCountryNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtCntryx.setAdapter(adapter);
+            txtCntryx.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
         });
 
         txtCntryx.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getCountryInfoList().observe(getViewLifecycleOwner(), countryInfos -> {
@@ -146,6 +156,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         mViewModel.getProvinceName().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvNm.setAdapter(adapter);
+            txtProvNm.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
         });
         txtProvNm.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getProvinceInfo().observe(getViewLifecycleOwner(), eProvinceInfos -> {
             for(int x = 0; x < eProvinceInfos.size(); x++){
@@ -158,6 +169,8 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
             mViewModel.getTownNameList().observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 txtTownNm.setAdapter(adapter);
+
+                txtTownNm.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
             });
         }));
 
@@ -183,8 +196,14 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
             }
         }));
 
-        mViewModel.getEmploymentStatus().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpSts.setAdapter(stringArrayAdapter));
-        mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnServce.setAdapter(stringArrayAdapter));
+        mViewModel.getEmploymentStatus().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnEmpSts.setAdapter(stringArrayAdapter);
+            spnEmpSts.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
+        mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnServce.setAdapter(stringArrayAdapter);
+            spnServce.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
         spnCmpLvl.setOnItemClickListener(new OnItemClickListener(spnCmpLvl));
         spnEmpLvl.setOnItemClickListener(new OnItemClickListener(spnEmpLvl));

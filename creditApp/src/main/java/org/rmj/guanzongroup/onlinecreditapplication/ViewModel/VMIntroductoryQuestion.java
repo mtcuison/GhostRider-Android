@@ -28,6 +28,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Data.GoCasBuilder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PurchaseInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
+import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;

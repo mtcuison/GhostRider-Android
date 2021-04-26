@@ -98,34 +98,40 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         TransNox = Activity_CreditApplication.getInstance().getTransNox();
         mViewModel.setTransNox(TransNox);
         mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
-        mViewModel.getSpnCMakerRelation().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBrwrRltn.setAdapter(stringArrayAdapter));
-        mViewModel.getSpnCMakerIncomeSource().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnIncmSrce.setAdapter(stringArrayAdapter));
+        mViewModel.getSpnCMakerRelation().observe(getViewLifecycleOwner(), stringArrayAdapter ->{
+            spnBrwrRltn.setAdapter(stringArrayAdapter);
+            spnBrwrRltn.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
+        mViewModel.getSpnCMakerIncomeSource().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnIncmSrce.setAdapter(stringArrayAdapter);
+            spnIncmSrce.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
         mViewModel.getCmrPrimaryCntctPlan().observe(getViewLifecycleOwner(), integer -> tilPrmCntctPlan.setVisibility(integer));
         mViewModel.getCmrSecondaryCntctPlan().observe(getViewLifecycleOwner(), integer -> tilScnCntctPlan.setVisibility(integer));
         mViewModel.getCmrTertiaryCntctPlan().observe(getViewLifecycleOwner(), integer -> tilTrtCntctPlan.setVisibility(integer));
         mViewModel.getTertiaryContact().observe(getViewLifecycleOwner(), s -> {
-            spnTrtCntct.setSelection(Integer.parseInt(s));
+            spnTrtCntct.setSelection(s.length());
             spnTrtCntctPosition = s;
             Log.e("Mobile 1", s);
         });
 
         mViewModel.getSecondaryContact().observe(getViewLifecycleOwner(), s -> {
-            spnScnCntct.setSelection(Integer.parseInt(s));
+            spnScnCntct.setSelection(s.length());
             spnScndCntctPosition = s;
             Log.e("Mobile 2", s);
         });
         mViewModel.getPrimaryContact().observe(getViewLifecycleOwner(), s -> {
-            spnPrmCntct.setSelection(Integer.parseInt(s));
+            spnPrmCntct.setSelection(s.length());
             spnPrmryCntctPosition = s;
             Log.e("Mobile 3 ", s);
         });
         mViewModel.getCMakeIncomeSource().observe(getViewLifecycleOwner(), s -> {
-            spnIncmSrce.setSelection(Integer.parseInt(s));
+            spnIncmSrce.setSelection(s.length());
             spnIncomePosition = s;
             Log.e("Mobile 1", s);
         });
         mViewModel.getCMakerRelation().observe(getViewLifecycleOwner(), s -> {
-            spnBrwrRltn.setSelection(Integer.parseInt(s));
+            spnBrwrRltn.setSelection(s.length());
             spnCoRelationPosition = s;
             Log.e("Mobile 1", s);
         });
@@ -133,6 +139,9 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
             spnPrmCntct.setAdapter(stringArrayAdapter);
             spnScnCntct.setAdapter(stringArrayAdapter);
             spnTrtCntct.setAdapter(stringArrayAdapter);
+            spnPrmCntct.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnScnCntct.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnTrtCntct.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
         });
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);

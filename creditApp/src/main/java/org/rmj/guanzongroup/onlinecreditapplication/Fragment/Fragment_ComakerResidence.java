@@ -165,11 +165,20 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
             }
         }));
 
-        mViewModel.getHouseHolds().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnHouseHold.setAdapter(stringArrayAdapter));
+        mViewModel.getHouseHolds().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnHouseHold.setAdapter(stringArrayAdapter);
+            spnHouseHold.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
-        mViewModel.getHouseType().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnHouseType.setAdapter(stringArrayAdapter));
+        mViewModel.getHouseType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnHouseType.setAdapter(stringArrayAdapter);
+            spnHouseType.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
-        mViewModel.getLenghtOfStay().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnLgnthStay.setAdapter(stringArrayAdapter));
+        mViewModel.getLenghtOfStay().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnLgnthStay.setAdapter(stringArrayAdapter);
+            spnLgnthStay.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
         btnNext.setOnClickListener(v -> {
             infoModel.setsLandMark(Objects.requireNonNull(txtLandMark.getText()).toString());

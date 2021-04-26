@@ -103,7 +103,10 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
         mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
 
-        mViewModel.getAccountType().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnTypex.setAdapter(stringArrayAdapter));
+        mViewModel.getAccountType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnTypex.setAdapter(stringArrayAdapter);
+            spnTypex.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
         tieElctx.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieElctx));
         tieWater.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieWater));

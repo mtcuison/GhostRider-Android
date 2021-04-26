@@ -144,11 +144,11 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
         mViewModel.getBusinessNature().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBusNtr.setAdapter(stringArrayAdapter));
         mViewModel.getPsCmpLvl().observe(getViewLifecycleOwner(), s -> {
-            spnCmpLvl.setSelection(Integer.parseInt(s));
+            spnCmpLvl.setSelection(s.length());
             Log.e("company ", s);
         });
         mViewModel.getPsEmpLvl().observe(getViewLifecycleOwner(), s -> {
-            spnEmpLvl.setSelection(Integer.parseInt(s));
+            spnEmpLvl.setSelection(s.length());
             Log.e("Employee ", s);
         });
         mViewModel.getPsBsnssLvl().observe(getViewLifecycleOwner(), s -> {
@@ -211,7 +211,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         mViewModel.getEmploymentStatus().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpSts.setAdapter(stringArrayAdapter));
         mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnServce.setAdapter(stringArrayAdapter));
         mViewModel.getPsService().observe(getViewLifecycleOwner(), s -> {
-            spnServce.setSelection(Integer.parseInt(s));
+            spnServce.setSelection(s.length());
             Log.e("Employee ", s);
         });
 

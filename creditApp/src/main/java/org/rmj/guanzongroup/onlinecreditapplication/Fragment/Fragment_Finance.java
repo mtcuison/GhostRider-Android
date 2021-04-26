@@ -85,6 +85,7 @@ public class Fragment_Finance extends Fragment implements ViewModelCallBack {
         mViewModel.getCountryNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtFCntry.setAdapter(adapter);
+            txtFCntry.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
         });
 
         txtFCntry.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getCountryInfoList().observe(getViewLifecycleOwner(), countryInfos -> {
@@ -95,7 +96,10 @@ public class Fragment_Finance extends Fragment implements ViewModelCallBack {
                 }
             }
         }));
-        mViewModel.getFinanceSource().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnRelation.setAdapter(stringArrayAdapter));
+        mViewModel.getFinanceSource().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnRelation.setAdapter(stringArrayAdapter);
+            spnRelation.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
         mViewModel.getFinanceSourceSpn().observe(getViewLifecycleOwner(), s ->{
             relationX = s;
             spnRelation.setSelection(Integer.parseInt(s));

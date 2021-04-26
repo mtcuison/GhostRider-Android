@@ -97,6 +97,13 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
         spnUnitPayr.setAdapter(mViewModel.getUnitUser());
         spnOthrPayr.setAdapter(mViewModel.getPayerBuyer());
         spnSourcexx.setAdapter(mViewModel.getIntCompanyInfoSource());
+//        dropdown background color
+        spnUnitUser.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        spnOthrUser.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        spnUnitPrps.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        spnUnitPayr.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        spnOthrPayr.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        spnSourcexx.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
 
         spnUnitUser.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnUnitUser));
         spnUnitPayr.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnUnitPayr));

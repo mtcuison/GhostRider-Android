@@ -13,6 +13,7 @@ import android.view.View;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_EmploymentInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_MeansInfoSelection;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_PersonalInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SelfEmployedInfo;
@@ -68,7 +69,7 @@ public class Activity_CreditApplication extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Bundle loBundle = new Bundle();
         loBundle.putString("transno", transNox);
-        Fragment_SelfEmployedInfo personalInfo = new Fragment_SelfEmployedInfo();
+        Fragment_EmploymentInfo personalInfo = new Fragment_EmploymentInfo();
         personalInfo.setArguments(loBundle);
         viewPager = findViewById(R.id.viewpager_creditApp);
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), CreditAppConstants.APPLICATION_PAGES));
