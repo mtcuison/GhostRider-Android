@@ -1,3 +1,14 @@
+/*
+ * Created by Android Team MIS-SEG Year 2021
+ * Copyright (c) 2021. Guanzon Central Office
+ * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+ * Project name : GhostRider_Android
+ * Module : GhostRider_Android.dailyCollectionPlan
+ * Electronic Personnel Access Control Security System
+ * project file created : 4/24/21 3:19 PM
+ * project file last modified : 4/24/21 3:18 PM
+ */
+
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 
 import androidx.annotation.NonNull;
@@ -18,6 +29,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -41,9 +53,7 @@ public class Activity_LogCollection extends AppCompatActivity {
 
     private VMCollectionLog mViewModel;
 
-    private TextView lblBranch,
-                        lblAddrss,
-                        txtNoLog,
+    private TextView    txtNoLog,
                         txtNoName,
                         lblTotRemit,
                         lblCashOH,
@@ -55,6 +65,7 @@ public class Activity_LogCollection extends AppCompatActivity {
     private LinearLayout lnEmptyList;
     private TextInputLayout tilSearch;
     private LinearLayout linearCashInfo;
+    private MaterialButton btnRemit;
 
     private List<EDCPCollectionDetail> filteredCollectionDetlx;
 
@@ -69,14 +80,6 @@ public class Activity_LogCollection extends AppCompatActivity {
         initWidgets();
 
         mViewModel = new ViewModelProvider(this).get(VMCollectionLog.class);
-        mViewModel.getUserBranchInfo().observe(Activity_LogCollection.this, eBranchInfo -> {
-            try {
-                lblBranch.setText(eBranchInfo.getBranchNm());
-                lblAddrss.setText(eBranchInfo.getAddressx());
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
 
         mViewModel.getAllAddress().observe(Activity_LogCollection.this, eAddressUpdates -> {
             try {
@@ -236,8 +239,6 @@ public class Activity_LogCollection extends AppCompatActivity {
         txtNoLog = findViewById(R.id.txt_no_logs);
         txtNoName = findViewById(R.id.txt_no_name);
         lnEmptyList = findViewById(R.id.linear_empty_list);
-        lblBranch = findViewById(R.id.lbl_headerBranch);
-        lblAddrss = findViewById(R.id.lbl_headerAddress);
         lblTotRemit = findViewById(R.id.lbl_totalRemitCollection);
         lblCashOH = findViewById(R.id.lbl_totalCashOnHand);
         lblTotalClt = findViewById(R.id.lbl_totalCollected);
@@ -246,6 +247,7 @@ public class Activity_LogCollection extends AppCompatActivity {
         txtSearch = findViewById(R.id.txt_collectionSearch);
         tilSearch = findViewById(R.id.til_collectionSearch);
         linearCashInfo = findViewById(R.id.linear_collectionCashInfo);
+        btnRemit = findViewById(R.id.btn_remit);
         filteredCollectionDetlx = new ArrayList<>();
 
         try {
@@ -256,7 +258,7 @@ public class Activity_LogCollection extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        linearCashInfo.setOnClickListener(v -> {
+        btnRemit.setOnClickListener(v -> {
             try {
                 Intent loIntent = new Intent(Activity_LogCollection.this, Activity_CollectionRemittance.class);
                 String lsDate = Objects.requireNonNull(txtDate.getText()).toString();
