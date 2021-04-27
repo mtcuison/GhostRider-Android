@@ -50,6 +50,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
     private VMOtherInfo mViewModel;
 
     private String TownID = "";
+    private String psProvIdx;
 
     private PersonalReferencesAdapter adapter;
     private OtherInfoModel otherInfo;
@@ -125,6 +126,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
             for(int x = 0; x < provinceInfos.size(); x++){
                 if(tieAddProv.getText().toString().equalsIgnoreCase(provinceInfos.get(x).getProvName())){
                     mViewModel.setProvID(provinceInfos.get(x).getProvIDxx());
+                    psProvIdx = provinceInfos.get(x).getProvIDxx();
                     break;
                 }
             }
@@ -137,7 +139,8 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
         tieAddTown.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getTownInfoList().observe(getViewLifecycleOwner(), townInfoList -> {
             for(int x = 0; x < townInfoList.size(); x++){
-                if(tieAddTown.getText().toString().equalsIgnoreCase(townInfoList.get(x).getTownName())){
+                if(tieAddTown.getText().toString().equalsIgnoreCase(townInfoList.get(x).getTownName())
+                        && townInfoList.get(x).getProvIDxx().equalsIgnoreCase(psProvIdx)){
                     TownID =  townInfoList.get(x).getTownIDxx();
                     break;
                 }
@@ -184,25 +187,27 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
     private void addReference(){
         try {
-            String refName = (Objects.requireNonNull(tieRefName.getText()).toString());
-            String refContact = (Objects.requireNonNull(tieRefCntc.getText()).toString());
-            String refAddress = (Objects.requireNonNull(tieRefAdd1.getText()).toString());
-            PersonalReferenceInfoModel poRefInfo = new PersonalReferenceInfoModel(refName, refAddress, TownID, refContact);
-            mViewModel.addReference(poRefInfo, new VMOtherInfo.AddPersonalInfoListener() {
-                @Override
-                public void OnSuccess() {
-                    tieRefName.setText("");
-                    tieRefCntc.setText("");
-                    tieRefAdd1.setText("");
-                    tieAddProv.setText("");
-                    tieAddTown.setText("");
-                    TownID = "";
-                }
+            mViewModel.getTownProvinceName(TownID, townName -> {
+                String refName = (Objects.requireNonNull(tieRefName.getText()).toString());
+                String refContact = (Objects.requireNonNull(tieRefCntc.getText()).toString());
+                String refAddress = (Objects.requireNonNull(tieRefAdd1.getText()).toString());
+                PersonalReferenceInfoModel poRefInfo = new PersonalReferenceInfoModel(refName, refAddress, townName, refContact);
+                mViewModel.addReference(poRefInfo, new VMOtherInfo.AddPersonalInfoListener() {
+                    @Override
+                    public void OnSuccess() {
+                        tieRefName.setText("");
+                        tieRefCntc.setText("");
+                        tieRefAdd1.setText("");
+                        tieAddProv.setText("");
+                        tieAddTown.setText("");
+                        TownID = "";
+                    }
 
-                @Override
-                public void onFailed(String message) {
-                    GToast.CreateMessage(getContext(), message, GToast.ERROR).show();
-                }
+                    @Override
+                    public void onFailed(String message) {
+                        GToast.CreateMessage(getContext(), message, GToast.ERROR).show();
+                    }
+                });
             });
         }catch (NullPointerException e){
             e.printStackTrace();
