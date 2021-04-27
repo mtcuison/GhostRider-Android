@@ -571,35 +571,38 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     }
                 }
 //                DEPENDENT
-                loListDetl.add(new ReviewAppDetail(true, "Dependent Info", "", ""));
+
                 org.json.JSONObject loDependent = new org.json.JSONObject(poInfo.getDependnt());
                 org.json.JSONArray loDeptArray = loDependent.getJSONArray("children");
-                for (int x = 0; x < loDeptArray.length(); x++){
-                    int i = x;
-                    org.json.JSONObject loExp = loDeptArray.getJSONObject(x);
-                    loListDetl.add(new ReviewAppDetail(false, "", "Dependent " + (i+1), ""));
-                    loListDetl.add(new ReviewAppDetail(false, "", "Fullname ", loExp.get("sFullName").toString()));
-                    loListDetl.add(new ReviewAppDetail(false, "", "Age ", loExp.get("nDepdAgex").toString()));
-                    loListDetl.add(new ReviewAppDetail(false, "", "Relationship ", parseDpdntRelationship(loExp.get("sReltnCde").toString())));
-                    if(loExp.get("cIsPupilx").toString().equalsIgnoreCase("1")){
+                if(loDeptArray.length() > 0) {
+                    loListDetl.add(new ReviewAppDetail(true, "Dependent Info", "", ""));
+                    for (int x = 0; x < loDeptArray.length(); x++) {
+                        int i = x;
+                        org.json.JSONObject loExp = loDeptArray.getJSONObject(x);
+                        loListDetl.add(new ReviewAppDetail(false, "", "Dependent " + (i + 1), ""));
+                        loListDetl.add(new ReviewAppDetail(false, "", "Fullname ", loExp.get("sFullName").toString()));
+                        loListDetl.add(new ReviewAppDetail(false, "", "Age ", loExp.get("nDepdAgex").toString()));
+                        loListDetl.add(new ReviewAppDetail(false, "", "Relationship ", parseDpdntRelationship(loExp.get("sReltnCde").toString())));
+                        if (loExp.get("cIsPupilx").toString().equalsIgnoreCase("1")) {
 
-                        loListDetl.add(new ReviewAppDetail(false, "", "School Name ", loExp.get("sSchlName").toString()));
-                        loListDetl.add(new ReviewAppDetail(false, "", "School Type ", parseDpdntSchoolType(loExp.get("cIsPrivte").toString())));
-                        loListDetl.add(new ReviewAppDetail(false, "", "Educational Level ", parseDpdntEducLvl(loExp.get("sEducLevl").toString())));
-                        if(loExp.get("cIsSchlrx").toString().equalsIgnoreCase("1")) {
-                            loListDetl.add(new ReviewAppDetail(false, "", "Schoolar", "Yes"));
+                            loListDetl.add(new ReviewAppDetail(false, "", "School Name ", loExp.get("sSchlName").toString()));
+                            loListDetl.add(new ReviewAppDetail(false, "", "School Type ", parseDpdntSchoolType(loExp.get("cIsPrivte").toString())));
+                            loListDetl.add(new ReviewAppDetail(false, "", "Educational Level ", parseDpdntEducLvl(loExp.get("sEducLevl").toString())));
+                            if (loExp.get("cIsSchlrx").toString().equalsIgnoreCase("1")) {
+                                loListDetl.add(new ReviewAppDetail(false, "", "Schoolar", "Yes"));
+                            }
+                            loListDetl.add(new ReviewAppDetail(false, "", "School Address", loExp.get("sSchlAddr").toString()));
+
+                            DTownInfo.TownProvinceName SchooPlace = poTown.getTownProvinceName(loExp.get("sSchlTown").toString());
+                            String SchooBirthPlace = SchooPlace.sTownName + ", " + SchooPlace.sProvName;
+                            loListDetl.add(new ReviewAppDetail(false, "", "School Town ", SchooBirthPlace));
+
                         }
-                        loListDetl.add(new ReviewAppDetail(false, "", "School Address", loExp.get("sSchlAddr").toString()));
 
-                        DTownInfo.TownProvinceName SchooPlace = poTown.getTownProvinceName(loExp.get("sSchlTown").toString());
-                        String SchooBirthPlace = SchooPlace.sTownName + ", " + SchooPlace.sProvName;
-                        loListDetl.add(new ReviewAppDetail(false, "", "School Town ", SchooBirthPlace));
-
-                    }
-
-                    if(loExp.get("cHasWorkx").toString().equalsIgnoreCase("1")) {
-                        loListDetl.add(new ReviewAppDetail(false, "", "Work Type", parseDpdntWorkType(loExp.get("cWorkType").toString())));
-                        loListDetl.add(new ReviewAppDetail(false, "", "Company Name", loExp.get("sCompanyx").toString()));
+                        if (loExp.get("cHasWorkx").toString().equalsIgnoreCase("1")) {
+                            loListDetl.add(new ReviewAppDetail(false, "", "Work Type", parseDpdntWorkType(loExp.get("cWorkType").toString())));
+                            loListDetl.add(new ReviewAppDetail(false, "", "Company Name", loExp.get("sCompanyx").toString()));
+                        }
                     }
                 }
 
