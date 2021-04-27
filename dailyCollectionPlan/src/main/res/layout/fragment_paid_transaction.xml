@@ -231,24 +231,40 @@
             android:textColor="@color/textColor_Black"
             style="@style/MaterialButtonLight"/>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TextInputStyle"
-            android:hint="Discount/Rebate"
-            android:layout_marginTop="5dp">
+            android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_dcpDiscount"
-                style="@style/TextInputStyle.Edittext"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionNext"
-                android:inputType="number|none"
-                android:maxLength="10"
-                android:maxLines="1"
-                android:nextFocusForward="@id/txt_dcpOthers" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_weight="1.5"
+                style="@style/TextInputStyle"
+                android:hint="Discount/Rebate"
+                android:layout_marginTop="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_dcpDiscount"
+                    style="@style/TextInputStyle.Edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="number|none"
+                    android:maxLength="10"
+                    android:maxLines="1"
+                    android:nextFocusForward="@id/txt_dcpOthers" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                android:id="@+id/cb_rebate"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5"
+                android:checked="true"
+                android:text="Rebate"/>
+
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

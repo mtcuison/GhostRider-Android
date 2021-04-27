@@ -31,6 +31,7 @@ public class AppConfigPreference {
     private static final String APP_DATE_LOGIN = "DateLogin";
     private static final String temp_PIN = "ConfirmationPIN";
     private static final String APP_FIREBASE_TOKEN = "Firebase_Token";
+    private static final String DCP_CustomerRebate = "DCP_CustomerRebate";
 
     private static AppConfigPreference mAppConfigPreference;
 
@@ -124,5 +125,14 @@ public class AppConfigPreference {
 
     public String getAppToken(){
         return pref.getString(APP_FIREBASE_TOKEN, "");
+    }
+
+    public void setDCP_CustomerRebate(String fnRebate){
+        editor.putString(DCP_CustomerRebate, fnRebate);
+        editor.commit();
+    }
+
+    public String getDCP_CustomerRebate(){
+        return pref.getString(DCP_CustomerRebate, "100.00");
     }
 }

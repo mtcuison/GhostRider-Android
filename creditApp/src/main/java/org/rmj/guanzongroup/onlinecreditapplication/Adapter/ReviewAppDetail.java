@@ -66,6 +66,9 @@ public class ReviewAppDetail {
     }
 
     public String getContent() {
+        if(psContent==null) {
+            return "";
+        }
         return psContent;
     }
 }

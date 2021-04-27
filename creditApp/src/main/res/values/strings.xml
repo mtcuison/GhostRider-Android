@@ -124,6 +124,7 @@
     <string name="sbtnPrvs">Previous</string>
     <string name="sLblPersonalInfo">Applicant Personal Information</string>
     <string name="sLblSpouseNameInfo">Spouse Name</string>
+    <string name="sLblPropertyInfo">Property Information</string>
     <string name="sLblSpouseSelfEmployedInfo">Spouse Self Employed Information</string>
     <string name="sLblSpousebirthInfo">Spouse Birth Information</string>
     <string name="sLblSpouseContactInfo">Spouse Contact Information</string>
