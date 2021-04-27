@@ -39,6 +39,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Data.GoCasBuilder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PurchaseInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
+import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -172,6 +173,12 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
 
     public LiveData<ArrayAdapter<String>> getApplicationType(){
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.APPLICATION_TYPE);
+        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
+        liveData.setValue(adapter);
+        return liveData;
+    }
+    public LiveData<ArrayAdapter<String>> getsample(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), R.layout.spinner_dropdown_item, CreditAppConstants.APPLICATION_TYPE);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
         return liveData;

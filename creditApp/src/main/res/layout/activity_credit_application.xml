@@ -16,7 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme"
+    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
     android:background="@drawable/bg_gradient_light"
     tools:context=".Activity.Activity_CreditApplication">
 

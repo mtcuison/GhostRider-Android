@@ -151,24 +151,34 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
 
         mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo));
 
-        mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCmpLvl.setAdapter(stringArrayAdapter));
-        mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpLvl.setAdapter(stringArrayAdapter));
-        mViewModel.getBusinessNature().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBusNtr.setAdapter(stringArrayAdapter));
+        mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnCmpLvl.setAdapter(stringArrayAdapter);
+            spnCmpLvl.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
+        mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnEmpLvl.setAdapter(stringArrayAdapter);
+            spnEmpLvl.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
+        mViewModel.getBusinessNature().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnBusNtr.setAdapter(stringArrayAdapter);
+            spnBusNtr.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
         mViewModel.getPsCmpLvl().observe(getViewLifecycleOwner(), s -> {
-            spnCmpLvl.setSelection(Integer.parseInt(s));
+            spnCmpLvl.setSelection(s.length());
             Log.e("company ", s);
         });
         mViewModel.getPsEmpLvl().observe(getViewLifecycleOwner(), s -> {
-            spnEmpLvl.setSelection(Integer.parseInt(s));
+            spnEmpLvl.setSelection(s.length());
             Log.e("Employee ", s);
         });
         mViewModel.getPsBsnssLvl().observe(getViewLifecycleOwner(), s -> {
-            spnBusNtr.setSelection(Integer.parseInt(s));
+            spnBusNtr.setSelection(s.length());
             Log.e("Business ", s);
         });
         mViewModel.getCountryNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtCntryx.setAdapter(adapter);
+            txtCntryx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         txtCntryx.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getCountryInfoList().observe(getViewLifecycleOwner(), countryInfos -> {
             for (int x = 0; x < countryInfos.size(); x++) {
@@ -181,6 +191,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         mViewModel.getProvinceName().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvNm.setAdapter(adapter);
+            txtProvNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         txtProvNm.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getProvinceInfo().observe(getViewLifecycleOwner(), eProvinceInfos -> {
             for (int x = 0; x < eProvinceInfos.size(); x++) {
@@ -193,6 +204,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
             mViewModel.getTownNameList().observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 txtTownNm.setAdapter(adapter);
+                txtTownNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             });
         }));
 
@@ -208,6 +220,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         mViewModel.getJobTitleNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtJobNme.setAdapter(adapter);
+            txtJobNme.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         txtJobNme.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getJobTitleInfoList().observe(getViewLifecycleOwner(), occupationInfos -> {
@@ -219,10 +232,16 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
             }
         }));
 
-        mViewModel.getEmploymentStatus().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnEmpSts.setAdapter(stringArrayAdapter));
-        mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnServce.setAdapter(stringArrayAdapter));
+        mViewModel.getEmploymentStatus().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnEmpSts.setAdapter(stringArrayAdapter);
+            spnEmpSts.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
+        mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnServce.setAdapter(stringArrayAdapter);
+            spnServce.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
         mViewModel.getPsService().observe(getViewLifecycleOwner(), s -> {
-            spnServce.setSelection(Integer.parseInt(s));
+            spnServce.setSelection(s.length());
             Log.e("Employee ", s);
         });
 
@@ -335,7 +354,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
             }
             if (spnBusNtr.equals(poView)) {
                 spnBusNtrPosition = String.valueOf(i);
-                mViewModel.setPsBsnssLvl(String.valueOf(i));
+                mViewModel.setPsBsnssLvl(adapterView.getItemAtPosition(i).toString());
             }
             if (spnServce.equals(poView)) {
                 spnServcePosition = String.valueOf(i);

@@ -139,6 +139,8 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvince.setAdapter(adapter);
             txtPProvince.setAdapter(adapter);
+            txtProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+            txtPProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         txtProvince.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getProvinceInfoList().observe(getViewLifecycleOwner(), eProvinceInfos -> {
@@ -151,6 +153,7 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             mViewModel.getTownNameList().observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 txtMunicipality.setAdapter(adapter);
+                txtMunicipality.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             });
         }));
 
@@ -165,6 +168,7 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             mViewModel.getBarangayNameList().observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 txtBarangay.setAdapter(adapter);
+                txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             });
         }));
 
@@ -188,6 +192,7 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             mViewModel.getPermanentTownNameList().observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 txtPMunicipl.setAdapter(adapter);
+                txtPMunicipl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             });
         }));
 
@@ -202,6 +207,8 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             mViewModel.getPermanentBarangayNameList().observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 txtPBarangay.setAdapter(adapter);
+                txtPBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+
             });
         }));
 
@@ -214,11 +221,20 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             }
         }));
 
-        mViewModel.getHouseHolds().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnHouseHold.setAdapter(stringArrayAdapter));
+        mViewModel.getHouseHolds().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnHouseHold.setAdapter(stringArrayAdapter);
+            spnHouseHold.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
-        mViewModel.getHouseType().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnHouseType.setAdapter(stringArrayAdapter));
+        mViewModel.getHouseType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnHouseType.setAdapter(stringArrayAdapter);
+            spnHouseType.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
-        mViewModel.getLenghtOfStay().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnLgnthStay.setAdapter(stringArrayAdapter));
+        mViewModel.getLenghtOfStay().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnLgnthStay.setAdapter(stringArrayAdapter);
+            spnLgnthStay.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
         spnHouseHold.setOnItemClickListener(new OnItemClickListener(spnHouseHold));
         spnHouseType.setOnItemClickListener(new OnItemClickListener(spnHouseType));

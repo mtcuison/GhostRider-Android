@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Activity;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -46,6 +47,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
+import static org.rmj.guanzongroup.onlinecreditapplication.R.color.androidx_core_ripple_material_light;
+import static org.rmj.guanzongroup.onlinecreditapplication.R.color.material_white;
+
 public class Activity_IntroductoryQuestion extends AppCompatActivity implements ViewModelCallBack {
     public static final String TAG = Activity_IntroductoryQuestion.class.getSimpleName();
     public static String lsApplType = "-1";
@@ -55,12 +59,14 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
     private PurchaseInfoModel model;
     private TextView lblBranchNm, lblBrandAdd, lblDate;
     private AutoCompleteTextView txtBranchNm, txtBrandNm, txtModelNm;
+
     private TextInputEditText txtDownPymnt, txtAmort, txtDTarget;
     private AutoCompleteTextView spnApplType, spnCustomerType, spnTerm;
     private MaterialButton btnCreate;
     public static Activity_IntroductoryQuestion newInstance() {
         return new Activity_IntroductoryQuestion();
     }
+    @SuppressLint({"ResourceAsColor", "ResourceType"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +75,15 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
         txtDownPymnt.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(txtDownPymnt));
         mViewModel = new ViewModelProvider(this).get(VMIntroductoryQuestion.class);
         model = new PurchaseInfoModel();
-        mViewModel.getApplicationType().observe(this, stringArrayAdapter -> spnApplType.setAdapter(stringArrayAdapter));
-        mViewModel.getCustomerType().observe(this, stringArrayAdapter -> spnCustomerType.setAdapter(stringArrayAdapter));
+        mViewModel.getApplicationType().observe(this, stringArrayAdapter -> {
+            spnApplType.setAdapter(stringArrayAdapter);
+            spnApplType.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+
+        });
+        mViewModel.getCustomerType().observe(this, stringArrayAdapter -> {
+            spnCustomerType.setAdapter(stringArrayAdapter);
+            spnCustomerType.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
         mViewModel.getUserBranchInfo().observe(this, eBranchInfo -> {
             try {
@@ -100,6 +113,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
         mViewModel.getAllBranchNames().observe(this, strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
             txtBranchNm.setAdapter(adapter);
+            txtBranchNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         txtBranchNm.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBranchInfo().observe(this, eBranchInfos -> {
@@ -114,10 +128,12 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
         mViewModel.getAllBrandNames().observe(this, strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
             txtBrandNm.setAdapter(adapter);
+            txtBrandNm.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
         });
         mViewModel.getAllBrandNames().observe(this, strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
             txtBrandNm.setAdapter(adapter);
+            txtBrandNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         txtBrandNm.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllMcBrand().observe(this, eMcBrands -> {
@@ -133,6 +149,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
         mViewModel.getBrandID().observe(this, s -> mViewModel.getAllBrandModelName(s).observe(this, strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
             txtModelNm.setAdapter(adapter);
+            txtModelNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         }));
 
         txtModelNm.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBrandModelInfo().observe(this, eMcModels -> {
@@ -197,7 +214,10 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
             public void afterTextChanged(Editable editable) {            }
         });
 
-        mViewModel.getInstallmentTerm().observe(this, stringArrayAdapter -> spnTerm.setAdapter(stringArrayAdapter));
+        mViewModel.getInstallmentTerm().observe(this, stringArrayAdapter -> {
+            spnTerm.setAdapter(stringArrayAdapter);
+            spnTerm.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
         mViewModel.getSelectedInstallmentTerm().observe(this, integer -> mViewModel.calculateMonthlyPayment());
 
@@ -265,9 +285,10 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
                 this.poView = view;
                 this.vm = viewModel;
             }
-
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
                 if(spnApplType.equals(poView)) {
                     String appType = String.valueOf(i);
                     lsApplType = appType;

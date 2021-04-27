@@ -77,7 +77,10 @@ public class Fragment_PensionInfo extends Fragment implements ViewModelCallBack 
             mViewModel.setDetailInfo(eCreditApplicantInfo);
         });
 
-        mViewModel.getPensionSector().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnSector.setAdapter(stringArrayAdapter));
+        mViewModel.getPensionSector().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnSector.setAdapter(stringArrayAdapter);
+            spnSector.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
         btnPrvs.setOnClickListener(view -> {
             try {
@@ -88,7 +91,7 @@ public class Fragment_PensionInfo extends Fragment implements ViewModelCallBack 
         });
         mViewModel.getSPensionSector().observe(getViewLifecycleOwner(), s -> {
             sectorPosition = s;
-            spnSector.setSelection(Integer.parseInt(s));
+            spnSector.setSelection(s.length());
         });
         spnSector.setOnItemClickListener(new OnItemClickListener(spnSector));
 

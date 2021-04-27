@@ -162,6 +162,7 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
                 try{
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                     txtProvince.setAdapter(adapter);
+                    txtProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -189,6 +190,7 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
                                 try{
                                     ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                                     txtTownxx.setAdapter(adapter);
+                                    txtTownxx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                                 } catch (Exception e){
                                     e.printStackTrace();
                                 }
@@ -220,6 +222,7 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
         mViewModel.getAllCountryCitizenNames().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtCitizenx.setAdapter(adapter);
+            txtCitizenx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         txtCitizenx.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getCountryInfoList().observe(getViewLifecycleOwner(), eCountryInfos -> {
             for(int x = 0; x < eCountryInfos.size(); x++){
@@ -234,21 +237,24 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
             spnMobile1.setAdapter(stringArrayAdapter);
             spnMobile2.setAdapter(stringArrayAdapter);
             spnMobile3.setAdapter(stringArrayAdapter);
+            spnMobile1.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnMobile2.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnMobile3.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
         });
 
         mViewModel.getMobileNo1().observe(getViewLifecycleOwner(), s -> {
-            spnMobile1.setSelection(Integer.parseInt(s));
+            spnMobile1.setSelection(s.length());
             spnMobile1Position = s;
             Log.e("Mobile 1", s);
         });
 
         mViewModel.getMobileNo2().observe(getViewLifecycleOwner(), s -> {
-            spnMobile2.setSelection(Integer.parseInt(s));
+            spnMobile2.setSelection(s.length());
             spnMobile2Position = s;
             Log.e("Mobile 2", s);
         });
         mViewModel.getMobileNo3().observe(getViewLifecycleOwner(), s -> {
-            spnMobile3.setSelection(Integer.parseInt(s));
+            spnMobile3.setSelection(s.length());
             spnMobile3Position = s;
             Log.e("Mobile 3 ", s);
         });

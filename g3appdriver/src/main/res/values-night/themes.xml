@@ -25,14 +25,14 @@
     <style name="MyPopupOtherStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!-- Used for the buttons -->
         <!-- Used for the title and text -->
-        <item name="android:textColorPrimary">#ffff</item>
+        <item name="android:textColorPrimary">@color/material_black</item>
         <!-- Used for the background -->
-        <item name="android:background">#575757</item>
+        <item name="android:background">@color/material_white</item>
     </style>
     <style name="GhostRiderMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="GhostRiderMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
-        <item name="android:textColorPrimary">#ffff</item>
+        <item name="android:textColorPrimary">@color/material_black</item>
         <item name="android:popupMenuStyle">@style/MyPopupOtherStyle</item>
     </style>
     <style name="TextInputStyle.Edittext">
@@ -41,6 +41,25 @@
         <item name="android:textColor">@color/textColor_Black</item>
         <item name="colorControlActivated">@color/guanzon_orange</item>
         <item name="hintTextColor">@color/textColor_Black</item>
+    </style>
+
+    <style name="GhostRiderMaterialTheme.WhiteBG" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/guanzon_orange_day</item>
+        <item name="colorPrimaryVariant">@color/material_black</item>
+        <item name="colorOnPrimary">@color/guanzon_orange_day</item>
+        <!--        <item name="colorAccent">@color/light_grey</item>-->
+
+        <item name="colorAccent">@color/guanzon_orange_day</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/guanzon_digital_orange_mid</item>
+        <item name="colorSecondaryVariant">@color/guanzon_digital_orange_lighten</item>
+        <item name="colorOnSecondary">@color/material_black</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <item name="android:popupMenuStyle">@style/MyPopupOtherStyle</item>
+        <item name="popupTheme">@style/MyPopupOtherStyle</item>
+        <item name="android:windowBackground">@color/material_white</item>
     </style>
 
     <style name="TextButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
@@ -192,7 +211,49 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+
     <style name="CustomDropDownTilStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="boxStrokeColor">@color/guanzon_digital_orange</item>
+        <item name="hintTextColor">@color/guanzon_digital_orange</item>
+        <item name="colorControlActivated">@color/guanzon_orange</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="android:popupBackground">@color/spinner_background</item>
+        <item name="android:textColor">@color/material_black</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+    </style>
+
+    <style name="CustomDropDownDialogStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="boxStrokeColor">@color/guanzon_digital_orange</item>
+        <item name="hintTextColor">@color/guanzon_digital_orange</item>
+        <item name="colorControlActivated">@color/guanzon_orange</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="android:popupBackground">@color/spinner_background</item>
+        <item name="android:itemBackground">@color/spinner_background</item>
+        <item name="color">@color/material_black</item>
+        <item name="android:textColor">@color/material_black</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="android:spinnerMode">dialog</item>
+        <item name="android:spinnersShown">true</item>
+    </style>
+    <style name="AutoCompleteTextStyle" parent="Widget.MaterialComponents.AutoCompleteTextView.FilledBox">
+        <item name="android:spinnerMode">dialog</item>
+    </style>
+    <style name="PopupAnimation">
+        <item name="android:windowEnterAnimation">@anim/anim_pop_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_pop_out</item>
+    </style>
+
+    <style name="TextInputStyleSpinner" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
         <item name="android:layout_margin">2dp</item>
         <item name="boxStrokeColor">@color/guanzon_digital_orange</item>
         <item name="hintTextColor">@color/guanzon_digital_orange</item>
@@ -201,11 +262,8 @@
         <item name="boxCornerRadiusBottomStart">10dp</item>
         <item name="boxCornerRadiusTopStart">10dp</item>
         <item name="boxCornerRadiusTopEnd">10dp</item>
-    </style>
+        <item name="android:popupBackground">@color/spinner_background</item>
+        <item name="android:textColor">@color/material_black</item>
 
-    <style name="PopupAnimation">
-        <item name="android:windowEnterAnimation">@anim/anim_pop_in</item>
-        <item name="android:windowExitAnimation">@anim/anim_pop_out</item>
     </style>
-
 </resources>
