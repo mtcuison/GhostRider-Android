@@ -760,6 +760,11 @@ public class VMCollectionList extends AndroidViewModel {
                                             loData.put("sSourceCD", loDetail.sSourceCD);
                                             loData.put("nLongitud", loDetail.nLongitud);
                                             loData.put("nLatitude", loDetail.nLatitude);
+                                        }
+                                        else if(loDetail.sRemCodex.equalsIgnoreCase("CNA")) {
+                                            //call sending CNA details....
+                                            Thread.sleep(1000);
+                                            sendCNADetails(loDetail.sRemCodex, loDetail.sTransNox);
                                         } else {
                                             loData.put("sImageNme", loDetail.sImageNme);
                                             loData.put("sSourceCD", loDetail.sSourceCD);
@@ -802,10 +807,6 @@ public class VMCollectionList extends AndroidViewModel {
                                                 poDcp.updateCollectionDetailStatus(loDetail.sTransNox, loDetail.nEntryNox);
                                             }
                                             isDataSent[x] = true;
-
-                                            //call sending CNA details....
-                                            Thread.sleep(1000);
-                                            sendCNADetails(loDetail.sRemCodex, loDetail.sTransNox);
                                         } else {
                                             JSONObject loError = loResponse.getJSONObject("error");
                                             Log.e(TAG, loError.getString("message"));
