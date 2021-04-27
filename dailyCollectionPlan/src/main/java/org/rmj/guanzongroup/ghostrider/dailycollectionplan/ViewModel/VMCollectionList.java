@@ -804,6 +804,7 @@ public class VMCollectionList extends AndroidViewModel {
                                             isDataSent[x] = true;
 
                                             //call sending CNA details....
+                                            Thread.sleep(1000);
                                             sendCNADetails(loDetail.sRemCodex, loDetail.sTransNox);
                                         } else {
                                             JSONObject loError = loResponse.getJSONObject("error");
@@ -907,8 +908,8 @@ public class VMCollectionList extends AndroidViewModel {
                                 Log.e("Address Update Result:", "Failed");
                             }
                         }
+                        Thread.sleep(1000);
                     }
-                    Thread.sleep(1000);
                 }
 
                 if (paMobile.size() == 0) {
@@ -944,9 +945,8 @@ public class VMCollectionList extends AndroidViewModel {
                                 Log.e("Mobile Update Result:", "Failed");
                             }
                         }
+                        Thread.sleep(1000);
                     }
-
-                    Thread.sleep(1000);
                 }
             }
         }
