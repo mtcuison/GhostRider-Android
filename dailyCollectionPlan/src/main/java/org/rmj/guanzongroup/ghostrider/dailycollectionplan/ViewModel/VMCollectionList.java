@@ -688,7 +688,7 @@ public class VMCollectionList extends AndroidViewModel {
 
                                     JSONObject loData = new JSONObject();
 
-                                    if (loDetail.sRemCodex != null) {
+                                    if (!loDetail.sRemCodex.isEmpty()) {
 
                                         org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(loDetail.sFileLoct,
                                                 lsAccess,

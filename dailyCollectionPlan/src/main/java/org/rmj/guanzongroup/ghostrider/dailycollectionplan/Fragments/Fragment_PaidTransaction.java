@@ -21,17 +21,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
@@ -57,10 +58,11 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
     private Spinner spnType;
     private TextInputEditText txtPrNoxx, txtRemarks, txtAmount, txtDiscount, txtOthers, txtTotAmnt;
+    private TextInputLayout tilDiscount;
     private Button btnAmort, btnRBlnce, btnClear;
     private MaterialButton btnConfirm;
 
-    private String psMonthAmt, psRBalance;
+    private String psMonthAmt, psRBalance, psAmntDue;
 
     public static Fragment_PaidTransaction newInstance() {
         return new Fragment_PaidTransaction();
@@ -89,6 +91,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         txtPrNoxx = v.findViewById(R.id.txt_dcpPRNumber);
         txtRemarks = v.findViewById(R.id.txt_dcpRemarks);
         txtAmount = v.findViewById(R.id.txt_dcpAmount);
+        tilDiscount = v.findViewById(R.id.til_dcpDiscount);
         txtDiscount = v.findViewById(R.id.txt_dcpDiscount);
         txtOthers = v.findViewById(R.id.txt_dcpOthers);
         txtTotAmnt = v.findViewById(R.id.txt_dcpTotAmount);
@@ -118,8 +121,11 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                 lblClientNm.setText(collectionDetail.getFullName());
                 lblTransNo.setText(collectionDetail.getTransNox());
                 mViewModel.setCurrentCollectionDetail(collectionDetail);
+                psAmntDue = collectionDetail.getAmtDuexx();
                 psMonthAmt = collectionDetail.getMonAmort();
                 psRBalance = collectionDetail.getABalance();
+                mViewModel.setMonthlyAmort(Double.valueOf(psMonthAmt));
+                mViewModel.setAmountDue(Double.valueOf(psAmntDue));
                 btnAmort.setText("Amortization : " + FormatUIText.getCurrencyUIFormat(collectionDetail.getMonAmort()));
                 btnRBlnce.setText("Remaining Balance : " + FormatUIText.getCurrencyUIFormat(collectionDetail.getABalance()));
             } catch (Exception e){
@@ -135,6 +141,33 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         mViewModel.getPaymentType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnType.setAdapter(stringArrayAdapter);
             spnType.setSelection(1);
+        });
+
+        mViewModel.getRebate().observe(getViewLifecycleOwner(), aDouble -> {
+            try{
+                txtDiscount.setText(String.valueOf(aDouble));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getRebateNotice().observe(getViewLifecycleOwner(), s -> {
+            if(!s.isEmpty()){
+                tilDiscount.setErrorEnabled(true);
+                tilDiscount.setError(s);
+            } else {
+                tilDiscount.setErrorEnabled(false);
+            }
+        });
+
+        txtDiscount.setOnFocusChangeListener((v, hasFocus) -> {
+            if(!hasFocus) {
+                if (!txtDiscount.getText().toString().isEmpty()) {
+                    mViewModel.setDiscount(Double.valueOf(txtDiscount.getText().toString().replace(",", "")));
+                } else {
+                    mViewModel.setDiscount(0.00);
+                }
+            }
         });
 
         mViewModel.getTotalAmount().observe(getViewLifecycleOwner(), aFloat -> txtTotAmnt.setText(String.valueOf(aFloat)));
@@ -171,14 +204,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
             }
         });
 
-        cbRebate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-
-                }
-            }
-        });
+        cbRebate.setOnCheckedChangeListener((buttonView, isChecked) -> mViewModel.setIsRebated(isChecked));
 
         btnAmort.setOnClickListener(v -> txtAmount.setText(psMonthAmt));
 
@@ -255,13 +281,17 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             try {
                 inputEditText.removeTextChangedListener(this);
-                if(!Objects.requireNonNull(inputEditText.getText()).toString().trim().isEmpty()) {
-                    if (inputEditText.getId() == R.id.txt_dcpAmount) {
+                if (inputEditText.getId() == R.id.txt_dcpAmount) {
+                    if(!inputEditText.getText().toString().isEmpty()) {
                         mViewModel.setAmount(Double.valueOf(inputEditText.getText().toString().replace(",", "")));
-                    } else if (inputEditText.getId() == R.id.txt_dcpDiscount) {
-                        mViewModel.setDiscount(Double.valueOf(inputEditText.getText().toString().replace(",", "")));
-                    } else if (inputEditText.getId() == R.id.txt_dcpOthers) {
+                    } else {
+                        mViewModel.setAmount((double) 0);
+                    }
+                } else if (inputEditText.getId() == R.id.txt_dcpOthers) {
+                    if(!inputEditText.getText().toString().isEmpty()) {
                         mViewModel.setOthers(Double.valueOf(inputEditText.getText().toString().replace(",", "")));
+                    } else {
+                        mViewModel.setOthers((double) 0);
                     }
                 }
                 inputEditText.addTextChangedListener(this);

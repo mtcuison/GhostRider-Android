@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -46,16 +47,21 @@ public class DialogAccountDetail {
     private String[] civilStatus = DCP_Constants.CIVIL_STATUS;
     private String[] gender = {"Male", "Female", "LGBT"};
 
-    TextView dFullName;
-    TextView dAddress;
-    TextView dGender;
-    TextView dCivil;
-    TextView dBDate;
-    TextView dBPlace;
-    TextView dTelNo;
-    TextView dMobileNo;
-    TextView dEmail;
-    TextView dRemarks;
+    private TextView dFullName;
+    private TextView dAddress;
+    private TextView dGender;
+    private TextView dCivil;
+    private TextView dBDate;
+    private TextView dBPlace;
+    private TextView dTelNo;
+    private TextView dMobileNo;
+    private TextView dEmail;
+    private TextView dRemarks;
+    private TextView lblBalnce;
+    private TextView lblDelayx;
+    private TextView lblLastPy;
+    private TextView lblLastPd;
+
     public DialogAccountDetail(Context context){
         this.context = context;
     }
@@ -72,12 +78,10 @@ public class DialogAccountDetail {
         poDCPRepo = new RDailyCollectionPlan(activity.getApplication());
         TextView lblReferNo = view.findViewById(R.id.lbl_dcpReferNo);
         TextView lblTransNo = view.findViewById(R.id.lbl_dcpTransNo);
-//        TextView lblTranDte = view.findViewById(R.id.lbl_dcpTranDate);
         TextView lblAccntNo = view.findViewById(R.id.lbl_dcpAccNo);
         TextView lblSerialx = view.findViewById(R.id.lbl_dcpPRNo);
         TextView lblAmountx = view.findViewById(R.id.lbl_dcpAmountDue);
         TextView lblDueDate = view.findViewById(R.id.lbl_dcpDueDate);
-//        TextView lblOthersx = view.findViewById(R.id.lbl_dcpOthers);
         TextView transType = view.findViewById(R.id.lbl_transaction_type);
         LinearLayout linearLayout = view.findViewById(R.id.linear_lunInfo);
         dFullName = view.findViewById(R.id.dialog_fullName);
@@ -90,6 +94,10 @@ public class DialogAccountDetail {
         dMobileNo = view.findViewById(R.id.dialog_mobileNo);
         dEmail = view.findViewById(R.id.dialog_email);
         dRemarks = view.findViewById(R.id.dialog_remarks);
+        lblBalnce = view.findViewById(R.id.lbl_dcpBalance);
+        lblDelayx = view.findViewById(R.id.lbl_dcpDelayAvg);
+        lblLastPy = view.findViewById(R.id.lbl_dcpAmountLastPay);
+        lblLastPd = view.findViewById(R.id.lbl_dcpLastPaid);
 
         Spinner spnTransact = view.findViewById(R.id.spn_transaction);
         Button btnConfirm = view.findViewById(R.id.btn_confirm);
@@ -124,13 +132,16 @@ public class DialogAccountDetail {
 //            lblRemarks.setText(DCP_Constants.getRemarksDescription(foDetail.getRemCodex()));
         }
         Log.e("Remarks code", foDetail.getRemCodex() + "");
-        //lblReferNo.setText(foDetail.getReferNox());
+        lblReferNo.setText(foDetail.getReferNox());
         lblTransNo.setText(foDetail.getTransNox());
         lblAccntNo.setText(foDetail.getAcctNmbr());
         lblSerialx.setText(foDetail.getSerialNo());
         lblAmountx.setText(FormatUIText.getCurrencyUIFormat(foDetail.getAmtDuexx()));
         lblDueDate.setText(FormatUIText.formatGOCasBirthdate(foDetail.getDueDatex()));
-
+        lblBalnce.setText(FormatUIText.getCurrencyUIFormat(foDetail.getABalance()));
+        lblDelayx.setText(foDetail.getDelayAvg());
+        lblLastPy.setText(FormatUIText.getCurrencyUIFormat(foDetail.getLastPaym()));
+        lblLastPd.setText(FormatUIText.formatGOCasBirthdate(foDetail.getLastPaid()));
         btnConfirm.setOnClickListener(view1 -> listener.OnClick(poDialogx, spnTransact.getSelectedItem().toString()));
 
         btnCancelx.setOnClickListener(view12 -> dismiss());
@@ -163,6 +174,7 @@ public class DialogAccountDetail {
     public LiveData<DTownInfo.BrgyTownProvinceInfo> getTownProvinceInfo(String fsID){
         return RTown.getTownProvinceInfo(fsID);
     }
+    @SuppressLint("SetTextI18n")
     public void showClientUpdateInfo(Activity_CollectionList activities, EDCPCollectionDetail foDetails){
         getClientUpdateInfo(foDetails.getAcctNmbr()).observe(activities, eClientUpdate ->{
             getBrgyTownProvinceInfo(eClientUpdate.getBarangay()).observe(activities, eTownInfo -> {
