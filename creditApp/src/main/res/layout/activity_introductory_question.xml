@@ -15,7 +15,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:theme="@style/GhostRiderMaterialTheme"
+    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
     tools:context=".Activity.Activity_IntroductoryQuestion"
     android:background="@drawable/bg_gradient_light"
     android:orientation="vertical">

@@ -177,6 +177,12 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
         liveData.setValue(adapter);
         return liveData;
     }
+    public LiveData<ArrayAdapter<String>> getsample(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), R.layout.spinner_dropdown_item, CreditAppConstants.APPLICATION_TYPE);
+        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
+        liveData.setValue(adapter);
+        return liveData;
+    }
 
     public LiveData<ArrayAdapter<String>> getCustomerType(){
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.CUSTOMER_TYPE);
