@@ -80,7 +80,7 @@ public class Activity_CreditApplication extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Bundle loBundle = new Bundle();
         loBundle.putString("transno", transNox);
-        Fragment_EmploymentInfo personalInfo = new Fragment_EmploymentInfo();
+        Fragment_PersonalInfo personalInfo = new Fragment_PersonalInfo();
         personalInfo.setArguments(loBundle);
         viewPager = findViewById(R.id.viewpager_creditApp);
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), CreditAppConstants.APPLICATION_PAGES));

@@ -78,6 +78,7 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
                 try{
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                     txtProvince.setAdapter(adapter);
+                    txtProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -100,6 +101,7 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
                                 try{
                                     ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                                     txtTown.setAdapter(adapter);
+                                    txtTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                                 } catch (Exception e){
                                     e.printStackTrace();
                                 }
@@ -124,10 +126,22 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
             }
         });
 
-        mViewModel.getNatureOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBizIndustry.setAdapter(stringArrayAdapter));
-        mViewModel.getTypeOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBizType.setAdapter(stringArrayAdapter));
-        mViewModel.getSizeOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBizSize.setAdapter(stringArrayAdapter));
-        mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnMonthOrYr.setAdapter(stringArrayAdapter));
+        mViewModel.getNatureOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnBizIndustry.setAdapter(stringArrayAdapter);
+            spnBizIndustry.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
+        mViewModel.getTypeOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnBizType.setAdapter(stringArrayAdapter);
+            spnBizType.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
+        mViewModel.getSizeOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnBizSize.setAdapter(stringArrayAdapter);
+            spnBizSize.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
+        mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnMonthOrYr.setAdapter(stringArrayAdapter);
+            spnMonthOrYr.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
     }
 
     private void initWidgets(View v) {

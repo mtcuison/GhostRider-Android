@@ -58,7 +58,6 @@ public class CreditAppConstants {
      */
 
     public static Fragment[] APPLICATION_PAGES = {
-            new Fragment_EmploymentInfo(),
             new Fragment_PersonalInfo(),
             new Fragment_ResidenceInfo(),
             new Fragment_MeansInfoSelection(),

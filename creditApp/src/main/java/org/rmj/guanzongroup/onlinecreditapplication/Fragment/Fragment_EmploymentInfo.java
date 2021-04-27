@@ -152,7 +152,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         mViewModel.getCountryNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtCntryx.setAdapter(adapter);
-            txtCntryx.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            txtCntryx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         txtCntryx.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getCountryInfoList().observe(getViewLifecycleOwner(), countryInfos -> {
@@ -167,7 +167,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         mViewModel.getProvinceName().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvNm.setAdapter(adapter);
-            txtProvNm.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            txtProvNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         txtProvNm.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getProvinceInfo().observe(getViewLifecycleOwner(), eProvinceInfos -> {
             for(int x = 0; x < eProvinceInfos.size(); x++){
@@ -180,8 +180,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
             mViewModel.getTownNameList().observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 txtTownNm.setAdapter(adapter);
-
-                txtTownNm.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+                txtTownNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             });
         }));
 
@@ -196,6 +195,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         mViewModel.getJobTitleNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtJobNme.setAdapter(adapter);
+            txtJobNme.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         txtJobNme.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getJobTitleInfoList().observe(getViewLifecycleOwner(), occupationInfos -> {

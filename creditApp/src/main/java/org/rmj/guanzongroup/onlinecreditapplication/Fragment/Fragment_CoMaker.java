@@ -157,6 +157,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             tieBrthProv.setAdapter(adapter);
+            tieBrthProv.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         tieBrthProv.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getProvinceInfoList().observe(getViewLifecycleOwner(), provinceInfos -> {
@@ -170,6 +171,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
             mViewModel.getAllTownNames().observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 tieBrthTown.setAdapter(adapter);
+                tieBrthTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             });
         }));
 

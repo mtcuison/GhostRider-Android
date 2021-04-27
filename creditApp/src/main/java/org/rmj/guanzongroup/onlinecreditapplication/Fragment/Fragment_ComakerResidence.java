@@ -137,6 +137,7 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvince.setAdapter(loAdapter);
+            txtProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         txtProvince.setOnItemClickListener((parent, view, position, id) -> mViewModel.getProvinceInfo().observe(getViewLifecycleOwner(), eProvinceInfos -> {
@@ -150,6 +151,7 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
             mViewModel.getTownNameList().observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 txtMunicipality.setAdapter(loAdapter);
+                txtMunicipality.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             });
         }));
 
@@ -165,6 +167,7 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
             mViewModel.getBarangayListName().observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 txtBarangay.setAdapter(loAdapter);
+                txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             });
         }));
 

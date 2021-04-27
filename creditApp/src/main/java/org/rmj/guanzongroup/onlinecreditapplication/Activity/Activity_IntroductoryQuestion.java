@@ -59,6 +59,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
     private PurchaseInfoModel model;
     private TextView lblBranchNm, lblBrandAdd, lblDate;
     private AutoCompleteTextView txtBranchNm, txtBrandNm, txtModelNm;
+
     private TextInputEditText txtDownPymnt, txtAmort, txtDTarget;
     private AutoCompleteTextView spnApplType, spnCustomerType, spnTerm;
     private MaterialButton btnCreate;
@@ -112,7 +113,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
         mViewModel.getAllBranchNames().observe(this, strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
             txtBranchNm.setAdapter(adapter);
-            txtBranchNm.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            txtBranchNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         txtBranchNm.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBranchInfo().observe(this, eBranchInfos -> {
@@ -132,7 +133,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
         mViewModel.getAllBrandNames().observe(this, strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
             txtBrandNm.setAdapter(adapter);
-            txtBrandNm.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            txtBrandNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         txtBrandNm.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllMcBrand().observe(this, eMcBrands -> {
@@ -148,6 +149,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
         mViewModel.getBrandID().observe(this, s -> mViewModel.getAllBrandModelName(s).observe(this, strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
             txtModelNm.setAdapter(adapter);
+            txtModelNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         }));
 
         txtModelNm.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBrandModelInfo().observe(this, eMcModels -> {

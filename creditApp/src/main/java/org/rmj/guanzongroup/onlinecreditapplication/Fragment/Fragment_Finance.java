@@ -96,7 +96,7 @@ public class Fragment_Finance extends Fragment implements ViewModelCallBack {
         mViewModel.getCountryNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtFCntry.setAdapter(adapter);
-            txtFCntry.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            txtFCntry.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         txtFCntry.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getCountryInfoList().observe(getViewLifecycleOwner(), countryInfos -> {
