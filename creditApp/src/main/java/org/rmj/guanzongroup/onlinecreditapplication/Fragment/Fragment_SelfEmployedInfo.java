@@ -114,9 +114,13 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
         mViewModel.getAllProvinceNames().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvnc.setAdapter(adapter);
+            txtProvnc.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
-        mViewModel.getNatureOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBussNtr.setAdapter(stringArrayAdapter));
+        mViewModel.getNatureOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnBussNtr.setAdapter(stringArrayAdapter);
+            spnBussNtr.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
         txtProvnc.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllProvinceInfo().observe(getViewLifecycleOwner(), eProvinceInfos -> {
             for(int x = 0; x < eProvinceInfos.size(); x++){
@@ -128,6 +132,7 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
             mViewModel.getAllTownNames().observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 txtTownxx.setAdapter(adapter);
+                txtTownxx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             });
         }));
 
@@ -140,13 +145,22 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
             }
         }));
 
-        mViewModel.getTypeOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBussTyp.setAdapter(stringArrayAdapter));
+        mViewModel.getTypeOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnBussTyp.setAdapter(stringArrayAdapter);
+            spnBussTyp.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
-        mViewModel.getSizeOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnBussSze.setAdapter(stringArrayAdapter));
+        mViewModel.getSizeOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnBussSze.setAdapter(stringArrayAdapter);
+            spnBussSze.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
-        mViewModel.getLenghtOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnLngSrvc.setAdapter(stringArrayAdapter));
+        mViewModel.getLenghtOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnLngSrvc.setAdapter(stringArrayAdapter);
+            spnLngSrvc.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
         mViewModel.getPsBsnssNature().observe(getViewLifecycleOwner(), s -> {
-            bussNtrPosition = s;
+            spnBussNtr.setSelection(s.length());
         });
         mViewModel.getPsBsnssType().observe(getViewLifecycleOwner(), s -> {
             bussTypPosition = s;
@@ -208,7 +222,7 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if (spnBussNtr.equals(poView)) {
                 bussNtrPosition = String.valueOf(i);
-                mViewModel.setPsBsnssNature(bussNtrPosition);
+                mViewModel.setPsBsnssNature(adapterView.getItemAtPosition(i).toString());
             }
             if (spnBussTyp.equals(poView)) {
                 bussTypPosition = String.valueOf(i);

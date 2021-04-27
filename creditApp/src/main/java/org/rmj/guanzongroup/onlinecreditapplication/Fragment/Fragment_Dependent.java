@@ -124,23 +124,35 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         mViewModel = ViewModelProviders.of(this).get(VMDependent.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
         mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
-        mViewModel.getSpnRelationx().observe(getViewLifecycleOwner(), stringArrayAdapter -> actRelationx.setAdapter(stringArrayAdapter));
-        mViewModel.getSchoolType().observe(getViewLifecycleOwner(), stringArrayAdapter -> actSchoolType.setAdapter(stringArrayAdapter));
-        mViewModel.getEducLevel().observe(getViewLifecycleOwner(), stringArrayAdapter -> actSchoolLvl.setAdapter(stringArrayAdapter));
-        mViewModel.getSpnEmploymentType().observe(getViewLifecycleOwner(), stringArrayAdapter -> actEmploymentType.setAdapter(stringArrayAdapter));
+        mViewModel.getSpnRelationx().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            actRelationx.setAdapter(stringArrayAdapter);
+            actRelationx.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
+        mViewModel.getSchoolType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            actSchoolType.setAdapter(stringArrayAdapter);
+            actSchoolType.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
+        mViewModel.getEducLevel().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            actSchoolLvl.setAdapter(stringArrayAdapter);
+            actSchoolLvl.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
+        mViewModel.getSpnEmploymentType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            actEmploymentType.setAdapter(stringArrayAdapter);
+            actEmploymentType.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
         mViewModel.setLinearStudent().observe(getViewLifecycleOwner(), integer -> linearStudent.setVisibility(integer));
         mViewModel.setLinearEmployed().observe(getViewLifecycleOwner(), integer -> linearEmployd.setVisibility(integer));
         // TODO: Use the ViewModel
         mViewModel.getRelationX().observe(getViewLifecycleOwner(), s -> {
-            actRelationx.setSelection(Integer.parseInt(s));
+            actRelationx.setSelection(s.length());
             mRelationPosition = Integer.parseInt(s);
             Log.e("Employee ", s);
         });
         mViewModel.getSchoolTypeX().observe(getViewLifecycleOwner(), s -> {
-            actSchoolType.setSelection(Integer.parseInt(s));
+            actSchoolType.setSelection(s.length());
         });
         mViewModel.getSchoolLvlX().observe(getViewLifecycleOwner(), s -> {
-            actSchoolLvl.setSelection(Integer.parseInt(s));
+            actSchoolLvl.setSelection(s.length());
             mEducLvlPosition = Integer.parseInt(s);
             Log.e("Employee ", s);
         });
@@ -166,6 +178,7 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         mViewModel.getAllProvinceName().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             tieSchlProv.setAdapter(loAdapter);
+            tieSchlProv.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         tieSchlProv.setOnItemClickListener((parent, view, position, id) -> mViewModel.getProvinceInfoList().observe(getViewLifecycleOwner(), eProvinceInfos -> {
@@ -179,6 +192,7 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
             mViewModel.getAllTownNames(ProvID).observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 tieSchlTown.setAdapter(loAdapter);
+                tieSchlTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             });
         }));
 

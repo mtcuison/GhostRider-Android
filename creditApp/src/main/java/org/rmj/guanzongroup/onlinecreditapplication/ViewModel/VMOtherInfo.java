@@ -164,6 +164,8 @@ public class VMOtherInfo extends AndroidViewModel {
             } else {
                 adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PAYER_NO_SPOUSE);
             }
+        } catch (NullPointerException e){
+            e.printStackTrace();
         } catch (Exception e){
             e.printStackTrace();
         }
