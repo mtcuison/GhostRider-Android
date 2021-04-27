@@ -63,6 +63,10 @@ public class VMPaidTransaction extends AndroidViewModel {
     private final MutableLiveData<Double> pnAmortx = new MutableLiveData<>();
     private final MutableLiveData<Double> pnAmtDue = new MutableLiveData<>();
     private final MutableLiveData<Double> pnTotalx = new MutableLiveData<>();
+    private final MutableLiveData<Double> pnRebate = new MutableLiveData<>();
+    private final MutableLiveData<String> psMssage = new MutableLiveData<>();
+
+    private boolean pbRebate = true;
 
     public VMPaidTransaction(@NonNull Application application) {
         super(application);
@@ -107,6 +111,15 @@ public class VMPaidTransaction extends AndroidViewModel {
     public void setDiscount(Double fnDiscount){
         this.pnDsCntx.setValue(fnDiscount);
         calculateTotal();
+        if(pnRebate.getValue() < fnDiscount){
+            if(pbRebate) {
+                psMssage.setValue("Rebate given is greater than the supposed rebate.");
+            } else {
+                psMssage.setValue("Rebate disabled");
+            }
+        } else {
+            psMssage.setValue("");
+        }
     }
 
     public void setOthers(Double fnOthers){
@@ -116,12 +129,18 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     public void setMonthlyAmort(Double fnAmortx){
         this.pnAmortx.setValue(fnAmortx);
-        calculateTotal();
     }
 
     public void setAmountDue(Double fnAmtDue){
         this.pnAmtDue.setValue(fnAmtDue);
+    }
+
+    public void setIsRebated(boolean isRebated){
+        this.pbRebate = isRebated;
         calculateTotal();
+        if(!isRebated){
+            psMssage.setValue("");
+        }
     }
 
     public LiveData<Double> getTotalAmount(){
@@ -136,31 +155,39 @@ public class VMPaidTransaction extends AndroidViewModel {
         return poBank.getBankInfoList();
     }
 
+    public LiveData<String> getRebateNotice(){
+        return psMssage;
+    }
+
     private void calculateTotal(){
         double lnTotal = 0.00;
         try {
-            double lnAmount = pnAmount.getValue();
-            double lnDscntx = pnDsCntx.getValue();
-            double lnOthers = pnOthers.getValue();
-            double lnAmortx = pnAmortx.getValue();
-            double lnAmtDue = pnAmtDue.getValue();
-            lnTotal = lnAmount + lnOthers - lnDscntx;
+            if(pbRebate) {
+                double lnAmount = pnAmount.getValue();
+                double lnOthers = pnOthers.getValue();
+                double lnAmortx = pnAmortx.getValue();
+                double lnAmtDue = pnAmtDue.getValue();
 
-            double reb = Double.parseDouble(poConfig.getDCP_CustomerRebate());
+                double reb = Double.parseDouble(poConfig.getDCP_CustomerRebate());
 
-            double lnRebate = LRUtil.getRebate(lnAmount, lnAmortx, lnAmtDue, reb);
+                double lnRebate = LRUtil.getRebate(lnAmount, lnAmortx, lnAmtDue, reb);
 
-            if (lnRebate > 0.00) {
-                System.out.println("Amount paid is: " + (lnAmount - lnRebate));
-                System.out.println("Rebate is: " + lnRebate);
+                lnTotal = lnAmount + lnOthers - lnRebate;
+                pnRebate.setValue(lnRebate);
             } else {
-                System.out.println("Amount paid is: " + lnAmount);
-                System.out.println("Rebate is: " + lnRebate);
+                double lnAmount = pnAmount.getValue();
+                double lnOthers = pnOthers.getValue();
+                lnTotal = lnAmount + lnOthers;
+                pnRebate.setValue(0.00);
             }
         } catch (Exception e){
             e.printStackTrace();
         }
         pnTotalx.setValue(lnTotal);
+    }
+
+    public LiveData<Double> getRebate(){
+        return pnRebate;
     }
 
     public void savePaidInfo(PaidTransactionModel infoModel, ViewModelCallback callback){
@@ -198,7 +225,7 @@ public class VMPaidTransaction extends AndroidViewModel {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(String... strings) {
-            String lsResponse = "";
+            String lsResponse;
             try{
                 EDCPCollectionDetail detail = poDcpDetail;
                 if(!infoModel.isDataValid()){

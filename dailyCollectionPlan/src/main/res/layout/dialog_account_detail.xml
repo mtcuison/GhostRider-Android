@@ -73,9 +73,8 @@
                         android:id="@+id/lbl_dcpReferNo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="1"
                         android:gravity="end"
-                        android:text="10000"
                         android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
@@ -100,9 +99,8 @@
                         android:id="@+id/lbl_dcpTransNo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="1"
                         android:gravity="end"
-                        android:text="10000"
                         android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
@@ -154,9 +152,8 @@
                         android:id="@+id/lbl_dcpAccNo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="1"
                         android:gravity="end"
-                        android:text="10000"
                         android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
@@ -181,9 +178,8 @@
                         android:id="@+id/lbl_dcpPRNo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="1"
                         android:gravity="end"
-                        android:text="10000"
                         android:textColor="@color/textColor_Black"
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
@@ -194,6 +190,111 @@
                     android:background="@color/guanzon_orange"
                     android:layout_marginTop="10dp"
                     android:layout_marginHorizontal="5dp"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginHorizontal="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Delay Average"
+                        android:textColor="@color/textColor_Black"
+                        android:fontFamily="@font/roboto_regular"/>
+
+                    <TextView
+                        android:id="@+id/lbl_dcpDelayAvg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:textColor="@color/textColor_Black"
+                        android:fontFamily="@font/roboto_regular"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginHorizontal="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Balance"
+                        android:textColor="@color/textColor_Black"
+                        android:fontFamily="@font/roboto_regular"/>
+
+                    <TextView
+                        android:id="@+id/lbl_dcpBalance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:textColor="@color/textColor_Black"
+                        android:fontFamily="@font/roboto_regular"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginHorizontal="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Last Payment Amount"
+                        android:textColor="@color/textColor_Black"
+                        android:fontFamily="@font/roboto_regular"/>
+
+                    <TextView
+                        android:id="@+id/lbl_dcpAmountLastPay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:textColor="@color/textColor_Black"
+                        android:fontFamily="@font/roboto_regular"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginHorizontal="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Last Paid"
+                        android:textColor="@color/textColor_Black"
+                        android:fontFamily="@font/roboto_regular"/>
+
+                    <TextView
+                        android:id="@+id/lbl_dcpLastPaid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:textColor="@color/textColor_Black"
+                        android:fontFamily="@font/roboto_regular"/>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

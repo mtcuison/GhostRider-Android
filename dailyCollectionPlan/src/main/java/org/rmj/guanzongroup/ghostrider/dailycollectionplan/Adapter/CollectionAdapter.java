@@ -65,7 +65,6 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         try {
             holder.loPlan = collection;
             holder.lblAcctNo.setText("Account No. : " + collection.getAcctNmbr());
-//            holder.lblDCPNox.setText(String.valueOf(collection.getEntryNox()));
             holder.lblClient.setText(collection.getFullName());
             holder.lblAdd1xx.setText(collection.getAddressx());
             holder.lblMobile.setText(collection.getMobileNo());
@@ -75,11 +74,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
                 holder.lblStatus.setText(DCP_Constants.getRemarksDescription(collection.getRemCodex()));
             }
             holder.lblMnthAm.setText(FormatUIText.getCurrencyUIFormat(collection.getMonAmort()));
-            holder.lblBalnce.setText(FormatUIText.getCurrencyUIFormat(collection.getABalance()));
             holder.lblAmount.setText(FormatUIText.getCurrencyUIFormat(collection.getAmtDuexx()));
-            holder.lblDelayx.setText(collection.getDelayAvg());
-            holder.lblLastPy.setText(FormatUIText.getCurrencyUIFormat(collection.getLastPaym()));
-            holder.lblLastPd.setText(FormatUIText.formatGOCasBirthdate(collection.getLastPaid()));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -98,17 +93,12 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
 
         public EDCPCollectionDetail loPlan;
         public TextView lblAcctNo;
-//        public TextView lblDCPNox;
         public TextView lblClient;
         public TextView lblAdd1xx;
         public TextView lblMobile;
         public TextView lblAmount;
         public TextView lblStatus;
         public TextView lblMnthAm;
-        public TextView lblBalnce;
-        public TextView lblDelayx;
-        public TextView lblLastPy;
-        public TextView lblLastPd;
 
         public CollectionViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
@@ -119,10 +109,6 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             lblMnthAm = itemView.findViewById(R.id.lbl_dcpAmortization);
             lblAmount = itemView.findViewById(R.id.lbl_dcpAmountDue);
             lblStatus = itemView.findViewById(R.id.lbl_dcpStatus);
-            lblBalnce = itemView.findViewById(R.id.lbl_dcpBalance);
-            lblDelayx = itemView.findViewById(R.id.lbl_dcpDelayAvg);
-            lblLastPy = itemView.findViewById(R.id.lbl_dcpAmountLastPay);
-            lblLastPd = itemView.findViewById(R.id.lbl_dcpLastPaid);
 
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
