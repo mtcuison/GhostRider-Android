@@ -12,6 +12,7 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
+import android.os.AsyncTask;
 import android.util.Log;
 
     import androidx.lifecycle.LiveData;
@@ -74,6 +75,10 @@ public class RTown {
 
     public DTownInfo.TownProvinceName getTownProvinceName(String TownID){
         return townDao.getTownProvinceNames(TownID);
+    }
+
+    public void getTownProvinceName(String fsTownId, OnFetchTownName callBack){
+        new GetTownProvinceNameTask(townDao, callBack).execute(fsTownId);
     }
 
     public void saveTownInfo(JSONArray faJson) throws Exception {
@@ -154,5 +159,32 @@ public class RTown {
 
         //terminate object connection
         loConn = null;
+    }
+
+    private static class GetTownProvinceNameTask extends AsyncTask<String, Void, String> {
+
+        private final DTownInfo townDao;
+        private final OnFetchTownName mListener;
+
+        public GetTownProvinceNameTask(DTownInfo foTownDao, OnFetchTownName fmListenr) {
+            this.townDao = foTownDao;
+            this.mListener = fmListenr;
+        }
+
+        @Override
+        protected String doInBackground(String... townId) {
+            return townDao.getTownProvinceNames(townId[0]).sTownName +
+                    ", " + townDao.getTownProvinceNames(townId[0]).sProvName ;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            mListener.onFetch(s);
+        }
+    }
+
+    public interface OnFetchTownName {
+        void onFetch(String fsTownNme);
     }
 }

@@ -54,9 +54,8 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
         PersonalReferenceInfoModel reference = referenceInfoModels.get(position);
 
         holder.lblRefName.setText("Fullname. : " + reference.getFullname());
-        holder.lblRefAddres.setText("Address : " + reference.getAddress1());
-        holder.lblRefTown.setText("Town / City : " + reference.getTownCity());
-        holder.lblRefContact.setText("Contanct No : " + reference.getContactN());
+        holder.lblRefTown.setText(reference.getAddress1() + ", " + reference.getTownCity());
+        holder.lblRefContact.setText("Contact No : " + reference.getContactN());
         if(lnCurrent!=lnSizexxx){
             holder.vDivider.setVisibility(View.VISIBLE);
         }
