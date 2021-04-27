@@ -1,3 +1,14 @@
+/*
+ * Created by Android Team MIS-SEG Year 2021
+ * Copyright (c) 2021. Guanzon Central Office
+ * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+ * Project name : GhostRider_Android
+ * Module : GhostRider_Android.g3appdriver
+ * Electronic Personnel Access Control Security System
+ * project file created : 4/24/21 3:19 PM
+ * project file last modified : 4/24/21 3:18 PM
+ */
+
 package org.rmj.g3appdriver.GRider.Database;
 
 import android.content.Context;
@@ -43,6 +54,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRaffleInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRawDao;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRemittanceAccounts;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DSysConfig;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DUncapturedClient;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
@@ -82,6 +94,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ERaffleBasis;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERaffleInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERemittanceAccounts;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESCA_Request;
+import org.rmj.g3appdriver.GRider.Database.Entities.ESysConfig;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
@@ -126,7 +139,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         EUncapturedClient.class,
         ECIEvaluation.class,
         EDCP_Remittance.class,
-        ERemittanceAccounts.class}, version = 1, exportSchema = false)
+        ERemittanceAccounts.class,
+        ESysConfig.class}, version = 1, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -167,6 +181,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DCIEvaluation CIDao();
     public abstract DDCP_Remittance DCPRemitanceDao();
     public abstract DRemittanceAccounts RemitanceAccDao();
+    public abstract DSysConfig sysConfigDao();
 
 
     public static synchronized GGC_GriderDB getInstance(Context context){

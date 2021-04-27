@@ -1,3 +1,14 @@
+/*
+ * Created by Android Team MIS-SEG Year 2021
+ * Copyright (c) 2021. Guanzon Central Office
+ * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+ * Project name : GhostRider_Android
+ * Module : GhostRider_Android.dailyCollectionPlan
+ * Electronic Personnel Access Control Security System
+ * project file created : 4/24/21 3:19 PM
+ * project file last modified : 4/24/21 3:18 PM
+ */
+
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
 import android.annotation.SuppressLint;
@@ -10,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -40,7 +52,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
     private PaidTransactionModel infoModel;
     private MessageBox poMessage;
     private LoadDialog poDialog;
-    private CheckBox cbCheckPymnt;
+    private CheckBox cbCheckPymnt, cbRebate;
     private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblTransNo;
 
     private Spinner spnType;
@@ -62,7 +74,6 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         poMessage = new MessageBox(getContext());
         poDialog = new LoadDialog(getActivity());
         initWidgets(view);
-
         return view;
     }
 
@@ -73,6 +84,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         lblClientNm = v.findViewById(R.id.lbl_dcpClientNm);
         lblTransNo = v.findViewById(R.id.lbl_dcpTransNo);
         spnType = v.findViewById(R.id.spn_paymentType);
+        cbRebate = v.findViewById(R.id.cb_rebate);
         cbCheckPymnt = v.findViewById(R.id.cb_dcpCheckPayment);
         txtPrNoxx = v.findViewById(R.id.txt_dcpPRNumber);
         txtRemarks = v.findViewById(R.id.txt_dcpRemarks);
@@ -125,7 +137,6 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
             spnType.setSelection(1);
         });
 
-
         mViewModel.getTotalAmount().observe(getViewLifecycleOwner(), aFloat -> txtTotAmnt.setText(String.valueOf(aFloat)));
 
         cbCheckPymnt.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -157,6 +168,15 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                     });
                     loPayment.show();
                 });
+            }
+        });
+
+        cbRebate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+
+                }
             }
         });
 

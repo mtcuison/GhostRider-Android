@@ -1,3 +1,14 @@
+/*
+ * Created by Android Team MIS-SEG Year 2021
+ * Copyright (c) 2021. Guanzon Central Office
+ * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+ * Project name : GhostRider_Android
+ * Module : GhostRider_Android.g3appdriver
+ * Electronic Personnel Access Control Security System
+ * project file created : 4/24/21 3:19 PM
+ * project file last modified : 4/24/21 3:17 PM
+ */
+
 package org.rmj.g3appdriver.utils;
 
 import android.content.Context;
@@ -181,4 +192,5 @@ public class WebApi {
     public static String URL_DCP_REMITTANCE = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_remit.php";
     public static String URL_DCP_LOCATION_REPORT = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_remit.php";
     public static String URL_BRANCH_REMITTANCE_ACC = "https://restgk.guanzongroup.com.ph/integsys/param/download_branch_bank_account.php";
+    public static String URL_IMPORT_SYS_CONFIG = "https://restgk.guanzongroup.com.ph/integsys/param/download_system_config.php";
 }

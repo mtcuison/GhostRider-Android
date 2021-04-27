@@ -1,3 +1,14 @@
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.samsungKnox
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 4/24/21 3:19 PM
+  ~ project file last modified : 4/24/21 3:18 PM
+  -->
+
 <vector android:height="264.67935dp" android:viewportHeight="1761"
     android:viewportWidth="998" android:width="150dp" xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#121212" android:pathData="M890.08,97.91C890.08,43.87 846.21,0 792.17,0L97.93,0C43.89,0 0.02,43.87 0.02,97.91L0.02,1589.71C0.02,1643.75 43.89,1687.61 97.93,1687.61L792.17,1687.61C846.21,1687.61 890.08,1643.75 890.08,1589.71L890.08,97.91Z"/>

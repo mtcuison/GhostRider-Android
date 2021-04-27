@@ -1,3 +1,14 @@
+/*
+ * Created by Android Team MIS-SEG Year 2021
+ * Copyright (c) 2021. Guanzon Central Office
+ * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+ * Project name : GhostRider_Android
+ * Module : GhostRider_Android.app
+ * Electronic Personnel Access Control Security System
+ * project file created : 4/24/21 3:19 PM
+ * project file last modified : 4/24/21 3:17 PM
+ */
+
 package org.rmj.guanzongroup.ghostrider.epacss.Service;
 
 import android.app.job.JobParameters;
@@ -26,6 +37,7 @@ import org.rmj.g3appdriver.GRider.ImportData.Import_BranchPerformance;
 import org.rmj.g3appdriver.GRider.ImportData.Import_LoanApplications;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SCARequest;
+import org.rmj.g3appdriver.GRider.ImportData.Import_SysConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 
@@ -71,7 +83,8 @@ public class DataImportService extends JobService {
                 new Import_AreaPerformance(getApplication()),
                 new Import_Occupations(getApplication()),
                 new Import_BranchPerformance(getApplication()),
-                new Import_LoanApplications(getApplication())};
+                new Import_LoanApplications(getApplication()),
+                new Import_SysConfig(getApplication())};
 
         if(poConfig.isAppFirstLaunch()) {
             GNotifBuilder.createNotification(getApplication(), GNotifBuilder.JOB_SERVICE, "Downloading local resources...", GNotifBuilder.APP_DATA_DOWNLOAD).show();

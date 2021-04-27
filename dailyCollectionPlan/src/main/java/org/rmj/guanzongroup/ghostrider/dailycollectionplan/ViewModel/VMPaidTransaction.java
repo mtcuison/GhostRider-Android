@@ -1,3 +1,14 @@
+/*
+ * Created by Android Team MIS-SEG Year 2021
+ * Copyright (c) 2021. Guanzon Central Office
+ * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+ * Project name : GhostRider_Android
+ * Module : GhostRider_Android.dailyCollectionPlan
+ * Electronic Personnel Access Control Security System
+ * project file created : 4/24/21 3:19 PM
+ * project file last modified : 4/24/21 3:18 PM
+ */
+
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
@@ -14,6 +25,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.apprdiver.util.LRUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
@@ -24,6 +36,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -38,6 +51,7 @@ public class VMPaidTransaction extends AndroidViewModel {
     private final RBranch poBranch;
     private final RDailyCollectionPlan poDcp;
     private final RBankInfo poBank;
+    private final AppConfigPreference poConfig;
 
     private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
 
@@ -46,6 +60,8 @@ public class VMPaidTransaction extends AndroidViewModel {
     private final MutableLiveData<Double> pnAmount = new MutableLiveData<>();
     private final MutableLiveData<Double> pnDsCntx = new MutableLiveData<>();
     private final MutableLiveData<Double> pnOthers = new MutableLiveData<>();
+    private final MutableLiveData<Double> pnAmortx = new MutableLiveData<>();
+    private final MutableLiveData<Double> pnAmtDue = new MutableLiveData<>();
     private final MutableLiveData<Double> pnTotalx = new MutableLiveData<>();
 
     public VMPaidTransaction(@NonNull Application application) {
@@ -56,6 +72,7 @@ public class VMPaidTransaction extends AndroidViewModel {
         this.pnDsCntx.setValue((double) 0);
         this.pnOthers.setValue((double) 0);
         this.poBank = new RBankInfo(application);
+        this.poConfig = AppConfigPreference.getInstance(application);
     }
 
     public void setParameter(String TransNox, int EntryNox){
@@ -97,6 +114,16 @@ public class VMPaidTransaction extends AndroidViewModel {
         calculateTotal();
     }
 
+    public void setMonthlyAmort(Double fnAmortx){
+        this.pnAmortx.setValue(fnAmortx);
+        calculateTotal();
+    }
+
+    public void setAmountDue(Double fnAmtDue){
+        this.pnAmtDue.setValue(fnAmtDue);
+        calculateTotal();
+    }
+
     public LiveData<Double> getTotalAmount(){
         return pnTotalx;
     }
@@ -110,10 +137,29 @@ public class VMPaidTransaction extends AndroidViewModel {
     }
 
     private void calculateTotal(){
-        double lnAmount = pnAmount.getValue();
-        double lnDscntx = pnDsCntx.getValue();
-        double lnOthers = pnOthers.getValue();
-        double lnTotal = lnAmount + lnOthers - lnDscntx;
+        double lnTotal = 0.00;
+        try {
+            double lnAmount = pnAmount.getValue();
+            double lnDscntx = pnDsCntx.getValue();
+            double lnOthers = pnOthers.getValue();
+            double lnAmortx = pnAmortx.getValue();
+            double lnAmtDue = pnAmtDue.getValue();
+            lnTotal = lnAmount + lnOthers - lnDscntx;
+
+            double reb = Double.parseDouble(poConfig.getDCP_CustomerRebate());
+
+            double lnRebate = LRUtil.getRebate(lnAmount, lnAmortx, lnAmtDue, reb);
+
+            if (lnRebate > 0.00) {
+                System.out.println("Amount paid is: " + (lnAmount - lnRebate));
+                System.out.println("Rebate is: " + lnRebate);
+            } else {
+                System.out.println("Amount paid is: " + lnAmount);
+                System.out.println("Rebate is: " + lnRebate);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         pnTotalx.setValue(lnTotal);
     }
 
