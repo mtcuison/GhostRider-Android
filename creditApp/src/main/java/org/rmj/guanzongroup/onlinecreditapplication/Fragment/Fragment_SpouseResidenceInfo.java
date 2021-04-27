@@ -108,6 +108,7 @@ public class Fragment_SpouseResidenceInfo extends Fragment implements ViewModelC
                 try{
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                     txtProvince.setAdapter(adapter);
+                    txtProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -135,6 +136,7 @@ public class Fragment_SpouseResidenceInfo extends Fragment implements ViewModelC
                                 try{
                                     ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                                     txtTown.setAdapter(adapter);
+                                    txtTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                                 } catch (Exception e){
                                     e.printStackTrace();
                                 }
@@ -165,6 +167,7 @@ public class Fragment_SpouseResidenceInfo extends Fragment implements ViewModelC
                                 try{
                                     ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                                     txtBarangay.setAdapter(adapter);
+                                    txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                                 } catch (Exception e){
                                     e.printStackTrace();
                                 }

@@ -109,6 +109,13 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
         spnUnitPayr.setAdapter(mViewModel.getUnitUser());
         spnOthrPayr.setAdapter(mViewModel.getPayerBuyer());
         spnSourcexx.setAdapter(mViewModel.getIntCompanyInfoSource());
+//        dropdown background color
+        spnUnitUser.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        spnOthrUser.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        spnUnitPrps.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        spnUnitPayr.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        spnOthrPayr.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        spnSourcexx.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
 
         spnUnitUser.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnUnitUser));
         spnUnitPayr.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnUnitPayr));
@@ -120,6 +127,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             tieAddProv.setAdapter(adapter);
+            tieAddProv.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         tieAddProv.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getProvinceInfoList().observe(getViewLifecycleOwner(), provinceInfos -> {
@@ -134,6 +142,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
             mViewModel.getAllTownNames().observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 tieAddTown.setAdapter(adapter);
+                tieAddTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             });
         }));
 

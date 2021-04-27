@@ -128,6 +128,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvince.setAdapter(adapter);
+            txtProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         txtProvince.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getProvinceInfoList().observe(getViewLifecycleOwner(), provinceInfos -> {
@@ -141,6 +142,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
             mViewModel.getAllTownNames().observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 txtTown.setAdapter(adapter);
+                txtTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             });
         }));
 
@@ -165,7 +167,10 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
             }
         });
 
-        mViewModel.getCivilStatus().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnCivilStatus.setAdapter(stringArrayAdapter));
+        mViewModel.getCivilStatus().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnCivilStatus.setAdapter(stringArrayAdapter);
+            spnCivilStatus.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
         mViewModel.setMotherMaidenNameVisibility().observe(getViewLifecycleOwner(), integer -> tilMothNm.setVisibility(integer));
 
@@ -174,6 +179,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         mViewModel.getAllCountryCitizenNames().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtCitizen.setAdapter(adapter);
+            txtCitizen.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         txtCitizen.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getCountryInfoList().observe(getViewLifecycleOwner(), eCountryInfos -> {
@@ -189,6 +195,9 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
             spnMobile1.setAdapter(stringArrayAdapter);
             spnMobile2.setAdapter(stringArrayAdapter);
             spnMobile3.setAdapter(stringArrayAdapter);
+            spnMobile1.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnMobile2.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnMobile3.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
         });
 
         spnMobile1.setOnItemClickListener(new OnItemClickListener(spnMobile1));

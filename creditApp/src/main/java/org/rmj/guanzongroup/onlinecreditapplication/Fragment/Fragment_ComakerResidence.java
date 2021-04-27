@@ -137,6 +137,7 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvince.setAdapter(loAdapter);
+            txtProvince.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         txtProvince.setOnItemClickListener((parent, view, position, id) -> mViewModel.getProvinceInfo().observe(getViewLifecycleOwner(), eProvinceInfos -> {
@@ -150,6 +151,7 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
             mViewModel.getTownNameList().observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 txtMunicipality.setAdapter(loAdapter);
+                txtMunicipality.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             });
         }));
 
@@ -165,6 +167,7 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
             mViewModel.getBarangayListName().observe(getViewLifecycleOwner(), strings -> {
                 ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                 txtBarangay.setAdapter(loAdapter);
+                txtBarangay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             });
         }));
 
@@ -176,11 +179,20 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
             }
         }));
 
-        mViewModel.getHouseHolds().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnHouseHold.setAdapter(stringArrayAdapter));
+        mViewModel.getHouseHolds().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnHouseHold.setAdapter(stringArrayAdapter);
+            spnHouseHold.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
-        mViewModel.getHouseType().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnHouseType.setAdapter(stringArrayAdapter));
+        mViewModel.getHouseType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnHouseType.setAdapter(stringArrayAdapter);
+            spnHouseType.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
-        mViewModel.getLenghtOfStay().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnLgnthStay.setAdapter(stringArrayAdapter));
+        mViewModel.getLenghtOfStay().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnLgnthStay.setAdapter(stringArrayAdapter);
+            spnLgnthStay.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+        });
 
         btnNext.setOnClickListener(v -> {
             infoModel.setsLandMark(Objects.requireNonNull(txtLandMark.getText()).toString());
