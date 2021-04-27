@@ -804,6 +804,7 @@ public class VMCollectionList extends AndroidViewModel {
                                             isDataSent[x] = true;
 
                                             //call sending CNA details....
+                                            Thread.sleep(1000);
                                             sendCNADetails(loDetail.sRemCodex, loDetail.sTransNox);
                                         } else {
                                             JSONObject loError = loResponse.getJSONObject("error");
