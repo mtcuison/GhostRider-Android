@@ -161,7 +161,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
             loMessage.setMessage("Exit Ghostrider app?");
             loMessage.show();
         }
-
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

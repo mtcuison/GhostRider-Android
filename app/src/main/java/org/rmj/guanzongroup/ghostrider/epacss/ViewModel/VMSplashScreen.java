@@ -26,6 +26,7 @@ import androidx.lifecycle.MutableLiveData;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.AppTokenManager;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.SessionManager;
@@ -43,6 +44,7 @@ public class VMSplashScreen extends AndroidViewModel {
     private final SessionManager poSession;
     private final ConnectionUtil poConn;
     private final AppTokenManager poToken;
+    private final RDailyCollectionPlan poDcp;
 
     public VMSplashScreen(@NonNull Application application) {
         super(application);
@@ -54,6 +56,7 @@ public class VMSplashScreen extends AndroidViewModel {
         poToken = new AppTokenManager(application);
         ETokenInfo loToken = new ETokenInfo();
         loToken.setTokenInf("temp_token");
+        poDcp = new RDailyCollectionPlan(application);
         poToken.setTokenInfo(loToken);
         paPermisions.setValue(new String[]{
                 Manifest.permission.INTERNET,
@@ -96,6 +99,10 @@ public class VMSplashScreen extends AndroidViewModel {
         } catch (NullPointerException e){
             e.printStackTrace();
         }
+    }
+
+    public LiveData<Integer> getDCPStatus(){
+        return poDcp.getDCPStatus();
     }
 
     public LiveData<Boolean> isSessionValid(){

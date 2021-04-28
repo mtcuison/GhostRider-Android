@@ -46,7 +46,8 @@ public class Import_SysConfig implements ImportInstance{
     public void ImportData(ImportDataCallback callback) {
         JSONObject loJson = new JSONObject();
         try{
-            loJson.put("period", "201911");
+            loJson.put("descript", "all");
+            loJson.put("bsearch", true);
             new ImportConfigTask(instance, callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
@@ -106,7 +107,7 @@ public class Import_SysConfig implements ImportInstance{
                 sysConfigs.add(info);
             }
             poDataBse.insertSysConfig(sysConfigs);
-            Log.e(TAG, "Branch info has been save to local.");
+            Log.e(TAG, "SysConfig has been save.");
         }
     }
 }

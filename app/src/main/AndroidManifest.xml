@@ -67,21 +67,25 @@
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"/>
+
         <activity
             android:name=".Activity.Activity_Settings"
             android:label="@string/title_activity_settings"
             android:screenOrientation="userPortrait" />
+
         <activity
             android:name=".Activity.Activity_SplashScreen"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Activity.Activity_Main"
             android:label="Home"
@@ -91,6 +95,7 @@
         <service
             android:name=".Service.DataImportService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <service
             android:name=".Service.GMessagingService"
             tools:ignore="ExportedService,InnerclassSeparator">
@@ -98,6 +103,9 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <service android:name="org.rmj.guanzongroup.ghostrider.dailycollectionplan.Services.GLocatorService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

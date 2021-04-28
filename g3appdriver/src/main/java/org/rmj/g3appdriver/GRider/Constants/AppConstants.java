@@ -108,7 +108,9 @@ public class AppConstants {
 
     public static int PERMISION_REQUEST_CODE = 102;
 
-    public static int JOB_ID = 213;
+    public static int DataServiceID = 213;
+
+    public static int GLocatorServiceID = 913;
 
     public static int INTENT_OB_APPLICATION = 101;
 

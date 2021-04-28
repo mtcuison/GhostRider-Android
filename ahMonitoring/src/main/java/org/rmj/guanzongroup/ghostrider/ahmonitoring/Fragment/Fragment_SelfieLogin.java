@@ -67,6 +67,7 @@ public class Fragment_SelfieLogin extends Fragment {
     private EEmployeeInfo poUser;
     private EImageInfo poImage;
     private ELog_Selfie poLog;
+    private GLocationManager loLocation;
 
 //    private LoadDialog poLoad;
     private MessageBox poMessage;
@@ -98,6 +99,7 @@ public class Fragment_SelfieLogin extends Fragment {
         poLog = new ELog_Selfie();
 //        poLoad = new LoadDialog(getActivity());
         poMessage = new MessageBox(getActivity());
+        loLocation = new GLocationManager(getActivity());
 
         currentDateLog = new ArrayList<>();
     }
@@ -128,13 +130,14 @@ public class Fragment_SelfieLogin extends Fragment {
         });
 
         btnCamera.setOnClickListener(view -> {
+
             if (currentDateLog.size() > 0) {
                 poMessage.initDialog();
                 poMessage.setTitle("Selfie Login");
                 poMessage.setMessage("You already login today.");
                 poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
                 poMessage.show();
-            } else if (!GLocationManager.isLocationEnabled(Objects.requireNonNull(getActivity()))) {
+            } else if (!loLocation.isLocationEnabled()) {
                 requestLocationEnabled();
             }else {
                 initCamera();
@@ -178,7 +181,7 @@ public class Fragment_SelfieLogin extends Fragment {
                 });
             }
         } else if(requestCode == GLocationManager.GLocationResCode){
-            boolean isEnabled = GLocationManager.isLocationEnabled(Objects.requireNonNull(getActivity()));
+            boolean isEnabled = loLocation.isLocationEnabled();
             if(isEnabled){
                 initCamera();
             } else {
