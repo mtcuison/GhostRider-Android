@@ -136,17 +136,17 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
         mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnCmpLvl.setAdapter(stringArrayAdapter);
-            spnCmpLvl.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnCmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnEmpLvl.setAdapter(stringArrayAdapter);
-            spnEmpLvl.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnEmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         mViewModel.getBusinessNature().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnBusNtr.setAdapter(stringArrayAdapter);
-            spnBusNtr.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnBusNtr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         mViewModel.getCountryNameList().observe(getViewLifecycleOwner(), strings -> {
@@ -209,11 +209,11 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
 
         mViewModel.getEmploymentStatus().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnEmpSts.setAdapter(stringArrayAdapter);
-            spnEmpSts.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnEmpSts.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnServce.setAdapter(stringArrayAdapter);
-            spnServce.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnServce.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         spnCmpLvl.setOnItemClickListener(new OnItemClickListener(spnCmpLvl));

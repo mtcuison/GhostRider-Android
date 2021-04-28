@@ -15,6 +15,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,6 +35,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.simple.JSONObject;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
@@ -59,6 +61,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
     private PurchaseInfoModel model;
     private TextView lblBranchNm, lblBrandAdd, lblDate;
     private AutoCompleteTextView txtBranchNm, txtBrandNm, txtModelNm;
+    private TextInputLayout tilApplType;
 
     private TextInputEditText txtDownPymnt, txtAmort, txtDTarget;
     private AutoCompleteTextView spnApplType, spnCustomerType, spnTerm;
@@ -77,12 +80,12 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
         model = new PurchaseInfoModel();
         mViewModel.getApplicationType().observe(this, stringArrayAdapter -> {
             spnApplType.setAdapter(stringArrayAdapter);
-            spnApplType.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnApplType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
         });
         mViewModel.getCustomerType().observe(this, stringArrayAdapter -> {
             spnCustomerType.setAdapter(stringArrayAdapter);
-            spnCustomerType.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnCustomerType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         mViewModel.getUserBranchInfo().observe(this, eBranchInfo -> {
@@ -128,7 +131,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
         mViewModel.getAllBrandNames().observe(this, strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
             txtBrandNm.setAdapter(adapter);
-            txtBrandNm.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            txtBrandNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getAllBrandNames().observe(this, strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, strings);
@@ -216,7 +219,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
 
         mViewModel.getInstallmentTerm().observe(this, stringArrayAdapter -> {
             spnTerm.setAdapter(stringArrayAdapter);
-            spnTerm.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnTerm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         mViewModel.getSelectedInstallmentTerm().observe(this, integer -> mViewModel.calculateMonthlyPayment());
@@ -243,6 +246,7 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
         txtAmort = findViewById(R.id.txt_monthlyAmort);
         txtDTarget = findViewById(R.id.txt_dateTarget);
         spnApplType = findViewById(R.id.spn_applicationType);
+        tilApplType = findViewById(R.id.til_customerType);
         spnCustomerType = findViewById(R.id.spn_customerType);
         spnTerm = findViewById(R.id.spn_installmentTerm);
 

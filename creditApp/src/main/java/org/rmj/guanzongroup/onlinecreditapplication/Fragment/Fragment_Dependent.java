@@ -126,19 +126,19 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
         mViewModel.getSpnRelationx().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             actRelationx.setAdapter(stringArrayAdapter);
-            actRelationx.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            actRelationx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getSchoolType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             actSchoolType.setAdapter(stringArrayAdapter);
-            actSchoolType.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            actSchoolType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getEducLevel().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             actSchoolLvl.setAdapter(stringArrayAdapter);
-            actSchoolLvl.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            actSchoolLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getSpnEmploymentType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             actEmploymentType.setAdapter(stringArrayAdapter);
-            actEmploymentType.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            actEmploymentType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.setLinearStudent().observe(getViewLifecycleOwner(), integer -> linearStudent.setVisibility(integer));
         mViewModel.setLinearEmployed().observe(getViewLifecycleOwner(), integer -> linearEmployd.setVisibility(integer));

@@ -116,7 +116,7 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
 
         mViewModel.getAccountType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnTypex.setAdapter(stringArrayAdapter);
-            spnTypex.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnTypex.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         tieElctx.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieElctx));

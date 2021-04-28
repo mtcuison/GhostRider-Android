@@ -68,7 +68,6 @@
         <item name="android:popupMenuStyle">@style/MyPopupOtherStyle</item>
     </style>
     <style name="TextInputStyle.Edittext">
-
         <item name="iconStartPadding">10dp</item>
         <item name="android:drawablePadding">10dp</item>
         <item name="android:textColor">@color/textColor_Black</item>
@@ -231,11 +230,9 @@
         <item name="android:color">@color/guanzon_orange</item>
         <item name="android:popupBackground">@color/spinner_background</item>
     </style>
-    <style name="SpinnerTextViewItem" parent="@android:style/Widget.TextView" >
-        <item name="android:background">@color/spinner_background</item>
+    <style name="SpinnerTextViewItem" parent="@android:style/Widget.TextView.SpinnerItem" >
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:popupBackground">@color/spinner_background</item>
         <item name="android:dropDownVerticalOffset">60dp</item>
         <item name="android:spinnerMode">dropdown</item>
         <item name="android:textColor">@color/textColor_Black</item>

@@ -128,19 +128,19 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
 
         mViewModel.getNatureOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnBizIndustry.setAdapter(stringArrayAdapter);
-            spnBizIndustry.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnBizIndustry.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getTypeOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnBizType.setAdapter(stringArrayAdapter);
-            spnBizType.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnBizType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getSizeOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnBizSize.setAdapter(stringArrayAdapter);
-            spnBizSize.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnBizSize.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnMonthOrYr.setAdapter(stringArrayAdapter);
-            spnMonthOrYr.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnMonthOrYr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
     }
 
