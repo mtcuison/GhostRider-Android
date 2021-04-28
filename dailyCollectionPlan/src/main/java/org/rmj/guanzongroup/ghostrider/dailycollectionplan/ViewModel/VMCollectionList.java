@@ -760,11 +760,6 @@ public class VMCollectionList extends AndroidViewModel {
                                             loData.put("sSourceCD", loDetail.sSourceCD);
                                             loData.put("nLongitud", loDetail.nLongitud);
                                             loData.put("nLatitude", loDetail.nLatitude);
-                                        }
-                                        else if(loDetail.sRemCodex.equalsIgnoreCase("CNA")) {
-                                            //call sending CNA details....
-                                            Thread.sleep(1000);
-                                            sendCNADetails(loDetail.sRemCodex, loDetail.sTransNox);
                                         } else {
                                             loData.put("sImageNme", loDetail.sImageNme);
                                             loData.put("sSourceCD", loDetail.sSourceCD);
@@ -821,6 +816,8 @@ public class VMCollectionList extends AndroidViewModel {
 
                                 Thread.sleep(1000);
                             }
+                            //call sending CNA details....
+                            sendCNADetails(laCollDetl.get(0).sTransNox);
 
                             boolean allDataSent = true;
                             for (boolean b : isDataSent) {
@@ -866,8 +863,7 @@ public class VMCollectionList extends AndroidViewModel {
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        void sendCNADetails(String fsRemCode, String fsTransno) throws Exception {
-            if (fsRemCode != null && fsRemCode.equalsIgnoreCase("CNA")) {
+        void sendCNADetails(String fsTransno) throws Exception {
                 if (paAddress.size() == 0) {
                     Log.e(TAG, "paAddress is Empty");
                 } else {
@@ -949,7 +945,6 @@ public class VMCollectionList extends AndroidViewModel {
                         Thread.sleep(1000);
                     }
                 }
-            }
         }
     }
 
