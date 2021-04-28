@@ -20,7 +20,7 @@
         <activity
             android:name=".Activities.Activity_LogCollection"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_CollectionList"
             android:screenOrientation="userPortrait"
@@ -28,7 +28,7 @@
         <activity
             android:name=".Activities.Activity_Transaction"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_TransactionDetail"
             android:screenOrientation="userPortrait"

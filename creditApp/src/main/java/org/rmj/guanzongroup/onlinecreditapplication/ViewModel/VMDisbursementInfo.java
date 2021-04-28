@@ -11,12 +11,18 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -91,7 +97,20 @@ public class VMDisbursementInfo extends AndroidViewModel {
     }
 
     public LiveData<ArrayAdapter<String>> getAccountType(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.ACCOUNT_TYPE);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.ACCOUNT_TYPE){
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                //change the color to which ever you want
+                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                    ((CheckedTextView) view).setTextColor(Color.WHITE);
+                }else{
+                    ((CheckedTextView) view).setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(adapter);
         return liveData;

@@ -109,7 +109,7 @@ public class Fragment_Finance extends Fragment implements ViewModelCallBack {
         }));
         mViewModel.getFinanceSource().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnRelation.setAdapter(stringArrayAdapter);
-            spnRelation.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnRelation.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getFinanceSourceSpn().observe(getViewLifecycleOwner(), s ->{
             relationX = s;

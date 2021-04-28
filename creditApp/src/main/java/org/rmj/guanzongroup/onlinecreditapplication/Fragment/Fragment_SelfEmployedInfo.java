@@ -119,7 +119,7 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
 
         mViewModel.getNatureOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnBussNtr.setAdapter(stringArrayAdapter);
-            spnBussNtr.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnBussNtr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         txtProvnc.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllProvinceInfo().observe(getViewLifecycleOwner(), eProvinceInfos -> {
@@ -147,17 +147,17 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
 
         mViewModel.getTypeOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnBussTyp.setAdapter(stringArrayAdapter);
-            spnBussTyp.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnBussTyp.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         mViewModel.getSizeOfBusiness().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnBussSze.setAdapter(stringArrayAdapter);
-            spnBussSze.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnBussSze.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         mViewModel.getLenghtOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnLngSrvc.setAdapter(stringArrayAdapter);
-            spnLngSrvc.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnLngSrvc.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getPsBsnssNature().observe(getViewLifecycleOwner(), s -> {
             spnBussNtr.setSelection(s.length());

@@ -11,12 +11,18 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -131,16 +137,68 @@ public class VMOtherInfo extends AndroidViewModel {
     public void setProvID(String ProvID) { this.lsProvID.setValue(ProvID); }
 
     public ArrayAdapter<String> getUnitUser(){
-        return new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER);
+        return new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER){
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                //change the color to which ever you want
+                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                    ((CheckedTextView) view).setTextColor(Color.WHITE);
+                }else{
+                    ((CheckedTextView) view).setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
     }
 
     public ArrayAdapter<String> getOtherUnitUser(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER_OTHERS);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER_OTHERS){
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                //change the color to which ever you want
+                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                    ((CheckedTextView) view).setTextColor(Color.WHITE);
+                }else{
+                    ((CheckedTextView) view).setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
         try {
             if (poInfo.getIsSpouse().equalsIgnoreCase("1")) {
-                adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER_OTHERS);
+                adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER_OTHERS){
+                    @SuppressLint("ResourceAsColor")
+                    @Override
+                    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+                        //change the color to which ever you want
+                        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                            ((CheckedTextView) view).setTextColor(Color.WHITE);
+                        }else{
+                            ((CheckedTextView) view).setTextColor(Color.BLACK);
+                        }
+                        return view;
+                    }
+                };
             } else {
-                adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER_OTHERS_NO_SPOUSE);
+                adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER_OTHERS_NO_SPOUSE){
+                    @SuppressLint("ResourceAsColor")
+                    @Override
+                    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+                        //change the color to which ever you want
+                        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                            ((CheckedTextView) view).setTextColor(Color.WHITE);
+                        }else{
+                            ((CheckedTextView) view).setTextColor(Color.BLACK);
+                        }
+                        return view;
+                    }
+                };
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -149,20 +207,85 @@ public class VMOtherInfo extends AndroidViewModel {
     }
 
     public ArrayAdapter<String> getUnitPurpose(){
-        return new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PURPOSE);
+        return new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PURPOSE){
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                //change the color to which ever you want
+                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                    ((CheckedTextView) view).setTextColor(Color.WHITE);
+                }else{
+                    ((CheckedTextView) view).setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
     }
 
     public ArrayAdapter<String> getUnitPayer(){
-        return new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER);
+        return new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_USER){
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                //change the color to which ever you want
+                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                    ((CheckedTextView) view).setTextColor(Color.WHITE);
+                }else{
+                    ((CheckedTextView) view).setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
     }
 
     public ArrayAdapter<String> getPayerBuyer(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PAYER);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PAYER){
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                //change the color to which ever you want
+                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                    ((CheckedTextView) view).setTextColor(Color.WHITE);
+                }else{
+                    ((CheckedTextView) view).setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
         try {
             if (poInfo.getIsSpouse().equalsIgnoreCase("1")) {
-                adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PAYER);
+                adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PAYER){
+                    @SuppressLint("ResourceAsColor")
+                    @Override
+                    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+                        //change the color to which ever you want
+                        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                            ((CheckedTextView) view).setTextColor(Color.WHITE);
+                        }else{
+                            ((CheckedTextView) view).setTextColor(Color.BLACK);
+                        }
+                        return view;
+                    }
+                };
             } else {
-                adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PAYER_NO_SPOUSE);
+                adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.UNIT_PAYER_NO_SPOUSE){
+                    @SuppressLint("ResourceAsColor")
+                    @Override
+                    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+                        //change the color to which ever you want
+                        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                            ((CheckedTextView) view).setTextColor(Color.WHITE);
+                        }else{
+                            ((CheckedTextView) view).setTextColor(Color.BLACK);
+                        }
+                        return view;
+                    }
+                };
             }
         } catch (NullPointerException e){
             e.printStackTrace();
@@ -175,9 +298,35 @@ public class VMOtherInfo extends AndroidViewModel {
     public ArrayAdapter<String> getIntCompanyInfoSource(){
         ArrayAdapter<String> adapter;
         if (poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1")){
-            adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.INTO_US);
+            adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.INTO_US){
+                @SuppressLint("ResourceAsColor")
+                @Override
+                public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                    View view = super.getView(position, convertView, parent);
+                    //change the color to which ever you want
+                    if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                        ((CheckedTextView) view).setTextColor(Color.WHITE);
+                    }else{
+                        ((CheckedTextView) view).setTextColor(Color.BLACK);
+                    }
+                    return view;
+                }
+            };
         }else{
-            adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.INTO_US_NO_SPOUSE);
+            adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.INTO_US_NO_SPOUSE){
+                @SuppressLint("ResourceAsColor")
+                @Override
+                public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                    View view = super.getView(position, convertView, parent);
+                    //change the color to which ever you want
+                    if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                        ((CheckedTextView) view).setTextColor(Color.WHITE);
+                    }else{
+                        ((CheckedTextView) view).setTextColor(Color.BLACK);
+                    }
+                    return view;
+                }
+            };
         }
         return adapter;
     }

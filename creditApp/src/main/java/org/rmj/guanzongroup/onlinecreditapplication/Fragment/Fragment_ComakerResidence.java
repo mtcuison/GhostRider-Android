@@ -181,17 +181,17 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
 
         mViewModel.getHouseHolds().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnHouseHold.setAdapter(stringArrayAdapter);
-            spnHouseHold.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnHouseHold.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         mViewModel.getHouseType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnHouseType.setAdapter(stringArrayAdapter);
-            spnHouseType.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnHouseType.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         mViewModel.getLenghtOfStay().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnLgnthStay.setAdapter(stringArrayAdapter);
-            spnLgnthStay.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnLgnthStay.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         btnNext.setOnClickListener(v -> {

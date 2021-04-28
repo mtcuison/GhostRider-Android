@@ -111,11 +111,11 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
         mViewModel.getSpnCMakerRelation().observe(getViewLifecycleOwner(), stringArrayAdapter ->{
             spnBrwrRltn.setAdapter(stringArrayAdapter);
-            spnBrwrRltn.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnBrwrRltn.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getSpnCMakerIncomeSource().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnIncmSrce.setAdapter(stringArrayAdapter);
-            spnIncmSrce.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnIncmSrce.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getCmrPrimaryCntctPlan().observe(getViewLifecycleOwner(), integer -> tilPrmCntctPlan.setVisibility(integer));
         mViewModel.getCmrSecondaryCntctPlan().observe(getViewLifecycleOwner(), integer -> tilScnCntctPlan.setVisibility(integer));
@@ -150,9 +150,9 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
             spnPrmCntct.setAdapter(stringArrayAdapter);
             spnScnCntct.setAdapter(stringArrayAdapter);
             spnTrtCntct.setAdapter(stringArrayAdapter);
-            spnPrmCntct.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
-            spnScnCntct.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
-            spnTrtCntct.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnPrmCntct.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+            spnScnCntct.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+            spnTrtCntct.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
