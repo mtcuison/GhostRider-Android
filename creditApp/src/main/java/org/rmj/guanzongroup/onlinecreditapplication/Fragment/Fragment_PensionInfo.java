@@ -79,7 +79,7 @@ public class Fragment_PensionInfo extends Fragment implements ViewModelCallBack 
 
         mViewModel.getPensionSector().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnSector.setAdapter(stringArrayAdapter);
-            spnSector.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnSector.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         btnPrvs.setOnClickListener(view -> {

@@ -11,10 +11,15 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
@@ -28,6 +33,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -53,7 +59,9 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogConfirmP
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogImportDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAddCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.Dialog_ClientSearch;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.LocatorScheduler;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Services.GLocatorService;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
@@ -573,9 +581,11 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         poDialogx.show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void OnSuccessDownload() {
         poDialogx.dismiss();
+        LocatorScheduler.scheduleJob(Activity_CollectionList.this);
     }
 
     @Override

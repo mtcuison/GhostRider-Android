@@ -160,6 +160,16 @@ public interface DDCPCollectionDetail {
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1' AND sRemCodex == 'PAY'")
     List<EDCPCollectionDetail> getUnsentPaidCollection();
 
+    @Query("SELECT (SELECT COUNT(cTranStat) FROM LR_DCP_Collection_Detail " +
+            "WHERE cTranStat <> '2' AND sTransNox = " +
+            "(SELECT sTransNox FROM LR_DCP_Collection_Master " +
+            "WHERE dTransact =:dTransact)) - " +
+            "(SELECT COUNT(cTranStat) FROM LR_DCP_Collection_Detail " +
+            "WHERE cTranStat = 2 AND sTransNox = " +
+            "(SELECT sTransNox FROM LR_DCP_Collection_Master " +
+            "WHERE dTransact =:dTransact))")
+    LiveData<Integer> getDCPStatus(String dTransact);
+
     @Query("SELECT a.sTransNox, " +
             "a.nEntryNox, " +
             "a.sAcctNmbr, " +

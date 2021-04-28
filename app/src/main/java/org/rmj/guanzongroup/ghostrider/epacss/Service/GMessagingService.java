@@ -40,7 +40,6 @@ public class GMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-
         Log.d(TAG, remoteMessage.getData().get("msgtype"));
         int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
         GNotifBuilder.createNotification(GMessagingService.this,

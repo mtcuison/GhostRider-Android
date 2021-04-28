@@ -41,6 +41,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DFileCode;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DImageInfo;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DLocatorSysLog;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DLog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMcBrand;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMcCategory;
@@ -77,6 +78,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
+import org.rmj.g3appdriver.GRider.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcBrand;
@@ -140,7 +142,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         ECIEvaluation.class,
         EDCP_Remittance.class,
         ERemittanceAccounts.class,
-        ESysConfig.class}, version = 1, exportSchema = false)
+        ESysConfig.class,
+        EGLocatorSysLog.class}, version = 1, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -182,6 +185,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DDCP_Remittance DCPRemitanceDao();
     public abstract DRemittanceAccounts RemitanceAccDao();
     public abstract DSysConfig sysConfigDao();
+    public abstract DLocatorSysLog locatorSysLogDao();
 
 
     public static synchronized GGC_GriderDB getInstance(Context context){

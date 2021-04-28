@@ -18,7 +18,8 @@
     android:orientation="vertical"
     tools:context=".Activity.Activity_ApplicationHistory"
     android:background="@drawable/bg_gradient_light"
-    android:theme="@style/GhostRiderMaterialTheme">
+    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+    tools:ignore="MissingDefaultResource">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -108,7 +109,7 @@
                         android:imeOptions="actionDone"
                         android:inputType="textCapWords"
                         android:maxLines="1"
-                        android:textColor="@color/textColor_White" />
+                        android:textColor="#ffff" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>

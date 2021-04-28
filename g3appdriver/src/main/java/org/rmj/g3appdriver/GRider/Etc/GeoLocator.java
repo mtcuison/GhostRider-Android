@@ -18,12 +18,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -34,15 +32,11 @@ import java.util.List;
 import java.util.Locale;
 
 public class GeoLocator {
-
-
     private static double lattitude ,longitude;
     private static final int REQUEST_LOCATION = 1;
     private final Context context;
     private final Activity activity;
     private String address,city,state,country,postalCode,knownName;
-
-
 
     public GeoLocator(Context context, Activity activity) {
         this.context = context;
@@ -61,7 +55,6 @@ public class GeoLocator {
            Toast.makeText(context,"Permission Denied", Toast.LENGTH_SHORT).show();
 
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-
 
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
@@ -83,15 +76,12 @@ public class GeoLocator {
                     longitude = longi;
                     geoAddress();
 
-
                 } else  if (location1 != null) {
                     double latti = location1.getLatitude();
                     double longi = location1.getLongitude();
                     lattitude = latti;
                     longitude = longi;
                     geoAddress();
-
-
 
                 } else  if (location2 != null) {
                     double latti = location2.getLatitude();
@@ -107,18 +97,15 @@ public class GeoLocator {
         }
     }
 
-
-
-    public   double getLattitude() {
+    public double getLattitude() {
         return lattitude;
     }
 
-    public  double getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
     public void geoAddress(){
-
 
         Geocoder geocoder;
         List<Address> addresses;
@@ -139,8 +126,6 @@ public class GeoLocator {
 //            GToast.CreateMessage(context, e.getMessage(), GToast.INFORMATION).show();
         }
     }
-
-
 
     public String getAddress() {
         return address;
@@ -165,7 +150,6 @@ public class GeoLocator {
     public String getKnownName() {
         return knownName;
     }
-
 
     public void showSettingsAlert(){
         MessageBox poMessage = new MessageBox(context);
