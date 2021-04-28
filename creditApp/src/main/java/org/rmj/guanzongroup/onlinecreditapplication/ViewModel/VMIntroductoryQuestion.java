@@ -19,9 +19,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -187,7 +189,7 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
                 if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
                     ((CheckedTextView) view).setTextColor(Color.WHITE);
                 }else{
-                    ((CheckedTextView) view).setTextColor(Color.BLACK);
+                    ((CheckedTextView) view).setTextColor(getContext().getResources().getColor(R.color.material_black));
                 }
                 return view;
             }

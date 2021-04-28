@@ -120,7 +120,7 @@
                 android:padding="5dp">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/TextInputStyleSpinner"
+                    style="@style/CustomDropDownTilStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Loan Unit">
@@ -131,7 +131,6 @@
                         android:layout_height="wrap_content"
                         android:focusable="false"
                         android:padding="16dp"
-                        android:textColor="@color/material_black"
                         android:cursorVisible="false"
                         android:clickable="false"
                         android:inputType="none" />
