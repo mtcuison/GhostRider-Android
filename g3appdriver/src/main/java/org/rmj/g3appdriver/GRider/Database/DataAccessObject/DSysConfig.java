@@ -13,6 +13,7 @@ package org.rmj.g3appdriver.GRider.Database.DataAccessObject;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ESysConfig;
 
@@ -24,6 +25,6 @@ public interface DSysConfig {
     @Insert
     void insert(ESysConfig sysConfig);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertSysConfig(List<ESysConfig> sysConfigs);
 }

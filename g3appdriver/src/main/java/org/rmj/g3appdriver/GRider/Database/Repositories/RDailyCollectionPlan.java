@@ -153,6 +153,9 @@ public class RDailyCollectionPlan {
     public EDCPCollectionDetail checkCollectionImport(String sTransNox, int nEntryNox) {
         return detailDao.checkCollectionImport(sTransNox,nEntryNox);
     }
+    public LiveData<Integer> getDCPStatus(){
+        return detailDao.getDCPStatus(AppConstants.CURRENT_DATE);
+    }
 
     private class InsertCollectionDetailTask extends AsyncTask<EDCPCollectionDetail, Void, String>{
         private OnClientAccNoxInserted mListener;

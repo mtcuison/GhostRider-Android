@@ -289,6 +289,7 @@ public class VMPaidTransaction extends AndroidViewModel {
                             JSONObject loResponse = new JSONObject(lsResponse);
                             if(loResponse.getString("result").equalsIgnoreCase("success")){
                                 detail.setSendStat("1");
+                                detail.setSendDate(AppConstants.DATE_MODIFIED);
                                 detail.setModified(AppConstants.DATE_MODIFIED);
                                 poDcp.updateCollectionDetailInfo(detail);
                             }

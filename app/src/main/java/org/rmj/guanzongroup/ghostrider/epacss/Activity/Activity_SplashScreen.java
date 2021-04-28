@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -35,6 +36,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.TransparentToolbar;
 import org.rmj.g3appdriver.utils.AppDirectoryCreator;
 import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.LocatorScheduler;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataImportService;
@@ -52,6 +54,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
     private VMSplashScreen mViewModel;
     private AppDirectoryCreator mMakeDir;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,11 @@ public class Activity_SplashScreen extends AppCompatActivity {
         try {
             mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
             startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
+            mViewModel.getDCPStatus().observe(this, count -> {
+                if(count > 0){
+                    LocatorScheduler.scheduleJob(this);
+                }
+            });
             mViewModel.isPermissionsGranted().observe(this, isGranted -> {
                 if(!isGranted){
                     mViewModel.getPermisions().observe(this, strings -> ActivityCompat.requestPermissions(Activity_SplashScreen.this, strings, AppConstants.PERMISION_REQUEST_CODE));
@@ -179,7 +187,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
         boolean hasBeenScheduled = false ;
 
         for ( JobInfo jobInfo : scheduler.getAllPendingJobs() ) {
-            if ( jobInfo.getId() == AppConstants.JOB_ID ) {
+            if ( jobInfo.getId() == AppConstants.DataServiceID) {
                 hasBeenScheduled = true ;
                 break ;
             }
@@ -192,7 +200,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
     private void scheduleJob(){
         ComponentName loComp = new ComponentName(this, DataImportService.class);
         @SuppressLint("MissingPermission")
-        JobInfo loJob = new JobInfo.Builder(AppConstants.JOB_ID, loComp)
+        JobInfo loJob = new JobInfo.Builder(AppConstants.DataServiceID, loComp)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .setPersisted(true)
                 .setPeriodic(3600000)

@@ -13,15 +13,29 @@ package org.rmj.g3appdriver.dev;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.location.Location;
 import android.location.LocationManager;
+import android.util.Log;
 
 public class GLocationManager {
+    private static final String TAG = GLocationManager.class.getSimpleName();
+    private final Context mContext;
 
-    public GLocationManager() {
+    public static int GLocationResCode = 241;
+
+    private static String lattitude = "0.0";
+    private static String longitude = "0.0";
+
+    public interface OnLocationTrack{
+        void OnTrack(String latitude, String longitude);
     }
 
-    public static boolean isLocationEnabled(Context context){
-        @SuppressLint("ServiceCast") LocationManager lm = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+    public GLocationManager(Context context) {
+        this.mContext = context;
+    }
+
+    public boolean isLocationEnabled(){
+        @SuppressLint("ServiceCast") LocationManager lm = (LocationManager)mContext.getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
         boolean network_enabled = false;
         try {
@@ -36,5 +50,39 @@ public class GLocationManager {
         return gps_enabled && network_enabled;
     }
 
-    public static int GLocationResCode = 241;
+    @SuppressLint("MissingPermission")
+    public void getLocation(OnLocationTrack callback){
+        LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        Location location2 = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+
+        if (location != null) {
+            double latti = location.getLatitude();
+            double longi = location.getLongitude();
+            lattitude = String.valueOf(latti);
+            longitude = String.valueOf(longi);
+
+            callback.OnTrack(lattitude, longitude);
+        } else if (location1 != null) {
+            double latti = location1.getLatitude();
+            double longi = location1.getLongitude();
+            lattitude = String.valueOf(latti);
+            longitude = String.valueOf(longi);
+
+            callback.OnTrack(lattitude, longitude);
+        } else if (location2 != null) {
+            double latti = location2.getLatitude();
+            double longi = location2.getLongitude();
+            lattitude = String.valueOf(latti);
+            longitude = String.valueOf(longi);
+
+            callback.OnTrack(lattitude, longitude);
+        }else{
+            callback.OnTrack(lattitude, longitude);
+            Log.e(TAG, "unable to get location coordinates");
+        }
+    }
 }

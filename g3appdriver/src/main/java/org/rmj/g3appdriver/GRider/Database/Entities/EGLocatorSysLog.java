@@ -21,26 +21,20 @@ public class EGLocatorSysLog {
     @NonNull
     @ColumnInfo(name = "sUserIDxx")
     private String UserIDxx;
-
     @NonNull
     @ColumnInfo(name = "sDeviceID")
     private String DeviceID;
-
     @NonNull
     @ColumnInfo(name = "dTransact")
-    private String Transact;
-
+    private String Transact = "";
     @ColumnInfo(name = "nLongitud")
-    private String Longitud;
-
+    private String Longitud = "0.00";
     @ColumnInfo(name = "nLatitude")
-    private String Latitude;
-
+    private String Latitude = "0.00";
     @ColumnInfo(name = "cSendStat")
-    private String SendStat;
-
+    private String SendStat = "0";
     @ColumnInfo(name = "dTimeStmp")
-    private String TimeStmp;
+    private String TimeStmp = "";
 
     public EGLocatorSysLog() {
     }
