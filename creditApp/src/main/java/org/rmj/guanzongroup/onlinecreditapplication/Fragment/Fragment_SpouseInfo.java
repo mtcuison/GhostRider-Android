@@ -237,9 +237,9 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
             spnMobile1.setAdapter(stringArrayAdapter);
             spnMobile2.setAdapter(stringArrayAdapter);
             spnMobile3.setAdapter(stringArrayAdapter);
-            spnMobile1.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
-            spnMobile2.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
-            spnMobile3.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnMobile1.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+            spnMobile2.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+            spnMobile3.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         mViewModel.getMobileNo1().observe(getViewLifecycleOwner(), s -> {

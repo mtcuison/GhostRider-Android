@@ -153,15 +153,15 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
 
         mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnCmpLvl.setAdapter(stringArrayAdapter);
-            spnCmpLvl.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnCmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getEmployeeLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnEmpLvl.setAdapter(stringArrayAdapter);
-            spnEmpLvl.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnEmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getBusinessNature().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnBusNtr.setAdapter(stringArrayAdapter);
-            spnBusNtr.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnBusNtr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getPsCmpLvl().observe(getViewLifecycleOwner(), s -> {
             spnCmpLvl.setSelection(s.length());
@@ -234,11 +234,11 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
 
         mViewModel.getEmploymentStatus().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnEmpSts.setAdapter(stringArrayAdapter);
-            spnEmpSts.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnEmpSts.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getLengthOfService().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnServce.setAdapter(stringArrayAdapter);
-            spnServce.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnServce.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         mViewModel.getPsService().observe(getViewLifecycleOwner(), s -> {
             spnServce.setSelection(s.length());

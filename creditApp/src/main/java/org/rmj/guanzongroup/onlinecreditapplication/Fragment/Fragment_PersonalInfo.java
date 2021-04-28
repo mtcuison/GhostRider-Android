@@ -169,7 +169,7 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
 
         mViewModel.getCivilStatus().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnCivilStatus.setAdapter(stringArrayAdapter);
-            spnCivilStatus.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnCivilStatus.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         mViewModel.setMotherMaidenNameVisibility().observe(getViewLifecycleOwner(), integer -> tilMothNm.setVisibility(integer));
@@ -195,9 +195,9 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
             spnMobile1.setAdapter(stringArrayAdapter);
             spnMobile2.setAdapter(stringArrayAdapter);
             spnMobile3.setAdapter(stringArrayAdapter);
-            spnMobile1.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
-            spnMobile2.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
-            spnMobile3.setDropDownBackgroundResource(R.color.mtrl_textinput_default_box_stroke_colors);
+            spnMobile1.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+            spnMobile2.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+            spnMobile3.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
         spnMobile1.setOnItemClickListener(new OnItemClickListener(spnMobile1));

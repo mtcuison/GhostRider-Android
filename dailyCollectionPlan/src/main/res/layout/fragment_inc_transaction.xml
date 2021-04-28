@@ -16,6 +16,7 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.Fragment_IncTransaction"
     android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
     android:padding="10dp">
 
     <LinearLayout
