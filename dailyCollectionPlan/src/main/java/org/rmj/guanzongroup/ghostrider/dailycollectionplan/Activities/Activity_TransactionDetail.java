@@ -124,14 +124,15 @@ public class Activity_TransactionDetail extends AppCompatActivity {
                 transaction.equalsIgnoreCase("LUn")) {
             return new Fragment_Log_Client_Detail();
         }
-        else if((transaction.equalsIgnoreCase("Car")
+        else if((transaction.equalsIgnoreCase("Car"))
                 || (transaction.equalsIgnoreCase("UNC"))
                 || (transaction.equalsIgnoreCase("MCs"))
                 || (transaction.equalsIgnoreCase("MUn"))
                 || (transaction.equalsIgnoreCase("MCU"))
                 || (transaction.equalsIgnoreCase("DNP"))
-                || transaction.equalsIgnoreCase("NV"))
-                || (transaction.equalsIgnoreCase("OTH"))){
+                || (transaction.equalsIgnoreCase("NV"))
+                || (transaction.equalsIgnoreCase("OTH"))
+                || (transaction.equalsIgnoreCase(""))){
             return new Fragment_Log_OtherTransactions();
         }
         return null;

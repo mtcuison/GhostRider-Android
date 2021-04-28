@@ -175,6 +175,7 @@
                     android:id="@+id/tie_cap_otherSource"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textCapSentences"
                     android:maxLength="50"/>
             </com.google.android.material.textfield.TextInputLayout>
             <!---->
@@ -209,7 +210,7 @@
                         android:maxLines="1"
                         android:singleLine="true"
                         android:imeOptions="actionNext"
-                        android:inputType="textPersonName"
+                        android:inputType="textPersonName|textCapWords"
                         android:digits="@string/free_text_restriction"
                         android:maxLength="100"
                         android:nextFocusForward="@id/tie_cap_refereceContact"
@@ -256,7 +257,7 @@
                         android:maxLines="1"
                         android:singleLine="true"
                         android:imeOptions="actionNext"
-                        android:inputType="textPersonName"
+                        android:inputType="textPostalAddress|textCapWords"
                         android:digits="@string/free_text_restriction"
                         android:maxLength="100"
                         android:nextFocusForward="@id/tie_cap_referenceAddProv"
@@ -285,7 +286,7 @@
                             android:id="@+id/tie_cap_referenceAddProv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textAutoComplete|textAutoCorrect"
+                            android:inputType="textAutoComplete|textAutoCorrect|textCapWords"
                             android:maxLength="20"
                             android:paddingTop="10dp"
                             android:paddingBottom="10dp"
@@ -312,7 +313,7 @@
                             android:id="@+id/tie_cap_referenceAddTown"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textAutoComplete|textAutoCorrect"
+                            android:inputType="textAutoComplete|textAutoCorrect|textCapWords"
                             android:maxLength="20"
                             android:paddingTop="10dp"
                             android:paddingBottom="10dp"

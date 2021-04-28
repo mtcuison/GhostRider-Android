@@ -802,10 +802,6 @@ public class VMCollectionList extends AndroidViewModel {
                                                 poDcp.updateCollectionDetailStatus(loDetail.sTransNox, loDetail.nEntryNox);
                                             }
                                             isDataSent[x] = true;
-
-                                            //call sending CNA details....
-                                            Thread.sleep(1000);
-                                            sendCNADetails(loDetail.sRemCodex, loDetail.sTransNox);
                                         } else {
                                             JSONObject loError = loResponse.getJSONObject("error");
                                             Log.e(TAG, loError.getString("message"));
@@ -820,6 +816,8 @@ public class VMCollectionList extends AndroidViewModel {
 
                                 Thread.sleep(1000);
                             }
+                            //call sending CNA details....
+                            sendCNADetails(laCollDetl.get(0).sTransNox);
 
                             boolean allDataSent = true;
                             for (boolean b : isDataSent) {
@@ -865,8 +863,7 @@ public class VMCollectionList extends AndroidViewModel {
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        void sendCNADetails(String fsRemCode, String fsTransno) throws Exception {
-            if (fsRemCode != null && fsRemCode.equalsIgnoreCase("CNA")) {
+        void sendCNADetails(String fsTransno) throws Exception {
                 if (paAddress.size() == 0) {
                     Log.e(TAG, "paAddress is Empty");
                 } else {
@@ -948,7 +945,6 @@ public class VMCollectionList extends AndroidViewModel {
                         Thread.sleep(1000);
                     }
                 }
-            }
         }
     }
 
