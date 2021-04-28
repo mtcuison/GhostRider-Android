@@ -39,10 +39,10 @@ public class GLocatorService extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         try{
-            new GetLocationTask(getApplication(), () -> jobFinished(params, false)).execute();
+            new GetLocationTask(getApplication(), () -> jobFinished(params, true)).execute();
         } catch (Exception e){
             e.printStackTrace();
-            jobFinished(params, false);
+            jobFinished(params, true);
         }
         return false;
     }
