@@ -27,6 +27,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
@@ -132,6 +133,10 @@ public class VMOtherInfo extends AndroidViewModel {
 
     public LiveData<String[]> getAllTownNames(){
         return RTown.getTownNamesFromProvince(lsProvID.getValue());
+    }
+
+    public void getTownProvinceName(String fsTownId, RTown.OnFetchTownName callBack) {
+        RTown.getTownProvinceName(fsTownId, callBack);
     }
 
     public void setProvID(String ProvID) { this.lsProvID.setValue(ProvID); }
