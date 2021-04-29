@@ -35,6 +35,8 @@ public class EGLocatorSysLog {
     private String SendStat = "0";
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp = "";
+    @ColumnInfo(name = "dLstUpdte")
+    private String LstUpdte;
 
     public EGLocatorSysLog() {
     }
@@ -96,5 +98,13 @@ public class EGLocatorSysLog {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
+    }
+
+    public String getLstUpdte() {
+        return LstUpdte;
+    }
+
+    public void setLstUpdte(String lstUpdte) {
+        LstUpdte = lstUpdte;
     }
 }

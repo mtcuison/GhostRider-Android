@@ -33,6 +33,8 @@ public class EFileCode {
     private int EntryNox;
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
+    @ColumnInfo(name = "dLstUpdte")
+    private String LstUpdte;
 
     public EFileCode() {
 
@@ -85,5 +87,13 @@ public class EFileCode {
 
     public void setEntryNox(int entryNox) {
         EntryNox = entryNox;
+    }
+
+    public String getLstUpdte() {
+        return LstUpdte;
+    }
+
+    public void setLstUpdte(String lstUpdte) {
+        LstUpdte = lstUpdte;
     }
 }

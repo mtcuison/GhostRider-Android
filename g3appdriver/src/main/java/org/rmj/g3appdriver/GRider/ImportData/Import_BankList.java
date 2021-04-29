@@ -80,11 +80,10 @@ public class Import_BankList implements ImportInstance{
                 if(conn.isDeviceConnected()) {
                     response = WebClient.httpsPostJSon(URL_DOWNLOAD_BANK_INFO, jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
-                    Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");
-                    if(lsResult.equalsIgnoreCase("success")){
+                    if (lsResult.equalsIgnoreCase("success")) {
                         JSONArray laJson = loJson.getJSONArray("detail");
-                        if(!poBank.insertBankInfo(laJson)){
+                        if (!poBank.insertBankInfo(laJson)) {
                             response = AppConstants.ERROR_SAVING_TO_LOCAL();
                         }
                     } else {
@@ -96,7 +95,6 @@ public class Import_BankList implements ImportInstance{
                     response = AppConstants.NO_INTERNET();
                 }
             } catch (Exception e) {
-                Log.e(TAG, Arrays.toString(e.getStackTrace()));
                 e.printStackTrace();
             }
             return response;
@@ -107,7 +105,6 @@ public class Import_BankList implements ImportInstance{
             super.onPostExecute(s);
             try {
                 JSONObject loJson = new JSONObject(s);
-                Log.e(TAG, loJson.getString("result"));
                 String lsResult = loJson.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
                     callback.OnSuccessImportData();

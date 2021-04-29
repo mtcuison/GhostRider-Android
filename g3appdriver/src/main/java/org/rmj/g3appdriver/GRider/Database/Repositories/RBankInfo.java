@@ -20,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBankInfo;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
@@ -84,7 +85,7 @@ public class RBankInfo {
                             " VALUES" +
                             "(" + SQLUtil.toSQL(loJson.getString("sBankIDxx")) +
                             "," + SQLUtil.toSQL(loJson.getString("sBankName")) +
-                            "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) + ")";
+                            "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) +")";
                 }
 
             } else {
@@ -94,6 +95,7 @@ public class RBankInfo {
                 lsSQL = "UPDATE Bank_Info SET" +
                         " sBankName = " + SQLUtil.toSQL(loJson.getString("sBankName")) +
                         ", cRecdStat = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
+                        ", dLstUpdte = " + SQLUtil.toSQL(AppConstants.CURRENT_DATE) +
                         " WHERE sBankIDxx = " + SQLUtil.toSQL(loJson.getString("sBankIDxx"));
             }
 
