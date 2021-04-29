@@ -80,8 +80,12 @@ public class VMPersonalInfo extends AndroidViewModel {
         return poModel;
     }
 
-    public void setTransNox(String transNox){
+    public boolean setTransNox(String transNox) {
         this.TRANSNOX.setValue(transNox);
+        if(!this.TRANSNOX.getValue().equalsIgnoreCase(transNox)) {
+            return false;
+        }
+        return true;
     }
 
     public LiveData<ECreditApplicantInfo> getCreditApplicantInfo(){
@@ -96,7 +100,7 @@ public class VMPersonalInfo extends AndroidViewModel {
         }
     }
 
-    public void SavePersonalInfo(PersonalInfoModel infoModel, ViewModelCallBack callBack){
+    public boolean SavePersonalInfo(PersonalInfoModel infoModel, ViewModelCallBack callBack){
         try {
             infoModel.setBrthPlce(lsBPlace.getValue());
             infoModel.setCitizenx(lsCitizen.getValue());
@@ -144,14 +148,17 @@ public class VMPersonalInfo extends AndroidViewModel {
                 }
                 RCreditApplicant.updateGOCasData(poInfo);
                 callBack.onSaveSuccessResult(TRANSNOX.getValue());
+                return true;
             } else {
                 infoModel.clearMobileNo();
                 callBack.onFailedResult(infoModel.getMessage());
+                return false;
             }
         } catch (Exception e){
             e.printStackTrace();
             infoModel.clearMobileNo();
             callBack.onFailedResult(e.getMessage());
+            return false;
         }
     }
 
