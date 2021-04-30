@@ -17,7 +17,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -36,7 +35,6 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.TransparentToolbar;
 import org.rmj.g3appdriver.utils.AppDirectoryCreator;
 import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.LocatorScheduler;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataImportService;
@@ -73,11 +71,11 @@ public class Activity_SplashScreen extends AppCompatActivity {
         try {
             mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
             startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
-            mViewModel.getDCPStatus().observe(this, count -> {
-                if(count > 0){
-                    LocatorScheduler.scheduleJob(this);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if(!isJobRunning()) {
+                    scheduleJob();
                 }
-            });
+            }
             mViewModel.isPermissionsGranted().observe(this, isGranted -> {
                 if(!isGranted){
                     mViewModel.getPermisions().observe(this, strings -> ActivityCompat.requestPermissions(Activity_SplashScreen.this, strings, AppConstants.PERMISION_REQUEST_CODE));
@@ -137,12 +135,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
                     });
                 }
             });
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                if(!isJobRunning()) {
-                    scheduleJob();
-                }
-            }
         }catch (NullPointerException e){
             e.printStackTrace();
         }catch (RuntimeException e){
@@ -203,14 +195,14 @@ public class Activity_SplashScreen extends AppCompatActivity {
         JobInfo loJob = new JobInfo.Builder(AppConstants.DataServiceID, loComp)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .setPersisted(true)
-                .setPeriodic(3600000)
+                .setPeriodic(900000)
                 .build();
         JobScheduler loScheduler = (JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
         int liResult = loScheduler.schedule(loJob);
         if(liResult == JobScheduler.RESULT_SUCCESS){
-            Log.e(TAG, "Job Scheduled");
+            Log.e(TAG, "Data Import Service Scheduled");
         } else {
-            Log.e(TAG, "Job Schedule Failed.");
+            Log.e(TAG, "Data Import Service Schedule Failed.");
         }
     }
 }

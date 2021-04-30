@@ -59,9 +59,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogConfirmP
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogImportDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAddCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.Dialog_ClientSearch;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.LocatorScheduler;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Services.GLocatorService;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
@@ -581,11 +579,9 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         poDialogx.show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void OnSuccessDownload() {
         poDialogx.dismiss();
-        LocatorScheduler.scheduleJob(Activity_CollectionList.this);
     }
 
     @Override

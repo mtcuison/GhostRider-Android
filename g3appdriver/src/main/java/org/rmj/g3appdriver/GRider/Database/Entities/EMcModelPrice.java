@@ -41,6 +41,8 @@ public class EMcModelPrice {
     private String RecdStat;
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
+    @ColumnInfo(name = "dLstUpdte")
+    private String LstUpdte;
 
     public EMcModelPrice() {
     }
@@ -124,5 +126,13 @@ public class EMcModelPrice {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
+    }
+
+    public String getLstUpdte() {
+        return LstUpdte;
+    }
+
+    public void setLstUpdte(String lstUpdte) {
+        LstUpdte = lstUpdte;
     }
 }

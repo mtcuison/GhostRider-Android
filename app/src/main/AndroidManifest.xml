@@ -60,9 +60,6 @@
         android:roundIcon="@mipmap/grider_launcher_foreground_round"
         android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 
-<!--        android:manageSpaceActivity=".Activity.Activity_DataManager"-->
-<!--        android:process=":manager"-->
-
         <activity android:name=".Activity.Activity_DataManager"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
@@ -103,9 +100,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <service android:name="org.rmj.guanzongroup.ghostrider.dailycollectionplan.Services.GLocatorService"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

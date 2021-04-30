@@ -35,6 +35,8 @@ public class EMcCategory {
     private String RecdStat;
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
+    @ColumnInfo(name = "dLstUpdte")
+    private String LstUpdte;
 
     public EMcCategory() {
     }
@@ -94,5 +96,13 @@ public class EMcCategory {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
+    }
+
+    public String getLstUpdte() {
+        return LstUpdte;
+    }
+
+    public void setLstUpdte(String lstUpdte) {
+        LstUpdte = lstUpdte;
     }
 }

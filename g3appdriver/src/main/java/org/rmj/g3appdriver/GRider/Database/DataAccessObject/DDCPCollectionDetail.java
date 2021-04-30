@@ -168,7 +168,7 @@ public interface DDCPCollectionDetail {
             "WHERE cTranStat = 2 AND sTransNox = " +
             "(SELECT sTransNox FROM LR_DCP_Collection_Master " +
             "WHERE dTransact =:dTransact))")
-    LiveData<Integer> getDCPStatus(String dTransact);
+    Integer getDCPStatus(String dTransact);
 
     @Query("SELECT a.sTransNox, " +
             "a.nEntryNox, " +

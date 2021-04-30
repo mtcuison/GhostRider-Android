@@ -174,9 +174,8 @@ public class VMCustomerNotAround extends AndroidViewModel {
     }
 
     public LiveData<ArrayAdapter<String>> getRequestCodeOptions() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, DCP_Constants.REQUEST_CODE);
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
+        liveData.setValue(DCP_Constants.getAdapter(getApplication(), DCP_Constants.REQUEST_CODE));
         return liveData;
     }
 

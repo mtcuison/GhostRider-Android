@@ -49,6 +49,8 @@ public class ESCA_Request {
     private String RecdStat;
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
+    @ColumnInfo(name = "dLstUpdte")
+    private String LstUpdte;
 
     public ESCA_Request() {
     }
@@ -164,5 +166,13 @@ public class ESCA_Request {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
+    }
+
+    public String getLstUpdte() {
+        return LstUpdte;
+    }
+
+    public void setLstUpdte(String lstUpdte) {
+        LstUpdte = lstUpdte;
     }
 }
