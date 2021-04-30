@@ -49,16 +49,12 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull PersonalReferencesAdapter.ItemViewHolder holder, int position) {
-        int lnSizexxx = referenceInfoModels.size();
-        int lnCurrent = position+1;
         PersonalReferenceInfoModel reference = referenceInfoModels.get(position);
-
+        String lsRefNoxx = String.valueOf(position+1);
+        holder.lblReferenceNo.setText("Reference No. " + lsRefNoxx);
         holder.lblRefName.setText("Fullname. : " + reference.getFullname());
         holder.lblRefTown.setText(reference.getAddress1() + ", " + reference.getTownCity());
         holder.lblRefContact.setText("Contact No : " + reference.getContactN());
-        if(lnCurrent!=lnSizexxx){
-            holder.vDivider.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
@@ -71,7 +67,7 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
         private TextView lblRefAddres;
         private TextView lblRefTown;
         private TextView lblRefContact;
-        private View vDivider;
+        private TextView lblReferenceNo;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,7 +76,7 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
             lblRefAddres = itemView.findViewById(R.id.lbl_itemRefAddress);
             lblRefTown = itemView.findViewById(R.id.lbl_itemRefTown);
             lblRefContact = itemView.findViewById(R.id.lbl_itemRefContactN);
-            vDivider = itemView.findViewById(R.id.view_divider);
+            lblReferenceNo = itemView.findViewById(R.id.lbl_reference_no);
         }
     }
 

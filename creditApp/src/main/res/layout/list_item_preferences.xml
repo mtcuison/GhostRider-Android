@@ -19,7 +19,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/guanzon_dark_grey"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp">
+        <TextView
+            android:id="@+id/lbl_reference_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/textColor_White"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:padding="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
         <TextView
@@ -60,13 +76,5 @@
             android:textSize="16sp"
             android:fontFamily="@font/roboto_medium"/>
     </LinearLayout>
-
-    <View
-        android:id="@+id/view_divider"
-        android:layout_width="match_parent"
-        android:layout_height="0.3dp"
-        android:background="@color/textColor_Black"
-        android:layout_marginVertical="3dp"
-        android:visibility="gone"/>
 
 </LinearLayout>
