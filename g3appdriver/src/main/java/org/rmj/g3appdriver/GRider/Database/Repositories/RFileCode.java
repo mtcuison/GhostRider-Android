@@ -20,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DFileCode;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
@@ -29,7 +30,7 @@ import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
 
-public class RFileCode {
+public class RFileCode implements DFileCode{
     private static final String TAG = RFileCode.class.getSimpleName();
     private LiveData<List<EFileCode>> allFileCode;
     private DFileCode fileCodeDao;
@@ -45,8 +46,16 @@ public class RFileCode {
         return allFileCode;
     }
 
+    public LiveData<List<EFileCode>> selectFileCodeList() {
+        return fileCodeDao.selectFileCodeList();
+    }
+
     public String getLatestDataTime(){
         return fileCodeDao.getLatestDataTime();
+    }
+
+    public String getLastUpdate() {
+        return fileCodeDao.getLastUpdate();
     }
 
     public boolean insertFileCodeData(JSONArray faJson) throws Exception{
@@ -81,6 +90,7 @@ public class RFileCode {
                             ",sBriefDsc" +
                             ",cRecdStat" +
                             ",nEntryNox" +
+                            ",dLstUpdte" +
                             ",dTimeStmp)" +
                             " VALUES" +
                             "(" + SQLUtil.toSQL(loJson.getString("sFileCode")) +
@@ -88,6 +98,7 @@ public class RFileCode {
                             "," + SQLUtil.toSQL(loJson.getString("sBriefDsc")) +
                             "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
                             "," + SQLUtil.toSQL(loJson.getInt("nEntryNox")) +
+                            "," + SQLUtil.toSQL(AppConstants.CURRENT_DATE) +
                             "," + SQLUtil.toSQL(loJson.getString("dTimeStmp")) + ")";
                 }
             } else { //record already exists
@@ -103,6 +114,7 @@ public class RFileCode {
                             ",  sBriefDsc = " + SQLUtil.toSQL(loJson.getString("sBriefDsc")) +
                             ",  cRecdStat = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
                             ",  nEntryNox = " + SQLUtil.toSQL(loJson.getInt("nEntryNox")) +
+                            ",  dLstUpdte = " + SQLUtil.toSQL(AppConstants.CURRENT_DATE) +
                             ",  dTimeStmp = " + SQLUtil.toSQL(loJson.getString("dTimeStmp"))  +
                             " WHERE sFileCode = " + SQLUtil.toSQL(loJson.getString("sFileCode"));
                 }

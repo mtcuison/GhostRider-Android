@@ -27,4 +27,7 @@ public interface DFileCode {
 
     @Query("SELECT MAX(dTimeStmp) AS TimeStamp FROM EDocSys_File")
     String getLatestDataTime();
+
+    @Query("SELECT dLstUpdte FROM EDocSys_File ORDER BY dLstUpdte DESC LIMIT 1")
+    String getLastUpdate();
 }

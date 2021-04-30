@@ -65,4 +65,5 @@ public class EBankInfo {
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
     }
+
 }
