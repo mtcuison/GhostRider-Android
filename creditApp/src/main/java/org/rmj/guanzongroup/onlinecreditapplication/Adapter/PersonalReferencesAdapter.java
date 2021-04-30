@@ -32,10 +32,12 @@ import java.util.List;
 
 public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalReferencesAdapter.ItemViewHolder>{
 
-    List<PersonalReferenceInfoModel> referenceInfoModels;
+    private final List<PersonalReferenceInfoModel> referenceInfoModels;
+    private final OnAdapterClick mListener;
 
-    public PersonalReferencesAdapter(List<PersonalReferenceInfoModel> referenceInfoModels) {
+    public PersonalReferencesAdapter(List<PersonalReferenceInfoModel> referenceInfoModels, OnAdapterClick fmListenr) {
         this.referenceInfoModels = referenceInfoModels;
+        this.mListener = fmListenr;
     }
 
 
@@ -43,7 +45,7 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
     @Override
     public PersonalReferencesAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_preferences, parent, false);
-        return new ItemViewHolder(view);
+        return new ItemViewHolder(view, mListener);
     }
 
     @SuppressLint("SetTextI18n")
@@ -67,16 +69,36 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
         private TextView lblRefTown;
         private TextView lblRefContact;
         private TextView lblReferenceNo;
+        private ImageView imgRemove;
 
-        public ItemViewHolder(@NonNull View itemView) {
+        public ItemViewHolder(@NonNull View itemView, OnAdapterClick listener) {
             super(itemView);
 
             lblRefName = itemView.findViewById(R.id.lbl_itemRefName);
             lblRefTown = itemView.findViewById(R.id.lbl_itemRefTown);
             lblRefContact = itemView.findViewById(R.id.lbl_itemRefContactN);
             lblReferenceNo = itemView.findViewById(R.id.lbl_reference_no);
+            imgRemove = itemView.findViewById(R.id.img_remove);
+
+            imgRemove.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if(position != RecyclerView.NO_POSITION) {
+                    listener.onRemove(position);
+                }
+            });
+
+            lblRefContact.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if(position != RecyclerView.NO_POSITION) {
+                    listener.onCallMobile(lblRefContact.getText().toString());
+                }
+            });
         }
     }
 
+    public interface OnAdapterClick {
+        void onRemove(int position);
+        void onCallMobile(String fsMobileN);
+    }
 
 }

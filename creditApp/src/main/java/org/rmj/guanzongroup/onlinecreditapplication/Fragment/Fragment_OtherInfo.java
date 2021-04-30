@@ -13,6 +13,8 @@ package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -47,6 +49,7 @@ import java.util.Objects;
 public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
     private static final String TAG = Fragment_OtherInfo.class.getSimpleName();
+    private static final int MOBILE_DIALER = 104;
     private VMOtherInfo mViewModel;
 
     private String TownID = "";
@@ -99,7 +102,20 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
         mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
         mViewModel.getReferenceList().observe(getViewLifecycleOwner(), personalReferenceInfoModels -> {
-            adapter = new PersonalReferencesAdapter(personalReferenceInfoModels);
+            adapter = new PersonalReferencesAdapter(personalReferenceInfoModels, new PersonalReferencesAdapter.OnAdapterClick() {
+                @Override
+                public void onRemove(int position) {
+                    mViewModel.removeReference(position);
+                    GToast.CreateMessage(getActivity(), "Reference removed from list.", GToast.INFORMATION).show();
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCallMobile(String fsMobileN) {
+                    Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", fsMobileN, null));
+                    startActivityForResult(mobileIntent, MOBILE_DIALER);
+                }
+            });
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(adapter);
         });

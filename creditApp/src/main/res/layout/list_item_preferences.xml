@@ -28,7 +28,14 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
             android:textColor="@color/textColor_White"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/img_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_collection_white"
+            android:gravity="end"/>
     </LinearLayout>
 
     <LinearLayout

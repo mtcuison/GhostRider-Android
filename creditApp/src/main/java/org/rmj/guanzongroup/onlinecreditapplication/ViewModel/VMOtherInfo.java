@@ -115,6 +115,16 @@ public class VMOtherInfo extends AndroidViewModel {
         }
     }
 
+    public boolean removeReference(int position) {
+        try {
+            poReference.getValue().remove(position);
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public LiveData<List<EProvinceInfo>> getProvinceInfoList(){
         return provinceInfoList;
     }
