@@ -52,9 +52,9 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
         PersonalReferenceInfoModel reference = referenceInfoModels.get(position);
         String lsRefNoxx = String.valueOf(position+1);
         holder.lblReferenceNo.setText("Reference No. " + lsRefNoxx);
-        holder.lblRefName.setText("Fullname. : " + reference.getFullname());
+        holder.lblRefName.setText(reference.getFullname());
         holder.lblRefTown.setText(reference.getAddress1() + ", " + reference.getTownCity());
-        holder.lblRefContact.setText("Contact No : " + reference.getContactN());
+        holder.lblRefContact.setText(reference.getContactN());
     }
 
     @Override
@@ -64,7 +64,6 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
         private TextView lblRefName;
-        private TextView lblRefAddres;
         private TextView lblRefTown;
         private TextView lblRefContact;
         private TextView lblReferenceNo;
@@ -73,7 +72,6 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
             super(itemView);
 
             lblRefName = itemView.findViewById(R.id.lbl_itemRefName);
-            lblRefAddres = itemView.findViewById(R.id.lbl_itemRefAddress);
             lblRefTown = itemView.findViewById(R.id.lbl_itemRefTown);
             lblRefContact = itemView.findViewById(R.id.lbl_itemRefContactN);
             lblReferenceNo = itemView.findViewById(R.id.lbl_reference_no);

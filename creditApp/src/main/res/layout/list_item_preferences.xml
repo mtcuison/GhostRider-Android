@@ -28,53 +28,77 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
             android:textColor="@color/textColor_White"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingVertical="10dp"
+        android:layout_marginBottom="5dp">
 
         <TextView
             android:id="@+id/lbl_itemRefName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Full Name : "
             android:textColor="@color/material_black"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto_medium"
-            android:layout_marginBottom="5dp"/>
+            android:textSize="21sp"
+            android:fontFamily="@font/roboto_light"
+            android:paddingHorizontal="10dp"
+            android:layout_marginTop="5dp"/>
 
-        <TextView
-            android:id="@+id/lbl_itemRefAddress"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Address : "
-            android:textColor="@color/material_black"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto_medium"
-            android:layout_marginBottom="5dp"/>
+            android:layout_height="0.3dp"
+            android:background="@color/guanzon_dark_grey"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp"/>
 
-        <TextView
-            android:id="@+id/lbl_itemRefTown"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Town : "
-            android:textColor="@color/material_black"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto_medium"
-            android:layout_marginBottom="5dp"/>
-        <TextView
-            android:id="@+id/lbl_itemRefContactN"
+            android:paddingHorizontal="10dp"
+            android:layout_marginBottom="7dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address : "
+                android:textColor="@color/material_black"
+                android:textSize="14sp"
+                android:fontFamily="@font/roboto_medium"/>
+            <TextView
+                android:id="@+id/lbl_itemRefTown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/material_black"
+                android:textSize="14sp"
+                android:fontFamily="@font/roboto"
+                android:gravity="end"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Contact No. : "
-            android:textColor="@color/material_black"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto_medium"/>
+            android:paddingHorizontal="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact No. : "
+                android:textColor="@color/material_black"
+                android:textSize="14sp"
+                android:fontFamily="@font/roboto_medium"/>
+            <TextView
+                android:id="@+id/lbl_itemRefContactN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/material_black"
+                android:textSize="14sp"
+                android:fontFamily="@font/roboto"
+                android:gravity="end"/>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
