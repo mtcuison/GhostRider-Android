@@ -41,6 +41,8 @@ public class EBranchInfo {
     private String RecdStat;
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
+    @ColumnInfo(name = "dLstUpdte")
+    private String LstUpdte;
 
     public EBranchInfo() {
     }
@@ -124,5 +126,13 @@ public class EBranchInfo {
 
     public void setPromoDiv(String promoDiv) {
         PromoDiv = promoDiv;
+    }
+
+    public String getLstUpdte() {
+        return LstUpdte;
+    }
+
+    public void setLstUpdte(String lstUpdte) {
+        LstUpdte = lstUpdte;
     }
 }

@@ -100,11 +100,6 @@ public class VMSplashScreen extends AndroidViewModel {
             e.printStackTrace();
         }
     }
-
-    public LiveData<Integer> getDCPStatus(){
-        return poDcp.getDCPStatus();
-    }
-
     public LiveData<Boolean> isSessionValid(){
         return pbSession;
     }

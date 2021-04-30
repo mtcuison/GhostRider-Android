@@ -153,7 +153,7 @@ public class RDailyCollectionPlan {
     public EDCPCollectionDetail checkCollectionImport(String sTransNox, int nEntryNox) {
         return detailDao.checkCollectionImport(sTransNox,nEntryNox);
     }
-    public LiveData<Integer> getDCPStatus(){
+    public Integer getDCPStatus(){
         return detailDao.getDCPStatus(AppConstants.CURRENT_DATE);
     }
 

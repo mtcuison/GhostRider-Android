@@ -89,7 +89,9 @@ public class ImportFileCode implements ImportInstance{
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";
             try {
-                if(conn.isDeviceConnected()) {
+                if(repository.getLastUpdate() != null && repository.getLastUpdate().equalsIgnoreCase(AppConstants.CURRENT_DATE)) {
+                    response = AppConstants.LOCAL_EXCEPTION_ERROR(TAG + "Local data is already updated");
+                } else if(conn.isDeviceConnected()) {
                     response = WebClient.httpsPostJSon(URL_IMPORT_FILE_CODE, jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
@@ -132,6 +134,5 @@ public class ImportFileCode implements ImportInstance{
                 callback.OnFailedImportData(e.getMessage());
             }
         }
-
     }
 }

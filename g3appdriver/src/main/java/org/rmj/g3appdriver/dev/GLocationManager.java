@@ -23,8 +23,8 @@ public class GLocationManager {
 
     public static int GLocationResCode = 241;
 
-    private static String lattitude = "0.0";
-    private static String longitude = "0.0";
+    private String lattitude = "0.0";
+    private String longitude = "0.0";
 
     public interface OnLocationTrack{
         void OnTrack(String latitude, String longitude);

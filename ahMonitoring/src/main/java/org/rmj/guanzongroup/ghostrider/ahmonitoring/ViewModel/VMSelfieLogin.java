@@ -25,13 +25,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RLocationSysLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -98,6 +101,8 @@ public class VMSelfieLogin extends AndroidViewModel {
         private final EImageInfo poImageInfo;
         private final ELog_Selfie selfieLog;
         private final SessionManager poUser;
+        private final Telephony poDevice;
+        private final RLocationSysLog poSysLog;
         private final OnLoginTimekeeperListener callback;
         private final Application application;
 
@@ -109,6 +114,8 @@ public class VMSelfieLogin extends AndroidViewModel {
             this.poImage = new RImageInfo(instance);
             this.poLog = new RLogSelfie(instance);
             this.poUser = new SessionManager(instance);
+            this.poDevice = new Telephony(instance);
+            this.poSysLog = new RLocationSysLog(instance);
             this.callback = callback;
             this.application = instance;
         }
@@ -125,8 +132,17 @@ public class VMSelfieLogin extends AndroidViewModel {
         protected String doInBackground(JSONObject... loJson) {
             String lsResult = "";
             try{
-                if(poConn.isDeviceConnected()){
+                EGLocatorSysLog loSysLog = new EGLocatorSysLog();
+                loSysLog.setUserIDxx(poUser.getUserID());
+                loSysLog.setTransact(AppConstants.DATE_MODIFIED);
+                loSysLog.setLongitud(poImageInfo.getLongitud());
+                loSysLog.setLatitude(poImageInfo.getLatitude());
+                loSysLog.setDeviceID(poDevice.getDeviceID());
+                loSysLog.setSendStat("0");
+                loSysLog.setTimeStmp(AppConstants.DATE_MODIFIED);
+                poSysLog.saveCurrentLocation(loSysLog);
 
+                if(poConn.isDeviceConnected()){
                     String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
                     String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
