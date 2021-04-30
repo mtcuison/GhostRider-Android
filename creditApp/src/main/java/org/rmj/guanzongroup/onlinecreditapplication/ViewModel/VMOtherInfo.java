@@ -135,8 +135,8 @@ public class VMOtherInfo extends AndroidViewModel {
         return RTown.getTownNamesFromProvince(lsProvID.getValue());
     }
 
-    public void getTownProvinceName(String fsTownId, RTown.OnFetchTownName callBack) {
-        RTown.getTownProvinceName(fsTownId, callBack);
+    public LiveData<DTownInfo.TownProvinceName> getLiveTownProvinceNames(String TownID) {
+        return RTown.getLiveTownProvinceNames(TownID);
     }
 
     public void setProvID(String ProvID) { this.lsProvID.setValue(ProvID); }

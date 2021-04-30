@@ -184,8 +184,8 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
         btnPrevs.setOnClickListener(v -> Activity_CreditApplication.getInstance().moveToPageNumber(13));
         btnAddReferencex.setOnClickListener(v -> {
-            addReference();
             adapter.notifyDataSetChanged();
+            addReference();
         });
         btnNext.setOnClickListener(v -> {
             otherInfo.setCompanyInfoSource(Objects.requireNonNull(tieOthrSrc.getText()).toString());
@@ -196,11 +196,12 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
     private void addReference(){
         try {
-            mViewModel.getTownProvinceName(TownID, townName -> {
+            mViewModel.getLiveTownProvinceNames(TownID).observe(getViewLifecycleOwner(), townProvNme -> {
+                String lsTownPrv = townProvNme.sTownName + ", " +townProvNme.sProvName;
                 String refName = (Objects.requireNonNull(tieRefName.getText()).toString());
                 String refContact = (Objects.requireNonNull(tieRefCntc.getText()).toString());
                 String refAddress = (Objects.requireNonNull(tieRefAdd1.getText()).toString());
-                PersonalReferenceInfoModel poRefInfo = new PersonalReferenceInfoModel(refName, refAddress, townName, refContact);
+                PersonalReferenceInfoModel poRefInfo = new PersonalReferenceInfoModel(refName, refAddress, lsTownPrv, refContact);
                 mViewModel.addReference(poRefInfo, new VMOtherInfo.AddPersonalInfoListener() {
                     @Override
                     public void OnSuccess() {
