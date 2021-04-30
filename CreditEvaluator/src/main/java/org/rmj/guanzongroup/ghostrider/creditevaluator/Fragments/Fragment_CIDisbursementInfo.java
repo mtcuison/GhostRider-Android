@@ -260,15 +260,12 @@ public class Fragment_CIDisbursementInfo extends Fragment implements ViewModelCa
 
                 if (!value.equals(""))
                 {
-
                     if(value.startsWith(".")){
                         txt.setText("0.");
                     }
                     if(value.startsWith("0") && !value.startsWith("0.")){
                         txt.setText("");
-
                     }
-
                     String str = txt.getText().toString().replaceAll(",", "");
                     txt.setText(getDecimalFormattedString(str));
                     txt.setSelection(txt.getText().toString().length());
@@ -280,7 +277,6 @@ public class Fragment_CIDisbursementInfo extends Fragment implements ViewModelCa
                 ex.printStackTrace();
                 txt.addTextChangedListener(this);
             }
-
         }
     }
 

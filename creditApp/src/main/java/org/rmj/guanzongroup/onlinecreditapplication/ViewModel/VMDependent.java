@@ -172,42 +172,14 @@ public class VMDependent extends AndroidViewModel {
 
 
     public LiveData<ArrayAdapter<String>> getEducLevel() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.SCHOOL_LEVEL){
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                //change the color to which ever you want
-                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                    ((CheckedTextView) view).setTextColor(Color.WHITE);
-                }else{
-                    ((CheckedTextView) view).setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
+        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.SCHOOL_LEVEL));
         return liveData;
     }
 
     public LiveData<ArrayAdapter<String>> getSchoolType() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.SCHOOL_TYPE){
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                //change the color to which ever you want
-                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                    ((CheckedTextView) view).setTextColor(Color.WHITE);
-                }else{
-                    ((CheckedTextView) view).setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
+        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.SCHOOL_TYPE));
         return liveData;
     }
 
@@ -228,82 +200,26 @@ public class VMDependent extends AndroidViewModel {
     }
 
     public LiveData<ArrayAdapter<String>> getSpnRelationx() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.DEPENDENT_RELATIONSHIP){
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                //change the color to which ever you want
-                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                    ((CheckedTextView) view).setTextColor(Color.WHITE);
-                }else{
-                    ((CheckedTextView) view).setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
+        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.DEPENDENT_RELATIONSHIP));
         return liveData;
     }
 
     public LiveData<ArrayAdapter<String>> getSpnEmpSector() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.EMPLOYED_YES_NO){
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                //change the color to which ever you want
-                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                    ((CheckedTextView) view).setTextColor(Color.WHITE);
-                }else{
-                    ((CheckedTextView) view).setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
+        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.EMPLOYED_YES_NO));
         return liveData;
     }
 
     public LiveData<ArrayAdapter<String>> getSpnEmploymentType() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.EMPLOYMENT_SECTOR){
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                //change the color to which ever you want
-                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                    ((CheckedTextView) view).setTextColor(Color.WHITE);
-                }else{
-                    ((CheckedTextView) view).setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
+        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.EMPLOYMENT_SECTOR));
         return liveData;
     }
 
     public LiveData<ArrayAdapter<String>> getStudentStatus() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.STUDENT_YES_NO){
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                //change the color to which ever you want
-                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                    ((CheckedTextView) view).setTextColor(Color.WHITE);
-                }else{
-                    ((CheckedTextView) view).setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
+        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.STUDENT_YES_NO));
         return liveData;
     }
 

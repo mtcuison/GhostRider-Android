@@ -31,6 +31,8 @@
         <item name="colorPrimary">@color/guanzon_orange_day</item>
         <item name="colorPrimaryVariant">@color/material_black</item>
         <item name="colorOnPrimary">@color/guanzon_orange_day</item>
+<!--        <item name="colorOnBackground" tools:ignore="DuplicateDefinition">@drawable/bg_gradient_light</item>-->
+<!--        <item name="colorOnSurface" tools:ignore="DuplicateDefinition">@drawable/bg_gradient_light</item>-->
         <!--        <item name="colorAccent">@color/light_grey</item>-->
 
         <item name="colorAccent">@color/guanzon_orange_day</item>
@@ -50,7 +52,7 @@
         <!-- Used for the title and text -->
         <item name="android:textColorPrimary">@color/material_black</item>
         <!-- Used for the background -->
-        <item name="android:background">@color/material_white</item>
+        <item name="android:background">@color/color_circle_logo</item>
     </style>
     <style name="WindowAnimationTransition">
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>

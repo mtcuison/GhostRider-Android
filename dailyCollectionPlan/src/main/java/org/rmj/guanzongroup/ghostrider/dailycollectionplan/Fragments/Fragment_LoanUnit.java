@@ -155,6 +155,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         Log.e("", "TransNox = " + TransNox + " EntryNox = " + EntryNox + " Remarks = " + Remarksx);
         mViewModel.getSpnCivilStats().observe(getViewLifecycleOwner(), stringArrayAdapter ->{
             spnCivilStats.setAdapter(stringArrayAdapter);
+            spnCivilStats.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         } );
 
         mViewModel.getCollectionMaster().observe(getViewLifecycleOwner(), s ->  {
@@ -166,7 +167,6 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
             mViewModel.setClientData(data);
         });
         mViewModel.getClient(TransNox, AccntNox).observe(getViewLifecycleOwner(), data -> {
-
             showOldClientData(data);
             mViewModel.setClient(data);
         });
@@ -198,6 +198,8 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
             ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, townProvince);
             tieTown.setAdapter(loAdapter);
             tieBPlace.setAdapter(loAdapter);
+            tieTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+            tieBPlace.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
         tieTown.setOnItemClickListener((adapterView, view, i, l) -> {
             String lsTown = tieTown.getText().toString();
@@ -215,6 +217,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
                 mViewModel.getBarangayNameList().observe(getViewLifecycleOwner(), strings -> {
                     ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                     tieBrgy.setAdapter(loAdapter);
+                    tieBrgy.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                 });
             });
         });
@@ -245,6 +248,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
                 mViewModel.getBarangayNameList().observe(getViewLifecycleOwner(), strings -> {
                     ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
                     tieBrgy.setAdapter(loAdapter);
+                    tieBrgy.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
                 });
             });
         });

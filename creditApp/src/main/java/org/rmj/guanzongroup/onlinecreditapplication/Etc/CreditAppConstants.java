@@ -11,6 +11,16 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.Etc;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Color;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_CoMaker;
@@ -32,6 +42,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpouseInfo
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpousePensionInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpouseResidenceInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpouseSelfEmployedInfo;
+import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 public class CreditAppConstants {
 
@@ -328,4 +339,21 @@ public class CreditAppConstants {
             "User Applications",
             "Branch Applications"
     };
+    public static ArrayAdapter<String> getAdapter(Context mContext, String[] data) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, data){
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                //change the color to which ever you want
+                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                    ((CheckedTextView) view).setTextColor(Color.WHITE);
+                }else{
+                    ((CheckedTextView) view).setTextColor(getContext().getResources().getColor(R.color.material_black));
+                }
+                return view;
+            }
+        };
+        return adapter;
+    }
 }
