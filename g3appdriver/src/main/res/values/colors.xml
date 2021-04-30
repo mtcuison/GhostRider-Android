@@ -42,6 +42,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="guanzon_dark_grey">#8C8C8C</color>
+    <color name="guanzon_deep_dark_grey">#222222</color>
     <color name="guanzon_digital_orange">#FF8200</color>
     <color name="guanzon_digital_orange_mid">#ff8f1a</color>
     <color name="guanzon_digital_orange_lighten">#FFA84D</color>
