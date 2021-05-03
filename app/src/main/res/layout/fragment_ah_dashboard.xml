@@ -10,7 +10,7 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,71 +18,104 @@
     tools:context=".ui.home.Fragment_AH_Dashboard"
     android:scrollbars="none">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="30dp">
 
-            <RelativeLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardview_dashboard"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="15dp"
+                app:cardMaxElevation="5dp"
+                app:cardUseCompatPadding="true">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="50dp">
+                    android:orientation="vertical"
+                    android:paddingHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="end">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardview_dashboard"
+                    <TextView
+                        android:id="@+id/lbl_userFullName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="15dp"
-                        app:cardMaxElevation="5dp"
-                        app:cardUseCompatPadding="true">
+                        android:layout_marginBottom="3dp"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="end"
+                        android:textColor="@color/material_black" />
+
+                    <TextView
+                        android:id="@+id/lbl_userEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="end"
+                        android:textColor="@color/material_black" />
+
+                    <TextView
+                        android:id="@+id/lbl_userLevel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="end"
+                        android:textColor="@color/material_black" />
+
+                    <TextView
+                        android:id="@+id/lbl_userDepartment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="end"
+                        android:textColor="@color/material_black" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/guanzon_orange"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"/>
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:paddingHorizontal="10dp"
-                            android:layout_marginTop="10dp">
-
-                            <TextView
-                                android:id="@+id/lbl_userFullName"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="3dp"
-                                android:textSize="16sp"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="Doe, John MIS"
-                                android:gravity="end"
-                                android:textColor="@color/material_black" />
+                            android:orientation="vertical">
 
 
                             <TextView
-                                android:id="@+id/lbl_userEmail"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="3dp"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="johnDoe123@gmail.com"
-                                android:gravity="end"
-                                android:textColor="@color/material_black" />
-
-                            <TextView
-                                android:id="@+id/lbl_userBranchArea"
+                                android:id="@+id/lbl_userBranch"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:fontFamily="@font/roboto_regular"
-                                android:text="Area Head - NCR"
-                                android:gravity="end"
+                                android:gravity="start"
+                                android:textColor="@color/material_black" />
+
+                            <TextView
+                                android:id="@+id/lbl_userAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:fontFamily="@font/roboto_regular"
+                                android:gravity="start"
                                 android:textColor="@color/material_black" />
 
                             <View
@@ -90,13 +123,133 @@
                                 android:layout_height="1dp"
                                 android:background="@color/guanzon_orange" />
 
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btn_selfieLogin"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Selfie Login"
+                                    android:gravity="center_vertical"
+                                    app:icon="@drawable/ic_dashboard_selfie"
+                                    app:iconTint="@color/textColor_Black"
+                                    style="@style/Widget.AppCompat.Button.Borderless"
+                                    android:textColor="@color/textColor_Black"/>
+
+                                <TextView
+                                    android:id="@+id/lbl_badge_selfieLog"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:background="@drawable/bg_badge_red"
+                                    android:fontFamily="@font/roboto_black"
+                                    android:gravity="center"
+                                    android:text="!"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:textColor="#ffff"
+                                    android:layout_alignParentEnd="true" />
+
+                            </RelativeLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/guanzon_orange" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btn_settings"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Settings"
+                                    android:gravity="center_vertical"
+                                    app:icon="@drawable/ic_dashboard_settings"
+                                    app:iconTint="@color/textColor_Black"
+                                    style="@style/Widget.AppCompat.Button.Borderless"
+                                    android:textColor="@color/textColor_Black"/>
+
+                                <TextView
+                                    android:id="@+id/lbl_badge_settings"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:background="@drawable/bg_badge_red"
+                                    android:fontFamily="@font/roboto_black"
+                                    android:gravity="center"
+                                    android:text="!"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:textColor="#ffff"
+                                    android:layout_alignParentEnd="true"
+                                    android:visibility="gone"/>
+
+                            </RelativeLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/guanzon_orange" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_logout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Logout"
+                                android:gravity="center_vertical"
+                                app:icon="@drawable/ic_dashboard_logout"
+                                app:iconTint="@color/textColor_Black"
+                                style="@style/Widget.AppCompat.Button.Borderless"
+                                android:textColor="@color/textColor_Black"/>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/guanzon_orange" />
+
+                            <!--                            <LinearLayout-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:orientation="horizontal"-->
+                            <!--                                android:layout_marginTop="10dp">-->
+
+                            <!--                                <TextView-->
+                            <!--                                    android:layout_width="0dp"-->
+                            <!--                                    android:layout_height="wrap_content"-->
+                            <!--                                    android:layout_weight="1"-->
+                            <!--                                    android:layout_marginBottom="5dp"-->
+                            <!--                                    android:fontFamily="@font/roboto_medium"-->
+                            <!--                                    android:text="Daily Branch Opening"-->
+                            <!--                                    android:textColor="@color/material_black" />-->
+
+                            <!--                                <TextView-->
+                            <!--                                    android:layout_width="0dp"-->
+                            <!--                                    android:layout_height="wrap_content"-->
+                            <!--                                    android:layout_weight="1"-->
+                            <!--                                    android:layout_marginBottom="5dp"-->
+                            <!--                                    android:fontFamily="@font/roboto_regular"-->
+                            <!--                                    android:text="April 10, 2021"-->
+                            <!--                                    android:gravity="end"-->
+                            <!--                                    android:textColor="@color/material_black" />-->
+
+                            <!--                            </LinearLayout>-->
+
+                            <!--                            <androidx.recyclerview.widget.RecyclerView-->
+                            <!--                                android:id="@+id/recyclerview_branchOpening"-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="250dp"/>-->
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="3dp"
                                 android:fontFamily="@font/roboto_regular"
                                 android:text="@string/lsMainOffice"
-                                android:textColor="@color/material_black" />
+                                android:textColor="@color/material_black"
+                                android:layout_marginTop="10dp"/>
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -122,87 +275,13 @@
                                 android:text="@string/lsMainWebsite"
                                 android:textColor="@color/material_black" />
 
-                            <com.google.android.material.button.MaterialButton
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Selfie Login"
-                                android:gravity="center_vertical"
-                                app:icon="@drawable/ic_dashboard_selfie"
-                                app:iconTint="@color/textColor_Black"
-                                style="@style/Widget.AppCompat.Button.Borderless"
-                                android:textColor="@color/textColor_Black"/>
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@color/guanzon_orange" />
-
-                            <com.google.android.material.button.MaterialButton
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Settings"
-                                android:gravity="center_vertical"
-                                app:icon="@drawable/ic_dashboard_settings"
-                                app:iconTint="@color/textColor_Black"
-                                style="@style/Widget.AppCompat.Button.Borderless"
-                                android:textColor="@color/textColor_Black"/>
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@color/guanzon_orange" />
-
-                            <com.google.android.material.button.MaterialButton
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Logout"
-                                android:gravity="center_vertical"
-                                app:icon="@drawable/ic_dashboard_logout"
-                                app:iconTint="@color/textColor_Black"
-                                style="@style/Widget.AppCompat.Button.Borderless"
-                                android:textColor="@color/textColor_Black"/>
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@color/guanzon_orange" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_marginTop="10dp">
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:layout_marginBottom="5dp"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:text="Daily Branch Opening"
-                                    android:textColor="@color/material_black" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:layout_marginBottom="5dp"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:text="April 10, 2021"
-                                    android:gravity="end"
-                                    android:textColor="@color/material_black" />
-
-                            </LinearLayout>
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/recyclerview_branchOpening"
-                                android:layout_width="match_parent"
-                                android:layout_height="250dp"/>
-
                             <LinearLayout
                                 android:id="@+id/footer_dashboard"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:orientation="vertical"
+                                android:layout_marginTop="30dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent">
@@ -231,27 +310,28 @@
                                     tools:ignore="SmallSp" />
 
                             </LinearLayout>
+
                         </LinearLayout>
 
-                    </androidx.cardview.widget.CardView>
+                    </ScrollView>
 
-                </RelativeLayout>
+                </LinearLayout>
 
-                <ImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_alignParentLeft="true"
-                    android:background="@drawable/circular_imageview"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_ghostrider_logo_day"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginStart="30dp" />
-
-            </RelativeLayout>
+            </androidx.cardview.widget.CardView>
 
         </RelativeLayout>
 
-    </LinearLayout>
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/circular_imageview"
+            android:padding="10dp"
+            android:src="@drawable/ic_ghostrider_logo_day"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp" />
 
-</ScrollView>
+    </RelativeLayout>
+
+</LinearLayout>

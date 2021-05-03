@@ -72,7 +72,7 @@ public class RDailyCollectionPlan {
         return detailDao.getCollectionDetailList();
     }
 
-    public List<EDCPCollectionDetail> getUnsentPaidCollection(){
+    public List<EDCPCollectionDetail> getUnsentPaidCollection() throws Exception{
         return detailDao.getUnsentPaidCollection();
     }
 

@@ -27,6 +27,8 @@ public class GNotifBuilder {
 
     private final Context context;
 
+    private NotificationManager loManager;
+
     private static int CHANNEL_ID = 0;
 
     public static int SELFIE_LOG = 132;
@@ -48,6 +50,8 @@ public class GNotifBuilder {
     private static final String CHANNEL_DESC = "DRider Background Sending Data";
     private static final String CHANNEL_NAME = "GRider NTF_Channel";
     private static final String NotificationID = "org.rmj.guanzongroup.ghostrider";
+
+    private boolean PRIORITY = false;
 
     private static String Title;
     private static String Message;
@@ -85,6 +89,7 @@ public class GNotifBuilder {
         return new NotificationCompat.Builder(context)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
+                .setOngoing(PRIORITY)
                 .setChannelId(NotificationID)
                 .setSmallIcon(R.drawable.ic_ghostrider_logo_day)
                 .setContentTitle(Title)
@@ -94,7 +99,22 @@ public class GNotifBuilder {
     public void show(){
         initChannel();
         initNotification();
-        NotificationManager loManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        loManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         loManager.notify(CHANNEL_ID, initNotification().build());
+    }
+
+    public void dismiss(){
+        if (loManager != null) {
+            loManager.cancel(CHANNEL_ID);
+        }
+    }
+
+    /**
+     *
+     * @param priority set the priority type of notification base on what method is going to use the notification
+     *                 Default value : NotificationCompat.PRIORITY_HIGH
+     */
+    public void setPriority(boolean priority){
+        this.PRIORITY = priority;
     }
 }

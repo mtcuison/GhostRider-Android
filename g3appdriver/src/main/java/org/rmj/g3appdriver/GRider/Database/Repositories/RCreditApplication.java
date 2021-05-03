@@ -72,7 +72,7 @@ public class RCreditApplication {
         return creditApplicationDao.getApplicationHistory();
     }
 
-    public List<ECreditApplication> getUnsentLoanApplication(){
+    public List<ECreditApplication> getUnsentLoanApplication() throws Exception{
         return creditApplicationDao.getUnsentLoanApplication();
     }
 

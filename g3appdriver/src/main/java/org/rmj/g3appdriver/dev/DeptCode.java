@@ -125,4 +125,21 @@ public class DeptCode {
     public static int LEVEL_BEANCH_HEAD = 3;
     public static int LEVEL_AREA_MANAGER = 4;
     public static int LEVEL_GENERAL_MANAGER = 5;
+
+    public static String parseUserLevel(int level){
+        switch (level){
+            case 0:
+                return "Rank File";
+            case 1:
+                return "Supervisor";
+            case 2:
+                return "Department Head";
+            case 3:
+                return "Branch Head";
+            case 4:
+                return "Area Manager";
+            default:
+                return "General Manager";
+        }
+    }
 }

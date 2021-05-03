@@ -67,7 +67,7 @@ public class RImageInfo {
         new InsertTask(imageDao, "update").execute(imageInfo);
     }
 
-    public List<EImageInfo> getUnsentSelfieLogImageList(){
+    public List<EImageInfo> getUnsentSelfieLogImageList() throws Exception{
         return imageDao.getUnsentLoginImageInfo();
     }
 

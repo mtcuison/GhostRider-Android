@@ -74,7 +74,7 @@ public class RCreditApplicationDocument {
 
 
 
-    public List<ECreditApplicationDocuments> getUnsentApplicationDocumentss(){
+    public List<ECreditApplicationDocuments> getUnsentApplicationDocumentss() throws Exception{
         return documentsDao.getUnsentApplicationDocumentss();
     }
 
