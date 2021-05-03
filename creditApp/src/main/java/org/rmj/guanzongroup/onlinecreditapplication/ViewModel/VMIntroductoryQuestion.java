@@ -180,64 +180,20 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
     }
 
     public LiveData<ArrayAdapter<String>> getApplicationType(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.APPLICATION_TYPE){
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                //change the color to which ever you want
-                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                    ((CheckedTextView) view).setTextColor(Color.WHITE);
-                }else{
-                    ((CheckedTextView) view).setTextColor(getContext().getResources().getColor(R.color.material_black));
-                }
-                return view;
-            }
-        };
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        liveData.setValue(adapter);
+        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.APPLICATION_TYPE));
         return liveData;
     }
 
     public LiveData<ArrayAdapter<String>> getCustomerType(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.CUSTOMER_TYPE){
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                //change the color to which ever you want
-                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                    ((CheckedTextView) view).setTextColor(Color.WHITE);
-                }else{
-                    ((CheckedTextView) view).setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
+        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.CUSTOMER_TYPE));
         return liveData;
     }
 
     public LiveData<ArrayAdapter<String>> getInstallmentTerm(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.INSTALLMENT_TERM){
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                //change the color to which ever you want
-                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                    ((CheckedTextView) view).setTextColor(Color.WHITE);
-                }else{
-                    ((CheckedTextView) view).setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
+        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INSTALLMENT_TERM));
         return liveData;
     }
 

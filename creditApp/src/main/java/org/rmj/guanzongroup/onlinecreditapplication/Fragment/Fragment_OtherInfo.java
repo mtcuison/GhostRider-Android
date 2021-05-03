@@ -13,6 +13,8 @@ package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -47,6 +49,7 @@ import java.util.Objects;
 public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
     private static final String TAG = Fragment_OtherInfo.class.getSimpleName();
+    private static final int MOBILE_DIALER = 104;
     private VMOtherInfo mViewModel;
 
     private String TownID = "";
@@ -99,7 +102,20 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
         mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
         mViewModel.getReferenceList().observe(getViewLifecycleOwner(), personalReferenceInfoModels -> {
-            adapter = new PersonalReferencesAdapter(personalReferenceInfoModels);
+            adapter = new PersonalReferencesAdapter(personalReferenceInfoModels, new PersonalReferencesAdapter.OnAdapterClick() {
+                @Override
+                public void onRemove(int position) {
+                    mViewModel.removeReference(position);
+                    GToast.CreateMessage(getActivity(), "Reference removed from list.", GToast.INFORMATION).show();
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCallMobile(String fsMobileN) {
+                    Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", fsMobileN, null));
+                    startActivityForResult(mobileIntent, MOBILE_DIALER);
+                }
+            });
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(adapter);
         });
@@ -184,8 +200,8 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
         btnPrevs.setOnClickListener(v -> Activity_CreditApplication.getInstance().moveToPageNumber(13));
         btnAddReferencex.setOnClickListener(v -> {
-            addReference();
             adapter.notifyDataSetChanged();
+            addReference();
         });
         btnNext.setOnClickListener(v -> {
             otherInfo.setCompanyInfoSource(Objects.requireNonNull(tieOthrSrc.getText()).toString());
@@ -196,11 +212,12 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
     private void addReference(){
         try {
-            mViewModel.getTownProvinceName(TownID, townName -> {
+            mViewModel.getLiveTownProvinceNames(TownID).observe(getViewLifecycleOwner(), townProvNme -> {
+                String lsTownPrv = townProvNme.sTownName + ", " +townProvNme.sProvName;
                 String refName = (Objects.requireNonNull(tieRefName.getText()).toString());
                 String refContact = (Objects.requireNonNull(tieRefCntc.getText()).toString());
                 String refAddress = (Objects.requireNonNull(tieRefAdd1.getText()).toString());
-                PersonalReferenceInfoModel poRefInfo = new PersonalReferenceInfoModel(refName, refAddress, townName, refContact);
+                PersonalReferenceInfoModel poRefInfo = new PersonalReferenceInfoModel(refName, refAddress, lsTownPrv, refContact);
                 mViewModel.addReference(poRefInfo, new VMOtherInfo.AddPersonalInfoListener() {
                     @Override
                     public void OnSuccess() {

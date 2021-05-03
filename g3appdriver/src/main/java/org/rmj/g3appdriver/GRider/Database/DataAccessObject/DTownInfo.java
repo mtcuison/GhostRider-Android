@@ -77,6 +77,13 @@ public interface DTownInfo {
             "WHERE sTownIDxx =:TownID")
     TownProvinceName getTownProvinceNames(String TownID);
 
+    @Query("SELECT a.sTownName, b.sProvName " +
+            "FROM Town_Info a " +
+            "LEFT JOIN Province_Info b " +
+            "ON a.sProvIDxx = b.sProvIDxx " +
+            "WHERE sTownIDxx =:TownID")
+    LiveData<TownProvinceName> getLiveTownProvinceNames(String TownID);
+
     class TownProvinceInfo{
         public String sTownIDxx;
         public String sProvIDxx;

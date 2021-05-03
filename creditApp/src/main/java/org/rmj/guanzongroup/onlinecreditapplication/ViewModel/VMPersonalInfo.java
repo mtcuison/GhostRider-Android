@@ -80,8 +80,12 @@ public class VMPersonalInfo extends AndroidViewModel {
         return poModel;
     }
 
-    public void setTransNox(String transNox){
+    public boolean setTransNox(String transNox) {
         this.TRANSNOX.setValue(transNox);
+        if(!this.TRANSNOX.getValue().equalsIgnoreCase(transNox)) {
+            return false;
+        }
+        return true;
     }
 
     public LiveData<ECreditApplicantInfo> getCreditApplicantInfo(){
@@ -96,7 +100,7 @@ public class VMPersonalInfo extends AndroidViewModel {
         }
     }
 
-    public void SavePersonalInfo(PersonalInfoModel infoModel, ViewModelCallBack callBack){
+    public boolean SavePersonalInfo(PersonalInfoModel infoModel, ViewModelCallBack callBack){
         try {
             infoModel.setBrthPlce(lsBPlace.getValue());
             infoModel.setCitizenx(lsCitizen.getValue());
@@ -144,14 +148,17 @@ public class VMPersonalInfo extends AndroidViewModel {
                 }
                 RCreditApplicant.updateGOCasData(poInfo);
                 callBack.onSaveSuccessResult(TRANSNOX.getValue());
+                return true;
             } else {
                 infoModel.clearMobileNo();
                 callBack.onFailedResult(infoModel.getMessage());
+                return false;
             }
         } catch (Exception e){
             e.printStackTrace();
             infoModel.clearMobileNo();
             callBack.onFailedResult(e.getMessage());
+            return false;
         }
     }
 
@@ -223,22 +230,8 @@ public class VMPersonalInfo extends AndroidViewModel {
     }
 
     public LiveData<ArrayAdapter<String>> getCivilStatus(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.CIVIL_STATUS){
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                //change the color to which ever you want
-                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                    ((CheckedTextView) view).setTextColor(Color.WHITE);
-                }else{
-                    ((CheckedTextView) view).setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
+        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.CIVIL_STATUS));
         return liveData;
     }
 
@@ -247,22 +240,8 @@ public class VMPersonalInfo extends AndroidViewModel {
     }
 
     public LiveData<ArrayAdapter<String>> getMobileNoType(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(), android.R.layout.simple_spinner_dropdown_item, CreditAppConstants.MOBILE_NO_TYPE){
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                //change the color to which ever you want
-                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                    ((CheckedTextView) view).setTextColor(Color.WHITE);
-                }else{
-                    ((CheckedTextView) view).setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
+        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.MOBILE_NO_TYPE));
         return liveData;
     }
 }
