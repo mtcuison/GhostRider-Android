@@ -128,17 +128,57 @@ public class InternetStatusReciever extends BroadcastReceiver {
         @Override
         protected String doInBackground(Void... voids) {
             Message = "Local data and server is updated.";
-            loginDetails = poLog.getUnsentSelfieLogin();
-            loginImageInfo = poImage.getUnsentSelfieLogImageList();
-            collectionDetails = poDcp.getUnsentPaidCollection();
-            loanApplications = poCreditApp.getUnsentLoanApplication();
-            docsFile = poDocs.getUnsentApplicationDocumentss();
+            try {
+                loginDetails = poLog.getUnsentSelfieLogin();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                loginImageInfo = poImage.getUnsentSelfieLogImageList();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                collectionDetails = poDcp.getUnsentPaidCollection();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                loanApplications = poCreditApp.getUnsentLoanApplication();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                docsFile = poDocs.getUnsentApplicationDocumentss();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             //loanDocs = poImage.getUnsentLoanAppDocFiles();
-            uploadLoginImages();
-            uploadLoginDetails();
-            uploadPaidCollectionDetail();
-            uploadLoanApplications();
-            uploadLoanApplicationsDocuments();
+            try {
+                uploadLoginImages();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                uploadLoginDetails();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                uploadPaidCollectionDetail();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                uploadLoanApplications();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                uploadLoanApplicationsDocuments();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return Message;
         }
 
@@ -153,7 +193,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
             GNotifBuilder.createNotification(instance, GNotifBuilder.BROADCAST_RECEIVER, values[0], GNotifBuilder.SYNC_PROGRESS).show();
         }
 
-        void uploadLoginImages(){
+        void uploadLoginImages() throws Exception{
             if(loginImageInfo.size() > 0 || loginDetails.size() > 0 || collectionDetails.size() > 0) {
                 publishProgress("Requesting access token...");
                 lsClient = RequestClientToken("IntegSys", poSession.getClientId(), poSession.getUserID());
@@ -216,7 +256,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        void uploadLoginDetails(){
+        void uploadLoginDetails() throws Exception{
             if (loginDetails.size() > 0) {
                 publishProgress("Sending selfie log info...");
                 boolean[] isSent = new boolean[loginDetails.size()];
@@ -271,7 +311,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        void uploadPaidCollectionDetail(){
+        void uploadPaidCollectionDetail() throws Exception{
             if (collectionDetails.size() > 0) {
                 publishProgress("Sending collection detail info...");
                 boolean[] isSent = new boolean[collectionDetails.size()];
@@ -344,7 +384,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        void uploadLoanApplications(){
+        void uploadLoanApplications() throws Exception{
             if(loanApplications.size() > 0){
                 publishProgress("Sending loan applications...");
                 boolean[] isSent = new boolean[loanApplications.size()];
@@ -389,7 +429,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
             }
         }
 
-        void uploadLoanApplicationsDocuments(){
+        void uploadLoanApplicationsDocuments() throws Exception{
             if (lsClient == null || lsAccess == null || lsClient.isEmpty() || lsAccess.isEmpty()) {
                 lsClient = RequestClientToken("IntegSys", poSession.getClientId(), poSession.getUserID());
                 lsAccess = RequestAccessToken(lsClient);

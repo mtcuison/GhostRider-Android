@@ -193,6 +193,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     GGC_GriderDB.class, "GGC_ISysDBF.db")
                     .fallbackToDestructiveMigration()
+                    .allowMainThreadQueries()
                     .addCallback(roomCallBack)
                     .build();
         }

@@ -94,6 +94,10 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <service
+            android:name="org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.DCPLocatorService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service
             android:name=".Service.GMessagingService"
             tools:ignore="ExportedService,InnerclassSeparator">
             <intent-filter>

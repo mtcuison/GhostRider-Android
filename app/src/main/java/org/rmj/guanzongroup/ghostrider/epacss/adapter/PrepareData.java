@@ -132,7 +132,6 @@ public class PrepareData {
         childModelsList = new ArrayList<>();
         menuModel = new MenuModel("Samsung Knox",  R.drawable.ic_menu_knox,true, true, View.VISIBLE);
         listDataHeader.add(menuModel);
-        Log.e("department", sessionManager.getDeptID());
 
         if (sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MOBILE_PHONE)){
             childModel = new MenuModel("Activate", 0, false, false , View.VISIBLE);

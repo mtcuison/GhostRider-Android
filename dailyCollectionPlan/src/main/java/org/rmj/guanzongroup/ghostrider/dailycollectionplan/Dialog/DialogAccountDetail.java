@@ -120,10 +120,6 @@ public class DialogAccountDetail {
                         spnTransact.setSelection(i);
                     }
                 }
-
-
-
-
                 linearLayout.setVisibility(View.VISIBLE);
             }else {
                 linearLayout.setVisibility(View.GONE);

@@ -41,7 +41,7 @@ public class RLogSelfie {
         return selfieDao.getCurrentTimeLogIfExist(DateLog);
     }
 
-    public List<ELog_Selfie> getUnsentSelfieLogin(){
+    public List<ELog_Selfie> getUnsentSelfieLogin() throws Exception{
         return selfieDao.getUnsentSelfieLogin();
     }
 

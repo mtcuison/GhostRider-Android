@@ -73,8 +73,4 @@ public class Fragment_MainContainer extends Fragment {
             }
         });
     }
-    public static void moveToPageNumber(int fnPageNum){
-        viewPager.setCurrentItem(fnPageNum);
-    }
-
 }

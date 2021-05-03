@@ -127,7 +127,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                 mViewModel.setMonthlyAmort(Double.valueOf(psMonthAmt));
                 mViewModel.setAmountDue(Double.valueOf(psAmntDue));
                 btnAmort.setText("Amortization : " + FormatUIText.getCurrencyUIFormat(collectionDetail.getMonAmort()));
-                btnRBlnce.setText("Remaining Balance : " + FormatUIText.getCurrencyUIFormat(collectionDetail.getABalance()));
+                btnRBlnce.setText("Amount Due : " + FormatUIText.getCurrencyUIFormat(collectionDetail.getAmtDuexx()));
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -208,7 +208,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
 
         btnAmort.setOnClickListener(v -> txtAmount.setText(psMonthAmt));
 
-        btnRBlnce.setOnClickListener(v -> txtAmount.setText(psRBalance));
+        btnRBlnce.setOnClickListener(v -> txtAmount.setText(psAmntDue));
 
         btnClear.setOnClickListener(v -> {
             txtAmount.setText("");
