@@ -27,7 +27,9 @@
     <string name="create_account">Create Account</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="user_authentication">User Authentication</string>
+    <string name="lblRetrievePassword">Retrieve Password</string>
     <string name="create_account_description">Please provide all information requested to create your account.</string>
+    <string name="email_retrieval_message">Please enter your email address to receive password info.</string>
 
 
     <string name="hint_email">Email</string>
@@ -40,6 +42,7 @@
     <string name="hint_mobile_number">Mobile Number</string>
 
     <string name="button_login">Login</string>
+    <string name="button_send_email">Send Email</string>
     <string name="button_send_verification">Send Verification</string>
 
     <string name="darkmode_summary">Dark Theme Mode On</string>
