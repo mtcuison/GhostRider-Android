@@ -75,7 +75,7 @@ public class Fragment_Home extends Fragment {
     private NewsEventsAdapter adapter;
 //    private Button btn_settings, btn_notif ;
     private MaterialButton btnSelfie;
-    private ImageButton btn_messages,btn_settings, btn_notif;
+    private ImageView btn_messages,btn_settings, btn_notif;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);

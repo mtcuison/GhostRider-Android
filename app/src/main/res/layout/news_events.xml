@@ -15,7 +15,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/material_lightgrey"
     app:cardCornerRadius="8dp"
     app:cardMaxElevation="10dp">
     <LinearLayout
