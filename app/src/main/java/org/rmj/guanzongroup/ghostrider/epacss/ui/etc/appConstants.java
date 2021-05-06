@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_AH_Dashboard;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_MessageList;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
 
@@ -31,6 +32,7 @@ public class appConstants {
     }
 
     private static final Fragment[] APPLICATION_HOME_PAGES = {
+            new Fragment_Home(),
             new Fragment_AH_Dashboard(),
             new Fragment_MessageList(),
             new Fragment_NotificationList()

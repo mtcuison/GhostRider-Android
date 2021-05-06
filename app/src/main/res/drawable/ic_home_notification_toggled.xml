@@ -9,8 +9,8 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<vector android:autoMirrored="true" android:height="27.428572dp"
+<vector android:autoMirrored="true" android:height="24.428572dp"
     android:viewportHeight="36" android:viewportWidth="31.5"
-    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    android:width="21dp" xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#FF000000" android:pathData="M15.75,36a4.5,4.5 0,0 0,4.5 -4.5h-9A4.5,4.5 0,0 0,15.75 36ZM30.895,25.474c-1.358,-1.46 -3.9,-3.656 -3.9,-10.849a11.1,11.1 0,0 0,-9 -10.91V2.25a2.249,2.249 0,1 0,-4.5 0V3.715a11.1,11.1 0,0 0,-9 10.91c0,7.193 -2.542,9.389 -3.9,10.849A2.2,2.2 0,0 0,0 27a2.252,2.252 0,0 0,2.257 2.25H29.243A2.252,2.252 0,0 0,31.5 27a2.2,2.2 0,0 0,-0.605 -1.526Z"/>
 </vector>
