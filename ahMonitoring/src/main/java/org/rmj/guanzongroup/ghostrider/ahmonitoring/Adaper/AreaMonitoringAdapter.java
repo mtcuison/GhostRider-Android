@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper;
 
+import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +49,7 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
         holder.txtPrct.setText(area.getSalesPercentage());
         holder.progressBar.setScaleY(55f);
         holder.progressBar.setMax(area.getDynamicSize());
-        holder.progressBar.setProgress(getParseValue(area.getSalesPercentage()));
+        holder.progressBar.setProgress(getParseValue(area.getSalesPercentage().replace("%","")));
     }
 
     @Override
@@ -77,4 +79,5 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
             return 100;
         }
     }
+
 }

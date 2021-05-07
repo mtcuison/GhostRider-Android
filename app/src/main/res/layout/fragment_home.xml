@@ -106,7 +106,6 @@
                                 android:src="@drawable/ic_home_notification_toggled"
                                 android:background="@color/material_lightgrey"
                                 app:tint="@color/textColor_Black" />
-
                             <ImageView
                                 android:id="@+id/btn_settings"
                                 android:layout_width="24dp"
@@ -187,10 +186,11 @@
 
             </androidx.cardview.widget.CardView>
 
-            <ScrollView
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/cardview_dashboard"
+                android:scrollbars="none"
                 >
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -243,12 +243,51 @@
                                 />
                         </LinearLayout>
                     </LinearLayout>
+
                     <androidx.cardview.widget.CardView
                         android:layout_below="@+id/linear_carousel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardBackgroundColor="@color/material_lightgrey"
-                        android:layout_marginBottom="30dp"
+                        android:layout_marginBottom="10dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardMaxElevation="10dp"
+                        >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:padding="5dp"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:gravity="start"
+                                    android:layout_weight="1"
+                                    android:text="Area Head Monitoring"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                                    android:textColor="@color/material_black"
+                                    />
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/recyclerview_monitoring"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_below="@+id/linear_carousel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/material_lightgrey"
+                        android:layout_marginBottom="10dp"
                         app:cardCornerRadius="8dp"
                         app:cardMaxElevation="10dp"
                         >
@@ -630,7 +669,7 @@
 
                     </LinearLayout>
                 </LinearLayout>
-            </ScrollView>
+            </androidx.core.widget.NestedScrollView>
 
         </RelativeLayout>
         <RelativeLayout

@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,18 +28,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.AreaMonitoringAdapter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.Area;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationList;
+import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHome;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.ProgressBar.AreaMonitoringDashbordAdapter;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.ProgressBar.SpanningLinearLayoutManager;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NewsEventSpacing;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
@@ -76,6 +86,8 @@ public class Fragment_Home extends Fragment {
 //    private Button btn_settings, btn_notif ;
     private MaterialButton btnSelfie;
     private ImageView btn_messages,btn_settings, btn_notif;
+    private RecyclerView recyclerView;
+    private MessageBox loMessage;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -83,6 +95,7 @@ public class Fragment_Home extends Fragment {
         poFilexx = new ImageFileCreator(getActivity(), CAMERA_USAGE);
         imgProfile = view.findViewById(R.id.img_profile);
         newsList = new ArrayList<>();
+        loMessage = new MessageBox(getActivity());
         adapter = new NewsEventsAdapter(getContext(), newsList);
         lblFullNme = view.findViewById(R.id.lbl_userFullName);
         lblEmail = view.findViewById(R.id.lbl_userEmail);
@@ -94,6 +107,7 @@ public class Fragment_Home extends Fragment {
         btn_settings = view.findViewById(R.id.btn_settings);
         btn_notif = view.findViewById(R.id.btn_notif);
         btn_messages = view.findViewById(R.id.btn_messages);
+        recyclerView = view.findViewById(R.id.recyclerview_monitoring);
 
         return view;
     }
@@ -103,6 +117,23 @@ public class Fragment_Home extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMHome.class);
 //        mViewModel.getMobileNo().observe(getViewLifecycleOwner(), s -> lblMobile.setText(s));
+        mViewModel.getAreaPerformanceInfoList().observe(getViewLifecycleOwner(), areaPerformances -> {
+            List<Area> areaList = new ArrayList<>();
+            Log.e("perf", String.valueOf(areaPerformances));
+            for(int x = 0; x < 5; x++){
+                Area area = new Area(areaPerformances.get(x).getAreaCode(),
+                        areaPerformances.get(x).getAreaDesc(),
+                        String.valueOf(areaPerformances.get(x).getMCGoalxx()),
+                        String.valueOf(areaPerformances.get(x).getMCActual()));
+                areaList.add(area);
+            }
+            AreaMonitoringAdapter loAdapter = new AreaMonitoringAdapter(areaList);
+            LinearLayoutManager loManager = new LinearLayoutManager(getActivity());
+
+            loManager.setOrientation(RecyclerView.VERTICAL);
+            recyclerView.setLayoutManager(loManager);
+            recyclerView.setAdapter(loAdapter);
+        });
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
                 lblEmail.setText(eEmployeeInfo.getEmailAdd());
@@ -199,8 +230,22 @@ public class Fragment_Home extends Fragment {
                 startActivity(intent);
             }
         });
-    }
 
+    }
+    public void showDialog(){
+        loMessage.initDialog();
+        loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
+        loMessage.setPositiveButton("Yes", (view, dialog) -> {
+            dialog.dismiss();
+            requireActivity().finish();
+            new REmployee(requireActivity().getApplication()).LogoutUserSession();
+            AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
+            startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
+        });
+        loMessage.setTitle("GhostRider Session");
+        loMessage.setMessage("Are you sure you want to end session/logout?");
+        loMessage.show();
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
