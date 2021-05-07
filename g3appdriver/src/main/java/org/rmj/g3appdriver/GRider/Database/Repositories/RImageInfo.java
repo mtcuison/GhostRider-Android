@@ -52,6 +52,10 @@ public class RImageInfo {
         new InsertTask(imageDao, "insert").execute(imageInfo);
     }
 
+    public void importCreditAppImageInfo(EImageInfo imageInfo) {
+        imageDao.importCreditAppImageInfo(imageInfo);
+    }
+
     public LiveData<EImageInfo> getImageInfo(String sTransNox){
         return imageDao.getImageInfo();
     }
