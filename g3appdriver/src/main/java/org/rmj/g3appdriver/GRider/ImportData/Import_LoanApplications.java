@@ -174,18 +174,9 @@ public class Import_LoanApplications implements ImportInstance{
 
         private void updateCustomerImageStat(JSONArray faJson) throws Exception{
             for(int x = 0; x < faJson.length(); x++) {
-                EImageInfo loImgInfo = new EImageInfo();
                 JSONObject loJSon = faJson.getJSONObject(x);
                 String Transnox = loJSon.getString("sReferNox");
                 db.updateCustomerImageStat(Transnox);
-
-                //Image detail insertion
-                loImgInfo.setTransNox(loJSon.getString("sTransNox"));
-                loImgInfo.setImageNme(loJSon.getString("sFileName"));
-                loImgInfo.setFileCode(loJSon.getString("sFileCode"));
-                loImgInfo.setSourceNo(loJSon.getString("sReferNox"));
-                Log.e("sReferNox", loJSon.getString("sReferNox"));
-                loImage.importCreditAppImageInfo(loImgInfo);
             }
         }
     }
