@@ -314,8 +314,9 @@
         <item name="android:minWidth">24dp</item>
         <item name="android:minHeight">24dp</item>
     </style>
+
     <style name="Progress_Vertical_Custom" parent="@android:style/Widget.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/progressbar_states</item>
+<!--        <item name="android:progressDrawable">@drawable/progressbar_states</item>-->
         <item name="android:indeterminateDrawable">
             @android:drawable/progress_indeterminate_horizontal
         </item>
