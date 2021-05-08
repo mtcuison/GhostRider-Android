@@ -33,6 +33,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
@@ -43,6 +44,7 @@ import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -67,6 +69,10 @@ public class VMCollectionList extends AndroidViewModel {
     private final RCollectionUpdate poUpdate;
     private final REmployee poEmploye;
     private final LiveData<List<EDCPCollectionDetail>> collectionList;
+
+    private final AppConfigPreference poConfig;
+
+    private String psEmployeeID = "";
 
     private final MutableLiveData<List<DDCPCollectionDetail.CollectionDetail>> plDetail = new MutableLiveData();
     private final MutableLiveData<List<EAddressUpdate>> plAddress = new MutableLiveData<>();
@@ -96,7 +102,20 @@ public class VMCollectionList extends AndroidViewModel {
         poBranch = new RBranch(application);
         poUpdate = new RCollectionUpdate(application);
         poEmploye = new REmployee(application);
+        poConfig = AppConfigPreference.getInstance(application);
         this.collectionList = poDCPRepo.getCollectionDetailList();
+    }
+
+    public LiveData<EEmployeeInfo> getEmplopyeInfo(){
+        return this.poEmploye.getEmployeeInfo();
+    }
+
+    public void setEmployeeID(String EmployeeID){
+        this.psEmployeeID = EmployeeID;
+    }
+
+    public boolean isDebugMode(){
+        return poConfig.isTesting_Phase();
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -113,7 +132,7 @@ public class VMCollectionList extends AndroidViewModel {
 
             if(!isExist) {
                 JSONObject loJson = new JSONObject();
-                loJson.put("sEmployID", "M00110006088");
+                loJson.put("sEmployID", psEmployeeID);
                 loJson.put("dTransact", lsDate);
                 loJson.put("cDCPTypex", "1");
                 new ImportLRCollection(instance, masterList.getValue(), callback).execute(loJson);
