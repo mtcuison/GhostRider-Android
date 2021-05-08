@@ -61,12 +61,11 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        String lsLocate = "@" + Activity_TransactionDetail.psLatitud + "," + Activity_TransactionDetail.psLongitd;
         txtAcctNo.setText(Activity_TransactionDetail.acctNox);
         txtClientName.setText(Activity_TransactionDetail.fullNme);
         txtClientAddress.setText(Activity_TransactionDetail.clientAddress);
         txtTransNo.setText(Activity_TransactionDetail.transNox);
-        txtCoord.setText(lsLocate);
+        txtCoord.setText(Activity_TransactionDetail.psLocate);
         txtTransTp.setText(Activity_TransactionDetail.psTransTp);
         mViewModel.setClientID(Activity_TransactionDetail.clientID);
         //Image Location

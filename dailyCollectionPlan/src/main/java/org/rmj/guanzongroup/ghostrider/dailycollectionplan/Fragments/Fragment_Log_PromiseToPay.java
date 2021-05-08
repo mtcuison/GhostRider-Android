@@ -58,11 +58,10 @@ public class Fragment_Log_PromiseToPay extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // TODO: Do the coding here
-        String lsLocate = "@" + Activity_TransactionDetail.psLatitud + "," + Activity_TransactionDetail.psLongitd;
         txtAcctNo.setText(Activity_TransactionDetail.acctNox);
         txtClientName.setText(Activity_TransactionDetail.fullNme);
         txtClientAddress.setText(Activity_TransactionDetail.clientAddress);
-        txtCoord.setText(lsLocate);
+        txtCoord.setText(Activity_TransactionDetail.psLocate);
         txtTransTp.setText(Activity_TransactionDetail.psTransTp);
         mViewModel.setParameters(Activity_TransactionDetail.transNox,
                 Activity_TransactionDetail.acctNox,
