@@ -36,7 +36,7 @@ public class Fragment_Log_OtherTransactions extends Fragment {
     private final String IMAGE_NAME = Activity_TransactionDetail.imgNme;
     private VMLogOtherTransactions mViewModel;
     private DialogDisplayImage poDialogx;
-    private TextView txtAcctNo, txtClientName, txtClientAddress, txtRemarks, txtTransNo, txtTransTp;
+    private TextView txtAcctNo, txtClientName, txtClientAddress, txtRemarks, txtTransNo, txtTransTp, txtCoord;
     private ImageView ivTransImage;
     private View divDivider, floatRemarks;
 
@@ -77,6 +77,8 @@ public class Fragment_Log_OtherTransactions extends Fragment {
                             poDialogx.show();
                         });
                     });
+            txtCoord.setText(Activity_TransactionDetail.psLocate);
+            txtCoord.setVisibility(View.VISIBLE);
         } else {
             ivTransImage.setVisibility(View.GONE);
             divDivider.setVisibility(View.GONE);
@@ -91,6 +93,7 @@ public class Fragment_Log_OtherTransactions extends Fragment {
         txtClientName = v.findViewById(R.id.txt_clientName);
         txtClientAddress = v.findViewById(R.id.txt_client_address);
         txtTransNo = v.findViewById(R.id.txt_transno);
+        txtCoord = v.findViewById(R.id.lbl_coordinates);
         txtTransTp = v.findViewById(R.id.lbl_list_header);
         txtRemarks = v.findViewById(R.id.txt_remarks);
         divDivider = v.findViewById(R.id.divider2);
