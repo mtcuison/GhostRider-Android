@@ -143,6 +143,12 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
             spnType.setSelection(1);
         });
 
+        mViewModel.getPrNox().observe(getViewLifecycleOwner(), s -> {
+            if(s != null){
+                txtPrNoxx.setText(s);
+            }
+        });
+
         mViewModel.getRebate().observe(getViewLifecycleOwner(), aDouble -> {
             try{
                 txtDiscount.setText(String.valueOf(aDouble));

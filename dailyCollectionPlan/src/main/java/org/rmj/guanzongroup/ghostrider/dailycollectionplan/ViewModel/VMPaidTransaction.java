@@ -103,6 +103,12 @@ public class VMPaidTransaction extends AndroidViewModel {
         return liveData;
     }
 
+    public LiveData<String> getPrNox(){
+        MutableLiveData<String> loPrNox = new MutableLiveData<>();
+        loPrNox.setValue(poConfig.getDCP_PRNox());
+        return loPrNox;
+    }
+
     public void setAmount(Double fnAmount){
         this.pnAmount.setValue(fnAmount);
         calculateTotal();
@@ -204,6 +210,7 @@ public class VMPaidTransaction extends AndroidViewModel {
         private final ConnectionUtil poConn;
         private final Telephony poDevID;
         private final SessionManager poUser;
+        private final AppConfigPreference poConfig;
 
         public PostPaidTransactionTask(EDCPCollectionDetail dcpDetail, PaidTransactionModel infoModel, Application instance, ViewModelCallback callback) {
             this.poDcpDetail = dcpDetail;
@@ -214,6 +221,7 @@ public class VMPaidTransaction extends AndroidViewModel {
             this.poConn = new ConnectionUtil(instance);
             this.poDevID = new Telephony(instance);
             this.poUser = new SessionManager(instance);
+            this.poConfig = AppConfigPreference.getInstance(instance);
         }
 
         @Override
@@ -248,6 +256,7 @@ public class VMPaidTransaction extends AndroidViewModel {
                     detail.setTranStat("2");
                     detail.setModified(AppConstants.DATE_MODIFIED);
                     poDcp.updateCollectionDetailInfo(detail);
+                    poConfig.setDCP_PRNox(detail.getPRNoxxxx());
 
                     //StartSending to Server
                     if(!poConn.isDeviceConnected()) {

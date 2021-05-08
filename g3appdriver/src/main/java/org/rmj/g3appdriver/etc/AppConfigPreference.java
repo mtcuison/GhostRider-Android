@@ -11,6 +11,7 @@
 
 package org.rmj.g3appdriver.etc;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -32,6 +33,7 @@ public class AppConfigPreference {
     private static final String temp_PIN = "ConfirmationPIN";
     private static final String APP_FIREBASE_TOKEN = "Firebase_Token";
     private static final String DCP_CustomerRebate = "DCP_CustomerRebate";
+    private static final String DCP_PRNox = "DCP_PR_Noxxx";
 
     private static AppConfigPreference mAppConfigPreference;
 
@@ -134,5 +136,16 @@ public class AppConfigPreference {
 
     public String getDCP_CustomerRebate(){
         return pref.getString(DCP_CustomerRebate, "100.00");
+    }
+
+    public void setDCP_PRNox(String fnPrNox){
+        editor.putInt(DCP_PRNox, Integer.parseInt(fnPrNox));
+        editor.commit();
+    }
+
+    public String getDCP_PRNox(){
+        int lnPrNox = pref.getInt(DCP_PRNox, 0) + 1;
+        @SuppressLint("DefaultLocale") String lsPrNox = String.format("%08d", lnPrNox);
+        return lsPrNox;
     }
 }
