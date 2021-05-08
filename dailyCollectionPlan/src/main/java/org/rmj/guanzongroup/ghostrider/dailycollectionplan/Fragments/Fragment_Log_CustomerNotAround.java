@@ -45,7 +45,7 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
     private MobileInfoAdapter_Log mobileAdapter;
     private AddressInfoAdapter_Log addressAdapter;
     private DialogDisplayImage poDialogx;
-    private TextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo, txtTransTp;
+    private TextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo, txtTransTp, txtCoord;
     private RecyclerView rvMobileNox, rvAddress;
     private ImageView ivTransImage;
     private LinearLayout lnMobilenox, lnAddressx;
@@ -61,10 +61,12 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        String lsLocate = "@" + Activity_TransactionDetail.psLatitud + "," + Activity_TransactionDetail.psLongitd;
         txtAcctNo.setText(Activity_TransactionDetail.acctNox);
         txtClientName.setText(Activity_TransactionDetail.fullNme);
         txtClientAddress.setText(Activity_TransactionDetail.clientAddress);
         txtTransNo.setText(Activity_TransactionDetail.transNox);
+        txtCoord.setText(lsLocate);
         txtTransTp.setText(Activity_TransactionDetail.psTransTp);
         mViewModel.setClientID(Activity_TransactionDetail.clientID);
         //Image Location
@@ -125,6 +127,7 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
         txtClientAddress = v.findViewById(R.id.txt_client_address);
         txtTransNo = v.findViewById(R.id.txt_transno);
         txtTransTp = v.findViewById(R.id.lbl_list_header);
+        txtCoord = v.findViewById(R.id.lbl_coordinates);
         lnMobilenox = v.findViewById(R.id.ln_mobileNox);
         lnAddressx = v.findViewById(R.id.ln_addressx);
         rvMobileNox = v.findViewById(R.id.rv_mobileNox);
