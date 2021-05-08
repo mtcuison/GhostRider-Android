@@ -23,8 +23,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
@@ -58,6 +60,7 @@ public class Import_LoanApplications implements ImportInstance{
 
     public static class ImportDataTask extends AsyncTask<JSONObject, Void, String>{
         private final RCreditApplication db;
+        private final RImageInfo loImage;
         private final ConnectionUtil loConnectx;
         private final HttpHeaders loHeaders;
         private final SessionManager poUser;
@@ -65,6 +68,7 @@ public class Import_LoanApplications implements ImportInstance{
 
         public ImportDataTask(Application application, ImportDataCallback callback) {
             this.db = new RCreditApplication(application);
+            this.loImage = new RImageInfo(application);
             this.loConnectx = new ConnectionUtil(application);
             this.loHeaders = HttpHeaders.getInstance(application);
             this.poUser = new SessionManager(application);
@@ -169,7 +173,7 @@ public class Import_LoanApplications implements ImportInstance{
         }
 
         private void updateCustomerImageStat(JSONArray faJson) throws Exception{
-            for(int x = 0; x < faJson.length(); x++){
+            for(int x = 0; x < faJson.length(); x++) {
                 JSONObject loJSon = faJson.getJSONObject(x);
                 String Transnox = loJSon.getString("sReferNox");
                 db.updateCustomerImageStat(Transnox);
