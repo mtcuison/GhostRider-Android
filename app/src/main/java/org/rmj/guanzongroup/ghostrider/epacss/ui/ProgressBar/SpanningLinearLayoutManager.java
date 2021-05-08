@@ -60,8 +60,6 @@ public class SpanningLinearLayoutManager extends LinearLayoutManager {
         else if(getOrientation() == VERTICAL){
             layoutParams.height = (int) Math.round(getVerticalSpace() /  (double) getItemCount());
         }
-        Log.e("Horizontal", String.valueOf(getHorizontalSpace()));
-        Log.e("Vertical", String.valueOf(getVerticalSpace()));
         return layoutParams;
     }
 
@@ -71,10 +69,12 @@ public class SpanningLinearLayoutManager extends LinearLayoutManager {
     }
     @Override
     public boolean canScrollHorizontally() {
-        return false;
+        return true;
     }
 
     private int getHorizontalSpace() {
+        Log.e("PaddingR", String.valueOf(getPaddingRight()));
+        Log.e("PaddingL", String.valueOf(getPaddingLeft()));
         return getWidth() - getPaddingRight() - getPaddingLeft();
     }
 

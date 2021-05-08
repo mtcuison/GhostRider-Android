@@ -19,8 +19,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,7 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,15 +38,12 @@ import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.AreaMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.Area;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationList;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHome;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.ProgressBar.AreaMonitoringDashbordAdapter;
-import org.rmj.guanzongroup.ghostrider.epacss.ui.ProgressBar.SpanningLinearLayoutManager;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NewsEventSpacing;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
@@ -127,12 +122,22 @@ public class Fragment_Home extends Fragment {
                         String.valueOf(areaPerformances.get(x).getMCActual()));
                 areaList.add(area);
             }
-            AreaMonitoringAdapter loAdapter = new AreaMonitoringAdapter(areaList);
+            AreaMonitoringDashbordAdapter loAdapter = new AreaMonitoringDashbordAdapter(areaList);
             LinearLayoutManager loManager = new LinearLayoutManager(getActivity());
 
-            loManager.setOrientation(RecyclerView.VERTICAL);
-            recyclerView.setLayoutManager(loManager);
+//            loManager.setOrientation(RecyclerView.VERTICAL);
+//            recyclerView.setLayoutManager(loManager);
+//            recyclerView.setAdapter(loAdapter);
+
+//            recyclerView.setLayoutManager(new SpanningLinearLayoutManager(getContext(),  LinearLayoutManager.HORIZONTAL, false));
+//            recyclerView.setAdapter(loAdapter);
+
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.HORIZONTAL, false));
             recyclerView.setAdapter(loAdapter);
+
+
         });
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
@@ -232,6 +237,7 @@ public class Fragment_Home extends Fragment {
         });
 
     }
+
     public void showDialog(){
         loMessage.initDialog();
         loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());

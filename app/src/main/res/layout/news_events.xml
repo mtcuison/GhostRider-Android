@@ -17,6 +17,7 @@
     android:orientation="vertical"
     app:cardBackgroundColor="@color/material_lightgrey"
     app:cardCornerRadius="8dp"
+    android:layout_marginBottom="10dp"
     app:cardMaxElevation="10dp">
     <LinearLayout
         android:layout_width="260dp"

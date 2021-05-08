@@ -58,7 +58,7 @@ public class VerticalProgressBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         //Draw the background
-        paint.setColor(getResources().getColor(R.color.guanzon_dark_grey));// Set the background brush color
+        paint.setColor(getResources().getColor(R.color.color_nine_seven));// Set the background brush color
         canvas.drawRect(0, 0, width, height, paint);// draw background rectangle
 
         //Drawing progress
