@@ -89,7 +89,6 @@ public class GNotifBuilder {
         return new NotificationCompat.Builder(context)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
-                .setOngoing(PRIORITY)
                 .setChannelId(NotificationID)
                 .setSmallIcon(R.drawable.ic_ghostrider_logo_day)
                 .setContentTitle(Title)
