@@ -16,62 +16,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/bg_gradient_light"
     tools:context=".ui.HomeContainer.Fragment_HomeContainer">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="30dp" />
+        <ImageView
+            android:id="@+id/img_dashboard_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dashboard_bubble_header"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <RelativeLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline3">
 
-            <ImageView
-                android:id="@+id/img_dashboard_header"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/dashboard_bubble_header"
-                android:scaleType="centerCrop"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/img_dashboard_header"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="-70dp">
-
-                <LinearLayout
+                <org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NonSwipeableViewPager
+                    android:id="@+id/viewpager_mainContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent" />
 
-                    <org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NonSwipeableViewPager
-                        android:id="@+id/viewpager_mainContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-<!--            <TextView-->
-<!--                android:id="@+id/lbl_dashBoardHeader"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_alignParentStart="true"-->
-<!--                android:layout_alignParentLeft="true"-->
-<!--                android:layout_alignParentTop="true"-->
-<!--                android:layout_marginStart="20dp"-->
-<!--                android:layout_marginLeft="20dp"-->
-<!--                android:layout_marginTop="30dp"-->
-<!--                android:fontFamily="@font/roboto_black"-->
-<!--                android:text="Dashboard"-->
-<!--                android:textColor="@color/textColor_Black"-->
-<!--                android:textSize="24sp" />-->
+            </LinearLayout>
 
         </RelativeLayout>
 
-    </LinearLayout>
 
+        <!--            <TextView-->
+        <!--                android:id="@+id/lbl_dashBoardHeader"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_alignParentStart="true"-->
+        <!--                android:layout_alignParentLeft="true"-->
+        <!--                android:layout_alignParentTop="true"-->
+        <!--                android:layout_marginStart="20dp"-->
+        <!--                android:layout_marginLeft="20dp"-->
+        <!--                android:layout_marginTop="30dp"-->
+        <!--                android:fontFamily="@font/roboto_black"-->
+        <!--                android:text="Dashboard"-->
+        <!--                android:textColor="@color/textColor_Black"-->
+        <!--                android:textSize="24sp" />-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

@@ -9,7 +9,6 @@
   ~ project file created : 4/24/21 3:19 PM
   ~ project file last modified : 4/24/21 3:18 PM
   -->
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"

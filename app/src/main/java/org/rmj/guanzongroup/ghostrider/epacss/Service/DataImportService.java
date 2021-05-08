@@ -31,6 +31,7 @@ import org.rmj.g3appdriver.GRider.ImportData.ImportMcModelPrice;
 import org.rmj.g3appdriver.GRider.ImportData.ImportMcTermCategory;
 import org.rmj.g3appdriver.GRider.ImportData.ImportProvinces;
 import org.rmj.g3appdriver.GRider.ImportData.ImportTown;
+import org.rmj.g3appdriver.GRider.ImportData.Import_AreaPerformance;
 import org.rmj.g3appdriver.GRider.ImportData.Import_BankList;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SysConfig;
@@ -59,6 +60,7 @@ public class DataImportService extends JobService {
 
     private void doBackgroundTask(JobParameters params) {
         ImportInstance[]  importInstances = {
+                new Import_AreaPerformance(getApplication()),
                 new Import_BankList(getApplication()),
                 new ImportFileCode(getApplication()),
                 new ImportBranch(getApplication()),

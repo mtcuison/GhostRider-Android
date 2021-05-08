@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.app
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 5/5/21 11:35 AM
+  ~ project file last modified : 5/5/21 11:35 AM
+  -->
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:cardBackgroundColor="@color/material_lightgrey"
+    app:cardCornerRadius="8dp"
+    android:layout_marginBottom="10dp"
+    app:cardMaxElevation="10dp">
+    <LinearLayout
+        android:layout_width="260dp"
+        android:layout_height="240dp"
+        android:orientation="vertical"
+        >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/newsImg"
+            android:layout_width="fill_parent"
+            android:layout_height="160dp"
+            android:src="@drawable/grandopening"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="right">
+            <LinearLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/guanzon_orange"
+                android:gravity="center"
+                android:layout_marginRight="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/newsDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="24"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/textColor_White" />
+
+                <TextView
+                    android:id="@+id/newsMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Feb"
+                    android:textColor="@color/textColor_White" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/newsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Grand Opening of Guanzon Mobitek SM City North Edsa-Annex branch"
+        android:textSize="12sp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:textColor="@color/textColor_Black" />
+    <TextView
+        android:id="@+id/newsPostedBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:text="POSTED ON FEBRUARY 24, 2021 BY GUANZON_ADMIN"
+        android:textSize="11sp"
+        android:paddingLeft="5dp"
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/textColor_Black" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
