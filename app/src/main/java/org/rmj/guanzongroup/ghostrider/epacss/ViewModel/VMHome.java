@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
 import android.app.Application;
 import android.os.Build;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -38,6 +39,8 @@ public class VMHome extends AndroidViewModel {
     private MutableLiveData<String> psBranchx = new MutableLiveData<>();
     private MutableLiveData<String> psDeptNme = new MutableLiveData<>();
     private MutableLiveData<String> psMobleNo = new MutableLiveData<>();
+    private final MutableLiveData<Integer> cv_ahMonitoring = new MutableLiveData<>();
+    private final MutableLiveData<Integer> userLvl = new MutableLiveData<>();
     private final RAreaPerformance poDatabse;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     public VMHome(@NonNull Application application) {
@@ -46,6 +49,7 @@ public class VMHome extends AndroidViewModel {
         poEmploye = new REmployee(application);
         psMobleNo.setValue(new Telephony(application).getMobilNumbers());
         poDatabse = new RAreaPerformance(application);
+        this.cv_ahMonitoring.setValue(View.GONE);
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
@@ -58,5 +62,25 @@ public class VMHome extends AndroidViewModel {
 
     public LiveData<List<EAreaPerformance>> getAreaPerformanceInfoList(){
         return poDatabse.getAreaPerformanceInfoList();
+    }
+    public void setIntUserLvl(int userLvl){
+        try {
+            if(userLvl == 4){
+                this.cv_ahMonitoring.setValue(View.VISIBLE);
+            } else {
+                this.cv_ahMonitoring.setValue(View.GONE);
+            }
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        this.userLvl.setValue(userLvl);
+    }
+    public LiveData<Integer> getIntUserLvl(){
+        return this.userLvl;
+    }
+    public LiveData<Integer> getCv_ahMonitoring(){
+        return cv_ahMonitoring;
     }
 }

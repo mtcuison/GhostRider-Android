@@ -17,6 +17,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,12 +25,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
@@ -83,6 +86,8 @@ public class Fragment_Home extends Fragment {
     private ImageView btn_messages,btn_settings, btn_notif;
     private RecyclerView recyclerView;
     private MessageBox loMessage;
+    private CardView cvAHMonitoring;
+    private BottomNavigationView navHeader;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -103,7 +108,26 @@ public class Fragment_Home extends Fragment {
         btn_notif = view.findViewById(R.id.btn_notif);
         btn_messages = view.findViewById(R.id.btn_messages);
         recyclerView = view.findViewById(R.id.recyclerview_monitoring);
-
+        cvAHMonitoring = view.findViewById(R.id.cv_ahMonitoring);
+        navHeader = view.findViewById(R.id.navHeader);
+        navHeader.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_dashboard:
+                        return true;
+                    case R.id.menu_message:
+                    case R.id.menu_notif:
+                        GToast.CreateMessage(getActivity(), "Feature not yet implemented", GToast.INFORMATION).show();
+                        return true;
+                    case R.id.menu_settings:
+                        Intent intent = new Intent(getActivity(), Activity_Settings.class);
+                        startActivity(intent);
+                        return true;
+                }
+                return false;
+            }
+        });
         return view;
     }
 
@@ -112,10 +136,23 @@ public class Fragment_Home extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMHome.class);
 //        mViewModel.getMobileNo().observe(getViewLifecycleOwner(), s -> lblMobile.setText(s));
+
+        mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
+            try {
+                lblEmail.setText(eEmployeeInfo.getEmailAdd());
+                lblUserLvl.setText(DeptCode.parseUserLevel(Integer.parseInt(eEmployeeInfo.getEmpLevID())));
+                lblFullNme.setText(eEmployeeInfo.getUserName());
+                lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+                mViewModel.setIntUserLvl(4);
+//                mViewModel.setIntUserLvl(Integer.parseInt(eEmployeeInfo.getEmpLevID()));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+        mViewModel.getCv_ahMonitoring().observe(getViewLifecycleOwner(), integer -> cvAHMonitoring.setVisibility(integer));
         mViewModel.getAreaPerformanceInfoList().observe(getViewLifecycleOwner(), areaPerformances -> {
             List<Area> areaList = new ArrayList<>();
-            Log.e("perf", String.valueOf(areaPerformances));
-            for(int x = 0; x < 5; x++){
+            for(int x = 0; x < areaPerformances.size(); x++){
                 Area area = new Area(areaPerformances.get(x).getAreaCode(),
                         areaPerformances.get(x).getAreaDesc(),
                         String.valueOf(areaPerformances.get(x).getMCGoalxx()),
@@ -138,16 +175,6 @@ public class Fragment_Home extends Fragment {
             recyclerView.setAdapter(loAdapter);
 
 
-        });
-        mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
-            try {
-                lblEmail.setText(eEmployeeInfo.getEmailAdd());
-                lblUserLvl.setText(DeptCode.parseUserLevel(Integer.parseInt(eEmployeeInfo.getEmpLevID())));
-                lblFullNme.setText(eEmployeeInfo.getUserName());
-                lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
-            } catch (Exception e){
-                e.printStackTrace();
-            }
         });
         infoModel = new NewsEventsModel(
                 "https://www.guanzongroup.com.ph/wp-content/uploads/2021/02/Grand-Opening-4-786x786.png",

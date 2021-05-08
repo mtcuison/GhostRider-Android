@@ -299,10 +299,10 @@
         <item name="iconPadding">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
-        <item name="android:insetLeft">0dp</item>
-        <item name="android:insetRight">0dp</item>
-        <item name="android:minWidth">24dp</item>
-        <item name="android:minHeight">24dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
     </style>
 
     <style name="Base.Widget.AppCompat.ImageButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
@@ -323,4 +323,5 @@
         <item name="android:minWidth">12dip</item>
         <item name="android:maxWidth">12dip</item>
     </style>
+
 </resources>
