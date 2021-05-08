@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.app
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 5/7/21 1:05 PM
+  ~ project file last modified : 5/7/21 1:05 PM
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:padding="5dp">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerInParent="true"
+        android:layout_marginVertical="5dp">
+
+        <TextView
+            android:id="@+id/lbl_listItemPercentage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:gravity="center"
+            android:text="50%"/>
+
+
+        <org.rmj.guanzongroup.ghostrider.epacss.ui.ProgressBar.VerticalProgressBar
+            android:id="@+id/progress_monitor"
+            android:layout_width="45dp"
+            android:layout_height="180dp"
+            android:indeterminateOnly="false"
+            android:minWidth="10dp"
+            android:maxHeight="15dp"
+            android:layout_gravity="center_horizontal"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:progress="50"
+            android:layout_below="@+id/lbl_listItemPercentage"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/lbl_AreaBranchItem"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="5"
+            android:text="R1-A"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"/>
+
+    </LinearLayout>
+</RelativeLayout>

@@ -20,10 +20,14 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RAreaPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.SessionManager;
+
+import java.util.List;
 
 public class VMHome extends AndroidViewModel {
 
@@ -34,13 +38,14 @@ public class VMHome extends AndroidViewModel {
     private MutableLiveData<String> psBranchx = new MutableLiveData<>();
     private MutableLiveData<String> psDeptNme = new MutableLiveData<>();
     private MutableLiveData<String> psMobleNo = new MutableLiveData<>();
-
+    private final RAreaPerformance poDatabse;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     public VMHome(@NonNull Application application) {
         super(application);
         poSession = new SessionManager(application);
         poEmploye = new REmployee(application);
         psMobleNo.setValue(new Telephony(application).getMobilNumbers());
+        poDatabse = new RAreaPerformance(application);
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
@@ -49,5 +54,9 @@ public class VMHome extends AndroidViewModel {
 
     public LiveData<String> getMobileNo() {
         return psMobleNo;
+    }
+
+    public LiveData<List<EAreaPerformance>> getAreaPerformanceInfoList(){
+        return poDatabse.getAreaPerformanceInfoList();
     }
 }
