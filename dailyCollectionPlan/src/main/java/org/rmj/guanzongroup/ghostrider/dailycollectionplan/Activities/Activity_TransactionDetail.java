@@ -35,7 +35,7 @@ import java.util.Objects;
 public class Activity_TransactionDetail extends AppCompatActivity {
     private static final String TAG = Activity_TransactionDetail.class.getSimpleName();
     private static Activity_TransactionDetail instance;
-    public static String transNox, fullNme, entryNox, acctNox, remCodex, imgNme, clientID, clientAddress, remarks ;
+    public static String transNox, fullNme, entryNox, acctNox, remCodex, imgNme, clientID, clientAddress, remarks, psLatitud, psLongitd ;
     public static String psTransTp;
 
     public static Activity_TransactionDetail getInstance(){
@@ -55,6 +55,8 @@ public class Activity_TransactionDetail extends AppCompatActivity {
         clientID = getIntent().getStringExtra("sClientID");
         clientAddress = getIntent().getStringExtra("sAddressx");
         remarks = getIntent().getStringExtra("sRemarksx");
+        psLatitud = getIntent().getStringExtra("nLatitude");
+        psLongitd = getIntent().getStringExtra("nLongitud");
         psTransTp = DCP_Constants.getRemarksDescription(remCodex);
 
 

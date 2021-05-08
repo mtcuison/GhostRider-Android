@@ -144,6 +144,8 @@ public class Activity_LogCollection extends AppCompatActivity {
                         loIntent.putExtra("sClientID", filteredCollectionDetlx.get(position).getClientID());
                         loIntent.putExtra("sAddressx", filteredCollectionDetlx.get(position).getAddressx());
                         loIntent.putExtra("sRemarksx", filteredCollectionDetlx.get(position).getRemarksx());
+                        loIntent.putExtra("nLongitud", filteredCollectionDetlx.get(position).getLongitud());
+                        loIntent.putExtra("nLatitude", filteredCollectionDetlx.get(position).getLatitude());
                         startActivity(loIntent);
                     });
 

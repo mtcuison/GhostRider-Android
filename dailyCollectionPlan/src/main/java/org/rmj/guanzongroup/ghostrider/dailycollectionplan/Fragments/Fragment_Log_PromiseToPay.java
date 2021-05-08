@@ -35,7 +35,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogPromis
 public class Fragment_Log_PromiseToPay extends Fragment {
     private VMLogPromiseToPay mViewModel;
     private DialogDisplayImage poDialogx;
-    private TextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo;
+    private TextView txtAcctNo, txtClientName, txtClientAddress, txtCoord;
     private TextView txtPTPDate, txtBranchName, txtRemarks, txtTransTp;
     private ImageView ivTransImage;
     private LinearLayout lnBranchName;
@@ -58,10 +58,11 @@ public class Fragment_Log_PromiseToPay extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // TODO: Do the coding here
+        String lsLocate = "@" + Activity_TransactionDetail.psLatitud + "," + Activity_TransactionDetail.psLongitd;
         txtAcctNo.setText(Activity_TransactionDetail.acctNox);
         txtClientName.setText(Activity_TransactionDetail.fullNme);
         txtClientAddress.setText(Activity_TransactionDetail.clientAddress);
-        txtTransNo.setText(Activity_TransactionDetail.transNox);
+        txtCoord.setText(lsLocate);
         txtTransTp.setText(Activity_TransactionDetail.psTransTp);
         mViewModel.setParameters(Activity_TransactionDetail.transNox,
                 Activity_TransactionDetail.acctNox,
@@ -97,7 +98,7 @@ public class Fragment_Log_PromiseToPay extends Fragment {
         txtAcctNo = v.findViewById(R.id.txt_acctNo);
         txtClientName = v.findViewById(R.id.txt_clientName);
         txtClientAddress = v.findViewById(R.id.txt_client_address);
-        txtTransNo = v.findViewById(R.id.txt_transno);
+        txtCoord = v.findViewById(R.id.lbl_coordinates);
         txtTransTp = v.findViewById(R.id.lbl_list_header);
         txtPTPDate = v.findViewById(R.id.txt_ptp_date);
         txtBranchName = v.findViewById(R.id.txt_branch_name);
