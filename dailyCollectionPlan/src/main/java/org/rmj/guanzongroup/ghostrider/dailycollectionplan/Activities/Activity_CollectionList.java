@@ -36,6 +36,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,6 +51,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -60,6 +62,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogConfirmP
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogImportDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAddCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.Dialog_ClientSearch;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.Dialog_DebugEntry;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.DCPLocatorService;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionList;
@@ -109,6 +112,8 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         mViewModel = new ViewModelProvider(this).get(VMCollectionList.class);
         expCollectDetl = new JSONArray();
         initWidgets();
+
+        mViewModel.getEmplopyeInfo().observe(this, eEmployeeInfo -> mViewModel.setEmployeeID(eEmployeeInfo.getEmployID()));
 
         mViewModel.getCollectionLastEntry().observe(this, collectionDetail -> {
             // Added +1 for entry nox to increment the value which will be
@@ -604,8 +609,18 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         poMessage.show();
 
     }
+
     public void showDownloadDcp(){
-        mViewModel.DownloadDcp(AppConstants.CURRENT_DATE, Activity_CollectionList.this);
+        if(!mViewModel.isDebugMode()){
+            mViewModel.DownloadDcp(AppConstants.CURRENT_DATE, Activity_CollectionList.this);
+        } else {
+            Dialog_DebugEntry loDebug = new Dialog_DebugEntry(Activity_CollectionList.this);
+            loDebug.iniDialog(args -> {
+                mViewModel.setEmployeeID(args);
+                mViewModel.DownloadDcp(AppConstants.CURRENT_DATE, Activity_CollectionList.this);
+            });
+            loDebug.show();
+        }
     }
 
     public void showImportFromFileDcp() {
