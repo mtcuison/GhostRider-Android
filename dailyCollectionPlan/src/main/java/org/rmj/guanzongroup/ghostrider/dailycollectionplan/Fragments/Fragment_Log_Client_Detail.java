@@ -37,7 +37,7 @@ public class Fragment_Log_Client_Detail extends Fragment {
     private VMLogClientDetail mViewModel;
     private DialogDisplayImage poDialogx;
     private ImageView ivTransImage;
-    private TextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo, txtTransTp, txtFullname,
+    private TextView txtAcctNo, txtClientName, txtClientAddress, txtCoord, txtTransTp, txtFullname,
     txtAddress,
     txtGender,
     txtCivilStat,
@@ -71,7 +71,7 @@ public class Fragment_Log_Client_Detail extends Fragment {
         txtAcctNo.setText(Activity_TransactionDetail.acctNox);
         txtClientName.setText(Activity_TransactionDetail.fullNme);
         txtClientAddress.setText(Activity_TransactionDetail.clientAddress);
-        txtTransNo.setText(Activity_TransactionDetail.transNox);
+        txtCoord.setText(Activity_TransactionDetail.psLocate);
         txtTransTp.setText(Activity_TransactionDetail.psTransTp);
         txtRemarks.setText(Activity_TransactionDetail.remarks);
 
@@ -120,7 +120,7 @@ public class Fragment_Log_Client_Detail extends Fragment {
         txtAcctNo = v.findViewById(R.id.txt_acctNo);
         txtClientName = v.findViewById(R.id.txt_clientName);
         txtClientAddress = v.findViewById(R.id.txt_client_address);
-        txtTransNo = v.findViewById(R.id.txt_transno);
+        txtCoord = v.findViewById(R.id.lbl_coordinates);
         txtTransTp = v.findViewById(R.id.lbl_list_header);
         txtFullname = v.findViewById(R.id.txt_fullname);
         txtAddress = v.findViewById(R.id.txt_address);

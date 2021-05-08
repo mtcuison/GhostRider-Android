@@ -201,6 +201,18 @@
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <TextView
+                    android:id="@+id/lbl_coordinates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/textColor_Black"
+                    android:textSize="11sp"
+                    app:layout_constraintLeft_toRightOf="@id/iv_transaction_img"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginLeft="8dp"
+                    android:visibility="gone"/>
+
+                <TextView
                     android:id="@+id/txt_transno"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
