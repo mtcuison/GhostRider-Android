@@ -47,12 +47,16 @@ public interface DMobileRequest {
     @Query("SELECT M.cReqstCDe AS mobileReqstCDe," +
             " M.sMobileNo," +
             " M.cPrimaryx AS mobilePrimaryx," +
-            " M.sRemarksx AS mobileRemarksx" +
+            " M.sRemarksx AS mobileRemarksx," +
+            " I.nLatitude," +
+            " I.nLongitud" +
             " FROM LR_DCP_Collection_Detail as C," +
-            " Mobile_Update_Request as M" +
+            " Mobile_Update_Request as M," +
+            " Image_Information as I" +
             " WHERE C.sClientID = :sClientID AND" +
             " C.sRemCodex = \"CNA\" AND" +
-            " M.sClientID = C.sClientID")
+            " M.sClientID = C.sClientID AND" +
+            " I.sImageNme = C.sImageNme")
     LiveData<List<CNAMobileInfo>> getCNAMobileDataList(String sClientID);
 
     class CNAMobileInfo {
@@ -60,5 +64,7 @@ public interface DMobileRequest {
         public String sMobileNo;
         public String mobilePrimaryx;
         public String mobileRemarksx;
+        public double nLatitude;
+        public double nLongitud;
     }
 }

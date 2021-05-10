@@ -182,7 +182,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:inputType="textCapWords|textPersonName"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -195,7 +196,8 @@
                     android:id="@+id/tie_lun_fName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50" />
+                    android:maxLength="50"
+                    android:inputType="textCapWords|textPersonName"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -208,7 +210,8 @@
                     android:id="@+id/tie_lun_middName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50" />
+                    android:maxLength="50"
+                    android:inputType="textCapWords|textPersonName"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -221,7 +224,8 @@
                     android:id="@+id/tie_lun_suffix"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50" />
+                    android:maxLength="50"
+                    android:inputType="textCapWords|textPersonName"/>
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
@@ -266,7 +270,8 @@
                         android:id="@+id/tie_lun_street"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:maxLength="50" />
+                        android:maxLength="50"
+                        android:inputType="textCapWords|textPostalAddress"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
             <com.google.android.material.textfield.TextInputLayout
@@ -282,7 +287,7 @@
                     android:completionThreshold="1"
                     android:imeOptions="actionNext"
                     android:popupBackground="@color/spinner_background"
-                    android:inputType="textAutoComplete|textAutoCorrect|none"
+                    android:inputType="textAutoComplete|textAutoCorrect|none|textCapWords"
                     android:maxLines="1"
                     android:nextFocusForward="@id/tie_lun_brgy"
                     android:padding="14dp"
@@ -302,7 +307,7 @@
                     android:completionThreshold="1"
                     android:imeOptions="actionNext"
                     android:popupBackground="@color/spinner_background"
-                    android:inputType="textAutoComplete|textAutoCorrect|none"
+                    android:inputType="textAutoComplete|textAutoCorrect|none|textCapWords"
                     android:maxLines="1"
                     android:padding="14dp"
                     tools:ignore="LabelFor,RtlSymmetry" />
@@ -404,7 +409,7 @@
                     android:layout_height="match_parent"
                     android:completionThreshold="1"
                     android:imeOptions="actionNext"
-                    android:inputType="textAutoComplete|textAutoCorrect|none"
+                    android:inputType="textAutoComplete|textAutoCorrect|none|textCapWords"
                     android:maxLines="1"
                     android:padding="14dp"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -461,7 +466,7 @@
                     android:id="@+id/tie_lun_Remarks"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
+                    android:inputType="textMultiLine|textCapSentences"
                     android:maxLength="50"
                     android:minLines="3"/>
             </com.google.android.material.textfield.TextInputLayout>
