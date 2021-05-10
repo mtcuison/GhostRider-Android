@@ -34,6 +34,11 @@ import java.util.List;
 public class AddressInfoAdapter_Log extends RecyclerView.Adapter<AddressInfoAdapter_Log.AddressHolder> {
 
     private List<DAddressRequest.CNA_AddressInfo> addressUpdates = new ArrayList<>();
+    private OnFetchCoordinates mListener;
+
+    public AddressInfoAdapter_Log(OnFetchCoordinates fListener) {
+        this.mListener = fListener;
+    }
 
     @NonNull
     @Override
@@ -55,6 +60,7 @@ public class AddressInfoAdapter_Log extends RecyclerView.Adapter<AddressInfoAdap
         holder.tvDetails.setText(current.townName +  ", " + current.provName);
         holder.tvAddress.setText(current.sHouseNox + " " + current.sAddressx + ", " + current.brgyName);
         holder.tvRemarks.setText(current.addressRemarksx);
+        mListener.callBack(String.valueOf(current.nLatitude), String.valueOf(current.nLongitud));
     }
 
     @Override
@@ -82,6 +88,10 @@ public class AddressInfoAdapter_Log extends RecyclerView.Adapter<AddressInfoAdap
             tvAddress = itemView.findViewById(R.id.tvAddress);
             tvRemarks = itemView.findViewById(R.id.tvRemarks);
         }
+    }
+
+    public interface OnFetchCoordinates {
+        void callBack(String fLatitude, String fLongitud);
     }
 
 }

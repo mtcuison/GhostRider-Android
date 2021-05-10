@@ -65,7 +65,6 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
         txtClientName.setText(Activity_TransactionDetail.fullNme);
         txtClientAddress.setText(Activity_TransactionDetail.clientAddress);
         txtTransNo.setText(Activity_TransactionDetail.transNox);
-        txtCoord.setText(Activity_TransactionDetail.psLocate);
         txtTransTp.setText(Activity_TransactionDetail.psTransTp);
         mViewModel.setClientID(Activity_TransactionDetail.clientID);
         //Image Location
@@ -109,7 +108,12 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
             if (!cna_addressInfos.isEmpty()) {
                 try {
                     lnAddressx.setVisibility(View.VISIBLE);
-                    addressAdapter = new AddressInfoAdapter_Log();
+                    addressAdapter = new AddressInfoAdapter_Log(new AddressInfoAdapter_Log.OnFetchCoordinates() {
+                        @Override
+                        public void callBack(String fLatitude, String fLongitud) {
+                            txtCoord.setText("@" + fLatitude + "," + fLongitud);
+                        }
+                    });
                     rvAddress.setAdapter(addressAdapter);
                     addressAdapter.setAddress(cna_addressInfos);
                 } catch (Exception e) {
