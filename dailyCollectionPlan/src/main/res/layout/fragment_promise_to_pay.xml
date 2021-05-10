@@ -237,7 +237,7 @@
                     android:id="@+id/tie_ptp_Remarks"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
+                    android:inputType="textMultiLine|textCapSentences"
                     android:maxLength="50"
                     android:minLines="3"/>
             </com.google.android.material.textfield.TextInputLayout>

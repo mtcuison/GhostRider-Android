@@ -65,7 +65,6 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
         txtClientName.setText(Activity_TransactionDetail.fullNme);
         txtClientAddress.setText(Activity_TransactionDetail.clientAddress);
         txtTransNo.setText(Activity_TransactionDetail.transNox);
-        txtCoord.setText(Activity_TransactionDetail.psLocate);
         txtTransTp.setText(Activity_TransactionDetail.psTransTp);
         mViewModel.setClientID(Activity_TransactionDetail.clientID);
         //Image Location
@@ -85,7 +84,10 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
         mViewModel.getCNA_MobileDataList().observe(getViewLifecycleOwner(), cna_mobileInfos -> {
             if (!cna_mobileInfos.isEmpty()) {
                 try {
+                    int lnLastVal = cna_mobileInfos.size()-1;
                     lnMobilenox.setVisibility(View.VISIBLE);
+                    txtCoord.setText("@" + cna_mobileInfos.get(lnLastVal).nLatitude +
+                            "," + cna_mobileInfos.get(lnLastVal).nLongitud);
                     mobileAdapter = new MobileInfoAdapter_Log(new MobileInfoAdapter_Log.OnItemInfoClickListener() {
                         @Override
                         public void OnDelete(int position) {
@@ -108,7 +110,10 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
         mViewModel.getCNA_AddressDataList().observe(getViewLifecycleOwner(), cna_addressInfos -> {
             if (!cna_addressInfos.isEmpty()) {
                 try {
+                    int lnLastVal = cna_addressInfos.size()-1;
                     lnAddressx.setVisibility(View.VISIBLE);
+                    txtCoord.setText("@" + cna_addressInfos.get(lnLastVal).nLatitude
+                            + "," + cna_addressInfos.get(lnLastVal).nLongitud);
                     addressAdapter = new AddressInfoAdapter_Log();
                     rvAddress.setAdapter(addressAdapter);
                     addressAdapter.setAddress(cna_addressInfos);
