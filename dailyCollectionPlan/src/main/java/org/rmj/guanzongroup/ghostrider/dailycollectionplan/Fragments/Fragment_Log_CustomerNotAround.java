@@ -107,13 +107,11 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
         mViewModel.getCNA_AddressDataList().observe(getViewLifecycleOwner(), cna_addressInfos -> {
             if (!cna_addressInfos.isEmpty()) {
                 try {
+                    int lnLastVal = cna_addressInfos.size()-1;
                     lnAddressx.setVisibility(View.VISIBLE);
-                    addressAdapter = new AddressInfoAdapter_Log(new AddressInfoAdapter_Log.OnFetchCoordinates() {
-                        @Override
-                        public void callBack(String fLatitude, String fLongitud) {
-                            txtCoord.setText("@" + fLatitude + "," + fLongitud);
-                        }
-                    });
+                    txtCoord.setText("@" + cna_addressInfos.get(lnLastVal).nLatitude
+                            + "," + cna_addressInfos.get(lnLastVal).nLongitud);
+                    addressAdapter = new AddressInfoAdapter_Log();
                     rvAddress.setAdapter(addressAdapter);
                     addressAdapter.setAddress(cna_addressInfos);
                 } catch (Exception e) {
