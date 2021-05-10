@@ -84,7 +84,10 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
         mViewModel.getCNA_MobileDataList().observe(getViewLifecycleOwner(), cna_mobileInfos -> {
             if (!cna_mobileInfos.isEmpty()) {
                 try {
+                    int lnLastVal = cna_mobileInfos.size()-1;
                     lnMobilenox.setVisibility(View.VISIBLE);
+                    txtCoord.setText("@" + cna_mobileInfos.get(lnLastVal).nLatitude +
+                            "," + cna_mobileInfos.get(lnLastVal).nLongitud);
                     mobileAdapter = new MobileInfoAdapter_Log(new MobileInfoAdapter_Log.OnItemInfoClickListener() {
                         @Override
                         public void OnDelete(int position) {
