@@ -120,6 +120,11 @@ public class VMApplicationHistory extends AndroidViewModel {
         new UploadImageFileTask(instance, foImage).execute(foImage.getSourceNo());
     }
 
+    public String getApplicantPhoto() {
+        // TODO: Create AsyncTask to return image path
+        return null;
+    }
+
     @SuppressLint("StaticFieldLeak")
     private class UploadImageFileTask extends AsyncTask<String, Void, String>{
         private final Application instance;

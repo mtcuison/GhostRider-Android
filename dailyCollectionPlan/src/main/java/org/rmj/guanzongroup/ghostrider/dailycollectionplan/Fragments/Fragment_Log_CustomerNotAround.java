@@ -45,7 +45,7 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
     private MobileInfoAdapter_Log mobileAdapter;
     private AddressInfoAdapter_Log addressAdapter;
     private DialogDisplayImage poDialogx;
-    private TextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo, txtTransTp;
+    private TextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo, txtTransTp, txtCoord;
     private RecyclerView rvMobileNox, rvAddress;
     private ImageView ivTransImage;
     private LinearLayout lnMobilenox, lnAddressx;
@@ -84,7 +84,10 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
         mViewModel.getCNA_MobileDataList().observe(getViewLifecycleOwner(), cna_mobileInfos -> {
             if (!cna_mobileInfos.isEmpty()) {
                 try {
+                    int lnLastVal = cna_mobileInfos.size()-1;
                     lnMobilenox.setVisibility(View.VISIBLE);
+                    txtCoord.setText("@" + cna_mobileInfos.get(lnLastVal).nLatitude +
+                            "," + cna_mobileInfos.get(lnLastVal).nLongitud);
                     mobileAdapter = new MobileInfoAdapter_Log(new MobileInfoAdapter_Log.OnItemInfoClickListener() {
                         @Override
                         public void OnDelete(int position) {
@@ -107,7 +110,10 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
         mViewModel.getCNA_AddressDataList().observe(getViewLifecycleOwner(), cna_addressInfos -> {
             if (!cna_addressInfos.isEmpty()) {
                 try {
+                    int lnLastVal = cna_addressInfos.size()-1;
                     lnAddressx.setVisibility(View.VISIBLE);
+                    txtCoord.setText("@" + cna_addressInfos.get(lnLastVal).nLatitude
+                            + "," + cna_addressInfos.get(lnLastVal).nLongitud);
                     addressAdapter = new AddressInfoAdapter_Log();
                     rvAddress.setAdapter(addressAdapter);
                     addressAdapter.setAddress(cna_addressInfos);
@@ -125,6 +131,7 @@ public class Fragment_Log_CustomerNotAround extends Fragment {
         txtClientAddress = v.findViewById(R.id.txt_client_address);
         txtTransNo = v.findViewById(R.id.txt_transno);
         txtTransTp = v.findViewById(R.id.lbl_list_header);
+        txtCoord = v.findViewById(R.id.lbl_coordinates);
         lnMobilenox = v.findViewById(R.id.ln_mobileNox);
         lnAddressx = v.findViewById(R.id.ln_addressx);
         rvMobileNox = v.findViewById(R.id.rv_mobileNox);

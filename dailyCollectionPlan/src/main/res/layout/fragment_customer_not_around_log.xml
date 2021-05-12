@@ -163,6 +163,28 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginVertical="10dp"
                 android:layout_marginLeft="15dp"/>
+
+            <View
+                android:id="@+id/cv_divider"
+                android:layout_width="0dp"
+                android:layout_height="0.4dp"
+                android:background="@color/textColor_Black"
+                app:layout_constraintLeft_toRightOf="@id/iv_transaction_img"
+                app:layout_constraintBottom_toTopOf="@id/lbl_coordinates"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="3dp"/>
+            <TextView
+                android:id="@+id/lbl_coordinates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/textColor_Black"
+                android:textSize="11sp"
+                app:layout_constraintLeft_toRightOf="@id/iv_transaction_img"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginLeft="8dp"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

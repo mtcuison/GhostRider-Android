@@ -72,7 +72,9 @@ public interface DAddressRequest {
             " B.sBrgyName AS brgyName," +
             " P.sProvName AS provName," +
             " A.cPrimaryx AS addressPrimaryx," +
-            " A.sRemarksx AS addressRemarksx  " +
+            " A.sRemarksx AS addressRemarksx," +
+            " A.nLatitude," +
+            " A.nLongitud " +
             "FROM LR_DCP_Collection_Detail as C," +
             " Address_Update_Request as A ," +
             " Barangay_Info as B," +
@@ -95,6 +97,8 @@ public interface DAddressRequest {
         public String provName;
         public String addressPrimaryx;
         public String addressRemarksx;
+        public double nLatitude;
+        public double nLongitud;
     }
 
     class CustomerAddressInfo {
