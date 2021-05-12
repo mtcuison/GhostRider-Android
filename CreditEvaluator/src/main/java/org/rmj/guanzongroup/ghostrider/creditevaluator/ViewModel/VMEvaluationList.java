@@ -184,14 +184,14 @@ public class VMEvaluationList extends AndroidViewModel {
     private static class ImportApplicationInfoTask extends AsyncTask<JSONObject, Void, String> {
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
-        private final RCIEvaluation poCiEvalx;
+        private final RBranchLoanApplication poCiEvalx;
         private final ViewModelCallback callback;
         private final String Url;
 
         public ImportApplicationInfoTask(Application instance, String Url, ViewModelCallback callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
-            this.poCiEvalx = new RCIEvaluation(instance);
+            this.poCiEvalx = new RBranchLoanApplication(instance);
             this.callback = callback;
             this.Url = Url;
         }
@@ -251,12 +251,22 @@ public class VMEvaluationList extends AndroidViewModel {
 
         void saveDataToLocal(JSONObject foData) throws JSONException {
             Log.e(TAG + "saveDataToLocal()", foData.toString());
-            ECIEvaluation loDetail = new ECIEvaluation();
-
-//            collectionDetail.setAcctNmbr(foData.getString("sAcctNmbr"));
-//            collectionDetail.setFullName(foData.getString("xFullName"));
-//            collectionDetail.setIsDCPxxx("0");
-
+            EBranchLoanApplication loDetail = new EBranchLoanApplication();
+            loDetail.setTransNox(foData.getString("sTransNox"));
+            loDetail.setBranchCD(foData.getString("sBranchCd"));
+            loDetail.setTransact(foData.getString("dTransact"));
+            loDetail.setCredInvx(foData.getString("sCredInvx"));
+            loDetail.setCompnyNm(foData.getString("sCompnyNm"));
+            loDetail.setQMAppCde(foData.getString("sQMAppCde"));
+            loDetail.setDownPaym(foData.getString("nDownPaym"));
+            loDetail.setCreatedX(foData.getString("sCreatedx"));
+            loDetail.setTranStat(foData.getString("cTranStat"));
+            loDetail.setTimeStmp(foData.getString("dTimeStmp"));
+            loDetail.setSpouseNm(foData.getString("sSpouseNm"));
+            loDetail.setAddressx(foData.getString("sAddressx"));
+            loDetail.setModelNme(foData.getString("sModelNme"));
+            loDetail.setAcctTerm(foData.getString("nAcctTerm"));
+            loDetail.setMobileNo(foData.getString("sMobileNo"));
             poCiEvalx.insertCiApplication(loDetail);
         }
     }
