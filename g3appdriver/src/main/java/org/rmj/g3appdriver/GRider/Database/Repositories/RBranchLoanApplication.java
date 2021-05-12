@@ -20,6 +20,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCIEvaluation;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
@@ -39,6 +41,10 @@ public class RBranchLoanApplication {
         this.application = application;
         GGC_GriderDB database = GGC_GriderDB.getInstance(application);
         this.docsDao = GGC_GriderDB.getInstance(application).CreditAppDocsDao();
+    }
+
+    public void insertCiApplication(EBranchLoanApplication ciApplication){
+       docsDao.insert(ciApplication);
     }
 
     public boolean insertBranchApplicationInfos(JSONArray faJson) throws Exception {
@@ -89,6 +95,19 @@ public class RBranchLoanApplication {
     public void insertNewLoanApplication(EBranchLoanApplication loanApplication){
         docsDao.insertNewApplication(loanApplication);
 
+    }
+
+    private static class InsertTask extends AsyncTask<EBranchLoanApplication, Void, Void>{
+        private final DBranchLoanApplication dao;
+        public InsertTask(DBranchLoanApplication dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(EBranchLoanApplication... onlineCi) {
+            dao.insert(onlineCi[0]);
+            return null;
+        }
     }
 
 

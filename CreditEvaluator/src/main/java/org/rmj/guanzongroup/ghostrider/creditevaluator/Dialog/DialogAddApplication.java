@@ -52,12 +52,11 @@ public class DialogAddApplication {
         Button btnCancel = view.findViewById(R.id.btn_cancel);
 
         btnDownLoad.setOnClickListener(view1 -> {
-            GToast.CreateMessage(context, "Add application under development", GToast.INFORMATION).show();
-//            if(txtTransN.getText().toString().trim().isEmpty()) {
-//                GToast.CreateMessage(context, "Please enter transaction number.", GToast.WARNING).show();
-//            } else {
-//                listener.OnDownloadClick(poDialogx, txtTransN.getText().toString());
-//            }
+            if(txtTransN.getText().toString().trim().isEmpty()) {
+                GToast.CreateMessage(context, "Please enter transaction number.", GToast.WARNING).show();
+            } else {
+                listener.OnDownloadClick(poDialogx, txtTransN.getText().toString());
+            }
         });
 
         btnCancel.setOnClickListener(view12 -> listener.OnCancel(poDialogx));
