@@ -104,20 +104,6 @@ public class RBranchLoanApplication {
 
     }
 
-    private static class InsertTask extends AsyncTask<EBranchLoanApplication, Void, Void>{
-        private final DBranchLoanApplication dao;
-        public InsertTask(DBranchLoanApplication dao) {
-            this.dao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(EBranchLoanApplication... onlineCi) {
-            dao.insert(onlineCi[0]);
-            return null;
-        }
-    }
-
-
     private static class InsertBulkBranchApplicationListAsyncTask extends AsyncTask<List<EBranchLoanApplication>, Void, Void> {
         private DBranchLoanApplication detailDao;
 
