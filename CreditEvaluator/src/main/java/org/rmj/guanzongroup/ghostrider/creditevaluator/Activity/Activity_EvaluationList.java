@@ -119,6 +119,31 @@ public class Activity_EvaluationList extends AppCompatActivity implements ViewMo
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void OnStartSaving() {
+        poDialogx.initDialog("Add Application", "Downloading client info. Please wait...", false);
+        poDialogx.show();
+    }
+
+    @Override
+    public void OnSuccessResult(String[] args) {
+        poDialogx.dismiss();
+        poMessage.initDialog();
+        poMessage.setTitle("Add Application");
+        poMessage.setMessage(args[0]);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
+    }
+
+    @Override
+    public void OnFailedResult(String message) {
+        poDialogx.dismiss();
+        poMessage.initDialog();
+        poMessage.setTitle("Add Application");
+        poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
+    }
 
     @Override
     public void onSuccessImport() {
@@ -227,18 +252,4 @@ public class Activity_EvaluationList extends AppCompatActivity implements ViewMo
         });
     }
 
-    @Override
-    public void OnStartSaving() {
-
-    }
-
-    @Override
-    public void OnSuccessResult(String[] args) {
-
-    }
-
-    @Override
-    public void OnFailedResult(String message) {
-
-    }
 }

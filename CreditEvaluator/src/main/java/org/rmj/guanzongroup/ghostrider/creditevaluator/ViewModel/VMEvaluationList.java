@@ -209,12 +209,22 @@ public class VMEvaluationList extends AndroidViewModel {
             try{
                 if(conn.isDeviceConnected()) {
                     response = WebClient.httpsPostJSon(Url, strings[0].toString(), headers.getHeaders());
+                    Log.e(TAG+" API Response", response);
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
                          JSONArray arDetail = jsonResponse.getJSONArray("detail");
                          JSONObject detailx = arDetail.getJSONObject(0);
-                         saveDataToLocal(detailx);
+                         boolean isInserted = saveDataToLocal(detailx);
+                         if(!isInserted) {
+                             Log.e("isInserted?", "NO");
+                             JSONObject jError = new JSONObject();
+                             jError.put("result", "error");
+                             JSONObject jMsg = new JSONObject();
+                             jMsg.put("message", "Application already exist.");
+                             jError.put("error", jMsg);
+                             response = jError.toString();
+                         }
                         Log.e(TAG+" Before Extract", jsonResponse.toString());
                     }
                 } else {
@@ -238,6 +248,7 @@ public class VMEvaluationList extends AndroidViewModel {
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     String message = loError.getString("message");
+                    Log.e("Error Result",  loError.getString("message"));
                     callback.OnFailedResult(message);
                 }
             } catch (JSONException e) {
@@ -249,7 +260,7 @@ public class VMEvaluationList extends AndroidViewModel {
             }
         }
 
-        void saveDataToLocal(JSONObject foData) throws JSONException {
+        boolean saveDataToLocal(JSONObject foData) throws JSONException {
             Log.e(TAG + "saveDataToLocal()", foData.toString());
             EBranchLoanApplication loDetail = new EBranchLoanApplication();
             loDetail.setTransNox(foData.getString("sTransNox"));
@@ -267,7 +278,7 @@ public class VMEvaluationList extends AndroidViewModel {
             loDetail.setModelNme(foData.getString("sModelNme"));
             loDetail.setAcctTerm(foData.getString("nAcctTerm"));
             loDetail.setMobileNo(foData.getString("sMobileNo"));
-            poCiEvalx.insertCiApplication(loDetail);
+            return poCiEvalx.insertCiApplication(loDetail);
         }
     }
 
