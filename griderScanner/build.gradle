@@ -82,4 +82,6 @@ dependencies {
     implementation project(':notifications')
     implementation project(':appdriver') //implement GhostRider Application Driver
     implementation project(':settings')
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
 }

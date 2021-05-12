@@ -86,8 +86,8 @@ public class VMEvaluationList extends AndroidViewModel {
         JSONObject loJson = new JSONObject();
         try {
             loJson.put("bycode", false);
-            loJson.put("value","");
-            new ImportBranchApplications(instance, callBack).execute(loJson);
+            loJson.put("value","M02407000479");
+            new ImportCIApplications(instance, callBack).execute(loJson);
 //            loJson.put("value", empBrnCD);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -121,14 +121,14 @@ public class VMEvaluationList extends AndroidViewModel {
     }
 
 
-    private static class ImportBranchApplications extends AsyncTask<JSONObject, Void, String> {
+    private static class ImportCIApplications extends AsyncTask<JSONObject, Void, String> {
         private final HttpHeaders headers;
         private final RBranchLoanApplication brnRepo;
         private final ConnectionUtil conn;
         private final WebApi webApi;
         private final OnImportCallBack callback;
 
-        public ImportBranchApplications(Application instance,  OnImportCallBack callback) {
+        public ImportCIApplications(Application instance,  OnImportCallBack callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.brnRepo = new RBranchLoanApplication(instance);
             this.conn = new ConnectionUtil(instance);
@@ -173,8 +173,8 @@ public class VMEvaluationList extends AndroidViewModel {
             super.onPostExecute(s);
             try {
                 JSONObject loJson = new JSONObject(s);
-                Log.e(TAG, loJson.getString("result"));
                 String lsResult = loJson.getString("result");
+                Log.e(TAG, loJson.getString("result"));
                 if(lsResult.equalsIgnoreCase("success")){
                     callback.onSuccessImport();
                 } else {

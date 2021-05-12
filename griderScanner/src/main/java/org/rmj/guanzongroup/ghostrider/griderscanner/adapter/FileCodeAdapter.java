@@ -129,7 +129,7 @@ public class FileCodeAdapter extends RecyclerView.Adapter<FileCodeAdapter.FileCo
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    DialogImagePreview loDialog = new DialogImagePreview(mContext, bitmap,lbl_fileDsc.getText().toString());
+                    DialogImagePreview loDialog = new DialogImagePreview(mContext, bitmap,documentsInfo.get(position).sBriefDsc);
                     loDialog.initDialog(new DialogImagePreview.OnDialogButtonClickListener() {
                         @Override
                         public void OnCancel(Dialog Dialog) {

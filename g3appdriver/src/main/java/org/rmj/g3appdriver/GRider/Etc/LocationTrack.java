@@ -144,6 +144,7 @@ public class LocationTrack extends Service implements LocationListener {
                     if (loc != null) {
                         latitude = loc.getLatitude();
                         longitude = loc.getLongitude();
+
                         geoAddress(latitude, longitude);
                     }
                 }
