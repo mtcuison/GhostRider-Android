@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Activity_EvaluationList extends AppCompatActivity implements ViewModelCallback, VMEvaluationList.OnImportCallBack {
+public class Activity_EvaluationList extends AppCompatActivity implements VMEvaluationList.OnImportCallBack {
     private static final String TAG = Activity_EvaluationList.class.getSimpleName();
     private RecyclerView recyclerViewClient;
     private VMEvaluationList mViewModel;
@@ -103,7 +103,34 @@ public class Activity_EvaluationList extends AppCompatActivity implements ViewMo
                 loDialog.initDialog(new DialogAddApplication.OnDialogButtonClickListener() {
                     @Override
                     public void OnDownloadClick(Dialog Dialog, String args) {
-                        mViewModel.importApplicationInfo(args, Activity_EvaluationList.this);
+                        mViewModel.importApplicationInfo(args, new ViewModelCallback() {
+                            @Override
+                            public void OnStartSaving() {
+                                poDialogx.initDialog("Add Application", "Downloading client info. Please wait...", false);
+                                poDialogx.show();
+                            }
+
+                            @Override
+                            public void OnSuccessResult(String[] args) {
+                                Dialog.dismiss();
+                                poDialogx.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Add Application");
+                                poMessage.setMessage(args[0]);
+                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
+
+                            @Override
+                            public void OnFailedResult(String message) {
+                                poDialogx.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Add Application");
+                                poMessage.setMessage(message);
+                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
+                        });
                     }
 
                     @Override
@@ -118,7 +145,6 @@ public class Activity_EvaluationList extends AppCompatActivity implements ViewMo
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onSuccessImport() {
@@ -227,18 +253,4 @@ public class Activity_EvaluationList extends AppCompatActivity implements ViewMo
         });
     }
 
-    @Override
-    public void OnStartSaving() {
-
-    }
-
-    @Override
-    public void OnSuccessResult(String[] args) {
-
-    }
-
-    @Override
-    public void OnFailedResult(String message) {
-
-    }
 }

@@ -12,6 +12,7 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
@@ -43,8 +44,14 @@ public class RBranchLoanApplication {
         this.docsDao = GGC_GriderDB.getInstance(application).CreditAppDocsDao();
     }
 
-    public void insertCiApplication(EBranchLoanApplication ciApplication){
-       docsDao.insert(ciApplication);
+    public boolean insertCiApplication(EBranchLoanApplication ciApplication){
+        try {
+            docsDao.insert(ciApplication);
+            return true;
+        } catch (SQLiteConstraintException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean insertBranchApplicationInfos(JSONArray faJson) throws Exception {
@@ -96,20 +103,6 @@ public class RBranchLoanApplication {
         docsDao.insertNewApplication(loanApplication);
 
     }
-
-    private static class InsertTask extends AsyncTask<EBranchLoanApplication, Void, Void>{
-        private final DBranchLoanApplication dao;
-        public InsertTask(DBranchLoanApplication dao) {
-            this.dao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(EBranchLoanApplication... onlineCi) {
-            dao.insert(onlineCi[0]);
-            return null;
-        }
-    }
-
 
     private static class InsertBulkBranchApplicationListAsyncTask extends AsyncTask<List<EBranchLoanApplication>, Void, Void> {
         private DBranchLoanApplication detailDao;
