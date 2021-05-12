@@ -30,18 +30,21 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationList;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Dialog.DialogCIReason;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CharacterTraitsInfoModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCICharacteristics;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMEvaluationList;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 
 import static org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder.APP_SYNC_DATA;
 
-public class Fragment_CICharacterTraits extends Fragment implements ViewModelCallBack {
+public class Fragment_CICharacterTraits extends Fragment implements ViewModelCallBack, VMCICharacteristics.OnPostCallBack {
 
     private static final String TAG = Fragment_CICharacterTraits.class.getSimpleName();
     private VMCICharacteristics mViewModel;
@@ -59,6 +62,7 @@ public class Fragment_CICharacterTraits extends Fragment implements ViewModelCal
 
     private CharacterTraitsInfoModel infoModel;
     private MessageBox poMessage;
+    private LoadDialog poDialogx;
     public static Fragment_CICharacterTraits newInstance() {
         return new Fragment_CICharacterTraits();
     }
@@ -68,6 +72,7 @@ public class Fragment_CICharacterTraits extends Fragment implements ViewModelCal
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_ci_character_traits, container, false);
         poMessage = new MessageBox(getContext());
+        poDialogx = new LoadDialog(getActivity());
         initWidgets(root);
         initClientInfo();
         return root;
@@ -132,7 +137,7 @@ public class Fragment_CICharacterTraits extends Fragment implements ViewModelCal
         // TODO: Use the ViewModel
 
     }
-    public void initData(ECIEvaluation eciEvaluation){
+    public void  initData(ECIEvaluation eciEvaluation){
         cbGambler.setChecked(false);
         cbWomanizer.setChecked(false);
         cbHeavyBrrw.setChecked(false);
@@ -197,6 +202,37 @@ public class Fragment_CICharacterTraits extends Fragment implements ViewModelCal
         });
         poMessage.show();
     }
+
+    @Override
+    public void onStartPost() {
+        poDialogx.initDialog("CI Evaluation List", "Posting data to server. Please wait...", false);
+        poDialogx.show();
+    }
+
+    @Override
+    public void onSuccessPost(String message) {
+        poDialogx.dismiss();
+        poDialogx.dismiss();
+        poMessage.initDialog();
+        poMessage.setTitle("CI Evaluation List");
+        poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+            dialog.dismiss();
+            getActivity().finish();
+        });
+        poMessage.show();
+    }
+
+    @Override
+    public void onPostFailed(String message) {
+        poDialogx.dismiss();
+        poMessage.initDialog();
+        poMessage.setTitle("CI Evaluation List");
+        poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
+    }
+
     class OnCharacterTraitSelectionListener implements CheckBox.OnCheckedChangeListener{
 
         View cbView;

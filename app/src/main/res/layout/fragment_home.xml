@@ -201,8 +201,8 @@
                             android:background="?android:attr/windowBackground"
                             app:itemBackground="@color/material_lightgrey"
                             android:foreground="?attr/selectableItemBackground"
-                            app:itemIconTint="@color/textColor_Black"
-                            app:itemTextColor="@color/textColor_Black"
+                            app:itemIconTint="@color/color_nav_dashboard"
+                            app:itemTextColor="@color/color_nav_dashboard"
                             app:menu="@menu/nav_dashboard" />
                     </LinearLayout>
                 </LinearLayout>

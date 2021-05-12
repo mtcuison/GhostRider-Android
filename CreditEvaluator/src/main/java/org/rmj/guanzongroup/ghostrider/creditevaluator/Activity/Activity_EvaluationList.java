@@ -66,7 +66,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements ViewMo
         setContentView(R.layout.activity_evaluation_list);
         initWidgets();
         mViewModel = new ViewModelProvider(Activity_EvaluationList.this).get(VMEvaluationList.class);
-//        mViewModel.ImportCIApplications(Activity_EvaluationList.this);
+        mViewModel.ImportCIApplications(Activity_EvaluationList.this);
         initData();
 
     }

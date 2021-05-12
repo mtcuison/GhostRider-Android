@@ -13,13 +13,12 @@ package org.rmj.guanzongroup.ghostrider.griderscanner.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -73,6 +72,13 @@ public class DialogImagePreview {
 
 
         btnCancel.setOnClickListener(view1 -> listener.OnCancel(poDialogx));
+////        imgPreview.setOnClickListener(new View.OnClickListener() {
+////            @Override
+////            public void onClick(View v) {
+////                Intent intent = new Intent(context, ImageMap.class);
+////                context.startActivity(intent);
+////            }
+//        });
     }
 
     public void show(){

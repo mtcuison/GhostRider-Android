@@ -65,4 +65,6 @@
 
     <color name="branch_opening_late">#F86060</color>
     <color name="branch_opening">#f2f2f2</color>
+
+    <color name="color_nav_dashboard">#575757</color>
 </resources>
