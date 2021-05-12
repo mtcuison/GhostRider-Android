@@ -103,11 +103,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements ViewMo
                 loDialog.initDialog(new DialogAddApplication.OnDialogButtonClickListener() {
                     @Override
                     public void OnDownloadClick(Dialog Dialog, String args) {
-                        GToast.CreateMessage(Activity_EvaluationList.this,
-                                "Add Application is under development.",
-                                GToast.INFORMATION).show();
-                         // TODO: import single application
-                        mViewModel.importApplicationInfo("fsTransNo", Activity_EvaluationList.this);
+                        mViewModel.importApplicationInfo(args, Activity_EvaluationList.this);
                     }
 
                     @Override
