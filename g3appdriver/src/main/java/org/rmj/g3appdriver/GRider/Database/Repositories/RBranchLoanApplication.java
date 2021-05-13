@@ -14,6 +14,7 @@ package org.rmj.g3appdriver.GRider.Database.Repositories;
 import android.app.Application;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCIEvaluation;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplication;
@@ -34,7 +36,6 @@ import java.util.List;
 public class RBranchLoanApplication {
     private static final String TAG = RBranchLoanApplication.class.getSimpleName();
     private final DBranchLoanApplication docsDao;
-
     private final Application application;
     private LiveData<List<EBranchLoanApplication>> branchCreditApplication;
 
@@ -75,6 +76,8 @@ public class RBranchLoanApplication {
                 loanInfo.setCreatedX(loJson.getString("sCreatedx"));
                 loanInfo.setTranStat(loJson.getString("cTranStat"));
                 loanInfo.setTimeStmp(loJson.getString("dTimeStmp"));
+                loanInfo.setCiTransTat(loJson.getString("ciTransTat"));
+
                 loanApplications.add(loanInfo);
             }
             docsDao.insertBulkData(loanApplications);
@@ -94,7 +97,12 @@ public class RBranchLoanApplication {
     public LiveData<List<EBranchLoanApplication>> getAllCICreditApplicationLog(){
         return docsDao.getAllCICreditApplicationLog();
     }
-
+    public LiveData<ECIEvaluation> getCITransTat(String TransNox){
+        return docsDao.getCITransTat(TransNox);
+    }
+    public void updateCiTransTat(String transNox){
+        new updateCiTranStat(docsDao).execute(transNox);
+    }
     public void insertDetailBulkData(List<EBranchLoanApplication> eBranchLoanApplications){
         new InsertBulkBranchApplicationListAsyncTask(docsDao).execute(eBranchLoanApplications);
     }
@@ -129,5 +137,19 @@ public class RBranchLoanApplication {
         }
         loConn = null;
         return lsTransNox;
+    }
+    private static class updateCiTranStat extends AsyncTask<String, Void, String>{
+        private final DBranchLoanApplication ciDao;
+        public updateCiTranStat(DBranchLoanApplication documentsDao) {
+            this.ciDao = documentsDao;
+        }
+
+        @Override
+        protected String doInBackground(String... transNox) {
+            if (ciDao.getDuplicateTransNox(transNox[0]).size()>0){
+                ciDao.updateTranStatByTransNox(transNox[0]);
+            }
+            return null;
+        }
     }
 }

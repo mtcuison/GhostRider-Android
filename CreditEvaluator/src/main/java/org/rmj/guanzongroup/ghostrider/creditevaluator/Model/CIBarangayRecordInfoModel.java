@@ -48,7 +48,8 @@ public class CIBarangayRecordInfoModel {
         return isNeighbr1() &&
                 isReltnCD1() &&
                 isMobileN1() &&
-                isFeedBck1();
+                isFeedBck1() &&
+                isFBRemrk1();
     }
     private boolean isNeighbr1(){
         if (this.Neighbr1 == null || this.Neighbr1.trim().isEmpty()){
@@ -75,10 +76,6 @@ public class CIBarangayRecordInfoModel {
         if (this.FeedBck1 == null || this.FeedBck1.trim().isEmpty()){
             message = "Please select neighbor 1 feedback.";
             return false;
-        }else {
-            if(Integer.parseInt(this.FeedBck1) == 1){
-                return isFBRemrk1();
-            }
         }
         return true;
     }
@@ -95,7 +92,8 @@ public class CIBarangayRecordInfoModel {
         return isNeighbr2() &&
                 isReltnCD2() &&
                 isMobileN2() &&
-                isFeedBck2();
+                isFeedBck2()&&
+                isFBRemrk2();
     }
     private boolean isNeighbr2(){
         if (this.Neighbr2 == null || this.Neighbr2.trim().isEmpty()){
@@ -122,10 +120,6 @@ public class CIBarangayRecordInfoModel {
         if (this.FeedBck2 == null || this.FeedBck2.trim().isEmpty()){
             message = "Please select neighbor 2 feedback.";
             return false;
-        }else {
-            if(Integer.parseInt(this.FeedBck2) == 1){
-                return isFBRemrk2();
-            }
         }
         return true;
     }
@@ -144,7 +138,8 @@ public class CIBarangayRecordInfoModel {
         return isNeighbr3() &&
                 isReltnCD3() &&
                 isMobileN3() &&
-                isFeedBck3();
+                isFeedBck3() &&
+                isFBRemrk3();
     }
     private boolean isNeighbr3(){
         if (this.Neighbr3 == null || this.Neighbr3.trim().isEmpty()){
@@ -171,10 +166,6 @@ public class CIBarangayRecordInfoModel {
         if (this.FeedBck3 == null || this.FeedBck3.trim().isEmpty()){
             message = "Please select neighbor 3 feedback.";
             return false;
-        }else {
-            if(Integer.parseInt(this.FeedBck3) == 1){
-                return isFBRemrk3();
-            }
         }
         return true;
     }

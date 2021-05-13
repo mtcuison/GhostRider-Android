@@ -44,16 +44,15 @@
                 android:layout_weight="2"/>
 
             <TextView
-                android:id="@+id/lbl_status"
+                android:id="@+id/lbl_ci_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/check_green"
+                android:textColor="@color/guanzon_orange"
                 android:textSize="16sp"
-                android:text="Sent"
-                android:visibility="gone"/>
+                android:text="Open"/>
         </LinearLayout>
 
         <View

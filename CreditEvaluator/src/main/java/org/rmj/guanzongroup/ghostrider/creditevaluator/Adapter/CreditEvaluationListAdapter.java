@@ -56,7 +56,7 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
     @NonNull
     @Override
     public CreditEvaluationListAdapter.CreditEvaluationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.e(TAG, String.valueOf(viewType));
+//        Log.e(TAG, String.valueOf(viewType));
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.credit_app_list, parent, false);
         return new CreditEvaluationListAdapter.CreditEvaluationViewHolder(view,onApplicationClickListener);
     }
@@ -70,6 +70,7 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
         holder.lblAppltnDate.setText(poLoan.getdTransact());
         holder.lblMobileNo.setText(poLoan.getsMobileNo());
         holder.lblAccountTerm.setText(poLoan.getnAcctTerm());
+        holder.lblModelName.setText(poLoan.getsModelNme());
         holder.lblModelName.setText(poLoan.getsModelNme());
         holder.lblDownPayment.setText("Php " + poLoan.getnDownPaym());
     }
@@ -92,6 +93,7 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
 
         TextView lblModelName;
         TextView lblDownPayment;
+        TextView lblCIStats;
 
         public CreditEvaluationViewHolder(@NonNull View itemView, CreditEvaluationListAdapter.OnApplicationClickListener onApplicationClickListener) {
             super(itemView);
@@ -103,6 +105,7 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
             lblMobileNo = itemView.findViewById(R.id.lbl_ci_mobileNo);
             lblModelName = itemView.findViewById(R.id.lbl_ci_modelName);
             lblDownPayment = itemView.findViewById(R.id.lbl_ci_downPayment);
+            lblCIStats = itemView.findViewById(R.id.lbl_ci_status);
 
 
             itemView.setOnClickListener(v12 -> {

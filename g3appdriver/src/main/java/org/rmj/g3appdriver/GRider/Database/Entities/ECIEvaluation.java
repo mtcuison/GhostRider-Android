@@ -16,7 +16,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "CI_Evaluation")
+@Entity(tableName = "Credit_Online_Application_CI")
 public class ECIEvaluation {
 
     @PrimaryKey
