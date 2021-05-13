@@ -164,7 +164,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Feedback"
-                            android:visibility="gone"
                             style="@style/TextInputStyle">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -294,7 +293,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Feedback"
-                            android:visibility="gone"
                             style="@style/TextInputStyle">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -424,7 +422,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Feedback"
-                            android:visibility="gone"
                             style="@style/TextInputStyle">
 
                             <com.google.android.material.textfield.TextInputEditText

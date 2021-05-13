@@ -161,6 +161,7 @@ public class VMCIResidenceInfo extends AndroidViewModel {
                     loDetail.setOwnOther(infoModel.getOwnOther());
                     loDetail.setHouseTyp(infoModel.getHouseTyp());
                     loDetail.setGaragexx(infoModel.getGaragexx());
+                    loDetail.setHasOther(infoModel.getHasOthers());
                     loDetail.setLatitude(infoModel.getLatitude());
                     loDetail.setLongitud(infoModel.getLongitud());
                     poCIEvaluation.updateCiResidences(loDetail);

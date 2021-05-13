@@ -51,7 +51,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
     private static final String TAG = Fragment_CIResidenceInfo.class.getSimpleName();
     private VMCIResidenceInfo mViewModel;
     private TextInputEditText tieLandmark;
-    private RadioGroup rgHouseOwnership,rgHouseType,rgHouseHolds,rgGarage;
+    private RadioGroup rgHouseOwnership,rgHouseType,rgHouseHolds,rgGarage, rgHasOthers;
     private MaterialButton btnNext;
     private CIResidenceInfoModel residenceInfo;
     private MessageBox poMessage;
@@ -151,16 +151,26 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                     }
                 }
 //                Has Garage
-               if (eciEvaluation.getGaragexx() != null){
-                   for(int i = 0; i < rgGarage.getChildCount(); i++){
-                       ((RadioButton)rgGarage.getChildAt(i)).setClickable(false);
-                   }
-                   if(eciEvaluation.getGaragexx().equalsIgnoreCase("1")){
-                       rgGarage.check(R.id.rb_ci_yes);
-                   }else if(eciEvaluation.getGaragexx().equalsIgnoreCase("0")){
-                       rgGarage.check(R.id.rb_ci_no);
-                   }
-               }
+                if (eciEvaluation.getGaragexx() != null){
+                    for(int i = 0; i < rgGarage.getChildCount(); i++){
+                        ((RadioButton)rgGarage.getChildAt(i)).setClickable(false);
+                    }
+                    if(eciEvaluation.getGaragexx().equalsIgnoreCase("1")){
+                        rgGarage.check(R.id.rb_ci_yes);
+                    }else if(eciEvaluation.getGaragexx().equalsIgnoreCase("0")){
+                        rgGarage.check(R.id.rb_ci_no);
+                    }
+                }
+                if (eciEvaluation.getHasOther() != null){
+                    for(int i = 0; i < rgHasOthers.getChildCount(); i++){
+                        ((RadioButton)rgHasOthers.getChildAt(i)).setClickable(false);
+                    }
+                    if(eciEvaluation.getGaragexx().equalsIgnoreCase("1")){
+                        rgHasOthers.check(R.id.rb_ci_hasOthers_yes);
+                    }else if(eciEvaluation.getGaragexx().equalsIgnoreCase("0")){
+                        rgHasOthers.check(R.id.rb_ci_hasOthers_no);
+                    }
+                }
                 if(eciEvaluation.getLatitude() != null){
                     residenceInfo.setLatitude(eciEvaluation.getLatitude());
                 }
@@ -172,6 +182,14 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
             }else {
                 ECIEvaluation eciEvaluation1 = new ECIEvaluation();
                 eciEvaluation1.setTransNox(Activity_CIApplication.getInstance().getTransNox());
+
+                eciEvaluation1.setWaterBil("0.00");
+                eciEvaluation1.setElctrcBl("0.00");
+                eciEvaluation1.setFoodAllw("0.00");
+                eciEvaluation1.setLoanAmtx("0.00");
+                eciEvaluation1.setEducExpn("0.00");
+                eciEvaluation1.setOthrExpn("0.00");
+
                 eciEvaluation1.setTranStat("0");
                 eciEvaluation1.setGamblerx("0");
                 eciEvaluation1.setWomanizr("0");
@@ -187,6 +205,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
         rgHouseType.setOnCheckedChangeListener(new OnCIHouseSelectionListener(rgHouseType,mViewModel));
         rgHouseHolds.setOnCheckedChangeListener(new OnCIHouseSelectionListener(rgHouseHolds,mViewModel));
         rgGarage.setOnCheckedChangeListener(new OnCIHouseSelectionListener(rgGarage,mViewModel));
+        rgHasOthers.setOnCheckedChangeListener(new OnCIHouseSelectionListener(rgHasOthers,mViewModel));
         btnNext.setOnClickListener(v -> {
             submitResidence();
         });
@@ -204,6 +223,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
         rgHouseOwnership = view.findViewById(R.id.rg_ci_ownership);
         rgHouseType = view.findViewById(R.id.rg_ci_houseType);
         rgGarage = view.findViewById(R.id.rg_ci_garage);
+        rgHasOthers = view.findViewById(R.id.rg_ci_hasOthers);
         btnNext = view.findViewById(R.id.btn_ciAppNext);
 
     }
@@ -316,6 +336,14 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                 }
                 else if(checkedId == R.id.rb_ci_no) {
                     residenceInfo.setGaragexx("0");
+                }
+            }
+            if(rbView.getId() == R.id.rg_ci_hasOthers){
+                if(checkedId == R.id.rb_ci_hasOthers_yes) {
+                    residenceInfo.setHasOthers("1");
+                }
+                else if(checkedId == R.id.rb_ci_hasOthers_no) {
+                    residenceInfo.setHasOthers("0");
                 }
             }
         }

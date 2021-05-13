@@ -178,12 +178,12 @@ public class VMCICharacteristics extends AndroidViewModel {
                         loJSON.put("sMobileN3", loDetail.getMobileN3());
                         loJSON.put("cFeedBck3", loDetail.getFeedBck3());
                         loJSON.put("sFBRemrk3", loDetail.getFBRemrk3());
-                        loJSON.put("nWaterBil", Integer.parseInt(loDetail.getWaterBil().replace(",", "")));
-                        loJSON.put("nElctrcBl", Integer.parseInt(loDetail.getElctrcBl().replace(",", "")));
-                        loJSON.put("nFoodAllw", Integer.parseInt(loDetail.getFoodAllw().replace(",", "")));
-                        loJSON.put("nLoanAmtx", Integer.parseInt(loDetail.getLoanAmtx().replace(",", "")));
-                        loJSON.put("nEducExpn", Integer.parseInt(loDetail.getEducExpn().replace(",", "")));
-                        loJSON.put("nOthrExpn", Integer.parseInt(loDetail.getOthrExpn().replace(",", "")));
+                        loJSON.put("nWaterBil", Double.parseDouble(loDetail.getWaterBil().replace(",", "")));
+                        loJSON.put("nElctrcBl", Double.parseDouble(loDetail.getElctrcBl().replace(",", "")));
+                        loJSON.put("nFoodAllw", Double.parseDouble(loDetail.getFoodAllw().replace(",", "")));
+                        loJSON.put("nLoanAmtx", Double.parseDouble(loDetail.getLoanAmtx().replace(",", "")));
+                        loJSON.put("nEducExpn", Double.parseDouble(loDetail.getEducExpn().replace(",", "")));
+                        loJSON.put("nOthrExpn", Double.parseDouble(loDetail.getOthrExpn().replace(",", "")));
                         loJSON.put("cGamblerx", infoModel.getCbGambler());
                         loJSON.put("cWomanizr", infoModel.getCbWomanizer());
                         loJSON.put("cHvyBrwer", infoModel.getCbHeavyBrrw());

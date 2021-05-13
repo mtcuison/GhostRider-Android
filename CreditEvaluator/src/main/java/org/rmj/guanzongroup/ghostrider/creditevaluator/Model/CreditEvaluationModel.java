@@ -29,6 +29,16 @@ public class CreditEvaluationModel implements Serializable {
     private String nAcctTerm;
     private String cTranStat;
     private String dTimeStmp;
+    private String ciTranStat;
+
+    public String getCiTranStat() {
+        return ciTranStat;
+    }
+
+    public void setCiTranStat(String ciTranStat) {
+        this.ciTranStat = ciTranStat;
+    }
+
 
     private String IsWithCI;
     public CreditEvaluationModel() {

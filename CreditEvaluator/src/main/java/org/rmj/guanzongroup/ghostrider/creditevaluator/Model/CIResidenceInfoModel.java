@@ -19,6 +19,16 @@ public class CIResidenceInfoModel {
     String OwnOther;
     String HouseTyp;
     String Garagexx;
+
+    public String getHasOthers() {
+        return HasOthers;
+    }
+
+    public void setHasOthers(String hasOthers) {
+        HasOthers = hasOthers;
+    }
+
+    String HasOthers;
     String Latitude;
     String Longitud;
     String message;
@@ -31,6 +41,7 @@ public class CIResidenceInfoModel {
             isOtherOwner() &&
             isHouseTyp() &&
             isGaragexx() &&
+            isHasOthers() &&
             isLatLongg();
     }
 
@@ -65,6 +76,13 @@ public class CIResidenceInfoModel {
     private boolean isGaragexx(){
         if (this.Garagexx == null){
             message = "Please select if available house garage.";
+            return false;
+        }
+        return true;
+    }
+    private boolean isHasOthers(){
+        if (this.HasOthers == null){
+            message = "Please select if available other address or residence.";
             return false;
         }
         return true;
