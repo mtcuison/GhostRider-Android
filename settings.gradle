@@ -8,6 +8,8 @@
  * project file created : 4/24/21 3:19 PM
  * project file last modified : 4/24/21 3:18 PM
  */
+include ':imageMap'
+include ':map'
 
 include ':commons-codec-1.11'
 include ':settings'

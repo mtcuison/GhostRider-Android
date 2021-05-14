@@ -163,12 +163,42 @@ public class VMCIDisbursement extends AndroidViewModel {
         protected String doInBackground(ECIEvaluation... detail) {
             try {
                 ECIEvaluation loDetail = detail[0];
-                loDetail.setWaterBil(infoModel.getCiDbmWater());
-                loDetail.setElctrcBl(infoModel.getCiDbmElectricity());
-                loDetail.setFoodAllw(infoModel.getCiDbmFood());
-                loDetail.setLoanAmtx(infoModel.getCiDbmLoans());
-                loDetail.setEducExpn(infoModel.getCiDbmEducation());
-                loDetail.setOthrExpn(infoModel.getCiDbmOthers());
+                if(infoModel.getCiDbmWater() == null || infoModel.getCiDbmWater().isEmpty()){
+                    loDetail.setWaterBil("0.00");
+                }else{
+                    loDetail.setWaterBil(infoModel.getCiDbmWater());
+                }
+
+                if(infoModel.getCiDbmElectricity() == null || infoModel.getCiDbmElectricity().isEmpty()){
+                    loDetail.setElctrcBl("0.00");
+                }else{
+                    loDetail.setElctrcBl(infoModel.getCiDbmElectricity());
+                }
+
+                if(infoModel.getCiDbmFood() == null || infoModel.getCiDbmFood().isEmpty()){
+                    loDetail.setFoodAllw("0.00");
+                }else{
+                    loDetail.setFoodAllw(infoModel.getCiDbmFood());
+                }
+
+
+                if(infoModel.getCiDbmLoans() == null || infoModel.getCiDbmLoans().isEmpty()){
+                    loDetail.setLoanAmtx("0.00");
+                }else{
+                    loDetail.setLoanAmtx(infoModel.getCiDbmLoans());
+                }
+
+                if(infoModel.getCiDbmEducation() == null || infoModel.getCiDbmEducation().isEmpty()){
+                    loDetail.setEducExpn("0.00");
+                }else{
+                    loDetail.setEducExpn(infoModel.getCiDbmEducation());
+                }
+                if(infoModel.getCiDbmOthers() == null || infoModel.getCiDbmOthers().isEmpty()){
+                    loDetail.setOthrExpn("0.00");
+                }else{
+                    loDetail.setOthrExpn(infoModel.getCiDbmOthers());
+                }
+
                 poCIEvaluation.updateCiDisbursement(loDetail);
                 Log.e(TAG, "Disbursement info has been updated!");
                 return "success";

@@ -47,10 +47,21 @@ public class EBranchLoanApplication {
     private String AcctTerm;
     @ColumnInfo(name = "sCreatedx")
     private String CreatedX;
-    @ColumnInfo(name = "cTranStat")
-    private String TranStat;
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
+    @ColumnInfo(name = "cTranStat")
+    private String TranStat;
+
+    public String getCiTransTat() {
+        return CiTransTat;
+    }
+
+    public void setCiTransTat(String ciTransTat) {
+        CiTransTat = ciTransTat;
+    }
+
+    @ColumnInfo(name = "ciTransTat")
+    private String CiTransTat;
 
     public EBranchLoanApplication() {
     }

@@ -28,10 +28,12 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RCIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
@@ -41,6 +43,7 @@ import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.GRider.ImportData.Import_CreditAppList;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,13 +84,19 @@ public class VMEvaluationList extends AndroidViewModel {
     public LiveData<List<EBranchLoanApplication>> getCICreditApplication(){
         return poCreditApp.getCICreditApplication();
     }
+    public LiveData<ECIEvaluation> getCITransTat(String TransNox){
+        return poCreditApp.getCITransTat(TransNox);
+    }
+    public void updateCiTransTat(String transNox){
+        poCreditApp.updateCiTransTat(transNox);
+    }
     public void ImportCIApplications(OnImportCallBack callBack){
 
         JSONObject loJson = new JSONObject();
         try {
             loJson.put("bycode", false);
-            loJson.put("value","");
-            new ImportBranchApplications(instance, callBack).execute(loJson);
+            loJson.put("value","M02407000479");
+            new ImportCIApplications(instance, callBack).execute(loJson);
 //            loJson.put("value", empBrnCD);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -95,42 +104,30 @@ public class VMEvaluationList extends AndroidViewModel {
 
     }
 
-    public void importApplicationInfo(String fsTransNo, ViewModelCallback callback) {
-//        try{
-//            boolean lbExist = false;
-//            List<CIEntity> laDetail = evaluationList.getValue();
-//            if(laDetail.size() > 0) {
-//                for(int x = 0; x < laDetail.size(); x++){
-//                    if(fsAccntNox.equalsIgnoreCase(laDetail.get(x).getAcctNmbr())){
-//                        lbExist = true;
-//                    }
-//                }
-//                if(!lbExist) {
-//                    JSONObject loJson = new JSONObject();
-//                    loJson.put("sAcctNmbr", fsAccntNox);
-//                    new ImportApplicationInfoTask(instance, psTransNox.getValue(), WebApi.URL_GET_AR_CLIENT, callback).execute(loJson);
-//                } else {
-//                    callback.OnFailedResult("Account number is already exist in today's collection list.");
-//                }
-//            } else {
-//                callback.OnFailedResult("Please download or import collection detail before adding.");
-//            }
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
+    public void importApplicationInfo(String fsTransno, ViewModelCallback callback) {
+        try{
+            JSONObject param = new JSONObject();
+            param.put("value", fsTransno.trim());
+            param.put("bsearch", true);
+            new ImportApplicationInfoTask(instance, WebApi.URL_DOWNLOAD_CREDIT_ONLINE_APP, callback).execute(param);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
-    private static class ImportBranchApplications extends AsyncTask<JSONObject, Void, String> {
+    private class ImportCIApplications extends AsyncTask<JSONObject, Void, String> {
         private final HttpHeaders headers;
         private final RBranchLoanApplication brnRepo;
         private final ConnectionUtil conn;
         private final WebApi webApi;
         private final OnImportCallBack callback;
+        private final RBranchLoanApplication poCreditApp;
 
-        public ImportBranchApplications(Application instance,  OnImportCallBack callback) {
+        public ImportCIApplications(Application instance,  OnImportCallBack callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.brnRepo = new RBranchLoanApplication(instance);
+            this.poCreditApp = new RBranchLoanApplication(instance);
             this.conn = new ConnectionUtil(instance);
             this.webApi = new WebApi(instance);
             this.callback = callback;
@@ -153,6 +150,16 @@ public class VMEvaluationList extends AndroidViewModel {
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
                         JSONArray laJson = jsonResponse.getJSONArray("detail");
+                        for (int i = 0; i < laJson.length(); i++){
+                            JSONObject jsonObject = laJson.getJSONObject(i);
+//                            mViewModel.getCITransTat(ciList.get(x).getTransNox()).observe(Activity_EvaluationList.this, eciEvaluation->{
+//                                if (eciEvaluation != null){
+//                                    Log.e(TAG,"TransTat = " + eciEvaluation.getTranStat());
+//                                }
+//                            });
+                            jsonObject.put("ciTransTat", "0");
+
+                        }
                         if(!brnRepo.insertBranchApplicationInfos(laJson)){
                             response = AppConstants.ERROR_SAVING_TO_LOCAL();
                         }
@@ -173,8 +180,8 @@ public class VMEvaluationList extends AndroidViewModel {
             super.onPostExecute(s);
             try {
                 JSONObject loJson = new JSONObject(s);
-                Log.e(TAG, loJson.getString("result"));
                 String lsResult = loJson.getString("result");
+//                Log.e(TAG, loJson.getString("result"));
                 if(lsResult.equalsIgnoreCase("success")){
                     callback.onSuccessImport();
                 } else {
@@ -195,18 +202,16 @@ public class VMEvaluationList extends AndroidViewModel {
 
     private static class ImportApplicationInfoTask extends AsyncTask<JSONObject, Void, String> {
         private final HttpHeaders headers;
-        private final RDailyCollectionPlan dcpRepo;
         private final ConnectionUtil conn;
+        private final RBranchLoanApplication poCiEvalx;
         private final ViewModelCallback callback;
-        private final String sTransNox;
         private final String Url;
 
-        public ImportApplicationInfoTask(Application instance, String TransNox, String Url, ViewModelCallback callback) {
+        public ImportApplicationInfoTask(Application instance, String Url, ViewModelCallback callback) {
             this.headers = HttpHeaders.getInstance(instance);
-            this.dcpRepo = new RDailyCollectionPlan(instance);
             this.conn = new ConnectionUtil(instance);
+            this.poCiEvalx = new RBranchLoanApplication(instance);
             this.callback = callback;
-            this.sTransNox = TransNox;
             this.Url = Url;
         }
 
@@ -223,10 +228,23 @@ public class VMEvaluationList extends AndroidViewModel {
             try{
                 if(conn.isDeviceConnected()) {
                     response = WebClient.httpsPostJSon(Url, strings[0].toString(), headers.getHeaders());
+                    Log.e(TAG+" API Response", response);
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
-                        saveDetailDataToLocal(jsonResponse.getJSONObject("data"));
+                         JSONArray arDetail = jsonResponse.getJSONArray("detail");
+                         JSONObject detailx = arDetail.getJSONObject(0);
+                         boolean isInserted = saveDataToLocal(detailx);
+                         if(!isInserted) {
+                             Log.e("isInserted?", "NO");
+                             JSONObject jError = new JSONObject();
+                             jError.put("result", "error");
+                             JSONObject jMsg = new JSONObject();
+                             jMsg.put("message", "Application already exist.");
+                             jError.put("error", jMsg);
+                             response = jError.toString();
+                         }
+                        Log.e(TAG+" Before Extract", jsonResponse.toString());
                     }
                 } else {
                     response = AppConstants.SERVER_NO_RESPONSE();
@@ -249,6 +267,7 @@ public class VMEvaluationList extends AndroidViewModel {
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     String message = loError.getString("message");
+                    Log.e("Error Result",  loError.getString("message"));
                     callback.OnFailedResult(message);
                 }
             } catch (JSONException e) {
@@ -260,22 +279,25 @@ public class VMEvaluationList extends AndroidViewModel {
             }
         }
 
-        void saveDetailDataToLocal(JSONObject foData) throws JSONException {
-            Log.e(TAG, foData.toString());
-            EDCPCollectionDetail collectionDetail = new EDCPCollectionDetail();
-            collectionDetail.setTransNox(sTransNox);
-            collectionDetail.setAcctNmbr(foData.getString("sAcctNmbr"));
-            collectionDetail.setFullName(foData.getString("xFullName"));
-            collectionDetail.setIsDCPxxx("0");
-            collectionDetail.setMobileNo(foData.getString("sMobileNo"));
-            collectionDetail.setHouseNox(foData.getString("sHouseNox"));
-            collectionDetail.setAddressx(foData.getString("sAddressx"));
-            collectionDetail.setBrgyName(foData.getString("sBrgyName"));
-            collectionDetail.setTownName(foData.getString("sTownName"));
-            collectionDetail.setClientID(foData.getString("sClientID"));
-            collectionDetail.setSerialID(foData.getString("sSerialID"));
-            collectionDetail.setSerialNo(foData.getString("sSerialNo"));
-            //dcpRepo.insertCollectionDetail(collectionDetail);
+        boolean saveDataToLocal(JSONObject foData) throws JSONException {
+            Log.e(TAG + "saveDataToLocal()", foData.toString());
+            EBranchLoanApplication loDetail = new EBranchLoanApplication();
+            loDetail.setTransNox(foData.getString("sTransNox"));
+            loDetail.setBranchCD(foData.getString("sBranchCd"));
+            loDetail.setTransact(foData.getString("dTransact"));
+            loDetail.setCredInvx(foData.getString("sCredInvx"));
+            loDetail.setCompnyNm(foData.getString("sCompnyNm"));
+            loDetail.setQMAppCde(foData.getString("sQMAppCde"));
+            loDetail.setDownPaym(foData.getString("nDownPaym"));
+            loDetail.setCreatedX(foData.getString("sCreatedx"));
+            loDetail.setTranStat(foData.getString("cTranStat"));
+            loDetail.setTimeStmp(foData.getString("dTimeStmp"));
+            loDetail.setSpouseNm(foData.getString("sSpouseNm"));
+            loDetail.setAddressx(foData.getString("sAddressx"));
+            loDetail.setModelNme(foData.getString("sModelNme"));
+            loDetail.setAcctTerm(foData.getString("nAcctTerm"));
+            loDetail.setMobileNo(foData.getString("sMobileNo"));
+            return poCiEvalx.insertCiApplication(loDetail);
         }
     }
 

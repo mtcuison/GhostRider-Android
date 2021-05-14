@@ -255,35 +255,26 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
             }
             if(rbView.getId() == R.id.rg_ci_Feedback1){
                 if(checkedId == R.id.rb_ci_postiveFeed1) {
-                    ciModel.setFeedBck1("0");
-                    tieFBRemark1.setText("");
-                    tilFBRemark1.setVisibility(View.GONE);
+                    ciModel.setFeedBck1("1");
                 }
                 else {
-                    ciModel.setFeedBck1("1");
-                    tilFBRemark1.setVisibility(View.VISIBLE);
+                    ciModel.setFeedBck1("0");
                 }
             }
             if(rbView.getId() == R.id.rg_ci_Feedback2){
                 if(checkedId == R.id.rb_ci_postiveFeed2) {
-                    ciModel.setFeedBck2("0");
-                    tieFBRemark2.setText("");
-                    tilFBRemark2.setVisibility(View.GONE);
+                    ciModel.setFeedBck2("1");
                 }
                 else{
-                    ciModel.setFeedBck2("1");
-                    tilFBRemark2.setVisibility(View.VISIBLE);
+                    ciModel.setFeedBck2("0");
                 }
             }
             if(rbView.getId() == R.id.rg_ci_Feedback3){
                 if(checkedId == R.id.rb_ci_postiveFeed3) {
-                    ciModel.setFeedBck3("0");
-                    tilFBRemark3.setVisibility(View.GONE);
-                    tieFBRemark3.setText("");
+                    ciModel.setFeedBck3("1");
                 }
                 else {
-                    ciModel.setFeedBck3("1");
-                    tilFBRemark3.setVisibility(View.VISIBLE);
+                    ciModel.setFeedBck3("0");
                 }
             }
         }
@@ -316,27 +307,27 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
             });
             mViewModel.getsFeedback1().observe(getViewLifecycleOwner(), val ->{
                 rgFeedbak1.clearCheck();
-                tilFBRemark1.setVisibility(View.GONE);
                 if (!val.trim().isEmpty()){
                     for(int i = 0; i < rgFeedbak1.getChildCount(); i++){
                         ((RadioButton)rgFeedbak1.getChildAt(i)).setClickable(false);
                     }
                 }
-                if(val.equalsIgnoreCase("0")){
+                if(val.equalsIgnoreCase("1")){
                     rgFeedbak1.check(R.id.rb_ci_postiveFeed1);
-                    tilFBRemark1.setVisibility(View.GONE);
                 }
-                else if(val.equalsIgnoreCase("1")){
+                else if(val.equalsIgnoreCase("0")){
                     rgFeedbak1.check(R.id.rb_ci_negativeFeed1);
-                    mViewModel.getsFBRemark1().observe(getViewLifecycleOwner(), remarks ->{
-                        ciModel.setFBRemrk1(remarks);
-                        tieFBRemark1.setText(remarks);
-                    });
-                    tilFBRemark1.setVisibility(View.VISIBLE);
+
+                }
+                ciModel.setFeedBck1(val);
+            });
+            mViewModel.getsFBRemark1().observe(getViewLifecycleOwner(), remarks ->{
+                if (!remarks.isEmpty()){
+                    ciModel.setFBRemrk1(remarks);
+                    tieFBRemark1.setText(remarks);
                     tieFBRemark1.setClickable(false);
                     tieFBRemark1.setEnabled(false);
                 }
-                ciModel.setFeedBck1(val);
             });
 //            Neighbor 2
             mViewModel.getsNeigbor2().observe(getViewLifecycleOwner(), val ->{
@@ -363,27 +354,27 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
             });
             mViewModel.getsFeedback2().observe(getViewLifecycleOwner(), val ->{
                 rgFeedbak2.clearCheck();
-                tilFBRemark2.setVisibility(View.GONE);
                 if (!val.trim().isEmpty()){
                     for(int i = 0; i < rgFeedbak2.getChildCount(); i++){
                         ((RadioButton)rgFeedbak2.getChildAt(i)).setClickable(false);
                     }
                 }
-                if(val.equalsIgnoreCase("0")){
+                if(val.equalsIgnoreCase("1")){
                     rgFeedbak2.check(R.id.rb_ci_postiveFeed2);
-                    tilFBRemark2.setVisibility(View.GONE);
                 }
-                else if(val.equalsIgnoreCase("1")){
+                else if(val.equalsIgnoreCase("0")){
                     rgFeedbak2.check(R.id.rb_ci_negativeFeed2);
-                    tilFBRemark2.setVisibility(View.VISIBLE);
+                }
+
+                ciModel.setFeedBck2(val);
+            });
+            mViewModel.getsFBRemark2().observe(getViewLifecycleOwner(), remarks ->{
+                if (!remarks.isEmpty()){
+                    ciModel.setFBRemrk2(remarks);
+                    tieFBRemark2.setText(remarks);
                     tieFBRemark2.setClickable(false);
                     tieFBRemark2.setEnabled(false);
                 }
-                mViewModel.getsFBRemark2().observe(getViewLifecycleOwner(), remarks ->{
-                    ciModel.setFBRemrk2(remarks);
-                    tieFBRemark2.setText(remarks);
-                });
-                ciModel.setFeedBck2(val);
             });
 //        Neighbor 3
             mViewModel.getsNeigbor3().observe(getViewLifecycleOwner(), val ->{
@@ -410,27 +401,26 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
             });
             mViewModel.getsFeedback3().observe(getViewLifecycleOwner(), val ->{
                 rgFeedbak3.clearCheck();
-                tilFBRemark3.setVisibility(View.GONE);
                 if (!val.trim().isEmpty()){
                     for(int i = 0; i < rgFeedbak3.getChildCount(); i++){
                         ((RadioButton)rgFeedbak3.getChildAt(i)).setClickable(false);
                     }
                 }
-                if(val.equalsIgnoreCase("0")){
+                if(val.equalsIgnoreCase("1")){
                     rgFeedbak3.check(R.id.rb_ci_postiveFeed3);
-                    tilFBRemark3.setVisibility(View.GONE);
                 }
-                else if(val.equalsIgnoreCase("1")){
+                else if(val.equalsIgnoreCase("0")){
                     rgFeedbak3.check(R.id.rb_ci_negativeFeed3);
-                    mViewModel.getsFBRemark3().observe(getViewLifecycleOwner(), remarks ->{
-                        ciModel.setFBRemrk3(remarks);
-                        tieFBRemark3.setText(remarks);
-                    });
-                    tilFBRemark3.setVisibility(View.VISIBLE);
-                    tieFBRemark3.setClickable(false);
-                    tieFBRemark3.setEnabled(false);
                 }
                 ciModel.setFeedBck3(val);
+            });
+            mViewModel.getsFBRemark3().observe(getViewLifecycleOwner(), remarks ->{
+               if (!remarks.isEmpty()){
+                   ciModel.setFBRemrk3(remarks);
+                   tieFBRemark3.setText(remarks);
+                   tieFBRemark3.setClickable(false);
+                   tieFBRemark3.setEnabled(false);
+               }
             });
             mViewModel.getsHasRecord().observe(getViewLifecycleOwner(), val ->{
                 rgRecord.clearCheck();

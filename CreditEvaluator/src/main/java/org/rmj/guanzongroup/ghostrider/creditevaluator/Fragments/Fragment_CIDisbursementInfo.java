@@ -140,37 +140,37 @@ public class Fragment_CIDisbursementInfo extends Fragment implements ViewModelCa
             tieOthers.setText("");
             tieTotalExpenses.setText("");
 
-            if (eciEvaluation.getWaterBil() != null && !eciEvaluation.getWaterBil().trim().isEmpty()){
+            if (!eciEvaluation.getWaterBil().equalsIgnoreCase("0.00")){
                 tieWater.setText(eciEvaluation.getWaterBil());
                 tieWater.setEnabled(false);
                 mViewModel.setnWater(Double.valueOf(tieWater.getText().toString().replace(",", "")));
             }
 
-            if (eciEvaluation.getElctrcBl() != null && !eciEvaluation.getElctrcBl().trim().isEmpty()){
+            if (!eciEvaluation.getElctrcBl().equalsIgnoreCase("0.00")){
                 tieElctx.setText(eciEvaluation.getElctrcBl());
                 tieElctx.setEnabled(false);
                 mViewModel.setnElctx(Double.valueOf(tieElctx.getText().toString().replace(",", "")));
             }
 
-            if (eciEvaluation.getFoodAllw() != null && !eciEvaluation.getFoodAllw().trim().isEmpty()){
+            if (!eciEvaluation.getFoodAllw().equalsIgnoreCase("0.00")){
                 tieFoodx.setText(eciEvaluation.getFoodAllw());
                 tieFoodx.setEnabled(false);
                 mViewModel.setnFoodx(Double.valueOf(tieFoodx.getText().toString().replace(",", "")));
             }
 
-            if (eciEvaluation.getLoanAmtx() != null && !eciEvaluation.getLoanAmtx().trim().isEmpty()){
+            if (!eciEvaluation.getLoanAmtx().equalsIgnoreCase("0.00")){
                 tieLoans.setText(eciEvaluation.getLoanAmtx());
                 tieLoans.setEnabled(false);
                 mViewModel.setnLoans(Double.valueOf(tieLoans.getText().toString().replace(",", "")));
             }
 
-            if (eciEvaluation.getEducExpn() != null && !eciEvaluation.getEducExpn().trim().isEmpty()){
+            if (!eciEvaluation.getEducExpn().equalsIgnoreCase("0.00")){
                 tieEducation.setText(eciEvaluation.getEducExpn());
                 tieEducation.setEnabled(false);
                 mViewModel.setnEducation(Double.valueOf(tieEducation.getText().toString().replace(",", "")));
             }
 
-            if (eciEvaluation.getOthrExpn() != null && !eciEvaluation.getOthrExpn().trim().isEmpty()){
+            if (!eciEvaluation.getOthrExpn().equalsIgnoreCase("0.00")){
                 tieOthers.setText(eciEvaluation.getOthrExpn());
                 tieOthers.setEnabled(false);
                 mViewModel.setOthers(Double.valueOf(tieOthers.getText().toString().replace(",", "")));

@@ -20,7 +20,9 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 
 import java.util.List;
@@ -43,15 +45,24 @@ public interface DBranchLoanApplication {
     LiveData<List<EBranchLoanApplication>> getAllBranchCreditApplication();
 
     @Query("SELECT * FROM Credit_Online_Application_List " +
-            "WHERE cTranStat !=4 AND " +
-            "sBranchCD = (SELECT sBranchCD FROM User_Info_Master)")
+            "WHERE cTranStat = 1 AND ciTransTat = 0")
     LiveData<List<EBranchLoanApplication>> getAllCICreditApplication();
 
     @Query("SELECT * FROM Credit_Online_Application_List " +
             "WHERE cTranStat != 4 AND " +
             "sCredInvx  = (SELECT sEmployID FROM User_Info_Master)")
     LiveData<List<EBranchLoanApplication>> getAllCICreditApplicationLog();
+    @Query("UPDATE Credit_Online_Application_List " +
+            "SET ciTransTat = (SELECT cTranStat FROM Credit_Online_Application_CI WHERE sTransNox =:TransNox)" +
+            "WHERE sTransNox =:TransNox")
+    void updateTranStatByTransNox(String TransNox);
 
+    @Query("SELECT * FROM Credit_Online_Application_List WHERE sTransNox =:TransNox")
+    List<EBranchLoanApplication> getDuplicateTransNox(String TransNox);
+
+    @Query("SELECT * FROM Credit_Online_Application_CI " +
+            "WHERE sTransNox =:TransNox")
+    LiveData<ECIEvaluation> getCITransTat(String TransNox);
     @Insert
     void insertNewApplication(EBranchLoanApplication loanApplication);
 }
