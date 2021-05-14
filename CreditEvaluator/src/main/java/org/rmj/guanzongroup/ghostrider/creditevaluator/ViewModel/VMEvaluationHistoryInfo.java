@@ -30,9 +30,6 @@ public class VMEvaluationHistoryInfo extends AndroidViewModel {
     private static final String TAG = VMEvaluationHistoryInfo.class.getSimpleName();
     private final Application instance;
     private final RCIEvaluation poInvestx;
-    private ECIEvaluation poCredtEv;
-
-    private final MutableLiveData<String> psTransNo = new MutableLiveData<>();
 
     public VMEvaluationHistoryInfo(@NonNull Application application) {
         super(application);
@@ -40,17 +37,12 @@ public class VMEvaluationHistoryInfo extends AndroidViewModel {
         this.poInvestx = new RCIEvaluation(application);
     }
 
-    public void setCreditEvaluationObject(ECIEvaluation foCredtEv) {
-        this.poCredtEv = foCredtEv;
-        setTransNo(this.poCredtEv.getTransNox());
+    public LiveData<ECIEvaluation> getAllDoneCiInfo(String fsTransNo) {
+        return poInvestx.getAllDoneCiInfo(fsTransNo);
     }
 
-    public void onFetchCreditEvaluationDetail(OnFetchCustomerEvaluationInfo fmListenr) {
-        new CustomerEvaluationDetailTask(this.instance, fmListenr).execute(this.poCredtEv);
-    }
-
-    private void setTransNo(String fsTransNo) {
-        this.psTransNo.setValue(fsTransNo);
+    public void onFetchCreditEvaluationDetail(ECIEvaluation foCiDetl, OnFetchCustomerEvaluationInfo fmListenr) {
+        new CustomerEvaluationDetailTask(this.instance, fmListenr).execute(foCiDetl);
     }
 
     private static class CustomerEvaluationDetailTask extends AsyncTask<ECIEvaluation, Void, List<EvaluationHistoryInfoModel>> {
