@@ -42,6 +42,10 @@ public class RCIEvaluation {
 //        allCreditApplication = ciDao.getAllCreditApplication();
     }
 
+    public LiveData<ECIEvaluation> getAllDoneCiInfo(String fsTransNo) {
+        return ciDao.getAllDoneCiInfo(fsTransNo);
+    }
+
     public LiveData<ECIEvaluation> getAllCIApplication(String TransNox){
         return ciDao.getCIInfoOfTransNox(TransNox);
     }

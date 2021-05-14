@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -140,7 +141,9 @@ public class Activity_EvaluationHistory extends AppCompatActivity implements VME
                 adapter = new CreditEvaluationHistoryAdapter(creditList, new CreditEvaluationHistoryAdapter.OnApplicationClickListener() {
                     @Override
                     public void OnClick(int position, List<CreditEvaluationModel> creditLists) {
-
+                        Intent loIntent = new Intent(Activity_EvaluationHistory.this, Activity_EvaluationHistoryInfo.class);
+                        loIntent.putExtra("sTransNox", creditLists.get(position).getsTransNox());
+                        startActivity(loIntent);
                     }
 
                 });
