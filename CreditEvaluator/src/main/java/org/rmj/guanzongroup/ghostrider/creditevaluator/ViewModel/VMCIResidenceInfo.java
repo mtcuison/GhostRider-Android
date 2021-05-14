@@ -36,6 +36,7 @@ import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIResidenceInfoModel;
 
@@ -155,7 +156,8 @@ public class VMCIResidenceInfo extends AndroidViewModel {
                     return infoModel.getMessage();
                 } else {
                     ECIEvaluation loDetail = detail[0];
-                    loDetail.setTransNox(sTransNox.getValue());
+                    loDetail.setTransNox(Activity_CIApplication.getInstance().getTransNox());
+                    loDetail.setCredInvx(infoModel.getLandMark());
                     loDetail.setLandMark(infoModel.getLandMark());
                     loDetail.setOwnershp(infoModel.getOwnershp());
                     loDetail.setOwnOther(infoModel.getOwnOther());

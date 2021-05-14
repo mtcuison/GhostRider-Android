@@ -52,17 +52,6 @@ public class EBranchLoanApplication {
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
 
-    public String getCiTransTat() {
-        return CiTransTat;
-    }
-
-    public void setCiTransTat(String ciTransTat) {
-        CiTransTat = ciTransTat;
-    }
-
-    @ColumnInfo(name = "ciTransTat")
-    private String CiTransTat;
-
     public EBranchLoanApplication() {
     }
 
