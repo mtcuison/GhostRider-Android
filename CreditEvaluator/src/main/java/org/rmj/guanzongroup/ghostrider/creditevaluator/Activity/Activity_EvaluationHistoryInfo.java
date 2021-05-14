@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.creditevaluator.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -19,7 +20,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
@@ -39,8 +42,7 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
     private LinearLayoutManager poLayout;
     private CreditEvaluationHistoryInfoAdapter poAdapter;
     private RecyclerView recyclerView;
-
-    public static String psTransNo;
+    private String psTransNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,25 +57,14 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
         initObjects();
         initWidgets();
         initIntentValues();
+        setContent();
+    }
 
-        // Set ViewModel Parameters
-        // mViewModel.setCreditEvaluationObject();
-
-        mViewModel.getAllDoneCiInfo("sample").observe(this, eciEvaluation -> {
-            try {
-                mViewModel.onFetchCreditEvaluationDetail(eciEvaluation, evaluationDetl -> {
-                    this.poAdapter = new CreditEvaluationHistoryInfoAdapter(evaluationDetl);
-                    // Displaying Evaluation Info
-                    // Must be inside mViewModel method call
-                    poLayout.setOrientation(RecyclerView.VERTICAL);
-                    recyclerView.setLayoutManager(poLayout);
-                    recyclerView.setAdapter(this.poAdapter);
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent myIntent = new Intent(Activity_EvaluationHistoryInfo.this, Activity_EvaluationHistory.class);
+        startActivityForResult(myIntent, 0);
+        return true;
     }
 
     private void initObjects() {
@@ -88,5 +79,20 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
 
     private void initIntentValues() {
         psTransNo = getIntent().getStringExtra("sTransNox");
+    }
+
+    private void setContent() {
+        mViewModel.getAllDoneCiInfo(psTransNo ).observe(this, eciEvaluation -> {
+            try {
+                mViewModel.onFetchCreditEvaluationDetail(eciEvaluation, evaluationDetl -> {
+                    this.poAdapter = new CreditEvaluationHistoryInfoAdapter(evaluationDetl);
+                    poLayout.setOrientation(RecyclerView.VERTICAL);
+                    recyclerView.setLayoutManager(poLayout);
+                    recyclerView.setAdapter(this.poAdapter);
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

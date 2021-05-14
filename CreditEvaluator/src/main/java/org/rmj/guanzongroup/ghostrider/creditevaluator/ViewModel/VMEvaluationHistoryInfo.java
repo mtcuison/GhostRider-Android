@@ -61,19 +61,18 @@ public class VMEvaluationHistoryInfo extends AndroidViewModel {
             try {
                 // Headers
                 loListDetl.add(new EvaluationHistoryInfoModel(true, "Residence Information", "", ""));
+                loListDetl.add(new EvaluationHistoryInfoModel(false, "", "Landmark", loDetail.getLandMark()));
+                loListDetl.add(new EvaluationHistoryInfoModel(false, "", "House Ownership", loDetail.getOwnershp()));
+                loListDetl.add(new EvaluationHistoryInfoModel(false ,"", "Households", loDetail.getOwnOther()));
+                loListDetl.add(new EvaluationHistoryInfoModel(false, "", "Type of House", loDetail.getHouseTyp()));
+                loListDetl.add(new EvaluationHistoryInfoModel(false, "", "With Safe Garage", getAnswer(loDetail.getGaragexx())));
+                loListDetl.add(new EvaluationHistoryInfoModel(false, "", "Do they have other address or residence", getAnswer(loDetail.getHasOther())));
 
                 loListDetl.add(new EvaluationHistoryInfoModel(true, "Barangay Record & Neighbor's Information", "", ""));
 
                 loListDetl.add(new EvaluationHistoryInfoModel(true, "Disbursement Information", "", ""));
 
                 loListDetl.add(new EvaluationHistoryInfoModel(true, "Character Traits", "", ""));
-
-                // Infos
-                loListDetl.add(new EvaluationHistoryInfoModel(false, "", "Landmark", loDetail.getLandMark()));
-                loListDetl.add(new EvaluationHistoryInfoModel(false, "", "House Ownership", loDetail.getOwnershp()));
-                loListDetl.add(new EvaluationHistoryInfoModel(false ,"", "Households", loDetail.getOwnOther()));
-                loListDetl.add(new EvaluationHistoryInfoModel(false, "", "Type of House", loDetail.getHouseTyp()));
-                loListDetl.add(new EvaluationHistoryInfoModel(false, "", "Has Garage?", loDetail.getGaragexx()));
 
             } catch(Exception e) {
                 e.printStackTrace();
@@ -85,6 +84,13 @@ public class VMEvaluationHistoryInfo extends AndroidViewModel {
         protected void onPostExecute(List<EvaluationHistoryInfoModel> evaluationInfo) {
             super.onPostExecute(evaluationInfo);
             pmListener.onDisplayList(evaluationInfo);
+        }
+
+        String getAnswer(String fsAnswer) {
+            if(fsAnswer.equalsIgnoreCase("0")) {
+                return "No";
+            }
+            return "Yes";
         }
     }
 
