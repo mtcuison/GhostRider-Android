@@ -73,6 +73,7 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
         holder.lblModelName.setText(poLoan.getsModelNme());
         holder.lblModelName.setText(poLoan.getsModelNme());
         holder.lblDownPayment.setText("Php " + poLoan.getnDownPaym());
+
     }
 
     @Override

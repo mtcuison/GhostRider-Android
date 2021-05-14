@@ -70,6 +70,11 @@ public class CreditEvaluationHistoryAdapter extends RecyclerView.Adapter<CreditE
         holder.lblAccountTerm.setText(poLoan.getnAcctTerm());
         holder.lblModelName.setText(poLoan.getsModelNme());
         holder.lblDownPayment.setText("Php " + poLoan.getnDownPaym());
+        if (poLoan.getCiTranStat().equalsIgnoreCase("1")){
+            holder.lblCIStats.setText("Approved");
+        }else if(poLoan.getCiTranStat().equalsIgnoreCase("3")){
+            holder.lblCIStats.setText("Disapproved");
+        }
     }
 
     @Override
@@ -90,6 +95,7 @@ public class CreditEvaluationHistoryAdapter extends RecyclerView.Adapter<CreditE
 
         TextView lblModelName;
         TextView lblDownPayment;
+        TextView lblCIStats;
 
         public CreditEvaluationViewHolder(@NonNull View itemView, CreditEvaluationHistoryAdapter.OnApplicationClickListener onApplicationClickListener) {
             super(itemView);
@@ -101,6 +107,7 @@ public class CreditEvaluationHistoryAdapter extends RecyclerView.Adapter<CreditE
             lblMobileNo = itemView.findViewById(R.id.lbl_ci_mobileNo);
             lblModelName = itemView.findViewById(R.id.lbl_ci_modelName);
             lblDownPayment = itemView.findViewById(R.id.lbl_ci_downPayment);
+            lblCIStats = itemView.findViewById(R.id.lbl_ci_status);
 
 
             itemView.setOnClickListener(v12 -> {

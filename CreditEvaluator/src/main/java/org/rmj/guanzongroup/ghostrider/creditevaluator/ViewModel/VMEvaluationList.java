@@ -26,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
@@ -81,14 +82,8 @@ public class VMEvaluationList extends AndroidViewModel {
         return poEmploye.getEmployeeInfo();
     }
 
-    public LiveData<List<EBranchLoanApplication>> getCICreditApplication(){
-        return poCreditApp.getCICreditApplication();
-    }
-    public LiveData<ECIEvaluation> getCITransTat(String TransNox){
-        return poCreditApp.getCITransTat(TransNox);
-    }
-    public void updateCiTransTat(String transNox){
-        poCreditApp.updateCiTransTat(transNox);
+    public LiveData<List<DBranchLoanApplication.CIEvaluationList>> getAllCICreditApplications(){
+        return poCreditApp.getAllCICreditApplications();
     }
     public void ImportCIApplications(OnImportCallBack callBack){
 
@@ -109,7 +104,7 @@ public class VMEvaluationList extends AndroidViewModel {
             JSONObject param = new JSONObject();
             param.put("value", fsTransno.trim());
             param.put("bsearch", true);
-            new ImportApplicationInfoTask(instance, WebApi.URL_DOWNLOAD_CREDIT_ONLINE_APP, callback).execute(param);
+            new ImportApplicationInfoTask(instance,  WebApi.URL_DOWNLOAD_CREDIT_ONLINE_APP, callback).execute(param);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -123,7 +118,6 @@ public class VMEvaluationList extends AndroidViewModel {
         private final WebApi webApi;
         private final OnImportCallBack callback;
         private final RBranchLoanApplication poCreditApp;
-
         public ImportCIApplications(Application instance,  OnImportCallBack callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.brnRepo = new RBranchLoanApplication(instance);
@@ -150,16 +144,6 @@ public class VMEvaluationList extends AndroidViewModel {
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
                         JSONArray laJson = jsonResponse.getJSONArray("detail");
-                        for (int i = 0; i < laJson.length(); i++){
-                            JSONObject jsonObject = laJson.getJSONObject(i);
-//                            mViewModel.getCITransTat(ciList.get(x).getTransNox()).observe(Activity_EvaluationList.this, eciEvaluation->{
-//                                if (eciEvaluation != null){
-//                                    Log.e(TAG,"TransTat = " + eciEvaluation.getTranStat());
-//                                }
-//                            });
-                            jsonObject.put("ciTransTat", "0");
-
-                        }
                         if(!brnRepo.insertBranchApplicationInfos(laJson)){
                             response = AppConstants.ERROR_SAVING_TO_LOCAL();
                         }
@@ -197,7 +181,6 @@ public class VMEvaluationList extends AndroidViewModel {
                 callback.onImportFailed(e.getMessage());
             }
         }
-
     }
 
     private static class ImportApplicationInfoTask extends AsyncTask<JSONObject, Void, String> {

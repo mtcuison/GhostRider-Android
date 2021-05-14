@@ -40,10 +40,10 @@ public interface DCIEvaluation {
     @Insert
     void insertNewCiApplication(ECIEvaluation eciEvaluation);
 
-    @Query("SELECT * FROM Credit_Online_Application_CI WHERE sTransNox =:TransNox")
+    @Query("SELECT * FROM Credit_Online_Application_List_CI WHERE sTransNox =:TransNox")
     LiveData<ECIEvaluation> getCIInfoOfTransNox(String TransNox);
 
-    @Query("UPDATE Credit_Online_Application_CI SET " +
+    @Query("UPDATE Credit_Online_Application_List_CI SET " +
             "sLandMark =:LandMark, " +
             "cOwnershp =:Ownershp, " +
             "cOwnOther =:OwnOther, " +

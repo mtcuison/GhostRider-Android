@@ -165,9 +165,9 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
                     for(int i = 0; i < rgHasOthers.getChildCount(); i++){
                         ((RadioButton)rgHasOthers.getChildAt(i)).setClickable(false);
                     }
-                    if(eciEvaluation.getGaragexx().equalsIgnoreCase("1")){
+                    if(eciEvaluation.getHasOther().equalsIgnoreCase("1")){
                         rgHasOthers.check(R.id.rb_ci_hasOthers_yes);
-                    }else if(eciEvaluation.getGaragexx().equalsIgnoreCase("0")){
+                    }else if(eciEvaluation.getHasOther().equalsIgnoreCase("0")){
                         rgHasOthers.check(R.id.rb_ci_hasOthers_no);
                     }
                 }
