@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.ghostrider.creditevaluator.Fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -147,36 +148,59 @@ public class Fragment_CICharacterTraits extends Fragment implements ViewModelCal
         cbArrogance.setChecked(false);
         cbOthers.setChecked(false);
         infoModel = new CharacterTraitsInfoModel();
-        if (eciEvaluation.getGamblerx() != null && eciEvaluation.getGamblerx().equalsIgnoreCase("1")){
+        if (eciEvaluation.getGamblerx().equalsIgnoreCase("1")){
             infoModel.setCbGambler(eciEvaluation.getGamblerx());
             cbGambler.setChecked(true);
+        }else{
+            infoModel.setCbGambler(eciEvaluation.getGamblerx());
+            cbGambler.setChecked(false);
         }
 
         if (eciEvaluation.getWomanizr() != null && eciEvaluation.getWomanizr().equalsIgnoreCase("1")){
             infoModel.setCbWomanizer(eciEvaluation.getWomanizr());
-            cbWomanizer.setChecked(true);}
+            cbWomanizer.setChecked(true);
+        }else{
+            infoModel.setCbWomanizer(eciEvaluation.getWomanizr());
+            cbWomanizer.setChecked(false);
+        }
 
         if (eciEvaluation.getHvyBrwer() != null  && eciEvaluation.getHvyBrwer().equalsIgnoreCase("1")){
             infoModel.setCbHeavyBrrw(eciEvaluation.getHvyBrwer());
-            cbHeavyBrrw.setChecked(true);}
+            cbHeavyBrrw.setChecked(true);
+        }else{
+            infoModel.setCbHeavyBrrw(eciEvaluation.getHvyBrwer());
+            cbHeavyBrrw.setChecked(false);
+        }
 
         if (eciEvaluation.getWithRepo() != null && eciEvaluation.getWithRepo().equalsIgnoreCase("1")) {
             infoModel.setCbRepo(eciEvaluation.getWithRepo());
             cbRepo.setChecked(true);
+        }else{
+            infoModel.setCbRepo(eciEvaluation.getWithRepo());
+            cbRepo.setChecked(false);
         }
 
         if (eciEvaluation.getWithMort() != null && eciEvaluation.getWithMort().equalsIgnoreCase("1")) {
             infoModel.setCbMortage(eciEvaluation.getWithMort());
             cbMortage.setChecked(true);
+        }else{
+            infoModel.setCbMortage(eciEvaluation.getWithMort());
+            cbMortage.setChecked(false);
         }
 
         if (eciEvaluation.getArrogant() != null && eciEvaluation.getArrogant().equalsIgnoreCase("1")) {
             infoModel.setCbArrogance(eciEvaluation.getArrogant());
             cbArrogance.setChecked(true);
+        }else {
+            infoModel.setCbArrogance(eciEvaluation.getArrogant());
+            cbArrogance.setChecked(false);
         }
         if (eciEvaluation.getOtherBad() != null && eciEvaluation.getOtherBad().equalsIgnoreCase("1")) {
             infoModel.setCbOthers(eciEvaluation.getOtherBad());
             cbOthers.setChecked(true);
+        }else{
+            infoModel.setCbOthers(eciEvaluation.getOtherBad());
+            cbOthers.setChecked(false);
         }
         if (eciEvaluation.getTranStat() != null) {
             infoModel.setcTranstat(eciEvaluation.getTranStat());

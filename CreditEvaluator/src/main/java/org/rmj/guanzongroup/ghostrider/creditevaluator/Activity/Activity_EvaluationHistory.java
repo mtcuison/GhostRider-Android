@@ -61,8 +61,7 @@ public class Activity_EvaluationHistory extends AppCompatActivity implements VME
         initWidgets();
 
         mViewModel = new ViewModelProvider(Activity_EvaluationHistory.this).get(VMEvaluationHistory.class);
-//        mViewModel.ImportCIApplications(Activity_EvaluationHistory.this);
-//        mViewModel.ImportCIApplications(Activity_EvaluationHistory.this);
+        mViewModel.ImportCIApplications(Activity_EvaluationHistory.this);
         initData();
 
 
@@ -116,25 +115,26 @@ public class Activity_EvaluationHistory extends AppCompatActivity implements VME
         poMessage.show();
     }
     public void initData(){
-        mViewModel.getAllCICreditApplicationLog().observe(Activity_EvaluationHistory.this, brnCreditList -> {
-            if(brnCreditList.size()>0) {
+        mViewModel.getAllCICreditApplicationLog().observe(Activity_EvaluationHistory.this, ciList -> {
+            if(ciList.size()>0) {
                 loading.setVisibility(View.GONE);
                 creditList = new ArrayList<>();
-                for (int x = 0; x < brnCreditList.size(); x++) {
+                for (int x = 0; x < ciList.size(); x++) {
                     CreditEvaluationModel loan = new CreditEvaluationModel();
-                    loan.setsTransNox(brnCreditList.get(x).getTransNox());
-                    loan.setdTransact(brnCreditList.get(x).getTransact());
-                    loan.setsCredInvx(brnCreditList.get(x).getCredInvx());
-                    loan.setsCompnyNm(brnCreditList.get(x).getCompnyNm());
-                    loan.setsSpouseNm(brnCreditList.get(x).getSpouseNm());
-                    loan.setsAddressx(brnCreditList.get(x).getAddressx());
-                    loan.setsMobileNo(brnCreditList.get(x).getMobileNo());
-                    loan.setsQMAppCde(brnCreditList.get(x).getQMAppCde());
-                    loan.setsModelNme(brnCreditList.get(x).getModelNme());
-                    loan.setnDownPaym(brnCreditList.get(x).getDownPaym());
-                    loan.setnAcctTerm(brnCreditList.get(x).getAcctTerm());
-                    loan.setcTranStat(brnCreditList.get(x).getTranStat());
-                    loan.setdTimeStmp(brnCreditList.get(x).getTimeStmp());
+                    loan.setsTransNox(ciList.get(x).sTransNox);
+                    loan.setdTransact(ciList.get(x).dTransact);
+                    loan.setsCredInvx(ciList.get(x).sCredInvx);
+                    loan.setsCompnyNm(ciList.get(x).sCompnyNm);
+                    loan.setsSpouseNm(ciList.get(x).sSpouseNm);
+                    loan.setsAddressx(ciList.get(x).sAddressx);
+                    loan.setsMobileNo(ciList.get(x).sMobileNo);
+                    loan.setsQMAppCde(ciList.get(x).sQMAppCde);
+                    loan.setsModelNme(ciList.get(x).sModelNme);
+                    loan.setnDownPaym(ciList.get(x).nDownPaym);
+                    loan.setnAcctTerm(ciList.get(x).nAcctTerm);
+                    loan.setcTranStat(ciList.get(x).cTranStat);
+                    loan.setdTimeStmp(ciList.get(x).dTimeStmp);
+                    loan.setCiTranStat(ciList.get(x).ciTranStat);
                     creditList.add(loan);
                 }
                 adapter = new CreditEvaluationHistoryAdapter(creditList, new CreditEvaluationHistoryAdapter.OnApplicationClickListener() {

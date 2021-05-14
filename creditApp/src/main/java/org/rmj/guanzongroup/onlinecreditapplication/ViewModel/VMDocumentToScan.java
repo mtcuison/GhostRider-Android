@@ -462,8 +462,6 @@ public class VMDocumentToScan extends AndroidViewModel {
                             //convert to image and save to proper file location
                             org.json.simple.JSONArray laJson = (org.json.simple.JSONArray)loDownload.get("detail");
                             for (int x = 0; x <  laJson.size(); x++){
-
-
                                 org.json.simple.JSONObject obj = (org.json.simple.JSONObject) laJson.get(x);;
                                 updateDocumentInfoFromServer(psSourceNo,obj.get("sFileCode").toString());
 
