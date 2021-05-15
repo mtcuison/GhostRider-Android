@@ -18,51 +18,63 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeContainer;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_AH_Dashboard;
-import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Dashboard;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_MessageList;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
 
+import java.util.List;
+import java.util.Objects;
+
 public class Fragment_HomeContainer extends Fragment {
 
-    private VMHomeContainer galleryViewModel;
+    private VMHomeContainer mViewModel;
     private TextView lblHeader;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     private final Fragment[] fragment = {new Fragment_AH_Dashboard(),new Fragment_MessageList(),new Fragment_NotificationList()};
 
     private final int[] toggled_icons = {R.drawable.ic_home_dashboard_toggled,
-                                        R.drawable.ic_baseline_settings_24,
+                                        R.drawable.ic_home_message_toggled,
                                         R.drawable.ic_home_notification_toggled};
 
     private final int[] icons = {R.drawable.ic_home_dashboard,
-                                R.drawable.ic_baseline_settings_24,
+                                R.drawable.ic_home_message,
                                 R.drawable.ic_home_notification};
 
     private final String[] header = {"Dashboard", "Messages", "Notifications"};
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel = new ViewModelProvider(this).get(VMHomeContainer.class);
         View root = inflater.inflate(R.layout.fragment_home_container, container, false);
-        TabLayout tabLayout = root.findViewById(R.id.tab_home);
-        ViewPager viewPager = root.findViewById(R.id.viewpager_home);
+        tabLayout = root.findViewById(R.id.tab_home);
+        viewPager = root.findViewById(R.id.viewpager_home);
         lblHeader = root.findViewById(R.id.lbl_dashBoardHeader);
+        return root;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(VMHomeContainer.class);
         viewPager.setAdapter(new FragmentAdapter(getChildFragmentManager(), fragment));
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(toggled_icons[0]);
         tabLayout.getTabAt(1).setIcon(icons[1]);
         tabLayout.getTabAt(2).setIcon(icons[2]);
-        tabLayout.getTabAt(1).getOrCreateBadge().setNumber(4);
-        tabLayout.getTabAt(2).getOrCreateBadge().setNumber(4);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -80,6 +92,12 @@ public class Fragment_HomeContainer extends Fragment {
 
             }
         });
-        return root;
+        mViewModel.getUserMessageList().observe(getViewLifecycleOwner(), userMessageList -> {
+            try {
+                Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge().setNumber(userMessageList.size());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
     }
 }

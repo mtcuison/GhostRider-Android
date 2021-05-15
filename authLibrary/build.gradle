@@ -66,6 +66,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-web:3.3.0'
     androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.3.0'
+    testImplementation 'org.json:json:20200518'
 
     // The following Espresso dependency can be either "implementation"
     // or "androidTestImplementation", depending on whether you want the

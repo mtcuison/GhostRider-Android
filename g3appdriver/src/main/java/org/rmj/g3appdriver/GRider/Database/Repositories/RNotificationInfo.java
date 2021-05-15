@@ -16,6 +16,10 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import org.rmj.appdriver.base.GConnection;
+import org.rmj.apprdiver.util.MiscUtil;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationMaster;
@@ -25,19 +29,31 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationUser;
 import java.util.List;
 
 public class RNotificationInfo {
+    private final Application instance;
     private final DNotifications notificationDao;
     private final LiveData<List<DNotifications.ClientNotificationInfo>> clientNotificationList;
     private final LiveData<List<DNotifications.UserNotificationInfo>> userNotificationList;
+    private final LiveData<List<DNotifications.UserNotificationInfo>> userMessageList;
 
     public RNotificationInfo(Application application){
+        this.instance = application;
         GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
         notificationDao = GGCGriderDB.NotificationDao();
         clientNotificationList = notificationDao.getClientNotificationList();
         userNotificationList = notificationDao.getUserNotificationList();
+        userMessageList = notificationDao.getUserMessageList();
     }
 
     public LiveData<List<DNotifications.ClientNotificationInfo>> getClientNotificationList() {
         return clientNotificationList;
+    }
+
+    public LiveData<List<DNotifications.UserNotificationInfo>> getUserMessageList(){
+        return userMessageList;
+    }
+
+    public LiveData<List<DNotifications.UserNotificationInfo>> getUserMessageListGroupByUser(){
+        return notificationDao.getUserMessageListGroupByUser();
     }
 
     public LiveData<List<DNotifications.UserNotificationInfo>> getUserNotificationList() {
@@ -47,31 +63,24 @@ public class RNotificationInfo {
     public void insertNotificationInfo(ENotificationMaster notificationMaster,
                                        ENotificationRecipient notificationRecipient,
                                        ENotificationUser notificationUser){
-        new InsertNotificationTask(notificationDao, notificationMaster, notificationRecipient, notificationUser).execute();
+        notificationDao.insert(notificationMaster);
+        notificationDao.insert(notificationRecipient);
+        notificationDao.insert(notificationUser);
     }
 
-    private static class InsertNotificationTask extends AsyncTask<Void, Void, Void>{
-        private final DNotifications notificationDao;
-        private final ENotificationMaster notificationMaster;
-        private final ENotificationRecipient notificationRecipient;
-        private final ENotificationUser notificationUser;
+    public void updateRecipientSendStat(String messageID, String status){
+        notificationDao.updateRecipientStatus(messageID, AppConstants.DATE_MODIFIED, status);
+    }
 
-        public InsertNotificationTask(DNotifications notificationDao,
-                                      ENotificationMaster notificationMaster,
-                                      ENotificationRecipient notificationRecipient,
-                                      ENotificationUser notificationUser) {
-            this.notificationDao = notificationDao;
-            this.notificationMaster = notificationMaster;
-            this.notificationRecipient = notificationRecipient;
-            this.notificationUser = notificationUser;
+    public String getClientNextMasterCode(){
+        String lsNextCode = "";
+        GConnection loConn = DbConnection.doConnect(instance);
+        try{
+            lsNextCode = MiscUtil.getNextCode("Notification_Info_Master", "sTransNox", true, loConn.getConnection(), "", 12, false);
+        } catch (Exception e){
+            e.printStackTrace();
         }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            notificationDao.insert(notificationMaster);
-            notificationDao.insert(notificationRecipient);
-            notificationDao.insert(notificationUser);
-            return null;
-        }
+        loConn = null;
+        return lsNextCode;
     }
 }

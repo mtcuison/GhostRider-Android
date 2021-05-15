@@ -8,7 +8,6 @@
  * project file created : 4/24/21 3:19 PM
  * project file last modified : 4/24/21 3:17 PM
  */
-
 package org.rmj.guanzongroup.authlibrary.UserInterface.Login;
 
 import android.app.Application;

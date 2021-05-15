@@ -11,6 +11,7 @@
 
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.util.Log;
 
@@ -28,6 +29,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class RBranch {
     private static final String TAG = "DB_Branch_Repository";
@@ -53,6 +55,7 @@ public class RBranch {
         return branchInfoDao.getLatestDataTime();
     }
 
+    @SuppressLint("NewApi")
     public boolean insertBranchInfos(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);
         boolean result = true;
@@ -70,7 +73,7 @@ public class RBranch {
             //check if record already exists on database
             lsSQL = "SELECT dTimeStmp FROM Branch_Info" +
                     " WHERE sBranchCd = " + SQLUtil.toSQL((String) loJson.get("sBranchCd"));
-            loRS = loConn.executeQuery(lsSQL);
+            loRS = Objects.requireNonNull(loConn).executeQuery(lsSQL);
 
             lsSQL = "";
             //record does not exists

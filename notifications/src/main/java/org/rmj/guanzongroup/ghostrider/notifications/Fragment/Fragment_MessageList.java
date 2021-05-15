@@ -79,6 +79,4 @@ public class Fragment_MessageList extends Fragment {
             }));
         });
     }
-
-
 }

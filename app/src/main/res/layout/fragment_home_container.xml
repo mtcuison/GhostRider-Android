@@ -85,7 +85,8 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_home"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"/>
+            android:layout_height="?attr/actionBarSize"
+            app:tabIconTint="@color/material_black"/>
     </com.google.android.material.appbar.AppBarLayout>
 
 </RelativeLayout>
