@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.ghostrider.creditevaluator.Activity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -68,6 +69,7 @@ public class Activity_CIApplication extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ci_application);
         instance = this;
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 //      Header detail
         transNox = getIntent().getStringExtra("transno");
         sCompnyNm = getIntent().getStringExtra("ClientNm");

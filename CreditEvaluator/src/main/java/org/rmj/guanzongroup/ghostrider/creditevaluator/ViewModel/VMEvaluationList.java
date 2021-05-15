@@ -33,6 +33,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
@@ -42,6 +43,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.GRider.ImportData.Import_CreditAppList;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationList;
@@ -58,6 +60,10 @@ public class VMEvaluationList extends AndroidViewModel {
     private final LiveData<List<EFileCode>> collectionList;
     private final RBranchLoanApplication poCreditApp;
     private final Import_CreditAppList poImport;
+    private final SessionManager poSession;
+    private final MutableLiveData<String> sCredInvxx = new MutableLiveData<>();
+
+
     private final REmployee poEmploye;
     public VMEvaluationList(@NonNull Application application) {
         super(application);
@@ -66,20 +72,22 @@ public class VMEvaluationList extends AndroidViewModel {
         this.collectionList = peFileCode.getAllFileCode();
         this.poCreditApp = new RBranchLoanApplication(application);
         this.poImport = new Import_CreditAppList(application);
-        poEmploye = new REmployee(application);
+        this.poSession = new SessionManager(application);
+        this.poEmploye = new REmployee(application);
     }
     public interface OnImportCallBack{
         void onStartImport();
         void onSuccessImport();
         void onImportFailed(String message);
     }
+    public LiveData<EEmployeeInfo> getEmplopyeInfo(){
+        return this.poEmploye.getEmployeeInfo();
+    }
+    public void setEmployeeID(String empID){
+        this.sCredInvxx.setValue(empID);
+    }
     public LiveData<List<EFileCode>> getFileCode(){
         return this.collectionList;
-    }
-
-
-    public LiveData<EEmployeeInfo> getEmployeeInfo(){
-        return poEmploye.getEmployeeInfo();
     }
 
     public LiveData<List<DBranchLoanApplication.CIEvaluationList>> getAllCICreditApplications(){
@@ -91,8 +99,8 @@ public class VMEvaluationList extends AndroidViewModel {
         try {
             loJson.put("bycode", false);
             loJson.put("value","M02407000479");
+//            loJson.put("value",sCredInvxx.getValue());
             new ImportCIApplications(instance, callBack).execute(loJson);
-//            loJson.put("value", empBrnCD);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -165,7 +173,6 @@ public class VMEvaluationList extends AndroidViewModel {
             try {
                 JSONObject loJson = new JSONObject(s);
                 String lsResult = loJson.getString("result");
-//                Log.e(TAG, loJson.getString("result"));
                 if(lsResult.equalsIgnoreCase("success")){
                     callback.onSuccessImport();
                 } else {

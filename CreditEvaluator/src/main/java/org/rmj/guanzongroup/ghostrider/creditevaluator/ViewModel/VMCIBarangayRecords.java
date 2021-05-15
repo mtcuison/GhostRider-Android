@@ -20,10 +20,13 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.ERelation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RRelation;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
@@ -39,7 +42,7 @@ public class VMCIBarangayRecords extends AndroidViewModel {
     private final Application instance;
     private final RCIEvaluation poCI;
     private final ECIEvaluation evaluation;
-    private final RImageInfo poImage;
+    private final RRelation rRelation;
     private final SessionManager poUser;
 
     private final MutableLiveData<ECIEvaluation> poCIDetail = new MutableLiveData<>();
@@ -52,49 +55,61 @@ public class VMCIBarangayRecords extends AndroidViewModel {
     private final MutableLiveData<String> sMobile1 = new MutableLiveData<>();
     private final MutableLiveData<String> sFBRemark1 = new MutableLiveData<>();
     private final MutableLiveData<String> sFeedback1 = new MutableLiveData<>();
+    private final MutableLiveData<String> sAddress1 = new MutableLiveData<>();
 
     private final MutableLiveData<String> sNeigbor2 = new MutableLiveData<>();
     private final MutableLiveData<String> sRel2 = new MutableLiveData<>();
     private final MutableLiveData<String> sMobile2 = new MutableLiveData<>();
     private final MutableLiveData<String> sFBRemark2 = new MutableLiveData<>();
     private final MutableLiveData<String> sFeedback2 = new MutableLiveData<>();
+    private final MutableLiveData<String> sAddress2 = new MutableLiveData<>();
 
     private final MutableLiveData<String> sNeigbor3 = new MutableLiveData<>();
     private final MutableLiveData<String> sRel3 = new MutableLiveData<>();
     private final MutableLiveData<String> sMobile3 = new MutableLiveData<>();
     private final MutableLiveData<String> sFBRemark3 = new MutableLiveData<>();
     private final MutableLiveData<String> sFeedback3 = new MutableLiveData<>();
+    private final MutableLiveData<String> sAddress3 = new MutableLiveData<>();
 
 
     private final MutableLiveData<String> sHasRecord = new MutableLiveData<>();
     private final MutableLiveData<String> sRemRecord = new MutableLiveData<>();
 
+    private final MutableLiveData<String> relID1 = new MutableLiveData<>();
+    private final MutableLiveData<String> relID2 = new MutableLiveData<>();
+    private final MutableLiveData<String> relID3 = new MutableLiveData<>();
 
+
+    private final LiveData<String[]> relations;
     private List<EImageInfo> imgInfo = new ArrayList<>();
     public VMCIBarangayRecords(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poCI = new RCIEvaluation(application);
         this.evaluation = new ECIEvaluation();
-        this.poImage = new RImageInfo(application);
+        this.rRelation = new RRelation(application);
         this.poUser = new SessionManager(application);
         this.sNeigbor1.setValue("");
         this.sRel1.setValue("");
         this.sMobile1.setValue("");
         this.sFBRemark1.setValue("");
         this.sFeedback1.setValue("");
+        this.sAddress1.setValue("");
         this.sNeigbor2.setValue("");
         this.sRel2.setValue("");
         this.sMobile2.setValue("");
         this.sFBRemark2.setValue("");
         this.sFeedback2.setValue("");
+        this.sAddress2.setValue("");
         this.sNeigbor3.setValue("");
         this.sRel3.setValue("");
         this.sMobile3.setValue("");
         this.sFBRemark3.setValue("");
         this.sFeedback3.setValue("");
+        this.sAddress3.setValue("");
         this.sHasRecord.setValue("");
         this.sRemRecord.setValue("");
+        relations = rRelation.getAllRelatnDs();
     }
     public interface OnSaveNeighbor{
         void onSuccessNeighbor(String args);
@@ -118,6 +133,9 @@ public class VMCIBarangayRecords extends AndroidViewModel {
             if(detail.getFBRemrk1() != null){
                 this.sFBRemark1.setValue(detail.getFBRemrk1());
             }
+            if(detail.getAddress1() != null){
+                this.sAddress1.setValue(detail.getAddress1());
+            }
 //            Neighbor 2
             if(detail.getReltnCD2() != null){
                 this.sRel2.setValue(detail.getReltnCD2());
@@ -134,6 +152,10 @@ public class VMCIBarangayRecords extends AndroidViewModel {
             if(detail.getFBRemrk2() != null){
                 this.sFBRemark2.setValue(detail.getFBRemrk2());
             }
+
+            if(detail.getAddress2() != null){
+                this.sAddress2.setValue(detail.getAddress2());
+            }
 //            Neighbor 3
             if(detail.getReltnCD3() != null){
                 this.sRel3.setValue(detail.getReltnCD3());
@@ -149,6 +171,9 @@ public class VMCIBarangayRecords extends AndroidViewModel {
             }
             if(detail.getFBRemrk3() != null){
                 this.sFBRemark3.setValue(detail.getFBRemrk3());
+            }
+            if(detail.getAddress3() != null){
+                this.sAddress3.setValue(detail.getAddress3());
             }
             if(detail.getHasRecrd() != null){
                 this.sHasRecord.setValue(detail.getHasRecrd());
@@ -170,7 +195,16 @@ public class VMCIBarangayRecords extends AndroidViewModel {
         return poCI.getAllCIApplication(sTransNox.getValue());
     }
 
+    public void setRelatnID1(String relatnID) { this.relID1.setValue(relatnID); }
+    public void setRelatnID2(String relatnID) { this.relID2.setValue(relatnID); }
+    public void setRelatnID3(String relatnID) { this.relID3.setValue(relatnID); }
 
+    public LiveData<List<ERelation>> getRelation(){
+        return rRelation.getRelation();
+    }
+    public LiveData<String[]> getAllRelatnDs(){
+        return relations;
+    }
     public boolean saveNeighbor(CIBarangayRecordInfoModel infoModel, String btnText, ViewModelCallBack callback) {
         try {
 
@@ -215,6 +249,7 @@ public class VMCIBarangayRecords extends AndroidViewModel {
                         ECIEvaluation loDetail = detail[0];
                         loDetail.setNeighbr1(infoModel.getNeighbr1());
                         loDetail.setReltnCD1(infoModel.getReltnCD1());
+                        loDetail.setAddress1(infoModel.getAddress1());
                         loDetail.setFeedBck1(infoModel.getFeedBck1());
                         loDetail.setFBRemrk1(infoModel.getFBRemrk1());
                         loDetail.setMobileN1(infoModel.getMobileN1());
@@ -230,6 +265,7 @@ public class VMCIBarangayRecords extends AndroidViewModel {
                         loDetail.setFeedBck2(infoModel.getFeedBck2());
                         loDetail.setFBRemrk2(infoModel.getFBRemrk2());
                         loDetail.setMobileN2(infoModel.getMobileN2());
+                        loDetail.setAddress2(infoModel.getAddress2());
                         poCIEvaluation.updateCiNeighbor2(loDetail);
                     }
                 }else if(btnText.equalsIgnoreCase("Neighbor3")){
@@ -242,6 +278,7 @@ public class VMCIBarangayRecords extends AndroidViewModel {
                         loDetail.setFeedBck3(infoModel.getFeedBck3());
                         loDetail.setFBRemrk3(infoModel.getFBRemrk3());
                         loDetail.setMobileN3(infoModel.getMobileN3());
+                        loDetail.setAddress3(infoModel.getAddress3());
                         poCIEvaluation.updateCiNeighbor3(loDetail);
                     }
                 }else {
@@ -302,6 +339,10 @@ public class VMCIBarangayRecords extends AndroidViewModel {
 
         return this.sFeedback1;
     }
+    public LiveData<String> getAddress1() {
+
+        return this.sAddress1;
+    }
     //  Getter  Neigbor  2
     public LiveData<String> getsNeigbor2() {
         return this.sNeigbor2;
@@ -322,6 +363,10 @@ public class VMCIBarangayRecords extends AndroidViewModel {
     public LiveData<String> getsFeedback2() {
         return this.sFeedback2;
     }
+    public LiveData<String> getAddress2() {
+
+        return this.sAddress2;
+    }
     //  Getter  Neigbor  3
     public LiveData<String> getsNeigbor3() {
         return this.sNeigbor3;
@@ -341,6 +386,10 @@ public class VMCIBarangayRecords extends AndroidViewModel {
 
     public LiveData<String> getsFeedback3() {
         return this.sFeedback3;
+    }
+    public LiveData<String> getAddress3() {
+
+        return this.sAddress3;
     }
     // Getter Record
     public LiveData<String> getsHasRecord() {

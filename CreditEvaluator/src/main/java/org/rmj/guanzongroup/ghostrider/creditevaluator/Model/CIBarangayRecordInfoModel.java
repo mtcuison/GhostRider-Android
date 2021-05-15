@@ -47,6 +47,7 @@ public class CIBarangayRecordInfoModel {
     public boolean isValidNeigbor1(){
         return isNeighbr1() &&
                 isReltnCD1() &&
+                isAddress1() &&
                 isMobileN1() &&
                 isFeedBck1() &&
                 isFBRemrk1();
@@ -66,8 +67,22 @@ public class CIBarangayRecordInfoModel {
         return true;
     }
     private boolean isMobileN1(){
-        if (this.MobileN1 == null || this.MobileN1.trim().isEmpty()){
-            message = "Please enter neighbor 1 mobile no.";
+        if (!MobileN1.trim().isEmpty()) {
+            if(!MobileN1.substring(0, 2).equalsIgnoreCase("09")){
+                message = "Contact number must start with '09'";
+                return false;
+            }
+            if(MobileN1.length() != 11){
+                message = "Please enter primary contact info";
+                return false;
+            }
+            if(MobileN1.equalsIgnoreCase(MobileN2)
+                    || MobileN1.equalsIgnoreCase(MobileN3)){
+                message = "Contact numbers are duplicated";
+                return false;
+            }
+        }else {
+            message = "Please enter Neighbor 1 contact no.";
             return false;
         }
         return true;
@@ -87,10 +102,19 @@ public class CIBarangayRecordInfoModel {
         return true;
     }
 
+    private boolean isAddress1(){
+        if (this.Address1 == null || this.Address1.trim().isEmpty()){
+            message = "Please enter neighbor 1 address.";
+            return false;
+        }
+        return true;
+    }
+
     //    NEIGHBOR 2
     public boolean isValidNeigbor2(){
         return isNeighbr2() &&
                 isReltnCD2() &&
+                isAddress2() &&
                 isMobileN2() &&
                 isFeedBck2()&&
                 isFBRemrk2();
@@ -110,8 +134,22 @@ public class CIBarangayRecordInfoModel {
         return true;
     }
     private boolean isMobileN2(){
-        if (this.MobileN2 == null || this.MobileN2.trim().isEmpty()){
-            message = "Please enter neighbor 2 mobile no.";
+        if (!MobileN2.trim().isEmpty()) {
+            if(!MobileN2.substring(0, 2).equalsIgnoreCase("09")){
+                message = "Contact number must start with '09'";
+                return false;
+            }
+            if(MobileN2.length() != 11){
+                message = "Please enter primary contact info";
+                return false;
+            }
+            if(MobileN2.equalsIgnoreCase(MobileN1)
+                    || MobileN2.equalsIgnoreCase(MobileN3)){
+                message = "Contact numbers are duplicated";
+                return false;
+            }
+        }else {
+            message = "Please enter Neighbor 2 contact no.";
             return false;
         }
         return true;
@@ -131,12 +169,21 @@ public class CIBarangayRecordInfoModel {
         return true;
     }
 
+    private boolean isAddress2(){
+        if (this.Address2 == null || this.Address2.trim().isEmpty()){
+            message = "Please enter neighbor 2 address.";
+            return false;
+        }
+        return true;
+    }
+
 
 
     //    NEIGHBOR 3
     public boolean isValidNeigbor3(){
         return isNeighbr3() &&
                 isReltnCD3() &&
+                isAddress3() &&
                 isMobileN3() &&
                 isFeedBck3() &&
                 isFBRemrk3();
@@ -156,8 +203,22 @@ public class CIBarangayRecordInfoModel {
         return true;
     }
     private boolean isMobileN3(){
-        if (this.MobileN3 == null || this.MobileN3.trim().isEmpty()){
-            message = "Please enter neighbor 3 mobile no.";
+        if (!MobileN3.trim().isEmpty()) {
+            if(!MobileN3.substring(0, 2).equalsIgnoreCase("09")){
+                message = "Contact number must start with '09'";
+                return false;
+            }
+            if(MobileN3.length() != 11){
+                message = "Please enter primary contact info";
+                return false;
+            }
+            if(MobileN3.equalsIgnoreCase(MobileN1)
+                    || MobileN3.equalsIgnoreCase(MobileN2)){
+                message = "Contact numbers are duplicated";
+                return false;
+            }
+        }else {
+            message = "Please enter Neighbor 3 contact no.";
             return false;
         }
         return true;
@@ -172,6 +233,13 @@ public class CIBarangayRecordInfoModel {
     private boolean isFBRemrk3(){
         if (this.FBRemrk3 == null || this.FBRemrk3.trim().isEmpty()){
             message = "Please enter neighbor 3 remarks.";
+            return false;
+        }
+        return true;
+    }
+    private boolean isAddress3(){
+        if (this.Address3 == null || this.Address3.trim().isEmpty()){
+            message = "Please enter neighbor 3 address.";
             return false;
         }
         return true;

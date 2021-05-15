@@ -33,6 +33,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
@@ -41,6 +42,8 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMCIResidenceInfo;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
+
+import java.util.function.LongFunction;
 
 import static android.app.Activity.RESULT_OK;
 import static org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.CIConstants.SUB_FOLDER_DCP;
@@ -63,6 +66,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
     private TextView nTerm;
     private TextView nMobile;
     private TextView sTransNox;
+    private String sCredInx;
     public static Fragment_CIResidenceInfo newInstance() {
         return new Fragment_CIResidenceInfo();
     }
@@ -88,6 +92,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(getActivity()).get(VMCIResidenceInfo.class);
         mViewModel.setsTransNox(Activity_CIApplication.getInstance().getTransNox());
+        mViewModel.getEmplopyeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> mViewModel.setEmployeeID(eEmployeeInfo.getEmployID()));
         mViewModel.setnLatitude("0.0");
         mViewModel.setnLogitude("0.0");
         mViewModel.getCIByTransNox(Activity_CIApplication.getInstance().getTransNox()).observe(getViewLifecycleOwner(), eciEvaluation -> {
@@ -182,7 +187,6 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
             }else {
                 ECIEvaluation eciEvaluation1 = new ECIEvaluation();
                 eciEvaluation1.setTransNox(Activity_CIApplication.getInstance().getTransNox());
-
                 eciEvaluation1.setWaterBil("0.00");
                 eciEvaluation1.setElctrcBl("0.00");
                 eciEvaluation1.setFoodAllw("0.00");

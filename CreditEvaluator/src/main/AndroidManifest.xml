@@ -18,7 +18,8 @@
         <activity
             android:name=".Activity.Activity_CIApplication"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity
             android:name=".Activity.Activity_EvaluationList"
             android:label="CI Evaluation"
