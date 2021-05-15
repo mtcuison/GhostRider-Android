@@ -44,7 +44,7 @@ public class CharacterTraitsInfoModel {
         return true;
     }
     public boolean isApproved(){
-        if (this.cTranstat == null || this.cTranstat.equalsIgnoreCase("0")){
+        if (this.cTranstat.equalsIgnoreCase("0")){
             message = "Please select approval/disapproval status.";
             return false;
         }

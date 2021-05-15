@@ -63,6 +63,9 @@ public class REmployee {
     public LiveData<String> getClientID(){
         return employeeDao.getClientID();
     }
+    public LiveData<String> getEmployID(){
+        return employeeDao.getEmployID();
+    }
     public LiveData<String> getUserBranchID(){
         return employeeDao.getSBranchID();
     }

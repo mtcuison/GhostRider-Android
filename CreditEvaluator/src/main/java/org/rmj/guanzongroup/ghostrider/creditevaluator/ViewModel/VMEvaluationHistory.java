@@ -25,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
@@ -72,7 +73,7 @@ public class VMEvaluationHistory extends AndroidViewModel {
         return poEmploye.getEmployeeInfo();
     }
 
-    public LiveData<List<EBranchLoanApplication>> getAllCICreditApplicationLog(){
+    public LiveData<List<DBranchLoanApplication.CIEvaluationList>> getAllCICreditApplicationLog(){
         return poCreditApp.getAllCICreditApplicationLog();
     }
     public void ImportCIApplications(OnImportCallBack callBack){
@@ -80,7 +81,7 @@ public class VMEvaluationHistory extends AndroidViewModel {
         JSONObject loJson = new JSONObject();
         try {
             loJson.put("bycode", false);
-            loJson.put("value","");
+            loJson.put("value","M02407000479");
             new VMEvaluationHistory.ImportBranchApplications(instance, callBack).execute(loJson);
 //            loJson.put("value", empBrnCD);
         } catch (JSONException e) {

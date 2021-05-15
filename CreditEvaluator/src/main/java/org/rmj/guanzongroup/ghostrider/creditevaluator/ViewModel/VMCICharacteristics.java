@@ -1,4 +1,4 @@
-/*
+      /*
  * Created by Android Team MIS-SEG Year 2021
  * Copyright (c) 2021. Guanzon Central Office
  * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCIEvaluation;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
@@ -44,8 +45,8 @@ public class VMCICharacteristics extends AndroidViewModel {
     private final Application instance;
     private final RCIEvaluation poCI;
     private final ECIEvaluation evaluation;
+    private final REmployee rEmployee;
     private final SessionManager poUser;
-
     private final MutableLiveData<ECIEvaluation> poCIDetail = new MutableLiveData<>();
     private final MutableLiveData<String> sTransNox = new MutableLiveData<>();
 
@@ -56,6 +57,7 @@ public class VMCICharacteristics extends AndroidViewModel {
         this.instance = application;
         this.poCI = new RCIEvaluation(application);
         this.evaluation = new ECIEvaluation();
+        this.rEmployee = new REmployee(application);
         this.poUser = new SessionManager(application);
     }
 
@@ -84,7 +86,6 @@ public class VMCICharacteristics extends AndroidViewModel {
             return true;
         } catch (NullPointerException e) {
             e.printStackTrace();
-//            callback.OnFailedResult(e.getMessage());
             callback.onPostFailed("NullPointerException error");
             return false;
         } catch (Exception e) {
@@ -141,8 +142,7 @@ public class VMCICharacteristics extends AndroidViewModel {
                     loDetail.setApproved(AppConstants.DATE_MODIFIED);
                     loDetail.setTimeStmp(AppConstants.DATE_MODIFIED);
                     loDetail.setReceived(AppConstants.DATE_MODIFIED);
-                    loDetail.setCredInvx(poUser.getUserID());
-                    poCIEvaluation.updateCiDisbursement(loDetail);
+                    poCIEvaluation.updaCharacterTraits(loDetail);
 
                     if (!poConn.isDeviceConnected()) {
                         response = AppConstants.NO_INTERNET();
@@ -194,30 +194,22 @@ public class VMCICharacteristics extends AndroidViewModel {
                         loJSON.put("sRemarksx", infoModel.getsRemarks());
                         loJSON.put("cTranStat", infoModel.getcTranstat());
                         loJSON.put("dApproved", loDetail.getApproved());
+                        poCIEvaluation.updaCharacterTraits(loDetail);
                         Log.e(TAG, loJSON.toString());
-                        Log.e(TAG, "Applicant's character traits info has been updated!");
-                        String lsResponse1 = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, loJSON.toString(), poHeaders.getHeaders());
+                        String lsResponse1 = WebClient.httpsPostJSon(WebApi.URL_UPLOAD_CI_RESULT, loJSON.toString(), poHeaders.getHeaders());
                         if (lsResponse1 == null) {
                             response = "Server no response.";
-                            Log.e(TAG, "Server no response.");
                         } else {
                             JSONObject loResponse = new JSONObject(lsResponse1);
 
                             String result = loResponse.getString("result");
                             if (result.equalsIgnoreCase("success")) {
                                 Log.e(TAG, "Data of TransNox. " + loDetail.getTransNox() + " was uploaded successfully");
-                                poCIEvaluation.updateCiDisbursement(loDetail);
-//                                    if (loDetail.sRemCodex == null) {
-//                                        poDcp.updateCollectionDetailStatusWithRemarks(loDetail.sTransNox, loDetail.nEntryNox, sRemarksx);
-//                                    } else {
-//                                        poDcp.updateCollectionDetailStatus(loDetail.sTransNox, loDetail.nEntryNox);
-//                                    }
                                 response = AppConstants.ALL_DATA_SENT();
                             } else {
                                 JSONObject loError = loResponse.getJSONObject("error");
                                 Log.e(TAG, loError.getString("message"));
                                 response = AppConstants.LOCAL_EXCEPTION_ERROR(loError.getString("message"));
-
                             }
                         }
                     }
@@ -246,11 +238,6 @@ public class VMCICharacteristics extends AndroidViewModel {
             } catch (Exception e){
                 e.printStackTrace();
             }
-//            if (s.equalsIgnoreCase("success")) {
-//                callback.onSaveSuccessResult("TransNox : "+sTransNox.getValue() + " has evaluated successfully.");
-//            } else {
-//                callback.onFailedResult(s);
-//            }
         }
     }
 

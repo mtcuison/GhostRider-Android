@@ -68,7 +68,9 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
         initWidgets();
         mViewModel = new ViewModelProvider(Activity_EvaluationList.this).get(VMEvaluationList.class);
         mViewModel.ImportCIApplications(Activity_EvaluationList.this);
-        updateInit();
+        mViewModel.getEmplopyeInfo().observe(Activity_EvaluationList.this, eEmployeeInfo -> mViewModel.setEmployeeID(eEmployeeInfo.getEmployID()));
+
+        initData();
 
     }
     private void initWidgets(){
@@ -150,7 +152,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
     @Override
     public void onSuccessImport() {
         poDialogx.dismiss();
-        updateInit();
+        initData();
     }
 
 
@@ -170,44 +172,29 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
     }
-    public void updateInit(){
-        mViewModel.getCICreditApplication().observe(Activity_EvaluationList.this, ciList -> {
-            if(ciList.size()>0) {
-                for (int x = 0; x < ciList.size(); x++) {
-                    mViewModel.getCITransTat(ciList.get(x).getTransNox()).observe(Activity_EvaluationList.this, eciEvaluation -> {
-                        if (eciEvaluation != null) {
-                            mViewModel.updateCiTransTat(eciEvaluation.getTransNox());
-                        }
-                    });
-                }
-            }else{
-                layoutNoRecord.setVisibility(View.VISIBLE);
-            }
-        });
-        initData();
-    }
+
     public void initData(){
-        mViewModel.getCICreditApplication().observe(Activity_EvaluationList.this, ciList -> {
+        mViewModel.getAllCICreditApplications().observe(Activity_EvaluationList.this, ciList -> {
             try{
                 if(ciList.size()>0) {
                     loading.setVisibility(View.GONE);
                     ciEvaluationList = new ArrayList<>();
                     for (int x = 0; x < ciList.size(); x++) {
                         CreditEvaluationModel loan = new CreditEvaluationModel();
-                        loan.setsTransNox(ciList.get(x).getTransNox());
-                        loan.setdTransact(ciList.get(x).getTransact());
-                        loan.setsCredInvx(ciList.get(x).getCredInvx());
-                        loan.setsCompnyNm(ciList.get(x).getCompnyNm());
-                        loan.setsSpouseNm(ciList.get(x).getSpouseNm());
-                        loan.setsAddressx(ciList.get(x).getAddressx());
-                        loan.setsMobileNo(ciList.get(x).getMobileNo());
-                        loan.setsQMAppCde(ciList.get(x).getQMAppCde());
-                        loan.setsModelNme(ciList.get(x).getModelNme());
-                        loan.setnDownPaym(ciList.get(x).getDownPaym());
-                        loan.setnAcctTerm(ciList.get(x).getAcctTerm());
-                        loan.setcTranStat(ciList.get(x).getTranStat());
-                        loan.setdTimeStmp(ciList.get(x).getTimeStmp());
-                        loan.setCiTranStat(ciList.get(x).getCiTransTat());
+                        loan.setsTransNox(ciList.get(x).sTransNox);
+                        loan.setdTransact(ciList.get(x).dTransact);
+                        loan.setsCredInvx(ciList.get(x).sCredInvx);
+                        loan.setsCompnyNm(ciList.get(x).sCompnyNm);
+                        loan.setsSpouseNm(ciList.get(x).sSpouseNm);
+                        loan.setsAddressx(ciList.get(x).sAddressx);
+                        loan.setsMobileNo(ciList.get(x).sMobileNo);
+                        loan.setsQMAppCde(ciList.get(x).sQMAppCde);
+                        loan.setsModelNme(ciList.get(x).sModelNme);
+                        loan.setnDownPaym(ciList.get(x).nDownPaym);
+                        loan.setnAcctTerm(ciList.get(x).nAcctTerm);
+                        loan.setcTranStat(ciList.get(x).cTranStat);
+                        loan.setdTimeStmp(ciList.get(x).dTimeStmp);
+                        loan.setCiTranStat(ciList.get(x).ciTranStat);
                         ciEvaluationList.add(loan);
 
 
@@ -228,6 +215,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
                             loIntent.putExtra("MobileNo",ciEvaluationLists.get(position).getsMobileNo());
                             loIntent.putExtra("term",ciEvaluationLists.get(position).getnAcctTerm());
                             loIntent.putExtra("Status",ciEvaluationLists.get(position).getTransactionStatus());
+                            loIntent.putExtra("sCredInvx",ciEvaluationLists.get(position).getsCredInvx());
                             startActivity(loIntent);
 
                         }

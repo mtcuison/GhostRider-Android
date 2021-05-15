@@ -44,25 +44,44 @@ public interface DBranchLoanApplication {
             "WHERE sBranchCD = (SELECT sBranchCD FROM User_Info_Master) ")
     LiveData<List<EBranchLoanApplication>> getAllBranchCreditApplication();
 
-    @Query("SELECT * FROM Credit_Online_Application_List " +
-            "WHERE cTranStat = 1 AND ciTransTat = 0")
-    LiveData<List<EBranchLoanApplication>> getAllCICreditApplication();
+//    @Query("SELECT * FROM Credit_Online_Application_List " +
+//            "WHERE cTranStat != 4 AND " +
+//            "sCredInvx  = (SELECT sEmployID FROM User_Info_Master)")
+@Query("SELECT a.*, " +
+        "b.cTranStat As ciTranStat " +
+        "FROM Credit_Online_Application_List a LEFT JOIN Credit_Online_Application_List_CI b " +
+        "ON a.sTransNox = b.sTransNox  " +
+        "WHERE a.cTranStat = 1 AND coalesce(b.cTranStat, NULL) IS NOT NULL AND ciTranStat = 1 " +
+        "AND b.sCredInvx = (SELECT sEmployID FROM User_Info_Master)")
+    LiveData<List<CIEvaluationList>> getAllCICreditApplicationLog();
 
-    @Query("SELECT * FROM Credit_Online_Application_List " +
-            "WHERE cTranStat != 4 AND " +
-            "sCredInvx  = (SELECT sEmployID FROM User_Info_Master)")
-    LiveData<List<EBranchLoanApplication>> getAllCICreditApplicationLog();
-    @Query("UPDATE Credit_Online_Application_List " +
-            "SET ciTransTat = (SELECT cTranStat FROM Credit_Online_Application_CI WHERE sTransNox =:TransNox)" +
-            "WHERE sTransNox =:TransNox")
-    void updateTranStatByTransNox(String TransNox);
-
-    @Query("SELECT * FROM Credit_Online_Application_List WHERE sTransNox =:TransNox")
+    @Query("SELECT * FROM Credit_Online_Application_List WHERE sTransNox =:TransNox ")
     List<EBranchLoanApplication> getDuplicateTransNox(String TransNox);
 
-    @Query("SELECT * FROM Credit_Online_Application_CI " +
-            "WHERE sTransNox =:TransNox")
-    LiveData<ECIEvaluation> getCITransTat(String TransNox);
+    @Query("SELECT a.*, b.cTranStat AS ciTranStat " +
+            "FROM Credit_Online_Application_List a " +
+            "LEFT JOIN Credit_Online_Application_List_CI b " +
+            "ON a.sTransNox = b.sTransNox " +
+            "WHERE a.cTranStat = 1 " +
+            "AND COALESCE(b.cTranStat, NULL) IS NULL " +
+            "OR ciTranStat = 0 ")
+    LiveData<List<CIEvaluationList>> getAllCICreditApplications();
     @Insert
     void insertNewApplication(EBranchLoanApplication loanApplication);
+    class CIEvaluationList{
+        public String sTransNox;
+        public String dTransact;
+        public String sCredInvx;
+        public String sCompnyNm;
+        public String sSpouseNm;
+        public String sAddressx;
+        public String sMobileNo;
+        public String sQMAppCde;
+        public String sModelNme;
+        public String nDownPaym;
+        public String nAcctTerm;
+        public String cTranStat;
+        public String dTimeStmp;
+        public String ciTranStat;
+    }
 }

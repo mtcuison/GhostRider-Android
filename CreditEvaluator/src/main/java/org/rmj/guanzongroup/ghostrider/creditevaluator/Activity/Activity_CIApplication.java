@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.ghostrider.creditevaluator.Activity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +33,7 @@ public class Activity_CIApplication extends AppCompatActivity {
     private static final String TAG = Activity_CIApplication.class.getSimpleName();
     private static Activity_CIApplication instance;
     private ViewPager viewPager;
-    private String transNox, sCompnyNm, dTransact, sModelNm, nTerm, nMobile;
+    private String transNox, sCompnyNm, dTransact, sModelNm, nTerm, nMobile, sCredInvx;
     public static Activity_CIApplication getInstance(){
         return instance;
     }
@@ -55,6 +56,9 @@ public class Activity_CIApplication extends AppCompatActivity {
     public String getnMobile(){
         return nMobile;
     }
+    public String getsCredInx(){
+        return sCredInvx;
+    }
 
     public void moveToPageNumber(int fnPageNum){
         viewPager.setCurrentItem(fnPageNum);
@@ -65,6 +69,7 @@ public class Activity_CIApplication extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ci_application);
         instance = this;
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 //      Header detail
         transNox = getIntent().getStringExtra("transno");
         sCompnyNm = getIntent().getStringExtra("ClientNm");
@@ -72,6 +77,7 @@ public class Activity_CIApplication extends AppCompatActivity {
         sModelNm = getIntent().getStringExtra("ModelName");
         nTerm = getIntent().getStringExtra("term");
         nMobile = getIntent().getStringExtra("MobileNo");
+        sCredInvx = getIntent().getStringExtra("sCredInvx");
         initWidgets();
     }
 

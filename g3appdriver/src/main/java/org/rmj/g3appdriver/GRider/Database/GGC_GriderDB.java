@@ -54,6 +54,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DOccupationInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRaffleInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRawDao;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRelation;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRemittanceAccounts;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DSysConfig;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
@@ -94,6 +95,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EOccupationInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERaffleBasis;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERaffleInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.ERelation;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERemittanceAccounts;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESCA_Request;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESysConfig;
@@ -143,7 +145,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         EDCP_Remittance.class,
         ERemittanceAccounts.class,
         ESysConfig.class,
-        EGLocatorSysLog.class}, version = 1, exportSchema = false)
+        EGLocatorSysLog.class,
+        ERelation.class}, version = 1, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -182,6 +185,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DBranchLoanApplication CreditAppDocsDao();
     public abstract DUncapturedClient UncapturedDao();
     public abstract DCIEvaluation CIDao();
+    public abstract DRelation RelDao();
     public abstract DDCP_Remittance DCPRemitanceDao();
     public abstract DRemittanceAccounts RemitanceAccDao();
     public abstract DSysConfig sysConfigDao();

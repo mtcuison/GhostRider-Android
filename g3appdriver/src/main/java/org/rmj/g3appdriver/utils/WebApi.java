@@ -194,6 +194,8 @@ public class WebApi {
     public static String URL_BRANCH_REMITTANCE_ACC = "https://restgk.guanzongroup.com.ph/integsys/param/download_branch_bank_account.php";
     public static String URL_IMPORT_SYS_CONFIG = "https://restgk.guanzongroup.com.ph/integsys/param/download_system_config.php";
     public static String URL_DOWNLOAD_CREDIT_ONLINE_APP = "https://restgk.guanzongroup.com.ph/integsys/param/download_credit_online_application_list.php";
+    public static String URL_DOWNLOAD_RELATION = "https://restgk.guanzongroup.com.ph/integsys/param/download_relation.php";
+    public static String URL_UPLOAD_CI_RESULT = "https://restgk.guanzongroup.com.ph/integsys/gocas/upload_ci_result.php";
     public static String URL_SEND_REQUEST = "https://restgk.guanzongroup.com.ph/notification/send_response.php";
     public static String URL_SEND_RESPONSE = "https://restgk.guanzongroup.com.ph/notification/send_request.php";
 }

@@ -16,7 +16,9 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -54,6 +56,15 @@ public class RBranchLoanApplication {
             return false;
         }
     }
+    public boolean insertCBulkiApplication(List<EBranchLoanApplication> ciApplication){
+        try {
+            docsDao.insertBulkData(ciApplication);
+            return true;
+        } catch (SQLiteConstraintException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public boolean insertBranchApplicationInfos(JSONArray faJson) throws Exception {
         try {
@@ -76,8 +87,6 @@ public class RBranchLoanApplication {
                 loanInfo.setCreatedX(loJson.getString("sCreatedx"));
                 loanInfo.setTranStat(loJson.getString("cTranStat"));
                 loanInfo.setTimeStmp(loJson.getString("dTimeStmp"));
-                loanInfo.setCiTransTat(loJson.getString("ciTransTat"));
-
                 loanApplications.add(loanInfo);
             }
             docsDao.insertBulkData(loanApplications);
@@ -91,18 +100,13 @@ public class RBranchLoanApplication {
     public LiveData<List<EBranchLoanApplication>> getBranchCreditApplication(){
         return docsDao.getAllBranchCreditApplication();
     }
-    public LiveData<List<EBranchLoanApplication>> getCICreditApplication(){
-        return docsDao.getAllCICreditApplication();
-    }
-    public LiveData<List<EBranchLoanApplication>> getAllCICreditApplicationLog(){
+    public LiveData<List<DBranchLoanApplication.CIEvaluationList>> getAllCICreditApplicationLog(){
         return docsDao.getAllCICreditApplicationLog();
     }
-    public LiveData<ECIEvaluation> getCITransTat(String TransNox){
-        return docsDao.getCITransTat(TransNox);
+    public LiveData<List<DBranchLoanApplication.CIEvaluationList>> getAllCICreditApplications(){
+        return docsDao.getAllCICreditApplications();
     }
-    public void updateCiTransTat(String transNox){
-        new updateCiTranStat(docsDao).execute(transNox);
-    }
+
     public void insertDetailBulkData(List<EBranchLoanApplication> eBranchLoanApplications){
         new InsertBulkBranchApplicationListAsyncTask(docsDao).execute(eBranchLoanApplications);
     }
@@ -138,18 +142,5 @@ public class RBranchLoanApplication {
         loConn = null;
         return lsTransNox;
     }
-    private static class updateCiTranStat extends AsyncTask<String, Void, String>{
-        private final DBranchLoanApplication ciDao;
-        public updateCiTranStat(DBranchLoanApplication documentsDao) {
-            this.ciDao = documentsDao;
-        }
 
-        @Override
-        protected String doInBackground(String... transNox) {
-            if (ciDao.getDuplicateTransNox(transNox[0]).size()>0){
-                ciDao.updateTranStatByTransNox(transNox[0]);
-            }
-            return null;
-        }
-    }
 }

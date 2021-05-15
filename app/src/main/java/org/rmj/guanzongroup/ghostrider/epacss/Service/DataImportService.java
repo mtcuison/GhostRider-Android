@@ -34,6 +34,7 @@ import org.rmj.g3appdriver.GRider.ImportData.ImportTown;
 import org.rmj.g3appdriver.GRider.ImportData.Import_AreaPerformance;
 import org.rmj.g3appdriver.GRider.ImportData.Import_BankList;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
+import org.rmj.g3appdriver.GRider.ImportData.Import_Relation;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SysConfig;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -63,6 +64,7 @@ public class DataImportService extends JobService {
                 new Import_AreaPerformance(getApplication()),
                 new Import_BankList(getApplication()),
                 new ImportFileCode(getApplication()),
+                new Import_Relation(getApplication()),
                 new ImportBranch(getApplication()),
                 new ImportBrand(getApplication()),
                 new ImportBrandModel(getApplication()),

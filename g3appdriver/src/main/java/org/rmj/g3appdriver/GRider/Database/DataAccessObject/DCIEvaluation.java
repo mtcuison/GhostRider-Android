@@ -40,10 +40,7 @@ public interface DCIEvaluation {
     @Insert
     void insertNewCiApplication(ECIEvaluation eciEvaluation);
 
-    @Query("SELECT * FROM Credit_Online_Application_CI WHERE sTransNox =:TransNox")
-    LiveData<ECIEvaluation> getCIInfoOfTransNox(String TransNox);
-
-    @Query("UPDATE Credit_Online_Application_CI SET " +
+    @Query("UPDATE Credit_Online_Application_List_CI SET " +
             "sLandMark =:LandMark, " +
             "cOwnershp =:Ownershp, " +
             "cOwnOther =:OwnOther, " +
@@ -53,4 +50,10 @@ public interface DCIEvaluation {
             "nLongitud =:Longitud " +
             "WHERE sTransNox =:TransNox ")
     void updateCIInfo(String TransNox, String LandMark, String Ownershp, String OwnOther, String HouseTyp, String Garagexx,String Latitude, String Longitud);
+
+    @Query("SELECT * FROM Credit_Online_Application_List_CI WHERE sTransNox =:TransNox")
+    LiveData<ECIEvaluation> getCIInfoOfTransNox(String TransNox);
+
+    @Query("SELECT * FROM Credit_Online_Application_List_CI WHERE sTransNox = :fsTransNo AND (cTranStat = 1 OR cTranStat = 3)")
+    LiveData<ECIEvaluation> getAllDoneCiInfo(String fsTransNo);
 }

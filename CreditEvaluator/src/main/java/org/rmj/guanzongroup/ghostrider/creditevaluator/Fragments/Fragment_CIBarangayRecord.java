@@ -12,16 +12,23 @@
 package org.rmj.guanzongroup.ghostrider.creditevaluator.Fragments;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.ListPopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.ViewModelProvider;
@@ -47,9 +54,10 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
     private RadioGroup rgRecord,rgFeedbak1,rgFeedbak2,rgFeedbak3;
     private TextInputLayout tilRecord,tilFBRemark1,tilFBRemark2,tilFBRemark3;
     private TextInputEditText tieRecord;
-    private TextInputEditText tieFullname1, tieContact1, tieFBRemark1, tieRel1;
-    private TextInputEditText tieFullname2, tieContact2, tieFBRemark2, tieRel2;
-    private TextInputEditText tieFullname3, tieContact3, tieFBRemark3, tieRel3;
+    private AutoCompleteTextView tieRel1, tieRel2, tieRel3;
+    private TextInputEditText tieFullname1, tieContact1, tieFBRemark1, tieAddress1;
+    private TextInputEditText tieFullname2, tieContact2, tieFBRemark2, tieAddress2;
+    private TextInputEditText tieFullname3, tieContact3, tieFBRemark3, tieAddress3;
     private MaterialButton btnNext, btnPrevious, btnAdd1, btnAdd2, btnAdd3;
 
     private TextView sCompnyNm;
@@ -89,6 +97,7 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
         tieRel1 = view.findViewById(R.id.tie_ci_neighborRel1);
         tilFBRemark1 = view.findViewById(R.id.til_ci_fbRemark1);
         tieFBRemark1 = view.findViewById(R.id.tie_ci_fbRemark1);
+        tieAddress1 = view.findViewById(R.id.tie_ci_address1);
         btnAdd1 = view.findViewById(R.id.btn_ci_add1);
 
 //      Neighbor 2
@@ -97,6 +106,7 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
         tieRel2 = view.findViewById(R.id.tie_ci_neighborRel2);
         tilFBRemark2 = view.findViewById(R.id.til_ci_fbRemark2);
         tieFBRemark2 = view.findViewById(R.id.tie_ci_fbRemark2);
+        tieAddress2 = view.findViewById(R.id.tie_ci_address2);
         btnAdd2 = view.findViewById(R.id.btn_ci_add2);
 
 //      Neighbor 3
@@ -105,6 +115,7 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
         tieRel3 = view.findViewById(R.id.tie_ci_neighborRel3);
         tilFBRemark3 = view.findViewById(R.id.til_ci_fbRemark3);
         tieFBRemark3 = view.findViewById(R.id.tie_ci_fbRemark3);
+        tieAddress3 = view.findViewById(R.id.tie_ci_address3);
         btnAdd3 = view.findViewById(R.id.btn_ci_add3);
 
         btnNext = view.findViewById(R.id.btn_ciAppNext);
@@ -127,6 +138,8 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
         nTerm.setText(Activity_CIApplication.getInstance().getnTerm());
         nMobile.setText(Activity_CIApplication.getInstance().getnMobile());
     }
+    @SuppressLint("WrongConstant")
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -143,6 +156,46 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
         rgFeedbak1.setOnCheckedChangeListener(new ONCIBarangayRecord(rgFeedbak1,mViewModel));
         rgFeedbak2.setOnCheckedChangeListener(new ONCIBarangayRecord(rgFeedbak2,mViewModel));
         rgFeedbak3.setOnCheckedChangeListener(new ONCIBarangayRecord(rgFeedbak3,mViewModel));
+        mViewModel.getAllRelatnDs().observe(getViewLifecycleOwner(), strings -> {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, strings);
+            tieRel1.setAdapter(adapter);
+            tieRel1.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+            tieRel2.setAdapter(adapter);
+            tieRel2.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+            tieRel3.setAdapter(adapter);
+            tieRel3.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        });
+
+        tieRel1.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getRelation().observe(getViewLifecycleOwner(), eBranchInfos -> {
+            for(int x = 0; x < eBranchInfos.size(); x++){
+                if(tieRel1.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getRelatnDs())){
+                    Log.e(TAG, eBranchInfos.get(x).getRelatnID());
+                    ciModel.setReltnCD1(eBranchInfos.get(x).getRelatnID());
+                    break;
+                }else{
+                    ciModel.setReltnCD1("");
+                }
+            }
+        }));
+        tieRel2.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getRelation().observe(getViewLifecycleOwner(), eBranchInfos -> {
+            for(int x = 0; x < eBranchInfos.size(); x++){
+                if(tieRel2.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getRelatnDs())){
+                    Log.e(TAG, eBranchInfos.get(x).getRelatnID());
+                    ciModel.setReltnCD2(eBranchInfos.get(x).getRelatnID());
+                    break;
+                }
+            }
+        }));
+        tieRel3.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getRelation().observe(getViewLifecycleOwner(), eBranchInfos -> {
+            for(int x = 0; x < eBranchInfos.size(); x++){
+                if(tieRel3.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getRelatnDs())){
+                    Log.e(TAG, eBranchInfos.get(x).getRelatnID());
+                    ciModel.setReltnCD3(eBranchInfos.get(x).getRelatnID());
+                    break;
+                }
+            }
+        }));
+
 
         btnPrevious.setOnClickListener(v -> {
             Activity_CIApplication.getInstance().moveToPageNumber(1);
@@ -151,7 +204,7 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
             try {
                 ciModel.setFBRemrk1(tieFBRemark1.getText().toString());
                 ciModel.setNeighbr1(tieFullname1.getText().toString());
-                ciModel.setReltnCD1(tieRel1.getText().toString());
+                ciModel.setAddress1(tieAddress1.getText().toString());
                 ciModel.setMobileN1(tieContact1.getText().toString());
                 mViewModel.saveNeighbor(ciModel, "Neighbor1",Fragment_CIBarangayRecord.this);
             }catch (NullPointerException e){
@@ -163,7 +216,7 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
             try {
                 ciModel.setFBRemrk2(tieFBRemark2.getText().toString());
                 ciModel.setNeighbr2(tieFullname2.getText().toString());
-                ciModel.setReltnCD2(tieRel2.getText().toString());
+                ciModel.setAddress2(tieAddress2.getText().toString());
                 ciModel.setMobileN2(tieContact2.getText().toString());
                 mViewModel.saveNeighbor(ciModel, "Neighbor2",Fragment_CIBarangayRecord.this);
             }catch (NullPointerException e){
@@ -175,7 +228,7 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
             try {
                 ciModel.setFBRemrk3(tieFBRemark3.getText().toString());
                 ciModel.setNeighbr3(tieFullname3.getText().toString());
-                ciModel.setReltnCD3(tieRel3.getText().toString());
+                ciModel.setAddress3(tieAddress3.getText().toString());
                 ciModel.setMobileN3(tieContact3.getText().toString());
                 mViewModel.saveNeighbor(ciModel, "Neighbor3",Fragment_CIBarangayRecord.this);
             }catch (NullPointerException e){
@@ -280,6 +333,7 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     public void setData(){
         try {
 //            Neighbor 1
@@ -291,11 +345,23 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
                 tieFullname1.setText(val);
             });
             mViewModel.getsRel1().observe(getViewLifecycleOwner(), val ->{
-                if (!val.trim().isEmpty()){
-                    ciModel.setReltnCD1(val);
-                    tieRel1.setEnabled(false);
-                }
-                tieRel1.setText(val);
+                mViewModel.getRelation().observe(getViewLifecycleOwner(), sReltn->{
+                    int relID;
+                    if (val.isEmpty()){
+                        relID = -1;
+                    }else {
+                        relID = Integer.parseInt(val);
+                    }
+                    for (int i = 0; i < sReltn.size(); i++){
+                        if (i == relID){
+                            tieRel1.setText(sReltn.get(i).getRelatnDs());
+                            ciModel.setReltnCD1(val);
+                            tieRel1.setEnabled(false);
+                        }
+
+                    }
+                });
+
             });
             mViewModel.getsMobile1().observe(getViewLifecycleOwner(), val ->{
                 if (!val.trim().isEmpty()){
@@ -329,6 +395,15 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
                     tieFBRemark1.setEnabled(false);
                 }
             });
+            mViewModel.getAddress1().observe(getViewLifecycleOwner(), remarks ->{
+                if (!remarks.isEmpty()){
+                    ciModel.setAddress1(remarks);
+                    tieAddress1.setClickable(false);
+                    tieAddress1.setEnabled(false);
+                }
+                tieAddress1.setText(remarks);
+            });
+
 //            Neighbor 2
             mViewModel.getsNeigbor2().observe(getViewLifecycleOwner(), val ->{
                 if (!val.trim().isEmpty()){
@@ -338,11 +413,23 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
                 tieFullname2.setText(val);
             });
             mViewModel.getsRel2().observe(getViewLifecycleOwner(), val ->{
-                if (!val.trim().isEmpty()){
-                    ciModel.setReltnCD2(val);
-                    tieRel2.setEnabled(false);
-                }
-                tieRel2.setText(val);
+                mViewModel.getRelation().observe(getViewLifecycleOwner(), sReltn->{
+                    int relID;
+                    if (val.isEmpty()){
+                        relID = -1;
+                    }else {
+                        relID = Integer.parseInt(val);
+                    }
+                    for (int i = 0; i < sReltn.size(); i++){
+                        if (i == relID){
+                            tieRel2.setText(sReltn.get(i).getRelatnDs());
+                            ciModel.setReltnCD2(val);
+                            tieRel2.setEnabled(false);
+                        }
+
+                    }
+                });
+
             });
             mViewModel.getsMobile2().observe(getViewLifecycleOwner(), val ->{
                 if (!val.trim().isEmpty()){
@@ -376,6 +463,14 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
                     tieFBRemark2.setEnabled(false);
                 }
             });
+            mViewModel.getAddress2().observe(getViewLifecycleOwner(), remarks ->{
+                if (!remarks.isEmpty()){
+                    ciModel.setAddress2(remarks);
+                    tieAddress2.setClickable(false);
+                    tieAddress2.setEnabled(false);
+                }
+                tieAddress2.setText(remarks);
+            });
 //        Neighbor 3
             mViewModel.getsNeigbor3().observe(getViewLifecycleOwner(), val ->{
                 if (!val.trim().isEmpty()){
@@ -385,11 +480,23 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
                 tieFullname3.setText(val);
             });
             mViewModel.getsRel3().observe(getViewLifecycleOwner(), val ->{
-                if (!val.trim().isEmpty()){
-                    ciModel.setReltnCD3(val);
-                    tieRel3.setEnabled(false);
-                }
-                tieRel3.setText(val);
+                mViewModel.getRelation().observe(getViewLifecycleOwner(), sReltn->{
+                    int relID;
+                    if (val.isEmpty()){
+                        relID = -1;
+                    }else {
+                        relID = Integer.parseInt(val);
+                    }
+                    for (int i = 0; i < sReltn.size(); i++){
+                        if (i == relID){
+                            tieRel3.setText(sReltn.get(i).getRelatnDs());
+                            ciModel.setReltnCD3(val);
+                            tieRel3.setEnabled(false);
+                        }
+
+                    }
+                });
+
             });
             mViewModel.getsMobile3().observe(getViewLifecycleOwner(), val ->{
                 if (!val.trim().isEmpty()){
@@ -415,12 +522,20 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
                 ciModel.setFeedBck3(val);
             });
             mViewModel.getsFBRemark3().observe(getViewLifecycleOwner(), remarks ->{
-               if (!remarks.isEmpty()){
-                   ciModel.setFBRemrk3(remarks);
-                   tieFBRemark3.setText(remarks);
-                   tieFBRemark3.setClickable(false);
-                   tieFBRemark3.setEnabled(false);
-               }
+                if (!remarks.isEmpty()){
+                    ciModel.setFBRemrk3(remarks);
+                    tieFBRemark3.setText(remarks);
+                    tieFBRemark3.setClickable(false);
+                    tieFBRemark3.setEnabled(false);
+                }
+            });
+            mViewModel.getAddress3().observe(getViewLifecycleOwner(), remarks ->{
+                if (!remarks.isEmpty()){
+                    ciModel.setAddress3(remarks);
+                    tieAddress3.setClickable(false);
+                    tieAddress3.setEnabled(false);
+                }
+                tieAddress3.setText(remarks);
             });
             mViewModel.getsHasRecord().observe(getViewLifecycleOwner(), val ->{
                 rgRecord.clearCheck();
