@@ -119,8 +119,8 @@ public class VMPersonalInfo extends AndroidViewModel {
                 poGoCas.ApplicantInfo().setCivilStatus(infoModel.getCvlStats());
                 poGoCas.ApplicantInfo().setCitizenship(infoModel.getCitizenx());
                 poGoCas.ApplicantInfo().setMaidenName(infoModel.getMotherNm());
-                poGoCas.ApplicantInfo().setMobileNoQty(infoModel.getMobileNoQty());
                 for (int x = 0; x < infoModel.getMobileNoQty(); x++) {
+                    poGoCas.ApplicantInfo().setMobileNoQty(x + 1);
                     poGoCas.ApplicantInfo().setMobileNo(x, infoModel.getMobileNo(x));
                     poGoCas.ApplicantInfo().IsMobilePostpaid(x, infoModel.getPostPaid(x));
                     poGoCas.ApplicantInfo().setPostPaidYears(x, infoModel.getPostYear(x));

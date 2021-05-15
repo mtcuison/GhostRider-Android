@@ -76,10 +76,8 @@ public class HttpHeaders {
         headers.put("g-api-client", lsClientx);
         headers.put("g-api-imei", lsDevcIDx);
         headers.put("g-api-model", lsDevcMdl);
-//        headers.put("g-api-mobile", lsMobileN);
-        headers.put("g-api-mobile", "09260375777");
-        //headers.put("g-api-token", lsTokenxx);
-        headers.put("g-api-token", "eUah-8zMSGyzo1OGx-C_yy:APA91bHkcT2rDXlvMwUImyXhv4UOF0ArwdPsM7Fj_Y2mv4Hxg9eewH5F_HcDpRdV0zQ9wWxucvTCNct2Qp3hj5spDgfETiZCeyWCamXDTdy46qBLR5fjBGD-KAk9WR-ow-oj3EPluPEp");
+        headers.put("g-api-mobile", lsMobileN);
+        headers.put("g-api-token", lsTokenxx);
         headers.put("g-api-user", lsUserIDx);
         headers.put("g-api-key", lsDateTme);
         String hash_toLower = SecUtil.md5Hex(headers.get("g-api-imei") + headers.get("g-api-key"));
