@@ -16,6 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/bg_gradient_light"
     tools:context=".Activity.Activity_EvaluationHistoryInfo">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -60,7 +61,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="M00112001786"
                 android:fontFamily="@font/roboto"
                 android:textColor="@color/textColor_Black"
                 android:textSize="15sp"
@@ -96,7 +96,6 @@
                     android:id="@+id/lbl_customer_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dela Cruz, Juan Pedro Jose G."
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/textColor_Black"
                     android:textSize="17sp"
@@ -120,7 +119,6 @@
                     android:id="@+id/lbl_loan_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Honda CB650 R 2021"
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/textColor_Black"
                     android:textSize="15sp"
@@ -143,7 +141,6 @@
                     android:id="@+id/lbl_downpayment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="P 250,000.00"
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/textColor_Black"
                     android:textSize="15sp"
@@ -166,7 +163,6 @@
                     android:id="@+id/lbl_terms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="6 months"
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/textColor_Black"
                     android:textSize="15sp"

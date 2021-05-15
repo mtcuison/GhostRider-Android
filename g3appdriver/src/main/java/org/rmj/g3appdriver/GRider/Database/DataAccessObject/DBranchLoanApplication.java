@@ -67,6 +67,19 @@ public interface DBranchLoanApplication {
     LiveData<List<CIEvaluationList>> getAllCICreditApplications();
     @Insert
     void insertNewApplication(EBranchLoanApplication loanApplication);
+
+    @Query("SELECT sTransNox, sCompnyNm, sModelNme, nDownPaym, nAcctTerm " +
+            "FROM Credit_Online_Application_List WHERE sTransNox =:fsTransNo")
+    LiveData<CiDetail> getCiDetail(String fsTransNo);
+
+    public class CiDetail {
+        public String sTransNox;
+        public String sCompnyNm;
+        public String sModelNme;
+        public String nDownPaym;
+        public String nAcctTerm;
+    }
+
     class CIEvaluationList{
         public String sTransNox;
         public String dTransact;

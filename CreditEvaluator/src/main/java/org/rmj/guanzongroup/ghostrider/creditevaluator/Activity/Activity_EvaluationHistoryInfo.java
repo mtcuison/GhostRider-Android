@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluationHistoryInfoAdapter;
@@ -43,6 +44,8 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
     private CreditEvaluationHistoryInfoAdapter poAdapter;
     private RecyclerView recyclerView;
     private String psTransNo;
+
+    private TextView lblTransN, lblCustNm, lblLnUnit, lblDownpx, lblTermxx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,11 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
 
     private void initWidgets() {
         // poAdapter = new EvaluationHistoryInfoAdapter();
+        lblTransN = findViewById(R.id.lbl_transNo);
+        lblCustNm = findViewById(R.id.lbl_customer_name);
+        lblLnUnit = findViewById(R.id.lbl_loan_unit);
+        lblDownpx = findViewById(R.id.lbl_downpayment);
+        lblTermxx = findViewById(R.id.lbl_terms);
         recyclerView = findViewById(R.id.recyclerView);
     }
 
@@ -82,7 +90,19 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
     }
 
     private void setContent() {
-        mViewModel.getAllDoneCiInfo(psTransNo ).observe(this, eciEvaluation -> {
+        mViewModel.setTransNo(psTransNo);
+        mViewModel.getCiDetail().observe(Activity_EvaluationHistoryInfo.this, ciDetail -> {
+            try {
+                lblTransN.setText(ciDetail.sTransNox);
+                lblCustNm.setText(ciDetail.sCompnyNm);
+                lblLnUnit.setText(ciDetail.sModelNme);
+                lblDownpx.setText(parseAmtToString(ciDetail.nDownPaym));
+                lblTermxx.setText(ciDetail.nAcctTerm + "Month/s");
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        });
+        mViewModel.getAllDoneCiInfo().observe(Activity_EvaluationHistoryInfo.this, eciEvaluation -> {
             try {
                 mViewModel.onFetchCreditEvaluationDetail(eciEvaluation, evaluationDetl -> {
                     this.poAdapter = new CreditEvaluationHistoryInfoAdapter(evaluationDetl);
@@ -94,5 +114,9 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
+    }
+
+    private String parseAmtToString(String fsAmount) {
+        return "₱" + Double.parseDouble(fsAmount);
     }
 }
