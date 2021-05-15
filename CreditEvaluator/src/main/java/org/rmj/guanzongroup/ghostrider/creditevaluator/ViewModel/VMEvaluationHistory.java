@@ -81,7 +81,7 @@ public class VMEvaluationHistory extends AndroidViewModel {
         JSONObject loJson = new JSONObject();
         try {
             loJson.put("bycode", false);
-            loJson.put("value","");
+            loJson.put("value","M02407000479");
             new VMEvaluationHistory.ImportBranchApplications(instance, callBack).execute(loJson);
 //            loJson.put("value", empBrnCD);
         } catch (JSONException e) {
