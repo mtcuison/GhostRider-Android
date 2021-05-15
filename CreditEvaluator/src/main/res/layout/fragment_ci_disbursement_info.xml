@@ -86,7 +86,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="ELectricity"
+                        android:hint="Electricity"
                         style="@style/TextInputStyle">
 
                         <com.google.android.material.textfield.TextInputEditText
