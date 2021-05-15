@@ -51,7 +51,8 @@ public interface DBranchLoanApplication {
         "b.cTranStat As ciTranStat " +
         "FROM Credit_Online_Application_List a LEFT JOIN Credit_Online_Application_List_CI b " +
         "ON a.sTransNox = b.sTransNox  " +
-        "WHERE a.cTranStat = 1 AND coalesce(b.cTranStat, NULL) IS NOT NULL AND ciTranStat = 1 ")
+        "WHERE a.cTranStat = 1 AND coalesce(b.cTranStat, NULL) IS NOT NULL AND ciTranStat = 1 " +
+        "AND b.sCredInvx = (SELECT sEmployID FROM User_Info_Master)")
     LiveData<List<CIEvaluationList>> getAllCICreditApplicationLog();
 
     @Query("SELECT * FROM Credit_Online_Application_List WHERE sTransNox =:TransNox ")

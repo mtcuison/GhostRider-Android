@@ -45,6 +45,14 @@ public interface DNotifications {
     @Update
     void update(ENotificationUser notificationUser);
 
+    @Query("UPDATE Notification_Info_Recepient SET " +
+            "dReadxxxx =:DateTime, " +
+            "dLastUpdt =:DateTime, " +
+            "cMesgStat =:Status, " +
+            "cStatSent = '0' " +
+            "WHERE sTransNox =:MessageID")
+    void updateRecipientStatus(String MessageID, String DateTime, String Status);
+
     @Query("SELECT a.sMesgIDxx AS MesgIDxx," +
             "a.sAppSrcex AS AppSrcex," +
             "b.dReceived AS Received," +
@@ -61,6 +69,32 @@ public interface DNotifications {
             "AND a.sMsgTypex <> '00000' " +
             "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Info_Master)")
     LiveData<List<ClientNotificationInfo>> getClientNotificationList();
+
+    @Query("SELECT a.sMesgIDxx AS MesgIDxx, " +
+            "a.sMsgTitle AS MsgTitle, " +
+            "a.sCreatrNm AS CreatrNm, " +
+            "a.sMessagex AS Messagex, " +
+            "b.dReceived AS Received " +
+            "FROM Notification_Info_Master a " +
+            "LEFT JOIN Notification_Info_Recepient b " +
+            "ON a.sMesgIDxx = b.sTransNox " +
+            "WHERE b.cMesgStat <> '5' " +
+            "AND a.sMsgTypex == '00000' " +
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master)")
+    LiveData<List<UserNotificationInfo>> getUserMessageList();
+
+    @Query("SELECT a.sMesgIDxx AS MesgIDxx, " +
+            "a.sMsgTitle AS MsgTitle, " +
+            "a.sCreatrNm AS CreatrNm, " +
+            "a.sMessagex AS Messagex, " +
+            "b.dReceived AS Received " +
+            "FROM Notification_Info_Master a " +
+            "LEFT JOIN Notification_Info_Recepient b " +
+            "ON a.sMesgIDxx = b.sTransNox " +
+            "WHERE b.cMesgStat <> '5' " +
+            "AND a.sMsgTypex == '00000' " +
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master)")
+    LiveData<List<UserNotificationInfo>> getUserMessageListGroupByUser();
 
     @Query("SELECT a.sMesgIDxx AS MesgIDxx, " +
             "a.sMsgTitle AS MsgTitle, " +

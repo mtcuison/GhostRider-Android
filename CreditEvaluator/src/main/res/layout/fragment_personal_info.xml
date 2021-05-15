@@ -10,15 +10,93 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    android:scrollbars="none"
+    android:orientation="vertical"
     tools:context=".Fragments.Fragment_PersonalInfo">
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        android:orientation="vertical">
+        <include layout="@layout/layout_ci_header"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/HeaderLabelBlack"
+                    android:text="Residence Info"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:orientation="vertical">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="LandMark"
+                        style="@style/TextInputStyle">
 
-</FrameLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_landmark"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapWords"
+                            android:imeOptions="actionDone"
+                            android:textColor="@color/textColor_Black"
+                            android:maxLength="50"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                      <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <CheckBox
+                            android:id="@+id/cb_ci_gambler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Gambler"
+                            tools:ignore="HardcodedText"
+                             android:fontFamily="@font/roboto_regular"
+                            tools:targetApi="jelly_bean"
+                            app:buttonTint="@color/guanzon_digital_orange" />
+
+                        <CheckBox
+                            android:id="@+id/cb_ci_womanizer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Womanizer"
+                            tools:ignore="HardcodedText"
+                            android:fontFamily="@font/roboto_regular"
+                            tools:targetApi="jelly_bean"
+                            app:buttonTint="@color/guanzon_digital_orange"/>
+
+                        <CheckBox
+                            android:id="@+id/cb_ci_heavyBrwr"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Heavy Borrower"
+                            tools:ignore="HardcodedText"
+                            android:fontFamily="@font/roboto_regular"
+                            tools:targetApi="jelly_bean"
+                            app:buttonTint="@color/guanzon_digital_orange" />
+                      </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

@@ -11,6 +11,7 @@
 
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.util.Log;
 
@@ -29,6 +30,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class RFileCode implements DFileCode{
     private static final String TAG = RFileCode.class.getSimpleName();
@@ -58,6 +60,7 @@ public class RFileCode implements DFileCode{
         return fileCodeDao.getLastUpdate();
     }
 
+    @SuppressLint("NewApi")
     public boolean insertFileCodeData(JSONArray faJson) throws Exception{
         GConnection loConn = DbConnection.doConnect(application);
         boolean result = true;
@@ -76,7 +79,7 @@ public class RFileCode implements DFileCode{
             //check if record already exists on database
             lsSQL = "SELECT dTimeStmp FROM EDocSys_File" +
                     " WHERE sFileCode = " + SQLUtil.toSQL((String) loJson.get("sFileCode"));
-            loRS = loConn.executeQuery(lsSQL);
+            loRS = Objects.requireNonNull(loConn).executeQuery(lsSQL);
 
             lsSQL = "";
             //record does not exists

@@ -30,7 +30,7 @@ public class DbConnection {
             InputStream inputStream = application.getAssets().open("GhostRiderXP.properties");
 
             //initialize GProperty
-            GProperty loProperty = new GProperty(inputStream, AppConfigPreference.getInstance(application).ProducID());
+            GProperty loProperty = new GProperty(inputStream, "IntegSys");
             if (loProperty.loadConfig()){
                 Log.d(TAG, "Config File was loaded.");
 

@@ -45,5 +45,4 @@ public class Fragment_ViewMessages extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMViewMessages.class);
         // TODO: Use the ViewModel
     }
-
 }

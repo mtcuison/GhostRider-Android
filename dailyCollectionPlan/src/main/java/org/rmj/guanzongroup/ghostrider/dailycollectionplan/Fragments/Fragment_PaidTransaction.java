@@ -44,8 +44,12 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPaidTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 import java.util.StringTokenizer;
+
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CURRENT_DATE;
 
 public class Fragment_PaidTransaction extends Fragment implements ViewModelCallback {
 
@@ -106,7 +110,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         txtTotAmnt.addTextChangedListener(new FormatUIText.CurrencyFormat(txtTotAmnt));
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -126,8 +130,19 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                 psRBalance = collectionDetail.getABalance();
                 mViewModel.setMonthlyAmort(Double.valueOf(psMonthAmt));
                 mViewModel.setAmountDue(Double.valueOf(psAmntDue));
+                Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(CURRENT_DATE);
+                if (new SimpleDateFormat("yyyy-MM-dd").parse(collectionDetail.getDueDatex()).before(loDate) ||
+                        new SimpleDateFormat("yyyy-MM-dd").parse(collectionDetail.getDueDatex()).equals(loDate)) {
+                    cbRebate.setEnabled(true);
+                } else {
+                    cbRebate.setChecked(false);
+                    cbRebate.setEnabled(false);
+                }
                 btnAmort.setText("Amortization : " + FormatUIText.getCurrencyUIFormat(collectionDetail.getMonAmort()));
                 btnRBlnce.setText("Amount Due : " + FormatUIText.getCurrencyUIFormat(collectionDetail.getAmtDuexx()));
+                if (new SimpleDateFormat("MM/yyyy").parse(collectionDetail.getDueDatex()).after(new Date())) {
+                    cbRebate.setEnabled(false);
+                }
             } catch (Exception e){
                 e.printStackTrace();
             }

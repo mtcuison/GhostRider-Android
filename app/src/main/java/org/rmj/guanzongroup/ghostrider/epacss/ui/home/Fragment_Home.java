@@ -110,6 +110,7 @@ public class Fragment_Home extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerview_monitoring);
         cvAHMonitoring = view.findViewById(R.id.cv_ahMonitoring);
         navHeader = view.findViewById(R.id.navHeader);
+
         navHeader.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

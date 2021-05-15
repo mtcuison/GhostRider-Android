@@ -11,6 +11,7 @@
 
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.util.Log;
 
@@ -28,6 +29,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
 
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.Objects;
 
 public class RBankInfo {
     private static final String TAG = RBankInfo.class.getSimpleName();
@@ -49,6 +51,7 @@ public class RBankInfo {
         return bankDao.getBankNameList();
     }
 
+    @SuppressLint("NewApi")
     public boolean insertBankInfo(JSONArray faJson) throws Exception{
         GConnection loConn = DbConnection.doConnect(instance);
         boolean result = true;
@@ -67,7 +70,7 @@ public class RBankInfo {
             //check if record already exists on database
             lsSQL = "SELECT dTimeStmp FROM Bank_Info" +
                     " WHERE sBankIDxx = " + SQLUtil.toSQL((String) loJson.get("sBankIDxx"));
-            loRS = loConn.executeQuery(lsSQL);
+            loRS = Objects.requireNonNull(loConn).executeQuery(lsSQL);
 
             lsSQL = "";
 

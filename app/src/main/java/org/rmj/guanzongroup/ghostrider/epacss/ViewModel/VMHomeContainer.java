@@ -11,20 +11,30 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class VMHomeContainer extends ViewModel {
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
 
-    private MutableLiveData<String> mText;
+import java.util.List;
 
-    public VMHomeContainer() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+public class VMHomeContainer extends AndroidViewModel {
+    private static final String TAG = VMHomeContainer.class.getSimpleName();
+
+    private final RNotificationInfo poNotification;
+
+    public VMHomeContainer(@NonNull Application application) {
+        super(application);
+        this.poNotification = new RNotificationInfo(application);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<DNotifications.UserNotificationInfo>> getUserMessageList(){
+        return poNotification.getUserMessageList();
     }
 }

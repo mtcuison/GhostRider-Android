@@ -32,7 +32,6 @@ public class appConstants {
     }
 
     private static final Fragment[] APPLICATION_HOME_PAGES = {
-            new Fragment_Home(),
             new Fragment_AH_Dashboard(),
             new Fragment_MessageList(),
             new Fragment_NotificationList()

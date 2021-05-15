@@ -26,10 +26,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.dev.Telephony;
@@ -57,15 +59,21 @@ public class VMCIResidenceInfo extends AndroidViewModel {
     private final MutableLiveData<String> sTransNox = new MutableLiveData<>();
     private final MutableLiveData<String> nLatitude = new MutableLiveData<>();
     private final MutableLiveData<String> nLogitude = new MutableLiveData<>();
+    private final MutableLiveData<String> sCredInvxx = new MutableLiveData<>();
 
     private List<EImageInfo> imgInfo = new ArrayList<>();
+
+    private final REmployee poEmploye;
+    private final SessionManager poSession;
     public VMCIResidenceInfo(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poCI = new RCIEvaluation(application);
         this.evaluation = new ECIEvaluation();
         this.poImage = new RImageInfo(application);
+        this.poEmploye = new REmployee(application);
         this.poUser = new SessionManager(application);
+        this.poSession = new SessionManager(application);
     }
     public interface OnImportCallBack{
         void onPostResidenceInfo();
@@ -73,6 +81,12 @@ public class VMCIResidenceInfo extends AndroidViewModel {
         void onFailedResidenceInfo(String message);
     }
 
+    public LiveData<EEmployeeInfo> getEmplopyeInfo(){
+        return this.poEmploye.getEmployeeInfo();
+    }
+    public void setEmployeeID(String empID){
+        this.sCredInvxx.setValue(empID);
+    }
     public void setCurrentCIDetail(ECIEvaluation detail){
         this.poCIDetail.setValue(detail);
     }
@@ -121,7 +135,7 @@ public class VMCIResidenceInfo extends AndroidViewModel {
     public boolean saveCIResidence(CIResidenceInfoModel infoModel, ViewModelCallBack callback) {
         try {
 
-            new UpdateTask(poCI, infoModel, callback).execute(poCIDetail.getValue());
+            new UpdateTask(poCI, sCredInvxx.getValue(), infoModel, callback).execute(poCIDetail.getValue());
             return true;
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -141,11 +155,13 @@ public class VMCIResidenceInfo extends AndroidViewModel {
         private final RCIEvaluation poCIEvaluation;
         private final CIResidenceInfoModel infoModel;
         private final ViewModelCallBack callback;
+        private final String sCredInvxx;
 
-        public UpdateTask(RCIEvaluation poCIEvaluation, CIResidenceInfoModel infoModel, ViewModelCallBack callback) {
+        public UpdateTask(RCIEvaluation poCIEvaluation,String sCredInvxx,CIResidenceInfoModel infoModel, ViewModelCallBack callback) {
             this.poCIEvaluation = poCIEvaluation;
             this.infoModel = infoModel;
             this.callback = callback;
+            this.sCredInvxx = sCredInvxx;
         }
 
         @Override
@@ -157,7 +173,8 @@ public class VMCIResidenceInfo extends AndroidViewModel {
                 } else {
                     ECIEvaluation loDetail = detail[0];
                     loDetail.setTransNox(Activity_CIApplication.getInstance().getTransNox());
-                    loDetail.setCredInvx(infoModel.getLandMark());
+                    Log.e(TAG, "empID " + sCredInvxx);
+                    loDetail.setCredInvx(sCredInvxx);
                     loDetail.setLandMark(infoModel.getLandMark());
                     loDetail.setOwnershp(infoModel.getOwnershp());
                     loDetail.setOwnOther(infoModel.getOwnOther());

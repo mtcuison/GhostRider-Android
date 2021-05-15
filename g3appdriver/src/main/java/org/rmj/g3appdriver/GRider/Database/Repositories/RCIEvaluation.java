@@ -81,6 +81,9 @@ public class RCIEvaluation {
     public void updateCiDisbursement(ECIEvaluation eciEvaluation){
         ciDao.update(eciEvaluation);
     }
+    public void updaCharacterTraits(ECIEvaluation eciEvaluation){
+        ciDao.update(eciEvaluation);
+    }
     public void updateCiResidence(ECIEvaluation eciEvaluation){
         new InsertTask(ciDao, "update").execute(eciEvaluation);
     }

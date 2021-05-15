@@ -10,7 +10,7 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -63,6 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
+                    android:gravity="center"
                     android:padding="10dp">
                     <!--    Neighbor 1-->
                     <LinearLayout
@@ -88,51 +89,66 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapWords"
                                 android:imeOptions="actionNext"
-                                android:nextFocusForward="@id/tie_ci_neighborRel1"
+                                android:nextFocusForward="@id/tie_ci_address1"
                                 android:textColor="@color/material_black"
                                 android:maxLength="50" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <LinearLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:hint="Address"
+                            style="@style/TextInputStyle">
 
-                            <com.google.android.material.textfield.TextInputLayout
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tie_ci_address1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Relationship"
-                                android:layout_weight="1"
-                                style="@style/TextInputStyle">
+                                android:inputType="textCapWords"
+                                android:imeOptions="actionNext"
+                                android:nextFocusForward="@id/tie_ci_neighborRel1"
+                                android:textColor="@color/material_black"
+                                android:maxLength="50" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Relationship"
+                            style="@style/TextInputStyle">
 
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/tie_ci_neighborRel1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="textCapWords"
-                                    android:imeOptions="actionNext"
-                                    android:nextFocusForward="@id/tie_ci_NeighborContact1"
-                                    android:textColor="@color/material_black"
-                                    android:maxLength="50" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                style="@style/TextInputStyle"
+                            <AutoCompleteTextView
+                                android:id="@+id/tie_ci_neighborRel1"
+                                style="@style/AutoCompleteStyleTheme"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:hint="Contact No.">
+                                android:completionThreshold="1"
+                                android:imeOptions="actionNext"
+                                android:inputType="textAutoComplete"
+                                android:maxLength="50"
+                                android:maxLines="1"
+                                android:textColor="@color/textview_colors"
+                                android:nextFocusForward="@id/tie_ci_NeighborContact1"
+                                android:padding="15dp"
+                                android:textSize="16sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/tie_ci_NeighborContact1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:imeOptions="actionDone"
-                                    android:inputType="number|none"
-                                    android:textColor="@color/material_black"
-                                    android:maxLength="11" />
-                            </com.google.android.material.textfield.TextInputLayout>
-                        </LinearLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Contact No.">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tie_ci_NeighborContact1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="number|none"
+                                android:textColor="@color/material_black"
+                                android:maxLength="11" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
                         <RadioGroup
                             android:id="@+id/rg_ci_Feedback1"
                             android:layout_width="match_parent"
@@ -172,7 +188,8 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapWords"
                                 android:textColor="@color/material_black"
-                                android:maxLength="50"/>
+                                android:maxLength="50"
+                                android:imeOptions="actionDone"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.button.MaterialButton
@@ -218,50 +235,65 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapWords"
                                 android:imeOptions="actionNext"
-                                android:nextFocusForward="@id/tie_ci_neighborRel2"
+                                android:nextFocusForward="@id/tie_ci_address2"
                                 android:textColor="@color/material_black"
                                 android:maxLength="50"/>
                         </com.google.android.material.textfield.TextInputLayout>
-                        <LinearLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:hint="Address"
+                            style="@style/TextInputStyle">
 
-                            <com.google.android.material.textfield.TextInputLayout
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tie_ci_address2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Relationship"
-                                android:layout_weight="1"
-                                style="@style/TextInputStyle">
+                                android:inputType="textCapWords"
+                                android:imeOptions="actionNext"
+                                android:nextFocusForward="@id/tie_ci_neighborRel2"
+                                android:textColor="@color/material_black"
+                                android:maxLength="50" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Relationship"
+                            android:layout_weight="1"
+                            style="@style/TextInputStyle">
 
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/tie_ci_neighborRel2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="textCapWords"
-                                    android:imeOptions="actionNext"
-                                    android:nextFocusForward="@id/tie_ci_NeighborContact2"
-                                    android:textColor="@color/material_black"
-                                    android:maxLength="50" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                style="@style/TextInputStyle"
+                            <AutoCompleteTextView
+                                android:id="@+id/tie_ci_neighborRel2"
+                                style="@style/AutoCompleteStyleTheme"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:hint="Contact No.">
+                                android:completionThreshold="1"
+                                android:imeOptions="actionNext"
+                                android:inputType="textAutoComplete"
+                                android:maxLength="50"
+                                android:maxLines="1"
+                                android:textColor="@color/textview_colors"
+                                android:nextFocusForward="@id/tie_ci_NeighborContact2"
+                                android:padding="15dp"
+                                android:textSize="16sp"/>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/tie_ci_NeighborContact2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:imeOptions="actionDone"
-                                    android:inputType="number|none"
-                                    android:textColor="@color/material_black"
-                                    android:maxLength="11" />
-                            </com.google.android.material.textfield.TextInputLayout>
-                        </LinearLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Contact No.">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tie_ci_NeighborContact2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="number|none"
+                                android:textColor="@color/material_black"
+                                android:maxLength="11" />
+                        </com.google.android.material.textfield.TextInputLayout>
                         <RadioGroup
                             android:id="@+id/rg_ci_Feedback2"
                             android:layout_width="match_parent"
@@ -301,7 +333,8 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapWords"
                                 android:textColor="@color/material_black"
-                                android:maxLength="50"/>
+                                android:maxLength="50"
+                                android:imeOptions="actionDone"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.button.MaterialButton
@@ -347,50 +380,65 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapWords"
                                 android:imeOptions="actionNext"
-                                android:nextFocusForward="@id/tie_ci_neighborRel3"
+                                android:nextFocusForward="@id/tie_ci_address3"
                                 android:textColor="@color/material_black"
                                 android:maxLength="50"/>
                         </com.google.android.material.textfield.TextInputLayout>
-                        <LinearLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:hint="Address"
+                            style="@style/TextInputStyle">
 
-                            <com.google.android.material.textfield.TextInputLayout
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tie_ci_address3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Relationship"
-                                android:layout_weight="1"
-                                style="@style/TextInputStyle">
+                                android:inputType="textCapWords"
+                                android:imeOptions="actionNext"
+                                android:nextFocusForward="@id/tie_ci_neighborRel3"
+                                android:textColor="@color/material_black"
+                                android:maxLength="50" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Relationship"
+                            android:layout_weight="1"
+                            style="@style/TextInputStyle">
 
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/tie_ci_neighborRel3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="textCapWords"
-                                    android:imeOptions="actionNext"
-                                    android:nextFocusForward="@id/tie_ci_NeighborContact3"
-                                    android:textColor="@color/material_black"
-                                    android:maxLength="50" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                style="@style/TextInputStyle"
+                            <AutoCompleteTextView
+                                android:id="@+id/tie_ci_neighborRel3"
+                                style="@style/AutoCompleteStyleTheme"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:hint="Contact No.">
+                                android:completionThreshold="1"
+                                android:imeOptions="actionNext"
+                                android:inputType="textAutoComplete"
+                                android:maxLength="50"
+                                android:textColor="@color/textview_colors"
+                                android:maxLines="1"
+                                android:nextFocusForward="@id/tie_ci_NeighborContact3"
+                                android:padding="15dp"
+                                android:textSize="16sp"/>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/tie_ci_NeighborContact3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:imeOptions="actionDone"
-                                    android:inputType="number|none"
-                                    android:textColor="@color/material_black"
-                                    android:maxLength="11" />
-                            </com.google.android.material.textfield.TextInputLayout>
-                        </LinearLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Contact No.">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tie_ci_NeighborContact3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="number|none"
+                                android:textColor="@color/material_black"
+                                android:maxLength="11" />
+                        </com.google.android.material.textfield.TextInputLayout>
                         <RadioGroup
                             android:id="@+id/rg_ci_Feedback3"
                             android:layout_width="match_parent"
@@ -430,7 +478,8 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapWords"
                                 android:textColor="@color/material_black"
-                                android:maxLength="50"/>
+                                android:maxLength="50"
+                                android:imeOptions="actionDone"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.button.MaterialButton
@@ -551,4 +600,4 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+</ScrollView>
