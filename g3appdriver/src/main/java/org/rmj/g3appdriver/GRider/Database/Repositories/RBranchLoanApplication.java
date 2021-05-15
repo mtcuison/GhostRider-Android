@@ -47,6 +47,10 @@ public class RBranchLoanApplication {
         this.docsDao = GGC_GriderDB.getInstance(application).CreditAppDocsDao();
     }
 
+    public LiveData<DBranchLoanApplication.CiDetail> getCiDetail(String fsTransNo) {
+        return docsDao.getCiDetail(fsTransNo);
+    }
+
     public boolean insertCiApplication(EBranchLoanApplication ciApplication){
         try {
             docsDao.insert(ciApplication);

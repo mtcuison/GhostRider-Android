@@ -11,7 +11,7 @@
 
 <resources>
     <string name="sLblTransNo">Transaction no. :</string>
-    <string name="sLblLoanUnit">Loan Unit :</string>
+    <string name="sLblLoanUnit">Model :</string>
     <string name="sLblDownpayment">Downpayment :</string>
     <string name="sLblTerms">Terms :</string>
     <string name="sLblApproved">Approved</string>
