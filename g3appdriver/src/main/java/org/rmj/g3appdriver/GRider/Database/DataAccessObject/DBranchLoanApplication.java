@@ -69,11 +69,15 @@ public interface DBranchLoanApplication {
     @Insert
     void insertNewApplication(EBranchLoanApplication loanApplication);
 
-    @Query("SELECT sTransNox, sCompnyNm, sModelNme, nDownPaym, nAcctTerm " +
-            "FROM Credit_Online_Application_List WHERE sTransNox =:fsTransNo")
+    @Query("SELECT I.sFileLoct, C.sTransNox, C.sCompnyNm, C.sModelNme, C.nDownPaym, C.nAcctTerm " +
+            "FROM Credit_Online_Application_List AS C " +
+            "LEFT JOIN Image_Information AS I " +
+            "ON I.sDtlSrcNo = C.sTransNox " +
+            "WHERE C.sTransNox =:fsTransNo")
     LiveData<CiDetail> getCiDetail(String fsTransNo);
 
     public class CiDetail {
+        public String sFileLoct;
         public String sTransNox;
         public String sCompnyNm;
         public String sModelNme;
