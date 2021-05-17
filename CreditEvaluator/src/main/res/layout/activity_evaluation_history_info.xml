@@ -16,6 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/bg_gradient_light"
     tools:context=".Activity.Activity_EvaluationHistoryInfo">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -82,8 +83,8 @@
 
             <ImageView
                 android:id="@+id/iv_customer"
-                android:layout_width="85dp"
-                android:layout_height="94dp"/>
+                android:layout_width="75dp"
+                android:layout_height="100dp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -184,99 +185,51 @@
             android:id="@+id/ln_header_approval"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_marginVertical="5dp">
 
             <TextView
                 android:id="@+id/lbl_approved"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="textCapCharacters"
                 android:text="@string/sLblApproved"
                 android:textSize="13sp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="@font/roboto_bold"
                 android:layout_marginRight="3dp"
-                android:background="@drawable/border_label_success"
                 android:textColor="@color/success_green"
+                android:layout_marginBottom="3dp"
                 android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/lbl_disapproved"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="textCapCharacters"
                 android:text="@string/sLblDisapproved"
                 android:textSize="13sp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="@font/roboto_bold"
                 android:layout_marginRight="3dp"
-                android:background="@drawable/border_label_error"
-                android:textColor="@color/error_red"/>
+                android:textColor="@color/error_red"
+                android:layout_marginBottom="3dp"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/lbl_approval_reason"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Reason: No doubt. Richest person in their brgy."
                 android:textColor="@color/textColor_Black"
                 android:textSize="13sp"
-                android:fontFamily="@font/roboto"
-                android:gravity="end"/>
+                android:fontFamily="@font/roboto"/>
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.6dp"
-            android:background="#535353"
-            android:layout_marginVertical="5dp"/>
-
     </LinearLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <!-- Fragment of scrolling details -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="none">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <!-- Fragment of scrolling details -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <LinearLayout
-                android:layout_below="@+id/recyclerView"
-                android:id="@+id/footer_ci_historyInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center|bottom"
-                android:orientation="vertical"
-                android:layout_marginTop="30dp"
-                android:layout_alignParentBottom="true">
-
-                <TextView
-                    android:id="@+id/tvCopyright"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="3dp"
-                    android:fontFamily="@font/roboto_light"
-                    android:text="@string/sLblCopyright"
-                    android:textColor="@color/footer_dark_grey"
-                    android:textSize="11sp"
-                    tools:ignore="SmallSp" />
-
-                <TextView
-                    android:id="@+id/lbl_versionInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/roboto_light"
-                    android:text="@string/lblBuildVersion"
-                    android:textColor="@color/footer_dark_grey"
-                    android:textSize="11sp"
-                    tools:ignore="SmallSp" />
-
-            </LinearLayout>
-        </RelativeLayout>
-    </androidx.core.widget.NestedScrollView>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

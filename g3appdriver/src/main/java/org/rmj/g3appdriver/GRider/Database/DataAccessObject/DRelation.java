@@ -33,8 +33,12 @@ public interface DRelation {
 
     @Query("SELECT * FROM Relation ")
     LiveData<List<ERelation>> getRelation();
+
     @Query("SELECT sRelatnDs FROM Relation")
     LiveData<String[]> getRelatnDs();
+
+    @Query("SELECT sRelatnDs FROM Relation WHERE sRelatnID = :fsRelatId")
+    String getRelationFromId(String fsRelatId);
 
 }
 
