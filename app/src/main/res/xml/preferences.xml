@@ -79,5 +79,13 @@
             app:defaultValue="false"
             app:summary="@string/summary_settings_update"/>
 
+        <Preference
+            app:key="appDebugModePref"
+            app:icon="@drawable/ic_settings_dmode"
+            app:title="Debug Mode"
+            app:iconSpaceReserved="false"
+            app:defaultValue="false"
+            app:summary="@string/summary_settings_dMode"/>
+
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

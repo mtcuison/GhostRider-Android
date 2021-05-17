@@ -94,7 +94,19 @@ public class Fragment_HomeContainer extends Fragment {
         });
         mViewModel.getUserMessageList().observe(getViewLifecycleOwner(), userMessageList -> {
             try {
-                Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge().setNumber(userMessageList.size());
+                if(userMessageList.size() > 0) {
+                    Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge().setNumber(userMessageList.size());
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getUserNotificationList().observe(getViewLifecycleOwner(), userNotificationInfos -> {
+            try {
+                if(userNotificationInfos.size() > 0) {
+                    Objects.requireNonNull(tabLayout.getTabAt(2)).getOrCreateBadge().setNumber(userNotificationInfos.size());
+                }
             } catch (Exception e){
                 e.printStackTrace();
             }

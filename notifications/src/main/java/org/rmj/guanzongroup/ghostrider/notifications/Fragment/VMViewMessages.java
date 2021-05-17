@@ -11,8 +11,28 @@
 
 package org.rmj.guanzongroup.ghostrider.notifications.Fragment;
 
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
 
-public class VMViewMessages extends ViewModel {
-    // TODO: Implement the ViewModel
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
+
+import java.util.List;
+
+public class VMViewMessages extends AndroidViewModel {
+
+    private final RNotificationInfo poNotification;
+
+
+    public VMViewMessages(@NonNull Application application) {
+        super(application);
+        this.poNotification = new RNotificationInfo(application);
+    }
+
+    public LiveData<List<DNotifications.UserNotificationInfo>> getMessagesListFromSender(String SenderID){
+        return poNotification.getUserMessageListFromSender(SenderID);
+    }
 }

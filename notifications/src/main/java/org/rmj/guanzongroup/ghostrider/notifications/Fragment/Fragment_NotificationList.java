@@ -28,9 +28,15 @@ import android.view.ViewGroup;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
+import org.rmj.guanzongroup.ghostrider.notifications.Adapter.MessageListAdapter;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.NotificationListAdapter;
+import org.rmj.guanzongroup.ghostrider.notifications.Object.MessageItemList;
+import org.rmj.guanzongroup.ghostrider.notifications.Object.NotificationItemList;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMNotificationList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Fragment_NotificationList extends Fragment {
 
@@ -56,7 +62,18 @@ public class Fragment_NotificationList extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMNotificationList.class);
-        mViewModel.getMessageList().observe(getViewLifecycleOwner(), notificationItemLists -> {
+        mViewModel.getUserNotificationList().observe(getViewLifecycleOwner(), userNotificationInfos -> {
+            List<NotificationItemList> notificationItemLists = new ArrayList<>();
+            notificationItemLists.clear();
+            for (int x = 0; x < userNotificationInfos.size(); x++) {
+                NotificationItemList loItemList = new NotificationItemList();
+                loItemList.setMessage(userNotificationInfos.get(x).Messagex);
+                loItemList.setDateTime(userNotificationInfos.get(x).Received);
+                loItemList.setName(userNotificationInfos.get(x).CreatrNm);
+                loItemList.setTitle(userNotificationInfos.get(x).MsgTitle);
+                notificationItemLists.add(loItemList);
+            }
+
             LinearLayoutManager manager = new LinearLayoutManager(getActivity());
             manager.setOrientation(RecyclerView.VERTICAL);
             recyclerView.setLayoutManager(manager);

@@ -52,6 +52,10 @@ public class RNotificationInfo {
         return userMessageList;
     }
 
+    public LiveData<List<DNotifications.UserNotificationInfo>> getUserMessageListFromSender(String SenderID){
+        return notificationDao.getUserMessageListFromSender(SenderID);
+    }
+
     public LiveData<List<DNotifications.UserNotificationInfo>> getUserMessageListGroupByUser(){
         return notificationDao.getUserMessageListGroupByUser();
     }

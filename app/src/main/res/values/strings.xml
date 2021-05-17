@@ -92,5 +92,6 @@ features available.]]>
     <string name="summary_settings_localDB">Check your local data last date sync.</string>
     <string name="summary_settings_account">Change your account password</string>
     <string name="summary_settings_update">Redirect to Google Play if updates are available.</string>
+    <string name="summary_settings_dMode">Only MIS-SEG are able to use this mode.</string>
     <string name="sDataManagerInfo">Clearing app data will erase all, records, pending loan applications, pending dcp remittance and selfie login data. Please make sure all data has been uploaded to server.</string>
 </resources>
