@@ -174,7 +174,7 @@ public class VMCIResidenceInfo extends AndroidViewModel {
                     ECIEvaluation loDetail = detail[0];
                     loDetail.setTransNox(Activity_CIApplication.getInstance().getTransNox());
                     Log.e(TAG, "empID " + sCredInvxx);
-                    loDetail.setCredInvx(sCredInvxx);
+//                    loDetail.setCredInvx(sCredInvxx);
                     loDetail.setLandMark(infoModel.getLandMark());
                     loDetail.setOwnershp(infoModel.getOwnershp());
                     loDetail.setOwnOther(infoModel.getOwnOther());
@@ -271,7 +271,7 @@ public class VMCIResidenceInfo extends AndroidViewModel {
                         if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
                             String lsTransNo = (String) loUpload.get("sTransNox");
                             poImage.updateImageInfo(lsTransNo, psImgInfo.getTransNox());
-                            //                                      UpdateFileNameAndFolder(lsTransNo, psTransNox, pnEntryNox, psFileCode,psFileLoc, psImageName);
+                            //UpdateFileNameAndFolder(lsTransNo, psTransNox, pnEntryNox, psFileCode,psFileLoc, psImageName);
 
                         }
 
