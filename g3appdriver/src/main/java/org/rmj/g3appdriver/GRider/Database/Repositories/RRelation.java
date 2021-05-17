@@ -46,6 +46,18 @@ public class RRelation {
         allRelatnDs = relDao.getRelatnDs();
         allRelatns = relDao.getRelation();
     }
+    public String getRelationFromId(String fsRelatId) {
+        return relDao.getRelationFromId(fsRelatId);
+    }
+
+    public LiveData<List<ERelation>> getRelation(){
+        return allRelatns;
+    }
+
+    public LiveData<String[]> getAllRelatnDs(){
+        return allRelatnDs;
+    }
+
     public boolean insertBulkRelation(JSONArray faJson) throws Exception {
         try {
             List<ERelation> relations = new ArrayList<>();
@@ -64,13 +76,6 @@ public class RRelation {
             e.printStackTrace();
             return false;
         }
-    }
-    public LiveData<List<ERelation>> getRelation(){
-        return allRelatns;
-    }
-
-    public LiveData<String[]> getAllRelatnDs(){
-        return allRelatnDs;
     }
 
 }

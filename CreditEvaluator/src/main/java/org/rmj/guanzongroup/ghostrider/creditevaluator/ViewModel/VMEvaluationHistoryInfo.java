@@ -23,6 +23,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplicati
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCIEvaluation;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RRelation;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.EvaluationHistoryInfoModel;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class VMEvaluationHistoryInfo extends AndroidViewModel {
     private final Application instance;
     private final RCIEvaluation poInvestx;
     private final RBranchLoanApplication poCiDetlx;
+    private final RRelation poRelatex;
 
     private final MutableLiveData<String> psTransNo = new MutableLiveData<>();
 
@@ -41,6 +43,7 @@ public class VMEvaluationHistoryInfo extends AndroidViewModel {
         this.instance = application;
         this.poInvestx = new RCIEvaluation(application);
         this.poCiDetlx = new RBranchLoanApplication(application);
+        this.poRelatex = new RRelation(application);
     }
 
     public void setTransNo(String fsTransNo) {
@@ -56,15 +59,17 @@ public class VMEvaluationHistoryInfo extends AndroidViewModel {
     }
 
     public void onFetchCreditEvaluationDetail(ECIEvaluation foCiDetl, OnFetchCustomerEvaluationInfo fmListenr) {
-        new CustomerEvaluationDetailTask(this.instance, fmListenr).execute(foCiDetl);
+        new CustomerEvaluationDetailTask(this.instance, poRelatex, fmListenr).execute(foCiDetl);
     }
 
     private static class CustomerEvaluationDetailTask extends AsyncTask<ECIEvaluation, Void, List<EvaluationHistoryInfoModel>> {
         private final Application instance;
+        private final RRelation poRelatex;
         private final OnFetchCustomerEvaluationInfo pmListener;
 
-        public CustomerEvaluationDetailTask(Application fsInstance, OnFetchCustomerEvaluationInfo fmListener) {
+        public CustomerEvaluationDetailTask(Application fsInstance, RRelation fsRelatex, OnFetchCustomerEvaluationInfo fmListener) {
             this.instance = fsInstance;
+            this.poRelatex = fsRelatex;
             this.pmListener = fmListener;
         }
 
@@ -93,21 +98,24 @@ public class VMEvaluationHistoryInfo extends AndroidViewModel {
                 loListDetl.add(new EvaluationHistoryInfoModel(true, "Barangay Record Information", "", ""));
                 loListDetl.add(new EvaluationHistoryInfoModel(true, "Neighbor 1", "", ""));
                 loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Name", loDetail.getNeighbr1()));
-                loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Relation", loDetail.getReltnCD1()));
+                loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Relation", parseRelation(loDetail.getReltnCD1())));
+                loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Address", loDetail.getAddress1()));
                 loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Contact No.", loDetail.getMobileN1()));
                 loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Feedback", getVibes(loDetail.getFeedBck1())));
                 loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Remarks", loDetail.getFBRemrk1()));
 
                 loListDetl.add(new EvaluationHistoryInfoModel(true, "Neighbor 2", "", ""));
                 loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Name", loDetail.getNeighbr2()));
-                loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Relation", loDetail.getReltnCD2()));
+                loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Relation", parseRelation(loDetail.getReltnCD2())));
+                loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Address", loDetail.getAddress2()));
                 loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Contact No.", loDetail.getMobileN2()));
                 loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Feedback", getVibes(loDetail.getFeedBck2())));
                 loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Remarks", loDetail.getFBRemrk2()));
 
                 loListDetl.add(new EvaluationHistoryInfoModel(true, "Neighbor 3", "", ""));
                 loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Name", loDetail.getNeighbr3()));
-                loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Relation", loDetail.getReltnCD3()));
+                loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Relation", parseRelation(loDetail.getReltnCD3())));
+                loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Address", loDetail.getAddress3()));
                 loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Contact No.", loDetail.getMobileN3()));
                 loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Feedback", getVibes(loDetail.getFeedBck3())));
                 loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Remarks", loDetail.getFBRemrk3()));
@@ -181,7 +189,17 @@ public class VMEvaluationHistoryInfo extends AndroidViewModel {
         }
 
         String parseAmtToString(String fsAmount) {
-            return "₱ " + Double.parseDouble(fsAmount);
+            String lsAmount = fsAmount.replace(",","");
+            return "₱" + Double.parseDouble(lsAmount);
+        }
+
+        String parseRelation(String fsRelatId) {
+            try {
+                return poRelatex.getRelationFromId(fsRelatId);
+            } catch(Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 
