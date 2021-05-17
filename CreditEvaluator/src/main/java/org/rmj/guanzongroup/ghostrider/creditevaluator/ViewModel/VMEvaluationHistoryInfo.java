@@ -181,7 +181,7 @@ public class VMEvaluationHistoryInfo extends AndroidViewModel {
         }
 
         String parseAmtToString(String fsAmount) {
-            return "₱" + Double.parseDouble(fsAmount);
+            return "₱ " + Double.parseDouble(fsAmount);
         }
     }
 

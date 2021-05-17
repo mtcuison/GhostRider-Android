@@ -181,6 +181,7 @@ public class Activity_EvaluationHistory extends AppCompatActivity implements VME
                     }
                 });
             }else {
+//                mViewModel.ImportCIApplications(Activity_EvaluationHistory.this);
                 layoutNoRecord.setVisibility(View.VISIBLE);
             }
         });
