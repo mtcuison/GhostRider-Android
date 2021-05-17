@@ -69,7 +69,6 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
         mViewModel = new ViewModelProvider(Activity_EvaluationList.this).get(VMEvaluationList.class);
         mViewModel.ImportCIApplications(Activity_EvaluationList.this);
         mViewModel.getEmplopyeInfo().observe(Activity_EvaluationList.this, eEmployeeInfo -> mViewModel.setEmployeeID(eEmployeeInfo.getEmployID()));
-
         initData();
 
     }
@@ -258,6 +257,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
                         }
                     });
                 }else {
+//                    mViewModel.ImportCIApplications(Activity_EvaluationList.this);
                     layoutNoRecord.setVisibility(View.VISIBLE);
                 }
             }catch (NullPointerException e){

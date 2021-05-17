@@ -5,8 +5,8 @@
  * Project name : GhostRider_Android
  * Module : GhostRider_Android.CreditEvaluator
  * Electronic Personnel Access Control Security System
- * project file created : 4/24/21 3:19 PM
- * project file last modified : 4/24/21 3:18 PM
+ * project file created : 5/17/21 10:53 AM
+ * project file last modified : 5/17/21 10:53 AM
  */
 
 package org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel;
@@ -17,31 +17,23 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.etc.SessionManager;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class VMApplicationList extends AndroidViewModel {
+public class VMPersonalInfo extends AndroidViewModel {
     private static final String TAG = VMApplicationList.class.getSimpleName();
     private final Application instance;
-
     private final MutableLiveData<String> sCredInvxx = new MutableLiveData<>();
-
-
     private final REmployee poEmploye;
-    public VMApplicationList(@NonNull Application application) {
+    private final RCIEvaluation poCI;
+    public VMPersonalInfo(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poEmploye = new REmployee(application);
+        this.poCI = new RCIEvaluation(application);
     }
 
     public LiveData<EEmployeeInfo> getEmplopyeInfo(){
@@ -49,5 +41,8 @@ public class VMApplicationList extends AndroidViewModel {
     }
     public void setEmployeeID(String empID){
         this.sCredInvxx.setValue(empID);
+    }
+    public LiveData<ECIEvaluation> getCIByTransNox(String transNox){
+        return poCI.getAllCIApplication(transNox);
     }
 }

@@ -187,6 +187,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
             }else {
                 ECIEvaluation eciEvaluation1 = new ECIEvaluation();
                 eciEvaluation1.setTransNox(Activity_CIApplication.getInstance().getTransNox());
+                eciEvaluation1.setCredInvx(Activity_CIApplication.getInstance().getsCredInx());
                 eciEvaluation1.setWaterBil("0.00");
                 eciEvaluation1.setElctrcBl("0.00");
                 eciEvaluation1.setFoodAllw("0.00");
