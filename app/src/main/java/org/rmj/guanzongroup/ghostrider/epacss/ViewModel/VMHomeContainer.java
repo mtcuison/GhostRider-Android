@@ -37,4 +37,8 @@ public class VMHomeContainer extends AndroidViewModel {
     public LiveData<List<DNotifications.UserNotificationInfo>> getUserMessageList(){
         return poNotification.getUserMessageList();
     }
+
+    public LiveData<List<DNotifications.UserNotificationInfo>> getUserNotificationList(){
+        return poNotification.getUserNotificationList();
+    }
 }

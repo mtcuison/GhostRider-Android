@@ -75,7 +75,7 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if Credit App is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("Credit Application",  R.drawable.ic_menu_creditapp, true, true , View.VISIBLE);
+        menuModel = new MenuModel("Credit Application",  R.drawable.ic_menu_creditapp, true, true , View.GONE);
         listDataHeader.add(menuModel);
 
         childModel = new MenuModel("Loan Application", 0, false, false , View.VISIBLE);
@@ -98,7 +98,7 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if CI Evaluator is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("CI Evaluation",  R.drawable.ic_menu_credit_investigate,true, true, View.VISIBLE);
+        menuModel = new MenuModel("CI Evaluation",  R.drawable.ic_menu_credit_investigate,true, true, View.GONE);
         listDataHeader.add(menuModel);
         childModel = new MenuModel("CI Evaluation List", 0, false, false , View.VISIBLE);
         childModelsList.add(childModel);
@@ -130,7 +130,7 @@ public class PrepareData {
         }
 
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("Samsung Knox",  R.drawable.ic_menu_knox,true, true, View.VISIBLE);
+        menuModel = new MenuModel("Samsung Knox",  R.drawable.ic_menu_knox,true, true, View.GONE);
         listDataHeader.add(menuModel);
 
         if (sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MOBILE_PHONE)){
@@ -192,6 +192,5 @@ public class PrepareData {
         if (!menuModel.hasChildren) {
             listDataChild.put(menuModel, null);
         }
-
     }
 }

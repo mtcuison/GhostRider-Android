@@ -80,7 +80,6 @@ public class Activity_Settings extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {

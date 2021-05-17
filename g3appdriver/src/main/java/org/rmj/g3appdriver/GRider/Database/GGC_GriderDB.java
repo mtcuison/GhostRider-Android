@@ -49,6 +49,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMcModel;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMcModelPrice;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMcTermCategory;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMobileRequest;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNNDMRequest;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DOccupationInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DProvinceInfo;
@@ -88,6 +89,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EMcModel;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcModelPrice;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcTermCategory;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
+import org.rmj.g3appdriver.GRider.Database.Entities.ENNDMRequest;
 import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationUser;
@@ -146,7 +148,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         ERemittanceAccounts.class,
         ESysConfig.class,
         EGLocatorSysLog.class,
-        ERelation.class}, version = 1, exportSchema = false)
+        ERelation.class,
+        ENNDMRequest.class}, version = 1, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -190,7 +193,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DRemittanceAccounts RemitanceAccDao();
     public abstract DSysConfig sysConfigDao();
     public abstract DLocatorSysLog locatorSysLogDao();
-
+    public abstract DNNDMRequest nndmRequestDao();
 
     public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){

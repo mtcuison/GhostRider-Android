@@ -11,10 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.notifications.Fragment;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -28,20 +24,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
-
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.MessageListAdapter;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.MessageItemList;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMMessageList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment_MessageList extends Fragment {
@@ -66,7 +58,17 @@ public class Fragment_MessageList extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMMessageList.class);
-        mViewModel.getMessageList().observe(getViewLifecycleOwner(), messageItemLists -> {
+        mViewModel.getUserMessagesList().observe(getViewLifecycleOwner(), userNotificationInfos -> {
+            List<MessageItemList> messageItemLists = new ArrayList<>();
+            messageItemLists.clear();
+            for(int x = 0; x < userNotificationInfos.size(); x++){
+                MessageItemList message = new MessageItemList(userNotificationInfos.get(x).CreatrNm,
+                        userNotificationInfos.get(x).Messagex,
+                        userNotificationInfos.get(x).Received,
+                        userNotificationInfos.get(x).MsgTitle);
+                messageItemLists.add(message);
+            }
+
             LinearLayoutManager manager = new LinearLayoutManager(getActivity());
             manager.setOrientation(RecyclerView.VERTICAL);
             recyclerView.setLayoutManager(manager);

@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.settings;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -25,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +41,9 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.settings.themeController.ThemeHelper;
 import org.rmj.guanzongroup.ghostrider.settings.utils.DatabaseExport;
 
@@ -63,7 +68,8 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
             exportPref,
             localData,
             Accountxx,
-            chkUpdate;
+            chkUpdate,
+            debugMode;
     private VMSettings mViewModel;
     private GeoLocator poLocator;
     private boolean isContinue = false;
@@ -83,6 +89,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         localData = getPreferenceManager().findPreference("localDataPrefs");
         Accountxx = getPreferenceManager().findPreference("accountPrefs");
         chkUpdate = getPreferenceManager().findPreference("appUpdatePrefs");
+        debugMode = getPreferenceScreen().findPreference("appDebugModePref");
 
         dbExport = new DatabaseExport(getActivity(), "Database", "GGC_ISysDBF.db");
         loMessage = new MessageBox(getActivity());
@@ -213,7 +220,40 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
                 return false;
             });
         }
-
+        if(debugMode != null){
+            debugMode.setOnPreferenceClickListener(preference -> {
+                SessionManager poUser = new SessionManager(getActivity());
+                AppConfigPreference poConfig = AppConfigPreference.getInstance(getActivity());
+                MessageBox loMessage = new MessageBox(getActivity());
+                if (!poUser.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
+                    GToast.CreateMessage(getActivity(), "This Feature is only for MIS testing.", GToast.INFORMATION).show();
+                } else if(!poConfig.isTesting_Phase()){
+                    loMessage.initDialog();
+                    loMessage.setTitle("Android Testing");
+                    loMessage.setMessage("GRider test mode is enabled.");
+                    loMessage.setPositiveButton("Okay", (view, dialog) -> {
+                        poConfig.setIsTesting(true);
+                        dialog.dismiss();
+                        requireActivity().finish();
+                    });
+                    loMessage.show();
+                } else {
+                    loMessage.initDialog();
+                    loMessage.setTitle("Android Testing");
+                    loMessage.setMessage("Disable test mode?");
+                    loMessage.setPositiveButton("Disable", (view, dialog) -> {
+                        poConfig.setIsTesting(false);
+                        dialog.dismiss();
+                        requireActivity().finish();
+                    });
+                    loMessage.setNegativeButton("Cancel", (view, dialog) -> {
+                        dialog.dismiss();
+                    });
+                    loMessage.show();
+                }
+                return false;
+            });
+        }
     }
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
