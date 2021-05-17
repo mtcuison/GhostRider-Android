@@ -21,8 +21,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,8 +47,8 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
     private LinearLayoutManager poLayout;
     private CreditEvaluationHistoryInfoAdapter poAdapter;
     private RecyclerView recyclerView;
-    private String psTransNo;
-
+    private String psTransNo, psImgPath;
+    private ImageView ivCustomr;
     private TextView lblTransN, lblCustNm, lblLnUnit, lblDownpx, lblTermxx;
 
     @Override
@@ -77,6 +81,7 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
 
     private void initWidgets() {
         // poAdapter = new EvaluationHistoryInfoAdapter();
+        ivCustomr = findViewById(R.id.iv_customer);
         lblTransN = findViewById(R.id.lbl_transNo);
         lblCustNm = findViewById(R.id.lbl_customer_name);
         lblLnUnit = findViewById(R.id.lbl_loan_unit);
@@ -93,6 +98,7 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
         mViewModel.setTransNo(psTransNo);
         mViewModel.getCiDetail().observe(Activity_EvaluationHistoryInfo.this, ciDetail -> {
             try {
+                psImgPath = ciDetail.sFileLoct;
                 lblTransN.setText(ciDetail.sTransNox);
                 lblCustNm.setText(ciDetail.sCompnyNm);
                 lblLnUnit.setText(ciDetail.sModelNme);
@@ -118,5 +124,38 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
 
     private String parseAmtToString(String fsAmount) {
         return "₱" + Double.parseDouble(fsAmount);
+    }
+
+    private void setPic() {
+        // Get the dimensions of the View
+        int targetW = ivCustomr.getWidth();
+        int targetH = ivCustomr.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeFile(psImgPath, bmOptions);
+
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.max(1, Math.min(photoW/targetW, photoH/targetH));
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(psImgPath, bmOptions);
+
+        Bitmap bOutput;
+        float degrees = 90;//rotation degree
+        Matrix matrix = new Matrix();
+        matrix.setRotate(degrees);
+        bOutput = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+        ivCustomr.setImageBitmap(bOutput);
     }
 }

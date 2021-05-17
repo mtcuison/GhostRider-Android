@@ -103,7 +103,6 @@ public class DCP_Constants {
             "Widowed"};
 
     public static String[] REQUEST_CODE = {
-            "Request Code",
             "New",
             "Update",
             "Change"

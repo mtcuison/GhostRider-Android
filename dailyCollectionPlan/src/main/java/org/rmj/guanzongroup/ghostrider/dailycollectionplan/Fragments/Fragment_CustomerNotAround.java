@@ -76,12 +76,11 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
 
     private MessageBox poMessage;
     private CheckBox cbPrimeContact, cbPrimary;
-    private Spinner spnRequestCode;
     private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblClientAddress;
     private RadioGroup rg_CNA_Input, rg_addressType;
     private RadioButton rb_permanent, rb_present;
     private TextInputEditText txtContact, txtHouseNox, txtAddress, txtRemarks;
-    private AutoCompleteTextView txtTown, txtBrgy;
+    private AutoCompleteTextView txtTown, txtBrgy, spnRequestCode;
     private LinearLayout lnContactNox,
             lnAddress;
     private MaterialButton btnAdd, btnSubmit;
@@ -206,7 +205,10 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
         }));
 
 
-        mViewModel.getRequestCodeOptions().observe(getViewLifecycleOwner(), stringArrayAdapter -> spnRequestCode.setAdapter(stringArrayAdapter));
+        mViewModel.getRequestCodeOptions().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+            spnRequestCode.setAdapter(stringArrayAdapter);
+            spnRequestCode.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        });
         btnSubmit.setOnClickListener(v ->{
             poMessage.initDialog();
             poMessage.setTitle("Customer Not Around");
@@ -290,7 +292,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
         btnAdd.setOnClickListener(view -> addMobile());
         rg_CNA_Input.setOnCheckedChangeListener(new Fragment_CustomerNotAround.OnRadioButtonSelectListener());
         rg_addressType.setOnCheckedChangeListener(new Fragment_CustomerNotAround.OnRadioButtonSelectListener());
-        spnRequestCode.setOnItemSelectedListener(new Fragment_CustomerNotAround.OnJobStatusSelectedListener());
+        spnRequestCode.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.setRequestCode(String.valueOf(i)));
         cbPrimary.setOnCheckedChangeListener(new OnCheckboxSetListener());
         cbPrimeContact.setOnCheckedChangeListener(new OnCheckboxSetListener());
     }
@@ -459,26 +461,6 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                     mViewModel.setAddressType("1");
                 }
             }
-        }
-    }
-
-    private class OnJobStatusSelectedListener implements AdapterView.OnItemSelectedListener{
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Request Code")) {
-                mViewModel.setRequestCode("");
-            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("New")) {
-                mViewModel.setRequestCode("0");
-            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Update")) {
-                mViewModel.setRequestCode("1");
-            } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Change")) {
-                mViewModel.setRequestCode("2");
-            }
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
         }
     }
 
