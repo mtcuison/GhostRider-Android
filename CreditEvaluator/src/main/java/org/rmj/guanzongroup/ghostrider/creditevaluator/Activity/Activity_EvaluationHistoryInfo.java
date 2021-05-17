@@ -26,12 +26,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluationHistoryInfoAdapter;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.Dialog.DialogImagePreview;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.CIConstants;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.EvaluationHistoryInfoModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
@@ -47,9 +49,10 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
     private LinearLayoutManager poLayout;
     private CreditEvaluationHistoryInfoAdapter poAdapter;
     private RecyclerView recyclerView;
-    private String psTransNo, psImgPath;
+    private String psTransNo;
     private ImageView ivCustomr;
-    private TextView lblTransN, lblCustNm, lblLnUnit, lblDownpx, lblTermxx;
+    private TextView lblTransN, lblCustNm, lblLnUnit, lblDownpx,
+            lblTermxx, lblApprov, lblDisapv, lblReason;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +72,7 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent myIntent = new Intent(Activity_EvaluationHistoryInfo.this, Activity_EvaluationHistory.class);
-        startActivityForResult(myIntent, 0);
+        finish();
         return true;
     }
 
@@ -87,6 +89,9 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
         lblLnUnit = findViewById(R.id.lbl_loan_unit);
         lblDownpx = findViewById(R.id.lbl_downpayment);
         lblTermxx = findViewById(R.id.lbl_terms);
+        lblReason = findViewById(R.id.lbl_approval_reason);
+        lblApprov = findViewById(R.id.lbl_approved);
+        lblDisapv = findViewById(R.id.lbl_disapproved);
         recyclerView = findViewById(R.id.recyclerView);
     }
 
@@ -98,18 +103,28 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
         mViewModel.setTransNo(psTransNo);
         mViewModel.getCiDetail().observe(Activity_EvaluationHistoryInfo.this, ciDetail -> {
             try {
-                psImgPath = ciDetail.sFileLoct;
+                initalizeImg(ciDetail.sFileLoct);
                 lblTransN.setText(ciDetail.sTransNox);
                 lblCustNm.setText(ciDetail.sCompnyNm);
                 lblLnUnit.setText(ciDetail.sModelNme);
                 lblDownpx.setText(parseAmtToString(ciDetail.nDownPaym));
                 lblTermxx.setText(ciDetail.nAcctTerm + "Month/s");
+                ivCustomr.setOnClickListener(v -> {
+                    DialogImagePreview plDialogx = new DialogImagePreview(Activity_EvaluationHistoryInfo.this,
+                            ciDetail.sFileLoct);
+                    plDialogx.initDialog(dialog -> {
+                        dialog.dismiss();
+                    });
+                    plDialogx.show();
+                });
             } catch(Exception e) {
                 e.printStackTrace();
             }
         });
         mViewModel.getAllDoneCiInfo().observe(Activity_EvaluationHistoryInfo.this, eciEvaluation -> {
             try {
+                displayTranStat(eciEvaluation.getTranStat());
+                displayReason(eciEvaluation.getRemarksx());
                 mViewModel.onFetchCreditEvaluationDetail(eciEvaluation, evaluationDetl -> {
                     this.poAdapter = new CreditEvaluationHistoryInfoAdapter(evaluationDetl);
                     poLayout.setOrientation(RecyclerView.VERTICAL);
@@ -126,7 +141,22 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
         return "₱" + Double.parseDouble(fsAmount);
     }
 
-    private void setPic() {
+    private void displayTranStat(String fsTrnStat) {
+        if(fsTrnStat.equalsIgnoreCase("1")) {
+            lblApprov.setVisibility(View.VISIBLE);
+            lblDisapv.setVisibility(View.GONE);
+        } else if(fsTrnStat.equalsIgnoreCase("3")) {
+            lblDisapv.setVisibility(View.VISIBLE);
+            lblApprov.setVisibility(View.GONE);
+        }
+    }
+
+    private void displayReason(String fsReason) {
+        String lsReason = "Reason: " + fsReason;
+        lblReason.setText(lsReason);
+    }
+
+    private void initalizeImg(String fsImgPath) {
         // Get the dimensions of the View
         int targetW = ivCustomr.getWidth();
         int targetH = ivCustomr.getHeight();
@@ -135,7 +165,7 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         bmOptions.inJustDecodeBounds = true;
 
-        BitmapFactory.decodeFile(psImgPath, bmOptions);
+        BitmapFactory.decodeFile(fsImgPath, bmOptions);
 
         int photoW = bmOptions.outWidth;
         int photoH = bmOptions.outHeight;
@@ -148,7 +178,7 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
         bmOptions.inSampleSize = scaleFactor;
         bmOptions.inPurgeable = true;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(psImgPath, bmOptions);
+        Bitmap bitmap = BitmapFactory.decodeFile(fsImgPath, bmOptions);
 
         Bitmap bOutput;
         float degrees = 90;//rotation degree

@@ -83,8 +83,8 @@
 
             <ImageView
                 android:id="@+id/iv_customer"
-                android:layout_width="85dp"
-                android:layout_height="94dp"/>
+                android:layout_width="75dp"
+                android:layout_height="100dp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -185,41 +185,42 @@
             android:id="@+id/ln_header_approval"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_marginVertical="5dp">
 
             <TextView
                 android:id="@+id/lbl_approved"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="textCapCharacters"
                 android:text="@string/sLblApproved"
                 android:textSize="13sp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="@font/roboto_bold"
                 android:layout_marginRight="3dp"
-                android:background="@drawable/border_label_success"
                 android:textColor="@color/success_green"
+                android:layout_marginBottom="3dp"
                 android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/lbl_disapproved"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="textCapCharacters"
                 android:text="@string/sLblDisapproved"
                 android:textSize="13sp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="@font/roboto_bold"
                 android:layout_marginRight="3dp"
-                android:background="@drawable/border_label_error"
-                android:textColor="@color/error_red"/>
+                android:textColor="@color/error_red"
+                android:layout_marginBottom="3dp"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/lbl_approval_reason"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Reason: No doubt. Richest person in their brgy."
                 android:textColor="@color/textColor_Black"
                 android:textSize="13sp"
-                android:fontFamily="@font/roboto"
-                android:gravity="end"/>
+                android:fontFamily="@font/roboto"/>
 
         </LinearLayout>
 
