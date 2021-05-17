@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.ViewCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -26,6 +27,8 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.CIConstants;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Fragments.Fragment_CIResidenceInfo;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.R;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMApplicationList;
+import org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel.VMEvaluationHistory;
 
 import java.util.Objects;
 
@@ -60,6 +63,7 @@ public class Activity_CIApplication extends AppCompatActivity {
         return sCredInvx;
     }
 
+    private VMApplicationList mViewModel;
     public void moveToPageNumber(int fnPageNum){
         viewPager.setCurrentItem(fnPageNum);
     }
@@ -77,7 +81,12 @@ public class Activity_CIApplication extends AppCompatActivity {
         sModelNm = getIntent().getStringExtra("ModelName");
         nTerm = getIntent().getStringExtra("term");
         nMobile = getIntent().getStringExtra("MobileNo");
-        sCredInvx = getIntent().getStringExtra("sCredInvx");
+        mViewModel = new ViewModelProvider(Activity_CIApplication.this).get(VMApplicationList.class);
+        mViewModel.getEmplopyeInfo().observe(Activity_CIApplication.this, eEmployeeInfo -> {
+            sCredInvx = eEmployeeInfo.getEmployID();
+            mViewModel.setEmployeeID(eEmployeeInfo.getEmployID());
+
+        });
         initWidgets();
     }
 
