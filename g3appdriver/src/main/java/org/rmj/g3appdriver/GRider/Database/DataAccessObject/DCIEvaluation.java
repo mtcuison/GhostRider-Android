@@ -54,6 +54,9 @@ public interface DCIEvaluation {
     @Query("SELECT * FROM Credit_Online_Application_List_CI WHERE sTransNox =:TransNox")
     LiveData<ECIEvaluation> getCIInfoOfTransNox(String TransNox);
 
-    @Query("SELECT * FROM Credit_Online_Application_List_CI WHERE sTransNox = :fsTransNo AND (cTranStat = 1 OR cTranStat = 3)")
+    @Query("SELECT * FROM Credit_Online_Application_List_CI " +
+            "WHERE sTransNox = :fsTransNo " +
+            "AND sCredInvx = (SELECT sEmployID FROM User_Info_Master) " +
+            "AND (cTranStat = 1 OR cTranStat = 3)")
     LiveData<ECIEvaluation> getAllDoneCiInfo(String fsTransNo);
 }

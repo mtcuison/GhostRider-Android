@@ -39,6 +39,10 @@ public class RImageInfo {
         this.imageDao = GGCGriderDB.ImageInfoDao();
     }
 
+    public LiveData<String> getImageLocationFromSrcId(String fsSource) {
+        return imageDao.getImageLocationFromSrcId(fsSource);
+    }
+
     public LiveData<EImageInfo> getImageLocation(String sDtlSrcNo, String sImageNme) {
         return imageDao.getImageLocation(sDtlSrcNo, sImageNme);
     }

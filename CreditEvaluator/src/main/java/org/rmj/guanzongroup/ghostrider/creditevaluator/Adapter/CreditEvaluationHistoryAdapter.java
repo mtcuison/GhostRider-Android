@@ -63,17 +63,17 @@ public class CreditEvaluationHistoryAdapter extends RecyclerView.Adapter<CreditE
     public void onBindViewHolder(@NonNull CreditEvaluationViewHolder holder, int position) {
         CreditEvaluationModel poLoan = plLoanApp.get(position);
 
-        holder.lblTransNoxxx.setText("TransNox. " + poLoan.getsTransNox());
+        holder.lblTransNoxxx.setText("Transaction No.: " + poLoan.getsTransNox());
         holder.lblClientName.setText(poLoan.getsCompnyNm());
         holder.lblAppltnDate.setText(poLoan.getdTransact());
         holder.lblMobileNo.setText(poLoan.getsMobileNo());
-        holder.lblAccountTerm.setText(poLoan.getnAcctTerm());
+        holder.lblAccountTerm.setText(poLoan.getnAcctTerm() + " Month/s");
         holder.lblModelName.setText(poLoan.getsModelNme());
-        holder.lblDownPayment.setText("Php " + poLoan.getnDownPaym());
+        holder.lblDownPayment.setText("₱" + poLoan.getnDownPaym());
         if (poLoan.getCiTranStat().equalsIgnoreCase("1")){
-            holder.lblCIStats.setText("Approved");
+            holder.lblApprov.setVisibility(View.VISIBLE);
         }else if(poLoan.getCiTranStat().equalsIgnoreCase("3")){
-            holder.lblCIStats.setText("Disapproved");
+            holder.lblDsAppr.setVisibility(View.VISIBLE);
         }
     }
 
@@ -95,7 +95,7 @@ public class CreditEvaluationHistoryAdapter extends RecyclerView.Adapter<CreditE
 
         TextView lblModelName;
         TextView lblDownPayment;
-        TextView lblCIStats;
+        TextView lblApprov, lblDsAppr;
 
         public CreditEvaluationViewHolder(@NonNull View itemView, CreditEvaluationHistoryAdapter.OnApplicationClickListener onApplicationClickListener) {
             super(itemView);
@@ -107,7 +107,8 @@ public class CreditEvaluationHistoryAdapter extends RecyclerView.Adapter<CreditE
             lblMobileNo = itemView.findViewById(R.id.lbl_ci_mobileNo);
             lblModelName = itemView.findViewById(R.id.lbl_ci_modelName);
             lblDownPayment = itemView.findViewById(R.id.lbl_ci_downPayment);
-            lblCIStats = itemView.findViewById(R.id.lbl_ci_status);
+            lblApprov = itemView.findViewById(R.id.lbl_ci_approve);
+            lblDsAppr = itemView.findViewById(R.id.lbl_ci_disapprove);
 
 
             itemView.setOnClickListener(v12 -> {

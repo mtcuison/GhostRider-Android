@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Adapter.CreditEvaluationHistoryAdapter;
@@ -45,6 +47,7 @@ public class Activity_EvaluationHistory extends AppCompatActivity implements VME
     private static final String TAG = Activity_EvaluationHistory.class.getSimpleName();
     private RecyclerView recyclerViewClient;
     private VMEvaluationHistory mViewModel;
+    private RImageInfo poImage;
     private LinearLayoutManager layoutManager;
     private CreditEvaluationHistoryAdapter adapter;
     private LinearLayout loading;
@@ -60,7 +63,7 @@ public class Activity_EvaluationHistory extends AppCompatActivity implements VME
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evaluation_history);
         initWidgets();
-
+        poImage = new RImageInfo(getApplication());
         mViewModel = new ViewModelProvider(Activity_EvaluationHistory.this).get(VMEvaluationHistory.class);
         mViewModel.ImportCIApplications(Activity_EvaluationHistory.this);
         initData();
@@ -141,9 +144,18 @@ public class Activity_EvaluationHistory extends AppCompatActivity implements VME
                 adapter = new CreditEvaluationHistoryAdapter(creditList, new CreditEvaluationHistoryAdapter.OnApplicationClickListener() {
                     @Override
                     public void OnClick(int position, List<CreditEvaluationModel> creditLists) {
-                        Intent loIntent = new Intent(Activity_EvaluationHistory.this, Activity_EvaluationHistoryInfo.class);
-                        loIntent.putExtra("sTransNox", creditLists.get(position).getsTransNox());
-                        startActivity(loIntent);
+
+                        poImage.getImageLocationFromSrcId(creditLists.get(position).getsTransNox())
+                                .observe(Activity_EvaluationHistory.this, imgPath ->{
+                                    Intent loIntent = new Intent(Activity_EvaluationHistory.this, Activity_EvaluationHistoryInfo.class);
+                                    loIntent.putExtra("sImgPathx", imgPath);
+                                    loIntent.putExtra("sTransNox", creditLists.get(position).getsTransNox());
+                                    loIntent.putExtra("sCompnyNm", creditLists.get(position).getsCompnyNm());
+                                    loIntent.putExtra("sModelNme", creditLists.get(position).getsModelNme());
+                                    loIntent.putExtra("nDownPaym", creditLists.get(position).getnDownPaym());
+                                    loIntent.putExtra("nAcctTerm", creditLists.get(position).getnAcctTerm());
+                                    startActivity(loIntent);
+                                });
                     }
 
                 });
