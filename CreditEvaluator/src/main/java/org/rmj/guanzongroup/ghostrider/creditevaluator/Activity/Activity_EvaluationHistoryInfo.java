@@ -108,7 +108,7 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
         lblCustNm.setText(psCompNme);
         lblLnUnit.setText(psModelNm);
         lblDownpx.setText(parseAmtToString(psDwnPaym));
-        lblTermxx.setText(psAcctTrm + "Month/s");
+        lblTermxx.setText(psAcctTrm + " Month/s");
 
         setImage(psImgPath);
         ivCustomr.setOnClickListener(v -> {

@@ -63,13 +63,13 @@ public class CreditEvaluationHistoryAdapter extends RecyclerView.Adapter<CreditE
     public void onBindViewHolder(@NonNull CreditEvaluationViewHolder holder, int position) {
         CreditEvaluationModel poLoan = plLoanApp.get(position);
 
-        holder.lblTransNoxxx.setText("TransNox. " + poLoan.getsTransNox());
+        holder.lblTransNoxxx.setText("Transaction No.: " + poLoan.getsTransNox());
         holder.lblClientName.setText(poLoan.getsCompnyNm());
         holder.lblAppltnDate.setText(poLoan.getdTransact());
         holder.lblMobileNo.setText(poLoan.getsMobileNo());
-        holder.lblAccountTerm.setText(poLoan.getnAcctTerm());
+        holder.lblAccountTerm.setText(poLoan.getnAcctTerm() + " Month/s");
         holder.lblModelName.setText(poLoan.getsModelNme());
-        holder.lblDownPayment.setText("Php " + poLoan.getnDownPaym());
+        holder.lblDownPayment.setText("₱" + poLoan.getnDownPaym());
         if (poLoan.getCiTranStat().equalsIgnoreCase("1")){
             holder.lblCIStats.setText("Approved");
         }else if(poLoan.getCiTranStat().equalsIgnoreCase("3")){
