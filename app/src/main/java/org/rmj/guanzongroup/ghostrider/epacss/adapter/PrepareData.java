@@ -98,7 +98,7 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if CI Evaluator is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("CI Evaluation",  R.drawable.ic_menu_credit_investigate,true, true, View.GONE);
+        menuModel = new MenuModel("CI Evaluation",  R.drawable.ic_menu_credit_investigate,true, true, View.VISIBLE);
         listDataHeader.add(menuModel);
         childModel = new MenuModel("CI Evaluation List", 0, false, false , View.VISIBLE);
         childModelsList.add(childModel);

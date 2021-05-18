@@ -113,4 +113,7 @@ public interface DImageInfo {
             "AND sFileCode <> '0020' " +
             "AND sFileCode <> '0021'")
     List<EImageInfo> getUnsentLoanAppDocFiles(String TransNox);
+
+    @Query("SELECT sFileLoct FROM Image_Information WHERE sSourceNo = :fsSource")
+    LiveData<String> getImageLocationFromSrcId(String fsSource);
 }

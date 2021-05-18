@@ -49,7 +49,7 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
     private LinearLayoutManager poLayout;
     private CreditEvaluationHistoryInfoAdapter poAdapter;
     private RecyclerView recyclerView;
-    private String psTransNo;
+    private String psTransNo, psImgPath, psCompNme, psModelNm, psDwnPaym, psAcctTrm;
     private ImageView ivCustomr;
     private TextView lblTransN, lblCustNm, lblLnUnit, lblDownpx,
             lblTermxx, lblApprov, lblDisapv, lblReason;
@@ -82,7 +82,6 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
     }
 
     private void initWidgets() {
-        // poAdapter = new EvaluationHistoryInfoAdapter();
         ivCustomr = findViewById(R.id.iv_customer);
         lblTransN = findViewById(R.id.lbl_transNo);
         lblCustNm = findViewById(R.id.lbl_customer_name);
@@ -97,44 +96,45 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
 
     private void initIntentValues() {
         psTransNo = getIntent().getStringExtra("sTransNox");
+        psImgPath = getIntent().getStringExtra("sImgPathx");
+        psCompNme = getIntent().getStringExtra("sCompnyNm");
+        psModelNm = getIntent().getStringExtra("sModelNme");
+        psDwnPaym = getIntent().getStringExtra("nDownPaym");
+        psAcctTrm = getIntent().getStringExtra("nAcctTerm");
     }
 
     private void setContent() {
-        mViewModel.setTransNo(psTransNo);
-        mViewModel.getCiDetail().observe(Activity_EvaluationHistoryInfo.this, ciDetail -> {
-            try {
-                initalizeImg(ciDetail.sFileLoct);
-                lblTransN.setText(ciDetail.sTransNox);
-                lblCustNm.setText(ciDetail.sCompnyNm);
-                lblLnUnit.setText(ciDetail.sModelNme);
-                lblDownpx.setText(parseAmtToString(ciDetail.nDownPaym));
-                lblTermxx.setText(ciDetail.nAcctTerm + "Month/s");
-                ivCustomr.setOnClickListener(v -> {
-                    DialogImagePreview plDialogx = new DialogImagePreview(Activity_EvaluationHistoryInfo.this,
-                            ciDetail.sFileLoct);
-                    plDialogx.initDialog(dialog -> {
-                        dialog.dismiss();
-                    });
-                    plDialogx.show();
-                });
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
+        lblTransN.setText(psTransNo);
+        lblCustNm.setText(psCompNme);
+        lblLnUnit.setText(psModelNm);
+        lblDownpx.setText(parseAmtToString(psDwnPaym));
+        lblTermxx.setText(psAcctTrm + "Month/s");
+
+        setImage(psImgPath);
+        ivCustomr.setOnClickListener(v -> {
+            DialogImagePreview plDialogx = new DialogImagePreview(Activity_EvaluationHistoryInfo.this,
+                    psImgPath);
+            plDialogx.initDialog(dialog -> {
+                dialog.dismiss();
+            });
+            plDialogx.show();
         });
+
+        mViewModel.setTransNo(psTransNo);
         mViewModel.getAllDoneCiInfo().observe(Activity_EvaluationHistoryInfo.this, eciEvaluation -> {
             try {
                 displayTranStat(eciEvaluation.getTranStat());
                 displayReason(eciEvaluation.getRemarksx());
-                mViewModel.onFetchCreditEvaluationDetail(eciEvaluation, evaluationDetl -> {
-                    this.poAdapter = new CreditEvaluationHistoryInfoAdapter(evaluationDetl);
-                    poLayout.setOrientation(RecyclerView.VERTICAL);
-                    recyclerView.setLayoutManager(poLayout);
-                    recyclerView.setAdapter(this.poAdapter);
-                });
+                poAdapter = new CreditEvaluationHistoryInfoAdapter(
+                        mViewModel.onFetchCreditEvaluationDetail(eciEvaluation));
+                poLayout.setOrientation(RecyclerView.VERTICAL);
+                recyclerView.setLayoutManager(poLayout);
+                recyclerView.setAdapter(poAdapter);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
+
     }
 
     private String parseAmtToString(String fsAmount) {
@@ -156,10 +156,10 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
         lblReason.setText(lsReason);
     }
 
-    private void initalizeImg(String fsImgPath) {
+    private void setImage(String fsImgPath) {
         // Get the dimensions of the View
-        int targetW = ivCustomr.getWidth();
-        int targetH = ivCustomr.getHeight();
+        int targetW = 500;
+        int targetH = 500;
 
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();

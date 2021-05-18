@@ -72,7 +72,7 @@ public interface DBranchLoanApplication {
     @Query("SELECT I.sFileLoct, C.sTransNox, C.sCompnyNm, C.sModelNme, C.nDownPaym, C.nAcctTerm " +
             "FROM Credit_Online_Application_List AS C " +
             "LEFT JOIN Image_Information AS I " +
-            "ON I.sDtlSrcNo = C.sTransNox " +
+            "ON C.sTransNox = I.sDtlSrcNo " +
             "WHERE C.sTransNox =:fsTransNo")
     LiveData<CiDetail> getCiDetail(String fsTransNo);
 
