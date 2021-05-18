@@ -71,9 +71,9 @@ public class CreditEvaluationHistoryAdapter extends RecyclerView.Adapter<CreditE
         holder.lblModelName.setText(poLoan.getsModelNme());
         holder.lblDownPayment.setText("₱" + poLoan.getnDownPaym());
         if (poLoan.getCiTranStat().equalsIgnoreCase("1")){
-            holder.lblCIStats.setText("Approved");
+            holder.lblApprov.setVisibility(View.VISIBLE);
         }else if(poLoan.getCiTranStat().equalsIgnoreCase("3")){
-            holder.lblCIStats.setText("Disapproved");
+            holder.lblDsAppr.setVisibility(View.VISIBLE);
         }
     }
 
@@ -95,7 +95,7 @@ public class CreditEvaluationHistoryAdapter extends RecyclerView.Adapter<CreditE
 
         TextView lblModelName;
         TextView lblDownPayment;
-        TextView lblCIStats;
+        TextView lblApprov, lblDsAppr;
 
         public CreditEvaluationViewHolder(@NonNull View itemView, CreditEvaluationHistoryAdapter.OnApplicationClickListener onApplicationClickListener) {
             super(itemView);
@@ -107,7 +107,8 @@ public class CreditEvaluationHistoryAdapter extends RecyclerView.Adapter<CreditE
             lblMobileNo = itemView.findViewById(R.id.lbl_ci_mobileNo);
             lblModelName = itemView.findViewById(R.id.lbl_ci_modelName);
             lblDownPayment = itemView.findViewById(R.id.lbl_ci_downPayment);
-            lblCIStats = itemView.findViewById(R.id.lbl_ci_status);
+            lblApprov = itemView.findViewById(R.id.lbl_ci_approve);
+            lblDsAppr = itemView.findViewById(R.id.lbl_ci_disapprove);
 
 
             itemView.setOnClickListener(v12 -> {

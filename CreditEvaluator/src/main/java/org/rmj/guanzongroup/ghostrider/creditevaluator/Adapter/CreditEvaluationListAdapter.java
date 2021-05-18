@@ -65,14 +65,14 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
     public void onBindViewHolder(@NonNull CreditEvaluationViewHolder holder, int position) {
         CreditEvaluationModel poLoan = plLoanApp.get(position);
 
-        holder.lblTransNoxxx.setText("TransNox. " + poLoan.getsTransNox());
+        holder.lblTransNoxxx.setText("Transaction No.: " + poLoan.getsTransNox());
         holder.lblClientName.setText(poLoan.getsCompnyNm());
         holder.lblAppltnDate.setText(poLoan.getdTransact());
         holder.lblMobileNo.setText(poLoan.getsMobileNo());
-        holder.lblAccountTerm.setText(poLoan.getnAcctTerm());
+        holder.lblAccountTerm.setText(poLoan.getnAcctTerm() + " Month/s");
         holder.lblModelName.setText(poLoan.getsModelNme());
         holder.lblModelName.setText(poLoan.getsModelNme());
-        holder.lblDownPayment.setText("Php " + poLoan.getnDownPaym());
+        holder.lblDownPayment.setText("₱" + poLoan.getnDownPaym());
 
     }
 
@@ -94,7 +94,6 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
 
         TextView lblModelName;
         TextView lblDownPayment;
-        TextView lblCIStats;
 
         public CreditEvaluationViewHolder(@NonNull View itemView, CreditEvaluationListAdapter.OnApplicationClickListener onApplicationClickListener) {
             super(itemView);
@@ -106,7 +105,6 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
             lblMobileNo = itemView.findViewById(R.id.lbl_ci_mobileNo);
             lblModelName = itemView.findViewById(R.id.lbl_ci_modelName);
             lblDownPayment = itemView.findViewById(R.id.lbl_ci_downPayment);
-            lblCIStats = itemView.findViewById(R.id.lbl_ci_status);
 
 
             itemView.setOnClickListener(v12 -> {
