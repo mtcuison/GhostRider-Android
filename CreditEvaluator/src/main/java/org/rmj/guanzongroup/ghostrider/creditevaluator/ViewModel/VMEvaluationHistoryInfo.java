@@ -72,8 +72,7 @@ public class VMEvaluationHistoryInfo extends AndroidViewModel {
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Education", parseAmtToString(loDetail.getEducExpn())));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Others", parseAmtToString(loDetail.getOthrExpn())));
 
-            loListDetl.add(new EvaluationHistoryInfoModel(true, "Barangay Record Information", "", ""));
-            loListDetl.add(new EvaluationHistoryInfoModel(true, "Neighbor 1", "", ""));
+            loListDetl.add(new EvaluationHistoryInfoModel(true, "Neighbor 1 Feedback", "", ""));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Name", loDetail.getNeighbr1()));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Relation", parseRelation(loDetail.getReltnCD1())));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Address", loDetail.getAddress1()));
@@ -81,7 +80,7 @@ public class VMEvaluationHistoryInfo extends AndroidViewModel {
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Feedback", getVibes(loDetail.getFeedBck1())));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Remarks", loDetail.getFBRemrk1()));
 
-            loListDetl.add(new EvaluationHistoryInfoModel(true, "Neighbor 2", "", ""));
+            loListDetl.add(new EvaluationHistoryInfoModel(true, "Neighbor 2 Feedback", "", ""));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Name", loDetail.getNeighbr2()));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Relation", parseRelation(loDetail.getReltnCD2())));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Address", loDetail.getAddress2()));
@@ -89,13 +88,19 @@ public class VMEvaluationHistoryInfo extends AndroidViewModel {
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Feedback", getVibes(loDetail.getFeedBck2())));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Remarks", loDetail.getFBRemrk2()));
 
-            loListDetl.add(new EvaluationHistoryInfoModel(true, "Neighbor 3", "", ""));
+            loListDetl.add(new EvaluationHistoryInfoModel(true, "Neighbor 3 Feedback", "", ""));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Name", loDetail.getNeighbr3()));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Relation", parseRelation(loDetail.getReltnCD3())));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Address", loDetail.getAddress3()));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Contact No.", loDetail.getMobileN3()));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Feedback", getVibes(loDetail.getFeedBck3())));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Remarks", loDetail.getFBRemrk3()));
+
+            loListDetl.add(new EvaluationHistoryInfoModel(true, "Barangay Record Information", "", ""));
+            loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Has Barangay Record", getAnswer(loDetail.getHasRecrd())));
+            if(loDetail.getHasRecrd().equalsIgnoreCase("1")) {
+                loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Record", loDetail.getRemRecrd()));
+            }
 
             loListDetl.add(new EvaluationHistoryInfoModel(true, "Character Traits", "", ""));
             loListDetl.add(new EvaluationHistoryInfoModel(false,"", "Gambler", getAnswer(loDetail.getGamblerx())));
