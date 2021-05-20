@@ -138,7 +138,8 @@ public class Activity_EvaluationHistoryInfo extends AppCompatActivity {
     }
 
     private String parseAmtToString(String fsAmount) {
-        return "₱" + Double.parseDouble(fsAmount);
+        String lsAmount = fsAmount.replace(",","");
+        return "₱" + Double.parseDouble(lsAmount);
     }
 
     private void displayTranStat(String fsTrnStat) {

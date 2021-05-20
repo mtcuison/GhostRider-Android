@@ -131,11 +131,11 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
     }
 
     public void initClientInfo(){
-        sTransNox.setText(Activity_CIApplication.getInstance().getTransNox());
+        sTransNox.setText("Transaction No.: " + Activity_CIApplication.getInstance().getTransNox());
         sCompnyNm.setText(Activity_CIApplication.getInstance().getsCompnyNm());
         dTransact.setText(Activity_CIApplication.getInstance().getdTransact());
         sModelNm.setText(Activity_CIApplication.getInstance().getsModelNm());
-        nTerm.setText(Activity_CIApplication.getInstance().getnTerm());
+        nTerm.setText(Activity_CIApplication.getInstance().getnTerm() + " Month/s");
         nMobile.setText(Activity_CIApplication.getInstance().getnMobile());
     }
     @SuppressLint("WrongConstant")
