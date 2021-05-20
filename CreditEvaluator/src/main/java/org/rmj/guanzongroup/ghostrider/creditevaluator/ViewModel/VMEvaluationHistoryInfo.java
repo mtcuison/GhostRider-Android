@@ -42,8 +42,12 @@ public class VMEvaluationHistoryInfo extends AndroidViewModel {
         this.poRelatex = new RRelation(application);
     }
 
-    public void setTransNo(String fsTransNo) {
+    public boolean setTransNo(String fsTransNo) {
         this.psTransNo.setValue(fsTransNo);
+        if(!this.psTransNo.getValue().equalsIgnoreCase(fsTransNo)) {
+            return false;
+        }
+        return true;
     }
 
     public LiveData<ECIEvaluation> getAllDoneCiInfo() {
