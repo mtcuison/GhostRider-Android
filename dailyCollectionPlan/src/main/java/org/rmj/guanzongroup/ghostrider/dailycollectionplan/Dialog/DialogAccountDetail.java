@@ -62,6 +62,8 @@ public class DialogAccountDetail {
     private TextView lblLastPy;
     private TextView lblLastPd;
 
+    private static boolean isDialogShown;
+
     public DialogAccountDetail(Context context){
         this.context = context;
     }
@@ -138,21 +140,29 @@ public class DialogAccountDetail {
         lblDelayx.setText(foDetail.getDelayAvg());
         lblLastPy.setText(FormatUIText.getCurrencyUIFormat(foDetail.getLastPaym()));
         lblLastPd.setText(FormatUIText.formatGOCasBirthdate(foDetail.getLastPaid()));
-        btnConfirm.setOnClickListener(view1 -> listener.OnClick(poDialogx, spnTransact.getSelectedItem().toString()));
+        btnConfirm.setOnClickListener(view1 -> {
+            listener.OnClick(poDialogx, spnTransact.getSelectedItem().toString());
+            isDialogShown = false;
+        });
 
         btnCancelx.setOnClickListener(view12 -> dismiss());
     }
 
 
     public void show(){
+        if(isDialogShown) {
+            return;
+        }
         poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         poDialogx.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
         poDialogx.show();
+        isDialogShown = true;
     }
 
     public void dismiss(){
         if(poDialogx != null && poDialogx.isShowing()){
             poDialogx.dismiss();
+            isDialogShown = false;
         }
     }
 
