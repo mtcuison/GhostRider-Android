@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.GRider.Etc.SingleClickListener;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
@@ -110,10 +111,13 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             lblAmount = itemView.findViewById(R.id.lbl_dcpAmountDue);
             lblStatus = itemView.findViewById(R.id.lbl_dcpStatus);
 
-            itemView.setOnClickListener(view -> {
-                int position = getAdapterPosition();
-                if(position != RecyclerView.NO_POSITION){
-                    listener.OnClick(position);
+            itemView.setOnClickListener(new SingleClickListener() {
+                @Override
+                public void onSingleClick(View v) {
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        listener.OnClick(position);
+                    }
                 }
             });
 
