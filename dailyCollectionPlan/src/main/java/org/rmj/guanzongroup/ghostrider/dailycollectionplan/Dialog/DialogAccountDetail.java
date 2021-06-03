@@ -80,6 +80,7 @@ public class DialogAccountDetail {
         poDCPRepo = new RDailyCollectionPlan(activity.getApplication());
         TextView lblReferNo = view.findViewById(R.id.lbl_dcpReferNo);
         TextView lblTransNo = view.findViewById(R.id.lbl_dcpTransNo);
+        TextView lblClientN = view.findViewById(R.id.lbl_dcpClientNm);
         TextView lblAccntNo = view.findViewById(R.id.lbl_dcpAccNo);
         TextView lblSerialx = view.findViewById(R.id.lbl_dcpPRNo);
         TextView lblAmountx = view.findViewById(R.id.lbl_dcpAmountDue);
@@ -132,6 +133,7 @@ public class DialogAccountDetail {
         Log.e("Remarks code", foDetail.getRemCodex() + "");
         lblReferNo.setText(foDetail.getReferNox());
         lblTransNo.setText(foDetail.getTransNox());
+        lblClientN.setText(foDetail.getFullName());
         lblAccntNo.setText(foDetail.getAcctNmbr());
         lblSerialx.setText(foDetail.getSerialNo());
         lblAmountx.setText(FormatUIText.getCurrencyUIFormat(foDetail.getAmtDuexx()));
