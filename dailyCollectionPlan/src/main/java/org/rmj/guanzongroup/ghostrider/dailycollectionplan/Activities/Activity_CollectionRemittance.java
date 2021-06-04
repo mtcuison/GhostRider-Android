@@ -67,6 +67,8 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
 
     private String psCltCashx, psCltCheck;
 
+    private boolean isCheck = false;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +158,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
 
         rgRemitType.setOnCheckedChangeListener((group, checkedId) -> {
             if(checkedId == R.id.rb_remitCash){
+                isCheck = false;
                 poRemit.setPaymForm("0");
                 txtAmount.setText("");
                 if(psCltCashx != null) {
@@ -168,6 +171,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                     btnRemitAll.setText("No Cash On Hand");
                 }
             } else if(checkedId == R.id.rb_remitCheck){
+                isCheck = true;
                 poRemit.setPaymForm("1");
                 txtAmount.setText("");
                 if(psCltCheck != null) {
@@ -425,6 +429,26 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
             } else if (txtAmount.getText().toString().equalsIgnoreCase("0")) {
                 GToast.CreateMessage(this, "Unable to remit 0 amount", GToast.ERROR).show();
                 return false;
+            } else if(!isCheck) {
+                if(psCltCashx.equalsIgnoreCase("0") ||
+                        psCltCashx.equalsIgnoreCase("0.0") ||
+                        psCltCashx.equalsIgnoreCase("0.00")) {
+                    GToast.CreateMessage(this, "Unable to remit. Cash on hand is empty.", GToast.ERROR).show();
+                    return false;
+                } else if(parseDouble(txtAmount.getText().toString()) > parseDouble(psCltCashx)) {
+                    GToast.CreateMessage(this, "Unable to remit. Cash remittance is greater than cash on hand.", GToast.ERROR).show();
+                    return false;
+                }
+            } else if(isCheck) {
+                if(psCltCheck.equalsIgnoreCase("0") ||
+                        psCltCheck.equalsIgnoreCase("0.0") ||
+                        psCltCheck.equalsIgnoreCase("0.00")) {
+                    GToast.CreateMessage(this, "Unable to remit. Check on hand is empty.", GToast.ERROR).show();
+                    return false;
+                } else if(parseDouble(txtAmount.getText().toString()) > parseDouble(psCltCheck)) {
+                    GToast.CreateMessage(this, "Unable to remit. Check remittance is greater than check on hand.", GToast.ERROR).show();
+                    return false;
+                }
             }
         } else if (poRemit.getRemitTyp().equalsIgnoreCase("1")) {
             if (txtAccNox.getText().toString().isEmpty()) {
@@ -445,6 +469,26 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
             } else if (txtAmount.getText().toString().equalsIgnoreCase("0")) {
                 GToast.CreateMessage(this, "Unable to remit 0 amount", GToast.ERROR).show();
                 return false;
+            } else if(!isCheck) {
+                if(psCltCashx.equalsIgnoreCase("0") ||
+                        psCltCashx.equalsIgnoreCase("0.0") ||
+                        psCltCashx.equalsIgnoreCase("0.00")) {
+                    GToast.CreateMessage(this, "Unable to remit. Cash on hand is empty.", GToast.ERROR).show();
+                    return false;
+                } else if(parseDouble(txtAmount.getText().toString()) > parseDouble(psCltCashx)) {
+                    GToast.CreateMessage(this, "Unable to remit. Cash remittance is greater than cash on hand.", GToast.ERROR).show();
+                    return false;
+                }
+            } else if(isCheck) {
+                if(psCltCheck.equalsIgnoreCase("0") ||
+                        psCltCheck.equalsIgnoreCase("0.0") ||
+                        psCltCheck.equalsIgnoreCase("0.00")) {
+                    GToast.CreateMessage(this, "Unable to remit. Check on hand is empty.", GToast.ERROR).show();
+                    return false;
+                } else if(parseDouble(txtAmount.getText().toString()) > parseDouble(psCltCheck)) {
+                    GToast.CreateMessage(this, "Unable to remit. Check remittance is greater than check on hand.", GToast.ERROR).show();
+                    return false;
+                }
             }
         } else {
             if (Objects.requireNonNull(txtRefNox.getText()).toString().isEmpty()) {
@@ -459,8 +503,33 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
             } else if (txtAmount.getText().toString().equalsIgnoreCase("0")) {
                 GToast.CreateMessage(this, "Unable to remit 0 amount", GToast.ERROR).show();
                 return false;
+            } else if(!isCheck) {
+                if(psCltCashx.equalsIgnoreCase("0") ||
+                        psCltCashx.equalsIgnoreCase("0.0") ||
+                        psCltCashx.equalsIgnoreCase("0.00")) {
+                    GToast.CreateMessage(this, "Unable to remit. Cash on hand is empty.", GToast.ERROR).show();
+                    return false;
+                } else if(parseDouble(txtAmount.getText().toString()) > parseDouble(psCltCashx)) {
+                    GToast.CreateMessage(this, "Unable to remit. Cash remittance is greater than cash on hand.", GToast.ERROR).show();
+                    return false;
+                }
+            } else if(isCheck) {
+                if(psCltCheck.equalsIgnoreCase("0") ||
+                        psCltCheck.equalsIgnoreCase("0.0") ||
+                        psCltCheck.equalsIgnoreCase("0.00")) {
+                    GToast.CreateMessage(this, "Unable to remit. Check on hand is empty.", GToast.ERROR).show();
+                    return false;
+                } else if(parseDouble(txtAmount.getText().toString()) > parseDouble(psCltCheck)) {
+                    GToast.CreateMessage(this, "Unable to remit. Check remittance is greater than check on hand.", GToast.ERROR).show();
+                    return false;
+                }
             }
         }
         return true;
+    }
+
+    private static double parseDouble(String fsNumber) {
+        String lsNumber = fsNumber.replace(",","");
+        return Double.parseDouble(lsNumber);
     }
 }
