@@ -88,6 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:gravity="bottom"
                     android:layout_marginTop="10dp">
 
                     <LinearLayout
@@ -112,6 +113,14 @@
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
                             android:text="Cash-On-Hand : ₱ 0.00"
+                            android:fontFamily="@font/roboto_light"
+                            android:textColor="@color/textColor_White"/>
+                        <TextView
+                            android:id="@+id/lbl_totalCheckOnHand"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:text="Check-On-Hand : ₱ 0.00"
                             android:fontFamily="@font/roboto_light"
                             android:textColor="@color/textColor_White"/>
 

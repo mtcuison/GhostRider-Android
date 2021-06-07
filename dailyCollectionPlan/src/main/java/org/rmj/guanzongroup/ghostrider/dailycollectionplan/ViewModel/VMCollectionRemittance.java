@@ -55,6 +55,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
     private double nTotCashx = 0;
     private double nTotCheck = 0;
 
+    private String psCltCashx = "0.0", psCltCheck = "0.0";
     private final MutableLiveData<String> psCashOHnd = new MutableLiveData<>();
     private final MutableLiveData<String> psCheckOHx = new MutableLiveData<>();
 
@@ -78,6 +79,14 @@ public class VMCollectionRemittance extends AndroidViewModel {
         this.poConn = new ConnectionUtil(application);
         this.poHeaders = HttpHeaders.getInstance(application);
         this.poRemittance = new RRemittanceAccount(application);
+    }
+    public void setCltCashx(String psCltCashx) {
+        this.psCltCashx = psCltCashx;
+        calcCashOnHand();
+    }
+    public void setCltCheck(String psCltCheck) {
+        this.psCltCheck = psCltCheck;
+        calcCashOnHand();
     }
 
     public void setTotalRemittedCash(double nTotRCash) {
