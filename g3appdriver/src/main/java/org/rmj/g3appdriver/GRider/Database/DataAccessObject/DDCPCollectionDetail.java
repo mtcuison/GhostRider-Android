@@ -147,6 +147,7 @@ public interface DDCPCollectionDetail {
             "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact)")
     LiveData<String> getCollectedTotal(String dTransact);
 
+
     @Query("SELECT SUM(nAmountxx) FROM LR_DCP_Remittance " +
             "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact)")
     LiveData<String> getTotalRemittedPayment(String dTransact);

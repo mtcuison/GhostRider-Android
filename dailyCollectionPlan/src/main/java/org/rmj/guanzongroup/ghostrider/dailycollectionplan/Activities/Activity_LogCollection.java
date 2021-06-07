@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -57,6 +58,7 @@ public class Activity_LogCollection extends AppCompatActivity {
                         txtNoName,
                         lblTotRemit,
                         lblCashOH,
+                        lblCheckOH,
                         lblTotalClt;
 
     private LinearLayoutManager poManager;
@@ -147,7 +149,9 @@ public class Activity_LogCollection extends AppCompatActivity {
                         loIntent.putExtra("nLongitud", filteredCollectionDetlx.get(position).getLongitud());
                         loIntent.putExtra("nLatitude", filteredCollectionDetlx.get(position).getLatitude());
                         startActivity(loIntent);
+
                     });
+
 
                     poManager = new LinearLayoutManager(Activity_LogCollection.this);
                     poManager.setOrientation(RecyclerView.VERTICAL);
@@ -207,7 +211,21 @@ public class Activity_LogCollection extends AppCompatActivity {
                     });
 
                     mViewModel.getCashOnHand().observe(this, s1 -> lblCashOH.setText("Cash-On-Hand : " + FormatUIText.getCurrencyUIFormat(s1)));
+                    mViewModel.getTotalCollectedCash().observe(this, val -> {
+                        try {
+                            mViewModel.Calculate_COH_Remitted(result -> lblCashOH.setText("Cash-On-Hand : " + FormatUIText.getCurrencyUIFormat(result)));
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
 
+                    mViewModel.getTotalCollectedCheck().observe(this, val -> {
+                        try {
+                            mViewModel.Calculate_Check_Remitted(result -> lblCheckOH.setText("Check-On-Hand : " + FormatUIText.getCurrencyUIFormat(result)));
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
                     mViewModel.Calculate_Check_Remitted(s, result -> psCltCheck = result);
 
                     mViewModel.Calculate_COH_Remitted(s, result -> psCltCashx = result);
@@ -243,6 +261,7 @@ public class Activity_LogCollection extends AppCompatActivity {
         lnEmptyList = findViewById(R.id.linear_empty_list);
         lblTotRemit = findViewById(R.id.lbl_totalRemitCollection);
         lblCashOH = findViewById(R.id.lbl_totalCashOnHand);
+        lblCheckOH = findViewById(R.id.lbl_totalCheckOnHand);
         lblTotalClt = findViewById(R.id.lbl_totalCollected);
 
         txtDate = findViewById(R.id.txt_collectionDate);
@@ -268,6 +287,7 @@ public class Activity_LogCollection extends AppCompatActivity {
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat loFormatter = new SimpleDateFormat("yyyy-MM-dd");
                 loIntent.putExtra("dTransact", loFormatter.format(Objects.requireNonNull(loDate)));
                 startActivity(loIntent);
+                finish();
             } catch (Exception e){
                 e.printStackTrace();
             }

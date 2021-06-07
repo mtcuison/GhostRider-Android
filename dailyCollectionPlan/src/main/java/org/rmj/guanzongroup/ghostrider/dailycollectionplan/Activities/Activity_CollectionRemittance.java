@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +37,7 @@ import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.CollectionRemittanceInfoModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionRemittance;
 
@@ -58,17 +60,17 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
             lblRmtOther,
             lblOHCashxx,
             lblOHCheckx;
-    private AutoCompleteTextView txtBranch, txtAccNox;
+    public AutoCompleteTextView txtBranch, txtAccNox;
     private TextInputEditText txtAmount, txtAccName, txtRefNox;
     private LinearLayout linearBrnch, linearBank;
     private TextInputLayout tilRefNox;
     private RadioGroup rgRemitType, rgRemitance;
     private Button btnRemitAll, btnRemit;
 
-    private String psCltCashx, psCltCheck;
+    private String psCltCashx = "0.0", psCltCheck = "0.0";
 
     private boolean isCheck = false;
-
+    private CollectionRemittanceInfoModel infoModel;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
         poDialogx = new LoadDialog(Activity_CollectionRemittance.this);
         poMessage = new MessageBox(Activity_CollectionRemittance.this);
         poRemit = new EDCP_Remittance();
+        infoModel =  new CollectionRemittanceInfoModel();
         initWidgets();
         mViewModel = new ViewModelProvider(this).get(VMCollectionRemittance.class);
         mViewModel.setTransact(getIntent().getStringExtra("dTransact"));
@@ -159,6 +162,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
         rgRemitType.setOnCheckedChangeListener((group, checkedId) -> {
             if(checkedId == R.id.rb_remitCash){
                 isCheck = false;
+                infoModel.setCheck(false);
                 poRemit.setPaymForm("0");
                 txtAmount.setText("");
                 if(psCltCashx != null) {
@@ -172,6 +176,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                 }
             } else if(checkedId == R.id.rb_remitCheck){
                 isCheck = true;
+                infoModel.setCheck(true);
                 poRemit.setPaymForm("1");
                 txtAmount.setText("");
                 if(psCltCheck != null) {
@@ -221,6 +226,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
         mViewModel.getCashOnHand().observe(this, s -> {
             try{
                 psCltCashx = s;
+                infoModel.setPsCltCashx(s);
                 btnRemitAll.setText("Total Cash-On-Hand" + FormatUIText.getCurrencyUIFormat(psCltCashx));
             } catch (Exception e){
                 e.printStackTrace();
@@ -230,6 +236,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
         mViewModel.getCheckOnHand().observe(this, s -> {
             try{
                 psCltCheck = s;
+                infoModel.setPsCltCheck(s);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -316,21 +323,33 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
         });
 
         btnRemit.setOnClickListener(v ->{
-            if(isDataValid()) {
-                switch (poRemit.getRemitTyp()) {
-                    case "0":
-                        poRemit.setCompnyNm(txtBranch.getText().toString());
-                        break;
-                    case "1":
-                    case "2":
-                        poRemit.setCompnyNm(Objects.requireNonNull(txtAccName.getText()).toString());
-                        poRemit.setBankAcct(Objects.requireNonNull(txtAccNox.getText()).toString());
-                        poRemit.setReferNox(Objects.requireNonNull(txtRefNox.getText()).toString());
-                        break;
-                }
-                poRemit.setAmountxx(Objects.requireNonNull(txtAmount.getText()).toString().replace(",", ""));
-                poRemit.setTimeStmp(AppConstants.DATE_MODIFIED);
-                mViewModel.RemitCollection(poRemit, new VMCollectionRemittance.OnRemitCollectionCallback() {
+
+            infoModel.setRemitTyp(poRemit.getRemitTyp());
+
+            switch (poRemit.getRemitTyp()) {
+                case "0":
+                    infoModel.setCompnyNm(txtBranch.getText().toString());
+                    poRemit.setCompnyNm(txtBranch.getText().toString());
+                    break;
+                case "1":
+                case "2":
+                    infoModel.setCompnyNm(txtAccName.getText().toString());
+                    infoModel.setBankAcct(txtAccNox.getText().toString());
+                    infoModel.setReferNox(txtRefNox.getText().toString());
+
+                    poRemit.setCompnyNm(Objects.requireNonNull(txtAccName.getText()).toString());
+                    poRemit.setBankAcct(Objects.requireNonNull(txtAccNox.getText()).toString());
+                    poRemit.setReferNox(Objects.requireNonNull(txtRefNox.getText()).toString());
+                    break;
+            }
+            poRemit.setAmountxx(Objects.requireNonNull(txtAmount.getText()).toString().replace(",", ""));
+            poRemit.setTimeStmp(AppConstants.DATE_MODIFIED);
+            infoModel.setTimeStmp(AppConstants.DATE_MODIFIED);
+            infoModel.setPsBranch(txtBranch.getText().toString());
+            infoModel.setAmountxx(txtAmount.getText().toString());
+            if(infoModel.isDataValid()) {
+
+                mViewModel.RemitCollection(poRemit,new VMCollectionRemittance.OnRemitCollectionCallback() {
                     @Override
                     public void OnRemit() {
                         poDialogx.initDialog("Collection Remittance", "Sending collection remittance info. Please wait...", false);
@@ -345,6 +364,8 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                         poMessage.setMessage("Your remittance has been posted successfully.");
                         poMessage.setPositiveButton("Okay", (view, dialog) -> {
                             dialog.dismiss();
+                            Intent loIntent = new Intent(Activity_CollectionRemittance.this, Activity_LogCollection.class);
+                            startActivity(loIntent);
                             finish();
                         });
                         poMessage.show();
@@ -360,6 +381,8 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                         poMessage.show();
                     }
                 });
+            }else{
+                GToast.CreateMessage(this, infoModel.getMessage(), GToast.ERROR).show();
             }
         });
     }
@@ -398,6 +421,8 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Intent loIntent = new Intent(Activity_CollectionRemittance.this, Activity_LogCollection.class);
+        startActivity(loIntent);
         finish();
     }
 
@@ -415,7 +440,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
         getViewModelStore().clear();
     }
 
-    private boolean isDataValid() {
+    public boolean isDataValid() {
         if (poRemit.getRemitTyp().equalsIgnoreCase("0")) {
             if (txtBranch.getText().toString().isEmpty()) {
                 GToast.CreateMessage(this, "Please enter branch", GToast.ERROR).show();
