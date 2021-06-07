@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.creditevaluator.ViewModel;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -28,19 +27,14 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIDisbursementInfoModel;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CharacterTraitsInfoModel;
 
-import java.text.DecimalFormat;
-
-public class VMCICharacteristics extends AndroidViewModel {
+      public class VMCICharacteristics extends AndroidViewModel {
     private static final String TAG = VMCIResidenceInfo.class.getSimpleName();
     private final Application instance;
     private final RCIEvaluation poCI;

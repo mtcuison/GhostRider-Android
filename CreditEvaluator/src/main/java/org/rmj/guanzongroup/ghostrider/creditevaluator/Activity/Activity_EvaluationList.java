@@ -72,6 +72,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
         initData();
 
     }
+
     private void initWidgets(){
 
         Toolbar toolbar = findViewById(R.id.toolbar_creditEvalutionList);
@@ -195,17 +196,15 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
                         loan.setdTimeStmp(ciList.get(x).dTimeStmp);
                         loan.setCiTranStat(ciList.get(x).ciTranStat);
                         ciEvaluationList.add(loan);
-
-
                         continue;
                     }
-//                    for ()
+
                     String json = new Gson().toJson(ciEvaluationList);
-//                    Log.e(TAG, json);
+
                     adapter = new CreditEvaluationListAdapter(ciEvaluationList, new CreditEvaluationListAdapter.OnApplicationClickListener() {
                         @Override
                         public void OnClick(int position, List<CreditEvaluationModel> ciEvaluationLists) {
-//
+
                             Intent loIntent = new Intent(Activity_EvaluationList.this, Activity_CIApplication.class);
                             loIntent.putExtra("transno",ciEvaluationLists.get(position).getsTransNox());
                             loIntent.putExtra("ClientNm",ciEvaluationLists.get(position).getsCompnyNm());

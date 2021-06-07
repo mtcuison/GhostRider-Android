@@ -47,10 +47,53 @@
                         android:paddingHorizontal="5dp"
                         android:paddingTop="40dp">
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Enter Employee Name"
+                                style="@style/TextInputStyle"
+                                android:layout_marginBottom="10dp">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txt_employeeSearch"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    style="@style/TextInputStyle.Edittext" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnSearch"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".8"
+                                app:icon="@drawable/ic_client_search"
+                                app:iconTint="@color/textColor_Black"
+                                app:iconGravity="textStart"
+                                android:text="Search"
+                                android:textColor="@color/textColor_Black"/>
+
+                        </LinearLayout>
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerview_messages"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent"
+                            android:visibility="gone"
+                            android:layout_marginBottom="10dp"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerview_employee"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="gone"/>
 
                     </LinearLayout>
 

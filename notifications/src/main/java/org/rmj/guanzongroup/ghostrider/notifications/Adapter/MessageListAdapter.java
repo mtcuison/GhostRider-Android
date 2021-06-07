@@ -75,13 +75,13 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
-                    mListener.OnClick(message.getName(), message.getMessage());
+                    mListener.OnClick(message.getName(), message.getMessage(), message.getSendrID());
                 }
             });
         }
     }
 
     public interface OnItemClickListener{
-        void OnClick(String Title, String Message);
+        void OnClick(String Title, String Message, String SenderID);
     }
 }

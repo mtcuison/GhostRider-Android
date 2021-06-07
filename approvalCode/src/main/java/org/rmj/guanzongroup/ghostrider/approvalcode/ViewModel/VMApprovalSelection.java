@@ -22,7 +22,7 @@ import org.rmj.appdriver.mob.base.MiscUtil;
 import org.rmj.appdriver.mob.base.SQLUtil;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESCA_Request;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RApprovalCode;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 
 import java.util.List;

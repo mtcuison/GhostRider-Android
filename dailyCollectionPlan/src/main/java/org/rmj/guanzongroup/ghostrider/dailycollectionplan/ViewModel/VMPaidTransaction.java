@@ -37,12 +37,13 @@ import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
 
+import java.util.Date;
 import java.util.List;
 
 public class VMPaidTransaction extends AndroidViewModel {
@@ -64,6 +65,7 @@ public class VMPaidTransaction extends AndroidViewModel {
     private final MutableLiveData<Double> pnAmtDue = new MutableLiveData<>();
     private final MutableLiveData<Double> pnTotalx = new MutableLiveData<>();
     private final MutableLiveData<Double> pnRebate = new MutableLiveData<>();
+    private final MutableLiveData<Double> pnPenlty = new MutableLiveData<>();
     private final MutableLiveData<String> psMssage = new MutableLiveData<>();
 
     private boolean pbRebate = true;
@@ -111,6 +113,7 @@ public class VMPaidTransaction extends AndroidViewModel {
 
     public void setAmount(Double fnAmount){
         this.pnAmount.setValue(fnAmount);
+        calculatePenalty();
         calculateTotal();
     }
 
@@ -192,8 +195,27 @@ public class VMPaidTransaction extends AndroidViewModel {
         pnTotalx.setValue(lnTotal);
     }
 
+    private void calculatePenalty(){
+        try {
+            EDCPCollectionDetail loDetail = poDcpDetail.getValue();
+            Date ldPurchase = new Date(loDetail.getPurchase());
+            Date ldDueDatex = new Date(loDetail.getDueDatex());
+            double lnMonAmort = Double.parseDouble(loDetail.getMonAmort());
+            double lnABalance = Double.parseDouble(loDetail.getABalance());
+            double lnAmtPaidx = pnAmtDue.getValue();
+            double lnPenalty = LRUtil.getPenalty(ldPurchase, ldDueDatex, lnMonAmort, lnABalance, lnAmtPaidx);
+            pnPenlty.setValue(lnPenalty);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public LiveData<Double> getRebate(){
         return pnRebate;
+    }
+
+    public LiveData<Double> getPenalty(){
+        return pnPenlty;
     }
 
     public void savePaidInfo(PaidTransactionModel infoModel, ViewModelCallback callback){

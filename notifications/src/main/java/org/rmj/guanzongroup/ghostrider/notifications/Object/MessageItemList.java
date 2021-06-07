@@ -11,18 +11,26 @@
 
 package org.rmj.guanzongroup.ghostrider.notifications.Object;
 
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+
 public class MessageItemList {
 
     private final String Name;
+    private final String SendrID;
     private final String Message;
     private final String DateTime;
     private final String Status;
 
-    public MessageItemList(String name, String message, String dateTime, String status) {
+    public MessageItemList(String name, String sendrID, String message, String dateTime, String status) {
         Name = name;
+        SendrID = sendrID;
         Message = message;
         DateTime = dateTime;
         Status = status;
+    }
+
+    public String getSendrID() {
+        return SendrID;
     }
 
     public String getName() {
@@ -34,7 +42,7 @@ public class MessageItemList {
     }
 
     public String getDateTime() {
-        return DateTime;
+        return FormatUIText.getParseDateTime(DateTime);
     }
 
     public String getStatus() {

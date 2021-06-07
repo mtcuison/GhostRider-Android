@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.notifications.Fragment;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -26,12 +25,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.MessagesViewAdapter;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
-
-import java.util.List;
+import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMViewMessages;
 
 public class Fragment_ViewMessages extends Fragment {
 
@@ -58,7 +55,9 @@ public class Fragment_ViewMessages extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMViewMessages.class);
 
-        mViewModel.getMessagesListFromSender("GAP0190001").observe(getViewLifecycleOwner(), userNotificationInfos -> {
+        String lsSenderID = Activity_Notifications.getInstance().getSender();
+        mViewModel.UpdateMessageStatus(lsSenderID);
+        mViewModel.getMessagesListFromSender(lsSenderID).observe(getViewLifecycleOwner(), userNotificationInfos -> {
             LinearLayoutManager manager = new LinearLayoutManager(getActivity());
             manager.setOrientation(RecyclerView.VERTICAL);
             recyclerView.setLayoutManager(manager);
