@@ -92,20 +92,22 @@ public class Fragment_HomeContainer extends Fragment {
 
             }
         });
-        mViewModel.getUserMessageList().observe(getViewLifecycleOwner(), userMessageList -> {
+        mViewModel.getUnreadMessagesCount().observeForever(unReadMessageCount -> {
             try {
-                if(userMessageList.size() > 0) {
-                    Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge().setNumber(userMessageList.size());
+                if(unReadMessageCount > 0) {
+                    Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge().setNumber(unReadMessageCount);
+                } else {
+                    tabLayout.getTabAt(1).removeBadge();
                 }
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
 
-        mViewModel.getUserNotificationList().observe(getViewLifecycleOwner(), userNotificationInfos -> {
+        mViewModel.getUnreadNotificationsCount().observe(getViewLifecycleOwner(), userNotificationInfos -> {
             try {
-                if(userNotificationInfos.size() > 0) {
-                    Objects.requireNonNull(tabLayout.getTabAt(2)).getOrCreateBadge().setNumber(userNotificationInfos.size());
+                if(userNotificationInfos > 0) {
+                    Objects.requireNonNull(tabLayout.getTabAt(2)).getOrCreateBadge().setNumber(userNotificationInfos);
                 }
             } catch (Exception e){
                 e.printStackTrace();

@@ -34,8 +34,13 @@ public class VMHomeContainer extends AndroidViewModel {
         this.poNotification = new RNotificationInfo(application);
     }
 
-    public LiveData<List<DNotifications.UserNotificationInfo>> getUserMessageList(){
-        return poNotification.getUserMessageList();
+    public LiveData<Integer> getUnreadMessagesCount(){
+        return poNotification.getUnreadMessagesCount();
+    }
+
+
+    public LiveData<Integer> getUnreadNotificationsCount(){
+        return poNotification.getUnreadNotificationsCount();
     }
 
     public LiveData<List<DNotifications.UserNotificationInfo>> getUserNotificationList(){

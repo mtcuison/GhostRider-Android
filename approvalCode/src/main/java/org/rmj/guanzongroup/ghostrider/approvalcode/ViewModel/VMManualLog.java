@@ -31,7 +31,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RApprovalCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Model.ManualLog;

@@ -412,7 +412,17 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
     }
 
     private boolean isDataValid() {
-        if (poRemit.getRemitTyp().equalsIgnoreCase("0")) {
+        if(poRemit.getPaymForm().equalsIgnoreCase("0")){
+             if(psCltCashx == null || psCltCashx.equalsIgnoreCase("0")){
+                 GToast.CreateMessage(this, "Cash on hand is empty", GToast.ERROR).show();
+                 return false;
+             }
+        } else if(poRemit.getPaymForm().equalsIgnoreCase("1")) {
+            if(psCltCheck == null || psCltCashx.equalsIgnoreCase("0")){
+                GToast.CreateMessage(this, "Check on hand is empty", GToast.ERROR).show();
+                return false;
+            }
+        } else if (poRemit.getRemitTyp().equalsIgnoreCase("0")) {
             if (txtBranch.getText().toString().isEmpty()) {
                 GToast.CreateMessage(this, "Please enter branch", GToast.ERROR).show();
                 return false;

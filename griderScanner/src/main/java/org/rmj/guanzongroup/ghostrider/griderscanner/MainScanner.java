@@ -14,38 +14,26 @@ package org.rmj.guanzongroup.ghostrider.griderscanner;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.ClientInfoAdapter;
-import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.FileCodeAdapter;
 import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.LoanApplication;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMMainScanner;
-import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.ViewModelCallBack;
 
-import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

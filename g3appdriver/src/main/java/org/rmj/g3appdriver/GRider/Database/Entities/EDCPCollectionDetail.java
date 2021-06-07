@@ -71,6 +71,8 @@ public class EDCPCollectionDetail {
     private String BrgyName = "";
     @ColumnInfo(name = "sTownName")
     private String TownName = "";
+    @ColumnInfo(name = "dPurchase")
+    private String Purchase = "";
     @ColumnInfo(name = "nMonAmort")
     private String MonAmort = "0";
     @ColumnInfo(name = "nAmtDuexx")
@@ -312,6 +314,14 @@ public class EDCPCollectionDetail {
 
     public void setTownName(String townName) {
         TownName = townName;
+    }
+
+    public String getPurchase() {
+        return Purchase;
+    }
+
+    public void setPurchase(String purchase) {
+        Purchase = purchase;
     }
 
     public String getMonAmort() {

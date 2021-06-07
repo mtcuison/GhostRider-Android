@@ -29,7 +29,7 @@ import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.GLocationManager;
 import org.rmj.g3appdriver.dev.Telephony;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
@@ -124,7 +124,11 @@ public class DCPLocatorService extends JobService {
                     });
 
                     if (poConn.isDeviceConnected()) {
-                        lsResult = WebClient.httpsPostJSon(WebApi.URL_DCP_LOCATION_REPORT, "", poHeaders.getHeaders());
+                        JSONObject params = new JSONObject();
+                        params.put("dTransact", loSysLog.getTransact());
+                        params.put("nLatitude", loSysLog.getLatitude());
+                        params.put("nLongitud", loSysLog.getLongitud());
+                        lsResult = WebClient.httpsPostJSon(WebApi.URL_DCP_LOCATION_REPORT, params.toString(), poHeaders.getHeaders());
                         if (lsResult == null) {
                             lsResult = AppConstants.SERVER_NO_RESPONSE();
                         } else {

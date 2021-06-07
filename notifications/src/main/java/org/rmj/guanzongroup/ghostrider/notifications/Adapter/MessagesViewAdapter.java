@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.notifications.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 import java.util.List;
@@ -44,6 +46,7 @@ public class MessagesViewAdapter extends RecyclerView.Adapter<MessagesViewAdapte
     public void onBindViewHolder(@NonNull MessagesViewHolder holder, int position) {
         holder.cvSenderMsg.setVisibility(View.VISIBLE);
         holder.lblSenderMsg.setText(plMessage.get(position).Messagex);
+        holder.lblDateTmeSd.setText(FormatUIText.getParseDateTime(plMessage.get(position).Received));
     }
 
     @Override
@@ -54,16 +57,28 @@ public class MessagesViewAdapter extends RecyclerView.Adapter<MessagesViewAdapte
     public static class MessagesViewHolder extends RecyclerView.ViewHolder{
 
         public TextView lblSenderMsg,
-                        lblRecpntMsg;
-        public CardView cvSenderMsg,
+                        lblRecpntMsg,
+                        lblDateTmeRc,
+                        lblDateTmeSd;
+        public LinearLayout cvSenderMsg,
                 cvRecpntMsg;
 
         public MessagesViewHolder(@NonNull View itemView) {
             super(itemView);
             lblSenderMsg = itemView.findViewById(R.id.lbl_sender_message);
             lblRecpntMsg = itemView.findViewById(R.id.lbl_recipient_message);
+            lblDateTmeRc = itemView.findViewById(R.id.lbl_messageDateTimeRcpt);
+            lblDateTmeSd = itemView.findViewById(R.id.lbl_messageDateTimeSndr);
             cvSenderMsg = itemView.findViewById(R.id.cv_sender_message);
             cvRecpntMsg = itemView.findViewById(R.id.cv_recipient_message);
+
+            lblSenderMsg.setOnClickListener(v -> {
+                if(lblDateTmeSd.getVisibility() != View.VISIBLE) {
+                    lblDateTmeSd.setVisibility(View.VISIBLE);
+                } else {
+                    lblDateTmeSd.setVisibility(View.GONE);
+                }
+            });
         }
     }
 }
