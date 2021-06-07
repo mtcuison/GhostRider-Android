@@ -60,6 +60,9 @@ public class Activity_Settings extends AppCompatActivity {
     public static final int GRANTED = 0;
     public static final int DENIED = 1;
     public static final int BLOCKED_OR_NEVER_ASKED = 2;
+
+    private boolean isDialogShown = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -274,8 +277,12 @@ public class Activity_Settings extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     public void showDialogNeverAsk(){
+        if(isDialogShown) {
+            return;
+        }
         loMessage.setNegativeButton("Okay", (view, dialog) -> {
             dialog.dismiss();
+            isDialogShown = false;
             Intent intent = new Intent();
             intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             intent.setData(Uri.parse("package:" + getPackageName()));
@@ -284,6 +291,7 @@ public class Activity_Settings extends AppCompatActivity {
         loMessage.setTitle("Never Ask");
         loMessage.setMessage("Without this permission the app is unable to complete some process in the app. Please allow camera in app settings permissions. ");
         loMessage.show();
+        isDialogShown = true;
     }
 
 }
