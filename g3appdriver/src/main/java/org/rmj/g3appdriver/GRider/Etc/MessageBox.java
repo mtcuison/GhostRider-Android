@@ -37,6 +37,8 @@ public class  MessageBox {
         this.context = context;
     }
 
+    private static boolean isDialogShown;
+
     public void initDialog(){
         AlertDialog.Builder poBuilder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_message_box, null);
@@ -70,6 +72,7 @@ public class  MessageBox {
             @Override
             public void onClick(View view) {
                 listener.OnButtonClick(view, poDialogx);
+                isDialogShown = false;
             }
         });
     }
@@ -82,15 +85,21 @@ public class  MessageBox {
             @Override
             public void onClick(View view) {
                 listener.OnButtonClick(view, poDialogx);
+                isDialogShown = false;
             }
         });
     }
 
     public void show() {
+        if(isDialogShown) {
+            return;
+        }
+
         if(!poDialogx.isShowing()) {
             poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
             poDialogx.show();
+            isDialogShown = true;
         }
     }
 
