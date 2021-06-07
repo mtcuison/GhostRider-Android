@@ -20,19 +20,15 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ERelation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCIEvaluation;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RRelation;
-import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CIBarangayRecordInfoModel;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

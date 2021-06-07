@@ -45,7 +45,7 @@ import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -295,6 +295,7 @@ public class VMCollectionList extends AndroidViewModel {
                                             loDetail.setEntryNox(Integer.parseInt(loJson.getString("nEntryNox")));
                                             loDetail.setClientID(loJson.getString("sClientID"));
                                             loDetail.setTownName(loJson.getString("sTownName"));
+                                            loDetail.setPurchase(loJson.getString("dPurchase"));
                                             loDetail.setIsDCPxxx(loJson.getString("cIsDCPxxx"));
                                             loDetail.setSerialID(loJson.getString("sSerialID"));
                                             loDetail.setFullName(loJson.getString("xFullName"));
@@ -618,6 +619,7 @@ public class VMCollectionList extends AndroidViewModel {
                 collectionDetail.setAddressx(loJson.getString("sAddressx"));
                 collectionDetail.setBrgyName(loJson.getString("sBrgyName"));
                 collectionDetail.setTownName(loJson.getString("sTownName"));
+                collectionDetail.setPurchase(loJson.getString("dPurchase"));
                 collectionDetail.setAmtDuexx(loJson.getString("nAmtDuexx"));
                 collectionDetail.setApntUnit(loJson.getString("cApntUnit"));
                 collectionDetail.setDueDatex(loJson.getString("dDueDatex"));
@@ -1130,7 +1132,6 @@ public class VMCollectionList extends AndroidViewModel {
             } else {
                 callBack.OnFailedResult(("No available collection list to export."));
             }
-
         }
     }
 

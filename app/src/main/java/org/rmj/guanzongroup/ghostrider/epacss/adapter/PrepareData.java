@@ -12,11 +12,10 @@
 package org.rmj.guanzongroup.ghostrider.epacss.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 
 import java.util.ArrayList;
@@ -98,7 +97,7 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if CI Evaluator is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("CI Evaluation",  R.drawable.ic_menu_credit_investigate,true, true, View.VISIBLE);
+        menuModel = new MenuModel("CI Evaluation",  R.drawable.ic_menu_credit_investigate,true, true, View.GONE);
         listDataHeader.add(menuModel);
         childModel = new MenuModel("CI Evaluation List", 0, false, false , View.VISIBLE);
         childModelsList.add(childModel);
@@ -111,7 +110,7 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if PET Manager is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("PET Manager",  R.drawable.ic_approval_biometric,true, true, View.GONE);
+        menuModel = new MenuModel("PET Manager",  R.drawable.ic_approval_biometric,true, true, View.VISIBLE);
         listDataHeader.add(menuModel);
 
         childModel = new MenuModel("Leave Application", 0, false, false , View.VISIBLE);
@@ -170,7 +169,7 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if AreaHead Monitoring is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("AH Monitoring",  R.drawable.ic_menu_monitoring,true, true, View.GONE);
+        menuModel = new MenuModel("AH Monitoring",  R.drawable.ic_menu_monitoring,true, true, View.VISIBLE);
         listDataHeader.add(menuModel);
         childModel = new MenuModel("Branch Performance", 0, false, false , View.VISIBLE);
         childModelsList.add(childModel);

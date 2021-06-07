@@ -179,13 +179,14 @@ public class PopulateExpandableList {
                                 context.startActivity(intent);
                                 break;
                             case 1:
-
                                 intent = new Intent(parent.getContext(), Activity_Application.class);
                                 intent.putExtra("app", AppConstants.INTENT_OB_APPLICATION);
                                 context.startActivity(intent);
                                 break;
                             case 2:
-
+                                intent = new Intent(parent.getContext(), Activity_Application.class);
+                                intent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
+                                context.startActivity(intent);
                                 break;
                             case 3:
 

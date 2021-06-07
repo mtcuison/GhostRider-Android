@@ -24,6 +24,58 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_bg_guanzon_orange"
+            android:layout_width="0dp"
+            android:layout_height="190dp"
+            android:src="@drawable/bg_samsungknox"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias=".2">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dela Cruz, Josemari Joma, S."
+                android:scrollHorizontally="false"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/white"
+                android:textSize="23sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DSA - Bookkeeper"
+                android:scrollHorizontally="false"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LGK Pozorrubio - Honda"
+                android:scrollHorizontally="false"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+        </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,6 +86,7 @@
             android:fontFamily="@font/roboto_bold"/>
 
         <TextView
+            android:id="@+id/lbl_transnox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -45,17 +98,21 @@
             tools:ignore="RtlSymmetry" />
 
         <RadioGroup
+            android:id="@+id/rg_ObType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <RadioButton
+                android:id="@+id/rb_withLog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sRbWithLog"
+                android:checked="true"
                 android:layout_weight="1"/>
 
             <RadioButton
+                android:id="@+id/rb_withoutLog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sRnWihtoutLog"
@@ -65,82 +122,47 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/sHintDate"
+            android:hint="@string/sHintDateFrm"
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_dateFrom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textShortMessage"
+                android:focusableInTouchMode="false"
+                android:focusable="false"
+                android:focusedByDefault="false"
                 style="@style/TextInputStyle.Edittext"
                 android:autofillHints="Business trip destination and purpose."
                 android:layout_margin="5dp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/sHintEmploye"
+            android:hint="@string/sHintDateTo"
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_dateTo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textShortMessage"
                 style="@style/TextInputStyle.Edittext"
+                android:focusableInTouchMode="false"
+                android:focusable="false"
+                android:focusedByDefault="false"
                 android:autofillHints="Business trip destination and purpose."
                 android:layout_margin="5dp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!--Business Trip-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/sHintDateFrm"
-                android:layout_weight="1"
-                style="@style/TextInputStyle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textShortMessage"
-                    style="@style/TextInputStyle.Edittext"
-                    android:autofillHints="Business trip destination and purpose."
-                    android:layout_margin="5dp"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/sHintDateTo"
-                android:layout_weight="1"
-                style="@style/TextInputStyle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textShortMessage"
-                    style="@style/TextInputStyle.Edittext"
-                    android:autofillHints="Business trip destination and purpose."
-                    android:layout_margin="5dp"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-
         <!--Business trip with log-->
         <LinearLayout
+            android:id="@+id/linear_ObLog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -160,6 +182,7 @@
                     style="@style/TextInputStyle">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_timeInAM"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textShortMessage"
@@ -177,6 +200,7 @@
                     style="@style/TextInputStyle">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_timeOutAM"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textShortMessage"
@@ -195,6 +219,7 @@
                     style="@style/TextInputStyle">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_overtimeAM"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textShortMessage"
@@ -220,6 +245,7 @@
                     style="@style/TextInputStyle">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_timeInPM"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textShortMessage"
@@ -237,6 +263,7 @@
                     style="@style/TextInputStyle">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_timeOutPM"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textShortMessage"
@@ -255,6 +282,7 @@
                     style="@style/TextInputStyle">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_overtimePM"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textShortMessage"
@@ -275,6 +303,7 @@
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_remarks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"

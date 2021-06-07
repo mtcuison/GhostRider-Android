@@ -171,7 +171,7 @@ public class WebApi {
     public static String URL_REQUEST_ORCR_STATUS = "https://restgk.guanzongroup.com.ph/integsys/registration/reqst_orcr_status.php";
 
     public static String URL_SUBMIT_CASHCOUNT = "https://restgk.guanzongroup.com.ph/integsys/cashcount/submit_cash_count.php";
-    public static String URL_KWIKSEARCH = "https://restgk.guanzongroup.com.ph/integsys/paramqry/cash_count_rqst_officer.php";
+    public static String URL_QUICK_SEARCH = "https://restgk.guanzongroup.com.ph/integsys/paramqry/cash_count_rqst_officer.php";
 
     public static String URL_APPROVAL_USER_AUTH = "";
 
@@ -190,7 +190,7 @@ public class WebApi {
     public static String URL_POST_SELFIELOG = "https://restgk.guanzongroup.com.ph/integsys/hcm/selfie_log.php";
     public static String URL_BRANCH_LOAN_APP = "https://restgk.guanzongroup.com.ph/integsys/param/download_credit_online_application_list.php";
     public static String URL_DCP_REMITTANCE = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_remit.php";
-    public static String URL_DCP_LOCATION_REPORT = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_remit.php";
+    public static String URL_DCP_LOCATION_REPORT = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_sumbit_coordinates.php";
     public static String URL_BRANCH_REMITTANCE_ACC = "https://restgk.guanzongroup.com.ph/integsys/param/download_branch_bank_account.php";
     public static String URL_IMPORT_SYS_CONFIG = "https://restgk.guanzongroup.com.ph/integsys/param/download_system_config.php";
     public static String URL_DOWNLOAD_CREDIT_ONLINE_APP = "https://restgk.guanzongroup.com.ph/integsys/param/download_credit_online_application_list.php";

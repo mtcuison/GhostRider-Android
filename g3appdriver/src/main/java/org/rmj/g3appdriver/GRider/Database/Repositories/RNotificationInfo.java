@@ -12,7 +12,6 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
@@ -52,12 +51,32 @@ public class RNotificationInfo {
         return userMessageList;
     }
 
+    public List<String> getReadMessagesIDFromSender(String SenderID){
+        return notificationDao.getReadMessagesIDFromSender(SenderID);
+    }
+
+    public void updateRecipientReadStatus(String SenderID){
+        notificationDao.updateRecipientReadStatus(SenderID, AppConstants.DATE_MODIFIED);
+    }
+
+    public String getReadMessageTimeStamp(String MessageID){
+        return notificationDao.getReadMessageTimeStamp(MessageID);
+    }
+
     public LiveData<List<DNotifications.UserNotificationInfo>> getUserMessageListFromSender(String SenderID){
         return notificationDao.getUserMessageListFromSender(SenderID);
     }
 
     public LiveData<List<DNotifications.UserNotificationInfo>> getUserMessageListGroupByUser(){
         return notificationDao.getUserMessageListGroupByUser();
+    }
+
+    public LiveData<Integer> getUnreadMessagesCount(){
+        return notificationDao.getUnreadMessagesCount();
+    }
+
+    public LiveData<Integer> getUnreadNotificationsCount(){
+        return notificationDao.getUnreadNotificationsCount();
     }
 
     public LiveData<List<DNotifications.UserNotificationInfo>> getUserNotificationList() {
@@ -72,8 +91,12 @@ public class RNotificationInfo {
         notificationDao.insert(notificationUser);
     }
 
-    public void updateRecipientSendStat(String messageID, String status){
-        notificationDao.updateRecipientStatus(messageID, AppConstants.DATE_MODIFIED, status);
+    public void updateRecipientRecievedStat(String messageID){
+        notificationDao.updateRecipientRecievedStatus(messageID, AppConstants.DATE_MODIFIED);
+    }
+
+    public void updateMessageReadStatus(String SenderID){
+        notificationDao.updateMessageReadStatus(SenderID, AppConstants.DATE_MODIFIED);
     }
 
     public String getClientNextMasterCode(){

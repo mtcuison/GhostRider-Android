@@ -21,6 +21,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAddressRequest;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAppConfig;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DApprovalCode;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAreaPerformance;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBankInfo;
@@ -61,6 +62,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DSysConfig;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DUncapturedClient;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
+import org.rmj.g3appdriver.GRider.Database.Entities.EAppConfig;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
@@ -149,7 +151,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         ESysConfig.class,
         EGLocatorSysLog.class,
         ERelation.class,
-        ENNDMRequest.class}, version = 1, exportSchema = false)
+        ENNDMRequest.class,
+        EAppConfig.class}, version = 1, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -194,6 +197,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DSysConfig sysConfigDao();
     public abstract DLocatorSysLog locatorSysLogDao();
     public abstract DNNDMRequest nndmRequestDao();
+    public abstract DAppConfig appConfigDao();
 
     public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){

@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 public class RemoteMessageParser {
 
-    private RemoteMessage dataMessage;
+    private final RemoteMessage dataMessage;
 
     public RemoteMessageParser(RemoteMessage Data){
         this.dataMessage = Data;
@@ -30,18 +30,5 @@ public class RemoteMessageParser {
 
     public String getDataValueOf(String RemoteMessageKeyValue){
         return dataMessage.getData().get(RemoteMessageKeyValue);
-    }
-
-    public String getValueOfInfo(String AdditionalInfoJSONKey){
-        String msg_data = dataMessage.getData().get("msg_data");
-        String value = "";
-        try{
-            JSONObject jsonData = new JSONObject(msg_data);
-            JSONObject loInfox = jsonData.getJSONObject("infox");
-            value = loInfox.getString(AdditionalInfoJSONKey);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return value;
     }
 }

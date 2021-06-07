@@ -23,6 +23,7 @@
         android:id="@+id/cl_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageView
             android:id="@+id/img_bg_guanzon_orange"
             android:layout_width="0dp"

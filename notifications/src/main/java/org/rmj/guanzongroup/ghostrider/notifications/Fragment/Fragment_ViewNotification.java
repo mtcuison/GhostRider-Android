@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMViewNotification;
@@ -48,7 +49,7 @@ public class Fragment_ViewNotification extends Fragment {
 
         title.setText(Activity_Notifications.getInstance().getMessageTitle());
         sender.setText(Activity_Notifications.getInstance().getSender());
-        date.setText(Activity_Notifications.getInstance().getDate());
+        date.setText(FormatUIText.getParseDateTime(Activity_Notifications.getInstance().getDate()));
         message.setText(Activity_Notifications.getInstance().getMessage());
 
         return view;

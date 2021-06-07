@@ -23,13 +23,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.AppTokenManager;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.SessionManager;
-
 public class VMSettings extends AndroidViewModel {
     private final MutableLiveData<Boolean> pbGranted = new MutableLiveData<>();
     private final MutableLiveData<Boolean> locGranted = new MutableLiveData<>();

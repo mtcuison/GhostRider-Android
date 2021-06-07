@@ -14,48 +14,33 @@ package org.rmj.guanzongroup.ghostrider.settings;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
-import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.SessionManager;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.settings.themeController.ThemeHelper;
 import org.rmj.guanzongroup.ghostrider.settings.utils.DatabaseExport;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import static android.Manifest.permission.CAMERA;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.READ_PHONE_STATE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CAMERA_REQUEST;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CONTACT_REQUEST;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LOCATION_REQUEST;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.STORAGE_REQUEST;
 

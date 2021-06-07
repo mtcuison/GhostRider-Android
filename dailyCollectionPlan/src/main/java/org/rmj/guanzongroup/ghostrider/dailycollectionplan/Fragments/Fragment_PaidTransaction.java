@@ -172,6 +172,14 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
             }
         });
 
+        mViewModel.getPenalty().observe(getViewLifecycleOwner(), aDouble -> {
+            try{
+                txtOthers.setText(String.valueOf(aDouble));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
         mViewModel.getRebateNotice().observe(getViewLifecycleOwner(), s -> {
             if(!s.isEmpty()){
                 tilDiscount.setErrorEnabled(true);
