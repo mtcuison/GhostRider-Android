@@ -193,7 +193,6 @@
                 android:padding="16dp"
                 android:clickable="false"
                 android:cursorVisible="false"
-                android:nextFocusForward="@id/txt_citizenship"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
