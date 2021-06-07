@@ -76,6 +76,8 @@ public class Fragment_SelfieLogin extends Fragment {
 
     private List<ELog_Selfie> currentDateLog;
 
+    private static boolean isDialogShown;
+
     public static Fragment_SelfieLogin newInstance() {
         return new Fragment_SelfieLogin();
     }
@@ -213,14 +215,22 @@ public class Fragment_SelfieLogin extends Fragment {
     }
 
     private void requestLocationEnabled(){
+        if(isDialogShown) {
+            return;
+        }
         poMessage.initDialog();
         poMessage.setTitle("Selfie Login");
         poMessage.setMessage("Please enable your device service location.");
-        poMessage.setNegativeButton("Cancel", (view12, dialog) -> dialog.dismiss());
+        poMessage.setNegativeButton("Cancel", (view12, dialog) -> {
+            dialog.dismiss();
+            isDialogShown = false;
+        });
         poMessage.setPositiveButton("Go to Settings", (view, dialog) -> {
             startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), GLocationManager.GLocationResCode);
             dialog.dismiss();
+            isDialogShown = false;
         });
         poMessage.show();
+        isDialogShown = true;
     }
 }

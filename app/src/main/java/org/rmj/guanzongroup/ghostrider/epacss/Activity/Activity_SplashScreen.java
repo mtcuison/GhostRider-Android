@@ -107,7 +107,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
                                                         e.printStackTrace();
                                                     }
                                                 }
-                                                if (aBoolean) {
+                                                 if (aBoolean) {
                                                     startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
                                                     finish();
                                                 } else {

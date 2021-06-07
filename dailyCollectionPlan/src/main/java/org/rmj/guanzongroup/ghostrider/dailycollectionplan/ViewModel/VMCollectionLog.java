@@ -56,6 +56,7 @@ public class VMCollectionLog extends AndroidViewModel {
     private final MutableLiveData<List<EMobileUpdate>> paMobile = new MutableLiveData<>();
     private final MutableLiveData<String> dTransact = new MutableLiveData<>();
     private final MutableLiveData<String> nCashOHnd = new MutableLiveData<>();
+    private final MutableLiveData<String> nCheckOHnd = new MutableLiveData<>();
 
     private double nTotRemit = 0;
     private double nTotCollt = 0;
@@ -139,6 +140,10 @@ public class VMCollectionLog extends AndroidViewModel {
         double lnTotal = nTotCollt - nTotRemit;
         nCashOHnd.setValue(String.valueOf(lnTotal));
     }
+    private void calc_CheckOnHand(){
+        double lnTotal = nTotCollt - nTotRemit;
+        nCheckOHnd.setValue(String.valueOf(lnTotal));
+    }
 
     public void setDateTransact(String fsTransact){
         try {
@@ -176,5 +181,20 @@ public class VMCollectionLog extends AndroidViewModel {
 
     public void setMobileList(List<EMobileUpdate> paMobile) {
         this.paMobile.setValue(paMobile);
+    }
+    public LiveData<String> getTotalCollectedCash(){
+        return poDcp.getCollectedTotalPayment(dTransact.getValue());
+    }
+
+    public LiveData<String> getTotalCollectedCheck(){
+        return poDcp.getCollectedTotalCheckPayment(dTransact.getValue());
+    }
+
+    public void Calculate_COH_Remitted(RDCP_Remittance.OnCalculateCallback callback){
+        poRemit.Calculate_COH_Remitted(dTransact.getValue(), callback);
+    }
+
+    public void Calculate_Check_Remitted(RDCP_Remittance.OnCalculateCallback callback){
+        poRemit.Calculate_Check_Remitted(dTransact.getValue(), callback);
     }
 }
