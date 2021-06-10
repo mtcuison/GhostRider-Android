@@ -26,6 +26,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -34,6 +35,7 @@ import java.io.IOException;
 
 public class VMLogin extends AndroidViewModel {
     public static final String TAG =  VMLogin.class.getSimpleName();
+    private final Application application;
     private final REmployee REmployee;
     private final WebApi webApi;
     private final HttpHeaders headers;
@@ -42,6 +44,7 @@ public class VMLogin extends AndroidViewModel {
 
     public VMLogin(@NonNull Application application) {
         super(application);
+        this.application =application;
         REmployee = new REmployee(application);
         webApi = new WebApi(application);
         headers = HttpHeaders.getInstance(application);
@@ -60,7 +63,7 @@ public class VMLogin extends AndroidViewModel {
             }
 
             if(conn.isDeviceConnected()) {
-                new LoginTask(webApi, headers, session, REmployee, callback).execute(params);
+                new LoginTask(application, webApi, headers, session, REmployee, callback).execute(params);
             } else {
                 callback.OnFailedLoginResult("Unable to connect. Please check your internet connection.");
             }
@@ -75,13 +78,15 @@ public class VMLogin extends AndroidViewModel {
         private final LoginCallback callback;
         private final REmployee REmployee;
         private final SessionManager sessionManager;
+        private final AppConfigPreference poConfig;
 
-        public LoginTask(WebApi webApi, HttpHeaders headers, SessionManager sessionManager, REmployee REmployee, LoginCallback callback){
+        public LoginTask(Application application, WebApi webApi, HttpHeaders headers, SessionManager sessionManager, REmployee REmployee, LoginCallback callback){
             this.webApi = webApi;
             this.headers = headers;
             this.REmployee = REmployee;
             this.callback = callback;
             this.sessionManager = sessionManager;
+            this.poConfig = AppConfigPreference.getInstance(application);
         }
 
         @Override
@@ -96,7 +101,16 @@ public class VMLogin extends AndroidViewModel {
             String response = "";
             try {
                 response = WebClient.httpsPostJSon(webApi.URL_AUTH_EMPLOYEE(), authInfo[0].toString(), headers.getHeaders());
-            } catch (IOException e) {
+                if(!poConfig.isAgreedOnTerms()) {
+                    JSONObject loJsonx = new JSONObject();
+                    JSONObject loError = new JSONObject();
+                    loError.put("message", "Please agree on terms and conditions before login.");
+                    loJsonx.put("result","error");
+                    loJsonx.put("error", loError);
+
+                    response = loJsonx.toString();
+                }
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
             return response;
@@ -107,6 +121,7 @@ public class VMLogin extends AndroidViewModel {
             super.onPostExecute(s);
             try {
                 JSONObject loResponse = new JSONObject(s);
+                Log.e("JSONFormat", loResponse.toString());
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
                     saveAuthInfo(loResponse);

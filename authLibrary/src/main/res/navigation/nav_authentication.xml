@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_fragment_Login_to_fragment_ForgotPassword"
             app:destination="@id/fragment_ForgotPassword" />
+        <action
+            android:id="@+id/action_fragment_Login_to_fragment_TermsAndConditions"
+            app:destination="@id/fragment_TermsAndConditions" />
     </fragment>
     <fragment
         android:id="@+id/fragment_CreateAccount"
@@ -44,6 +47,15 @@
         tools:layout="@layout/fragment_forgot_password" >
         <action
             android:id="@+id/action_fragment_ForgotPassword_to_fragment_Login"
+            app:destination="@id/fragment_Login" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_TermsAndConditions"
+        android:name="org.rmj.guanzongroup.authlibrary.UserInterface.Terms.Fragment_TermsAndConditions"
+        android:label="fragment_terms_and_conditions"
+        tools:layout="@layout/fragment_terms_and_conditions" >
+        <action
+            android:id="@+id/action_fragment_terms_and_conditions_to_fragment_Login"
             app:destination="@id/fragment_Login" />
     </fragment>
 </navigation>
