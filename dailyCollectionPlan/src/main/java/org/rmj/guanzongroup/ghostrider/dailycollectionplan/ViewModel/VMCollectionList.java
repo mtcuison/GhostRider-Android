@@ -295,7 +295,7 @@ public class VMCollectionList extends AndroidViewModel {
                                             loDetail.setEntryNox(Integer.parseInt(loJson.getString("nEntryNox")));
                                             loDetail.setClientID(loJson.getString("sClientID"));
                                             loDetail.setTownName(loJson.getString("sTownName"));
-                                            loDetail.setPurchase(loJson.getString("dPurchase"));
+//                                            loDetail.setPurchase(loJson.getString("dPurchase"));
                                             loDetail.setIsDCPxxx(loJson.getString("cIsDCPxxx"));
                                             loDetail.setSerialID(loJson.getString("sSerialID"));
                                             loDetail.setFullName(loJson.getString("xFullName"));
