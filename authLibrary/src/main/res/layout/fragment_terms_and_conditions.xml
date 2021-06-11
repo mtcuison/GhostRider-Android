@@ -22,13 +22,15 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="15dp">
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginBottom="35dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -36,7 +38,7 @@
                 android:text="TERMS AND CONDITIONS"
                 android:textColor="@color/footer_dark_grey"
                 android:textSize="20dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="15dp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -44,7 +46,7 @@
                 android:text="GhostRider is licensed to You (End-User) by Guanzon Group of Companies, located at Guanzon Building, Perez Boulevard, Dagupan City, Pangasinan 2400, Philippines (hereinafter: Licensor), for use only under the terms of this License Agreement.\n\n By downloading the Application from the Apple AppStore, and any update thereto (as permitted by this License Agreement), You indicate that You agree to be bound by all of the terms and conditions of this License Agreement, and that You accept this License Agreement.\n\n The parties of this License Agreement acknowledge that Google is not a Party to this License Agreement and is not bound by any provisions or obligations with regard to the Application, such as warranty, liability, maintenance and support thereof. Guanzon Group of Companies, not Google, is solely responsible for the licensed Application and the content thereof.\n\n This License Agreement may not provide for usage rules for the Application that are in conflict with the latest Google Play Terms of Service. Guanzon Group of Companies acknowledges that it had the opportunity to review said terms and this License Agreement is not conflicting with them.\n\n All rights not expressly granted to You are reserved."
                 android:textColor="@color/footer_dark_grey"
                 android:textSize="15dp"
-                android:layout_marginTop="15dp"/>
+                android:layout_marginTop="20dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
