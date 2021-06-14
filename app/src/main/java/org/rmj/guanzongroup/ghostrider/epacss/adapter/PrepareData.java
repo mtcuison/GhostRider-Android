@@ -68,8 +68,6 @@ public class PrepareData {
         childModel = new MenuModel("Transaction Log", 0,false, false, View.VISIBLE);
         childModelsList.add(childModel);
 
-
-
         if (menuModel.hasChildren) {
             listDataChild.put(menuModel, childModelsList);
         }
@@ -180,9 +178,6 @@ public class PrepareData {
         childModelsList.add(childModel);
 
         childModel = new MenuModel("Cash Count", 0, false, false, View.VISIBLE);
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Cash Count Log", 0, false, false, View.VISIBLE);
         childModelsList.add(childModel);
 
         childModel = new MenuModel("Reimbursement", 0,false, false, View.VISIBLE);

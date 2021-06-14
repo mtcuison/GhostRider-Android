@@ -9,7 +9,7 @@
  * project file last modified : 5/7/21 11:03 AM
  */
 
-package org.rmj.guanzongroup.ghostrider.epacss.ui.ProgressBar;
+package org.rmj.g3appdriver.etc.ProgressBar;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -18,7 +18,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
+import org.rmj.g3appdriver.R;
 
 public class VerticalProgressBar extends View {
 

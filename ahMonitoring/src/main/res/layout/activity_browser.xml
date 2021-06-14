@@ -4,27 +4,27 @@
   ~ Copyright (c) 2021. Guanzon Central Office
   ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
   ~ Project name : GhostRider_Android
-  ~ Module : GhostRider_Android.app
+  ~ Module : GhostRider_Android.ahMonitoring
   ~ Electronic Personnel Access Control Security System
-  ~ project file created : 4/24/21 3:19 PM
-  ~ project file last modified : 4/24/21 3:17 PM
+  ~ project file created : 6/10/21 3:49 PM
+  ~ project file last modified : 6/10/21 3:49 PM
   -->
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Activity_Main">
+    android:orientation="vertical"
+    tools:context=".Activity.Activity_Browser">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-<!--        -->
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_gBrowser"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/material_tool_bar"
@@ -32,6 +32,20 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <ProgressBar
+        android:id="@+id/progress_gBrowser"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:progressTint="@color/guanzon_orange"
+        android:progressBackgroundTint="@color/black"
+        android:progress="0"
+        android:visibility="gone"
+        tools:targetApi="lollipop" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <WebView
+        android:id="@+id/webview_gBrowser"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

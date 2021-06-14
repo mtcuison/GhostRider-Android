@@ -17,6 +17,8 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RewriteQueriesToDropUnusedColumns;
+import androidx.room.RoomWarnings;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
@@ -47,7 +49,9 @@ public interface DBranchLoanApplication {
 //    @Query("SELECT * FROM Credit_Online_Application_List " +
 //            "WHERE cTranStat != 4 AND " +
 //            "sCredInvx  = (SELECT sEmployID FROM User_Info_Master)")
-@Query("SELECT a.*, " +
+
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("SELECT a.*, " +
         "b.cTranStat As ciTranStat " +
         "FROM Credit_Online_Application_List a " +
         "LEFT JOIN Credit_Online_Application_List_CI b " +
@@ -59,6 +63,7 @@ public interface DBranchLoanApplication {
     @Query("SELECT * FROM Credit_Online_Application_List WHERE sTransNox =:TransNox ")
     List<EBranchLoanApplication> getDuplicateTransNox(String TransNox);
 
+    @RewriteQueriesToDropUnusedColumns
     @Query("SELECT a.*, b.cTranStat AS ciTranStat " +
             "FROM Credit_Online_Application_List a " +
             "LEFT JOIN Credit_Online_Application_List_CI b " +

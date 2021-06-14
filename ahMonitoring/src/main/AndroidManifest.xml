@@ -5,9 +5,7 @@
     <uses-permission android:name="ACCESS_FINE_LOCATION" />
 
     <application>
-        <activity android:name=".Activity.Activity_CashCountLog"></activity>
-        <activity android:name=".Activity.Activity_CashCountSubmit" />
-        <activity android:name=".Activity.Activity_CashCounter" />
+        <activity android:name=".Activity.Activity_CashCounter"></activity>
         <activity
             android:name=".Activity.Activity_Inventory"
             android:label="Inventory"

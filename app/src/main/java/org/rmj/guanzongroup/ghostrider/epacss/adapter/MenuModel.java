@@ -42,4 +42,8 @@ public class MenuModel {
         this.hasChildren = hasChildren;
         this.visibility = visibility;
     }
+
+    public void setVisibility(int visibility){
+        this.visibility = visibility;
+    }
 }

@@ -11,6 +11,7 @@
   -->
 
 <androidx.cardview.widget.CardView
+    android:id="@+id/cardview_branchOpening"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -27,6 +28,7 @@
         android:gravity="center">
 
         <TextView
+            android:id="@+id/lbl_list_branchName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -36,18 +38,20 @@
             android:maxLines="2"/>
 
         <TextView
+            android:id="@+id/lbl_list_openingTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight=".4"
             android:fontFamily="@font/roboto_regular"
             android:textColor="@color/textColor_Black"
             android:gravity="center"
             android:text="8:00 AM"/>
 
         <TextView
+            android:id="@+id/lbl_list_timeOpened"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight=".4"
             android:fontFamily="@font/roboto_regular"
             android:textColor="@color/textColor_Black"
             android:gravity="end"

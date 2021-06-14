@@ -31,7 +31,7 @@
             <ImageView
                 android:id="@+id/img_dashboard_header"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 android:src="@drawable/bg_dashboard"
                 android:scaleType="centerCrop"/>
 
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/img_dashboard_header"
                 android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="-110dp">
+                android:layout_marginTop="-120dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -57,20 +57,6 @@
 
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/lbl_dashBoardHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/roboto_black"
-                android:text="Dashboard"
-                android:textColor="@color/textColor_Black"
-                android:textSize="24sp" />
         </RelativeLayout>
 
     </LinearLayout>
@@ -80,7 +66,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_gradient_light"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_home"

@@ -11,15 +11,15 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,38 +27,46 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchOpenMonitor;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchMonitoringAdapter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchOpeningAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.Area;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.Branch;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHome;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
-import org.rmj.guanzongroup.ghostrider.epacss.ui.ProgressBar.AreaMonitoringDashbordAdapter;
-import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NewsEventSpacing;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.AreaMonitoringDashbordAdapter;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
+import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Container;
 import org.rmj.guanzongroup.ghostrider.settings.Activity_Settings;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.INTENT_AREA_MONITORING;
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.INTENT_BRANCH_MONITORING;
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.INTENT_BRANCH_OPENING;
 
 public class Fragment_Home extends Fragment {
 
@@ -74,20 +82,21 @@ public class Fragment_Home extends Fragment {
             lblEmail,
             lblUserLvl,
             lblDept,
+            lblAreaNme,
             lblBranch;
     private String photoPath;
     private double latitude, longitude;
-    private RecyclerView newsRecyclerView;
     private List<NewsEventsModel> newsList;
-    private NewsEventsModel infoModel;
     private NewsEventsAdapter adapter;
 //    private Button btn_settings, btn_notif ;
-    private MaterialButton btnSelfie;
-    private ImageView btn_messages,btn_settings, btn_notif;
+    private ImageButton btnSelfie, btnLogout;
     private RecyclerView recyclerView;
+    private RecyclerView recyclerViewOpening;
     private MessageBox loMessage;
     private CardView cvAHMonitoring;
     private BottomNavigationView navHeader;
+
+    @SuppressLint("NonConstantResourceId")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -102,41 +111,44 @@ public class Fragment_Home extends Fragment {
         lblUserLvl = view.findViewById(R.id.lbl_userLevel);
         lblDept = view.findViewById(R.id.lbl_userDepartment);
         lblBranch = view.findViewById(R.id.lbl_userBranch);
-        newsRecyclerView = view.findViewById(R.id.newRecyclerView);
+        lblAreaNme = view.findViewById(R.id.lbl_areaName);
         btnSelfie = view.findViewById(R.id.btn_selfieLogin);
-        btn_settings = view.findViewById(R.id.btn_settings);
-        btn_notif = view.findViewById(R.id.btn_notif);
-        btn_messages = view.findViewById(R.id.btn_messages);
+        btnLogout = view.findViewById(R.id.btn_logout);
         recyclerView = view.findViewById(R.id.recyclerview_monitoring);
+        recyclerViewOpening = view.findViewById(R.id.recyclerview_openings);
         cvAHMonitoring = view.findViewById(R.id.cv_ahMonitoring);
         navHeader = view.findViewById(R.id.navHeader);
 
-        navHeader.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu_dashboard:
-                        return true;
-                    case R.id.menu_message:
-                    case R.id.menu_notif:
-                        GToast.CreateMessage(getActivity(), "Feature not yet implemented", GToast.INFORMATION).show();
-                        return true;
-                    case R.id.menu_settings:
-                        Intent intent = new Intent(getActivity(), Activity_Settings.class);
-                        startActivity(intent);
-                        return true;
-                }
-                return false;
+        navHeader.setOnNavigationItemSelectedListener(item -> {
+            Intent loIntent = null;
+            switch (item.getItemId()) {
+                case R.id.menu_dashboard:
+                    return true;
+                case R.id.menu_message:
+                    loIntent = new Intent(getActivity(), Activity_Container.class);
+                    loIntent.putExtra("type", "message");
+                    startActivity(loIntent);
+                    return true;
+                case R.id.menu_notif:
+                    loIntent = new Intent(getActivity(), Activity_Container.class);
+                    loIntent.putExtra("type", "notification");
+                    startActivity(loIntent);
+                    return true;
+                case R.id.menu_settings:
+                    loIntent = new Intent(getActivity(), Activity_Settings.class);
+                    startActivity(loIntent);
+                    return true;
             }
+            return false;
         });
         return view;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMHome.class);
-//        mViewModel.getMobileNo().observe(getViewLifecycleOwner(), s -> lblMobile.setText(s));
 
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
@@ -145,124 +157,98 @@ public class Fragment_Home extends Fragment {
                 lblFullNme.setText(eEmployeeInfo.getUserName());
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
                 mViewModel.setIntUserLvl(4);
-//                mViewModel.setIntUserLvl(Integer.parseInt(eEmployeeInfo.getEmpLevID()));
+
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
-        mViewModel.getCv_ahMonitoring().observe(getViewLifecycleOwner(), integer -> cvAHMonitoring.setVisibility(integer));
-        mViewModel.getAreaPerformanceInfoList().observe(getViewLifecycleOwner(), areaPerformances -> {
-            List<Area> areaList = new ArrayList<>();
-            for(int x = 0; x < areaPerformances.size(); x++){
-                Area area = new Area(areaPerformances.get(x).getAreaCode(),
-                        areaPerformances.get(x).getAreaDesc(),
-                        String.valueOf(areaPerformances.get(x).getMCGoalxx()),
-                        String.valueOf(areaPerformances.get(x).getMCActual()));
-                areaList.add(area);
+
+        mViewModel.getUserAreaCodeForDashboard().observe(getViewLifecycleOwner(), s -> {
+            try{
+                lblAreaNme.setText("Area " + s);
+            } catch (Exception e){
+                e.printStackTrace();
             }
-            AreaMonitoringDashbordAdapter loAdapter = new AreaMonitoringDashbordAdapter(areaList);
-            LinearLayoutManager loManager = new LinearLayoutManager(getActivity());
-
-//            loManager.setOrientation(RecyclerView.VERTICAL);
-//            recyclerView.setLayoutManager(loManager);
-//            recyclerView.setAdapter(loAdapter);
-
-//            recyclerView.setLayoutManager(new SpanningLinearLayoutManager(getContext(),  LinearLayoutManager.HORIZONTAL, false));
-//            recyclerView.setAdapter(loAdapter);
-
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.HORIZONTAL, false));
-            recyclerView.setAdapter(loAdapter);
-
-
         });
-        infoModel = new NewsEventsModel(
-                "https://www.guanzongroup.com.ph/wp-content/uploads/2021/02/Grand-Opening-4-786x786.png",
-                "Grand Opening of Guanzon Mobitek SM City North Edsa-Annex branch",
-                "24",
-                "Feb" ,
-                "POSTED ON FEBRUARY 24, 2021 BY GUANZON_ADMIN");
-        newsList.add(infoModel);
-        infoModel = new NewsEventsModel(
-                "https://www.guanzongroup.com.ph/wp-content/uploads/2020/11/mcc-dasol-multi-2020-786x517.jpg",
-                "GUANZON OPENS A MULTI-BRAND SHOP AT DASOL PANGASINAN",
-                "25",
-                "Nov" ,
-                "POSTED ON NOVEMBER 25, 2020 BY GUANZON_ADMIN");
-        newsList.add(infoModel);
-        infoModel = new NewsEventsModel(
-                "https://www.guanzongroup.com.ph/wp-content/uploads/2020/11/uemi-san-fabian-yamaha-2020-2-786x482.jpg",
-                "GUANZON OPENS ITS YAMAHA 3s SHOP AT SAN FABIAN, PANGASINAN",
-                "25",
-                "Nov" ,
-                "POSTED ON NOVEMBER 25, 2020 BY GUANZON_ADMIN");
-        newsList.add(infoModel);
-        infoModel = new NewsEventsModel(
-                "https://www.guanzongroup.com.ph/wp-content/uploads/2020/10/suzuki-mangaldan-opening-oct-2020-786x440.jpg",
-                "GUANZON GROUP OFFICIALLY INAUGURATES ITS SUZUKI 3S BRANCH AT MANGALDAN",
-                "28",
-                "Oct" ,
-                "POSTED ON OCTOBER 28, 2020 BY GUANZON_ADMIN");
-        newsList.add(infoModel);
-        infoModel = new NewsEventsModel(
-                "https://www.guanzongroup.com.ph/wp-content/uploads/2020/10/SM-Mega-Center-Cabanatuan-opening-oct-2020-1-786x786.jpg",
-                "Guanzon Group Opens New Stores in SM Mega Center Cabanatuan",
-                "21",
-                "Oct" ,
-                "POSTED ON OCTOBER 21, 2020 BY GUANZON_ADMIN");
-        newsList.add(infoModel);
-        infoModel = new NewsEventsModel(
-                "https://www.guanzongroup.com.ph/wp-content/uploads/2020/10/mcc-burgos-open-oct-2020-1-786x482.jpg",
-                "GUANZON OPENS A MULTI-BRAND SHOP AT BURGOS PANGASINAN",
-                "20",
-                "Oct" ,
-                "POSTED ON OCTOBER 20, 2020 BY GUANZON_ADMIN");
-        newsList.add(infoModel);
-        infoModel = new NewsEventsModel(
-                "https://www.guanzongroup.com.ph/wp-content/uploads/2020/10/mcc-cabarroguis-soft-open-oct-2020-border-blk-786x465.jpg",
-                "GUANZON OPENS ITS FIRST BRANCH AT QUIRINO PROVINCE",
-                "20",
-                "Oct" ,
-                "POSTED ON OCTOBER 20, 2020 BY GUANZON_ADMIN");
-        newsList.add(infoModel);
 
-        infoModel = new NewsEventsModel(
-                "https://www.guanzongroup.com.ph/wp-content/uploads/2020/10/guanzon-opening-urdaneta-oct-2020-1-786x786.jpg",
-                "Guanzon’s Opens 4 branches at the Magic Mall Urdaneta: Amidst the Covid – 19 pandemic",
-                "14",
-                "Oct" ,
-                "POSTED ON OCTOBER 14, 2020 BY GUANZON_ADMIN");
-        newsList.add(infoModel);
+        mViewModel.getCv_ahMonitoring().observe(getViewLifecycleOwner(), integer -> cvAHMonitoring.setVisibility(integer));
 
-        newsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        newsRecyclerView.addItemDecoration(new NewsEventSpacing(newsList.size(), 30, false));
-        newsRecyclerView.setAdapter(adapter);
+//        mViewModel.getAreaPerformanceDashboard().observe(getViewLifecycleOwner(), areaPerformances -> {
+//            List<Area> areaList = new ArrayList<>();
+//            for(int x = 0; x < areaPerformances.size(); x++){
+//                Area area = new Area(areaPerformances.get(x).getAreaCode(),
+//                        areaPerformances.get(x).getAreaDesc(),
+//                        String.valueOf(areaPerformances.get(x).getMCGoalxx()),
+//                        String.valueOf(areaPerformances.get(x).getMCActual()));
+//                areaList.add(area);
+//            }
+//            AreaMonitoringDashbordAdapter loAdapter = new AreaMonitoringDashbordAdapter(areaList, () -> {
+//                Intent loIntent = new Intent(getActivity(), Activity_Application.class);
+//                loIntent.putExtra("app", INTENT_AREA_MONITORING);
+//                startActivity(loIntent);
+//            });
+//
+//            recyclerView.setHasFixedSize(true);
+//            recyclerView.setItemAnimator(new DefaultItemAnimator());
+//            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.HORIZONTAL, false));
+//            recyclerView.setAdapter(loAdapter);
+//        });
+
+        mViewModel.getBranchPerformance().observe(getViewLifecycleOwner(), new Observer<List<EBranchPerformance>>() {
+            @Override
+            public void onChanged(List<EBranchPerformance> eBranchPerformances) {
+                List<Branch> branchList = new ArrayList<>();
+                for(int x = 0; x < eBranchPerformances.size(); x++){
+                    Branch branch = new Branch(eBranchPerformances.get(x).getBranchCd(),
+                            eBranchPerformances.get(x).getBranchNm(),
+                            String.valueOf(eBranchPerformances.get(x).getMCGoalxx()),
+                            String.valueOf(eBranchPerformances.get(x).getMCActual()));
+                    branchList.add(branch);
+                }
+                BranchMonitoringAdapter loAdapter = new BranchMonitoringAdapter(branchList, () -> {
+                    Intent loIntent = new Intent(getActivity(), Activity_Application.class);
+                    loIntent.putExtra("app", INTENT_BRANCH_MONITORING);
+                    startActivity(loIntent);
+                });
+
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.HORIZONTAL, false));
+                recyclerView.setAdapter(loAdapter);
+            }
+        });
+
+        mViewModel.getUnreadMessagesCount().observeForever(unReadMessageCount -> {
+            try {
+                if(unReadMessageCount > 0) {
+                    navHeader.getOrCreateBadge(R.id.menu_message).setNumber(unReadMessageCount);
+                } else {
+                    navHeader.removeBadge(R.id.menu_message);
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getBranchOpeningMonitor().observe(getViewLifecycleOwner(), eBranchOpenMonitors -> {
+            recyclerViewOpening.setHasFixedSize(true);
+            recyclerViewOpening.setItemAnimator(new DefaultItemAnimator());
+            recyclerViewOpening.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.VERTICAL, false));
+            recyclerViewOpening.setAdapter(new BranchOpeningAdapter(getActivity(), eBranchOpenMonitors, () -> {
+                Intent loIntent = new Intent(getActivity(), Activity_Application.class);
+                loIntent.putExtra("app", INTENT_BRANCH_OPENING);
+                startActivity(loIntent);
+            }));
+        });
+
         adapter.notifyDataSetChanged();
         btnSelfie.setOnClickListener(v -> {
             Intent loIntent = new Intent(getActivity(), Activity_Application.class);
             loIntent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
             startActivity(loIntent);
         });
-        btn_notif.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GToast.CreateMessage(getActivity(), "Feature not yet implemented", GToast.INFORMATION).show();
-            }
-        });
-        btn_messages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GToast.CreateMessage(getActivity(), "Feature not yet implemented", GToast.INFORMATION).show();
-            }
-        });
-        btn_settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Activity_Settings.class);
-                startActivity(intent);
-            }
-        });
+
+        btnLogout.setOnClickListener(v -> showDialog());
 
     }
 

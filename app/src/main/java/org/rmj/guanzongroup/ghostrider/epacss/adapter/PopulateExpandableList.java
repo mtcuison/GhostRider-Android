@@ -18,8 +18,8 @@ import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCountLog;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
+import androidx.core.app.ActivityCompat;
+
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationHistory;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
@@ -129,7 +129,6 @@ public class PopulateExpandableList {
                                 intent.putExtra("syscode", "2");
                                 context.startActivity(intent);
                                 break;
-
                         }
                         break;
                     case 3:
@@ -202,23 +201,6 @@ public class PopulateExpandableList {
                                 context.startActivity(intent);
                                 break;
                             }
-                        }
-                        break;
-                    case 7:
-                        switch(childPosition)
-                        {
-                            case 0 :
-                            case 1:
-                                break;
-                            case 2:
-                                intent = new Intent(parent.getContext(), Activity_CashCounter.class);
-                                context.startActivity(intent);
-                                break;
-                            case 3:
-                                intent = new Intent(parent.getContext(), Activity_CashCountLog.class);
-                                context.startActivity(intent);
-                                break;
-
                         }
                         break;
                 }

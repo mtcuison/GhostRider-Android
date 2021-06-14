@@ -12,15 +12,45 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
 import android.app.Application;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LEAVE_TYPE;
 
 public class VMLeaveApplication extends AndroidViewModel {
+
+    private final Application instance;
+    private final RBranch pobranch;
+    private final REmployee poUser;
 
 
     public VMLeaveApplication(@NonNull Application application) {
         super(application);
+        this.instance = application;
+        this.pobranch = new RBranch(instance);
+        this.poUser = new REmployee(instance);
     }
-    // TODO: Implement the ViewModel
+
+    public LiveData<EEmployeeInfo> getUserInfo(){
+        return poUser.getUserInfo();
+    }
+
+    public LiveData<EBranchInfo> getUserBranchInfo(){
+        return pobranch.getUserBranchInfo();
+    }
+
+    public LiveData<ArrayAdapter<String>> getLeaveTypeList(){
+        MutableLiveData<ArrayAdapter<String>> loList = new MutableLiveData<>();
+        loList.setValue(new ArrayAdapter<>(instance, android.R.layout.simple_dropdown_item_1line, LEAVE_TYPE));
+        return loList;
+    }
 }

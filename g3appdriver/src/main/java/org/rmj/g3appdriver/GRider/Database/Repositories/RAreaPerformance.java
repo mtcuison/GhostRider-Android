@@ -38,4 +38,8 @@ public class RAreaPerformance {
     public LiveData<List<EAreaPerformance>> getAreaPerformanceInfoList(){
         return allAreaPerformance;
     }
+
+    public LiveData<List<EAreaPerformance>> getAreaPerformanceDashboard(){
+        return areaPerformanceDao.getAreaPerformanceDashboard();
+    }
 }

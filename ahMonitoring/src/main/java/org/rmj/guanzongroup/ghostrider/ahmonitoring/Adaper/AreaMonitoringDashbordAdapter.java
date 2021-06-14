@@ -5,11 +5,11 @@
  * Project name : GhostRider_Android
  * Module : GhostRider_Android.ahMonitoring
  * Electronic Personnel Access Control Security System
- * project file created : 5/7/21 11:41 AM
- * project file last modified : 5/7/21 11:41 AM
+ * project file created : 6/10/21 9:34 AM
+ * project file last modified : 6/10/21 9:31 AM
  */
 
-package org.rmj.guanzongroup.ghostrider.epacss.ui.ProgressBar;
+package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -21,24 +21,32 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.etc.ProgressBar.VerticalProgressBar;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.Area;
-import org.rmj.guanzongroup.ghostrider.epacss.R;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;
 
 public class AreaMonitoringDashbordAdapter extends RecyclerView.Adapter<AreaMonitoringDashbordAdapter.ChartViewHolder> {
 
-    List<Area> areaPerformances;
+    private final List<Area> areaPerformances;
+    private final OnAdapterItemClickListener mListener;
 
-    public AreaMonitoringDashbordAdapter(List<Area> areaPerformances){
+
+    public interface OnAdapterItemClickListener{
+        void OnClick();
+    }
+
+    public AreaMonitoringDashbordAdapter(List<Area> areaPerformances, OnAdapterItemClickListener listener){
         this.areaPerformances = areaPerformances;
+        this.mListener = listener;
     }
 
     @NonNull
     @Override
     public AreaMonitoringDashbordAdapter.ChartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dashboard_item_area_monitoring, parent, false);
-        return new AreaMonitoringDashbordAdapter.ChartViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_branch_performance, parent, false);
+        return new AreaMonitoringDashbordAdapter.ChartViewHolder(view, mListener);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -48,14 +56,9 @@ public class AreaMonitoringDashbordAdapter extends RecyclerView.Adapter<AreaMoni
         Area area = areaPerformances.get(position);
         holder.txtArea.setText(area.getAreaName());
         holder.txtPrct.setText(area.getSalesPercentage());
-//        holder.progressBar.setMax(area.getDynamicSize());
 
         progress = getParseValue(area.getSalesPercentage().replace("%",""));
-//        holder.progressBar.setMax(150);
-        Log.e("Max", String.valueOf(area.getDynamicSize()));
-        Log.e("Progress", String.valueOf(area.getSalesPercentage()));
         holder.progressBar.setProgress(progress);
-//        holder.progressBar.getProgressDrawable().setColorFilter(R.color.guanzon_orange, PorterDuff.Mode.SRC_IN);
 
     }
 
@@ -70,11 +73,13 @@ public class AreaMonitoringDashbordAdapter extends RecyclerView.Adapter<AreaMoni
         public TextView txtPrct;
         public VerticalProgressBar progressBar;
 
-        public ChartViewHolder(@NonNull View itemView) {
+        public ChartViewHolder(@NonNull View itemView, OnAdapterItemClickListener listener) {
             super(itemView);
             txtArea = itemView.findViewById(R.id.lbl_AreaBranchItem);
             txtPrct = itemView.findViewById(R.id.lbl_listItemPercentage);
             progressBar = itemView.findViewById(R.id.progress_monitor);
+
+            itemView.setOnClickListener(v -> listener.OnClick());
         }
     }
 

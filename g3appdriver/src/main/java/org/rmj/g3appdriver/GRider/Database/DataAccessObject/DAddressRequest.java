@@ -16,6 +16,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.RoomWarnings;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 
@@ -42,6 +43,7 @@ public interface DAddressRequest {
             "WHERE sTransNox=:oldTransNox")
     void updateAddressStatus(String TransNox, String oldTransNox, String DateEntry);
 
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT AU.sTransNox, " +
             "AU.sClientID, " +
             "AU.cReqstCDe, " +

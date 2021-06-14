@@ -5,8 +5,8 @@
  * Project name : GhostRider_Android
  * Module : GhostRider_Android.notifications
  * Electronic Personnel Access Control Security System
- * project file created : 4/24/21 3:19 PM
- * project file last modified : 4/24/21 3:18 PM
+ * project file created : 6/9/21 1:21 PM
+ * project file last modified : 6/9/21 1:21 PM
  */
 
 package org.rmj.guanzongroup.ghostrider.notifications.Activity;
@@ -14,70 +14,39 @@ package org.rmj.guanzongroup.ghostrider.notifications.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.FragmentAdapter;
+import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_MessageList;
+import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_ViewMessages;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_ViewNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 import java.util.Objects;
 
-public class Activity_Notifications extends AppCompatActivity {
-    private static Activity_Notifications instance;
+public class Activity_Container extends AppCompatActivity {
 
     private Toolbar toolbar;
     private ViewPager viewPager;
 
-    private String Title;
-    private String Sender;
-    private String Message;
-    private String date;
-
-    public static Activity_Notifications getInstance(){
-        return instance;
-    }
-
-    public String getMessageTitle() {
-        return Title;
-    }
-
-    public String getSender() {
-        return Sender;
-    }
-
-    public String getMessage() {
-        return Message;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notifications);
-        instance = this;
-
-        String MessageType = getIntent().getStringExtra("type");
-
-        Title = getIntent().getStringExtra("title");
-        Sender = getIntent().getStringExtra("sender");
-        Message = getIntent().getStringExtra("message");
-        date = getIntent().getStringExtra("date");
+        setContentView(R.layout.activity_container);
 
 
         toolbar = findViewById(R.id.toolbar_notification);
         viewPager = findViewById(R.id.viewpager_notifications);
-        toolbar.setTitle(getTitle(MessageType));
+        String lsType = getIntent().getStringExtra("type");
+        toolbar.setTitle(getTitle(lsType));
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getFragment(MessageType)));
+        viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getFragment(lsType)));
     }
 
     @Override
@@ -90,17 +59,17 @@ public class Activity_Notifications extends AppCompatActivity {
 
     private String getTitle(String type){
         if(type.equalsIgnoreCase("notification")){
-            return "";
+            return "Notifications";
         } else {
-            return Title;
+            return "Messages";
         }
     }
 
     private Fragment[] getFragment(String type){
         if(type.equalsIgnoreCase("notification")){
-            return new Fragment[]{new Fragment_ViewNotification()};
+            return new Fragment[]{new Fragment_NotificationList()};
         } else {
-            return new Fragment[]{new Fragment_ViewMessages()};
+            return new Fragment[]{new Fragment_MessageList()};
         }
     }
 }

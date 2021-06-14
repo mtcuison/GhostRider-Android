@@ -15,6 +15,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
@@ -33,5 +34,9 @@ public class RBranchPerformance {
 
     public void insertBulkData(List<EBranchPerformance> list) {
         branchPerformanceDao.insertBulkData(list);
+    }
+
+    public LiveData<List<EBranchPerformance>> getBranchPerformanceForDashBoard(){
+        return branchPerformanceDao.getBranchPerformanceForDashBoard();
     }
 }
