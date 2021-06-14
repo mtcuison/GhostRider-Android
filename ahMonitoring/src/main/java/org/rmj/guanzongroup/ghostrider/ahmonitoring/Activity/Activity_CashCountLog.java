@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -21,8 +22,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.CashCountLogAdapter;
@@ -39,12 +43,13 @@ public class Activity_CashCountLog extends AppCompatActivity {
     private VMCashCountLog mViewModel;
     private RecyclerView recyclerView;
     private List<CashCountInfoModel> infoModelList;
-    private LinearLayout loading;
+    private LinearLayout loading,layoutNoRecord;
+    private TextInputEditText txtSearch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cash_count_log);
-        initWidgets();
         initWidgets();
         mViewModel = new ViewModelProvider(Activity_CashCountLog.this).get(VMCashCountLog.class);
         mViewModel.getAllCashCountLog().observe(Activity_CashCountLog.this, ciList -> {
@@ -69,34 +74,34 @@ public class Activity_CashCountLog extends AppCompatActivity {
                 recyclerView.setLayoutManager(layoutManager);
                 adapter.notifyDataSetChanged();
 
-//                txtSearch.addTextChangedListener(new TextWatcher() {
-//                    @Override
-//                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                        try {
-//
-//                            adapter.getFilter().filter(s.toString());
-//                            adapter.notifyDataSetChanged();
-//                            if (adapter.getItemCount() == 0){
-////                                layoutNoRecord.setVisibility(View.VISIBLE);
-//
-//                            }else {
-////                                layoutNoRecord.setVisibility(View.GONE);
-//                            }
-//                        } catch (Exception e){
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void afterTextChanged(Editable s) {
-//
-//                    }
-//                });
+                txtSearch.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        try {
+
+                            adapter.getFilter().filter(s.toString());
+                            adapter.notifyDataSetChanged();
+                            if (adapter.getItemCount() == 0){
+                                layoutNoRecord.setVisibility(View.VISIBLE);
+
+                            }else {
+                                layoutNoRecord.setVisibility(View.GONE);
+                            }
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
             }
         });
     }
@@ -106,5 +111,20 @@ public class Activity_CashCountLog extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView = findViewById(R.id.recyclerview_cashcountLog);
         loading = findViewById(R.id.linear_progress);
+        layoutNoRecord = findViewById(R.id.layout_cash_count_noRecord);
+        txtSearch = findViewById(R.id.txt_nameSearch);
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

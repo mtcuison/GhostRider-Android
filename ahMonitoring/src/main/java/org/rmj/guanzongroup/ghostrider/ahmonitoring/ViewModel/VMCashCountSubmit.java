@@ -32,7 +32,6 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCashCount;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
@@ -230,7 +229,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
             try {
 
                 if (!infoModel.isDataValid()) {
-                    lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(infoModel.getMessage());
+                    lsResponse = infoModel.getMessage();
 
                 } else {
                     eCashCount.setTransNox(jsonObject.getString("sTransNox"));
@@ -258,7 +257,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
                     eCashCount.setSendStat("0");
                     pocashcount.insertNewCashCount(eCashCount);
                     if(!poConn.isDeviceConnected()) {
-                        lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Collection info has been save.");
+                        lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Connection error.");
                     } else {
                         lsResponse = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, jsonObject.toString(), poHeaders.getHeaders());
 
@@ -267,10 +266,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
                         } else {
                             JSONObject loResponse = new JSONObject(lsResponse);
                             if(loResponse.getString("result").equalsIgnoreCase("success")){
-                                eCashCount.setSendStat("1");
-                                eCashCount.setEntryDte(AppConstants.DATE_MODIFIED);
-                                eCashCount.setModified(AppConstants.DATE_MODIFIED);
-                                pocashcount.updateCashCount(eCashCount);
+                                pocashcount.UpdateByTransNox(eCashCount.getTransNox());
                             }
                         }
                     }

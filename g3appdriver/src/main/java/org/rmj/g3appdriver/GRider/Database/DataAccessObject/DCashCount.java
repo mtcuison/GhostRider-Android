@@ -37,8 +37,15 @@ public interface DCashCount {
     @Delete
     void delete(ECashCount cashCount);
 
+    @Query("SELECT * FROM Cash_Count_Master WHERE sTransNox =:TransNox")
+    List<ECashCount> getDuplicateTransNox(String TransNox);
 
     @Query("SELECT * FROM Cash_Count_Master")
     LiveData<List<ECashCount>> getAllCashCountLog();
+
+    @Query("UPDATE Cash_Count_Master SET " +
+            "sSendStat = 1 " +
+            "WHERE sTransNox =:TransNox ")
+    void UpdateByTransNox(String TransNox);
 
 }

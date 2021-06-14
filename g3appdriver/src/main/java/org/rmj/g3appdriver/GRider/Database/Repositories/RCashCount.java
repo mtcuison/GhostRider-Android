@@ -21,6 +21,7 @@ import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCashCount;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECashCount;
@@ -46,6 +47,23 @@ public class RCashCount {
     }
     public LiveData<List<ECashCount>> getAllCashCountLog(){
         return ccDao.getAllCashCountLog();
+    }
+    public void UpdateByTransNox(String transNox){
+        new UpdateByTransNox(ccDao).execute(transNox);
+    }
+    private static class UpdateByTransNox extends AsyncTask<String, Void, String> {
+        private final DCashCount ccDao;
+        public UpdateByTransNox(DCashCount ccDao) {
+            this.ccDao = ccDao;
+        }
+
+        @Override
+        protected String doInBackground(String... transNox) {
+            if (ccDao.getDuplicateTransNox(transNox[0]).size()>0){
+                ccDao.UpdateByTransNox(transNox[0]);
+            }
+            return null;
+        }
     }
     public String getCashCountNextCode(){
         String lsNextCode = "";

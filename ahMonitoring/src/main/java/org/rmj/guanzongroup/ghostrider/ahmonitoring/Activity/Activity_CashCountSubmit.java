@@ -11,11 +11,13 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -203,7 +205,6 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
 
     @Override
     public void onStartSaveCashCount() {
-
         poDialogx.initDialog("Cash Count", "Sending cash count. Please wait...", false);
         poDialogx.show();
     }
@@ -227,5 +228,19 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
     @Override
     public void onSaveCashCountFailed(String message) {
         initDialog("Cash Count",message);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }
