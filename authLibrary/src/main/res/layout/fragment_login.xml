@@ -130,15 +130,50 @@
             app:layout_constraintStart_toStartOf="@id/til_loginPassword"
             app:layout_constraintTop_toBottomOf="@id/til_loginPassword" />
 
+
+        <LinearLayout
+            android:id="@+id/ln_Terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvForgotPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_login"
+            android:layout_marginTop="40dp">
+
+            <CheckBox
+                android:id="@+id/cbAgree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:buttonTint="@color/guanzon_digital_orange"
+                android:fontFamily="@font/roboto"
+                android:text="@string/agree"
+                android:textColor="@color/textview_link_color"
+                android:textSize="13sp"
+                android:padding="0dp"/>
+
+            <TextView
+                android:id="@+id/tvTerms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="@string/terms_and_conditions"
+                android:textColor="@color/textview_link_color"
+                android:textSize="13sp"
+                android:layout_marginLeft="4dp"/>
+
+        </LinearLayout>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_login"
             style="@style/GhostRider_Button"
-            android:layout_marginTop="36dp"
             android:text="@string/button_login"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvForgotPassword"/>
+            app:layout_constraintTop_toBottomOf="@id/ln_Terms"
+            android:layout_marginTop="2dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

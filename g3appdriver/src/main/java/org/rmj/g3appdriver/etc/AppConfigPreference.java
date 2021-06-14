@@ -34,6 +34,7 @@ public class AppConfigPreference {
     private static final String APP_FIREBASE_TOKEN = "Firebase_Token";
     private static final String DCP_CustomerRebate = "DCP_CustomerRebate";
     private static final String DCP_PRNox = "DCP_PR_Noxxx";
+    private static boolean isAgreedOnTerms = false;
 
     private static AppConfigPreference mAppConfigPreference;
 
@@ -148,4 +149,13 @@ public class AppConfigPreference {
         @SuppressLint("DefaultLocale") String lsPrNox = String.format("%08d", lnPrNox);
         return lsPrNox;
     }
+
+    public boolean isAgreedOnTerms() {
+        return isAgreedOnTerms;
+    }
+
+    public void setIsAgreedOnTerms(boolean isAgreed) {
+        this.isAgreedOnTerms = isAgreed;
+    }
+
 }
