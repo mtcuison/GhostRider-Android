@@ -11,6 +11,7 @@
 
 package org.rmj.g3appdriver.GRider.Database.Entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -20,13 +21,18 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 @Entity(tableName = "Branch_Opening", primaryKeys = {"sBranchCD", "dTransact", "sTimeOpen"})
 public class EBranchOpenMonitor {
 
-    @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "sBranchCD")
     private String BranchCD;
+
+    @NonNull
     @ColumnInfo(name = "dTransact")
     private String Transact;
+
+    @NonNull
     @ColumnInfo(name = "sTimeOpen")
     private String TimeOpen;
+
     @ColumnInfo(name = "sOpenNowx")
     private String OpenNowx;
     @ColumnInfo(name = "dSendDate")

@@ -4,27 +4,28 @@
   ~ Copyright (c) 2021. Guanzon Central Office
   ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
   ~ Project name : GhostRider_Android
-  ~ Module : GhostRider_Android.app
+  ~ Module : GhostRider_Android.notifications
   ~ Electronic Personnel Access Control Security System
-  ~ project file created : 4/24/21 3:19 PM
-  ~ project file last modified : 4/24/21 3:17 PM
+  ~ project file created : 6/9/21 1:21 PM
+  ~ project file last modified : 6/9/21 1:21 PM
   -->
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Activity_Main">
+    android:orientation="vertical"
+    tools:context=".Activity.Activity_Container">
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-<!--        -->
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_notification"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/material_tool_bar"
@@ -32,6 +33,9 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

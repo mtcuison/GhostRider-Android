@@ -118,6 +118,12 @@ public class AppConstants {
 
     public static int INTENT_SELFIE_LOGIN = 103;
 
+    public static int INTENT_AREA_MONITORING = 105;
+
+    public static int INTENT_BRANCH_MONITORING = 104;
+
+    public static int INTENT_BRANCH_OPENING = 106;
+
     public static String ACTIVATE_REQUEST = "DEVICES_APPROVE";
     public static String GET_PIN_REQUEST = "DEVICES_GETPIN";
     public static String UNLOCK_REQUEST = "DEVICES_UNLOCK";

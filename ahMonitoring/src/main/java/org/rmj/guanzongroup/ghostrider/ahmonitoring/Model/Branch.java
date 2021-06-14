@@ -39,10 +39,15 @@ public class Branch {
         return BranchName;
     }
 
+
     public String getSalesPercentage() {
-        return new DecimalFormat("###").format(Actual);
-        /*float percentage = Goal/Actual;
+        float percentage = Actual/100;
         float result = percentage * 100;
-        return format.format(result);*/
+        return new DecimalFormat("##").format(result) + "%";
+    }
+
+    public int getDynamicSize() {
+        float adds = 100 * .05f;
+        return Integer.parseInt(new DecimalFormat("##").format(100 + adds));
     }
 }

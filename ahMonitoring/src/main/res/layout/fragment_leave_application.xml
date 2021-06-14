@@ -27,7 +27,7 @@
         <ImageView
             android:id="@+id/img_bg_guanzon_orange"
             android:layout_width="0dp"
-            android:layout_height="205dp"
+            android:layout_height="190dp"
             android:src="@drawable/bg_samsungknox"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -42,7 +42,9 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias=".2">
+
             <TextView
+                android:id="@+id/lbl_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dela Cruz, Josemari Joma, S."
@@ -50,7 +52,9 @@
                 android:fontFamily="@font/roboto"
                 android:textColor="@color/white"
                 android:textSize="23sp"/>
+
             <TextView
+                android:id="@+id/lbl_userPosition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DSA - Bookkeeper"
@@ -58,7 +62,9 @@
                 android:fontFamily="@font/roboto_light"
                 android:textColor="@color/white"
                 android:textSize="18sp"/>
+
             <TextView
+                android:id="@+id/lbl_userBranch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="LGK Pozorrubio - Honda"
@@ -66,24 +72,13 @@
                 android:fontFamily="@font/roboto_light"
                 android:textColor="@color/white"
                 android:textSize="18sp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Leave Credit: 10"
-                android:scrollHorizontally="false"
-                android:fontFamily="@font/roboto"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_leavecredits"
-                android:paddingHorizontal="7dp"
-                android:paddingVertical="2dp"
-                android:layout_marginTop="8dp"
-                android:textSize="14sp"/>
 
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            android:id="@+id/lbl_transnox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -94,53 +89,79 @@
             android:paddingStart="10dp"
             tools:ignore="RtlSymmetry" />
 
-
-
         <Spinner
+            android:id="@+id/spn_leaveType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"/>
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:hint="@string/sHintDateFrm"
+            style="@style/TextInputStyle">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_dateFrom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/sHintDateFrm"
-                style="@style/TextInputStyle">
+                android:focusableInTouchMode="false"
+                android:focusable="false"
+                android:focusedByDefault="false"
+                android:inputType="textShortMessage"
+                style="@style/TextInputStyle.Edittext"
+                android:autofillHints="Business trip destination and purpose."
+                android:layout_margin="5dp"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textShortMessage"
-                    style="@style/TextInputStyle.Edittext"
-                    android:autofillHints="Business trip destination and purpose."
-                    android:layout_margin="5dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/sHintDateTo"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_dateTo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/sHintDateTo"
-                style="@style/TextInputStyle">
+                android:focusableInTouchMode="false"
+                android:focusable="false"
+                android:focusedByDefault="false"
+                android:inputType="textShortMessage"
+                style="@style/TextInputStyle.Edittext"
+                android:autofillHints="Business trip destination and purpose."
+                android:layout_margin="5dp"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textShortMessage"
-                    style="@style/TextInputStyle.Edittext"
-                    android:autofillHints="Business trip destination and purpose."
-                    android:layout_margin="5dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:hint="No Of Day/s"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_noOfDays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:focusable="false"
+                android:focusedByDefault="false"
+                android:inputType="textShortMessage"
+                style="@style/TextInputStyle.Edittext"
+                android:autofillHints="Business trip destination and purpose."
+                android:layout_margin="5dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -149,6 +170,7 @@
             style="@style/TextInputStyle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_remarks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"

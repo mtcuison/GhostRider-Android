@@ -40,6 +40,14 @@ public class REmployee {
 
     public EEmployeeInfo getUserNonLiveData() { return employeeDao.getEmployeeInfoNonLiveData(); }
 
+    public String getUserAreaCode(){
+        return employeeDao.getUserAreaCode();
+    }
+
+    public LiveData<String> getUserAreaCodeForDashboard(){
+        return employeeDao.getUserAreaCodeForDashboard();
+    }
+
     public void insertEmployee(EEmployeeInfo employeeInfo){
         new InsertEmployeeTask(employeeDao).execute(employeeInfo);
     }

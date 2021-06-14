@@ -58,7 +58,7 @@ public class Fragment_AreaMonitor extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMAreaMonitor.class);
 
-        mViewModel.getAreaPerformanceInfoList().observe(this, areaPerformances -> {
+        mViewModel.getAreaPerformanceInfoList().observe(getViewLifecycleOwner(), areaPerformances -> {
             List<Area> areaList = new ArrayList<>();
             for(int x = 0; x < areaPerformances.size(); x++){
                 Area area = new Area(areaPerformances.get(x).getAreaCode(),
