@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -31,9 +32,13 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCashCount;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.dev.Telephony;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountInfoModel;
@@ -85,46 +90,6 @@ public class VMCashCountSubmit extends AndroidViewModel {
         return psTransNox;
     }
 
-
-
-//    public void insertNewCashCount(CashCountInfoModel infoModel, JSONObject jsonObject, OnSaveCashCountCallBack callBack){
-////        poCashCount.insertCashCount(cashCount);
-//        try {if (!infoModel.isDataValid()){
-//            callBack.onFailedResult(infoModel.getMessage());
-//            }else {
-//            eCashCount.setTransNox(jsonObject.getString("sTransNox"));
-//            eCashCount.setTransact(AppConstants.CURRENT_DATE);
-//            eCashCount.setCn0005cx(jsonObject.getString("nCn0005cx"));
-//            eCashCount.setCn0010cx(jsonObject.getString("nCn0010cx"));
-//            eCashCount.setCn0025cx(jsonObject.getString("nCn0025cx"));
-//            eCashCount.setCn0050cx(jsonObject.getString("nCn0050cx"));
-//            eCashCount.setCn0001px(jsonObject.getString("nCn0001px"));
-//            eCashCount.setCn0005px(jsonObject.getString("nCn0005px"));
-//            eCashCount.setCn0010px(jsonObject.getString("nCn0010px"));
-//            eCashCount.setNte0020p(jsonObject.getString("nNte0020p"));
-//            eCashCount.setNte0050p(jsonObject.getString("nNte0050p"));
-//            eCashCount.setNte0100p(jsonObject.getString("nNte0100p"));
-//            eCashCount.setNte0200p(jsonObject.getString("nNte0200p"));
-//            eCashCount.setNte0500p(jsonObject.getString("nNte0500p"));
-//            eCashCount.setNte1000p(jsonObject.getString("nNte1000p"));
-//            eCashCount.setORNoxxxx(jsonObject.getString("sORNoxxxx"));
-//            eCashCount.setSINoxxxx(jsonObject.getString("sSINoxxxx"));
-//            eCashCount.setPRNoxxxx(jsonObject.getString("sPRNoxxxx"));
-//            eCashCount.setCRNoxxxx(jsonObject.getString("sCRNoxxxx"));
-//            eCashCount.setEntryDte(jsonObject.getString("EntryTime"));
-//            eCashCount.setReqstdBy(jsonObject.getString("sReqstdBy"));
-//            eCashCount.setModified(jsonObject.getString("EntryTime"));
-//            poCashCount.insertCashCount(eCashCount);
-//            callBack.onSaveSuccessResult();
-//        }
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//            callBack.onFailedResult(e.getMessage());
-//        }
-//
-//    }
-
     public void importRequestNames(String names,OnKwikSearchCallBack callBack){
 
         JSONObject loJson = new JSONObject();
@@ -132,7 +97,6 @@ public class VMCashCountSubmit extends AndroidViewModel {
             loJson.put("reqstdnm", names);
             loJson.put("bsearch", true);
 
-//            loJson.put("value",sCredInvxx.getValue());
             new ImportRequestNames(instance, callBack).execute(loJson);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -145,11 +109,9 @@ public class VMCashCountSubmit extends AndroidViewModel {
         private final ConnectionUtil conn;
         private final WebApi webApi;
         private final OnKwikSearchCallBack callback;
-        private final RBranchLoanApplication poCreditApp;
         public ImportRequestNames(Application instance,  OnKwikSearchCallBack callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.brnRepo = new RBranchLoanApplication(instance);
-            this.poCreditApp = new RBranchLoanApplication(instance);
             this.conn = new ConnectionUtil(instance);
             this.webApi = new WebApi(instance);
             this.callback = callback;
@@ -236,29 +198,40 @@ public class VMCashCountSubmit extends AndroidViewModel {
         }
     }
 
-    //Added by Mike 2021/02/27
+    //Added by Jonathan 2021/06/11
     //Need AsyncTask for background threading..
     //RoomDatabase requires background task in order to manipulate Tables...
     private  class UpdateTask extends AsyncTask<Void, Void, String> {
-        private final RCashCount poDcp;
+        private final RCashCount pocashcount;
         private final CashCountInfoModel infoModel;
         private final OnSaveCashCountCallBack callback;
         private JSONObject jsonObject;
+        private final HttpHeaders poHeaders;
+        private final ConnectionUtil poConn;
+        private final Telephony poDevID;
+        private final SessionManager poUser;
+        private final AppConfigPreference poConfig;
         public UpdateTask(RCashCount poDcp, CashCountInfoModel infoModel, JSONObject jsonObject, OnSaveCashCountCallBack callback) {
-            this.poDcp = poDcp;
+            this.pocashcount = poDcp;
             this.infoModel = infoModel;
             this.callback = callback;
             this.jsonObject = jsonObject;
+            this.poHeaders = HttpHeaders.getInstance(instance);
+            this.poConn = new ConnectionUtil(instance);
+            this.poDevID = new Telephony(instance);
+            this.poUser = new SessionManager(instance);
+            this.poConfig = AppConfigPreference.getInstance(instance);
         }
 
+        @SuppressLint("NewApi")
         @Override
         protected String doInBackground(Void... voids) {
+            String lsResponse = "";
             try {
 
-
-
                 if (!infoModel.isDataValid()) {
-                    return infoModel.getMessage();
+                    lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(infoModel.getMessage());
+
                 } else {
                     eCashCount.setTransNox(jsonObject.getString("sTransNox"));
                     eCashCount.setTransact(AppConstants.CURRENT_DATE);
@@ -282,17 +255,32 @@ public class VMCashCountSubmit extends AndroidViewModel {
                     eCashCount.setEntryDte(jsonObject.getString("EntryTime"));
                     eCashCount.setReqstdBy(jsonObject.getString("sReqstdBy"));
                     eCashCount.setModified(jsonObject.getString("EntryTime"));
-                    poCashCount.insertNewCashCount(eCashCount);
+                    eCashCount.setSendStat("0");
+                    pocashcount.insertNewCashCount(eCashCount);
+                    if(!poConn.isDeviceConnected()) {
+                        lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Collection info has been save.");
+                    } else {
+                        lsResponse = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, jsonObject.toString(), poHeaders.getHeaders());
 
-
-                    return "success";
+                        if(lsResponse == null){
+                            lsResponse = AppConstants.SERVER_NO_RESPONSE();
+                        } else {
+                            JSONObject loResponse = new JSONObject(lsResponse);
+                            if(loResponse.getString("result").equalsIgnoreCase("success")){
+                                eCashCount.setSendStat("1");
+                                eCashCount.setEntryDte(AppConstants.DATE_MODIFIED);
+                                eCashCount.setModified(AppConstants.DATE_MODIFIED);
+                                pocashcount.updateCashCount(eCashCount);
+                            }
+                        }
+                    }
                 }
+                return lsResponse;
             } catch (Exception e){
                 e.printStackTrace();
                 return e.getMessage();
             }
         }
-
 
         @Override
         protected void onPostExecute(String s) {

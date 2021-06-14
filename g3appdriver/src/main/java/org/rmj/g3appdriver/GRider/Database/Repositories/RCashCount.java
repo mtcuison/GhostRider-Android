@@ -25,6 +25,7 @@ import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECashCount;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 
 import java.util.List;
@@ -40,7 +41,9 @@ public class RCashCount {
     public void insertNewCashCount(ECashCount cashCount){
         this.ccDao.insertCashCount(cashCount);
     }
-
+    public void updateCashCount(ECashCount cashCount){
+        ccDao.updateCashCount(cashCount);
+    }
     public LiveData<List<ECashCount>> getAllCashCountLog(){
         return ccDao.getAllCashCountLog();
     }

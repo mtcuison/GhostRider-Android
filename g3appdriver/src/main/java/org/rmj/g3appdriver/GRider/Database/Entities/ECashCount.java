@@ -87,6 +87,17 @@ public class ECashCount {
     @ColumnInfo(name = "dModified")
     private String Modified;
 
+    public String getSendStat() {
+        return SendStat;
+    }
+
+    public void setSendStat(String sendStat) {
+        SendStat = sendStat;
+    }
+
+    @ColumnInfo(name = "sSendStat")
+    private String SendStat;
+
 
     public ECashCount() {
     }

@@ -29,7 +29,10 @@ public interface DCashCount {
     void insertCashCount(ECashCount cashCount);
 
     @Update
-    void update(ECashCount cashCount);
+    void updateCashCount(ECashCount cashCount);
+
+//    @Update
+//    void update(ECashCount cashCount);
 
     @Delete
     void delete(ECashCount cashCount);
