@@ -5,7 +5,11 @@
     <uses-permission android:name="ACCESS_FINE_LOCATION" />
 
     <application>
-        <activity android:name=".Activity.Activity_CashCountLog"></activity>
+        <activity android:name=".Activity.Activity_Browser"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" ></activity>
+        <activity android:name=".Activity.Activity_CashCountLog"/>
         <activity android:name=".Activity.Activity_CashCountSubmit" />
         <activity android:name=".Activity.Activity_CashCounter"></activity>
         <activity

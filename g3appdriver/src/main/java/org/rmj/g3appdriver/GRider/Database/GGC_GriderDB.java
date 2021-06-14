@@ -28,6 +28,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBankInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchOpeningMonitor;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCashCount;
@@ -68,6 +69,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECashCount;
@@ -155,7 +157,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         ERelation.class,
         ENNDMRequest.class,
         EAppConfig.class,
-        ECashCount.class}, version = 1, exportSchema = false)
+        ECashCount.class,
+        EBranchOpenMonitor.class}, version = 1, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -202,6 +205,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DNNDMRequest nndmRequestDao();
     public abstract DAppConfig appConfigDao();
     public abstract DCashCount CashCountDao();
+    public abstract DBranchOpeningMonitor openingMonitoryDao();
 
     public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){

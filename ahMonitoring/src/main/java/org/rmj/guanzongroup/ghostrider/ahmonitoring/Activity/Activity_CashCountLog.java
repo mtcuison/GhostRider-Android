@@ -102,6 +102,8 @@ public class Activity_CashCountLog extends AppCompatActivity {
 
                     }
                 });
+            }else{
+                layoutNoRecord.setVisibility(View.VISIBLE);
             }
         });
     }
