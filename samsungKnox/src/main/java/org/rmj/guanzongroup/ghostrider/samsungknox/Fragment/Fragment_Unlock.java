@@ -19,20 +19,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.utils.CopyToClipboard;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.samsungknox.R;
 import org.rmj.guanzongroup.ghostrider.samsungknox.ViewModel.VMUnlock;
@@ -43,7 +38,6 @@ public class Fragment_Unlock extends Fragment implements ViewModelCallBack {
 
     private VMUnlock mViewModel;
     private TextInputEditText txtImei;
-    private EditText txtPIN;
     private MaterialButton btnGetPIN;
     private MessageBox loMessage;
     private LoadDialog dialog;
@@ -59,21 +53,6 @@ public class Fragment_Unlock extends Fragment implements ViewModelCallBack {
         dialog = new LoadDialog(getActivity());
         loMessage = new MessageBox(getActivity());
         txtImei = v.findViewById(R.id.txt_knoxImei);
-        txtPIN = v.findViewById(R.id.txt_KnoxPIN);
-        ImageButton btnCopy = v.findViewById(R.id.btn_CopyToClipboard);
-        btnCopy.setOnClickListener(view -> {
-            String KnoxPin = txtPIN.getText().toString();
-            String message;
-            if (!KnoxPin.isEmpty()) {
-                new CopyToClipboard(getActivity()).CopyTextClip("Knox_Pin", KnoxPin);
-                message = "Knox pin copied to clipboard.";
-            } else {
-                message = "Unable to copy empty content.";
-            }
-            Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-        });
         btnGetPIN = v.findViewById(R.id.btn_knoxUnlock);
 
         return v;
@@ -98,7 +77,6 @@ public class Fragment_Unlock extends Fragment implements ViewModelCallBack {
     @Override
     public void OnRequestSuccess(String args) {
         dialog.dismiss();
-        txtPIN.setText(args);
     }
 
     @Override

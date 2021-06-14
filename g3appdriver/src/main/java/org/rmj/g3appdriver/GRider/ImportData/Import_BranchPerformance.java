@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -36,16 +37,12 @@ import static org.rmj.g3appdriver.utils.WebApi.IMPORT_BRANCH_PERFORMANCE;
 public class Import_BranchPerformance implements ImportInstance {
     public static final String TAG = Import_BranchPerformance.class.getSimpleName();
 
-    private final RBranchPerformance poDataBse;
-    private final ConnectionUtil poConn;
-    private final HttpHeaders poHeaders;
+    private final Application instance;
 
     private String sAreaCode;
 
     public Import_BranchPerformance(Application application) {
-        this.poDataBse = new RBranchPerformance(application);
-        this.poConn = new ConnectionUtil(application);
-        this.poHeaders = HttpHeaders.getInstance(application);
+        this.instance = application;
     }
 
     public void setsAreaCode(String sAreaCode) {
@@ -57,8 +54,7 @@ public class Import_BranchPerformance implements ImportInstance {
         JSONObject loJson = new JSONObject();
         try{
             loJson.put("period", "201911");
-            loJson.put("areacd", "0001");
-            new ImportBranchTask(callback, poHeaders, poDataBse, poConn).execute(loJson);
+            new ImportBranchTask(instance, callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -69,20 +65,24 @@ public class Import_BranchPerformance implements ImportInstance {
         private final HttpHeaders loHeaders;
         private final RBranchPerformance loDatabse;
         private final ConnectionUtil loConn;
+        private final REmployee poUser;
 
-        public ImportBranchTask(ImportDataCallback callback, HttpHeaders loHeaders, RBranchPerformance loDatabse, ConnectionUtil loConn) {
+        public ImportBranchTask(Application application, ImportDataCallback callback) {
             this.callback = callback;
-            this.loHeaders = loHeaders;
-            this.loDatabse = loDatabse;
-            this.loConn = loConn;
+            this.loDatabse = new RBranchPerformance(application);
+            this.loConn = new ConnectionUtil(application);
+            this.loHeaders = HttpHeaders.getInstance(application);
+            this.poUser = new REmployee(application);
         }
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(JSONObject... jsonObjects) {
+            JSONObject loJSon = jsonObjects[0];
             String response = "";
             try {
                 if(loConn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(IMPORT_BRANCH_PERFORMANCE, jsonObjects[0].toString(), loHeaders.getHeaders());
+                    loJSon.put("areacd", poUser.getUserAreaCode());
+                    response = WebClient.httpsPostJSon(IMPORT_BRANCH_PERFORMANCE, loJSon.toString(), loHeaders.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

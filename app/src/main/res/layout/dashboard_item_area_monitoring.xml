@@ -34,7 +34,7 @@
             android:text="50%"/>
 
 
-        <org.rmj.guanzongroup.ghostrider.epacss.ui.ProgressBar.VerticalProgressBar
+        <org.rmj.g3appdriver.etc.ProgressBar.VerticalProgressBar
             android:id="@+id/progress_monitor"
             android:layout_width="45dp"
             android:layout_height="180dp"

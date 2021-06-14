@@ -75,6 +75,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         initWidgets();
         mViewModel = new ViewModelProvider(this).get(VMMainActivity.class);
         poNetRecvr = mViewModel.getInternetReceiver();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)

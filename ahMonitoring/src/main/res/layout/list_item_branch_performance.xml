@@ -6,8 +6,8 @@
   ~ Project name : GhostRider_Android
   ~ Module : GhostRider_Android.ahMonitoring
   ~ Electronic Personnel Access Control Security System
-  ~ project file created : 4/24/21 3:19 PM
-  ~ project file last modified : 4/24/21 3:18 PM
+  ~ project file created : 6/10/21 9:28 AM
+  ~ project file last modified : 6/10/21 9:28 AM
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,8 +15,8 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:padding="5dp">
-
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,10 +36,10 @@
 
         <org.rmj.g3appdriver.etc.ProgressBar.VerticalProgressBar
             android:id="@+id/progress_monitor"
-            android:layout_width="65dp"
+            android:layout_width="45dp"
             android:layout_height="180dp"
             android:indeterminateOnly="false"
-            android:minWidth="20dp"
+            android:minWidth="10dp"
             android:maxHeight="15dp"
             android:layout_gravity="center_horizontal"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -49,8 +49,9 @@
 
         <TextView
             android:id="@+id/lbl_AreaBranchItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="5"
             android:text="R1-A"
             android:gravity="center"
             android:paddingTop="10dp"

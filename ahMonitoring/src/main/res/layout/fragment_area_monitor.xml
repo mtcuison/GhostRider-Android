@@ -10,15 +10,90 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.Fragment_AreaMonitor">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_bg_guanzon_orange"
+            android:layout_width="0dp"
+            android:layout_height="190dp"
+            android:src="@drawable/bg_samsungknox"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias=".2">
+
+            <TextView
+                android:id="@+id/lbl_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dela Cruz, Josemari Joma, S."
+                android:scrollHorizontally="false"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/white"
+                android:textSize="23sp"/>
+
+            <TextView
+                android:id="@+id/lbl_userPosition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DSA - Bookkeeper"
+                android:scrollHorizontally="false"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/lbl_userBranch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LGK Pozorrubio - Honda"
+                android:scrollHorizontally="false"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/lbl_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="January 1, 2021 - February 28, 2021"
+                android:scrollHorizontally="false"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/white"
+                android:background="@drawable/bg_leavecredits"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="2dp"
+                android:layout_marginTop="8dp"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_monitoring"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</FrameLayout>
+</LinearLayout>

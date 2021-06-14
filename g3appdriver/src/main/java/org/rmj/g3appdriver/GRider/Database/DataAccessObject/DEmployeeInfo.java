@@ -68,6 +68,12 @@ public interface DEmployeeInfo {
     @Query("SELECT dSessionx FROM User_Info_Master")
     LiveData<String> getSessionDate();
 
+    @Query("SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
+    String getUserAreaCode();
+
+    @Query("SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
+    LiveData<String> getUserAreaCodeForDashboard();
+
     class Session{
         public int Session;
     }

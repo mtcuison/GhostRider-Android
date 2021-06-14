@@ -20,9 +20,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_messages"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent"
+        android:layout_above="@id/linear_chatLayout"/>
 
     <LinearLayout
+        android:id="@+id/linear_chatLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

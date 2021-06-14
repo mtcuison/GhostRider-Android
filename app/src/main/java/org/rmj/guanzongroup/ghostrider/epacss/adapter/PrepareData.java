@@ -21,6 +21,8 @@ import org.rmj.guanzongroup.ghostrider.epacss.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main.listDataChild;
 import static org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main.listDataHeader;
 
@@ -30,7 +32,7 @@ public class PrepareData {
         listDataHeader.clear();
         listDataChild.clear();
         sessionManager = new SessionManager(mContext);
-        MenuModel menuModel = new MenuModel("Home", R.drawable.ic_menu_home, true, false , View.VISIBLE); //Menu of Android Tutorial. No sub menus
+        MenuModel menuModel = new MenuModel("Home", R.drawable.ic_menu_home, true, false , VISIBLE); //Menu of Android Tutorial. No sub menus
         listDataHeader.add(menuModel);
 
         if (!menuModel.hasChildren) {
@@ -43,29 +45,29 @@ public class PrepareData {
 
         List<MenuModel> childModelsList = new ArrayList<>();
 
-        MenuModel childModel = new MenuModel("Day-to-Day", 0, false, false , View.VISIBLE);
+        MenuModel childModel = new MenuModel("Day-to-Day", 0, false, false , VISIBLE);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Manual Log", 0,false, false, View.VISIBLE);
+        childModel = new MenuModel("Manual Log", 0,false, false, VISIBLE);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("By Reference", 0, false, false, View.VISIBLE);
+        childModel = new MenuModel("By Reference", 0, false, false, VISIBLE);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("By Name", 0,false, false, View.VISIBLE);
+        childModel = new MenuModel("By Name", 0,false, false, VISIBLE);
         childModelsList.add(childModel);
         if (menuModel.hasChildren) {
             listDataChild.put(menuModel, childModelsList);
         }
 
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("Daily Collection Plan", R.drawable.ic_menu_dcp, true, true, View.VISIBLE);
+        menuModel = new MenuModel("Daily Collection Plan", R.drawable.ic_menu_dcp, true, true, VISIBLE);
         listDataHeader.add(menuModel);
 
-        childModel = new MenuModel("Collection List", 0, false, false , View.VISIBLE);
+        childModel = new MenuModel("Collection List", 0, false, false , VISIBLE);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Transaction Log", 0,false, false, View.VISIBLE);
+        childModel = new MenuModel("Transaction Log", 0,false, false, VISIBLE);
         childModelsList.add(childModel);
 
         if (menuModel.hasChildren) {
@@ -77,16 +79,16 @@ public class PrepareData {
         menuModel = new MenuModel("Credit Application",  R.drawable.ic_menu_creditapp, true, true , View.GONE);
         listDataHeader.add(menuModel);
 
-        childModel = new MenuModel("Loan Application", 0, false, false , View.VISIBLE);
+        childModel = new MenuModel("Loan Application", 0, false, false , VISIBLE);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("User Application List", 0,false, false, View.VISIBLE);
+        childModel = new MenuModel("User Application List", 0,false, false, VISIBLE);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Branch Application List", 0,false, false, View.VISIBLE);
+        childModel = new MenuModel("Branch Application List", 0,false, false, VISIBLE);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Document Scanner", 0, false, false, View.VISIBLE);
+        childModel = new MenuModel("Document Scanner", 0, false, false, VISIBLE);
         childModelsList.add(childModel);
 
 //        childModel = new MenuModel("Camera", 0,false, false);
@@ -99,9 +101,9 @@ public class PrepareData {
         childModelsList = new ArrayList<>();
         menuModel = new MenuModel("CI Evaluation",  R.drawable.ic_menu_credit_investigate,true, true, View.GONE);
         listDataHeader.add(menuModel);
-        childModel = new MenuModel("CI Evaluation List", 0, false, false , View.VISIBLE);
+        childModel = new MenuModel("CI Evaluation List", 0, false, false , VISIBLE);
         childModelsList.add(childModel);
-        childModel = new MenuModel("CI Evaluation History", 0, false, false , View.VISIBLE);
+        childModel = new MenuModel("CI Evaluation History", 0, false, false , VISIBLE);
         childModelsList.add(childModel);
 
         if (menuModel.hasChildren) {
@@ -110,58 +112,56 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if PET Manager is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("PET Manager",  R.drawable.ic_approval_biometric,true, true, View.VISIBLE);
+        menuModel = new MenuModel("PET Manager",  R.drawable.ic_approval_biometric,true, true, VISIBLE);
         listDataHeader.add(menuModel);
 
-        childModel = new MenuModel("Leave Application", 0, false, false , View.VISIBLE);
+        childModel = new MenuModel("Leave Application", 0, false, false , VISIBLE);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Business Trip", 0,false, false, View.VISIBLE);
+        childModel = new MenuModel("Business Trip", 0,false, false, VISIBLE);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Selfie Login", 0, false, false, View.VISIBLE);
+        childModel = new MenuModel("Selfie Login", 0, false, false, VISIBLE);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Health Checklist", 0,false, false, View.VISIBLE);
+        childModel = new MenuModel("Health Checklist", 0,false, false, VISIBLE);
         childModelsList.add(childModel);
         if (menuModel.hasChildren) {
             listDataChild.put(menuModel, childModelsList);
         }
 
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("Samsung Knox",  R.drawable.ic_menu_knox,true, true, View.GONE);
+        menuModel = new MenuModel("Samsung Knox",  R.drawable.ic_menu_knox,true, true, VISIBLE);
         listDataHeader.add(menuModel);
 
-        if (sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MOBILE_PHONE)){
-            childModel = new MenuModel("Activate", 0, false, false , View.VISIBLE);
-            childModelsList.add(childModel);
-        } else {
-            childModel = new MenuModel("Activate", 0, false, false , View.GONE);
-            childModelsList.add(childModel);
-        }
-
-        if (sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
-            childModel = new MenuModel("Unlock", 0,false, false, View.VISIBLE);
-            childModelsList.add(childModel);
-
-            childModel = new MenuModel("Get Pin", 0, false, false, View.VISIBLE);
-            childModelsList.add(childModel);
-
-            childModel = new MenuModel("Get Offline Pin", 0,false, false, View.VISIBLE);
-            childModelsList.add(childModel);
-        } else {
-            childModel = new MenuModel("Unlock", 0,false, false, View.GONE);
-            childModelsList.add(childModel);
-
-            childModel = new MenuModel("Get Pin", 0, false, false, View.GONE);
-            childModelsList.add(childModel);
-
-            childModel = new MenuModel("Get Offline Pin", 0,false, false, View.GONE);
-            childModelsList.add(childModel);
-        }
-
-        childModel = new MenuModel("Check Status", 0,false, false, View.VISIBLE);
+        childModel = new MenuModel("Activate", 0, false, false , View.GONE);
         childModelsList.add(childModel);
+
+        childModel = new MenuModel("Unlock", 0,false, false, View.GONE);
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Get Pin", 0, false, false, View.GONE);
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Get Offline Pin", 0,false, false, View.GONE);
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Check Status", 0,false, false, GONE);
+        childModelsList.add(childModel);
+
+        if (sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MOBILE_PHONE)){
+            childModelsList.get(0).setVisibility(VISIBLE);
+        } else if (sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
+            childModelsList.get(1).setVisibility(VISIBLE);
+            childModelsList.get(2).setVisibility(VISIBLE);
+            childModelsList.get(3).setVisibility(VISIBLE);
+        } else if(sessionManager.getDeptID().equalsIgnoreCase(DeptCode.CREDIT_SUPPORT_SERVICES)){
+            childModelsList.get(1).setVisibility(VISIBLE);
+            childModelsList.get(2).setVisibility(VISIBLE);
+            childModelsList.get(3).setVisibility(VISIBLE);
+        }
+
+        childModelsList.get(4).setVisibility(VISIBLE);
 
         if (menuModel.hasChildren) {
             listDataChild.put(menuModel, childModelsList);
@@ -169,18 +169,18 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if AreaHead Monitoring is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("AH Monitoring",  R.drawable.ic_menu_monitoring,true, true, View.VISIBLE);
+        menuModel = new MenuModel("AH Monitoring",  R.drawable.ic_menu_monitoring,true, true, VISIBLE);
         listDataHeader.add(menuModel);
-        childModel = new MenuModel("Branch Performance", 0, false, false , View.VISIBLE);
+        childModel = new MenuModel("Branch Performance", 0, false, false , VISIBLE);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Inventory", 0,false, false, View.VISIBLE);
+        childModel = new MenuModel("Inventory", 0,false, false, VISIBLE);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Cash Count", 0, false, false, View.VISIBLE);
+        childModel = new MenuModel("Cash Count", 0, false, false, VISIBLE);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Reimbursement", 0,false, false, View.VISIBLE);
+        childModel = new MenuModel("Reimbursement", 0,false, false, VISIBLE);
         childModelsList.add(childModel);
         if (menuModel.hasChildren) {
             listDataChild.put(menuModel, childModelsList);

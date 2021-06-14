@@ -19,6 +19,7 @@
     tools:context=".Fragment.Fragment_Unlock"
     android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
     android:background="@drawable/bg_gradient_light">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_header"
         android:layout_width="match_parent"
@@ -86,48 +87,12 @@
                 android:layout_marginBottom="20dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
-            android:id="@+id/lnCopyCode"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_knoxImei"
-            app:layout_constraintRight_toRightOf="parent">
-
-            <EditText
-                android:id="@+id/txt_KnoxPIN"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:maxLines="1"
-                android:maxLength="10"
-                android:gravity="center"
-                android:letterSpacing=".5"
-                android:backgroundTint="@color/guanzon_dark_grey"
-                android:textCursorDrawable="@null"
-                android:fontFamily="@font/roboto_medium"
-                android:enabled="false"
-                android:textColor="@color/guanzon_dark_grey"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:layout_marginBottom="30dp"/>
-
-            <ImageButton
-                android:id="@+id/btn_CopyToClipboard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".15"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:src="@drawable/ic_content_copy"/>
-
-        </LinearLayout>
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_knoxUnlock"
             style="@style/GhostRider_Button"
             android:text="Unlock"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lnCopyCode"
+            app:layout_constraintTop_toBottomOf="@id/til_knoxImei"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

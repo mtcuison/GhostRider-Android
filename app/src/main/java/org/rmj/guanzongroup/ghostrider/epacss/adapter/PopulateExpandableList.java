@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Browser;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationHistory;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
@@ -189,7 +190,9 @@ public class PopulateExpandableList {
                                 context.startActivity(intent);
                                 break;
                             case 3:
-
+                                intent = new Intent(parent.getContext(), Activity_Browser.class);
+                                intent.putExtra("url_link", "https://www.google.com/webhp?hl=ceb&sa=X&ved=0ahUKEwj0ne24tI7xAhV8yIsBHbQ7Az0QPAgI");
+                                context.startActivity(intent);
                                 break;
                         }
                         break;

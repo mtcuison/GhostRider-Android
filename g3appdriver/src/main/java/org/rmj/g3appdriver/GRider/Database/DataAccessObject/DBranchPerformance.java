@@ -19,6 +19,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 
 import java.util.List;
@@ -43,4 +44,7 @@ public interface DBranchPerformance {
 
     @Query("DELETE FROM MC_Branch_Performance")
     void deleteAllBranchPerformanceInfo();
+
+    @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nMCActual * 100.0 / 100, 1) DESC LIMIT 5")
+    LiveData<List<EBranchPerformance>> getBranchPerformanceForDashBoard();
 }

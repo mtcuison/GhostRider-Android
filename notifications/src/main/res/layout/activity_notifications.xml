@@ -20,11 +20,6 @@
     android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".Activity.Activity_Notifications">
 
-<!--    <androidx.appcompat.widget.Toolbar-->
-<!--        android:id="@+id/toolbar_notification"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:background="@color/material_tool_bar"-->
-<!--        android:layout_height="?android:attr/actionBarSize"/>-->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

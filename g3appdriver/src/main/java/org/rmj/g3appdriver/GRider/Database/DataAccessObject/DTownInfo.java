@@ -17,6 +17,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RoomWarnings;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
@@ -66,6 +67,7 @@ public interface DTownInfo {
             "    a.sProvIDxx = b.sProvIDxx AND a.sTownIDxx = c.sTownIDxx AND c.sBrgyIDxx =:BrgyID")
     LiveData<BrgyTownProvinceInfo> getBrgyTownProvinceInfo(String BrgyID);
 
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT a.sTownName, b.sProvName FROM Town_Info a INNER JOIN Province_Info b ON \n" +
             "a.sProvIDxx = b.sProvIDxx AND a.sTownIDxx  =:townID")
     LiveData<BrgyTownProvinceInfo> getTownProvinceInfo(String townID);

@@ -17,6 +17,8 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RewriteQueriesToDropUnusedColumns;
+import androidx.room.RoomWarnings;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
@@ -73,6 +75,7 @@ public interface DCreditApplication {
     @Query("SELECT * FROM Credit_Online_Application WHERE cSendStat <> '1'")
     List<ECreditApplication> getUnsentLoanApplication();
 
+    @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM Credit_Online_Application WHERE sTransNox =:TransNox")
     List<ApplicationLog> getDuplicateTransNox(String TransNox);
 
@@ -119,6 +122,7 @@ public interface DCreditApplication {
         public String sFileLoct;
     }
 
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT a.sGOCASNox," +
             "a.sTransNox," +
             "b.sBranchNm," +

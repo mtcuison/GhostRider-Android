@@ -16,41 +16,46 @@
 
     <LinearLayout
         android:id="@+id/cv_sender_message"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="70dp"
-        android:layout_marginEnd="70dp"
-        android:orientation="vertical"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="100dp"
+        android:layout_marginEnd="100dp"
         android:layout_gravity="start"
-        android:visibility="gone"
-        android:layout_margin="3dp">
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="bottom|start">
+            android:gravity="bottom|start"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_user_profile"/>
+                android:src="@drawable/ic_user_profile" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="3dp"
                 app:cardBackgroundColor="@color/guanzon_orange"
                 app:cardCornerRadius="10dp"
-                app:cardPreventCornerOverlap="true"
-                android:layout_marginLeft="3dp"
-                android:layout_marginStart="5dp">
+                app:cardPreventCornerOverlap="true">
 
                 <TextView
                     android:id="@+id/lbl_sender_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColor_Black"
-                    android:padding="10dp"/>
+                    android:padding="10dp"
+                    android:textColor="@color/textColor_Black" />
 
             </androidx.cardview.widget.CardView>
 
@@ -60,10 +65,10 @@
             android:id="@+id/lbl_messageDateTimeSndr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:gravity="end"
             android:textColor="@color/textColor_Black"
             android:textSize="12sp"
-            android:gravity="end"/>
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -71,17 +76,22 @@
         android:id="@+id/cv_recipient_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="70dp"
-        android:layout_marginStart="70dp"
-        android:layout_alignParentRight="true"
         android:layout_below="@id/cv_sender_message"
-        android:layout_margin="3dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="3dp"
         android:visibility="gone"
-        android:layout_alignParentEnd="true">
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="bottom|end"
             android:orientation="horizontal">
@@ -97,8 +107,8 @@
                     android:id="@+id/lbl_recipient_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColor_Black"
-                    android:padding="10dp"/>
+                    android:padding="10dp"
+                    android:textColor="@color/textColor_Black" />
 
             </androidx.cardview.widget.CardView>
 
@@ -108,10 +118,10 @@
             android:id="@+id/lbl_messageDateTimeRcpt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:textSize="12sp"
+            android:gravity="start"
             android:textColor="@color/textColor_Black"
-            android:gravity="start"/>
+            android:textSize="12sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 

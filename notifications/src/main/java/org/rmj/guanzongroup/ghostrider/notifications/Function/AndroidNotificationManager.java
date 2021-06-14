@@ -24,9 +24,11 @@ import org.rmj.emm.EMM;
 import org.rmj.emm.EMMFactory;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationUser;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchOpeningMonitor;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -60,6 +62,7 @@ public class AndroidNotificationManager {
         private final HttpHeaders poHeaders;
         private final RNotificationInfo poNotification;
         private final GConnection loDbConn;
+        private final RBranchOpeningMonitor poOpening;
 
         public SendResponseTask(Application application, RemoteMessage remoteMessage) {
             this.instance = application;
@@ -68,6 +71,7 @@ public class AndroidNotificationManager {
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poNotification = new RNotificationInfo(instance);
             this.loDbConn = DbConnection.doConnect(instance);
+            this.poOpening = new RBranchOpeningMonitor(instance);
         }
 
         @SuppressLint("NewApi")
@@ -118,6 +122,17 @@ public class AndroidNotificationManager {
                     instance.setConnection(loDbConn); //pass the iGConnection here
                     instance.setData(lsValue);
                     if (!instance.execute()) System.err.println(instance.getMessage());
+                } else if("00002".equalsIgnoreCase(loJSON.getString("module"))){
+                    JSONObject loData = loJSON.getJSONObject("data");
+                    EBranchOpenMonitor loMonitor = new EBranchOpenMonitor();
+                    loMonitor.setBranchCD(loData.getString("sBranchCD"));
+                    loMonitor.setTransact(loData.getString("dTransact"));
+                    loMonitor.setTimeOpen(loData.getString("sTimeOpen"));
+                    loMonitor.setOpenNowx(loData.getString("sOpenNowx"));
+                    loMonitor.setSendDate(loData.getString("dSendDate"));
+                    loMonitor.setNotified(loData.getString("dNotified"));
+                    loMonitor.setTimeStmp(loData.getString("dTimeStmp"));
+                    poOpening.insert(loMonitor);
                 }
 
                 if(loConn.isDeviceConnected()){

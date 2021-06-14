@@ -24,18 +24,23 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMObApplication;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class Fragment_ObApplication extends Fragment {
 
@@ -46,6 +51,7 @@ public class Fragment_ObApplication extends Fragment {
     private LinearLayout lnWithLog;
     private TextInputEditText txtDateFrom,
                                 txtDateTo,
+                                txtNoDays,
                                 txtTimeInAM,
                                 txtTimeOutAM,
                                 txtTimeInPM,
@@ -67,6 +73,7 @@ public class Fragment_ObApplication extends Fragment {
         lnWithLog = view.findViewById(R.id.linear_ObLog);
         txtDateFrom = view.findViewById(R.id.txt_dateFrom);
         txtDateTo = view.findViewById(R.id.txt_dateTo);
+        txtNoDays = view.findViewById(R.id.txt_noOfDays);
         txtTimeInAM = view.findViewById(R.id.txt_timeInAM);
         txtTimeOutAM = view.findViewById(R.id.txt_timeOutAM);
         txtTimeInPM = view.findViewById(R.id.txt_timeInPM);
@@ -91,32 +98,45 @@ public class Fragment_ObApplication extends Fragment {
             }
         });
 
+
         txtDateFrom.setOnClickListener(v -> {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-            final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    Calendar newDate = Calendar.getInstance();
-                    newDate.set(year, month, dayOfMonth);
-                    txtDateFrom.setText(dateFormatter.format(newDate.getTime()));
-                }
+            final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, month, dayOfMonth);
+                txtDateFrom.setText(dateFormatter.format(newDate.getTime()));
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
             dateFrom.show();
         });
 
         txtDateTo.setOnClickListener(v -> {
-            final Calendar newCalendar = Calendar.getInstance();
-            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-            final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            if(!Objects.requireNonNull(txtDateFrom.getText()).toString().isEmpty()) {
+                final Calendar newCalendar = Calendar.getInstance();
+                @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+                final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
                     Calendar newDate = Calendar.getInstance();
                     newDate.set(year, month, dayOfMonth);
-                    txtDateTo.setText(dateFormatter.format(newDate.getTime()));
-                }
-            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-            dateFrom.show();
+                    try {
+                        Date dateFrom1 = dateFormatter.parse(Objects.requireNonNull(txtDateFrom.getText()).toString());
+                        Date dateTo = newDate.getTime();
+                        assert dateFrom1 != null;
+                        if (dateFrom1.before(dateTo)) {
+                            txtDateTo.setText(dateFormatter.format(newDate.getTime()));
+                            long diff = dateTo.getTime() - dateFrom1.getTime();
+                            long noOfDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+                            txtNoDays.setText(""+ Integer.parseInt(String.valueOf(noOfDays)));
+                        } else {
+                            GToast.CreateMessage(getActivity(), "Invalid date selected.", GToast.ERROR).show();
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                dateFrom.show();
+            } else {
+                GToast.CreateMessage(getActivity(), "Select start date first.", GToast.ERROR).show();
+            }
         });
     }
 

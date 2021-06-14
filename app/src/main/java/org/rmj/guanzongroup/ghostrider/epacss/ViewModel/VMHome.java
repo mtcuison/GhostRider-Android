@@ -21,10 +21,16 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchOpenMonitor;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RAreaPerformance;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchOpeningMonitor;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 
@@ -42,6 +48,10 @@ public class VMHome extends AndroidViewModel {
     private final MutableLiveData<Integer> cv_ahMonitoring = new MutableLiveData<>();
     private final MutableLiveData<Integer> userLvl = new MutableLiveData<>();
     private final RAreaPerformance poDatabse;
+    private final RNotificationInfo poNotification;
+    private final RBranchOpeningMonitor poOpening;
+    private final RBranchPerformance poBranch;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     public VMHome(@NonNull Application application) {
         super(application);
@@ -49,7 +59,10 @@ public class VMHome extends AndroidViewModel {
         poEmploye = new REmployee(application);
         psMobleNo.setValue(new Telephony(application).getMobilNumbers());
         poDatabse = new RAreaPerformance(application);
+        this.poNotification = new RNotificationInfo(application);
         this.cv_ahMonitoring.setValue(View.GONE);
+        this.poOpening = new RBranchOpeningMonitor(application);
+        this.poBranch = new RBranchPerformance(application);
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){
@@ -63,6 +76,19 @@ public class VMHome extends AndroidViewModel {
     public LiveData<List<EAreaPerformance>> getAreaPerformanceInfoList(){
         return poDatabse.getAreaPerformanceInfoList();
     }
+
+    public LiveData<String> getUserAreaCodeForDashboard(){
+        return poEmploye.getUserAreaCodeForDashboard();
+    }
+
+    public LiveData<List<EBranchPerformance>> getBranchPerformance(){
+        return poBranch.getBranchPerformanceForDashBoard();
+    }
+
+    public LiveData<List<EAreaPerformance>> getAreaPerformanceDashboard(){
+        return poDatabse.getAreaPerformanceDashboard();
+    }
+
     public void setIntUserLvl(int userLvl){
         try {
             if(userLvl == 4){
@@ -82,5 +108,13 @@ public class VMHome extends AndroidViewModel {
     }
     public LiveData<Integer> getCv_ahMonitoring(){
         return cv_ahMonitoring;
+    }
+
+    public LiveData<Integer> getUnreadMessagesCount(){
+        return poNotification.getUnreadMessagesCount();
+    }
+
+    public LiveData<List<EBranchOpenMonitor>> getBranchOpeningMonitor(){
+        return poOpening.getBranchOpeningForDashBoard(AppConstants.CURRENT_DATE);
     }
 }
