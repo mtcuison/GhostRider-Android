@@ -30,6 +30,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCIEvaluation;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCashCount;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCountryInfo;
@@ -69,6 +70,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECashCount;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECodeApproval;
@@ -152,7 +154,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         EGLocatorSysLog.class,
         ERelation.class,
         ENNDMRequest.class,
-        EAppConfig.class}, version = 1, exportSchema = false)
+        EAppConfig.class,
+        ECashCount.class}, version = 1, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -198,6 +201,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DLocatorSysLog locatorSysLogDao();
     public abstract DNNDMRequest nndmRequestDao();
     public abstract DAppConfig appConfigDao();
+    public abstract DCashCount CashCountDao();
 
     public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){
