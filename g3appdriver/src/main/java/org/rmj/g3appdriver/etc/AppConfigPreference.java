@@ -34,6 +34,8 @@ public class AppConfigPreference {
     private static final String APP_FIREBASE_TOKEN = "Firebase_Token";
     private static final String DCP_CustomerRebate = "DCP_CustomerRebate";
     private static final String DCP_PRNox = "DCP_PR_Noxxx";
+    private static final String Application_Agreement = "TermAndConditions";
+    private static final String MobileNo = "Mobile_Number";
     private static boolean isAgreedOnTerms = false;
 
     private static AppConfigPreference mAppConfigPreference;
@@ -150,8 +152,26 @@ public class AppConfigPreference {
         return lsPrNox;
     }
 
+    public void setAgreement(boolean isAgree){
+        editor.putBoolean(Application_Agreement, isAgree);
+        editor.commit();
+    }
+
+    public boolean isAgreedOnTermsAndConditions(){
+        return pref.getBoolean(Application_Agreement, false);
+    }
+
     public boolean isAgreedOnTerms() {
         return isAgreedOnTerms;
+    }
+
+    public String getMobileNo(){
+        return pref.getString(MobileNo, "");
+    }
+
+    public void setMobileNo(String mobileNo){
+        editor.putString(MobileNo, mobileNo);
+        editor.commit();
     }
 
     public void setIsAgreedOnTerms(boolean isAgreed) {

@@ -161,6 +161,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
 
                                 @Override
                                 public void onFailedResult(String message) {
+                                    poDialogx.dismiss();
                                     poMessage.initDialog();
                                     poMessage.setTitle("Loan Application");
                                     poMessage.setMessage(message);

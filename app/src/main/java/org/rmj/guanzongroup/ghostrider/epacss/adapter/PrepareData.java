@@ -76,7 +76,7 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if Credit App is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("Credit Application",  R.drawable.ic_menu_creditapp, true, true , View.GONE);
+        menuModel = new MenuModel("Credit Application",  R.drawable.ic_menu_creditapp, true, true , GONE);
         listDataHeader.add(menuModel);
 
         childModel = new MenuModel("Loan Application", 0, false, false , VISIBLE);
@@ -99,7 +99,7 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if CI Evaluator is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("CI Evaluation",  R.drawable.ic_menu_credit_investigate,true, true, View.GONE);
+        menuModel = new MenuModel("CI Evaluation",  R.drawable.ic_menu_credit_investigate,true, true, GONE);
         listDataHeader.add(menuModel);
         childModel = new MenuModel("CI Evaluation List", 0, false, false , VISIBLE);
         childModelsList.add(childModel);
@@ -112,7 +112,7 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if PET Manager is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("PET Manager",  R.drawable.ic_approval_biometric,true, true, VISIBLE);
+        menuModel = new MenuModel("PET Manager",  R.drawable.ic_approval_biometric,true, true, GONE);
         listDataHeader.add(menuModel);
 
         childModel = new MenuModel("Leave Application", 0, false, false , VISIBLE);
@@ -169,7 +169,7 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if AreaHead Monitoring is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("AH Monitoring",  R.drawable.ic_menu_monitoring,true, true, VISIBLE);
+        menuModel = new MenuModel("AH Monitoring",  R.drawable.ic_menu_monitoring,true, true, GONE);
         listDataHeader.add(menuModel);
         childModel = new MenuModel("Branch Performance", 0, false, false , VISIBLE);
         childModelsList.add(childModel);

@@ -60,10 +60,11 @@ public class DataImportService extends JobService {
         return true;
     }
 
+
     private void doBackgroundTask(JobParameters params) {
         ImportInstance[]  importInstances = {
-                new Import_AreaPerformance(getApplication()),
-                new Import_BranchPerformance(getApplication()),
+//                new Import_AreaPerformance(getApplication()),
+//                new Import_BranchPerformance(getApplication()),
                 new Import_BankList(getApplication()),
                 new ImportFileCode(getApplication()),
                 new Import_Relation(getApplication()),

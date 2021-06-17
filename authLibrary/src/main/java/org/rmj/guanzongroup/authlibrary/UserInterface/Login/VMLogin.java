@@ -10,10 +10,12 @@
  */
 package org.rmj.guanzongroup.authlibrary.UserInterface.Login;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -26,6 +28,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -41,6 +44,8 @@ public class VMLogin extends AndroidViewModel {
     private final HttpHeaders headers;
     private final ConnectionUtil conn;
     private final SessionManager session;
+    private final AppConfigPreference poConfig;
+    private final Telephony poTlphony;
 
     public VMLogin(@NonNull Application application) {
         super(application);
@@ -50,10 +55,36 @@ public class VMLogin extends AndroidViewModel {
         headers = HttpHeaders.getInstance(application);
         conn = new ConnectionUtil(application);
         session = new SessionManager(application);
+        poConfig = AppConfigPreference.getInstance(application);
+        poTlphony = new Telephony(application);
+    }
+
+    @SuppressLint("NewApi")
+    public String getMobileNo(){
+        return poTlphony.getMobilNumbers();
+    }
+
+    public int hasMobileNo(){
+        if(poConfig.getMobileNo().equalsIgnoreCase("")) {
+            return View.VISIBLE;
+        }
+        return View.GONE;
+    }
+
+    public boolean isAgreed(){
+        return poConfig.isAgreedOnTermsAndConditions();
+    }
+
+    public void setAgreedOnTerms(boolean isAgreed){
+        poConfig.setAgreement(isAgreed);
     }
 
     public void Login(final UserAuthInfo authInfo, LoginCallback callback){
+        authInfo.setMobileValidity(poConfig.getMobileNo().isEmpty());
         if(authInfo.isAuthInfoValid()) {
+            if(poConfig.getMobileNo().isEmpty()) {
+                poConfig.setMobileNo(authInfo.getMobileNo());
+            }
             JSONObject params = new JSONObject();
             try {
                 params.put("user", authInfo.getEmail());
@@ -101,7 +132,7 @@ public class VMLogin extends AndroidViewModel {
             String response = "";
             try {
                 response = WebClient.httpsPostJSon(webApi.URL_AUTH_EMPLOYEE(), authInfo[0].toString(), headers.getHeaders());
-                if(!poConfig.isAgreedOnTerms()) {
+                if(!poConfig.isAgreedOnTermsAndConditions()) {
                     JSONObject loJsonx = new JSONObject();
                     JSONObject loError = new JSONObject();
                     loError.put("message", "Please agree on terms and conditions before login.");
@@ -112,6 +143,7 @@ public class VMLogin extends AndroidViewModel {
                 }
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
+                response = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage() + "\n Please check your internet.");
             }
             return response;
         }

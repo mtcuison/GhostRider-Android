@@ -33,7 +33,6 @@
             android:gravity="center"
             android:text="50%"/>
 
-
         <org.rmj.g3appdriver.etc.ProgressBar.VerticalProgressBar
             android:id="@+id/progress_monitor"
             android:layout_width="65dp"

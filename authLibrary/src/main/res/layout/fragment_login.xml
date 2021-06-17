@@ -18,7 +18,7 @@
     android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
     android:background="@drawable/bg_gradient_light"
     android:paddingHorizontal="30dp"
-    android:paddingVertical="15dp"
+    android:paddingVertical="5dp"
     tools:context=".UserInterface.Login.Fragment_Login">
 
     <ImageView
@@ -106,6 +106,28 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_loginMobileNo"
+            style="@style/TextInputStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_MobileNo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/til_loginPassword"
+            app:layout_constraintWidth_percent="0.9">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_loginMobileNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:imeOptions="actionDone"
+                android:inputType="number|none"
+                android:maxLength="11" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <TextView
             android:id="@+id/tvForgotPassword"
             android:layout_width="0dp"
@@ -115,8 +137,8 @@
             android:fontFamily="@font/roboto"
             android:textSize="13sp"
             android:textColor="@color/textview_link_color"
-            app:layout_constraintEnd_toEndOf="@id/til_loginPassword"
-            app:layout_constraintTop_toBottomOf="@id/til_loginPassword" />
+            app:layout_constraintEnd_toEndOf="@id/til_loginMobileNo"
+            app:layout_constraintTop_toBottomOf="@id/til_loginMobileNo" />
 
         <TextView
             android:id="@+id/tvCreateAccount"
@@ -127,8 +149,8 @@
             android:fontFamily="@font/roboto"
             android:textSize="13sp"
             android:textColor="@color/textview_link_color"
-            app:layout_constraintStart_toStartOf="@id/til_loginPassword"
-            app:layout_constraintTop_toBottomOf="@id/til_loginPassword" />
+            app:layout_constraintStart_toStartOf="@id/til_loginMobileNo"
+            app:layout_constraintTop_toBottomOf="@id/til_loginMobileNo" />
 
 
         <LinearLayout
@@ -140,7 +162,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvForgotPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/btn_login"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="10dp">
 
             <CheckBox
                 android:id="@+id/cbAgree"

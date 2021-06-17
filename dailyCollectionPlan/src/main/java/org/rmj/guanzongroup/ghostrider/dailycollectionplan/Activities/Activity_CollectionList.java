@@ -402,126 +402,16 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 e.printStackTrace();
             }
         } else if(item.getItemId() == R.id.action_menu_post_collection){
-            boolean hasUnTag = false;
-            if(plDetail.size()>0){
-                for(int x = 0; x < plDetail.size(); x++){
-                    if(plDetail.get(x).sRemCodex == null){
-                        hasUnTag = true;
-                    }
-                }
-            }
-            if(hasUnTag){
-                DialogConfirmPost loPost = new DialogConfirmPost(Activity_CollectionList.this);
-                loPost.iniDialog(new DialogConfirmPost.DialogPostUnfinishedListener() {
-                    @Override
-                    public void OnConfirm(AlertDialog dialog, String Remarks) {
-                        dialog.dismiss();
-                        mViewModel.PostLRCollectionDetail(Remarks, new ViewModelCallback() {
-                            @Override
-                            public void OnStartSaving() {
-                                poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
-                                poDialogx.show();
-                            }
-
-                            @Override
-                            public void OnSuccessResult(String[] args) {
-                                poDialogx.dismiss();
-                                poMessage.initDialog();
-                                poMessage.setTitle("Daily Collection Plan");
-                                poMessage.setMessage(args[0]);
-                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                poMessage.show();
-                            }
-
-                            @Override
-                            public void OnFailedResult(String message) {
-                                poDialogx.dismiss();
-                                poMessage.initDialog();
-                                poMessage.setTitle("Daily Collection Plan");
-                                poMessage.setMessage(message);
-                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                poMessage.show();
-                            }
-                        });
-
-                        mViewModel.getExportDataList(Remarks, new VMCollectionList.FileManagerCallBack() {
-                            @Override
-                            public void OnJSONCreated(JSONObject loJson) {
-                                if(exportCollectionList(loJson)) {
-                                    Log.e("Success","Success");
-                                } else {
-                                    Log.e("Failed","Failed");
-                                }
-                            } @Override
-                            public void OnStartSaving() {
-                            }
-
-                            @Override
-                            public void OnSuccessResult(String[] args) {
-                            }
-
-                            @Override
-                            public void OnFailedResult(String message) {
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void OnCancel(AlertDialog dialog) {
-                        dialog.dismiss();
-                    }
-                });
-                loPost.show();
-            } else {
-                mViewModel.PostLRCollectionDetail("", new ViewModelCallback() {
-                    @Override
-                    public void OnStartSaving() {
-                        poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
-                        poDialogx.show();
-                    }
-
-                    @Override
-                    public void OnSuccessResult(String[] args) {
-                        poDialogx.dismiss();
-                        poMessage.initDialog();
-                        poMessage.setTitle("Daily Collection Plan");
-                        poMessage.setMessage(args[0]);
-                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                        poMessage.show();
-                    }
-
-                    @Override
-                    public void OnFailedResult(String message) {
-                        poDialogx.dismiss();
-                        poMessage.initDialog();
-                        poMessage.setTitle("Daily Collection Plan");
-                        poMessage.setMessage(message);
-                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                        poMessage.show();
-                    }
-                });
-
-                mViewModel.getExportDataList("", new VMCollectionList.FileManagerCallBack() {
-                    @Override
-                    public void OnJSONCreated(JSONObject loJson) {
-                        if(exportCollectionList(loJson)) {
-                            Log.e("Success","Success");
-                        } else {
-                            Log.e("Failed","Failed");
-                        }
-                    } @Override
-                    public void OnStartSaving() {
-                    }
-
-                    @Override
-                    public void OnSuccessResult(String[] args) {
-                    }
-
-                    @Override
-                    public void OnFailedResult(String message) {
-                    }
-                });
-            }
+            poMessage.initDialog();
+            poMessage.setPositiveButton("Post", (view, dialog) -> {
+                dialog.dismiss();
+                postDCPTransaction();
+            });
+            poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            poMessage.setTitle("Daily Collection Plan");
+            poMessage.setMessage("Continue posting DCP transactions? \n" +
+                    "NOTE: Once posted records are unable to update.");
+            poMessage.show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -688,6 +578,129 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    private void postDCPTransaction(){
+        boolean hasUnTag = false;
+        if(plDetail.size()>0){
+            for(int x = 0; x < plDetail.size(); x++){
+                if(plDetail.get(x).sRemCodex == null){
+                    hasUnTag = true;
+                }
+            }
+        }
+        if(hasUnTag){
+            DialogConfirmPost loPost = new DialogConfirmPost(Activity_CollectionList.this);
+            loPost.iniDialog(new DialogConfirmPost.DialogPostUnfinishedListener() {
+                @Override
+                public void OnConfirm(AlertDialog dialog, String Remarks) {
+                    dialog.dismiss();
+                    mViewModel.PostLRCollectionDetail(Remarks, new ViewModelCallback() {
+                        @Override
+                        public void OnStartSaving() {
+                            poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
+                            poDialogx.show();
+                        }
+
+                        @Override
+                        public void OnSuccessResult(String[] args) {
+                            poDialogx.dismiss();
+                            poMessage.initDialog();
+                            poMessage.setTitle("Daily Collection Plan");
+                            poMessage.setMessage(args[0]);
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                            poMessage.show();
+                        }
+
+                        @Override
+                        public void OnFailedResult(String message) {
+                            poDialogx.dismiss();
+                            poMessage.initDialog();
+                            poMessage.setTitle("Daily Collection Plan");
+                            poMessage.setMessage(message);
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                            poMessage.show();
+                        }
+                    });
+
+                    mViewModel.getExportDataList(Remarks, new VMCollectionList.FileManagerCallBack() {
+                        @Override
+                        public void OnJSONCreated(JSONObject loJson) {
+                            if(exportCollectionList(loJson)) {
+                                Log.e("Success","Success");
+                            } else {
+                                Log.e("Failed","Failed");
+                            }
+                        } @Override
+                        public void OnStartSaving() {
+                        }
+
+                        @Override
+                        public void OnSuccessResult(String[] args) {
+                        }
+
+                        @Override
+                        public void OnFailedResult(String message) {
+                        }
+                    });
+                }
+
+                @Override
+                public void OnCancel(AlertDialog dialog) {
+                    dialog.dismiss();
+                }
+            });
+            loPost.show();
+        } else {
+            mViewModel.PostLRCollectionDetail("", new ViewModelCallback() {
+                @Override
+                public void OnStartSaving() {
+                    poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
+                    poDialogx.show();
+                }
+
+                @Override
+                public void OnSuccessResult(String[] args) {
+                    poDialogx.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setMessage(args[0]);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+
+                @Override
+                public void OnFailedResult(String message) {
+                    poDialogx.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+            });
+
+            mViewModel.getExportDataList("", new VMCollectionList.FileManagerCallBack() {
+                @Override
+                public void OnJSONCreated(JSONObject loJson) {
+                    if(exportCollectionList(loJson)) {
+                        Log.e("Success","Success");
+                    } else {
+                        Log.e("Failed","Failed");
+                    }
+                } @Override
+                public void OnStartSaving() {
+                }
+
+                @Override
+                public void OnSuccessResult(String[] args) {
+                }
+
+                @Override
+                public void OnFailedResult(String message) {
+                }
+            });
         }
     }
 }

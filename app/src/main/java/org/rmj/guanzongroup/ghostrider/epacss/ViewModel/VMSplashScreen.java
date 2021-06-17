@@ -51,7 +51,7 @@ public class VMSplashScreen extends AndroidViewModel {
         poUserDbx = new REmployee(application);
         poConfigx = AppConfigPreference.getInstance(application);
         poSession = new SessionManager(application);
-        poConfigx.setTemp_ProductID("gRider");
+        poConfigx.setTemp_ProductID("IntegSys");
         poConfigx.setIsTesting(false);
         poConn = new ConnectionUtil(application);
         poToken = new AppTokenManager(application);

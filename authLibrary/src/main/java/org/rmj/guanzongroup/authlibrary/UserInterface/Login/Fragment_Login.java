@@ -44,8 +44,7 @@ public class Fragment_Login extends Fragment implements LoginCallback{
     private static final String TAG = Fragment_Login.class.getSimpleName();
     private VMLogin mViewModel;
     private LoadDialog dialog;
-    private AppConfigPreference poConfig;
-    private TextInputEditText tieEmail, tiePassword;
+    private TextInputEditText tieEmail, tiePassword, tieMobileNo;
 
     private TextView tvForgotPassword, tvCreateAccount, tvTerms;
     private MaterialButton btnLogin;
@@ -64,6 +63,7 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         navController = Navigation.findNavController(getActivity(), R.id.fragment_auth_container);
         tieEmail = v.findViewById(R.id.tie_loginEmail);
         tiePassword = v.findViewById(R.id.tie_loginPassword);
+        tieMobileNo = v.findViewById(R.id.tie_loginMobileNo);
         tvForgotPassword = v.findViewById(R.id.tvForgotPassword);
         tvTerms = v.findViewById(R.id.tvTerms);
         tvCreateAccount = v.findViewById(R.id.tvCreateAccount);
@@ -77,23 +77,18 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMLogin.class);
 
-        poConfig = AppConfigPreference.getInstance(getActivity());
-        if(poConfig.isAgreedOnTerms()) {
-            cbAgree.setVisibility(View.GONE);
-            tvTerms.setVisibility(View.INVISIBLE);
-        }
-        cbAgree.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked) {
-                poConfig.setIsAgreedOnTerms(true);
-            } else {
-                poConfig.setIsAgreedOnTerms(false);
-            }
-        });
+        tieMobileNo.setText(mViewModel.getMobileNo());
+        tieMobileNo.setVisibility(mViewModel.hasMobileNo());
+
+        cbAgree.setChecked(mViewModel.isAgreed());
+
+        cbAgree.setOnCheckedChangeListener((buttonView, isChecked) -> mViewModel.setAgreedOnTerms(isChecked));
 
         btnLogin.setOnClickListener(view -> {
             String email = Objects.requireNonNull(tieEmail.getText()).toString();
             String password = Objects.requireNonNull(tiePassword.getText()).toString();
-            mViewModel.Login(new UserAuthInfo(email,password, ""), Fragment_Login.this);
+            String mobileNo = tieMobileNo.getText().toString();
+            mViewModel.Login(new UserAuthInfo(email,password, mobileNo), Fragment_Login.this);
         });
 
         tvCreateAccount.setOnClickListener(view -> navController.navigate(R.id.action_fragment_Login_to_fragment_CreateAccount));

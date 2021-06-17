@@ -43,6 +43,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchOpeningAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.Area;
@@ -197,17 +198,9 @@ public class Fragment_Home extends Fragment {
         mViewModel.getBranchPerformance().observe(getViewLifecycleOwner(), new Observer<List<EBranchPerformance>>() {
             @Override
             public void onChanged(List<EBranchPerformance> eBranchPerformances) {
-                List<Branch> branchList = new ArrayList<>();
-                for(int x = 0; x < eBranchPerformances.size(); x++){
-                    Branch branch = new Branch(eBranchPerformances.get(x).getBranchCd(),
-                            eBranchPerformances.get(x).getBranchNm(),
-                            String.valueOf(eBranchPerformances.get(x).getMCGoalxx()),
-                            String.valueOf(eBranchPerformances.get(x).getMCActual()));
-                    branchList.add(branch);
-                }
-                BranchMonitoringAdapter loAdapter = new BranchMonitoringAdapter(branchList, () -> {
-                    Intent loIntent = new Intent(getActivity(), Activity_Application.class);
-                    loIntent.putExtra("app", INTENT_BRANCH_MONITORING);
+                BranchMonitoringAdapter loAdapter = new BranchMonitoringAdapter(eBranchPerformances, () -> {
+                    Intent loIntent = new Intent(getActivity(), Activity_Monitoring.class);
+//                    loIntent.putExtra("app", INTENT_BRANCH_MONITORING);
                     startActivity(loIntent);
                 });
 

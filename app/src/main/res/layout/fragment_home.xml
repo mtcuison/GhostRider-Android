@@ -240,18 +240,91 @@
                                     android:layout_marginTop="10dp"
                                     android:textColor="@color/material_black" />
 
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"
-                                    android:background="@color/guanzon_orange" />
-
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/recyclerview_monitoring"
+                                <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:orientation="horizontal"
-                                    app:stackFromEnd="true"
-                                    android:layout_gravity="center_horizontal"/>
+                                    android:layout_marginTop="10dp">
+
+                                    <View
+                                        android:layout_width="2dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/black"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginStart="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginEnd="10dp"/>
+
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/recyclerview_monitoring"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        app:stackFromEnd="true"
+                                        android:layout_gravity="center_horizontal"/>
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="2dp"
+                                    android:background="@color/black"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginStart="10dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    android:layout_marginTop="5dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="Legend :"
+                                        android:textColor="@color/textColor_Black"
+                                        android:gravity="center"/>
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="SP Sales"
+                                        android:textColor="@color/textColor_Black"
+                                        android:drawableTint="#914615"
+                                        android:drawableLeft="@drawable/ic_rectangle_132"
+                                        android:drawableStart="@drawable/ic_rectangle_132"
+                                        android:drawablePadding="5dp"
+                                        tools:ignore="UnusedAttribute,UseCompatTextViewDrawableXml"/>
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="MC Sales"
+                                        android:textColor="@color/textColor_Black"
+                                        android:drawableTint="#14923E"
+                                        android:drawableLeft="@drawable/ic_rectangle_132"
+                                        android:drawableStart="@drawable/ic_rectangle_132"
+                                        android:drawablePadding="5dp"
+                                        tools:ignore="UnusedAttribute,UseCompatTextViewDrawableXml"/>
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="Job Order"
+                                        android:textColor="@color/textColor_Black"
+                                        android:drawableTint="#F88822"
+                                        android:drawableLeft="@drawable/ic_rectangle_132"
+                                        android:drawableStart="@drawable/ic_rectangle_132"
+                                        android:drawablePadding="5dp"
+                                        tools:ignore="UnusedAttribute,UseCompatTextViewDrawableXml" />
+
+                                </LinearLayout>
+
                             </LinearLayout>
 
                         </LinearLayout>
@@ -295,6 +368,7 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:layout_gravity="center_horizontal"/>
+
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>

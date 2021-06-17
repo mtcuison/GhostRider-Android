@@ -168,6 +168,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
             for(int x = 0; x < townProvinceInfos.size(); x++){
                 townProvince[x] = townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName;
             }
+
             ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, townProvince);
             txtTown.setAdapter(loAdapter);
         });
@@ -209,6 +210,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
             spnRequestCode.setAdapter(stringArrayAdapter);
             spnRequestCode.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
+
         btnSubmit.setOnClickListener(v ->{
             poMessage.initDialog();
             poMessage.setTitle("Customer Not Around");
