@@ -39,4 +39,29 @@ public class RBranchPerformance {
     public LiveData<List<EBranchPerformance>> getBranchPerformanceForDashBoard(){
         return branchPerformanceDao.getBranchPerformanceForDashBoard();
     }
+
+    public LiveData<List<EBranchPerformance>> getMCSalesBranchPerformanceASC(){
+        return branchPerformanceDao.getMCSalesBranchPerformanceASC();
+    }
+
+    public LiveData<List<EBranchPerformance>> getMCSalesBranchPerformanceDESC(){
+        return branchPerformanceDao.getMCSalesBranchPerformanceDESC();
+    }
+
+    public LiveData<List<EBranchPerformance>> getSPSalesBranchPerformanceASC(){
+        return branchPerformanceDao.getSPSalesBranchPerformanceASC();
+    }
+
+    public LiveData<List<EBranchPerformance>> getSPSalesBranchPerformanceDESC(){
+        return branchPerformanceDao.getSPSalesBranchPerformanceDESC();
+    }
+
+    public LiveData<List<EBranchPerformance>> getJOBranchPerformanceASC(){
+        return branchPerformanceDao.getJOBranchPerformanceASC();
+    }
+
+    public LiveData<List<EBranchPerformance>> getJOBranchPerformanceDESC(){
+        return branchPerformanceDao.getJOBranchPerformanceDESC();
+    }
+
 }

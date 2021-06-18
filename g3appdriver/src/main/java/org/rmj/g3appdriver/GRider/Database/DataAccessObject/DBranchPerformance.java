@@ -45,6 +45,24 @@ public interface DBranchPerformance {
     @Query("DELETE FROM MC_Branch_Performance")
     void deleteAllBranchPerformanceInfo();
 
-    @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nMCActual * 100.0 / 100, 1) DESC LIMIT 5")
+    @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nMCActual * 100.0 / 100, 1) DESC LIMIT 3")
     LiveData<List<EBranchPerformance>> getBranchPerformanceForDashBoard();
+
+    @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nMCActual * 100.0 / 100, 1) ASC")
+    LiveData<List<EBranchPerformance>> getMCSalesBranchPerformanceASC();
+
+    @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nMCActual * 100.0 / 100, 1) DESC")
+    LiveData<List<EBranchPerformance>> getMCSalesBranchPerformanceDESC();
+
+    @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nSPActual * 100.0 / 100, 1) ASC")
+    LiveData<List<EBranchPerformance>> getSPSalesBranchPerformanceASC();
+
+    @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nSPActual * 100.0 / 100, 1) DESC")
+    LiveData<List<EBranchPerformance>> getSPSalesBranchPerformanceDESC();
+
+    @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nJOGoalxx * 100.0 / 100, 1) ASC")
+    LiveData<List<EBranchPerformance>> getJOBranchPerformanceASC();
+
+    @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nJOGoalxx * 100.0 / 100, 1) DESC")
+    LiveData<List<EBranchPerformance>> getJOBranchPerformanceDESC();
 }

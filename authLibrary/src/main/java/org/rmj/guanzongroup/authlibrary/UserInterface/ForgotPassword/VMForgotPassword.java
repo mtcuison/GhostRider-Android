@@ -89,7 +89,7 @@ public class VMForgotPassword extends AndroidViewModel {
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";
             try {
-                response = new WebClient().httpsPostJSon(webApi.URL_REGISTRATION(), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
+                response = new WebClient().httpsPostJSon(webApi.URL_FORGOTPASSWORD(), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
                 Log.e(TAG, response);
             } catch (IOException e) {
                 e.printStackTrace();

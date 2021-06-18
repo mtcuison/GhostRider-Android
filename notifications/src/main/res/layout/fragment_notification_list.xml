@@ -75,7 +75,7 @@
                 android:layout_marginLeft="30dp"
                 android:background="@drawable/circular_imageview"
                 android:padding="10dp"
-                android:src="@drawable/ic_dashboard_messages" />
+                android:src="@drawable/ic_head_notification" />
 
         </RelativeLayout>
 

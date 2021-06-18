@@ -26,6 +26,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeContainer;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_AH_Dashboard;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_MessageList;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
@@ -39,7 +40,7 @@ public class Fragment_HomeContainer extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    private final Fragment[] fragment = {new Fragment_Home(),new Fragment_MessageList(),new Fragment_NotificationList()};
+    private final Fragment[] fragment = {new Fragment_AH_Dashboard(),new Fragment_MessageList(),new Fragment_NotificationList()};
 
     private final int[] toggled_icons = {R.drawable.ic_home_dashboard_toggled,
                                         R.drawable.ic_home_message_toggled,

@@ -63,11 +63,7 @@ public class HttpHeaders {
         String lsDevcIDx = poTlphony.getDeviceID();
         String lsDateTme = SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss");
         String lsDevcMdl = Build.MODEL;
-        String lsMobileN = null;
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
-            lsMobileN = poTlphony.getMobilNumbers();
-        }
+        String lsMobileN = poConfigx.getMobileNo();
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Accept", "application/json");

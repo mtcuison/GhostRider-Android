@@ -22,7 +22,7 @@ android {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 2
+        versionCode 4
         versionName "GhostRider Build v.1.0." + versionCode
         multiDexEnabled true
 

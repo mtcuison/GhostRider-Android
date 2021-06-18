@@ -30,7 +30,6 @@ import androidx.preference.SwitchPreferenceCompat;
 
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -56,10 +55,6 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
             chkUpdate,
             debugMode;
     private VMSettings mViewModel;
-    private GeoLocator poLocator;
-    private boolean isContinue = false;
-    private boolean isGPS = false;
-    private int PERMISION_PHONE_REQUEST_CODE = 103, PERMISION_CAMERA_REQUEST_CODE = 102, PERMISION_LOCATION_REQUEST_CODE = 104;
     private DatabaseExport dbExport;
     private MessageBox loMessage;
 
@@ -92,99 +87,82 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         mViewModel.getCameraSummary().observe(getViewLifecycleOwner(),s -> cameraPref.setSummary(s));
 
         if (themePreference != null) {
-            themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    Boolean themeOption = (Boolean) newValue;
-                    if (themeOption) {
-                        themePreference.getSummaryOn();
-                    } else {
-                        themePreference.getSummaryOff();
-                    }
-                    ThemeHelper.applyTheme(themeOption);
-                    return true;
+            themePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                Boolean themeOption = (Boolean) newValue;
+                if (themeOption) {
+                    themePreference.getSummaryOn();
+                } else {
+                    themePreference.getSummaryOff();
                 }
+                ThemeHelper.applyTheme(themeOption);
+                return true;
             });
         }
         if (cameraPref != null) {
-            cameraPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    if ((ActivityCompat.checkSelfPermission(getActivity(), CAMERA) != PackageManager.PERMISSION_GRANTED)) {
-                        mViewModel.getCamPermissions().observe(getViewLifecycleOwner(), strings -> {
-                            ActivityCompat.requestPermissions(getActivity(),strings, CAMERA_REQUEST);
-
-                        });
-                    }else {
-
-                        loMessage.initDialog();
-                        loMessage.setNegativeButton("Okay", (view, dialog) -> dialog.dismiss());
-                        loMessage.setTitle("GhostRider Permissions");
-                        loMessage.setMessage("You have already granted this permission.");
-                        loMessage.show();
-                    }
-                    return true;
+            cameraPref.setOnPreferenceClickListener(preference -> {
+                if ((ActivityCompat.checkSelfPermission(getActivity(), CAMERA) != PackageManager.PERMISSION_GRANTED)) {
+                    mViewModel.getCamPermissions().observe(getViewLifecycleOwner(), strings -> {
+                        ActivityCompat.requestPermissions(getActivity(),strings, CAMERA_REQUEST);
+                    });
+                }else {
+                    loMessage.initDialog();
+                    loMessage.setNegativeButton("Okay", (view, dialog) -> dialog.dismiss());
+                    loMessage.setTitle("GhostRider Permissions");
+                    loMessage.setMessage("You have already granted this permission.");
+                    loMessage.show();
                 }
+                return true;
             });
         }
 
         if (locationPref != null) {
-            locationPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS),LOCATION_REQUEST);
-                    return true;
-                }
+            locationPref.setOnPreferenceClickListener(preference -> {
+                startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS),LOCATION_REQUEST);
+                return true;
             });
         }
 
         if (phonePref != null) {
-            phonePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
+            phonePref.setOnPreferenceClickListener(preference -> {
+                if ((ActivityCompat.checkSelfPermission(getActivity(), READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)) {
+                    mViewModel.getPhPermissions().observe(getViewLifecycleOwner(), strings -> {
+                        ActivityCompat.requestPermissions(getActivity(),strings, STORAGE_REQUEST);
 
-                    if ((ActivityCompat.checkSelfPermission(getActivity(), READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)) {
-                        mViewModel.getPhPermissions().observe(getViewLifecycleOwner(), strings -> {
-                            ActivityCompat.requestPermissions(getActivity(),strings, STORAGE_REQUEST);
+                    });
+                }else {
 
-                        });
-                    }else {
-
-                        loMessage.initDialog();
-                        loMessage.setNegativeButton("Okay", (view, dialog) -> dialog.dismiss());
-                        loMessage.setTitle("GhostRider Permissions");
-                        loMessage.setMessage("You have already granted this permission.");
-                        loMessage.show();
-                    }
-                    return true;
+                    loMessage.initDialog();
+                    loMessage.setNegativeButton("Okay", (view, dialog) -> dialog.dismiss());
+                    loMessage.setTitle("GhostRider Permissions");
+                    loMessage.setMessage("You have already granted this permission.");
+                    loMessage.show();
                 }
+                return true;
             });
         }
         if (exportPref != null) {
-           exportPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-               @Override
-               public boolean onPreferenceClick(Preference preference) {
-                   try {
-                       mViewModel.isStoragePermissionGranted().observe(getViewLifecycleOwner(), isGranted -> {
-                          if (!isGranted){
-                              mViewModel.getStoragePermission().observe(getViewLifecycleOwner(), strings -> {
-                                  ActivityCompat.requestPermissions(getActivity(),strings, STORAGE_REQUEST);
-                              });
-                          }else {
+           exportPref.setOnPreferenceClickListener(preference -> {
+               try {
+                   mViewModel.isStoragePermissionGranted().observe(getViewLifecycleOwner(), isGranted -> {
+                      if (!isGranted){
+                          mViewModel.getStoragePermission().observe(getViewLifecycleOwner(), strings -> {
+                              ActivityCompat.requestPermissions(getActivity(),strings, STORAGE_REQUEST);
+                          });
+                      }else {
 
-                              showExportDialog(dbExport.export());
-                          }
-                       });
+                          showExportDialog(dbExport.export());
+                      }
+                   });
 
 
-                   }catch (SecurityException e){
-                       Log.e("Security Exception " , e.getMessage());
-                   }
-                   catch (Exception e){
-                       Log.e("Exception " , e.getMessage());
-                   }
-
-                   return false;
+               }catch (SecurityException e){
+                   Log.e("Security Exception " , e.getMessage());
                }
+               catch (Exception e){
+                   Log.e("Exception " , e.getMessage());
+               }
+
+               return false;
            });
         }
         if(localData != null){
@@ -205,14 +183,18 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
                 return false;
             });
         }
+
         if(debugMode != null){
+            SessionManager poUser = new SessionManager(getActivity());
+            AppConfigPreference poConfig = AppConfigPreference.getInstance(getActivity());
+            MessageBox loMessage = new MessageBox(getActivity());
+            if (!poUser.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
+                debugMode.setVisible(true);
+            } else {
+                debugMode.setVisible(true);
+            }
             debugMode.setOnPreferenceClickListener(preference -> {
-                SessionManager poUser = new SessionManager(getActivity());
-                AppConfigPreference poConfig = AppConfigPreference.getInstance(getActivity());
-                MessageBox loMessage = new MessageBox(getActivity());
-                if (!poUser.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
-                    GToast.CreateMessage(getActivity(), "This Feature is only for MIS testing.", GToast.INFORMATION).show();
-                } else if(!poConfig.isTesting_Phase()){
+                if(!poConfig.isTesting_Phase()){
                     loMessage.initDialog();
                     loMessage.setTitle("Android Testing");
                     loMessage.setMessage("GRider test mode is enabled.");
@@ -238,6 +220,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
                 }
                 return false;
             });
+
         }
     }
     @Override

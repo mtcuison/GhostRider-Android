@@ -45,6 +45,7 @@
         android:max="100"
         android:progress="0"
         android:progressTint="@color/guanzon_digital_orange"
+        android:progressBackgroundTint="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/tvCompany"
         app:layout_constraintDimensionRatio="85:1"
         app:layout_constraintEnd_toEndOf="parent"

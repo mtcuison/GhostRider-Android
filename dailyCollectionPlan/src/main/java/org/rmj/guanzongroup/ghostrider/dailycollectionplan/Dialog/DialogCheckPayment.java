@@ -35,7 +35,7 @@ public class DialogCheckPayment {
     private AlertDialog poDialogx;
     private final Context context;
 
-    private String lsBank;
+    private String lsBank = "";
 
     public interface OnCheckPaymentDialogListener{
         void OnConfirm(AlertDialog dialog, String bank, String date, String checkNo, String AcctNo);
@@ -74,7 +74,7 @@ public class DialogCheckPayment {
             String lsCheckNo = Objects.requireNonNull(txtCheckNo.getText()).toString();
             String lsAccntNo = Objects.requireNonNull(txtAccntNo.getText()).toString();
             if(lsBank.trim().isEmpty()){
-                GToast.CreateMessage(context, "Please enter bank name", GToast.ERROR).show();
+                GToast.CreateMessage(context, "Please select bank name on listed suggestions", GToast.ERROR).show();
             } else if(lsCheckDt.trim().isEmpty()){
                 GToast.CreateMessage(context, "Please enter check date", GToast.ERROR).show();
             } else if(lsCheckNo.trim().isEmpty()){

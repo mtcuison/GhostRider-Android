@@ -159,7 +159,6 @@ public class Activity_Settings extends AppCompatActivity {
                 Log.e("Storage Permission", String.valueOf(getStoragePermissionStatus(this, READ_EXTERNAL_STORAGE)));
 
             }
-
             default:
                 break;
         }

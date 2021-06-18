@@ -5,7 +5,15 @@
     <uses-permission android:name="ACCESS_FINE_LOCATION" />
 
     <application>
-        <activity android:name=".Activity.Activity_Browser"
+        <activity android:name=".Activity.Activity_PerformanceHistory"></activity>
+        <activity
+            android:name=".Activity.Activity_Monitoring"
+            android:label="AH Monitoring"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Activity.Activity_Browser"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" ></activity>
