@@ -42,6 +42,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DFileCode;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DLocatorSysLog;
@@ -85,6 +86,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
@@ -158,7 +160,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         ENNDMRequest.class,
         EAppConfig.class,
         ECashCount.class,
-        EBranchOpenMonitor.class}, version = 1, exportSchema = false)
+        EBranchOpenMonitor.class,
+        EEmployeeLeave.class}, version = 1, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -206,6 +209,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DAppConfig appConfigDao();
     public abstract DCashCount CashCountDao();
     public abstract DBranchOpeningMonitor openingMonitoryDao();
+    public abstract DEmployeeLeave employeeLeaveDao();
 
     public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){
