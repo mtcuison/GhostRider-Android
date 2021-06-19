@@ -34,12 +34,12 @@ public interface DDCPCollectionDetail {
 
     @Query("SELECT sAcctNmbr FROM LR_DCP_Collection_Detail " +
             "WHERE sAcctNmbr =:AccountNox " +
-            "AND sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1)")
+            "AND sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master ORDER BY dReferDte DESC LIMIT 1)")
     String getClientDuplicateAccNox(String AccountNox);
 
     @Query("SELECT sSerialNo FROM LR_DCP_Collection_Detail " +
             "WHERE sSerialNo =:SerialNox " +
-            "AND sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1)")
+            "AND sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master ORDER BY dReferDte DESC LIMIT 1)")
     String getClientDuplicateSerialNox(String SerialNox);
 
     /**
@@ -59,7 +59,7 @@ public interface DDCPCollectionDetail {
             "nLatitude = (SELECT a.nLatitude FROM Image_Information a LEFT JOIN LR_DCP_Collection_Detail b  ON a.sDtlSrcNo = sAcctNmbr WHERE a.sSourceNo = b.sTransNox), " +
             "dModified =:DateModified " +
             "WHERE sTransNox = (SELECT sTransNox " +
-            "FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1) " +
+            "FROM LR_DCP_Collection_Master ORDER BY dReferDte DESC LIMIT 1) " +
             "AND nEntryNox =:EntryNox")
     void updateCollectionDetailInfo(int EntryNox, String RemCode, String Remarks, String DateModified);
 
@@ -135,26 +135,26 @@ public interface DDCPCollectionDetail {
 
     @Query("SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail " +
             "WHERE sCheckNox <> '' AND  sCheckDte <> '' AND sCheckAct <> '' " +
-            "AND sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact)")
+            "AND sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dReferDte =:dTransact)")
     LiveData<String> getCollectedCheckTotalPayment(String dTransact);
 
     @Query("SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail " +
             "WHERE sCheckNox == '' AND  sCheckDte == '' AND sCheckAct == '' " +
-            "AND sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact)")
+            "AND sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dReferDte =:dTransact)")
     LiveData<String> getCollectedTotalPayment(String dTransact);
 
     @Query("SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail " +
-            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact)")
+            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dReferDte =:dTransact)")
     LiveData<String> getCollectedTotal(String dTransact);
 
 
     @Query("SELECT SUM(nAmountxx) FROM LR_DCP_Remittance " +
-            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dTransact =:dTransact)")
+            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dReferDte =:dTransact)")
     LiveData<String> getTotalRemittedPayment(String dTransact);
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +
             "WHERE sTransNox = (SELECT sTransNox FROM " +
-            "LR_DCP_Collection_Master WHERE dTransact =:dTransact) " +
+            "LR_DCP_Collection_Master WHERE dReferDte =:dTransact) " +
             "AND cTranStat = '2'")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailForDate(String dTransact);
 
@@ -164,11 +164,11 @@ public interface DDCPCollectionDetail {
     @Query("SELECT (SELECT COUNT(cTranStat) FROM LR_DCP_Collection_Detail " +
             "WHERE cTranStat <> '2' AND sTransNox = " +
             "(SELECT sTransNox FROM LR_DCP_Collection_Master " +
-            "WHERE dTransact =:dTransact)) - " +
+            "WHERE dReferDte =:dTransact)) - " +
             "(SELECT COUNT(cTranStat) FROM LR_DCP_Collection_Detail " +
             "WHERE cTranStat = 2 AND sTransNox = " +
             "(SELECT sTransNox FROM LR_DCP_Collection_Master " +
-            "WHERE dTransact =:dTransact))")
+            "WHERE dReferDte =:dTransact))")
     Integer getDCPStatus(String dTransact);
 
     @Query("SELECT a.sTransNox, " +

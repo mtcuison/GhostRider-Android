@@ -797,8 +797,8 @@ public class VMCollectionList extends AndroidViewModel {
                                     loJson.put("sTransNox", loDetail.sTransNox);
                                     loJson.put("nEntryNox", loDetail.nEntryNox);
                                     loJson.put("sAcctNmbr", loDetail.sAcctNmbr);
-                                    if (loDetail.sRemCodex == null) {
-                                        loJson.put("sRemCodex", "OTH");
+                                    if (loDetail.sRemCodex.isEmpty()) {
+                                        loJson.put("sRemCodex", "NV");
                                     } else {
                                         loJson.put("sRemCodex", loDetail.sRemCodex);
                                     }

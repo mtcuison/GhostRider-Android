@@ -119,10 +119,4 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         loMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         loMessage.show();
     }
-
-    private void requestFocus(View view){
-        if(view.requestFocus()){
-            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
-    }
 }
