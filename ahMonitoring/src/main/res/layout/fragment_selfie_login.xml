@@ -10,63 +10,108 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     tools:context=".Fragment.Fragment_SelfieLogin"
-    android:theme="@style/GhostRiderMaterialTheme"
-    android:padding="10dp">
+    android:theme="@style/GhostRiderMaterialTheme">
 
-    <ImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_ghostrider_logo_day"
-        android:alpha=".1"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_centerInParent="true">
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/img_userSelfie"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:src="@drawable/ic_guanzon_logo"
-            android:layout_marginBottom="20dp"/>
+            android:id="@+id/img_bg_guanzon_orange"
+            android:layout_width="0dp"
+            android:layout_height="190dp"
+            android:src="@drawable/bg_samsungknox"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
 
-        <TextView
-            android:id="@+id/lbl_employeeName"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto_black"
-            android:textColor="@color/material_black"
-            android:textSize="20sp" />
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias=".2">
 
-        <TextView
-            android:id="@+id/lbl_employeePosition"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/material_black" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selfie Login"
+                android:scrollHorizontally="false"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/white"
+                android:textSize="23sp"/>
 
-        <TextClock
-            android:id="@+id/lbl_textTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
-            android:format12Hour="hh:mm:ss a"
-            android:textColor="@color/material_black"
-            android:textSize="18sp"
-            tools:ignore="NewApi"
-            android:layout_margin="10dp"/>
+            <TextView
+                android:id="@+id/lbl_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dela Cruz, Josemari Joma, S."
+                android:scrollHorizontally="false"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/lbl_userPosition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DSA - Bookkeeper"
+                android:scrollHorizontally="false"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/lbl_userBranch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LGK Pozorrubio - Honda"
+                android:scrollHorizontally="false"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <TextClock
+                android:id="@+id/lbl_textTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:format12Hour="hh:mm:ss a"
+                android:text="08:00:00 AM"
+                android:textColor="@color/white"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="2dp"
+                android:layout_marginTop="8dp"
+                android:textSize="18sp"
+                tools:ignore="NewApi"
+                android:background="@drawable/bg_leavecredits"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_timeLog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:layout_above="@id/btn_takeSelfie"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_takeSelfie"
@@ -74,15 +119,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Take Selfie" />
+            android:text="Take Selfie"
+            app:icon="@drawable/ic_camera_24"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_timeLog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="10dp"/>
+    </RelativeLayout>
 
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

@@ -212,6 +212,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
         rgGarage.setOnCheckedChangeListener(new OnCIHouseSelectionListener(rgGarage,mViewModel));
         rgHasOthers.setOnCheckedChangeListener(new OnCIHouseSelectionListener(rgHasOthers,mViewModel));
         btnNext.setOnClickListener(v -> {
+
             submitResidence();
         });
     }

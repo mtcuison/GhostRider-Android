@@ -36,8 +36,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -46,27 +44,22 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Applicatio
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchOpeningAdapter;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.Area;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.Branch;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHome;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsModel;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.AreaMonitoringDashbordAdapter;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Container;
-import org.rmj.guanzongroup.ghostrider.settings.Activity_Settings;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.INTENT_AREA_MONITORING;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.INTENT_BRANCH_MONITORING;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.INTENT_BRANCH_OPENING;
 
 public class Fragment_Home extends Fragment {

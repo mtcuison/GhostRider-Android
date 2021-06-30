@@ -16,7 +16,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.Fragment_Reimbursement"
-    android:theme="@style/GhostRiderMaterialTheme">
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,14 +47,27 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias=".2">
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reimbursement"
+                    android:scrollHorizontally="false"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/white"
+                    android:textSize="23sp"/>
+
+                <TextView
+                    android:id="@+id/lbl_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dela Cruz, Josemari Joma, S."
                     android:scrollHorizontally="false"
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/white"
-                    android:textSize="23sp"/>
+                    android:textSize="20sp"
+                    android:layout_marginTop="10dp"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

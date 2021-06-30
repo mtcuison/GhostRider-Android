@@ -29,8 +29,6 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -39,7 +37,7 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Applicatio
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAHDashboard;
-import org.rmj.guanzongroup.ghostrider.settings.Activity_Settings;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
 public class Fragment_AH_Dashboard extends Fragment {
 
@@ -51,7 +49,8 @@ public class Fragment_AH_Dashboard extends Fragment {
             lblDept,
             lblBranch,
             lblAddx,
-            lblSelfie;
+            lblSelfie,
+            lblVersion;
 
     private MaterialButton btnSelfie, btnSettings, btnLogout;
 
@@ -71,6 +70,7 @@ public class Fragment_AH_Dashboard extends Fragment {
         lblBranch = view.findViewById(R.id.lbl_userBranch);
         lblAddx = view.findViewById(R.id.lbl_userAddress);
         lblSelfie = view.findViewById(R.id.lbl_badge_selfieLog);
+        lblVersion = view.findViewById(R.id.lbl_versionInfo);
 
         btnSelfie = view.findViewById(R.id.btn_selfieLogin);
         btnLogout = view.findViewById(R.id.btn_logout);
@@ -119,6 +119,8 @@ public class Fragment_AH_Dashboard extends Fragment {
                 lblSelfie.setBackground(getResources().getDrawable(R.drawable.bg_badge_red));
             }
         });
+
+        mViewModel.getVersionInfo().observe(getViewLifecycleOwner(), s -> lblVersion.setText(s));
 
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {

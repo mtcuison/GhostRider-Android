@@ -12,17 +12,21 @@ package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
 
+import org.rmj.appdriver.base.GConnection;
+import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DLocatorSysLog;
+import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 
 public class RLocationSysLog {
     private static final String TAG = "LocationSysLog";
-
+    private final Application instance;
     private final DLocatorSysLog sysLogDao;
 
     public RLocationSysLog(Application instance) {
+        this.instance = instance;
         sysLogDao = GGC_GriderDB.getInstance(instance).locatorSysLogDao();
     }
 
@@ -32,5 +36,16 @@ public class RLocationSysLog {
 
     public void updateSysLogStatus(String dTransact){
         sysLogDao.updateSysLogStatus(AppConstants.DATE_MODIFIED, dTransact);
+    }
+
+    public String getLocationCode(){
+        String lsNextCode = "";
+        try{
+            GConnection loConn = DbConnection.doConnect(instance);
+            lsNextCode = MiscUtil.getNextCode("GLocator_Sys_log", "sTransNox", true, loConn.getConnection(), "", 12, false);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return lsNextCode;
     }
 }

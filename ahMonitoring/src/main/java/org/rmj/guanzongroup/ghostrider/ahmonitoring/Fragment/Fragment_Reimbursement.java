@@ -92,6 +92,7 @@ public class Fragment_Reimbursement extends Fragment implements VMReimbursement.
                     loAdapter.notifyDataSetChanged();
                 }
             });
+
             recyclerView.setLayoutManager(lomanager);
             recyclerView.setAdapter(loAdapter);
         });

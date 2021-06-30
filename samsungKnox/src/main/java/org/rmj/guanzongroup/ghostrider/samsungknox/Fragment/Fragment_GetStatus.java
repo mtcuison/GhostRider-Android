@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.samsungknox.Fragment;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -47,6 +48,7 @@ public class Fragment_GetStatus extends Fragment implements ViewModelCallBack {
     private TextView lblDeviceID, lblStatus, lblDetails, lblLastUpdate;
     private TextInputEditText txtDeviceID;
     private MaterialButton btnCheck;
+    private ConstraintLayout consStatus;
     private LoadDialog dialog;
 
     public static Fragment_GetStatus newInstance() {
@@ -63,7 +65,7 @@ public class Fragment_GetStatus extends Fragment implements ViewModelCallBack {
         lblStatus = v.findViewById(R.id.lbl_knoxDeviceStatus);
         lblDetails = v.findViewById(R.id.lbl_knoxDetailStatus);
         lblLastUpdate = v.findViewById(R.id.lbl_knoxStatusDate);
-
+        consStatus = v.findViewById(R.id.cn_ShowStatus);
         txtDeviceID = v.findViewById(R.id.txt_knoxImei);
 
         btnCheck = v.findViewById(R.id.btn_knoxCheckStatus);
@@ -101,6 +103,7 @@ public class Fragment_GetStatus extends Fragment implements ViewModelCallBack {
     public void OnRequestSuccess(String args) {
         dialog.dismiss();
         try{
+            consStatus.setVisibility(View.VISIBLE);
             JSONObject loJson = new JSONObject(args);
             lblDeviceID.setText(Objects.requireNonNull(txtDeviceID.getText()).toString());
             lblStatus.setText(loJson.getString("deviceStatus"));

@@ -34,4 +34,8 @@ public class RRawData {
     public LiveData<DRawDao.McDPInfo> getDownpayment(String ModelID){
         return rawDao.getDownpayment(ModelID);
     }
+
+    public LiveData<DRawDao.AppLocalData> getAppLocalData(){
+        return rawDao.getAppLocalData();
+    }
 }

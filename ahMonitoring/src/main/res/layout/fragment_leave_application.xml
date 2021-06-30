@@ -16,8 +16,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.Fragment_LeaveApplication"
-    android:orientation="vertical"
-    android:theme="@style/GhostRiderMaterialTheme">
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_header"
@@ -44,6 +43,15 @@
             app:layout_constraintHorizontal_bias=".2">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Leave Application"
+                android:scrollHorizontally="false"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/white"
+                android:textSize="23sp"/>
+
+            <TextView
                 android:id="@+id/lbl_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,7 +59,8 @@
                 android:scrollHorizontally="false"
                 android:fontFamily="@font/roboto"
                 android:textColor="@color/white"
-                android:textSize="23sp"/>
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"/>
 
             <TextView
                 android:id="@+id/lbl_userPosition"
@@ -154,6 +163,7 @@
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
                 android:focusable="false"
+                android:text="0"
                 android:focusedByDefault="false"
                 android:inputType="textShortMessage"
                 style="@style/TextInputStyle.Edittext"
@@ -182,6 +192,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sBtnSubmitApp"

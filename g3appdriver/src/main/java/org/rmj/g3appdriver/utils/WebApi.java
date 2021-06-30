@@ -164,6 +164,7 @@ public class WebApi {
     public static String URL_IMPORT_FILE_CODE = "https://restgk.guanzongroup.com.ph/integsys/param/download_edoc_file_type.php";
     public static String URL_IMPORT_OCCUPATIONS = "https://restgk.guanzongroup.com.ph/integsys/param/download_occupation.php";
     public static String URL_SUBMIT_ONLINE_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/gocas/gocas_save.php";
+    public static String URL_IMPORT_RAFFLE_BASIS = "https://restgk.guanzongroup.com.ph/promo/param/download_raffle_entry_basis_all.php";
     public static String URL_REQUEST_ONLINE_APPLICATIONS = "https://restgk.guanzongroup.com.ph/integsys/gocas/gocas_request_status.php";
     public static String URL_IMPORT_ONLINE_APPLICATIONS = "https://restgk.guanzongroup.com.ph/integsys/gocas/gocas_request_application.php";
     public static String URL_IMPORT_C_I_APPLICATIONS = "https://restgk.guanzongroup.com.ph/integsys/";
@@ -200,4 +201,5 @@ public class WebApi {
     public static String URL_SEND_RESPONSE = "https://restgk.guanzongroup.com.ph/nmm/send_request.php";
     public static String URL_KWIKSEARCH = "https://restgk.guanzongroup.com.ph/integsys/paramqry/cash_count_rqst_officer.php";
 
+    public static String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gRider.apk";
 }

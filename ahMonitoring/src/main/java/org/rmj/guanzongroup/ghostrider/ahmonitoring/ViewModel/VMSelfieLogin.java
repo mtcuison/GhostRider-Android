@@ -24,10 +24,12 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLocationSysLog;
@@ -48,6 +50,7 @@ public class VMSelfieLogin extends AndroidViewModel {
     private final Application instance;
     private final RImageInfo poImage;
     private final RLogSelfie poLog;
+    private final RBranch pobranch;
 
     private final REmployee poUser;
 
@@ -60,13 +63,18 @@ public class VMSelfieLogin extends AndroidViewModel {
     public VMSelfieLogin(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poImage = new RImageInfo(application);
-        this.poUser = new REmployee(application);
-        this.poLog = new RLogSelfie(application);
+        this.poImage = new RImageInfo(instance);
+        this.poUser = new REmployee(instance);
+        this.poLog = new RLogSelfie(instance);
+        this.pobranch = new RBranch(instance);
     }
 
     public LiveData<EEmployeeInfo> getUserInfo(){
         return poUser.getUserInfo();
+    }
+
+    public LiveData<EBranchInfo> getUserBranchInfo(){
+        return pobranch.getUserBranchInfo();
     }
 
     public LiveData<List<ELog_Selfie>> getAllEmployeeTimeLog(){
@@ -133,10 +141,11 @@ public class VMSelfieLogin extends AndroidViewModel {
             String lsResult = "";
             try{
                 EGLocatorSysLog loSysLog = new EGLocatorSysLog();
+                loSysLog.setTransNox(poSysLog.getLocationCode());
                 loSysLog.setUserIDxx(poUser.getUserID());
                 loSysLog.setTransact(AppConstants.DATE_MODIFIED);
-                loSysLog.setLongitud(poImageInfo.getLongitud());
-                loSysLog.setLatitude(poImageInfo.getLatitude());
+                loSysLog.setLongitud(selfieLog.getLongitud());
+                loSysLog.setLatitude(selfieLog.getLatitude());
                 loSysLog.setDeviceID(poDevice.getDeviceID());
                 loSysLog.setSendStat("0");
                 loSysLog.setTimeStmp(AppConstants.DATE_MODIFIED);

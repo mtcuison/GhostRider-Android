@@ -14,7 +14,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment_Settings">
+    tools:context=".Fragment.Fragment_Settings">
 
     <TextView
         android:layout_width="match_parent"

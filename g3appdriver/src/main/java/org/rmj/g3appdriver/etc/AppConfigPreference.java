@@ -37,6 +37,9 @@ public class AppConfigPreference {
     private static final String Application_Agreement = "TermAndConditions";
     private static final String MobileNo = "Mobile_Number";
     private static boolean isAgreedOnTerms = false;
+    private static final String APP_CODE_VERSION = "gRider_VersionCode";
+    private static final String APP_NAME_VERSION = "gRider_VersionName";
+    private static final String APP_DATE_RELEASE = "gRider_DateRelease";
 
     private static AppConfigPreference mAppConfigPreference;
 
@@ -178,4 +181,26 @@ public class AppConfigPreference {
         this.isAgreedOnTerms = isAgreed;
     }
 
+    public void setupAppVersionInfo(int VersionCode, String VersionName, String DateRelease){
+        editor.putInt(APP_CODE_VERSION, VersionCode);
+        editor.commit();
+
+        editor.putString(APP_NAME_VERSION, VersionName);
+        editor.commit();
+
+        editor.putString(APP_DATE_RELEASE, DateRelease);
+        editor.commit();
+    }
+
+    public int getVersionCode(){
+        return pref.getInt(APP_CODE_VERSION, 1);
+    }
+
+    public String getVersionName(){
+        return pref.getString(APP_NAME_VERSION, "");
+    }
+
+    public String getDateRelease(){
+        return pref.getString(APP_DATE_RELEASE, "");
+    }
 }

@@ -123,8 +123,9 @@ public class VMCollectionList extends AndroidViewModel {
         try{
             @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
             String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(loDate));
+//            String lsDate = "2021-06-24";
             boolean isExist = false;
-            for(int x = 0; x < masterList.getValue().size(); x++){
+            for(int x = 0; x < Objects.requireNonNull(masterList.getValue()).size(); x++){
                 if(masterList.getValue().get(x).getTransact().equalsIgnoreCase(lsDate)){
                     isExist = true;
                 }
@@ -280,7 +281,6 @@ public class VMCollectionList extends AndroidViewModel {
                                         loMaster.setReferDte(loJSON_Master.getString("dReferDte"));
                                         loMaster.setReferNox(loJSON_Master.getString("sReferNox"));
 
-
                                         JSONArray loJArray_detail = dcpImport.getJSONArray("detail");
                                         List<EDCPCollectionDetail> loCollectDetlList = new ArrayList<>(); // This is return
                                         for (int x = 0; x < loJArray_detail.length(); x++) {
@@ -394,7 +394,9 @@ public class VMCollectionList extends AndroidViewModel {
                 JSONObject loJson = new JSONObject();
                 loJson.put("value", clientName);
                 loJson.put("bycode", false);
-                new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), WebApi.URL_GET_AR_CLIENT, callback).execute(loJson);
+                String lsTransNox = psTransNox.getValue();
+                int lnEntryNox = pnEntryNox.getValue();
+                new ImportData(instance, lsTransNox, lnEntryNox, WebApi.URL_GET_AR_CLIENT, callback).execute(loJson);
             } else {
                 callback.OnFailedDownload("Please download or import collection detail before adding.");
             }
@@ -559,7 +561,6 @@ public class VMCollectionList extends AndroidViewModel {
             super.onPostExecute(s);
             try {
                 JSONObject loJson = new JSONObject(s);
-                Log.e(TAG, loJson.getString("result"));
                 String lsResult = loJson.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
                     callback.OnSuccessDownload();
@@ -799,8 +800,10 @@ public class VMCollectionList extends AndroidViewModel {
                                     loJson.put("sAcctNmbr", loDetail.sAcctNmbr);
                                     if (loDetail.sRemCodex.isEmpty()) {
                                         loJson.put("sRemCodex", "NV");
+                                        loJson.put("dModified", AppConstants.DATE_MODIFIED);
                                     } else {
                                         loJson.put("sRemCodex", loDetail.sRemCodex);
+                                        loJson.put("dModified", loDetail.dModified);
                                     }
                                     loJson.put("sJsonData", loData);
                                     loJson.put("dReceived", "");
@@ -1096,10 +1099,12 @@ public class VMCollectionList extends AndroidViewModel {
                     loJson.put("sTransNox", loDetail.sTransNox);
                     loJson.put("nEntryNox", loDetail.nEntryNox);
                     loJson.put("sAcctNmbr", loDetail.sAcctNmbr);
-                    if(loDetail.sRemCodex == null){
-                        loJson.put("sRemCodex", "OTH");
+                    if (loDetail.sRemCodex.isEmpty()) {
+                        loJson.put("sRemCodex", "NV");
+                        loJson.put("dModified", AppConstants.DATE_MODIFIED);
                     } else {
                         loJson.put("sRemCodex", loDetail.sRemCodex);
+                        loJson.put("dModified", loDetail.dModified);
                     }
                     loJson.put("sJsonData", loData);
                     JSONArrayExport.put(loJson);

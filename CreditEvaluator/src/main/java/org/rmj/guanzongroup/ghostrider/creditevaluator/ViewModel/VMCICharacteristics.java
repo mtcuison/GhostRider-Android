@@ -75,7 +75,6 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CharacterTraitsInfo
 
     public boolean saveCICHaracterTraits(CharacterTraitsInfoModel infoModel, OnPostCallBack callback) {
         try {
-
             new UpdateTask(instance,poCI, infoModel, callback).execute(poCIDetail.getValue());
             return true;
         } catch (NullPointerException e) {

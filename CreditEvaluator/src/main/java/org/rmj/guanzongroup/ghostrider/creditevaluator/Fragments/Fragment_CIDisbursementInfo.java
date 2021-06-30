@@ -143,7 +143,7 @@ public class Fragment_CIDisbursementInfo extends Fragment implements ViewModelCa
             if (!eciEvaluation.getWaterBil().equalsIgnoreCase("0.00")){
                 tieWater.setText(eciEvaluation.getWaterBil());
                 tieWater.setEnabled(false);
-                mViewModel.setnWater(Double.valueOf(tieWater.getText().toString().replace(",", "")));
+                mViewModel.setnWater(Double.valueOf(Objects.requireNonNull(tieWater.getText()).toString().replace(",", "")));
             }
 
             if (!eciEvaluation.getElctrcBl().equalsIgnoreCase("0.00")){

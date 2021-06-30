@@ -15,23 +15,25 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMObApplication;
 
@@ -46,7 +48,7 @@ public class Fragment_ObApplication extends Fragment {
 
     private VMObApplication mViewModel;
 
-    private TextView lblTransNox;
+    private TextView lblTransNox, lblUsername, lblPosition, lblBranch;
     private RadioGroup rgObType;
     private LinearLayout lnWithLog;
     private TextInputEditText txtDateFrom,
@@ -67,6 +69,10 @@ public class Fragment_ObApplication extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ob_application, container, false);
+
+        lblUsername = view.findViewById(R.id.lbl_username);
+        lblPosition = view.findViewById(R.id.lbl_userPosition);
+        lblBranch = view.findViewById(R.id.lbl_userBranch);
 
         lblTransNox = view.findViewById(R.id.lbl_transnox);
         rgObType = view.findViewById(R.id.rg_ObType);
@@ -89,6 +95,23 @@ public class Fragment_ObApplication extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMObApplication.class);
+
+        mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
+            try{
+                lblUsername.setText(eEmployeeInfo.getUserName());
+                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
+            try{
+                lblBranch.setText(eBranchInfo.getBranchNm());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
 
         rgObType.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rb_withLog) {
@@ -139,5 +162,4 @@ public class Fragment_ObApplication extends Fragment {
             }
         });
     }
-
 }

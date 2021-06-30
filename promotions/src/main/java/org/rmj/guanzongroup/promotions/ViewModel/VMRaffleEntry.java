@@ -45,6 +45,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_RAFFLE_BASIS;
+
 public class VMRaffleEntry extends AndroidViewModel {
     public static final String TAG = VMRaffleEntry.class.getSimpleName();
     private final HttpHeaders headers;
@@ -113,8 +115,7 @@ public class VMRaffleEntry extends AndroidViewModel {
             String response = "";
             try {
                 JSONObject loJson = new JSONObject();
-                String lsUrl = "https://restgk.guanzongroup.com.ph/promo/param/download_raffle_entry_basis_all.php";
-                response = WebClient.httpsPostJSon(lsUrl, loJson.toString(), headers.getHeaders());
+                response = WebClient.httpsPostJSon(URL_IMPORT_RAFFLE_BASIS, loJson.toString(), headers.getHeaders());
                 Log.e(TAG, response);
                 JSONObject jsonResponse = new JSONObject(response);
                 String lsResult = jsonResponse.getString("result");

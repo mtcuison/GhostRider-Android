@@ -114,8 +114,13 @@ public interface DDCPCollectionDetail {
             "AND nEntryNox = :EntryNox")
     LiveData<EDCPCollectionDetail> getCollectionDetail(String TransNox, int EntryNox);
 
-    @Query("SELECT * FROM LR_DCP_Collection_Detail ORDER BY nEntryNox DESC LIMIT 1")
-    LiveData<EDCPCollectionDetail> getCollectionLastEntry();
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox = (" +
+            "SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dReferDte =:dReferDte) " +
+            "ORDER BY nEntryNox DESC LIMIT 1")
+    LiveData<EDCPCollectionDetail> getCollectionLastEntry(String dReferDte);
+
+    @Query("SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dReferDte =:dReferDte")
+    String getCurrentDateTransNox(String dReferDte);
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +
             "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master ORDER BY dTransact DESC LIMIT 1) " +
@@ -175,6 +180,7 @@ public interface DDCPCollectionDetail {
             "a.nEntryNox, " +
             "a.sAcctNmbr, " +
             "a.sRemCodex, " +
+            "a.dModified, " +
             "a.xFullName, " +
             "a.sPRNoxxxx, " +
             "a.nTranAmtx, " +
@@ -251,6 +257,7 @@ public interface DDCPCollectionDetail {
         public int nEntryNox;
         public String sAcctNmbr;
         public String sRemCodex;
+        public String dModified;
 
         public String xFullName;
 

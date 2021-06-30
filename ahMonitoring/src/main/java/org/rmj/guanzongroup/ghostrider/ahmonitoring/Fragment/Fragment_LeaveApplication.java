@@ -11,10 +11,10 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
@@ -25,18 +25,17 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMLeaveApplication;
 
@@ -50,10 +49,14 @@ import java.util.concurrent.TimeUnit;
 public class Fragment_LeaveApplication extends Fragment {
 
     private VMLeaveApplication mViewModel;
-
+    private LeaveApplication poLeave;
     private TextView lblTransNox, lblUsername, lblPosition, lblBranch;
     private Spinner spnType;
     private TextInputEditText txtDateFrom, txtDateTo, txtNoDays, txtRemarks;
+    private MaterialButton btnSubmit;
+
+    private LoadDialog poProgress;
+    private MessageBox poMessage;
 
     public static Fragment_LeaveApplication newInstance() {
         return new Fragment_LeaveApplication();
@@ -74,7 +77,10 @@ public class Fragment_LeaveApplication extends Fragment {
         txtDateTo = view.findViewById(R.id.txt_dateTo);
         txtNoDays = view.findViewById(R.id.txt_noOfDays);
         txtRemarks = view.findViewById(R.id.txt_remarks);
+        btnSubmit = view.findViewById(R.id.btn_submit);
 
+        poProgress = new LoadDialog(getActivity());
+        poMessage = new MessageBox(getActivity());
         return view;
     }
 
@@ -82,7 +88,7 @@ public class Fragment_LeaveApplication extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMLeaveApplication.class);
-
+        poLeave = new LeaveApplication();
         mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try{
                 lblUsername.setText(eEmployeeInfo.getUserName());
@@ -117,7 +123,7 @@ public class Fragment_LeaveApplication extends Fragment {
             if(!Objects.requireNonNull(txtDateFrom.getText()).toString().isEmpty()) {
                 final Calendar newCalendar = Calendar.getInstance();
                 @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-                final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
+                @SuppressLint("SetTextI18n") final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
                     Calendar newDate = Calendar.getInstance();
                     newDate.set(year, month, dayOfMonth);
                     try {
@@ -140,6 +146,41 @@ public class Fragment_LeaveApplication extends Fragment {
             } else {
                 GToast.CreateMessage(getActivity(), "Select start date first.", GToast.ERROR).show();
             }
+        });
+
+        btnSubmit.setOnClickListener(v -> {
+            poLeave.setLeaveType(String.valueOf(spnType.getSelectedItemPosition()));
+            poLeave.setDateFromx(txtDateFrom.getText().toString());
+            poLeave.setDateThrux(txtDateTo.getText().toString());
+            poLeave.setNoOfDaysx(Integer.parseInt(txtNoDays.getText().toString()));
+            poLeave.setRemarksxx(txtRemarks.getText().toString());
+            mViewModel.SaveApplication(poLeave, new VMLeaveApplication.LeaveApplicationCallback() {
+                @Override
+                public void OnSave(String Title, String message) {
+                    poProgress.initDialog(Title, message, false);
+                    poProgress.show();
+                }
+
+                @Override
+                public void OnSuccess() {
+                    poProgress.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Leave Application");
+                    poMessage.setMessage("Your leave application has been submitted.");
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+
+                @Override
+                public void OnFailed(String message) {
+                    poProgress.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Leave Application");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+            });
         });
     }
 

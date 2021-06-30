@@ -8,14 +8,17 @@
         <activity
             android:name=".Activity.Activity_PendingLoanApplications"
             android:label="Credit Online Application"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_DocumentToScan"
             android:label="Credit Online Application"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_BranchApplications"
             android:label="Credit Online Application"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_ApplicationHistory"
@@ -31,6 +34,7 @@
             tools:ignore="DuplicateActivity" />
         <activity
             android:name=".Activity.Activity_McImpound"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_CreditApplication"

@@ -14,7 +14,6 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -28,17 +27,16 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.dev.GLocationManager;
@@ -50,7 +48,6 @@ import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -59,8 +56,7 @@ public class Fragment_SelfieLogin extends Fragment {
 
     private VMSelfieLogin mViewModel;
 
-    private TextView lblUserNme, lblUserPstn;
-    private ImageView lblImage;
+    private TextView lblUsername, lblPosition, lblBranch;
     private MaterialButton btnCamera;
     private RecyclerView recyclerView;
 
@@ -91,9 +87,9 @@ public class Fragment_SelfieLogin extends Fragment {
     }
 
     private void initWidgets(View view){
-        lblUserNme = view.findViewById(R.id.lbl_employeeName);
-        lblUserPstn = view.findViewById(R.id.lbl_employeePosition);
-        lblImage = view.findViewById(R.id.img_userSelfie);
+        lblUsername = view.findViewById(R.id.lbl_username);
+        lblPosition = view.findViewById(R.id.lbl_userPosition);
+        lblBranch = view.findViewById(R.id.lbl_userBranch);
         btnCamera = view.findViewById(R.id.btn_takeSelfie);
         recyclerView = view.findViewById(R.id.recyclerview_timeLog);
 
@@ -114,10 +110,21 @@ public class Fragment_SelfieLogin extends Fragment {
         mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
                 poUser = eEmployeeInfo;
-                lblUserNme.setText(eEmployeeInfo.getUserName());
-                lblUserPstn.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+                lblUsername.setText(eEmployeeInfo.getUserName());
+                lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
             } catch (Exception e){
                 e.printStackTrace();
+            }
+        });
+
+        mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), new Observer<EBranchInfo>() {
+            @Override
+            public void onChanged(EBranchInfo eBranchInfo) {
+                try{
+                    lblBranch.setText(eBranchInfo.getBranchNm());
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 
