@@ -118,6 +118,8 @@ public class AppConstants {
 
     public static int INTENT_SELFIE_LOGIN = 103;
 
+    public static int INTENT_REIMBURSEMENT = 107;
+
     public static int INTENT_AREA_MONITORING = 105;
 
     public static int INTENT_BRANCH_MONITORING = 104;

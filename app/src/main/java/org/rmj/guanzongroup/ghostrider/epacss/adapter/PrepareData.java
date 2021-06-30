@@ -186,10 +186,26 @@ public class PrepareData {
             listDataChild.put(menuModel, childModelsList);
         }
 
-        menuModel = new MenuModel("Raffle Entry",  R.drawable.ic_approval_reference,false, false, View.GONE);
+        menuModel = new MenuModel("Raffle Entry",  R.drawable.ic_approval_reference,false, false, GONE);
         listDataHeader.add(menuModel);
         if (!menuModel.hasChildren) {
             listDataChild.put(menuModel, null);
+        }
+
+        if(sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)) {
+            menuModel = new MenuModel("Scan Digital GCard (MIS)", R.drawable.ic_scan_qr_code, false, false, VISIBLE);
+            listDataHeader.add(menuModel);
+            if (!menuModel.hasChildren) {
+                listDataChild.put(menuModel, null);
+            }
+        }
+
+        if(sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)) {
+            menuModel = new MenuModel("Check Data (MIS)", R.drawable.ic_settings_localdata, false, false, VISIBLE);
+            listDataHeader.add(menuModel);
+            if (!menuModel.hasChildren) {
+                listDataChild.put(menuModel, null);
+            }
         }
     }
 }

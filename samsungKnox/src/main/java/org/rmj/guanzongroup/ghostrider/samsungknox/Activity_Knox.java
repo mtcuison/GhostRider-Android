@@ -31,6 +31,7 @@ import org.rmj.guanzongroup.ghostrider.samsungknox.Fragment.Fragment_Upload;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Activity_Knox extends AppCompatActivity {
 
@@ -43,7 +44,7 @@ public class Activity_Knox extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar_knox);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         ViewPager viewPager = findViewById(R.id.viewpager_knox);
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), getKnoxFragment(position)));

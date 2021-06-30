@@ -23,10 +23,12 @@ android {
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 4
-        versionName "GhostRider Build v.1.0." + versionCode
+        versionName "GhostRider Build v.1.0."
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
     }
 
     buildTypes {
@@ -54,6 +56,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
 //    implementation 'com.github.smarteist:autoimageslider:1.4.0'
 //    // Optional: Circle Indicator (To fix the xml preview "Missing classes" error)
 //    implementation 'me.relex:circleindicator:2.1.6'

@@ -46,7 +46,7 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Applicatio
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.Dialog.DialogUserProfile;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-import org.rmj.guanzongroup.ghostrider.settings.Activity_Settings;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

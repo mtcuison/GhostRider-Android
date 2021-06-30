@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -64,7 +65,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
         mMakeDir = new AppDirectoryCreator();
         prgrssBar = findViewById(R.id.progress_splashscreen);
         lblVrsion = findViewById(R.id.lbl_versionInfo);
-        lblVrsion.setText(BuildConfig.VERSION_NAME + "_" + BuildConfig.BUILD_TYPE.toUpperCase());
         if(mMakeDir.createAppDirectory()) {
             Log.e(TAG, "Export directory created.");
         } else {
@@ -77,6 +77,8 @@ public class Activity_SplashScreen extends AppCompatActivity {
             if(!ServiceScheduler.isJobRunning(Activity_SplashScreen.this, AppConstants.DataServiceID)) {
                 ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataImportService.class, TWO_HOUR_PERIODIC, AppConstants.DataServiceID);
             }
+
+            mViewModel.getVersionInfo().observe(Activity_SplashScreen.this, s -> lblVrsion.setText(s));
 
             if(!ServiceScheduler.isJobRunning(Activity_SplashScreen.this, AppConstants.GLocatorServiceID)) {
                 ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DCPLocatorService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.GLocatorServiceID);

@@ -14,17 +14,19 @@ package org.rmj.g3appdriver.GRider.Database.Entities;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-@Entity(tableName = "GLocator_Sys_log", primaryKeys = {"sUserIDxx", "sDeviceID", "dTransact"})
+@Entity(tableName = "GLocator_Sys_log")
 public class EGLocatorSysLog {
 
+    @PrimaryKey
     @NonNull
+    @ColumnInfo(name = "sTransNox")
+    private String TransNox;
     @ColumnInfo(name = "sUserIDxx")
     private String UserIDxx;
-    @NonNull
     @ColumnInfo(name = "sDeviceID")
     private String DeviceID;
-    @NonNull
     @ColumnInfo(name = "dTransact")
     private String Transact = "";
     @ColumnInfo(name = "nLongitud")
@@ -42,6 +44,14 @@ public class EGLocatorSysLog {
     }
 
     @NonNull
+    public String getTransNox() {
+        return TransNox;
+    }
+
+    public void setTransNox(@NonNull String transNox) {
+        TransNox = transNox;
+    }
+
     public String getUserIDxx() {
         return UserIDxx;
     }
@@ -50,7 +60,6 @@ public class EGLocatorSysLog {
         UserIDxx = userIDxx;
     }
 
-    @NonNull
     public String getDeviceID() {
         return DeviceID;
     }
@@ -59,7 +68,6 @@ public class EGLocatorSysLog {
         DeviceID = deviceID;
     }
 
-    @NonNull
     public String getTransact() {
         return Transact;
     }

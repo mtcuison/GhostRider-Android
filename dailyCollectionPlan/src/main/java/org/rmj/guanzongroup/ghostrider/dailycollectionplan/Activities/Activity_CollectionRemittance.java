@@ -348,7 +348,6 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
             infoModel.setPsBranch(txtBranch.getText().toString());
             infoModel.setAmountxx(txtAmount.getText().toString());
             if(infoModel.isDataValid()) {
-
                 mViewModel.RemitCollection(poRemit,new VMCollectionRemittance.OnRemitCollectionCallback() {
                     @Override
                     public void OnRemit() {

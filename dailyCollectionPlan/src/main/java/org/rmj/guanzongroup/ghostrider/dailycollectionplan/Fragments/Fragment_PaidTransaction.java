@@ -282,7 +282,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
     public void OnFailedResult(String message) {
         poDialog.dismiss();
         poMessage.initDialog();
-        poMessage.setTitle("Transaction Completed");
+        poMessage.setTitle("Daily Collection Plan");
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
             dialog.dismiss();

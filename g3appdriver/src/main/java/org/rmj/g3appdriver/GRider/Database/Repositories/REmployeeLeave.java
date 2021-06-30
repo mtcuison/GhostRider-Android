@@ -13,7 +13,10 @@ package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
 
+import org.rmj.appdriver.base.GConnection;
+import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeLeave;
+import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 
@@ -44,5 +47,16 @@ public class REmployeeLeave implements DEmployeeLeave {
     @Override
     public void updateSendStatus(String DateSent, String TransNox) {
         employeeDao.updateSendStatus(DateSent, TransNox);
+    }
+
+    public String getNextLeaveCode(){
+        String lsNextCode = "";
+        try{
+            GConnection loConn = DbConnection.doConnect(instance);
+            lsNextCode = MiscUtil.getNextCode("Employee_Leave", "sTransNox", true, loConn.getConnection(), "", 12, false);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return lsNextCode;
     }
 }

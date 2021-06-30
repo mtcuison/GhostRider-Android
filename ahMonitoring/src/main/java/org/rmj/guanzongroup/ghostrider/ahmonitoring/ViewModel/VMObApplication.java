@@ -15,11 +15,32 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 
 public class VMObApplication extends AndroidViewModel {
 
+    private final Application instance;
+    private final RBranch pobranch;
+    private final REmployee poUser;
+
     public VMObApplication(@NonNull Application application) {
         super(application);
+        this.instance = application;
+        this.pobranch = new RBranch(instance);
+        this.poUser = new REmployee(instance);
     }
-    // TODO: Implement the ViewModel
+
+    public LiveData<EEmployeeInfo> getUserInfo(){
+        return poUser.getUserInfo();
+    }
+
+    public LiveData<EBranchInfo> getUserBranchInfo(){
+        return pobranch.getUserBranchInfo();
+    }
+
 }

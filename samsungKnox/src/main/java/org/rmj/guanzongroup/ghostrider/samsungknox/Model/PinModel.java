@@ -11,8 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.samsungknox.Model;
 
-import org.rmj.g3appdriver.utils.ImeiValidator;
-
 public class PinModel {
 
     private final String psDevceID;
@@ -44,10 +42,6 @@ public class PinModel {
     private boolean isDeviceValid(){
         if(psDevceID.trim().isEmpty()){
             psMessage = "Please enter device id";
-            return false;
-        }
-        if(ImeiValidator.isValidImei(Long.parseLong(psDevceID))){
-            psMessage = "Device imei is invalid please retry";
             return false;
         }
         return true;

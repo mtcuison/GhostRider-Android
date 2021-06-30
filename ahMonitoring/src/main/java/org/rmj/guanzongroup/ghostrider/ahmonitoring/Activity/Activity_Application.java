@@ -28,6 +28,7 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BranchMoni
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BranchOpening;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_ObApplication;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Reimbursement;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_SelfieLogin;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
@@ -52,22 +53,12 @@ public class Activity_Application extends AppCompatActivity {
 
         if (application == AppConstants.INTENT_OB_APPLICATION) {
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_ObApplication()));
-            getSupportActionBar().setTitle("Payroll, Employee and Time Manager");
         } else if(application == AppConstants.INTENT_LEAVE_APPLICATION){
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_LeaveApplication()));
-            getSupportActionBar().setTitle("Leave Application");
         } else if(application == AppConstants.INTENT_SELFIE_LOGIN){
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_SelfieLogin()));
-            getSupportActionBar().setTitle("Payroll, Employee and Time Manager");
-        } else if(application == AppConstants.INTENT_BRANCH_MONITORING){
-            viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_BranchMonitor()));
-            getSupportActionBar().setTitle("AH Monitoring");
-        } else if(application == AppConstants.INTENT_AREA_MONITORING){
-            viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_AreaMonitor()));
-            getSupportActionBar().setTitle("AH Monitoring");
-        }else if(application == AppConstants.INTENT_BRANCH_OPENING){
-            viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_BranchOpening()));
-            getSupportActionBar().setTitle("AH Monitoring");
+        } else if(application == AppConstants.INTENT_REIMBURSEMENT){
+            viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_Reimbursement()));
         }
     }
 

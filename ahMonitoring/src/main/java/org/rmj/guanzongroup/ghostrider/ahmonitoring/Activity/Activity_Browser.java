@@ -11,10 +11,12 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -22,6 +24,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -30,6 +33,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
@@ -37,6 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class Activity_Browser extends AppCompatActivity {
     private static final String TAG = Activity_Browser.class.getSimpleName();
@@ -61,10 +66,29 @@ public class Activity_Browser extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_gBrowser);
         wbBrowser = findViewById(R.id.webview_gBrowser);
         poSession = new SessionManager(Activity_Browser.this);
-
+        toolbar.setTitle("Health Checklist");
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         ConfigureAppBrowser();
 
         LoadLink();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            MessageBox loMessage = new MessageBox(Activity_Browser.this);
+            loMessage.initDialog();
+            loMessage.setTitle("Health Checklist");
+            loMessage.setMessage("Are you sure you want to exit?");
+            loMessage.setPositiveButton("Exit", (view, dialog) -> {
+                dialog.dismiss();
+                finish();
+            });
+            loMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            loMessage.show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -96,7 +120,6 @@ public class Activity_Browser extends AppCompatActivity {
         @Override
         public void onPageFinished(WebView view, String url) {
             urlClipBoard = url;
-            toolbar.setTitle(url);
             super.onPageFinished(view, url);
         }
     }

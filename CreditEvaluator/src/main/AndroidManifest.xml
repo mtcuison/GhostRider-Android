@@ -3,8 +3,12 @@
     package="org.rmj.guanzongroup.ghostrider.creditevaluator">
 
     <application>
-        <activity android:name=".Activity.Activity_CIHistoryInfo"></activity>
-        <activity android:name=".Activity.Activity_EvaluationHistoryInfo" />
+        <activity android:name=".Activity.Activity_CIHistoryInfo"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.Activity_EvaluationHistoryInfo"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.Activity_CIApplication"
             android:screenOrientation="userPortrait"

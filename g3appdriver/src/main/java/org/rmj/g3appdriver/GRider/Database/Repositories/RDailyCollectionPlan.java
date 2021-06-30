@@ -115,7 +115,11 @@ public class RDailyCollectionPlan {
     }
 
     public LiveData<EDCPCollectionDetail> getCollectionLastEntry(){
-        return detailDao.getCollectionLastEntry();
+        return detailDao.getCollectionLastEntry(AppConstants.CURRENT_DATE);
+    }
+
+    public String getCurrentDateTransNox(){
+        return detailDao.getCurrentDateTransNox(AppConstants.CURRENT_DATE);
     }
 
     public LiveData<List<EDCPCollectionDetail>> getCollectionDetailForDate(String dTransact){
@@ -166,8 +170,10 @@ public class RDailyCollectionPlan {
 
         @Override
         protected String doInBackground(EDCPCollectionDetail... edcpCollectionDetails) {
+            edcpCollectionDetails[0].setTransNox(getCurrentDateTransNox());
             if(!edcpCollectionDetails[0].getAcctNmbr().isEmpty()) {
                 if (detailDao.getClientDuplicateAccNox(edcpCollectionDetails[0].getAcctNmbr()) == null) {
+                    edcpCollectionDetails[0].setTransNox(getCurrentDateTransNox());
                     detailDao.insert(edcpCollectionDetails[0]);
                     return "New customer has been added to collection list.";
                 } else {

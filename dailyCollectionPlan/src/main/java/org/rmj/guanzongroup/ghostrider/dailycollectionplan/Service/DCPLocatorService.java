@@ -113,7 +113,7 @@ public class DCPLocatorService extends JobService {
                 if(poDcp.getDCPStatus() > 0) {
                     hasDcp = true;
                     loLocation.getLocation((latitude, longitude) -> {
-                        Log.d(TAG, "Current Device Location Retrieve : Latitude " + latitude + ", Longitude" + longitude);
+                        loSysLog.setTransNox(poSysLog.getLocationCode());
                         loSysLog.setDeviceID(poDevID.getDeviceID());
                         loSysLog.setLatitude(latitude);
                         loSysLog.setLongitud(longitude);

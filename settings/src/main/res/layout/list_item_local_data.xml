@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.settings
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 6/23/21 4:09 PM
+  ~ project file last modified : 6/23/21 4:09 PM
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/lbl_data_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Branch Data"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/material_black"
+            android:drawablePadding="10dp"
+            app:drawableStartCompat="@drawable/ic_settings_localdata"
+            app:drawableLeftCompat="@drawable/ic_settings_localdata" />
+
+        <TextView
+            android:id="@+id/btn_refresh"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="end|center_vertical"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/material_black"
+            android:text="Refresh"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/guanzon_orange"/>
+</LinearLayout>

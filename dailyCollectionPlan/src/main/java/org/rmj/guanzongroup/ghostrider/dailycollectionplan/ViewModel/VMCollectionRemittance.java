@@ -216,8 +216,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
             String lsResult = "";
             EDCP_Remittance loRemit = edcp_remittances[0];
             try{
-
-                String lsTransNox = poRemit.getTransnoxMaster(loRemit.getTransact());
+                String lsTransNox = poRemit.getTransnoxMaster(dTransact);
                 String lsEntryNox = poRemit.getRemittanceEntry(loRemit.getTransact());
                 loRemit.setTransNox(lsTransNox);
                 loRemit.setEntryNox(lsEntryNox);

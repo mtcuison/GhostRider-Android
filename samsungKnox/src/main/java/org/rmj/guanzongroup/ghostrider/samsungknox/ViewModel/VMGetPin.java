@@ -77,7 +77,6 @@ public class VMGetPin extends AndroidViewModel {
                     loJSon.put("deviceUid", string[0]);
                     loParam.put("request", AppConstants.GET_PIN_REQUEST);
                     loParam.put("param", loJSon.toString());
-                    Log.e(TAG, loParam.toString());
                     response = WebClient.httpsPostJSon(WebApi.URL_KNOX, loParam.toString(), headers.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();

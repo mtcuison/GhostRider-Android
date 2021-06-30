@@ -74,7 +74,7 @@
         <Preference
             app:key="appUpdatePrefs"
             app:icon="@drawable/ic_settings_update"
-            app:title="Check For Update"
+            app:title="System Update"
             app:iconSpaceReserved="false"
             app:defaultValue="false"
             app:summary="@string/summary_settings_update"/>

@@ -18,6 +18,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -31,6 +32,9 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
+
+import java.util.Date;
 
 public class VMSplashScreen extends AndroidViewModel {
 
@@ -39,6 +43,7 @@ public class VMSplashScreen extends AndroidViewModel {
     private final MutableLiveData<Boolean> pbIsLogIn = new MutableLiveData<>();
     private final MutableLiveData<Boolean> pbSession = new MutableLiveData<>();
     private final MutableLiveData<Integer> pnSession = new MutableLiveData<>();
+    private final MutableLiveData<String> psVersion = new MutableLiveData<>();
     private final REmployee poUserDbx;
     private final AppConfigPreference poConfigx;
     private final SessionManager poSession;
@@ -46,13 +51,15 @@ public class VMSplashScreen extends AndroidViewModel {
     private final AppTokenManager poToken;
     private final RDailyCollectionPlan poDcp;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public VMSplashScreen(@NonNull Application application) {
         super(application);
         poUserDbx = new REmployee(application);
         poConfigx = AppConfigPreference.getInstance(application);
         poSession = new SessionManager(application);
         poConfigx.setTemp_ProductID("IntegSys");
-        poConfigx.setIsTesting(false);
+        Date buildDate = new Date(BuildConfig.TIMESTAMP);
+        poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, String.valueOf(buildDate.getTime()));
         poConn = new ConnectionUtil(application);
         poToken = new AppTokenManager(application);
         ETokenInfo loToken = new ETokenInfo();
@@ -68,8 +75,14 @@ public class VMSplashScreen extends AndroidViewModel {
                 Manifest.permission.GET_ACCOUNTS,
                 Manifest.permission.CAMERA,
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION});
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.REQUEST_INSTALL_PACKAGES});
         pbGranted.setValue(hasPermissions(application.getApplicationContext(), paPermisions.getValue()));
+        this.psVersion.setValue(poConfigx.getVersionName() + poConfigx.getVersionCode() +" - "+ poConfigx.getDateRelease());
+    }
+
+    public LiveData<String> getVersionInfo(){
+        return psVersion;
     }
 
     public LiveData<Boolean> isPermissionsGranted(){
