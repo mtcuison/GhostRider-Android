@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.authlibrary.UserInterface.Login;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 
@@ -46,10 +47,12 @@ public class Fragment_Login extends Fragment implements LoginCallback{
     private LoadDialog dialog;
     private TextInputEditText tieEmail, tiePassword, tieMobileNo;
 
-    private TextView tvForgotPassword, tvCreateAccount, tvTerms;
+    private TextView tvForgotPassword, tvCreateAccount, tvTerms, lblVersion;
     private MaterialButton btnLogin;
     private NavController navController;
     private CheckBox cbAgree;
+
+    private AppConfigPreference poConfigx;
 
     public static Fragment_Login newInstance() {
         return new Fragment_Login();
@@ -60,6 +63,7 @@ public class Fragment_Login extends Fragment implements LoginCallback{
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_login, container, false);
         dialog = new LoadDialog(getActivity());
+        poConfigx = AppConfigPreference.getInstance(getActivity());
         navController = Navigation.findNavController(getActivity(), R.id.fragment_auth_container);
         tieEmail = v.findViewById(R.id.tie_loginEmail);
         tiePassword = v.findViewById(R.id.tie_loginPassword);
@@ -67,11 +71,13 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         tvForgotPassword = v.findViewById(R.id.tvForgotPassword);
         tvTerms = v.findViewById(R.id.tvTerms);
         tvCreateAccount = v.findViewById(R.id.tvCreateAccount);
+        lblVersion = v.findViewById(R.id.lbl_versionInfo);
         cbAgree = v.findViewById(R.id.cbAgree);
         btnLogin = v.findViewById(R.id.btn_login);
         return v;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -90,6 +96,8 @@ public class Fragment_Login extends Fragment implements LoginCallback{
             String mobileNo = tieMobileNo.getText().toString();
             mViewModel.Login(new UserAuthInfo(email,password, mobileNo), Fragment_Login.this);
         });
+
+        lblVersion.setText(poConfigx.getVersionName() + poConfigx.getVersionCode() +" - "+ poConfigx.getDateRelease());
 
         tvCreateAccount.setOnClickListener(view -> navController.navigate(R.id.action_fragment_Login_to_fragment_CreateAccount));
         tvTerms.setOnClickListener(view -> navController.navigate(R.id.action_fragment_Login_to_fragment_TermsAndConditions));

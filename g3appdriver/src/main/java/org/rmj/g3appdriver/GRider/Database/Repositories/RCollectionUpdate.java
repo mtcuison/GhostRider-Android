@@ -83,11 +83,11 @@ public class RCollectionUpdate {
     }
 
     public void updateAddressStatus(String TransNox, String oldTransNox){
-        addressDao.updateAddressStatus(TransNox, oldTransNox, AppConstants.DATE_MODIFIED);
+        addressDao.updateAddressStatus(TransNox, oldTransNox, new AppConstants().DATE_MODIFIED);
     }
 
     public void updateMobileStatus(String TransNox, String oldTransNox) {
-        mobileDao.updateMobileStatus(TransNox, oldTransNox, AppConstants.DATE_MODIFIED);
+        mobileDao.updateMobileStatus(TransNox, oldTransNox, new AppConstants().DATE_MODIFIED);
     }
 
     private class UpdateAddressTask extends AsyncTask<List<EAddressUpdate>, Void, String>{

@@ -81,4 +81,5 @@ dependencies {
     implementation project(':json-simple-1.1.1')
     implementation project(':imgCapture')
     implementation project(':settings')
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
 }

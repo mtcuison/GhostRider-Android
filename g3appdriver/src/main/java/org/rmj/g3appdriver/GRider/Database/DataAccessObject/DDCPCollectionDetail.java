@@ -152,6 +152,8 @@ public interface DDCPCollectionDetail {
             "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dReferDte =:dTransact)")
     LiveData<String> getCollectedTotal(String dTransact);
 
+    @Query("SELECT COUNT(*) FROM LR_DCP_Collection_Detail WHERE cTranStat != '2'")
+    LiveData<Integer> getCurrentDCPCount();
 
     @Query("SELECT SUM(nAmountxx) FROM LR_DCP_Remittance " +
             "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dReferDte =:dTransact)")
@@ -252,6 +254,14 @@ public interface DDCPCollectionDetail {
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox = :sTransNox AND nEntryNox = :nEntryNox")
     EDCPCollectionDetail checkCollectionImport(String sTransNox, int nEntryNox);
 
+    @Query("SELECT (SELECT COUNT(*) FROM LR_DCP_Collection_Master WHERE dReferDte ==:dTransact) AS CollectionMaster, " +
+            "(SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail WHERE sTransNox == " +
+            "(SELECT sTransNox FROM LR_DCP_Collection_Master WHERE cTranStat == '1') AND sRemCodex == 'PAY') - " +
+            "(SELECT SUM(nAmountxx) FROM LR_DCP_Remittance WHERE dTransact == " +
+            "(SELECT dReferDte FROM LR_DCP_Collection_Master WHERE cTranStat == '1' AND cSendStat == '0')) AS Cash_On_Hand, " +
+            "(SELECT COUNT(*) FROM LR_DCP_Collection_Master WHERE dReferDte ==:dTransact AND cTranStat == '2' AND cSendStat == '1') AS PostedCollection")
+    LiveData<Location_Data_Trigger> getDCP_COH_StatusForTracking(String dTransact);
+
     class CollectionDetail{
         public String sTransNox;
         public int nEntryNox;
@@ -317,5 +327,11 @@ public interface DDCPCollectionDetail {
         public String saLongitude;
         public String saLatitude;
         public String saRemarksx;
+    }
+
+    class Location_Data_Trigger{
+        public int CollectionMaster;
+        public String Cash_On_Hand;
+        public int PostedCollection;
     }
 }

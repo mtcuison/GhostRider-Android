@@ -207,7 +207,7 @@ public class VMPromiseToPay extends AndroidViewModel {
                     loDetail.setLatitude(sLatitude.getValue());
                     loDetail.setLongitud(sLongitude.getValue());
                     loDetail.setImageNme(sImgName.getValue());
-                    loDetail.setModified(AppConstants.DATE_MODIFIED);
+                    loDetail.setModified(new AppConstants().DATE_MODIFIED);
                     poDcp.updateCollectionDetailInfo(loDetail);
 
                     return "success";

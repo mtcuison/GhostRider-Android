@@ -214,7 +214,7 @@ public class VMLoanUnit extends AndroidViewModel {
                 detail.setAddressx(infoModel.getLuStreet());
                 detail.setTownName(infoModel.getLuTown());
                 detail.setMobileNo(infoModel.getLuMobile());
-                detail.setModified(AppConstants.DATE_MODIFIED);
+                detail.setModified(new AppConstants().DATE_MODIFIED);
                 poDcp.updateCollectionDetailInfo(detail);
                 //Log.e(TAG, "Promise to Pay info has been set." + poDcp.getCollectionDetail(psTransNox.getValue(),psEntryNox.getValue()).getValue().toString());
                 callback.OnSuccessResult(new String[]{"Dcp Save!"});
@@ -358,7 +358,7 @@ public class VMLoanUnit extends AndroidViewModel {
                     loDetail.setLongitud(sLongitude.getValue());
                     loDetail.setImageNme(sImgName.getValue());
                     loDetail.setRemarksx(infoModel.getLuRemark());
-                    loDetail.setModified(AppConstants.DATE_MODIFIED);
+                    loDetail.setModified(new AppConstants().DATE_MODIFIED);
                     poDcp.updateCollectionDetailInfo(loDetail);
 
                     EClientUpdate eClientUpdate = new EClientUpdate();
@@ -376,7 +376,7 @@ public class VMLoanUnit extends AndroidViewModel {
                     eClientUpdate.setImageNme(sImgName.getValue());
                     eClientUpdate.setLandline(infoModel.getLuPhone());
                     eClientUpdate.setMobileNo(infoModel.getLuMobile());
-                    eClientUpdate.setModified(AppConstants.DATE_MODIFIED);
+                    eClientUpdate.setModified(new AppConstants().DATE_MODIFIED);
                     eClientUpdate.setSendStat("0");
                     eClientUpdate.setSourceCd("DCPa");
                     eClientUpdate.setTownIDxx(lsTownID.getValue());

@@ -54,7 +54,7 @@ public class RLogSelfie {
     }
 
     public void updateEmployeeLogStatus(String sTransNox, String OldTransNox){
-        selfieDao.updateEmployeeLogStat(sTransNox, OldTransNox, AppConstants.DATE_MODIFIED);
+        selfieDao.updateEmployeeLogStat(sTransNox, OldTransNox, new AppConstants().DATE_MODIFIED);
     }
 
     public String getLogNextCode(){

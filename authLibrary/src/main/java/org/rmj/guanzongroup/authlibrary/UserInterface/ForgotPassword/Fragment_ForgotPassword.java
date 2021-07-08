@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.authlibrary.UserInterface.ForgotPassword;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,12 +23,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.authlibrary.R;
 
 import java.util.Objects;
@@ -40,6 +43,9 @@ public class Fragment_ForgotPassword extends Fragment implements VMForgotPasswor
     private MaterialButton btnSendEmail;
     private LoadDialog poDialog;
     private MessageBox poMsgBox;
+    private TextView lblVersion;
+
+    private AppConfigPreference poConfigx;
 
     public static Fragment_ForgotPassword newInstance() {
         return new Fragment_ForgotPassword();
@@ -51,20 +57,28 @@ public class Fragment_ForgotPassword extends Fragment implements VMForgotPasswor
         View v = inflater.inflate(R.layout.fragment_forgot_password, container, false);
         poDialog = new LoadDialog(getActivity());
         poMsgBox = new MessageBox(getActivity());
+        poConfigx = AppConfigPreference.getInstance(getActivity());
         tieEmail = v.findViewById(R.id.tie_fp_Email);
         btnSendEmail = v.findViewById(R.id.btn_sendEmail);
+        lblVersion = v.findViewById(R.id.lbl_versionInfo);
 
         return v;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMForgotPassword.class);
-        btnSendEmail.setOnClickListener(view -> {
-            String email = Objects.requireNonNull(tieEmail.getText()).toString().trim();
-            mViewModel.RequestPassword(email, Fragment_ForgotPassword.this);
-        });
+        try {
+            mViewModel = new ViewModelProvider(this).get(VMForgotPassword.class);
+            lblVersion.setText(poConfigx.getVersionName() + poConfigx.getVersionCode() + " - " + poConfigx.getDateRelease());
+            btnSendEmail.setOnClickListener(view -> {
+                String email = Objects.requireNonNull(tieEmail.getText()).toString().trim();
+                mViewModel.RequestPassword(email, Fragment_ForgotPassword.this);
+            });
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

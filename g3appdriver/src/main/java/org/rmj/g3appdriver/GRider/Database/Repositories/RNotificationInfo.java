@@ -56,7 +56,7 @@ public class RNotificationInfo {
     }
 
     public void updateRecipientReadStatus(String SenderID){
-        notificationDao.updateRecipientReadStatus(SenderID, AppConstants.DATE_MODIFIED);
+        notificationDao.updateRecipientReadStatus(SenderID, new AppConstants().DATE_MODIFIED);
     }
 
     public String getReadMessageTimeStamp(String MessageID){
@@ -92,11 +92,11 @@ public class RNotificationInfo {
     }
 
     public void updateRecipientRecievedStat(String messageID){
-        notificationDao.updateRecipientRecievedStatus(messageID, AppConstants.DATE_MODIFIED);
+        notificationDao.updateRecipientRecievedStatus(messageID, new AppConstants().DATE_MODIFIED);
     }
 
     public void updateMessageReadStatus(String SenderID){
-        notificationDao.updateMessageReadStatus(SenderID, AppConstants.DATE_MODIFIED);
+        notificationDao.updateMessageReadStatus(SenderID, new AppConstants().DATE_MODIFIED);
     }
 
     public String getClientNextMasterCode(){

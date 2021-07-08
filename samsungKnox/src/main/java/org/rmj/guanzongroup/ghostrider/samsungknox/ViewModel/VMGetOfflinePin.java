@@ -82,7 +82,7 @@ public class VMGetOfflinePin extends AndroidViewModel {
                     JSONObject loJSon = new JSONObject();
                     JSONObject loParam = new JSONObject();
                     loJSon.put("deviceUid", pinModels[0].getDeviceID());
-                    loJSon.put("challenge", pinModels[0].getDeviceID());
+                    loJSon.put("challenge", pinModels[0].getPassKey());
                     loParam.put("request", AppConstants.OFFLINE_PIN_REQUEST);
                     loParam.put("param", loJSon.toString());
                     Log.e(TAG, loParam.toString());

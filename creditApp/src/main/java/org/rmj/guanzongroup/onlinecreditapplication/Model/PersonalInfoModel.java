@@ -14,6 +14,8 @@ package org.rmj.guanzongroup.onlinecreditapplication.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
+
 import java.util.ArrayList;
 import java.util.List;
 

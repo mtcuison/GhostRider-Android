@@ -160,7 +160,7 @@ public class Fragment_SelfieLogin extends Fragment {
         if(requestCode == ImageFileCreator.GCAMERA){
             if(resultCode == RESULT_OK){
                 poImage.setMD5Hashx(WebFileServer.createMD5Hash(photPath));
-                poImage.setCaptured(AppConstants.DATE_MODIFIED);
+                poImage.setCaptured(new AppConstants().DATE_MODIFIED);
                 mViewModel.loginTimeKeeper(poLog, poImage, new VMSelfieLogin.OnLoginTimekeeperListener() {
                     @Override
                     public void OnLogin() {
@@ -204,7 +204,7 @@ public class Fragment_SelfieLogin extends Fragment {
         loImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
             this.photPath = photPath;
             poLog.setEmployID(poUser.getEmployID());
-            poLog.setLogTimex(AppConstants.DATE_MODIFIED);
+            poLog.setLogTimex(new AppConstants().DATE_MODIFIED);
             poLog.setLatitude(String.valueOf(latitude));
             poLog.setLongitud(String.valueOf(longitude));
             poLog.setSendStat("0");

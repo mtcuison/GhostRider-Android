@@ -264,7 +264,7 @@ public class VMCollectionList extends AndroidViewModel {
                                 try {
                                     if(!doesExist1) {
                                         GToast.CreateMessage(getApplication(), "Collection list not applicable for the current logged user.", GToast.WARNING).show();
-                                    } else if(!loJSON_Master.getString("dTransact").equalsIgnoreCase(AppConstants.CURRENT_DATE)) {
+                                    } else if(!loJSON_Master.getString("dTransact").equalsIgnoreCase(new AppConstants().CURRENT_DATE)) {
                                         GToast.CreateMessage(getApplication(), "Collection list is not applicable for the current date.", GToast.WARNING).show();
                                     } else {
                                         EDCPCollectionMaster loMaster = new EDCPCollectionMaster();
@@ -272,11 +272,11 @@ public class VMCollectionList extends AndroidViewModel {
                                         loMaster.setTransact(loJSON_Master.getString("dTransact"));
                                         loMaster.setBranchNm(loJSON_Master.getString("sBranchNm"));
                                         loMaster.setTransNox(loJSON_Master.getString("sTransNox"));
-                                        loMaster.setDCPTypex(loJSON_Master.getString("cDCPTypex").charAt(0));
+                                        loMaster.setDCPTypex(loJSON_Master.getString("cDCPTypex"));
                                         loMaster.setEntryNox(loJSON_Master.getString("nEntryNox"));
                                         loMaster.setCollName(loJSON_Master.getString("xCollName"));
                                         loMaster.setCollctID(loJSON_Master.getString("sCollctID"));
-                                        loMaster.setTranStat(loJSON_Master.getString("cTranStat").charAt(0));
+                                        loMaster.setTranStat(loJSON_Master.getString("cTranStat"));
                                         loMaster.setRouteNme(loJSON_Master.getString("sRouteNme"));
                                         loMaster.setReferDte(loJSON_Master.getString("dReferDte"));
                                         loMaster.setReferNox(loJSON_Master.getString("sReferNox"));
@@ -594,8 +594,8 @@ public class VMCollectionList extends AndroidViewModel {
             collectionMaster.setCollName(loJson.getString("xCollName"));
             collectionMaster.setRouteNme(loJson.getString("sRouteNme"));
             collectionMaster.setReferDte(loJson.getString("dReferDte"));
-            collectionMaster.setTranStat(loJson.getString("cTranStat").charAt(0));
-            collectionMaster.setDCPTypex(loJson.getString("cDCPTypex").charAt(0));
+            collectionMaster.setTranStat(loJson.getString("cTranStat"));
+            collectionMaster.setDCPTypex(loJson.getString("cDCPTypex"));
             collectionMaster.setEntryNox(loJson.getString("nEntryNox"));
             collectionMaster.setBranchNm(loJson.getString("sBranchNm"));
             collectionMaster.setCollctID(loJson.getString("sCollctID"));
@@ -800,7 +800,7 @@ public class VMCollectionList extends AndroidViewModel {
                                     loJson.put("sAcctNmbr", loDetail.sAcctNmbr);
                                     if (loDetail.sRemCodex.isEmpty()) {
                                         loJson.put("sRemCodex", "NV");
-                                        loJson.put("dModified", AppConstants.DATE_MODIFIED);
+                                        loJson.put("dModified", new AppConstants().DATE_MODIFIED);
                                     } else {
                                         loJson.put("sRemCodex", loDetail.sRemCodex);
                                         loJson.put("dModified", loDetail.dModified);
@@ -825,6 +825,7 @@ public class VMCollectionList extends AndroidViewModel {
                                             } else {
                                                 poDcp.updateCollectionDetailStatus(loDetail.sTransNox, loDetail.nEntryNox);
                                             }
+
                                             isDataSent[x] = true;
                                         } else {
                                             JSONObject loError = loResponse.getJSONObject("error");
@@ -852,6 +853,7 @@ public class VMCollectionList extends AndroidViewModel {
                             }
 
                             if (allDataSent) {
+                                poDcp.updateSentPostedDCPMaster(laCollDetl.get(0).sTransNox);
                                 lsResult = AppConstants.ALL_DATA_SENT();
                             } else {
                                 lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("An error occurred while posting collection details. Please try again...");
@@ -981,8 +983,8 @@ public class VMCollectionList extends AndroidViewModel {
 
     private static class ExportDCPFileTask extends AsyncTask<List<DDCPCollectionDetail.CollectionDetail>, Void, JSONObject>{
         private JSONObject JSONExport;
-        private JSONArray JSONArrayExport;
-        private String sRemarkx;
+        private final JSONArray JSONArrayExport;
+        private final String sRemarkx;
         private final FileManagerCallBack callBack;
 
         public ExportDCPFileTask(String sRemarkx, FileManagerCallBack callBack) {
@@ -1101,7 +1103,7 @@ public class VMCollectionList extends AndroidViewModel {
                     loJson.put("sAcctNmbr", loDetail.sAcctNmbr);
                     if (loDetail.sRemCodex.isEmpty()) {
                         loJson.put("sRemCodex", "NV");
-                        loJson.put("dModified", AppConstants.DATE_MODIFIED);
+                        loJson.put("dModified", new AppConstants().DATE_MODIFIED);
                     } else {
                         loJson.put("sRemCodex", loDetail.sRemCodex);
                         loJson.put("dModified", loDetail.dModified);
@@ -1141,9 +1143,8 @@ public class VMCollectionList extends AndroidViewModel {
     }
 
     private static class CheckImportDataTask extends AsyncTask<String, Void, Boolean>{
-        private RDailyCollectionPlan poDCPRepo;
-        private CheckImport mListener;
-        private EDCPCollectionDetail poDCPEntity;
+        private final RDailyCollectionPlan poDCPRepo;
+        private final CheckImport mListener;
 
         public CheckImportDataTask(RDailyCollectionPlan poDCPRepo, CheckImport mListener) {
             this.poDCPRepo = poDCPRepo;
@@ -1159,7 +1160,7 @@ public class VMCollectionList extends AndroidViewModel {
 
                 for(int i = 0; i < loArrray_detl.length(); i++) {
                     JSONObject loJson_detl = loArrray_detl.getJSONObject(i);
-                    poDCPEntity = poDCPRepo.checkCollectionImport(
+                    EDCPCollectionDetail poDCPEntity = poDCPRepo.checkCollectionImport(
                             loJson_master.getString("sTransNox"),
                             Integer.parseInt(loJson_detl.getString("nEntryNox")));
                     if(poDCPEntity != null) {

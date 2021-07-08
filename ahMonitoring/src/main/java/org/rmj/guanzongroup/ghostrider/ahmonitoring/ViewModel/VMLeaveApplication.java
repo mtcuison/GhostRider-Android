@@ -112,7 +112,7 @@ public class VMLeaveApplication extends AndroidViewModel {
                 param.put("nNoDaysxx", loLeave.getNoOfDaysx());
                 param.put("sPurposex", loLeave.getRemarksxx());
                 param.put("cLeaveTyp", loLeave.getLeaveType());
-                param.put("dAppldFrx", AppConstants.CURRENT_DATE);
+                param.put("dAppldFrx", new AppConstants().CURRENT_DATE);
 
                 EEmployeeLeave loApp = new EEmployeeLeave();
                 loApp.setTransNox(poLeave.getNextLeaveCode());

@@ -273,8 +273,8 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 info.setRemarksx(foMobile.getsRemarksx());
                 info.setTranStat("0");
                 info.setSendStat("0");
-                info.setModified(AppConstants.DATE_MODIFIED);
-                info.setTimeStmp(AppConstants.DATE_MODIFIED);
+                info.setModified(new AppConstants().DATE_MODIFIED);
+                info.setTimeStmp(new AppConstants().DATE_MODIFIED);
                 Objects.requireNonNull(this.plMobile.getValue()).add(info);
             } else {
                 callback.OnFailedResult(foMobile.getMessage());
@@ -309,8 +309,8 @@ public class VMCustomerNotAround extends AndroidViewModel {
                 info.setRemarksx(loAdd.get(x).sRemarksx);
                 info.setTranStat("1");
                 info.setSendStat("0");
-                info.setModified(AppConstants.DATE_MODIFIED);
-                info.setTimeStmp(AppConstants.DATE_MODIFIED);
+                info.setModified(new AppConstants().DATE_MODIFIED);
+                info.setTimeStmp(new AppConstants().DATE_MODIFIED);
                 addList.add(info);
             }
             poUpdate.insertUpdateAddress(addList);
@@ -398,7 +398,7 @@ public class VMCustomerNotAround extends AndroidViewModel {
         protected String doInBackground(EDCPCollectionDetail... detail) {
             Objects.requireNonNull(detail[0]).setRemCodex(RemarksCode);
             detail[0].setTranStat("1");
-            detail[0].setModified(AppConstants.DATE_MODIFIED);
+            detail[0].setModified(new AppConstants().DATE_MODIFIED);
             poDcp.updateCollectionDetailInfo(detail[0]);
             return null;
         }

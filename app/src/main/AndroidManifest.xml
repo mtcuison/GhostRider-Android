@@ -29,6 +29,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <uses-feature android:name="android.hardware.location.gps" />
 
@@ -98,6 +99,10 @@
         <service
             android:name="org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.DCPLocatorService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service android:name="org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorService"
+            android:foregroundServiceType="location"
+            tools:ignore="Instantiatable" />
 
         <service
             android:name=".Service.GMessagingService"

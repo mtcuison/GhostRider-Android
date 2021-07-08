@@ -132,9 +132,9 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CharacterTraitsInfo
                     loDetail.setOtherBad(infoModel.getCbOthers());
                     loDetail.setRemarksx(infoModel.getsRemarks());
                     loDetail.setTranStat(infoModel.getcTranstat());
-                    loDetail.setApproved(AppConstants.DATE_MODIFIED);
-                    loDetail.setTimeStmp(AppConstants.DATE_MODIFIED);
-                    loDetail.setReceived(AppConstants.DATE_MODIFIED);
+                    loDetail.setApproved(new AppConstants().DATE_MODIFIED);
+                    loDetail.setTimeStmp(new AppConstants().DATE_MODIFIED);
+                    loDetail.setReceived(new AppConstants().DATE_MODIFIED);
                     poCIEvaluation.updaCharacterTraits(loDetail);
 
                     if (!poConn.isDeviceConnected()) {

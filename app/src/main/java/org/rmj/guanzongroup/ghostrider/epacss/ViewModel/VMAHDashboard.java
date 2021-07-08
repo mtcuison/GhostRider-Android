@@ -61,6 +61,6 @@ public class VMAHDashboard extends AndroidViewModel {
     }
 
     public LiveData<List<ELog_Selfie>> getCurrentLogTimeIfExist(){
-        return poLog.getCurrentLogTimeIfExist(AppConstants.CURRENT_DATE);
+        return poLog.getCurrentLogTimeIfExist(new AppConstants().CURRENT_DATE);
     }
 }

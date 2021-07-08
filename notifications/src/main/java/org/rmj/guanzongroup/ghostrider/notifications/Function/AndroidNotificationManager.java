@@ -105,8 +105,8 @@ public class AndroidNotificationManager {
                 loRecpnt.setRecpntID(loParser.getValueOf("rcptid"));
                 loRecpnt.setRecpntNm(loParser.getValueOf("rcptnm"));
                 loRecpnt.setMesgStat(loParser.getValueOf("status"));
-                loRecpnt.setReceived(AppConstants.DATE_MODIFIED);
-                loRecpnt.setTimeStmp(AppConstants.DATE_MODIFIED);
+                loRecpnt.setReceived(new AppConstants().DATE_MODIFIED);
+                loRecpnt.setTimeStmp(new AppConstants().DATE_MODIFIED);
 
                 ENotificationUser loUser = new ENotificationUser();
                 loUser.setUserIDxx(loParser.getValueOf("srceid"));
@@ -140,7 +140,7 @@ public class AndroidNotificationManager {
                     JSONObject params = new JSONObject();
                     params.put("transno", lsMessageID);
                     params.put("status", "2");
-                    params.put("stamp", AppConstants.DATE_MODIFIED);
+                    params.put("stamp", new AppConstants().DATE_MODIFIED);
                     params.put("infox", "");
 
                     String response = WebClient.httpsPostJSon(URL_SEND_RESPONSE, data.toString(), poHeaders.getHeaders());

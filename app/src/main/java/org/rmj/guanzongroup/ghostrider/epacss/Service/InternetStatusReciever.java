@@ -354,7 +354,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                             JSONObject loResponse = new JSONObject(lsResponse);
                             if (loResponse.getString("result").equalsIgnoreCase("success")) {
                                 loDetail.setSendStat("1");
-                                loDetail.setModified(AppConstants.DATE_MODIFIED);
+                                loDetail.setModified(new AppConstants().DATE_MODIFIED);
                                 poDcp.updateCollectionDetailInfo(loDetail);
                                 isSent[x] = true;
                             } else {

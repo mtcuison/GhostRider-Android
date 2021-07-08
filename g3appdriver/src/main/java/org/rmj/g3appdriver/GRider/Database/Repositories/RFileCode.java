@@ -101,7 +101,7 @@ public class RFileCode implements DFileCode{
                             "," + SQLUtil.toSQL(loJson.getString("sBriefDsc")) +
                             "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
                             "," + SQLUtil.toSQL(loJson.getInt("nEntryNox")) +
-                            "," + SQLUtil.toSQL(AppConstants.CURRENT_DATE) +
+                            "," + SQLUtil.toSQL(new AppConstants().CURRENT_DATE) +
                             "," + SQLUtil.toSQL(loJson.getString("dTimeStmp")) + ")";
                 }
             } else { //record already exists
@@ -117,7 +117,7 @@ public class RFileCode implements DFileCode{
                             ",  sBriefDsc = " + SQLUtil.toSQL(loJson.getString("sBriefDsc")) +
                             ",  cRecdStat = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
                             ",  nEntryNox = " + SQLUtil.toSQL(loJson.getInt("nEntryNox")) +
-                            ",  dLstUpdte = " + SQLUtil.toSQL(AppConstants.CURRENT_DATE) +
+                            ",  dLstUpdte = " + SQLUtil.toSQL(new AppConstants().CURRENT_DATE) +
                             ",  dTimeStmp = " + SQLUtil.toSQL(loJson.getString("dTimeStmp"))  +
                             " WHERE sFileCode = " + SQLUtil.toSQL(loJson.getString("sFileCode"));
                 }
