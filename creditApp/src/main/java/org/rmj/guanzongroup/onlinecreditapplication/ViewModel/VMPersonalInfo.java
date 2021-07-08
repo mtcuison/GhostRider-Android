@@ -11,17 +11,11 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -106,7 +100,7 @@ public class VMPersonalInfo extends AndroidViewModel {
             infoModel.setCitizenx(lsCitizen.getValue());
             infoModel.setGender(lsGender.getValue());
             infoModel.setCvlStats(lsCvlStats.getValue());
-            if(infoModel.isPersonalInfoValid()) {
+            if (infoModel.isPersonalInfoValid()) {
                 poModel.setValue(infoModel);
                 poGoCas.ApplicantInfo().setLastName(infoModel.getLastName());
                 poGoCas.ApplicantInfo().setFirstName(infoModel.getFrstName());
@@ -134,19 +128,27 @@ public class VMPersonalInfo extends AndroidViewModel {
                 poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
                 poInfo.setApplInfo(poGoCas.ApplicantInfo().toJSONString());
                 int age = AgeCalculator.getAge(poGoCas.ApplicantInfo().getBirthdate());
-                if(age <=17 || age >= 60){
+                if (age <= 17 || age >= 60) {
                     poInfo.setIsComakr("1");
                 } else {
                     poInfo.setIsComakr("0");
                 }
 
-                if(poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1") ||
-                 poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("5")){
+                if (poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1") ||
+                        poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("5")) {
                     poInfo.setIsSpouse("1");
                 } else {
                     poInfo.setIsSpouse("0");
                 }
-                RCreditApplicant.updateGOCasData(poInfo);
+
+                if(poInfo.getApplInfo() == null){
+                    poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
+                    poInfo.setApplInfo(poGoCas.ApplicantInfo().toJSONString());
+                    callBack.onSaveSuccessResult(TRANSNOX.getValue());
+                } else if(poInfo.getApplInfo().equalsIgnoreCase(poGoCas.toJSONString())){
+                    RCreditApplicant.updateGOCasData(poInfo);
+                }
+
                 callBack.onSaveSuccessResult(TRANSNOX.getValue());
                 return true;
             } else {

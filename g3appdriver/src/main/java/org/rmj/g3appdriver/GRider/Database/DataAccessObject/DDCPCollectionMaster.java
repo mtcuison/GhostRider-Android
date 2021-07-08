@@ -43,4 +43,12 @@ public interface DDCPCollectionMaster {
 
     @Query("UPDATE LR_DCP_Collection_Master SET nEntryNox =:nEntryNox")
     void updateEntryMaster(int nEntryNox);
+
+    @Query("UPDATE LR_DCP_Collection_Master " +
+            "SET cSendStat = '1', " +
+            "cTranStat = '2', " +
+            "dSendDate =:dModified, " +
+            "dModified =:dModified " +
+            "WHERE sTransNox =:Transnox")
+    void updateSentPostedDCPMaster(String Transnox, String dModified);
 }

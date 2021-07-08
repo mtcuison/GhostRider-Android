@@ -56,7 +56,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAddColle
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.Dialog_ClientSearch;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.Dialog_DebugEntry;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.DCPLocatorService;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorService;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 
@@ -471,7 +471,8 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     @Override
     public void OnSuccessDownload() {
         poDialogx.dismiss();
-        ServiceScheduler.scheduleJob(Activity_CollectionList.this, DCPLocatorService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.GLocatorServiceID);
+//        ServiceScheduler.scheduleJob(Activity_CollectionList.this, DCPLocatorService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.GLocatorServiceID);
+        startService(new Intent(Activity_CollectionList.this, GLocatorService.class));
     }
 
     @Override
@@ -493,12 +494,12 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
     public void showDownloadDcp(){
         if(!mViewModel.isDebugMode()){
-            mViewModel.DownloadDcp(AppConstants.CURRENT_DATE, Activity_CollectionList.this);
+            mViewModel.DownloadDcp(new AppConstants().CURRENT_DATE, Activity_CollectionList.this);
         } else {
             Dialog_DebugEntry loDebug = new Dialog_DebugEntry(Activity_CollectionList.this);
             loDebug.iniDialog(args -> {
                 mViewModel.setEmployeeID(args);
-                mViewModel.DownloadDcp(AppConstants.CURRENT_DATE, Activity_CollectionList.this);
+                mViewModel.DownloadDcp(new AppConstants().CURRENT_DATE, Activity_CollectionList.this);
             });
             loDebug.show();
         }

@@ -25,16 +25,17 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.TransparentToolbar;
 import org.rmj.g3appdriver.utils.AppDirectoryCreator;
 import org.rmj.g3appdriver.utils.ServiceScheduler;
 import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.DCPLocatorService;
-import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorService;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataImportService;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.GMessagingService;
@@ -43,7 +44,6 @@ import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSplashScreen;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static org.rmj.g3appdriver.utils.ServiceScheduler.FIFTEEN_MINUTE_PERIODIC;
 import static org.rmj.g3appdriver.utils.ServiceScheduler.TWO_HOUR_PERIODIC;
 
 public class Activity_SplashScreen extends AppCompatActivity {
@@ -73,16 +73,11 @@ public class Activity_SplashScreen extends AppCompatActivity {
         try {
             mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
             startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
-
             if(!ServiceScheduler.isJobRunning(Activity_SplashScreen.this, AppConstants.DataServiceID)) {
                 ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataImportService.class, TWO_HOUR_PERIODIC, AppConstants.DataServiceID);
             }
 
             mViewModel.getVersionInfo().observe(Activity_SplashScreen.this, s -> lblVrsion.setText(s));
-
-            if(!ServiceScheduler.isJobRunning(Activity_SplashScreen.this, AppConstants.GLocatorServiceID)) {
-                ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DCPLocatorService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.GLocatorServiceID);
-            }
 
             mViewModel.isPermissionsGranted().observe(this, isGranted -> {
                 if(!isGranted){
@@ -95,30 +90,34 @@ public class Activity_SplashScreen extends AppCompatActivity {
                                     @SuppressLint("SimpleDateFormat") SimpleDateFormat loFormater = new SimpleDateFormat("yyyy-MM-dd");
                                     Date loDate = new Date();
                                     String lsDateNow = loFormater.format(loDate);
-                                    if (sessionDate.equalsIgnoreCase(lsDateNow)) {
-                                        mViewModel.getSessionTime().observe(this, session -> {
-                                            mViewModel.setSessionTime(session.Session);
-                                            mViewModel.isSessionValid().observe(this, aBoolean -> {
-                                                for(int x = 0; x < 3; x++){
-                                                    int progress = (int) ((x / (float) x) * 100);
-                                                    prgrssBar.setProgress(progress);
-                                                    x++;
-                                                    try {
-                                                        Thread.sleep(1000);
-                                                    } catch (InterruptedException e) {
-                                                        e.printStackTrace();
+                                    if(sessionDate != null) {
+                                        if (sessionDate.equalsIgnoreCase(lsDateNow)) {
+                                            mViewModel.getSessionTime().observe(this, session -> {
+                                                mViewModel.setSessionTime(session.Session);
+                                                mViewModel.isSessionValid().observe(this, sessionValid -> {
+                                                    for (int x = 0; x < 3; x++) {
+                                                        int progress = (int) ((x / (float) x) * 100);
+                                                        prgrssBar.setProgress(progress);
+                                                        x++;
+                                                        try {
+                                                            Thread.sleep(1000);
+                                                        } catch (InterruptedException e) {
+                                                            e.printStackTrace();
+                                                        }
                                                     }
-                                                }
-                                                 if (aBoolean) {
-                                                    startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
-                                                    finish();
-                                                } else {
-                                                    startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
-                                                }
+                                                    if (sessionValid) {
+                                                        startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
+                                                        finish();
+                                                    } else {
+                                                        startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+                                                    }
+                                                });
+
                                             });
 
-                                        });
-
+                                        } else {
+                                            startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+                                        }
                                     } else {
                                         startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
                                     }
@@ -143,6 +142,23 @@ public class Activity_SplashScreen extends AppCompatActivity {
                     });
                 }
             });
+
+            mViewModel.getLocatorDateTrigger().observe(Activity_SplashScreen.this, new Observer<DDCPCollectionDetail.Location_Data_Trigger>() {
+                @Override
+                public void onChanged(DDCPCollectionDetail.Location_Data_Trigger data) {
+                    if(data.CollectionMaster == 1 && data.PostedCollection == 0){
+                        startService(new Intent(Activity_SplashScreen.this, GLocatorService.class));
+                    } else if(data.Cash_On_Hand == null) {
+                        Log.d(TAG, "No cash on hand");
+                    } else if(data.Cash_On_Hand != null){
+                        if (!data.Cash_On_Hand.equalsIgnoreCase("0.0") ||
+                                !data.Cash_On_Hand.equalsIgnoreCase("0")) {
+                            startService(new Intent(Activity_SplashScreen.this, GLocatorService.class));
+                        }
+                    }
+                }
+            });
+
         }catch (NullPointerException e){
             e.printStackTrace();
         }catch (RuntimeException e){

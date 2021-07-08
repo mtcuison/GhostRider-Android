@@ -52,7 +52,7 @@ public class RDCP_Remittance {
     }
 
     public void updateSendStat(String TransNox, String EntryNox){
-        remitDao.updateSendStatus(AppConstants.DATE_MODIFIED, TransNox, EntryNox);
+        remitDao.updateSendStatus(new AppConstants().DATE_MODIFIED, TransNox, EntryNox);
     }
 
     public LiveData<String> getTotalRemittedCollection(String dTransact){

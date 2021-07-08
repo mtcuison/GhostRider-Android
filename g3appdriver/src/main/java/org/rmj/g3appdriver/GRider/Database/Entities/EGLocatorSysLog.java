@@ -16,17 +16,18 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "GLocator_Sys_log")
+@Entity(tableName = "GLocator_Sys_log", primaryKeys = {"sUserIDxx", "sDeviceID", "dTransact"})
 public class EGLocatorSysLog {
 
-    @PrimaryKey
     @NonNull
-    @ColumnInfo(name = "sTransNox")
-    private String TransNox;
     @ColumnInfo(name = "sUserIDxx")
     private String UserIDxx;
+
+    @NonNull
     @ColumnInfo(name = "sDeviceID")
     private String DeviceID;
+
+    @NonNull
     @ColumnInfo(name = "dTransact")
     private String Transact = "";
     @ColumnInfo(name = "nLongitud")
@@ -41,15 +42,6 @@ public class EGLocatorSysLog {
     private String LstUpdte;
 
     public EGLocatorSysLog() {
-    }
-
-    @NonNull
-    public String getTransNox() {
-        return TransNox;
-    }
-
-    public void setTransNox(@NonNull String transNox) {
-        TransNox = transNox;
     }
 
     public String getUserIDxx() {

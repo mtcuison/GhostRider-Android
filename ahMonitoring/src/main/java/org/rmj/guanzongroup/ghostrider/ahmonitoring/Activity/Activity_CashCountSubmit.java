@@ -80,7 +80,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         });
         mViewModel.getTransNox().observe(Activity_CashCountSubmit.this, s-> {
             txtTransNox.setText(s);
-            txtCurr_DateTime.setText(AppConstants.CURRENT_DATE_WORD);
+            txtCurr_DateTime.setText(new AppConstants().CURRENT_DATE_WORD);
         });
         btnQuickSearch.setOnClickListener(v ->  {
             if (txtRequestID.getText().toString().isEmpty()){
@@ -100,13 +100,13 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
                     parameters.put("sSINoxxxx", txtSalesInvoice.getText().toString());
                     parameters.put("sPRNoxxxx", txtProvisionalReceipt.getText().toString());
                     parameters.put("sCRNoxxxx", txtCollectionReceipt.getText().toString());
-                    parameters.put("EntryTime", AppConstants.DATE_MODIFIED);
+                    parameters.put("EntryTime", new AppConstants().DATE_MODIFIED);
                     parameters.put("sReqstdBy", txtRequestID.getText().toString());
                     infoModel.setCrNoxxxx(txtCollectionReceipt.getText().toString());
                     infoModel.setPrNoxxxx(txtProvisionalReceipt.getText().toString());
                     infoModel.setSiNoxxxx(txtSalesInvoice.getText().toString());
                     infoModel.setOrNoxxxx(txtOfficialReceipt.getText().toString());
-                    infoModel.setEntryTme(AppConstants.DATE_MODIFIED);
+                    infoModel.setEntryTme(new AppConstants().DATE_MODIFIED);
                     mViewModel.saveCashCount(infoModel, parameters, Activity_CashCountSubmit.this);
                 } catch (JSONException e) {
                     e.printStackTrace();

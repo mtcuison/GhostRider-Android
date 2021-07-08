@@ -140,7 +140,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                                 poImage.setLongitud(String.valueOf(longitude));
                                 poImage.setSourceNo(applicationLogs.get(pos).sTransNox);
                                 poImage.setImageNme(FileName);
-                                poImage.setCaptured(AppConstants.DATE_MODIFIED);
+                                poImage.setCaptured(new AppConstants().DATE_MODIFIED);
                                 startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                             });
                         }else{
@@ -193,7 +193,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                             poImage.setLongitud(String.valueOf(longitude));
                             poImage.setSourceNo(TransNox);
                             poImage.setImageNme(FileName);
-                            poImage.setCaptured(AppConstants.DATE_MODIFIED);
+                            poImage.setCaptured(new AppConstants().DATE_MODIFIED);
                             startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                         });
                     }

@@ -180,44 +180,47 @@ public class VMCheckUpdate extends AndroidViewModel {
         protected String doInBackground(String... strings) {
             String lsResult;
             try {
-                if(poConn.isDeviceConnected()) {
-                    URL url = new URL(URL_DOWNLOAD_UPDATE);
-                    HttpURLConnection c = (HttpURLConnection) url.openConnection();
-                    c.setRequestMethod("GET");
-                    c.setDoOutput(true);
-                    c.connect();
+                if(poConn.isWifiConnected()) {
+                    if (poConn.isDeviceConnected()) {
+                        URL url = new URL(URL_DOWNLOAD_UPDATE);
+                        HttpURLConnection c = (HttpURLConnection) url.openConnection();
+                        c.setRequestMethod("GET");
+                        c.setDoOutput(true);
+                        c.connect();
 
-
-                    File file = new File(PATH);
-                    file.mkdirs();
-                    File outputFile = new File(file, "gRider.apk");
-                    if (outputFile.exists()) {
-                        outputFile.delete();
-                    }
-                    FileOutputStream fos = new FileOutputStream(outputFile);
-                    BigDecimal fileLength = BigDecimal.valueOf(c.getContentLength());
-                    InputStream is = c.getInputStream();
-
-                    byte[] buffer = new byte[4096];
-                    BigDecimal total = BigDecimal.valueOf(4096);
-                    int len1;
-                    while ((len1 = is.read(buffer)) != -1) {
-                        total = total.add(BigDecimal.valueOf(len1));
-                        if(fileLength.intValue() > 0){
-                            BigDecimal percentage = percentage(total, fileLength).multiply(ONE_HUNDRED);
-                            publishProgress(percentage.intValue());
+                        File file = new File(PATH);
+                        file.mkdirs();
+                        File outputFile = new File(file, "gRider.apk");
+                        if (outputFile.exists()) {
+                            outputFile.delete();
                         }
-                        fos.write(buffer, 0, len1);
+                        FileOutputStream fos = new FileOutputStream(outputFile);
+                        BigDecimal fileLength = BigDecimal.valueOf(c.getContentLength());
+                        InputStream is = c.getInputStream();
+
+                        byte[] buffer = new byte[4096];
+                        BigDecimal total = BigDecimal.valueOf(4096);
+                        int len1;
+                        while ((len1 = is.read(buffer)) != -1) {
+                            total = total.add(BigDecimal.valueOf(len1));
+                            if (fileLength.intValue() > 0) {
+                                BigDecimal percentage = percentage(total, fileLength).multiply(ONE_HUNDRED);
+                                publishProgress(percentage.intValue());
+                            }
+                            fos.write(buffer, 0, len1);
+                        }
+                        fos.close();
+                        is.close();
+                        lsResult = AppConstants.APPROVAL_CODE_GENERATED("Download Complete. Ready to install.");
+                    } else {
+                        lsResult = AppConstants.NO_INTERNET();
                     }
-                    fos.close();
-                    is.close();
-                    lsResult = "success";
                 } else {
-                    lsResult = "error";
+                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("You need wifi connection in order to download updates.");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                lsResult = "error";
+                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
             }
             return lsResult;
         }
@@ -231,17 +234,24 @@ public class VMCheckUpdate extends AndroidViewModel {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if(s.equalsIgnoreCase("success")) {
-                String PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/gRider.apk";
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true);
-                Uri loUriFile = FileProvider.getUriForFile(instance, "org.rmj.guanzongroup.ghostrider.epacss" + ".provider", new File(PATH));
-                intent.setDataAndType(loUriFile, "application/vnd.android" + ".package-archive");
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                callback.OnFinishDownload(intent);
-            } else {
-                callback.OnFailedDownload("Unknown error occur.");
+            try {
+                JSONObject loJson = new JSONObject(s);
+                String lsResult = loJson.getString("result");
+                if (lsResult.equalsIgnoreCase("success")) {
+                    String PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/gRider.apk";
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true);
+                    Uri loUriFile = FileProvider.getUriForFile(instance, "org.rmj.guanzongroup.ghostrider.epacss" + ".provider", new File(PATH));
+                    intent.setDataAndType(loUriFile, "application/vnd.android" + ".package-archive");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    callback.OnFinishDownload(intent);
+                } else {
+                    JSONObject loError = loJson.getJSONObject("error");
+                    callback.OnFailedDownload(loError.getString("message"));
+                }
+            } catch (Exception e){
+                e.printStackTrace();
             }
         }
 

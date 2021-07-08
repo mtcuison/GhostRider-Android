@@ -34,9 +34,9 @@ public class EDCPCollectionMaster {
     @ColumnInfo(name = "dReferDte")
     private String ReferDte;
     @ColumnInfo(name = "cTranStat")
-    private char TranStat;
+    private String TranStat;
     @ColumnInfo(name = "cDCPTypex")
-    private char DCPTypex;
+    private String DCPTypex;
     @ColumnInfo(name = "nEntryNox")
     private String EntryNox;
     @ColumnInfo(name = "sBranchNm")
@@ -44,7 +44,7 @@ public class EDCPCollectionMaster {
     @ColumnInfo(name = "sCollctID")
     private String CollctID;
     @ColumnInfo(name = "cSendStat")
-    private char SendStat;
+    private String SendStat;
     @ColumnInfo(name = "dSendDate")
     private String SendDate;
     @ColumnInfo(name = "dModified")
@@ -102,19 +102,19 @@ public class EDCPCollectionMaster {
         ReferDte = referDte;
     }
 
-    public char getTranStat() {
+    public String getTranStat() {
         return TranStat;
     }
 
-    public void setTranStat(char tranStat) {
+    public void setTranStat(String tranStat) {
         TranStat = tranStat;
     }
 
-    public char getDCPTypex() {
+    public String getDCPTypex() {
         return DCPTypex;
     }
 
-    public void setDCPTypex(char DCPTypex) {
+    public void setDCPTypex(String DCPTypex) {
         this.DCPTypex = DCPTypex;
     }
 
@@ -142,11 +142,11 @@ public class EDCPCollectionMaster {
         CollctID = collctID;
     }
 
-    public char getSendStat() {
+    public String getSendStat() {
         return SendStat;
     }
 
-    public void setSendStat(char sendStat) {
+    public void setSendStat(String sendStat) {
         SendStat = sendStat;
     }
 

@@ -113,7 +113,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
         loCreditApp.setDownPaym(poInfo.getDownPaym());
         loCreditApp.setCreatedx(poInfo.getCreatedx());
         loCreditApp.setTransact(poInfo.getTransact());
-        loCreditApp.setTimeStmp(AppConstants.DATE_MODIFIED);
+        loCreditApp.setTimeStmp(new AppConstants().DATE_MODIFIED);
         loCreditApp.setSendStat("0");
 
         EBranchLoanApplication loLoan = new EBranchLoanApplication();
@@ -125,7 +125,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
         loLoan.setAcctTerm(String.valueOf(loGOCas.PurchaseInfo().getAccountTerm()));
         loLoan.setCreatedX(loCreditApp.getCreatedx());
         loLoan.setTranStat("0");
-        loLoan.setTimeStmp(AppConstants.DATE_MODIFIED);
+        loLoan.setTimeStmp(new AppConstants().DATE_MODIFIED);
         new UploadCreditApp(instance).UploadLoanApplication(loCreditApp, loLoan, poPhoto, listener);
     }
 

@@ -124,11 +124,11 @@ public class Activity_Transaction extends AppCompatActivity {
             return new Fragment_CustomerNotAround();
 //            return new Fragment_CustomerNotAround();
         } else if(transaction.equalsIgnoreCase("Loan Unit") ||
-                transaction.equalsIgnoreCase("For Legal Action") ||
                 transaction.equalsIgnoreCase("False Ownership") ||
                 transaction.equalsIgnoreCase("Transferred/Assumed")){
             return new Fragment_LoanUnit();
         } else if(transaction.equalsIgnoreCase("Car nap") ||
+                transaction.equalsIgnoreCase("For Legal Action") ||
                 transaction.equalsIgnoreCase("Uncooperative") ||
                 transaction.equalsIgnoreCase("Missing Customer") ||
                 transaction.equalsIgnoreCase("Missing Unit") ||

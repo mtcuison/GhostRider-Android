@@ -35,17 +35,6 @@ public class RLocationSysLog {
     }
 
     public void updateSysLogStatus(String dTransact){
-        sysLogDao.updateSysLogStatus(AppConstants.DATE_MODIFIED, dTransact);
-    }
-
-    public String getLocationCode(){
-        String lsNextCode = "";
-        try{
-            GConnection loConn = DbConnection.doConnect(instance);
-            lsNextCode = MiscUtil.getNextCode("GLocator_Sys_log", "sTransNox", true, loConn.getConnection(), "", 12, false);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return lsNextCode;
+        sysLogDao.updateSysLogStatus(new AppConstants().DATE_MODIFIED, dTransact);
     }
 }

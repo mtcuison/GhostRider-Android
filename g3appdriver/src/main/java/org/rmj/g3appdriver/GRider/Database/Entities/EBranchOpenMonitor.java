@@ -40,7 +40,7 @@ public class EBranchOpenMonitor {
     @ColumnInfo(name = "dNotified")
     private String Notified;
     @ColumnInfo(name = "dTimeStmp")
-    private String TimeStmp = AppConstants.DATE_MODIFIED;
+    private String TimeStmp = new AppConstants().DATE_MODIFIED;
 
     public EBranchOpenMonitor() {
     }

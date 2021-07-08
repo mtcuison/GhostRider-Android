@@ -332,7 +332,7 @@ public class VMClientInfo extends AndroidViewModel {
                                 loImage.setImageNme((String) loDownload.get("filename"));
                                 loImage.setLatitude("0.0");
                                 loImage.setLongitud("0.0");
-                                loImage.setSendDate(AppConstants.DATE_MODIFIED);
+                                loImage.setSendDate(new AppConstants().DATE_MODIFIED);
                                 loImage.setSendStat("1");
                                 //loImage....
                                 ScannerConstants.PhotoPath = loImage.getFileLoct();

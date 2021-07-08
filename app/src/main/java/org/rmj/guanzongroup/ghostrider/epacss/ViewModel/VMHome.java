@@ -115,6 +115,6 @@ public class VMHome extends AndroidViewModel {
     }
 
     public LiveData<List<EBranchOpenMonitor>> getBranchOpeningMonitor(){
-        return poOpening.getBranchOpeningForDashBoard(AppConstants.CURRENT_DATE);
+        return poOpening.getBranchOpeningForDashBoard(new AppConstants().CURRENT_DATE);
     }
 }

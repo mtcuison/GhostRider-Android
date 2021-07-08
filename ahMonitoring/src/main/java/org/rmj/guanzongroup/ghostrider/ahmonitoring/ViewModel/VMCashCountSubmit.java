@@ -233,7 +233,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
 
                 } else {
                     eCashCount.setTransNox(jsonObject.getString("sTransNox"));
-                    eCashCount.setTransact(AppConstants.CURRENT_DATE);
+                    eCashCount.setTransact(new AppConstants().CURRENT_DATE);
                     eCashCount.setCn0005cx(jsonObject.getString("nCn0005cx"));
                     eCashCount.setCn0010cx(jsonObject.getString("nCn0010cx"));
                     eCashCount.setCn0025cx(jsonObject.getString("nCn0025cx"));

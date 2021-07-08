@@ -90,7 +90,7 @@ public class Activity_CashCounter extends AppCompatActivity {
             try {
                 lblBranch.setText(eBranchInfo.getBranchNm());
                 lblAddxx.setText(eBranchInfo.getAddressx());
-                lblDate.setText(AppConstants.CURRENT_DATE_WORD);
+                lblDate.setText(new AppConstants().CURRENT_DATE_WORD);
             } catch (Exception e){
                 e.printStackTrace();
             }
