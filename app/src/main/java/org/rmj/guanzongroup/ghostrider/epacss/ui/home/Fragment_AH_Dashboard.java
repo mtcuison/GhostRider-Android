@@ -37,6 +37,7 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Applicatio
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAHDashboard;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Help;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
 public class Fragment_AH_Dashboard extends Fragment {
@@ -77,14 +78,29 @@ public class Fragment_AH_Dashboard extends Fragment {
         btnSettings = view.findViewById(R.id.btn_settings);
 
         btnSelfie.setOnClickListener(v -> {
-            Intent loIntent = new Intent(getActivity(), Activity_Application.class);
-            loIntent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
-            startActivity(loIntent);
+//            Intent loIntent = new Intent(getActivity(), Activity_Application.class);
+//            loIntent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
+//            startActivity(loIntent);
+
+            if (AppConfigPreference.getInstance(getActivity()).isHelpLoginNotice()){
+                Intent intent = new Intent(getActivity(), Activity_Help.class);
+                intent.putExtra("help", AppConstants.INTENT_SELFIE_LOGIN);
+                getActivity().startActivityForResult(intent, AppConstants.INTENT_SELFIE_LOGIN);
+
+            }else{
+                Intent intent = new Intent(getActivity(), Activity_Application.class);
+                intent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
+                startActivity(intent);
+            }
+
+
         });
 
         btnSettings.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), Activity_Settings.class);
+//            Intent intent = new Intent(getActivity(), Activity_Help.class);
             startActivity(intent);
+
         });
 
         btnLogout.setOnClickListener(v -> {

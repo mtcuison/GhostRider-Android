@@ -4,13 +4,13 @@
   ~ Copyright (c) 2021. Guanzon Central Office
   ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
   ~ Project name : GhostRider_Android
-  ~ Module : GhostRider_Android.app
+  ~ Module : GhostRider_Android.settings
   ~ Electronic Personnel Access Control Security System
-  ~ project file created : 4/24/21 3:19 PM
-  ~ project file last modified : 4/24/21 3:17 PM
+  ~ project file created : 7/10/21 9:52 AM
+  ~ project file last modified : 7/10/21 9:52 AM
   -->
-
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_nav_dropdown" android:state_empty="true"/>
-    <item android:drawable="@drawable/ic_nav_dropdown_collapse" android:state_expanded="true"/>
+    <item android:drawable="@drawable/slider_selected_dot"
+        android:state_selected="true"/>
+    <item android:drawable="@drawable/slider_unselected_dot"/>
 </selector>
