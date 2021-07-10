@@ -41,8 +41,6 @@ public class AppConfigPreference {
     private static final String APP_NAME_VERSION = "gRider_VersionName";
     private static final String APP_DATE_RELEASE = "gRider_DateRelease";
 
-    private static final String HELP_DCP_NOTICE = "DCP_Instruction_Notice";
-
     private static AppConfigPreference mAppConfigPreference;
 
     private AppConfigPreference(Context context){
