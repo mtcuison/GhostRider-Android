@@ -36,6 +36,7 @@ import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_CheckUpdate;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_HelpList;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_LocalData;
 import org.rmj.guanzongroup.ghostrider.settings.Dialog.Dialog_ChangePassword;
 import org.rmj.guanzongroup.ghostrider.settings.R;
@@ -59,7 +60,8 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
             localData,
             Accountxx,
             chkUpdate,
-            debugMode;
+            debugMode,
+            helpPref;
     private VMSettings mViewModel;
     private DatabaseExport dbExport;
     private MessageBox loMessage;
@@ -77,6 +79,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         Accountxx = getPreferenceManager().findPreference("accountPrefs");
         chkUpdate = getPreferenceManager().findPreference("appUpdatePrefs");
         debugMode = getPreferenceScreen().findPreference("appDebugModePref");
+        helpPref = getPreferenceManager().findPreference("appHelpPrefs");
 
         dbExport = new DatabaseExport(getActivity(), "Database", "GGC_ISysDBF.db");
         loMessage = new MessageBox(getActivity());
@@ -260,6 +263,13 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
             });
 
         }
+        if(helpPref != null){
+            helpPref.setOnPreferenceClickListener(preference -> {
+                startActivity(new Intent(getActivity(), Activity_HelpList.class));
+                return false;
+            });
+        }
+
     }
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

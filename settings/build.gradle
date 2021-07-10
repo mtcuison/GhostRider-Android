@@ -70,4 +70,5 @@ dependencies {
 
     implementation project(':g3appdriver')
     implementation project(':appdriver') //implement GhostRider Application Driver
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

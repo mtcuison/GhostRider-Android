@@ -41,6 +41,9 @@ public class AppConfigPreference {
     private static final String APP_NAME_VERSION = "gRider_VersionName";
     private static final String APP_DATE_RELEASE = "gRider_DateRelease";
 
+    private static final String HELP_LOGIN_NOTICE = "Login_Instruction_Notice";
+    private static final String HELP_DCP_DOWNLOAD_NOTICE = "DCP_Download_Instruction_Notice";
+
     private static AppConfigPreference mAppConfigPreference;
 
     private AppConfigPreference(Context context){
@@ -202,5 +205,32 @@ public class AppConfigPreference {
 
     public String getDateRelease(){
         return pref.getString(APP_DATE_RELEASE, "");
+    }
+
+    //is first open help login
+    public void setIsHelpLoginNotice(boolean loginNotice){
+        editor.putBoolean(HELP_LOGIN_NOTICE, loginNotice);
+
+        editor.commit();
+
+        Log.e(TAG, "HELP_LOGIN_NOTICE first launched.");
+    }
+
+    public boolean isHelpLoginNotice(){
+        return pref.getBoolean(HELP_LOGIN_NOTICE, true);
+    }
+
+
+    //is first open help login
+    public void setIsHelpDownloadDCPNotice(boolean downloadNotice){
+        editor.putBoolean(HELP_DCP_DOWNLOAD_NOTICE, downloadNotice);
+
+        editor.commit();
+
+        Log.e(TAG, "HELP_LOGIN_NOTICE first launched.");
+    }
+
+    public boolean isHelpDownloadDCPNotice(){
+        return pref.getBoolean(HELP_DCP_DOWNLOAD_NOTICE, true);
     }
 }

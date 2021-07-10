@@ -12,6 +12,7 @@
 package org.rmj.guanzongroup.ghostrider.epacss.Activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,9 +34,11 @@ import androidx.navigation.ui.AppBarConfiguration;
 
 import com.google.android.material.navigation.NavigationView;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.InternetStatusReciever;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMMainActivity;
@@ -171,5 +175,17 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         int id = item.getItemId();
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("request code:", String.valueOf(requestCode));
+        Log.e("result code:", String.valueOf(resultCode));
+        if(requestCode == AppConstants.INTENT_SELFIE_LOGIN && resultCode == RESULT_OK){
+            Intent intent = new Intent(Activity_Main.this, Activity_Application.class);
+            intent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
+            startActivity(intent);
+        }
     }
 }
