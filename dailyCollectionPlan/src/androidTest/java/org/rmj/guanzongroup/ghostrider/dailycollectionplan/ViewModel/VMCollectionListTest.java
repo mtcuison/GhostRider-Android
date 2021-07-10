@@ -39,7 +39,61 @@ public class VMCollectionListTest {
 
     @Test
     public void downloadDcp() {
-        /*boolean result = mViewModel.ImportData();
-        assertTrue(result);*/
+        boolean hasRemitted;
+        int paid = 0;
+        String remittance = null;
+        if(paid > 0){
+            if(remittance == null){
+                hasRemitted = false;
+            } else if (!remittance.equalsIgnoreCase("0")
+            || !remittance.equalsIgnoreCase("0.0")){
+                hasRemitted = false;
+            } else {
+                hasRemitted = true;
+            }
+        } else {
+            hasRemitted = true;
+        }
+        assertTrue(hasRemitted);
+    }
+
+    @Test
+    public void testHalfRemittance(){
+        boolean hasRemitted;
+        int paid = 1;
+        String remittance = "4424.0";
+        if(paid > 0){
+            if(remittance == null){
+                hasRemitted = false;
+            } else if (!remittance.equalsIgnoreCase("0")
+                    || !remittance.equalsIgnoreCase("0.0")){
+                hasRemitted = false;
+            } else {
+                hasRemitted = true;
+            }
+        } else {
+            hasRemitted = true;
+        }
+        assertTrue(hasRemitted);
+    }
+
+    @Test
+    public void testNoPaidCollection(){
+        boolean hasRemitted;
+        int paid = 0;
+        String remittance = null;
+        if(paid > 0){
+            if(remittance == null){
+                hasRemitted = false;
+            } else if (!remittance.equalsIgnoreCase("0")
+                    || !remittance.equalsIgnoreCase("0.0")){
+                hasRemitted = false;
+            } else {
+                hasRemitted = true;
+            }
+        } else {
+            hasRemitted = true;
+        }
+        assertTrue(hasRemitted);
     }
 }

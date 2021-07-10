@@ -57,6 +57,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -123,7 +124,6 @@ public class VMCollectionList extends AndroidViewModel {
         try{
             @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
             String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(loDate));
-//            String lsDate = "2021-06-24";
             boolean isExist = false;
             for(int x = 0; x < Objects.requireNonNull(masterList.getValue()).size(); x++){
                 if(masterList.getValue().get(x).getTransact().equalsIgnoreCase(lsDate)){
@@ -264,7 +264,7 @@ public class VMCollectionList extends AndroidViewModel {
                                 try {
                                     if(!doesExist1) {
                                         GToast.CreateMessage(getApplication(), "Collection list not applicable for the current logged user.", GToast.WARNING).show();
-                                    } else if(!loJSON_Master.getString("dTransact").equalsIgnoreCase(AppConstants.CURRENT_DATE)) {
+                                    } else if(!loJSON_Master.getString("dTransact").equalsIgnoreCase(new AppConstants().CURRENT_DATE)) {
                                         GToast.CreateMessage(getApplication(), "Collection list is not applicable for the current date.", GToast.WARNING).show();
                                     } else {
                                         EDCPCollectionMaster loMaster = new EDCPCollectionMaster();
@@ -272,11 +272,11 @@ public class VMCollectionList extends AndroidViewModel {
                                         loMaster.setTransact(loJSON_Master.getString("dTransact"));
                                         loMaster.setBranchNm(loJSON_Master.getString("sBranchNm"));
                                         loMaster.setTransNox(loJSON_Master.getString("sTransNox"));
-                                        loMaster.setDCPTypex(loJSON_Master.getString("cDCPTypex").charAt(0));
+                                        loMaster.setDCPTypex(loJSON_Master.getString("cDCPTypex"));
                                         loMaster.setEntryNox(loJSON_Master.getString("nEntryNox"));
                                         loMaster.setCollName(loJSON_Master.getString("xCollName"));
                                         loMaster.setCollctID(loJSON_Master.getString("sCollctID"));
-                                        loMaster.setTranStat(loJSON_Master.getString("cTranStat").charAt(0));
+                                        loMaster.setTranStat(loJSON_Master.getString("cTranStat"));
                                         loMaster.setRouteNme(loJSON_Master.getString("sRouteNme"));
                                         loMaster.setReferDte(loJSON_Master.getString("dReferDte"));
                                         loMaster.setReferNox(loJSON_Master.getString("sReferNox"));
@@ -552,6 +552,7 @@ public class VMCollectionList extends AndroidViewModel {
                 }
             } catch (Exception e){
                 e.printStackTrace();
+                response = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
             }
             return response;
         }
@@ -594,8 +595,8 @@ public class VMCollectionList extends AndroidViewModel {
             collectionMaster.setCollName(loJson.getString("xCollName"));
             collectionMaster.setRouteNme(loJson.getString("sRouteNme"));
             collectionMaster.setReferDte(loJson.getString("dReferDte"));
-            collectionMaster.setTranStat(loJson.getString("cTranStat").charAt(0));
-            collectionMaster.setDCPTypex(loJson.getString("cDCPTypex").charAt(0));
+            collectionMaster.setTranStat(loJson.getString("cTranStat"));
+            collectionMaster.setDCPTypex(loJson.getString("cDCPTypex"));
             collectionMaster.setEntryNox(loJson.getString("nEntryNox"));
             collectionMaster.setBranchNm(loJson.getString("sBranchNm"));
             collectionMaster.setCollctID(loJson.getString("sCollctID"));
@@ -690,177 +691,198 @@ public class VMCollectionList extends AndroidViewModel {
         @Override
         protected final String doInBackground(List<DDCPCollectionDetail.CollectionDetail>... lists) {
             String lsResult;
+            String[] reason;
             List<DDCPCollectionDetail.CollectionDetail> laCollDetl = lists[0];
             try {
-                if(!poConn.isDeviceConnected()){
-                    lsResult = AppConstants.NO_INTERNET();
-                } else {
-
-                    String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
-                    String lsAccess = WebFileServer.RequestAccessToken(lsClient);
-
-                    if(lsClient.isEmpty() || lsAccess.isEmpty()){
-                        lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
+                if(hasRemittedBeforePosting()) {
+                    if (!poConn.isDeviceConnected()) {
+                        lsResult = AppConstants.NO_INTERNET();
                     } else {
-                        boolean[] isDataSent = new boolean[laCollDetl.size()];
-                        if(laCollDetl.size() > 0) {
-                            for (int x = 0; x < laCollDetl.size(); x++) {
-                                try {
-                                    DDCPCollectionDetail.CollectionDetail loDetail = laCollDetl.get(x);
+                        String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                        String lsAccess = WebFileServer.RequestAccessToken(lsClient);
+                        if (lsClient.isEmpty() || lsAccess.isEmpty()) {
+                            lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
+                        } else {
+                            boolean[] isDataSent = new boolean[laCollDetl.size()];
+                            if (laCollDetl.size() > 0) {
+                                reason = new String[laCollDetl.size()];
+                                for (int x = 0; x < laCollDetl.size(); x++) {
+                                    try {
+                                        DDCPCollectionDetail.CollectionDetail loDetail = laCollDetl.get(x);
 
-                                    JSONObject loData = new JSONObject();
+                                        JSONObject loData = new JSONObject();
 
-                                    if (!loDetail.sRemCodex.isEmpty()) {
+                                        if (!loDetail.sRemCodex.isEmpty()) {
 
-                                        org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(loDetail.sFileLoct,
-                                                lsAccess,
-                                                loDetail.sFileCode,
-                                                loDetail.sAcctNmbr,
-                                                loDetail.sImageNme,
-                                                poUser.getBranchCode(),
-                                                loDetail.sSourceCD,
-                                                loDetail.sTransNox,
-                                                "");
+                                            org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(loDetail.sFileLoct,
+                                                    lsAccess,
+                                                    loDetail.sFileCode,
+                                                    loDetail.sAcctNmbr,
+                                                    loDetail.sImageNme,
+                                                    poUser.getBranchCode(),
+                                                    loDetail.sSourceCD,
+                                                    loDetail.sTransNox,
+                                                    "");
 
-                                        String lsResponse = (String) loUpload.get("result");
-                                        Log.e(TAG, "Uploading image result : " + lsResponse);
+                                            String lsResponse = (String) loUpload.get("result");
+                                            Log.e(TAG, "Uploading image result : " + lsResponse);
 
-                                        if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
-                                            Log.e(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. " + loDetail.nEntryNox + "was uploaded successfully");
+                                            if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
+                                                Log.e(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. " + loDetail.nEntryNox + "was uploaded successfully");
 
-                                            String lsTransNo = (String) loUpload.get("sTransNox");
-                                            poImage.updateImageInfo(lsTransNo, loDetail.sImageIDx);
+                                                String lsTransNo = (String) loUpload.get("sTransNox");
+                                                poImage.updateImageInfo(lsTransNo, loDetail.sImageIDx);
 
-                                            Thread.sleep(1000);
+                                                Thread.sleep(1000);
 
+                                            } else {
+                                                isDataSent[x] = false;
+                                                Log.e(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. " + loDetail.nEntryNox + " was not uploaded to server.");
+                                                JSONObject loError = new JSONObject(lsResponse);
+                                                Log.e(TAG, "Reason : " + loError.getString("message"));
+                                            }
+
+                                            if (loDetail.sRemCodex.equalsIgnoreCase("PAY")) {
+                                                loData.put("sPRNoxxxx", loDetail.sPRNoxxxx);
+                                                loData.put("nTranAmtx", loDetail.nTranAmtx);
+                                                loData.put("nDiscount", loDetail.nDiscount);
+                                                loData.put("nOthersxx", loDetail.nOthersxx);
+                                                loData.put("cTranType", loDetail.cTranType);
+                                                loData.put("nTranTotl", loDetail.nTranTotl);
+                                            } else if (loDetail.sRemCodex.equalsIgnoreCase("PTP")) {
+                                                //Required parameters for Promise to pay..
+                                                loData.put("cApntUnit", loDetail.cApntUnit);
+                                                loData.put("sBranchCd", loDetail.sBranchCd);
+                                                loData.put("dPromised", loDetail.dPromised);
+
+                                                loData.put("sImageNme", loDetail.sImageNme);
+                                                loData.put("sSourceCD", loDetail.sSourceCD);
+                                                loData.put("nLongitud", loDetail.nLongitud);
+                                                loData.put("nLatitude", loDetail.nLatitude);
+
+                                            } else if (loDetail.sRemCodex.equalsIgnoreCase("LUn") ||
+                                                    loDetail.sRemCodex.equalsIgnoreCase("TA") ||
+                                                    loDetail.sRemCodex.equalsIgnoreCase("FO")) {
+
+                                                //TODO: replace JSON parameters get the parameters which is being generated by RClientUpdate...
+                                                loData.put("sLastName", loDetail.sLastName);
+                                                loData.put("sFrstName", loDetail.sFrstName);
+                                                loData.put("sMiddName", loDetail.sMiddName);
+                                                loData.put("sSuffixNm", loDetail.sSuffixNm);
+                                                loData.put("sHouseNox", loDetail.sHouseNox);
+                                                loData.put("sAddressx", loDetail.sAddressx);
+                                                loData.put("sTownIDxx", loDetail.sTownIDxx);
+                                                loData.put("cGenderxx", loDetail.cGenderxx);
+                                                loData.put("cCivlStat", loDetail.cCivlStat);
+                                                loData.put("dBirthDte", loDetail.dBirthDte);
+                                                loData.put("dBirthPlc", loDetail.dBirthPlc);
+                                                loData.put("sLandline", loDetail.sLandline);
+                                                loData.put("sMobileNo", loDetail.sMobileNo);
+                                                loData.put("sEmailAdd", loDetail.sEmailAdd);
+
+                                                loData.put("sImageNme", loDetail.sImageNme);
+                                                loData.put("sSourceCD", loDetail.sSourceCD);
+                                                loData.put("nLongitud", loDetail.nLongitud);
+                                                loData.put("nLatitude", loDetail.nLatitude);
+                                            } else {
+                                                loData.put("sImageNme", loDetail.sImageNme);
+                                                loData.put("sSourceCD", loDetail.sSourceCD);
+                                                loData.put("nLongitud", loDetail.nLongitud);
+                                                loData.put("nLatitude", loDetail.nLatitude);
+                                            }
+
+                                            loData.put("sRemarksx", loDetail.sRemarksx);
                                         } else {
-                                            isDataSent[x] = false;
-                                            Log.e(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. " + loDetail.nEntryNox + " was not uploaded to server.");
-                                            JSONObject loError = new JSONObject(lsResponse);
-                                            Log.e(TAG, "Reason : " + loError.getString("message"));
+                                            loData.put("sRemarksx", sRemarksx);
                                         }
 
-                                        if (loDetail.sRemCodex.equalsIgnoreCase("PAY")) {
-                                            loData.put("sPRNoxxxx", loDetail.sPRNoxxxx);
-                                            loData.put("nTranAmtx", loDetail.nTranAmtx);
-                                            loData.put("nDiscount", loDetail.nDiscount);
-                                            loData.put("nOthersxx", loDetail.nOthersxx);
-                                            loData.put("cTranType", loDetail.cTranType);
-                                            loData.put("nTranTotl", loDetail.nTranTotl);
-                                        } else if (loDetail.sRemCodex.equalsIgnoreCase("PTP")) {
-                                            //Required parameters for Promise to pay..
-                                            loData.put("cApntUnit", loDetail.cApntUnit);
-                                            loData.put("sBranchCd", loDetail.sBranchCd);
-                                            loData.put("dPromised", loDetail.dPromised);
-
-                                            loData.put("sImageNme", loDetail.sImageNme);
-                                            loData.put("sSourceCD", loDetail.sSourceCD);
-                                            loData.put("nLongitud", loDetail.nLongitud);
-                                            loData.put("nLatitude", loDetail.nLatitude);
-
-                                        } else if (loDetail.sRemCodex.equalsIgnoreCase("LUn") ||
-                                                loDetail.sRemCodex.equalsIgnoreCase("TA") ||
-                                                loDetail.sRemCodex.equalsIgnoreCase("FO")) {
-
-                                            //TODO: replace JSON parameters get the parameters which is being generated by RClientUpdate...
-                                            loData.put("sLastName", loDetail.sLastName);
-                                            loData.put("sFrstName", loDetail.sFrstName);
-                                            loData.put("sMiddName", loDetail.sMiddName);
-                                            loData.put("sSuffixNm", loDetail.sSuffixNm);
-                                            loData.put("sHouseNox", loDetail.sHouseNox);
-                                            loData.put("sAddressx", loDetail.sAddressx);
-                                            loData.put("sTownIDxx", loDetail.sTownIDxx);
-                                            loData.put("cGenderxx", loDetail.cGenderxx);
-                                            loData.put("cCivlStat", loDetail.cCivlStat);
-                                            loData.put("dBirthDte", loDetail.dBirthDte);
-                                            loData.put("dBirthPlc", loDetail.dBirthPlc);
-                                            loData.put("sLandline", loDetail.sLandline);
-                                            loData.put("sMobileNo", loDetail.sMobileNo);
-                                            loData.put("sEmailAdd", loDetail.sEmailAdd);
-
-                                            loData.put("sImageNme", loDetail.sImageNme);
-                                            loData.put("sSourceCD", loDetail.sSourceCD);
-                                            loData.put("nLongitud", loDetail.nLongitud);
-                                            loData.put("nLatitude", loDetail.nLatitude);
+                                        JSONObject loJson = new JSONObject();
+                                        loJson.put("sTransNox", loDetail.sTransNox);
+                                        loJson.put("nEntryNox", loDetail.nEntryNox);
+                                        loJson.put("sAcctNmbr", loDetail.sAcctNmbr);
+                                        if (loDetail.sRemCodex.isEmpty()) {
+                                            loJson.put("sRemCodex", "NV");
+                                            loJson.put("dModified", new AppConstants().DATE_MODIFIED);
                                         } else {
-                                            loData.put("sImageNme", loDetail.sImageNme);
-                                            loData.put("sSourceCD", loDetail.sSourceCD);
-                                            loData.put("nLongitud", loDetail.nLongitud);
-                                            loData.put("nLatitude", loDetail.nLatitude);
+                                            loJson.put("sRemCodex", loDetail.sRemCodex);
+                                            loJson.put("dModified", loDetail.dModified);
+                                        }
+                                        loJson.put("sJsonData", loData);
+                                        loJson.put("dReceived", "");
+                                        loJson.put("sUserIDxx", poUser.getUserID());
+                                        loJson.put("sDeviceID", poTelephony.getDeviceID());
+
+                                        String lsResponse1 = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
+                                        if (lsResponse1 == null) {
+                                            reason[x] = "Server no response";
+                                        } else {
+                                            JSONObject loResponse = new JSONObject(lsResponse1);
+
+                                            String result = loResponse.getString("result");
+                                            if (result.equalsIgnoreCase("success")) {
+                                                if (loDetail.sRemCodex == null) {
+                                                    poDcp.updateCollectionDetailStatusWithRemarks(loDetail.sTransNox, loDetail.nEntryNox, sRemarksx);
+                                                } else {
+                                                    poDcp.updateCollectionDetailStatus(loDetail.sTransNox, loDetail.nEntryNox);
+                                                }
+
+                                                isDataSent[x] = true;
+                                            } else {
+                                                JSONObject loError = loResponse.getJSONObject("error");
+                                                isDataSent[x] = false;
+                                                reason[x] = loError.getString("message");
+                                            }
                                         }
 
-                                        loData.put("sRemarksx", loDetail.sRemarksx);
-                                    } else {
-                                        loData.put("sRemarksx", sRemarksx);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        isDataSent[x] = false;
+                                        reason[x] = e.getMessage();
                                     }
 
+                                    Thread.sleep(1000);
+                                }
+
+                                //call sending CNA details....
+
+                                sendCNADetails(laCollDetl.get(0).sTransNox);
+
+                                boolean allDataSent = true;
+                                for (boolean b : isDataSent) {
+                                    if (!b) {
+                                        allDataSent = false;
+                                        break;
+                                    }
+                                }
+
+                                if (allDataSent) {
                                     JSONObject loJson = new JSONObject();
-                                    loJson.put("sTransNox", loDetail.sTransNox);
-                                    loJson.put("nEntryNox", loDetail.nEntryNox);
-                                    loJson.put("sAcctNmbr", loDetail.sAcctNmbr);
-                                    if (loDetail.sRemCodex.isEmpty()) {
-                                        loJson.put("sRemCodex", "NV");
-                                        loJson.put("dModified", AppConstants.DATE_MODIFIED);
-                                    } else {
-                                        loJson.put("sRemCodex", loDetail.sRemCodex);
-                                        loJson.put("dModified", loDetail.dModified);
-                                    }
-                                    loJson.put("sJsonData", loData);
-                                    loJson.put("dReceived", "");
-                                    loJson.put("sUserIDxx", poUser.getUserID());
-                                    loJson.put("sDeviceID", poTelephony.getDeviceID());
-
-                                    Log.e(TAG, loJson.toString());
-                                    String lsResponse1 = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
+                                    loJson.put("sTransNox", laCollDetl.get(0).sTransNox);
+                                    String lsResponse1 = WebClient.httpsPostJSon(WebApi.URL_POST_DCP_MASTER, loJson.toString(), poHeaders.getHeaders());
                                     if (lsResponse1 == null) {
-                                        Log.e(TAG, "Server no response.");
+                                        lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response on posting DCP master detail");
                                     } else {
                                         JSONObject loResponse = new JSONObject(lsResponse1);
-
                                         String result = loResponse.getString("result");
                                         if (result.equalsIgnoreCase("success")) {
-                                            Log.e(TAG, "Data of Account No. " + loDetail.sAcctNmbr + ", Entry No. " + loDetail.nEntryNox + " was uploaded successfully");
-                                            if (loDetail.sRemCodex == null) {
-                                                poDcp.updateCollectionDetailStatusWithRemarks(loDetail.sTransNox, loDetail.nEntryNox, sRemarksx);
-                                            } else {
-                                                poDcp.updateCollectionDetailStatus(loDetail.sTransNox, loDetail.nEntryNox);
-                                            }
-                                            isDataSent[x] = true;
+                                            poDcp.updateSentPostedDCPMaster(laCollDetl.get(0).sTransNox);
+                                            lsResult = loResponse.toString();
                                         } else {
                                             JSONObject loError = loResponse.getJSONObject("error");
-                                            Log.e(TAG, loError.getString("message"));
-                                            isDataSent[x] = false;
+                                            lsResult = loError.toString();
                                         }
                                     }
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    isDataSent[x] = false;
+                                } else {
+                                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(String.format("An error occurred while posting dcp. Please take screenshot and report to MIS \n%s", Arrays.toString(reason)));
                                 }
-
-                                Thread.sleep(1000);
-                            }
-                            //call sending CNA details....
-                            sendCNADetails(laCollDetl.get(0).sTransNox);
-
-                            boolean allDataSent = true;
-                            for (boolean b : isDataSent) {
-                                if (!b) {
-                                    allDataSent = false;
-                                    break;
-                                }
-                            }
-
-                            if (allDataSent) {
-                                lsResult = AppConstants.ALL_DATA_SENT();
                             } else {
-                                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("An error occurred while posting collection details. Please try again...");
+                                // TODO: Display no details to post
+                                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("No available collection details to post.");
                             }
-                        } else {
-                            // TODO: Display no details to post
-                            lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("No available collection details to post.");
                         }
                     }
+                } else {
+                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Please remit collection before posting");
                 }
             } catch (Exception e){
                 e.printStackTrace();
@@ -884,6 +906,18 @@ public class VMCollectionList extends AndroidViewModel {
                 e.printStackTrace();
             }
             this.cancel(true);
+        }
+
+        boolean hasRemittedBeforePosting(){
+            DDCPCollectionDetail.DCP_Posting_Validation_Data loPost = poDcp.getValidationData();
+            if(loPost.Paid_Collection > 0){
+                if(loPost.Remitted_Collection == null){
+                    return false;
+                } else return loPost.Remitted_Collection.equalsIgnoreCase("0") ||
+                        loPost.Remitted_Collection.equalsIgnoreCase("0.0");
+            } else {
+                return true;
+            }
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -981,8 +1015,8 @@ public class VMCollectionList extends AndroidViewModel {
 
     private static class ExportDCPFileTask extends AsyncTask<List<DDCPCollectionDetail.CollectionDetail>, Void, JSONObject>{
         private JSONObject JSONExport;
-        private JSONArray JSONArrayExport;
-        private String sRemarkx;
+        private final JSONArray JSONArrayExport;
+        private final String sRemarkx;
         private final FileManagerCallBack callBack;
 
         public ExportDCPFileTask(String sRemarkx, FileManagerCallBack callBack) {
@@ -1101,7 +1135,7 @@ public class VMCollectionList extends AndroidViewModel {
                     loJson.put("sAcctNmbr", loDetail.sAcctNmbr);
                     if (loDetail.sRemCodex.isEmpty()) {
                         loJson.put("sRemCodex", "NV");
-                        loJson.put("dModified", AppConstants.DATE_MODIFIED);
+                        loJson.put("dModified", new AppConstants().DATE_MODIFIED);
                     } else {
                         loJson.put("sRemCodex", loDetail.sRemCodex);
                         loJson.put("dModified", loDetail.dModified);
@@ -1141,9 +1175,8 @@ public class VMCollectionList extends AndroidViewModel {
     }
 
     private static class CheckImportDataTask extends AsyncTask<String, Void, Boolean>{
-        private RDailyCollectionPlan poDCPRepo;
-        private CheckImport mListener;
-        private EDCPCollectionDetail poDCPEntity;
+        private final RDailyCollectionPlan poDCPRepo;
+        private final CheckImport mListener;
 
         public CheckImportDataTask(RDailyCollectionPlan poDCPRepo, CheckImport mListener) {
             this.poDCPRepo = poDCPRepo;
@@ -1159,7 +1192,7 @@ public class VMCollectionList extends AndroidViewModel {
 
                 for(int i = 0; i < loArrray_detl.length(); i++) {
                     JSONObject loJson_detl = loArrray_detl.getJSONObject(i);
-                    poDCPEntity = poDCPRepo.checkCollectionImport(
+                    EDCPCollectionDetail poDCPEntity = poDCPRepo.checkCollectionImport(
                             loJson_master.getString("sTransNox"),
                             Integer.parseInt(loJson_detl.getString("nEntryNox")));
                     if(poDCPEntity != null) {

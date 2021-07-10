@@ -141,14 +141,13 @@ public class VMSelfieLogin extends AndroidViewModel {
             String lsResult = "";
             try{
                 EGLocatorSysLog loSysLog = new EGLocatorSysLog();
-                loSysLog.setTransNox(poSysLog.getLocationCode());
                 loSysLog.setUserIDxx(poUser.getUserID());
-                loSysLog.setTransact(AppConstants.DATE_MODIFIED);
+                loSysLog.setTransact(new AppConstants().DATE_MODIFIED);
                 loSysLog.setLongitud(selfieLog.getLongitud());
                 loSysLog.setLatitude(selfieLog.getLatitude());
                 loSysLog.setDeviceID(poDevice.getDeviceID());
                 loSysLog.setSendStat("0");
-                loSysLog.setTimeStmp(AppConstants.DATE_MODIFIED);
+                loSysLog.setTimeStmp(new AppConstants().DATE_MODIFIED);
                 poSysLog.saveCurrentLocation(loSysLog);
 
                 if(poConn.isDeviceConnected()){

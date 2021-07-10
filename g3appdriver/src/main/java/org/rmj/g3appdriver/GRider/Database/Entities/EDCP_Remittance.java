@@ -29,7 +29,7 @@ public class EDCP_Remittance {
     @ColumnInfo(name = "nEntryNox")
     private String EntryNox;
     @ColumnInfo(name = "dTransact")
-    private String Transact = AppConstants.CURRENT_DATE;
+    private String Transact = new AppConstants().CURRENT_DATE;
     @ColumnInfo(name = "cPaymForm")
     private String PaymForm = "";
     @ColumnInfo(name = "cRemitTyp")

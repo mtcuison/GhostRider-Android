@@ -73,6 +73,26 @@
                 android:imeOptions="actionDone"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextInputStyle"
+            android:hint="Employee ID"
+            android:layout_marginTop="5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_dcpDateEntry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextInputStyle.Edittext"
+                android:gravity="center"
+                android:inputType="textShortMessage"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:maxLines="3"
+                android:imeOptions="actionDone"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

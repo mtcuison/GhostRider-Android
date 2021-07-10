@@ -68,6 +68,10 @@ public class RDailyCollectionPlan {
         masterDao.updateEntryMaster(nEntryNox);
     }
 
+    public void updateSentPostedDCPMaster(String TransNox){
+        masterDao.updateSentPostedDCPMaster(TransNox, new AppConstants().DATE_MODIFIED);
+    }
+
     public LiveData<List<EDCPCollectionDetail>> getCollectionDetailList(){
         return detailDao.getCollectionDetailList();
     }
@@ -97,15 +101,15 @@ public class RDailyCollectionPlan {
     }
 
     public void updateCollectionDetail(int EntryNox, String RemCode, String Remarks){
-        detailDao.updateCollectionDetailInfo(EntryNox, RemCode, Remarks, AppConstants.DATE_MODIFIED);
+        detailDao.updateCollectionDetailInfo(EntryNox, RemCode, Remarks, new AppConstants().DATE_MODIFIED);
     }
 
     public void updateCollectionDetailStatus(String TransNox, int EntryNox){
-        detailDao.updateCollectionDetailStatus(TransNox, EntryNox, AppConstants.DATE_MODIFIED);
+        detailDao.updateCollectionDetailStatus(TransNox, EntryNox, new AppConstants().DATE_MODIFIED);
     }
 
     public void updateCollectionDetailStatusWithRemarks(String TransNox, int EntryNox, String Remarks){
-        detailDao.updateCollectionDetailStatusWithRemarks(TransNox, EntryNox, AppConstants.DATE_MODIFIED, Remarks);
+        detailDao.updateCollectionDetailStatusWithRemarks(TransNox, EntryNox, new AppConstants().DATE_MODIFIED, Remarks);
     }
 
 
@@ -115,11 +119,11 @@ public class RDailyCollectionPlan {
     }
 
     public LiveData<EDCPCollectionDetail> getCollectionLastEntry(){
-        return detailDao.getCollectionLastEntry(AppConstants.CURRENT_DATE);
+        return detailDao.getCollectionLastEntry(new AppConstants().CURRENT_DATE);
     }
 
     public String getCurrentDateTransNox(){
-        return detailDao.getCurrentDateTransNox(AppConstants.CURRENT_DATE);
+        return detailDao.getCurrentDateTransNox(new AppConstants().CURRENT_DATE);
     }
 
     public LiveData<List<EDCPCollectionDetail>> getCollectionDetailForDate(String dTransact){
@@ -157,8 +161,17 @@ public class RDailyCollectionPlan {
     public EDCPCollectionDetail checkCollectionImport(String sTransNox, int nEntryNox) {
         return detailDao.checkCollectionImport(sTransNox,nEntryNox);
     }
+
+    public LiveData<DDCPCollectionDetail.Location_Data_Trigger> getDCP_COH_StatusForTracking(){
+        return detailDao.getDCP_COH_StatusForTracking(new AppConstants().CURRENT_DATE);
+    }
+
+    public DDCPCollectionDetail.DCP_Posting_Validation_Data getValidationData(){
+        return detailDao.getValidationData(new AppConstants().CURRENT_DATE);
+    }
+
     public Integer getDCPStatus(){
-        return detailDao.getDCPStatus(AppConstants.CURRENT_DATE);
+        return detailDao.getDCPStatus(new AppConstants().CURRENT_DATE);
     }
 
     private class InsertCollectionDetailTask extends AsyncTask<EDCPCollectionDetail, Void, String>{

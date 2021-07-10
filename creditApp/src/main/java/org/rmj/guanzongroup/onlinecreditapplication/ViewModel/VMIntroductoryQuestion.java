@@ -260,8 +260,8 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
                 creditApp.setPurchase(loGoCas.PurchaseInfo().toJSONString());
                 creditApp.setDownPaym(loGoCas.PurchaseInfo().getDownPayment());
                 creditApp.setAppliedx(loGoCas.PurchaseInfo().getDateApplied());
-                creditApp.setCreatedx(AppConstants.DATE_MODIFIED);
-                creditApp.setTransact(AppConstants.CURRENT_DATE);
+                creditApp.setCreatedx(new AppConstants().DATE_MODIFIED);
+                creditApp.setTransact(new AppConstants().CURRENT_DATE);
                 creditApp.setBranchCd(loGoCas.PurchaseInfo().getPreferedBranch());
                 creditApp.setTranStat("0");
                 creditApp.setTransNox(transnox);

@@ -272,7 +272,7 @@ public class Activity_LogCollection extends AppCompatActivity {
         filteredCollectionDetlx = new ArrayList<>();
 
         try {
-            @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(AppConstants.CURRENT_DATE);
+            @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(new AppConstants().CURRENT_DATE);
             @SuppressLint("SimpleDateFormat") SimpleDateFormat loFormatter = new SimpleDateFormat("MMM dd, yyyy");
             txtDate.setText(loFormatter.format(Objects.requireNonNull(loDate)));
         } catch (ParseException e) {

@@ -11,7 +11,9 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -21,9 +23,14 @@ import android.widget.Button;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class Dialog_DebugEntry {
@@ -48,16 +55,39 @@ public class Dialog_DebugEntry {
         poDialogx.setCancelable(false);
 
         TextInputEditText txtRemarks = view.findViewById(R.id.txt_dcpEmployeeID);
+        TextInputEditText txtDateEnt = view.findViewById(R.id.txt_dcpDateEntry);
         Button btnConfirm = view.findViewById(R.id.btn_dcpConfirm);
         Button btnCancel = view.findViewById(R.id.btn_cancel);
 
+        txtDateEnt.setText(new AppConstants().CURRENT_DATE);
+        txtDateEnt.setOnClickListener(v -> {
+            final Calendar newCalendar = Calendar.getInstance();
+            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+            final DatePickerDialog StartTime = new DatePickerDialog(context, (view131, year, monthOfYear, dayOfMonth) -> {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                String lsDate = dateFormatter.format(newDate.getTime());
+                txtDateEnt.setText(lsDate);
+            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            StartTime.getDatePicker().setMaxDate(System.currentTimeMillis() + 1000);
+            StartTime.show();
+        });
+
         btnConfirm.setOnClickListener(v -> {
-            String lsRemarks = Objects.requireNonNull(txtRemarks.getText()).toString();
-            if(!lsRemarks.trim().isEmpty()) {
-                listener.onConfirm(lsRemarks);
-                poDialogx.dismiss();
-            } else {
-                GToast.CreateMessage(context, "Please enter remarks.", GToast.ERROR).show();
+            try {
+                String lsRemarks = Objects.requireNonNull(txtRemarks.getText()).toString();
+                String lsDateEnt = txtDateEnt.getText().toString();
+                JSONObject loJson = new JSONObject();
+                loJson.put("employid", lsRemarks);
+                loJson.put("date", lsDateEnt);
+                if (!lsRemarks.trim().isEmpty()) {
+                    listener.onConfirm(loJson.toString());
+                    poDialogx.dismiss();
+                } else {
+                    GToast.CreateMessage(context, "Please enter remarks.", GToast.ERROR).show();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
 

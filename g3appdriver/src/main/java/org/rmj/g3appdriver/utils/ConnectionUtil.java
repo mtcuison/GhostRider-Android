@@ -122,4 +122,10 @@ public class ConnectionUtil {
         } catch (Exception e) {
         }
     }
+
+    public boolean isWifiConnected(){
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        return mWifi.isConnected();
+    }
 }

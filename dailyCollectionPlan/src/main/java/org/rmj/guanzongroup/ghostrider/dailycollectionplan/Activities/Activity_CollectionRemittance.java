@@ -333,9 +333,9 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                     break;
                 case "1":
                 case "2":
-                    infoModel.setCompnyNm(txtAccName.getText().toString());
+                    infoModel.setCompnyNm(Objects.requireNonNull(txtAccName.getText()).toString());
                     infoModel.setBankAcct(txtAccNox.getText().toString());
-                    infoModel.setReferNox(txtRefNox.getText().toString());
+                    infoModel.setReferNox(Objects.requireNonNull(txtRefNox.getText()).toString());
 
                     poRemit.setCompnyNm(Objects.requireNonNull(txtAccName.getText()).toString());
                     poRemit.setBankAcct(Objects.requireNonNull(txtAccNox.getText()).toString());
@@ -343,8 +343,8 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                     break;
             }
             poRemit.setAmountxx(Objects.requireNonNull(txtAmount.getText()).toString().replace(",", ""));
-            poRemit.setTimeStmp(AppConstants.DATE_MODIFIED);
-            infoModel.setTimeStmp(AppConstants.DATE_MODIFIED);
+            poRemit.setTimeStmp(new AppConstants().DATE_MODIFIED);
+            infoModel.setTimeStmp(new AppConstants().DATE_MODIFIED);
             infoModel.setPsBranch(txtBranch.getText().toString());
             infoModel.setAmountxx(txtAmount.getText().toString());
             if(infoModel.isDataValid()) {
@@ -437,123 +437,5 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         getViewModelStore().clear();
-    }
-
-    public boolean isDataValid() {
-        if (poRemit.getRemitTyp().equalsIgnoreCase("0")) {
-            if (txtBranch.getText().toString().isEmpty()) {
-                GToast.CreateMessage(this, "Please enter branch", GToast.ERROR).show();
-                return false;
-            } else if (Objects.requireNonNull(txtAmount.getText()).toString().isEmpty()) {
-                GToast.CreateMessage(this, "Please enter amount", GToast.ERROR).show();
-                return false;
-            } else if (txtAmount.getText().toString().equalsIgnoreCase("0.0")) {
-                GToast.CreateMessage(this, "Unable to remit 0 amount", GToast.ERROR).show();
-                return false;
-            } else if (txtAmount.getText().toString().equalsIgnoreCase("0")) {
-                GToast.CreateMessage(this, "Unable to remit 0 amount", GToast.ERROR).show();
-                return false;
-            } else if(!isCheck) {
-                if(psCltCashx.equalsIgnoreCase("0") ||
-                        psCltCashx.equalsIgnoreCase("0.0") ||
-                        psCltCashx.equalsIgnoreCase("0.00")) {
-                    GToast.CreateMessage(this, "Unable to remit. Cash on hand is empty.", GToast.ERROR).show();
-                    return false;
-                } else if(parseDouble(txtAmount.getText().toString()) > parseDouble(psCltCashx)) {
-                    GToast.CreateMessage(this, "Unable to remit. Cash remittance is greater than cash on hand.", GToast.ERROR).show();
-                    return false;
-                }
-            } else if(isCheck) {
-                if(psCltCheck.equalsIgnoreCase("0") ||
-                        psCltCheck.equalsIgnoreCase("0.0") ||
-                        psCltCheck.equalsIgnoreCase("0.00")) {
-                    GToast.CreateMessage(this, "Unable to remit. Check on hand is empty.", GToast.ERROR).show();
-                    return false;
-                } else if(parseDouble(txtAmount.getText().toString()) > parseDouble(psCltCheck)) {
-                    GToast.CreateMessage(this, "Unable to remit. Check remittance is greater than check on hand.", GToast.ERROR).show();
-                    return false;
-                }
-            }
-        } else if (poRemit.getRemitTyp().equalsIgnoreCase("1")) {
-            if (txtAccNox.getText().toString().isEmpty()) {
-                GToast.CreateMessage(this, "Please enter bank", GToast.ERROR).show();
-                return false;
-            } else if (Objects.requireNonNull(txtAccName.getText()).toString().isEmpty()) {
-                GToast.CreateMessage(this, "Please enter account no", GToast.ERROR).show();
-                return false;
-            } else if (Objects.requireNonNull(txtRefNox.getText()).toString().isEmpty()) {
-                GToast.CreateMessage(this, "Please enter reference no", GToast.ERROR).show();
-                return false;
-            } else if (Objects.requireNonNull(txtAmount.getText()).toString().isEmpty()) {
-                GToast.CreateMessage(this, "Please enter amount", GToast.ERROR).show();
-                return false;
-            } else if (txtAmount.getText().toString().equalsIgnoreCase("0.0")) {
-                GToast.CreateMessage(this, "Unable to remit 0 amount", GToast.ERROR).show();
-                return false;
-            } else if (txtAmount.getText().toString().equalsIgnoreCase("0")) {
-                GToast.CreateMessage(this, "Unable to remit 0 amount", GToast.ERROR).show();
-                return false;
-            } else if(!isCheck) {
-                if(psCltCashx.equalsIgnoreCase("0") ||
-                        psCltCashx.equalsIgnoreCase("0.0") ||
-                        psCltCashx.equalsIgnoreCase("0.00")) {
-                    GToast.CreateMessage(this, "Unable to remit. Cash on hand is empty.", GToast.ERROR).show();
-                    return false;
-                } else if(parseDouble(txtAmount.getText().toString()) > parseDouble(psCltCashx)) {
-                    GToast.CreateMessage(this, "Unable to remit. Cash remittance is greater than cash on hand.", GToast.ERROR).show();
-                    return false;
-                }
-            } else if(isCheck) {
-                if(psCltCheck.equalsIgnoreCase("0") ||
-                        psCltCheck.equalsIgnoreCase("0.0") ||
-                        psCltCheck.equalsIgnoreCase("0.00")) {
-                    GToast.CreateMessage(this, "Unable to remit. Check on hand is empty.", GToast.ERROR).show();
-                    return false;
-                } else if(parseDouble(txtAmount.getText().toString()) > parseDouble(psCltCheck)) {
-                    GToast.CreateMessage(this, "Unable to remit. Check remittance is greater than check on hand.", GToast.ERROR).show();
-                    return false;
-                }
-            }
-        } else {
-            if (Objects.requireNonNull(txtRefNox.getText()).toString().isEmpty()) {
-                GToast.CreateMessage(this, "Please enter reference no", GToast.ERROR).show();
-                return false;
-            } else if (Objects.requireNonNull(txtAmount.getText()).toString().isEmpty()) {
-                GToast.CreateMessage(this, "Please enter amount", GToast.ERROR).show();
-                return false;
-            } else if (txtAmount.getText().toString().equalsIgnoreCase("0.0")) {
-                GToast.CreateMessage(this, "Unable to remit 0 amount", GToast.ERROR).show();
-                return false;
-            } else if (txtAmount.getText().toString().equalsIgnoreCase("0")) {
-                GToast.CreateMessage(this, "Unable to remit 0 amount", GToast.ERROR).show();
-                return false;
-            } else if(!isCheck) {
-                if(psCltCashx.equalsIgnoreCase("0") ||
-                        psCltCashx.equalsIgnoreCase("0.0") ||
-                        psCltCashx.equalsIgnoreCase("0.00")) {
-                    GToast.CreateMessage(this, "Unable to remit. Cash on hand is empty.", GToast.ERROR).show();
-                    return false;
-                } else if(parseDouble(txtAmount.getText().toString()) > parseDouble(psCltCashx)) {
-                    GToast.CreateMessage(this, "Unable to remit. Cash remittance is greater than cash on hand.", GToast.ERROR).show();
-                    return false;
-                }
-            } else if(isCheck) {
-                if(psCltCheck.equalsIgnoreCase("0") ||
-                        psCltCheck.equalsIgnoreCase("0.0") ||
-                        psCltCheck.equalsIgnoreCase("0.00")) {
-                    GToast.CreateMessage(this, "Unable to remit. Check on hand is empty.", GToast.ERROR).show();
-                    return false;
-                } else if(parseDouble(txtAmount.getText().toString()) > parseDouble(psCltCheck)) {
-                    GToast.CreateMessage(this, "Unable to remit. Check remittance is greater than check on hand.", GToast.ERROR).show();
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private static double parseDouble(String fsNumber) {
-        String lsNumber = fsNumber.replace(",","");
-        return Double.parseDouble(lsNumber);
     }
 }

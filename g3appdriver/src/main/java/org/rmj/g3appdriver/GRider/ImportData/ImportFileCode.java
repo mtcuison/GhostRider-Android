@@ -89,7 +89,7 @@ public class ImportFileCode implements ImportInstance{
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";
             try {
-                if(repository.getLastUpdate() != null && repository.getLastUpdate().equalsIgnoreCase(AppConstants.CURRENT_DATE)) {
+                if(repository.getLastUpdate() != null && repository.getLastUpdate().equalsIgnoreCase(new AppConstants().CURRENT_DATE)) {
                     response = AppConstants.LOCAL_EXCEPTION_ERROR(TAG + "Local data is already updated");
                 } else if(conn.isDeviceConnected()) {
                     response = WebClient.httpsPostJSon(URL_IMPORT_FILE_CODE, jsonObjects[0].toString(), headers.getHeaders());

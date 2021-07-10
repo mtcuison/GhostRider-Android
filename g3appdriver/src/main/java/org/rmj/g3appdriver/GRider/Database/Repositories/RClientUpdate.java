@@ -55,7 +55,7 @@ public class RClientUpdate {
     }
 
     public void UpdateClientInfoStatus(String ClientID){
-        this.clientDao.updateClientInfoImage(ClientID, AppConstants.DATE_MODIFIED);
+        this.clientDao.updateClientInfoImage(ClientID, new AppConstants().DATE_MODIFIED);
     }
 
     public void UpdateClientImage(String ClientID, String ImageName){

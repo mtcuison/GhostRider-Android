@@ -14,15 +14,11 @@ package org.rmj.guanzongroup.ghostrider.settings.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.FileProvider;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -38,6 +34,7 @@ import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMCheckUpdate;
 
@@ -51,12 +48,10 @@ public class Activity_CheckUpdate extends AppCompatActivity {
     private Toolbar toolbar;
     private LinearLayout newUpdate;
     private RelativeLayout lnProgress;
-    private TextView lblCurrent, lblnewVrsn, lblProgress;
+    private TextView lblCurrent, lblnewVrsn, lblProgress, lblMessage;
     private ProgressBar prgUpdate, prgDownload;
     private MaterialButton btnUpdate;
     private VMCheckUpdate mViewModel;
-
-    private LoadDialog poDialog;
 
     private boolean isDownloading = false;
 
@@ -76,9 +71,8 @@ public class Activity_CheckUpdate extends AppCompatActivity {
         prgUpdate = findViewById(R.id.progress_update);
         prgDownload = findViewById(R.id.progress_download);
         lblnewVrsn = findViewById(R.id.lbl_newVersion);
+        lblMessage = findViewById(R.id.lbl_errorMessage);
         btnUpdate = findViewById(R.id.btn_Update);
-
-        poDialog = new LoadDialog(Activity_CheckUpdate.this);
 
         Sprite loDrawable = new FadingCircle();
         loDrawable.setColor(getResources().getColor(R.color.guanzon_digital_orange));
@@ -119,6 +113,8 @@ public class Activity_CheckUpdate extends AppCompatActivity {
                 btnUpdate.setText("Download Update");
                 btnUpdate.setEnabled(true);
                 isDownloading = false;
+                lblMessage.setVisibility(View.VISIBLE);
+                lblMessage.setText(message);
             }
         }));
     }

@@ -68,12 +68,9 @@ public class  MessageBox {
     public void setPositiveButton(String psBtnPost, final DialogButton listener) {
         btnPositive.setVisibility(View.VISIBLE);
         btnPositive.setText(psBtnPost);
-        btnPositive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.OnButtonClick(view, poDialogx);
-                isDialogShown = false;
-            }
+        btnPositive.setOnClickListener(view -> {
+            listener.OnButtonClick(view, poDialogx);
+            isDialogShown = false;
         });
     }
 
@@ -81,12 +78,9 @@ public class  MessageBox {
         midBorder.setVisibility(View.VISIBLE);
         btnNegative.setVisibility(View.VISIBLE);
         btnNegative.setText(psBtnNegt);
-        btnNegative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.OnButtonClick(view, poDialogx);
-                isDialogShown = false;
-            }
+        btnNegative.setOnClickListener(view -> {
+            listener.OnButtonClick(view, poDialogx);
+            isDialogShown = false;
         });
     }
 

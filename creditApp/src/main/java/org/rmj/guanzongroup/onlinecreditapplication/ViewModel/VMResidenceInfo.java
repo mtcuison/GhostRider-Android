@@ -11,16 +11,10 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
-import android.graphics.Color;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -165,38 +159,42 @@ public class VMResidenceInfo extends AndroidViewModel {
 
     public void SaveResidenceInfo(ResidenceInfoModel infoModel, ViewModelCallBack callBack){
         try {
-            infoModel.setProvinceID(psProvID.getValue());
-            infoModel.setMunicipalID(psTownID.getValue());
-            infoModel.setBarangayID(psBrgyID.getValue());
-            infoModel.setPermanentProvinceID(psPProvD.getValue());
-            infoModel.setPermanentMunicipalID(psPTownD.getValue());
-            infoModel.setPermanentBarangayID(psPBrgyD.getValue());
-            if(infoModel.isDataValid()) {
-                poGoCas.ResidenceInfo().PresentAddress().setLandMark(infoModel.getLandMark());
-                poGoCas.ResidenceInfo().PresentAddress().setHouseNo(infoModel.getHouseNox());
-                poGoCas.ResidenceInfo().PresentAddress().setAddress1(infoModel.getAddress1());
-                poGoCas.ResidenceInfo().PresentAddress().setAddress2(infoModel.getAddress2());
-                poGoCas.ResidenceInfo().PresentAddress().setTownCity(infoModel.getMunicipalID());
-                poGoCas.ResidenceInfo().PresentAddress().setBarangay(infoModel.getBarangayID());
-                poGoCas.ResidenceInfo().setOwnership(infoModel.getHouseOwn());
-                poGoCas.ResidenceInfo().setCareTakerRelation(infoModel.getOwnerRelation());
-                poGoCas.ResidenceInfo().setOwnedResidenceInfo(infoModel.getHouseHold());
-                poGoCas.ResidenceInfo().setHouseType(infoModel.getHouseType());
-                poGoCas.ResidenceInfo().setRentedResidenceInfo(infoModel.getHouseHold());
-                poGoCas.ResidenceInfo().setRentExpenses(infoModel.getMonthlyExpenses());
-                poGoCas.ResidenceInfo().setRentNoYears(infoModel.getLenghtofStay());
-                poGoCas.ResidenceInfo().hasGarage(infoModel.getHasGarage());
-                poGoCas.ResidenceInfo().PermanentAddress().setLandMark(infoModel.getPermanentLandMark());
-                poGoCas.ResidenceInfo().PermanentAddress().setHouseNo(infoModel.getPermanentHouseNo());
-                poGoCas.ResidenceInfo().PermanentAddress().setAddress1(infoModel.getPermanentAddress1());
-                poGoCas.ResidenceInfo().PermanentAddress().setAddress2(infoModel.getPermanentAddress2());
-                poGoCas.ResidenceInfo().PermanentAddress().setTownCity(infoModel.getPermanentMunicipalID());
-                poGoCas.ResidenceInfo().PermanentAddress().setBarangay(infoModel.getPermanentBarangayID());
-                poInfo.setResidnce(poGoCas.ResidenceInfo().toJSONString());
-                RCreditApplicant.updateGOCasData(poInfo);
-                callBack.onSaveSuccessResult("Success");
+            if(poInfo.getApplInfo() == null) {
+                infoModel.setProvinceID(psProvID.getValue());
+                infoModel.setMunicipalID(psTownID.getValue());
+                infoModel.setBarangayID(psBrgyID.getValue());
+                infoModel.setPermanentProvinceID(psPProvD.getValue());
+                infoModel.setPermanentMunicipalID(psPTownD.getValue());
+                infoModel.setPermanentBarangayID(psPBrgyD.getValue());
+                if (infoModel.isDataValid()) {
+                    poGoCas.ResidenceInfo().PresentAddress().setLandMark(infoModel.getLandMark());
+                    poGoCas.ResidenceInfo().PresentAddress().setHouseNo(infoModel.getHouseNox());
+                    poGoCas.ResidenceInfo().PresentAddress().setAddress1(infoModel.getAddress1());
+                    poGoCas.ResidenceInfo().PresentAddress().setAddress2(infoModel.getAddress2());
+                    poGoCas.ResidenceInfo().PresentAddress().setTownCity(infoModel.getMunicipalID());
+                    poGoCas.ResidenceInfo().PresentAddress().setBarangay(infoModel.getBarangayID());
+                    poGoCas.ResidenceInfo().setOwnership(infoModel.getHouseOwn());
+                    poGoCas.ResidenceInfo().setCareTakerRelation(infoModel.getOwnerRelation());
+                    poGoCas.ResidenceInfo().setOwnedResidenceInfo(infoModel.getHouseHold());
+                    poGoCas.ResidenceInfo().setHouseType(infoModel.getHouseType());
+                    poGoCas.ResidenceInfo().setRentedResidenceInfo(infoModel.getHouseHold());
+                    poGoCas.ResidenceInfo().setRentExpenses(infoModel.getMonthlyExpenses());
+                    poGoCas.ResidenceInfo().setRentNoYears(infoModel.getLenghtofStay());
+                    poGoCas.ResidenceInfo().hasGarage(infoModel.getHasGarage());
+                    poGoCas.ResidenceInfo().PermanentAddress().setLandMark(infoModel.getPermanentLandMark());
+                    poGoCas.ResidenceInfo().PermanentAddress().setHouseNo(infoModel.getPermanentHouseNo());
+                    poGoCas.ResidenceInfo().PermanentAddress().setAddress1(infoModel.getPermanentAddress1());
+                    poGoCas.ResidenceInfo().PermanentAddress().setAddress2(infoModel.getPermanentAddress2());
+                    poGoCas.ResidenceInfo().PermanentAddress().setTownCity(infoModel.getPermanentMunicipalID());
+                    poGoCas.ResidenceInfo().PermanentAddress().setBarangay(infoModel.getPermanentBarangayID());
+                    poInfo.setResidnce(poGoCas.ResidenceInfo().toJSONString());
+                    RCreditApplicant.updateGOCasData(poInfo);
+                    callBack.onSaveSuccessResult("Success");
+                } else {
+                    callBack.onFailedResult(infoModel.getMessage());
+                }
             } else {
-                 callBack.onFailedResult(infoModel.getMessage());
+                callBack.onSaveSuccessResult("Success");
             }
         } catch (Exception e){
             callBack.onFailedResult(e.getMessage());

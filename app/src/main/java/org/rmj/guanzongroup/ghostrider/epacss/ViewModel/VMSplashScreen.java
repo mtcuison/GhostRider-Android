@@ -24,6 +24,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.AppTokenManager;
@@ -44,6 +45,7 @@ public class VMSplashScreen extends AndroidViewModel {
     private final MutableLiveData<Boolean> pbSession = new MutableLiveData<>();
     private final MutableLiveData<Integer> pnSession = new MutableLiveData<>();
     private final MutableLiveData<String> psVersion = new MutableLiveData<>();
+    private final LiveData<DDCPCollectionDetail.Location_Data_Trigger> poLocator;
     private final REmployee poUserDbx;
     private final AppConfigPreference poConfigx;
     private final SessionManager poSession;
@@ -79,6 +81,7 @@ public class VMSplashScreen extends AndroidViewModel {
                 Manifest.permission.REQUEST_INSTALL_PACKAGES});
         pbGranted.setValue(hasPermissions(application.getApplicationContext(), paPermisions.getValue()));
         this.psVersion.setValue(poConfigx.getVersionName() + poConfigx.getVersionCode() +" - "+ poConfigx.getDateRelease());
+        this.poLocator = poDcp.getDCP_COH_StatusForTracking();
     }
 
     public LiveData<String> getVersionInfo(){
@@ -99,6 +102,10 @@ public class VMSplashScreen extends AndroidViewModel {
 
     public LiveData<DEmployeeInfo.Session> getSessionTime(){
         return poUserDbx.getSessionTime();
+    }
+
+    public LiveData<DDCPCollectionDetail.Location_Data_Trigger> getLocatorDateTrigger(){
+        return poLocator;
     }
 
     public void setSessionTime(int time){

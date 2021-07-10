@@ -69,7 +69,7 @@ public class VMCollectionLog extends AndroidViewModel {
         this.poBranch = new RBranch(application);
         this.poImage = new RImageInfo(application);
         this.poUpdate = new RCollectionUpdate(application);
-        this.dTransact.setValue(AppConstants.CURRENT_DATE);
+        this.dTransact.setValue(new AppConstants().CURRENT_DATE);
         this.poRemit = new RDCP_Remittance(application);
         this.poBank = new RBankInfo(application);
     }

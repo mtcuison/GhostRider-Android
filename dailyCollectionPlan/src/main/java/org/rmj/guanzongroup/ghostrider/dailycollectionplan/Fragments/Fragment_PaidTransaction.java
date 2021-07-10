@@ -34,6 +34,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -48,8 +49,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 import java.util.StringTokenizer;
-
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CURRENT_DATE;
 
 public class Fragment_PaidTransaction extends Fragment implements ViewModelCallback {
 
@@ -130,7 +129,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                 psRBalance = collectionDetail.getABalance();
                 mViewModel.setMonthlyAmort(Double.valueOf(psMonthAmt));
                 mViewModel.setAmountDue(Double.valueOf(psAmntDue));
-                Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(CURRENT_DATE);
+                Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(new AppConstants().CURRENT_DATE);
                 if (new SimpleDateFormat("yyyy-MM-dd").parse(collectionDetail.getDueDatex()).before(loDate) ||
                         new SimpleDateFormat("yyyy-MM-dd").parse(collectionDetail.getDueDatex()).equals(loDate)) {
                     cbRebate.setEnabled(true);

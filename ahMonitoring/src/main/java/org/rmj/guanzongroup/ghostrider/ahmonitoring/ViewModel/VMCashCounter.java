@@ -193,7 +193,7 @@ public class VMCashCounter extends AndroidViewModel {
     private JSONObject createJSONParameters(){
         JSONObject param = new JSONObject();
         try {
-            param.put("trandate", AppConstants.CURRENT_DATE);
+            param.put("trandate", new AppConstants().CURRENT_DATE);
             param.put("nCn0005cx", c5.getValue());
             param.put("nCn0010cx", c10.getValue());
             param.put("nCn0025cx", c25.getValue());
