@@ -118,6 +118,8 @@ public class AppConstants {
     public static int INTENT_LEAVE_APPLICATION = 102;
 
     public static int INTENT_SELFIE_LOGIN = 103;
+    public static int INTENT_DOWNLOAD_IMPORT_DCP = 108;
+    public static int INTENT_ADD_COLLECTION_DCP = 109;
 
     public static int INTENT_REIMBURSEMENT = 107;
 
