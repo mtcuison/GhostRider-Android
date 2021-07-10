@@ -166,6 +166,10 @@ public class RDailyCollectionPlan {
         return detailDao.getDCP_COH_StatusForTracking(new AppConstants().CURRENT_DATE);
     }
 
+    public DDCPCollectionDetail.DCP_Posting_Validation_Data getValidationData(){
+        return detailDao.getValidationData(new AppConstants().CURRENT_DATE);
+    }
+
     public Integer getDCPStatus(){
         return detailDao.getDCPStatus(new AppConstants().CURRENT_DATE);
     }

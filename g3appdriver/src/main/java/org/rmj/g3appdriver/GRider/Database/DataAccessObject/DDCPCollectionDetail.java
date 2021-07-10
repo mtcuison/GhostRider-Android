@@ -262,6 +262,13 @@ public interface DDCPCollectionDetail {
             "(SELECT COUNT(*) FROM LR_DCP_Collection_Master WHERE dReferDte ==:dTransact AND cTranStat == '2' AND cSendStat == '1') AS PostedCollection")
     LiveData<Location_Data_Trigger> getDCP_COH_StatusForTracking(String dTransact);
 
+    @Query("SELECT (SELECT COUNT(*) FROM LR_DCP_Collection_Detail WHERE sTransNox = " +
+            "(SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dReferDte =:dTransact) AND sRemCodex = 'PAY') AS Paid_Collection, " +
+            "(SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail WHERE sTransNox = " +
+            "(SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dReferDte =:dTransact) AND sRemCodex = 'PAY') - " +
+            "(SELECT SUM(nAmountxx) FROM LR_DCP_Remittance WHERE dTransact =:dTransact) AS Remitted_Collection")
+    DCP_Posting_Validation_Data getValidationData(String dTransact);
+
     class CollectionDetail{
         public String sTransNox;
         public int nEntryNox;
@@ -334,4 +341,10 @@ public interface DDCPCollectionDetail {
         public String Cash_On_Hand;
         public int PostedCollection;
     }
+
+    class DCP_Posting_Validation_Data{
+        public int Paid_Collection;
+        public String Remitted_Collection;
+    }
+
 }

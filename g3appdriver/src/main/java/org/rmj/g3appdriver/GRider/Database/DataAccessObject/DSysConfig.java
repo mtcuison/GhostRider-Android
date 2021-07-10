@@ -14,6 +14,7 @@ package org.rmj.g3appdriver.GRider.Database.DataAccessObject;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ESysConfig;
 
@@ -27,4 +28,7 @@ public interface DSysConfig {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertSysConfig(List<ESysConfig> sysConfigs);
+
+    @Query("SELECT sConfigVl FROM xxxSysConfig WHERE sConfigCd = 'dcp.coordinates.capturing.interval'")
+    String getLocationInterval();
 }

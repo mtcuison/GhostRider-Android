@@ -307,6 +307,7 @@ public class VMPaidTransaction extends AndroidViewModel {
                         loJson.put("nEntryNox", detail.getEntryNox());
                         loJson.put("sAcctNmbr", detail.getAcctNmbr());
                         loJson.put("sRemCodex", detail.getRemCodex());
+                        loJson.put("dModified", detail.getModified());
                         loJson.put("sJsonData", loData);
                         loJson.put("dReceived", "");
                         loJson.put("sUserIDxx", poUser.getUserID());
