@@ -11,7 +11,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application>
-        <activity android:name=".Activity.Activity_DigitalGcard"
+        <activity android:name=".Activity.Activity_HelpMenu"
+            android:label="Help"
+            android:screenOrientation="portrait"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"/>
+        <activity
+            android:name=".Activity.Activity_DigitalGcard"
             android:label="GCard Info"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />

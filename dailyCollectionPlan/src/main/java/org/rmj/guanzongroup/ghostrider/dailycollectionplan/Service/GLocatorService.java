@@ -40,6 +40,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLocationSysLog;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RSysConfig;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
@@ -57,6 +58,8 @@ public class GLocatorService extends Service {
     private static final String TAG = GLocatorService.class.getSimpleName();
     private NotificationCompat.Builder loNotif;
 
+    private RSysConfig poConfig;
+
     public GLocatorService() {}
 
     @SuppressLint("NewApi")
@@ -65,7 +68,7 @@ public class GLocatorService extends Service {
         createServiceNotification();
         Intent loIntent = new Intent(GLocatorService.this, Activity_CollectionList.class);
         PendingIntent loPending  = PendingIntent.getActivities(GLocatorService.this, 34, new Intent[]{loIntent}, 0);
-
+        poConfig = new RSysConfig(getApplication());
         loNotif = new NotificationCompat.Builder(GLocatorService.this, "gRiderLocator");
         loNotif.setContentTitle("Daily Collection Plan");
         loNotif.setDefaults(NotificationCompat.DEFAULT_ALL);
@@ -127,7 +130,11 @@ public class GLocatorService extends Service {
     @SuppressLint("MissingPermission")
     private void startLocationTracking(){
         LocationRequest loRequest = new LocationRequest();
-        loRequest.setInterval(300000);
+        poConfig.getLocationInterval(result -> {
+            long interval = Long.parseLong(result);
+            interval = interval * 60000;
+            loRequest.setInterval(interval);
+        });
         loRequest.setFastestInterval(120000);
 //        loRequest.setInterval(50000);
 //        loRequest.setFastestInterval(25000);

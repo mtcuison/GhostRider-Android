@@ -33,8 +33,8 @@ public class Fragment_PaidTransactionTest {
     public void newInstance() {
         boolean isPass = false;
         try {
-            Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(CURRENT_DATE);
-            if (new SimpleDateFormat("yyyy-MM-dd").parse(CURRENT_DATE).equals(loDate)) {
+            Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(new AppConstants().CURRENT_DATE);
+            if (new SimpleDateFormat("yyyy-MM-dd").parse(new AppConstants().CURRENT_DATE).equals(loDate)) {
                 isPass = true;
             }
         } catch (ParseException e) {

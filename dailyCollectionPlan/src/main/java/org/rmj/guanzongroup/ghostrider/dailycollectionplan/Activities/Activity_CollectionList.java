@@ -498,8 +498,13 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         } else {
             Dialog_DebugEntry loDebug = new Dialog_DebugEntry(Activity_CollectionList.this);
             loDebug.iniDialog(args -> {
-                mViewModel.setEmployeeID(args);
-                mViewModel.DownloadDcp(new AppConstants().CURRENT_DATE, Activity_CollectionList.this);
+                try {
+                    JSONObject loJson = new JSONObject(args);
+                    mViewModel.setEmployeeID(loJson.getString("employid"));
+                    mViewModel.DownloadDcp(loJson.getString("date"), Activity_CollectionList.this);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             });
             loDebug.show();
         }
@@ -611,6 +616,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                             poMessage.setMessage(args[0]);
                             poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                             poMessage.show();
+                            stopService(new Intent(Activity_CollectionList.this, GLocatorService.class));
                         }
 
                         @Override
@@ -668,6 +674,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                     poMessage.setMessage(args[0]);
                     poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                     poMessage.show();
+                    stopService(new Intent(Activity_CollectionList.this, GLocatorService.class));
                 }
 
                 @Override

@@ -12,6 +12,7 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DSysConfig;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESysConfig;
@@ -23,11 +24,38 @@ public class RSysConfig {
     private static final String TAG = RSysConfig.class.getSimpleName();
     private final DSysConfig sysConfigDao;
 
+    public interface OnGetDataCallback{
+        void OnResult(String result);
+    }
+
     public RSysConfig(Application instance) {
         this.sysConfigDao = GGC_GriderDB.getInstance(instance).sysConfigDao();
     }
 
     public void insertSysConfig(List<ESysConfig> sysConfig){
         sysConfigDao.insertSysConfig(sysConfig);
+    }
+
+    public void getLocationInterval(OnGetDataCallback callback){
+        new GetLocationTask(callback).execute(sysConfigDao);
+    }
+
+    private static class GetLocationTask extends AsyncTask<DSysConfig, Void, String>{
+        private final OnGetDataCallback callback;
+
+        public GetLocationTask(OnGetDataCallback callback){
+            this.callback = callback;
+        }
+
+        @Override
+        protected String doInBackground(DSysConfig... dSysConfigs) {
+            return dSysConfigs[0].getLocationInterval();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            callback.OnResult(s);
+        }
     }
 }

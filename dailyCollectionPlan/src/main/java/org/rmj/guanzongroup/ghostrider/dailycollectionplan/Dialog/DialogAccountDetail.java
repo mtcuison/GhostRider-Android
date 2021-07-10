@@ -34,9 +34,12 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
+
+import java.util.Arrays;
 
 public class DialogAccountDetail {
     private static final String TAG = DialogAccountDetail.class.getSimpleName();
@@ -44,6 +47,8 @@ public class DialogAccountDetail {
     private final Context context;
     private org.rmj.g3appdriver.GRider.Database.Repositories.RTown RTown;
     private RDailyCollectionPlan poDCPRepo;
+    private MessageBox poMessage;
+
     private String[] civilStatus = DCP_Constants.CIVIL_STATUS;
     private String[] gender = {"Male", "Female", "LGBT"};
 
@@ -66,6 +71,7 @@ public class DialogAccountDetail {
 
     public DialogAccountDetail(Context context){
         this.context = context;
+        this.poMessage = new MessageBox(context);
     }
 
     public void initAccountDetail(Activity_CollectionList activity, EDCPCollectionDetail foDetail, DialogButtonClickListener listener){
@@ -183,35 +189,43 @@ public class DialogAccountDetail {
         return RTown.getTownProvinceInfo(fsID);
     }
     @SuppressLint("SetTextI18n")
-    public void showClientUpdateInfo(Activity_CollectionList activities, EDCPCollectionDetail foDetails){
-        getClientUpdateInfo(foDetails.getAcctNmbr()).observe(activities, eClientUpdate ->{
-            getBrgyTownProvinceInfo(eClientUpdate.getBarangay()).observe(activities, eTownInfo -> {
-                dAddress.setText(eClientUpdate.getHouseNox() + " " + eClientUpdate.getAddressx() + ", " + eTownInfo.sBrgyName + ", " + eTownInfo.sTownName +", " + eTownInfo.sProvName);
-                dBPlace.setText(eTownInfo.sTownName +", " + eTownInfo.sProvName);
+    public void showClientUpdateInfo(Activity_CollectionList activities, EDCPCollectionDetail foDetails) {
+        try {
+            getClientUpdateInfo(foDetails.getAcctNmbr()).observe(activities, eClientUpdate -> {
+                getBrgyTownProvinceInfo(eClientUpdate.getBarangay()).observe(activities, eTownInfo -> {
+                    dAddress.setText(eClientUpdate.getHouseNox() + " " + eClientUpdate.getAddressx() + ", " + eTownInfo.sBrgyName + ", " + eTownInfo.sTownName + ", " + eTownInfo.sProvName);
+                    dBPlace.setText(eTownInfo.sTownName + ", " + eTownInfo.sProvName);
+                });
+                getTownProvinceInfo(eClientUpdate.getTownIDxx()).observe(activities, eTownInfo -> {
+                    dBPlace.setText(eTownInfo.sTownName + ", " + eTownInfo.sProvName);
+                });
+                String fullname = eClientUpdate.getLastName() + ", " + eClientUpdate.getFrstName() + " " + eClientUpdate.getSuffixNm() + " " + eClientUpdate.getMiddName();
+
+                dFullName.setText(eClientUpdate.getLastName() + ", " + eClientUpdate.getFrstName() + " " + eClientUpdate.getSuffixNm() + " " + eClientUpdate.getMiddName());
+                dGender.setText(gender[Integer.parseInt(eClientUpdate.getGenderxx())]);
+                dCivil.setText(civilStatus[Integer.parseInt(eClientUpdate.getCivlStat())]);
+                dBDate.setText(eClientUpdate.getBirthDte());
+
+                if (eClientUpdate.getLandline() == null || eClientUpdate.getLandline().isEmpty()) {
+                    dTelNo.setText("N/A");
+                } else {
+                    dTelNo.setText(eClientUpdate.getLandline());
+                }
+                if (eClientUpdate.getEmailAdd() == null || eClientUpdate.getEmailAdd().isEmpty()) {
+                    dEmail.setText("N/A");
+                } else {
+                    dEmail.setText(eClientUpdate.getEmailAdd());
+                }
+                dRemarks.setText(foDetails.getRemarksx());
+                dMobileNo.setText(eClientUpdate.getMobileNo());
             });
-            getTownProvinceInfo(eClientUpdate.getTownIDxx()).observe(activities, eTownInfo -> {
-                dBPlace.setText(eTownInfo.sTownName +", " + eTownInfo.sProvName);
-            });
-            String fullname = eClientUpdate.getLastName() + ", " + eClientUpdate.getFrstName() + " " + eClientUpdate.getSuffixNm() + " " + eClientUpdate.getMiddName();
-
-            dFullName.setText(eClientUpdate.getLastName() + ", " + eClientUpdate.getFrstName() + " " + eClientUpdate.getSuffixNm() + " " + eClientUpdate.getMiddName());
-            dGender.setText(gender[Integer.parseInt(eClientUpdate.getGenderxx())]);
-            dCivil.setText(civilStatus[Integer.parseInt(eClientUpdate.getCivlStat())]);
-            dBDate.setText(eClientUpdate.getBirthDte());
-
-            if (eClientUpdate.getLandline() == null || eClientUpdate.getLandline().isEmpty()){
-                dTelNo.setText("N/A");
-            }else {
-                dTelNo.setText(eClientUpdate.getLandline());
-            }
-            if (eClientUpdate.getEmailAdd() == null || eClientUpdate.getEmailAdd().isEmpty()){
-                dEmail.setText("N/A");
-            }else {
-                dEmail.setText(eClientUpdate.getEmailAdd());
-            }
-            dRemarks.setText(foDetails.getRemarksx());
-            dMobileNo.setText(eClientUpdate.getMobileNo());
-
-        });
+        } catch (Exception e){
+            e.printStackTrace();
+            poMessage.initDialog();
+            poMessage.setTitle("Error Report");
+            poMessage.setMessage(e.getMessage());
+            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+            poMessage.show();
+        }
     }
 }
