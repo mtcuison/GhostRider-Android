@@ -736,9 +736,10 @@ public class VMCollectionList extends AndroidViewModel {
                                                 Thread.sleep(1000);
 
                                             } else {
-                                                isDataSent[x] = false;
-                                                Log.e(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. " + loDetail.nEntryNox + " was not uploaded to server.");
                                                 JSONObject loError = new JSONObject(lsResponse);
+                                                isDataSent[x] = false;
+                                                reason[x] = loError.getString("message");
+                                                Log.e(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. " + loDetail.nEntryNox + " was not uploaded to server.");
                                                 Log.e(TAG, "Reason : " + loError.getString("message"));
                                             }
 
