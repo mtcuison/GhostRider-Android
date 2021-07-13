@@ -874,7 +874,8 @@ public class VMCollectionList extends AndroidViewModel {
                                         }
                                     }
                                 } else {
-                                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(String.format("An error occurred while posting dcp. Please take screenshot and report to MIS \n%s", Arrays.toString(reason)));
+                                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(String.format("An error occurred while posting dcp. Please take screenshot and report to MIS \n%s",
+                                            Arrays.toString(reason) +" \n%s Please take a screenshot and report to MIS"));
                                 }
                             } else {
                                 // TODO: Display no details to post
