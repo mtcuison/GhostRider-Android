@@ -109,6 +109,7 @@
                         android:imeOptions="actionDone"
                         android:inputType="textCapWords"
                         android:maxLines="1"
+                        android:textCursorDrawable="@drawable/white_cursor"
                         android:textColor="#ffff" />
 
                 </com.google.android.material.textfield.TextInputLayout>

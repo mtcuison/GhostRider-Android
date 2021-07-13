@@ -95,5 +95,5 @@ features available.]]>
     <string name="summary_settings_dMode">Use by developers and implementors for testing phase. Only MIS-SEG are able to use this mode.</string>
     <string name="summary_settings_help">View instructions of app features.</string>
     <string name="sDataManagerInfo">Clearing app data will erase all, records, pending loan applications, pending dcp remittance and selfie login data. Please make sure all data has been uploaded to server.</string>
-    <string name="summary_settings_help">Help instruction lists for app.</string>
+
 </resources>

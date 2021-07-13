@@ -29,7 +29,6 @@ import android.widget.TextView;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMHelp;
 import org.rmj.guanzongroup.ghostrider.settings.adapter.ViewPagerAdapter;

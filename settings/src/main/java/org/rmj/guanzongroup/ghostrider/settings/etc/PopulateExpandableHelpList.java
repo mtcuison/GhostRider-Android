@@ -19,10 +19,6 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Browser;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCountLog;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Help;
 import org.rmj.guanzongroup.ghostrider.settings.Model.SettingsModel;
 import org.rmj.guanzongroup.ghostrider.settings.adapter.ExpandableListHelpAdapter;
@@ -79,7 +75,7 @@ public class PopulateExpandableHelpList {
                         {
                             case 0 :
                                 intent = new Intent(context, Activity_Help.class);
-                                intent.putExtra("help", AppConstants.INTENT_DOWNLOAD_IMPORT_DCP);
+                                intent.putExtra("help", AppConstants.INTENT_DOWNLOAD_DCP);
                                 context.startActivity(intent);
                                 break;
                             case 1:
@@ -87,7 +83,26 @@ public class PopulateExpandableHelpList {
                                 intent.putExtra("help", AppConstants.INTENT_ADD_COLLECTION_DCP);
                                 context.startActivity(intent);
                                 break;
-                           
+                            case 2:
+                                intent = new Intent(context, Activity_Help.class);
+                                intent.putExtra("help", AppConstants.INTENT_TRANSACTION_DCP);
+                                context.startActivity(intent);
+                                break;
+                            case 3:
+                                intent = new Intent(context, Activity_Help.class);
+                                intent.putExtra("help", AppConstants.INTENT_DCP_POST_COLLECTION);
+                                context.startActivity(intent);
+                                break;
+                            case 4:
+                                intent = new Intent(context, Activity_Help.class);
+                                intent.putExtra("help", AppConstants.INTENT_DCP_REMITTANCE);
+                                context.startActivity(intent);
+                                break;
+                            case 5:
+                                intent = new Intent(context, Activity_Help.class);
+                                intent.putExtra("help", AppConstants.INTENT_DCP_LOG);
+                                context.startActivity(intent);
+                                break;
                         }
                         break;
                 }
@@ -96,9 +111,9 @@ public class PopulateExpandableHelpList {
         });
     }
 
-    /*Added by mike
-    * listener for handling Home Button on navigation menu*/
-    public interface OnHomeButtonClickListener{
-        void OnHomeButtonClick();
-    }
+//    /*Added by mike
+//    * listener for handling Home Button on navigation menu*/
+//    public interface OnHomeButtonClickListener{
+//        void OnHomeButtonClick();
+//    }
 }

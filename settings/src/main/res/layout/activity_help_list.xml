@@ -16,6 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
     tools:context=".Activity.Activity_HelpList">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -36,6 +37,7 @@
         android:groupIndicator="@null"
         android:childDivider="@android:color/transparent"
         android:dividerHeight="1dp"
+        android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:divider="@color/guanzon_orange"
         android:choiceMode="singleChoice"

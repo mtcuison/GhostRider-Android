@@ -64,6 +64,7 @@ public class DCP_Constants {
     public static double varLatitude;
     public static double varLongitude;
     public static boolean saveStorage=false;
+    public static int collectionPos;
 
     public static String EXPORT_FOLDER = "/GRider Exports";
 

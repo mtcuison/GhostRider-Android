@@ -115,6 +115,7 @@
                     android:inputType="textCapWords|textPersonName"
                     android:imeOptions="actionSearch"
                     android:maxLines="1"
+                    android:textCursorDrawable="@drawable/white_cursor"
                     android:hint="Search Customer's name" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
