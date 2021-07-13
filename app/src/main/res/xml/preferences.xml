@@ -70,6 +70,13 @@
             app:iconSpaceReserved="false"
             app:defaultValue="false"
             app:summary="@string/summary_settings_account"/>
+<!--        <Preference-->
+<!--            app:key="appHelpPrefs"-->
+<!--            app:icon="@drawable/ic_menu_help"-->
+<!--            app:title="Help"-->
+<!--            app:iconSpaceReserved="false"-->
+<!--            app:defaultValue="false"-->
+<!--            app:summary="@string/summary_settings_help"/>-->
 
         <Preference
             app:key="appUpdatePrefs"
@@ -88,7 +95,7 @@
             app:summary="@string/summary_settings_dMode"/>
 
         <Preference
-            app:key="appHelp"
+            app:key="appHelpPrefs"
             app:icon="@drawable/ic_settings_help"
             app:title="Help"
             app:iconSpaceReserved="false"

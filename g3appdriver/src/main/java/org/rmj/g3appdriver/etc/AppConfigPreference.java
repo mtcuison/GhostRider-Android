@@ -43,6 +43,9 @@ public class AppConfigPreference {
 
     private static final String HELP_LOGIN_NOTICE = "Login_Instruction_Notice";
     private static final String HELP_DCP_DOWNLOAD_NOTICE = "DCP_Download_Instruction_Notice";
+    private static final String HELP_DCP_ADD_COLLECTION_NOTICE = "DCP_Add_Collection_Instruction_Notice";
+    private static final String HELP_DCP_TRANSACTION_NOTICE = "DCP_Transaction_Instruction_Notice";
+    private static final String HELP_DCP_POST_COLLECTION_NOTICE = "DCP_Post_Collection_Instruction_Notice";
 
     private static AppConfigPreference mAppConfigPreference;
 
@@ -220,8 +223,7 @@ public class AppConfigPreference {
         return pref.getBoolean(HELP_LOGIN_NOTICE, true);
     }
 
-
-    //is first open help login
+    //is first open help download/import dcp
     public void setIsHelpDownloadDCPNotice(boolean downloadNotice){
         editor.putBoolean(HELP_DCP_DOWNLOAD_NOTICE, downloadNotice);
 
@@ -232,5 +234,43 @@ public class AppConfigPreference {
 
     public boolean isHelpDownloadDCPNotice(){
         return pref.getBoolean(HELP_DCP_DOWNLOAD_NOTICE, true);
+    }
+    //is first open help add dcp
+    public void setIsHelpAddDCPCollectionNotice(boolean downloadNotice){
+        editor.putBoolean(HELP_DCP_ADD_COLLECTION_NOTICE, downloadNotice);
+
+        editor.commit();
+
+        Log.e(TAG, "HELP_LOGIN_NOTICE first launched.");
+    }
+
+    public boolean isHelpAddDCPCollectionNotice(){
+        return pref.getBoolean(HELP_DCP_ADD_COLLECTION_NOTICE, true);
+    }
+
+    //is first open help transaction dcp
+    public void setIsHelpDCPTransactionNotice(boolean downloadNotice){
+        editor.putBoolean(HELP_DCP_TRANSACTION_NOTICE, downloadNotice);
+
+        editor.commit();
+
+        Log.e(TAG, "HELP_LOGIN_NOTICE first launched.");
+    }
+
+    public boolean isHelpDCPTransactionNotice(){
+        return pref.getBoolean(HELP_DCP_TRANSACTION_NOTICE, true);
+    }
+
+    //is first open help dcp post collection
+    public void setIsHelpDCPPostCollectionNotice(boolean downloadNotice){
+        editor.putBoolean(HELP_DCP_POST_COLLECTION_NOTICE, downloadNotice);
+
+        editor.commit();
+
+        Log.e(TAG, "HELP_LOGIN_NOTICE first launched.");
+    }
+
+    public boolean isHelpDCPPostCollectionNotice(){
+        return pref.getBoolean(HELP_DCP_POST_COLLECTION_NOTICE, true);
     }
 }

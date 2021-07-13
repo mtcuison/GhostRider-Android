@@ -29,5 +29,4 @@ public class VMHelp  extends AndroidViewModel {
         super(application);
         this.instance = application;
     }
-
 }

@@ -44,10 +44,12 @@ public class Activity_HelpList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_list);
         toolbar = findViewById(R.id.toolbar_help_list);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         settingsHelpData = new SettingsData();
         settingsHelpData.SettingsData(this);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Help");
         expHelpView = findViewById(R.id.lvExp);
         populateExpandableHelpList = new PopulateExpandableHelpList();
         populateExpandableHelpList.populate(this);

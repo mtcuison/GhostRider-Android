@@ -11,6 +11,6 @@
   -->
 
 <resources>
-    <dimen name="dots_height">30dp</dimen>
-    <dimen name="dots_margin_bottom">15dp</dimen>
+    <dimen name="dots_height">15dp</dimen>
+    <dimen name="dots_margin_bottom">28dp</dimen>
 </resources>
