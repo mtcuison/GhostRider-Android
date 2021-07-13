@@ -111,140 +111,147 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
 
         String TransNox = Activity_Transaction.getInstance().getTransNox();
         int EntryNox = Activity_Transaction.getInstance().getEntryNox();
-        mViewModel = ViewModelProviders.of(this).get(VMCustomerNotAround.class);
+        try {
+            mViewModel = ViewModelProviders.of(this).get(VMCustomerNotAround.class);
 
-        mViewModel.setParameter(TransNox, EntryNox);
+            mViewModel.setParameter(TransNox, EntryNox);
 
-        mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
-            try {
-                lblAccNo.setText(collectionDetail.getAcctNmbr());
-                lblClientNm.setText(collectionDetail.getFullName());
-                lblClientAddress.setText(collectionDetail.getAddressx());
+            mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
+                try {
+                    lblAccNo.setText(collectionDetail.getAcctNmbr());
+                    lblClientNm.setText(collectionDetail.getFullName());
+                    lblClientAddress.setText(collectionDetail.getAddressx());
 
-                mViewModel.setClientID(collectionDetail.getClientID());
-                mViewModel.setCurrentCollectionDetail(collectionDetail);
+                    mViewModel.setClientID(collectionDetail.getClientID());
+                    mViewModel.setCurrentCollectionDetail(collectionDetail);
 
-                mViewModel.setAccountNo(collectionDetail.getAcctNmbr());
-                poImage = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_DCP, TransNox);
+                    mViewModel.setAccountNo(collectionDetail.getAcctNmbr());
+                    poImage = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_DCP, TransNox);
 
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
 
-        mViewModel.getUserBranchEmployee().observe(getViewLifecycleOwner(), eBranchInfo -> {
-            lblBranch.setText(eBranchInfo.getBranchNm());
-            lblAddress.setText(eBranchInfo.getAddressx());
-        });
+            mViewModel.getUserBranchEmployee().observe(getViewLifecycleOwner(), eBranchInfo -> {
+                try {
+                    lblBranch.setText(eBranchInfo.getBranchNm());
+                    lblAddress.setText(eBranchInfo.getAddressx());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
 
-        mViewModel.getMobileRequestListForClient().observe(getViewLifecycleOwner(), mobileNox -> {
-            try {
-                mobileAdapter = new MobileInfoAdapter(new MobileInfoAdapter.OnItemInfoClickListener() {
-                    @Override
-                    public void OnDelete(int position) {
-                        //mViewModel.deleteMobile(mobileNox.get(position).getTransNox());
-                        mViewModel.deleteMobile(position);
-                        GToast.CreateMessage(getActivity(), "Mobile number deleted.", GToast.INFORMATION).show();
-                        mobileAdapter.notifyDataSetChanged();
-                    }
+            mViewModel.getMobileRequestListForClient().observe(getViewLifecycleOwner(), mobileNox -> {
+                try {
+                    mobileAdapter = new MobileInfoAdapter(new MobileInfoAdapter.OnItemInfoClickListener() {
+                        @Override
+                        public void OnDelete(int position) {
+                            //mViewModel.deleteMobile(mobileNox.get(position).getTransNox());
+                            mViewModel.deleteMobile(position);
+                            GToast.CreateMessage(getActivity(), "Mobile number deleted.", GToast.INFORMATION).show();
+                            mobileAdapter.notifyDataSetChanged();
+                        }
 
-                    @Override
-                    public void OnMobileNoClick(String MobileNo) {
-                        Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
-                        startActivityForResult(mobileIntent, MOBILE_DIALER);
-                    }
-                });
-                rvCNAOutputs.setAdapter(mobileAdapter);
-                mobileAdapter.setMobileNox(mobileNox);
-            }
-            catch(Exception e) {
-                e.printStackTrace();
-            }
-        });
+                        @Override
+                        public void OnMobileNoClick(String MobileNo) {
+                            Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
+                            startActivityForResult(mobileIntent, MOBILE_DIALER);
+                        }
+                    });
+                    rvCNAOutputs.setAdapter(mobileAdapter);
+                    mobileAdapter.setMobileNox(mobileNox);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
 
-        // Province
-        mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
-            String[] townProvince = new String[townProvinceInfos.size()];
-            for(int x = 0; x < townProvinceInfos.size(); x++){
-                townProvince[x] = townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName;
-            }
-
-            ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, townProvince);
-            txtTown.setAdapter(loAdapter);
-        });
-
-        txtTown.setOnItemClickListener((adapterView, view, i, l) -> {
-            String lsTown = txtTown.getText().toString();
-            String[] town = lsTown.split(", ");
+            // Province
             mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
-                for(int x = 0; x < townProvinceInfos.size(); x++){
-                    if(lsTown.equalsIgnoreCase(townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName)){
-                        addressInfoModel.setsProvName(townProvinceInfos.get(x).sProvName);
-                        addressInfoModel.setsTownName(townProvinceInfos.get(x).sTownName);
-                        addressInfoModel.setTownID(townProvinceInfos.get(x).sTownIDxx);
-                        mViewModel.setTownID(townProvinceInfos.get(x).sTownIDxx);
+                String[] townProvince = new String[townProvinceInfos.size()];
+                for (int x = 0; x < townProvinceInfos.size(); x++) {
+                    townProvince[x] = townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName;
+                }
+
+                ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, townProvince);
+                txtTown.setAdapter(loAdapter);
+            });
+
+            txtTown.setOnItemClickListener((adapterView, view, i, l) -> {
+                String lsTown = txtTown.getText().toString();
+                String[] town = lsTown.split(", ");
+                mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
+                    for (int x = 0; x < townProvinceInfos.size(); x++) {
+                        if (lsTown.equalsIgnoreCase(townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName)) {
+                            addressInfoModel.setsProvName(townProvinceInfos.get(x).sProvName);
+                            addressInfoModel.setsTownName(townProvinceInfos.get(x).sTownName);
+                            addressInfoModel.setTownID(townProvinceInfos.get(x).sTownIDxx);
+                            mViewModel.setTownID(townProvinceInfos.get(x).sTownIDxx);
+                            break;
+                        }
+                    }
+
+                    mViewModel.getBarangayNameList().observe(getViewLifecycleOwner(), strings -> {
+                        ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
+                        txtBrgy.setAdapter(loAdapter);
+                    });
+                });
+            });
+
+            txtBrgy.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getBarangayInfoList().observe(getViewLifecycleOwner(), eBarangayInfos -> {
+                for (int x = 0; x < eBarangayInfos.size(); x++) {
+                    if (txtBrgy.getText().toString().equalsIgnoreCase(eBarangayInfos.get(x).getBrgyName())) {
+                        addressInfoModel.setBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
+                        addressInfoModel.setsBrgyName(eBarangayInfos.get(x).getBrgyName());
+                        mViewModel.setBrgyID(eBarangayInfos.get(x).getBrgyIDxx());
                         break;
                     }
                 }
+            }));
 
-                mViewModel.getBarangayNameList().observe(getViewLifecycleOwner(), strings -> {
-                    ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
-                    txtBrgy.setAdapter(loAdapter);
+
+            mViewModel.getRequestCodeOptions().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
+                spnRequestCode.setAdapter(stringArrayAdapter);
+                spnRequestCode.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+            });
+
+            btnSubmit.setOnClickListener(v -> {
+                poMessage.initDialog();
+                poMessage.setTitle("Customer Not Around");
+                poMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction.");
+                poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                    poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                        psPhotox = photPath;
+                        poImageInfo.setSourceNo(TransNox);
+                        poImageInfo.setSourceCD("DCPa");
+                        poImageInfo.setImageNme(FileName);
+                        poImageInfo.setFileLoct(photPath);
+                        poImageInfo.setFileCode("0020");
+                        poImageInfo.setLatitude(String.valueOf(latitude));
+                        poImageInfo.setLongitud(String.valueOf(longitude));
+                        mViewModel.setImagePath(photPath);
+                        mViewModel.setImgFileNme(FileName);
+                        startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                    });
                 });
-            });
-        });
-
-        txtBrgy.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getBarangayInfoList().observe(getViewLifecycleOwner(), eBarangayInfos -> {
-            for(int x = 0; x < eBarangayInfos.size(); x++){
-                if(txtBrgy.getText().toString().equalsIgnoreCase(eBarangayInfos.get(x).getBrgyName())){
-                    addressInfoModel.setBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
-                    addressInfoModel.setsBrgyName(eBarangayInfos.get(x).getBrgyName());
-                    mViewModel.setBrgyID(eBarangayInfos.get(x).getBrgyIDxx());
-                    break;
-                }
-            }
-        }));
-
-
-        mViewModel.getRequestCodeOptions().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
-            spnRequestCode.setAdapter(stringArrayAdapter);
-            spnRequestCode.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        });
-
-        btnSubmit.setOnClickListener(v ->{
-            poMessage.initDialog();
-            poMessage.setTitle("Customer Not Around");
-            poMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction.");
-            poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                dialog.dismiss();
-                poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                    psPhotox = photPath;
-                    poImageInfo.setSourceNo(TransNox);
-                    poImageInfo.setSourceCD("DCPa");
-                    poImageInfo.setImageNme(FileName);
-                    poImageInfo.setFileLoct(photPath);
-                    poImageInfo.setFileCode("0020");
-                    poImageInfo.setLatitude(String.valueOf(latitude));
-                    poImageInfo.setLongitud(String.valueOf(longitude));
-                    mViewModel.setImagePath(photPath);
-                    mViewModel.setImgFileNme(FileName);
-                    startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                poMessage.setNegativeButton("Cancel", (view, dialog) -> {
+                    dialog.dismiss();
                 });
+                poMessage.show();
             });
-            poMessage.setNegativeButton("Cancel", (view, dialog) -> {
-                dialog.dismiss();
-            });
-            poMessage.show();
-        });
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == ImageFileCreator.GCAMERA){
-            if(resultCode == RESULT_OK){
-                if(isMobileToggled){
+        if (requestCode == ImageFileCreator.GCAMERA) {
+            if (resultCode == RESULT_OK) {
+                if (isMobileToggled) {
                     mViewModel.saveMobileToLocal(Fragment_CustomerNotAround.this);
                 } else {
                     mViewModel.saveAddressToLocal(Fragment_CustomerNotAround.this);

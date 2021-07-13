@@ -471,7 +471,8 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     @Override
     public void OnSuccessDownload() {
         poDialogx.dismiss();
-//        ServiceScheduler.scheduleJob(Activity_CollectionList.this, DCPLocatorService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.GLocatorServiceID);
+//        GLocatorService loServer = new GLocatorService();
+//        loServer.setInterval();
         startService(new Intent(Activity_CollectionList.this, GLocatorService.class));
     }
 

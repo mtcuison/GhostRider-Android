@@ -23,7 +23,7 @@ import static android.content.Context.JOB_SCHEDULER_SERVICE;
 public class ServiceScheduler {
     private static final String TAG = ServiceScheduler.class.getSimpleName();
 
-    public static long TWO_HOUR_PERIODIC = 7200000;
+    public static long EIGHT_HOUR_PERIODIC = 28800000;
     public static long FIFTEEN_MINUTE_PERIODIC = 900000;
 
     @SuppressLint({"MissingPermission", "NewApi"})

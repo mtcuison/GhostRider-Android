@@ -25,13 +25,13 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.TransparentToolbar;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.AppDirectoryCreator;
 import org.rmj.g3appdriver.utils.ServiceScheduler;
 import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
@@ -44,7 +44,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSplashScreen;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static org.rmj.g3appdriver.utils.ServiceScheduler.TWO_HOUR_PERIODIC;
+import static org.rmj.g3appdriver.utils.ServiceScheduler.EIGHT_HOUR_PERIODIC;
 
 public class Activity_SplashScreen extends AppCompatActivity {
     public static final String TAG = Activity_SplashScreen.class.getSimpleName();
@@ -55,12 +55,15 @@ public class Activity_SplashScreen extends AppCompatActivity {
 
     private AppDirectoryCreator mMakeDir;
 
+    private AppConfigPreference poConfigx;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        poConfigx = AppConfigPreference.getInstance(Activity_SplashScreen.this);
         new TransparentToolbar(Activity_SplashScreen.this).SetupActionbar();
         mMakeDir = new AppDirectoryCreator();
         prgrssBar = findViewById(R.id.progress_splashscreen);
@@ -74,7 +77,10 @@ public class Activity_SplashScreen extends AppCompatActivity {
             mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
             startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
             if(!ServiceScheduler.isJobRunning(Activity_SplashScreen.this, AppConstants.DataServiceID)) {
-                ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataImportService.class, TWO_HOUR_PERIODIC, AppConstants.DataServiceID);
+                if(poConfigx.getLastSyncDate().equalsIgnoreCase("") ||
+                !poConfigx.getLastSyncDate().equalsIgnoreCase(new AppConstants().CURRENT_DATE)) {
+                    ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataImportService.class, EIGHT_HOUR_PERIODIC, AppConstants.DataServiceID);
+                }
             }
 
             mViewModel.getVersionInfo().observe(Activity_SplashScreen.this, s -> lblVrsion.setText(s));
@@ -143,18 +149,15 @@ public class Activity_SplashScreen extends AppCompatActivity {
                 }
             });
 
-            mViewModel.getLocatorDateTrigger().observe(Activity_SplashScreen.this, new Observer<DDCPCollectionDetail.Location_Data_Trigger>() {
-                @Override
-                public void onChanged(DDCPCollectionDetail.Location_Data_Trigger data) {
-                    if(data.CollectionMaster == 1 && data.PostedCollection == 0){
+            mViewModel.getLocatorDateTrigger().observe(Activity_SplashScreen.this, data -> {
+                if(data.CollectionMaster == 1 && data.PostedCollection == 0){
+                    startService(new Intent(Activity_SplashScreen.this, GLocatorService.class));
+                } else if(data.Cash_On_Hand == null) {
+                    Log.d(TAG, "No cash on hand");
+                } else if(data.Cash_On_Hand != null){
+                    if (!data.Cash_On_Hand.equalsIgnoreCase("0.0") ||
+                            !data.Cash_On_Hand.equalsIgnoreCase("0")) {
                         startService(new Intent(Activity_SplashScreen.this, GLocatorService.class));
-                    } else if(data.Cash_On_Hand == null) {
-                        Log.d(TAG, "No cash on hand");
-                    } else if(data.Cash_On_Hand != null){
-                        if (!data.Cash_On_Hand.equalsIgnoreCase("0.0") ||
-                                !data.Cash_On_Hand.equalsIgnoreCase("0")) {
-                            startService(new Intent(Activity_SplashScreen.this, GLocatorService.class));
-                        }
                     }
                 }
             });

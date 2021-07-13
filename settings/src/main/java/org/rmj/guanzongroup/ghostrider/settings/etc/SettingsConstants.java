@@ -20,6 +20,8 @@ import org.rmj.guanzongroup.ghostrider.settings.R;
 
 public class SettingsConstants {
 
+    public static final int GCARD_SCAN = 111;
+
     public static int[] getHelpImages(Context context, int help) {
         if (help == AppConstants.INTENT_SELFIE_LOGIN) {
             AppConfigPreference.getInstance(context).setIsHelpLoginNotice(false);

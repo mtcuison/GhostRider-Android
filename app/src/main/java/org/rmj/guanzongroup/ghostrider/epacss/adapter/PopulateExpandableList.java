@@ -35,6 +35,7 @@ import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalCo
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalSelection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_DigitalGcard;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_BranchApplications;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
@@ -82,6 +83,9 @@ public class PopulateExpandableList {
                 }
                 if(groupPosition == 8){
                     context.startActivity(new Intent(context, Activity_RaffleEntry.class));
+                }
+                if(groupPosition == 9){
+                    context.startActivity(new Intent(context, Activity_DigitalGcard.class));
                 }
                 return false;
             }

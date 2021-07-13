@@ -11,22 +11,38 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application>
-        <activity android:name=".Activity.Activity_HelpList"></activity>
-        <activity android:name=".Activity.Activity_Help" />
+        <activity android:name=".Activity.Activity_QrCodeScanner"
+            android:label="Qr Code"
+            android:screenOrientation="portrait"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"/>
+
+        <activity android:name=".Activity.Activity_HelpList"
+            android:label="Help"
+            android:screenOrientation="portrait"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"/>
+
+        <activity android:name=".Activity.Activity_Help"
+            android:label="GCard Info"
+            android:screenOrientation="portrait"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+
         <activity
             android:name=".Activity.Activity_DigitalGcard"
             android:label="GCard Info"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+
         <activity
             android:name=".Activity.Activity_CheckUpdate"
             android:label="System Update"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+
         <activity
             android:name=".Activity.Activity_LocalData"
             android:screenOrientation="portrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+
         <activity
             android:name=".Activity.Activity_Settings"
             android:screenOrientation="userPortrait"

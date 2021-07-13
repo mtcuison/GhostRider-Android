@@ -25,21 +25,23 @@ public class AppConfigPreference {
 
     private static final String isAppFirstLaunch = "AppFirstLaunch";
     private static final String isLocalHostChange = "ChangeLocalHost";
-    private static final String isTestingPhase = "TestingPhase";
+    private static final String isTestingPhase = "gRider_TestingPhase";
     private static final String AppServer = "ApplicationServer";
     private static final String CONFIG_NAME = "GGC_AndroidLocalConfig";
-    private static final String APP_PRODUCT_ID = "ProductID";
-    private static final String APP_DATE_LOGIN = "DateLogin";
+    private static final String APP_PRODUCT_ID = "gRider_ProductID";
+    private static final String APP_DATE_LOGIN = "gRider_DateLogin";
     private static final String temp_PIN = "ConfirmationPIN";
     private static final String APP_FIREBASE_TOKEN = "Firebase_Token";
     private static final String DCP_CustomerRebate = "DCP_CustomerRebate";
     private static final String DCP_PRNox = "DCP_PR_Noxxx";
-    private static final String Application_Agreement = "TermAndConditions";
+    private static final String Application_Agreement = "gRider_TermAndConditions";
     private static final String MobileNo = "Mobile_Number";
     private static boolean isAgreedOnTerms = false;
     private static final String APP_CODE_VERSION = "gRider_VersionCode";
     private static final String APP_NAME_VERSION = "gRider_VersionName";
     private static final String APP_DATE_RELEASE = "gRider_DateRelease";
+    private static final String LAST_SYNC_DATE = "gRider_last_date_sync";
+    private static final String DAILY_SYNC_STATUS = "gRider_daily_sync_status";
 
     private static final String HELP_LOGIN_NOTICE = "Login_Instruction_Notice";
     private static final String HELP_DCP_DOWNLOAD_NOTICE = "DCP_Download_Instruction_Notice";
@@ -232,5 +234,29 @@ public class AppConfigPreference {
 
     public boolean isHelpDownloadDCPNotice(){
         return pref.getBoolean(HELP_DCP_DOWNLOAD_NOTICE, true);
+    }
+
+    public void setLastSyncDate(String dReferDte){
+        editor.putString(LAST_SYNC_DATE, dReferDte);
+
+        editor.commit();
+
+        Log.e(TAG, "LAST_SYNC_DATE has been set.");
+    }
+
+    public String getLastSyncDate(){
+        return pref.getString(LAST_SYNC_DATE, "");
+    }
+
+    public void setDailySyncStatus(boolean hasSync){
+        editor.putBoolean(DAILY_SYNC_STATUS, hasSync);
+
+        editor.commit();
+
+        Log.e(TAG, "DAILY_SYNC_STATUS has been set.");
+    }
+
+    public boolean getDailySyncStatus(){
+        return pref.getBoolean(DAILY_SYNC_STATUS, false);
     }
 }

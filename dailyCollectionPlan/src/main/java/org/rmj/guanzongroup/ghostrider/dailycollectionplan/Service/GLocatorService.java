@@ -60,7 +60,13 @@ public class GLocatorService extends Service {
 
     private RSysConfig poConfig;
 
+    private long pnInterval = 0;
+
     public GLocatorService() {}
+
+    public GLocatorService(long fnInterval) {
+        this.pnInterval = fnInterval;
+    }
 
     @SuppressLint("NewApi")
     @Override
@@ -134,13 +140,13 @@ public class GLocatorService extends Service {
             long interval = Long.parseLong(result);
             interval = interval * 60000;
             loRequest.setInterval(interval);
-        });
-        loRequest.setFastestInterval(120000);
+            loRequest.setFastestInterval(120000);
 //        loRequest.setInterval(50000);
 //        loRequest.setFastestInterval(25000);
-        loRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            loRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        LocationServices.getFusedLocationProviderClient(GLocatorService.this).requestLocationUpdates(loRequest, locationCallback, Looper.getMainLooper());
+            LocationServices.getFusedLocationProviderClient(GLocatorService.this).requestLocationUpdates(loRequest, locationCallback, Looper.getMainLooper());
+        });
     }
 
     private static class SaveLocationTask extends AsyncTask<JSONObject, Void, String> {

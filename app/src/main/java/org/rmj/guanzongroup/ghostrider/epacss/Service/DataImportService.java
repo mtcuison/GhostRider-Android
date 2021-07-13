@@ -18,6 +18,7 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.ImportData.ImportBarangay;
 import org.rmj.g3appdriver.GRider.ImportData.ImportBranch;
 import org.rmj.g3appdriver.GRider.ImportData.ImportBrand;
@@ -37,6 +38,7 @@ import org.rmj.g3appdriver.GRider.ImportData.Import_BranchPerformance;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Relation;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SysConfig;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class DataImportService extends JobService {
@@ -44,7 +46,6 @@ public class DataImportService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
-        Log.e(TAG, "Data import service has started.");
         try{
             doBackgroundTask(jobParameters);
         } catch (Exception e){
@@ -99,6 +100,7 @@ public class DataImportService extends JobService {
                     e.printStackTrace();
                 }
             }
+            AppConfigPreference.getInstance(DataImportService.this).setLastSyncDate(new AppConstants().CURRENT_DATE);
             jobFinished(params, false);
         }).start();
     }
