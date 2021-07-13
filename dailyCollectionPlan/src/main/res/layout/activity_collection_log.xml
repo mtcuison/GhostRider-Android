@@ -168,6 +168,7 @@
                     android:textColor="#fbfbfb"
                     android:inputType="textCapWords|textPersonName"
                     android:imeOptions="actionSearch"
+                    android:textCursorDrawable="@drawable/white_cursor"
                     android:maxLines="1"
                     android:hint="Search Customer's name"/>
             </com.google.android.material.textfield.TextInputLayout>

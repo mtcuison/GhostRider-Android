@@ -48,6 +48,18 @@ public class SettingsData {
         childModel = new SettingsModel("Add Collection", 0,false, false, VISIBLE);
         childModelsList.add(childModel);
 
+        childModel = new SettingsModel("DCP Transaction", 0,false, false, VISIBLE);
+        childModelsList.add(childModel);
+
+        childModel = new SettingsModel("DCP Post Collection", 0,false, false, VISIBLE);
+        childModelsList.add(childModel);
+
+        childModel = new SettingsModel("DCP Remittance", 0,false, false, VISIBLE);
+        childModelsList.add(childModel);
+
+        childModel = new SettingsModel("DCP Log", 0,false, false, VISIBLE);
+        childModelsList.add(childModel);
+
         if (helpModel.hasChildren) {
             listHelpDataChild.put(helpModel, childModelsList);
         }
