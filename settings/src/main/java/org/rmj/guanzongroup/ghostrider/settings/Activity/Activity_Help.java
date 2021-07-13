@@ -12,29 +12,21 @@
 package org.rmj.guanzongroup.ghostrider.settings.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMHelp;
 import org.rmj.guanzongroup.ghostrider.settings.adapter.ViewPagerAdapter;
 import org.rmj.guanzongroup.ghostrider.settings.etc.SettingsConstants;
-
-import java.util.Set;
 
 public class Activity_Help extends AppCompatActivity {
     private ViewPager viewPager;
