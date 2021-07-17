@@ -76,7 +76,7 @@ public class Fragment_CreateAccount extends Fragment implements CreateAccountCal
         super.onActivityCreated(savedInstanceState);
         try {
             mViewModel = new ViewModelProvider(this).get(VMCreateAccount.class);
-            lblVersion.setText(poConfigx.getVersionName() + poConfigx.getVersionCode() + " - " + poConfigx.getDateRelease());
+            lblVersion.setText(poConfigx.getVersionInfo());
             btnSubmit.setOnClickListener(view -> {
                 AccountInfo accountInfo = new AccountInfo();
                 accountInfo.setLastName(Objects.requireNonNull(tieLastname.getText()).toString());

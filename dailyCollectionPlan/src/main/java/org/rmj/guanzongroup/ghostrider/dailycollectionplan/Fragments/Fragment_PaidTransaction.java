@@ -148,8 +148,12 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         });
 
         mViewModel.getUserBranchEmployee().observe(getViewLifecycleOwner(), eBranchInfo -> {
-            lblBranch.setText(eBranchInfo.getBranchNm());
-            lblAddress.setText(eBranchInfo.getAddressx());
+            try {
+                lblBranch.setText(eBranchInfo.getBranchNm());
+                lblAddress.setText(eBranchInfo.getAddressx());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
 
         mViewModel.getPaymentType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {

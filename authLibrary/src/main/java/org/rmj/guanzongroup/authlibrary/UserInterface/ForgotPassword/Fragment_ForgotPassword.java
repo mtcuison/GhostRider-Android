@@ -71,7 +71,7 @@ public class Fragment_ForgotPassword extends Fragment implements VMForgotPasswor
         super.onActivityCreated(savedInstanceState);
         try {
             mViewModel = new ViewModelProvider(this).get(VMForgotPassword.class);
-            lblVersion.setText(poConfigx.getVersionName() + poConfigx.getVersionCode() + " - " + poConfigx.getDateRelease());
+            lblVersion.setText(poConfigx.getVersionInfo());
             btnSendEmail.setOnClickListener(view -> {
                 String email = Objects.requireNonNull(tieEmail.getText()).toString().trim();
                 mViewModel.RequestPassword(email, Fragment_ForgotPassword.this);

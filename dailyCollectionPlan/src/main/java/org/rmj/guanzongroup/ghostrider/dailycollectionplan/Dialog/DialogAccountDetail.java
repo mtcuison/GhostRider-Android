@@ -67,8 +67,6 @@ public class DialogAccountDetail {
     private TextView lblLastPy;
     private TextView lblLastPd;
 
-    private static boolean isDialogShown;
-
     public DialogAccountDetail(Context context){
         this.context = context;
         this.poMessage = new MessageBox(context);
@@ -150,7 +148,6 @@ public class DialogAccountDetail {
         lblLastPd.setText(FormatUIText.formatGOCasBirthdate(foDetail.getLastPaid()));
         btnConfirm.setOnClickListener(view1 -> {
             listener.OnClick(poDialogx, spnTransact.getSelectedItem().toString());
-            isDialogShown = false;
         });
 
         btnCancelx.setOnClickListener(view12 -> dismiss());
@@ -158,19 +155,16 @@ public class DialogAccountDetail {
 
 
     public void show(){
-        if(isDialogShown) {
-            return;
+        if(!poDialogx.isShowing()) {
+            poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            poDialogx.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
+            poDialogx.show();
         }
-        poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        poDialogx.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
-        poDialogx.show();
-        isDialogShown = true;
     }
 
     public void dismiss(){
         if(poDialogx != null && poDialogx.isShowing()){
             poDialogx.dismiss();
-            isDialogShown = false;
         }
     }
 

@@ -125,7 +125,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_collectionList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/ln_import_panel"
@@ -133,8 +134,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:visibility="gone">
+        android:layout_marginTop="20dp">
 
         <ImageView
             android:layout_width="match_parent"
@@ -168,6 +168,17 @@
             android:layout_width="210dp"
             android:layout_height="wrap_content"
             android:text="Import from File"/>
+
+        <TextView
+            android:id="@+id/lbl_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lsHintImportFile"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/light_red"
+            android:layout_marginTop="10dp"
+            android:textSize="15sp"/>
 
     </LinearLayout>
 

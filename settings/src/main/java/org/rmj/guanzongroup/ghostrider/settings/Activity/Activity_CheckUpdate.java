@@ -26,21 +26,14 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.ybq.android.spinkit.BuildConfig;
 import com.github.ybq.android.spinkit.sprite.Sprite;
-import com.github.ybq.android.spinkit.style.Circle;
 import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMCheckUpdate;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.math.BigInteger;
 import java.util.Objects;
 
 public class Activity_CheckUpdate extends AppCompatActivity {

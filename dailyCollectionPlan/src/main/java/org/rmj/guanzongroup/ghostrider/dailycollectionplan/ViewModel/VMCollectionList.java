@@ -693,7 +693,7 @@ public class VMCollectionList extends AndroidViewModel {
             String[] reason;
             List<DDCPCollectionDetail.CollectionDetail> laCollDetl = lists[0];
             try {
-                if(hasRemittedBeforePosting()) {
+//                if(hasRemittedBeforePosting()) {
                     if (!poConn.isDeviceConnected()) {
                         lsResult = AppConstants.NO_INTERNET();
                     } else {
@@ -873,7 +873,8 @@ public class VMCollectionList extends AndroidViewModel {
                                         }
                                     }
                                 } else {
-                                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(String.format("An error occurred while posting dcp. Please take screenshot and report to MIS \n%s", Arrays.toString(reason)));
+                                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(String.format("An error occurred while posting dcp. Please take screenshot and report to MIS \n%s",
+                                            Arrays.toString(reason) +" \n%s Please take a screenshot and report to MIS"));
                                 }
                             } else {
                                 // TODO: Display no details to post
@@ -881,9 +882,9 @@ public class VMCollectionList extends AndroidViewModel {
                             }
                         }
                     }
-                } else {
-                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Please remit collection before posting");
-                }
+//                } else {
+//                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Please remit collection before posting");
+//                }
             } catch (Exception e){
                 e.printStackTrace();
                 lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
@@ -1225,7 +1226,7 @@ public class VMCollectionList extends AndroidViewModel {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            String lsUserId = poEmploye.getUserNonLiveData().getUserIDxx();
+            String lsUserId = poEmploye.getUserNonLiveData().getEmployID();
             if(strings[0].equals(lsUserId)) {
                 return true;
             }

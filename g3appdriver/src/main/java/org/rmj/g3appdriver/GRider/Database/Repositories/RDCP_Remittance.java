@@ -22,6 +22,8 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 
+import java.util.List;
+
 public class RDCP_Remittance {
     private static final String TAG = RDCP_Remittance.class.getSimpleName();
 

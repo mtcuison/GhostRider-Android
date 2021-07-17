@@ -23,12 +23,17 @@ public class AppAssistantConfig {
 
     private static final String CONFIG_NAME = "GRider_Android_Assistant";
 
+    private static final String HELP_AUTH_NOTICE = "gRider_Auth_Notice";
     private static final String HELP_DCP_NOTICE = "DCP_Instruction_Notice";
+    private static final String HELP_DCP_DL_NOTICE = "DCP_Download_Notice";
     private static final String ASSIST_DCP_ADD = "Assist_dcp_add";
+    private static final String ASSIST_DCP_TRANSACTION = "Assist_Dcp_Transaction";
     private static final String ASSIST_DCP_PAY = "Assist_dcp_pay";
     private static final String ASSIST_DCP_CNA = "Assist_dcp_cna";
     private static final String ASSIST_DCP_OTH = "Assist_dcp_oth";
+    private static final String ASSIST_DCP_POST = "Assist_dcp_post";
     private static final String ASSIST_DCP_REMIT = "Assist_dcp_remit";
+    private static final String ASSIST_DCP_LOG = "Assist_dcp_log";
 
     private static final String HELP_SLOGIN_NOTICE = "DCP_Instruction_Notice";
     private static final String HELP_SYSUPDATE_NOTICE = "DCP_Instruction_Notice";
@@ -50,6 +55,19 @@ public class AppAssistantConfig {
         return mAppConfigPreference;
     }
 
+    public boolean getHELP_AUTH_NOTICE(){
+        return pref.getBoolean(HELP_AUTH_NOTICE, false);
+    }
+
+    /**
+     *
+     * @param val set status to true if instructions has been read
+     */
+    public void setHELP_AUTH_NOTICE(boolean val){
+        editor.putBoolean(HELP_AUTH_NOTICE, val);
+        editor.commit();
+    }
+
     public boolean getHELP_DCP_NOTICE() {
         return pref.getBoolean(HELP_DCP_NOTICE, false);
     }
@@ -63,6 +81,15 @@ public class AppAssistantConfig {
         editor.commit();
     }
 
+    public boolean getHELP_DCP_DL_NOTICE(){
+        return pref.getBoolean(HELP_DCP_DL_NOTICE, false);
+    }
+
+    public void setHELP_DCP_DL_NOTICE(boolean val){
+        editor.putBoolean(HELP_DCP_DL_NOTICE, val);
+        editor.commit();
+    }
+
     public boolean getASSIST_DCP_ADD() {
         return pref.getBoolean(ASSIST_DCP_ADD, false);
     }
@@ -73,6 +100,19 @@ public class AppAssistantConfig {
      */
     public void setASSIST_DCP_ADD(boolean val) {
         editor.putBoolean(ASSIST_DCP_ADD, val);
+        editor.commit();
+    }
+
+    public boolean getASSIST_DCP_TRANSACTION(){
+        return pref.getBoolean(ASSIST_DCP_TRANSACTION, false);
+    }
+
+    /**
+     *
+     * @param val set status to true if instructions has been read
+     */
+    public void setASSIST_DCP_TRANSACTION(boolean val){
+        editor.putBoolean(ASSIST_DCP_TRANSACTION, val);
         editor.commit();
     }
 
@@ -115,6 +155,19 @@ public class AppAssistantConfig {
         editor.commit();
     }
 
+    public boolean getASSIST_DCP_POST(){
+        return pref.getBoolean(ASSIST_DCP_POST, false);
+    }
+
+    /**
+     *
+     * @param val set status to true if instructions has been read
+     */
+    public void setASSIST_DCP_POST(boolean val){
+        editor.putBoolean(ASSIST_DCP_POST, val);
+        editor.commit();
+    }
+
     public boolean getASSIST_DCP_REMIT() {
         return pref.getBoolean(ASSIST_DCP_REMIT, false);
     }
@@ -125,6 +178,19 @@ public class AppAssistantConfig {
      */
     public void setASSIST_DCP_REMIT(boolean val) {
         editor.putBoolean(ASSIST_DCP_REMIT, val);
+        editor.commit();
+    }
+
+    public boolean getASSIST_DCP_LOG(){
+        return pref.getBoolean(ASSIST_DCP_LOG, false);
+    }
+
+    /**
+     *
+     * @param val set status to true if instructions has been read
+     */
+    public void setASSIST_DCP_LOG(boolean val){
+        editor.putBoolean(ASSIST_DCP_LOG, val);
         editor.commit();
     }
 

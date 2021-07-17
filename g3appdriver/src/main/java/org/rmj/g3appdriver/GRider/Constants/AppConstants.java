@@ -126,6 +126,7 @@ public class AppConstants {
     public static int INTENT_DCP_POST_COLLECTION = 112;
     public static int INTENT_DCP_REMITTANCE = 113;
     public static int INTENT_DCP_LOG = 114;
+    public static int INTENT_DOWNLOAD_IMPORT_DCP = 115;
 
     public static int INTENT_REIMBURSEMENT = 107;
 

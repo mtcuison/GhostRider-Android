@@ -69,7 +69,7 @@ public class VMUnlock extends AndroidViewModel {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(String... string) {
-            String response = "";
+            String response;
             try {
                 if (conn.isDeviceConnected()) {
                     JSONObject loJSon = new JSONObject();
@@ -77,13 +77,13 @@ public class VMUnlock extends AndroidViewModel {
                     loJSon.put("deviceUid", string[0]);
                     loParam.put("request", AppConstants.UNLOCK_REQUEST);
                     loParam.put("param", loJSon.toString());
-                    Log.e(TAG, loParam.toString());
                     response = WebClient.httpsPostJSon(WebApi.URL_KNOX, loParam.toString(), headers.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }
             } catch (Exception e){
                 e.printStackTrace();
+                response = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
             }
             return response;
         }
@@ -102,10 +102,10 @@ public class VMUnlock extends AndroidViewModel {
                     String lsMessage = loError.getString("message");
                     String lsErrCode = loError.getString("code");
                     callBack.OnRequestFailed(KnoxErrorCode.getMessage(lsErrCode, lsMessage));
-                    Log.e(TAG, s);
                 }
             } catch (Exception e){
                 e.printStackTrace();
+                callBack.OnRequestFailed(e.getMessage());
             }
             this.cancel(false);
         }

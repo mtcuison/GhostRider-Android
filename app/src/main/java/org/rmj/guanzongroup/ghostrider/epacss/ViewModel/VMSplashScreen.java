@@ -30,6 +30,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.AppTokenManager;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RSysConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -80,7 +81,7 @@ public class VMSplashScreen extends AndroidViewModel {
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.REQUEST_INSTALL_PACKAGES});
         pbGranted.setValue(hasPermissions(application.getApplicationContext(), paPermisions.getValue()));
-        this.psVersion.setValue(poConfigx.getVersionName() + poConfigx.getVersionCode() +" - "+ poConfigx.getDateRelease());
+        this.psVersion.setValue(poConfigx.getVersionInfo());
         this.poLocator = poDcp.getDCP_COH_StatusForTracking();
     }
 

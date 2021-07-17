@@ -213,7 +213,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(EDCP_Remittance... edcp_remittances) {
-            String lsResult = "";
+            String lsResult;
             EDCP_Remittance loRemit = edcp_remittances[0];
             try{
                 String lsTransNox = poRemit.getTransnoxMaster(dTransact);
@@ -245,6 +245,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
                 }
             } catch (Exception e){
                 e.printStackTrace();
+                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
             }
             return lsResult;
         }
@@ -264,6 +265,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
                 }
             } catch (Exception e){
                 e.printStackTrace();
+                callback.OnFailed(e.getMessage());
             }
         }
     }

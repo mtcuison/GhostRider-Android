@@ -45,7 +45,7 @@ public class VMAHDashboard extends AndroidViewModel {
         this.pobranch = new RBranch(application);
         poLog = new RLogSelfie(application);
         this.poConfigx = AppConfigPreference.getInstance(application);
-        this.psVersion.setValue(poConfigx.getVersionName() + poConfigx.getVersionCode() +" - "+ poConfigx.getDateRelease());
+        this.psVersion.setValue(poConfigx.getVersionInfo());
     }
 
     public LiveData<EEmployeeInfo> getEmployeeInfo(){

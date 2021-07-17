@@ -47,8 +47,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.utils.ServiceScheduler;
+import org.rmj.g3appdriver.etc.AppAssistantConfig;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAccountDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogConfirmPost;
@@ -92,7 +91,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
     private MaterialButton btnDownload, btnImport;
     private LinearLayout lnImportPanel;
-    private TextView lblNoName;
+    private TextView lblNoName, lblhelp;
 
     private String FILENAME;
     private final String FILE_TYPE = "-mob.txt";
@@ -107,6 +106,10 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         mViewModel = new ViewModelProvider(this).get(VMCollectionList.class);
         expCollectDetl = new JSONArray();
         initWidgets();
+
+        lblhelp.setOnClickListener(v -> {
+
+        });
 
         mViewModel.getEmplopyeInfo().observe(this, eEmployeeInfo -> mViewModel.setEmployeeID(eEmployeeInfo.getEmployID()));
 
@@ -147,7 +150,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 recyclerView.setVisibility(View.GONE);
                 lnImportPanel.setVisibility(View.VISIBLE);
                 btnDownload.setOnClickListener(v -> {
-                    if (AppConfigPreference.getInstance(Activity_CollectionList.this).isHelpDownloadDCPNotice()) {
+                    if (!AppAssistantConfig.getInstance(Activity_CollectionList.this).getHELP_DCP_DL_NOTICE()) {
                         Intent intent = new Intent(Activity_CollectionList.this, Activity_Help.class);
                         intent.putExtra("help", AppConstants.INTENT_DOWNLOAD_DCP);
                         startActivityForResult(intent, AppConstants.INTENT_DOWNLOAD_DCP);
@@ -161,7 +164,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             CollectionAdapter loAdapter = new CollectionAdapter(collectionDetails, new CollectionAdapter.OnItemClickListener() {
                 @Override
                 public void OnClick(int position) {
-                    if (AppConfigPreference.getInstance(Activity_CollectionList.this).isHelpDCPTransactionNotice()){
+                    if (!AppAssistantConfig.getInstance(Activity_CollectionList.this).getASSIST_DCP_TRANSACTION()){
                         Intent intent = new Intent(Activity_CollectionList.this, Activity_Help.class);
                         intent.putExtra("help", AppConstants.INTENT_TRANSACTION_DCP);
                         startActivityForResult(intent, AppConstants.INTENT_TRANSACTION_DCP);
@@ -251,6 +254,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         btnImport = findViewById(R.id.btn_import);
         lnImportPanel = findViewById(R.id.ln_import_panel);
         lblNoName = findViewById(R.id.txt_no_name);
+        lblhelp = findViewById(R.id.lbl_help);
 
         recyclerView = findViewById(R.id.recyclerview_collectionList);
         layoutManager = new LinearLayoutManager(Activity_CollectionList.this);
@@ -277,7 +281,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         if(item.getItemId() == android.R.id.home){
             finish();
         } else if(item.getItemId() == R.id.action_menu_add_collection){
-            if (AppConfigPreference.getInstance(Activity_CollectionList.this).isHelpAddDCPCollectionNotice()){
+            if (!AppAssistantConfig.getInstance(Activity_CollectionList.this).getASSIST_DCP_ADD()){
                 Intent intent = new Intent(Activity_CollectionList.this, Activity_Help.class);
                 intent.putExtra("help", AppConstants.INTENT_ADD_COLLECTION_DCP);
                 startActivityForResult(intent, AppConstants.INTENT_ADD_COLLECTION_DCP);
@@ -285,12 +289,12 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 showAddDcpCollection();
             }
         } else if(item.getItemId() == R.id.action_menu_post_collection){
-            if (AppConfigPreference.getInstance(Activity_CollectionList.this).isHelpDCPPostCollectionNotice()){
+            if (!AppAssistantConfig.getInstance(Activity_CollectionList.this).getASSIST_DCP_POST()){
                 Intent intent = new Intent(Activity_CollectionList.this, Activity_Help.class);
                 intent.putExtra("help", AppConstants.INTENT_DCP_POST_COLLECTION);
                 startActivityForResult(intent, AppConstants.INTENT_DCP_POST_COLLECTION);
             }else {
-               showPostCollection();
+                showPostCollection();
             }
 
         }
@@ -364,7 +368,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     @Override
     public void OnSuccessDownload() {
         poDialogx.dismiss();
-//        ServiceScheduler.scheduleJob(Activity_CollectionList.this, DCPLocatorService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.GLocatorServiceID);
         startService(new Intent(Activity_CollectionList.this, GLocatorService.class));
     }
 
@@ -396,6 +399,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 "NOTE: Once posted records are unable to update.");
         poMessage.show();
     }
+
     public void showTransaction(int position, List<EDCPCollectionDetail> collectionDetails){
         DialogAccountDetail loDialog = new DialogAccountDetail(Activity_CollectionList.this);
         loDialog.initAccountDetail(Activity_CollectionList.this ,collectionDetails.get(position), (dialog, remarksCode) -> {
@@ -410,7 +414,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         loDialog.show();
     }
     public void showAddDcpCollection(){
-
         try {
             loDialog = new DialogAddCollection(Activity_CollectionList.this);
             loDialog.initDialog(new DialogAddCollection.OnDialogButtonClickListener() {
@@ -544,6 +547,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             e.printStackTrace();
         }
     }
+
     public void showDownloadDcp(){
         if(!mViewModel.isDebugMode()){
             mViewModel.DownloadDcp(new AppConstants().CURRENT_DATE, Activity_CollectionList.this);
