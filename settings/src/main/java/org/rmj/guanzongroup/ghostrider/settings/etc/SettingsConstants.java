@@ -15,6 +15,7 @@ import android.content.Context;
 import android.util.Log;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.etc.AppAssistantConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 
@@ -24,25 +25,18 @@ public class SettingsConstants {
 
     public static int[] getHelpImages(Context context, int help) {
         if (help == AppConstants.INTENT_SELFIE_LOGIN) {
-            AppConfigPreference.getInstance(context).setIsHelpLoginNotice(false);
             return SELFIE_LOGIN_HELP_IMAGES;
-        } else if (help == AppConstants.INTENT_DOWNLOAD_IMPORT_DCP) {
-            AppConfigPreference.getInstance(context).setIsHelpDownloadDCPNotice(false);
+        } else if (help == AppConstants.INTENT_DOWNLOAD_DCP) {
             return DOWNLOAD_IMPORT_DCP_HELP_IMAGES;
         }else if (help == AppConstants.INTENT_ADD_COLLECTION_DCP) {
-            AppConfigPreference.getInstance(context).setIsHelpAddDCPCollectionNotice(false);
             return DCP_HELP_ADD_COLLECTION_IMAGES;
         }else if (help == AppConstants.INTENT_TRANSACTION_DCP) {
-            AppConfigPreference.getInstance(context).setIsHelpDCPTransactionNotice(false);
             return DCP_TRANSACTION_HELP_IMAGES;
         }else if (help == AppConstants.INTENT_DCP_POST_COLLECTION) {
-            AppConfigPreference.getInstance(context).setIsHelpDCPPostCollectionNotice(false);
             return DCP_POST_COLLECTION_HELP_IMAGES;
         }else if (help == AppConstants.INTENT_DCP_REMITTANCE) {
-            AppConfigPreference.getInstance(context).setIsHelpDCPPostCollectionNotice(false);
             return DCP_REMITTANCE_HELP_IMAGES;
         }else if (help == AppConstants.INTENT_DCP_LOG) {
-            AppConfigPreference.getInstance(context).setIsHelpDCPPostCollectionNotice(false);
             return DCP_LOG_HELP_IMAGES;
         }
         return null;

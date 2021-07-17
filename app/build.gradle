@@ -23,8 +23,8 @@ android {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 9
-        versionName "GhostRider Build v.1.0."
+        versionCode 10
+        versionName "GhostRider Build v.1.1.0"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -58,6 +58,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.google.firebase:firebase-crashlytics:18.1.0'
     implementation 'com.google.firebase:firebase-analytics:19.0.0'
 //    implementation 'com.github.smarteist:autoimageslider:1.4.0'
@@ -77,6 +78,7 @@ dependencies {
     implementation "androidx.cardview:cardview:1.0.0"
 
     implementation 'androidx.preference:preference:1.1.1'
+
 
     implementation 'com.google.firebase:firebase-core:19.0.0'
     implementation platform('com.google.firebase:firebase-bom:26.8.0')

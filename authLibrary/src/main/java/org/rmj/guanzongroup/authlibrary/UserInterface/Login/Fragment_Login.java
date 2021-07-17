@@ -97,7 +97,7 @@ public class Fragment_Login extends Fragment implements LoginCallback{
             mViewModel.Login(new UserAuthInfo(email,password, mobileNo), Fragment_Login.this);
         });
 
-        lblVersion.setText(poConfigx.getVersionName() + poConfigx.getVersionCode() +" - "+ poConfigx.getDateRelease());
+        lblVersion.setText(poConfigx.getVersionInfo());
 
         tvCreateAccount.setOnClickListener(view -> navController.navigate(R.id.action_fragment_Login_to_fragment_CreateAccount));
         tvTerms.setOnClickListener(view -> navController.navigate(R.id.action_fragment_Login_to_fragment_TermsAndConditions));

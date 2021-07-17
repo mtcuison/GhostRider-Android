@@ -32,6 +32,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
@@ -86,6 +87,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
         private final RCreditApplication poCreditApp;
         private final RBranchLoanApplication poLoan;
         private final RCreditApplicationDocument poDocs;
+        private final RDCP_Remittance poRemit;
 
         private String lsClient;
         private String lsAccess;
@@ -116,6 +118,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
             this.poCreditApp = new RCreditApplication(instance);
             this.poLoan = new RBranchLoanApplication(instance);
             this.poDocs = new RCreditApplicationDocument(instance);
+            this.poRemit = new RDCP_Remittance(instance);
         }
 
         @Override

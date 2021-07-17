@@ -138,5 +138,6 @@
     <string name="sActionMenu_exportFile">Export Collection File</string>
     <string name="sActionMenu_uploadFile">Import Collection File</string>
     <string name="sActionMenu_remitCollection">Remit Collection</string>
+    <string name="lsHintImportFile">How to import DCP collection list?</string>
 
 </resources>

@@ -40,7 +40,7 @@ public class PrepareData {
         }
 
         //TODO : Change View value to VISIBLE if Approval code is ready for implementation.
-        menuModel = new MenuModel("Approval Code", R.drawable.ic_approval_code, true, true, View.GONE); //Menu of Java Tutorials
+        menuModel = new MenuModel("Approval Code", R.drawable.ic_approval_code, true, true, GONE); //Menu of Java Tutorials
         listDataHeader.add(menuModel);
 
         List<MenuModel> childModelsList = new ArrayList<>();
@@ -76,7 +76,7 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if Credit App is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("Credit Application",  R.drawable.ic_menu_creditapp, true, true , GONE);
+        menuModel = new MenuModel("Credit Application", R.drawable.ic_menu_creditapp, true, true, GONE);
         listDataHeader.add(menuModel);
 
         childModel = new MenuModel("Loan Application", 0, false, false , VISIBLE);

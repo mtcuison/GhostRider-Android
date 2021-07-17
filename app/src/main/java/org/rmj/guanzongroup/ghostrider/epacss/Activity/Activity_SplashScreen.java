@@ -68,11 +68,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
         mMakeDir = new AppDirectoryCreator();
         prgrssBar = findViewById(R.id.progress_splashscreen);
         lblVrsion = findViewById(R.id.lbl_versionInfo);
-        if(mMakeDir.createAppDirectory()) {
-            Log.e(TAG, "Export directory created.");
-        } else {
-            Log.e(TAG, "Export directory already exist.");
-        }
         try {
             mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
             startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
@@ -89,6 +84,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
                 if(!isGranted){
                     mViewModel.getPermisions().observe(this, strings -> ActivityCompat.requestPermissions(Activity_SplashScreen.this, strings, AppConstants.PERMISION_REQUEST_CODE));
                 } else {
+                    AppDirectoryCreator.createAppDirectory();
                     mViewModel.isLoggedIn().observe(this, isValid -> {
                         if (isValid) {
                             mViewModel.getSessionDate().observe(this, sessionDate -> {

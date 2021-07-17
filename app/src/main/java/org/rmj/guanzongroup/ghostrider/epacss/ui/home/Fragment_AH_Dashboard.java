@@ -32,6 +32,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.etc.AppAssistantConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
@@ -82,11 +83,10 @@ public class Fragment_AH_Dashboard extends Fragment {
 //            loIntent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
 //            startActivity(loIntent);
 
-            if (AppConfigPreference.getInstance(getActivity()).isHelpLoginNotice()){
+            if (!AppAssistantConfig.getInstance(getActivity()).getHELP_SLOGIN_NOTICE()){
                 Intent intent = new Intent(getActivity(), Activity_Help.class);
                 intent.putExtra("help", AppConstants.INTENT_SELFIE_LOGIN);
                 getActivity().startActivityForResult(intent, AppConstants.INTENT_SELFIE_LOGIN);
-
             }else{
                 Intent intent = new Intent(getActivity(), Activity_Application.class);
                 intent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);

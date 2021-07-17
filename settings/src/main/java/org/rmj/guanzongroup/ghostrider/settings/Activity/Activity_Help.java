@@ -22,11 +22,16 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.etc.AppAssistantConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMHelp;
 import org.rmj.guanzongroup.ghostrider.settings.adapter.ViewPagerAdapter;
 import org.rmj.guanzongroup.ghostrider.settings.etc.SettingsConstants;
+
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.INTENT_ADD_COLLECTION_DCP;
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.INTENT_DCP_POST_COLLECTION;
 
 public class Activity_Help extends AppCompatActivity {
     private ViewPager viewPager;
@@ -62,7 +67,6 @@ public class Activity_Help extends AppCompatActivity {
                 } else {
                     // still pages are left
                     btnNext.setText("Next");
-
                 }
             }
 
@@ -71,26 +75,21 @@ public class Activity_Help extends AppCompatActivity {
 
             }
         });
-        btn_previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int current = getItem(-1);
-                if (current < img.length) {
-                    viewPager.setCurrentItem(current);
-                }
+        btn_previous.setOnClickListener(v -> {
+            int current = getItem(-1);
+            if (current < img.length) {
+                viewPager.setCurrentItem(current);
             }
         });
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int current = getItem(+1);
-                if (current < img.length) {
-                    viewPager.setCurrentItem(current);
-                } else {
-                    setResult(Activity.RESULT_OK);
-                    finish();
-                }
+        btnNext.setOnClickListener(v -> {
+            int current = getItem(+1);
+            if (current < img.length) {
+                viewPager.setCurrentItem(current);
+            } else {
+                setResult(Activity.RESULT_OK);
+                setTutorialFinish();
+                finish();
             }
         });
 
@@ -109,11 +108,13 @@ public class Activity_Help extends AppCompatActivity {
     public void addBottomDots(int page_position) {
         dots = new TextView[img.length];
         layout_dot.removeAllViews();
+
         if (page_position == 0){
             btn_previous.setVisibility(View.GONE);
         }else{
             btn_previous.setVisibility(View.VISIBLE);
         }
+
         for (int i = 0; i < dots.length; i++) {;
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#9673;"));
@@ -124,5 +125,19 @@ public class Activity_Help extends AppCompatActivity {
         }
         //set active dot color
         dots[page_position].setTextColor(getResources().getColor(R.color.guanzon_orange));
+    }
+
+    private void setTutorialFinish(){
+        if(help == AppConstants.INTENT_SELFIE_LOGIN){
+            AppAssistantConfig.getInstance(Activity_Help.this).setHELP_SLOGIN_NOTICE(true);
+        } else if(help == AppConstants.INTENT_DOWNLOAD_DCP){
+            AppAssistantConfig.getInstance(Activity_Help.this).setHELP_DCP_DL_NOTICE(true);
+        } else if(help == INTENT_DCP_POST_COLLECTION){
+            AppAssistantConfig.getInstance(Activity_Help.this).setASSIST_DCP_POST(true);
+        } else if(help == INTENT_ADD_COLLECTION_DCP){
+            AppAssistantConfig.getInstance(Activity_Help.this).setASSIST_DCP_ADD(true);
+        } else if(help == AppConstants.INTENT_TRANSACTION_DCP){
+            AppAssistantConfig.getInstance(Activity_Help.this).setASSIST_DCP_TRANSACTION(true);
+        }
     }
 }

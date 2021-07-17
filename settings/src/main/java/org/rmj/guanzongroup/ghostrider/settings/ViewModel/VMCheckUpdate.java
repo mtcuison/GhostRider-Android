@@ -60,7 +60,7 @@ public class VMCheckUpdate extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.poConfig = AppConfigPreference.getInstance(instance);
-        this.psVersion.setValue(poConfig.getVersionName() + poConfig.getVersionCode() +" - "+ poConfig.getDateRelease());
+        this.psVersion.setValue(poConfig.getVersionInfo());
     }
 
     public interface CheckUpdateCallback{

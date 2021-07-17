@@ -197,16 +197,8 @@ public class AppConfigPreference {
         editor.commit();
     }
 
-    public int getVersionCode(){
-        return pref.getInt(APP_CODE_VERSION, 1);
-    }
-
-    public String getVersionName(){
-        return pref.getString(APP_NAME_VERSION, "");
-    }
-
-    public String getDateRelease(){
-        return pref.getString(APP_DATE_RELEASE, "");
+    public String getVersionInfo(){
+        return pref.getString(APP_NAME_VERSION, "").replace("0", "") + pref.getInt(APP_CODE_VERSION, 1) + " - " + pref.getString(APP_DATE_RELEASE, "");
     }
 
     //is first open help login
@@ -221,7 +213,6 @@ public class AppConfigPreference {
     public boolean isHelpLoginNotice(){
         return pref.getBoolean(HELP_LOGIN_NOTICE, true);
     }
-
 
     //is first open help login
     public void setIsHelpDownloadDCPNotice(boolean downloadNotice){
@@ -246,17 +237,5 @@ public class AppConfigPreference {
 
     public String getLastSyncDate(){
         return pref.getString(LAST_SYNC_DATE, "");
-    }
-
-    public void setDailySyncStatus(boolean hasSync){
-        editor.putBoolean(DAILY_SYNC_STATUS, hasSync);
-
-        editor.commit();
-
-        Log.e(TAG, "DAILY_SYNC_STATUS has been set.");
-    }
-
-    public boolean getDailySyncStatus(){
-        return pref.getBoolean(DAILY_SYNC_STATUS, false);
     }
 }
