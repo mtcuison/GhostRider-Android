@@ -42,7 +42,10 @@ public class SettingsData {
         helpModel = new SettingsModel("Daily Collection Plan (DCP)", R.drawable.ic_menu_dcp, true, true, VISIBLE);
         listHelpDataHeader.add(helpModel);
 
-        SettingsModel childModel = new SettingsModel("Download/Import DCP List", 0, false, false , VISIBLE);
+        SettingsModel childModel = new SettingsModel("Download DCP List", 0, false, false , VISIBLE);
+        childModelsList.add(childModel);
+
+        childModel = new SettingsModel("Import DCP List", 0, false, false , VISIBLE);
         childModelsList.add(childModel);
 
         childModel = new SettingsModel("Add Collection", 0,false, false, VISIBLE);

@@ -150,13 +150,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 recyclerView.setVisibility(View.GONE);
                 lnImportPanel.setVisibility(View.VISIBLE);
                 btnDownload.setOnClickListener(v -> {
-                    if (!AppAssistantConfig.getInstance(Activity_CollectionList.this).getHELP_DCP_DL_NOTICE()) {
-                        Intent intent = new Intent(Activity_CollectionList.this, Activity_Help.class);
-                        intent.putExtra("help", AppConstants.INTENT_DOWNLOAD_DCP);
-                        startActivityForResult(intent, AppConstants.INTENT_DOWNLOAD_DCP);
-                    } else {
                         showDownloadDcp();
-                    }
                 });
                 btnImport.setOnClickListener(v -> showImportFromFileDcp());
             }
@@ -289,14 +283,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 showAddDcpCollection();
             }
         } else if(item.getItemId() == R.id.action_menu_post_collection){
-            if (!AppAssistantConfig.getInstance(Activity_CollectionList.this).getASSIST_DCP_POST()){
-                Intent intent = new Intent(Activity_CollectionList.this, Activity_Help.class);
-                intent.putExtra("help", AppConstants.INTENT_DCP_POST_COLLECTION);
-                startActivityForResult(intent, AppConstants.INTENT_DCP_POST_COLLECTION);
-            }else {
-                showPostCollection();
-            }
-
+            showPostCollection();
         }
         return super.onOptionsItemSelected(item);
     }
