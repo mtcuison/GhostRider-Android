@@ -22,12 +22,13 @@ import org.rmj.guanzongroup.ghostrider.settings.R;
 public class SettingsConstants {
 
     public static final int GCARD_SCAN = 111;
-
     public static int[] getHelpImages(Context context, int help) {
         if (help == AppConstants.INTENT_SELFIE_LOGIN) {
             return SELFIE_LOGIN_HELP_IMAGES;
         } else if (help == AppConstants.INTENT_DOWNLOAD_DCP) {
-            return DOWNLOAD_IMPORT_DCP_HELP_IMAGES;
+            return DOWNLOAD_DCP_HELP_IMAGES;
+        } else if (help == AppConstants.INTENT_IMPORT_DCP) {
+            return IMPORT_DCP_HELP_IMAGES;
         }else if (help == AppConstants.INTENT_ADD_COLLECTION_DCP) {
             return DCP_HELP_ADD_COLLECTION_IMAGES;
         }else if (help == AppConstants.INTENT_TRANSACTION_DCP) {
@@ -38,17 +39,28 @@ public class SettingsConstants {
             return DCP_REMITTANCE_HELP_IMAGES;
         }else if (help == AppConstants.INTENT_DCP_LOG) {
             return DCP_LOG_HELP_IMAGES;
+        }else if (help == AppConstants.INTENT_DCP_LIST) {
+            return DCP_HELP_IMAGES;
         }
         return null;
     }
-    //    DCP DOWNLOAD/IMPORT COLLECTION INSTRUCTION NOTICE
-    private static int[] DOWNLOAD_IMPORT_DCP_HELP_IMAGES = new int[]{
+    //    DCP DOWNLOAD COLLECTION INSTRUCTION NOTICE
+    private static int[] DOWNLOAD_DCP_HELP_IMAGES = new int[]{
             R.drawable.default_help,
-            R.drawable.help_dcp_1,
-            R.drawable.help_dcp_2,
-            R.drawable.help_dcp_3
+            R.drawable.help_dcp_1
     };
-//    DCP ADD COLLECTION INSTRUCTION NOTICE
+    //    DCP DOWNLOAD COLLECTION INSTRUCTION NOTICE
+    private static int[] IMPORT_DCP_HELP_IMAGES = new int[]{
+            R.drawable.default_help,
+            R.drawable.help_dcp_import_1,
+            R.drawable.help_dcp_import_2,
+            R.drawable.help_dcp_import_3,
+            R.drawable.help_dcp_import_4,
+            R.drawable.help_dcp_import_5,
+            R.drawable.help_dcp_import_6,
+            R.drawable.help_dcp_import_7
+    };
+    //    DCP ADD COLLECTION INSTRUCTION NOTICE
     private static int[] DCP_HELP_ADD_COLLECTION_IMAGES = new int[]{
             R.drawable.default_help,
             R.drawable.help_add_collection_1,
@@ -92,6 +104,21 @@ public class SettingsConstants {
             R.drawable.help_login_2,
             R.drawable.help_login_3,
             R.drawable.help_login_4,
+    };
+
+    //    DCP INSTRUCTION NOTICE
+    private static int[] DCP_HELP_IMAGES = new int[]{
+            R.drawable.default_help,
+            R.drawable.help_dcp_1,
+            R.drawable.help_dcp_import_1,
+            R.drawable.help_dcp_import_2,
+            R.drawable.help_dcp_import_3,
+            R.drawable.help_dcp_import_4,
+            R.drawable.help_dcp_import_5,
+            R.drawable.help_dcp_import_6,
+            R.drawable.help_dcp_import_7,
+            R.drawable.help_dcp_post_collection_1,
+            R.drawable.help_dcp_post_collection_2
     };
 
 

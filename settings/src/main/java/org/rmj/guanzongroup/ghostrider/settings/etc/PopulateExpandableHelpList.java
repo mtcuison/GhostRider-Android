@@ -80,25 +80,30 @@ public class PopulateExpandableHelpList {
                                 break;
                             case 1:
                                 intent = new Intent(context, Activity_Help.class);
-                                intent.putExtra("help", AppConstants.INTENT_ADD_COLLECTION_DCP);
+                                intent.putExtra("help", AppConstants.INTENT_IMPORT_DCP);
                                 context.startActivity(intent);
                                 break;
                             case 2:
                                 intent = new Intent(context, Activity_Help.class);
-                                intent.putExtra("help", AppConstants.INTENT_TRANSACTION_DCP);
+                                intent.putExtra("help", AppConstants.INTENT_ADD_COLLECTION_DCP);
                                 context.startActivity(intent);
                                 break;
                             case 3:
                                 intent = new Intent(context, Activity_Help.class);
-                                intent.putExtra("help", AppConstants.INTENT_DCP_POST_COLLECTION);
+                                intent.putExtra("help", AppConstants.INTENT_TRANSACTION_DCP);
                                 context.startActivity(intent);
                                 break;
                             case 4:
                                 intent = new Intent(context, Activity_Help.class);
-                                intent.putExtra("help", AppConstants.INTENT_DCP_REMITTANCE);
+                                intent.putExtra("help", AppConstants.INTENT_DCP_POST_COLLECTION);
                                 context.startActivity(intent);
                                 break;
                             case 5:
+                                intent = new Intent(context, Activity_Help.class);
+                                intent.putExtra("help", AppConstants.INTENT_DCP_REMITTANCE);
+                                context.startActivity(intent);
+                                break;
+                            case 6:
                                 intent = new Intent(context, Activity_Help.class);
                                 intent.putExtra("help", AppConstants.INTENT_DCP_LOG);
                                 context.startActivity(intent);

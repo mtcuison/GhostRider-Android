@@ -79,10 +79,6 @@ public class Fragment_AH_Dashboard extends Fragment {
         btnSettings = view.findViewById(R.id.btn_settings);
 
         btnSelfie.setOnClickListener(v -> {
-//            Intent loIntent = new Intent(getActivity(), Activity_Application.class);
-//            loIntent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
-//            startActivity(loIntent);
-
             if (!AppAssistantConfig.getInstance(getActivity()).getHELP_SLOGIN_NOTICE()){
                 Intent intent = new Intent(getActivity(), Activity_Help.class);
                 intent.putExtra("help", AppConstants.INTENT_SELFIE_LOGIN);
@@ -93,12 +89,10 @@ public class Fragment_AH_Dashboard extends Fragment {
                 startActivity(intent);
             }
 
-
         });
 
         btnSettings.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), Activity_Settings.class);
-//            Intent intent = new Intent(getActivity(), Activity_Help.class);
             startActivity(intent);
 
         });

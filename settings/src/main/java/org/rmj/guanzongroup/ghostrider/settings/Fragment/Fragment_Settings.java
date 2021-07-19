@@ -79,7 +79,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         Accountxx = getPreferenceManager().findPreference("accountPrefs");
         chkUpdate = getPreferenceManager().findPreference("appUpdatePrefs");
         debugMode = getPreferenceScreen().findPreference("appDebugModePref");
-        helpPref = getPreferenceManager().findPreference("appHelp");
+        helpPref = getPreferenceManager().findPreference("appHelpPrefs");
 
         dbExport = new DatabaseExport(getActivity(), "Database", "GGC_ISysDBF.db");
         loMessage = new MessageBox(getActivity());

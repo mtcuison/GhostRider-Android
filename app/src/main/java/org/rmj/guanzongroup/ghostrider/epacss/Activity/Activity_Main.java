@@ -39,6 +39,8 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.InternetStatusReciever;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMMainActivity;
@@ -102,7 +104,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         //populateExpandableList();
 
         populateExpandableList = new PopulateExpandableList();
-        populateExpandableList.populate(this, () -> {
+        populateExpandableList.populate(this, Activity_Main.this, () -> {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             }
@@ -185,6 +187,14 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         if(requestCode == AppConstants.INTENT_SELFIE_LOGIN && resultCode == RESULT_OK){
             Intent intent = new Intent(Activity_Main.this, Activity_Application.class);
             intent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
+            startActivity(intent);
+        }else if(requestCode == AppConstants.INTENT_DCP_LOG && resultCode == RESULT_OK){
+            Intent  intent = new Intent(Activity_Main.this, Activity_LogCollection.class);
+            intent.putExtra("syscode", "2");
+            startActivity(intent);
+        }else if(requestCode == AppConstants.INTENT_DCP_LIST && resultCode == RESULT_OK){
+            Intent  intent = new Intent(Activity_Main.this, Activity_CollectionList.class);
+            intent.putExtra("syscode", "2");
             startActivity(intent);
         }
     }
