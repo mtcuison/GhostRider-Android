@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
+import org.rmj.g3appdriver.etc.AppAssistantConfig;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Browser;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCountLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
@@ -36,6 +39,7 @@ import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalSe
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_DigitalGcard;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Help;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_BranchApplications;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
@@ -50,7 +54,7 @@ public class PopulateExpandableList {
     private static final String TAG = PopulateExpandableList.class.getSimpleName();
 
     /*Edited by Mike*/
-    public void populate(Context context, OnHomeButtonClickListener listener) {
+    public void populate(Context context, Activity activity, OnHomeButtonClickListener listener) {
         listAdapter = new ExpandableListDrawerAdapter(context, listDataHeader, listDataChild);
         expListView.setAdapter(listAdapter);
         expListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -127,14 +131,26 @@ public class PopulateExpandableList {
                     case 2:
                         switch (childPosition){
                             case 0:
-                                intent = new Intent(context, Activity_CollectionList.class);
-                                intent.putExtra("syscode", "2");
-                                context.startActivity(intent);
+                                if (!AppAssistantConfig.getInstance(context).getHELP_DCP_NOTICE()){
+                                    intent = new Intent(context, Activity_Help.class);
+                                    intent.putExtra("help", AppConstants.INTENT_DCP_LIST);
+                                    activity.startActivityForResult(intent, AppConstants.INTENT_DCP_LIST);
+                                }else{
+                                    intent = new Intent(context, Activity_CollectionList.class);
+                                    intent.putExtra("syscode", "2");
+                                    context.startActivity(intent);
+                                }
                                 break;
                             case 1:
-                                intent = new Intent(context, Activity_LogCollection.class);
-                                intent.putExtra("syscode", "2");
-                                context.startActivity(intent);
+                                if (!AppAssistantConfig.getInstance(context).getASSIST_DCP_LOG()){
+                                    intent = new Intent(context, Activity_Help.class);
+                                    intent.putExtra("help", AppConstants.INTENT_DCP_LOG);
+                                    activity.startActivityForResult(intent, AppConstants.INTENT_DCP_LOG);
+                                }else{
+                                    intent = new Intent(context, Activity_LogCollection.class);
+                                    intent.putExtra("syscode", "2");
+                                    context.startActivity(intent);
+                                }
                                 break;
                         }
                         break;

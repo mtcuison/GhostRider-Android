@@ -115,7 +115,7 @@ public class Activity_Help extends AppCompatActivity {
             btn_previous.setVisibility(View.VISIBLE);
         }
 
-        for (int i = 0; i < dots.length; i++) {;
+        for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#9673;"));
             dots[i].setTextSize(8);
@@ -128,16 +128,24 @@ public class Activity_Help extends AppCompatActivity {
     }
 
     private void setTutorialFinish(){
-        if(help == AppConstants.INTENT_SELFIE_LOGIN){
+        if (help == AppConstants.INTENT_SELFIE_LOGIN) {
             AppAssistantConfig.getInstance(Activity_Help.this).setHELP_SLOGIN_NOTICE(true);
-        } else if(help == AppConstants.INTENT_DOWNLOAD_DCP){
+        } else if (help == AppConstants.INTENT_DOWNLOAD_DCP) {
             AppAssistantConfig.getInstance(Activity_Help.this).setHELP_DCP_DL_NOTICE(true);
-        } else if(help == INTENT_DCP_POST_COLLECTION){
-            AppAssistantConfig.getInstance(Activity_Help.this).setASSIST_DCP_POST(true);
-        } else if(help == INTENT_ADD_COLLECTION_DCP){
+        } else if (help == AppConstants.INTENT_IMPORT_DCP) {
+            AppAssistantConfig.getInstance(Activity_Help.this).setHELP_DCP_IMPORT_NOTICE(true);
+        }else if (help == AppConstants.INTENT_ADD_COLLECTION_DCP) {
             AppAssistantConfig.getInstance(Activity_Help.this).setASSIST_DCP_ADD(true);
-        } else if(help == AppConstants.INTENT_TRANSACTION_DCP){
+        }else if (help == AppConstants.INTENT_TRANSACTION_DCP) {
             AppAssistantConfig.getInstance(Activity_Help.this).setASSIST_DCP_TRANSACTION(true);
+        }else if (help == AppConstants.INTENT_DCP_POST_COLLECTION) {
+            AppAssistantConfig.getInstance(Activity_Help.this).setASSIST_DCP_POST(true);
+        }else if (help == AppConstants.INTENT_DCP_REMITTANCE) {
+            AppAssistantConfig.getInstance(Activity_Help.this).setASSIST_DCP_REMIT(true);
+        }else if (help == AppConstants.INTENT_DCP_LOG) {
+            AppAssistantConfig.getInstance(Activity_Help.this).setASSIST_DCP_LOG(true);
+        }else if (help == AppConstants.INTENT_DCP_LIST) {
+            AppAssistantConfig.getInstance(Activity_Help.this).setHELP_DCP_NOTICE(true);
         }
     }
 }

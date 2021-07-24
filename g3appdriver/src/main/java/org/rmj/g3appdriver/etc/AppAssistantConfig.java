@@ -26,6 +26,7 @@ public class AppAssistantConfig {
     private static final String HELP_AUTH_NOTICE = "gRider_Auth_Notice";
     private static final String HELP_DCP_NOTICE = "DCP_Instruction_Notice";
     private static final String HELP_DCP_DL_NOTICE = "DCP_Download_Notice";
+    private static final String HELP_DCP_IMPORT_NOTICE = "DCP_Import_Notice";
     private static final String ASSIST_DCP_ADD = "Assist_dcp_add";
     private static final String ASSIST_DCP_TRANSACTION = "Assist_Dcp_Transaction";
     private static final String ASSIST_DCP_PAY = "Assist_dcp_pay";
@@ -190,6 +191,18 @@ public class AppAssistantConfig {
      */
     public void setASSIST_DCP_LOG(boolean val){
         editor.putBoolean(ASSIST_DCP_LOG, val);
+        editor.commit();
+    }
+    public boolean getHELP_DCP_IMPORT_NOTICE() {
+        return pref.getBoolean(HELP_DCP_IMPORT_NOTICE, false);
+    }
+
+    /**
+     *
+     * @param val set status to true if instructions has been read
+     */
+    public void setHELP_DCP_IMPORT_NOTICE(boolean val) {
+        editor.putBoolean(HELP_DCP_IMPORT_NOTICE, val);
         editor.commit();
     }
 
