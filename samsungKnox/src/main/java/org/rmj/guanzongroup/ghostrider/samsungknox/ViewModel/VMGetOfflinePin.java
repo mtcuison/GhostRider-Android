@@ -86,7 +86,7 @@ public class VMGetOfflinePin extends AndroidViewModel {
                     loParam.put("request", AppConstants.OFFLINE_PIN_REQUEST);
                     loParam.put("param", loJSon.toString());
                     Log.e(TAG, loParam.toString());
-                    response = WebClient.httpsPostJSon(WebApi.URL_KNOX, loParam.toString(), header.getHeaders());
+                    response = WebClient.sendRequest(WebApi.URL_KNOX, loParam.toString(), header.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }

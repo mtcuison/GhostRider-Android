@@ -28,8 +28,6 @@ import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.ViewModelCallBack;
 
-import java.util.HashMap;
-
 public class VMUpload extends AndroidViewModel {
     public static final String TAG = VMUpload.class.getSimpleName();
     private final ConnectionUtil conn;
@@ -63,7 +61,7 @@ public class VMUpload extends AndroidViewModel {
             try {
                 if (conn.isDeviceConnected()) {
                     JSONObject loJSon = new JSONObject();
-                    response = WebClient.httpsPostJSon(WebApi.URL_KNOX, loJSon.toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(WebApi.URL_KNOX, loJSon.toString(), headers.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }

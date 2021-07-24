@@ -112,7 +112,7 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if PET Manager is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("PET Manager",  R.drawable.ic_approval_biometric,true, true, GONE);
+        menuModel = new MenuModel("PET Manager",  R.drawable.ic_approval_biometric,true, true, VISIBLE);
         listDataHeader.add(menuModel);
 
         childModel = new MenuModel("Leave Application", 0, false, false , VISIBLE);

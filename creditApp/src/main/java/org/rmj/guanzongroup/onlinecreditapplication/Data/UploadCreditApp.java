@@ -108,7 +108,7 @@ public class UploadCreditApp {
                     JSONObject params = new JSONObject(poInfo.getDetlInfo());
                     params.put("dCreatedx", poInfo.getClientNm());
 
-                    String lsResponse = WebClient.httpsPostJSon(WebApi.URL_SUBMIT_ONLINE_APPLICATION, params.toString(), poHeaders.getHeaders());
+                    String lsResponse = WebClient.sendRequest(WebApi.URL_SUBMIT_ONLINE_APPLICATION, params.toString(), poHeaders.getHeaders());
                     if(lsResponse != null) {
                         JSONObject loResponse = new JSONObject(lsResponse);
 

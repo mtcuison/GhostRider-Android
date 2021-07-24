@@ -80,7 +80,7 @@ public class VMGetStatus extends AndroidViewModel {
                     loParam.put("request", AppConstants.GET_DEVICE_LOG_REQUEST);
                     loParam.put("param", loJSon.toString());
                     Log.e(TAG, loParam.toString());
-                    response = WebClient.httpsPostJSon(WebApi.URL_KNOX, loParam.toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(WebApi.URL_KNOX, loParam.toString(), headers.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }

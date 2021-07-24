@@ -124,7 +124,7 @@ public class KwikSearch {
 
         String response = null;
         try {
-            response = WebClient.httpsPostJSon(sURL, param.toString(), (HashMap<String, String>) headers);
+            response = WebClient.sendRequest(sURL, param.toString(), (HashMap<String, String>) headers);
         } catch (IOException e) {
             e.printStackTrace();
         }

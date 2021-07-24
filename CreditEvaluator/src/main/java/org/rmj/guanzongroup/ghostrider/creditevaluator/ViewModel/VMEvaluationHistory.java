@@ -26,7 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
@@ -118,7 +117,7 @@ public class VMEvaluationHistory extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(URL_BRANCH_LOAN_APP, strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(URL_BRANCH_LOAN_APP, strings[0].toString(), headers.getHeaders());
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {

@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -85,6 +87,7 @@ public class VMLeaveApplication extends AndroidViewModel {
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
         private final REmployeeLeave poLeave;
+        private final SessionManager poSession;
 
         public SaveLeaveApplication(Application application, LeaveApplicationCallback callback) {
             this.instance = application;
@@ -92,6 +95,7 @@ public class VMLeaveApplication extends AndroidViewModel {
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poLeave = new REmployeeLeave(instance);
+            this.poSession = new SessionManager(instance);
         }
 
         @Override
@@ -106,31 +110,53 @@ public class VMLeaveApplication extends AndroidViewModel {
             String lsResult;
             LeaveApplication loLeave = leaveApplications[0];
             try {
-                JSONObject param = new JSONObject();
-                param.put("dDateFrom", loLeave.getDateFromx());
-                param.put("dDateThru", loLeave.getDateThrux());
-                param.put("nNoDaysxx", loLeave.getNoOfDaysx());
-                param.put("sPurposex", loLeave.getRemarksxx());
-                param.put("cLeaveTyp", loLeave.getLeaveType());
-                param.put("dAppldFrx", new AppConstants().CURRENT_DATE);
-
                 EEmployeeLeave loApp = new EEmployeeLeave();
                 loApp.setTransNox(poLeave.getNextLeaveCode());
+                loApp.setTransact(new AppConstants().CURRENT_DATE);
+                loApp.setEmployID(poSession.getEmployeeID());
                 loApp.setDateFrom(loLeave.getDateFromx());
                 loApp.setDateThru(loLeave.getDateThrux());
                 loApp.setNoDaysxx(String.valueOf(loLeave.getNoOfDaysx()));
                 loApp.setPurposex(loLeave.getRemarksxx());
                 loApp.setLeaveTyp(loLeave.getLeaveType());
+                loApp.setEntryByx(poSession.getEmployeeID());
+                loApp.setEntryDte(new AppConstants().CURRENT_DATE);
+                loApp.setWithOPay("0");
+                loApp.setApproved("0");
+                loApp.setTranStat("0");
                 poLeave.insertApplication(loApp);
 
+                JSONObject param = new JSONObject();
+                param.put("sTransNox", poLeave.getNextLeaveCode());
+                param.put("dTransact", new AppConstants().CURRENT_DATE);
+                param.put("sEmployID", poSession.getEmployeeID());
+                param.put("dDateFrom", loLeave.getDateFromx());
+                param.put("dDateThru", loLeave.getDateThrux());
+                param.put("nNoDaysxx", loLeave.getNoOfDaysx());
+                param.put("sPurposex", loLeave.getRemarksxx());
+                param.put("cLeaveTyp", loLeave.getLeaveType());
+                param.put("dAppldFrx", loLeave.getDateFromx());
+                param.put("dAppldTox", loLeave.getDateThrux());
+                param.put("sEntryByx", poSession.getEmployeeID());
+                param.put("dEntryDte", new AppConstants().CURRENT_DATE);
+                param.put("nWithOPay", "0");
+                param.put("nEqualHrs", "");
+                param.put("sApproved", "0");
+                param.put("dApproved", "");
+                param.put("cSentStat", "1");
+                param.put("dSendDate", "2017-07-19");
+                param.put("cTranStat", "1");
+                param.put("sModified", poSession.getEmployeeID());
+
                 if(poConn.isDeviceConnected()){
-                    lsResult = WebClient.httpsPostJSon("", param.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest("http://192.168.10.22/android_sample/leave_submit.php", param.toString(), poHeaders.getHeaders());
 
                     JSONObject loResult = new JSONObject(lsResult);
-                    lsResult = loResult.getString("result");
+//                    lsResult = loResult.getString("result");
                 } else {
                     lsResult = AppConstants.NO_INTERNET();
                 }
+                Log.e("VMLeaveApplication", lsResult);
             } catch (Exception e){
                 e.printStackTrace();
                 lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());

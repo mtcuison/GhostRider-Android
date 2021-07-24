@@ -436,7 +436,7 @@ public class VMCollectionList extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(Url, strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(Url, strings[0].toString(), headers.getHeaders());
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
@@ -538,7 +538,7 @@ public class VMCollectionList extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(WebApi.URL_DOWNLOAD_DCP, strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(WebApi.URL_DOWNLOAD_DCP, strings[0].toString(), headers.getHeaders());
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
@@ -693,7 +693,7 @@ public class VMCollectionList extends AndroidViewModel {
             String[] reason;
             List<DDCPCollectionDetail.CollectionDetail> laCollDetl = lists[0];
             try {
-//                if(hasRemittedBeforePosting()) {
+                if(hasRemittedBeforePosting()) {
                     if (!poConn.isDeviceConnected()) {
                         lsResult = AppConstants.NO_INTERNET();
                     } else {
@@ -812,7 +812,7 @@ public class VMCollectionList extends AndroidViewModel {
                                         loJson.put("sUserIDxx", poUser.getUserID());
                                         loJson.put("sDeviceID", poTelephony.getDeviceID());
 
-                                        String lsResponse1 = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
+                                        String lsResponse1 = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
                                         if (lsResponse1 == null) {
                                             reason[x] = "Server no response";
                                         } else {
@@ -858,7 +858,7 @@ public class VMCollectionList extends AndroidViewModel {
                                 if (allDataSent) {
                                     JSONObject loJson = new JSONObject();
                                     loJson.put("sTransNox", laCollDetl.get(0).sTransNox);
-                                    String lsResponse1 = WebClient.httpsPostJSon(WebApi.URL_POST_DCP_MASTER, loJson.toString(), poHeaders.getHeaders());
+                                    String lsResponse1 = WebClient.sendRequest(WebApi.URL_POST_DCP_MASTER, loJson.toString(), poHeaders.getHeaders());
                                     if (lsResponse1 == null) {
                                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response on posting DCP master detail");
                                     } else {
@@ -882,9 +882,9 @@ public class VMCollectionList extends AndroidViewModel {
                             }
                         }
                     }
-//                } else {
-//                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Please remit collection before posting");
-//                }
+                } else {
+                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Please remit collection before posting");
+                }
             } catch (Exception e){
                 e.printStackTrace();
                 lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
@@ -948,7 +948,7 @@ public class VMCollectionList extends AndroidViewModel {
 
                         Log.e("Address JsonParam", param.toString());
 
-                        String lsAddressUpdtResponse = WebClient.httpsPostJSon(WebApi.URL_UPDATE_ADDRESS, param.toString(), poHeaders.getHeaders());
+                        String lsAddressUpdtResponse = WebClient.sendRequest(WebApi.URL_UPDATE_ADDRESS, param.toString(), poHeaders.getHeaders());
 
                         if (lsAddressUpdtResponse == null) {
                             Log.e("Address Update Result:", "Server no Repsonse");
@@ -985,7 +985,7 @@ public class VMCollectionList extends AndroidViewModel {
 
                         Log.e("Mobile JsonParam", param.toString());
 
-                        String lsMobileUpdtResponse = WebClient.httpsPostJSon(WebApi.URL_UPDATE_MOBILE, param.toString(), poHeaders.getHeaders());
+                        String lsMobileUpdtResponse = WebClient.sendRequest(WebApi.URL_UPDATE_MOBILE, param.toString(), poHeaders.getHeaders());
 
                         if (lsMobileUpdtResponse == null) {
                             Log.e("Mobile Update Result:", "Server no Repsonse");

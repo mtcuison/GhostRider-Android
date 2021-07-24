@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.notifications.Fragment;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,7 +54,7 @@ public class Fragment_MessageListTest {
         object.put("reqstdnm", "Garcia, Michael");
         object.put("bsearch", true);
 
-        String lsResult = WebClient.httpsPostJSon(URL_QUICK_SEARCH, object.toString(), (HashMap) headers);
+        String lsResult = WebClient.sendRequest(URL_QUICK_SEARCH, object.toString(), (HashMap) headers);
         JSONObject loResult = new JSONObject(lsResult);
         String result = loResult.getString("result");
         assertEquals("success", result);

@@ -60,6 +60,7 @@
         android:icon="@mipmap/grider_launcher_foreground"
         android:label="@string/menu_home"
         android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/grider_launcher_foreground_round"
         android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 

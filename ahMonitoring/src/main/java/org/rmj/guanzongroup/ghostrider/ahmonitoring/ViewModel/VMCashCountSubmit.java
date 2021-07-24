@@ -128,7 +128,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(URL_KWIKSEARCH, strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(URL_KWIKSEARCH, strings[0].toString(), headers.getHeaders());
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
@@ -259,7 +259,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
                     if(!poConn.isDeviceConnected()) {
                         lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Connection error.");
                     } else {
-                        lsResponse = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, jsonObject.toString(), poHeaders.getHeaders());
+                        lsResponse = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, jsonObject.toString(), poHeaders.getHeaders());
 
                         if(lsResponse == null){
                             lsResponse = AppConstants.SERVER_NO_RESPONSE();
