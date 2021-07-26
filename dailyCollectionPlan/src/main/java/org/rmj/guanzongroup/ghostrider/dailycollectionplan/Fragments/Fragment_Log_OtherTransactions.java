@@ -68,15 +68,19 @@ public class Fragment_Log_OtherTransactions extends Fragment {
         if(!IMAGE_NAME.equalsIgnoreCase("")){
             mViewModel.getImageLocation(Activity_TransactionDetail.acctNox, Activity_TransactionDetail.imgNme)
                     .observe(getViewLifecycleOwner(), eImageInfo -> {
-                        setPic(eImageInfo.getFileLoct());
-                        ivTransImage.setOnClickListener(view -> {
-                            poDialogx = new DialogDisplayImage(getActivity(),
-                                    Activity_TransactionDetail.acctNox, eImageInfo.getFileLoct());
-                            poDialogx.initDialog(dialog -> {
-                                dialog.dismiss();
+                        try {
+                            setPic(eImageInfo.getFileLoct());
+                            ivTransImage.setOnClickListener(view -> {
+                                poDialogx = new DialogDisplayImage(getActivity(),
+                                        Activity_TransactionDetail.acctNox, eImageInfo.getFileLoct());
+                                poDialogx.initDialog(dialog -> {
+                                    dialog.dismiss();
+                                });
+                                poDialogx.show();
                             });
-                            poDialogx.show();
-                        });
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                        }
                     });
             txtCoord.setText(Activity_TransactionDetail.psLocate);
             txtCoord.setVisibility(View.VISIBLE);
