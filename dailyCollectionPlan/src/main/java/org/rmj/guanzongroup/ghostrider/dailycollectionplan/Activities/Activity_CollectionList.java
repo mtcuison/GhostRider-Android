@@ -111,7 +111,13 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
         });
 
-        mViewModel.getEmplopyeInfo().observe(this, eEmployeeInfo -> mViewModel.setEmployeeID(eEmployeeInfo.getEmployID()));
+        mViewModel.getEmplopyeInfo().observe(this, eEmployeeInfo ->{
+            try {
+                mViewModel.setEmployeeID(eEmployeeInfo.getEmployID());
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        });
 
         mViewModel.getCollectionLastEntry().observe(this, collectionDetail -> {
             // Added +1 for entry nox to increment the value which will be
