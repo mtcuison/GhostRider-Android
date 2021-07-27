@@ -693,7 +693,7 @@ public class VMCollectionList extends AndroidViewModel {
             String[] reason;
             List<DDCPCollectionDetail.CollectionDetail> laCollDetl = lists[0];
             try {
-//                if(hasRemittedBeforePosting()) {
+                if(hasRemittedBeforePosting()) {
                     if (!poConn.isDeviceConnected()) {
                         lsResult = AppConstants.NO_INTERNET();
                     } else {
@@ -749,6 +749,8 @@ public class VMCollectionList extends AndroidViewModel {
                                                 loData.put("nOthersxx", loDetail.nOthersxx);
                                                 loData.put("cTranType", loDetail.cTranType);
                                                 loData.put("nTranTotl", loDetail.nTranTotl);
+//                                               Added by Jonathan 07/27/2021
+                                                loData.put("sRemarksx", loDetail.sRemarksx);
                                             } else if (loDetail.sRemCodex.equalsIgnoreCase("PTP")) {
                                                 //Required parameters for Promise to pay..
                                                 loData.put("cApntUnit", loDetail.cApntUnit);
@@ -882,9 +884,9 @@ public class VMCollectionList extends AndroidViewModel {
                             }
                         }
                     }
-//                } else {
-//                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Please remit collection before posting");
-//                }
+                } else {
+                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Please remit collection before posting");
+                }
             } catch (Exception e){
                 e.printStackTrace();
                 lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
