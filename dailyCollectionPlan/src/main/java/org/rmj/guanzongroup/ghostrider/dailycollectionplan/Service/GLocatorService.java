@@ -137,15 +137,19 @@ public class GLocatorService extends Service {
     private void startLocationTracking(){
         LocationRequest loRequest = new LocationRequest();
         poConfig.getLocationInterval(result -> {
-            long interval = Long.parseLong(result);
-            interval = interval * 60000;
-            loRequest.setInterval(interval);
-            loRequest.setFastestInterval(120000);
-//        loRequest.setInterval(50000);
-//        loRequest.setFastestInterval(25000);
-            loRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            try {
+                long interval = Long.parseLong(result);
+                interval = interval * 60000;
+                loRequest.setInterval(interval);
+                loRequest.setFastestInterval(120000);
+//              loRequest.setInterval(50000);
+//              loRequest.setFastestInterval(25000);
+                loRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-            LocationServices.getFusedLocationProviderClient(GLocatorService.this).requestLocationUpdates(loRequest, locationCallback, Looper.getMainLooper());
+                LocationServices.getFusedLocationProviderClient(GLocatorService.this).requestLocationUpdates(loRequest, locationCallback, Looper.getMainLooper());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         });
     }
 
