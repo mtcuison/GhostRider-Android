@@ -51,6 +51,10 @@ public class RBankInfo {
         return bankDao.getBankNameList();
     }
 
+    public LiveData<String> getBankNameFromId(String fsBankId) {
+        return bankDao.getBankNameFromId(fsBankId);
+    }
+
     @SuppressLint("NewApi")
     public boolean insertBankInfo(JSONArray faJson) throws Exception{
         GConnection loConn = DbConnection.doConnect(instance);
