@@ -112,7 +112,7 @@ public class Fragment_SelfieLogin extends Fragment {
                 poUser = eEmployeeInfo;
                 lblUsername.setText(eEmployeeInfo.getUserName());
                 lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
-            } catch (Exception e){
+            } catch (NullPointerException e){
                 e.printStackTrace();
             }
         });
@@ -220,8 +220,10 @@ public class Fragment_SelfieLogin extends Fragment {
                 poImage.setLongitud(String.valueOf(longitude));
                 startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
             });
-        } catch(Exception e) {
+        } catch(NullPointerException e) {
             e.printStackTrace();
+        } catch(RuntimeException r) {
+            r.printStackTrace();
         }
     }
 
