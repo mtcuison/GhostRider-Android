@@ -42,6 +42,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
@@ -256,11 +257,18 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 } else {
                     mViewModel.saveAddressToLocal(Fragment_CustomerNotAround.this);
                 }
-                poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
-                mViewModel.saveImageInfo(poImageInfo);
-                mViewModel.updateCollectionDetail(DCP_Constants.getRemarksCode(Remarksx));
-                Log.e("Fragment_CNA:", "Image Info Save");
-                OnSuccessResult(new String[]{"Customer Not Around Info has been saved."});
+
+                try{
+                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
+                    mViewModel.saveImageInfo(poImageInfo);
+                    mViewModel.updateCollectionDetail(DCP_Constants.getRemarksCode(Remarksx));
+                    Log.e("Fragment_CNA:", "Image Info Save");
+                    OnSuccessResult(new String[]{"Customer Not Around Info has been saved."});
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }catch (RuntimeException e){
+                    e.printStackTrace();
+                }
             } else {
                 requireActivity().finish();
             }
