@@ -15,7 +15,6 @@
         android:layout_height="0dp"
         android:src="@drawable/ic_ghostrider_logo_day"
         android:transitionName="img_logo"
-        app:layout_constraintDimensionRatio="16:8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_default="percent"
@@ -126,7 +125,8 @@
             android:fontFamily="@font/roboto"
             android:textSize="13sp"
             android:textColor="@color/textview_link_color"
-            app:layout_constraintEnd_toEndOf="@id/til_loginMobileNo"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="16sp"
             app:layout_constraintTop_toBottomOf="@id/til_loginMobileNo" />
 
         <TextView
@@ -138,7 +138,8 @@
             android:fontFamily="@font/roboto"
             android:textSize="13sp"
             android:textColor="@color/textview_link_color"
-            app:layout_constraintStart_toStartOf="@id/til_loginMobileNo"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_loginMobileNo" />
 
 
@@ -225,6 +226,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

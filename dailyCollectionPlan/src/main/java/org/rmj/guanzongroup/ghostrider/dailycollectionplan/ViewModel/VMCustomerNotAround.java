@@ -211,10 +211,16 @@ public class VMCustomerNotAround extends AndroidViewModel {
     }
 
     public void updateCollectionDetail(String RemarksCode){
-        EDCPCollectionDetail detail = poDcpDetail.getValue();
-        Objects.requireNonNull(detail).setRemCodex(RemarksCode);
-        detail.setImageNme(imgFileNme);
-        new UpdateCollectionTask(poDcp, RemarksCode).execute(detail);
+        try{
+            EDCPCollectionDetail detail = poDcpDetail.getValue();
+            Objects.requireNonNull(detail).setRemCodex(RemarksCode);
+            detail.setImageNme(imgFileNme);
+            new UpdateCollectionTask(poDcp, RemarksCode).execute(detail);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }catch (RuntimeException e){
+            e.printStackTrace();
+        }
     }
 
     public LiveData<List<EFileCode>> getAllFileCode() {
