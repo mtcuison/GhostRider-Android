@@ -1,15 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Created by Android Team MIS-SEG Year 2021
-  ~ Copyright (c) 2021. Guanzon Central Office
-  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
-  ~ Project name : GhostRider_Android
-  ~ Module : GhostRider_Android.authLibrary
-  ~ Electronic Personnel Access Control Security System
-  ~ project file created : 4/24/21 3:19 PM
-  ~ project file last modified : 4/24/21 3:17 PM
-  -->
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -137,7 +125,8 @@
             android:fontFamily="@font/roboto"
             android:textSize="13sp"
             android:textColor="@color/textview_link_color"
-            app:layout_constraintEnd_toEndOf="@id/til_loginMobileNo"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="16sp"
             app:layout_constraintTop_toBottomOf="@id/til_loginMobileNo" />
 
         <TextView
@@ -149,7 +138,8 @@
             android:fontFamily="@font/roboto"
             android:textSize="13sp"
             android:textColor="@color/textview_link_color"
-            app:layout_constraintStart_toStartOf="@id/til_loginMobileNo"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_loginMobileNo" />
 
 
@@ -236,6 +226,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
