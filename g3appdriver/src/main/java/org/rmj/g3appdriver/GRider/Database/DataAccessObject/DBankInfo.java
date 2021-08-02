@@ -27,4 +27,7 @@ public interface DBankInfo {
 
     @Query("SELECT sBankName FROM Bank_Info WHERE cRecdStat = 1")
     LiveData<String[]> getBankNameList();
+
+    @Query("SELECT sBankName FROM Bank_Info WHERE cRecdStat = 1 AND sBankIDxx = :fsBankId")
+    LiveData<String> getBankNameFromId(String fsBankId);
 }

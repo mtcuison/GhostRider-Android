@@ -310,6 +310,8 @@ public class VMPaidTransaction extends AndroidViewModel {
                         loJson.put("dModified", detail.getModified());
                         loJson.put("sJsonData", loData);
                         loJson.put("dReceived", "");
+//                        Added by Jonathan 07/27/2021
+                        loData.put("sRemarksx", detail.getRemarksx());
                         loJson.put("sUserIDxx", poUser.getUserID());
                         loJson.put("sDeviceID", poDevID.getDeviceID());
                         Log.e(TAG, loJson.toString());

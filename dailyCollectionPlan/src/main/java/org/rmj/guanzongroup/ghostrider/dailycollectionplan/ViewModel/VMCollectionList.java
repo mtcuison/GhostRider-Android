@@ -749,6 +749,8 @@ public class VMCollectionList extends AndroidViewModel {
                                                 loData.put("nOthersxx", loDetail.nOthersxx);
                                                 loData.put("cTranType", loDetail.cTranType);
                                                 loData.put("nTranTotl", loDetail.nTranTotl);
+//                                               Added by Jonathan 07/27/2021
+                                                loData.put("sRemarksx", loDetail.sRemarksx);
                                             } else if (loDetail.sRemCodex.equalsIgnoreCase("PTP")) {
                                                 //Required parameters for Promise to pay..
                                                 loData.put("cApntUnit", loDetail.cApntUnit);

@@ -19,10 +19,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBankInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 
 public class VMLogPaidTransaction extends AndroidViewModel {
     private RDailyCollectionPlan poCollect;
+    private RBankInfo poBank;
 
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
     private final MutableLiveData<String> psAcctNox = new MutableLiveData<>();
@@ -31,6 +33,7 @@ public class VMLogPaidTransaction extends AndroidViewModel {
     public VMLogPaidTransaction(@NonNull Application application) {
         super(application);
         this.poCollect = new RDailyCollectionPlan(application);
+        this.poBank = new RBankInfo(application);
     }
 
     public void setParameters(String TransNox, String Acctnox, String RemCodex) {
@@ -41,6 +44,10 @@ public class VMLogPaidTransaction extends AndroidViewModel {
 
     public LiveData<EDCPCollectionDetail> getPostedCollectionDetail() {
         return poCollect.getPostedCollectionDetail(psTransNox.getValue(), psAcctNox.getValue(), psRemCodex.getValue());
+    }
+
+    public LiveData<String> getBankNameFromId(String fsBankId)  {
+        return poBank.getBankNameFromId(fsBankId);
     }
 
 }

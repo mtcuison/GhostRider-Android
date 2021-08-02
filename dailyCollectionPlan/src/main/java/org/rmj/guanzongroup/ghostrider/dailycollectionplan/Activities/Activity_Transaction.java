@@ -64,10 +64,16 @@ public class Activity_Transaction extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction);
         instance = this;
-        Remarksx = getIntent().getStringExtra("remarksx");
-        TransNox = getIntent().getStringExtra("transnox");
-        EntryNox = getIntent().getIntExtra("entrynox", 0);
-        AccntNox = getIntent().getStringExtra("accntnox");
+        try {
+            Remarksx = getIntent().getStringExtra("remarksx");
+            TransNox = getIntent().getStringExtra("transnox");
+            EntryNox = getIntent().getIntExtra("entrynox", 0);
+            AccntNox = getIntent().getStringExtra("accntnox");
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (RuntimeException r) {
+            r.printStackTrace();
+        }
         Toolbar toolbar = findViewById(R.id.toolbar_transaction);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);

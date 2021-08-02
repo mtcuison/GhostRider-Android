@@ -277,35 +277,43 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
 
     }
     public void showDialogImg(){
-        poMessage.initDialog();
-        poMessage.setTitle(Remarksx);
-        poMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction. \n" +
-                "\n" +
-                "NOTE: Take a selfie on your current place if customer is not visited");
-        poMessage.setPositiveButton("Okay", (view, dialog) -> {
-            dialog.dismiss();
-            poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                infoModel.setPtpImgPath(photPath);
-                poImageInfo = new EImageInfo();
-                poImageInfo.setDtlSrcNo(AccntNox);
-                poImageInfo.setSourceNo(TransNox);
-                poImageInfo.setSourceCD("DCPa");
-                poImageInfo.setImageNme(FileName);
-                poImageInfo.setFileLoct(photPath);
-                poImageInfo.setFileCode("0020");
-                poImageInfo.setLatitude(String.valueOf(latitude));
-                poImageInfo.setLongitud(String.valueOf(longitude));
-                mViewModel.setLatitude(String.valueOf(latitude));
-                mViewModel.setLongitude(String.valueOf(longitude));
-                mViewModel.setImgName(FileName);
-                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+        try {
+            poMessage.initDialog();
+            poMessage.setTitle(Remarksx);
+            poMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction. \n" +
+                    "\n" +
+                    "NOTE: Take a selfie on your current place if customer is not visited");
+            poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                dialog.dismiss();
+                poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                    try {
+                        infoModel.setPtpImgPath(photPath);
+                        poImageInfo = new EImageInfo();
+                        poImageInfo.setDtlSrcNo(AccntNox);
+                        poImageInfo.setSourceNo(TransNox);
+                        poImageInfo.setSourceCD("DCPa");
+                        poImageInfo.setImageNme(FileName);
+                        poImageInfo.setFileLoct(photPath);
+                        poImageInfo.setFileCode("0020");
+                        poImageInfo.setLatitude(String.valueOf(latitude));
+                        poImageInfo.setLongitud(String.valueOf(longitude));
+                        mViewModel.setLatitude(String.valueOf(latitude));
+                        mViewModel.setLongitude(String.valueOf(longitude));
+                        mViewModel.setImgName(FileName);
+                        startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
             });
-        });
-        poMessage.setNegativeButton("Cancel", (view, dialog) -> {
-            dialog.dismiss();
+            poMessage.setNegativeButton("Cancel", (view, dialog) -> {
+                dialog.dismiss();
 //            Objects.requireNonNull(getActivity()).finish();
-        });
-        poMessage.show();
+            });
+            poMessage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void onFailedDialog(String messages){
         poMessage.initDialog();

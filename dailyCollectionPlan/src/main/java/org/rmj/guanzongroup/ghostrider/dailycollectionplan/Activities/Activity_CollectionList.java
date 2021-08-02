@@ -111,14 +111,24 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
         });
 
-        mViewModel.getEmplopyeInfo().observe(this, eEmployeeInfo -> mViewModel.setEmployeeID(eEmployeeInfo.getEmployID()));
+        mViewModel.getEmplopyeInfo().observe(this, eEmployeeInfo ->{
+            try {
+                mViewModel.setEmployeeID(eEmployeeInfo.getEmployID());
+            } catch(NullPointerException e) {
+                e.printStackTrace();
+            }catch(Exception e) {
+                e.printStackTrace();
+            }
+        });
 
         mViewModel.getCollectionLastEntry().observe(this, collectionDetail -> {
             // Added +1 for entry nox to increment the value which will be
             // use when inserting new AR Client info to database
             try {
-                int lnEntry = 1 + collectionDetail.getEntryNox();
-                mViewModel.setParameter(collectionDetail.getTransNox(), lnEntry);
+                if(collectionDetail != null){
+                    int lnEntry = 1 + collectionDetail.getEntryNox();
+                    mViewModel.setParameter(collectionDetail.getTransNox(), lnEntry);
+                }
             } catch (Exception e){
                 e.printStackTrace();
                 Log.e("Exception", e.getMessage());

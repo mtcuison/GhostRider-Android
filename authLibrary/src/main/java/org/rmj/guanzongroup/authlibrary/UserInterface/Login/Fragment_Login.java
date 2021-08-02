@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -46,6 +47,7 @@ public class Fragment_Login extends Fragment implements LoginCallback{
     private VMLogin mViewModel;
     private LoadDialog dialog;
     private TextInputEditText tieEmail, tiePassword, tieMobileNo;
+    private TextInputLayout tilMobileNo;
 
     private TextView tvForgotPassword, tvCreateAccount, tvTerms, lblVersion;
     private MaterialButton btnLogin;
@@ -68,6 +70,7 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         tieEmail = v.findViewById(R.id.tie_loginEmail);
         tiePassword = v.findViewById(R.id.tie_loginPassword);
         tieMobileNo = v.findViewById(R.id.tie_loginMobileNo);
+        tilMobileNo = v.findViewById(R.id.til_loginMobileNo);
         tvForgotPassword = v.findViewById(R.id.tvForgotPassword);
         tvTerms = v.findViewById(R.id.tvTerms);
         tvCreateAccount = v.findViewById(R.id.tvCreateAccount);
@@ -84,7 +87,7 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         mViewModel = new ViewModelProvider(this).get(VMLogin.class);
 
         tieMobileNo.setText(mViewModel.getMobileNo());
-        tieMobileNo.setVisibility(mViewModel.hasMobileNo());
+        tilMobileNo.setVisibility(mViewModel.hasMobileNo());
 
         cbAgree.setChecked(mViewModel.isAgreed());
 

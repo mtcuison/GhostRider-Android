@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionDetail;
@@ -30,7 +31,9 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogPaidTr
 public class Fragment_Log_Paid_Transaction extends Fragment {
     private VMLogPaidTransaction mViewModel;
     private TextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo;
-    private TextView txtPaymentTp, txtPRNoxx, txtTransAmtx, txtDiscount, txtPenalty, txtTotalAmtx, txtRemarksx, txtCheckPayment, txtListHeader;
+    private TextView txtPaymentTp, txtPRNoxx, txtTransAmtx, txtDiscount, txtPenalty, txtTotalAmtx,
+            txtRemarksx, txtCheckPayment, txtListHeader, txtBank, txtChckDt, txtChckNm, txtChckAc;
+    private LinearLayout lnBank, lnChckDt, lnChckNm, lnChckAc;
 
     public Fragment_Log_Paid_Transaction() { }
 
@@ -63,8 +66,27 @@ public class Fragment_Log_Paid_Transaction extends Fragment {
             try {
                 if(!collectPaidDetl.getBankIDxx().equalsIgnoreCase("")) {
                     txtCheckPayment.setVisibility(View.VISIBLE);
+                    lnBank.setVisibility(View.VISIBLE);
+                    lnChckDt.setVisibility(View.VISIBLE);
+                    lnChckNm.setVisibility(View.VISIBLE);
+                    lnChckAc.setVisibility(View.VISIBLE);
+
+                    mViewModel.getBankNameFromId(collectPaidDetl.getBankIDxx()).observe(getViewLifecycleOwner(), bankName -> {
+                        try {
+                            txtBank.setText(bankName);
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    txtChckDt.setText(collectPaidDetl.getCheckDte());
+                    txtChckNm.setText(collectPaidDetl.getCheckNox());
+                    txtChckAc.setText(collectPaidDetl.getCheckAct());
                 } else {
                     txtCheckPayment.setVisibility(View.GONE);
+                    lnBank.setVisibility(View.GONE);
+                    lnChckDt.setVisibility(View.GONE);
+                    lnChckNm.setVisibility(View.GONE);
+                    lnChckAc.setVisibility(View.GONE);
                 }
                 txtPaymentTp.setText(DCP_Constants.PAYMENT_TYPE[Integer.parseInt(collectPaidDetl.getTranType())]);
                 txtPRNoxx.setText(collectPaidDetl.getPRNoxxxx());
@@ -73,7 +95,7 @@ public class Fragment_Log_Paid_Transaction extends Fragment {
                 txtPenalty.setText(getString(R.string.peso_sign) + collectPaidDetl.getOthersxx());
                 txtTotalAmtx.setText(getString(R.string.peso_sign) + collectPaidDetl.getTranTotl());
                 txtRemarksx.setText(collectPaidDetl.getRemarksx());
-            } catch(Exception e) {
+            } catch(NullPointerException e) {
                 e.printStackTrace();
             }
         });
@@ -95,5 +117,15 @@ public class Fragment_Log_Paid_Transaction extends Fragment {
         txtTotalAmtx = v.findViewById(R.id.txt_total_amount);
         txtRemarksx = v.findViewById(R.id.txt_remarks);
         txtCheckPayment = v.findViewById(R.id.lbl_check_payment);
+
+        txtBank = v.findViewById(R.id.txt_bank);
+        txtChckDt = v.findViewById(R.id.txt_check_date);
+        txtChckNm = v.findViewById(R.id.txt_check_numbr);
+        txtChckAc = v.findViewById(R.id.txt_check_accNumbr);
+
+        lnBank = v.findViewById(R.id.ln_bank);
+        lnChckDt = v.findViewById(R.id.ln_check_date);
+        lnChckNm = v.findViewById(R.id.ln_check_number);
+        lnChckAc = v.findViewById(R.id.ln_check_accNo);
     }
 }

@@ -186,32 +186,44 @@ public class DialogAccountDetail {
     public void showClientUpdateInfo(Activity_CollectionList activities, EDCPCollectionDetail foDetails) {
         try {
             getClientUpdateInfo(foDetails.getAcctNmbr()).observe(activities, eClientUpdate -> {
-                getBrgyTownProvinceInfo(eClientUpdate.getBarangay()).observe(activities, eTownInfo -> {
-                    dAddress.setText(eClientUpdate.getHouseNox() + " " + eClientUpdate.getAddressx() + ", " + eTownInfo.sBrgyName + ", " + eTownInfo.sTownName + ", " + eTownInfo.sProvName);
-                    dBPlace.setText(eTownInfo.sTownName + ", " + eTownInfo.sProvName);
-                });
-                getTownProvinceInfo(eClientUpdate.getTownIDxx()).observe(activities, eTownInfo -> {
-                    dBPlace.setText(eTownInfo.sTownName + ", " + eTownInfo.sProvName);
-                });
-                String fullname = eClientUpdate.getLastName() + ", " + eClientUpdate.getFrstName() + " " + eClientUpdate.getSuffixNm() + " " + eClientUpdate.getMiddName();
+                try {
+                    getBrgyTownProvinceInfo(eClientUpdate.getBarangay()).observe(activities, eTownInfo -> {
+                        try {
+                            dAddress.setText(eClientUpdate.getHouseNox() + " " + eClientUpdate.getAddressx() + ", " + eTownInfo.sBrgyName + ", " + eTownInfo.sTownName + ", " + eTownInfo.sProvName);
+                            dBPlace.setText(eTownInfo.sTownName + ", " + eTownInfo.sProvName);
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    getTownProvinceInfo(eClientUpdate.getTownIDxx()).observe(activities, eTownInfo -> {
+                        try {
+                            dBPlace.setText(eTownInfo.sTownName + ", " + eTownInfo.sProvName);
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    String fullname = eClientUpdate.getLastName() + ", " + eClientUpdate.getFrstName() + " " + eClientUpdate.getSuffixNm() + " " + eClientUpdate.getMiddName();
 
-                dFullName.setText(eClientUpdate.getLastName() + ", " + eClientUpdate.getFrstName() + " " + eClientUpdate.getSuffixNm() + " " + eClientUpdate.getMiddName());
-                dGender.setText(gender[Integer.parseInt(eClientUpdate.getGenderxx())]);
-                dCivil.setText(civilStatus[Integer.parseInt(eClientUpdate.getCivlStat())]);
-                dBDate.setText(eClientUpdate.getBirthDte());
+                    dFullName.setText(eClientUpdate.getLastName() + ", " + eClientUpdate.getFrstName() + " " + eClientUpdate.getSuffixNm() + " " + eClientUpdate.getMiddName());
+                    dGender.setText(gender[Integer.parseInt(eClientUpdate.getGenderxx())]);
+                    dCivil.setText(civilStatus[Integer.parseInt(eClientUpdate.getCivlStat())]);
+                    dBDate.setText(eClientUpdate.getBirthDte());
 
-                if (eClientUpdate.getLandline() == null || eClientUpdate.getLandline().isEmpty()) {
-                    dTelNo.setText("N/A");
-                } else {
-                    dTelNo.setText(eClientUpdate.getLandline());
+                    if (eClientUpdate.getLandline() == null || eClientUpdate.getLandline().isEmpty()) {
+                        dTelNo.setText("N/A");
+                    } else {
+                        dTelNo.setText(eClientUpdate.getLandline());
+                    }
+                    if (eClientUpdate.getEmailAdd() == null || eClientUpdate.getEmailAdd().isEmpty()) {
+                        dEmail.setText("N/A");
+                    } else {
+                        dEmail.setText(eClientUpdate.getEmailAdd());
+                    }
+                    dRemarks.setText(foDetails.getRemarksx());
+                    dMobileNo.setText(eClientUpdate.getMobileNo());
+                } catch(Exception e) {
+                    e.printStackTrace();
                 }
-                if (eClientUpdate.getEmailAdd() == null || eClientUpdate.getEmailAdd().isEmpty()) {
-                    dEmail.setText("N/A");
-                } else {
-                    dEmail.setText(eClientUpdate.getEmailAdd());
-                }
-                dRemarks.setText(foDetails.getRemarksx());
-                dMobileNo.setText(eClientUpdate.getMobileNo());
             });
         } catch (Exception e){
             e.printStackTrace();

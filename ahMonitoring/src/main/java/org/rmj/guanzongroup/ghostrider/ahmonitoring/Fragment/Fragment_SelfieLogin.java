@@ -112,7 +112,7 @@ public class Fragment_SelfieLogin extends Fragment {
                 poUser = eEmployeeInfo;
                 lblUsername.setText(eEmployeeInfo.getUserName());
                 lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
-            } catch (Exception e){
+            } catch (NullPointerException e){
                 e.printStackTrace();
             }
         });
@@ -200,25 +200,31 @@ public class Fragment_SelfieLogin extends Fragment {
     }
 
     private void initCamera(){
-        ImageFileCreator loImage = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_SELFIE_LOG, poUser.getUserIDxx());
-        loImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-            this.photPath = photPath;
-            poLog.setEmployID(poUser.getEmployID());
-            poLog.setLogTimex(new AppConstants().DATE_MODIFIED);
-            poLog.setLatitude(String.valueOf(latitude));
-            poLog.setLongitud(String.valueOf(longitude));
-            poLog.setSendStat("0");
+        try {
+            ImageFileCreator loImage = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_SELFIE_LOG, poUser.getUserIDxx());
+            loImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                this.photPath = photPath;
+                poLog.setEmployID(poUser.getEmployID());
+                poLog.setLogTimex(new AppConstants().DATE_MODIFIED);
+                poLog.setLatitude(String.valueOf(latitude));
+                poLog.setLongitud(String.valueOf(longitude));
+                poLog.setSendStat("0");
 
-            poImage.setFileCode("0021");
-            poImage.setSourceNo(poUser.getClientID());
-            poImage.setDtlSrcNo(poUser.getUserIDxx());
-            poImage.setSourceCD("LOGa");
-            poImage.setImageNme(FileName);
-            poImage.setFileLoct(photPath);
-            poImage.setLatitude(String.valueOf(latitude));
-            poImage.setLongitud(String.valueOf(longitude));
-            startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
-        });
+                poImage.setFileCode("0021");
+                poImage.setSourceNo(poUser.getClientID());
+                poImage.setDtlSrcNo(poUser.getUserIDxx());
+                poImage.setSourceCD("LOGa");
+                poImage.setImageNme(FileName);
+                poImage.setFileLoct(photPath);
+                poImage.setLatitude(String.valueOf(latitude));
+                poImage.setLongitud(String.valueOf(longitude));
+                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+            });
+        } catch(NullPointerException e) {
+            e.printStackTrace();
+        } catch(RuntimeException r) {
+            r.printStackTrace();
+        }
     }
 
     private void requestLocationEnabled(){

@@ -155,7 +155,7 @@ public class PaidTransactionModel {
     }
 
     public boolean isDataValid(){
-        return isPaymentTypeValid() && isPRNumberValid() && isAmountValid();
+        return isPaymentTypeValid() && isPRNumberValid() && isAmountValid() && isRemarksValid();
     }
 
     private boolean isPaymentTypeValid(){
@@ -177,6 +177,14 @@ public class PaidTransactionModel {
     private boolean isAmountValid(){
         if(Amountx.trim().isEmpty()){
             message = "Please enter amount";
+            return false;
+        }
+        return true;
+    }
+    //                        Added by Jonathan 07/27/2021
+    private boolean isRemarksValid(){
+        if(Remarks.trim().isEmpty()){
+            message = "Please enter remarks";
             return false;
         }
         return true;
