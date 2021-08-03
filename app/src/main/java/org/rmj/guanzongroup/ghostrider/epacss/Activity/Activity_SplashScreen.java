@@ -84,7 +84,11 @@ public class Activity_SplashScreen extends AppCompatActivity {
                 if(!isGranted){
                     mViewModel.getPermisions().observe(this, strings -> ActivityCompat.requestPermissions(Activity_SplashScreen.this, strings, AppConstants.PERMISION_REQUEST_CODE));
                 } else {
-                    AppDirectoryCreator.createAppDirectory();
+                    if(AppDirectoryCreator.createAppDirectory()){
+                        Log.e(TAG, "App directory has been created.");
+                    } else {
+                        Log.e(TAG, "Failed to create app directory.");
+                    }
                     mViewModel.isLoggedIn().observe(this, isValid -> {
                         if (isValid) {
                             mViewModel.getSessionDate().observe(this, sessionDate -> {

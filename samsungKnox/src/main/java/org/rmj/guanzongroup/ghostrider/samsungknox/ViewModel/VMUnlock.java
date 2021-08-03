@@ -94,8 +94,9 @@ public class VMUnlock extends AndroidViewModel {
                 JSONObject loResponse = new JSONObject(s);
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    JSONArray jsonArray = loResponse.getJSONArray("pinNumber");
-                    callBack.OnRequestSuccess(jsonArray.getString(0));
+                    callBack.OnRequestSuccess("Device unlock successfully");
+//                    JSONArray jsonArray = loResponse.getJSONArray("pinNumber");
+//                    callBack.OnRequestSuccess(jsonArray.getString(0));
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
                     String lsMessage = loError.getString("message");

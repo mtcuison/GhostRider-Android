@@ -203,8 +203,6 @@ public class LocationTrack extends Service implements LocationListener {
             country = addresses.get(0).getCountryName();
             postalCode = addresses.get(0).getPostalCode();
             knownName = addresses.get(0).getFeatureName();
-
-
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();

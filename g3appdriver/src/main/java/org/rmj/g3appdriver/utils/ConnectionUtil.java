@@ -36,7 +36,7 @@ import javax.net.ssl.X509TrustManager;
 
 public class ConnectionUtil {
 
-    private Context context;
+    private final Context context;
 
     public ConnectionUtil(Context context){
         this.context = context;

@@ -77,6 +77,11 @@ public class Fragment_Unlock extends Fragment implements ViewModelCallBack {
     @Override
     public void OnRequestSuccess(String args) {
         dialog.dismiss();
+        loMessage.initDialog();
+        loMessage.setMessage(args);
+        loMessage.setTitle("Unlock Device");
+        loMessage.setPositiveButton("Okay", (view, msgDialog) -> msgDialog.dismiss());
+        loMessage.show();
     }
 
     @Override

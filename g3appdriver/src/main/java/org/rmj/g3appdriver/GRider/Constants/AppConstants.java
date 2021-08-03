@@ -11,8 +11,6 @@
 
 package org.rmj.g3appdriver.GRider.Constants;
 
-import android.icu.util.TimeZone;
-
 import org.json.JSONObject;
 
 import java.sql.Timestamp;

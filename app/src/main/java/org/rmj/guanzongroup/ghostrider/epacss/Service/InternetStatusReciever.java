@@ -67,11 +67,8 @@ public class InternetStatusReciever extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         poConn = new ConnectionUtil(context);
 
-        if(poConn.isDeviceConnected()) {
-            Log.e(TAG, "Internet Status Received.");
-            SendDataTask poSendTask = new SendDataTask(instance);
-            poSendTask.execute();
-        }
+        SendDataTask poSendTask = new SendDataTask(instance);
+        poSendTask.execute();
     }
 
     private class SendDataTask extends AsyncTask<Void, String, String>{
@@ -130,56 +127,59 @@ public class InternetStatusReciever extends BroadcastReceiver {
         @Override
         protected String doInBackground(Void... voids) {
             Message = "Local data and server is updated.";
-            try {
-                loginDetails = poLog.getUnsentSelfieLogin();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                loginImageInfo = poImage.getUnsentSelfieLogImageList();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                collectionDetails = poDcp.getUnsentPaidCollection();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                loanApplications = poCreditApp.getUnsentLoanApplication();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                docsFile = poDocs.getUnsentApplicationDocumentss();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            //loanDocs = poImage.getUnsentLoanAppDocFiles();
-            try {
-                uploadLoginImages();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                uploadLoginDetails();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                uploadPaidCollectionDetail();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                uploadLoanApplications();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                uploadLoanApplicationsDocuments();
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(poConn.isDeviceConnected()) {
+                Log.e(TAG, "Internet Status Received.");
+                try {
+                    loginDetails = poLog.getUnsentSelfieLogin();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    loginImageInfo = poImage.getUnsentSelfieLogImageList();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    collectionDetails = poDcp.getUnsentPaidCollection();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    loanApplications = poCreditApp.getUnsentLoanApplication();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    docsFile = poDocs.getUnsentApplicationDocumentss();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                //loanDocs = poImage.getUnsentLoanAppDocFiles();
+                try {
+                    uploadLoginImages();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    uploadLoginDetails();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    uploadPaidCollectionDetail();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    uploadLoanApplications();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    uploadLoanApplicationsDocuments();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return Message;
         }

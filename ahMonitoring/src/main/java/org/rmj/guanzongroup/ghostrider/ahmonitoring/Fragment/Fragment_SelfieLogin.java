@@ -117,14 +117,11 @@ public class Fragment_SelfieLogin extends Fragment {
             }
         });
 
-        mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), new Observer<EBranchInfo>() {
-            @Override
-            public void onChanged(EBranchInfo eBranchInfo) {
-                try{
-                    lblBranch.setText(eBranchInfo.getBranchNm());
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+        mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
+            try{
+                lblBranch.setText(eBranchInfo.getBranchNm());
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
 

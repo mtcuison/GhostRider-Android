@@ -236,10 +236,16 @@ public class VMCollectionRemittance extends AndroidViewModel {
                     param.put("nAmountxx", Double.parseDouble(loRemit.getAmountxx()));
 
                     String lsResponse = WebClient.sendRequest(WebApi.URL_DCP_REMITTANCE, param.toString(), poHeaders.getHeaders());
-                    JSONObject loJson = new JSONObject(lsResponse);
-                    String result = loJson.getString("result");
-                    if(result.equalsIgnoreCase("success")){
-                        poRemit.updateSendStat(loRemit.getTransNox(), loRemit.getEntryNox());
+                    JSONObject loJson;
+                    if (lsResponse != null) {
+                        loJson = new JSONObject(lsResponse);
+
+                        String result = loJson.getString("result");
+                        if(result.equalsIgnoreCase("success")){
+                            poRemit.updateSendStat(loRemit.getTransNox(), loRemit.getEntryNox());
+                        }
+                    } else {
+                        lsResponse = AppConstants.SERVER_NO_RESPONSE();
                     }
                     lsResult = lsResponse;
                 }

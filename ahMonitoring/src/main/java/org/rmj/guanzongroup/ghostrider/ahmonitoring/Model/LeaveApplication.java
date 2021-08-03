@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Model;
 
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+
 public class LeaveApplication {
     private String leaveType = "";
     private String dateFromx = "";
@@ -36,7 +38,7 @@ public class LeaveApplication {
     }
 
     public String getDateFromx() {
-        return dateFromx;
+        return FormatUIText.toSqlValue(dateFromx);
     }
 
     public void setDateFromx(String dateFromx) {
@@ -44,7 +46,7 @@ public class LeaveApplication {
     }
 
     public String getDateThrux() {
-        return dateThrux;
+        return FormatUIText.toSqlValue(dateThrux);
     }
 
     public void setDateThrux(String dateThrux) {

@@ -25,7 +25,7 @@ public class AppDirectoryCreator {
     private static final String psExptDir = AppConstants.SUB_FOLDER_EXPORTS;
     private static final File poExport = new File(psExtDir + psAppDir + psExptDir + "/");
 
-    public static final boolean createAppDirectory() {
+    public static boolean createAppDirectory() {
         Log.e(TAG, poExport.toString());
         if(!poExport.exists()) {
             Log.e(TAG, "No directory exist.");
@@ -33,5 +33,4 @@ public class AppDirectoryCreator {
         }
         return false;
     }
-
 }
