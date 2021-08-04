@@ -11,6 +11,7 @@
 
 package org.rmj.g3appdriver.utils;
 
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
@@ -28,7 +29,7 @@ public class AppDirectoryCreator {
     public static boolean createAppDirectory() {
         Log.e(TAG, poExport.toString());
         if(!poExport.exists()) {
-            Log.e(TAG, "No directory exist.");
+            Log.e(TAG, "poExport");
             return poExport.mkdirs();
         }
         return false;
