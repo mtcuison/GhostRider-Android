@@ -138,7 +138,7 @@ public class VMEvaluationList extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(URL_BRANCH_LOAN_APP, strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(URL_BRANCH_LOAN_APP, strings[0].toString(), headers.getHeaders());
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
@@ -208,7 +208,7 @@ public class VMEvaluationList extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(Url, strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(Url, strings[0].toString(), headers.getHeaders());
                     Log.e(TAG+" API Response", response);
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");

@@ -28,6 +28,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -162,7 +163,7 @@ public class VMLogin extends AndroidViewModel {
                     String lsLogNoxx = loResponse.getString("sLogNoxxx");
                     String lsBranchx = loResponse.getString("sBranchCD");
                     String lsDeptIDx = loResponse.getString("sDeptIDxx");
-                    String lsEmpIDxx = loResponse.getString("sEmpLevID");
+                    String lsEmpIDxx = loResponse.getString("sEmployID");
                     String lsPostIDx = loResponse.getString("sPositnID");
                     sessionManager.initUserSession(lsUserIDx, lsClientx, lsLogNoxx, lsBranchx, lsDeptIDx, lsEmpIDxx, lsPostIDx);
                     callback.OnSuccessLoginResult();

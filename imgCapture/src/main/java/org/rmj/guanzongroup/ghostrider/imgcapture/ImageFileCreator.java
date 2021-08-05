@@ -72,6 +72,7 @@ public class ImageFileCreator {
         this.SUB_FOLDER = usage;
         this.imgName = imgName;
     }
+
     public ImageFileCreator(Context context, String packageName, String subFolder, String fileCode, int entryNox, String transNox) {
         this.poContext = context;
         this.FOLDER_DIRECTORY = packageName;
@@ -124,11 +125,11 @@ public class ImageFileCreator {
             }
         }
     }
+
     public File createImageFile() throws IOException {
 
         image = new File(
                 generateMainStorageDir(),
-//                generateStorageDir(),
                 generateImageFileName());
 
         // Save a file: path for use with ACTION_VIEW intents
@@ -137,6 +138,7 @@ public class ImageFileCreator {
         Log.e(TAG, currentPhotoPath + " createImageFile");
         return image;
     }
+
     public File createScanImageFile() throws IOException {
         docImage = new File(
                 generateMainStorageDirScan(),

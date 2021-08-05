@@ -198,7 +198,7 @@ public class AppConfigPreference {
     }
 
     public String getVersionInfo(){
-        return pref.getString(APP_NAME_VERSION, "").replace("0", "") + pref.getInt(APP_CODE_VERSION, 1) + " - " + pref.getString(APP_DATE_RELEASE, "");
+        return pref.getString(APP_NAME_VERSION, "") + " - " + pref.getString(APP_DATE_RELEASE, "");
     }
 
     //is first open help login

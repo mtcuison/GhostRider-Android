@@ -11,7 +11,11 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring;
 
+import org.json.JSONObject;
 import org.junit.Test;
+import org.rmj.g3appdriver.GRider.Http.WebClient;
+
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -21,8 +25,18 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
+    }
+
+    @Test
+    public void testAPI() throws Exception{
+        HashMap param = new HashMap<String, String>();
+        param.put("email", "sampleEmail123@domain.com");
+        param.put("password", "12345678");
+        String lsResult = WebClient.httpPostJSon("http://192.168.10.22/android_sample/login.php", param.toString(), null);
+        assertNotNull(lsResult);
     }
 }

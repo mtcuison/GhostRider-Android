@@ -178,7 +178,7 @@ public class VMSelfieLogin extends AndroidViewModel {
 
                                 Thread.sleep(1000);
 
-                                String lsResponse = WebClient.httpsPostJSon(WebApi.URL_POST_SELFIELOG, loJson[0].toString(), poHeaders.getHeaders());
+                                String lsResponse = WebClient.sendRequest(WebApi.URL_POST_SELFIELOG, loJson[0].toString(), poHeaders.getHeaders());
 
                                 if(lsResponse == null){
                                     lsResult = AppConstants.SERVER_NO_RESPONSE();

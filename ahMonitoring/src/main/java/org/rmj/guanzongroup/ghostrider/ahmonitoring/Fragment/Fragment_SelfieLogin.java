@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -32,7 +31,6 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
@@ -117,14 +115,11 @@ public class Fragment_SelfieLogin extends Fragment {
             }
         });
 
-        mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), new Observer<EBranchInfo>() {
-            @Override
-            public void onChanged(EBranchInfo eBranchInfo) {
-                try{
-                    lblBranch.setText(eBranchInfo.getBranchNm());
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+        mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
+            try{
+                lblBranch.setText(eBranchInfo.getBranchNm());
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
 

@@ -11,6 +11,7 @@
 
 package org.rmj.g3appdriver.utils;
 
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
@@ -25,13 +26,12 @@ public class AppDirectoryCreator {
     private static final String psExptDir = AppConstants.SUB_FOLDER_EXPORTS;
     private static final File poExport = new File(psExtDir + psAppDir + psExptDir + "/");
 
-    public static final boolean createAppDirectory() {
+    public static boolean createAppDirectory() {
         Log.e(TAG, poExport.toString());
         if(!poExport.exists()) {
-            Log.e(TAG, "No directory exist.");
+            Log.e(TAG, "poExport");
             return poExport.mkdirs();
         }
         return false;
     }
-
 }

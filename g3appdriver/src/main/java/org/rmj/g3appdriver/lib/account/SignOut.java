@@ -87,7 +87,7 @@ public class SignOut {
         String response = null;
         try {
             Log.d(TAG, " URL ACTIVATION: " + sURL);
-            response = WebClient.httpsPostJSon(sURL, param.toString(), (HashMap<String, String>) headers);
+            response = WebClient.sendRequest(sURL, param.toString(), (HashMap<String, String>) headers);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -199,7 +199,7 @@ public class VMManualLog extends AndroidViewModel {
                     param.put("sReqstdTo", eCodeApprovals[0].getReqstdTo());
                     param.put("cTranStat", eCodeApprovals[0].getTranStat());
 
-                    lsReponse = WebClient.httpsPostJSon(URL_SAVE_APPROVAL, param.toString(), loheaders.getHeaders());
+                    lsReponse = WebClient.sendRequest(URL_SAVE_APPROVAL, param.toString(), loheaders.getHeaders());
                     JSONObject loJson = new JSONObject(lsReponse);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

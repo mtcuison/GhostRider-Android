@@ -61,7 +61,11 @@ public class PrepareData {
         }
 
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("Daily Collection Plan", R.drawable.ic_menu_dcp, true, true, VISIBLE);
+        if(sessionManager.getDeptID().equalsIgnoreCase(DeptCode.SALES) || sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)) {
+            menuModel = new MenuModel("Daily Collection Plan", R.drawable.ic_menu_dcp, true, true, VISIBLE);
+        } else {
+            menuModel = new MenuModel("Daily Collection Plan", R.drawable.ic_menu_dcp, true, true, GONE);
+        }
         listDataHeader.add(menuModel);
 
         childModel = new MenuModel("Collection List", 0, false, false , VISIBLE);
@@ -112,7 +116,7 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if PET Manager is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("PET Manager",  R.drawable.ic_approval_biometric,true, true, GONE);
+        menuModel = new MenuModel("PET Manager",  R.drawable.ic_approval_biometric,true, true, VISIBLE);
         listDataHeader.add(menuModel);
 
         childModel = new MenuModel("Leave Application", 0, false, false , VISIBLE);
@@ -131,7 +135,12 @@ public class PrepareData {
         }
 
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("Samsung Knox",  R.drawable.ic_menu_knox,true, true, VISIBLE);
+        if(sessionManager.getDeptID().equalsIgnoreCase(DeptCode.CREDIT_SUPPORT_SERVICES) ||
+        sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)) {
+            menuModel = new MenuModel("Samsung Knox", R.drawable.ic_menu_knox, true, true, VISIBLE);
+        } else {
+            menuModel = new MenuModel("Samsung Knox", R.drawable.ic_menu_knox, true, true, GONE);
+        }
         listDataHeader.add(menuModel);
 
         childModel = new MenuModel("Activate", 0, false, false , View.GONE);

@@ -40,7 +40,6 @@ public class AppAssistantConfig {
     private static final String HELP_SYSUPDATE_NOTICE = "DCP_Instruction_Notice";
     private static final String HELP_KNOX_NOTICE = "DCP_Instruction_Notice";
 
-
     private static AppAssistantConfig mAppConfigPreference;
 
     private AppAssistantConfig(Context context){

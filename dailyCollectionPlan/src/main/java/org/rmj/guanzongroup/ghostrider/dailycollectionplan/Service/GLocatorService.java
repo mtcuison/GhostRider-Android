@@ -137,19 +137,18 @@ public class GLocatorService extends Service {
     private void startLocationTracking(){
         LocationRequest loRequest = new LocationRequest();
         poConfig.getLocationInterval(result -> {
-            try {
-                long interval = Long.parseLong(result);
-                interval = interval * 60000;
-                loRequest.setInterval(interval);
-                loRequest.setFastestInterval(120000);
-//              loRequest.setInterval(50000);
-//              loRequest.setFastestInterval(25000);
-                loRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-                LocationServices.getFusedLocationProviderClient(GLocatorService.this).requestLocationUpdates(loRequest, locationCallback, Looper.getMainLooper());
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
+            if(result == null){
+                result = "10";
             }
+            long interval = Long.parseLong(result);
+            interval = interval * 60000;
+            loRequest.setInterval(interval);
+            loRequest.setFastestInterval(120000);
+//        loRequest.setInterval(50000);
+//        loRequest.setFastestInterval(25000);
+            loRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+            LocationServices.getFusedLocationProviderClient(GLocatorService.this).requestLocationUpdates(loRequest, locationCallback, Looper.getMainLooper());
         });
     }
 
@@ -196,7 +195,7 @@ public class GLocatorService extends Service {
                         params.put("dTransact", loSysLog.getTransact());
                         params.put("nLatitude", loSysLog.getLatitude());
                         params.put("nLongitud", loSysLog.getLongitud());
-                        lsResult = WebClient.httpsPostJSon(WebApi.URL_DCP_LOCATION_REPORT, params.toString(), poHeaders.getHeaders());
+                        lsResult = WebClient.sendRequest(WebApi.URL_DCP_LOCATION_REPORT, params.toString(), poHeaders.getHeaders());
                         if (lsResult == null) {
                             lsResult = AppConstants.SERVER_NO_RESPONSE();
                         } else {

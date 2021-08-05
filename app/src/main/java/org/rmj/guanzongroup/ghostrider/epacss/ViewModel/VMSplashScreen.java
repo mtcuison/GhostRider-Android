@@ -12,6 +12,7 @@
 package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -54,6 +55,7 @@ public class VMSplashScreen extends AndroidViewModel {
     private final AppTokenManager poToken;
     private final RDailyCollectionPlan poDcp;
 
+    @SuppressLint("InlinedApi")
     @RequiresApi(api = Build.VERSION_CODES.M)
     public VMSplashScreen(@NonNull Application application) {
         super(application);
@@ -70,6 +72,7 @@ public class VMSplashScreen extends AndroidViewModel {
         poDcp = new RDailyCollectionPlan(application);
         poToken.setTokenInfo(loToken);
         paPermisions.setValue(new String[]{
+                Manifest.permission.MANAGE_EXTERNAL_STORAGE,
                 Manifest.permission.INTERNET,
                 Manifest.permission.ACCESS_NETWORK_STATE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,

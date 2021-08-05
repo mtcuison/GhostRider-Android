@@ -17,25 +17,28 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.GRider.Etc.TransparentToolbar;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.AppDirectoryCreator;
 import org.rmj.g3appdriver.utils.ServiceScheduler;
 import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorService;
+import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataImportService;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.GMessagingService;
@@ -55,6 +58,8 @@ public class Activity_SplashScreen extends AppCompatActivity {
 
     private AppDirectoryCreator mMakeDir;
 
+    private MessageBox poMesage;
+
     private AppConfigPreference poConfigx;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -63,6 +68,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        poMesage = new MessageBox(Activity_SplashScreen.this);
         poConfigx = AppConfigPreference.getInstance(Activity_SplashScreen.this);
         new TransparentToolbar(Activity_SplashScreen.this).SetupActionbar();
         mMakeDir = new AppDirectoryCreator();
@@ -84,7 +90,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
                 if(!isGranted){
                     mViewModel.getPermisions().observe(this, strings -> ActivityCompat.requestPermissions(Activity_SplashScreen.this, strings, AppConstants.PERMISION_REQUEST_CODE));
                 } else {
-                    AppDirectoryCreator.createAppDirectory();
                     mViewModel.isLoggedIn().observe(this, isValid -> {
                         if (isValid) {
                             mViewModel.getSessionDate().observe(this, sessionDate -> {
@@ -129,17 +134,32 @@ public class Activity_SplashScreen extends AppCompatActivity {
                             });
 
                         } else {
-                            for(int x = 0; x < 3; x++){
-                                int progress = (int) ((x / (float) x) * 100);
-                                prgrssBar.setProgress(progress);
-                                x++;
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R
+                                && !Environment.isExternalStorageManager()) {
+
+                                poMesage.initDialog();
+                                poMesage.setTitle("GhostRider");
+                                poMesage.setMessage("Some app features may not work properly. Please allow management of all files on settings.");
+                                poMesage.setPositiveButton("Go to Settings", (view, dialog) -> {
+                                    dialog.dismiss();
+                                    Intent fileIntent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                                    startActivityForResult(fileIntent, 101);
+                                });
+                                poMesage.show();
+                            } else {
+                                for(int x = 0; x < 3; x++){
+                                    int progress = (int) ((x / (float) x) * 100);
+                                    prgrssBar.setProgress(progress);
+                                    x++;
+                                    try {
+                                        Thread.sleep(1000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
+                                startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
                             }
-                            startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+
                         }
                     });
                 }
@@ -187,11 +207,44 @@ public class Activity_SplashScreen extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
-            startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
-            finish();
-        } else if(resultCode == RESULT_CANCELED){
-            finish();
+        if (requestCode == 101) {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+                if(!Environment.isExternalStorageManager()) {
+                    poMesage.initDialog();
+                    poMesage.setTitle("GhostRider");
+                    poMesage.setMessage("Some app features may not work properly. Please allow management of all files on settings.");
+                    poMesage.setPositiveButton("Go to Settings", (view, dialog) -> {
+                        dialog.dismiss();
+                        Intent fileIntent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                        startActivityForResult(fileIntent, 101);
+                    });
+                    poMesage.show();
+                } else{
+                    for(int x = 0; x < 3; x++){
+                        int progress = (int) ((x / (float) x) * 100);
+                        prgrssBar.setProgress(progress);
+                        x++;
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if(AppDirectoryCreator.createAppDirectory()){
+                        Log.e(TAG, "App directory has been created.");
+                    } else {
+                        Log.e(TAG, "Failed to create app directory.");
+                    }
+                    startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+                }
+            }
+        } else if(requestCode == AppConstants.LOGIN_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
+                finish();
+            } else if (resultCode == RESULT_CANCELED) {
+                finish();
+            }
         }
     }
 }

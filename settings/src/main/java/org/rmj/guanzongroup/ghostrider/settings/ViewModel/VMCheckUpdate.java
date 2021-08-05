@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -25,8 +24,6 @@ import androidx.core.content.FileProvider;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
-import com.github.ybq.android.spinkit.BuildConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,13 +33,11 @@ import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_CheckUpdate;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -113,7 +108,7 @@ public class VMCheckUpdate extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()){
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    lsResult = WebClient.httpsPostJSon(poApi.URL_CHANGE_PASSWORD(), param.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(poApi.URL_CHANGE_PASSWORD(), param.toString(), poHeaders.getHeaders());
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }

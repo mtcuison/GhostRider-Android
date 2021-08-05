@@ -29,7 +29,7 @@ public class HttpRequestUtil extends WebClient {
         try{
             Log.e(TAG, "Http Request is created. Sending request to " + URL);
 
-            @SuppressLint({"NewApi", "LocalSuppress"}) String response = httpsPostJSon(URL, listener.setData().toString(), listener.setHeaders());
+            @SuppressLint({"NewApi", "LocalSuppress"}) String response = sendRequest(URL, listener.setData().toString(), listener.setHeaders());
             Log.e(TAG, "Http Request has been sent successfully.");
 
             if(response == null){

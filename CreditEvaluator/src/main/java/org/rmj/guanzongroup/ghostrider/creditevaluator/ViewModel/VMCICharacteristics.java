@@ -189,7 +189,7 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CharacterTraitsInfo
                         loJSON.put("dApproved", loDetail.getApproved());
                         poCIEvaluation.updaCharacterTraits(loDetail);
                         Log.e(TAG, loJSON.toString());
-                        String lsResponse1 = WebClient.httpsPostJSon(WebApi.URL_UPLOAD_CI_RESULT, loJSON.toString(), poHeaders.getHeaders());
+                        String lsResponse1 = WebClient.sendRequest(WebApi.URL_UPLOAD_CI_RESULT, loJSON.toString(), poHeaders.getHeaders());
                         if (lsResponse1 == null) {
                             response = "Server no response.";
                         } else {

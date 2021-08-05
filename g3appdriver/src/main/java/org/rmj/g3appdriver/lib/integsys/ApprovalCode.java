@@ -98,7 +98,7 @@ public class ApprovalCode {
 
         try {
             Log.d(TAG, " URL LOAD REQUEST: " + sURL);
-            response = WebClient.httpsPostJSon(sURL, param.toString(), (HashMap<String, String>) headers);
+            response = WebClient.sendRequest(sURL, param.toString(), (HashMap<String, String>) headers);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -176,7 +176,7 @@ public class ApprovalCode {
 
         try {
             Log.d(TAG, " URL LOAD REQUEST: " + sURL);
-            response = WebClient.httpsPostJSon(sURL, param.toString(), (HashMap<String, String>) headers);
+            response = WebClient.sendRequest(sURL, param.toString(), (HashMap<String, String>) headers);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -259,7 +259,7 @@ public class ApprovalCode {
 
         try {
             Log.d(TAG, " URL LOAD REQUEST: " + sURL);
-            response = WebClient.httpsPostJSon(sURL, param.toString(), (HashMap<String, String>) headers);
+            response = WebClient.sendRequest(sURL, param.toString(), (HashMap<String, String>) headers);
         } catch (IOException e) {
             e.printStackTrace();
         }

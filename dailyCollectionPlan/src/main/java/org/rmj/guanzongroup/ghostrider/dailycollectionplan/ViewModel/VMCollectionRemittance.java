@@ -235,11 +235,17 @@ public class VMCollectionRemittance extends AndroidViewModel {
                     param.put("cPaymType", loRemit.getPaymForm());
                     param.put("nAmountxx", Double.parseDouble(loRemit.getAmountxx()));
 
-                    String lsResponse = WebClient.httpsPostJSon(WebApi.URL_DCP_REMITTANCE, param.toString(), poHeaders.getHeaders());
-                    JSONObject loJson = new JSONObject(lsResponse);
-                    String result = loJson.getString("result");
-                    if(result.equalsIgnoreCase("success")){
-                        poRemit.updateSendStat(loRemit.getTransNox(), loRemit.getEntryNox());
+                    String lsResponse = WebClient.sendRequest(WebApi.URL_DCP_REMITTANCE, param.toString(), poHeaders.getHeaders());
+                    JSONObject loJson;
+                    if (lsResponse != null) {
+                        loJson = new JSONObject(lsResponse);
+
+                        String result = loJson.getString("result");
+                        if(result.equalsIgnoreCase("success")){
+                            poRemit.updateSendStat(loRemit.getTransNox(), loRemit.getEntryNox());
+                        }
+                    } else {
+                        lsResponse = AppConstants.SERVER_NO_RESPONSE();
                     }
                     lsResult = lsResponse;
                 }
@@ -295,7 +301,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
                         JSONObject param = new JSONObject();
                         param.put("bsearch", true);
                         param.put("descript", "all");
-                        String lsResponse = WebClient.httpsPostJSon(WebApi.URL_BRANCH_REMITTANCE_ACC, param.toString(), poHeaders.getHeaders());
+                        String lsResponse = WebClient.sendRequest(WebApi.URL_BRANCH_REMITTANCE_ACC, param.toString(), poHeaders.getHeaders());
                         JSONObject loResult = new JSONObject(lsResponse);
                         if(loResult.getString("result").equalsIgnoreCase("success")){
                             JSONArray loDetail = loResult.getJSONArray("detail");

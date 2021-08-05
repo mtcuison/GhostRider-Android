@@ -218,7 +218,7 @@ public class VMSettings extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()){
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    lsResult = WebClient.httpsPostJSon(poApi.URL_CHANGE_PASSWORD(), param.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(poApi.URL_CHANGE_PASSWORD(), param.toString(), poHeaders.getHeaders());
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }
@@ -288,7 +288,7 @@ public class VMSettings extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()){
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    lsResult = WebClient.httpsPostJSon(poApi.URL_CHANGE_PASSWORD(), param.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(poApi.URL_CHANGE_PASSWORD(), param.toString(), poHeaders.getHeaders());
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }

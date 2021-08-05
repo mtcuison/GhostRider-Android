@@ -67,11 +67,8 @@ public class InternetStatusReciever extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         poConn = new ConnectionUtil(context);
 
-        if(poConn.isDeviceConnected()) {
-            Log.e(TAG, "Internet Status Received.");
-            SendDataTask poSendTask = new SendDataTask(instance);
-            poSendTask.execute();
-        }
+        SendDataTask poSendTask = new SendDataTask(instance);
+        poSendTask.execute();
     }
 
     private class SendDataTask extends AsyncTask<Void, String, String>{
@@ -130,56 +127,59 @@ public class InternetStatusReciever extends BroadcastReceiver {
         @Override
         protected String doInBackground(Void... voids) {
             Message = "Local data and server is updated.";
-            try {
-                loginDetails = poLog.getUnsentSelfieLogin();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                loginImageInfo = poImage.getUnsentSelfieLogImageList();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                collectionDetails = poDcp.getUnsentPaidCollection();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                loanApplications = poCreditApp.getUnsentLoanApplication();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                docsFile = poDocs.getUnsentApplicationDocumentss();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            //loanDocs = poImage.getUnsentLoanAppDocFiles();
-            try {
-                uploadLoginImages();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                uploadLoginDetails();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                uploadPaidCollectionDetail();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                uploadLoanApplications();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                uploadLoanApplicationsDocuments();
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(poConn.isDeviceConnected()) {
+                Log.e(TAG, "Internet Status Received.");
+                try {
+                    loginDetails = poLog.getUnsentSelfieLogin();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    loginImageInfo = poImage.getUnsentSelfieLogImageList();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    collectionDetails = poDcp.getUnsentPaidCollection();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    loanApplications = poCreditApp.getUnsentLoanApplication();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    docsFile = poDocs.getUnsentApplicationDocumentss();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                //loanDocs = poImage.getUnsentLoanAppDocFiles();
+                try {
+                    uploadLoginImages();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    uploadLoginDetails();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    uploadPaidCollectionDetail();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    uploadLoanApplications();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    uploadLoanApplicationsDocuments();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return Message;
         }
@@ -271,7 +271,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                         loJson.put("nLatitude", selfieLog.getLatitude());
                         loJson.put("nLongitud", selfieLog.getLongitud());
 
-                        String lsResponse = WebClient.httpsPostJSon(WebApi.URL_POST_SELFIELOG, loJson.toString(), poHeaders.getHeaders());
+                        String lsResponse = WebClient.sendRequest(WebApi.URL_POST_SELFIELOG, loJson.toString(), poHeaders.getHeaders());
 
                         if (lsResponse == null) {
                             Log.e(TAG, "Sending selfie log info. Server no response");
@@ -348,7 +348,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                         loJson.put("sUserIDxx", poSession.getUserID());
                         loJson.put("sDeviceID", poDevice.getDeviceID());
                         Log.e(TAG, loJson.toString());
-                        String lsResponse = WebClient.httpsPostJSon(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
+                        String lsResponse = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
 
                         if (lsResponse == null) {
                             Log.e(TAG, "Sending selfie log info. Server no response");
@@ -396,7 +396,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                         JSONObject params = new JSONObject(loLoan.getDetlInfo());
                         params.put("dCreatedx", loLoan.getCreatedx());
 
-                        String lsResponse = WebClient.httpsPostJSon(WebApi.URL_SUBMIT_ONLINE_APPLICATION, params.toString(), poHeaders.getHeaders());
+                        String lsResponse = WebClient.sendRequest(WebApi.URL_SUBMIT_ONLINE_APPLICATION, params.toString(), poHeaders.getHeaders());
                         if(lsResponse != null) {
                             JSONObject loResponse = new JSONObject(lsResponse);
 

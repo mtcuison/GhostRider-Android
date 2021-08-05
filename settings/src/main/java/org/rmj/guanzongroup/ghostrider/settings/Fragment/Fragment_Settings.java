@@ -161,11 +161,9 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
                               ActivityCompat.requestPermissions(getActivity(),strings, STORAGE_REQUEST);
                           });
                       }else {
-
                           showExportDialog(dbExport.export());
                       }
                    });
-
 
                }catch (SecurityException e){
                    Log.e("Security Exception " , e.getMessage());

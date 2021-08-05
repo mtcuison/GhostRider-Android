@@ -14,7 +14,6 @@ package org.rmj.guanzongroup.ghostrider.samsungknox.ViewModel;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -77,7 +76,7 @@ public class VMUnlock extends AndroidViewModel {
                     loJSon.put("deviceUid", string[0]);
                     loParam.put("request", AppConstants.UNLOCK_REQUEST);
                     loParam.put("param", loJSon.toString());
-                    response = WebClient.httpsPostJSon(WebApi.URL_KNOX, loParam.toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(WebApi.URL_KNOX, loParam.toString(), headers.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }
@@ -95,8 +94,9 @@ public class VMUnlock extends AndroidViewModel {
                 JSONObject loResponse = new JSONObject(s);
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    JSONArray jsonArray = loResponse.getJSONArray("pinNumber");
-                    callBack.OnRequestSuccess(jsonArray.getString(0));
+                    callBack.OnRequestSuccess("Device unlock successfully");
+//                    JSONArray jsonArray = loResponse.getJSONArray("pinNumber");
+//                    callBack.OnRequestSuccess(jsonArray.getString(0));
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
                     String lsMessage = loError.getString("message");

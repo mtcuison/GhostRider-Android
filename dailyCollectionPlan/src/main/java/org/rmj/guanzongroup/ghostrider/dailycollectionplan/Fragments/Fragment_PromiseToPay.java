@@ -153,6 +153,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             ptpBranchName.setAdapter(adapter);
         });
+
         ptpBranchName.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBranchInfo().observe(getViewLifecycleOwner(), eBranchInfos -> {
             for(int x = 0; x < eBranchInfos.size(); x++){
                 if(ptpBranchName.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getBranchNm())){
@@ -161,9 +162,14 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
                 }
             }
         }));
+
         mViewModel.getUserBranchEmployee().observe(getViewLifecycleOwner(), eBranchInfo -> {
-            lblBranch.setText(eBranchInfo.getBranchNm());
-            lblAddress.setText(eBranchInfo.getAddressx());
+            try {
+                lblBranch.setText(eBranchInfo.getBranchNm());
+                lblAddress.setText(eBranchInfo.getAddressx());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
 
         ptpDate.setOnClickListener(v ->  {

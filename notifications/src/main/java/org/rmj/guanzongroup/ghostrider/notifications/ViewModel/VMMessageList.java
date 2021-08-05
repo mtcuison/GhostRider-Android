@@ -31,7 +31,6 @@ import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.EmployeeSearchItem;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.MessageItemList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VMMessageList extends AndroidViewModel {
@@ -88,7 +87,7 @@ public class VMMessageList extends AndroidViewModel {
                     loJson.put("reqstdnm", strings[0]);
                     loJson.put("bsearch", true);
 
-                    lsResult = WebClient.httpsPostJSon(WebApi.URL_QUICK_SEARCH, loJson.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(WebApi.URL_QUICK_SEARCH, loJson.toString(), poHeaders.getHeaders());
 
                 } else {
                     lsResult = AppConstants.NO_INTERNET();
