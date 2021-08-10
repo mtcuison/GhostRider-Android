@@ -23,6 +23,8 @@ import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.R;
 
+import java.util.Objects;
+
 public class  MessageBox {
     private AlertDialog poDialogx;
     private MaterialButton btnPositive;
@@ -58,11 +60,19 @@ public class  MessageBox {
     }
 
     public void setMessage(String psMessage) {
-        lblMsgxx.setText(psMessage);
+        try {
+            lblMsgxx.setText(Objects.requireNonNull(psMessage));
+        } catch(NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     public void setTitle(String psTitlexx) {
-        lblTitle.setText(psTitlexx);
+        try {
+            lblTitle.setText(Objects.requireNonNull(psTitlexx));
+        } catch(NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setPositiveButton(String psBtnPost, final DialogButton listener) {
