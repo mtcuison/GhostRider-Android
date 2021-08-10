@@ -36,7 +36,7 @@ public class  MessageBox {
     private final Context context;
 
     public MessageBox(Context context){
-        this.context = context;
+        this.context = Objects.requireNonNull(context);
     }
 
     private static boolean isDialogShown;
