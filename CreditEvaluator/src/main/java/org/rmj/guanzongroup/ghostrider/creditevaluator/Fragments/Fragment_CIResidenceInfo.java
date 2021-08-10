@@ -81,7 +81,7 @@ public class Fragment_CIResidenceInfo extends Fragment implements ViewModelCallB
 //        poFilexx = new ImageFileCreator(Fragment_CIResidenceInfo.this , CIConstants.APP_PUBLIC_FOLDER, CIConstants.SUB_FOLDER_DCP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
 
         residenceInfo = new CIResidenceInfoModel();
-        poMessage = new MessageBox(getContext());
+        poMessage = new MessageBox(getActivity());
         initWidgets(root);
         initClientInfo();
         return root;

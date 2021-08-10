@@ -76,7 +76,7 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_paid_transaction, container, false);
         infoModel = new PaidTransactionModel();
-        poMessage = new MessageBox(getContext());
+        poMessage = new MessageBox(getActivity());
         poDialog = new LoadDialog(getActivity());
         initWidgets(view);
         return view;

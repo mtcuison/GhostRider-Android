@@ -77,7 +77,7 @@ public class Fragment_CIBarangayRecord extends Fragment implements ViewModelCall
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_ci_barangay_record, container, false);
-        poMessage = new MessageBox(getContext());
+        poMessage = new MessageBox(getActivity());
         ciModel = new CIBarangayRecordInfoModel();
         initWidgets(root);
         initClientInfo();
