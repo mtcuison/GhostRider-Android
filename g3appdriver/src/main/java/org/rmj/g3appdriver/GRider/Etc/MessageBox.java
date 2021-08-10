@@ -11,6 +11,7 @@
 
 package org.rmj.g3appdriver.GRider.Etc;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -102,8 +103,14 @@ public class  MessageBox {
         if(!poDialogx.isShowing()) {
             poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
-            poDialogx.show();
-            isDialogShown = true;
+            try {
+                if (!((Activity) context).isFinishing()) {
+                    poDialogx.show();
+                    isDialogShown = true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

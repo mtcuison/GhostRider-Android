@@ -152,7 +152,7 @@ public class GeoLocator {
     }
 
     public void showSettingsAlert(){
-        MessageBox poMessage = new MessageBox(context);
+        MessageBox poMessage = new MessageBox(activity);
         poMessage.initDialog();
         poMessage.setTitle("Location");
         poMessage.setMessage("GPS is not enabled. Do you want to go to settings menu?");

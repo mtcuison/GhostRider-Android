@@ -71,7 +71,7 @@ public class Activity_Settings extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        loMessage = new MessageBox(this);
+        loMessage = new MessageBox(Activity_Settings.this);
         mViewModel = new ViewModelProvider(this).get(VMSettings.class);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
