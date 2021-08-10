@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,22 +133,52 @@ public class Fragment_SelfieLogin extends Fragment {
             loManager.setOrientation(RecyclerView.VERTICAL);
             recyclerView.setLayoutManager(loManager);
             recyclerView.setAdapter(logAdapter);
-        });
 
+        });
         btnCamera.setOnClickListener(view -> {
+            mViewModel.getCurrentTimeLog().observe(getViewLifecycleOwner(), currentLog ->{
+                if (currentLog.size() >= 2) {
+                    poMessage.initDialog();
+                    poMessage.setTitle("Selfie Login");
+                    poMessage.setMessage("You already login today.");
+                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                } else {
+                    mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
+                        if (!isGranted) {
+                            mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(getActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
+                        } else {
+                            initCamera();
+                        }
+                    });
 
-            if (currentDateLog.size() > 0) {
-                poMessage.initDialog();
-                poMessage.setTitle("Selfie Login");
-                poMessage.setMessage("You already login today.");
-                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                poMessage.show();
-            } else if (!loLocation.isLocationEnabled()) {
-                requestLocationEnabled();
-            }else {
-                initCamera();
-            }
+                }
+            });
         });
+
+//        btnCamera.setOnClickListener(view -> {
+//
+//            if (currentDateLog.size() > 0) {
+//                poMessage.initDialog();
+//                poMessage.setTitle("Selfie Login");
+//                poMessage.setMessage("You already login today.");
+//                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+//                poMessage.show();
+//            } else {
+//                mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
+//                    if (!isGranted) {
+//                        mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(getActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
+//                    } else {
+//                        initCamera();
+//                    }
+//                });
+//
+//            }
+////            else if (!loLocation.isLocationEnabled()) {
+////                requestLocationEnabled();
+////            }
+//
+//        });
     }
 
     @Override
