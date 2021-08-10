@@ -40,6 +40,10 @@ public class RLogSelfie {
         String DateLog = "%"+fsDate+"%";
         return selfieDao.getCurrentTimeLogIfExist(DateLog);
     }
+    public LiveData<List<ELog_Selfie>> getCurrentTimeLog(String fsDate){
+        String DateLog = "%"+fsDate+"%";
+        return selfieDao.getCurrentTimeLog(DateLog);
+    }
 
     public List<ELog_Selfie> getUnsentSelfieLogin() throws Exception{
         return selfieDao.getUnsentSelfieLogin();
