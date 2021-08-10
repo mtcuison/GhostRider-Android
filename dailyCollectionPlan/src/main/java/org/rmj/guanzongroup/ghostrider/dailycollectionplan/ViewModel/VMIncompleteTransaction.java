@@ -74,7 +74,7 @@ public class VMIncompleteTransaction extends AndroidViewModel {
     }
 
     public void setCollectioNDetail(EDCPCollectionDetail detail){
-        this.poDetail.setValue(detail);
+        this.poDetail.setValue(Objects.requireNonNull(detail));
     }
 
     public void saveImageInfo(EImageInfo foImageInfo){
@@ -85,7 +85,7 @@ public class VMIncompleteTransaction extends AndroidViewModel {
     }
 
     public void updateCollectionDetail(){
-        EDCPCollectionDetail detail = poDetail.getValue();
+        EDCPCollectionDetail detail = Objects.requireNonNull(poDetail.getValue());
         Objects.requireNonNull(detail).setImageNme(ImgTransNox);
         new UpdateCollectionTask(poDcp, sRemCodex.getValue(), sRemarks.getValue()).execute(detail);
     }
