@@ -158,16 +158,20 @@ public class Fragment_IncTransaction extends Fragment {
         if(requestCode == ImageFileCreator.GCAMERA){
             if(resultCode == RESULT_OK){
                 if(!Remarksx.equalsIgnoreCase("")) {
-                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
-                    mViewModel.saveImageInfo(poImageInfo);
-                    mViewModel.updateCollectionDetail();
-                    loMessage.initDialog();
-                    loMessage.setTitle(Remarksx);
-                    loMessage.setMessage("Transaction has been save!");
-                    loMessage.setPositiveButton("Okay", (view, dialog) -> {
-                        dialog.dismiss();
-                        requireActivity().finish();
-                    });
+                    try {
+                        poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
+                        mViewModel.saveImageInfo(poImageInfo);
+                        mViewModel.updateCollectionDetail();
+                        loMessage.initDialog();
+                        loMessage.setTitle(Remarksx);
+                        loMessage.setMessage("Transaction has been save!");
+                        loMessage.setPositiveButton("Okay", (view, dialog) -> {
+                            dialog.dismiss();
+                            requireActivity().finish();
+                        });
+                    } catch(NullPointerException e) {
+                        e.printStackTrace();
+                    }
 
                 } else {
                     loMessage.initDialog();
