@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -34,6 +35,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -72,6 +74,8 @@ public class Fragment_SelfieLogin extends Fragment {
 
     private static boolean isDialogShown;
 
+    private int pnAttmpt = 2;
+
     public static Fragment_SelfieLogin newInstance() {
         return new Fragment_SelfieLogin();
     }
@@ -81,6 +85,7 @@ public class Fragment_SelfieLogin extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_selfie_login, container, false);
         initWidgets(view);
+
         return view;
     }
 
@@ -104,6 +109,27 @@ public class Fragment_SelfieLogin extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMSelfieLogin.class);
+
+        mViewModel.getLastLogDate().observe(getViewLifecycleOwner(), s -> {
+            try{
+                if(s.size()>0) {
+                    String lsLastLog;
+                    lsLastLog = FormatUIText.logTimeToSimpleDate(s.get(0));
+                    if (FormatUIText.logTimeToSimpleDate(s.get(0)).equalsIgnoreCase(new AppConstants().CURRENT_DATE)
+                            && FormatUIText.logTimeToSimpleDate(s.get(1)).equalsIgnoreCase(new AppConstants().CURRENT_DATE)){
+                        pnAttmpt = 0;
+                    } else if (lsLastLog.equalsIgnoreCase(new AppConstants().CURRENT_DATE)) {
+                        pnAttmpt = 1;
+                    } else {
+                        pnAttmpt = 2;
+                    }
+                } else {
+                    pnAttmpt = 2;
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
 
         mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
@@ -134,17 +160,24 @@ public class Fragment_SelfieLogin extends Fragment {
         });
 
         btnCamera.setOnClickListener(view -> {
-
-            if (currentDateLog.size() > 0) {
+            if(pnAttmpt != 0) {
+                if (currentDateLog.size() > 0) {
+                    poMessage.initDialog();
+                    poMessage.setTitle("Selfie Log");
+                    poMessage.setMessage("You already login today.");
+                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                } else if (!loLocation.isLocationEnabled()) {
+                    requestLocationEnabled();
+                } else {
+                    initCamera();
+                }
+            } else {
                 poMessage.initDialog();
-                poMessage.setTitle("Selfie Login");
-                poMessage.setMessage("You already login today.");
+                poMessage.setTitle("Selfie Log");
+                poMessage.setMessage("You already use your login attempt today.");
                 poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
                 poMessage.show();
-            } else if (!loLocation.isLocationEnabled()) {
-                requestLocationEnabled();
-            }else {
-                initCamera();
             }
         });
     }

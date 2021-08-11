@@ -53,6 +53,10 @@ public class RLogSelfie {
         new InsertSelfieTask(selfieDao).execute(selfieLog);
     }
 
+    public LiveData<List<String>> getLastLogDate(){
+        return selfieDao.getLastLogDate();
+    }
+
     public void updateEmployeeLogStatus(String sTransNox, String OldTransNox){
         selfieDao.updateEmployeeLogStat(sTransNox, OldTransNox, new AppConstants().DATE_MODIFIED);
     }

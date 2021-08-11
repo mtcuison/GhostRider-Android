@@ -42,4 +42,8 @@ public interface DLog_Selfie {
 
     @Query("SELECT * FROM Employee_Log_Selfie WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master)")
     LiveData<List<ELog_Selfie>> getAllEmployeeTimeLog();
+
+    @Query("SELECT dLogTimex FROM Employee_Log_Selfie WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) " +
+            "ORDER BY dLogTimex DESC LIMIT 2")
+    LiveData<List<String>> getLastLogDate();
 }
