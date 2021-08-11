@@ -40,7 +40,6 @@ public class GLocationManager {
         boolean network_enabled = false;
         try {
             gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
             network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         } catch(Exception e) {

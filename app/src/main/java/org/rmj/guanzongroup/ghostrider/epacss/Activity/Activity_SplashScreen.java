@@ -128,7 +128,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
                                     } else {
                                         startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
                                     }
-                                } catch (Exception e){
+                                } catch (NullPointerException e){
                                     e.printStackTrace();
                                 }
                             });

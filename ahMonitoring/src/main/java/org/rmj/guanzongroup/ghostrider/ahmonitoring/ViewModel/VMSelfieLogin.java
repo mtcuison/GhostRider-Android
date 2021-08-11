@@ -11,15 +11,20 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
+import android.Manifest;
 import android.app.Application;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,6 +59,8 @@ public class VMSelfieLogin extends AndroidViewModel {
 
     private final REmployee poUser;
 
+    private final MutableLiveData<Boolean> pbGranted = new MutableLiveData<>();
+    private final MutableLiveData<String[]> paPermisions = new MutableLiveData<>();
     public interface OnLoginTimekeeperListener{
         void OnLogin();
         void OnSuccess(String args);
@@ -67,8 +74,31 @@ public class VMSelfieLogin extends AndroidViewModel {
         this.poUser = new REmployee(instance);
         this.poLog = new RLogSelfie(instance);
         this.pobranch = new RBranch(instance);
+        paPermisions.setValue(new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION});
+        pbGranted.setValue(hasPermissions(application.getApplicationContext(), paPermisions.getValue()));
+    }
+    public LiveData<Boolean> isPermissionsGranted(){
+        return pbGranted;
     }
 
+    public LiveData<String[]> getPermisions(){
+        return paPermisions;
+    }
+    public void setPermissionsGranted(boolean isGranted){
+        this.pbGranted.setValue(isGranted);
+    }
+    private static boolean hasPermissions(Context context, String... permissions){
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M && permissions!=null ){
+            for (String permission: permissions){
+                if(ActivityCompat.checkSelfPermission(context, permission)!= PackageManager.PERMISSION_GRANTED){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public LiveData<EEmployeeInfo> getUserInfo(){
         return poUser.getUserInfo();
     }
@@ -79,6 +109,9 @@ public class VMSelfieLogin extends AndroidViewModel {
 
     public LiveData<List<ELog_Selfie>> getAllEmployeeTimeLog(){
         return poLog.getAllEmployeeTimeLog();
+    }
+    public LiveData<List<ELog_Selfie>> getCurrentTimeLog(){
+        return poLog.getCurrentTimeLog(AppConstants.CURRENT_DATE);
     }
 
     public LiveData<List<String>> getLastLogDate(){

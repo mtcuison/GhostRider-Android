@@ -30,6 +30,9 @@ public interface DLog_Selfie {
     @Query("SELECT * FROM Employee_Log_Selfie WHERE dLogTimex LIKE:DateLog AND cSendStat = \"1\" ")
     LiveData<List<ELog_Selfie>> getCurrentTimeLogIfExist(String DateLog);
 
+    @Query("SELECT * FROM Employee_Log_Selfie WHERE dLogTimex LIKE:DateLog AND cSendStat = \"1\" OR cSendStat = \"0\"")
+    LiveData<List<ELog_Selfie>> getCurrentTimeLog(String DateLog);
+
     @Query("UPDATE Employee_Log_Selfie " +
             "SET sTransNox =:TransNox, " +
             "cSendStat = '1', " +

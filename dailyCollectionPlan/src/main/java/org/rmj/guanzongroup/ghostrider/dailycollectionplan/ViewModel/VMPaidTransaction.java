@@ -45,6 +45,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransaction
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class VMPaidTransaction extends AndroidViewModel {
     private static final String TAG = VMPaidTransaction.class.getSimpleName();
@@ -118,16 +119,20 @@ public class VMPaidTransaction extends AndroidViewModel {
     }
 
     public void setDiscount(Double fnDiscount){
-        this.pnDsCntx.setValue(fnDiscount);
-        calculateTotal();
-        if(pnRebate.getValue() < fnDiscount){
-            if(pbRebate) {
-                psMssage.setValue("Rebate given is greater than the supposed rebate.");
+        try {
+            this.pnDsCntx.setValue(Objects.requireNonNull(fnDiscount));
+            calculateTotal();
+            if (pnRebate.getValue() < Objects.requireNonNull(fnDiscount)) {
+                if (pbRebate) {
+                    psMssage.setValue("Rebate given is greater than the supposed rebate.");
+                } else {
+                    psMssage.setValue("Rebate disabled");
+                }
             } else {
-                psMssage.setValue("Rebate disabled");
+                psMssage.setValue("");
             }
-        } else {
-            psMssage.setValue("");
+        } catch(NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
