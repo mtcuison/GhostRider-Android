@@ -25,6 +25,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
@@ -43,6 +45,8 @@ public class Fragment_NotificationList extends Fragment {
     private VMNotificationList mViewModel;
 
     private RecyclerView recyclerView;
+    private RelativeLayout rl_list;
+    private LinearLayout ln_empty;
 
     public static Fragment_NotificationList newInstance() {
         return new Fragment_NotificationList();
@@ -52,8 +56,7 @@ public class Fragment_NotificationList extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notification_list, container, false);
-
-        recyclerView = view.findViewById(R.id.recyclerview_notifications);
+        setupWidgets(view);
 
         return view;
     }
@@ -63,41 +66,60 @@ public class Fragment_NotificationList extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMNotificationList.class);
         mViewModel.getUserNotificationList().observe(getViewLifecycleOwner(), userNotificationInfos -> {
-            List<NotificationItemList> notificationItemLists = new ArrayList<>();
-            notificationItemLists.clear();
-            for (int x = 0; x < userNotificationInfos.size(); x++) {
-                NotificationItemList loItemList = new NotificationItemList();
-                loItemList.setMessage(userNotificationInfos.get(x).Messagex);
-                loItemList.setDateTime(userNotificationInfos.get(x).Received);
-                loItemList.setName(userNotificationInfos.get(x).CreatrNm);
-                loItemList.setTitle(userNotificationInfos.get(x).MsgTitle);
-                loItemList.setReceipt(userNotificationInfos.get(x).Receipt);
-                notificationItemLists.add(loItemList);
+            try {
+                if (userNotificationInfos.size() > 0) {
+                    rl_list.setVisibility(View.VISIBLE);
+                    ln_empty.setVisibility(View.GONE);
+
+                    List<NotificationItemList> notificationItemLists = new ArrayList<>();
+                    notificationItemLists.clear();
+                    for (int x = 0; x < userNotificationInfos.size(); x++) {
+                        NotificationItemList loItemList = new NotificationItemList();
+                        loItemList.setMessage(userNotificationInfos.get(x).Messagex);
+                        loItemList.setDateTime(userNotificationInfos.get(x).Received);
+                        loItemList.setName(userNotificationInfos.get(x).CreatrNm);
+                        loItemList.setTitle(userNotificationInfos.get(x).MsgTitle);
+                        loItemList.setReceipt(userNotificationInfos.get(x).Receipt);
+                        notificationItemLists.add(loItemList);
+                    }
+
+                    LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+                    manager.setOrientation(RecyclerView.VERTICAL);
+                    recyclerView.setLayoutManager(manager);
+                    recyclerView.setAdapter(new NotificationListAdapter(notificationItemLists, new NotificationListAdapter.OnItemClickListener() {
+                        @Override
+                        public void OnClick(String ID, String Title, String Message, String Sender, String Date, String Receipt) {
+                            Intent loIntent = new Intent(getActivity(), Activity_Notifications.class);
+                            loIntent.putExtra("id", ID);
+                            loIntent.putExtra("title", Title);
+                            loIntent.putExtra("message", Message);
+                            loIntent.putExtra("sender", Sender);
+                            loIntent.putExtra("date", Date);
+                            loIntent.putExtra("type", "notification");
+                            loIntent.putExtra("receipt", Receipt);
+                            startActivity(loIntent);
+                        }
+
+                        @Override
+                        public void OnActionButtonClick(String message) {
+                            GToast.CreateMessage(getActivity(), message, GToast.INFORMATION).show();
+                        }
+                    }));
+
+                } else {
+                    rl_list.setVisibility(View.GONE);
+                    ln_empty.setVisibility(View.VISIBLE);
+                }
+            } catch(NullPointerException e) {
+                e.printStackTrace();
             }
-
-            LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-            manager.setOrientation(RecyclerView.VERTICAL);
-            recyclerView.setLayoutManager(manager);
-            recyclerView.setAdapter(new NotificationListAdapter(notificationItemLists, new NotificationListAdapter.OnItemClickListener() {
-                @Override
-                public void OnClick(String ID, String Title, String Message, String Sender, String Date, String Receipt) {
-                    Intent loIntent = new Intent(getActivity(), Activity_Notifications.class);
-                    loIntent.putExtra("id", ID);
-                    loIntent.putExtra("title", Title);
-                    loIntent.putExtra("message", Message);
-                    loIntent.putExtra("sender", Sender);
-                    loIntent.putExtra("date", Date);
-                    loIntent.putExtra("type", "notification");
-                    loIntent.putExtra("receipt", Receipt);
-                    startActivity(loIntent);
-                }
-
-                @Override
-                public void OnActionButtonClick(String message) {
-                    GToast.CreateMessage(getActivity(), message, GToast.INFORMATION).show();
-                }
-            }));
         });
+    }
+
+    private void setupWidgets(View v) {
+        recyclerView = v.findViewById(R.id.recyclerview_notifications);
+        rl_list = v.findViewById(R.id.rl_list);
+        ln_empty = v.findViewById(R.id.ln_empty);
     }
 
 }
