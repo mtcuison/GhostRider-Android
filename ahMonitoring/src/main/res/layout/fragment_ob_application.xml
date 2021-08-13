@@ -156,9 +156,11 @@
 
 
         <LinearLayout
+            android:id="@+id/linear_ObWithoutLog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
@@ -372,6 +374,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
+            android:id="@+id/btn_submitApplication"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sBtnSubmitApp"

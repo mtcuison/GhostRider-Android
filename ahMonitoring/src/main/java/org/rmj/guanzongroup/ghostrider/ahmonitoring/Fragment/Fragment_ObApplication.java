@@ -26,6 +26,7 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -51,6 +52,8 @@ public class Fragment_ObApplication extends Fragment {
     private TextView lblTransNox, lblUsername, lblPosition, lblBranch;
     private RadioGroup rgObType;
     private LinearLayout lnWithLog;
+    private LinearLayout lnWithoutLog;
+    private Button btnSubmit;
     private TextInputEditText txtDateFrom,
                                 txtDateTo,
                                 txtNoDays,
@@ -77,6 +80,7 @@ public class Fragment_ObApplication extends Fragment {
         lblTransNox = view.findViewById(R.id.lbl_transnox);
         rgObType = view.findViewById(R.id.rg_ObType);
         lnWithLog = view.findViewById(R.id.linear_ObLog);
+        lnWithoutLog = view.findViewById(R.id.linear_ObWithoutLog);
         txtDateFrom = view.findViewById(R.id.txt_dateFrom);
         txtDateTo = view.findViewById(R.id.txt_dateTo);
         txtNoDays = view.findViewById(R.id.txt_noOfDays);
@@ -86,6 +90,7 @@ public class Fragment_ObApplication extends Fragment {
         txtTimeOutPM = view.findViewById(R.id.txt_timeOutPM);
         txtOverTimeAM = view.findViewById(R.id.txt_overtimeAM);
         txtOverTimePM = view.findViewById(R.id.txt_overtimePM);
+        btnSubmit = view.findViewById(R.id.btn_submitApplication);
 
         return view;
     }
@@ -116,8 +121,10 @@ public class Fragment_ObApplication extends Fragment {
         rgObType.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rb_withLog) {
                 lnWithLog.setVisibility(View.VISIBLE);
+                lnWithoutLog.setVisibility(View.GONE);
             } else if (checkedId == R.id.rb_withoutLog) {
                 lnWithLog.setVisibility(View.GONE);
+                lnWithoutLog.setVisibility(View.VISIBLE);
             }
         });
 
@@ -160,6 +167,10 @@ public class Fragment_ObApplication extends Fragment {
             } else {
                 GToast.CreateMessage(getActivity(), "Select start date first.", GToast.ERROR).show();
             }
+        });
+
+        btnSubmit.setOnClickListener(v->{
+
         });
     }
 }
