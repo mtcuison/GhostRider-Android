@@ -72,7 +72,7 @@ public class Fragment_CICharacterTraits extends Fragment implements ViewModelCal
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_ci_character_traits, container, false);
-        poMessage = new MessageBox(getContext());
+        poMessage = new MessageBox(getActivity());
         poDialogx = new LoadDialog(getActivity());
         initWidgets(root);
         initClientInfo();

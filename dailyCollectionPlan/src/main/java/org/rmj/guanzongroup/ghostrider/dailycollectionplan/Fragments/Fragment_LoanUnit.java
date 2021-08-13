@@ -93,7 +93,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_loan_unit, container, false);
-        poMessage = new MessageBox(getContext());
+        poMessage = new MessageBox(getActivity());
         infoModel = new LoanUnitModel();
         initWidgets(view);
         return view;
