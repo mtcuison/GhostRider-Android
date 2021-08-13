@@ -52,7 +52,7 @@ public class EEmployeeLeave {
     @ColumnInfo(name = "sApproved")
     private String Approved;
     @ColumnInfo(name = "dApproved")
-    private String DateApprv;
+    private String DApproved;
     @ColumnInfo(name = "cSentStat")
     private String SentStat;
     @ColumnInfo(name = "dSendDate")
@@ -61,8 +61,6 @@ public class EEmployeeLeave {
     private String TranStat;
     @ColumnInfo(name = "sModified")
     private String Modified;
-    @ColumnInfo(name = "dModified")
-    private String DatModfy;
 
     public EEmployeeLeave() {
     }
@@ -188,12 +186,12 @@ public class EEmployeeLeave {
         Approved = approved;
     }
 
-    public String getDateApprv() {
-        return DateApprv;
+    public String getDApproved() {
+        return DApproved;
     }
 
-    public void setDateApprv(String dateApprv) {
-        DateApprv = dateApprv;
+    public void setDApproved(String DApproved) {
+        this.DApproved = DApproved;
     }
 
     public String getSentStat() {
@@ -226,13 +224,5 @@ public class EEmployeeLeave {
 
     public void setModified(String modified) {
         Modified = modified;
-    }
-
-    public String getDatModfy() {
-        return DatModfy;
-    }
-
-    public void setDatModfy(String datModfy) {
-        DatModfy = datModfy;
     }
 }
