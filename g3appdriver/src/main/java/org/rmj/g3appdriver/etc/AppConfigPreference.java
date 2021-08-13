@@ -46,6 +46,8 @@ public class AppConfigPreference {
     private static final String HELP_LOGIN_NOTICE = "Login_Instruction_Notice";
     private static final String HELP_DCP_DOWNLOAD_NOTICE = "DCP_Download_Instruction_Notice";
 
+    private static final String LOGIN_ATTEMPT = "gRider_Log_Attempt";
+
     private static AppConfigPreference mAppConfigPreference;
 
     private AppConfigPreference(Context context){
@@ -237,5 +239,17 @@ public class AppConfigPreference {
 
     public String getLastSyncDate(){
         return pref.getString(LAST_SYNC_DATE, "");
+    }
+
+    public void setLoginAttempt(int val){
+        editor.putInt(LOGIN_ATTEMPT, val);
+
+        editor.commit();
+
+        Log.e(TAG, "LOGIN_ATTEMPT has been set.");
+    }
+
+    public int getLoginAttempt(){
+        return pref.getInt(LOGIN_ATTEMPT, 2);
     }
 }
