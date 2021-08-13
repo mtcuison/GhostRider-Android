@@ -44,11 +44,13 @@ public class Fragment_ViewNotification extends Fragment {
 
         TextView title = view.findViewById(R.id.lbl_messageTitle);
         TextView sender = view.findViewById(R.id.lbl_messageSender);
+        TextView recepient = view.findViewById(R.id.lbl_messageRecipient);
         TextView date = view.findViewById(R.id.lbl_messageDateTime);
         TextView message = view.findViewById(R.id.lbl_messageBody);
 
         title.setText(Activity_Notifications.getInstance().getMessageTitle());
         sender.setText(Activity_Notifications.getInstance().getSender());
+        recepient.setText(Activity_Notifications.getInstance().getReceipt());
         date.setText(FormatUIText.getParseDateTime(Activity_Notifications.getInstance().getDate()));
         message.setText(Activity_Notifications.getInstance().getMessage());
 

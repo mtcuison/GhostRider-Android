@@ -29,7 +29,7 @@ public class VMNotificationList extends AndroidViewModel {
 
     private MutableLiveData<List<NotificationItemList>> plMessage = new MutableLiveData<>();
     private final RNotificationInfo poNotification;
-    private final LiveData<List<DNotifications.UserNotificationInfo>> userNotificationList;
+    private final LiveData<List<DNotifications.UserNotificationInfoWithRcpt>> userNotificationList;
 
     public VMNotificationList(@NonNull Application application) {
         super(application);
@@ -37,7 +37,7 @@ public class VMNotificationList extends AndroidViewModel {
         this.userNotificationList = poNotification.getUserNotificationList();
     }
 
-    public LiveData<List<DNotifications.UserNotificationInfo>> getUserNotificationList() {
+    public LiveData<List<DNotifications.UserNotificationInfoWithRcpt>> getUserNotificationList() {
         return userNotificationList;
     }
 }
