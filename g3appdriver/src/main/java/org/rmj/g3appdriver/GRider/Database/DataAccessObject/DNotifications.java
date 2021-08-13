@@ -135,14 +135,17 @@ public interface DNotifications {
             "a.sCreatrID AS CreatrID, " +
             "a.sCreatrNm AS CreatrNm, " +
             "a.sMessagex AS Messagex, " +
-            "b.dReceived AS Received " +
+            "b.dReceived AS Received, " +
+            "c.sEmailAdd AS Receipt " +
             "FROM Notification_Info_Master a " +
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox " +
+            "LEFT JOIN User_Info_Master c " +
+            "ON b.sRecpntID = c.sUserIDxx " +
             "WHERE b.cMesgStat <> '5' " +
             "AND a.sMsgTypex <> '00000' " +
             "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master)")
-    LiveData<List<UserNotificationInfo>> getUserNotificationList();
+    LiveData<List<UserNotificationInfoWithRcpt>> getUserNotificationList();
 
     @Query("SELECT a.sMesgIDxx FROM Notification_Info_Master a " +
             "LEFT JOIN Notification_Info_Recepient b " +
@@ -185,6 +188,16 @@ public interface DNotifications {
         public String MsgTitle;
         public String CreatrID;
         public String CreatrNm;
+        public String Messagex;
+        public String Received;
+    }
+
+    class UserNotificationInfoWithRcpt{
+        public String MesgIDxx;
+        public String MsgTitle;
+        public String CreatrID;
+        public String CreatrNm;
+        public String Receipt;
         public String Messagex;
         public String Received;
     }

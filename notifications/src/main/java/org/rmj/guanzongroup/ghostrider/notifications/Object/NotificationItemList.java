@@ -16,6 +16,7 @@ public class NotificationItemList {
     private String Title;
     private String Message;
     private String DateTime;
+    private String Receipt;
     private String Status;
     private String Type;
 
@@ -32,6 +33,14 @@ public class NotificationItemList {
 
     public String getTitle() {
         return Title;
+    }
+
+    public String getReceipt() {
+        return Receipt;
+    }
+
+    public void setReceipt(String receipt) {
+        Receipt = receipt;
     }
 
     public void setTitle(String title) {
