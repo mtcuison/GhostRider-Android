@@ -130,7 +130,7 @@
                                     android:id="@+id/btn_selfieLogin"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Selfie Login"
+                                    android:text="Selfie Log"
                                     android:gravity="center_vertical"
                                     app:icon="@drawable/ic_dashboard_selfie"
                                     app:iconTint="@color/textColor_Black"

@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Selfie Login"
+                android:text="Selfie Log"
                 android:scrollHorizontally="false"
                 android:fontFamily="@font/roboto"
                 android:textColor="@color/white"
@@ -101,6 +101,16 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2 Log attempt is available for each day. \nUse the 1st for Login and 2nd for logout"
+        android:scrollHorizontally="false"
+        android:gravity="center"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/light_red"
+        android:padding="10dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

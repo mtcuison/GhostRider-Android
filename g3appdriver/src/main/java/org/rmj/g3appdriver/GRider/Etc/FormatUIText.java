@@ -47,6 +47,16 @@ public class FormatUIText {
         }
     }
 
+    public static String logTimeToSimpleDate(String date){
+        try {
+            Date parseDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date);
+            return new SimpleDateFormat("yyyy-MM-dd").format(parseDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
     /**
      *
      * @param date pass date string in format MM/dd/yyyy
