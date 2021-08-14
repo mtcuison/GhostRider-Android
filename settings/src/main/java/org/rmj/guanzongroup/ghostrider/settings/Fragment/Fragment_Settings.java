@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.settings.Fragment;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -36,6 +37,7 @@ import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_CheckUpdate;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Developer;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_HelpList;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_LocalData;
 import org.rmj.guanzongroup.ghostrider.settings.Dialog.Dialog_ChangePassword;
@@ -44,9 +46,12 @@ import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMSettings;
 import org.rmj.guanzongroup.ghostrider.settings.themeController.ThemeHelper;
 import org.rmj.guanzongroup.ghostrider.settings.utils.DatabaseExport;
 
+import java.util.Objects;
+
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_PHONE_STATE;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CAMERA_REQUEST;
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.DEV_MODE;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LOCATION_REQUEST;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.STORAGE_REQUEST;
 
@@ -225,41 +230,15 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
 
         if(debugMode != null){
             SessionManager poUser = new SessionManager(getActivity());
-            AppConfigPreference poConfig = AppConfigPreference.getInstance(getActivity());
-            MessageBox loMessage = new MessageBox(getActivity());
             if (!poUser.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
                 debugMode.setVisible(true);
             } else {
                 debugMode.setVisible(true);
             }
             debugMode.setOnPreferenceClickListener(preference -> {
-                if(!poConfig.isTesting_Phase()){
-                    loMessage.initDialog();
-                    loMessage.setTitle("Android Testing");
-                    loMessage.setMessage("GRider test mode is enabled.");
-                    loMessage.setPositiveButton("Okay", (view, dialog) -> {
-                        poConfig.setIsTesting(true);
-                        dialog.dismiss();
-                        requireActivity().finish();
-                    });
-                    loMessage.show();
-                } else {
-                    loMessage.initDialog();
-                    loMessage.setTitle("Android Testing");
-                    loMessage.setMessage("Disable test mode?");
-                    loMessage.setPositiveButton("Disable", (view, dialog) -> {
-                        poConfig.setIsTesting(false);
-                        dialog.dismiss();
-                        requireActivity().finish();
-                    });
-                    loMessage.setNegativeButton("Cancel", (view, dialog) -> {
-                        dialog.dismiss();
-                    });
-                    loMessage.show();
-                }
+                startActivityForResult(new Intent(getActivity(), Activity_Developer.class), DEV_MODE);
                 return false;
             });
-
         }
         if(helpPref != null){
             helpPref.setOnPreferenceClickListener(preference -> {
@@ -320,10 +299,16 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         }
         return true;
     }
+
     @Override
     public void onActivityResult(int requestCode, int requestResult, Intent data) {
         if(requestCode == LOCATION_REQUEST){
             mViewModel.setLocationPermissionsGranted(true);
+        } else if(requestCode == DEV_MODE){
+            if(requestResult == Activity.RESULT_OK) {
+                requireActivity().setResult(Activity.RESULT_OK);
+                requireActivity().finish();
+            }
         }
     }
     public void GetLocation(){
