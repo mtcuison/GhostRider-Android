@@ -20,24 +20,30 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 
 import java.util.List;
 
 public class VMHomeContainer extends AndroidViewModel {
     private static final String TAG = VMHomeContainer.class.getSimpleName();
 
+    private final REmployee poUser;
     private final RNotificationInfo poNotification;
+    private final SessionManager poSession;
 
     public VMHomeContainer(@NonNull Application application) {
         super(application);
+        this.poUser = new REmployee(application);
         this.poNotification = new RNotificationInfo(application);
+        this.poSession = new SessionManager(application);
     }
 
     public LiveData<Integer> getUnreadMessagesCount(){
         return poNotification.getUnreadMessagesCount();
     }
-
 
     public LiveData<Integer> getUnreadNotificationsCount(){
         return poNotification.getUnreadNotificationsCount();
@@ -45,5 +51,13 @@ public class VMHomeContainer extends AndroidViewModel {
 
     public LiveData<List<DNotifications.UserNotificationInfo>> getUserNotificationList(){
         return poNotification.getUserNotificationList();
+    }
+
+    public LiveData<EEmployeeInfo> getEmployeeInfo(){
+        return poUser.getEmployeeInfo();
+    }
+
+    public String getEmployeeLevel(){
+        return poSession.getEmployeeLevel();
     }
 }

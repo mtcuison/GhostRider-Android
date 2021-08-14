@@ -66,8 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_gradient_light"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone">
+        android:layout_alignParentBottom="true">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_home"
