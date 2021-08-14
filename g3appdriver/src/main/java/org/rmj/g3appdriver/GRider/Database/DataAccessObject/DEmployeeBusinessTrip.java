@@ -12,9 +12,27 @@
 package org.rmj.g3appdriver.GRider.Database.DataAccessObject;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Update;
+
+import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
 
 @Dao
 public interface DEmployeeBusinessTrip {
 
+    @Insert
+    void insert(EEmployeeBusinessTrip obLeave);
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    void update(EEmployeeBusinessTrip obLeave);
+
+    @Delete
+    void delete(EEmployeeBusinessTrip obLeave);
+
+    @Insert
+    void insertNewOBLeave(EEmployeeBusinessTrip obLeave);
 
 }
