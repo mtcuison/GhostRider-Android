@@ -115,6 +115,7 @@ public class AndroidNotificationManager {
                 poNotification.insertNotificationInfo(loMaster, loRecpnt, loUser);
 
                 String lsValue = loParser.getValueOf("infox");
+                Log.e(TAG, lsValue);
                 JSONObject loJSON = new JSONObject(lsValue);
 
                 if ("00001".equalsIgnoreCase(loJSON.getString("module"))) { //table update

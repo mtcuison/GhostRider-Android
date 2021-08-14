@@ -11,7 +11,64 @@
 
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
+import android.app.Application;
+
+import androidx.lifecycle.LiveData;
+
+import org.rmj.appdriver.base.GConnection;
+import org.rmj.apprdiver.util.MiscUtil;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeBusinessTrip;
+import org.rmj.g3appdriver.GRider.Database.DbConnection;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
+
+import java.util.List;
 
 public class REmployeeBusinessTrip implements DEmployeeBusinessTrip {
+    private final DEmployeeBusinessTrip employeeBusinessTripDao;
+//    private final LiveData<List<EEmployeeBusinessTrip>> employeeOBList;
+
+    private final Application app;
+
+    public REmployeeBusinessTrip(Application application){
+        this.app = application;
+        GGC_GriderDB GGCGriderDB = GGC_GriderDB.getInstance(application);
+        employeeBusinessTripDao = GGCGriderDB.employeeOBDao();
+//        employeeOBList = employeeBusinessTripDao.get();
+    }
+
+    @Override
+    public void insert(EEmployeeBusinessTrip obLeave) {
+        employeeBusinessTripDao.insert(obLeave);
+    }
+
+    @Override
+    public void update(EEmployeeBusinessTrip obLeave) {
+        employeeBusinessTripDao.update(obLeave);
+    }
+
+    @Override
+    public void delete(EEmployeeBusinessTrip obLeave) {
+        employeeBusinessTripDao.delete(obLeave);
+    }
+
+    @Override
+    public void insertNewOBLeave(EEmployeeBusinessTrip obLeave) {
+        employeeBusinessTripDao.insertNewOBLeave(obLeave);
+    }
+    public String getOBLeaveNextCode(){
+        String lsTransNox = "";
+        GConnection loConn = DbConnection.doConnect(app);
+        try{
+            lsTransNox = MiscUtil.getNextCode("Employee_Business_Trip", "sTransNox", true, loConn.getConnection(), "", 12, false);
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        loConn = null;
+        return lsTransNox;
+    }
+
 }

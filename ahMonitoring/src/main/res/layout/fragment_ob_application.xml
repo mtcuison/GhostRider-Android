@@ -156,9 +156,11 @@
 
 
         <LinearLayout
+            android:id="@+id/linear_ObWithoutLog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
@@ -203,6 +205,23 @@
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
+        <!-- Branch Destination -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sHintDestination"
+            style="@style/TextInputStyle">
+            <AutoCompleteTextView
+                android:id="@+id/txt_brnDestination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords|textAutoComplete"
+                android:autofillHints="Business trip destination and purpose."
+                android:layout_margin="5dp"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/txt_timeInAM"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!--Business trip with log-->
         <LinearLayout
@@ -372,6 +391,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
+            android:id="@+id/btn_submitApplication"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sBtnSubmitApp"
