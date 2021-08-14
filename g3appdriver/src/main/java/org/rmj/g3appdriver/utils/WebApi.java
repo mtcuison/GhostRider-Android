@@ -203,4 +203,5 @@ public class WebApi {
     public static String URL_KWIKSEARCH = "https://restgk.guanzongroup.com.ph/integsys/paramqry/cash_count_rqst_officer.php";
 
     public static String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gRider.apk";
+    public static String URL_SEND_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/send_ob_application.php";
 }

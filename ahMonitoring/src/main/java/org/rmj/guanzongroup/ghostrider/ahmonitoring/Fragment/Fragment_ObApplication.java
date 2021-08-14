@@ -23,9 +23,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -33,8 +36,13 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.OBApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMObApplication;
 
@@ -47,6 +55,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Fragment_ObApplication extends Fragment {
 
+    public static final String TAG = Fragment_ObApplication.class.getSimpleName();
     private VMObApplication mViewModel;
 
     private TextView lblTransNox, lblUsername, lblPosition, lblBranch;
@@ -54,15 +63,20 @@ public class Fragment_ObApplication extends Fragment {
     private LinearLayout lnWithLog;
     private LinearLayout lnWithoutLog;
     private Button btnSubmit;
+    private AutoCompleteTextView txtBranchDestination;
     private TextInputEditText txtDateFrom,
                                 txtDateTo,
                                 txtNoDays,
+                                txtRemarks,
                                 txtTimeInAM,
                                 txtTimeOutAM,
                                 txtTimeInPM,
                                 txtTimeOutPM,
                                 txtOverTimeAM,
                                 txtOverTimePM;
+    private OBApplication infoModel;
+    private LoadDialog poProgress;
+    private MessageBox loMessage;
 
     public static Fragment_ObApplication newInstance() {
         return new Fragment_ObApplication();
@@ -72,7 +86,7 @@ public class Fragment_ObApplication extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ob_application, container, false);
-
+        infoModel = new OBApplication();
         lblUsername = view.findViewById(R.id.lbl_username);
         lblPosition = view.findViewById(R.id.lbl_userPosition);
         lblBranch = view.findViewById(R.id.lbl_userBranch);
@@ -91,7 +105,11 @@ public class Fragment_ObApplication extends Fragment {
         txtOverTimeAM = view.findViewById(R.id.txt_overtimeAM);
         txtOverTimePM = view.findViewById(R.id.txt_overtimePM);
         btnSubmit = view.findViewById(R.id.btn_submitApplication);
+        txtBranchDestination = view.findViewById(R.id.txt_brnDestination);
+        txtRemarks = view.findViewById(R.id.txt_remarks);
 
+        poProgress = new LoadDialog(getActivity());
+        loMessage = new MessageBox(getActivity());
         return view;
     }
 
@@ -105,6 +123,10 @@ public class Fragment_ObApplication extends Fragment {
             try{
                 lblUsername.setText(eEmployeeInfo.getUserName());
                 lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+                infoModel.setsDeptName(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+                infoModel.setEmpID(eEmployeeInfo.getEmpLevID());
+                infoModel.setxEmployee(eEmployeeInfo.getUserName());
+                infoModel.setsPositnNm(eEmployeeInfo.getPositnID());
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -113,6 +135,7 @@ public class Fragment_ObApplication extends Fragment {
         mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
             try{
                 lblBranch.setText(eBranchInfo.getBranchNm());
+
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -120,11 +143,13 @@ public class Fragment_ObApplication extends Fragment {
 
         rgObType.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rb_withLog) {
+                infoModel.setObTypexx("0");
                 lnWithLog.setVisibility(View.VISIBLE);
-                lnWithoutLog.setVisibility(View.GONE);
+                lnWithoutLog.setVisibility(View.VISIBLE);
             } else if (checkedId == R.id.rb_withoutLog) {
                 lnWithLog.setVisibility(View.GONE);
                 lnWithoutLog.setVisibility(View.VISIBLE);
+                infoModel.setObTypexx("1");
             }
         });
 
@@ -169,8 +194,55 @@ public class Fragment_ObApplication extends Fragment {
             }
         });
 
-        btnSubmit.setOnClickListener(v->{
+        mViewModel.getAllBranchNames().observe(getViewLifecycleOwner(), strings -> {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
+            txtBranchDestination.setAdapter(adapter);
+            txtBranchDestination.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        });
 
+
+        txtBranchDestination.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBranchInfo().observe(getViewLifecycleOwner(), eBranchInfos -> {
+            for(int x = 0; x < eBranchInfos.size(); x++){
+                if(txtBranchDestination.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getBranchNm())){
+                    infoModel.setDestination(eBranchInfos.get(x).getBranchCd());
+                    infoModel.setsBranchNm(eBranchInfos.get(x).getBranchNm());
+                    break;
+                }
+            }
+        }));
+        btnSubmit.setOnClickListener(v->{
+            infoModel.setDateFrom(txtDateFrom.getText().toString());
+            infoModel.setDateThru(txtDateTo.getText().toString());
+            infoModel.setNoOfDays(txtNoDays.getText().toString());
+            infoModel.setRemarks(txtRemarks.getText().toString());
+            mViewModel.saveObLeave(infoModel, new VMObApplication.OnSubmitOBLeaveListener() {
+                @Override
+                public void onSuccess() {
+                    poProgress.dismiss();
+
+                    loMessage.initDialog();
+                    loMessage.setPositiveButton("Yes", (v, dialog) -> {
+                        dialog.dismiss();
+                    });
+                    loMessage.setNegativeButton("No", (v, dialog) -> dialog.dismiss());
+                    loMessage.setTitle("Business Trip Application");
+                    loMessage.setMessage("Your business trip application has been submitted.");
+                    loMessage.show();
+                }
+
+                @Override
+                public void onFailed(String message) {
+                    poProgress.dismiss();
+                    loMessage.initDialog();
+                    loMessage.setPositiveButton("Yes", (v, dialog) -> {
+                        dialog.dismiss();
+                    });
+                    loMessage.setNegativeButton("No", (v, dialog) -> dialog.dismiss());
+                    loMessage.setTitle("Business Trip Application");
+                    loMessage.setMessage(message);
+                    loMessage.show();
+                }
+            });
         });
     }
 }

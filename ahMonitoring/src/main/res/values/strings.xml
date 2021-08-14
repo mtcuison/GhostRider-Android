@@ -19,6 +19,7 @@
     <string name="sHintDepartment">Department</string>
     <string name="sHintDateFrm">From Date:</string>
     <string name="sHintDateTo">To Date:</string>
+    <string name="sHintDestination">Branch Destination</string>
     <string name="sHintPurpose">Purpose</string>
     <string name="sBtnSubmitApp">Submit Application</string>
     <string name="sHeaderBusTrip">Business Trip</string>

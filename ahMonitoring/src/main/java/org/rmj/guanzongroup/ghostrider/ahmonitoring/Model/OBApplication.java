@@ -22,6 +22,13 @@ public class OBApplication {
     private String TimeOUTam;
     private String TimeINpm;
     private String TimeOUTpm;
+    private String xEmployee;
+    private String sBranchNm;
+    private String sDeptName;
+    private String sPositnNm;
+    private String message;
+    private String Destination;
+    private String EmpID;
 
     public OBApplication(){
 
@@ -33,7 +40,13 @@ public class OBApplication {
     public void setObTypexx(String obTypexx) {
         ObTypexx = obTypexx;
     }
+    public String getEmpID() {
+        return EmpID;
+    }
 
+    public void setEmpID(String empID) {
+        EmpID = empID;
+    }
     public String getDateFrom() {
         return DateFrom;
     }
@@ -98,5 +111,75 @@ public class OBApplication {
         TimeOUTpm = timeOUTpm;
     }
 
+    public String getxEmployee() {
+        return xEmployee;
+    }
+
+    public void setxEmployee(String xEmployee) {
+        this.xEmployee = xEmployee;
+    }
+
+    public String getsBranchNm() {
+        return sBranchNm;
+    }
+
+    public void setsBranchNm(String sBranchNm) {
+        this.sBranchNm = sBranchNm;
+    }
+
+    public String getsDeptName() {
+        return sDeptName;
+    }
+
+    public void setsDeptName(String sDeptName) {
+        this.sDeptName = sDeptName;
+    }
+
+    public String getsPositnNm() {
+        return sPositnNm;
+    }
+
+    public void setsPositnNm(String sPositnNm) {
+        this.sPositnNm = sPositnNm;
+    }
+    public String getDestination() {
+        return Destination;
+    }
+
+    public void setDestination(String destination) {
+        Destination = destination;
+    }
+
+
+    public String getMessage() {
+        return message;
+    }
+
+    public boolean isOBLeaveValid(){
+        return isObTypexx() &&
+                isDateFrom() &&
+                isDateFrom();
+    }
+    private boolean isObTypexx(){
+        if(ObTypexx.trim().isEmpty()){
+            message = "Please select leave type";
+            return false;
+        }
+        return true;
+    }
+    private boolean isDateFrom(){
+        if(DateFrom.trim().isEmpty()){
+            message = "Please enter Date From";
+            return false;
+        }
+        return true;
+    }
+    private boolean isDateThru(){
+        if(DateThru.trim().isEmpty()){
+            message = "Please enter Date Thru";
+            return false;
+        }
+        return true;
+    }
 
 }
