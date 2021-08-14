@@ -202,6 +202,14 @@ public class WebApi {
     public static String URL_SEND_RESPONSE = "https://restgk.guanzongroup.com.ph/nmm/send_request.php";
     public static String URL_KWIKSEARCH = "https://restgk.guanzongroup.com.ph/integsys/paramqry/cash_count_rqst_officer.php";
 
+    public static String URL_SEND_LEAVE_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/send_leave_application.php";
+    public static String URL_GET_LEAVE_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/get_leave_application.php";
+    public static String URL_CONFIRM_LEAVE_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/confirm_leave_application.php";
+
+    public static String URL_SEND_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/send_ob_application.php";
+    public static String URL_GET_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/get_ob_application.php";
+    public static String URL_CONFIRM_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/confirm_ob_application.php";
+
     public static String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gRider.apk";
     public static String URL_SEND_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/send_ob_application.php";
 }

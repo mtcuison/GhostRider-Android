@@ -43,6 +43,8 @@ public class SessionManager {
 
     private static final String KEY_DEPT_ID = "sDeptIDxx";
 
+    private static final String KEY_EMP_LVL = "nUserLevl";
+
     private static final String KEY_EMPLOYEE_ID = "sEmplIDxx";
 
     private static final String KEY_POSITION_ID = "sPositionID";
@@ -55,7 +57,14 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public void initUserSession(String UserID, String Client, String LogNo, String Branch, String DeptID, String EmpID, String Position){
+    public void initUserSession(String UserID,
+                                String Client,
+                                String LogNo,
+                                String Branch,
+                                String DeptID,
+                                String EmpID,
+                                String Position,
+                                String Level){
         editor.putString(KEY_USER_ID, UserID);
         if(editor.commit()){
             Log.e(TAG, "User ID for this session has been set.");
@@ -89,6 +98,11 @@ public class SessionManager {
         editor.putString(KEY_POSITION_ID, Position);
         if(editor.commit()){
             Log.e(TAG, "User position ID for this session has been set.");
+        }
+
+        editor.putString(KEY_EMP_LVL, Level);
+        if(editor.commit()){
+            Log.e(TAG, "Employee Level for this session has been set.");
         }
 
         editor.putBoolean(KEY_IS_LOGGEDIN, true);
@@ -163,5 +177,8 @@ public class SessionManager {
         return pref.getString(KEY_POSITION_ID, "");
     }
 
+    public String getEmployeeLevel(){
+        return pref.getString(KEY_EMP_LVL, "");
+    }
 }
 
