@@ -35,6 +35,7 @@ import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApplication;
 
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LEAVE_TYPE;
@@ -112,7 +113,7 @@ public class VMLeaveApplication extends AndroidViewModel {
             try {
                 EEmployeeLeave loApp = new EEmployeeLeave();
                 loApp.setTransNox(poLeave.getNextLeaveCode());
-                loApp.setTransact(new AppConstants().CURRENT_DATE);
+                loApp.setTransact(AppConstants.CURRENT_DATE);
                 loApp.setEmployID(poSession.getEmployeeID());
                 loApp.setDateFrom(loLeave.getDateFromx());
                 loApp.setDateThru(loLeave.getDateThrux());
@@ -120,7 +121,7 @@ public class VMLeaveApplication extends AndroidViewModel {
                 loApp.setPurposex(loLeave.getRemarksxx());
                 loApp.setLeaveTyp(loLeave.getLeaveType());
                 loApp.setEntryByx(poSession.getEmployeeID());
-                loApp.setEntryDte(new AppConstants().CURRENT_DATE);
+                loApp.setEntryDte(AppConstants.CURRENT_DATE);
                 loApp.setWithOPay("0");
                 loApp.setApproved("0");
                 loApp.setTranStat("0");
@@ -128,7 +129,7 @@ public class VMLeaveApplication extends AndroidViewModel {
 
                 JSONObject param = new JSONObject();
                 param.put("sTransNox", poLeave.getNextLeaveCode());
-                param.put("dTransact", new AppConstants().CURRENT_DATE);
+                param.put("dTransact", AppConstants.CURRENT_DATE);
                 param.put("sEmployID", poSession.getEmployeeID());
                 param.put("dDateFrom", loLeave.getDateFromx());
                 param.put("dDateThru", loLeave.getDateThrux());
@@ -138,7 +139,7 @@ public class VMLeaveApplication extends AndroidViewModel {
                 param.put("dAppldFrx", loLeave.getDateFromx());
                 param.put("dAppldTox", loLeave.getDateThrux());
                 param.put("sEntryByx", poSession.getEmployeeID());
-                param.put("dEntryDte", new AppConstants().CURRENT_DATE);
+                param.put("dEntryDte", AppConstants.CURRENT_DATE);
                 param.put("nWithOPay", "0");
                 param.put("nEqualHrs", "");
                 param.put("sApproved", "0");
@@ -149,7 +150,7 @@ public class VMLeaveApplication extends AndroidViewModel {
                 param.put("sModified", poSession.getEmployeeID());
 
                 if(poConn.isDeviceConnected()){
-                    lsResult = WebClient.sendRequest("http://192.168.10.22/android_sample/leave_submit.php", param.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(WebApi.URL_SEND_LEAVE_APPLICATION, param.toString(), poHeaders.getHeaders());
 
                     JSONObject loResult = new JSONObject(lsResult);
 //                    lsResult = loResult.getString("result");
