@@ -31,7 +31,7 @@ public class RNotificationInfo {
     private final Application instance;
     private final DNotifications notificationDao;
     private final LiveData<List<DNotifications.ClientNotificationInfo>> clientNotificationList;
-    private final LiveData<List<DNotifications.UserNotificationInfo>> userNotificationList;
+    private final LiveData<List<DNotifications.UserNotificationInfoWithRcpt>> userNotificationList;
     private final LiveData<List<DNotifications.UserNotificationInfo>> userMessageList;
 
     public RNotificationInfo(Application application){
@@ -79,7 +79,7 @@ public class RNotificationInfo {
         return notificationDao.getUnreadNotificationsCount();
     }
 
-    public LiveData<List<DNotifications.UserNotificationInfo>> getUserNotificationList() {
+    public LiveData<List<DNotifications.UserNotificationInfoWithRcpt>> getUserNotificationList() {
         return userNotificationList;
     }
 

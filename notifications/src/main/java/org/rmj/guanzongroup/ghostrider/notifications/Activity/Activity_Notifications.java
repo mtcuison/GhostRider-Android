@@ -37,6 +37,7 @@ public class Activity_Notifications extends AppCompatActivity {
     private String Sender;
     private String Message;
     private String date;
+    private String Receipt;
 
     public static Activity_Notifications getInstance(){
         return instance;
@@ -58,6 +59,8 @@ public class Activity_Notifications extends AppCompatActivity {
         return date;
     }
 
+    public String getReceipt() { return Receipt; }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +73,7 @@ public class Activity_Notifications extends AppCompatActivity {
         Sender = getIntent().getStringExtra("sender");
         Message = getIntent().getStringExtra("message");
         date = getIntent().getStringExtra("date");
+        Receipt = getIntent().getStringExtra("receipt");
 
 
         toolbar = findViewById(R.id.toolbar_notification);
