@@ -26,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -48,6 +50,8 @@ public class Fragment_MessageList extends Fragment {
     private RecyclerView recyclerViewEmp;
     private MaterialButton btnSearch;
     private TextInputEditText txtEmployee;
+    private RelativeLayout rlMessage;
+    private LinearLayout lnEmpty;
 
     public static Fragment_MessageList newInstance() {
         return new Fragment_MessageList();
@@ -58,11 +62,7 @@ public class Fragment_MessageList extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message_list, container, false);
-        recyclerViewMsg = view.findViewById(R.id.recyclerview_messages);
-        recyclerViewEmp = view.findViewById(R.id.recyclerview_employee);
-        btnSearch = view.findViewById(R.id.btnSearch);
-        txtEmployee = view.findViewById(R.id.txt_employeeSearch);
-
+        setWidgets(view);
         return view;
     }
 
@@ -71,32 +71,40 @@ public class Fragment_MessageList extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMMessageList.class);
         mViewModel.getUserMessagesList().observe(getViewLifecycleOwner(), userNotificationInfos -> {
-            if(userNotificationInfos.size() > 0) {
-                recyclerViewMsg.setVisibility(View.VISIBLE);
-                List<MessageItemList> messageItemLists = new ArrayList<>();
-                messageItemLists.clear();
-                for (int x = 0; x < userNotificationInfos.size(); x++) {
-                    MessageItemList message = new MessageItemList(userNotificationInfos.get(x).CreatrNm,
-                            userNotificationInfos.get(x).CreatrID,
-                            userNotificationInfos.get(x).Messagex,
-                            userNotificationInfos.get(x).Received,
-                            userNotificationInfos.get(x).MsgTitle);
-                    messageItemLists.add(message);
-                }
+            try {
+                if (userNotificationInfos.size() > 0) {
+                    rlMessage.setVisibility(View.VISIBLE);
+                    lnEmpty.setVisibility(View.GONE);
+                    recyclerViewMsg.setVisibility(View.VISIBLE);
+                    List<MessageItemList> messageItemLists = new ArrayList<>();
+                    messageItemLists.clear();
+                    for (int x = 0; x < userNotificationInfos.size(); x++) {
+                        MessageItemList message = new MessageItemList(userNotificationInfos.get(x).CreatrNm,
+                                userNotificationInfos.get(x).CreatrID,
+                                userNotificationInfos.get(x).Messagex,
+                                userNotificationInfos.get(x).Received,
+                                userNotificationInfos.get(x).MsgTitle);
+                        messageItemLists.add(message);
+                    }
 
-                LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-                manager.setOrientation(RecyclerView.VERTICAL);
-                recyclerViewMsg.setLayoutManager(manager);
-                recyclerViewMsg.setAdapter(new MessageListAdapter(messageItemLists, (Title, Message, SenderID) -> {
-                    Intent loIntent = new Intent(getActivity(), Activity_Notifications.class);
-                    loIntent.putExtra("title", Title);
-                    loIntent.putExtra("message", Message);
-                    loIntent.putExtra("type", "message");
-                    loIntent.putExtra("sender", SenderID);
-                    startActivity(loIntent);
-                }));
-            } else {
-                recyclerViewMsg.setVisibility(View.GONE);
+                    LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+                    manager.setOrientation(RecyclerView.VERTICAL);
+                    recyclerViewMsg.setLayoutManager(manager);
+                    recyclerViewMsg.setAdapter(new MessageListAdapter(messageItemLists, (Title, Message, SenderID) -> {
+                        Intent loIntent = new Intent(getActivity(), Activity_Notifications.class);
+                        loIntent.putExtra("title", Title);
+                        loIntent.putExtra("message", Message);
+                        loIntent.putExtra("type", "message");
+                        loIntent.putExtra("sender", SenderID);
+                        startActivity(loIntent);
+                    }));
+                } else {
+                    rlMessage.setVisibility(View.GONE);
+                    lnEmpty.setVisibility(View.VISIBLE);
+                    recyclerViewMsg.setVisibility(View.GONE);
+                }
+            } catch(NullPointerException e) {
+                e.printStackTrace();
             }
         });
 
@@ -115,4 +123,14 @@ public class Fragment_MessageList extends Fragment {
             });
         });
     }
+
+    private void setWidgets(View view) {
+        recyclerViewMsg = view.findViewById(R.id.recyclerview_messages);
+        recyclerViewEmp = view.findViewById(R.id.recyclerview_employee);
+        btnSearch = view.findViewById(R.id.btnSearch);
+        txtEmployee = view.findViewById(R.id.txt_employeeSearch);
+        rlMessage = view.findViewById(R.id.rl_message);
+        lnEmpty = view.findViewById(R.id.ln_empty);
+    }
+
 }
