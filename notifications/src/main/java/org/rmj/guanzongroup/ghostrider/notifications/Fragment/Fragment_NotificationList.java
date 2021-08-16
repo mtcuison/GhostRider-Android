@@ -80,6 +80,7 @@ public class Fragment_NotificationList extends Fragment {
                         loItemList.setName(userNotificationInfos.get(x).CreatrNm);
                         loItemList.setTitle(userNotificationInfos.get(x).MsgTitle);
                         loItemList.setReceipt(userNotificationInfos.get(x).Receipt);
+                        loItemList.setType(userNotificationInfos.get(x).MsgType);
                         notificationItemLists.add(loItemList);
                     }
 
@@ -88,7 +89,7 @@ public class Fragment_NotificationList extends Fragment {
                     recyclerView.setLayoutManager(manager);
                     recyclerView.setAdapter(new NotificationListAdapter(notificationItemLists, new NotificationListAdapter.OnItemClickListener() {
                         @Override
-                        public void OnClick(String ID, String Title, String Message, String Sender, String Date, String Receipt) {
+                        public void OnClick(String ID, String Title, String Message, String Sender, String Date, String Receipt, String MsgType) {
                             Intent loIntent = new Intent(getActivity(), Activity_Notifications.class);
                             loIntent.putExtra("id", ID);
                             loIntent.putExtra("title", Title);
@@ -97,6 +98,7 @@ public class Fragment_NotificationList extends Fragment {
                             loIntent.putExtra("date", Date);
                             loIntent.putExtra("type", "notification");
                             loIntent.putExtra("receipt", Receipt);
+                            loIntent.putExtra("msgType", MsgType);
                             startActivity(loIntent);
                         }
 
