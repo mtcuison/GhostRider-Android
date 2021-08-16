@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMViewNotification;
@@ -36,7 +37,6 @@ import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMViewNotificatio
 import java.util.Objects;
 
 public class Fragment_ViewNotification extends Fragment {
-
 //    private VMViewNotification mViewModel;
     private TextView title, sender, recepient, date, message;
 
@@ -88,9 +88,10 @@ public class Fragment_ViewNotification extends Fragment {
             MaterialButton btnCashCnt = v.findViewById(R.id.btn_cash_count);
             btnCashCnt.setVisibility(View.VISIBLE);
             btnCashCnt.setOnClickListener(view -> {
-                Toast.makeText(getContext(), "Under Development.", Toast.LENGTH_SHORT).show();
-//                startActivity(new Intent(getActivity(), Activity_CashCounter.class));
-//                getActivity().finish();
+                Intent loIntent = new Intent(getActivity(), Activity_CashCounter.class);
+                loIntent.putExtra("sTransNox","1122");
+                startActivity(loIntent);
+                getActivity().finish();
             });
         }
     }

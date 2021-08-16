@@ -60,5 +60,5 @@ dependencies {
     implementation project(':appdriver') //implement GhostRider Application Driver
 
     implementation project(':g3appdriver')
-//    implementation project(':ahMonitoring')
+    implementation project(':ahMonitoring')
 }
