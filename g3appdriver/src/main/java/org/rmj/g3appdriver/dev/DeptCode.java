@@ -119,6 +119,78 @@ public class DeptCode {
         return "";
     }
 
+    public static String getDepartmentCode(String DeptName){
+        switch (DeptName){
+            case "SALES":
+                return "015";
+            case "HUMAN CAPITAL MANAGEMENT":
+                return "021";
+            case "CREDIT SUPPORT SERVICES":
+                return "022";
+            case "FACILITY AND SECURITY MANAGEMENT":
+                return "023";
+            case "SUPPLY CHAIN MANAGEMENT":
+                return "024";
+            case "MARKETING AND PROMOTIONS":
+                return "025";
+            case "MANAGEMENT INFORMATION SYSTEM":
+                return "026";
+            case "AFTER SALES MANAGEMENT":
+                return "027";
+            case "FINANCE MANAGEMENT":
+                return "028";
+            case "RECORD DEPOSITORY":
+                return "029";
+            case "DUTY AND REQUISITES SERVICES":
+                return "030";
+            case "PRE OWNED MANAGEMENT":
+                return "031";
+            case "ENGINEERING SERVICES":
+                return "032";
+            case "PROCUREMENT SERVICES":
+                return "033";
+            case "COMPLIANCE MANAGEMENT":
+                return "034";
+            case "TELEMARKETING MANAGEMENT":
+                return "035";
+            case "MOBILE PHONE":
+                return "036";
+            case "CELLPHONE WAREHOUSE":
+                return "037";
+            case "MOBILE PHONE 1":
+                return "038";
+            case "AUTOGROUP":
+                return "039";
+            case "ADMINISTRATION":
+                return "040";
+            case "MP WAREHOUSE":
+                return "041";
+            case "MP AFTERSALES":
+                return "042";
+            case "SECURITY":
+                return "043";
+            case "HOUSEKEEPING":
+                return "044";
+            case "EXECUTIVE DEPARTMENT":
+                return "045";
+            case "FNB SERVICE":
+                return "046";
+            case "FNB PRODUCTION":
+                return "047";
+            case "HUMAN RESOURCES":
+                return "048";
+            case "FRONT OFFICE":
+                return "049";
+            case "SALES AND MARKETING":
+                return "050";
+            case "ENGINEERING":
+                return "051";
+            case "OTHERS":
+                return "052";
+        }
+        return "";
+    }
+
     public static int LEVEL_RANK_FILE = 0;
     public static int LEVEL_SUPERVISOR = 1;
     public static int LEVEL_DEPARTMENT_HEAD = 2;
@@ -142,4 +214,66 @@ public class DeptCode {
                 return "General Manager";
         }
     }
+
+    public static String getUserLevelCode(String level){
+        switch (level){
+            case "Rank File":
+                return "0";
+            case "Supervisor":
+                return "1";
+            case "Department Head":
+                return "2";
+            case "Branch Head":
+                return "3";
+            case "Area Manager":
+                return "4";
+            default:
+                return "5";
+        }
+    }
+
+    public static final String[] Departments= {
+                        "SALES",
+                        "HUMAN CAPITAL MANAGEMENT",
+                        "CREDIT SUPPORT SERVICES",
+                        "FACILITY AND SECURITY MANAGEMENT",
+                        "SUPPLY CHAIN MANAGEMENT",
+                        "MARKETING AND PROMOTIONS",
+                        "MANAGEMENT INFORMATION SYSTEM",
+                        "AFTER SALES MANAGEMENT",
+                        "FINANCE MANAGEMENT",
+                        "RECORD DEPOSITORY",
+                        "DUTY AND REQUISITES SERVICES",
+                        "PRE OWNED MANAGEMENT",
+                        "ENGINEERING SERVICES",
+                        "PROCUREMENT SERVICES",
+                        "COMPLIANCE MANAGEMENT",
+                        "TELEMARKETING MANAGEMENT",
+                        "MOBILE PHONE",
+                        "CELLPHONE WAREHOUSE",
+                        "MOBILE PHONE 1",
+                        "AUTOGROUP",
+                        "ADMINISTRATION",
+                        "MP WAREHOUSE",
+                        "MP AFTERSALES",
+                        "SECURITY",
+                        "HOUSEKEEPING",
+                        "EXECUTIVE DEPARTMENT",
+                        "FNB SERVICE",
+                        "FNB PRODUCTION",
+                        "HUMAN RESOURCES",
+                        "FRONT OFFICE",
+                        "SALES AND MARKETING",
+                        "ENGINEERING",
+                        "OTHERS"
+    };
+
+    public static final String[] Employee_Levels= {
+            "Rank File",
+            "Supervisor",
+            "Department Head",
+            "Branch Head",
+            "Area Manager",
+            "General Manager",
+    };
 }

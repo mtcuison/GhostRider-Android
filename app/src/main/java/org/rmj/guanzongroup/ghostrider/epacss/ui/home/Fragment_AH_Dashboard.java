@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -35,11 +36,16 @@ import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppAssistantConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
+import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAHDashboard;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Help;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
+
+import java.util.Objects;
+
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SETTINGS;
 
 public class Fragment_AH_Dashboard extends Fragment {
 
@@ -93,8 +99,7 @@ public class Fragment_AH_Dashboard extends Fragment {
 
         btnSettings.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), Activity_Settings.class);
-            startActivity(intent);
-
+            startActivityForResult(intent, SETTINGS);
         });
 
         btnLogout.setOnClickListener(v -> {
@@ -151,5 +156,16 @@ public class Fragment_AH_Dashboard extends Fragment {
                 e.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == SETTINGS){
+            if(resultCode == Activity.RESULT_OK) {
+                Intent loIntent = new Intent(getActivity(), Activity_Main.class);
+                requireActivity().finish();
+                startActivity(loIntent);
+            }
+        }
     }
 }

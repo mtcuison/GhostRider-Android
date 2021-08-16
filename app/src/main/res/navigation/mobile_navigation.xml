@@ -18,8 +18,8 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home"
+        android:name="org.rmj.guanzongroup.ghostrider.epacss.ui.HomeContainer.Fragment_HomeContainer"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home_container" />
 
 </navigation>
