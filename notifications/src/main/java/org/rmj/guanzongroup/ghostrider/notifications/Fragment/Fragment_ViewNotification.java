@@ -11,20 +11,18 @@
 
 package org.rmj.guanzongroup.ghostrider.notifications.Fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -34,10 +32,8 @@ import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notificat
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMViewNotification;
 
-import java.util.Objects;
-
 public class Fragment_ViewNotification extends Fragment {
-//    private VMViewNotification mViewModel;
+    private VMViewNotification mViewModel;
     private TextView title, sender, recepient, date, message;
 
     public static Fragment_ViewNotification newInstance() {
@@ -56,7 +52,7 @@ public class Fragment_ViewNotification extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        mViewModel = new ViewModelProvider(this).get(VMViewNotification.class);
+        mViewModel = new ViewModelProvider(this).get(VMViewNotification.class);
         // TODO: Use the ViewModel
         mViewModel.UpdateMessageStatus(Activity_Notifications.getInstance().getMessageID());
     }

@@ -11,46 +11,29 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.constraintlayout.solver.widgets.analyzer.Dependency;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
-import org.rmj.g3appdriver.GRider.Database.Repositories.ROccupation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DependentsInfoModel;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.DisbursementInfoModel;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.OtherInfoModel;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalReferenceInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class VMDependent extends AndroidViewModel {
     private static final String TAG = VMDependent.class.getSimpleName();

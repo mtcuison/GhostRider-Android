@@ -36,6 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchOpeningMonitor;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -228,15 +229,29 @@ public class Fragment_Home extends Fragment {
             }
         });
 
-        mViewModel.getBranchOpeningMonitor().observe(getViewLifecycleOwner(), eBranchOpenMonitors -> {
-            recyclerViewOpening.setHasFixedSize(true);
-            recyclerViewOpening.setItemAnimator(new DefaultItemAnimator());
-            recyclerViewOpening.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.VERTICAL, false));
-            recyclerViewOpening.setAdapter(new BranchOpeningAdapter(getActivity(), eBranchOpenMonitors, () -> {
-                Intent loIntent = new Intent(getActivity(), Activity_Application.class);
-                loIntent.putExtra("app", INTENT_BRANCH_OPENING);
-                startActivity(loIntent);
-            }));
+//        mViewModel.getBranchOpeningMonitor().observe(getViewLifecycleOwner(), eBranchOpenMonitors -> {
+//            recyclerViewOpening.setHasFixedSize(true);
+//            recyclerViewOpening.setItemAnimator(new DefaultItemAnimator());
+//            recyclerViewOpening.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.VERTICAL, false));
+//            recyclerViewOpening.setAdapter(new BranchOpeningAdapter(getActivity(), eBranchOpenMonitors, () -> {
+//                Intent loIntent = new Intent(getActivity(), Activity_Application.class);
+//                loIntent.putExtra("app", INTENT_BRANCH_OPENING);
+//                startActivity(loIntent);
+//            }));
+//        });
+
+        mViewModel.getBranchOpeningInfoForDashBoard().observe(getViewLifecycleOwner(), new Observer<List<DBranchOpeningMonitor.BranchOpeningInfo>>() {
+            @Override
+            public void onChanged(List<DBranchOpeningMonitor.BranchOpeningInfo> branchOpeningInfos) {
+                recyclerViewOpening.setHasFixedSize(true);
+                recyclerViewOpening.setItemAnimator(new DefaultItemAnimator());
+                recyclerViewOpening.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.VERTICAL, false));
+                recyclerViewOpening.setAdapter(new BranchOpeningAdapter(getActivity(), branchOpeningInfos, () -> {
+                    Intent loIntent = new Intent(getActivity(), Activity_Application.class);
+                    loIntent.putExtra("app", INTENT_BRANCH_OPENING);
+                    startActivity(loIntent);
+                }));
+            }
         });
 
         adapter.notifyDataSetChanged();
