@@ -216,6 +216,18 @@ public class Fragment_Home extends Fragment {
             }
         });
 
+        mViewModel.getUnreadNotificationsCount().observe(getViewLifecycleOwner(), integer -> {
+            try {
+                if(integer > 0) {
+                    navHeader.getOrCreateBadge(R.id.menu_notif).setNumber(integer);
+                } else {
+                    navHeader.removeBadge(R.id.menu_notif);
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
         mViewModel.getBranchOpeningMonitor().observe(getViewLifecycleOwner(), eBranchOpenMonitors -> {
             recyclerViewOpening.setHasFixedSize(true);
             recyclerViewOpening.setItemAnimator(new DefaultItemAnimator());
