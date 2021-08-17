@@ -100,6 +100,8 @@ public class AppConstants {
     public static final int CONTACT_REQUEST = 998;
     public static final int STORAGE_REQUEST = 997;
     public static final int GPS_REQUEST = 1001;
+    public static final int DEV_MODE = 451;
+    public static final int SETTINGS = 897;
 
     public static int LOGIN_ACTIVITY_REQUEST_CODE = 143;
 

@@ -76,6 +76,8 @@ public class Activity_CashCounter extends AppCompatActivity {
     private MessageBox poMessage;
     private CashCountInfoModel infoModel;
     DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
+    private String psNotifNo = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +85,10 @@ public class Activity_CashCounter extends AppCompatActivity {
         instance = Activity_CashCounter.this;
         mViewModel = new ViewModelProvider(this).get(VMCashCounter.class);
         initWidgets();
+        if(!getIntent().getStringExtra("sTransNox").equalsIgnoreCase("")
+                && getIntent().getStringExtra("sTransNox") != null) {
+            psNotifNo = getIntent().getStringExtra("sTransNox");
+        }
         poMessage = new MessageBox(Activity_CashCounter.this);
         infoModel = new CashCountInfoModel();
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);

@@ -81,7 +81,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
-                    mListener.OnClick("Sample", message.getTitle(), message.getMessage(), message.getName(), message.getDateTime(), message.getReceipt());
+                    mListener.OnClick("Sample", message.getTitle(), message.getMessage(), message.getName(), message.getDateTime(), message.getReceipt(), message.getType());
                 }
             });
 
@@ -90,7 +90,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
     }
 
     public interface OnItemClickListener{
-        void OnClick(String ID, String Title, String Message, String Sender, String Date, String Receipt);
+        void OnClick(String ID, String Title, String Message, String Sender, String Date, String Receipt, String MsgType);
         void OnActionButtonClick(String message);
     }
 }

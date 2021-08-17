@@ -180,5 +180,19 @@ public class SessionManager {
     public String getEmployeeLevel(){
         return pref.getString(KEY_EMP_LVL, "");
     }
+
+    public void setEmployeeLevel(String val){
+        editor.putString(KEY_EMP_LVL, val);
+        if(editor.commit()){
+            Log.e(TAG, "Employee Level for this session has been set.");
+        }
+    }
+
+    public void setDepartment(String val){
+        editor.putString(KEY_DEPT_ID, val);
+        if(editor.commit()){
+            Log.e(TAG, "User Department ID for this session has been set.");
+        }
+    }
 }
 

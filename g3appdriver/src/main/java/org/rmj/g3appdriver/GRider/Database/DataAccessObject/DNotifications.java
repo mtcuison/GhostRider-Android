@@ -134,6 +134,7 @@ public interface DNotifications {
             "a.sMsgTitle AS MsgTitle, " +
             "a.sCreatrID AS CreatrID, " +
             "a.sCreatrNm AS CreatrNm, " +
+            "a.sMsgTypex AS MsgType, " +
             "a.sMessagex AS Messagex, " +
             "b.dReceived AS Received, " +
             "c.sEmailAdd AS Receipt " +
@@ -197,6 +198,7 @@ public interface DNotifications {
         public String MsgTitle;
         public String CreatrID;
         public String CreatrNm;
+        public String MsgType;
         public String Receipt;
         public String Messagex;
         public String Received;
