@@ -30,9 +30,7 @@ import android.widget.RelativeLayout;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
-import org.rmj.guanzongroup.ghostrider.notifications.Adapter.MessageListAdapter;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.NotificationListAdapter;
-import org.rmj.guanzongroup.ghostrider.notifications.Object.MessageItemList;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.NotificationItemList;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMNotificationList;
@@ -75,11 +73,13 @@ public class Fragment_NotificationList extends Fragment {
                     notificationItemLists.clear();
                     for (int x = 0; x < userNotificationInfos.size(); x++) {
                         NotificationItemList loItemList = new NotificationItemList();
+                        loItemList.setMessageID(userNotificationInfos.get(x).MesgIDxx);
                         loItemList.setMessage(userNotificationInfos.get(x).Messagex);
                         loItemList.setDateTime(userNotificationInfos.get(x).Received);
                         loItemList.setName(userNotificationInfos.get(x).CreatrNm);
                         loItemList.setTitle(userNotificationInfos.get(x).MsgTitle);
                         loItemList.setReceipt(userNotificationInfos.get(x).Receipt);
+                        loItemList.setStatus(userNotificationInfos.get(x).Status);
                         notificationItemLists.add(loItemList);
                     }
 

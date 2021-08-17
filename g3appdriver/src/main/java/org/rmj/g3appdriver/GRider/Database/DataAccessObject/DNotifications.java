@@ -74,7 +74,8 @@ public interface DNotifications {
             "a.sCreatrID AS CreatrID, " +
             "a.sCreatrNm AS CreatrNm, " +
             "a.sMessagex AS Messagex, " +
-            "b.dReceived AS Received " +
+            "b.dReceived AS Received, " +
+            "b.cMesgStat AS Status " +
             "FROM Notification_Info_Master a " +
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox " +
@@ -136,7 +137,8 @@ public interface DNotifications {
             "a.sCreatrNm AS CreatrNm, " +
             "a.sMessagex AS Messagex, " +
             "b.dReceived AS Received, " +
-            "c.sEmailAdd AS Receipt " +
+            "c.sEmailAdd AS Receipt, " +
+            "b.cMesgStat AS Status " +
             "FROM Notification_Info_Master a " +
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox " +
@@ -190,6 +192,7 @@ public interface DNotifications {
         public String CreatrNm;
         public String Messagex;
         public String Received;
+        public String Status;
     }
 
     class UserNotificationInfoWithRcpt{
@@ -200,6 +203,7 @@ public interface DNotifications {
         public String Receipt;
         public String Messagex;
         public String Received;
+        public String Status;
     }
 }
 

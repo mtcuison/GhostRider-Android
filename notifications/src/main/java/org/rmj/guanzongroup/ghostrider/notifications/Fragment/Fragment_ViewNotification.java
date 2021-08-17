@@ -62,5 +62,6 @@ public class Fragment_ViewNotification extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMViewNotification.class);
         // TODO: Use the ViewModel
+        mViewModel.UpdateMessageStatus(Activity_Notifications.getInstance().getMessageID());
     }
 }

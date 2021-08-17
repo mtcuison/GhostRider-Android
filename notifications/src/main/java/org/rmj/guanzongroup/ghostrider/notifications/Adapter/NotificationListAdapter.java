@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.notifications.Adapter;
 
+import android.annotation.SuppressLint;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +45,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         return new ItemViewHolder(v);
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         NotificationItemList message = notificationItemLists.get(position);
@@ -51,6 +54,13 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         holder.lblTitlex.setText(message.getTitle());
         holder.lblBodyxx.setText(message.getMessage());
         holder.lblDateTm.setText(message.getDateTime());
+
+        if(message.getStatus().equalsIgnoreCase("2")){
+            holder.lblSender.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.lblTitlex.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.lblBodyxx.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.lblDateTm.setTypeface(Typeface.DEFAULT_BOLD);
+        }
     }
 
     @Override
@@ -81,7 +91,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
-                    mListener.OnClick("Sample", message.getTitle(), message.getMessage(), message.getName(), message.getDateTime(), message.getReceipt());
+                    mListener.OnClick(message.getMessageID(), message.getTitle(), message.getMessage(), message.getName(), message.getDateTime(), message.getReceipt());
                 }
             });
 

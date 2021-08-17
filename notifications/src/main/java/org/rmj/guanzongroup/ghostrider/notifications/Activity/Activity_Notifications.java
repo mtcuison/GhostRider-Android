@@ -33,6 +33,7 @@ public class Activity_Notifications extends AppCompatActivity {
     private Toolbar toolbar;
     private ViewPager viewPager;
 
+    private String MsgID;
     private String Title;
     private String Sender;
     private String Message;
@@ -41,6 +42,10 @@ public class Activity_Notifications extends AppCompatActivity {
 
     public static Activity_Notifications getInstance(){
         return instance;
+    }
+
+    public String getMessageID(){
+        return MsgID;
     }
 
     public String getMessageTitle() {
@@ -69,6 +74,8 @@ public class Activity_Notifications extends AppCompatActivity {
 
         String MessageType = getIntent().getStringExtra("type");
 
+
+        MsgID = getIntent().getStringExtra("id");
         Title = getIntent().getStringExtra("title");
         Sender = getIntent().getStringExtra("sender");
         Message = getIntent().getStringExtra("message");

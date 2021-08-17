@@ -12,6 +12,7 @@
 package org.rmj.guanzongroup.ghostrider.notifications.Object;
 
 public class NotificationItemList {
+    private String MessageID;
     private String Name;
     private String Title;
     private String Message;
@@ -21,6 +22,14 @@ public class NotificationItemList {
     private String Type;
 
     public NotificationItemList() {
+    }
+
+    public String getMessageID() {
+        return MessageID;
+    }
+
+    public void setMessageID(String messageID) {
+        MessageID = messageID;
     }
 
     public String getName() {

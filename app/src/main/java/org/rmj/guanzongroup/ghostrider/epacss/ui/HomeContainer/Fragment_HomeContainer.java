@@ -121,6 +121,8 @@ public class Fragment_HomeContainer extends Fragment {
             try {
                 if(userNotificationInfos > 0) {
                     Objects.requireNonNull(tabLayout.getTabAt(2)).getOrCreateBadge().setNumber(userNotificationInfos);
+                } else {
+                    Objects.requireNonNull(tabLayout.getTabAt(2)).removeBadge();
                 }
             } catch (Exception e){
                 e.printStackTrace();
