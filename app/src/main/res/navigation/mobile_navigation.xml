@@ -9,17 +9,16 @@
   ~ project file created : 4/24/21 3:19 PM
   ~ project file last modified : 4/24/21 3:17 PM
   -->
-
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/mobile_navigation"
+app:startDestination="@+id/nav_home">
 
-    <fragment
-        android:id="@+id/nav_home"
-        android:name="org.rmj.guanzongroup.ghostrider.epacss.ui.HomeContainer.Fragment_HomeContainer"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home_container" />
+<fragment
+    android:id="@+id/nav_home"
+    android:name="org.rmj.guanzongroup.ghostrider.epacss.ui.HomeContainer.Fragment_HomeContainer"
+    android:label="@string/menu_home"
+    tools:layout="@layout/fragment_home_container" />
 
 </navigation>

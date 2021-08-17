@@ -11,29 +11,40 @@
 
 package org.rmj.guanzongroup.ghostrider.notifications.Fragment;
 
+import androidx.lifecycle.ViewModelProvider;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
+import org.rmj.guanzongroup.ghostrider.notifications.Dialog.Dialog_ReplyNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMViewNotification;
 
+import java.util.Objects;
+
 public class Fragment_ViewNotification extends Fragment {
     private VMViewNotification mViewModel;
+    private MessageBox poMsgBox;
+    private MaterialButton btnDelete, btnReply;
     private TextView title, sender, recepient, date, message;
 
     public static Fragment_ViewNotification newInstance() {
@@ -53,11 +64,48 @@ public class Fragment_ViewNotification extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMViewNotification.class);
+        poMsgBox = new MessageBox(getActivity());
+
+        btnReply.setOnClickListener(v -> {
+            Dialog_ReplyNotification loDialog = new Dialog_ReplyNotification(getContext(), Activity_Notifications.getInstance().getSender());
+            loDialog.initDialog(new Dialog_ReplyNotification.OnDialogButtonClickListener() {
+                @Override
+                public void OnSend(Dialog Dialog, String fsMessage) {
+                    Toast.makeText(getContext(), "Reply currently not available.", Toast.LENGTH_SHORT).show();
+                    Dialog.dismiss();
+                    mViewModel.sendReply("", "Hello Guanzon."); //
+                }
+
+                @Override
+                public void OnCancel(Dialog Dialog) {
+                    Dialog.dismiss();
+                }
+            });
+            loDialog.show();
+        });
+
+        btnDelete.setOnClickListener(v -> {
+            poMsgBox.initDialog();
+            poMsgBox.setTitle("Confirmation");
+            poMsgBox.setMessage("Are you sure you want to delete this notification?");
+            poMsgBox.setPositiveButton("Yes", (view, dialog) -> {
+                dialog.dismiss();
+                // TODO: Initialize viewModel code here.
+                mViewModel.deleteNotification("");
+                // ~> Til Here
+                requireActivity().finish();
+            });
+            poMsgBox.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
+            poMsgBox.show();
+        });
+//        mViewModel = new ViewModelProvider(this).get(VMViewNotification.class);
         // TODO: Use the ViewModel
         mViewModel.UpdateMessageStatus(Activity_Notifications.getInstance().getMessageID());
     }
 
     private void setWidgets(View v) {
+        btnReply = v.findViewById(R.id.btn_messageReply);
+        btnDelete = v.findViewById(R.id.btn_messageDelete);
         title = v.findViewById(R.id.lbl_messageTitle);
         sender = v.findViewById(R.id.lbl_messageSender);
         recepient = v.findViewById(R.id.lbl_messageRecipient);
