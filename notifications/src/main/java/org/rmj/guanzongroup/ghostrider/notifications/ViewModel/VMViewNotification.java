@@ -25,8 +25,12 @@ public class VMViewNotification extends AndroidViewModel {
         Log.e(TAG, "Initialized.");
     }
 
+    public void sendReply(String fsTransNo, String fsMessage) {
+        Log.e(TAG, "Reply notification currently not available");
+    }
+
     public void deleteNotification(String fsTransNo) {
-        Log.e(TAG, "Delete Notification currently not available.");
+        Log.e(TAG, "Delete notification currently not available.");
         return;
     }
 
