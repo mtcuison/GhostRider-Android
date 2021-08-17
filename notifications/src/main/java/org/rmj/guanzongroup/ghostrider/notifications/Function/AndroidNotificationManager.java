@@ -116,24 +116,26 @@ public class AndroidNotificationManager {
 
                 String lsValue = loParser.getValueOf("infox");
                 Log.e(TAG, lsValue);
-                JSONObject loJSON = new JSONObject(lsValue);
+                if(!lsValue.isEmpty()) {
+                    JSONObject loJSON = new JSONObject(lsValue);
 
-                if ("00001".equalsIgnoreCase(loJSON.getString("module"))) { //table update
-                    EMM instance = EMMFactory.make(EMMFactory.NMM_SysMon_Type.TABLE_UPDATE);
-                    instance.setConnection(loDbConn); //pass the iGConnection here
-                    instance.setData(lsValue);
-                    if (!instance.execute()) System.err.println(instance.getMessage());
-                } else if("00002".equalsIgnoreCase(loJSON.getString("module"))){
-                    JSONObject loData = loJSON.getJSONObject("data");
-                    EBranchOpenMonitor loMonitor = new EBranchOpenMonitor();
-                    loMonitor.setBranchCD(loData.getString("sBranchCD"));
-                    loMonitor.setTransact(loData.getString("dTransact"));
-                    loMonitor.setTimeOpen(loData.getString("sTimeOpen"));
-                    loMonitor.setOpenNowx(loData.getString("sOpenNowx"));
-                    loMonitor.setSendDate(loData.getString("dSendDate"));
-                    loMonitor.setNotified(loData.getString("dNotified"));
-                    loMonitor.setTimeStmp(loData.getString("dTimeStmp"));
-                    poOpening.insert(loMonitor);
+                    if ("00001".equalsIgnoreCase(loJSON.getString("module"))) { //table update
+                        EMM instance = EMMFactory.make(EMMFactory.NMM_SysMon_Type.TABLE_UPDATE);
+                        instance.setConnection(loDbConn); //pass the iGConnection here
+                        instance.setData(lsValue);
+                        if (!instance.execute()) System.err.println(instance.getMessage());
+                    } else if ("00002".equalsIgnoreCase(loJSON.getString("module"))) {
+                        JSONObject loData = loJSON.getJSONObject("data");
+                        EBranchOpenMonitor loMonitor = new EBranchOpenMonitor();
+                        loMonitor.setBranchCD(loData.getString("sBranchCD"));
+                        loMonitor.setTransact(loData.getString("dTransact"));
+                        loMonitor.setTimeOpen(loData.getString("sTimeOpen"));
+                        loMonitor.setOpenNowx(loData.getString("sOpenNowx"));
+                        loMonitor.setSendDate(loData.getString("dSendDate"));
+                        loMonitor.setNotified(loData.getString("dNotified"));
+                        loMonitor.setTimeStmp(loData.getString("dTimeStmp"));
+                        poOpening.insert(loMonitor);
+                    }
                 }
 
                 if(loConn.isDeviceConnected()){

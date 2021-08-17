@@ -114,7 +114,11 @@ public class VMHome extends AndroidViewModel {
         return poNotification.getUnreadMessagesCount();
     }
 
+    public LiveData<Integer> getUnreadNotificationsCount(){
+        return poNotification.getUnreadNotificationsCount();
+    }
+
     public LiveData<List<EBranchOpenMonitor>> getBranchOpeningMonitor(){
-        return poOpening.getBranchOpeningForDashBoard(new AppConstants().CURRENT_DATE);
+        return poOpening.getBranchOpeningForDashBoard(AppConstants.CURRENT_DATE);
     }
 }

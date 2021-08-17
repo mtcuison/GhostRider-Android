@@ -98,6 +98,9 @@ public class Fragment_ViewNotification extends Fragment {
             poMsgBox.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
             poMsgBox.show();
         });
+//        mViewModel = new ViewModelProvider(this).get(VMViewNotification.class);
+        // TODO: Use the ViewModel
+        mViewModel.UpdateMessageStatus(Activity_Notifications.getInstance().getMessageID());
     }
 
     private void setWidgets(View v) {
