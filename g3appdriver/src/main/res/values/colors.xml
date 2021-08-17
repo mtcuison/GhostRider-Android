@@ -69,4 +69,6 @@
     <color name="color_nav_dashboard">#575757</color>
 
     <color name="gap_toolbar_background">#1F1F1F</color>
+
+    <color name="textColor_btnWhite">#FFF</color>
 </resources>

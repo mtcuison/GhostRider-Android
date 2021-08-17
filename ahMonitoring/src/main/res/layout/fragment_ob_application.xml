@@ -218,7 +218,7 @@
                 android:inputType="textCapWords|textAutoComplete"
                 android:autofillHints="Business trip destination and purpose."
                 android:layout_margin="5dp"
-                style="@style/AutoCompleteTextStyle"
+                style="@style/AutoCompleteStyleTheme"
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/txt_timeInAM"/>
 

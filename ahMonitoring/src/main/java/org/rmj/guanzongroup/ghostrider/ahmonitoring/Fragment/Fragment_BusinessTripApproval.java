@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +22,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -45,10 +48,12 @@ public class Fragment_BusinessTripApproval extends Fragment implements VmLeaveOB
 
     private MaterialButton btnCancel, bntConfirm;
     private TextView lblEmployeNm, lblDateFrom, lblDateThru, lblRemarks;
+    private TextInputLayout tilRemarks;
     private RequestLeaveObInfoModel infoModel;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
     private CardView cvLeaveOb;
+    private TextInputEditText tieDateFrom, tieDateThru;
     public static Fragment_BusinessTripApproval newInstance() {
         return new Fragment_BusinessTripApproval();
     }
@@ -65,6 +70,8 @@ public class Fragment_BusinessTripApproval extends Fragment implements VmLeaveOB
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VmLeaveOBApproval.class);
+        Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.roboto_bold);
+        tilRemarks.setTypeface(typeface);
         btnQuickSearch.setOnClickListener(v ->  {
             if (txtSearch.getText().toString().isEmpty()){
                 initEmptyDialog();
@@ -88,9 +95,10 @@ public class Fragment_BusinessTripApproval extends Fragment implements VmLeaveOB
         btnQuickSearch = view.findViewById(R.id.btn_quick_search);
         cvLeaveOb = view.findViewById(R.id.cv_leave_ob);
         lblEmployeNm = view.findViewById(R.id.lbl_clientNm);
-        lblDateFrom = view.findViewById(R.id.lbl_dateFrom);
-        lblDateThru = view.findViewById(R.id.lbl_dateThru);
-        lblRemarks = view.findViewById(R.id.lblRemarks);
+        tieDateFrom = view.findViewById(R.id.txt_dateFrom);
+        tieDateThru = view.findViewById(R.id.txt_dateTo);
+        tilRemarks = view.findViewById(R.id.tilRemarks);
+//        lblRemarks = view.findViewById(R.id.lblRemarks);
         btnCancel = view.findViewById(R.id.btn_cancel);
         bntConfirm = view.findViewById(R.id.btn_confirm);
     }
