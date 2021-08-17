@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.ghostrider.notifications.ViewModel;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.util.Log;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -33,12 +34,21 @@ import static org.rmj.g3appdriver.utils.WebApi.URL_SEND_RESPONSE;
 
 public class VMViewNotification extends AndroidViewModel {
     private static final String TAG = VMViewNotification.class.getSimpleName();
-
     private final Application instance;
 
     public VMViewNotification(@NonNull Application application) {
         super(application);
+        Log.e(TAG, "Initialized.");
         this.instance = application;
+    }
+
+    public void sendReply(String fsTransNo, String fsMessage) {
+        Log.e(TAG, "Reply notification currently not available");
+    }
+
+    public void deleteNotification(String fsTransNo) {
+        Log.e(TAG, "Delete notification currently not available.");
+        return;
     }
 
     public void UpdateMessageStatus(String MessageID){
