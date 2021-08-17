@@ -13,12 +13,16 @@ package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
+
+import java.util.List;
 
 public class REmployeeLeave implements DEmployeeLeave {
     private final DEmployeeLeave employeeDao;
@@ -47,6 +51,11 @@ public class REmployeeLeave implements DEmployeeLeave {
     @Override
     public void updateSendStatus(String DateSent, String TransNox) {
         employeeDao.updateSendStatus(DateSent, TransNox);
+    }
+
+    @Override
+    public LiveData<List<LeaveOBApplication>> getAllLeaveOBApplication() {
+        return employeeDao.getAllLeaveOBApplication();
     }
 
     public String getNextLeaveCode(){

@@ -198,6 +198,11 @@ public class PopulateExpandableList {
                             break;
                         case 2:
                             intent = new Intent(parent.getContext(), Activity_Application.class);
+                            intent.putExtra("app", AppConstants.INTENT_LEAVE_OB_APPLICATION);
+                            context.startActivity(intent);
+                            break;
+                        case 3:
+                            intent = new Intent(parent.getContext(), Activity_Application.class);
                             intent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
                             context.startActivity(intent);
                             break;

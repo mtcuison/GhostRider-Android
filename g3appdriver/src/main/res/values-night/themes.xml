@@ -276,4 +276,6 @@
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily" tools:targetApi="jelly_bean">@font/roboto_regular</item>
     </style>
+
+    <color name="gap_toolbar_background">#1F1F1F</color>
 </resources>

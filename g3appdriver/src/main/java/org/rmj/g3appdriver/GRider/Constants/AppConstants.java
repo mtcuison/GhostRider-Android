@@ -117,6 +117,8 @@ public class AppConstants {
 
     public static int INTENT_LEAVE_APPLICATION = 102;
 
+    public static int INTENT_LEAVE_OB_APPLICATION = 116;
+
     public static int INTENT_SELFIE_LOGIN = 103;
 // ADD FOR HELP PURPOSE
     public static int INTENT_DOWNLOAD_DCP = 108;
