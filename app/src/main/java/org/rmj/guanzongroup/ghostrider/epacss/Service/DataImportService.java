@@ -86,12 +86,12 @@ public class DataImportService extends JobService {
                 importInstance.ImportData(new ImportDataCallback() {
                     @Override
                     public void OnSuccessImportData() {
-
+                        Log.e(TAG, importInstance.getClass().getSimpleName() + " import success.");
                     }
 
                     @Override
                     public void OnFailedImportData(String message) {
-
+                        Log.e(TAG, importInstance.getClass().getSimpleName() + " import failed. " + message);
                     }
                 });
                 try {

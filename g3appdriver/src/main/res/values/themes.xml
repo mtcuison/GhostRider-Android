@@ -64,6 +64,8 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+
+
     <style name="GhostRiderMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="GhostRiderMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
         <item name="android:textColorPrimary">@color/material_black</item>
@@ -111,6 +113,26 @@
         <item name="backgroundTint">@color/guanzon_orange</item>
         <item name="android:textColor">@color/textColor_Black</item>
         <item name="iconTint">@color/textColor_Black</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+    <style name="MaterialButtonApproved" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:radius">45dp</item>
+        <item name="backgroundTint">@color/guanzon_orange</item>
+        <item name="android:textColor">@color/textColor_White</item>
+        <item name="iconTint">@color/textColor_White</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+    <style name="MaterialButtonCancel" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:radius">45dp</item>
+        <item name="backgroundTint">@color/cross_red</item>
+        <item name="android:textColor">@color/textColor_White</item>
+        <item name="iconTint">@color/textColor_White</item>
         <item name="iconGravity">textStart</item>
     </style>
 
@@ -342,5 +364,19 @@
     <style name="HintText">
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily" tools:targetApi="jelly_bean">@font/roboto_regular</item>
+    </style>
+
+
+    <style name="Widget.MaterialComponents.TabLayout" parent="Widget.Design.TabLayout">
+        <item name="enforceMaterialTheme">true</item>
+        <item name="enforceTextAppearance">true</item>
+        <item name="android:background">?attr/colorSurface</item>
+        <item name="tabIconTint">@color/mtrl_tabs_icon_color_selector</item>
+        <item name="tabIndicatorAnimationDuration">@integer/mtrl_tab_indicator_anim_duration_ms</item>
+        <item name="tabIndicatorColor">?attr/colorPrimary</item>
+        <item name="tabTextAppearance">?attr/textAppearanceButton</item>
+        <item name="tabTextColor">@color/mtrl_tabs_icon_color_selector</item>
+        <item name="tabRippleColor">@color/mtrl_tabs_ripple_color</item>
+        <item name="tabUnboundedRipple">true</item>
     </style>
 </resources>

@@ -125,6 +125,10 @@ public class PrepareData {
         childModel = new MenuModel("Business Trip", 0,false, false, VISIBLE);
         childModelsList.add(childModel);
 
+        childModel = new MenuModel("Leave/OB Approval", 0,false, false, VISIBLE);
+        childModelsList.add(childModel);
+
+
         childModel = new MenuModel("Selfie Login", 0, false, false, VISIBLE);
         childModelsList.add(childModel);
         if (menuModel.hasChildren) {
