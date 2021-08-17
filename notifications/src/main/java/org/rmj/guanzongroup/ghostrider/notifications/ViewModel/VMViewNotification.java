@@ -12,13 +12,22 @@
 package org.rmj.guanzongroup.ghostrider.notifications.ViewModel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 public class VMViewNotification extends AndroidViewModel {
+    private static final String TAG = VMViewNotification.class.getSimpleName();
+
     public VMViewNotification(@NonNull Application application) {
         super(application);
+        Log.e(TAG, "Initialized.");
     }
-    // TODO: Implement the ViewModel
+
+    public void deleteNotification(String fsTransNo) {
+        Log.e(TAG, "Delete Notification currently not available.");
+        return;
+    }
+
 }

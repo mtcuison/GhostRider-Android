@@ -13,6 +13,8 @@ package org.rmj.guanzongroup.ghostrider.notifications.Fragment;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -29,6 +31,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
@@ -37,7 +40,9 @@ import org.rmj.guanzongroup.ghostrider.notifications.ViewModel.VMViewNotificatio
 import java.util.Objects;
 
 public class Fragment_ViewNotification extends Fragment {
-//    private VMViewNotification mViewModel;
+    private VMViewNotification mViewModel;
+    private MessageBox poMsgBox;
+    private MaterialButton btnDelete;
     private TextView title, sender, recepient, date, message;
 
     public static Fragment_ViewNotification newInstance() {
@@ -56,11 +61,28 @@ public class Fragment_ViewNotification extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        mViewModel = new ViewModelProvider(this).get(VMViewNotification.class);
-        // TODO: Use the ViewModel
+        mViewModel = new ViewModelProvider(this).get(VMViewNotification.class);
+        poMsgBox = new MessageBox(getActivity());
+
+        btnDelete.setOnClickListener( v -> {
+//            Toast.makeText(getActivity(), "Currently unavailable.", Toast.LENGTH_SHORT).show();
+            poMsgBox.initDialog();
+            poMsgBox.setTitle("Confirmation");
+            poMsgBox.setMessage("Are you sure you want to delete this notification?");
+            poMsgBox.setPositiveButton("Yes", (view, dialog) -> {
+                dialog.dismiss();
+                // TODO: Initialize viewModel code here.
+                mViewModel.deleteNotification("");
+                // ~> Til Here
+                requireActivity().finish();
+            });
+            poMsgBox.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
+            poMsgBox.show();
+        });
     }
 
     private void setWidgets(View v) {
+        btnDelete = v.findViewById(R.id.btn_messageDelete);
         title = v.findViewById(R.id.lbl_messageTitle);
         sender = v.findViewById(R.id.lbl_messageSender);
         recepient = v.findViewById(R.id.lbl_messageRecipient);
