@@ -46,4 +46,14 @@ public class RBranchOpeningMonitor implements DBranchOpeningMonitor {
     public LiveData<List<EBranchOpenMonitor>> getBranchOpeningForDate(String dTransact) {
         return dao.getBranchOpeningForDate(dTransact);
     }
+
+    @Override
+    public LiveData<List<BranchOpeningInfo>> getBranchOpeningInfoForDashBoard(String dTransact) {
+        return dao.getBranchOpeningInfoForDashBoard(dTransact);
+    }
+
+    @Override
+    public LiveData<List<BranchOpeningInfo>> getBranchOpeningInfo(String dTransact) {
+        return dao.getBranchOpeningInfo(dTransact);
+    }
 }

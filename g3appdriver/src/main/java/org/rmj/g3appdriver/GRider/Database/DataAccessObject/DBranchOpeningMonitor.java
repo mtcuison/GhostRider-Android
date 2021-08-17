@@ -31,4 +31,42 @@ public interface DBranchOpeningMonitor {
 
     @Query("SELECT * FROM Branch_Opening WHERE dTransact =:dTransact ORDER BY dTimeStmp DESC")
     LiveData<List<EBranchOpenMonitor>> getBranchOpeningForDate(String dTransact);
+
+    @Query("SELECT a.sBranchNm," +
+            "b.sBranchCD, " +
+            "b.dTransact, " +
+            "b.sTimeOpen, " +
+            "b.sOpenNowx, " +
+            "b.dSendDate, " +
+            "b.dNotified, " +
+            "b.dTimeStmp FROM Branch_Info a " +
+            "LEFT JOIN Branch_Opening b " +
+            "ON a.sBranchCd = b.sBranchCD " +
+            "WHERE b.dTransact =:dTransact " +
+            "ORDER BY b.dTimeStmp DESC LIMIT 5")
+    LiveData<List<BranchOpeningInfo>> getBranchOpeningInfoForDashBoard(String dTransact);
+
+    @Query("SELECT a.sBranchNm," +
+            "b.sBranchCD, " +
+            "b.dTransact, " +
+            "b.sTimeOpen, " +
+            "b.sOpenNowx, " +
+            "b.dSendDate, " +
+            "b.dNotified, " +
+            "b.dTimeStmp FROM Branch_Info a " +
+            "LEFT JOIN Branch_Opening b " +
+            "ON a.sBranchCd = b.sBranchCD " +
+            "WHERE b.dTransact =:dTransact " +
+            "ORDER BY b.dTimeStmp DESC")
+    LiveData<List<BranchOpeningInfo>> getBranchOpeningInfo(String dTransact);
+
+    class BranchOpeningInfo{
+        public String sBranchNm;
+        public String sBranchCD;
+        public String dTransact;
+        public String sTimeOpen;
+        public String sOpenNowx;
+        public String dSendDate;
+        public String dNotified;
+    }
 }

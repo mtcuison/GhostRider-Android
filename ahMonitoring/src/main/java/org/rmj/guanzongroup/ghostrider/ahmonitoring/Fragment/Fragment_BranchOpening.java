@@ -93,14 +93,14 @@ public class Fragment_BranchOpening extends Fragment {
             StartTime.show();
         });
 
-        mViewModel.getDateSelected().observe(getViewLifecycleOwner(), s -> mViewModel.getBranchOpeningsForDate(s).observe(getViewLifecycleOwner(), eBranchOpenMonitors -> {
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.VERTICAL, false));
-            recyclerView.setAdapter(new BranchOpeningAdapter(getActivity(), eBranchOpenMonitors, () -> {
-
-            }));
-        }));
+//        mViewModel.getDateSelected().observe(getViewLifecycleOwner(), s -> mViewModel.getBranchOpeningsForDate(s).observe(getViewLifecycleOwner(), eBranchOpenMonitors -> {
+//            recyclerView.setHasFixedSize(true);
+//            recyclerView.setItemAnimator(new DefaultItemAnimator());
+//            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.VERTICAL, false));
+//            recyclerView.setAdapter(new BranchOpeningAdapter(getActivity(), eBranchOpenMonitors, () -> {
+//
+//            }));
+//        }));
 
     }
 

@@ -120,7 +120,7 @@ public interface DNotifications {
             "ON a.sTransNox = b.sMesgIDxx " +
             "WHERE a.cMesgStat = '2' AND a.sRecpntID = (" +
             "SELECT sUserIDxx FROM User_Info_Master) " +
-            "AND b.sMsgTypex == '00000'")
+            "AND b.sMsgTypex == '00000' AND b.sMsgTypex <> '00006'")
     LiveData<Integer> getUnreadMessagesCount();
 
     @Query("SELECT COUNT(*) FROM Notification_Info_Recepient a " +
@@ -128,7 +128,7 @@ public interface DNotifications {
             "ON a.sTransNox = b.sMesgIDxx " +
             "WHERE a.cMesgStat = '2' AND a.sRecpntID = (" +
             "SELECT sUserIDxx FROM User_Info_Master) " +
-            "AND b.sMsgTypex <> '00000'")
+            "AND b.sMsgTypex <> '00000' AND b.sMsgTypex <> '00006'")
     LiveData<Integer> getUnreadNotificationsCount();
 
     @Query("SELECT a.sMesgIDxx AS MesgIDxx, " +
@@ -147,7 +147,9 @@ public interface DNotifications {
             "ON b.sRecpntID = c.sUserIDxx " +
             "WHERE b.cMesgStat <> '5' " +
             "AND a.sMsgTypex <> '00000' " +
-            "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master)")
+            "AND a.sMsgTypex <> '00006'" +
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master) " +
+            "ORDER BY b.dReceived DESC ")
     LiveData<List<UserNotificationInfoWithRcpt>> getUserNotificationList();
 
     @Query("SELECT a.sMesgIDxx FROM Notification_Info_Master a " +
