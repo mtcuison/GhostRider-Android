@@ -52,67 +52,9 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="@dimen/fab_margin"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="horizontal">
-
-                                <RelativeLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
-
-                                    <ImageButton
-                                        android:id="@+id/btn_selfieLogin"
-                                        android:layout_width="48dp"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center_vertical"
-                                        android:src="@drawable/ic_dashboard_selfie"
-                                        app:tint="@color/black"
-                                        style="@style/Widget.AppCompat.Button.Borderless" />
-
-                                    <TextView
-                                        android:id="@+id/lbl_badge_selfieLog"
-                                        android:layout_width="24dp"
-                                        android:layout_height="24dp"
-                                        android:background="@drawable/bg_badge_red"
-                                        android:fontFamily="@font/roboto_black"
-                                        android:gravity="center"
-                                        android:text="!"
-                                        android:layout_alignRight="@id/btn_selfieLogin"
-                                        android:textColor="#ffff" />
-                                </RelativeLayout>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="@dimen/fab_margin"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="right"
-                                android:orientation="horizontal">
-
-                                <ImageButton
-                                    android:id="@+id/btn_logout"
-                                    android:layout_width="48dp"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_vertical"
-                                    android:src="@drawable/ic_dashboard_logout"
-                                    app:tint="@color/black"
-                                    style="@style/Widget.AppCompat.Button.Borderless" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="5dp"
-                            android:layout_marginTop="40dp"
+                            android:layout_marginTop="60dp"
                             android:gravity="center_horizontal">
 
                             <TextView

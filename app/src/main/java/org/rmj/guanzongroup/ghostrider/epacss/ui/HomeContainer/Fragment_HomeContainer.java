@@ -46,11 +46,9 @@ public class Fragment_HomeContainer extends Fragment {
     private Fragment[] fragment;
 
     private final int[] toggled_icons = {R.drawable.ic_home_dashboard_toggled,
-                                        R.drawable.ic_home_message_toggled,
                                         R.drawable.ic_home_notification_toggled};
 
     private final int[] icons = {R.drawable.ic_home_dashboard,
-                                R.drawable.ic_home_message,
                                 R.drawable.ic_home_notification};
 
     private final String[] header = {"Dashboard", "Messages", "Notifications"};
@@ -71,7 +69,7 @@ public class Fragment_HomeContainer extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMHomeContainer.class);
         try{
             if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_RANK_FILE))){
-                fragment = new Fragment[]{new Fragment_AH_Dashboard(), new Fragment_MessageList(), new Fragment_NotificationList()};
+                fragment = new Fragment[]{new Fragment_AH_Dashboard(), new Fragment_NotificationList()};
                 appBarHome.setVisibility(View.VISIBLE);
             } else {
                 fragment = new Fragment[]{new Fragment_Home()};
@@ -82,7 +80,6 @@ public class Fragment_HomeContainer extends Fragment {
                 tabLayout.setupWithViewPager(viewPager);
                 Objects.requireNonNull(tabLayout.getTabAt(0)).setIcon(toggled_icons[0]);
                 Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(icons[1]);
-                Objects.requireNonNull(tabLayout.getTabAt(2)).setIcon(icons[2]);
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -105,17 +102,17 @@ public class Fragment_HomeContainer extends Fragment {
             }
         });
 
-        mViewModel.getUnreadMessagesCount().observeForever(unReadMessageCount -> {
-            try {
-                if(unReadMessageCount > 0) {
-                    Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge().setNumber(unReadMessageCount);
-                } else {
-                    Objects.requireNonNull(tabLayout.getTabAt(1)).removeBadge();
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getUnreadMessagesCount().observeForever(unReadMessageCount -> {
+//            try {
+//                if(unReadMessageCount > 0) {
+//                    Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge().setNumber(unReadMessageCount);
+//                } else {
+//                    Objects.requireNonNull(tabLayout.getTabAt(1)).removeBadge();
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
 
         mViewModel.getUnreadNotificationsCount().observe(getViewLifecycleOwner(), userNotificationInfos -> {
             try {

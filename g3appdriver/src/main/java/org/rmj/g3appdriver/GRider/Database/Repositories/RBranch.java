@@ -55,6 +55,10 @@ public class RBranch {
         return branchInfoDao.getLatestDataTime();
     }
 
+    public String getBranchNameForNotification(String BranchCd){
+        return branchInfoDao.getBranchNameForNotification(BranchCd);
+    }
+
     @SuppressLint("NewApi")
     public boolean insertBranchInfos(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);

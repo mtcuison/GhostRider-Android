@@ -84,6 +84,8 @@ public class Activity_SplashScreen extends AppCompatActivity {
                 }
             }
 
+
+
             mViewModel.getVersionInfo().observe(Activity_SplashScreen.this, s -> lblVrsion.setText(s));
 
             mViewModel.isPermissionsGranted().observe(this, isGranted -> {
