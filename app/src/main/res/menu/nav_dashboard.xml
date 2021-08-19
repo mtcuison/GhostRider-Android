@@ -13,16 +13,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_dashboard"
+        android:id="@+id/menu_selfielog"
         android:enabled="true"
-        android:icon="@drawable/ic_home_dashboard_toggled"
-        android:title="Dashboard"
-        app:itemRippleColor="@color/textColor_Black"/>
-    <item
-        android:id="@+id/menu_message"
-        android:enabled="true"
-        android:icon="@drawable/ic_login_email"
-        android:title="Messages"
+        android:icon="@drawable/ic_dashboard_selfie"
+        android:title="Selfie Log"
         app:itemRippleColor="@color/textColor_Black"/>
     <item
         android:id="@+id/menu_notif"
@@ -37,4 +31,11 @@
         android:iconTint="@color/spinner_background"
         app:itemRippleColor="@color/textColor_Black"
         android:title="Settings"/>
+    <item
+        android:id="@+id/menu_logout"
+        android:enabled="true"
+        android:icon="@drawable/ic_dashboard_logout"
+        android:iconTint="@color/spinner_background"
+        app:itemRippleColor="@color/textColor_Black"
+        android:title="Logout"/>
 </menu>

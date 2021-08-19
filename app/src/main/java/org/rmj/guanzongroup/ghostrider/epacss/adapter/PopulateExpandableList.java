@@ -74,12 +74,13 @@ public class PopulateExpandableList {
 //                        }
 
                 }
-            }
-            if(groupPosition == 9){
+            } else if(groupPosition == 9){
                 context.startActivity(new Intent(context, Activity_DigitalGcard.class));
-            }
-
-            if(groupPosition == 11){
+            } else if(groupPosition == 10){
+                Intent intent = new Intent(parent.getContext(), Activity_Browser.class);
+                intent.putExtra("url_link", "http://gts1.guanzongroup.com.ph:2007/repl/misc/download_ps.php?period=TTAwMTIwMDk=&client=TTA2MzExMDAwNDcw");
+                context.startActivity(intent);
+            } else if(groupPosition == 11){
                 Intent intent = new Intent(parent.getContext(), Activity_Browser.class);
                 intent.putExtra("url_link", "https://www.google.com/webhp?hl=ceb&sa=X&ved=0ahUKEwj0ne24tI7xAhV8yIsBHbQ7Az0QPAgI");
                 context.startActivity(intent);

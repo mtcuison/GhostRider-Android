@@ -114,7 +114,7 @@ public class VMObApplication extends AndroidViewModel {
                 } else {
                     EEmployeeBusinessTrip detail = new EEmployeeBusinessTrip();
                     detail.setTransNox(poOBLeave.getOBLeaveNextCode());
-                    detail.setTransact(AppConstants.DATE_MODIFIED);
+                    detail.setTransact(new AppConstants().DATE_MODIFIED);
                     detail.setEmployee(poUser.getEmployeeID());
                     detail.setBranchNm(infoModel.getsBranchNm());
                     detail.setDeptName(infoModel.getsDeptName());

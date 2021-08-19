@@ -12,6 +12,7 @@
 package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -45,6 +46,7 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Applicatio
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchOpeningAdapter;
+import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHome;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.NewsEventsAdapter;
@@ -62,6 +64,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.INTENT_BRANCH_OPENING;
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SETTINGS;
 
 public class Fragment_Home extends Fragment {
 
@@ -83,8 +86,6 @@ public class Fragment_Home extends Fragment {
     private double latitude, longitude;
     private List<NewsEventsModel> newsList;
     private NewsEventsAdapter adapter;
-//    private Button btn_settings, btn_notif ;
-    private ImageButton btnSelfie, btnLogout;
     private RecyclerView recyclerView;
     private RecyclerView recyclerViewOpening;
     private MessageBox loMessage;
@@ -107,21 +108,17 @@ public class Fragment_Home extends Fragment {
         lblDept = view.findViewById(R.id.lbl_userDepartment);
         lblBranch = view.findViewById(R.id.lbl_userBranch);
         lblAreaNme = view.findViewById(R.id.lbl_areaName);
-        btnSelfie = view.findViewById(R.id.btn_selfieLogin);
-        btnLogout = view.findViewById(R.id.btn_logout);
         recyclerView = view.findViewById(R.id.recyclerview_monitoring);
         recyclerViewOpening = view.findViewById(R.id.recyclerview_openings);
         cvAHMonitoring = view.findViewById(R.id.cv_ahMonitoring);
         navHeader = view.findViewById(R.id.navHeader);
 
         navHeader.setOnNavigationItemSelectedListener(item -> {
-            Intent loIntent = null;
+            Intent loIntent;
             switch (item.getItemId()) {
-                case R.id.menu_dashboard:
-                    return true;
-                case R.id.menu_message:
-                    loIntent = new Intent(getActivity(), Activity_Container.class);
-                    loIntent.putExtra("type", "message");
+                case R.id.menu_selfielog:
+                    loIntent = new Intent(getActivity(), Activity_Application.class);
+                    loIntent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
                     startActivity(loIntent);
                     return true;
                 case R.id.menu_notif:
@@ -131,7 +128,10 @@ public class Fragment_Home extends Fragment {
                     return true;
                 case R.id.menu_settings:
                     loIntent = new Intent(getActivity(), Activity_Settings.class);
-                    startActivity(loIntent);
+                    startActivityForResult(loIntent, SETTINGS);
+                    return true;
+                case R.id.menu_logout:
+                    showDialog();
                     return true;
             }
             return false;
@@ -205,17 +205,17 @@ public class Fragment_Home extends Fragment {
             }
         });
 
-        mViewModel.getUnreadMessagesCount().observeForever(unReadMessageCount -> {
-            try {
-                if(unReadMessageCount > 0) {
-                    navHeader.getOrCreateBadge(R.id.menu_message).setNumber(unReadMessageCount);
-                } else {
-                    navHeader.removeBadge(R.id.menu_message);
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getUnreadMessagesCount().observeForever(unReadMessageCount -> {
+//            try {
+//                if(unReadMessageCount > 0) {
+//                    navHeader.getOrCreateBadge(R.id.menu_message).setNumber(unReadMessageCount);
+//                } else {
+//                    navHeader.removeBadge(R.id.menu_message);
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
 
         mViewModel.getUnreadNotificationsCount().observe(getViewLifecycleOwner(), integer -> {
             try {
@@ -255,14 +255,6 @@ public class Fragment_Home extends Fragment {
         });
 
         adapter.notifyDataSetChanged();
-        btnSelfie.setOnClickListener(v -> {
-            Intent loIntent = new Intent(getActivity(), Activity_Application.class);
-            loIntent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
-            startActivity(loIntent);
-        });
-
-        btnLogout.setOnClickListener(v -> showDialog());
-
     }
 
     public void showDialog(){
@@ -285,6 +277,12 @@ public class Fragment_Home extends Fragment {
             // Save to mysqlLite DB
             poFilexx.galleryAddPic(photoPath);
             setPic();
+        } else if(requestCode == SETTINGS){
+            if(resultCode == Activity.RESULT_OK) {
+                Intent loIntent = new Intent(getActivity(), Activity_Main.class);
+                requireActivity().finish();
+                startActivity(loIntent);
+            }
         }
     }
 
