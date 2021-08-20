@@ -22,6 +22,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchOpeningMonitor;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
@@ -118,7 +119,7 @@ public class VMHome extends AndroidViewModel {
         return poNotification.getUnreadNotificationsCount();
     }
 
-    public LiveData<List<EBranchOpenMonitor>> getBranchOpeningMonitor(){
-        return poOpening.getBranchOpeningForDashBoard(AppConstants.CURRENT_DATE);
+    public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> getBranchOpeningInfoForDashBoard(){
+        return poOpening.getBranchOpeningInfoForDashBoard(AppConstants.CURRENT_DATE);
     }
 }

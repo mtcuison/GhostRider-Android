@@ -125,9 +125,14 @@ public class PrepareData {
         childModel = new MenuModel("Business Trip", 0,false, false, VISIBLE);
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Leave/OB Approval", 0,false, false, VISIBLE);
+        if(sessionManager.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_DEPARTMENT_HEAD)) ||
+                sessionManager.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER)) ||
+                sessionManager.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_GENERAL_MANAGER))) {
+            childModel = new MenuModel("Leave/OB Approval", 0, false, false, VISIBLE);
+        } else {
+            childModel = new MenuModel("Leave/OB Approval", 0, false, false, GONE);
+        }
         childModelsList.add(childModel);
-
 
         childModel = new MenuModel("Selfie Login", 0, false, false, VISIBLE);
         childModelsList.add(childModel);
@@ -137,7 +142,9 @@ public class PrepareData {
 
         childModelsList = new ArrayList<>();
         if(sessionManager.getDeptID().equalsIgnoreCase(DeptCode.CREDIT_SUPPORT_SERVICES) ||
-        sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)) {
+        sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM) ||
+        sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MOBILE_PHONE) ||
+        sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MOBILE_PHONE_1)) {
             menuModel = new MenuModel("Samsung Knox", R.drawable.ic_menu_knox, true, true, VISIBLE);
         } else {
             menuModel = new MenuModel("Samsung Knox", R.drawable.ic_menu_knox, true, true, GONE);

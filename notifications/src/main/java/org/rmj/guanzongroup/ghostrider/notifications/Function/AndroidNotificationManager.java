@@ -28,6 +28,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.GRider.Database.Entities.ENotificationUser;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchOpeningMonitor;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
@@ -63,6 +64,10 @@ public class AndroidNotificationManager {
         private final RNotificationInfo poNotification;
         private final GConnection loDbConn;
         private final RBranchOpeningMonitor poOpening;
+        private final RBranch poBranch;
+        private boolean pbSpecial = false;
+        private JSONObject poJson;
+        private String BranchNm;
 
         public SendResponseTask(Application application, RemoteMessage remoteMessage) {
             this.instance = application;
@@ -72,6 +77,7 @@ public class AndroidNotificationManager {
             this.poNotification = new RNotificationInfo(instance);
             this.loDbConn = DbConnection.doConnect(instance);
             this.poOpening = new RBranchOpeningMonitor(instance);
+            this.poBranch = new RBranch(instance);
         }
 
         @SuppressLint("NewApi")
@@ -117,8 +123,8 @@ public class AndroidNotificationManager {
                 String lsValue = loParser.getValueOf("infox");
                 Log.e(TAG, lsValue);
                 if(!lsValue.isEmpty()) {
+                    pbSpecial = true;
                     JSONObject loJSON = new JSONObject(lsValue);
-
                     if ("00001".equalsIgnoreCase(loJSON.getString("module"))) { //table update
                         EMM instance = EMMFactory.make(EMMFactory.NMM_SysMon_Type.TABLE_UPDATE);
                         instance.setConnection(loDbConn); //pass the iGConnection here
@@ -126,6 +132,8 @@ public class AndroidNotificationManager {
                         if (!instance.execute()) System.err.println(instance.getMessage());
                     } else if ("00002".equalsIgnoreCase(loJSON.getString("module"))) {
                         JSONObject loData = loJSON.getJSONObject("data");
+                        poJson = loData;
+                        BranchNm = poBranch.getBranchNameForNotification(loData.getString("sBranchCD"));
                         EBranchOpenMonitor loMonitor = new EBranchOpenMonitor();
                         loMonitor.setBranchCD(loData.getString("sBranchCD"));
                         loMonitor.setTransact(loData.getString("dTransact"));
@@ -165,11 +173,22 @@ public class AndroidNotificationManager {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
-            GNotifBuilder.createNotification(instance,
-                    loParser.getDataValueOf("title"),
-                    loParser.getDataValueOf("message"),
-                    lnChannelID).show();
+            try {
+                int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+                if(!pbSpecial) {
+                    GNotifBuilder.createNotification(instance,
+                            loParser.getDataValueOf("title"),
+                            loParser.getDataValueOf("message"),
+                            lnChannelID).show();
+                } else {
+                    GNotifBuilder.createNotification(instance,
+                            "Branch Opening Monitor",
+                           BranchNm + " opened at " + poJson.getString("sOpenNowx"),
+                            lnChannelID).show();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -24,26 +24,25 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchOpenMonitor;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchOpeningMonitor;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
-import java.util.Locale;
 
 public class BranchOpeningAdapter extends RecyclerView.Adapter<BranchOpeningAdapter.OpeningViewHolder> {
 
     private final Context mContext;
-    private final List<EBranchOpenMonitor> poOpening;
+    private final List<DBranchOpeningMonitor.BranchOpeningInfo> poOpening;
     private final OnAdapterItemClickListener mListener;
 
     public interface OnAdapterItemClickListener{
         void OnClick();
     }
 
-    public BranchOpeningAdapter(Context context, List<EBranchOpenMonitor> poOpening, OnAdapterItemClickListener listener) {
+    public BranchOpeningAdapter(Context context, List<DBranchOpeningMonitor.BranchOpeningInfo> poOpening, OnAdapterItemClickListener listener) {
         this.mContext = context;
         this.poOpening = poOpening;
         this.mListener = listener;
@@ -59,18 +58,18 @@ public class BranchOpeningAdapter extends RecyclerView.Adapter<BranchOpeningAdap
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull OpeningViewHolder holder, int position) {
-        EBranchOpenMonitor loMonitor = poOpening.get(position);
-        holder.lblBranch.setText(loMonitor.getBranchCD());
-        holder.lblOpenTime.setText(loMonitor.getTimeOpen());
-        holder.lblTimeOpened.setText(loMonitor.getOpenNowx());
+        DBranchOpeningMonitor.BranchOpeningInfo loMonitor = poOpening.get(position);
+        holder.lblBranch.setText(loMonitor.sBranchNm);
+        holder.lblOpenTime.setText(loMonitor.sTimeOpen);
+        holder.lblTimeOpened.setText(loMonitor.sOpenNowx);
 
         DateTimeFormatter format = new DateTimeFormatterBuilder()
                 .appendPattern("hh:mm a")
                 .parseCaseInsensitive()
                 .parseLenient()
                 .toFormatter();
-        LocalTime loTime1 = LocalTime.parse(loMonitor.getTimeOpen(), format);
-        LocalTime loTime2 = LocalTime.parse(loMonitor.getOpenNowx(), format);
+        LocalTime loTime1 = LocalTime.parse(loMonitor.sTimeOpen, format);
+        LocalTime loTime2 = LocalTime.parse(loMonitor.sOpenNowx, format);
         if(loTime1.isAfter(loTime2)) {
             holder.cardView.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.branch_opening));
         } else {

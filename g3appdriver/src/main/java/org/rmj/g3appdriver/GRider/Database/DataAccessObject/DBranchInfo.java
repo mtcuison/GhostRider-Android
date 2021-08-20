@@ -70,4 +70,7 @@ public interface DBranchInfo {
 
     @Query("SELECT MAX(dTimeStmp) FROM Branch_Info")
     String getLatestDataTime();
+
+    @Query("SELECT sBranchNm FROM Branch_Info WHERE sBranchCd =:sBranchCd")
+    String getBranchNameForNotification(String sBranchCd);
 }

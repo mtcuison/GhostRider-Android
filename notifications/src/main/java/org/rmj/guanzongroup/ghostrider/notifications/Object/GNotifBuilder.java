@@ -21,8 +21,6 @@ import androidx.core.app.NotificationCompat;
 
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
-import java.util.Date;
-
 public class GNotifBuilder {
 
     private final Context context;

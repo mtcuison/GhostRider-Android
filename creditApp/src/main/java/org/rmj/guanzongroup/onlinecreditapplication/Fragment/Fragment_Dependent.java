@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
-import androidx.constraintlayout.solver.widgets.analyzer.Dependency;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
