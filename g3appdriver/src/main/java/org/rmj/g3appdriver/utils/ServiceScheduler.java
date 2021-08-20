@@ -33,7 +33,7 @@ public class ServiceScheduler {
         boolean hasBeenScheduled = false ;
 
         for ( JobInfo jobInfo : scheduler.getAllPendingJobs() ) {
-            if ( jobInfo.getId() == JobID) {
+            if (jobInfo.getId() == JobID) {
                 hasBeenScheduled = true ;
                 break ;
             }

@@ -84,11 +84,11 @@ public class VmLeaveOBApproval extends AndroidViewModel {
     }
 
 
-    public void importRequestLeaveApplication(String names, OnKwikSearchCallBack callBack){
+    public void importRequestLeaveApplication(String transNox, OnKwikSearchCallBack callBack){
 
         JSONObject loJson = new JSONObject();
         try {
-            loJson.put("reqstdnm", names);
+            loJson.put("sTransNox", transNox);
             loJson.put("bsearch", true);
 
             new importRequestLeaveApplication(instance, callBack).execute(loJson);

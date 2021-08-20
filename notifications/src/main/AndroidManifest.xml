@@ -3,7 +3,7 @@
     package="org.rmj.guanzongroup.ghostrider.notifications">
 
     <application>
-        <activity android:name=".Activity.Activity_Container"></activity>
+        <activity android:name=".Activity.Activity_Container" />
         <activity
             android:name=".Activity.Activity_NotificationList"
             android:screenOrientation="userPortrait"

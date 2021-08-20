@@ -33,6 +33,7 @@ import android.widget.TextView;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.GRider.Etc.TransparentToolbar;
+import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.AppDirectoryCreator;
 import org.rmj.g3appdriver.utils.ServiceScheduler;
@@ -42,12 +43,14 @@ import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataImportService;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.GMessagingService;
+import org.rmj.guanzongroup.ghostrider.epacss.Service.PerformanceImportService;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSplashScreen;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.rmj.g3appdriver.utils.ServiceScheduler.EIGHT_HOUR_PERIODIC;
+import static org.rmj.g3appdriver.utils.ServiceScheduler.FIFTEEN_MINUTE_PERIODIC;
 
 public class Activity_SplashScreen extends AppCompatActivity {
     public static final String TAG = Activity_SplashScreen.class.getSimpleName();
@@ -77,13 +80,27 @@ public class Activity_SplashScreen extends AppCompatActivity {
         try {
             mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
             startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
+
             if(!ServiceScheduler.isJobRunning(Activity_SplashScreen.this, AppConstants.DataServiceID)) {
                 if(poConfigx.getLastSyncDate().equalsIgnoreCase("") ||
-                !poConfigx.getLastSyncDate().equalsIgnoreCase(new AppConstants().CURRENT_DATE)) {
+                        !poConfigx.getLastSyncDate().equalsIgnoreCase(new AppConstants().CURRENT_DATE)) {
                     ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataImportService.class, EIGHT_HOUR_PERIODIC, AppConstants.DataServiceID);
                 }
-            }
+                mViewModel.getEmployeeLevel().observe(Activity_SplashScreen.this, empLevel ->{
+                    try{
+                        if (empLevel.isEmpty() || DeptCode.parseUserLevel(Integer.parseInt(empLevel)).equalsIgnoreCase("Area Manager")
+                                || DeptCode.parseUserLevel(Integer.parseInt(empLevel)).equalsIgnoreCase("General Manager")){
 
+                            Log.e(TAG, "emp level = "+ DeptCode.parseUserLevel(Integer.parseInt(empLevel)));
+                            ServiceScheduler.scheduleJob(Activity_SplashScreen.this, PerformanceImportService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
+
+                        }
+                    }catch (NumberFormatException e){
+                        e.printStackTrace();
+                    }
+
+                });
+            }
 
 
             mViewModel.getVersionInfo().observe(Activity_SplashScreen.this, s -> lblVrsion.setText(s));

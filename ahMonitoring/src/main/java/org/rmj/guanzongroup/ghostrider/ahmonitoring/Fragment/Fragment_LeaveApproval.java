@@ -12,8 +12,12 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,6 +32,7 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -50,6 +55,8 @@ public class Fragment_LeaveApproval extends Fragment implements VmLeaveOBApprova
     private CardView cvLeaveOb;
     private MaterialButton btnCancel, bntConfirm;
     private TextView lblEmployeNm, lblDateFrom, lblDateThru, lblRemarks;
+    private TextInputEditText tieDateFrom, tieDateThru;
+    private TextInputLayout tilRemarks;
     public static Fragment_LeaveApproval newInstance() {
         return new Fragment_LeaveApproval();
     }
@@ -63,10 +70,13 @@ public class Fragment_LeaveApproval extends Fragment implements VmLeaveOBApprova
         return view;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VmLeaveOBApproval.class);
+        Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.roboto_bold);
+        tilRemarks.setTypeface(typeface);
         btnQuickSearch.setOnClickListener(v ->  {
             if (txtSearch.getText().toString().isEmpty()){
                 initEmptyDialog();
@@ -89,9 +99,10 @@ public class Fragment_LeaveApproval extends Fragment implements VmLeaveOBApprova
         btnQuickSearch = view.findViewById(R.id.btn_quick_search);
         cvLeaveOb = view.findViewById(R.id.cv_leave_ob);
         lblEmployeNm = view.findViewById(R.id.lbl_clientNm);
-        lblDateFrom = view.findViewById(R.id.lbl_dateFrom);
-        lblDateThru = view.findViewById(R.id.lbl_dateThru);
-        lblRemarks = view.findViewById(R.id.lblRemarks);
+        tieDateFrom = view.findViewById(R.id.txt_dateFrom);
+        tieDateThru = view.findViewById(R.id.txt_dateTo);
+        tilRemarks = view.findViewById(R.id.tilRemarks);
+//        lblRemarks = view.findViewById(R.id.lblRemarks);
         btnCancel = view.findViewById(R.id.btn_cancel);
         bntConfirm = view.findViewById(R.id.btn_confirm);
     }
