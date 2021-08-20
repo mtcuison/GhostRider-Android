@@ -16,7 +16,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="5dp">
+    android:paddingVertical="5dp"
+    android:paddingHorizontal="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,13 +25,13 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="40dp"
+            android:layout_width="30dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <ProgressBar
                 android:id="@+id/progress_spSales"
-                android:layout_width="40dp"
+                android:layout_width="30dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:indeterminateOnly="false"
@@ -42,7 +43,7 @@
                 android:scaleY="10"
                 android:progressBackgroundTint="@color/white"
                 android:progressTintMode="multiply"
-                android:progressTint="#914615"
+                android:progressTint="@color/guanzon_digital_orange"
                 tools:ignore="UnusedAttribute" />
 
             <TextView
@@ -52,18 +53,20 @@
                 android:layout_weight=".2"
                 android:gravity="center"
                 android:fontFamily="@font/roboto_regular"
-                android:text="90"/>
+                android:text="90"
+                android:textColor="@color/white"
+                android:textSize="10sp"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="40dp"
+            android:layout_width="30dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <ProgressBar
                 android:id="@+id/progress_mcSales"
-                android:layout_width="40dp"
+                android:layout_width="30dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -74,7 +77,7 @@
                 android:progressBackgroundTint="@color/white"
                 android:progressTintMode="multiply"
                 tools:ignore="UnusedAttribute"
-                android:progressTint="#14923E"/>
+                android:progressTint="#393939"/>
 
             <TextView
                 android:id="@+id/lbl_mcSales"
@@ -83,18 +86,20 @@
                 android:layout_weight=".2"
                 android:gravity="center"
                 android:fontFamily="@font/roboto_regular"
-                android:text="90"/>
+                android:text="90"
+                android:textColor="@color/white"
+                android:textSize="10sp"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="40dp"
+            android:layout_width="30dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <ProgressBar
                 android:id="@+id/progress_jobOrder"
-                android:layout_width="40dp"
+                android:layout_width="30dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:indeterminateOnly="false"
@@ -104,7 +109,7 @@
                 android:progress="30"
                 android:scaleX="7"
                 android:scaleY="10"
-                android:progressTint="#F88822"
+                android:progressTint="#8E8E8E"
                 android:progressBackgroundTint="@color/white"
                 android:progressTintMode="multiply"
                 tools:ignore="UnusedAttribute" />
@@ -116,7 +121,9 @@
                 android:layout_weight=".2"
                 android:gravity="center"
                 android:fontFamily="@font/roboto_regular"
-                android:text="90"/>
+                android:text="90"
+                android:textColor="@color/white"
+                android:textSize="10sp"/>
 
         </LinearLayout>
 

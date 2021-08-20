@@ -145,8 +145,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:visibility="gone">
+                            android:orientation="vertical">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -184,7 +183,7 @@
                                     android:layout_marginTop="10dp">
 
                                     <View
-                                        android:layout_width="2dp"
+                                        android:layout_width="1dp"
                                         android:layout_height="match_parent"
                                         android:background="@color/black"
                                         android:layout_marginLeft="10dp"
@@ -204,7 +203,7 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="2dp"
+                                    android:layout_height="1dp"
                                     android:background="@color/black"
                                     android:layout_marginLeft="10dp"
                                     android:layout_marginStart="10dp" />
@@ -214,7 +213,7 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
                                     android:gravity="center_vertical"
-                                    android:layout_marginTop="5dp">
+                                    android:layout_marginTop="8dp">
 
                                     <TextView
                                         android:layout_width="0dp"
@@ -230,7 +229,7 @@
                                         android:layout_weight="1"
                                         android:text="SP Sales"
                                         android:textColor="@color/textColor_Black"
-                                        android:drawableTint="#914615"
+                                        android:drawableTint="@color/guanzon_digital_orange"
                                         android:drawableLeft="@drawable/ic_rectangle_132"
                                         android:drawableStart="@drawable/ic_rectangle_132"
                                         android:drawablePadding="5dp"
@@ -242,7 +241,7 @@
                                         android:layout_weight="1"
                                         android:text="MC Sales"
                                         android:textColor="@color/textColor_Black"
-                                        android:drawableTint="#14923E"
+                                        android:drawableTint="#393939"
                                         android:drawableLeft="@drawable/ic_rectangle_132"
                                         android:drawableStart="@drawable/ic_rectangle_132"
                                         android:drawablePadding="5dp"
@@ -254,7 +253,7 @@
                                         android:layout_weight="1"
                                         android:text="Job Order"
                                         android:textColor="@color/textColor_Black"
-                                        android:drawableTint="#F88822"
+                                        android:drawableTint="#8E8E8E"
                                         android:drawableLeft="@drawable/ic_rectangle_132"
                                         android:drawableStart="@drawable/ic_rectangle_132"
                                         android:drawablePadding="5dp"
