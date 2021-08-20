@@ -16,7 +16,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_gradient_light"
-    tools:context=".Fragment.Fragment_LeaveApproval"
+    tools:context=".Fragment.Fragment_BusinessTripApproval"
     android:orientation="vertical"
     android:theme="@style/GhostRiderMaterialTheme.WhiteBG">
    <LinearLayout
@@ -169,115 +169,153 @@
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
                        android:orientation="horizontal"
-                       android:layout_marginTop="10dp">
+                       android:layout_marginTop="10dp"
+                       android:padding="5dp">
 
                        <TextView
                            android:id="@+id/lbl_clientNm"
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
                            android:layout_weight="1"
+                           android:drawablePadding="5dp"
+                           android:drawableTint="@color/textColor_Black"
+                           android:fontFamily="@font/roboto_bold"
+                           android:gravity="center_vertical"
                            android:text="Ferrer, Jose M."
+                           android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                            android:textColor="@color/textColor_Black"
-                           android:fontFamily="@font/roboto_bold"
-                           android:drawablePadding="5dp"
-                           android:gravity="center_vertical"
-                           app:drawableStartCompat="@drawable/ic_collection_client"
                            app:drawableLeftCompat="@drawable/ic_collection_client"
-                           android:drawableTint="@color/textColor_Black" />
+                           app:drawableStartCompat="@drawable/ic_collection_client" />
                    </LinearLayout>
-                   <LinearLayout
+
+                   <com.google.android.material.textfield.TextInputLayout
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:orientation="horizontal"
-                       android:layout_marginTop="10dp">
+                       android:hint="@string/sHintDateFrm"
+                       android:textColorHint="@color/textColor_Black"
+                       style="@style/TextInputStyle">
 
-                       <TextView
+                       <com.google.android.material.textfield.TextInputEditText
+                           android:id="@+id/txt_dateFrom"
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
-                           android:layout_weight="1"
-                           android:text="Date From :"
-                           android:textColor="@color/textColor_Black"
-                           android:fontFamily="@font/roboto_bold"
-                           android:drawablePadding="5dp"
-                           android:gravity="center_vertical"
-                           app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
-                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
-                           android:drawableTint="@color/textColor_Black" />
+                           android:inputType="date"
+                           android:focusableInTouchMode="false"
+                           android:focusable="false"
+                           android:focusedByDefault="false"
+                           style="@style/TextInputStyle.Edittext"
+                           android:autofillHints="Business trip destination and purpose."
+                           android:layout_margin="5dp"/>
 
-                       <TextView
-                           android:id="@+id/lbl_dateFrom"
-                           android:layout_width="match_parent"
-                           android:layout_height="fill_parent"
-                           android:layout_weight="1"
-                           android:gravity="end"
-                           android:textColor="@color/textColor_Orange"
-                           android:fontFamily="@font/roboto_bold"/>
-                   </LinearLayout>
-                   <LinearLayout
+                   </com.google.android.material.textfield.TextInputLayout>
+
+                   <com.google.android.material.textfield.TextInputLayout
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:orientation="horizontal"
-                       android:layout_marginTop="10dp">
+                       android:layout_weight="1"
+                       android:hint="@string/sHintDateTo"
+                       android:textColorHint="@color/textColor_Black"
+                       style="@style/TextInputStyle">
 
-                       <TextView
+                       <com.google.android.material.textfield.TextInputEditText
+                           android:id="@+id/txt_dateTo"
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
-                           android:layout_weight="1"
-                           android:text="Date Thru :"
-                           android:textColor="@color/textColor_Black"
-                           android:fontFamily="@font/roboto_bold"
-                           android:drawablePadding="5dp"
-                           android:gravity="center_vertical"
-                           app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
-                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
-                           android:drawableTint="@color/textColor_Black"/>
+                           android:focusableInTouchMode="false"
+                           android:focusable="false"
+                           android:focusedByDefault="false"
+                           android:inputType="date"
+                           style="@style/TextInputStyle.Edittext"
+                           android:autofillHints="Business trip destination and purpose."
+                           android:layout_margin="5dp"/>
 
-                       <TextView
-                           android:id="@+id/lbl_dateThru"
-                           android:layout_width="match_parent"
-                           android:layout_height="fill_parent"
-                           android:layout_weight="1"
-                           android:gravity="end"
-                           android:textColor="@color/textColor_Orange"
-                           android:fontFamily="@font/roboto_bold"/>
-                   </LinearLayout>
+                   </com.google.android.material.textfield.TextInputLayout>
+
+                   <!--                   <LinearLayout-->
+<!--                       android:layout_width="match_parent"-->
+<!--                       android:layout_height="wrap_content"-->
+<!--                       android:orientation="horizontal"-->
+<!--                       android:layout_marginTop="10dp">-->
+
+<!--                       <TextView-->
+<!--                           android:layout_width="match_parent"-->
+<!--                           android:layout_height="wrap_content"-->
+<!--                           android:layout_weight="1"-->
+<!--                           android:text="Date From :"-->
+<!--                           android:textColor="@color/textColor_Black"-->
+<!--                           android:fontFamily="@font/roboto_bold"-->
+<!--                           android:drawablePadding="5dp"-->
+<!--                           android:gravity="center_vertical"-->
+<!--                           app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"-->
+<!--                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"-->
+<!--                           android:drawableTint="@color/textColor_Black" />-->
+
+<!--                       <TextView-->
+<!--                           android:id="@+id/lbl_dateFrom"-->
+<!--                           android:layout_width="match_parent"-->
+<!--                           android:layout_height="fill_parent"-->
+<!--                           android:layout_weight="1"-->
+<!--                           android:gravity="end"-->
+<!--                           android:textColor="@color/textColor_Orange"-->
+<!--                           android:fontFamily="@font/roboto_bold"/>-->
+<!--                   </LinearLayout>-->
+<!--                   <LinearLayout-->
+<!--                       android:layout_width="match_parent"-->
+<!--                       android:layout_height="wrap_content"-->
+<!--                       android:orientation="horizontal"-->
+<!--                       android:layout_marginTop="10dp"-->
+<!--                       android:layout_marginBottom="10dp">-->
+
+<!--                       <TextView-->
+<!--                           android:layout_width="match_parent"-->
+<!--                           android:layout_height="wrap_content"-->
+<!--                           android:layout_weight="1"-->
+<!--                           android:text="Date Thru :"-->
+<!--                           android:textColor="@color/textColor_Black"-->
+<!--                           android:fontFamily="@font/roboto_bold"-->
+<!--                           android:drawablePadding="5dp"-->
+<!--                           android:gravity="center_vertical"-->
+<!--                           app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"-->
+<!--                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"-->
+<!--                           android:drawableTint="@color/textColor_Black"/>-->
+
+<!--                       <TextView-->
+<!--                           android:id="@+id/lbl_dateThru"-->
+<!--                           android:layout_width="match_parent"-->
+<!--                           android:layout_height="fill_parent"-->
+<!--                           android:layout_weight="1"-->
+<!--                           android:gravity="end"-->
+<!--                           android:textColor="@color/textColor_Orange"-->
+<!--                           android:fontFamily="@font/roboto_bold"/>-->
+<!--                   </LinearLayout>-->
 
                    <!-- Remarks / Purpose  -->
-                   <RelativeLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="match_parent"
-                       android:layout_marginTop="10dp">
 
-                       <LinearLayout
+                   <com.google.android.material.textfield.TextInputLayout
+                       android:id="@+id/tilRemarks"
+                       android:layout_width="fill_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="1"
+                       android:layout_marginTop="20dp"
+                       android:textColorHint="@color/textColor_Black"
+                       android:hint="Purpose / Remarks :"
+                       style="@style/TextInputTextAreaStyle">
+
+                       <com.google.android.material.textfield.TextInputEditText
+                           android:id="@+id/edtRemarks"
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
-                           android:background="@drawable/border"
-                           android:layout_marginTop="10dp"
-                           android:orientation="vertical"
-                           android:padding="10dp">
-
-                           <TextView
-                               android:id="@+id/lblRemarks"
-                               android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               android:textColor="@color/textColor_Black"
-                               android:fontFamily="@font/roboto_medium"
-                               android:text="Remarks/purpose"/>
-
-
-                       </LinearLayout>
-
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:layout_alignParentTop="true"
-                           android:text=" Remarks / Purpose : "
-                           android:layout_marginLeft="5dp"
-                           android:fontFamily="@font/roboto_bold"
-                           android:textColor="@color/textColor_Black"
-                           android:background="#ffffff"/>
-
-                   </RelativeLayout>
+                           android:enabled="false"
+                           android:focusable="false"
+                           android:textColor="@color/material_black"
+                           android:focusableInTouchMode="false"
+                           android:inputType="textMultiLine"
+                           android:maxLength="50"
+                           android:gravity="top|left"
+                           android:lines="10"
+                           android:minLines="3"
+                           android:text="Sample Test Remarks / Purpose for leave approval" />
+                   </com.google.android.material.textfield.TextInputLayout>
 
                    <LinearLayout
                        android:layout_width="match_parent"

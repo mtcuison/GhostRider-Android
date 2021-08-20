@@ -139,7 +139,7 @@
         The new Pag-Ibig loyalty card plus has a built-in EMV chip. You can use it as a cash card where you may conveniently receive your Pag-Ibig Multi-Purpose Loan (MPL) proceeds, MP2 saving dividends, and other benefits."
             android:textColor="@color/material_black"
             android:fontFamily="@font/roboto_regular"
-            android:autoLink="all"/>
+            />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_cash_count"
             android:layout_width="wrap_content"

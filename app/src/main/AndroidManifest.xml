@@ -31,7 +31,8 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
     <uses-feature android:name="android.hardware.location.gps" />
 
     <uses-permission
@@ -98,6 +99,10 @@
 
         <service
             android:name=".Service.DataImportService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service
+            android:name=".Service.PerformanceImportService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <service android:name="org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorService"
