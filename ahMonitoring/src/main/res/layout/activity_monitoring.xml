@@ -107,6 +107,8 @@
             android:id="@+id/tablayout_monitoring"
             android:layout_width="match_parent"
             android:background="@color/guanzon_digital_orange"
+            app:tabSelectedTextColor="@color/white"
+            app:tabIndicatorColor="@color/white"
             android:layout_height="?attr/actionBarSize"/>
 
     </com.google.android.material.appbar.AppBarLayout>

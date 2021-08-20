@@ -86,6 +86,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-core:19.0.0'
 
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
     implementation project(':authLibrary')
     implementation project(':g3appdriver')
     implementation project(':creditApp')

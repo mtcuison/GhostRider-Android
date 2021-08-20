@@ -47,6 +47,7 @@ public class VMSplashScreen extends AndroidViewModel {
     private final MutableLiveData<Boolean> pbSession = new MutableLiveData<>();
     private final MutableLiveData<Integer> pnSession = new MutableLiveData<>();
     private final MutableLiveData<String> psVersion = new MutableLiveData<>();
+    private final MutableLiveData<String> sEmployLevel = new MutableLiveData<>();
     private final LiveData<DDCPCollectionDetail.Location_Data_Trigger> poLocator;
     private final REmployee poUserDbx;
     private final AppConfigPreference poConfigx;
@@ -71,6 +72,7 @@ public class VMSplashScreen extends AndroidViewModel {
         loToken.setTokenInf("temp_token");
         poDcp = new RDailyCollectionPlan(application);
         poToken.setTokenInfo(loToken);
+        this.sEmployLevel.setValue(poSession.getEmployeeLevel());
         paPermisions.setValue(new String[]{
                 Manifest.permission.MANAGE_EXTERNAL_STORAGE,
                 Manifest.permission.INTERNET,
@@ -110,6 +112,9 @@ public class VMSplashScreen extends AndroidViewModel {
 
     public LiveData<DDCPCollectionDetail.Location_Data_Trigger> getLocatorDateTrigger(){
         return poLocator;
+    }
+    public LiveData<String> getEmployeeLevel(){
+        return this.sEmployLevel;
     }
 
     public void setSessionTime(int time){
