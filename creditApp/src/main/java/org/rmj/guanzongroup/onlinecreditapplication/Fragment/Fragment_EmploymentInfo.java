@@ -84,6 +84,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        Log.e(TAG, "Initialized.");
         View view = inflater.inflate(R.layout.fragment_employment_info, container, false);
         infoModel = new EmploymentInfoModel();
         infoModel.setEmploymentSector("1");
