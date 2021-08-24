@@ -117,11 +117,13 @@ public class Fragment_HomeContainer extends Fragment {
         mViewModel.getUnreadNotificationsCount().observe(getViewLifecycleOwner(), userNotificationInfos -> {
             try {
                 if(userNotificationInfos > 0) {
-                    Objects.requireNonNull(tabLayout.getTabAt(2)).getOrCreateBadge().setNumber(userNotificationInfos);
+                    Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge().setNumber(userNotificationInfos);
                 } else {
-                    Objects.requireNonNull(tabLayout.getTabAt(2)).removeBadge();
+                    Objects.requireNonNull(tabLayout.getTabAt(1)).removeBadge();
                 }
-            } catch (Exception e){
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            }catch (Exception e){
                 e.printStackTrace();
             }
         });
