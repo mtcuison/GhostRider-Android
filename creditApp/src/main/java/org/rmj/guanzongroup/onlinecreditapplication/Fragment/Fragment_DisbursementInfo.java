@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,10 +43,9 @@ import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMDisbursementInfo
 import java.util.Objects;
 
 public class Fragment_DisbursementInfo extends Fragment implements ViewModelCallBack {
-
+    private static final String TAG = Fragment_DisbursementInfo.class.getSimpleName();
     private VMDisbursementInfo mViewModel;
     private DisbursementInfoModel infoModel;
-    private static final String TAG = Fragment_DisbursementInfo.class.getSimpleName();
     private String TransNox;
     private View v;
 
@@ -70,6 +70,7 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        Log.e(TAG, "Initialized");
         v = inflater.inflate(R.layout.fragment_disbursement, container, false);
         TransNox = Activity_CreditApplication.getInstance().getTransNox();
         infoModel = new DisbursementInfoModel();
@@ -99,6 +100,7 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
 
         btnPrev.setOnClickListener(v -> {
             try {
+                Log.e(TAG , String.valueOf(mViewModel.getPreviousPage()));
                 Activity_CreditApplication.getInstance().moveToPageNumber(mViewModel.getPreviousPage());
             } catch (Exception e) {
                 e.printStackTrace();

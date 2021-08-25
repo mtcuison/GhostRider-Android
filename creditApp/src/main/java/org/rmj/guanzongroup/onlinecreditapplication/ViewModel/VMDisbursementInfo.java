@@ -77,7 +77,7 @@ public class VMDisbursementInfo extends AndroidViewModel {
 
     public int getPreviousPage() throws Exception{
         JSONObject loJson = new JSONObject(poInfo.getAppMeans());
-        if(poInfo.getIsSpouse().equalsIgnoreCase("1")){
+        if("1".equalsIgnoreCase(poInfo.getIsSpouse())){
             return 11;
         } else if(loJson.getString("pensionx").equalsIgnoreCase("1")){
             return 6;

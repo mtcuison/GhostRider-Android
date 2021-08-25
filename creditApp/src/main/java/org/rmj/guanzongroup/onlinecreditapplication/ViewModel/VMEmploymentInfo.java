@@ -246,7 +246,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
             return 5;
         } else if(poJson.getValue().getString("pensionx").equalsIgnoreCase("1")) {
             return 6;
-        } else if(poInfo.getIsSpouse().equalsIgnoreCase("1")){
+        } else if("1".equalsIgnoreCase(poInfo.getIsSpouse())){
             return 7;
         } else {
             return 12;

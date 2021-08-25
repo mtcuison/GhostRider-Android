@@ -351,7 +351,7 @@ public class PersonalInfoModel implements Parcelable {
             return false;
         }
         if(mobileNoList.get(0).getMobileNo().length() != 11){
-            message = "Please enter primary contact info";
+            message = "Please complete primary contact info";
             return false;
         }
         return true;
@@ -365,7 +365,7 @@ public class PersonalInfoModel implements Parcelable {
                     return false;
                 }
                 if(mobileNoList.get(1).getMobileNo().length() != 11){
-                    message = "Please enter primary contact info";
+                    message = "Please complete 2nd contact info";
                     return false;
                 }
                 if(mobileNoList.get(1).getMobileNo().equalsIgnoreCase(mobileNoList.get(0).getMobileNo())
@@ -390,7 +390,7 @@ public class PersonalInfoModel implements Parcelable {
                     return false;
                 }
                 if(mobileNoList.get(2).getMobileNo().length() != 11){
-                    message = "Please enter primary contact info";
+                    message = "Please complete 3rd contact info";
                     return false;
                 }
                 if(mobileNoList.get(0).getMobileNo().equalsIgnoreCase(mobileNoList.get(2).getMobileNo())
