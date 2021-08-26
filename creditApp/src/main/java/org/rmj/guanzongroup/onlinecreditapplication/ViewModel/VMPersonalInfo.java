@@ -174,7 +174,7 @@ public class VMPersonalInfo extends AndroidViewModel {
 
     public void setGender(String lsGender) {
         try {
-            if (lsGender.equalsIgnoreCase("1") && Objects.requireNonNull(lsCvlStats.getValue()).equalsIgnoreCase("1")) {
+            if ("1".equalsIgnoreCase(lsGender) && "1".equalsIgnoreCase(lsCvlStats.getValue())) {
                 this.lnMthrNme.setValue(View.VISIBLE);
             } else {
                 this.lnMthrNme.setValue(View.GONE);

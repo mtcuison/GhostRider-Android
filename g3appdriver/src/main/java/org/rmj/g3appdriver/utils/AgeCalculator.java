@@ -25,7 +25,7 @@ public class AgeCalculator {
         int month = 0;
         int day = 0;
         try{
-            @SuppressLint("SimpleDateFormat") Date parseDate = (new SimpleDateFormat("yyyy-mm-dd").parse(BirthDate));
+            @SuppressLint("SimpleDateFormat") Date parseDate = new SimpleDateFormat("mm/dd/yyyy").parse(BirthDate);
             @SuppressLint("SimpleDateFormat")String birthdate = new SimpleDateFormat("dd/mm/yyyy").format(parseDate);
             @SuppressLint("SimpleDateFormat")SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
             Date birthDate = sdf.parse(birthdate);

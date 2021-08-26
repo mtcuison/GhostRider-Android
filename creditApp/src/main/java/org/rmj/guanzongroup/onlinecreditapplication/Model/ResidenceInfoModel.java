@@ -291,7 +291,9 @@ public class ResidenceInfoModel {
 
     public double getLenghtofStay() {
         try{
-            if(Integer.parseInt(cIsYearxx) == 0) {
+            if("".equalsIgnoreCase(sLenghtSt)) {
+                return 0.0;
+            } else if(Integer.parseInt(cIsYearxx) == 0) {
                 double ldValue = Double.parseDouble(sLenghtSt);
                 return ldValue / 12;
             } else {
