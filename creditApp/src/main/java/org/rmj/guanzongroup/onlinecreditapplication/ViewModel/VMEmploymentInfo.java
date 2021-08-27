@@ -229,6 +229,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
 
                 poInfo.setEmplymnt(poGoCasxx.MeansInfo().EmployedInfo().toJSONString());
                 poCredtAp.updateGOCasData(poInfo);
+                Log.e(TAG, poGoCasxx.toJSONString());
                 callBack.onSaveSuccessResult(String.valueOf(getNextPage()));
             } else {
                 callBack.onFailedResult(infoModel.getMessage());

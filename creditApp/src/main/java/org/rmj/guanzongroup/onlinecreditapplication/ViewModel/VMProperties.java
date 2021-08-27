@@ -12,6 +12,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -72,6 +73,7 @@ public class VMProperties extends AndroidViewModel {
         poGOcas.DisbursementInfo().PropertiesInfo().WithRefrigerator(psFridgexx);
         poGOcas.DisbursementInfo().PropertiesInfo().WithTelevision(psTelevsnx);
         poInfo.setProperty(poGOcas.DisbursementInfo().PropertiesInfo().toJSONString());
+        Log.e(TAG, poGOcas.toJSONString());
         poCreditApp.updateGOCasData(poInfo);
         callBack.onSaveSuccessResult(psTransNox.getValue());
     }

@@ -158,7 +158,7 @@ public class VMOtherInfo extends AndroidViewModel {
     public ArrayAdapter<String> getOtherUnitUser(){
         ArrayAdapter<String> adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS);
         try {
-            if (poInfo.getIsSpouse().equalsIgnoreCase("1")) {
+            if ("1".equalsIgnoreCase(poInfo.getIsSpouse())) {
                 adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS);
             } else {
                 adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS_NO_SPOUSE);
@@ -180,7 +180,7 @@ public class VMOtherInfo extends AndroidViewModel {
     public ArrayAdapter<String> getPayerBuyer(){
         ArrayAdapter<String> adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER);
         try {
-            if (poInfo.getIsSpouse().equalsIgnoreCase("1")) {
+            if ("1".equalsIgnoreCase(poInfo.getIsSpouse())) {
                 adapter =  CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER);
             } else {
                 adapter =  CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER_NO_SPOUSE);
@@ -302,7 +302,9 @@ public class VMOtherInfo extends AndroidViewModel {
                     poInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
                     poInfo.setOthrInfo(poGoCas.OtherInfo().toJSONString());
                     poDcp.updateGOCasData(poInfo);
+                    Log.e(TAG, poGoCas.toJSONString());
                     return "success";
+
                 } else {
                     return infoModel.getMessage();
                 }

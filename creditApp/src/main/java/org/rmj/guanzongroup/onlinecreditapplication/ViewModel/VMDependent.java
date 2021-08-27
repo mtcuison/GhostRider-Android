@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
@@ -297,6 +298,7 @@ public class VMDependent extends AndroidViewModel {
 
                 }
                 poInfo.setDependnt(poGoCasxx.DisbursementInfo().DependentInfo().toJSONString());
+                Log.e(TAG, poGoCasxx.toJSONString());
                 poDcp.updateGOCasData(poInfo);
                 return "success";
 
