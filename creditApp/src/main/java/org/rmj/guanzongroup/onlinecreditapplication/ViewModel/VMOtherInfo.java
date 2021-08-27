@@ -302,7 +302,9 @@ public class VMOtherInfo extends AndroidViewModel {
                     poInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
                     poInfo.setOthrInfo(poGoCas.OtherInfo().toJSONString());
                     poDcp.updateGOCasData(poInfo);
+                    Log.e(TAG, poGoCas.toJSONString());
                     return "success";
+
                 } else {
                     return infoModel.getMessage();
                 }

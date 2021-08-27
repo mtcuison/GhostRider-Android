@@ -12,6 +12,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import java.util.List;
 
 public class VMResidenceInfo extends AndroidViewModel {
+    private static final String TAG = VMResidenceInfo.class.getSimpleName();
     private ECreditApplicantInfo poInfo;
     private final GOCASApplication poGoCas;
     private final RCreditApplicant RCreditApplicant;
@@ -188,6 +190,7 @@ public class VMResidenceInfo extends AndroidViewModel {
                     poGoCas.ResidenceInfo().PermanentAddress().setTownCity(infoModel.getPermanentMunicipalID());
                     poGoCas.ResidenceInfo().PermanentAddress().setBarangay(infoModel.getPermanentBarangayID());
                     poInfo.setResidnce(poGoCas.ResidenceInfo().toJSONString());
+                    Log.e(TAG, poGoCas.toJSONString());
                     RCreditApplicant.updateGOCasData(poInfo);
                     callBack.onSaveSuccessResult("Success");
                 } else {
