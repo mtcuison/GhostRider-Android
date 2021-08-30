@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModel;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SpousePensionInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -39,7 +40,7 @@ public class VMSpousePensionInfo extends AndroidViewModel {
 
     public VMSpousePensionInfo(@NonNull Application application) {
         super(application);
-        this.poGoCas = new GOCASApplication();
+        this.poGoCas = GOCASHolder.getInstance().getGOCAS();
         this.poCreditApp = new RCreditApplicant(application);
     }
 

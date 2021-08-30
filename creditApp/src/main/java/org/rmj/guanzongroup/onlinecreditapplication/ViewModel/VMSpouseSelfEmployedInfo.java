@@ -35,6 +35,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SpouseSelfEmployedInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -59,7 +60,7 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
 
     public VMSpouseSelfEmployedInfo(@NonNull Application application) {
         super(application);
-        this.poGoCas = new GOCASApplication();
+        this.poGoCas = GOCASHolder.getInstance().getGOCAS();
         this.poCreditApp = new RCreditApplicant(application);
         this.poProvRepo = new RProvince(application);
         this.poTownRepo = new RTown(application);

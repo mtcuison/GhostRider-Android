@@ -45,6 +45,7 @@ import org.rmj.gocas.pricelist.PriceFactory;
 import org.rmj.gocas.pricelist.Pricelist;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Data.GoCasBuilder;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PurchaseInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -244,7 +245,8 @@ public class VMIntroductoryQuestion extends AndroidViewModel {
             Log.e("TransNox", transnox);
             model.setsBranchCde(psBrnchCd.getValue());
             if(model.isPurchaseInfoValid()) {
-                GOCASApplication loGoCas = new GOCASApplication();
+                GOCASHolder.getInstance().initGOCASApp();
+                GOCASApplication loGoCas = GOCASHolder.getInstance().getGOCAS();
                 loGoCas.PurchaseInfo().setAppliedFor("0");
                 loGoCas.PurchaseInfo().setTargetPurchase(model.getdTargetDte());
                 loGoCas.PurchaseInfo().setCustomerType(model.getsCustTypex());

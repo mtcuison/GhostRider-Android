@@ -42,6 +42,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditAppl
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.LoanAppDetailReviewAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.ReviewAppDetail;
 import org.rmj.guanzongroup.onlinecreditapplication.Data.UploadCreditApp;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMReviewLoanApp;
 
@@ -133,6 +134,7 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
                 });
                 poMessage.show();
             } else {
+                GOCASHolder.getInstance().clearGOCASHolder();
                 mViewModel.SaveCreditOnlineApplication(Fragment_ReviewLoanApp.this);
             }
         });
