@@ -80,7 +80,7 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if Credit App is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("Credit Application", R.drawable.ic_menu_creditapp, true, true, GONE);
+        menuModel = new MenuModel("Credit Application", R.drawable.ic_menu_creditapp, true, true, VISIBLE);
         listDataHeader.add(menuModel);
 
         childModel = new MenuModel("Loan Application", 0, false, false , VISIBLE);

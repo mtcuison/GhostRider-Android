@@ -45,6 +45,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Adapter.ReviewAppDetail;
 import org.rmj.guanzongroup.onlinecreditapplication.Data.GoCasBuilder;
 import org.rmj.guanzongroup.onlinecreditapplication.Data.UploadCreditApp;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,15 +102,13 @@ public class VMReviewLoanApp extends AndroidViewModel {
 
     public void SaveCreditOnlineApplication(UploadCreditApp.OnUploadLoanApplication listener){
         ECreditApplication loCreditApp = new ECreditApplication();
-        GoCasBuilder loModel = new GoCasBuilder(poInfo);
-        GOCASApplication loGOCas = new GOCASApplication();
-        loGOCas.setData(loModel.getConstructedDetailedInfo());
+        GOCASApplication loGOCas = GOCASHolder.getInstance().getGOCAS();
         loCreditApp.setTransNox(poCreditApp.getGOCasNextCode());
         loCreditApp.setBranchCd(poInfo.getBranchCd());
         loCreditApp.setClientNm(poInfo.getClientNm());
         loCreditApp.setUnitAppl(poInfo.getAppliedx());
         loCreditApp.setSourceCD("APP");
-        loCreditApp.setDetlInfo(loModel.getConstructedDetailedInfo());
+        loCreditApp.setDetlInfo(loGOCas.toJSONString());
         loCreditApp.setDownPaym(poInfo.getDownPaym());
         loCreditApp.setCreatedx(poInfo.getCreatedx());
         loCreditApp.setTransact(poInfo.getTransact());
@@ -153,8 +152,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
             ECreditApplicantInfo poInfo = eCreditApplicantInfos[0];
             List<ReviewAppDetail> loListDetl = new ArrayList<>();
             try {
-                GOCASApplication loGOCas = new GOCASApplication();
-                loGOCas.setData(new GoCasBuilder(poInfo).getConstructedDetailedInfo());
+                GOCASApplication loGOCas = GOCASHolder.getInstance().getGOCAS();
                 loListDetl.add(new ReviewAppDetail(true, "Purchase Info", "", ""));
                 loListDetl.add(new ReviewAppDetail(false, "", "Branch", loGOCas.PurchaseInfo().getPreferedBranch()));
 
@@ -248,8 +246,8 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     Check if Employment info has data input.
                  */
                 if(!loGOCas.MeansInfo().EmployedInfo().getCompanyName().isEmpty() &&
-                    !loGOCas.MeansInfo().EmployedInfo().getCompanyTown().isEmpty() &&
-                    !loGOCas.MeansInfo().EmployedInfo().getCompanyTown().isEmpty()) {
+                        !loGOCas.MeansInfo().EmployedInfo().getCompanyTown().isEmpty() &&
+                        !loGOCas.MeansInfo().EmployedInfo().getCompanyTown().isEmpty()) {
 
                     loListDetl.add(new ReviewAppDetail(true, "Employment Info", "", ""));
                     String lsMSector = loGOCas.MeansInfo().EmployedInfo().getEmploymentSector();
@@ -317,8 +315,8 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     Check Business nature if data existed
                  */
                 if(!loGOCas.MeansInfo().SelfEmployedInfo().getNameOfBusiness().isEmpty() &&
-                    !loGOCas.MeansInfo().SelfEmployedInfo().getBusinessTown().isEmpty() &&
-                    loGOCas.MeansInfo().SelfEmployedInfo().getMonthlyExpense() != 0){
+                        !loGOCas.MeansInfo().SelfEmployedInfo().getBusinessTown().isEmpty() &&
+                        loGOCas.MeansInfo().SelfEmployedInfo().getMonthlyExpense() != 0){
 
                     loListDetl.add(new ReviewAppDetail(true, "Business Info", "", ""));
                     loListDetl.add(new ReviewAppDetail(false, "", "Business Nature", loGOCas.MeansInfo().SelfEmployedInfo().getNatureOfBusiness()));
@@ -624,10 +622,9 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     loListDetl.add(new ReviewAppDetail(false, "", "Reference " + (i+1), ""));
                     loListDetl.add(new ReviewAppDetail(false, "", "Fullname ", loExp.get("sRefrNmex").toString()));
                     loListDetl.add(new ReviewAppDetail(false, "", "Mobile No. ", loExp.get("sRefrMPNx").toString()));
-                    DTownInfo.TownProvinceName rfBPlace = poTown.getTownProvinceName(loExp.get("sRefrTown").toString());
-                    String rfBirthPlace = rfBPlace.sTownName + ", " + rfBPlace.sProvName;
+                    String rfBirthPlace = loExp.get("sRefrTown").toString();
                     loListDetl.add(new ReviewAppDetail(false, "", "Address ", loExp.get("sRefrAddx").toString()));
-                    loListDetl.add(new ReviewAppDetail(false, "", "Town ", rfBirthPlace));
+                    loListDetl.add(new ReviewAppDetail(false, "", "Town ", loExp.get("sRefrTown").toString()));
                 }
 
 //                CO-MAKER
