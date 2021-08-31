@@ -162,7 +162,7 @@ public class VMResidenceInfo extends AndroidViewModel {
 
     public void SaveResidenceInfo(ResidenceInfoModel infoModel, ViewModelCallBack callBack){
         try {
-            if(poInfo.getApplInfo() == null) {
+            if(poInfo.getApplInfo() != null) {
                 infoModel.setProvinceID(psProvID.getValue());
                 infoModel.setMunicipalID(psTownID.getValue());
                 infoModel.setBarangayID(psBrgyID.getValue());
@@ -198,7 +198,7 @@ public class VMResidenceInfo extends AndroidViewModel {
                     callBack.onFailedResult(infoModel.getMessage());
                 }
             } else {
-                callBack.onSaveSuccessResult("Success");
+                callBack.onFailedResult("Personal Info is null.");
             }
         } catch (Exception e){
             callBack.onFailedResult(e.getMessage());

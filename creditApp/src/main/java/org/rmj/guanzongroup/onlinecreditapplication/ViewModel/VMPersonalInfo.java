@@ -142,14 +142,7 @@ public class VMPersonalInfo extends AndroidViewModel {
                     poInfo.setIsSpouse("0");
                 }
 
-                if(poInfo.getApplInfo() == null){
-                    poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                    poInfo.setApplInfo(poGoCas.ApplicantInfo().toJSONString());
-                    callBack.onSaveSuccessResult(TRANSNOX.getValue());
-                } else if(poInfo.getApplInfo().equalsIgnoreCase(poGoCas.toJSONString())){
-                    RCreditApplicant.updateGOCasData(poInfo);
-                }
-
+                RCreditApplicant.updateGOCasData(poInfo);
                 callBack.onSaveSuccessResult(TRANSNOX.getValue());
                 return true;
             } else {
