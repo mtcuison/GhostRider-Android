@@ -105,7 +105,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="2 Log attempt is available for each day. \nUse the 1st for Login and 2nd for logout"
+        android:text="2 Log attempt are available for each day. \nUse the 1st for Login and 2nd for logout"
         android:scrollHorizontally="false"
         android:gravity="center"
         android:fontFamily="@font/roboto_light"

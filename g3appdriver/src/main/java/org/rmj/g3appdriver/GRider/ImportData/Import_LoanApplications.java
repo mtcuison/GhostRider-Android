@@ -27,6 +27,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -62,6 +63,7 @@ public class Import_LoanApplications implements ImportInstance{
         private final ConnectionUtil loConnectx;
         private final HttpHeaders loHeaders;
         private final SessionManager poUser;
+        private final AppConfigPreference poConfig;
         private final ImportDataCallback callback;
 
         public ImportDataTask(Application application, ImportDataCallback callback) {
@@ -70,6 +72,7 @@ public class Import_LoanApplications implements ImportInstance{
             this.loConnectx = new ConnectionUtil(application);
             this.loHeaders = HttpHeaders.getInstance(application);
             this.poUser = new SessionManager(application);
+            this.poConfig = AppConfigPreference.getInstance(application);
             this.callback = callback;
         }
 
@@ -89,7 +92,7 @@ public class Import_LoanApplications implements ImportInstance{
 
                         Thread.sleep(500);
 
-                        String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                        String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(), poUser.getClientId(), poUser.getUserID());
                         String lsAccess = WebFileServer.RequestAccessToken(lsClient);
                         org.json.simple.JSONObject loResult = WebFileServer.CheckFile(lsAccess,
                                 "0029",

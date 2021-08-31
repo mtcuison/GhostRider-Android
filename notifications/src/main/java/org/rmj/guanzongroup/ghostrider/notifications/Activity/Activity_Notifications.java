@@ -35,11 +35,6 @@ public class Activity_Notifications extends AppCompatActivity {
 
     private String MsgID;
     private String Title;
-    private String Sender;
-    private String Message;
-    private String date;
-    private String Receipt;
-    private String MsgType;
 
     public static Activity_Notifications getInstance(){
         return instance;
@@ -47,28 +42,6 @@ public class Activity_Notifications extends AppCompatActivity {
 
     public String getMessageID(){
         return MsgID;
-    }
-
-    public String getMessageTitle() {
-        return Title;
-    }
-
-    public String getSender() {
-        return Sender;
-    }
-
-    public String getMessage() {
-        return Message;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public String getReceipt() { return Receipt; }
-
-    public String getMsgType() {
-        return MsgType;
     }
 
     @Override
@@ -79,15 +52,8 @@ public class Activity_Notifications extends AppCompatActivity {
 
         String MessageType = getIntent().getStringExtra("type");
 
-
         MsgID = getIntent().getStringExtra("id");
         Title = getIntent().getStringExtra("title");
-        Sender = getIntent().getStringExtra("sender");
-        Message = getIntent().getStringExtra("message");
-        date = getIntent().getStringExtra("date");
-        Receipt = getIntent().getStringExtra("receipt");
-        MsgType = getIntent().getStringExtra("msgType");
-
 
         toolbar = findViewById(R.id.toolbar_notification);
         viewPager = findViewById(R.id.viewpager_notifications);

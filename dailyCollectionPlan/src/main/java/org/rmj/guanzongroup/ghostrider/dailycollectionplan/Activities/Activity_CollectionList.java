@@ -11,12 +11,15 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.provider.DocumentsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -39,7 +42,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
@@ -51,7 +53,6 @@ import org.rmj.g3appdriver.etc.AppAssistantConfig;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAccountDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogConfirmPost;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogImportDCP;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.DialogAddCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.Dialog_ClientSearch;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Dialog.Dialog_DebugEntry;
@@ -62,18 +63,21 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectio
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Help;
 
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import static org.rmj.g3appdriver.utils.ServiceScheduler.FIFTEEN_MINUTE_PERIODIC;
 
 public class Activity_CollectionList extends AppCompatActivity implements ViewModelCallback, VMCollectionList.OnDownloadCollection {
     private static final String TAG = Activity_CollectionList.class.getSimpleName();
 
     private static final int MOBILE_DIALER = 104;
+    private static final int PICK_TEXT_FILE = 105;
+    private static final int EXPORT_TEXT_FILE = 106;
 
     private LoadDialog poDialogx;
     private MessageBox poMessage;
@@ -97,8 +101,11 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     private final String FILE_TYPE = "-mob.txt";
     private String fileContent= "";
 
+    private JSONObject poDcpData;
+
     private List<DDCPCollectionDetail.CollectionDetail> plDetail;
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,9 +167,23 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 recyclerView.setVisibility(View.GONE);
                 lnImportPanel.setVisibility(View.VISIBLE);
                 btnDownload.setOnClickListener(v -> {
-                        showDownloadDcp();
+                    showDownloadDcp();
                 });
-                btnImport.setOnClickListener(v -> showImportFromFileDcp());
+                btnImport.setOnClickListener(v -> {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("text/plain");
+
+                    // Optionally, specify a URI for the file that should appear in the
+                    // system file picker when it loads.
+                    try {
+                        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, new URI(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString()));
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+
+                    startActivityForResult(intent, PICK_TEXT_FILE);
+                });
             }
 
             CollectionAdapter loAdapter = new CollectionAdapter(collectionDetails, new CollectionAdapter.OnItemClickListener() {
@@ -327,6 +348,12 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             mViewModel.getCollectionList().observe(this, collectionDetails -> {
                 showTransaction(DCP_Constants.collectionPos, collectionDetails);
             });
+        }else if(requestCode == PICK_TEXT_FILE && resultCode == RESULT_OK){
+            Uri uri = data.getData();
+            importDataFromFile(uri);
+        }else if(requestCode == EXPORT_TEXT_FILE && resultCode == RESULT_OK){
+            Uri uri = data.getData();
+            exportCollectionList(uri, poDcpData);
         }
     }
 
@@ -563,87 +590,62 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         }
     }
 
-    public void showImportFromFileDcp() {
-        DialogImportDCP loPost = new DialogImportDCP(Activity_CollectionList.this);
-        loPost.iniDialog(new DialogImportDCP.DialogPostUnfinishedListener() {
-            @Override
-            public void OnConfirm(AlertDialog dialog, String fileName) {
-                dialog.dismiss();
-                try {
-                    mViewModel.importDCPFile(fileName, new ViewModelCallback() {
-                        @Override
-                        public void OnStartSaving() {
-                            poDialogx.initDialog("Daily Collection Plan", "Importing DCP List from file. Please wait...", false);
-                            poDialogx.show();
-                        }
-
-                        @Override
-                        public void OnSuccessResult(String[] args) {
-                            poDialogx.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Daily Collection Plan");
-                            poMessage.setMessage(args[0]);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                            poMessage.show();
-                        }
-
-                        @Override
-                        public void OnFailedResult(String message) {
-                            poDialogx.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Daily Collection Plan");
-                            poMessage.setMessage(message);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                            poMessage.show();
-                        }
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void OnCancel(AlertDialog dialog) {
-                dialog.dismiss();
-            }
-        });
-        loPost.show();
-    }
-
-    private boolean exportCollectionList(JSONObject expCollectDetl) {
+    private boolean exportCollectionList(Uri uri, JSONObject expCollectDetl) {
         // TODO: Exporting Method
         try {
-            fileContent = expCollectDetl.toString();
-            if(!fileContent.equalsIgnoreCase("")) {
-                String root = Environment.getExternalStorageDirectory().toString();
-                String lsPublicFoldx = AppConstants.APP_PUBLIC_FOLDER;
-                String lsSubFoldx = AppConstants.SUB_FOLDER_EXPORTS;
-                File sd = new File(root + lsPublicFoldx + lsSubFoldx + "/");
-                if (!sd.exists()) {
-                    sd.mkdirs();
-                }
-                File myExternalFile = new File(sd, FILENAME+FILE_TYPE);
-                Log.e("Export Directory", myExternalFile.toString());
-                if(myExternalFile.exists()) {
-                    boolean res = myExternalFile.delete();
-                    Log.e("Export Message", "File already exists(" + res + "). Overwritten the previous file.");
-                }
-                FileOutputStream fos;
-                fos = new FileOutputStream(myExternalFile);
-                fos.write(fileContent.getBytes());
-            }
+            ParcelFileDescriptor pfd = getContentResolver().
+                    openFileDescriptor(uri, "w");
+            FileOutputStream fileOutputStream =
+                    new FileOutputStream(pfd.getFileDescriptor());
+            fileOutputStream.write(expCollectDetl.toString().getBytes());
+            // Let the document provider know you're done by closing the stream.
+            fileOutputStream.close();
+            pfd.close();
             return true;
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private void importDataFromFile(Uri uri){
+        mViewModel.importDCPFile(uri, new ViewModelCallback() {
+            @Override
+            public void OnStartSaving() {
+                poDialogx.initDialog("Daily Collection Plan", "Importing DCP List from file. Please wait...", false);
+                poDialogx.show();
+            }
+
+            @Override
+            public void OnSuccessResult(String[] args) {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Daily Collection Plan");
+                poMessage.setMessage(args[0]);
+                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+
+            @Override
+            public void OnFailedResult(String message) {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Daily Collection Plan");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+        });
     }
 
     private void postDCPTransaction(){
         boolean hasUnTag = false;
         if(plDetail.size()>0){
             for(int x = 0; x < plDetail.size(); x++){
-                if(plDetail.get(x).sRemCodex == null){
+                if(plDetail.get(x).sRemCodex.isEmpty()){
                     hasUnTag = true;
                 }
             }
@@ -654,43 +656,10 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 @Override
                 public void OnConfirm(AlertDialog dialog, String Remarks) {
                     dialog.dismiss();
-                    mViewModel.PostLRCollectionDetail(Remarks, new ViewModelCallback() {
-                        @Override
-                        public void OnStartSaving() {
-                            poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
-                            poDialogx.show();
-                        }
-
-                        @Override
-                        public void OnSuccessResult(String[] args) {
-                            poDialogx.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Daily Collection Plan");
-                            poMessage.setMessage(args[0]);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                            poMessage.show();
-                            stopService(new Intent(Activity_CollectionList.this, GLocatorService.class));
-                        }
-
-                        @Override
-                        public void OnFailedResult(String message) {
-                            poDialogx.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Daily Collection Plan");
-                            poMessage.setMessage(message);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                            poMessage.show();
-                        }
-                    });
-
                     mViewModel.getExportDataList(Remarks, new VMCollectionList.FileManagerCallBack() {
                         @Override
                         public void OnJSONCreated(JSONObject loJson) {
-                            if(exportCollectionList(loJson)) {
-                                Log.e("Success","Success");
-                            } else {
-                                Log.e("Failed","Failed");
-                            }
+                            poDcpData = loJson;
                         } @Override
                         public void OnStartSaving() {
                         }
@@ -701,6 +670,65 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
                         @Override
                         public void OnFailedResult(String message) {
+                        }
+                    });
+
+                    mViewModel.PostLRCollectionDetail(Remarks, new ViewModelCallback() {
+                        @Override
+                        public void OnStartSaving() {
+                            poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
+                            poDialogx.show();
+                        }
+
+                        @SuppressLint("NewApi")
+                        @Override
+                        public void OnSuccessResult(String[] args) {
+                            poDialogx.dismiss();
+                            poMessage.initDialog();
+                            poMessage.setTitle("Daily Collection Plan");
+                            poMessage.setMessage(args[0]);
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                                Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                                intent.setType("text/plain");
+                                intent.putExtra(Intent.EXTRA_TITLE, FILENAME + "-mob.txt");
+
+                                // Optionally, specify a URI for the directory that should be opened in
+                                // the system file picker when your app creates the document.
+                                Uri loDocs = Uri.parse(String.valueOf(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)));
+                                intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, loDocs);
+
+                                startActivityForResult(intent, EXPORT_TEXT_FILE);
+                                dialog.dismiss();
+                            });
+                            poMessage.show();
+                            stopService(new Intent(Activity_CollectionList.this, GLocatorService.class));
+                        }
+
+                        @SuppressLint("NewApi")
+                        @Override
+                        public void OnFailedResult(String message) {
+                            poDialogx.dismiss();
+                            poMessage.initDialog();
+                            poMessage.setTitle("Daily Collection Plan");
+                            poMessage.setMessage(message);
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                                if(!message.equalsIgnoreCase("Please remit collection before posting")) {
+                                    Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                                    intent.setType("text/plain");
+                                    intent.putExtra(Intent.EXTRA_TITLE, FILENAME + "-mob.txt");
+
+                                    // Optionally, specify a URI for the directory that should be opened in
+                                    // the system file picker when your app creates the document.
+                                    Uri loDocs = Uri.parse(String.valueOf(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)));
+                                    intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, loDocs);
+
+                                    startActivityForResult(intent, EXPORT_TEXT_FILE);
+                                }
+                                dialog.dismiss();
+                            });
+                            poMessage.show();
                         }
                     });
                 }
@@ -744,11 +772,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             mViewModel.getExportDataList("", new VMCollectionList.FileManagerCallBack() {
                 @Override
                 public void OnJSONCreated(JSONObject loJson) {
-                    if(exportCollectionList(loJson)) {
-                        Log.e("Success","Success");
-                    } else {
-                        Log.e("Failed","Failed");
-                    }
+                    poDcpData = loJson;
                 } @Override
                 public void OnStartSaving() {
                 }
@@ -762,7 +786,5 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 }
             });
         }
-
-
     }
 }

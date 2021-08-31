@@ -49,6 +49,8 @@ public class SessionManager {
 
     private static final String KEY_POSITION_ID = "sPositionID";
 
+    private static final String KEY_AUTO_LOG = "cPrivatex";
+
     @SuppressLint("CommitPrefEdits")
     public SessionManager(Context context){
         //Shared pref mode
@@ -64,7 +66,8 @@ public class SessionManager {
                                 String DeptID,
                                 String EmpID,
                                 String Position,
-                                String Level){
+                                String Level,
+                                String autoLog){
         editor.putString(KEY_USER_ID, UserID);
         if(editor.commit()){
             Log.e(TAG, "User ID for this session has been set.");
@@ -106,6 +109,11 @@ public class SessionManager {
         }
 
         editor.putBoolean(KEY_IS_LOGGEDIN, true);
+        if(editor.commit()){
+            Log.d(TAG, "User login session has been initialized.");
+        }
+
+        editor.putString(KEY_AUTO_LOG, autoLog);
         if(editor.commit()){
             Log.d(TAG, "User login session has been initialized.");
         }
@@ -193,6 +201,10 @@ public class SessionManager {
         if(editor.commit()){
             Log.e(TAG, "User Department ID for this session has been set.");
         }
+    }
+
+    public String getAutoLogStatus(){
+        return pref.getString(KEY_AUTO_LOG, "0");
     }
 }
 

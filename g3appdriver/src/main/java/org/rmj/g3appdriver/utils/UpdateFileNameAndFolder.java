@@ -23,11 +23,11 @@ public class UpdateFileNameAndFolder {
     public String updateFile(String newTransNox, String oldTransNox, int entryNox, String fileCode, String subFolder, String oldImgName){
         String root = Environment.getExternalStorageDirectory().toString();
         File dir = new File(root + "/"+
-                AppConstants.APP_PUBLIC_FOLDER + "/" +
+//                AppConstants.APP_PUBLIC_FOLDER + "/" +
                 subFolder + "/" +
                 oldTransNox + "/");
         File newDir = new File(root + "/" +
-                AppConstants.APP_PUBLIC_FOLDER + "/" +
+//                AppConstants.APP_PUBLIC_FOLDER + "/" +
                 subFolder + "/" +
                 newTransNox + "/");
         File newPhotoPath = null;

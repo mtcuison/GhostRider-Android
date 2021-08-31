@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
@@ -55,6 +56,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -190,63 +193,35 @@ public class VMCollectionList extends AndroidViewModel {
     }
 
     // TODO: Import DCP List
-    public void importDCPFile(String importFileName, ViewModelCallback callback) throws JSONException {
-        JSONObject dcpImport = readDCPImportFileContent(importFileName);
-        if(dcpImport != null)  {
-            extractDCPImportDetails(dcpImport, (collectionDetlList, collectionMaster) -> {
-                if (importDCPMasterData(collectionMaster)) {
-                    boolean isCollectDetlInserted = importDCPListBulkData(collectionDetlList);
-                    if (isCollectDetlInserted) {
-                        callback.OnSuccessResult(new String[]{"Collection detail imported successfully."});
+    public void importDCPFile(Uri importFileName, ViewModelCallback callback) {
+        try {
+            JSONObject dcpImport = readDCPImportFileContent(importFileName);
+            if (dcpImport != null) {
+                extractDCPImportDetails(dcpImport, (collectionDetlList, collectionMaster) -> {
+                    if (importDCPMasterData(collectionMaster)) {
+                        boolean isCollectDetlInserted = importDCPListBulkData(collectionDetlList);
+                        if (isCollectDetlInserted) {
+                            callback.OnSuccessResult(new String[]{"Collection detail imported successfully."});
+                        } else {
+                            callback.OnFailedResult("Collection Detail Import Failed: DETAIL");
+                        }
                     } else {
-                        callback.OnFailedResult("Collection Detail Import Failed: DETAIL");
+                        callback.OnFailedResult("Collection Detail Import Failed: MASTER");
                     }
-                } else {
-                    callback.OnFailedResult("Collection Detail Import Failed: MASTER");
-                }
-            });
+                });
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailedResult("Parsing Dcp file error. Please take screenshot and report to MIS" +
+                    "\n" +
+                    "\n" +
+                    "Cause: " + e.getMessage());
         }
     }
 
-    private JSONObject readDCPImportFileContent(String fileName) throws JSONException {
-        FileReader fr = null;
-        String fileContents;
-        String root = Environment.getExternalStorageDirectory().toString();
-        String lsPublicFoldx = AppConstants.APP_PUBLIC_FOLDER;
-        String lsSubFoldx = AppConstants.SUB_FOLDER_EXPORTS;
-        File sd = new File(root + lsPublicFoldx + lsSubFoldx + "/");
-        File myExternalFile = new File(sd , fileName + "-out.txt");
-        if(!myExternalFile.exists()) {
-            GToast.CreateMessage(getApplication(), "Please enter a valid file name.", GToast.WARNING).show();
-            return null;
-        }
-        Log.e("DIRECTORY", myExternalFile.toString());
-        StringBuilder sb = new StringBuilder();
-        try {
-            fr = new FileReader(myExternalFile);
-            BufferedReader br = new BufferedReader(fr);
-            String line = br.readLine();
-            if(line != null) {
-                while(line != null) {
-                    sb.append(line).append('\n');
-                    line = br.readLine();
-                }
-            } else {
-                GToast.CreateMessage(getApplication(), "File does not contain data.", GToast.ERROR).show();
-                return null;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        finally {
-            fileContents = sb.toString();
-            Log.e("Your String", fileContents);
-        }
-        return new JSONObject(fileContents);
+    private JSONObject readDCPImportFileContent(Uri fileContents) throws JSONException{
+        String lsDcpContent = readTextFile(fileContents);
+        return new JSONObject(lsDcpContent);
     }
 
     private void extractDCPImportDetails(JSONObject dcpImport, ImportJSONCallback callback) {
@@ -652,7 +627,7 @@ public class VMCollectionList extends AndroidViewModel {
         new PostLRCollectionDetail(instance, Remarks,  plAddress.getValue(), plMobile.getValue(), callback).execute(plDetail.getValue());
     }
 
-    public static class PostLRCollectionDetail extends AsyncTask<List<DDCPCollectionDetail.CollectionDetail>, Void, String>{
+    public class PostLRCollectionDetail extends AsyncTask<List<DDCPCollectionDetail.CollectionDetail>, Void, String>{
         private final ConnectionUtil poConn;
         private final ViewModelCallback callback;
         private final SessionManager poUser;
@@ -695,9 +670,9 @@ public class VMCollectionList extends AndroidViewModel {
             try {
                 if(hasRemittedBeforePosting()) {
                     if (!poConn.isDeviceConnected()) {
-                        lsResult = AppConstants.NO_INTERNET();
+                        lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Not connected to internet. Tap 'Okay' to export backup file.");
                     } else {
-                        String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                        String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(), poUser.getClientId(), poUser.getUserID());
                         String lsAccess = WebFileServer.RequestAccessToken(lsClient);
                         if (lsClient.isEmpty() || lsAccess.isEmpty()) {
                             lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
@@ -862,7 +837,7 @@ public class VMCollectionList extends AndroidViewModel {
                                     loJson.put("sTransNox", laCollDetl.get(0).sTransNox);
                                     String lsResponse1 = WebClient.sendRequest(WebApi.URL_POST_DCP_MASTER, loJson.toString(), poHeaders.getHeaders());
                                     if (lsResponse1 == null) {
-                                        lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response on posting DCP master detail");
+                                        lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response on posting DCP master detail. Tap 'Okay' to create dcp file for backup");
                                     } else {
                                         JSONObject loResponse = new JSONObject(lsResponse1);
                                         String result = loResponse.getString("result");
@@ -876,7 +851,7 @@ public class VMCollectionList extends AndroidViewModel {
                                     }
                                 } else {
                                     lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(String.format("An error occurred while posting dcp. Please take screenshot and report to MIS \n%s",
-                                            Arrays.toString(reason) +" \n%s Please take a screenshot and report to MIS"));
+                                            Arrays.toString(reason)) + " Tap 'Okay' to create dcp file for backup");
                                 }
                             } else {
                                 // TODO: Display no details to post
@@ -900,7 +875,7 @@ public class VMCollectionList extends AndroidViewModel {
             try{
                 JSONObject loJson = new JSONObject(s);
                 if(loJson.getString("result").equalsIgnoreCase("success")){
-                    callback.OnSuccessResult(new String[]{"Collection for today has been posted successfully."});
+                    callback.OnSuccessResult(new String[]{"Collection for today has been posted successfully. Tap 'Okay' to create dcp file for backup"});
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     callback.OnFailedResult(loError.getString("message"));
@@ -925,87 +900,87 @@ public class VMCollectionList extends AndroidViewModel {
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         void sendCNADetails(String fsTransno) throws Exception {
-                if (paAddress.size() == 0) {
-                    Log.e(TAG, "paAddress is Empty");
-                } else {
-                    for (int i = 0; i < paAddress.size(); i++) {
-                        EAddressUpdate info = paAddress.get(i);
-                        JSONObject param = new JSONObject();
-                        param.put("sTransNox", info.getTransNox());
-                        param.put("sClientID", info.getClientID());
-                        param.put("cReqstCDe", info.getReqstCDe());
-                        param.put("cAddrssTp", info.getAddrssTp());
-                        param.put("sHouseNox", info.getHouseNox());
-                        param.put("sAddressx", info.getAddressx());
-                        param.put("sTownIDxx", info.getTownIDxx());
-                        param.put("sBrgyIDxx", info.getBrgyIDxx());
-                        param.put("cPrimaryx", info.getPrimaryx());
-                        Log.e("Latitude", info.getLatitude());
-                        param.put("nLatitude", Double.parseDouble(info.getLatitude()));
-                        Log.e("Longitude", info.getLongitud());
-                        param.put("nLongitud", Double.parseDouble(info.getLongitud()));
-                        param.put("sRemarksx", info.getRemarksx());
-                        param.put("sSourceCD", "DCPa");
-                        param.put("sSourceNo", fsTransno);
+            if (paAddress.size() == 0) {
+                Log.e(TAG, "paAddress is Empty");
+            } else {
+                for (int i = 0; i < paAddress.size(); i++) {
+                    EAddressUpdate info = paAddress.get(i);
+                    JSONObject param = new JSONObject();
+                    param.put("sTransNox", info.getTransNox());
+                    param.put("sClientID", info.getClientID());
+                    param.put("cReqstCDe", info.getReqstCDe());
+                    param.put("cAddrssTp", info.getAddrssTp());
+                    param.put("sHouseNox", info.getHouseNox());
+                    param.put("sAddressx", info.getAddressx());
+                    param.put("sTownIDxx", info.getTownIDxx());
+                    param.put("sBrgyIDxx", info.getBrgyIDxx());
+                    param.put("cPrimaryx", info.getPrimaryx());
+                    Log.e("Latitude", info.getLatitude());
+                    param.put("nLatitude", Double.parseDouble(info.getLatitude()));
+                    Log.e("Longitude", info.getLongitud());
+                    param.put("nLongitud", Double.parseDouble(info.getLongitud()));
+                    param.put("sRemarksx", info.getRemarksx());
+                    param.put("sSourceCD", "DCPa");
+                    param.put("sSourceNo", fsTransno);
 
-                        Log.e("Address JsonParam", param.toString());
+                    Log.e("Address JsonParam", param.toString());
 
-                        String lsAddressUpdtResponse = WebClient.sendRequest(WebApi.URL_UPDATE_ADDRESS, param.toString(), poHeaders.getHeaders());
+                    String lsAddressUpdtResponse = WebClient.sendRequest(WebApi.URL_UPDATE_ADDRESS, param.toString(), poHeaders.getHeaders());
 
-                        if (lsAddressUpdtResponse == null) {
-                            Log.e("Address Update Result:", "Server no Repsonse");
+                    if (lsAddressUpdtResponse == null) {
+                        Log.e("Address Update Result:", "Server no Repsonse");
+                    } else {
+                        JSONObject loResult = new JSONObject(lsAddressUpdtResponse);
+                        String result = loResult.getString("result");
+                        Log.e("The Address Result", String.valueOf(loResult));
+                        if (result.equalsIgnoreCase("success")) {
+                            String newTransNox = loResult.getString("sTransNox");
+                            rCollect.updateAddressStatus(newTransNox, info.getTransNox());
+                            Log.e("Address Update Result:", result);
                         } else {
-                            JSONObject loResult = new JSONObject(lsAddressUpdtResponse);
-                            String result = loResult.getString("result");
-                            Log.e("The Address Result", String.valueOf(loResult));
-                            if (result.equalsIgnoreCase("success")) {
-                                String newTransNox = loResult.getString("sTransNox");
-                                rCollect.updateAddressStatus(newTransNox, info.getTransNox());
-                                Log.e("Address Update Result:", result);
-                            } else {
-                                Log.e("Address Update Result:", "Failed");
-                            }
+                            Log.e("Address Update Result:", "Failed");
                         }
-                        Thread.sleep(1000);
                     }
+                    Thread.sleep(1000);
                 }
+            }
 
-                if (paMobile.size() == 0) {
-                    Log.e(TAG, "paMobile is Empty.");
-                } else {
-                    for (int y = 0; y < paMobile.size(); y++) {
-                        EMobileUpdate info = paMobile.get(y);
-                        JSONObject param = new JSONObject();
-                        param.put("sTransNox", info.getTransNox());
-                        param.put("sClientID", info.getClientID());
-                        param.put("cReqstCDe", info.getReqstCDe());
-                        param.put("sMobileNo", info.getMobileNo());
-                        param.put("cPrimaryx", info.getPrimaryx());
-                        param.put("sRemarksx", info.getRemarksx());
-                        param.put("sSourceCD", "DCPa");
-                        param.put("sSourceNo", fsTransno);
+            if (paMobile.size() == 0) {
+                Log.e(TAG, "paMobile is Empty.");
+            } else {
+                for (int y = 0; y < paMobile.size(); y++) {
+                    EMobileUpdate info = paMobile.get(y);
+                    JSONObject param = new JSONObject();
+                    param.put("sTransNox", info.getTransNox());
+                    param.put("sClientID", info.getClientID());
+                    param.put("cReqstCDe", info.getReqstCDe());
+                    param.put("sMobileNo", info.getMobileNo());
+                    param.put("cPrimaryx", info.getPrimaryx());
+                    param.put("sRemarksx", info.getRemarksx());
+                    param.put("sSourceCD", "DCPa");
+                    param.put("sSourceNo", fsTransno);
 
-                        Log.e("Mobile JsonParam", param.toString());
+                    Log.e("Mobile JsonParam", param.toString());
 
-                        String lsMobileUpdtResponse = WebClient.sendRequest(WebApi.URL_UPDATE_MOBILE, param.toString(), poHeaders.getHeaders());
+                    String lsMobileUpdtResponse = WebClient.sendRequest(WebApi.URL_UPDATE_MOBILE, param.toString(), poHeaders.getHeaders());
 
-                        if (lsMobileUpdtResponse == null) {
-                            Log.e("Mobile Update Result:", "Server no Repsonse");
-                        } else {
-                            JSONObject loMobResult = new JSONObject(lsMobileUpdtResponse);
-                            String result = loMobResult.getString("result");
+                    if (lsMobileUpdtResponse == null) {
+                        Log.e("Mobile Update Result:", "Server no Repsonse");
+                    } else {
+                        JSONObject loMobResult = new JSONObject(lsMobileUpdtResponse);
+                        String result = loMobResult.getString("result");
 //                                        Log.e("The Mobile Result", String.valueOf(loMobResult));
-                            if (result.equalsIgnoreCase("success")) {
-                                String newTransNox = loMobResult.getString("sTransNox");
-                                rCollect.updateMobileStatus(newTransNox, info.getTransNox());
-                                Log.e("Mobile Update Result:", result);
-                            } else {
-                                Log.e("Mobile Update Result:", "Failed");
-                            }
+                        if (result.equalsIgnoreCase("success")) {
+                            String newTransNox = loMobResult.getString("sTransNox");
+                            rCollect.updateMobileStatus(newTransNox, info.getTransNox());
+                            Log.e("Mobile Update Result:", result);
+                        } else {
+                            Log.e("Mobile Update Result:", "Failed");
                         }
-                        Thread.sleep(1000);
                     }
+                    Thread.sleep(1000);
                 }
+            }
         }
     }
 
@@ -1100,12 +1075,12 @@ public class VMCollectionList extends AndroidViewModel {
                             }
                             // Address
                             else if(loDetail.saReqstCde != null &&
-                            loDetail.saAddrsTp != null &&
-                            loDetail.saHouseNox != null &&
-                            loDetail.saAddress != null &&
-                            loDetail.saTownIDxx != null &&
-                            loDetail.saBrgyIDxx != null &&
-                            loDetail.saRemarksx != null) {
+                                    loDetail.saAddrsTp != null &&
+                                    loDetail.saHouseNox != null &&
+                                    loDetail.saAddress != null &&
+                                    loDetail.saTownIDxx != null &&
+                                    loDetail.saBrgyIDxx != null &&
+                                    loDetail.saRemarksx != null) {
                                 JSONObject paramAddress = new JSONObject();
                                 paramAddress.put("cReqstCDe", loDetail.saReqstCde);
                                 paramAddress.put("cAddrssTp", loDetail.saAddrsTp);
@@ -1170,9 +1145,9 @@ public class VMCollectionList extends AndroidViewModel {
             JSONExport = jsonObject;
             if(JSONExport != null){
                 callBack.OnJSONCreated(jsonObject);
-                callBack.OnSuccessResult(new String[]{"Collection list exported successfully."});
+                callBack.OnSuccessResult(new String[]{"Collection list exported successfully. Tap 'Okay' to create dcp file for backup"});
             } else {
-                callBack.OnFailedResult(("No available collection list to export."));
+                callBack.OnFailedResult(("No available collection list to export. Tap 'Okay' to create dcp file for backup"));
             }
         }
     }
@@ -1248,5 +1223,24 @@ public class VMCollectionList extends AndroidViewModel {
 
     public interface ImportJSONCallback {
         void OnDataExtract(List<EDCPCollectionDetail> collectionDetlList, EDCPCollectionMaster collectionMaster);
+    }
+
+    private String readTextFile(Uri uri)
+    {
+        BufferedReader reader = null;
+        StringBuilder builder = new StringBuilder();
+        try
+        {
+            reader = new BufferedReader(new InputStreamReader(instance.getContentResolver().openInputStream(uri)));
+
+            String line = "";
+            while ((line = reader.readLine()) != null)
+            {
+                builder.append(line);
+            }
+            reader.close();
+        }
+        catch (IOException e) {e.printStackTrace();}
+        return builder.toString();
     }
 }

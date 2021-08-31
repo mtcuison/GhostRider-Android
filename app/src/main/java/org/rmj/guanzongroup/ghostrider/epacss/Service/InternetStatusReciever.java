@@ -40,6 +40,7 @@ import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -85,6 +86,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
         private final RBranchLoanApplication poLoan;
         private final RCreditApplicationDocument poDocs;
         private final RDCP_Remittance poRemit;
+        private final AppConfigPreference poConfig;
 
         private String lsClient;
         private String lsAccess;
@@ -116,6 +118,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
             this.poLoan = new RBranchLoanApplication(instance);
             this.poDocs = new RCreditApplicationDocument(instance);
             this.poRemit = new RDCP_Remittance(instance);
+            this.poConfig = AppConfigPreference.getInstance(instance);
         }
 
         @Override
@@ -198,7 +201,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
         void uploadLoginImages() throws Exception{
             if(loginImageInfo.size() > 0 || loginDetails.size() > 0 || collectionDetails.size() > 0) {
                 publishProgress("Requesting access token...");
-                lsClient = RequestClientToken("IntegSys", poSession.getClientId(), poSession.getUserID());
+                lsClient = RequestClientToken(poConfig.ProducID(), poSession.getClientId(), poSession.getUserID());
                 lsAccess = RequestAccessToken(lsClient);
 
                 if (loginImageInfo.size() > 0) {
@@ -433,7 +436,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
 
         void uploadLoanApplicationsDocuments() throws Exception{
             if (lsClient == null || lsAccess == null || lsClient.isEmpty() || lsAccess.isEmpty()) {
-                lsClient = RequestClientToken("IntegSys", poSession.getClientId(), poSession.getUserID());
+                lsClient = RequestClientToken(poConfig.ProducID(), poSession.getClientId(), poSession.getUserID());
                 lsAccess = RequestAccessToken(lsClient);
             }
 

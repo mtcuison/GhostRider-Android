@@ -29,7 +29,6 @@
             android:id="@+id/lbl_messageTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Employee Timesheet Report"
             android:textSize="24sp"
             android:fontFamily="@font/roboto_medium"
             android:textColor="@color/material_black"
@@ -44,17 +43,16 @@
             android:layout_marginBottom="10dp">
 
             <ImageView
+                android:id="@+id/img_sender"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_weight="4.5"
-                android:src="@drawable/ic_user_profile"/>
+                android:layout_weight="4.5"/>
 
             <TextView
                 android:id="@+id/lbl_messageSender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Employee Timesheet Report"
                 android:textSize="18sp"
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/material_black"
@@ -90,7 +88,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="mikegarcia8748@gmail.com"
                         android:textColor="@color/material_black"
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
@@ -115,7 +112,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="14 December 2020, 2:39 PM"
                         android:textColor="@color/material_black"
                         android:fontFamily="@font/roboto_regular"/>
                 </LinearLayout>
@@ -129,19 +125,15 @@
         android:padding="20dp"
         android:background="@drawable/message_info_bg"
         android:layout_margin="5dp">
+
         <TextView
             android:id="@+id/lbl_messageBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Good day!\n
-        HDMF/Pag-Ibig in coordination with HCM is accepting applications for those who would like to avail of the new Loyalty Card Plus.Please fill up and send a hard copy of the application form together with your valid ID to Ms. Shirley Maynigo at HCM, GK bldg. before November 5, 2020.\n
-        For interested applicants, please prepare P125 to be paid on the actual date of registration.\n\n
-        The new Pag-Ibig loyalty card plus has a built-in EMV chip. You can use it as a cash card where you may conveniently receive your Pag-Ibig Multi-Purpose Loan (MPL) proceeds, MP2 saving dividends, and other benefits."
             android:textColor="@color/material_black"
-            android:fontFamily="@font/roboto_regular"
-            android:linksClickable="true"
-            android:autoLink="all"
-            />
+            android:bufferType="spannable"
+            android:fontFamily="@font/roboto_regular" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_cash_count"
             android:layout_width="wrap_content"

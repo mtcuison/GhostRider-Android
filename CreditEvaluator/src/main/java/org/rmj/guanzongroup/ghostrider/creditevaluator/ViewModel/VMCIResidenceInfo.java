@@ -36,6 +36,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_CIApplication;
@@ -226,6 +227,7 @@ public class VMCIResidenceInfo extends AndroidViewModel {
         private final Telephony poTelephony;
         private final HttpHeaders poHeaders;
         private final RCollectionUpdate rCollect;
+        private final AppConfigPreference poConfig;
 
         private final EImageInfo psImgInfo;
         public PostResidenceDetail(Application instance, EImageInfo psImgInfo, OnImportCallBack callback) {
@@ -238,6 +240,7 @@ public class VMCIResidenceInfo extends AndroidViewModel {
             this.poTelephony = new Telephony(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.rCollect = new RCollectionUpdate(instance);
+            this.poConfig = AppConfigPreference.getInstance(instance);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -248,7 +251,7 @@ public class VMCIResidenceInfo extends AndroidViewModel {
                 if (!poConn.isDeviceConnected()) {
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                    String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(), poUser.getClientId(), poUser.getUserID());
                     String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
                     if (lsClient.isEmpty() || lsAccess.isEmpty()) {
