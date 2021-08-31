@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,16 +36,19 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ResidenceInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
+import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMIntroductoryQuestion;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMResidenceInfo;
 
 import java.util.Objects;
 
 public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBack {
 
+    public static final String TAG = Fragment_ResidenceInfo.class.getSimpleName();
     private VMResidenceInfo mViewModel;
     private ResidenceInfoModel infoModel;
     private TextInputEditText txtLandMark,
@@ -89,6 +93,7 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         infoModel = new ResidenceInfoModel();
         TransNox = Activity_CreditApplication.getInstance().getTransNox();
         initWidgets(view);
+
         return view;
     }
 
@@ -126,6 +131,7 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         rgGarage.setOnCheckedChangeListener(new OnHouseOwnershipSelectListener());
         btnNext = v.findViewById(R.id.btn_creditAppNext);
         btnPrvs = v.findViewById(R.id.btn_creditAppPrvs);
+
     }
 
     @Override
@@ -133,7 +139,12 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMResidenceInfo.class);
         mViewModel.setTransNox(TransNox);
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setGOCasDetailInfo(eCreditApplicantInfo));
+        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo ->{
+            mViewModel.setGOCasDetailInfo(eCreditApplicantInfo);
+            Log.e(TAG, eCreditApplicantInfo.toString());
+        });
+
+        mViewModel.getResidenceInfoModel().observe(getViewLifecycleOwner(), personalInfoModel -> infoModel = personalInfoModel);
 
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
@@ -147,6 +158,7 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             for(int x = 0; x < eProvinceInfos.size(); x++){
                 if(txtProvince.getText().toString().equalsIgnoreCase(eProvinceInfos.get(x).getProvName())){
                     mViewModel.setProvinceID(eProvinceInfos.get(x).getProvIDxx());
+                    infoModel.setProvinceID(eProvinceInfos.get(x).getProvIDxx());
                     break;
                 }
             }
@@ -161,6 +173,7 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             for(int x = 0; x < eTownInfos.size(); x++){
                 if(txtMunicipality.getText().toString().equalsIgnoreCase(eTownInfos.get(x).getTownName())){
                     mViewModel.setTownID(eTownInfos.get(x).getTownIDxx());
+                    infoModel.setMunicipalID(eTownInfos.get(x).getTownIDxx());
                     break;
                 }
             }
@@ -176,6 +189,7 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             for(int x = 0; x < eBarangayInfos.size(); x++){
                 if(txtBarangay.getText().toString().equalsIgnoreCase(eBarangayInfos.get(x).getBrgyName())){
                     mViewModel.setBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
+                    infoModel.setBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
                     break;
                 }
             }
@@ -185,6 +199,7 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             for(int x = 0; x < eProvinceInfos.size(); x++){
                 if(txtPProvince.getText().toString().equalsIgnoreCase(eProvinceInfos.get(x).getProvName())){
                     mViewModel.setPermanentProvinceID(eProvinceInfos.get(x).getProvIDxx());
+                    infoModel.setPermanentProvinceID(eProvinceInfos.get(x).getProvIDxx());
                     break;
                 }
             }
@@ -200,6 +215,7 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             for(int x = 0; x < eTownInfos.size(); x++){
                 if(txtPMunicipl.getText().toString().equalsIgnoreCase(eTownInfos.get(x).getTownName())){
                     mViewModel.setPermanentTownID(eTownInfos.get(x).getTownIDxx());
+                    infoModel.setPermanentMunicipalID(eTownInfos.get(x).getTownIDxx());
                     break;
                 }
             }
@@ -216,6 +232,7 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             for(int x = 0; x < eBarangayInfos.size(); x++){
                 if(txtPBarangay.getText().toString().equalsIgnoreCase(eBarangayInfos.get(x).getBrgyName())){
                     mViewModel.setPermanentBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
+                    infoModel.setPermanentBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
                     break;
                 }
             }
@@ -239,7 +256,10 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         spnHouseHold.setOnItemClickListener(new OnItemClickListener(spnHouseHold));
         spnHouseType.setOnItemClickListener(new OnItemClickListener(spnHouseType));
         spnLgnthStay.setOnItemClickListener(new OnItemClickListener(spnLgnthStay));
-        btnNext.setOnClickListener(view -> SaveResidenceInfo());
+        btnNext.setOnClickListener(v ->{
+//
+            SaveResidenceInfo();
+        } );
         btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(0));
     }
 

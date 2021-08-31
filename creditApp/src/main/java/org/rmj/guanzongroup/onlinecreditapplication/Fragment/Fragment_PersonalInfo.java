@@ -45,6 +45,8 @@ import java.util.Objects;
 
 public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack {
     public static final String TAG = Fragment_PersonalInfo.class.getSimpleName();
+    private static final String Fragment_PersonalInfo = "org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_PersonalInfo";
+
     private VMPersonalInfo mViewModel;
     private PersonalInfoModel infoModel;
     private TextInputEditText txtLastNm, txtFrstNm, txtMiddNm, txtSuffixx, txtNickNm, txtBirthDt, txtMothNm, txtMobileNo1, txtMobileNo2, txtMobileNo3, txtMobileYr1, txtMobileYr2, txtMobileYr3, txtTellNox, txtEmailAdd, txtFbAccount, txtViberAccount;
@@ -62,7 +64,10 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
     public static Fragment_PersonalInfo newInstance() {
         return new Fragment_PersonalInfo();
     }
-
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {

@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PensionInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -115,6 +116,9 @@ public class VMPensionInfo extends AndroidViewModel {
                 poGoCas.MeansInfo().PensionerInfo().setYearRetired(infoModel.getRetirementYear());
                 poGoCas.MeansInfo().setOtherIncomeNature(infoModel.getNatureOfIncome());
                 poGoCas.MeansInfo().setOtherIncomeAmount(infoModel.getRangeOfIncome());
+                Activity_CreditApplication.getInstance().setMeansPensioner(poGoCas.MeansInfo().PensionerInfo());
+                Activity_CreditApplication.getInstance().setOtherIncomeNature(poGoCas.MeansInfo().getOtherIncomeNature());
+                Activity_CreditApplication.getInstance().setOtherIncomeAmount(poGoCas.MeansInfo().getOtherIncomeAmount());
                 poInfo.setPensionx(poGoCas.MeansInfo().toJSONString());
                 poCreditApp.updateGOCasData(poInfo);
                 callBack.onSaveSuccessResult(String.valueOf(getNextPage()));

@@ -18,10 +18,20 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.gocas.pojo.ApplicantInfo;
+import org.rmj.gocas.pojo.MeansEmployed;
+import org.rmj.gocas.pojo.MeansFinancer;
+import org.rmj.gocas.pojo.MeansInfo;
+import org.rmj.gocas.pojo.MeansPensioner;
+import org.rmj.gocas.pojo.MeansSelfEmployed;
+import org.rmj.gocas.pojo.ResidenceInfo;
+import org.rmj.gocas.pojo.SpouseInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_EmploymentInfo;
@@ -37,8 +47,18 @@ public class Activity_CreditApplication extends AppCompatActivity {
     private static final String TAG = Activity_CreditApplication.class.getSimpleName();
     private static Activity_CreditApplication instance;
     private ViewPager viewPager;
-    private String transNox;
+    private String transNox, otherIncomeNature;
+    private long otherIncomeAmount;
+    private ApplicantInfo applicantInfo;
+    private ResidenceInfo residenceInfo;
+    private MeansEmployed meansEmployedInfo;
+    private MeansSelfEmployed meansSelfEmployed;
+    private MeansPensioner meansPensioner;
+    private MeansFinancer meansFinancer;
+    private ApplicantInfo spouseInfo;
+    private ResidenceInfo spouseResidenceInfo;
 
+    private GOCASApplication poGoCas;
     public static Activity_CreditApplication getInstance(){
         return instance;
     }
@@ -51,11 +71,81 @@ public class Activity_CreditApplication extends AppCompatActivity {
         viewPager.setCurrentItem(fnPageNum);
     }
 
+//    SETTER
+//      PPOJO CLASS of GOCAS
+
+    public void setApplicantInfo(ApplicantInfo applicantInfo){
+        this.applicantInfo = applicantInfo;
+        Log.e(TAG, poGoCas.ApplicantInfo().toJSONString());
+    }
+    public void setResidenceInfo(ResidenceInfo residenceInfo){
+        this.residenceInfo = residenceInfo;
+        Log.e(TAG, "residence = " + residenceInfo.toJSONString());
+    }
+    public void setMeansEmployedInfo(MeansEmployed meansEmployedInfo) {
+        this.meansEmployedInfo = meansEmployedInfo;
+    }
+    public void setSpouseInfo(ApplicantInfo spouseInfo) {
+        this.spouseInfo = spouseInfo;
+    }
+    public void setSpouseResidenceInfo(ResidenceInfo spouseresidenceInfo) {
+        this.spouseResidenceInfo = spouseresidenceInfo;
+    }
+    public void setMeansSelfEmployed(MeansSelfEmployed meansSelfEmployed) {
+        this.meansSelfEmployed = meansSelfEmployed;
+    }
+    public void setMeansPensioner(MeansPensioner meansPensioner) {
+        this.meansPensioner = meansPensioner;
+    }
+    public void setOtherIncomeNature(String otherIncomeNature) {
+        this.otherIncomeNature = otherIncomeNature;
+    }
+    public void setOtherIncomeAmount(long otherIncomeAmount) {
+        this.otherIncomeAmount = otherIncomeAmount;
+    }
+
+//    GETTER
+//      PPOJO CLASS of GOCAS
+    public ApplicantInfo getApplicantInfo(){
+        return applicantInfo;
+    }
+    public ResidenceInfo getResidenceInfo(){
+        return residenceInfo;
+    }
+    public MeansEmployed getMeansEmployedInfo() {
+        return meansEmployedInfo;
+    }
+
+    public ApplicantInfo getSpouseInfo() {
+        return spouseInfo;
+    }
+
+    public MeansSelfEmployed getMeansSelfEmployed() {
+        return meansSelfEmployed;
+    }
+    public MeansPensioner getMeansPensioner() {
+        return meansPensioner;
+    }
+
+    public MeansFinancer getMeansFinancer() {
+        return meansFinancer;
+    }
+
+    public void setMeansFinancer(MeansFinancer meansFinancer) {
+        this.meansFinancer = meansFinancer;
+    }
+
+    public void sendCreditApplication(){
+        poGoCas.ApplicantInfo().setData(applicantInfo.toJSON());
+        poGoCas.ResidenceInfo().setData(residenceInfo.toJSON());
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credit_application);
         instance = this;
+        poGoCas = new GOCASApplication();
         transNox = getIntent().getStringExtra("transno");
         initWidgets();
     }
@@ -108,4 +198,10 @@ public class Activity_CreditApplication extends AppCompatActivity {
         super.onDestroy();
         getViewModelStore().clear();
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
 }

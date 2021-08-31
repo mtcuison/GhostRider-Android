@@ -12,6 +12,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
@@ -19,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.SavedStateHandle;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
@@ -30,6 +32,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.g3appdriver.utils.AgeCalculator;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -45,11 +48,9 @@ public class VMPersonalInfo extends AndroidViewModel {
     private final RProvince RProvince;
     private final RTown RTown;
     private final RCountry RCountry;
-
     private final LiveData<List<EProvinceInfo>> provinceInfoList;
 
     private final MutableLiveData<PersonalInfoModel> poModel = new MutableLiveData<>();
-
     private final MutableLiveData<String> TRANSNOX = new MutableLiveData<>();
     private final MutableLiveData<String> lsProvID = new MutableLiveData<>();
     private final MutableLiveData<String> lsBPlace = new MutableLiveData<>();
@@ -57,7 +58,7 @@ public class VMPersonalInfo extends AndroidViewModel {
     private final MutableLiveData<String> lsCvlStats = new MutableLiveData<>();
     private final MutableLiveData<Integer> lnMthrNme = new MutableLiveData<>();
     private final MutableLiveData<String> lsCitizen = new MutableLiveData<>();
-
+    private SavedStateHandle mState;
     public VMPersonalInfo(@NonNull Application application){
         super(application);
         RCreditApplicant = new RCreditApplicant(application);
@@ -69,7 +70,9 @@ public class VMPersonalInfo extends AndroidViewModel {
         this.lnMthrNme.setValue(View.GONE);
         this.poModel.setValue(new PersonalInfoModel());
     }
-
+    public void SavedStateViewModel(SavedStateHandle savedStateHandle) {
+        mState = savedStateHandle;
+    }
     public LiveData<PersonalInfoModel> getPersonalInfoModel(){
         return poModel;
     }
@@ -140,15 +143,16 @@ public class VMPersonalInfo extends AndroidViewModel {
                 } else {
                     poInfo.setIsSpouse("0");
                 }
-
-                if(poInfo.getApplInfo() == null){
-                    poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
-                    poInfo.setApplInfo(poGoCas.ApplicantInfo().toJSONString());
-                    callBack.onSaveSuccessResult(TRANSNOX.getValue());
-                } else if(poInfo.getApplInfo().equalsIgnoreCase(poGoCas.toJSONString())){
-                    RCreditApplicant.updateGOCasData(poInfo);
-                }
-
+                Activity_CreditApplication.getInstance().setApplicantInfo(poGoCas.ApplicantInfo());
+//                if(poInfo.getApplInfo() == null || poInfo.getApplInfo().isEmpty()){
+//                    poInfo.setClientNm(poGoCas.ApplicantInfo().getClientName());
+//                    poInfo.setApplInfo(poGoCas.ApplicantInfo().toJSONString());
+//                    callBack.onSaveSuccessResult(TRANSNOX.getValue());
+//                } else if(poInfo.getApplInfo().equalsIgnoreCase(poGoCas.toJSONString())){
+//                    RCreditApplicant.updateGOCasData(poInfo);
+//                }
+                RCreditApplicant.updateGOCasData(poInfo);
+                Log.e(TAG, poInfo.getApplInfo());
                 callBack.onSaveSuccessResult(TRANSNOX.getValue());
                 return true;
             } else {

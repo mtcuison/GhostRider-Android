@@ -39,6 +39,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.ROccupation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.EmploymentInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -228,6 +229,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
                 poGoCasxx.MeansInfo().EmployedInfo().setCompanyNo(infoModel.getContact());
 
                 poInfo.setEmplymnt(poGoCasxx.MeansInfo().EmployedInfo().toJSONString());
+                Activity_CreditApplication.getInstance().setMeansEmployedInfo(poGoCasxx.MeansInfo().EmployedInfo());
                 poCredtAp.updateGOCasData(poInfo);
                 Log.e(TAG, poGoCasxx.toJSONString());
                 callBack.onSaveSuccessResult(String.valueOf(getNextPage()));

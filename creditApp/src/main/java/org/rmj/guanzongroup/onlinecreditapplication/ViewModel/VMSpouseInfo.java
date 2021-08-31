@@ -35,6 +35,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SpouseInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -255,6 +256,7 @@ public class VMSpouseInfo extends AndroidViewModel {
 
                 Log.e(TAG, poGoCas.SpouseInfo().PersonalInfo().toJSONString());
                 Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
+                Activity_CreditApplication.getInstance().setSpouseInfo(poGoCas.SpouseInfo().PersonalInfo());
                 callBack.onSaveSuccessResult(TransNox.getValue());
                 return true;
             } else {

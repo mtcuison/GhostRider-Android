@@ -29,7 +29,10 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ResidenceInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -44,6 +47,8 @@ public class VMResidenceInfo extends AndroidViewModel {
     private final RTown poTownRpo;
     private final RBarangay poBarangy;
 
+    private final LiveData<List<EProvinceInfo>> provinceInfoList;
+    private final MutableLiveData<ResidenceInfoModel> poModel = new MutableLiveData<>();
     private final MutableLiveData<String> TRANSNOX = new MutableLiveData<>();
     private final MutableLiveData<String> psProvID = new MutableLiveData<>();
     private final MutableLiveData<String> psTownID = new MutableLiveData<>();
@@ -58,9 +63,12 @@ public class VMResidenceInfo extends AndroidViewModel {
         this.poProvnce = new RProvince(application);
         this.poTownRpo = new RTown(application);
         this.poBarangy = new RBarangay(application);
-        this.poGoCas = new GOCASApplication();
+        this.poGoCas = GOCASHolder.getInstance().getGOCAS();
+        this.provinceInfoList = poProvnce.getAllProvinceInfo();
     }
-
+    public LiveData<ResidenceInfoModel> getResidenceInfoModel(){
+        return poModel;
+    }
     public void setProvinceID(String ID){
         this.psProvID.setValue(ID);
     }
@@ -96,6 +104,7 @@ public class VMResidenceInfo extends AndroidViewModel {
     public void setGOCasDetailInfo(ECreditApplicantInfo DetailInfo){
         try{
             poInfo = DetailInfo;
+
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -106,7 +115,7 @@ public class VMResidenceInfo extends AndroidViewModel {
     }
 
     public LiveData<List<EProvinceInfo>> getProvinceInfoList(){
-        return poProvnce.getAllProvinceInfo();
+        return provinceInfoList;
     }
 
     public LiveData<String[]> getTownNameList(){
@@ -161,13 +170,14 @@ public class VMResidenceInfo extends AndroidViewModel {
 
     public void SaveResidenceInfo(ResidenceInfoModel infoModel, ViewModelCallBack callBack){
         try {
-            if(poInfo.getApplInfo() == null) {
+//            if(poInfo.getApplInfo() == null) {
                 infoModel.setProvinceID(psProvID.getValue());
                 infoModel.setMunicipalID(psTownID.getValue());
                 infoModel.setBarangayID(psBrgyID.getValue());
                 infoModel.setPermanentProvinceID(psPProvD.getValue());
                 infoModel.setPermanentMunicipalID(psPTownD.getValue());
                 infoModel.setPermanentBarangayID(psPBrgyD.getValue());
+
                 if (infoModel.isDataValid()) {
                     poGoCas.ResidenceInfo().PresentAddress().setLandMark(infoModel.getLandMark());
                     poGoCas.ResidenceInfo().PresentAddress().setHouseNo(infoModel.getHouseNox());
@@ -190,15 +200,16 @@ public class VMResidenceInfo extends AndroidViewModel {
                     poGoCas.ResidenceInfo().PermanentAddress().setTownCity(infoModel.getPermanentMunicipalID());
                     poGoCas.ResidenceInfo().PermanentAddress().setBarangay(infoModel.getPermanentBarangayID());
                     poInfo.setResidnce(poGoCas.ResidenceInfo().toJSONString());
-                    Log.e(TAG, poGoCas.toJSONString());
-                    RCreditApplicant.updateGOCasData(poInfo);
+                    poModel.setValue(infoModel);
+//                    RCreditApplicant.updateGOCasData(poInfo);
+                    RCreditApplicant.updateApplicantResidenceInfo(Activity_CreditApplication.getInstance().getTransNox(), poGoCas.ResidenceInfo().toJSONString());
                     callBack.onSaveSuccessResult("Success");
                 } else {
                     callBack.onFailedResult(infoModel.getMessage());
                 }
-            } else {
-                callBack.onSaveSuccessResult("Success");
-            }
+//            } else {
+//                callBack.onSaveSuccessResult("Success");
+//            }
         } catch (Exception e){
             callBack.onFailedResult(e.getMessage());
             e.printStackTrace();
