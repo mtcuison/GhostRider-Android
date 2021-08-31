@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class VMMeansInfoSelection extends AndroidViewModel {
     public VMMeansInfoSelection(@NonNull Application application) {
         super(application);
         this.poCreditA = new RCreditApplicant(application);
-        this.poGOCasxx = new GOCASApplication();
+        this.poGOCasxx = GOCASHolder.getInstance().getGOCAS();
         this.psMeansIf.setValue(new ArrayList<>());
         this.poJsonMnx.setValue(new JSONObject());
     }

@@ -35,6 +35,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SelfEmployedInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -65,7 +66,7 @@ public class VMSelfEmployedInfo extends AndroidViewModel {
         poCreditApp = new RCreditApplicant(application);
         poProvRepo = new RProvince(application);
         poTownRepo = new RTown(application);
-        poGoCas = new GOCASApplication();
+        poGoCas = GOCASHolder.getInstance().getGOCAS();
     }
 
     public void setTransNox(String fsTransnox){

@@ -30,6 +30,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DependentsInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -63,7 +64,7 @@ public class VMDependent extends AndroidViewModel {
         this.poProvnce = new RProvince(application);
         this.poTownRpo = new RTown(application);
         this.poApplcnt = new RCreditApplicant(application);
-        this.poGoCasxx = new GOCASApplication();
+        this.poGoCasxx = GOCASHolder.getInstance().getGOCAS();
         infoModels = new ArrayList<>();
         dependentInfo.setValue(new ArrayList<>());
         this.linearEmployed.setValue(View.GONE);

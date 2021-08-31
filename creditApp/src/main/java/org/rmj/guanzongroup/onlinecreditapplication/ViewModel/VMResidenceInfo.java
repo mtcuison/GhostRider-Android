@@ -30,6 +30,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ResidenceInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -58,7 +59,7 @@ public class VMResidenceInfo extends AndroidViewModel {
         this.poProvnce = new RProvince(application);
         this.poTownRpo = new RTown(application);
         this.poBarangy = new RBarangay(application);
-        this.poGoCas = new GOCASApplication();
+        this.poGoCas = GOCASHolder.getInstance().getGOCAS();
     }
 
     public void setProvinceID(String ID){
@@ -161,7 +162,7 @@ public class VMResidenceInfo extends AndroidViewModel {
 
     public void SaveResidenceInfo(ResidenceInfoModel infoModel, ViewModelCallBack callBack){
         try {
-            if(poInfo.getApplInfo() == null) {
+            if(poInfo.getApplInfo() != null) {
                 infoModel.setProvinceID(psProvID.getValue());
                 infoModel.setMunicipalID(psTownID.getValue());
                 infoModel.setBarangayID(psBrgyID.getValue());
@@ -197,7 +198,7 @@ public class VMResidenceInfo extends AndroidViewModel {
                     callBack.onFailedResult(infoModel.getMessage());
                 }
             } else {
-                callBack.onSaveSuccessResult("Success");
+                callBack.onFailedResult("Personal Info is null.");
             }
         } catch (Exception e){
             callBack.onFailedResult(e.getMessage());

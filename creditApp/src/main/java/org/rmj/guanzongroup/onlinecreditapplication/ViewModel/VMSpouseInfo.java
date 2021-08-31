@@ -36,6 +36,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SpouseInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -67,7 +68,7 @@ public class VMSpouseInfo extends AndroidViewModel {
     private final MutableLiveData<Integer> mobileNo3Year = new MutableLiveData<>();
     public VMSpouseInfo(@NonNull Application application) { // Application is context
         super(application);
-        poGoCas = new GOCASApplication();
+        poGoCas = GOCASHolder.getInstance().getGOCAS();
         poCreditApp = new RCreditApplicant(application);
         poProvRepo = new RProvince(application);
         poTownRepo = new RTown(application);

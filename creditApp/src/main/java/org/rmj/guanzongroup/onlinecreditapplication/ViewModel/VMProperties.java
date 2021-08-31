@@ -22,6 +22,7 @@ import androidx.lifecycle.MutableLiveData;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
 public class VMProperties extends AndroidViewModel {
@@ -46,7 +47,7 @@ public class VMProperties extends AndroidViewModel {
     public VMProperties(@NonNull Application application) {
         super(application);
         this.poCreditApp = new RCreditApplicant(application);
-        this.poGOcas = new GOCASApplication();
+        this.poGOcas = GOCASHolder.getInstance().getGOCAS();
         this.poInfo = new ECreditApplicantInfo();
     }
 
