@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -41,6 +42,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Data.UploadCreditApp;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerResidenceModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Data.GoCasBuilder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -66,7 +68,7 @@ public class VMComakerResidence extends AndroidViewModel {
 
     public VMComakerResidence(@NonNull Application application) {
         super(application);
-        this.poGoCas = new GOCASApplication();
+        this.poGoCas = GOCASHolder.getInstance().getGOCAS();
         this.poCreditApp = new RCreditApplicant(application);
         this.poProvnce = new RProvince(application);
         this.poTownRpo = new RTown(application);
@@ -157,6 +159,7 @@ public class VMComakerResidence extends AndroidViewModel {
             poGoCas.CoMakerInfo().ResidenceInfo().hasGarage(infoModel.getsHasGarge());
             poInfo.setCmResidx(poGoCas.CoMakerInfo().ResidenceInfo().toJSONString());
             poCreditApp.updateGOCasData(poInfo);
+            Log.e(TAG, poGoCas.toJSONString());
             callBack.onSaveSuccessResult("success");
         } else {
             callBack.onFailedResult(infoModel.getMessage());

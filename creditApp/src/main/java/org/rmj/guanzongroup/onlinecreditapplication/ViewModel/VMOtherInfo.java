@@ -39,6 +39,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.gocas.pojo.OtherInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.OtherInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalReferenceInfoModel;
@@ -73,7 +74,7 @@ public class VMOtherInfo extends AndroidViewModel {
         RTown = new RTown(application);
         RCountry = new RCountry(application);
         provinceInfoList = RProvince.getAllProvinceInfo();
-        poGoCas = new GOCASApplication();
+        poGoCas = GOCASHolder.getInstance().getGOCAS();
         poReference.setValue(new ArrayList<>());
     }
 

@@ -28,7 +28,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
     import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
     import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
     import org.rmj.gocas.base.GOCASApplication;
-    import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
+    import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
     import org.rmj.guanzongroup.onlinecreditapplication.Model.SpouseResidenceInfoModel;
     import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -59,7 +59,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
         public VMSpouseResidenceInfo(@NonNull Application application) {
             super(application);
-            poGoCas = new GOCASApplication();
+            poGoCas = GOCASHolder.getInstance().getGOCAS();
             poCreditApp = new RCreditApplicant(application);
             poProvRepo = new RProvince(application);
             poTownRepo = new RTown(application);
@@ -194,8 +194,6 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
                     poInfo.setTransNox(TransNox.getValue());
                     poInfo.setSpsResdx(poGoCas.SpouseInfo().ResidenceInfo().toJSONString());
-
-                    Activity_CreditApplication.getInstance().setSpouseResidenceInfo(poGoCas.SpouseInfo().ResidenceInfo());
                     poCreditApp.updateGOCasData(poInfo);
 
                     //Added by sir mike

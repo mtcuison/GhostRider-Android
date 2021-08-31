@@ -44,6 +44,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Data.UploadCreditApp;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Data.GoCasBuilder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -88,7 +89,7 @@ public class VMCoMaker extends AndroidViewModel {
         RTown = new RTown(application);
         RCountry = new RCountry(application);
         provinceInfoList = RProvince.getAllProvinceInfo();
-        poGoCas = new GOCASApplication();
+        poGoCas = GOCASHolder.getInstance().getGOCAS();
         this.cmrPrimaryCntctPlan.setValue(View.GONE);
         this.cmrSecondaryCntctPlan.setValue(View.GONE);
         this.cmrTertiaryCntctPlan.setValue(View.GONE);

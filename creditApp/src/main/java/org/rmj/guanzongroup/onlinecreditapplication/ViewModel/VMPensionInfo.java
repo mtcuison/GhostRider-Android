@@ -32,6 +32,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PensionInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -48,7 +49,7 @@ public class VMPensionInfo extends AndroidViewModel {
     public VMPensionInfo(@NonNull Application application) {
         super(application);
         poCreditApp = new RCreditApplicant(application);
-        poGoCas = new GOCASApplication();
+        poGoCas = GOCASHolder.getInstance().getGOCAS();
     }
 
     public void setTransNox(String fsTransNox){

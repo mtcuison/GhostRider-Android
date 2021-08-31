@@ -5,15 +5,15 @@
  * Project name : GhostRider_Android
  * Module : GhostRider_Android.creditApp
  * Electronic Personnel Access Control Security System
- * project file created : 8/28/21 8:47 AM
- * project file last modified : 8/28/21 8:47 AM
+ * project file created : 8/27/21 3:44 PM
+ * project file last modified : 8/27/21 3:44 PM
  */
 
 package org.rmj.guanzongroup.onlinecreditapplication.Etc;
 
 import org.rmj.gocas.base.GOCASApplication;
 
-public class GOCASHolder {
+public final class GOCASHolder {
     private static GOCASHolder INSTANCE;
     private static GOCASApplication poGocasxx;
 
@@ -46,4 +46,5 @@ public class GOCASHolder {
         INSTANCE = null;
         // or poGocasxx = null;
     }
+
 }

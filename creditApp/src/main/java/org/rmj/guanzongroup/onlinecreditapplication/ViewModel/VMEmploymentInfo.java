@@ -41,6 +41,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.EmploymentInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
@@ -72,7 +73,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
         this.poCountry = new RCountry(application);
         this.poJobRepo = new ROccupation(application);
         this.poCredtAp = new RCreditApplicant(application);
-        this.poGoCasxx = new GOCASApplication();
+        this.poGoCasxx = GOCASHolder.getInstance().getGOCAS();
         this.psSectorx.setValue("1");
     }
 
