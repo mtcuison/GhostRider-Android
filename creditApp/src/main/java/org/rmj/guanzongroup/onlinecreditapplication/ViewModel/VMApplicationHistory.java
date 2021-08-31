@@ -37,6 +37,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.ImportData.Import_LoanApplications;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -128,10 +129,12 @@ public class VMApplicationHistory extends AndroidViewModel {
         private ConnectionUtil poConn;
         private SessionManager poUser;
         private final EImageInfo poPhoto;
+        private final AppConfigPreference poConfig;
 
         private UploadImageFileTask(Application instance, EImageInfo foImage){
             this.instance = instance;
             this.poPhoto = foImage;
+            this.poConfig = AppConfigPreference.getInstance(instance);
         }
 
         @Override
@@ -146,7 +149,7 @@ public class VMApplicationHistory extends AndroidViewModel {
             TransNox = strings[0];
             String lsResponse = "";
             if(poConn.isDeviceConnected()){
-                String lsClient = WebFileServer.RequestClientToken("IntegSys",
+                String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(),
                         poUser.getClientId(),
                         poUser.getUserID());
                 String lsAccess = WebFileServer.RequestAccessToken(lsClient);
@@ -210,6 +213,7 @@ public class VMApplicationHistory extends AndroidViewModel {
         private final SessionManager poUser;
         private final RImageInfo poImage;
         private final String psSourceNo;
+        private final AppConfigPreference poConfig;
 
         public DownloadDocumentFile(Application instance, String fsSourceNo, DownloadImageCallBack callback) {
             this.poConn = new ConnectionUtil(instance);
@@ -217,6 +221,7 @@ public class VMApplicationHistory extends AndroidViewModel {
             this.psSourceNo = fsSourceNo;
             this.callback = callback;
             this.poImage = new RImageInfo(instance);
+            this.poConfig = AppConfigPreference.getInstance(instance);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -228,15 +233,15 @@ public class VMApplicationHistory extends AndroidViewModel {
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
 
-                    String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                    String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(), poUser.getClientId(), poUser.getUserID());
                     String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
                     if (lsClient.isEmpty() || lsAccess.isEmpty()) {
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
                     } else {
                         String imageName = psSourceNo + "_0_" + "0029.png";
-                        String root = Environment.getExternalStorageDirectory().toString();
-                        File fileLoc = new File(root + "/"+ AppConstants.APP_PUBLIC_FOLDER + "/CreditApp/" + psSourceNo + "/");
+                        String root = String.valueOf(instance.getExternalFilesDir(null));
+                        File fileLoc = new File(root + "/" + "/CreditApp/" + psSourceNo + "/");
                         if (!fileLoc.exists()) {
                             fileLoc.mkdirs();
                         }
@@ -356,6 +361,7 @@ public class VMApplicationHistory extends AndroidViewModel {
         private final ConnectionUtil loConnectx;
         private final HttpHeaders loHeaders;
         private final SessionManager poUser;
+        private final AppConfigPreference poConfig;
         private final OnImportCallBack callback;
 
         public ImportLoanApplication(Application application, OnImportCallBack callback) {
@@ -363,6 +369,7 @@ public class VMApplicationHistory extends AndroidViewModel {
             this.loConnectx = new ConnectionUtil(application);
             this.loHeaders = HttpHeaders.getInstance(application);
             this.poUser = new SessionManager(application);
+            this.poConfig = AppConfigPreference.getInstance(application);
             this.callback = callback;
         }
 
@@ -388,7 +395,7 @@ public class VMApplicationHistory extends AndroidViewModel {
 
                         Thread.sleep(500);
 
-                        String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                        String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(), poUser.getClientId(), poUser.getUserID());
                         String lsAccess = WebFileServer.RequestAccessToken(lsClient);
                         org.json.simple.JSONObject loResult = WebFileServer.CheckFile(lsAccess,
                                 "0029",

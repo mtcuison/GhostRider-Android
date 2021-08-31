@@ -55,12 +55,24 @@ public class RNotificationInfo {
         return notificationDao.getReadMessagesIDFromSender(SenderID);
     }
 
-    public void updateRecipientReadStatus(String SenderID){
-        notificationDao.updateRecipientReadStatus(SenderID, new AppConstants().DATE_MODIFIED);
+    public void updateNotificationReadStatus(String SenderID){
+        notificationDao.updateNotificationReadStatus(SenderID, new AppConstants().DATE_MODIFIED);
+    }
+
+    public String getNotificationStatus(String MessageID){
+        return notificationDao.getNotificationStatus(MessageID);
+    }
+
+    public void updateNotificationDeleteStatus(String MessageID){
+        notificationDao.updateNotificationDeleteStatus(MessageID, new AppConstants().DATE_MODIFIED);
     }
 
     public String getReadMessageTimeStamp(String MessageID){
         return notificationDao.getReadMessageTimeStamp(MessageID);
+    }
+
+    public String getDeleteMessageTimeStamp(String MessageID){
+        return notificationDao.getDeleteMessageTimeStamp(MessageID);
     }
 
     public LiveData<List<DNotifications.UserNotificationInfo>> getUserMessageListFromSender(String SenderID){
@@ -79,6 +91,10 @@ public class RNotificationInfo {
         return notificationDao.getUnreadNotificationsCount();
     }
 
+    public LiveData<DNotifications.UserNotificationInfoWithRcpt>getNotificationForViewing(String MessageID){
+        return notificationDao.getNotificationForViewing(MessageID);
+    }
+
     public LiveData<List<DNotifications.UserNotificationInfoWithRcpt>> getUserNotificationList() {
         return userNotificationList;
     }
@@ -89,6 +105,14 @@ public class RNotificationInfo {
         notificationDao.insert(notificationMaster);
         notificationDao.insert(notificationRecipient);
         notificationDao.insert(notificationUser);
+    }
+
+    public void updateNotificationStatusFromOtherDevice(String MessageID, String status){
+        notificationDao.updateNotificationStatusFromOtherDevice(MessageID, status);
+    }
+
+    public int getNotificationIfExist(String MessageID){
+        return notificationDao.getNotificationIfExist(MessageID);
     }
 
     public void updateRecipientRecievedStat(String messageID){

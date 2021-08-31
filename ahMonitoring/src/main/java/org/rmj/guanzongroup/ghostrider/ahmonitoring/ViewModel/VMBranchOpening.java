@@ -20,6 +20,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchOpeningMonitor;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchOpeningMonitor;
@@ -69,7 +70,7 @@ public class VMBranchOpening extends AndroidViewModel {
         return psDateSelected;
     }
 
-    public LiveData<List<EBranchOpenMonitor>> getBranchOpeningsForDate(String dTransact){
-        return poOpening.getBranchOpeningForDate(dTransact);
+    public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> getBranchOpeningsForDate(String dTransact){
+        return poOpening.getBranchOpeningInfo(dTransact);
     }
 }

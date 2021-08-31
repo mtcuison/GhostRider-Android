@@ -71,7 +71,7 @@ public class VMViewMessages extends AndroidViewModel {
             try {
                 List<String> plMsgID = poNotif.getReadMessagesIDFromSender(strings[0]);
                 for(int x = 0; x < plMsgID.size(); x++){
-                    poNotif.updateRecipientReadStatus(plMsgID.get(x));
+//                    poNotif.update(plMsgID.get(x));
                     if (loConn.isDeviceConnected()) {
                         String lsMessageID = plMsgID.get(x);
                         String lsDateReadx = poNotif.getReadMessageTimeStamp(lsMessageID);

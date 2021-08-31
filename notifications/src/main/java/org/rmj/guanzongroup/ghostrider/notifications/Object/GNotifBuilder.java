@@ -14,11 +14,14 @@ package org.rmj.guanzongroup.ghostrider.notifications.Object;
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
+import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 public class GNotifBuilder {
@@ -53,12 +56,24 @@ public class GNotifBuilder {
 
     private static String Title;
     private static String Message;
+    private static String MessageID;
 
     @SuppressLint("StaticFieldLeak")
     private static GNotifBuilder instance;
 
     private GNotifBuilder(Context context){
         this.context = context;
+    }
+
+    public static GNotifBuilder createFirebaseNotification(Context context, String msgID,String fsTitle, String fsMessage, int fnChannelID) {
+        if(instance == null) {
+            instance = new GNotifBuilder(context);
+        }
+        Title = fsTitle;
+        Message = fsMessage;
+        MessageID = msgID;
+        CHANNEL_ID = fnChannelID;
+        return instance;
     }
 
     public static GNotifBuilder createNotification(Context context, String fsTitle, String fsMessage, int fnChannelID) {
@@ -84,7 +99,21 @@ public class GNotifBuilder {
     }
 
     private NotificationCompat.Builder initNotification(){
+        Intent notifyIntent = new Intent(context, Activity_Notifications.class);
+        // Set the Activity to start in a new, empty task
+        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        if(MessageID != null) {
+            notifyIntent.putExtra("id", MessageID);
+            notifyIntent.putExtra("title", Title);
+            notifyIntent.putExtra("type", "notification");
+        }
+        // Create the PendingIntent
+        PendingIntent notifyPendingIntent = PendingIntent.getActivity(
+                context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT
+        );
         return new NotificationCompat.Builder(context)
+                .setContentIntent(notifyPendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
                 .setChannelId(NotificationID)

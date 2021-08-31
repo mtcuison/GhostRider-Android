@@ -40,6 +40,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
@@ -66,6 +67,7 @@ public class VMDocumentToScan extends AndroidViewModel {
     private final MutableLiveData<String> sFileCode = new MutableLiveData<>();
     private final MutableLiveData<Integer> nEntryNox = new MutableLiveData<>();
     private final MutableLiveData<String> sFileLoc = new MutableLiveData<>();
+    private final AppConfigPreference poConfig;
 
     private final MutableLiveData<List<DCreditApplicationDocuments.ApplicationDocument>> plDetail = new MutableLiveData();
     public VMDocumentToScan(@NonNull Application application) {
@@ -75,6 +77,7 @@ public class VMDocumentToScan extends AndroidViewModel {
         this.fileCodeList = peFileCode.getAllFileCode();
         poDocument = new RCreditApplicationDocument(application);
         poImage = new RImageInfo(application);
+        this.poConfig = AppConfigPreference.getInstance(instance);
     }
 
     public void setImgParameter(String fsTransNox, int fnEntryNox, String fsFileCode, String fsImgname, String fsFileLoc) {
@@ -209,7 +212,7 @@ public class VMDocumentToScan extends AndroidViewModel {
                 if (!poConn.isDeviceConnected()) {
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                    String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(), poUser.getClientId(), poUser.getUserID());
                     String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
                     if (lsClient.isEmpty() || lsAccess.isEmpty()) {
@@ -232,7 +235,7 @@ public class VMDocumentToScan extends AndroidViewModel {
                             String lsTransNo = (String) loUpload.get("sTransNox");
                             poImage.updateImageInfo(lsTransNo, psImgInfo.getTransNox());
                             updateDocumentInfoFromServer(psTransNox,psFileCode);
-    //                                      UpdateFileNameAndFolder(lsTransNo, psTransNox, pnEntryNox, psFileCode,psFileLoc, psImageName);
+                            //                                      UpdateFileNameAndFolder(lsTransNo, psTransNox, pnEntryNox, psFileCode,psFileLoc, psImageName);
 
                         }
 
@@ -311,15 +314,15 @@ public class VMDocumentToScan extends AndroidViewModel {
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
 
-                    String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                    String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(), poUser.getClientId(), poUser.getUserID());
                     String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
                     if (lsClient.isEmpty() || lsAccess.isEmpty()) {
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
                     } else {
                         String imageName = poFileInfo.sTransNox + "_" + poFileInfo.nEntryNox + "_" + poFileInfo.sFileCode + ".png";
-                        String root = Environment.getExternalStorageDirectory().toString();
-                        File fileLoc = new File(root + "/"+ AppConstants.APP_PUBLIC_FOLDER + "/" + ScannerConstants.SubFolder  +"/" + poFileInfo.sTransNox + "/");
+                        String root = String.valueOf(instance.getExternalFilesDir(null));
+                        File fileLoc = new File(root + "/" + "/" + ScannerConstants.SubFolder  +"/" + poFileInfo.sTransNox + "/");
                         if (!fileLoc.exists()) {
                             fileLoc.mkdirs();
                         }
@@ -445,17 +448,17 @@ public class VMDocumentToScan extends AndroidViewModel {
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
 
-                    String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                    String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(), poUser.getClientId(), poUser.getUserID());
                     String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
                     if (lsClient.isEmpty() || lsAccess.isEmpty()) {
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
                     } else {
                         org.json.simple.JSONObject loDownload = WebFileServer.CheckFile(lsAccess,
-                                                                                        "",
-                                                                                        "",
-                                                                                        "COAD",
-                                                                                        psSourceNo);
+                                "",
+                                "",
+                                "COAD",
+                                psSourceNo);
                         String lsResponse = (String) loDownload.get("result");
                         lsResult = String.valueOf(loDownload);
                         if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {

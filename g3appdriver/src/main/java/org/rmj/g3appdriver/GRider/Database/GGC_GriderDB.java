@@ -164,7 +164,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         ECashCount.class,
         EBranchOpenMonitor.class,
         EEmployeeLeave.class,
-        EEmployeeBusinessTrip.class}, version = 5, exportSchema = false)
+        EEmployeeBusinessTrip.class}, version = 6, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;

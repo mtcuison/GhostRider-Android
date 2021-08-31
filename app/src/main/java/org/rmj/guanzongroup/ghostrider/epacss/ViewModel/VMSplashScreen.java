@@ -63,7 +63,7 @@ public class VMSplashScreen extends AndroidViewModel {
         poUserDbx = new REmployee(application);
         poConfigx = AppConfigPreference.getInstance(application);
         poSession = new SessionManager(application);
-        poConfigx.setTemp_ProductID("IntegSys");
+        poConfigx.setTemp_ProductID("gRider");
         Date buildDate = new Date(BuildConfig.TIMESTAMP);
         poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, String.valueOf(buildDate.getTime()));
         poConn = new ConnectionUtil(application);
@@ -117,14 +117,22 @@ public class VMSplashScreen extends AndroidViewModel {
         return this.sEmployLevel;
     }
 
+    public String getAutoLogStatus(){
+        return poSession.getAutoLogStatus();
+    }
+
     public void setSessionTime(int time){
         try {
             this.pnSession.setValue(time);
-            if(poConn.isDeviceConnected()) {
-                boolean result = pnSession.getValue() <= 0;
-                pbSession.setValue(result);
-            } else {
+            if(poSession.getAutoLogStatus().equalsIgnoreCase("1")){
                 pbSession.setValue(true);
+            } else {
+                if(poConn.isDeviceConnected()) {
+                    boolean result = pnSession.getValue() <= 0;
+                    pbSession.setValue(result);
+                } else {
+                    pbSession.setValue(true);
+                }
             }
         } catch (NullPointerException e){
             e.printStackTrace();

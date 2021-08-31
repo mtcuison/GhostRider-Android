@@ -83,16 +83,20 @@ public class Import_BranchPerformance implements ImportInstance {
                 if(loConn.isDeviceConnected()) {
                     loJSon.put("areacd", poUser.getUserAreaCode());
                     response = WebClient.httpsPostJSon(IMPORT_BRANCH_PERFORMANCE, loJSon.toString(), loHeaders.getHeaders());
-                    JSONObject loJson = new JSONObject(response);
-                    Log.e(TAG, loJson.getString("result"));
-                    String lsResult = loJson.getString("result");
-                    if(lsResult.equalsIgnoreCase("success")){
-                        JSONArray laJson = loJson.getJSONArray("detail");
-                        saveDataToLocal(laJson);
+                    if(response == null){
+                        response = AppConstants.SERVER_NO_RESPONSE();
                     } else {
-                        JSONObject loError = loJson.getJSONObject("error");
-                        String message = loError.getString("message");
-                        callback.OnFailedImportData(message);
+                        JSONObject loJson = new JSONObject(response);
+                        Log.e(TAG, loJson.getString("result"));
+                        String lsResult = loJson.getString("result");
+                        if (lsResult.equalsIgnoreCase("success")) {
+                            JSONArray laJson = loJson.getJSONArray("detail");
+                            saveDataToLocal(laJson);
+                        } else {
+                            JSONObject loError = loJson.getJSONObject("error");
+                            String message = loError.getString("message");
+                            callback.OnFailedImportData(message);
+                        }
                     }
                 } else {
                     response = AppConstants.NO_INTERNET();

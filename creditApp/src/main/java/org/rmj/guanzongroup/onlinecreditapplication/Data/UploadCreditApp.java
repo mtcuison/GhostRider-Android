@@ -30,6 +30,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -70,6 +71,7 @@ public class UploadCreditApp {
         private final EBranchLoanApplication poBranchApp;
         private final EImageInfo poImage;
         private final SessionManager poUser;
+        private final AppConfigPreference poConfig;
 
         public UploadTask(Application application,
                           ECreditApplication foUserApp,
@@ -87,6 +89,7 @@ public class UploadCreditApp {
             this.poUser = new SessionManager(instance);
             this.poImgMngr = new RImageInfo(instance);
             this.mListener = listener;
+            this.poConfig = AppConfigPreference.getInstance(instance);
         }
 
         @Override
@@ -119,9 +122,9 @@ public class UploadCreditApp {
 
                             Thread.sleep(1000);
 
-                            String lsClient = WebFileServer.RequestClientToken("IntegSys",
-                                                                                            poUser.getClientId(),
-                                                                                            poUser.getUserID());
+                            String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(),
+                                    poUser.getClientId(),
+                                    poUser.getUserID());
                             String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
                             if(!lsAccess.isEmpty()){

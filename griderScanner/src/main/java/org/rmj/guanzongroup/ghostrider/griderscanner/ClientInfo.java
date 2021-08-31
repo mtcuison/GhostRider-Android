@@ -147,12 +147,11 @@ public class ClientInfo extends AppCompatActivity {
                     if (fileCodeDetails.get(position).sSendStat == null && fileCodeDetails.get(position).sImageNme == null){
                         poImageInfo = new EImageInfo();
                         poDocumentsInfo = new ECreditApplicationDocuments();
-                        poFilexx = new ImageFileCreator(ClientInfo.this , AppConstants.APP_PUBLIC_FOLDER, ScannerConstants.SubFolder, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
+                        poFilexx = new ImageFileCreator(ClientInfo.this , ScannerConstants.SubFolder, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
                         // poFilexx = new ImageFileCreator(ClientInfo.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
                         poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
                             mCurrentPhotoPath = photPath;
                             ScannerConstants.Usage =camUsage;
-                            ScannerConstants.Folder = AppConstants.APP_PUBLIC_FOLDER;
                             ScannerConstants.FileCode = fileCodeDetails.get(position).sFileCode;
                             ScannerConstants.PhotoPath = photPath;
                             ScannerConstants.EntryNox = (position + 1);

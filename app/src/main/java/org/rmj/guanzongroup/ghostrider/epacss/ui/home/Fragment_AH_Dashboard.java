@@ -14,14 +14,20 @@ package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.provider.DocumentsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +49,15 @@ import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAHDashboard;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Help;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
-import java.util.Objects;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 
+import static android.app.Activity.RESULT_OK;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SETTINGS;
 
 public class Fragment_AH_Dashboard extends Fragment {
@@ -66,6 +79,7 @@ public class Fragment_AH_Dashboard extends Fragment {
         return new Fragment_AH_Dashboard();
     }
 
+    @SuppressLint("NewApi")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -117,6 +131,7 @@ public class Fragment_AH_Dashboard extends Fragment {
             loMessage.setMessage("Are you sure you want to end session/logout?");
             loMessage.show();
         });
+
         return view;
     }
 
@@ -161,7 +176,7 @@ public class Fragment_AH_Dashboard extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == SETTINGS){
-            if(resultCode == Activity.RESULT_OK) {
+            if(resultCode == RESULT_OK) {
                 Intent loIntent = new Intent(getActivity(), Activity_Main.class);
                 requireActivity().finish();
                 startActivity(loIntent);

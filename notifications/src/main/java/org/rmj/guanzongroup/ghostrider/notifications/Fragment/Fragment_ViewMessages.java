@@ -55,13 +55,13 @@ public class Fragment_ViewMessages extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMViewMessages.class);
 
-        String lsSenderID = Activity_Notifications.getInstance().getSender();
-        mViewModel.UpdateMessageStatus(lsSenderID);
-        mViewModel.getMessagesListFromSender(lsSenderID).observe(getViewLifecycleOwner(), userNotificationInfos -> {
-            LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-            manager.setOrientation(RecyclerView.VERTICAL);
-            recyclerView.setLayoutManager(manager);
-            recyclerView.setAdapter(new MessagesViewAdapter(userNotificationInfos));
-        });
+//        String lsSenderID = Activity_Notifications.getInstance().getSender();
+//        mViewModel.UpdateMessageStatus(lsSenderID);
+//        mViewModel.getMessagesListFromSender(lsSenderID).observe(getViewLifecycleOwner(), userNotificationInfos -> {
+//            LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+//            manager.setOrientation(RecyclerView.VERTICAL);
+//            recyclerView.setLayoutManager(manager);
+//            recyclerView.setAdapter(new MessagesViewAdapter(userNotificationInfos));
+//        });
     }
 }

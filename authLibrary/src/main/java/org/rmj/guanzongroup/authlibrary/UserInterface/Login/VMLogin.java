@@ -166,7 +166,7 @@ public class VMLogin extends AndroidViewModel {
                     String lsEmpIDxx = loResponse.getString("sEmployID");
                     String lsPostIDx = loResponse.getString("sPositnID");
                     String lsEmpLvlx = loResponse.getString("nUserLevl");
-                    sessionManager.initUserSession(lsUserIDx, lsClientx, lsLogNoxx, lsBranchx, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx);
+                    sessionManager.initUserSession(lsUserIDx, lsClientx, lsLogNoxx, lsBranchx, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
                     callback.OnSuccessLoginResult();
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");

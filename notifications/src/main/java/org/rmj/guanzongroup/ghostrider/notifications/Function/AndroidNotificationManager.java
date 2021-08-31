@@ -67,7 +67,7 @@ public class AndroidNotificationManager {
         private final RBranch poBranch;
         private boolean pbSpecial = false;
         private JSONObject poJson;
-        private String BranchNm;
+        private String BranchNm; //Use for Branch Opening Notification
 
         public SendResponseTask(Application application, RemoteMessage remoteMessage) {
             this.instance = application;
@@ -85,84 +85,93 @@ public class AndroidNotificationManager {
         protected String doInBackground(Void... voids) {
             String lsResponse = "";
             try{
-                JSONObject data = new JSONObject();
-                data.put("title", NotificationAssets.getAppTitle(loParser.getValueOf("msgmon"),
-                        loParser.getDataValueOf("title"), loParser.getValueOf("srcenm")));
-                data.put("message", loParser.getDataValueOf("message"));
-                data.put("appsrce", loParser.getValueOf("appsrce"));
-                data.put("msgtype", loParser.getValueOf("msgmon"));
+//                JSONObject data = new JSONObject();
+//                data.put("title", NotificationAssets.getAppTitle(loParser.getValueOf("msgmon"),
+//                        loParser.getDataValueOf("title"), loParser.getValueOf("srcenm")));
+//                data.put("message", loParser.getDataValueOf("message"));
+//                data.put("appsrce", loParser.getValueOf("appsrce"));
+//                data.put("msgtype", loParser.getValueOf("msgmon"));
 
-                ENotificationMaster loMaster = new ENotificationMaster();
-                loMaster.setTransNox(poNotification.getClientNextMasterCode());
-                loMaster.setMesgIDxx(loParser.getValueOf("transno"));
-                loMaster.setParentxx(loParser.getValueOf("parent"));
-                loMaster.setCreatedx(loParser.getValueOf("stamp"));
-                loMaster.setAppSrcex(loParser.getValueOf("appsrce"));
-                loMaster.setCreatrID(loParser.getValueOf("srceid"));
-                loMaster.setCreatrNm(loParser.getValueOf("srcenm"));
-                loMaster.setDataSndx(loParser.getValueOf("infox"));
-                loMaster.setMsgTitle(loParser.getDataValueOf("title"));
-                loMaster.setMessagex(loParser.getDataValueOf("message"));
-                loMaster.setMsgTypex(loParser.getValueOf("msgmon"));
-
-                ENotificationRecipient loRecpnt = new ENotificationRecipient();
-                loRecpnt.setTransNox(loParser.getValueOf("transno"));
-                loRecpnt.setAppRcptx(loParser.getValueOf("apprcpt"));
-                loRecpnt.setRecpntID(loParser.getValueOf("rcptid"));
-                loRecpnt.setRecpntNm(loParser.getValueOf("rcptnm"));
-                loRecpnt.setMesgStat(loParser.getValueOf("status"));
-                loRecpnt.setReceived(new AppConstants().DATE_MODIFIED);
-                loRecpnt.setTimeStmp(new AppConstants().DATE_MODIFIED);
-
-                ENotificationUser loUser = new ENotificationUser();
-                loUser.setUserIDxx(loParser.getValueOf("srceid"));
-                loUser.setUserName(loParser.getValueOf("srcenm"));
-
-                poNotification.insertNotificationInfo(loMaster, loRecpnt, loUser);
-
-                String lsValue = loParser.getValueOf("infox");
-                Log.e(TAG, lsValue);
-                if(!lsValue.isEmpty()) {
+                String MesgID = loParser.getValueOf("transno");
+                if(poNotification.getNotificationIfExist(MesgID) >=  1){
                     pbSpecial = true;
-                    JSONObject loJSON = new JSONObject(lsValue);
-                    if ("00001".equalsIgnoreCase(loJSON.getString("module"))) { //table update
-                        EMM instance = EMMFactory.make(EMMFactory.NMM_SysMon_Type.TABLE_UPDATE);
-                        instance.setConnection(loDbConn); //pass the iGConnection here
-                        instance.setData(lsValue);
-                        if (!instance.execute()) System.err.println(instance.getMessage());
-                    } else if ("00002".equalsIgnoreCase(loJSON.getString("module"))) {
-                        JSONObject loData = loJSON.getJSONObject("data");
-                        poJson = loData;
-                        BranchNm = poBranch.getBranchNameForNotification(loData.getString("sBranchCD"));
-                        EBranchOpenMonitor loMonitor = new EBranchOpenMonitor();
-                        loMonitor.setBranchCD(loData.getString("sBranchCD"));
-                        loMonitor.setTransact(loData.getString("dTransact"));
-                        loMonitor.setTimeOpen(loData.getString("sTimeOpen"));
-                        loMonitor.setOpenNowx(loData.getString("sOpenNowx"));
-                        loMonitor.setSendDate(loData.getString("dSendDate"));
-                        loMonitor.setNotified(loData.getString("dNotified"));
-                        loMonitor.setTimeStmp(loData.getString("dTimeStmp"));
-                        poOpening.insert(loMonitor);
-                    }
-                }
-
-                if(loConn.isDeviceConnected()){
-                    String lsMessageID = loMaster.getMesgIDxx();
-                    JSONObject params = new JSONObject();
-                    params.put("transno", lsMessageID);
-                    params.put("status", "2");
-                    params.put("stamp", new AppConstants().DATE_MODIFIED);
-                    params.put("infox", "");
-
-                    String response = WebClient.httpsPostJSon(URL_SEND_RESPONSE, data.toString(), poHeaders.getHeaders());
-                    JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
-                    Log.e(TAG, loJson.getString("result"));
-                    String lsResult = loJson.getString("result");
-                    if(lsResult.equalsIgnoreCase("success")){
-                        poNotification.updateRecipientRecievedStat(lsMessageID);
-                    }
+                    String lsStatus = loParser.getValueOf("status");
+                    poNotification.updateNotificationStatusFromOtherDevice(MesgID, lsStatus);
                 } else {
-                    lsResponse = AppConstants.NO_INTERNET();
+                    pbSpecial = false;
+                    ENotificationMaster loMaster = new ENotificationMaster();
+                    loMaster.setTransNox(poNotification.getClientNextMasterCode());
+                    loMaster.setMesgIDxx(loParser.getValueOf("transno"));
+                    loMaster.setParentxx(loParser.getValueOf("parent"));
+                    loMaster.setCreatedx(loParser.getValueOf("stamp"));
+                    loMaster.setAppSrcex(loParser.getValueOf("appsrce"));
+                    loMaster.setCreatrID(loParser.getValueOf("srceid"));
+                    loMaster.setCreatrNm(loParser.getValueOf("srcenm"));
+                    loMaster.setDataSndx(loParser.getValueOf("infox"));
+                    loMaster.setMsgTitle(loParser.getDataValueOf("title"));
+                    loMaster.setMessagex(loParser.getDataValueOf("message"));
+                    loMaster.setMsgTypex(loParser.getValueOf("msgmon"));
+
+                    ENotificationRecipient loRecpnt = new ENotificationRecipient();
+                    loRecpnt.setTransNox(loParser.getValueOf("transno"));
+                    loRecpnt.setAppRcptx(loParser.getValueOf("apprcpt"));
+                    loRecpnt.setRecpntID(loParser.getValueOf("rcptid"));
+                    loRecpnt.setRecpntNm(loParser.getValueOf("rcptnm"));
+                    loRecpnt.setMesgStat(loParser.getValueOf("status"));
+                    loRecpnt.setReceived(new AppConstants().DATE_MODIFIED);
+                    loRecpnt.setTimeStmp(new AppConstants().DATE_MODIFIED);
+
+                    ENotificationUser loUser = new ENotificationUser();
+                    loUser.setUserIDxx(loParser.getValueOf("srceid"));
+                    loUser.setUserName(loParser.getValueOf("srcenm"));
+
+                    poNotification.insertNotificationInfo(loMaster, loRecpnt, loUser);
+
+                    String lsValue = loParser.getValueOf("infox");
+
+                    if (!lsValue.isEmpty()) {
+                        pbSpecial = true;
+                        JSONObject loJSON = new JSONObject(lsValue);
+                        if ("00001".equalsIgnoreCase(loJSON.getString("module"))) { //table update
+                            EMM instance = EMMFactory.make(EMMFactory.NMM_SysMon_Type.TABLE_UPDATE);
+                            instance.setConnection(loDbConn); //pass the iGConnection here
+                            instance.setData(lsValue);
+                            if (!instance.execute()) System.err.println(instance.getMessage());
+                        } else if ("00002".equalsIgnoreCase(loJSON.getString("module"))) {
+                            JSONObject loData = loJSON.getJSONObject("data");
+                            poJson = loData;
+                            BranchNm = poBranch.getBranchNameForNotification(loData.getString("sBranchCD"));
+                            EBranchOpenMonitor loMonitor = new EBranchOpenMonitor();
+                            loMonitor.setBranchCD(loData.getString("sBranchCD"));
+                            loMonitor.setTransact(loData.getString("dTransact"));
+                            loMonitor.setTimeOpen(loData.getString("sTimeOpen"));
+                            loMonitor.setOpenNowx(loData.getString("sOpenNowx"));
+                            loMonitor.setSendDate(loData.getString("dSendDate"));
+                            loMonitor.setNotified(loData.getString("dNotified"));
+                            loMonitor.setTimeStmp(loData.getString("dTimeStmp"));
+                            poOpening.insert(loMonitor);
+                        }
+                    }
+
+                    String lsMessageID = loMaster.getMesgIDxx();
+                    poNotification.updateRecipientRecievedStat(lsMessageID);
+                    if (loConn.isDeviceConnected()) {
+                        JSONObject params = new JSONObject();
+                        params.put("transno", lsMessageID);
+                        params.put("status", "2");
+                        params.put("stamp", new AppConstants().DATE_MODIFIED);
+                        params.put("infox", "");
+
+                        String response = WebClient.httpsPostJSon(URL_SEND_RESPONSE, params.toString(), poHeaders.getHeaders());
+                        JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
+                        Log.e(TAG, loJson.getString("result"));
+                        String lsResult = loJson.getString("result");
+                        if (lsResult.equalsIgnoreCase("success")) {
+                            Log.d(TAG, "Receive response sent.");
+                        }
+                    } else {
+                        lsResponse = AppConstants.NO_INTERNET();
+                    }
                 }
             } catch (Exception e){
                 e.printStackTrace();
@@ -176,14 +185,16 @@ public class AndroidNotificationManager {
             try {
                 int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
                 if(!pbSpecial) {
-                    GNotifBuilder.createNotification(instance,
+                    GNotifBuilder.createFirebaseNotification(instance,
+                            loParser.getValueOf("transno"),
                             loParser.getDataValueOf("title"),
                             loParser.getDataValueOf("message"),
                             lnChannelID).show();
                 } else {
-                    GNotifBuilder.createNotification(instance,
+                    GNotifBuilder.createFirebaseNotification(instance,
+                            loParser.getValueOf("transno"),
                             "Branch Opening Monitor",
-                           BranchNm + " opened at " + poJson.getString("sOpenNowx"),
+                            BranchNm + " opened at " + poJson.getString("sOpenNowx"),
                             lnChannelID).show();
                 }
             } catch (Exception e){
