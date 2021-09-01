@@ -43,6 +43,7 @@ import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -149,6 +150,7 @@ public class VMSelfieLogin extends AndroidViewModel {
         private final RLocationSysLog poSysLog;
         private final OnLoginTimekeeperListener callback;
         private final Application application;
+        private final AppConfigPreference poConfig;
 
         public LoginTimekeeperTask(EImageInfo foImage, ELog_Selfie logInfo, Application instance, OnLoginTimekeeperListener callback){
             this.poImageInfo = foImage;
@@ -162,6 +164,7 @@ public class VMSelfieLogin extends AndroidViewModel {
             this.poSysLog = new RLocationSysLog(instance);
             this.callback = callback;
             this.application = instance;
+            this.poConfig = AppConfigPreference.getInstance(instance);
         }
 
         @Override
@@ -186,7 +189,7 @@ public class VMSelfieLogin extends AndroidViewModel {
                 poSysLog.saveCurrentLocation(loSysLog);
 
                 if(poConn.isDeviceConnected()){
-                    String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                    String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(), poUser.getClientId(), poUser.getUserID());
                     String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
                     if(lsClient.isEmpty() || lsAccess.isEmpty()){

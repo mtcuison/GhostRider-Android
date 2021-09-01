@@ -53,6 +53,8 @@ public class EEmployeeInfo {
     private String Sessionx;
     @ColumnInfo(name = "sEmployID")
     private String EmployID;
+    @ColumnInfo(name = "cPrivatex")
+    private String Privatex;
 
     public EEmployeeInfo() {
     }
@@ -185,5 +187,13 @@ public class EEmployeeInfo {
 
     public void setEmployID(String employID) {
         EmployID = employID;
+    }
+
+    public String getPrivatex() {
+        return Privatex;
+    }
+
+    public void setPrivatex(String privatex) {
+        Privatex = privatex;
     }
 }

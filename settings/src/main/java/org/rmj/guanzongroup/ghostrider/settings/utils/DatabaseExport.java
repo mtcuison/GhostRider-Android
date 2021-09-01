@@ -21,7 +21,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.APP_PUBLIC_FOLDER;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SUB_FOLDER_EXPORTS;
 
 public class DatabaseExport {
@@ -36,8 +35,8 @@ public class DatabaseExport {
     }
 
     public String export(){
-        String root = Environment.getExternalStorageDirectory().toString();
-        File sd = new File(root + APP_PUBLIC_FOLDER + "/" + SUB_FOLDER_EXPORTS + "/");
+        String root = String.valueOf(context.getExternalFilesDir(null));
+        File sd = new File(root + "/" + SUB_FOLDER_EXPORTS + "/");
 
         if (!sd.exists()) {
             if(sd.mkdirs()){
@@ -73,7 +72,5 @@ public class DatabaseExport {
             e.printStackTrace();
             return "Exporting failed!, " + e.getMessage();
         }
-
     }
-
 }

@@ -261,8 +261,8 @@ public class ImageCrop extends DocumentScanActivity {
 
     public String saveToInternalStorage(Bitmap bitmapImage) {
 
-        String root = Environment.getExternalStorageDirectory().toString();
-        File sd = new File(root + "/"+ AppConstants.APP_PUBLIC_FOLDER + "/" + ScannerConstants.SubFolder + "/" +ScannerConstants.TransNox + "/");
+        String root = String.valueOf(ImageCrop.this.getExternalFilesDir(null));
+        File sd = new File(root + "/"+ "/" + ScannerConstants.SubFolder + "/" +ScannerConstants.TransNox + "/");
         getRealPathFromURI (ScannerConstants.PhotoPath);
 //        deleteRecursive(sd);
         String imageFileName = ScannerConstants.TransNox + "_" + ScannerConstants.EntryNox + "_" +ScannerConstants.FileCode + ".png";

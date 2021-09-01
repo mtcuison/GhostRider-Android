@@ -150,6 +150,16 @@ public class FormatUIText {
         }
     }
 
+    public static String getAbbreviationOfMonthAndDayFormat(String date){
+        try{
+            Date parseDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date);
+            return new SimpleDateFormat("MMM dd").format(parseDate);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public static String getCurrencyUIFormat(String price){
         String lsResult = "₱ 0.00";
         try {

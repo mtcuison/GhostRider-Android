@@ -59,21 +59,13 @@ public class Fragment_ObApplication extends Fragment {
     private VMObApplication mViewModel;
 
     private TextView lblTransNox, lblUsername, lblPosition, lblBranch;
-    private RadioGroup rgObType;
-    private LinearLayout lnWithLog;
     private LinearLayout lnWithoutLog;
     private Button btnSubmit;
     private AutoCompleteTextView txtBranchDestination;
     private TextInputEditText txtDateFrom,
                                 txtDateTo,
                                 txtNoDays,
-                                txtRemarks,
-                                txtTimeInAM,
-                                txtTimeOutAM,
-                                txtTimeInPM,
-                                txtTimeOutPM,
-                                txtOverTimeAM,
-                                txtOverTimePM;
+                                txtRemarks;
     private OBApplication infoModel;
     private LoadDialog poProgress;
     private MessageBox loMessage;
@@ -92,18 +84,10 @@ public class Fragment_ObApplication extends Fragment {
         lblBranch = view.findViewById(R.id.lbl_userBranch);
 
         lblTransNox = view.findViewById(R.id.lbl_transnox);
-        rgObType = view.findViewById(R.id.rg_ObType);
-        lnWithLog = view.findViewById(R.id.linear_ObLog);
         lnWithoutLog = view.findViewById(R.id.linear_ObWithoutLog);
         txtDateFrom = view.findViewById(R.id.txt_dateFrom);
         txtDateTo = view.findViewById(R.id.txt_dateTo);
         txtNoDays = view.findViewById(R.id.txt_noOfDays);
-        txtTimeInAM = view.findViewById(R.id.txt_timeInAM);
-        txtTimeOutAM = view.findViewById(R.id.txt_timeOutAM);
-        txtTimeInPM = view.findViewById(R.id.txt_timeInPM);
-        txtTimeOutPM = view.findViewById(R.id.txt_timeOutPM);
-        txtOverTimeAM = view.findViewById(R.id.txt_overtimeAM);
-        txtOverTimePM = view.findViewById(R.id.txt_overtimePM);
         btnSubmit = view.findViewById(R.id.btn_submitApplication);
         txtBranchDestination = view.findViewById(R.id.txt_brnDestination);
         txtRemarks = view.findViewById(R.id.txt_remarks);
@@ -141,19 +125,6 @@ public class Fragment_ObApplication extends Fragment {
             }
         });
 
-        rgObType.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.rb_withLog) {
-                infoModel.setObTypexx("0");
-                lnWithLog.setVisibility(View.VISIBLE);
-                lnWithoutLog.setVisibility(View.VISIBLE);
-            } else if (checkedId == R.id.rb_withoutLog) {
-                lnWithLog.setVisibility(View.GONE);
-                lnWithoutLog.setVisibility(View.VISIBLE);
-                infoModel.setObTypexx("1");
-            }
-        });
-
-
         txtDateFrom.setOnClickListener(v -> {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
@@ -169,7 +140,7 @@ public class Fragment_ObApplication extends Fragment {
             if(!Objects.requireNonNull(txtDateFrom.getText()).toString().isEmpty()) {
                 final Calendar newCalendar = Calendar.getInstance();
                 @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-                final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
+                @SuppressLint("SetTextI18n") final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
                     Calendar newDate = Calendar.getInstance();
                     newDate.set(year, month, dayOfMonth);
                     try {
@@ -211,19 +182,17 @@ public class Fragment_ObApplication extends Fragment {
             }
         }));
         btnSubmit.setOnClickListener(v->{
-            infoModel.setDateFrom(txtDateFrom.getText().toString());
-            infoModel.setDateThru(txtDateTo.getText().toString());
-            infoModel.setNoOfDays(txtNoDays.getText().toString());
-            infoModel.setRemarks(txtRemarks.getText().toString());
+            infoModel.setDateFrom(Objects.requireNonNull(txtDateFrom.getText()).toString());
+            infoModel.setDateThru(Objects.requireNonNull(txtDateTo.getText()).toString());
+            infoModel.setNoOfDays(Objects.requireNonNull(txtNoDays.getText()).toString());
+            infoModel.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
             mViewModel.saveObLeave(infoModel, new VMObApplication.OnSubmitOBLeaveListener() {
                 @Override
                 public void onSuccess() {
                     poProgress.dismiss();
 
                     loMessage.initDialog();
-                    loMessage.setPositiveButton("Yes", (v, dialog) -> {
-                        dialog.dismiss();
-                    });
+                    loMessage.setPositiveButton("Yes", (v, dialog) -> dialog.dismiss());
                     loMessage.setNegativeButton("No", (v, dialog) -> dialog.dismiss());
                     loMessage.setTitle("Business Trip Application");
                     loMessage.setMessage("Your business trip application has been submitted.");
@@ -234,9 +203,7 @@ public class Fragment_ObApplication extends Fragment {
                 public void onFailed(String message) {
                     poProgress.dismiss();
                     loMessage.initDialog();
-                    loMessage.setPositiveButton("Yes", (v, dialog) -> {
-                        dialog.dismiss();
-                    });
+                    loMessage.setPositiveButton("Yes", (v, dialog) -> dialog.dismiss());
                     loMessage.setNegativeButton("No", (v, dialog) -> dialog.dismiss());
                     loMessage.setTitle("Business Trip Application");
                     loMessage.setMessage(message);

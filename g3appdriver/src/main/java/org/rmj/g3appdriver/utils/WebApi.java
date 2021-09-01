@@ -198,8 +198,8 @@ public class WebApi {
     public static String URL_DOWNLOAD_CREDIT_ONLINE_APP = "https://restgk.guanzongroup.com.ph/integsys/param/download_credit_online_application_list.php";
     public static String URL_DOWNLOAD_RELATION = "https://restgk.guanzongroup.com.ph/integsys/param/download_relation.php";
     public static String URL_UPLOAD_CI_RESULT = "https://restgk.guanzongroup.com.ph/integsys/gocas/upload_ci_result.php";
-    public static String URL_SEND_REQUEST = "https://restgk.guanzongroup.com.ph/nmm/send_response.php";
-    public static String URL_SEND_RESPONSE = "https://restgk.guanzongroup.com.ph/nmm/send_request.php";
+    public static String URL_SEND_RESPONSE = "https://restgk.guanzongroup.com.ph/nmm/send_response.php";
+    public static String URL_SEND_REQUEST = "https://restgk.guanzongroup.com.ph/nmm/send_request.php";
     public static String URL_KWIKSEARCH = "https://restgk.guanzongroup.com.ph/integsys/paramqry/cash_count_rqst_officer.php";
 
     public static String URL_SEND_LEAVE_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/send_leave_application.php";
@@ -211,4 +211,6 @@ public class WebApi {
     public static String URL_CONFIRM_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/confirm_ob_application.php";
 
     public static String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gRider.apk";
+
+    public static String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
 }

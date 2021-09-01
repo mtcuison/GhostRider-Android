@@ -102,18 +102,6 @@ public class Fragment_HomeContainer extends Fragment {
             }
         });
 
-//        mViewModel.getUnreadMessagesCount().observeForever(unReadMessageCount -> {
-//            try {
-//                if(unReadMessageCount > 0) {
-//                    Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge().setNumber(unReadMessageCount);
-//                } else {
-//                    Objects.requireNonNull(tabLayout.getTabAt(1)).removeBadge();
-//                }
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        });
-
         mViewModel.getUnreadNotificationsCount().observe(getViewLifecycleOwner(), userNotificationInfos -> {
             try {
                 if(userNotificationInfos > 0) {

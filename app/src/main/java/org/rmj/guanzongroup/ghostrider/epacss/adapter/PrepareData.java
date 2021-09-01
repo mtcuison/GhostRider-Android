@@ -80,7 +80,11 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if Credit App is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("Credit Application", R.drawable.ic_menu_creditapp, true, true, VISIBLE);
+        if(sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)) {
+            menuModel = new MenuModel("Credit Application", R.drawable.ic_menu_creditapp, true, true, VISIBLE);
+        } else {
+            menuModel = new MenuModel("Credit Application", R.drawable.ic_menu_creditapp, true, true, GONE);
+        }
         listDataHeader.add(menuModel);
 
         childModel = new MenuModel("Loan Application", 0, false, false , VISIBLE);
@@ -103,7 +107,11 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if CI Evaluator is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("CI Evaluation",  R.drawable.ic_menu_credit_investigate,true, true, GONE);
+        if(sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)) {
+            menuModel = new MenuModel("CI Evaluation",  R.drawable.ic_menu_credit_investigate,true, true, VISIBLE);
+        } else {
+            menuModel = new MenuModel("CI Evaluation",  R.drawable.ic_menu_credit_investigate,true, true, GONE);
+        }
         listDataHeader.add(menuModel);
         childModel = new MenuModel("CI Evaluation List", 0, false, false , VISIBLE);
         childModelsList.add(childModel);
@@ -116,7 +124,11 @@ public class PrepareData {
 
         //TODO: Change the value of View to VISIBLE if PET Manager is ready for implementation...
         childModelsList = new ArrayList<>();
-        menuModel = new MenuModel("PET Manager",  R.drawable.ic_approval_biometric,true, true, VISIBLE);
+        if(sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)) {
+            menuModel = new MenuModel("PET Manager",  R.drawable.ic_approval_biometric,true, true, VISIBLE);
+        } else {
+            menuModel = new MenuModel("PET Manager",  R.drawable.ic_approval_biometric,true, true, GONE);
+        }
         listDataHeader.add(menuModel);
 
         childModel = new MenuModel("Leave Application", 0, false, false , VISIBLE);
@@ -210,9 +222,9 @@ public class PrepareData {
         }
 
         if(sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)) {
-            menuModel = new MenuModel("Scan Digital GCard (MIS)", R.drawable.ic_scan_qr_code, false, false, VISIBLE);
+            menuModel = new MenuModel("Scan Digital GCard", R.drawable.ic_scan_qr_code, false, false, VISIBLE);
         } else {
-            menuModel = new MenuModel("Scan Digital GCard (MIS)", R.drawable.ic_scan_qr_code, false, false, GONE);
+            menuModel = new MenuModel("Scan Digital GCard", R.drawable.ic_scan_qr_code, false, false, GONE);
         }
         listDataHeader.add(menuModel);
         if (!menuModel.hasChildren) {
@@ -220,9 +232,9 @@ public class PrepareData {
         }
 
         if(sessionManager.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)) {
-            menuModel = new MenuModel("Check Data (MIS)", R.drawable.ic_settings_localdata, false, false, VISIBLE);
+            menuModel = new MenuModel("Check Data", R.drawable.ic_settings_localdata, false, false, VISIBLE);
         } else {
-            menuModel = new MenuModel("Check Data (MIS)", R.drawable.ic_settings_localdata, false, false, GONE);
+            menuModel = new MenuModel("Check Data", R.drawable.ic_settings_localdata, false, false, GONE);
         }
         listDataHeader.add(menuModel);
         if (!menuModel.hasChildren) {

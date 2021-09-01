@@ -127,7 +127,6 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                     public void OnPreview(int pos) {
                         if (Integer.parseInt(applicationLogs.get(pos).cCaptured) == 0 && applicationLogs.get(pos).sFileLoct == null) {
                             poCamera = new ImageFileCreator(Activity_ApplicationHistory.this,
-                                    AppConstants.APP_PUBLIC_FOLDER,
                                     AppConstants.SUB_FOLDER_CREDIT_APP,
                                     "0029",
                                     0,
@@ -180,7 +179,6 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
                     @Override
                     public void OnCamera(String TransNox) {
                         poCamera = new ImageFileCreator(Activity_ApplicationHistory.this,
-                                AppConstants.APP_PUBLIC_FOLDER,
                                 AppConstants.SUB_FOLDER_CREDIT_APP,
                                 "0029",
                                 0,
