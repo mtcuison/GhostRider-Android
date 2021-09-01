@@ -68,8 +68,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
         new TransparentToolbar(Activity_SplashScreen.this).SetupActionbar();
         prgrssBar = findViewById(R.id.progress_splashscreen);
         lblVrsion = findViewById(R.id.lbl_versionInfo);
-        startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
-        finish();
         try {
             mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
             startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
