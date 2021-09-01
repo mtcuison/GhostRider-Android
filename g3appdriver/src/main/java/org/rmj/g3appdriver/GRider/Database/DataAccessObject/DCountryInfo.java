@@ -52,4 +52,8 @@ public interface DCountryInfo {
 
     @Query("SELECT * FROM Country_Info WHERE sCntryCde=:ID")
     ECountryInfo getCountryInfo(String ID);
+
+
+    @Query("SELECT sNational FROM Country_Info WHERE sCntryCde =:CntryCde")
+    LiveData<String> getClientCitizenship(String CntryCde);
 }

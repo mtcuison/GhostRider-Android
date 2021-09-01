@@ -20,6 +20,7 @@ import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
@@ -42,6 +43,10 @@ public class RCreditApplication {
 
     public void insertCreditApplication(ECreditApplication creditApplication){
         creditApplicationDao.insert(creditApplication);
+    }
+
+    public LiveData<List<ECreditApplicantInfo>> getAllCreditApp(){
+        return creditApplicationDao.getAllCreditApp();
     }
 
     public void updateCreditApplication(ECreditApplication creditApplication){

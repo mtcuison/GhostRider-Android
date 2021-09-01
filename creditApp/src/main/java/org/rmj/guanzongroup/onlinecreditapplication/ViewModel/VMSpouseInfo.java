@@ -257,7 +257,6 @@ public class VMSpouseInfo extends AndroidViewModel {
 
                 Log.e(TAG, poGoCas.SpouseInfo().PersonalInfo().toJSONString());
                 Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
-                Activity_CreditApplication.getInstance().setSpouseInfo(poGoCas.SpouseInfo().PersonalInfo());
                 callBack.onSaveSuccessResult(TransNox.getValue());
                 return true;
             } else {

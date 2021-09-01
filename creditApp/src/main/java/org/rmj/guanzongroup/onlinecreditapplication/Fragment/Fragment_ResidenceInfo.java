@@ -35,9 +35,13 @@ import android.widget.RadioGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ResidenceInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -79,6 +83,7 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
     private LinearLayout lnOtherInfo, lnPermaAddx;
     private Button btnNext;
     private Button btnPrvs;
+    private RadioGroup rgOwnsership, rgGarage;
 
     private String TransNox = "";
 
@@ -120,8 +125,8 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         spnLgnthStay = v.findViewById(R.id.spn_lenghtStay);
         spnHouseHold = v.findViewById(R.id.spn_houseHold);
         spnHouseType = v.findViewById(R.id.spn_houseType);
-        RadioGroup rgOwnsership = v.findViewById(R.id.rg_ownership);
-        RadioGroup rgGarage = v.findViewById(R.id.rg_garage);
+        rgOwnsership = v.findViewById(R.id.rg_ownership);
+        rgGarage = v.findViewById(R.id.rg_garage);
         tilRelationship = v.findViewById(R.id.til_relationship);
         lnOtherInfo = v.findViewById(R.id.linear_otherInfo);
         lnPermaAddx = v.findViewById(R.id.linear_permanentAdd);
@@ -141,10 +146,13 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         mViewModel.setTransNox(TransNox);
         mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo ->{
             mViewModel.setGOCasDetailInfo(eCreditApplicantInfo);
+            try {
+                setFieldDataFromLocalDB(eCreditApplicantInfo);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             Log.e(TAG, eCreditApplicantInfo.toString());
         });
-
-        mViewModel.getResidenceInfoModel().observe(getViewLifecycleOwner(), personalInfoModel -> infoModel = personalInfoModel);
 
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
@@ -272,8 +280,6 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         infoModel.setProvinceNm(txtProvince.getText().toString());
         infoModel.setMunicipalNm(txtMunicipality.getText().toString());
         infoModel.setBarangayName(txtBarangay.getText().toString());
-        infoModel.setHouseHold(spnHouseHoldPosition);
-        infoModel.setHouseType(spnHouseTypePosition);
         infoModel.setOwnerRelation(Objects.requireNonNull(txtRelationship.getText()).toString());
         infoModel.setLenghtOfStay(Objects.requireNonNull(txtLgnthStay.getText()).toString());
         infoModel.setMonthlyExpenses(Objects.requireNonNull(txtMonthlyExp.getText()).toString());
@@ -308,9 +314,11 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if (spnHouseHold.equals(poView)) {
                 spnHouseHoldPosition = String.valueOf(i);
+                infoModel.setHouseHold(String.valueOf(i));
             }
             if (spnHouseType.equals(poView)) {
                 spnHouseTypePosition = String.valueOf(i);
+                infoModel.setHouseType(spnHouseTypePosition);
             }
             if (spnLgnthStay.equals(poView)) {
                 spnLgnthStayPosition = String.valueOf(i);
@@ -358,5 +366,69 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
                 lnPermaAddx.setVisibility(View.VISIBLE);
             }
         }
+    }
+    public void setFieldDataFromLocalDB(ECreditApplicantInfo credits) throws JSONException {
+        try {
+            if (credits.getResidnce() != null){
+                cbOneAddress.setChecked(Boolean.parseBoolean(credits.getDetlInfo()));
+                JSONObject residenceObj = new JSONObject(credits.getResidnce());
+                JSONObject presentObj = new JSONObject(residenceObj.getString("present_address"));
+                JSONObject permanentObj = new JSONObject(residenceObj.getString("permanent_address"));
+
+                mViewModel.getBrgyTownProvinceInfoWithID(permanentObj.getString("sBrgyIDxx")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
+                    txtPMunicipl.setText(townProvinceInfo.sTownName);
+                    txtPProvince.setText(townProvinceInfo.sProvName);
+                    txtPBarangay.setText(townProvinceInfo.sProvName);
+                    mViewModel.setPermanentProvinceID(townProvinceInfo.sProvIDxx);
+                    mViewModel.setPermanentTownID(townProvinceInfo.sTownIDxx);
+                    mViewModel.setPermanentBarangayID(townProvinceInfo.sBrgyIDxx);
+
+                });
+                mViewModel.getBrgyTownProvinceInfoWithID(presentObj.getString("sBrgyIDxx")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
+                    txtMunicipality.setText(townProvinceInfo.sTownName);
+                    txtProvince.setText(townProvinceInfo.sProvName);
+                    txtBarangay.setText(townProvinceInfo.sProvName);
+                    mViewModel.setProvinceID(townProvinceInfo.sProvIDxx);
+                    mViewModel.setTownID(townProvinceInfo.sTownIDxx);
+                    mViewModel.setBarangayID(townProvinceInfo.sBrgyIDxx);
+                });
+                txtLandMark.setText(presentObj.getString("sLandMark"));
+                txtHouseNox.setText(presentObj.getString("sHouseNox"));
+                txtAddress1.setText(presentObj.getString("sAddress1"));
+                txtAddress2.setText(presentObj.getString("sAddress2"));
+
+                txtPLandMark.setText(permanentObj.getString("sLandMark"));
+                txtPHouseNox.setText(permanentObj.getString("sHouseNox"));
+                txtPAddress1.setText(permanentObj.getString("sAddress1"));
+                txtPAddress2.setText(permanentObj.getString("sAddress2"));
+
+                if (residenceObj.getString("cOwnershp").equalsIgnoreCase("0")) {
+                    rgOwnsership.check(R.id.rb_owned);
+                    infoModel.setHouseOwn("0");
+                } else if (residenceObj.getString("cOwnershp").equalsIgnoreCase("1")) {
+                    rgOwnsership.check(R.id.rb_rent);
+                    infoModel.setHouseOwn("1");
+                } else if (residenceObj.getString("cOwnershp").equalsIgnoreCase("2")) {
+                    rgOwnsership.check(R.id.rb_careTaker);
+                    infoModel.setHouseOwn("2");
+                }
+                if (residenceObj.getString("cGaragexx").equalsIgnoreCase("0")){
+                    rgGarage.check(R.id.rb_no);
+                    infoModel.setHasGarage("0");
+                }else {
+                    rgGarage.check(R.id.rb_yes);
+                    infoModel.setHasGarage("1");
+                }
+                infoModel.setHouseHold(residenceObj.getString("cOwnOther"));
+                spnHouseHold.setText(CreditAppConstants.HOUSEHOLDS[Integer.parseInt(residenceObj.getString("cOwnOther"))]);
+
+                spnHouseType.setText(CreditAppConstants.HOUSE_TYPE[Integer.parseInt(residenceObj.getString("cHouseTyp"))]);
+                infoModel.setHouseType(residenceObj.getString("cHouseTyp"));
+
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
     }
 }

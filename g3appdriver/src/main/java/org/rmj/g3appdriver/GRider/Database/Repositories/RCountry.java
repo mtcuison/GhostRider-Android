@@ -70,6 +70,9 @@ public class RCountry {
         return countryDao.getCountryInfo(ID);
     }
 
+    public LiveData<String> getClientCitizenship(String CntryCde){
+        return countryDao.getClientCitizenship(CntryCde);
+    }
     public void insertCountryInfo(JSONArray faJson) throws Exception{
         GConnection loConn = DbConnection.doConnect(application);
 

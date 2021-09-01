@@ -207,7 +207,6 @@ public class VMSelfEmployedInfo extends AndroidViewModel {
                 poGoCas.MeansInfo().SelfEmployedInfo().setMonthlyExpense(infoModel.getMonthlyExpense());
                 poGoCas.MeansInfo().SelfEmployedInfo().setIncome(infoModel.getMonthlyIncome());
                 //poInfo.setDetlInfo(poGoCas.toJSONString());
-                Activity_CreditApplication.getInstance().setMeansSelfEmployed(poGoCas.MeansInfo().SelfEmployedInfo());
 
                 poInfo.setBusnInfo(poGoCas.MeansInfo().SelfEmployedInfo().toJSONString());
                 poCreditApp.updateGOCasData(poInfo);
