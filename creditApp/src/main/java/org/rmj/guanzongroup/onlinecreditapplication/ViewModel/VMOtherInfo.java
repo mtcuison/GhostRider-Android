@@ -83,6 +83,10 @@ public class VMOtherInfo extends AndroidViewModel {
         this.psTranNo.setValue(transNox);
     }
 
+    public void setRetrievedReference(PersonalReferenceInfoModel foRefs) {
+        Objects.requireNonNull(poReference.getValue()).add(foRefs);
+    }
+
     public LiveData<ECreditApplicantInfo> getCreditApplicationInfo(){
         return poApplcnt.getCreditApplicantInfoLiveData(psTranNo.getValue());
     }

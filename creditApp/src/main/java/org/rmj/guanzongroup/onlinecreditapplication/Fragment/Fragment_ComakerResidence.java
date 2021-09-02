@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,9 @@ import android.widget.RadioGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
@@ -44,7 +48,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMComakerResidence
 import java.util.Objects;
 
 public class Fragment_ComakerResidence extends Fragment implements ViewModelCallBack {
-
+    private static final String TAG = Fragment_ComakerResidence.class.getSimpleName();
     private VMComakerResidence mViewModel;
     private CoMakerResidenceModel infoModel;
 
@@ -130,7 +134,8 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
         mViewModel.getCreditApplicantInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
             try{
                 mViewModel.setCreditApplicantInfo(eCreditApplicantInfo);
-            } catch (Exception e){
+                setFieldValues(eCreditApplicantInfo);
+            } catch (NullPointerException e){
                 e.printStackTrace();
             }
         });
@@ -221,6 +226,19 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view1, dialog1) -> dialog1.dismiss());
         poMessage.show();
+    }
+
+    private void setFieldValues(ECreditApplicantInfo foCredApp) {
+        if(foCredApp.getCmResidx() != null) {
+            try {
+                JSONObject loJson = new JSONObject(foCredApp.getComakerx());
+                Log.e(TAG + " jsonCon", loJson.toString());
+                // Value setter goes here
+
+            } catch(JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
