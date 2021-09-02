@@ -46,6 +46,11 @@ public interface DCreditApplicantInfo {
     @Query("SELECT * FROM Credit_Applicant_Info WHERE sTransNox =:TransNox")
     ECreditApplicantInfo getCurrentCreditApplicantInfo(String TransNox);
 
+    @Query("UPDATE Credit_Applicant_Info SET sResidnce =:Residence WHERE sTransNox =:TransNox")
+    void updateApplicantResidenceInfo(String TransNox, String Residence);
+
     @Query("DELETE FROM Credit_Applicant_Info")
     void deleteAllCreditApp();
+
+
 }

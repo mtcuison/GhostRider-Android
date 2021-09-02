@@ -54,7 +54,7 @@ public class VMDisbursementInfo extends AndroidViewModel {
     {
         super(application);
         this.poApplcnt = new RCreditApplicant(application);
-        this.poGoCasxx = GOCASHolder.getInstance().getGOCAS();
+        this.poGoCasxx = new GOCASApplication();
     }
 
     public void setTransNox(String transNox){

@@ -74,7 +74,7 @@ public class VMOtherInfo extends AndroidViewModel {
         RTown = new RTown(application);
         RCountry = new RCountry(application);
         provinceInfoList = RProvince.getAllProvinceInfo();
-        poGoCas = GOCASHolder.getInstance().getGOCAS();
+        poGoCas = new GOCASApplication();
         poReference.setValue(new ArrayList<>());
     }
 

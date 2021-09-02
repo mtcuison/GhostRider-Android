@@ -34,6 +34,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SelfEmployedInfoModel;
@@ -206,6 +207,7 @@ public class VMSelfEmployedInfo extends AndroidViewModel {
                 poGoCas.MeansInfo().SelfEmployedInfo().setMonthlyExpense(infoModel.getMonthlyExpense());
                 poGoCas.MeansInfo().SelfEmployedInfo().setIncome(infoModel.getMonthlyIncome());
                 //poInfo.setDetlInfo(poGoCas.toJSONString());
+
                 poInfo.setBusnInfo(poGoCas.MeansInfo().SelfEmployedInfo().toJSONString());
                 poCreditApp.updateGOCasData(poInfo);
                 callBack.onSaveSuccessResult(String.valueOf(getNextPage()));
