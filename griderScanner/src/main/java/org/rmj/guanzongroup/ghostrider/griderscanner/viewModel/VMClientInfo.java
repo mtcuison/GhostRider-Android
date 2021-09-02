@@ -39,6 +39,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.griderscanner.helpers.ScannerConstants;
@@ -63,6 +64,8 @@ public class VMClientInfo extends AndroidViewModel {
     private final MutableLiveData<String> sFileCode = new MutableLiveData<>();
     private final MutableLiveData<Integer> nEntryNox = new MutableLiveData<>();
     private final MutableLiveData<String> sFileLoc = new MutableLiveData<>();
+    private final AppConfigPreference poConfig;
+
     public VMClientInfo(@NonNull Application application) {
         super(application);
         this.instance = application;
@@ -70,6 +73,7 @@ public class VMClientInfo extends AndroidViewModel {
         this.fileCodeList = peFileCode.getAllFileCode();
         poDocument = new RCreditApplicationDocument(application);
         poImage = new RImageInfo(application);
+        poConfig = AppConfigPreference.getInstance(instance);
     }
     public void setImgParameter(String fsTransNox, int fnEntryNox, String fsFileCode, String fsImgname, String fsFileLoc){
         try{
@@ -125,7 +129,7 @@ public class VMClientInfo extends AndroidViewModel {
             for (int i = 0; i < imgInfo.size(); i++){
                 if(foImage.getSourceNo().equalsIgnoreCase(imgInfo.get(i).getSourceNo())
                         && foImage.getDtlSrcNo().equalsIgnoreCase(imgInfo.get(i).getDtlSrcNo())
-                        ) {
+                ) {
                     tansNo = imgInfo.get(i).getTransNox();
 //                    File finalFile = new File(getRealPathFromURI(imgInfo.get(i).getFileLoct()));
 //                    finalFile.delete();
@@ -194,21 +198,21 @@ public class VMClientInfo extends AndroidViewModel {
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
 
-                    String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                    String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(), poUser.getClientId(), poUser.getUserID());
                     String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
                     if (lsClient.isEmpty() || lsAccess.isEmpty()) {
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
                     } else {
                         JSONObject loUpload = WebFileServer.UploadFile(psFileLoc,
-                                                                        lsAccess,
-                                                                        psFileCode,
-                                                                        psTransNox,
-                                                                        psImageName,
-                                                                        poUser.getBranchCode(),
-                                                                        "COAD",
-                                                                        psTransNox,
-                                                                        "");
+                                lsAccess,
+                                psFileCode,
+                                psTransNox,
+                                psImageName,
+                                poUser.getBranchCode(),
+                                "COAD",
+                                psTransNox,
+                                "");
 
                         String lsResponse = (String) loUpload.get("result");
                         lsResult = String.valueOf(loUpload);
@@ -290,25 +294,25 @@ public class VMClientInfo extends AndroidViewModel {
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
 
-                    String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                    String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(), poUser.getClientId(), poUser.getUserID());
                     String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
                     if (lsClient.isEmpty() || lsAccess.isEmpty()) {
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
                     } else {
                         String imageName = poFileInfo.sTransNox + "_" + poFileInfo.nEntryNox + "_" + poFileInfo.sFileCode + ".png";
-                        String root = Environment.getExternalStorageDirectory().toString();
-                        File fileLoc = new File(root + "/"+ AppConstants.APP_PUBLIC_FOLDER + "/" + ScannerConstants.SubFolder  +"/" + poFileInfo.sTransNox + "/");
+                        String root = String.valueOf(instance.getExternalFilesDir(null));
+                        File fileLoc = new File(root + "/" + "/" + ScannerConstants.SubFolder  +"/" + poFileInfo.sTransNox + "/");
                         if (!fileLoc.exists()) {
                             fileLoc.mkdirs();
                         }
                         JSONObject loDownload = WebFileServer.DownloadFile(lsAccess,
-                                                                            poFileInfo.sFileCode,
-                                                                            "",
-                                                                            imageName,
-                                                                            "COAD",
-                                                                            psSourceNo,
-                                                                            "");
+                                poFileInfo.sFileCode,
+                                "",
+                                imageName,
+                                "COAD",
+                                psSourceNo,
+                                "");
 
                         String lsResponse = (String) loDownload.get("result");
                         if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
@@ -317,9 +321,9 @@ public class VMClientInfo extends AndroidViewModel {
                             loDownload = (JSONObject) loParser.parse(loDownload.get("payload").toString());
                             String location = fileLoc.getAbsolutePath() + "/";
                             if (WebFile.Base64ToFile((String) loDownload.get("data"),
-                                                        (String) loDownload.get("hash"),
-                                                        location,
-                                                        (String) loDownload.get("filename"))){
+                                    (String) loDownload.get("hash"),
+                                    location,
+                                    (String) loDownload.get("filename"))){
                                 //insert entry to image info
                                 EImageInfo loImage = new EImageInfo();
                                 loImage.setTransNox((String) loDownload.get("transnox"));
@@ -423,17 +427,17 @@ public class VMClientInfo extends AndroidViewModel {
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
 
-                    String lsClient = WebFileServer.RequestClientToken("IntegSys", poUser.getClientId(), poUser.getUserID());
+                    String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(), poUser.getClientId(), poUser.getUserID());
                     String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
                     if (lsClient.isEmpty() || lsAccess.isEmpty()) {
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
                     } else {
                         JSONObject loDownload = WebFileServer.CheckFile(lsAccess,
-                                                                        "",
-                                                                        "",
-                                                                        "COAD",
-                                                                        psSourceNo);
+                                "",
+                                "",
+                                "COAD",
+                                psSourceNo);
 
                         String lsResponse = (String) loDownload.get("result");
                         lsResult = String.valueOf(loDownload);

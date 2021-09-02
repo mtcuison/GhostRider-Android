@@ -14,25 +14,20 @@ package org.rmj.guanzongroup.ghostrider.notifications.ViewModel;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.OpenableColumns;
 import android.util.Log;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.webkit.MimeTypeMap;
-import android.webkit.URLUtil;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
-import com.google.firebase.installations.Utils;
 
-import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -41,39 +36,41 @@ import org.rmj.g3appdriver.utils.WebClient;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 import java.util.Objects;
 
-import static org.rmj.g3appdriver.utils.WebApi.URL_DOWNLOAD_UPDATE;
 import static org.rmj.g3appdriver.utils.WebApi.URL_SEND_RESPONSE;
 
 public class VMViewNotification extends AndroidViewModel {
     private static final String TAG = VMViewNotification.class.getSimpleName();
     private final Application instance;
+    private final RNotificationInfo poNotification;
 
     public VMViewNotification(@NonNull Application application) {
         super(application);
         Log.e(TAG, "Initialized.");
         this.instance = application;
+        this.poNotification = new RNotificationInfo(instance);
+    }
+
+    public LiveData<DNotifications.UserNotificationInfoWithRcpt> getNotificationInfo(String MessageID){
+        return poNotification.getNotificationForViewing(MessageID);
     }
 
     public void sendReply(String fsTransNo, String fsMessage) {
         Log.e(TAG, "Reply notification currently not available");
     }
 
-    public void deleteNotification(String fsTransNo) {
-        Log.e(TAG, "Delete notification currently not available.");
-        return;
+    public void DeleteNotification(String MessageID) {
+        new UpdateToDeleteTask(instance).execute(MessageID);
     }
 
     public void UpdateMessageStatus(String MessageID){
-        new UpdateMessagesTask(instance).execute(MessageID);
+        new UpdateToReadTask(instance).execute(MessageID);
     }
 
     public interface onDownLoadPDF{
@@ -82,13 +79,13 @@ public class VMViewNotification extends AndroidViewModel {
         void OnFailedDownload(String message);
     }
 
-    private static class UpdateMessagesTask extends AsyncTask<String, Void, String> {
+    private static class UpdateToReadTask extends AsyncTask<String, Void, String> {
         private final Application instance;
         private final ConnectionUtil loConn;
         private final HttpHeaders poHeaders;
         private final RNotificationInfo poNotif;
 
-        public UpdateMessagesTask(Application application) {
+        public UpdateToReadTask(Application application) {
             this.instance = application;
             this.loConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
@@ -101,7 +98,7 @@ public class VMViewNotification extends AndroidViewModel {
             String lsResult = "";
             try {
                 String lsMsgID = strings[0];
-                poNotif.updateRecipientReadStatus(lsMsgID);
+                poNotif.updateNotificationReadStatus(lsMsgID);
                 if (loConn.isDeviceConnected()) {
                     String lsMessageID = lsMsgID;
                     String lsDateReadx = poNotif.getReadMessageTimeStamp(lsMessageID);
@@ -127,6 +124,53 @@ public class VMViewNotification extends AndroidViewModel {
             return lsResult;
         }
     }
+
+    private static class UpdateToDeleteTask extends AsyncTask<String, Void, String> {
+        private final Application instance;
+        private final ConnectionUtil loConn;
+        private final HttpHeaders poHeaders;
+        private final RNotificationInfo poNotif;
+
+        public UpdateToDeleteTask(Application application) {
+            this.instance = application;
+            this.loConn = new ConnectionUtil(instance);
+            this.poHeaders = HttpHeaders.getInstance(instance);
+            this.poNotif = new RNotificationInfo(instance);
+        }
+
+        @SuppressLint("NewApi")
+        @Override
+        protected String doInBackground(String... strings) {
+            String lsResult = "";
+            try {
+                String lsMsgID = strings[0];
+                poNotif.updateNotificationDeleteStatus(lsMsgID);
+                if (loConn.isDeviceConnected()) {
+                    String lsMessageID = lsMsgID;
+                    String lsDLastUpdt = poNotif.getDeleteMessageTimeStamp(lsMessageID);
+                    JSONObject params = new JSONObject();
+                    params.put("transno", lsMessageID);
+                    params.put("status", "5");
+                    params.put("stamp", lsDLastUpdt);
+                    params.put("infox", "");
+//                    lsResult = AppConstants.APPROVAL_CODE_GENERATED("");
+//                    String response = WebClient.httpsPostJSon(URL_SEND_RESPONSE, params.toString(), poHeaders.getHeaders());
+//                    JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
+//                    String result = loJson.getString("result");
+//                    if (result.equalsIgnoreCase("success")) {
+//                        Log.e(TAG, "message status updated to DELETE");
+//                    }
+                } else {
+                    lsResult = AppConstants.NO_INTERNET();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+            }
+            return lsResult;
+        }
+    }
+
     public void DownloadPDF(String url,onDownLoadPDF callback){
         new DownloadPDF(instance, callback).execute(url);
     }

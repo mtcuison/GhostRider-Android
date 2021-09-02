@@ -50,7 +50,13 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         NotificationItemList message = notificationItemLists.get(position);
         holder.message = message;
-        holder.lblSender.setText(message.getName());
+        if(!message.getName().isEmpty()) {
+            holder.lblSender.setText(message.getName());
+            holder.imgSendr.setImageResource(R.drawable.ic_user_profile);
+        } else {
+            holder.lblSender.setText("SYSTEM NOTIFICATION");
+            holder.imgSendr.setImageResource(R.drawable.ic_guanzon_logo);
+        }
         holder.lblTitlex.setText(message.getTitle());
         holder.lblBodyxx.setText(message.getMessage());
         holder.lblDateTm.setText(message.getDateTime());

@@ -42,7 +42,7 @@ public class ImageFileCreator {
     private int EntryNox;
     String currentPhotoPath;
     private double latitude, longitude;
-    private String FOLDER_DIRECTORY, SUB_FOLDER;
+    private String SUB_FOLDER;
     GeoLocator poLocator;
     LocationTrack locationTrack;
 
@@ -68,14 +68,12 @@ public class ImageFileCreator {
     }
     public ImageFileCreator(Context context, String usage, String imgName) {
         this.poContext = context;
-        this.FOLDER_DIRECTORY = AppConstants.APP_PUBLIC_FOLDER;
         this.SUB_FOLDER = usage;
         this.imgName = imgName;
     }
 
-    public ImageFileCreator(Context context, String packageName, String subFolder, String fileCode, int entryNox, String transNox) {
+    public ImageFileCreator(Context context, String subFolder, String fileCode, int entryNox, String transNox) {
         this.poContext = context;
-        this.FOLDER_DIRECTORY = packageName;
         this.FileCode = fileCode;
         this.TransNox = transNox;
         this.SUB_FOLDER = subFolder;
@@ -185,8 +183,8 @@ public class ImageFileCreator {
     }
 
     public File generateMainStorageDir() {
-        String root = Environment.getExternalStorageDirectory().toString();
-        File sd = new File(root + FOLDER_DIRECTORY + "/" + SUB_FOLDER + "/" + TransNox +"/");
+        String root = String.valueOf(poContext.getExternalFilesDir(null));
+        File sd = new File(root + "/" + SUB_FOLDER + "/" + TransNox +"/");
         if (!sd.exists()) {
             sd.mkdirs();
         }
@@ -195,7 +193,7 @@ public class ImageFileCreator {
     }
     public File generateMainStorageDirScan() {
         String root = Environment.getExternalStorageDirectory().toString();
-        File sd = new File(root + "/"+ FOLDER_DIRECTORY+ "/" + SUB_FOLDER+ "/" + TransNox + "/");
+        File sd = new File(root + "/" + "/" + SUB_FOLDER+ "/" + TransNox + "/");
         if (!sd.exists() && !sd.mkdirs()){
             Log.d(TAG, "failed to create directory");
         }

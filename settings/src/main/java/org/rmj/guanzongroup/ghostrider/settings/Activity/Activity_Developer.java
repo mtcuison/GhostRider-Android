@@ -24,7 +24,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -44,7 +46,9 @@ public class Activity_Developer extends AppCompatActivity {
     private Toolbar toolbar;
     private SwitchMaterial poSwitch;
     private Spinner spnDept, spnLevl;
-    private MaterialButton btnSave, btnRestore;
+    private MaterialButton btnSave, btnRestore, btnDownload;
+    private RelativeLayout rtlProgress;
+    private TextView lblProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,10 @@ public class Activity_Developer extends AppCompatActivity {
         spnLevl = findViewById(R.id.spn_employeeLevel);
         btnRestore = findViewById(R.id.btn_restoreDefault);
         btnSave = findViewById(R.id.btn_Save);
+        btnDownload = findViewById(R.id.btn_updateTestingApp);
+        lblProgress = findViewById(R.id.lbl_progressUpdate);
+        rtlProgress = findViewById(R.id.linear_downloadProgress);
+        rtlProgress.setVisibility(View.GONE);
 
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -112,6 +120,34 @@ public class Activity_Developer extends AppCompatActivity {
             setResult(Activity.RESULT_OK);
             finish();
         }));
+
+        btnDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.DownloadUpdate(new VMDevMode.SystemUpateCallback() {
+                    @Override
+                    public void OnDownloadUpdate(String title, String message) {
+                        rtlProgress.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void OnProgressUpdate(int progress) {
+                        lblProgress.setText(progress + "%");
+                    }
+
+                    @Override
+                    public void OnFinishDownload(Intent intent) {
+                        rtlProgress.setVisibility(View.GONE);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void OnFailedDownload(String message) {
+                        rtlProgress.setVisibility(View.GONE);
+                    }
+                });
+            }
+        });
     }
 
     @Override

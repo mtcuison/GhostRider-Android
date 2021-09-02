@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.notifications.Object;
 
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+
 public class NotificationItemList {
     private String MessageID;
     private String Name;
@@ -65,7 +67,7 @@ public class NotificationItemList {
     }
 
     public String getDateTime() {
-        return DateTime;
+        return FormatUIText.getAbbreviationOfMonthAndDayFormat(DateTime);
     }
 
     public void setDateTime(String dateTime) {

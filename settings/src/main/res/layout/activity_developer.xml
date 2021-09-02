@@ -111,6 +111,52 @@
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_updateTestingApp"
+        style="@style/MaterialButtonAccent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Download update for testing"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_layout3" />
+
+    <RelativeLayout
+        android:id="@+id/linear_downloadProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/btn_Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_updateTestingApp"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Downloading update..."
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular" />
+
+        <ProgressBar
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_below="@id/text"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/lbl_progressUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_restoreDefault"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

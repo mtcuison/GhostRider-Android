@@ -11,6 +11,7 @@
 
 package org.rmj.g3appdriver.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
@@ -21,17 +22,37 @@ import java.io.File;
 
 public class AppDirectoryCreator {
     private static final String TAG = AppDirectoryCreator.class.getSimpleName();
-    private static final String psExtDir = Environment.getExternalStorageDirectory().toString();
-    private static final String psAppDir = AppConstants.APP_PUBLIC_FOLDER;
+    private static String psExtDir;
     private static final String psExptDir = AppConstants.SUB_FOLDER_EXPORTS;
-    private static final File poExport = new File(psExtDir + psAppDir + psExptDir + "/");
+    private static File poExport;
+    private String message;
 
-    public static boolean createAppDirectory() {
-        Log.e(TAG, poExport.toString());
+    @SuppressLint("NewApi")
+    public boolean createAppDirectory(Context context) {
+//        File loDocsFx = new File(String.valueOf(context.getFilesDir()) , Environment.DIRECTORY_DOCUMENTS + "/" + psExptDir + "/");
+//        File loPicsFx = new File(String.valueOf(context.getFilesDir()) , Environment.DIRECTORY_PICTURES + "/" + psExptDir + "/");
+//        Log.e(TAG, "Docs DIR: "+loDocsFx.toString());
+//        Log.e(TAG, "Images DIR: "+loPicsFx.toString());
+        psExtDir = String.valueOf(context.getExternalFilesDir(null));
+        poExport = new File(psExtDir + psExptDir + "/");
+
+        Log.e(TAG, "DIR: "+poExport.toString());
         if(!poExport.exists()) {
             Log.e(TAG, "poExport");
-            return poExport.mkdirs();
+            if(poExport.mkdirs()){
+                message = "App directory has been created.";
+                return true;
+            } else {
+                message = "Failed to create app directory.";
+                return false;
+            }
+        } else {
+            message = "Directory already exists";
+            return false;
         }
-        return false;
+    }
+
+    public String getMessage(){
+        return message;
     }
 }

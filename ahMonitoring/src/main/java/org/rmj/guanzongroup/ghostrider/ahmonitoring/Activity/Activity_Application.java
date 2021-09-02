@@ -24,6 +24,7 @@ import android.view.MenuItem;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Approval;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BranchOpening;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveApproval;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_ObApplication;
@@ -45,8 +46,6 @@ public class Activity_Application extends AppCompatActivity {
         int application = getIntent().getIntExtra("app", 0);
 
         Toolbar toolbar = findViewById(R.id.toolbar_application);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         ViewPager viewPager = findViewById(R.id.viewpager_application);
 
@@ -60,7 +59,12 @@ public class Activity_Application extends AppCompatActivity {
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_Reimbursement()));
         }else if(application == AppConstants.INTENT_LEAVE_OB_APPLICATION){
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_Approval()));
+        } else {
+            viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_BranchOpening()));
+            toolbar.setTitle("Branch Opening Monitor");
         }
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

@@ -112,28 +112,6 @@
             android:paddingStart="10dp"
             tools:ignore="RtlSymmetry" />
 
-        <RadioGroup
-            android:id="@+id/rg_ObType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rb_withLog"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/sRbWithLog"
-                android:checked="true"
-                android:layout_weight="1"/>
-
-            <RadioButton
-                android:id="@+id/rb_withoutLog"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/sRnWihtoutLog"
-                android:layout_weight="1"/>
-        </RadioGroup>
-
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -154,13 +132,11 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <LinearLayout
             android:id="@+id/linear_ObWithoutLog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
@@ -211,6 +187,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/sHintDestination"
             style="@style/TextInputStyle">
+
             <AutoCompleteTextView
                 android:id="@+id/txt_brnDestination"
                 android:layout_width="match_parent"
@@ -218,158 +195,10 @@
                 android:inputType="textCapWords|textAutoComplete"
                 android:autofillHints="Business trip destination and purpose."
                 android:layout_margin="5dp"
-                style="@style/AutoCompleteStyleTheme"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/txt_timeInAM"/>
+                style="@style/AutoCompleteTextStyle"
+                android:imeOptions="actionNext"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-
-        <!--Business trip with log-->
-        <LinearLayout
-            android:id="@+id/linear_ObLog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:baselineAligned="false">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1"
-                    android:layout_weight="1"
-                    android:hint="@string/sHintTimeInAM"
-                    style="@style/TextInputStyle">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txt_timeInAM"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="time"
-                        android:autofillHints="Business trip destination and purpose."
-                        android:layout_margin="2dp"
-                        android:imeOptions="actionNext"
-                        android:nextFocusForward="@id/txt_timeOutAM"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1"
-                    android:layout_weight="1"
-                    android:hint="@string/sHintTmeOutAM"
-                    style="@style/TextInputStyle">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txt_timeOutAM"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="time"
-                        android:autofillHints="Business trip destination and purpose."
-                        android:layout_margin="2dp"
-                        android:imeOptions="actionNext"
-                        android:nextFocusForward="@id/txt_overtimeAM"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1"
-                    android:layout_weight="1"
-                    android:hint="@string/sHintOvertime"
-                    style="@style/TextInputStyle">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txt_overtimeAM"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="time"
-                        android:autofillHints="Business trip destination and purpose."
-                        android:layout_margin="2dp"
-                        android:imeOptions="actionNext"
-                        android:nextFocusForward="@id/txt_timeInPM"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:baselineAligned="false">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1"
-                    android:layout_weight="1"
-                    android:hint="@string/sHintTimeInPM"
-                    style="@style/TextInputStyle">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txt_timeInPM"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="time"
-                        android:autofillHints="Business trip destination and purpose."
-                        android:layout_margin="2dp"
-                        android:imeOptions="actionNext"
-                        android:nextFocusForward="@id/txt_timeOutPM"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1"
-                    android:layout_weight="1"
-                    android:hint="@string/sHintTmeOutPM"
-                    style="@style/TextInputStyle">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txt_timeOutPM"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="time"
-                        android:autofillHints="Business trip destination and purpose."
-                        android:layout_margin="2dp"
-                        android:imeOptions="actionNext"
-                        android:nextFocusForward="@id/txt_overtimePM"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1"
-                    android:layout_weight="1"
-                    android:hint="@string/sHintOvertime"
-                    style="@style/TextInputStyle">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txt_overtimePM"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="time"
-                        android:autofillHints="Business trip destination and purpose."
-                        android:layout_margin="2dp"
-                        android:imeOptions="actionNext"
-                        android:nextFocusForward="@id/txt_remarks"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
