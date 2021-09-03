@@ -141,8 +141,7 @@ public class VMPersonalInfo extends AndroidViewModel {
                     poInfo.setIsComakr("0");
                 }
 
-                if (poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1") ||
-                        poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("5")) {
+                if ("1".equalsIgnoreCase(infoModel.getCvlStats()) || "5".equalsIgnoreCase(infoModel.getCvlStats())) {
                     poInfo.setIsSpouse("1");
                 } else {
                     poInfo.setIsSpouse("0");
