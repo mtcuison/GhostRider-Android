@@ -131,6 +131,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
             });
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         });
         spnUnitUser.setAdapter(mViewModel.getUnitUser());
         spnOthrUser.setAdapter(mViewModel.getOtherUnitUser());
@@ -279,6 +280,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
                                 address1, townCity, contactN);
                         mViewModel.setRetrievedReference(loRefs);
                     }
+                    adapter.notifyDataSetChanged();
                 }
 
             } catch(JSONException e) {
