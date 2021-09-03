@@ -32,6 +32,9 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -108,7 +111,14 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         mViewModel = ViewModelProviders.of(this).get(VMCoMaker.class);
         TransNox = Activity_CreditApplication.getInstance().getTransNox();
         mViewModel.setTransNox(TransNox);
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
+        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
+            try {
+                mViewModel.setCreditApplicantInfo(eCreditApplicantInfo);
+                setFieldValues(eCreditApplicantInfo);
+            } catch(NullPointerException e) {
+                e.printStackTrace();
+            }
+        });
         mViewModel.getSpnCMakerRelation().observe(getViewLifecycleOwner(), stringArrayAdapter ->{
             spnBrwrRltn.setAdapter(stringArrayAdapter);
             spnBrwrRltn.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
@@ -255,6 +265,19 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
             }
             mViewModel.SubmitComaker(infoModel, Fragment_CoMaker.this);
         });
+    }
+
+    private void setFieldValues(ECreditApplicantInfo foCredApp) {
+        if(foCredApp.getComakerx() != null) {
+            try {
+                JSONObject loJson = new JSONObject(foCredApp.getComakerx());
+                Log.e(TAG + " jsonCon", loJson.toString());
+                // Value setter goes here
+
+            } catch(JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

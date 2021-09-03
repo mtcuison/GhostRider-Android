@@ -20,6 +20,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
@@ -59,6 +60,9 @@ public class VMPersonalInfo extends AndroidViewModel {
     private final MutableLiveData<Integer> lnMthrNme = new MutableLiveData<>();
     private final MutableLiveData<String> lsCitizen = new MutableLiveData<>();
 
+    private final MutableLiveData<String> lsProvName = new MutableLiveData<>();
+    private final MutableLiveData<String> lsCntryName = new MutableLiveData<>();
+
     public VMPersonalInfo(@NonNull Application application){
         super(application);
         RCreditApplicant = new RCreditApplicant(application);
@@ -66,7 +70,8 @@ public class VMPersonalInfo extends AndroidViewModel {
         RTown = new RTown(application);
         RCountry = new RCountry(application);
         provinceInfoList = RProvince.getAllProvinceInfo();
-        poGoCas = GOCASHolder.getInstance().getGOCAS();
+//        poGoCas = GOCASHolder.getInstance().getGOCAS();
+        poGoCas = new GOCASApplication();
         this.lnMthrNme.setValue(View.GONE);
         this.poModel.setValue(new PersonalInfoModel());
     }
@@ -135,8 +140,7 @@ public class VMPersonalInfo extends AndroidViewModel {
                     poInfo.setIsComakr("0");
                 }
 
-                if (poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1") ||
-                        poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("5")) {
+                if ("1".equalsIgnoreCase(infoModel.getCvlStats()) || "5".equalsIgnoreCase(infoModel.getCvlStats())) {
                     poInfo.setIsSpouse("1");
                 } else {
                     poInfo.setIsSpouse("0");
@@ -239,5 +243,28 @@ public class VMPersonalInfo extends AndroidViewModel {
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.MOBILE_NO_TYPE));
         return liveData;
+    }
+
+    public LiveData<String> getClientCitizenship(String CntryCd) {
+        try {
+            return RCountry.getClientCitizenship(CntryCd);
+        }catch (NullPointerException  e){
+            e.printStackTrace();
+            lsCntryName.setValue("");
+            return lsCntryName;
+        }
+    }
+
+    public LiveData<String> getProvinceNameFromProvID(String provID) {
+        try {
+            return RProvince.getProvinceNameFromProvID(provID);
+        }catch (NullPointerException  e){
+            e.printStackTrace();
+            lsProvName.setValue("");
+            return lsProvName;
+        }
+    }
+    public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownID(String TownID)  {
+        return RTown.getTownProvinceByTownID(TownID);
     }
 }

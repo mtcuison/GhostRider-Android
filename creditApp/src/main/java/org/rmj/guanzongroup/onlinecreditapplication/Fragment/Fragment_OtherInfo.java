@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +36,14 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.PersonalReferencesAdapter;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.OtherInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalReferenceInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -100,7 +106,14 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMOtherInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
+        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
+            try {
+                mViewModel.setCreditApplicantInfo(eCreditApplicantInfo);
+                setFieldValues(eCreditApplicantInfo);
+            } catch(NullPointerException e) {
+                e.printStackTrace();
+            }
+        });
         mViewModel.getReferenceList().observe(getViewLifecycleOwner(), personalReferenceInfoModels -> {
             adapter = new PersonalReferencesAdapter(personalReferenceInfoModels, new PersonalReferencesAdapter.OnAdapterClick() {
                 @Override
@@ -118,6 +131,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
             });
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         });
         spnUnitUser.setAdapter(mViewModel.getUnitUser());
         spnOthrUser.setAdapter(mViewModel.getOtherUnitUser());
@@ -241,6 +255,38 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
             e.printStackTrace();
         }
         adapter.notifyDataSetChanged();
+    }
+
+    private void setFieldValues(ECreditApplicantInfo foCredApp) {
+        if(foCredApp.getOthrInfo() != null) {
+            try {
+                JSONObject loJson = new JSONObject(foCredApp.getOthrInfo());
+                Log.e(TAG + " jsonCon", loJson.toString());
+                spnUnitUser.setText(CreditAppConstants.UNIT_USER[Integer.parseInt(loJson.getString("sUnitUser"))]);
+                spnOthrUser.setText(CreditAppConstants.UNIT_USER_OTHERS[Integer.parseInt(loJson.getString("sUnitUser"))]);
+                spnUnitPayr.setText(CreditAppConstants.UNIT_USER[Integer.parseInt(loJson.getString("sUnitPayr"))]);
+                spnSourcexx.setText(loJson.getString("sSrceInfo"));
+                spnUnitPrps.setText(CreditAppConstants.UNIT_PURPOSE[Integer.parseInt(loJson.getString("sPurposex"))]);
+
+                JSONArray loJsonArr = loJson.getJSONArray("personal_reference");
+                if(loJsonArr.length() > 0) {
+                    for (int x = 0; x < loJsonArr.length(); x++) {
+                        JSONObject loJsonRef = loJsonArr.getJSONObject(x);
+                        String fullname = loJsonRef.getString("sRefrNmex");
+                        String address1 = loJsonRef.getString("sRefrAddx");
+                        String townCity = loJsonRef.getString("sRefrTown");
+                        String contactN = loJsonRef.getString("sRefrMPNx");
+                        PersonalReferenceInfoModel loRefs = new PersonalReferenceInfoModel(fullname,
+                                address1, townCity, contactN);
+                        mViewModel.setRetrievedReference(loRefs);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+
+            } catch(JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

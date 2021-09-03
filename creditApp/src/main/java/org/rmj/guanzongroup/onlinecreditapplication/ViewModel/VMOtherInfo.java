@@ -74,13 +74,17 @@ public class VMOtherInfo extends AndroidViewModel {
         RTown = new RTown(application);
         RCountry = new RCountry(application);
         provinceInfoList = RProvince.getAllProvinceInfo();
-        poGoCas = GOCASHolder.getInstance().getGOCAS();
+        poGoCas = new GOCASApplication();
         poReference.setValue(new ArrayList<>());
     }
 
     public void setTransNox(String transNox){
         this.psTransNox = transNox;
         this.psTranNo.setValue(transNox);
+    }
+
+    public void setRetrievedReference(PersonalReferenceInfoModel foRefs) {
+        Objects.requireNonNull(poReference.getValue()).add(foRefs);
     }
 
     public LiveData<ECreditApplicantInfo> getCreditApplicationInfo(){
@@ -203,52 +207,7 @@ public class VMOtherInfo extends AndroidViewModel {
         }
         return adapter;
     }
-//
-//    public boolean SubmitOtherInfo(OtherInfoModel otherInfo, ViewModelCallBack callBack){
-//        try {
-//            otherInfo.setPersonalReferences(poReference.getValue());
-//            if(otherInfo.isDataValid()){
-//                poGoCas.OtherInfo().setUnitUser(otherInfo.getUnitUser());
-//                poGoCas.OtherInfo().setPurpose(String.valueOf(otherInfo.getUnitPrps()));
-//                if (Integer.parseInt(otherInfo.getUnitPayr()) != 1){
-//                    poGoCas.OtherInfo().setUnitPayor(String.valueOf(otherInfo.getUnitPayr()));
-//                }else{
-//                    poGoCas.OtherInfo().setPayorRelation(String.valueOf(otherInfo.getPayrRltn()));
-//                }
-//                if (otherInfo.getSource().equalsIgnoreCase("Others")){
-//                    poGoCas.OtherInfo().setSourceInfo(otherInfo.getCompanyInfoSource());
-//                }else{
-//                    poGoCas.OtherInfo().setSourceInfo(otherInfo.getSource());
-//                }
-//                for(int x = 0; x < Objects.requireNonNull(poReference.getValue()).size(); x++){
-//                    PersonalReferenceInfoModel loRef = poReference.getValue().get(x);
-//                    poGoCas.OtherInfo().addReference();
-//                    poGoCas.OtherInfo().setPRName(x, loRef.getFullname());
-//                    poGoCas.OtherInfo().setPRTownCity(x, loRef.getTownCity());
-//                    poGoCas.OtherInfo().setPRMobileNo(x, loRef.getContactN());
-//                    poGoCas.OtherInfo().setPRAddress(x, loRef.getAddress1());
-//                }
-//                poInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
-//                poInfo.setOthrInfo(poGoCas.OtherInfo().toJSONString());
-//                poApplcnt.updateGOCasData(poInfo);
-//                callBack.onSaveSuccessResult("Success");
-//                Log.e(TAG, "Other information result : " + poGoCas.OtherInfo().toJSONString());
-//
-//                return true;
-//                } else {
-//                    callBack.onFailedResult("Else " + otherInfo.getMessage());
-//                    return false;
-//                }
-//        }catch (NullPointerException e){
-//            e.printStackTrace();
-//            callBack.onFailedResult("NullPointerException " + e.getMessage());
-//            return false;
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            callBack.onFailedResult("Exception " + e.getMessage());
-//            return false;
-//        }
-//    }
+
     public boolean SubmitOtherInfo(OtherInfoModel otherInfo, ViewModelCallBack callBack) {
         try {
             new UpdateTask(poApplcnt, poInfo, otherInfo, callBack).execute();

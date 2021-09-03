@@ -28,6 +28,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EOccupationInfo;
@@ -39,6 +40,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.ROccupation;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.EmploymentInfoModel;
@@ -72,7 +74,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
         this.poCountry = new RCountry(application);
         this.poJobRepo = new ROccupation(application);
         this.poCredtAp = new RCreditApplicant(application);
-        this.poGoCasxx = GOCASHolder.getInstance().getGOCAS();
+        this.poGoCasxx = new GOCASApplication();
         this.psSectorx.setValue("1");
     }
 
@@ -241,6 +243,12 @@ public class VMEmploymentInfo extends AndroidViewModel {
         }
     }
 
+    public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownID(String TownID)  {
+        return poTownRpo.getTownProvinceByTownID(TownID);
+    }
+    public String getOccupationName(String jobID){
+        return poJobRepo.getOccupationName(jobID);
+    }
     public int getNextPage() throws Exception{
         if(Objects.requireNonNull(poJson.getValue()).getString("sEmplyed").equalsIgnoreCase("1")) {
             return 4;
