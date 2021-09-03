@@ -31,6 +31,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.g3appdriver.utils.AgeCalculator;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalInfoModel;
@@ -81,15 +82,15 @@ public class VMPersonalInfo extends AndroidViewModel {
     }
 
     public boolean setTransNox(String transNox) {
-        this.TRANSNOX.setValue(transNox);
-        if(!this.TRANSNOX.getValue().equalsIgnoreCase(transNox)) {
+        this.TRANSNOX.setValue(Activity_CreditApplication.getInstance().getTransNox());
+        if(!this.TRANSNOX.getValue().equalsIgnoreCase(Activity_CreditApplication.getInstance().getTransNox())) {
             return false;
         }
         return true;
     }
 
     public LiveData<ECreditApplicantInfo> getCreditApplicantInfo(){
-        return RCreditApplicant.getCreditApplicantInfoLiveData(TRANSNOX.getValue());
+        return RCreditApplicant.getCreditApplicantInfoLiveData(Activity_CreditApplication.getInstance().getTransNox());
     }
 
     public void setGOCasDetailInfo(ECreditApplicantInfo DetailInfo){
@@ -148,7 +149,7 @@ public class VMPersonalInfo extends AndroidViewModel {
                 }
 
                 RCreditApplicant.updateGOCasData(poInfo);
-                callBack.onSaveSuccessResult(TRANSNOX.getValue());
+                callBack.onSaveSuccessResult(Activity_CreditApplication.getInstance().getTransNox());
                 return true;
             } else {
                 infoModel.clearMobileNo();

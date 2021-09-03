@@ -86,10 +86,10 @@ public class Activity_CreditAppHome extends AppCompatActivity {
                 noRecord.setVisibility(View.GONE);
                 adapter = new CreditAppHomeAdapter(Activity_CreditAppHome.this,credits, new CreditAppHomeAdapter.OnApplicationClickListener() {
                     @Override
-                    public void OnClick(int position, List<ECreditApplicantInfo> loanList) {
-                        ECreditApplicantInfo creditApplicantInfo = loanList.get(position);
+                    public void OnClick(int position, ECreditApplicantInfo loanList) {
+//                        ECreditApplicantInfo creditApplicantInfo = loanList.get(position);
                         Intent loIntent = new Intent(Activity_CreditAppHome.this, Activity_CreditApplication.class);
-                        loIntent.putExtra("transno", creditApplicantInfo.getTransNox());
+                        loIntent.putExtra("transno", loanList.getTransNox());
                         startActivity(loIntent);
                     }
                 });

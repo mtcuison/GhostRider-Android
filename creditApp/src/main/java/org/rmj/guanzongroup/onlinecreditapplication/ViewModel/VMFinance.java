@@ -55,7 +55,7 @@ public class VMFinance extends AndroidViewModel {
         super(application);
         this.poCreditApp = new RCreditApplicant(application);
         this.poCountry = new RCountry(application);
-        this.poGoCas = GOCASHolder.getInstance().getGOCAS();
+        this.poGoCas = new GOCASApplication();
     }
 
     public void setTransNox(String TransNox){

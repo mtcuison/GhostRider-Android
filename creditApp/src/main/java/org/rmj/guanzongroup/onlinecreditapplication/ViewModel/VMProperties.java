@@ -47,7 +47,7 @@ public class VMProperties extends AndroidViewModel {
     public VMProperties(@NonNull Application application) {
         super(application);
         this.poCreditApp = new RCreditApplicant(application);
-        this.poGOcas = GOCASHolder.getInstance().getGOCAS();
+        this.poGOcas = new GOCASApplication();
         this.poInfo = new ECreditApplicantInfo();
     }
 

@@ -69,12 +69,12 @@ public class CreditAppHomeAdapter extends RecyclerView.Adapter<CreditAppHomeAdap
 
     @Override
     public void onBindViewHolder(@NonNull ClientInfoViewHolder holder, int position) {
-        ECreditApplicantInfo poLoan = plLoanApp.get(position);
-        holder.lblTransNoxxx.setText("TransNox : " + poLoan.getTransNox());
-        holder.lblClientName.setText(poLoan.getClientNm());
+        holder.poLoan = plLoanApp.get(position);
+        holder.lblTransNoxxx.setText("TransNox : " + holder.poLoan.getTransNox());
+        holder.lblClientName.setText(holder.poLoan.getClientNm());
         JSONObject obj = null;
         try {
-            obj = new JSONObject(poLoan.getPurchase());
+            obj = new JSONObject(holder.poLoan.getPurchase());
             holder.lblAppltnType.setText(CreditAppConstants.CUSTOMER_TYPE[Integer.parseInt(obj.getString("cUnitAppl"))]);
             holder.lblUnitType.setText(CreditAppConstants.APPLICATION_TYPE[Integer.parseInt(obj.getString("cApplType"))]);
             holder.lblUnitBrand.setText(obj.getString("sUnitAppl"));
@@ -103,7 +103,7 @@ public class CreditAppHomeAdapter extends RecyclerView.Adapter<CreditAppHomeAdap
         TextView lblModelName;
         TextView lblUnitType;
         TextView lblUnitBrand;
-
+        ECreditApplicantInfo poLoan;
         public ClientInfoViewHolder(@NonNull View itemView, CreditAppHomeAdapter.OnApplicationClickListener onApplicationClickListener) {
             super(itemView);
 
@@ -119,7 +119,7 @@ public class CreditAppHomeAdapter extends RecyclerView.Adapter<CreditAppHomeAdap
                 if(CreditAppHomeAdapter.this.onApplicationClickListener !=null){
                     int lnPos = getAdapterPosition();
                     if(lnPos != RecyclerView.NO_POSITION){
-                        CreditAppHomeAdapter.this.onApplicationClickListener.OnClick(lnPos, plLoanApp);
+                        CreditAppHomeAdapter.this.onApplicationClickListener.OnClick(lnPos, poLoan);
                     }
                 }
             });
@@ -132,7 +132,7 @@ public class CreditAppHomeAdapter extends RecyclerView.Adapter<CreditAppHomeAdap
     }
 
     public interface OnApplicationClickListener{
-        void OnClick(int position, List<ECreditApplicantInfo> loanList);
+        void OnClick(int position, ECreditApplicantInfo loanList);
     }
 
     public interface OnExportGOCASListener{

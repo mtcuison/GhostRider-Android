@@ -151,7 +151,6 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.e(TAG, eCreditApplicantInfo.toString());
         });
 
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
@@ -425,6 +424,30 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
                 spnHouseType.setText(CreditAppConstants.HOUSE_TYPE[Integer.parseInt(residenceObj.getString("cHouseTyp"))]);
                 infoModel.setHouseType(residenceObj.getString("cHouseTyp"));
 
+            }else{
+                cbOneAddress.setChecked(false);
+                txtLandMark.getText().clear();
+                txtHouseNox.getText().clear();
+                txtAddress1.getText().clear();
+                txtAddress2.getText().clear();
+                txtBarangay.getText().clear();
+                txtMunicipality.getText().clear();
+                txtProvince.getText().clear();
+                txtRelationship.getText().clear();
+                txtLgnthStay.getText().clear();
+                txtMonthlyExp.getText().clear();
+                txtPLandMark.getText().clear();
+                txtPHouseNox.getText().clear();
+                txtPAddress1.getText().clear();
+                txtPAddress2.getText().clear();
+                txtPBarangay.getText().clear();
+                txtPMunicipl.getText().clear();
+                txtPProvince.getText().clear();
+                spnLgnthStay.getText().clear();
+                spnHouseHold.getText().clear();
+                spnHouseType.getText().clear();
+                rgOwnsership.clearCheck();
+                rgGarage .clearCheck();
             }
         }catch (NullPointerException e){
             e.printStackTrace();

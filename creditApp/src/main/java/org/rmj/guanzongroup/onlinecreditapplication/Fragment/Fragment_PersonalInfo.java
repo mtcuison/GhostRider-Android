@@ -334,6 +334,31 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
             }catch (JSONException e){
                 e.printStackTrace();
             }
+        }else {
+            txtLastNm.getText().clear();
+            txtFrstNm.getText().clear();
+            txtMiddNm.getText().clear();
+            txtSuffixx.getText().clear();
+            txtNickNm.getText().clear();
+            txtBirthDt.getText().clear();
+            txtCitizen.getText().clear();
+            txtTown.getText().clear();
+            txtProvince.getText().clear();
+            rgGender.clearCheck();
+            spnCivilStatus.getText().clear();
+            txtMobileNo[0].getText().clear();
+            txtMobileNo[1].getText().clear();
+            txtMobileNo[2].getText().clear();
+            txtMobileType[0].getText().clear();
+            txtMobileType[1].getText().clear();
+            txtMobileType[2].getText().clear();
+            txtMobileYear[0].getText().clear();
+            txtMobileYear[1].getText().clear();
+            txtMobileYear[2].getText().clear();
+            txtEmailAdd.getText().clear();
+            txtTellNox.getText().clear();
+            txtViberAccount.getText().clear();
+            txtFbAccount.getText().clear();
         }
 
     }
@@ -341,6 +366,11 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("sample", infoModel);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 
     @SuppressLint("RestrictedApi")
@@ -369,7 +399,6 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
                 infoModel.setMobileNo(txtMobileNo[0].getText().toString(), psMobNetTp[0], Integer.parseInt(Objects.requireNonNull(txtMobileYear[0].getText()).toString()));
             } else {
                 infoModel.setMobileNo(txtMobileNo[0].getText().toString(), psMobNetTp[0], 0);
-                Log.e("Postpaid index " + psMobNetTp[0], infoModel.getPostPaid(0));
             }
         }
         if(!Objects.requireNonNull(txtMobileNo[1].getText()).toString().trim().isEmpty()) {
@@ -431,4 +460,5 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
             }
         }
     }
+
 }
