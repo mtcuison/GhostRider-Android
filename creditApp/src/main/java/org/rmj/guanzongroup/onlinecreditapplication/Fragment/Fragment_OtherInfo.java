@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -50,6 +51,8 @@ import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMOtherInfo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
@@ -60,7 +63,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
     private String TownID = "";
     private String psProvIdx;
-
+    private List<PersonalReferenceInfoModel> referenceList;
     private PersonalReferencesAdapter adapter;
     private OtherInfoModel otherInfo;
     private AutoCompleteTextView spnUnitUser;
@@ -97,6 +100,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_other_info, container, false);
         otherInfo = new OtherInfoModel();
+        referenceList = new ArrayList<>();
         setupWidgets(v);
         return v;
     }
@@ -109,43 +113,68 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
         mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
             try {
                 mViewModel.setCreditApplicantInfo(eCreditApplicantInfo);
+
                 setFieldValues(eCreditApplicantInfo);
+                mViewModel.removeEmptyReferenceItem();
             } catch(NullPointerException e) {
                 e.printStackTrace();
             }
         });
-        mViewModel.getReferenceList().observe(getViewLifecycleOwner(), personalReferenceInfoModels -> {
-            adapter = new PersonalReferencesAdapter(personalReferenceInfoModels, new PersonalReferencesAdapter.OnAdapterClick() {
-                @Override
-                public void onRemove(int position) {
-                    mViewModel.removeReference(position);
-                    GToast.CreateMessage(getActivity(), "Reference removed from list.", GToast.INFORMATION).show();
-                    adapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCallMobile(String fsMobileN) {
-                    Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", fsMobileN, null));
-                    startActivityForResult(mobileIntent, MOBILE_DIALER);
-                }
-            });
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recyclerView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+//        mViewModel.getReferenceList().observe(getViewLifecycleOwner(), personalReferenceInfoModels -> {
+//            adapter = new PersonalReferencesAdapter(personalReferenceInfoModels, new PersonalReferencesAdapter.OnAdapterClick() {
+//                @Override
+//                public void onRemove(int position) {
+//                    mViewModel.removeReference(position);
+//                    GToast.CreateMessage(getActivity(), "Reference removed from list.", GToast.INFORMATION).show();
+//                    adapter.notifyDataSetChanged();
+//                }
+//
+//                @Override
+//                public void onCallMobile(String fsMobileN) {
+//                    Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", fsMobileN, null));
+//                    startActivityForResult(mobileIntent, MOBILE_DIALER);
+//                }
+//            });
+//            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//            recyclerView.setAdapter(adapter);
+//            adapter.notifyDataSetChanged();
+//        });
+        mViewModel.getUnitUser().observe(getViewLifecycleOwner(), adapter->{
+            spnUnitUser.setAdapter(adapter);
+            spnUnitUser.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
-        spnUnitUser.setAdapter(mViewModel.getUnitUser());
-        spnOthrUser.setAdapter(mViewModel.getOtherUnitUser());
-        spnUnitPrps.setAdapter(mViewModel.getUnitPurpose());
-        spnUnitPayr.setAdapter(mViewModel.getUnitUser());
-        spnOthrPayr.setAdapter(mViewModel.getPayerBuyer());
-        spnSourcexx.setAdapter(mViewModel.getIntCompanyInfoSource());
+        mViewModel.getOtherUnitUser().observe(getViewLifecycleOwner(), adapter->{
+            spnOthrUser.setAdapter(adapter);
+            spnOthrUser.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        });
+        mViewModel.getUnitPurpose().observe(getViewLifecycleOwner(), adapter->{
+            spnUnitPrps.setAdapter(adapter);
+            spnUnitPrps.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        });
+        mViewModel.getUnitUser().observe(getViewLifecycleOwner(), adapter->{
+            spnUnitPayr.setAdapter(adapter);
+            spnUnitPayr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        });
+        mViewModel.getPayerBuyer().observe(getViewLifecycleOwner(), adapter->{
+            spnOthrPayr.setAdapter(adapter);
+            spnOthrPayr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        });
+        mViewModel.getIntCompanyInfoSource().observe(getViewLifecycleOwner(), adapter->{
+            spnSourcexx.setAdapter(adapter);
+            spnSourcexx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+        });
+//        spnUnitUser.setAdapter(mViewModel.getUnitUser());
+//        spnOthrUser.setAdapter(mViewModel.getOtherUnitUser());
+//        spnUnitPrps.setAdapter(mViewModel.getUnitPurpose());
+//        spnUnitPayr.setAdapter(mViewModel.getUnitUser());
+//        spnOthrPayr.setAdapter(mViewModel.getPayerBuyer());
+//        spnSourcexx.setAdapter(mViewModel.getIntCompanyInfoSource());
 //        dropdown background color
-        spnUnitUser.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        spnOthrUser.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        spnUnitPrps.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        spnUnitPayr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        spnOthrPayr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-        spnSourcexx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+//        spnOthrUser.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+//        spnUnitPrps.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+//        spnUnitPayr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+//        spnOthrPayr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+//        spnSourcexx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 
         spnUnitUser.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnUnitUser));
         spnUnitPayr.setOnItemClickListener(new Fragment_OtherInfo.SpinnerSelectionListener(spnUnitPayr));
@@ -214,7 +243,6 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
         btnPrevs.setOnClickListener(v -> Activity_CreditApplication.getInstance().moveToPageNumber(13));
         btnAddReferencex.setOnClickListener(v -> {
-            adapter.notifyDataSetChanged();
             addReference();
         });
         btnNext.setOnClickListener(v -> {
@@ -226,6 +254,27 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
     private void addReference(){
         try {
+//            String lsTownPrv = tieAddProv.getText().toString() + ", " +tieAddTown.getText().toString();
+//            String refName = (Objects.requireNonNull(tieRefName.getText()).toString());
+//            String refContact = (Objects.requireNonNull(tieRefCntc.getText()).toString());
+//            String refAddress = (Objects.requireNonNull(tieRefAdd1.getText()).toString());
+//            PersonalReferenceInfoModel poRefInfo = new PersonalReferenceInfoModel(refName, refAddress, lsTownPrv, refContact);
+//            mViewModel.addReference(poRefInfo, new VMOtherInfo.AddPersonalInfoListener() {
+//                @Override
+//                public void OnSuccess() {
+//                    tieRefName.setText("");
+//                    tieRefCntc.setText("");
+//                    tieRefAdd1.setText("");
+//                    tieAddProv.setText("");
+//                    tieAddTown.setText("");
+//                    TownID = "";
+//                }
+//
+//                @Override
+//                public void onFailed(String message) {
+//                    GToast.CreateMessage(getContext(), message, GToast.ERROR).show();
+//                }
+//            });
             mViewModel.getLiveTownProvinceNames(TownID).observe(getViewLifecycleOwner(), townProvNme -> {
                 String lsTownPrv = townProvNme.sTownName + ", " +townProvNme.sProvName;
                 String refName = (Objects.requireNonNull(tieRefName.getText()).toString());
@@ -254,22 +303,26 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
         } catch (Exception e){
             e.printStackTrace();
         }
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
     }
 
+    @SuppressLint("NewApi")
     private void setFieldValues(ECreditApplicantInfo foCredApp) {
+        Log.e(TAG, "Other Info = " + foCredApp.getOthrInfo());
+
         if(foCredApp.getOthrInfo() != null) {
             try {
                 JSONObject loJson = new JSONObject(foCredApp.getOthrInfo());
                 Log.e(TAG + " jsonCon", loJson.toString());
-                spnUnitUser.setText(CreditAppConstants.UNIT_USER[Integer.parseInt(loJson.getString("sUnitUser"))]);
-                spnOthrUser.setText(CreditAppConstants.UNIT_USER_OTHERS[Integer.parseInt(loJson.getString("sUnitUser"))]);
-                spnUnitPayr.setText(CreditAppConstants.UNIT_USER[Integer.parseInt(loJson.getString("sUnitPayr"))]);
-                spnSourcexx.setText(loJson.getString("sSrceInfo"));
-                spnUnitPrps.setText(CreditAppConstants.UNIT_PURPOSE[Integer.parseInt(loJson.getString("sPurposex"))]);
+                spnUnitUser.setText(CreditAppConstants.UNIT_USER[Integer.parseInt(loJson.getString("sUnitUser"))],false);
+                spnOthrUser.setText(CreditAppConstants.UNIT_USER_OTHERS[Integer.parseInt(loJson.getString("sUnitUser"))],false);
+                spnUnitPayr.setText(CreditAppConstants.UNIT_USER[Integer.parseInt(loJson.getString("sUnitPayr"))],false);
+                spnSourcexx.setText(loJson.getString("sSrceInfo"),false);
+                spnUnitPrps.setText(CreditAppConstants.UNIT_PURPOSE[Integer.parseInt(loJson.getString("sPurposex"))],false);
 
                 JSONArray loJsonArr = loJson.getJSONArray("personal_reference");
                 if(loJsonArr.length() > 0) {
+                    referenceList.clear();
                     for (int x = 0; x < loJsonArr.length(); x++) {
                         JSONObject loJsonRef = loJsonArr.getJSONObject(x);
                         String fullname = loJsonRef.getString("sRefrNmex");
@@ -278,10 +331,35 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
                         String contactN = loJsonRef.getString("sRefrMPNx");
                         PersonalReferenceInfoModel loRefs = new PersonalReferenceInfoModel(fullname,
                                 address1, townCity, contactN);
-                        mViewModel.setRetrievedReference(loRefs);
+                        if (!loRefs.isDataValid()) {
+                            loJsonArr.remove(x);
+                        }else{
+                            referenceList.add(loRefs);
+//                            mViewModel.setRetrievedReference(loRefs);
+                        }
                     }
+                    Log.e(TAG, "reference count = " + referenceList.size());
+                    mViewModel.setReferenceFromLocal(referenceList);
+                    adapter = new PersonalReferencesAdapter(referenceList, new PersonalReferencesAdapter.OnAdapterClick() {
+                        @Override
+                        public void onRemove(int position) {
+                            mViewModel.removeReference(position);
+                            GToast.CreateMessage(getActivity(), "Reference removed from list.", GToast.INFORMATION).show();
+                            adapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCallMobile(String fsMobileN) {
+                            Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", fsMobileN, null));
+                            startActivityForResult(mobileIntent, MOBILE_DIALER);
+                        }
+                    });
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
+
                 }
+
 
             } catch(JSONException e) {
                 e.printStackTrace();

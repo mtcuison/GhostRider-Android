@@ -285,7 +285,8 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
 //                txtTown.setText(appInfo.getString("sLastName"));
 //                mViewModel.getProvinceNameFromProvID(appInfo.getString("sCitizenx"));
 
-                spnCivilStatus.setText(CreditAppConstants.CIVIL_STATUS[Integer.parseInt(appInfo.getString("cCvilStat"))]);
+                spnCivilStatus.setText(CreditAppConstants.CIVIL_STATUS[Integer.parseInt(appInfo.getString("cCvilStat"))], false);
+                spnCivilStatus.setSelection(Integer.parseInt(appInfo.getString("cCvilStat")));
                 mViewModel.setCvlStats(appInfo.getString("cCvilStat"));
                 mViewModel.getTownProvinceByTownID(appInfo.getString("sBirthPlc")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
                     txtTown.setText(townProvinceInfo.sTownName);
@@ -301,16 +302,22 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
                         e.printStackTrace();
                     }
                 });
-                if (appInfo.getString("cGenderCd").equalsIgnoreCase("0")) {
-                    rgGender.check(R.id.rb_male);
-                    mViewModel.setGender("0");
-                } else if (appInfo.getString("cGenderCd").equalsIgnoreCase("1")) {
-                    rgGender.check(R.id.rb_female);
-                    mViewModel.setGender("1");
-                } else if (appInfo.getString("cGenderCd").equalsIgnoreCase("2")) {
-                    rgGender.check(R.id.rb_lgbt);
-                    mViewModel.setGender("2");
+                for(int i = 0; i < rgGender.getChildCount(); i++){
+                    if (i == Integer.parseInt(appInfo.getString("cGenderCd"))){
+                        mViewModel.setGender(appInfo.getString("cGenderCd"));
+                        ((RadioButton)rgGender.getChildAt(i)).setChecked(true);
+                    }
                 }
+//                if (appInfo.getString("cGenderCd").equalsIgnoreCase("0")) {
+//                    rgGender.check(R.id.rb_male);
+//                    mViewModel.setGender("0");
+//                } else if (appInfo.getString("cGenderCd").equalsIgnoreCase("1")) {
+//                    rgGender.check(R.id.rb_female);
+//                    mViewModel.setGender("1");
+//                } else if (appInfo.getString("cGenderCd").equalsIgnoreCase("2")) {
+//                    rgGender.check(R.id.rb_lgbt);
+//                    mViewModel.setGender("2");
+//                }
 
                 JSONArray arrayEmail = new JSONArray(appInfo.getString("email_address"));
                 JSONObject emailObj = new JSONObject(arrayEmail.get(0).toString());

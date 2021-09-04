@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -52,11 +53,16 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
     @Override
     public void onBindViewHolder(@NonNull PersonalReferencesAdapter.ItemViewHolder holder, int position) {
         PersonalReferenceInfoModel reference = referenceInfoModels.get(position);
+        PersonalReferenceInfoModel poRef = new PersonalReferenceInfoModel(reference.getFullname(),reference.getAddress1(),reference.getTownCity(),reference.getContactN());
         String lsRefNoxx = String.valueOf(position+1);
-        holder.lblReferenceNo.setText("Reference No. " + lsRefNoxx);
-        holder.lblRefName.setText(reference.getFullname());
-        holder.lblRefTown.setText(reference.getAddress1() + ", " + reference.getTownCity());
-        holder.lblRefContact.setText(reference.getContactN());
+        if (poRef.isDataValid()){
+            holder.lblReferenceNo.setText("Reference No. " + lsRefNoxx);
+            holder.lblRefName.setText(reference.getFullname());
+            holder.lblRefTown.setText(reference.getAddress1() + ", " + reference.getTownCity());
+            holder.lblRefContact.setText(reference.getContactN());
+        }else{
+            holder.referenceLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -70,6 +76,7 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
         private TextView lblRefContact;
         private TextView lblReferenceNo;
         private ImageView imgRemove;
+        private LinearLayout referenceLayout;
 
         public ItemViewHolder(@NonNull View itemView, OnAdapterClick listener) {
             super(itemView);
@@ -79,6 +86,7 @@ public class PersonalReferencesAdapter extends RecyclerView.Adapter<PersonalRefe
             lblRefContact = itemView.findViewById(R.id.lbl_itemRefContactN);
             lblReferenceNo = itemView.findViewById(R.id.lbl_reference_no);
             imgRemove = itemView.findViewById(R.id.img_remove);
+            referenceLayout = itemView.findViewById(R.id.referenceItemLayout);
 
             imgRemove.setOnClickListener(v -> {
                 int position = getAdapterPosition();

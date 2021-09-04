@@ -59,7 +59,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
         public VMSpouseResidenceInfo(@NonNull Application application) {
             super(application);
-            poGoCas = GOCASHolder.getInstance().getGOCAS();
+            this.poGoCas = new GOCASApplication();
             poCreditApp = new RCreditApplicant(application);
             poProvRepo = new RProvince(application);
             poTownRepo = new RTown(application);
