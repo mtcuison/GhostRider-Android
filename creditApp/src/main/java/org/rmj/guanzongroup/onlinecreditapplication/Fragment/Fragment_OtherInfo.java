@@ -63,7 +63,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
     private String TownID = "";
     private String psProvIdx;
-    private List<PersonalReferenceInfoModel> referenceList;
+
     private PersonalReferencesAdapter adapter;
     private OtherInfoModel otherInfo;
     private AutoCompleteTextView spnUnitUser;
@@ -100,7 +100,6 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_other_info, container, false);
         otherInfo = new OtherInfoModel();
-        referenceList = new ArrayList<>();
         setupWidgets(v);
         return v;
     }
@@ -113,32 +112,33 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
         mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
             try {
                 mViewModel.setCreditApplicantInfo(eCreditApplicantInfo);
-
                 setFieldValues(eCreditApplicantInfo);
-                mViewModel.removeEmptyReferenceItem();
             } catch(NullPointerException e) {
                 e.printStackTrace();
             }
         });
-//        mViewModel.getReferenceList().observe(getViewLifecycleOwner(), personalReferenceInfoModels -> {
-//            adapter = new PersonalReferencesAdapter(personalReferenceInfoModels, new PersonalReferencesAdapter.OnAdapterClick() {
-//                @Override
-//                public void onRemove(int position) {
-//                    mViewModel.removeReference(position);
-//                    GToast.CreateMessage(getActivity(), "Reference removed from list.", GToast.INFORMATION).show();
-//                    adapter.notifyDataSetChanged();
-//                }
-//
-//                @Override
-//                public void onCallMobile(String fsMobileN) {
-//                    Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", fsMobileN, null));
-//                    startActivityForResult(mobileIntent, MOBILE_DIALER);
-//                }
-//            });
-//            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//            recyclerView.setAdapter(adapter);
-//            adapter.notifyDataSetChanged();
-//        });
+        mViewModel.getReferenceList().observe(getViewLifecycleOwner(), personalReferenceInfoModels -> {
+            if (personalReferenceInfoModels != null){
+                adapter = new PersonalReferencesAdapter(personalReferenceInfoModels, new PersonalReferencesAdapter.OnAdapterClick() {
+                    @Override
+                    public void onRemove(int position) {
+                        mViewModel.removeReference(position);
+                        GToast.CreateMessage(getActivity(), "Reference removed from list.", GToast.INFORMATION).show();
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCallMobile(String fsMobileN) {
+                        Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", fsMobileN, null));
+                        startActivityForResult(mobileIntent, MOBILE_DIALER);
+                    }
+                });
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         mViewModel.getUnitUser().observe(getViewLifecycleOwner(), adapter->{
             spnUnitUser.setAdapter(adapter);
             spnUnitUser.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
@@ -170,6 +170,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 //        spnOthrPayr.setAdapter(mViewModel.getPayerBuyer());
 //        spnSourcexx.setAdapter(mViewModel.getIntCompanyInfoSource());
 //        dropdown background color
+//        spnUnitUser.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 //        spnOthrUser.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 //        spnUnitPrps.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
 //        spnUnitPayr.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
@@ -254,27 +255,6 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
     private void addReference(){
         try {
-//            String lsTownPrv = tieAddProv.getText().toString() + ", " +tieAddTown.getText().toString();
-//            String refName = (Objects.requireNonNull(tieRefName.getText()).toString());
-//            String refContact = (Objects.requireNonNull(tieRefCntc.getText()).toString());
-//            String refAddress = (Objects.requireNonNull(tieRefAdd1.getText()).toString());
-//            PersonalReferenceInfoModel poRefInfo = new PersonalReferenceInfoModel(refName, refAddress, lsTownPrv, refContact);
-//            mViewModel.addReference(poRefInfo, new VMOtherInfo.AddPersonalInfoListener() {
-//                @Override
-//                public void OnSuccess() {
-//                    tieRefName.setText("");
-//                    tieRefCntc.setText("");
-//                    tieRefAdd1.setText("");
-//                    tieAddProv.setText("");
-//                    tieAddTown.setText("");
-//                    TownID = "";
-//                }
-//
-//                @Override
-//                public void onFailed(String message) {
-//                    GToast.CreateMessage(getContext(), message, GToast.ERROR).show();
-//                }
-//            });
             mViewModel.getLiveTownProvinceNames(TownID).observe(getViewLifecycleOwner(), townProvNme -> {
                 String lsTownPrv = townProvNme.sTownName + ", " +townProvNme.sProvName;
                 String refName = (Objects.requireNonNull(tieRefName.getText()).toString());
@@ -303,26 +283,44 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
         } catch (Exception e){
             e.printStackTrace();
         }
-//        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
 
     @SuppressLint("NewApi")
     private void setFieldValues(ECreditApplicantInfo foCredApp) {
-        Log.e(TAG, "Other Info = " + foCredApp.getOthrInfo());
-
         if(foCredApp.getOthrInfo() != null) {
             try {
                 JSONObject loJson = new JSONObject(foCredApp.getOthrInfo());
                 Log.e(TAG + " jsonCon", loJson.toString());
                 spnUnitUser.setText(CreditAppConstants.UNIT_USER[Integer.parseInt(loJson.getString("sUnitUser"))],false);
-                spnOthrUser.setText(CreditAppConstants.UNIT_USER_OTHERS[Integer.parseInt(loJson.getString("sUnitUser"))],false);
+                otherInfo.setsUnitUser(loJson.getString("sUnitUser"));
+                if(Integer.parseInt(loJson.getString("sUnitUser")) == 1){
+                    spnOthrUser.setText(CreditAppConstants.UNIT_USER_OTHERS[Integer.parseInt(loJson.getString("sUsr2Buyr"))],false);
+                    tilOthrUser.setVisibility(View.VISIBLE);
+                    otherInfo.setsUsr2Buyr(loJson.getString("sUsr2Buyr"));
+                } else {
+                    tilOthrUser.setVisibility(View.GONE);
+                }
+
                 spnUnitPayr.setText(CreditAppConstants.UNIT_USER[Integer.parseInt(loJson.getString("sUnitPayr"))],false);
+                otherInfo.setsUnitPayr(loJson.getString("sUnitPayr"));
+                if(Integer.parseInt(loJson.getString("sUnitPayr")) == 1){
+                    spnOthrPayr.setText(CreditAppConstants.UNIT_PURPOSE[Integer.parseInt(loJson.getString("sPyr2Buyr"))],false);
+                    tilOthrPayr.setVisibility(View.VISIBLE);
+                    otherInfo.setsPyr2Buyr(loJson.getString("sUnitPayr"));
+                } else {
+                    tilOthrPayr.setVisibility(View.GONE);
+                }
                 spnSourcexx.setText(loJson.getString("sSrceInfo"),false);
                 spnUnitPrps.setText(CreditAppConstants.UNIT_PURPOSE[Integer.parseInt(loJson.getString("sPurposex"))],false);
 
+                otherInfo.setsPurposex(loJson.getString("sPurposex"));
+
+                otherInfo.setSource(loJson.getString("sSrceInfo"));
+
                 JSONArray loJsonArr = loJson.getJSONArray("personal_reference");
                 if(loJsonArr.length() > 0) {
-                    referenceList.clear();
+                    List<PersonalReferenceInfoModel> poRef = new ArrayList<>();
                     for (int x = 0; x < loJsonArr.length(); x++) {
                         JSONObject loJsonRef = loJsonArr.getJSONObject(x);
                         String fullname = loJsonRef.getString("sRefrNmex");
@@ -333,33 +331,12 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
                                 address1, townCity, contactN);
                         if (!loRefs.isDataValid()) {
                             loJsonArr.remove(x);
-                        }else{
-                            referenceList.add(loRefs);
-//                            mViewModel.setRetrievedReference(loRefs);
-                        }
+                        }else {
+                            poRef.add(loRefs);
+                        };
                     }
-                    Log.e(TAG, "reference count = " + referenceList.size());
-                    mViewModel.setReferenceFromLocal(referenceList);
-                    adapter = new PersonalReferencesAdapter(referenceList, new PersonalReferencesAdapter.OnAdapterClick() {
-                        @Override
-                        public void onRemove(int position) {
-                            mViewModel.removeReference(position);
-                            GToast.CreateMessage(getActivity(), "Reference removed from list.", GToast.INFORMATION).show();
-                            adapter.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onCallMobile(String fsMobileN) {
-                            Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", fsMobileN, null));
-                            startActivityForResult(mobileIntent, MOBILE_DIALER);
-                        }
-                    });
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-
+                    mViewModel.setRetrievedReferenceList(poRef);
                 }
-
 
             } catch(JSONException e) {
                 e.printStackTrace();
@@ -386,17 +363,19 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if(spnUnitUser.equals(poView)){
-                otherInfo.setUnitUser(String.valueOf(i));
+                otherInfo.setsUnitUser(String.valueOf(i));
                 if(i == 1){
                     tilOthrUser.setVisibility(View.VISIBLE);
                 } else {
+                    otherInfo.setsUsr2Buyr(null);
                     tilOthrUser.setVisibility(View.GONE);
                 }
             } else if(spnUnitPayr.equals(poView)){
-                otherInfo.setUnitPayr(String.valueOf(i));
+                otherInfo.setsUnitPayr(String.valueOf(i));
                 if(i == 1){
                     tilOthrPayr.setVisibility(View.VISIBLE);
                 } else {
+                    otherInfo.setsPyr2Buyr(null);
                     tilOthrPayr.setVisibility(View.GONE);
                 }
             } else if(spnSourcexx.equals(poView)){
@@ -407,11 +386,11 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
                     tilOtherSrc.setVisibility(View.GONE);
                 }
             } else if(spnUnitPrps.equals(poView)){
-                otherInfo.setUnitPrps(String.valueOf(i));
+                otherInfo.setsPurposex(String.valueOf(i));
             } else if(spnOthrUser.equals(poView)){
-                otherInfo.setPayrRltn(String.valueOf(i));
+                otherInfo.setsUsr2Buyr(String.valueOf(i));
             } else if(spnOthrPayr.equals(poView)){
-                otherInfo.setUnitUser(String.valueOf(i));
+                otherInfo.setsPyr2Buyr(String.valueOf(i));
             }
         }
     }

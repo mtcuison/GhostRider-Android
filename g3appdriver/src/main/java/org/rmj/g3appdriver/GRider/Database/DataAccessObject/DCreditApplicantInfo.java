@@ -49,6 +49,9 @@ public interface DCreditApplicantInfo {
     @Query("UPDATE Credit_Applicant_Info SET sResidnce =:Residence WHERE sTransNox =:TransNox")
     void updateApplicantResidenceInfo(String TransNox, String Residence);
 
+        @Query("UPDATE Credit_Applicant_Info SET sOthrInfo =:OtherInfo WHERE sTransNox =:TransNox")
+    void updateOtherInfo(String TransNox, String OtherInfo);
+
     @Query("DELETE FROM Credit_Applicant_Info")
     void deleteAllCreditApp();
 
