@@ -88,7 +88,6 @@ public class VMComakerResidence extends AndroidViewModel {
 
     public void setCreditApplicantInfo(ECreditApplicantInfo applicantInfo){
         poInfo = applicantInfo;
-        poGoCas.setData(poInfo.getDetlInfo());
     }
 
     public LiveData<String[]> getProvinceNameList(){

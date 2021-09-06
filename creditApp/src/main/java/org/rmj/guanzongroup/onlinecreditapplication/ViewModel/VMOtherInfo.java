@@ -27,6 +27,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
@@ -83,8 +86,13 @@ public class VMOtherInfo extends AndroidViewModel {
         this.psTranNo.setValue(transNox);
     }
 
-    public void setRetrievedReference(PersonalReferenceInfoModel foRefs) {
-        Objects.requireNonNull(poReference.getValue()).add(foRefs);
+    //    public void setRetrievedReference(PersonalReferenceInfoModel foRefs) {
+////        Objects.requireNonNull(poReference.getValue()).add(foRefs);
+//        poReference.getValue().add(foRefs);
+//    }
+    public void setRetrievedReferenceList(List<PersonalReferenceInfoModel> foRefs) {
+        Objects.requireNonNull(poReference).getValue().clear();
+        Objects.requireNonNull(poReference).setValue(foRefs);
     }
 
     public LiveData<ECreditApplicantInfo> getCreditApplicationInfo(){
@@ -102,7 +110,6 @@ public class VMOtherInfo extends AndroidViewModel {
     public LiveData<List<PersonalReferenceInfoModel>> getReferenceList(){
         return poReference;
     }
-
     public boolean addReference(PersonalReferenceInfoModel poInfo, AddPersonalInfoListener listener){
         try{
             if(poInfo.isDataValid()){
@@ -155,58 +162,132 @@ public class VMOtherInfo extends AndroidViewModel {
     }
 
     public void setProvID(String ProvID) { this.lsProvID.setValue(ProvID); }
-
-    public ArrayAdapter<String> getUnitUser(){
-        return CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER);
+    public LiveData<ArrayAdapter<String>> getUnitUser(){
+        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
+        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER));
+        return liveData;
+//        return CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER);
     }
 
-    public ArrayAdapter<String> getOtherUnitUser(){
-        ArrayAdapter<String> adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS);
+    public LiveData<ArrayAdapter<String>> getOtherUnitUser(){
+        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
+        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS));
+//        ArrayAdapter<String> adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS);
         try {
             if ("1".equalsIgnoreCase(poInfo.getIsSpouse())) {
-                adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS);
+//                adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS);
+                liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS));
             } else {
-                adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS_NO_SPOUSE);
+//                adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS_NO_SPOUSE);
+                liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS_NO_SPOUSE));
             }
         } catch (Exception e){
             e.printStackTrace();
         }
-        return adapter;
+        return liveData;
     }
 
-    public ArrayAdapter<String> getUnitPurpose(){
-        return CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PURPOSE);
+    public LiveData<ArrayAdapter<String>> getUnitPurpose(){
+        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
+        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PURPOSE));
+        return liveData;
     }
 
     public ArrayAdapter<String> getUnitPayer(){
         return CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER);
     }
 
-    public ArrayAdapter<String> getPayerBuyer(){
+    public LiveData<ArrayAdapter<String>> getPayerBuyer(){
+        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
+        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER));
         ArrayAdapter<String> adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER);
         try {
             if ("1".equalsIgnoreCase(poInfo.getIsSpouse())) {
-                adapter =  CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER);
+//                adapter =  CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER);
+                liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER));
             } else {
-                adapter =  CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER_NO_SPOUSE);
+//                adapter =  CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER_NO_SPOUSE);
+                liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER_NO_SPOUSE));
             }
         } catch (NullPointerException e){
             e.printStackTrace();
         } catch (Exception e){
             e.printStackTrace();
         }
-        return adapter;
+//        return adapter;
+        return liveData;
     }
 
-    public ArrayAdapter<String> getIntCompanyInfoSource(){
+    public LiveData<ArrayAdapter<String>> getIntCompanyInfoSource()  {
+
+        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
+
         ArrayAdapter<String> adapter;
+
+//        JSONObject loJson = new JSONObject(poInfo.getApplInfo());
         if (poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1")){
-            adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INTO_US);
+//            adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INTO_US);
+            liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INTO_US));
         }else{
-            adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INTO_US_NO_SPOUSE);
+//            adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INTO_US_NO_SPOUSE);
+            liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INTO_US_NO_SPOUSE));
         }
-        return adapter;
+        return liveData;
     }
+
+
+//
+//    public ArrayAdapter<String> getUnitUser(){
+//        return CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER);
+//    }
+//
+//    public ArrayAdapter<String> getOtherUnitUser(){
+//        ArrayAdapter<String> adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS);
+//        try {
+//            if ("1".equalsIgnoreCase(poInfo.getIsSpouse())) {
+//                adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS);
+//            } else {
+//                adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS_NO_SPOUSE);
+//            }
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return adapter;
+//    }
+//
+//    public ArrayAdapter<String> getUnitPurpose(){
+//        return CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PURPOSE);
+//    }
+//
+//    public ArrayAdapter<String> getUnitPayer(){
+//        return CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER);
+//    }
+//
+//    public ArrayAdapter<String> getPayerBuyer(){
+//        ArrayAdapter<String> adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER);
+//        try {
+//            if ("1".equalsIgnoreCase(poInfo.getIsSpouse())) {
+//                adapter =  CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER);
+//            } else {
+//                adapter =  CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER_NO_SPOUSE);
+//            }
+//        } catch (NullPointerException e){
+//            e.printStackTrace();
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return adapter;
+//    }
+//
+//    public ArrayAdapter<String> getIntCompanyInfoSource(){
+//        ArrayAdapter<String> adapter;
+//        if (poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1")){
+//            adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INTO_US);
+//        }else{
+//            adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INTO_US_NO_SPOUSE);
+//        }
+//        return adapter;
+//    }
 
     public boolean SubmitOtherInfo(OtherInfoModel otherInfo, ViewModelCallBack callBack) {
         try {
@@ -239,30 +320,38 @@ public class VMOtherInfo extends AndroidViewModel {
             try{
                 infoModel.setPersonalReferences(poReference.getValue());
                 if(infoModel.isDataValid()){
-                    poGoCas.OtherInfo().setUnitUser(infoModel.getUnitUser());
-                    poGoCas.OtherInfo().setPurpose(String.valueOf(infoModel.getUnitPrps()));
-                    if (Integer.parseInt(infoModel.getUnitPayr()) != 1){
-                        poGoCas.OtherInfo().setUnitPayor(String.valueOf(infoModel.getUnitPayr()));
-                    }else{
-                        poGoCas.OtherInfo().setPayorRelation(String.valueOf(infoModel.getPayrRltn()));
-                    }
+
+                    org.json.simple.JSONObject loJson = new org.json.simple.JSONObject();
+
+                    loJson.put("sUnitUser", infoModel.getsUnitUser());
+                    loJson.put("sUsr2Buyr", infoModel.getsUsr2Buyr());
+                    loJson.put("sUnitPayr", infoModel.getsUnitPayr());
+                    loJson.put("sPyr2Buyr", infoModel.getsPyr2Buyr());
+                    loJson.put("sPurposex", infoModel.getsPurposex());
                     if (infoModel.getSource().equalsIgnoreCase("Others")){
-                        poGoCas.OtherInfo().setSourceInfo(infoModel.getCompanyInfoSource());
+                        loJson.put("sSrceInfo", infoModel.getCompanyInfoSource());
                     }else{
-                        poGoCas.OtherInfo().setSourceInfo(infoModel.getSource());
+                        loJson.put("sSrceInfo", infoModel.getSource());
                     }
+                    @SuppressLint({"NewApi", "LocalSuppress"})
+                    org.json.simple.JSONArray reference = new  org.json.simple.JSONArray();
+
                     for(int x = 0; x < Objects.requireNonNull(poReference.getValue()).size(); x++){
-                        PersonalReferenceInfoModel loRef = poReference.getValue().get(x);
-                        poGoCas.OtherInfo().addReference();
-                        poGoCas.OtherInfo().setPRName(x, loRef.getFullname());
-                        poGoCas.OtherInfo().setPRTownCity(x, loRef.getTownCity());
-                        poGoCas.OtherInfo().setPRMobileNo(x, loRef.getContactN());
-                        poGoCas.OtherInfo().setPRAddress(x, loRef.getAddress1());
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("sRefrNmex", poReference.getValue().get(x).getFullname());
+                        jsonObject.put("sRefrTown", poReference.getValue().get(x).getTownCity());
+                        jsonObject.put("sRefrMPNx", poReference.getValue().get(x).getContactN());
+                        jsonObject.put("sRefrAddx", poReference.getValue().get(x).getAddress1());
+                        reference.add(x,jsonObject);
+
                     }
+                    loJson.put("personal_reference", reference);
+                    poGoCas.OtherInfo().setData(loJson);
                     poInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
                     poInfo.setOthrInfo(poGoCas.OtherInfo().toJSONString());
                     poDcp.updateGOCasData(poInfo);
-                    Log.e(TAG, poGoCas.toJSONString());
+//                    poDcp.updateOtherInfo(psTransNox, loJson.toString());
+                    Log.e(TAG, loJson.toString());
                     return "success";
 
                 } else {

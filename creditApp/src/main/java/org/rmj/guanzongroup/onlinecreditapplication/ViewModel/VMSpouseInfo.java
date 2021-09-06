@@ -69,7 +69,7 @@ public class VMSpouseInfo extends AndroidViewModel {
     private final MutableLiveData<Integer> mobileNo3Year = new MutableLiveData<>();
     public VMSpouseInfo(@NonNull Application application) { // Application is context
         super(application);
-        poGoCas = GOCASHolder.getInstance().getGOCAS();
+        poGoCas = new GOCASApplication();
         poCreditApp = new RCreditApplicant(application);
         poProvRepo = new RProvince(application);
         poTownRepo = new RTown(application);
