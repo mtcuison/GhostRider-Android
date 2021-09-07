@@ -61,6 +61,12 @@ public class Activity_CreditApplication extends AppCompatActivity {
     }
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
+    @Override
     public void onBackPressed() {
         MessageBox loMessage = new MessageBox(Activity_CreditApplication.this);
         loMessage.initDialog();

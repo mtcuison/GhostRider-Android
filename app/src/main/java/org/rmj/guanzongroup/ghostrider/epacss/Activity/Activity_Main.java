@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.Activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
@@ -35,19 +34,19 @@ import androidx.navigation.ui.AppBarConfiguration;
 import com.google.android.material.navigation.NavigationView;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
+import org.rmj.guanzongroup.ghostrider.epacss.Object.ChildObject;
+import org.rmj.guanzongroup.ghostrider.epacss.Object.ParentObject;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.InternetStatusReciever;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMMainActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.ExpandableListDrawerAdapter;
-import org.rmj.guanzongroup.ghostrider.epacss.adapter.MenuModel;
-import org.rmj.guanzongroup.ghostrider.epacss.adapter.PopulateExpandableList;
-import org.rmj.guanzongroup.ghostrider.epacss.adapter.PrepareData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,17 +60,16 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 
     private AppBarConfiguration mAppBarConfiguration;
     private MessageBox loMessage;
+    private Intent loIntent;
 
-    @SuppressLint("StaticFieldLeak")
-    public static ExpandableListDrawerAdapter listAdapter;
-    @SuppressLint("StaticFieldLeak")
-    public static  ExpandableListView expListView;
+    private ExpandableListDrawerAdapter listAdapter;
+    private  ExpandableListView expListView;
 
-    public static  List<MenuModel> listDataHeader = new ArrayList<>();
-    public static  HashMap<MenuModel, List<MenuModel>> listDataChild = new HashMap<>();
-    private PrepareData prepareData;
+    private final List<ParentObject> poParentLst = new ArrayList<>();
+    private List<ChildObject> poChildLst;
+    private final HashMap<ParentObject, List<ChildObject>> poChild = new HashMap<>();
+
     public static DrawerLayout drawer;
-    private PopulateExpandableList populateExpandableList;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
@@ -82,6 +80,49 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         mViewModel = new ViewModelProvider(this).get(VMMainActivity.class);
         poNetRecvr = mViewModel.getInternetReceiver();
 
+        mViewModel.getEmployeeRole().observe(this, roles -> {
+            try{
+                mViewModel.getChildRoles().observe(this, childMenus -> {
+                    poParentLst.clear();
+                    poChild.clear();
+                    for(int x = 0; x < roles.size(); x++){
+                        EEmployeeRole loRole = roles.get(x);
+                        ParentObject loParent = new ParentObject(loRole.getObjectNm(), loRole.getHasChild());
+                        poParentLst.add(loParent);
+                        poChildLst = new ArrayList<>();
+                        for (int i = 0; i < childMenus.size(); i++){
+                            EEmployeeRole loChild = childMenus.get(i);
+                            String lsParent = loRole.getObjectNm();
+                            if(lsParent.equalsIgnoreCase(loChild.getParentxx())){
+                                ChildObject loCMenu = new ChildObject(loChild.getObjectNm());
+                                poChildLst.add(loCMenu);
+                                poChild.put(loParent, poChildLst);
+                            }
+                        }
+                    }
+
+                    listAdapter = new ExpandableListDrawerAdapter(Activity_Main.this,
+                            poParentLst, poChild);
+                    expListView.setAdapter(listAdapter);
+                    expListView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
+                        if(!poParentLst.get(groupPosition).isParent()){
+                            loIntent = poParentLst.get(groupPosition).getIntent(Activity_Main.this);
+                            startActivity(loIntent);
+                            overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                        }
+                        return false;
+                    });
+                    expListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
+                        loIntent = poChild.get(poParentLst.get(groupPosition)).get(childPosition).getIntent(Activity_Main.this);
+                        startActivity(loIntent);
+                        overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                        return false;
+                    });
+                });
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -98,17 +139,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         loMessage = new MessageBox(Activity_Main.this);
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setIndicatorBoundsRelative(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
-
-        prepareData = new PrepareData();
-        prepareData.prepareMenuData(this);
-        //populateExpandableList();
-
-        populateExpandableList = new PopulateExpandableList();
-        populateExpandableList.populate(this, Activity_Main.this, () -> {
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            }
-        });
 
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

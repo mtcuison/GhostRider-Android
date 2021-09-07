@@ -63,16 +63,12 @@ public class RCreditApplicationDocument {
     }
 //    public Live
 
-
-
     public LiveData<List<EFileCode>> getDocumentInfoByFile(){
         return documentsDao.getDocumentInfoByFile();
     }
     public void updateDocumentsInfoByFile(String transNox, String sFileCD){
         new updateDocumentsInfoByFile(documentsDao,sFileCD).execute(transNox);
     }
-
-
 
     public List<ECreditApplicationDocuments> getUnsentApplicationDocumentss() throws Exception{
         return documentsDao.getUnsentApplicationDocumentss();

@@ -117,6 +117,32 @@
                                 android:gravity="start"
                                 android:textColor="@color/material_black" />
 
+                            <LinearLayout
+                                android:id="@+id/linear_dataLabel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="10dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Downloading Data..."
+                                    android:gravity="start"
+                                    android:textColor="@color/material_black" />
+
+                                <ProgressBar
+                                    android:id="@+id/progress_dataUpdate"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:progress="60"
+                                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                    android:scaleY="2"/>
+
+                            </LinearLayout>
+
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
@@ -128,14 +154,14 @@
 
                                 <com.google.android.material.button.MaterialButton
                                     android:id="@+id/btn_selfieLogin"
+                                    style="@style/Widget.AppCompat.Button.Borderless"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Selfie Log"
                                     android:gravity="center_vertical"
+                                    android:text="Selfie Log"
+                                    android:textColor="@color/textColor_Black"
                                     app:icon="@drawable/ic_dashboard_selfie"
-                                    app:iconTint="@color/textColor_Black"
-                                    style="@style/Widget.AppCompat.Button.Borderless"
-                                    android:textColor="@color/textColor_Black"/>
+                                    app:iconTint="@color/textColor_Black" />
 
                                 <TextView
                                     android:id="@+id/lbl_badge_selfieLog"

@@ -12,4 +12,5 @@
 <resources>
     <string name="slblRecipient">Recipient : </string>
     <string name="slblDateTime">Date :</string>
+    <string name="sContent_CreateMsg">Create Message Notification</string>
 </resources>

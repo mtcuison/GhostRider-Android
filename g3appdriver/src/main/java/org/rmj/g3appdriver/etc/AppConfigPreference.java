@@ -41,7 +41,7 @@ public class AppConfigPreference {
     private static final String APP_NAME_VERSION = "gRider_VersionName";
     private static final String APP_DATE_RELEASE = "gRider_DateRelease";
     private static final String LAST_SYNC_DATE = "gRider_last_date_sync";
-    private static final String DAILY_SYNC_STATUS = "gRider_daily_sync_status";
+    private static final String UPDATE_LOCALLY = "gRider_local_update";
 
     private static final String HELP_LOGIN_NOTICE = "Login_Instruction_Notice";
     private static final String HELP_DCP_DOWNLOAD_NOTICE = "DCP_Download_Instruction_Notice";
@@ -251,5 +251,14 @@ public class AppConfigPreference {
 
     public int getLoginAttempt(){
         return pref.getInt(LOGIN_ATTEMPT, 2);
+    }
+
+    public void setUpdateLocally(boolean val){
+        editor.putBoolean(UPDATE_LOCALLY, val);
+        editor.commit();
+    }
+
+    public boolean getUpdateStatus(){
+        return pref.getBoolean(UPDATE_LOCALLY, false);
     }
 }

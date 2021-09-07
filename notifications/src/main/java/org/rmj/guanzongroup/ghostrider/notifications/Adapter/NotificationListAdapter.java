@@ -16,7 +16,6 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -82,7 +81,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         public TextView lblTitlex;
         public TextView lblBodyxx;
         public TextView lblDateTm;
-        public ImageButton btnMorex;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,7 +90,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
             lblTitlex = itemView.findViewById(R.id.lbl_messageTitle);
             lblBodyxx = itemView.findViewById(R.id.lbl_messageBody);
             lblDateTm = itemView.findViewById(R.id.lbl_messageDateTime);
-            btnMorex = itemView.findViewById(R.id.btn_messageAction);
 
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
@@ -100,8 +97,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
                     mListener.OnClick(message.getMessageID(), message.getTitle(), message.getMessage(), message.getName(), message.getDateTime(), message.getReceipt());
                 }
             });
-
-            btnMorex.setOnClickListener(view -> mListener.OnActionButtonClick("More Button Clicked!"));
         }
     }
 

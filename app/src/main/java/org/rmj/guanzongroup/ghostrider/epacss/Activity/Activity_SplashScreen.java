@@ -126,8 +126,10 @@ public class Activity_SplashScreen extends AppCompatActivity {
                                                         });
                                                         startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
                                                         finish();
+//                                                        overridePendingTransition(R.anim.anim_intent_slide_up_out, R.anim.anim_intent_slide_up_in);
                                                     } else {
                                                         startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+//                                                        overridePendingTransition(R.anim.anim_intent_slide_up_out, R.anim.anim_intent_slide_up_in);
                                                     }
                                                 });
 
@@ -136,14 +138,17 @@ public class Activity_SplashScreen extends AppCompatActivity {
                                             //SessionDate
                                         } else {
                                             startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+//                                            overridePendingTransition(R.anim.anim_intent_slide_up_out, R.anim.anim_intent_slide_up_in);
                                         }
                                         //null session info
                                     } else {
                                         startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+//                                        overridePendingTransition(R.anim.anim_intent_slide_up_out, R.anim.anim_intent_slide_up_in);
                                     }
                                 } catch (NullPointerException e){
                                     e.printStackTrace();
                                     startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+//                                    overridePendingTransition(R.anim.anim_intent_slide_up_out, R.anim.anim_intent_slide_up_in);
                                 }
                             });
 
@@ -159,6 +164,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
                                 }
                             }
                             startActivityForResult(new Intent(Activity_SplashScreen.this, Activity_Authenticate.class), AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+//                            overridePendingTransition(R.anim.anim_intent_slide_up_out, R.anim.anim_intent_slide_up_in);
                         }
                     });
                 }
@@ -216,6 +222,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
                 }
                 startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
                 finish();
+//                overridePendingTransition(R.anim.anim_intent_slide_up_out, R.anim.anim_intent_slide_up_in);
             } else if (resultCode == RESULT_CANCELED) {
                 finish();
             }

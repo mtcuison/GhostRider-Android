@@ -85,28 +85,18 @@ public class RBranch {
                 //check if the record is active
                 if ("1".equals((String) loJson.get("cRecdStat"))){
                     //create insert statement
-                    lsSQL = "INSERT INTO Branch_Info" +
-                            "(sBranchCd" +
-                            ",sBranchNm" +
-                            ",sDescript" +
-                            ",sAddressx" +
-                            ",sTownIDxx" +
-                            ",sAreaCode" +
-                            ",cDivision" +
-                            ",cPromoDiv" +
-                            ",cRecdStat" +
-                            ",dTimeStmp)" +
-                            " VALUES" +
-                            "(" + SQLUtil.toSQL(loJson.getString("sBranchCd")) +
-                            "," + SQLUtil.toSQL(loJson.getString("sBranchNm")) +
-                            "," + SQLUtil.toSQL(loJson.getString("sDescript")) +
-                            "," + SQLUtil.toSQL(loJson.getString("sAddressx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("sTownIDxx")) +
-                            "," + SQLUtil.toSQL(loJson.getString("sAreaCode")) +
-                            "," + SQLUtil.toSQL(loJson.getString("cDivision")) +
-                            "," + SQLUtil.toSQL(loJson.getString("cPromoDiv")) +
-                            "," + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
-                            "," + SQLUtil.toSQL(loJson.getString("dTimeStmp")) + ")";
+                    EBranchInfo loBranch = new EBranchInfo();
+                    loBranch.setBranchCd(loJson.getString("sBranchCd"));
+                    loBranch.setBranchNm(loJson.getString("sBranchNm"));
+                    loBranch.setDescript(loJson.getString("sDescript"));
+                    loBranch.setAddressx(loJson.getString("sAddressx"));
+                    loBranch.setTownIDxx(loJson.getString("sTownIDxx"));
+                    loBranch.setAreaCode(loJson.getString("sAreaCode"));
+                    loBranch.setDivision(loJson.getString("cDivision"));
+                    loBranch.setPromoDiv(loJson.getString("cPromoDiv"));
+                    loBranch.setRecdStat(loJson.getString("cRecdStat"));
+                    loBranch.setTimeStmp(loJson.getString("dTimeStmp"));
+                    branchInfoDao.insertBranchInfo(loBranch);
                 }
             } else { //record already exists
                 Date ldDate1 = SQLUtil.toDate(loRS.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
@@ -115,29 +105,19 @@ public class RBranch {
                 //compare date if the record from API is newer than the database record
                 if (!ldDate1.equals(ldDate2)){
                     //create update statement
-                    lsSQL = "UPDATE Branch_Info SET" +
-                            "   sBranchNm = " + SQLUtil.toSQL(loJson.getString("sBranchNm")) +
-                            ",  sDescript = " + SQLUtil.toSQL(loJson.getString("sDescript")) +
-                            ",  sAddressx = " + SQLUtil.toSQL(loJson.getString("sAddressx")) +
-                            ",  sTownIDxx = " + SQLUtil.toSQL(loJson.getString("sTownIDxx")) +
-                            ",  sAreaCode = " + SQLUtil.toSQL(loJson.getString("sAreaCode")) +
-                            ",  cDivision = " + SQLUtil.toSQL(loJson.getString("cDivision")) +
-                            ",  cPromoDiv = " + SQLUtil.toSQL(loJson.getString("cPromoDiv")) +
-                            ",  cRecdStat = " + SQLUtil.toSQL(loJson.getString("cRecdStat")) +
-                            ",  dTimeStmp = " + SQLUtil.toSQL(loJson.getString("dTimeStmp")) +
-                            " WHERE sBranchCd = " + SQLUtil.toSQL(loJson.getString("sBranchCd"));
-                }
-            }
-
-            if (!lsSQL.isEmpty()){
-                //Log.d(TAG, lsSQL);
-                if (loConn.executeUpdate(lsSQL) <= 0) {
-                    Log.e(TAG, loConn.getMessage());
-                    result = false;
+                    branchInfoDao.updateBranchInfo(loJson.getString("sBranchCd"),
+                            loJson.getString("sBranchNm"),
+                            loJson.getString("sDescript"),
+                            loJson.getString("sAddressx"),
+                            loJson.getString("sTownIDxx"),
+                            loJson.getString("sAreaCode"),
+                            loJson.getString("cDivision"),
+                            loJson.getString("cPromoDiv"),
+                            loJson.getString("cRecdStat"),
+                            loJson.getString("dTimeStmp"));
                 }
             }
         }
-        //.e(TAG, "Branch info has been save to local.");
 
         //terminate object connection
         loConn = null;

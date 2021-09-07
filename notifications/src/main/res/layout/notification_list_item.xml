@@ -39,23 +39,40 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <TextView
-                android:id="@+id/lbl_messageSender"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Data Requirements"
-                android:textSize="16sp"
-                android:textColor="@color/textColor_Black"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:fontFamily="@font/roboto_medium"
-                android:layout_marginBottom="3dp"/>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="3dp">
+
+                <TextView
+                    android:id="@+id/lbl_messageSender"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="16sp"
+                    android:textColor="@color/textColor_Black"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/roboto_medium" />
+
+                <TextView
+                    android:id="@+id/lbl_messageDateTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:textColor="@color/textColor_Black" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/lbl_messageTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="The set of data that is involved in any project is defined using data requirements."
                 android:textColor="@color/textColor_Black"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -65,7 +82,6 @@
                 android:id="@+id/lbl_messageBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="The set of data that is involved in any project is defined using data requirements."
                 android:textColor="@color/material_black"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -73,35 +89,6 @@
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3.5"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/lbl_messageDateTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Dec 12"
-                android:textColor="@color/textColor_Black"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:gravity="end"
-                android:fontFamily="@font/roboto_medium"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="3dp"/>
-
-            <ImageButton
-                android:id="@+id/btn_messageAction"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_item_more"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"/>
-
-        </RelativeLayout>
     </LinearLayout>
 
     <!--    NOTIFICATION DIVIDER-->

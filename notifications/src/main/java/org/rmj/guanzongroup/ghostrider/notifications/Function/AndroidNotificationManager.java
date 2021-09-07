@@ -66,6 +66,7 @@ public class AndroidNotificationManager {
         private final RBranchOpeningMonitor poOpening;
         private final RBranch poBranch;
         private boolean pbSpecial = false;
+        private char pcSpecial;
         private JSONObject poJson;
         private String BranchNm; //Use for Branch Opening Notification
 
@@ -85,16 +86,10 @@ public class AndroidNotificationManager {
         protected String doInBackground(Void... voids) {
             String lsResponse = "";
             try{
-//                JSONObject data = new JSONObject();
-//                data.put("title", NotificationAssets.getAppTitle(loParser.getValueOf("msgmon"),
-//                        loParser.getDataValueOf("title"), loParser.getValueOf("srcenm")));
-//                data.put("message", loParser.getDataValueOf("message"));
-//                data.put("appsrce", loParser.getValueOf("appsrce"));
-//                data.put("msgtype", loParser.getValueOf("msgmon"));
-
                 String MesgID = loParser.getValueOf("transno");
                 if(poNotification.getNotificationIfExist(MesgID) >=  1){
                     pbSpecial = true;
+                    pcSpecial = '0';
                     String lsStatus = loParser.getValueOf("status");
                     poNotification.updateNotificationStatusFromOtherDevice(MesgID, lsStatus);
                 } else {
@@ -133,11 +128,13 @@ public class AndroidNotificationManager {
                         pbSpecial = true;
                         JSONObject loJSON = new JSONObject(lsValue);
                         if ("00001".equalsIgnoreCase(loJSON.getString("module"))) { //table update
+                            pcSpecial = '1';
                             EMM instance = EMMFactory.make(EMMFactory.NMM_SysMon_Type.TABLE_UPDATE);
                             instance.setConnection(loDbConn); //pass the iGConnection here
                             instance.setData(lsValue);
                             if (!instance.execute()) System.err.println(instance.getMessage());
                         } else if ("00002".equalsIgnoreCase(loJSON.getString("module"))) {
+                            pcSpecial = '2';
                             JSONObject loData = loJSON.getJSONObject("data");
                             poJson = loData;
                             BranchNm = poBranch.getBranchNameForNotification(loData.getString("sBranchCD"));
@@ -182,6 +179,10 @@ public class AndroidNotificationManager {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            CreateNotification();
+        }
+
+        private void CreateNotification(){
             try {
                 int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
                 if(!pbSpecial) {
@@ -191,11 +192,19 @@ public class AndroidNotificationManager {
                             loParser.getDataValueOf("message"),
                             lnChannelID).show();
                 } else {
-                    GNotifBuilder.createFirebaseNotification(instance,
-                            loParser.getValueOf("transno"),
-                            "Branch Opening Monitor",
-                            BranchNm + " opened at " + poJson.getString("sOpenNowx"),
-                            lnChannelID).show();
+                    if(pcSpecial == '1') {
+                        GNotifBuilder.createFirebaseNotification(instance,
+                                loParser.getValueOf("transno"),
+                                "System Configuration",
+                                "GRider system configuration has been updated.",
+                                lnChannelID).show();
+                    } else if(pcSpecial == '2') {
+                        GNotifBuilder.createFirebaseNotification(instance,
+                                loParser.getValueOf("transno"),
+                                "Branch Opening Monitor",
+                                BranchNm + " opened at " + poJson.getString("sOpenNowx"),
+                                lnChannelID).show();
+                    }
                 }
             } catch (Exception e){
                 e.printStackTrace();

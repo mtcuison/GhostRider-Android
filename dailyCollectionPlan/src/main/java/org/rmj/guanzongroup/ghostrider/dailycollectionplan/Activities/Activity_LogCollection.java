@@ -250,6 +250,12 @@ public class Activity_LogCollection extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
     private void initWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar_collectionLog);
         setSupportActionBar(toolbar);

@@ -23,8 +23,8 @@ android {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 12
-        versionName "GhostRider Build v.1.1.12"
+        versionCode 13
+        versionName "GhostRider Build v.1.1.13"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -85,6 +85,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-core:19.0.1'
+    implementation("com.google.firebase:firebase-inappmessaging-display-ktx:20.1.0")
+    implementation("io.grpc:grpc-okhttp:1.32.2")
 
     implementation 'commons-io:commons-io:2.6'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
