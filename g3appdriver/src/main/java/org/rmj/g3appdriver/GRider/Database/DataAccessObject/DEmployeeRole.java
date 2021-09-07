@@ -24,7 +24,7 @@ import java.util.List;
 @Dao
 public interface DEmployeeRole {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void InsertEmployeeRole(EEmployeeRole role);
 
     @Query("DELETE FROM xxxAOEmpRole WHERE sProdctID =:Product AND sUserIDxx =:UserID AND sObjectNm=:Object")
