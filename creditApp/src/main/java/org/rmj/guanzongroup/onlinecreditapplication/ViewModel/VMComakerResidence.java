@@ -68,7 +68,7 @@ public class VMComakerResidence extends AndroidViewModel {
 
     public VMComakerResidence(@NonNull Application application) {
         super(application);
-        this.poGoCas = GOCASHolder.getInstance().getGOCAS();
+        this.poGoCas = new GOCASApplication();
         this.poCreditApp = new RCreditApplicant(application);
         this.poProvnce = new RProvince(application);
         this.poTownRpo = new RTown(application);
@@ -88,7 +88,6 @@ public class VMComakerResidence extends AndroidViewModel {
 
     public void setCreditApplicantInfo(ECreditApplicantInfo applicantInfo){
         poInfo = applicantInfo;
-        poGoCas.setData(poInfo.getDetlInfo());
     }
 
     public LiveData<String[]> getProvinceNameList(){

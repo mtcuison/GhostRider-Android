@@ -26,6 +26,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.gocas.pojo.ApplicantInfo;
+import org.rmj.gocas.pojo.ResidenceInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.DialogPrimaryIncome;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -81,6 +84,21 @@ public class Fragment_MeansInfoSelection extends Fragment implements ViewModelCa
         
         mViewModel.getCreditApplicantInfo(TransNox).observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setGOCasDetailInfo(eCreditApplicantInfo));
         btnNext.setOnClickListener(view -> {
+//            try {
+////                String personal_info = Activity_CreditApplication.getInstance().getApplicantInfo().toJSONString();
+////                String residence_info = Activity_CreditApplication.getInstance().getResidenceInfo().toJSONString();
+//                ApplicantInfo applicantInfo = Activity_CreditApplication.getInstance().getApplicantInfo();
+//                ResidenceInfo residenceInfo = Activity_CreditApplication.getInstance().getResidenceInfo();
+//                String messages = "applicant info =" + applicantInfo.getClientName() + "\n\n" + "residence info = " + residenceInfo.PermanentAddress();
+//                MessageBox loMessage = new MessageBox(getActivity());
+//                loMessage.initDialog();
+//                loMessage.setTitle("Credit Application");
+//                loMessage.setMessage(messages);
+//                loMessage.setNegativeButton("Okay", (v, dialog) -> dialog.dismiss());
+//                loMessage.show();
+//            }catch (NullPointerException e){
+//                e.printStackTrace();
+//            }
             infoModel = new VMMeansInfoSelection.MeansInfo();
             infoModel.setEmployed(cbEmployed.isChecked()? "1" : "0");
             infoModel.setSelfEmployed(cbSEmployd.isChecked()? "1" : "0");

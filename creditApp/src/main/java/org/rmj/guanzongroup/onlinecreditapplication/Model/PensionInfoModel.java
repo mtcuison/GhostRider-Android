@@ -66,8 +66,8 @@ public class PensionInfoModel{
     }
 
     public long getRangeOfIncome() {
-        if(!sRangexx.trim().isEmpty()) {
-            return Long.parseLong(sRangexx);
+        if(!sRngIncm.trim().isEmpty()) {
+            return Long.parseLong(sRngIncm);
         }
         return 0;
     }

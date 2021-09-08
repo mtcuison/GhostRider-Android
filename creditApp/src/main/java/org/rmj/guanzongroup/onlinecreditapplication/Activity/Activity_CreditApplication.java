@@ -18,10 +18,20 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.gocas.pojo.ApplicantInfo;
+import org.rmj.gocas.pojo.MeansEmployed;
+import org.rmj.gocas.pojo.MeansFinancer;
+import org.rmj.gocas.pojo.MeansInfo;
+import org.rmj.gocas.pojo.MeansPensioner;
+import org.rmj.gocas.pojo.MeansSelfEmployed;
+import org.rmj.gocas.pojo.ResidenceInfo;
+import org.rmj.gocas.pojo.SpouseInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_EmploymentInfo;
@@ -38,7 +48,6 @@ public class Activity_CreditApplication extends AppCompatActivity {
     private static Activity_CreditApplication instance;
     private ViewPager viewPager;
     private String transNox;
-
     public static Activity_CreditApplication getInstance(){
         return instance;
     }
@@ -50,6 +59,7 @@ public class Activity_CreditApplication extends AppCompatActivity {
     public void moveToPageNumber(int fnPageNum){
         viewPager.setCurrentItem(fnPageNum);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,4 +118,10 @@ public class Activity_CreditApplication extends AppCompatActivity {
         super.onDestroy();
         getViewModelStore().clear();
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
 }

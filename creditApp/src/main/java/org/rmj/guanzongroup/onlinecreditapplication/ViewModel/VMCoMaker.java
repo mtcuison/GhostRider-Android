@@ -89,7 +89,7 @@ public class VMCoMaker extends AndroidViewModel {
         RTown = new RTown(application);
         RCountry = new RCountry(application);
         provinceInfoList = RProvince.getAllProvinceInfo();
-        poGoCas = GOCASHolder.getInstance().getGOCAS();
+        poGoCas = new GOCASApplication();
         this.cmrPrimaryCntctPlan.setValue(View.GONE);
         this.cmrSecondaryCntctPlan.setValue(View.GONE);
         this.cmrTertiaryCntctPlan.setValue(View.GONE);

@@ -115,6 +115,13 @@ public class RCreditApplicant {
         }
     }
 
+    public void updateApplicantResidenceInfo(String TransNox, String Residence){
+        creditApplicantInfoDao.updateApplicantResidenceInfo(TransNox, Residence);
+    }
+    public void updateOtherInfo(String TransNox, String OtherInfo){
+        creditApplicantInfoDao.updateOtherInfo(TransNox, OtherInfo);
+    }
+
     public static class DeleteAllCreditTask extends AsyncTask<Void, Void, Void>{
         private final DCreditApplicantInfo creditDao;
 

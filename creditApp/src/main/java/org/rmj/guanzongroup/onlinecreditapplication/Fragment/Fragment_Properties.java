@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,13 +28,16 @@ import android.widget.CheckBox;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMProperties;
 
 public class Fragment_Properties extends Fragment implements ViewModelCallBack {
-
+    private static final String TAG = Fragment_Properties.class.getSimpleName();
     private VMProperties mViewModel;
 
     private String TransNox;
@@ -83,6 +87,9 @@ public class Fragment_Properties extends Fragment implements ViewModelCallBack {
         mViewModel.getCurrentApplicantInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
             try {
                 mViewModel.setCreditApplicantInfo(eCreditApplicantInfo);
+                setFieldValues(eCreditApplicantInfo);
+            } catch(NullPointerException e) {
+                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -110,5 +117,39 @@ public class Fragment_Properties extends Fragment implements ViewModelCallBack {
     @Override
     public void onFailedResult(String message) {
 
+    }
+
+    private void setFieldValues(ECreditApplicantInfo foCreditApp) {
+        if(foCreditApp.getProperty() != null) {
+            try {
+                JSONObject loJson = new JSONObject(foCreditApp.getProperty());
+                Log.e(TAG + " jsonCon",foCreditApp.getProperty());
+                // Value setter goes here
+                txtLot1.setText(loJson.getString("sProprty1"));
+                txtLot2.setText(loJson.getString("sProprty2"));
+                txtLot3.setText(loJson.getString("sProprty3"));
+
+                if(loJson.getString("cWith4Whl").equalsIgnoreCase("1")) {
+                    cb4Wheels.setChecked(true);
+                }
+                if(loJson.getString("cWith3Whl").equalsIgnoreCase("1")) {
+                    cb3Wheels.setChecked(true);
+                }
+                if(loJson.getString("cWith2Whl").equalsIgnoreCase("1")) {
+                    cb2Wheels.setChecked(true);
+                }
+                if(loJson.getString("cWithACxx").equalsIgnoreCase("1")){
+                    cbAircon.setChecked(true);
+                }
+                if(loJson.getString("cWithRefx").equalsIgnoreCase("1")){
+                    cbRefxx.setChecked(true);
+                }
+                if(loJson.getString("cWithTVxx").equalsIgnoreCase("1")){
+                    cbTelevsn.setChecked(true);
+                }
+            } catch(JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

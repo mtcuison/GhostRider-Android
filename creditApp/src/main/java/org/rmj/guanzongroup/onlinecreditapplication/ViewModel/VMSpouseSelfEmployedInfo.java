@@ -60,7 +60,7 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
 
     public VMSpouseSelfEmployedInfo(@NonNull Application application) {
         super(application);
-        this.poGoCas = GOCASHolder.getInstance().getGOCAS();
+        this.poGoCas = new GOCASApplication();
         this.poCreditApp = new RCreditApplicant(application);
         this.poProvRepo = new RProvince(application);
         this.poTownRepo = new RTown(application);

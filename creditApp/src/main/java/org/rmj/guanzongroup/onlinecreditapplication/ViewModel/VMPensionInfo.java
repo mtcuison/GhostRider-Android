@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -30,6 +31,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
 import org.rmj.gocas.base.GOCASApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PensionInfoModel;
@@ -48,7 +50,7 @@ public class VMPensionInfo extends AndroidViewModel {
     public VMPensionInfo(@NonNull Application application) {
         super(application);
         poCreditApp = new RCreditApplicant(application);
-        poGoCas = GOCASHolder.getInstance().getGOCAS();
+        poGoCas = new GOCASApplication();
     }
 
     public void setTransNox(String fsTransNox){
@@ -114,9 +116,13 @@ public class VMPensionInfo extends AndroidViewModel {
                 poGoCas.MeansInfo().PensionerInfo().setSource(infoModel.getPensionSector());
                 poGoCas.MeansInfo().PensionerInfo().setAmount(infoModel.getPensionIncomeRange());
                 poGoCas.MeansInfo().PensionerInfo().setYearRetired(infoModel.getRetirementYear());
+
+                //TODO refactor saving other income nature and range of income to gocas
                 poGoCas.MeansInfo().setOtherIncomeNature(infoModel.getNatureOfIncome());
                 poGoCas.MeansInfo().setOtherIncomeAmount(infoModel.getRangeOfIncome());
                 poInfo.setPensionx(poGoCas.MeansInfo().toJSONString());
+
+                Log.e(TAG, poGoCas.MeansInfo().getIncomeSource());
                 poCreditApp.updateGOCasData(poInfo);
                 callBack.onSaveSuccessResult(String.valueOf(getNextPage()));
             } else {
