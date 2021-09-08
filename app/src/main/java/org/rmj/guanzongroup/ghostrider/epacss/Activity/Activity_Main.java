@@ -71,7 +71,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     public static  HashMap<MenuModel, List<MenuModel>> listDataChild = new HashMap<>();
     private PrepareData prepareData;
     public static DrawerLayout drawer;
-    private PopulateExpandableList populateExpandableList;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
@@ -103,7 +102,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         prepareData.prepareMenuData(this);
         //populateExpandableList();
 
-        populateExpandableList = new PopulateExpandableList();
+        PopulateExpandableList populateExpandableList = new PopulateExpandableList();
         populateExpandableList.populate(this, Activity_Main.this, () -> {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);

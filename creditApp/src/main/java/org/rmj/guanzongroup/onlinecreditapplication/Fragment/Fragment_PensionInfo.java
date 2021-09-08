@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,12 +28,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.TextFormatter;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PensionInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -80,11 +75,6 @@ public class Fragment_PensionInfo extends Fragment implements ViewModelCallBack 
         mViewModel.setTransNox(TransNox);
         mViewModel.getApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
             mViewModel.setDetailInfo(eCreditApplicantInfo);
-            try {
-                setUpFieldsFromLocalDB(eCreditApplicantInfo);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
         });
 
         mViewModel.getPensionSector().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
@@ -138,24 +128,6 @@ public class Fragment_PensionInfo extends Fragment implements ViewModelCallBack 
                 sectorPosition = String.valueOf(i);
                 mViewModel.setPensionSector(sectorPosition);
             }
-        }
-    }
-
-    @SuppressLint("NewApi")
-    public void setUpFieldsFromLocalDB(ECreditApplicantInfo credits) throws JSONException {
-        if (credits.getPensionx() != null){
-            JSONObject pensionObj = new JSONObject(credits.getPensionx());
-            JSONObject otherIncomeObj = new JSONObject(pensionObj.getString("other_income"));
-            JSONObject pensionerObj = new JSONObject(pensionObj.getString("pensioner"));
-            spnSector.setText(CreditAppConstants.PENSION_SECTOR[Integer.parseInt(pensionerObj.getString("cPenTypex"))], false);
-            spnSector.setSelection(Integer.parseInt(pensionerObj.getString("cPenTypex")));
-            sectorPosition = pensionerObj.getString("cPenTypex");
-            mViewModel.setPensionSector(sectorPosition);
-            txtRangxx.setText(pensionerObj.getString("nPensionx"));
-            txtYearxx.setText(pensionerObj.getString("nRetrYear"));
-            txtOthInc.setText(spnSector.getText().toString());
-            txtRngInc.setText(otherIncomeObj.getString("sOthrIncm"));
-
         }
     }
 }

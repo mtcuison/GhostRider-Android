@@ -55,6 +55,4 @@ public interface DProvinceInfo {
 
     @Query("SELECT MAX(dTimeStmp) FROM Province_Info")
     String getLatestDataTime();
-
-
 }

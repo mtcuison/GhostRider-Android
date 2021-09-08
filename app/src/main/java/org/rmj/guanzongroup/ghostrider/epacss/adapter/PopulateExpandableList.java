@@ -38,7 +38,6 @@ import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_DigitalGcard;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Help;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_BranchApplications;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditAppHome;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
 
 import static org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main.expListView;
@@ -150,8 +149,7 @@ public class PopulateExpandableList {
                     switch(childPosition)
                     {
                         case 0 :
-//                            intent = new Intent(context, Activity_IntroductoryQuestion.class);
-                            intent = new Intent(context, Activity_CreditAppHome.class);
+                            intent = new Intent(context, Activity_IntroductoryQuestion.class);
                             context.startActivity(intent);
                             break;
                         case 1:

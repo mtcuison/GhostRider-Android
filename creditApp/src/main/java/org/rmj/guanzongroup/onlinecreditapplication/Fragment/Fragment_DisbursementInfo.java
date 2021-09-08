@@ -31,13 +31,9 @@ import android.widget.Spinner;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.TextFormatter;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DisbursementInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -118,14 +114,7 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMDisbursementInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
-            try {
-                mViewModel.setCreditApplicantInfo(eCreditApplicantInfo);
-                setFieldValues(eCreditApplicantInfo);
-            } catch(NullPointerException e) {
-                e.printStackTrace();
-            }
-        });
+        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
 
         mViewModel.getAccountType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnTypex.setAdapter(stringArrayAdapter);
@@ -163,40 +152,6 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
     @Override
     public void onFailedResult(String message) {
         GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
-    }
-
-    private void setFieldValues(ECreditApplicantInfo foCredApp) {
-        if(foCredApp.getDisbrsmt() != null) {
-            try {
-                JSONObject loJson = new JSONObject(foCredApp.getDisbrsmt());
-                Log.e(TAG + " jsonCon", foCredApp.getDisbrsmt());
-                // Value setter goes here
-
-                JSONObject loDisburse = loJson.getJSONObject("disbursement_info");
-                JSONObject loCreditCd = loDisburse.getJSONObject("credit_card");
-                JSONObject loMonthExp = loDisburse.getJSONObject("monthly_expenses");
-                JSONObject loBankAcct = loDisburse.getJSONObject("bank_account");
-
-                // Monthly Expenses
-                tieElctx.setText(String.valueOf(loMonthExp.get("nElctrcBl")));
-                tieWater.setText(String.valueOf(loMonthExp.get("nWaterBil")));
-                tieFoodx.setText(String.valueOf(loMonthExp.get("nFoodAllw")));
-                tieLoans.setText(String.valueOf(loMonthExp.get("nLoanAmtx")));
-
-                //Bank Account
-                tieBankN.setText(loBankAcct.getString("sBankName"));
-                spnTypex.setText(CreditAppConstants.ACCOUNT_TYPE[Integer.parseInt(loBankAcct.getString("sAcctType"))]);
-                spnTypex.setSelection(Integer.parseInt(loBankAcct.getString("sAcctType")));
-                typeX = loBankAcct.getString("sAcctType");
-                //Credit Card Account
-                tieCCBnk.setText(loCreditCd.getString("sBankName"));
-                tieLimit.setText(String.valueOf(loCreditCd.get("nCrdLimit")));
-                tieYearS.setText(String.valueOf(loCreditCd.get("nSinceYrx")));
-
-            } catch(JSONException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 }

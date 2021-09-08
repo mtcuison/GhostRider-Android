@@ -19,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,24 +34,17 @@ import android.widget.RadioGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ResidenceInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
-import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMIntroductoryQuestion;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMResidenceInfo;
 
 import java.util.Objects;
 
 public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBack {
 
-    public static final String TAG = Fragment_ResidenceInfo.class.getSimpleName();
     private VMResidenceInfo mViewModel;
     private ResidenceInfoModel infoModel;
     private TextInputEditText txtLandMark,
@@ -83,7 +75,6 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
     private LinearLayout lnOtherInfo, lnPermaAddx;
     private Button btnNext;
     private Button btnPrvs;
-    private RadioGroup rgOwnsership, rgGarage;
 
     private String TransNox = "";
 
@@ -98,7 +89,6 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         infoModel = new ResidenceInfoModel();
         TransNox = Activity_CreditApplication.getInstance().getTransNox();
         initWidgets(view);
-
         return view;
     }
 
@@ -125,8 +115,8 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         spnLgnthStay = v.findViewById(R.id.spn_lenghtStay);
         spnHouseHold = v.findViewById(R.id.spn_houseHold);
         spnHouseType = v.findViewById(R.id.spn_houseType);
-        rgOwnsership = v.findViewById(R.id.rg_ownership);
-        rgGarage = v.findViewById(R.id.rg_garage);
+        RadioGroup rgOwnsership = v.findViewById(R.id.rg_ownership);
+        RadioGroup rgGarage = v.findViewById(R.id.rg_garage);
         tilRelationship = v.findViewById(R.id.til_relationship);
         lnOtherInfo = v.findViewById(R.id.linear_otherInfo);
         lnPermaAddx = v.findViewById(R.id.linear_permanentAdd);
@@ -136,7 +126,6 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         rgGarage.setOnCheckedChangeListener(new OnHouseOwnershipSelectListener());
         btnNext = v.findViewById(R.id.btn_creditAppNext);
         btnPrvs = v.findViewById(R.id.btn_creditAppPrvs);
-
     }
 
     @Override
@@ -144,14 +133,7 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMResidenceInfo.class);
         mViewModel.setTransNox(TransNox);
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo ->{
-            mViewModel.setGOCasDetailInfo(eCreditApplicantInfo);
-            try {
-                setFieldDataFromLocalDB(eCreditApplicantInfo);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        });
+        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setGOCasDetailInfo(eCreditApplicantInfo));
 
         mViewModel.getProvinceNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
@@ -165,7 +147,6 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             for(int x = 0; x < eProvinceInfos.size(); x++){
                 if(txtProvince.getText().toString().equalsIgnoreCase(eProvinceInfos.get(x).getProvName())){
                     mViewModel.setProvinceID(eProvinceInfos.get(x).getProvIDxx());
-                    infoModel.setProvinceID(eProvinceInfos.get(x).getProvIDxx());
                     break;
                 }
             }
@@ -180,7 +161,6 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             for(int x = 0; x < eTownInfos.size(); x++){
                 if(txtMunicipality.getText().toString().equalsIgnoreCase(eTownInfos.get(x).getTownName())){
                     mViewModel.setTownID(eTownInfos.get(x).getTownIDxx());
-                    infoModel.setMunicipalID(eTownInfos.get(x).getTownIDxx());
                     break;
                 }
             }
@@ -196,7 +176,6 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             for(int x = 0; x < eBarangayInfos.size(); x++){
                 if(txtBarangay.getText().toString().equalsIgnoreCase(eBarangayInfos.get(x).getBrgyName())){
                     mViewModel.setBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
-                    infoModel.setBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
                     break;
                 }
             }
@@ -206,7 +185,6 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             for(int x = 0; x < eProvinceInfos.size(); x++){
                 if(txtPProvince.getText().toString().equalsIgnoreCase(eProvinceInfos.get(x).getProvName())){
                     mViewModel.setPermanentProvinceID(eProvinceInfos.get(x).getProvIDxx());
-                    infoModel.setPermanentProvinceID(eProvinceInfos.get(x).getProvIDxx());
                     break;
                 }
             }
@@ -222,7 +200,6 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             for(int x = 0; x < eTownInfos.size(); x++){
                 if(txtPMunicipl.getText().toString().equalsIgnoreCase(eTownInfos.get(x).getTownName())){
                     mViewModel.setPermanentTownID(eTownInfos.get(x).getTownIDxx());
-                    infoModel.setPermanentMunicipalID(eTownInfos.get(x).getTownIDxx());
                     break;
                 }
             }
@@ -239,7 +216,6 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
             for(int x = 0; x < eBarangayInfos.size(); x++){
                 if(txtPBarangay.getText().toString().equalsIgnoreCase(eBarangayInfos.get(x).getBrgyName())){
                     mViewModel.setPermanentBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
-                    infoModel.setPermanentBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
                     break;
                 }
             }
@@ -263,10 +239,7 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         spnHouseHold.setOnItemClickListener(new OnItemClickListener(spnHouseHold));
         spnHouseType.setOnItemClickListener(new OnItemClickListener(spnHouseType));
         spnLgnthStay.setOnItemClickListener(new OnItemClickListener(spnLgnthStay));
-        btnNext.setOnClickListener(v ->{
-//
-            SaveResidenceInfo();
-        } );
+        btnNext.setOnClickListener(view -> SaveResidenceInfo());
         btnPrvs.setOnClickListener(view -> Activity_CreditApplication.getInstance().moveToPageNumber(0));
     }
 
@@ -279,6 +252,8 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         infoModel.setProvinceNm(txtProvince.getText().toString());
         infoModel.setMunicipalNm(txtMunicipality.getText().toString());
         infoModel.setBarangayName(txtBarangay.getText().toString());
+        infoModel.setHouseHold(spnHouseHoldPosition);
+        infoModel.setHouseType(spnHouseTypePosition);
         infoModel.setOwnerRelation(Objects.requireNonNull(txtRelationship.getText()).toString());
         infoModel.setLenghtOfStay(Objects.requireNonNull(txtLgnthStay.getText()).toString());
         infoModel.setMonthlyExpenses(Objects.requireNonNull(txtMonthlyExp.getText()).toString());
@@ -313,11 +288,9 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             if (spnHouseHold.equals(poView)) {
                 spnHouseHoldPosition = String.valueOf(i);
-                infoModel.setHouseHold(String.valueOf(i));
             }
             if (spnHouseType.equals(poView)) {
                 spnHouseTypePosition = String.valueOf(i);
-                infoModel.setHouseType(spnHouseTypePosition);
             }
             if (spnLgnthStay.equals(poView)) {
                 spnLgnthStayPosition = String.valueOf(i);
@@ -365,93 +338,5 @@ public class Fragment_ResidenceInfo extends Fragment implements ViewModelCallBac
                 lnPermaAddx.setVisibility(View.VISIBLE);
             }
         }
-    }
-    public void setFieldDataFromLocalDB(ECreditApplicantInfo credits) throws JSONException {
-        try {
-            if (credits.getResidnce() != null){
-                cbOneAddress.setChecked(Boolean.parseBoolean(credits.getDetlInfo()));
-                JSONObject residenceObj = new JSONObject(credits.getResidnce());
-                JSONObject presentObj = new JSONObject(residenceObj.getString("present_address"));
-                JSONObject permanentObj = new JSONObject(residenceObj.getString("permanent_address"));
-
-                mViewModel.getBrgyTownProvinceInfoWithID(permanentObj.getString("sBrgyIDxx")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
-                    txtPMunicipl.setText(townProvinceInfo.sTownName);
-                    txtPProvince.setText(townProvinceInfo.sProvName);
-                    txtPBarangay.setText(townProvinceInfo.sProvName);
-                    mViewModel.setPermanentProvinceID(townProvinceInfo.sProvIDxx);
-                    mViewModel.setPermanentTownID(townProvinceInfo.sTownIDxx);
-                    mViewModel.setPermanentBarangayID(townProvinceInfo.sBrgyIDxx);
-
-                });
-                mViewModel.getBrgyTownProvinceInfoWithID(presentObj.getString("sBrgyIDxx")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
-                    txtMunicipality.setText(townProvinceInfo.sTownName);
-                    txtProvince.setText(townProvinceInfo.sProvName);
-                    txtBarangay.setText(townProvinceInfo.sProvName);
-                    mViewModel.setProvinceID(townProvinceInfo.sProvIDxx);
-                    mViewModel.setTownID(townProvinceInfo.sTownIDxx);
-                    mViewModel.setBarangayID(townProvinceInfo.sBrgyIDxx);
-                });
-                txtLandMark.setText(presentObj.getString("sLandMark"));
-                txtHouseNox.setText(presentObj.getString("sHouseNox"));
-                txtAddress1.setText(presentObj.getString("sAddress1"));
-                txtAddress2.setText(presentObj.getString("sAddress2"));
-
-                txtPLandMark.setText(permanentObj.getString("sLandMark"));
-                txtPHouseNox.setText(permanentObj.getString("sHouseNox"));
-                txtPAddress1.setText(permanentObj.getString("sAddress1"));
-                txtPAddress2.setText(permanentObj.getString("sAddress2"));
-
-                if (residenceObj.getString("cOwnershp").equalsIgnoreCase("0")) {
-                    rgOwnsership.check(R.id.rb_owned);
-                    infoModel.setHouseOwn("0");
-                } else if (residenceObj.getString("cOwnershp").equalsIgnoreCase("1")) {
-                    rgOwnsership.check(R.id.rb_rent);
-                    infoModel.setHouseOwn("1");
-                } else if (residenceObj.getString("cOwnershp").equalsIgnoreCase("2")) {
-                    rgOwnsership.check(R.id.rb_careTaker);
-                    infoModel.setHouseOwn("2");
-                }
-                if (residenceObj.getString("cGaragexx").equalsIgnoreCase("0")){
-                    rgGarage.check(R.id.rb_no);
-                    infoModel.setHasGarage("0");
-                }else {
-                    rgGarage.check(R.id.rb_yes);
-                    infoModel.setHasGarage("1");
-                }
-                infoModel.setHouseHold(residenceObj.getString("cOwnOther"));
-                spnHouseHold.setText(CreditAppConstants.HOUSEHOLDS[Integer.parseInt(residenceObj.getString("cOwnOther"))]);
-
-                spnHouseType.setText(CreditAppConstants.HOUSE_TYPE[Integer.parseInt(residenceObj.getString("cHouseTyp"))]);
-                infoModel.setHouseType(residenceObj.getString("cHouseTyp"));
-
-            }else{
-                cbOneAddress.setChecked(false);
-                txtLandMark.getText().clear();
-                txtHouseNox.getText().clear();
-                txtAddress1.getText().clear();
-                txtAddress2.getText().clear();
-                txtBarangay.getText().clear();
-                txtMunicipality.getText().clear();
-                txtProvince.getText().clear();
-                txtRelationship.getText().clear();
-                txtLgnthStay.getText().clear();
-                txtMonthlyExp.getText().clear();
-                txtPLandMark.getText().clear();
-                txtPHouseNox.getText().clear();
-                txtPAddress1.getText().clear();
-                txtPAddress2.getText().clear();
-                txtPBarangay.getText().clear();
-                txtPMunicipl.getText().clear();
-                txtPProvince.getText().clear();
-                spnLgnthStay.getText().clear();
-                spnHouseHold.getText().clear();
-                spnHouseType.getText().clear();
-                rgOwnsership.clearCheck();
-                rgGarage .clearCheck();
-            }
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
-
     }
 }

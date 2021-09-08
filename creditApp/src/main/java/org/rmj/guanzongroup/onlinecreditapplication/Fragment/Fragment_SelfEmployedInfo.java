@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,13 +28,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SelfEmployedInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -112,7 +107,6 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
             try {
                 mViewModel.setGOCasDetailInfo(eCreditApplicantInfo);
                 mViewModel.setMeansInfos(eCreditApplicantInfo.getAppMeans());
-                setUpFieldsFromLocalDB(eCreditApplicantInfo);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -242,47 +236,6 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
                 lngSrvcPosition = String.valueOf(i);
                 mViewModel.setLngthStay(lngSrvcPosition);
             }
-        }
-    }
-    @SuppressLint("NewApi")
-    public void setUpFieldsFromLocalDB(ECreditApplicantInfo credits) throws JSONException {
-        if (credits.getBusnInfo() != null){
-            JSONObject selfEmployementObj = new JSONObject(credits.getBusnInfo());
-            spnBussNtr.setText(selfEmployementObj.getString("sIndstBus"), false);
-            mViewModel.setPsBsnssNature(selfEmployementObj.getString("sIndstBus"));
-            mViewModel.getTownProvinceByTownID(selfEmployementObj.getString("sBusTownx")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
-                txtTownxx.setText(townProvinceInfo.sTownName);
-                txtProvnc.setText(townProvinceInfo.sProvName);
-                mViewModel.setTownID(townProvinceInfo.sTownIDxx);
-                mViewModel.setProvinceID(townProvinceInfo.sProvIDxx);
-            });
-            spnBussTyp.setText(CreditAppConstants.BUSINESS_TYPE[Integer.parseInt(selfEmployementObj.getString("cBusTypex"))], false);
-            mViewModel.setPsBsnssType(selfEmployementObj.getString("cBusTypex"));
-
-            spnBussSze.setText(CreditAppConstants.BUSINESS_SIZE[Integer.parseInt(selfEmployementObj.getString("cOwnSizex"))], false);
-            mViewModel.setPsBsnssSize(selfEmployementObj.getString("cOwnSizex"));
-
-            int nlength = (int)(Double.parseDouble(selfEmployementObj.getString("nBusLenxx")) * 12);
-            Log.e("TAG", String.valueOf(nlength));
-            if (nlength < 12){
-                txtLnghtSrv.setText(String.valueOf(nlength));
-                spnLngSrvc.setSelection(0);
-                spnLngSrvc.setText(CreditAppConstants.LENGTH_OF_STAY[0], false);
-                lngSrvcPosition = "0";
-                mViewModel.setLngthStay("0");
-            }else{
-                int slength = (int)(Double.parseDouble(selfEmployementObj.getString("nBusLenxx")));
-                txtLnghtSrv.setText(String.valueOf(slength));
-                spnLngSrvc.setText(CreditAppConstants.LENGTH_OF_STAY[1], false);
-                spnLngSrvc.setSelection(1);
-                lngSrvcPosition = "1";
-                mViewModel.setLngthStay("1");
-            }
-
-            txtMnthlyEx.setText(selfEmployementObj.getString("nMonExpns"));
-            txtMnthlyIn.setText(selfEmployementObj.getString("nBusIncom"));
-            txtBussName.setText(selfEmployementObj.getString("sBusiness"));
-            txtBussAdds.setText(selfEmployementObj.getString("sBusAddrx"));
         }
     }
 }

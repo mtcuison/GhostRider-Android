@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,13 +28,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.FinanceInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -96,14 +91,7 @@ public class Fragment_Finance extends Fragment implements ViewModelCallBack {
         String TransNox = Activity_CreditApplication.getInstance().getTransNox();
         mViewModel = ViewModelProviders.of(this).get(VMFinance.class);
         mViewModel.setTransNox(TransNox);
-        mViewModel.getApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo ->{
-            mViewModel.setGOCasApplication(eCreditApplicantInfo);
-            try {
-                setUpFieldsFromLocalDB(eCreditApplicantInfo);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        });
+        mViewModel.getApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setGOCasApplication(eCreditApplicantInfo));
 
         mViewModel.getCountryNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
@@ -154,35 +142,5 @@ public class Fragment_Finance extends Fragment implements ViewModelCallBack {
     @Override
     public void onFailedResult(String message) {
         GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
-    }
-
-    @SuppressLint("NewApi")
-    public void setUpFieldsFromLocalDB(ECreditApplicantInfo credits) throws JSONException {
-        if (credits.getFinancex() != null){
-            JSONObject financeObj = new JSONObject(credits.getFinancex());
-            spnRelation.setText(CreditAppConstants.FINANCE_SOURCE[Integer.parseInt(financeObj.getString("sReltnCde"))], false);
-            spnRelation.setSelection(Integer.parseInt(financeObj.getString("sReltnCde")));
-            relationX = financeObj.getString("sReltnCde");
-            txtFNamex.setText(financeObj.getString("sFinancer"));
-            txtFIncme.setText(financeObj.getString("nEstIncme"));
-            txtFMoble.setText(financeObj.getString("sMobileNo"));
-            txtFEmail.setText(financeObj.getString("sEmailAdd"));
-            txtFFacbk.setText(financeObj.getString("sFBAcctxx"));
-            mViewModel.getCountryInfoList().observe(getViewLifecycleOwner(), countryInfos -> {
-                try {
-                    String sCountryCode = financeObj.getString("sNatnCode");
-                    for(int x = 0; x < countryInfos.size(); x++){
-                        if(sCountryCode.equalsIgnoreCase(countryInfos.get(x).getCntryCde())){
-                            txtFCntry.setText(countryInfos.get(x).getCntryNme());
-                            infoModel.setCountryName(countryInfos.get(x).getCntryCde());
-                            break;
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            });
-        }
     }
 }

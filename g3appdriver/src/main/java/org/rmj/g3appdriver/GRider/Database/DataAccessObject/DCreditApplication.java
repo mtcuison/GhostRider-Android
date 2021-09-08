@@ -21,7 +21,6 @@ import androidx.room.RewriteQueriesToDropUnusedColumns;
 import androidx.room.RoomWarnings;
 import androidx.room.Update;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 
@@ -106,11 +105,6 @@ public interface DCreditApplication {
             "GROUP BY a.sTransNox " +
             "ORDER BY a.dCreatedx DESC")
     LiveData<List<ApplicationLog>> getApplicationHistory();
-
-
-    @Query("Select * From Credit_Applicant_Info WHERE cTranStat = 0 " +
-            "GROUP BY sTransNox ")
-    LiveData<List<ECreditApplicantInfo>> getAllCreditApp();
 
     class ApplicationLog{
         public String sGOCASNox;

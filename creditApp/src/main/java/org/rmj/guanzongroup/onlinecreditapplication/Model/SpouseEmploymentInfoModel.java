@@ -321,7 +321,7 @@ public class SpouseEmploymentInfoModel {
 
     private boolean isBizIndustryValid() {
         if(sector.equalsIgnoreCase("1")) {
-            if(bizIndustry == null){
+            if(bizIndustry == null || Integer.parseInt(bizIndustry)< 0){
                 message = "Please select nature of business";
                 return false;
             }

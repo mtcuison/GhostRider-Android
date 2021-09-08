@@ -20,7 +20,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
@@ -60,7 +59,7 @@ public class VMResidenceInfo extends AndroidViewModel {
         this.poProvnce = new RProvince(application);
         this.poTownRpo = new RTown(application);
         this.poBarangy = new RBarangay(application);
-        this.poGoCas = new GOCASApplication();
+        this.poGoCas = GOCASHolder.getInstance().getGOCAS();
     }
 
     public void setProvinceID(String ID){
@@ -111,9 +110,6 @@ public class VMResidenceInfo extends AndroidViewModel {
         return poProvnce.getAllProvinceInfo();
     }
 
-    public LiveData<DTownInfo.BrgyTownProvinceInfoWithID> getBrgyTownProvinceInfoWithID(String BrgyID)  {
-        return poTownRpo.getBrgyTownProvinceInfoWithID(BrgyID);
-    }
     public LiveData<String[]> getTownNameList(){
         return poTownRpo.getTownNamesFromProvince(psProvID.getValue());
     }
@@ -195,7 +191,6 @@ public class VMResidenceInfo extends AndroidViewModel {
                     poGoCas.ResidenceInfo().PermanentAddress().setTownCity(infoModel.getPermanentMunicipalID());
                     poGoCas.ResidenceInfo().PermanentAddress().setBarangay(infoModel.getPermanentBarangayID());
                     poInfo.setResidnce(poGoCas.ResidenceInfo().toJSONString());
-                    poInfo.setDetlInfo(String.valueOf(infoModel.isOneAddress()));
                     Log.e(TAG, poGoCas.toJSONString());
                     RCreditApplicant.updateGOCasData(poInfo);
                     callBack.onSaveSuccessResult("Success");

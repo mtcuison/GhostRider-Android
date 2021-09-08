@@ -40,7 +40,7 @@ public class VMSpousePensionInfo extends AndroidViewModel {
 
     public VMSpousePensionInfo(@NonNull Application application) {
         super(application);
-        this.poGoCas = new GOCASApplication();
+        this.poGoCas = GOCASHolder.getInstance().getGOCAS();
         this.poCreditApp = new RCreditApplicant(application);
     }
 
@@ -67,6 +67,7 @@ public class VMSpousePensionInfo extends AndroidViewModel {
     public boolean setDetailInfo(ECreditApplicantInfo fsDetailInfo){
         try{
             poInfo = fsDetailInfo;
+            poGoCas.setData(poInfo.getDetlInfo());
             return true;
         } catch (Exception e){
             e.printStackTrace();

@@ -17,15 +17,13 @@ import java.util.List;
 public class OtherInfoModel {
 
     //Spinner Values
+    private String unitUser;
     private String transNox;
-    private String sUnitUser;
-    private String sUsr2Buyr;
-    private String sPurposex;
-    private String sUnitPayr;
-    private String sPyr2Buyr;
+    private String unitPayr;
+    private String unitPrps;
+    private String payrRltn;
     private String source;
     private String companyInfoSource;
-
 
     private List<PersonalReferenceInfoModel> poRefInfo;
 
@@ -51,45 +49,36 @@ public class OtherInfoModel {
         this.transNox = transNox;
     }
 
-
-    public String getsUnitUser() {
-        return sUnitUser;
+    public String getUnitUser() {
+        return unitUser;
     }
 
-    public void setsUnitUser(String sUnitUser) {
-        this.sUnitUser = sUnitUser;
+    public void setUnitUser(String unitUser) {
+        this.unitUser = unitUser;
     }
 
-    public String getsUsr2Buyr() {
-        return sUsr2Buyr;
+    public String getUnitPayr() {
+        return unitPayr;
     }
 
-    public void setsUsr2Buyr(String sUsr2Buyr) {
-        this.sUsr2Buyr = sUsr2Buyr;
+    public void setUnitPayr(String unitPayr) {
+        this.unitPayr = unitPayr;
     }
 
-    public String getsPurposex() {
-        return sPurposex;
+    public String getUnitPrps() {
+        return unitPrps;
     }
 
-    public void setsPurposex(String sPurposex) {
-        this.sPurposex = sPurposex;
+    public void setUnitPrps(String unitPrps) {
+        this.unitPrps = unitPrps;
     }
 
-    public String getsUnitPayr() {
-        return sUnitPayr;
+    public String getPayrRltn() {
+        return payrRltn;
     }
 
-    public void setsUnitPayr(String sUnitPayr) {
-        this.sUnitPayr = sUnitPayr;
-    }
-
-    public String getsPyr2Buyr() {
-        return sPyr2Buyr;
-    }
-
-    public void setsPyr2Buyr(String sPyr2Buyr) {
-        this.sPyr2Buyr = sPyr2Buyr;
+    public void setPayrRltn(String payrRltn) {
+        this.payrRltn = payrRltn;
     }
 
     public String getSource() {
@@ -116,16 +105,16 @@ public class OtherInfoModel {
     }
 
     private boolean isUnitUserModel(){
-        if(sUnitUser == null){
+        if(unitUser == null){
             message = "Please select unit user";
             return false;
-        } else if(Integer.parseInt(sUnitUser) == 1){
+        } else if(Integer.parseInt(unitUser) == 1){
             return isUserBuyerModel();
         }
         return true;
     }
     private boolean isUserBuyerModel(){
-        if(sUsr2Buyr == null){
+        if(unitPayr == null){
             message = "Please select other user";
             return false;
         }
@@ -133,14 +122,14 @@ public class OtherInfoModel {
     }
 
     private boolean isUnitPurposeModel(){
-        if(sPurposex == null){
+        if(unitPrps == null){
             message = "Please select unit purpose";
             return false;
         }
         return true;
     }
     private boolean isPayer2BuyerModel(){
-        if(sPyr2Buyr == null){
+        if(payrRltn == null){
             message = "Please select other payer";
             return false;
         }
@@ -157,7 +146,7 @@ public class OtherInfoModel {
         return true;
     }
     private boolean isCompanyInfoSourceModel(){
-        if(companyInfoSource == null){
+        if(companyInfoSource == null || companyInfoSource.isEmpty()){
             message = "Please select company information source";
             return false;
         }

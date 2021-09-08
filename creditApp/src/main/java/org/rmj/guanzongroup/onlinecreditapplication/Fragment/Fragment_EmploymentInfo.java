@@ -13,7 +13,6 @@ package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -35,20 +34,15 @@ import android.widget.Spinner;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.EmploymentInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMEmploymentInfo;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBack {
@@ -82,7 +76,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
             lnEmpInfo;
 
     private Button btnNext;
-    private RadioGroup rgSectorx, rgUniform, rgMiltary;
+
     public static Fragment_EmploymentInfo newInstance() {
         return new Fragment_EmploymentInfo();
     }
@@ -100,9 +94,9 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
     }
 
     private void initWidgets(View v){
-        rgSectorx = v.findViewById(R.id.rg_sector);
-        rgUniform = v.findViewById(R.id.rg_uniformPersonel);
-        rgMiltary = v.findViewById(R.id.rg_militaryPersonal);
+        RadioGroup rgSectorx = v.findViewById(R.id.rg_sector);
+        RadioGroup rgUniform = v.findViewById(R.id.rg_uniformPersonel);
+        RadioGroup rgMiltary = v.findViewById(R.id.rg_militaryPersonal);
         spnCmpLvl = v.findViewById(R.id.spn_employmentLevel);
         spnEmpLvl = v.findViewById(R.id.spn_employeeLevel);
         spnBusNtr = v.findViewById(R.id.spn_businessNature);
@@ -140,14 +134,7 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMEmploymentInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo ->{
-            mViewModel.setCreditApplicantInfo(eCreditApplicantInfo);
-            try {
-                setUpFieldsFromLocalDB(eCreditApplicantInfo);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        });
+        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
         mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnCmpLvl.setAdapter(stringArrayAdapter);
             spnCmpLvl.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
@@ -342,81 +329,6 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
                     mViewModel.setMilitaryPersonnel("N");
                 }
             }
-        }
-    }
-    @SuppressLint("NewApi")
-    public void setUpFieldsFromLocalDB(ECreditApplicantInfo credits) throws JSONException {
-        if (credits.getEmplymnt() != null){
-            JSONObject employementObj = new JSONObject(credits.getEmplymnt());
-
-            if (employementObj.getString("cEmpSectr").equalsIgnoreCase("0")) {
-                rgSectorx.check(R.id.rb_government);
-                mViewModel.setEmploymentSector("0");
-            } else if (employementObj.getString("cEmpSectr").equalsIgnoreCase("1")) {
-                rgSectorx.check(R.id.rb_private);
-                mViewModel.setEmploymentSector("1");
-            } else if (employementObj.getString("cEmpSectr").equalsIgnoreCase("2")) {
-                rgSectorx.check(R.id.rb_ofw);
-                mViewModel.setEmploymentSector("2");
-            }
-            spnCmpLvl.setText(CreditAppConstants.COMPANY_LEVEL[Integer.parseInt(employementObj.getString("cCompLevl"))], false);
-            spnCmpLvl.setSelection(Integer.parseInt(employementObj.getString("cCompLevl")));
-            infoModel.setCompanyLevel(employementObj.getString("cCompLevl"));
-
-            spnEmpLvl.setText(CreditAppConstants.EMPLOYEE_LEVEL[Integer.parseInt(employementObj.getString("cEmpLevlx"))], false);
-            spnEmpLvl.setSelection(Integer.parseInt(employementObj.getString("cEmpLevlx")));
-            infoModel.setEmployeeLevel(employementObj.getString("cEmpLevlx"));
-
-            spnBusNtr.setText(employementObj.getString("sIndstWrk"), false);
-            infoModel.setBusinessNature(employementObj.getString("sIndstWrk"));
-
-            mViewModel.getTownProvinceByTownID(employementObj.getString("sWrkTownx")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
-                txtTownNm.setText(townProvinceInfo.sTownName);
-                txtProvNm.setText(townProvinceInfo.sProvName);
-                infoModel.setTownID(townProvinceInfo.sTownIDxx);
-                mViewModel.setProvinceID(townProvinceInfo.sProvIDxx);
-            });
-            txtCompNm.setText(employementObj.getString("sEmployer"));
-            txtJobNme.setText(mViewModel.getOccupationName(employementObj.getString("sPosition")));
-            infoModel.setJobTitle(employementObj.getString("sPosition"));
-            txtCompAd.setText(employementObj.getString("sWrkAddrx"));
-            txtSpcfJb.setText(employementObj.getString("sFunction"));
-            if(employementObj.getString("cEmpStatx").equalsIgnoreCase("R")){
-                spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[0], false);
-                spnEmpSts.setSelection(0);
-                mViewModel.setEmploymentStatus("R");
-            }else if (employementObj.getString("cEmpStatx").equalsIgnoreCase("P")){
-                spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[1], false);
-                spnEmpSts.setSelection(1);
-                mViewModel.setEmploymentStatus("P");
-            }else if (employementObj.getString("cEmpStatx").equalsIgnoreCase("C")){
-                spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[2], false);
-                spnEmpSts.setSelection(2);
-                mViewModel.setEmploymentStatus("C");
-            }else if (employementObj.getString("cEmpStatx").equalsIgnoreCase("S")){
-                spnEmpSts.setText(CreditAppConstants.EMPLOYMENT_STATUS[3], false);
-                spnEmpSts.setSelection(3);
-                mViewModel.setEmploymentStatus("S");
-            }
-            infoModel.setEmployeeStatus(employementObj.getString("cEmpStatx"));
-
-            int nlength = (int)(Double.parseDouble(employementObj.getString("nLenServc")) * 12);
-            if (nlength < 12){
-                txtLngthS.setText(String.valueOf(nlength));
-                spnServce.setSelection(0);
-                spnServce.setText(CreditAppConstants.LENGTH_OF_STAY[0], false);
-                infoModel.setIsYear(String.valueOf(0));
-            }else{
-                txtLngthS.setText(employementObj.getString("nLenServc"));
-                spnServce.setSelection(1);
-                spnServce.setText(CreditAppConstants.LENGTH_OF_STAY[1], false);
-                infoModel.setIsYear(String.valueOf(1));
-            }
-            txtEsSlry.setText(employementObj.getString("nSalaryxx"));
-            txtCompCn.setText(employementObj.getString("sWrkTelno"));
-
-
-//            infoModel.setIsYear(String.valueOf(i));
         }
     }
 }

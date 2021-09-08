@@ -64,7 +64,7 @@ public class VMDependent extends AndroidViewModel {
         this.poProvnce = new RProvince(application);
         this.poTownRpo = new RTown(application);
         this.poApplcnt = new RCreditApplicant(application);
-        this.poGoCasxx = new GOCASApplication();
+        this.poGoCasxx = GOCASHolder.getInstance().getGOCAS();
         infoModels = new ArrayList<>();
         dependentInfo.setValue(new ArrayList<>());
         this.linearEmployed.setValue(View.GONE);

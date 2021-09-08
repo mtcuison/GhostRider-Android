@@ -51,9 +51,7 @@ public class RMcModel {
         allMcModelName = mcModelDao.getAllModelName(BrandID);
         return allMcModelName;
     }
-    public String getModelName(String ModelIDx){
-       return mcModelDao.getModelName(ModelIDx);
-    }
+
     public String getLatestDataTime(){
         return mcModelDao.getLatestDataTime();
     }

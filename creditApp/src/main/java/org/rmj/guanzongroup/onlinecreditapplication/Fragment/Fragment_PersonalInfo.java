@@ -14,7 +14,6 @@ package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,21 +27,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.g3appdriver.etc.OnDateSetListener;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -52,8 +45,6 @@ import java.util.Objects;
 
 public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack {
     public static final String TAG = Fragment_PersonalInfo.class.getSimpleName();
-    private static final String Fragment_PersonalInfo = "org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_PersonalInfo";
-
     private VMPersonalInfo mViewModel;
     private PersonalInfoModel infoModel;
     private TextInputEditText txtLastNm, txtFrstNm, txtMiddNm, txtSuffixx, txtNickNm, txtBirthDt, txtMothNm, txtMobileNo1, txtMobileNo2, txtMobileNo3, txtMobileYr1, txtMobileYr2, txtMobileYr3, txtTellNox, txtEmailAdd, txtFbAccount, txtViberAccount;
@@ -67,19 +58,11 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
     private String psMob3NetTp = "-1";
 
     private String transnox;
-    private TextInputEditText[] txtMobileNo;
-    private AutoCompleteTextView[] txtMobileType;
-    private TextInputEditText[] txtMobileYear;
-    private TextInputLayout[] tilMobileYear;
 
-    private String[] psMobNetTp;
     public static Fragment_PersonalInfo newInstance() {
         return new Fragment_PersonalInfo();
     }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -98,15 +81,15 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         txtBirthDt = v.findViewById(R.id.txt_birthdate);
         tilMothNm = v.findViewById(R.id.til_motherNme);
         txtMothNm = v.findViewById(R.id.txt_motherNme);
-//        txtMobileNo1 = v.findViewById(R.id.txt_mobileNo1);
-//        txtMobileNo2 = v.findViewById(R.id.txt_mobileNo2);
-//        txtMobileNo3 = v.findViewById(R.id.txt_mobileNo3);
-//        txtMobileYr1 = v.findViewById(R.id.txt_mobileNo1Year);
-//        tilMobileYr1 = v.findViewById(R.id.til_mobileNo1Year);
-//        txtMobileYr2 = v.findViewById(R.id.txt_mobileNo2Year);
-//        tilMobileYr2 = v.findViewById(R.id.til_mobileNo2Year);
-//        txtMobileYr3 = v.findViewById(R.id.txt_mobileNo3Year);
-//        tilMobileYr3 = v.findViewById(R.id.til_mobileNo3Year);
+        txtMobileNo1 = v.findViewById(R.id.txt_mobileNo1);
+        txtMobileNo2 = v.findViewById(R.id.txt_mobileNo2);
+        txtMobileNo3 = v.findViewById(R.id.txt_mobileNo3);
+        txtMobileYr1 = v.findViewById(R.id.txt_mobileNo1Year);
+        tilMobileYr1 = v.findViewById(R.id.til_mobileNo1Year);
+        txtMobileYr2 = v.findViewById(R.id.txt_mobileNo2Year);
+        tilMobileYr2 = v.findViewById(R.id.til_mobileNo2Year);
+        txtMobileYr3 = v.findViewById(R.id.txt_mobileNo3Year);
+        tilMobileYr3 = v.findViewById(R.id.til_mobileNo3Year);
 
         txtTellNox = v.findViewById(R.id.txt_telephoneNo);
         txtEmailAdd = v.findViewById(R.id.txt_emailAdd);
@@ -118,36 +101,12 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         txtCitizen = v.findViewById(R.id.txt_citizenship);
         rgGender = v.findViewById(R.id.rg_gender);
         spnCivilStatus = v.findViewById(R.id.spn_civilStatus);
-//        spnMobile1 = v.findViewById(R.id.spn_mobile1Type);
-//        spnMobile2 = v.findViewById(R.id.spn_mobile2Type);
-//        spnMobile3 = v.findViewById(R.id.spn_mobile3Type);
+        spnMobile1 = v.findViewById(R.id.spn_mobile1Type);
+        spnMobile2 = v.findViewById(R.id.spn_mobile2Type);
+        spnMobile3 = v.findViewById(R.id.spn_mobile3Type);
         txtBirthDt.addTextChangedListener(new OnDateSetListener(txtBirthDt));
         MaterialButton btnNext = v.findViewById(R.id.btn_creditAppNext);
-        txtMobileNo =  new TextInputEditText[] {
-                v.findViewById(R.id.txt_mobileNo1),
-                v.findViewById(R.id.txt_mobileNo2),
-                v.findViewById(R.id.txt_mobileNo3),
-        };
-        tilMobileYear =  new TextInputLayout[] {
-                v.findViewById(R.id.til_mobileNo1Year),
-                v.findViewById(R.id.til_mobileNo2Year),
-                v.findViewById(R.id.til_mobileNo3Year)
-        };
-        txtMobileYear =  new TextInputEditText[] {
-                v.findViewById(R.id.txt_mobileNo1Year),
-                v.findViewById(R.id.txt_mobileNo2Year),
-                v.findViewById(R.id.txt_mobileNo3Year)
-        };
-        txtMobileType =  new AutoCompleteTextView[] {
-                v.findViewById(R.id.spn_mobile1Type),
-                v.findViewById(R.id.spn_mobile2Type),
-                v.findViewById(R.id.spn_mobile3Type)
-        };
-        psMobNetTp = new String[]{
-                "-1",
-                "-1",
-                "-1"
-        };
+
         btnNext.setOnClickListener(view -> SavePersonalInfo());
     }
 
@@ -160,8 +119,6 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         mViewModel.getCreditApplicantInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
             try{
                 mViewModel.setGOCasDetailInfo(eCreditApplicantInfo);
-
-                setUpFieldsFromLocalDB(eCreditApplicantInfo);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -235,149 +192,23 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         }));
 
         mViewModel.getMobileNoType().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
-            for (int i = 0; i < txtMobileType.length; i++ ){
-                txtMobileType[i].setAdapter(stringArrayAdapter);
-                txtMobileType[i].setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-            }
-//            spnMobile1.setAdapter(stringArrayAdapter);
-//            spnMobile2.setAdapter(stringArrayAdapter);
-//            spnMobile3.setAdapter(stringArrayAdapter);
-//            spnMobile1.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//            spnMobile2.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-//            spnMobile3.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+            spnMobile1.setAdapter(stringArrayAdapter);
+            spnMobile2.setAdapter(stringArrayAdapter);
+            spnMobile3.setAdapter(stringArrayAdapter);
+            spnMobile1.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+            spnMobile2.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
+            spnMobile3.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
-//        spnMobile1.setOnItemClickListener(new OnItemClickListener(spnMobile1));
-//        spnMobile2.setOnItemClickListener(new OnItemClickListener(spnMobile2));
-//        spnMobile3.setOnItemClickListener(new OnItemClickListener(spnMobile3));
-        for (int i = 0; i < txtMobileType.length; i++ ){
-            txtMobileType[i].setOnItemClickListener(new OnItemClickListener(txtMobileType[i]));
-        }
+        spnMobile1.setOnItemClickListener(new OnItemClickListener(spnMobile1));
+        spnMobile2.setOnItemClickListener(new OnItemClickListener(spnMobile2));
+        spnMobile3.setOnItemClickListener(new OnItemClickListener(spnMobile3));
     }
-    @SuppressLint("NewApi")
-    public void setUpFieldsFromLocalDB(ECreditApplicantInfo credits) throws JSONException {
-        if (credits.getApplInfo() != null){
-            try {
 
-                JSONObject appInfo = new JSONObject(credits.getApplInfo());
-//
-                txtLastNm.setText(appInfo.getString("sLastName"));
-                txtFrstNm.setText(appInfo.getString("sFrstName"));
-                txtMiddNm.setText(appInfo.getString("sMiddName"));
-                txtSuffixx.setText(appInfo.getString("sSuffixNm"));
-                txtNickNm.setText(appInfo.getString("sNickName"));
-                txtBirthDt.setText(appInfo.getString("dBirthDte"));
-//                txtMothNm.setText(appInfo.getString("sLastName"));
-//                txtMobileNo1.setText(appInfo.getString("sLastName"));
-//                txtMobileNo2.setText(appInfo.getString("sLastName"));
-//                txtMobileNo3.setText(appInfo.getString("sLastName"));
-//                txtMobileYr1.setText(appInfo.getString("sLastName"));
-//                tilMobileYr1.setText(appInfo.getString("sLastName"));
-//                txtMobileYr2.setText(appInfo.getString("sLastName"));
-//                tilMobileYr2.setText(appInfo.getString("sLastName"));
-//                txtMobileYr3.setText(appInfo.getString("sLastName"));
-//                tilMobileYr3.setText(appInfo.getString("sLastName"));
-//
-//                txtTellNox.setText(appInfo.getString("sLastName"));;
-//                txtFbAccount.setText(appInfo.getString("sLastName"));
-//                txtViberAccount.setText(appInfo.getString("sLastName"));
-//                txtProvince.setText(appInfo.getString("sLastName"));
-//                txtTown.setText(appInfo.getString("sLastName"));
-//                mViewModel.getProvinceNameFromProvID(appInfo.getString("sCitizenx"));
-
-                spnCivilStatus.setText(CreditAppConstants.CIVIL_STATUS[Integer.parseInt(appInfo.getString("cCvilStat"))], false);
-                spnCivilStatus.setSelection(Integer.parseInt(appInfo.getString("cCvilStat")));
-                mViewModel.setCvlStats(appInfo.getString("cCvilStat"));
-                mViewModel.getTownProvinceByTownID(appInfo.getString("sBirthPlc")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
-                    txtTown.setText(townProvinceInfo.sTownName);
-                    txtProvince.setText(townProvinceInfo.sProvName);
-                    mViewModel.setTownID(townProvinceInfo.sTownIDxx);
-                    mViewModel.setProvID(townProvinceInfo.sProvIDxx);
-                });
-                mViewModel.getClientCitizenship(appInfo.getString("sCitizenx")).observe(getViewLifecycleOwner(), citizen -> {
-                    txtCitizen.setText(citizen);
-                    try {
-                        mViewModel.setCitizenship(appInfo.getString("sCitizenx"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                });
-                for(int i = 0; i < rgGender.getChildCount(); i++){
-                    if (i == Integer.parseInt(appInfo.getString("cGenderCd"))){
-                        mViewModel.setGender(appInfo.getString("cGenderCd"));
-                        ((RadioButton)rgGender.getChildAt(i)).setChecked(true);
-                    }
-                }
-//                if (appInfo.getString("cGenderCd").equalsIgnoreCase("0")) {
-//                    rgGender.check(R.id.rb_male);
-//                    mViewModel.setGender("0");
-//                } else if (appInfo.getString("cGenderCd").equalsIgnoreCase("1")) {
-//                    rgGender.check(R.id.rb_female);
-//                    mViewModel.setGender("1");
-//                } else if (appInfo.getString("cGenderCd").equalsIgnoreCase("2")) {
-//                    rgGender.check(R.id.rb_lgbt);
-//                    mViewModel.setGender("2");
-//                }
-
-                JSONArray arrayEmail = new JSONArray(appInfo.getString("email_address"));
-                JSONObject emailObj = new JSONObject(arrayEmail.get(0).toString());
-                txtEmailAdd.setText(emailObj.getString("sEmailAdd"));
-                JSONArray arrayContact = new JSONArray(appInfo.getString("mobile_number"));
-                for (int j = 0; j < arrayContact.length(); j++){
-                    JSONObject contact = new JSONObject(arrayContact.get(j).toString());
-                    txtMobileNo[j].setText(contact.getString("sMobileNo"));
-                    txtMobileYear[j].setText(contact.getInt("nPostYear") + "");
-                    txtMobileType[j].setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(contact.getString("cPostPaid"))], false);
-                    psMobNetTp[j] = contact.getString("cPostPaid");
-                    if (contact.getString("cPostPaid").equalsIgnoreCase("0")){
-                        tilMobileYear[j].setVisibility(View.GONE);
-                        txtMobileType[j].setSelection(0);
-                    }else{
-                        tilMobileYear[j].setVisibility(View.VISIBLE);
-                        txtMobileType[j].setSelection(1);
-                    }
-
-                }
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
-        }else {
-            txtLastNm.getText().clear();
-            txtFrstNm.getText().clear();
-            txtMiddNm.getText().clear();
-            txtSuffixx.getText().clear();
-            txtNickNm.getText().clear();
-            txtBirthDt.getText().clear();
-            txtCitizen.getText().clear();
-            txtTown.getText().clear();
-            txtProvince.getText().clear();
-            rgGender.clearCheck();
-            spnCivilStatus.getText().clear();
-            txtMobileNo[0].getText().clear();
-            txtMobileNo[1].getText().clear();
-            txtMobileNo[2].getText().clear();
-            txtMobileType[0].getText().clear();
-            txtMobileType[1].getText().clear();
-            txtMobileType[2].getText().clear();
-            txtMobileYear[0].getText().clear();
-            txtMobileYear[1].getText().clear();
-            txtMobileYear[2].getText().clear();
-            txtEmailAdd.getText().clear();
-            txtTellNox.getText().clear();
-            txtViberAccount.getText().clear();
-            txtFbAccount.getText().clear();
-        }
-
-    }
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("sample", infoModel);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
     @SuppressLint("RestrictedApi")
@@ -401,25 +232,26 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
         infoModel.setBrthDate(Objects.requireNonNull(txtBirthDt.getText()).toString());
         infoModel.setMotherNm(Objects.requireNonNull(txtMothNm.getText()).toString());
         infoModel.clearMobileNo();
-        if(txtMobileNo[0] != null || !Objects.requireNonNull(txtMobileNo[0].getText()).toString().trim().isEmpty()) {
+        if(!Objects.requireNonNull(txtMobileNo1.getText()).toString().trim().isEmpty()) {
             if(Integer.parseInt(psMob1NetTp) == 1) {
-                infoModel.setMobileNo(txtMobileNo[0].getText().toString(), psMobNetTp[0], Integer.parseInt(Objects.requireNonNull(txtMobileYear[0].getText()).toString()));
+                infoModel.setMobileNo(txtMobileNo1.getText().toString(), psMob1NetTp, Integer.parseInt(Objects.requireNonNull(txtMobileYr1.getText()).toString()));
             } else {
-                infoModel.setMobileNo(txtMobileNo[0].getText().toString(), psMobNetTp[0], 0);
+                infoModel.setMobileNo(txtMobileNo1.getText().toString(), psMob1NetTp, 0);
+                Log.e("Postpaid index " + psMob1NetTp, infoModel.getPostPaid(0));
             }
         }
-        if(!Objects.requireNonNull(txtMobileNo[1].getText()).toString().trim().isEmpty()) {
+        if(!Objects.requireNonNull(txtMobileNo2.getText()).toString().trim().isEmpty()) {
             if(Integer.parseInt(psMob2NetTp) == 1) {
-                infoModel.setMobileNo(txtMobileNo[1].getText().toString(), psMobNetTp[1], Integer.parseInt(Objects.requireNonNull(txtMobileYear[1].getText()).toString()));
+                infoModel.setMobileNo(txtMobileNo2.getText().toString(), psMob2NetTp, Integer.parseInt(Objects.requireNonNull(txtMobileYr2.getText()).toString()));
             } else {
-                infoModel.setMobileNo(txtMobileNo[1].getText().toString(), psMobNetTp[1], 0);
+                infoModel.setMobileNo(txtMobileNo2.getText().toString(), psMob2NetTp, 0);
             }
         }
-        if(!Objects.requireNonNull(txtMobileNo[2].getText()).toString().trim().isEmpty()) {
+        if(!Objects.requireNonNull(txtMobileNo3.getText()).toString().trim().isEmpty()) {
             if(Integer.parseInt(psMob3NetTp) == 1) {
-                infoModel.setMobileNo(txtMobileNo[2].getText().toString(), psMobNetTp[2], Integer.parseInt(Objects.requireNonNull(txtMobileYear[2].getText()).toString()));
+                infoModel.setMobileNo(txtMobileNo3.getText().toString(), psMob3NetTp, Integer.parseInt(Objects.requireNonNull(txtMobileYr3.getText()).toString()));
             } else {
-                infoModel.setMobileNo(txtMobileNo[2].getText().toString(), psMobNetTp[2], 0);
+                infoModel.setMobileNo(txtMobileNo3.getText().toString(), psMob3NetTp, 0);
             }
         }
         infoModel.setPhoneNox(Objects.requireNonNull(txtTellNox.getText()).toString());
@@ -437,35 +269,31 @@ public class Fragment_PersonalInfo extends Fragment implements ViewModelCallBack
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            if (txtMobileType[0].equals(poView)) {
+            if (spnMobile1.equals(poView)) {
                 psMob1NetTp = String.valueOf(i);
-                psMobNetTp[0] = String.valueOf(i);
                 if(i == 1){
-                    tilMobileYear[0].setVisibility(View.VISIBLE);
+                    tilMobileYr1.setVisibility(View.VISIBLE);
                 } else {
-                    tilMobileYear[0].setVisibility(View.GONE);
+                    tilMobileYr1.setVisibility(View.GONE);
                 }
 
             }
-            if (txtMobileType[1].equals(poView)) {
+            if (spnMobile2.equals(poView)) {
                 psMob2NetTp = String.valueOf(i);
-                psMobNetTp[1] = String.valueOf(i);
                 if(i == 1){
-                    tilMobileYear[1].setVisibility(View.VISIBLE);
+                    tilMobileYr2.setVisibility(View.VISIBLE);
                 } else {
-                    tilMobileYear[1].setVisibility(View.GONE);
+                    tilMobileYr2.setVisibility(View.GONE);
                 }
             }
-            if (txtMobileType[2].equals(poView)) {
+            if (spnMobile3.equals(poView)) {
                 psMob3NetTp = String.valueOf(i);
-                psMobNetTp[2] = String.valueOf(i);
                 if(i == 1){
-                    tilMobileYear[2].setVisibility(View.VISIBLE);
+                    tilMobileYr3.setVisibility(View.VISIBLE);
                 } else {
-                    tilMobileYear[2].setVisibility(View.GONE);
+                    tilMobileYr3.setVisibility(View.GONE);
                 }
             }
         }
     }
-
 }

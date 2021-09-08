@@ -54,7 +54,7 @@ public class VMDisbursementInfo extends AndroidViewModel {
     {
         super(application);
         this.poApplcnt = new RCreditApplicant(application);
-        this.poGoCasxx = new GOCASApplication();
+        this.poGoCasxx = GOCASHolder.getInstance().getGOCAS();
     }
 
     public void setTransNox(String transNox){
@@ -143,7 +143,7 @@ public class VMDisbursementInfo extends AndroidViewModel {
                     poGoCasxx.DisbursementInfo().CreditCard().setCreditLimit(infoModel.getLimitCC());
                     poGoCasxx.DisbursementInfo().CreditCard().setMemberSince(infoModel.getYearS());
                     poInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
-                    poInfo.setDisbrsmt(poGoCasxx.DisbursementInfo().toJSONString());
+                    poInfo.setDisbrsmt(poGoCasxx.toJSONString());
                     poApplcnt.updateGOCasData(poInfo);
                     return "success";
                 }else {

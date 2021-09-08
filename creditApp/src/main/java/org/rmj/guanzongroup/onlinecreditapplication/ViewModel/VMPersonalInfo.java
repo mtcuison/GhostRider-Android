@@ -20,7 +20,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
@@ -31,7 +30,6 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.g3appdriver.utils.AgeCalculator;
 import org.rmj.gocas.base.GOCASApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalInfoModel;
@@ -61,9 +59,6 @@ public class VMPersonalInfo extends AndroidViewModel {
     private final MutableLiveData<Integer> lnMthrNme = new MutableLiveData<>();
     private final MutableLiveData<String> lsCitizen = new MutableLiveData<>();
 
-    private final MutableLiveData<String> lsProvName = new MutableLiveData<>();
-    private final MutableLiveData<String> lsCntryName = new MutableLiveData<>();
-
     public VMPersonalInfo(@NonNull Application application){
         super(application);
         RCreditApplicant = new RCreditApplicant(application);
@@ -71,8 +66,7 @@ public class VMPersonalInfo extends AndroidViewModel {
         RTown = new RTown(application);
         RCountry = new RCountry(application);
         provinceInfoList = RProvince.getAllProvinceInfo();
-//        poGoCas = GOCASHolder.getInstance().getGOCAS();
-        poGoCas = new GOCASApplication();
+        poGoCas = GOCASHolder.getInstance().getGOCAS();
         this.lnMthrNme.setValue(View.GONE);
         this.poModel.setValue(new PersonalInfoModel());
     }
@@ -82,15 +76,15 @@ public class VMPersonalInfo extends AndroidViewModel {
     }
 
     public boolean setTransNox(String transNox) {
-        this.TRANSNOX.setValue(Activity_CreditApplication.getInstance().getTransNox());
-        if(!this.TRANSNOX.getValue().equalsIgnoreCase(Activity_CreditApplication.getInstance().getTransNox())) {
+        this.TRANSNOX.setValue(transNox);
+        if(!this.TRANSNOX.getValue().equalsIgnoreCase(transNox)) {
             return false;
         }
         return true;
     }
 
     public LiveData<ECreditApplicantInfo> getCreditApplicantInfo(){
-        return RCreditApplicant.getCreditApplicantInfoLiveData(Activity_CreditApplication.getInstance().getTransNox());
+        return RCreditApplicant.getCreditApplicantInfoLiveData(TRANSNOX.getValue());
     }
 
     public void setGOCasDetailInfo(ECreditApplicantInfo DetailInfo){
@@ -141,14 +135,15 @@ public class VMPersonalInfo extends AndroidViewModel {
                     poInfo.setIsComakr("0");
                 }
 
-                if ("1".equalsIgnoreCase(infoModel.getCvlStats()) || "5".equalsIgnoreCase(infoModel.getCvlStats())) {
+                if (poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1") ||
+                        poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("5")) {
                     poInfo.setIsSpouse("1");
                 } else {
                     poInfo.setIsSpouse("0");
                 }
 
                 RCreditApplicant.updateGOCasData(poInfo);
-                callBack.onSaveSuccessResult(Activity_CreditApplication.getInstance().getTransNox());
+                callBack.onSaveSuccessResult(TRANSNOX.getValue());
                 return true;
             } else {
                 infoModel.clearMobileNo();
@@ -244,28 +239,5 @@ public class VMPersonalInfo extends AndroidViewModel {
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.MOBILE_NO_TYPE));
         return liveData;
-    }
-
-    public LiveData<String> getClientCitizenship(String CntryCd) {
-        try {
-            return RCountry.getClientCitizenship(CntryCd);
-        }catch (NullPointerException  e){
-            e.printStackTrace();
-            lsCntryName.setValue("");
-            return lsCntryName;
-        }
-    }
-
-    public LiveData<String> getProvinceNameFromProvID(String provID) {
-        try {
-            return RProvince.getProvinceNameFromProvID(provID);
-        }catch (NullPointerException  e){
-            e.printStackTrace();
-            lsProvName.setValue("");
-            return lsProvName;
-        }
-    }
-    public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownID(String TownID)  {
-        return RTown.getTownProvinceByTownID(TownID);
     }
 }

@@ -13,7 +13,6 @@ package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
 public class ResidenceInfoModel {
 
-
     private boolean oneAddress = false;
     private String sLandMark;
     private String sHouseNox;
@@ -56,9 +55,7 @@ public class ResidenceInfoModel {
     public void setOneAddress(boolean oneAddress) {
         this.oneAddress = oneAddress;
     }
-    public boolean isOneAddress() {
-        return oneAddress;
-    }
+
     public String getLandMark() {
         return sLandMark;
     }
