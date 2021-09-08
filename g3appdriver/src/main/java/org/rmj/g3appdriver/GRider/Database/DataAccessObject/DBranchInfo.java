@@ -41,6 +41,30 @@ public interface DBranchInfo {
     @Query("DELETE FROM Branch_Info")
     void deleteAllBranches();
 
+    @Insert
+    void insertBranchInfo(EBranchInfo branchInfo);
+
+    @Query("UPDATE Branch_Info SET sBranchNm =:BranchNm, " +
+            " sDescript=:Descript," +
+            " sAddressx=:Addressx," +
+            " sTownIDxx=:TownIDxx," +
+            " sAreaCode=:AreaCode," +
+            " cDivision=:Division," +
+            " cRecdStat=:RecdStat," +
+            " cPromoDiv=:PromoDiv," +
+            " dTimeStmp=:TimeStmp " +
+            "WHERE sBranchCd=:BranchCd")
+    void updateBranchInfo(String BranchCd,
+                          String BranchNm,
+                          String Descript,
+                          String Addressx,
+                          String TownIDxx,
+                          String AreaCode,
+                          String Division,
+                          String PromoDiv,
+                          String RecdStat,
+                          String TimeStmp);
+
     @Query("SELECT * FROM Branch_Info")
     LiveData<EBranchInfo> getBranchInfo();
 

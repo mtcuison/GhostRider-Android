@@ -95,7 +95,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
     private MaterialButton btnDownload, btnImport;
     private LinearLayout lnImportPanel;
-    private TextView lblNoName, lblhelp;
+    private TextView lblNoName;
 
     private String FILENAME;
     private final String FILE_TYPE = "-mob.txt";
@@ -113,10 +113,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         mViewModel = new ViewModelProvider(this).get(VMCollectionList.class);
         expCollectDetl = new JSONArray();
         initWidgets();
-
-        lblhelp.setOnClickListener(v -> {
-
-        });
 
         mViewModel.getEmplopyeInfo().observe(this, eEmployeeInfo ->{
             try {
@@ -279,7 +275,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         btnImport = findViewById(R.id.btn_import);
         lnImportPanel = findViewById(R.id.ln_import_panel);
         lblNoName = findViewById(R.id.txt_no_name);
-        lblhelp = findViewById(R.id.lbl_help);
 
         recyclerView = findViewById(R.id.recyclerview_collectionList);
         layoutManager = new LinearLayoutManager(Activity_CollectionList.this);
@@ -328,6 +323,12 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     protected void onDestroy() {
         super.onDestroy();
         getViewModelStore().clear();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
 
     @Override

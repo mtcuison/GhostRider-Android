@@ -14,7 +14,6 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Environment;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -163,6 +162,8 @@ public class VMDocumentToScan extends AndroidViewModel {
         try {
             new PostDocumentScanDetail(instance,imgInfo,psImageInfo, poDocumentsInfo, poDocumentsInfo.getTransNox(), poDocumentsInfo.getFileCode(), poDocumentsInfo.getEntryNox(), poDocumentsInfo.getImageNme(), poDocumentsInfo.getFileLoc(), callback).execute();
         } catch (Exception e) {
+            e.printStackTrace();
+            callback.OnFailedResult(e.getMessage());
         }
     }
 

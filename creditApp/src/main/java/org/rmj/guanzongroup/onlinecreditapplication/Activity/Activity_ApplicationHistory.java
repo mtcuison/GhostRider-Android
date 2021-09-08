@@ -245,6 +245,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
     @Override
     public void onBackPressed() {
         finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
 
     @Override

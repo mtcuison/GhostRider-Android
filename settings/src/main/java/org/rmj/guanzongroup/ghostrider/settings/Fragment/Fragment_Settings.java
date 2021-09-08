@@ -89,7 +89,6 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         dbExport = new DatabaseExport(getActivity(), "Database", "GGC_ISysDBF.db");
         loMessage = new MessageBox(getActivity());
         poDialog = new LoadDialog(getActivity());
-
         mViewModel = new ViewModelProvider(this).get(VMSettings.class);
 
         mViewModel.isLocPermissionGranted().observe(getViewLifecycleOwner(), isGranted -> {
@@ -180,13 +179,16 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
                return false;
            });
         }
+
         if(localData != null){
             localData.setOnPreferenceClickListener(preference -> {
                 Intent loIntent = new Intent(getActivity(), Activity_LocalData.class);
                 startActivity(loIntent);
+                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
             });
         }
+
         if(Accountxx != null){
             Accountxx.setOnPreferenceClickListener(preference -> {
                 Dialog_ChangePassword loPass = new Dialog_ChangePassword(getActivity(), (OldPass, NewPass, dialog) -> mViewModel.ChangePassword(OldPass, NewPass, new VMSettings.ChangePasswordCallback() {
@@ -224,6 +226,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         if(chkUpdate != null){
             chkUpdate.setOnPreferenceClickListener(preference -> {
                 startActivity(new Intent(getActivity(), Activity_CheckUpdate.class));
+                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
             });
         }
@@ -237,12 +240,14 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
             }
             debugMode.setOnPreferenceClickListener(preference -> {
                 startActivityForResult(new Intent(getActivity(), Activity_Developer.class), DEV_MODE);
+                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
             });
         }
         if(helpPref != null){
             helpPref.setOnPreferenceClickListener(preference -> {
                 startActivity(new Intent(getActivity(), Activity_HelpList.class));
+                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
             });
         }

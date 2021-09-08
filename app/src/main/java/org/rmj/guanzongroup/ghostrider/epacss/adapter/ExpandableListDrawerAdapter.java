@@ -20,8 +20,11 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.rmj.guanzongroup.ghostrider.epacss.Object.ChildObject;
+import org.rmj.guanzongroup.ghostrider.epacss.Object.ParentObject;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -30,22 +33,22 @@ import java.util.Objects;
  * Created by anupamchugh on 22/12/17.
  */
 
-
 public class ExpandableListDrawerAdapter extends BaseExpandableListAdapter {
     private Context context;
-    private List<MenuModel> listDataHeader;
-    private HashMap<MenuModel, List<MenuModel>> listDataChild;
 
-    public ExpandableListDrawerAdapter(Context context, List<MenuModel> listDataHeader,
-                                       HashMap<MenuModel, List<MenuModel>> listChildData) {
+    private List<ParentObject> poParentLst = new ArrayList<>();
+    private List<ChildObject> poChildLst;
+    private HashMap<ParentObject, List<ChildObject>> poChild = new HashMap<>();
+
+    public ExpandableListDrawerAdapter(Context context, List<ParentObject> foParent, HashMap<ParentObject, List<ChildObject>> foChild) {
         this.context = context;
-        this.listDataHeader = listDataHeader;
-        this.listDataChild = listChildData;
+        this.poParentLst = foParent;
+        this.poChild = foChild;
     }
 
     @Override
-    public MenuModel getChild(int groupPosition, int childPosititon) {
-        return Objects.requireNonNull(this.listDataChild.get(this.listDataHeader.get(groupPosition))).get(childPosititon);
+    public ChildObject getChild(int groupPosition, int childPosititon) {
+        return Objects.requireNonNull(this.poChild.get(this.poParentLst.get(groupPosition))).get(childPosititon);
     }
 
     @Override
@@ -56,8 +59,7 @@ public class ExpandableListDrawerAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-        final String childText = getChild(groupPosition, childPosition).menuName;
-        final int layoutView = getChild(groupPosition, childPosition).visibility;
+        final String childText = getChild(groupPosition, childPosition).getChildMenuName();
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -65,27 +67,25 @@ public class ExpandableListDrawerAdapter extends BaseExpandableListAdapter {
         }
         TextView txtListChild = convertView.findViewById(R.id.lblListItem);
         txtListChild.setText(childText);
-        txtListChild.setVisibility(layoutView);
         return convertView;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-
-        if (this.listDataChild.get(this.listDataHeader.get(groupPosition)) == null)
+        if (this.poChild.get(this.poParentLst.get(groupPosition)) == null)
             return 0;
         else
-            return Objects.requireNonNull(this.listDataChild.get(this.listDataHeader.get(groupPosition))).size();
+            return Objects.requireNonNull(this.poChild.get(this.poParentLst.get(groupPosition))).size();
     }
 
     @Override
-    public MenuModel getGroup(int groupPosition) {
-        return this.listDataHeader.get(groupPosition);
+    public ParentObject getGroup(int groupPosition) {
+        return this.poParentLst.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this.listDataHeader.size();
+        return this.poParentLst.size();
 
     }
 
@@ -97,9 +97,9 @@ public class ExpandableListDrawerAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        String headerTitle = getGroup(groupPosition).menuName;
-        int headerIcon = getGroup(groupPosition).iconImg;
-        int layoutView = getGroup(groupPosition).visibility;
+        String headerTitle = getGroup(groupPosition).getMenuName();
+        int headerIcon = getGroup(groupPosition).getMenuIcon();
+//        int layoutView = getGroup(groupPosition).visibility;
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -111,8 +111,6 @@ public class ExpandableListDrawerAdapter extends BaseExpandableListAdapter {
         iconImg.setImageResource(headerIcon);
         lblListHeader.setTypeface(null, Typeface.NORMAL);
         lblListHeader.setText(headerTitle);
-        lblListHeader.setVisibility(layoutView);
-        iconImg.setVisibility(layoutView);
 
         return convertView;
     }
