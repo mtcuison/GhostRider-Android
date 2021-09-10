@@ -89,6 +89,11 @@ public class ChildObject {
                 loIntent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
                 break;
 
+            case "application approval":
+                loIntent = new Intent(context, Activity_Application.class);
+                loIntent.putExtra("app", AppConstants.INTENT_APPLICATION_APPROVAL);
+                break;
+
             case "unlock":
                 loIntent = new Intent(context, Activity_Knox.class);
                 loIntent.putExtra("knox", 2);

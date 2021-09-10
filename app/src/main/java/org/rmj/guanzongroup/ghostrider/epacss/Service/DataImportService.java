@@ -64,12 +64,9 @@ public class DataImportService extends JobService {
 
     private void doBackgroundTask(JobParameters params) {
         ImportInstance[]  importInstances = {
-                new Import_AreaPerformance(getApplication()),
-                new Import_BranchPerformance(getApplication()),
                 new Import_BankList(getApplication()),
                 new ImportFileCode(getApplication()),
                 new Import_Relation(getApplication()),
-                new ImportBranch(getApplication()),
                 new ImportBrand(getApplication()),
                 new ImportBrandModel(getApplication()),
                 new ImportCategory(getApplication()),
@@ -80,7 +77,8 @@ public class DataImportService extends JobService {
                 new ImportMcTermCategory(getApplication()),
                 new ImportCountry(getApplication()),
                 new Import_Occupations(getApplication()),
-                new Import_SysConfig(getApplication())};
+                new Import_SysConfig(getApplication()),
+                new ImportBranch(getApplication())};
         new Thread(() -> {
             for (ImportInstance importInstance : importInstances) {
                 importInstance.ImportData(new ImportDataCallback() {

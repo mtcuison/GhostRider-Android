@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeRole;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.InternetStatusReciever;
@@ -213,14 +212,23 @@ public class VMMainActivity extends AndroidViewModel {
         loChild.setObjectTP("M");
         loChild.setHasChild("0");
         poRole.InsertEmployeeRole(loChild);
-
-        loChild.setProdctID("gRider");
-        loChild.setUserIDxx("GAP021002961");
-        loChild.setParentxx("PET Manager");
-        loChild.setObjectNm("Selfie Log");
-        loChild.setRecdStat("1");
-        loChild.setObjectTP("M");
-        loChild.setHasChild("0");
-        poRole.InsertEmployeeRole(loChild);
+//
+//        loChild.setProdctID("gRider");
+//        loChild.setUserIDxx("GAP021002961");
+//        loChild.setParentxx("PET Manager");
+//        loChild.setObjectNm("Selfie Log");
+//        loChild.setRecdStat("1");
+//        loChild.setObjectTP("M");
+//        loChild.setHasChild("0");
+//        poRole.InsertEmployeeRole(loChild);
+//
+//        loChild.setProdctID("gRider");
+//        loChild.setUserIDxx("GAP021002961");
+//        loChild.setParentxx("PET Manager");
+//        loChild.setObjectNm("Application Approval");
+//        loChild.setRecdStat("1");
+//        loChild.setObjectTP("M");
+//        loChild.setHasChild("0");
+//        poRole.InsertEmployeeRole(loChild);
     }
 }

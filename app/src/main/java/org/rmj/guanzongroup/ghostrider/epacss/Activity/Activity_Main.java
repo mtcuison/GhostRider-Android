@@ -190,8 +190,8 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
             loMessage.setPositiveButton("Yes", (view, dialog) -> {
                 dialog.dismiss();
                 finish();
-                new REmployee(getApplication()).LogoutUserSession();
-                AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
+//                new REmployee(getApplication()).LogoutUserSession();
+//                AppConfigPreference.getInstance(Activity_Main.this).setIsAppFirstLaunch(false);
             });
             loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
             loMessage.setTitle("GhostRider");

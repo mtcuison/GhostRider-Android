@@ -30,6 +30,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -70,7 +71,7 @@ public class Fragment_BusinessTripApproval extends Fragment implements VmLeaveOB
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VmLeaveOBApproval.class);
-        Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.roboto_bold);
+        Typeface typeface = ResourcesCompat.getFont(requireActivity(), R.font.roboto_bold);
         tilRemarks.setTypeface(typeface);
         btnQuickSearch.setOnClickListener(v ->  {
             if (txtSearch.getText().toString().isEmpty()){
@@ -110,9 +111,9 @@ public class Fragment_BusinessTripApproval extends Fragment implements VmLeaveOB
     }
 
     @Override
-    public void onSuccessKwikSearch(List<RequestLeaveObInfoModel> infoList) {
+    public void onSuccessKwikSearch(JSONObject leave) {
         poDialogx.dismiss();
-        initDialog(infoList);
+//        initDialog(infoList);
     }
 
     @Override

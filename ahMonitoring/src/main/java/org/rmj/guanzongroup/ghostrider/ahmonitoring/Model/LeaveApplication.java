@@ -19,6 +19,7 @@ public class LeaveApplication {
     private String dateThrux = "";
     private int noOfDaysx = 0;
     private String Remarksxx = "";
+    private int noOfHours = 0;
 
     private String message = "";
 
@@ -67,6 +68,11 @@ public class LeaveApplication {
 
     public void setRemarksxx(String remarksxx) {
         Remarksxx = remarksxx;
+    }
+
+    public int getNoOfHours(){
+        noOfHours = noOfDaysx * 8;
+        return noOfHours;
     }
 
     public boolean isDataValid(){

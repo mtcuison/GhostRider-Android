@@ -3,20 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/drawable/card_bg.xml" value="0.1" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/drawer_list_header.xml" value="0.1" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/drawer_list_item.xml" value="0.26364477335800185" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_ah_dashboard.xml" value="0.16" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_dashboard.xml" value="0.14" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_dashboard2.xml" value="0.10701754385964912" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/menu/activity_main_drawer.xml" value="0.25" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/authLibrary/src/main/res/drawable/drawable_null.xml" value="0.1" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/creditApp/src/main/res/layout/fragment_pension_info.xml" value="0.25" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/dailyCollectionPlan/src/main/res/layout/activity_collection_list.xml" value="0.1" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/notifications/src/main/res/layout/activity_notifications.xml" value="0.1" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/notifications/src/main/res/layout/fragment_view_message.xml" value="0.17" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/notifications/src/main/res/layout/notification_list_item.xml" value="0.22" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/notifications/src/main/res/menu/action_menu_notification.xml" value="0.18" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/drawable/bg_application_status.xml" value="0.17675438596491228" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/drawable/bg_leavecredits.xml" value="0.17675438596491228" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/drawable/bg_samsungknox.xml" value="0.17675438596491228" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/layout/activity_application.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/layout/dialog_leave_ob_search.xml" value="0.11929824561403508" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_employee_applications_fragment.xml" value="0.2" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_leave_approval.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_selfie_login.xml" value="0.1631578947368421" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/layout/list_item_employee_app.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/app/src/main/res/layout/fragment_ah_dashboard.xml" value="0.22" />
       </map>
     </option>
   </component>

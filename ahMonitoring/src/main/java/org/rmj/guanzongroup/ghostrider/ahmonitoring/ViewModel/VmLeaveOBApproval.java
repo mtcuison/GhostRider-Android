@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
@@ -59,18 +60,16 @@ public class VmLeaveOBApproval extends AndroidViewModel {
     private final REmployee poUser;
     private final REmployeeLeave poLeave;
 
-    private final List<RequestLeaveObInfoModel> infoList;
     public VmLeaveOBApproval(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.pobranch = new RBranch(instance);
         this.poUser = new REmployee(instance);
         this.poLeave = new REmployeeLeave(instance);
-        this.infoList = new ArrayList<>();
     }
     public interface OnKwikSearchCallBack{
         void onStartKwikSearch();
-        void onSuccessKwikSearch(List<RequestLeaveObInfoModel> infoList);
+        void onSuccessKwikSearch(JSONObject leave);
         void onKwikSearchFailed(String message);
     }
 
@@ -79,19 +78,20 @@ public class VmLeaveOBApproval extends AndroidViewModel {
         void onSuccess();
         void onFailed(String message);
     }
+
     public LiveData<List<DEmployeeLeave.LeaveOBApplication>> getAllLeaveOBApplication(){
         return poLeave.getAllLeaveOBApplication();
     }
 
-
     public void importRequestLeaveApplication(String transNox, OnKwikSearchCallBack callBack){
-
         JSONObject loJson = new JSONObject();
         try {
-            loJson.put("sTransNox", transNox);
-            loJson.put("bsearch", true);
-
-            new importRequestLeaveApplication(instance, callBack).execute(loJson);
+            if(transNox.isEmpty()){
+                callBack.onKwikSearchFailed("Please enter leave transaction no.");
+            } else {
+                loJson.put("sTransNox", transNox);
+                new importRequestLeaveApplication(instance, callBack).execute(loJson);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -113,12 +113,14 @@ public class VmLeaveOBApproval extends AndroidViewModel {
     public void confirmLeaveApplication(RequestLeaveObInfoModel infoModel, OnKwikSearchCallBack callBack){
 
     }
+
     private class importRequestLeaveApplication extends AsyncTask<JSONObject, Void, String> {
         private final HttpHeaders headers;
         private final RBranchLoanApplication brnRepo;
         private final ConnectionUtil conn;
         private final WebApi webApi;
         private final OnKwikSearchCallBack callback;
+
         public importRequestLeaveApplication(Application instance,  OnKwikSearchCallBack callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.brnRepo = new RBranchLoanApplication(instance);
@@ -140,10 +142,30 @@ public class VmLeaveOBApproval extends AndroidViewModel {
             try{
                 if(conn.isDeviceConnected()) {
                     response = WebClient.sendRequest(URL_GET_LEAVE_APPLICATION, strings[0].toString(), headers.getHeaders());
-                    JSONObject jsonResponse = new JSONObject(response);
-                    String lsResult = jsonResponse.getString("result");
+                    JSONObject loResponse = new JSONObject(response);
+                    String lsResult = loResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
-                        parseData(jsonResponse);
+                        JSONArray jsonA = loResponse.getJSONArray("payload");
+                        JSONObject loJson = jsonA.getJSONObject(0);
+                        if(poLeave.getTransnoxIfExist(loJson.getString("sTransNox")).size() > 0){
+                            Log.d(TAG, "Leave application already exist.");
+                        } else {
+                            EEmployeeLeave loLeave = new EEmployeeLeave();
+                            loLeave.setTransNox("sTransNox");
+                            loLeave.setTransact("dTransact");
+                            loLeave.setEmployID("xEmployee");
+                            loLeave.setBranchNm("sBranchNm");
+                            loLeave.setDeptName("sDeptName");
+                            loLeave.setPositnNm("sPositnNm");
+                            loLeave.setAppldFrx("dAppldFrx");
+                            loLeave.setAppldTox("dAppldTox");
+                            loLeave.setNoDaysxx("nNoDaysxx");
+                            loLeave.setPurposex("sPurposex");
+                            loLeave.setLeaveTyp("cLeaveTyp");
+                            loLeave.setLveCredt("nLveCredt");
+                            loLeave.setTranStat("cTranStat");
+                            poLeave.insertApplication(loLeave);
+                        }
                     }
                 } else {
                     response = AppConstants.SERVER_NO_RESPONSE();
@@ -163,7 +185,8 @@ public class VmLeaveOBApproval extends AndroidViewModel {
                 JSONObject loJson = new JSONObject(s);
                 String lsResult = loJson.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    callback.onSuccessKwikSearch(infoList);
+                    JSONArray loArr = loJson.getJSONArray("payload");
+                    callback.onSuccessKwikSearch(loArr.getJSONObject(0));
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     String message = loError.getString("message");
@@ -184,12 +207,14 @@ public class VmLeaveOBApproval extends AndroidViewModel {
         private final RBranchLoanApplication brnRepo;
         private final ConnectionUtil conn;
         private final WebApi webApi;
+        private final REmployeeLeave poLeave;
         private final OnKwikSearchCallBack callback;
         public importRequestBusinessTrip(Application instance,  OnKwikSearchCallBack callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.brnRepo = new RBranchLoanApplication(instance);
             this.conn = new ConnectionUtil(instance);
             this.webApi = new WebApi(instance);
+            this.poLeave = new REmployeeLeave(instance);
             this.callback = callback;
         }
 
@@ -206,10 +231,10 @@ public class VmLeaveOBApproval extends AndroidViewModel {
             try{
                 if(conn.isDeviceConnected()) {
                     response = WebClient.sendRequest(URL_GET_OB_APPLICATION, strings[0].toString(), headers.getHeaders());
-                    JSONObject jsonResponse = new JSONObject(response);
-                    String lsResult = jsonResponse.getString("result");
+                    JSONObject loResponse = new JSONObject(response);
+                    String lsResult = loResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
-                        parseData(jsonResponse);
+
                     }
                 } else {
                     response = AppConstants.SERVER_NO_RESPONSE();
@@ -229,7 +254,7 @@ public class VmLeaveOBApproval extends AndroidViewModel {
                 JSONObject loJson = new JSONObject(s);
                 String lsResult = loJson.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    callback.onSuccessKwikSearch(infoList);
+                    callback.onSuccessKwikSearch(loJson);
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     String message = loError.getString("message");
@@ -242,19 +267,6 @@ public class VmLeaveOBApproval extends AndroidViewModel {
                 e.printStackTrace();
                 callback.onKwikSearchFailed(e.getMessage());
             }
-        }
-    }
-    private void parseData(JSONObject obj){
-        try{
-            infoList.clear();
-            JSONArray jsonA = obj.getJSONArray("detail");
-            for (int x = 0;  x < jsonA.length(); x++) {
-                JSONObject jsonDetail = jsonA.getJSONObject(x);
-//                RequestLeaveObInfoModel infoDetails = new RequestLeaveObInfoModel(jsonDetail.getString(""),jsonDetail.getString("reqstdid"),jsonDetail.getString("department"));
-//                infoList.add(infoDetails);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 

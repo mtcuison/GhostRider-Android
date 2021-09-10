@@ -89,7 +89,7 @@ public class VMLogin extends AndroidViewModel {
             try {
                 params.put("user", authInfo.getEmail());
                 params.put("pswd", authInfo.getPassword());
-
+                poConfig.setMobileNo(authInfo.getMobileNo());
                 new LoginTask(application, webApi, headers, session, REmployee, callback).execute(params);
             }catch (Exception e){
                 e.printStackTrace();

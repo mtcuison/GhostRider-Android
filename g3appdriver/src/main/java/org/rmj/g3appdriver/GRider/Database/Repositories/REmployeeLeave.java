@@ -44,13 +44,24 @@ public class REmployeeLeave implements DEmployeeLeave {
     }
 
     @Override
+    public List<EEmployeeLeave> getTransnoxIfExist(String TransNox) {
+        return employeeDao.getTransnoxIfExist(TransNox);
+    }
+
+
+    @Override
     public void deleteApplication(String TransNox) {
         employeeDao.deleteApplication(TransNox);
     }
 
     @Override
-    public void updateSendStatus(String DateSent, String TransNox) {
-        employeeDao.updateSendStatus(DateSent, TransNox);
+    public LiveData<EEmployeeLeave> getEmployeeLeaveInfo(String TransNox) {
+        return employeeDao.getEmployeeLeaveInfo(TransNox);
+    }
+
+    @Override
+    public void updateSendStatus(String DateSent, String TransNox, String newTransNox) {
+        employeeDao.updateSendStatus(DateSent, TransNox, newTransNox);
     }
 
     @Override

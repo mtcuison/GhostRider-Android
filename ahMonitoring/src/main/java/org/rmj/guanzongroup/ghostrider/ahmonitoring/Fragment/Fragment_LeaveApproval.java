@@ -16,7 +16,6 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
-import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
@@ -34,17 +33,16 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogKwikSearchLeave;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RequestLeaveObInfoModel;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VmLeaveOBApproval;
 
-import java.util.List;
-
-public class Fragment_LeaveApproval extends Fragment implements VmLeaveOBApproval.OnKwikSearchCallBack, VmLeaveOBApproval.OnConfirmOBLeaveListener {
+public class Fragment_LeaveApproval extends Fragment {
     public static final String TAG = Fragment_LeaveApproval.class.getSimpleName();
     private VmLeaveOBApproval mViewModel;
     private TextInputEditText txtSearch;
@@ -54,8 +52,8 @@ public class Fragment_LeaveApproval extends Fragment implements VmLeaveOBApprova
     private MessageBox poMessage;
     private CardView cvLeaveOb;
     private MaterialButton btnCancel, bntConfirm;
-    private TextView lblEmployeNm, lblDateFrom, lblDateThru, lblRemarks;
-    private TextInputEditText tieDateFrom, tieDateThru;
+    private TextView lblTransNox, lblEmployeNm, lblDateFrom, lblDateThru, lblRemarks;
+    private TextInputEditText tieDateFrom, tieDateThru, tieDApplied, txtPurpse;
     private TextInputLayout tilRemarks;
     public static Fragment_LeaveApproval newInstance() {
         return new Fragment_LeaveApproval();
@@ -77,19 +75,73 @@ public class Fragment_LeaveApproval extends Fragment implements VmLeaveOBApprova
         mViewModel = new ViewModelProvider(this).get(VmLeaveOBApproval.class);
         Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.roboto_bold);
         tilRemarks.setTypeface(typeface);
-        btnQuickSearch.setOnClickListener(v ->  {
-            if (txtSearch.getText().toString().isEmpty()){
-                initEmptyDialog();
-            }else {
-                mViewModel.importRequestLeaveApplication(txtSearch.getText().toString(), Fragment_LeaveApproval.this);
+        btnQuickSearch.setOnClickListener(v -> mViewModel.importRequestLeaveApplication(txtSearch.getText().toString(), new VmLeaveOBApproval.OnKwikSearchCallBack() {
+            @Override
+            public void onStartKwikSearch() {
+                txtSearch.setText("");
+                poDialogx.initDialog("Leave Application", "Searching leave application. Please wait...", false);
             }
-        });
+
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onSuccessKwikSearch(JSONObject leave) {
+                poDialogx.dismiss();
+                try{
+                    lblTransNox.setText("Transaction No. : " + leave.getString("sTransNox"));
+                    lblEmployeNm.setText(leave.getString("xEmployee"));
+                    tieDApplied.setText(FormatUIText.formatGOCasBirthdate(leave.getString("dTransact")));
+                    tieDateFrom.setText(FormatUIText.formatGOCasBirthdate(leave.getString("dAppldFrx")));
+                    tieDateThru.setText(FormatUIText.formatGOCasBirthdate(leave.getString("dAppldTox")));
+                    txtPurpse.setText(leave.getString("sPurposex"));
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onKwikSearchFailed(String message) {
+                poDialogx.dismiss();
+                initErrorDialog("Leave Application", message);
+            }
+        }));
 
         bntConfirm.setOnClickListener(v -> {
-            mViewModel.saveObLeave(infoModel, WebApi.URL_CONFIRM_OB_APPLICATION,Fragment_LeaveApproval.this);
+            mViewModel.saveObLeave(infoModel, WebApi.URL_CONFIRM_OB_APPLICATION, new VmLeaveOBApproval.OnConfirmOBLeaveListener() {
+                @Override
+                public void onConfirm() {
+                    poDialogx.initDialog("Leave Application", "Confirming leave application. Please wait...", false);
+                    poDialogx.show();
+                }
+
+                @Override
+                public void onSuccess() {
+                    poDialogx.dismiss();
+                }
+
+                @Override
+                public void onFailed(String message) {
+                    poDialogx.dismiss();
+                    initErrorDialog("Leave Application", message);
+                }
+            });
         });
         btnCancel.setOnClickListener(v -> {
-            mViewModel.saveObLeave(infoModel, WebApi.URL_CONFIRM_OB_APPLICATION,Fragment_LeaveApproval.this);
+            mViewModel.saveObLeave(infoModel, WebApi.URL_CONFIRM_OB_APPLICATION, new VmLeaveOBApproval.OnConfirmOBLeaveListener() {
+                @Override
+                public void onConfirm() {
+
+                }
+
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onFailed(String message) {
+
+                }
+            });
         });
     }
     public void initWidgets(View view){
@@ -98,50 +150,18 @@ public class Fragment_LeaveApproval extends Fragment implements VmLeaveOBApprova
         txtSearch = view.findViewById(R.id.txt_leave_ob_search);
         btnQuickSearch = view.findViewById(R.id.btn_quick_search);
         cvLeaveOb = view.findViewById(R.id.cv_leave_ob);
+        lblTransNox = view.findViewById(R.id.lbl_transNox);
         lblEmployeNm = view.findViewById(R.id.lbl_clientNm);
         tieDateFrom = view.findViewById(R.id.txt_dateFrom);
+        tieDApplied = view.findViewById(R.id.txt_dateApplied);
         tieDateThru = view.findViewById(R.id.txt_dateTo);
         tilRemarks = view.findViewById(R.id.tilRemarks);
-//        lblRemarks = view.findViewById(R.id.lblRemarks);
+        txtPurpse = view.findViewById(R.id.txt_purpose);
+
         btnCancel = view.findViewById(R.id.btn_cancel);
         bntConfirm = view.findViewById(R.id.btn_confirm);
     }
 
-    @Override
-    public void onStartKwikSearch() {
-        poDialogx.initDialog("Leave Application", "Searching leave application. Please wait...", false);
-        poDialogx.show();
-    }
-
-    @Override
-    public void onSuccessKwikSearch(List<RequestLeaveObInfoModel> infoList) {
-        poDialogx.dismiss();
-        initDialog(infoList);
-    }
-
-    @Override
-    public void onKwikSearchFailed(String message) {
-        poDialogx.dismiss();
-        initErrorDialog("Leave Application", message);
-    }
-    public void initDialog(List<RequestLeaveObInfoModel> infoList){
-        DialogKwikSearchLeave loDialog = new DialogKwikSearchLeave(getActivity(),infoList);
-        loDialog.initDialogKwikSearch((dialog, infoModel) -> {
-            txtSearch.setText(infoModel.getsTransNox());
-            cvLeaveOb.setVisibility(View.VISIBLE);
-            this.infoModel = infoModel;
-            loDialog.dismiss();
-        });
-        loDialog.show();
-    }
-    public void initEmptyDialog(){
-        poDialogx.dismiss();
-        poMessage.initDialog();
-        poMessage.setTitle("Leave Application");
-        poMessage.setMessage("TransNox Required!");
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
-    }
     public void initErrorDialog(String title, String message){
         poMessage.initDialog();
         poMessage.setTitle(title);
@@ -149,22 +169,5 @@ public class Fragment_LeaveApproval extends Fragment implements VmLeaveOBApprova
         poMessage.setPositiveButton("Okay", (view, dialog) ->
                 dialog.dismiss());
         poMessage.show();
-    }
-
-    @Override
-    public void onConfirm() {
-        poDialogx.initDialog("Leave Application", "Confirming leave application. Please wait...", false);
-        poDialogx.show();
-    }
-
-    @Override
-    public void onSuccess() {
-        poDialogx.dismiss();
-    }
-
-    @Override
-    public void onFailed(String message) {
-        poDialogx.dismiss();
-        initErrorDialog("Leave Application", message);
     }
 }

@@ -27,6 +27,12 @@ public class EEmployeeLeave {
     private String Transact;
     @ColumnInfo(name = "sEmployID")
     private String EmployID;
+    @ColumnInfo(name = "sBranchNm")
+    private String BranchNm;
+    @ColumnInfo(name = "sDeptName")
+    private String DeptName;
+    @ColumnInfo(name = "sPositnNm")
+    private String PositnNm;
     @ColumnInfo(name = "dDateFrom")
     private String DateFrom;
     @ColumnInfo(name = "dDateThru")
@@ -57,6 +63,8 @@ public class EEmployeeLeave {
     private String SentStat;
     @ColumnInfo(name = "dSendDate")
     private String SendDate;
+    @ColumnInfo(name = "nLveCredt")
+    private String LveCredt;
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
     @ColumnInfo(name = "sModified")
@@ -88,6 +96,30 @@ public class EEmployeeLeave {
 
     public void setEmployID(String employID) {
         EmployID = employID;
+    }
+
+    public String getBranchNm() {
+        return BranchNm;
+    }
+
+    public void setBranchNm(String branchNm) {
+        BranchNm = branchNm;
+    }
+
+    public String getDeptName() {
+        return DeptName;
+    }
+
+    public void setDeptName(String deptName) {
+        DeptName = deptName;
+    }
+
+    public String getPositnNm() {
+        return PositnNm;
+    }
+
+    public void setPositnNm(String positnNm) {
+        PositnNm = positnNm;
     }
 
     public String getDateFrom() {
@@ -208,6 +240,14 @@ public class EEmployeeLeave {
 
     public void setSendDate(String sendDate) {
         SendDate = sendDate;
+    }
+
+    public String getLveCredt() {
+        return LveCredt;
+    }
+
+    public void setLveCredt(String lveCredt) {
+        LveCredt = lveCredt;
     }
 
     public String getTranStat() {

@@ -83,6 +83,9 @@ public class Fragment_AH_Dashboard extends Fragment {
         btnLogout = view.findViewById(R.id.btn_logout);
         btnSettings = view.findViewById(R.id.btn_settings);
 
+        lblBranch.setText("Downloading Data");
+        lblAddx.setText("Please wait...");
+
         btnSelfie.setOnClickListener(v -> {
             if (!AppAssistantConfig.getInstance(getActivity()).getHELP_SLOGIN_NOTICE()){
                 Intent intent = new Intent(getActivity(), Activity_Help.class);

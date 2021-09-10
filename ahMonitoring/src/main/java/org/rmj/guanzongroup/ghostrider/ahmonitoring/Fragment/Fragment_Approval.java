@@ -53,12 +53,12 @@ public class Fragment_Approval extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_approval, container, false);
         setupWidgets();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(tab_Title[tabLayout.getSelectedTabPosition()]);
+        ((AppCompatActivity)requireActivity()).getSupportActionBar().setTitle(tab_Title[tabLayout.getSelectedTabPosition()]);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 tabLayout.getTabAt(tab.getPosition()).setIcon(leave_tab[tab.getPosition()]);
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(tab_Title[tab.getPosition()]);
+                ((AppCompatActivity)requireActivity()).getSupportActionBar().setTitle(tab_Title[tab.getPosition()]);
             }
 
             @Override

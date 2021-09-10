@@ -119,6 +119,7 @@ public class VMLeaveApplication extends AndroidViewModel {
                 loApp.setDateThru(loLeave.getDateThrux());
                 loApp.setNoDaysxx(String.valueOf(loLeave.getNoOfDaysx()));
                 loApp.setPurposex(loLeave.getRemarksxx());
+                loApp.setEqualHrs(String.valueOf(loLeave.getNoOfHours()));
                 loApp.setLeaveTyp(loLeave.getLeaveType());
                 loApp.setEntryByx(poSession.getEmployeeID());
                 loApp.setEntryDte(AppConstants.CURRENT_DATE);
@@ -141,19 +142,28 @@ public class VMLeaveApplication extends AndroidViewModel {
                 param.put("sEntryByx", poSession.getEmployeeID());
                 param.put("dEntryDte", AppConstants.CURRENT_DATE);
                 param.put("nWithOPay", "0");
-                param.put("nEqualHrs", "");
+                param.put("nEqualHrs", loApp.getEqualHrs());
                 param.put("sApproved", "0");
                 param.put("dApproved", "");
-                param.put("cSentStat", "1");
                 param.put("dSendDate", "2017-07-19");
                 param.put("cTranStat", "1");
                 param.put("sModified", poSession.getEmployeeID());
 
                 if(poConn.isDeviceConnected()){
                     lsResult = WebClient.sendRequest(WebApi.URL_SEND_LEAVE_APPLICATION, param.toString(), poHeaders.getHeaders());
-
-                    JSONObject loResult = new JSONObject(lsResult);
-//                    lsResult = loResult.getString("result");
+                    if(lsResult == null){
+                        lsResult = AppConstants.SERVER_NO_RESPONSE();
+                    } else {
+                        JSONObject loResult = new JSONObject(lsResult);
+                        String result = loResult.getString("result");
+                        if(result.equalsIgnoreCase("success")){
+                            poLeave.updateSendStatus(
+                                    new AppConstants().DATE_MODIFIED,
+                                    loApp.getTransNox(),
+                                    loResult.getString("sTransNox"));
+                            Log.d("Employee Leave", "Leave info updated!");
+                        }
+                    }
                 } else {
                     lsResult = AppConstants.NO_INTERNET();
                 }

@@ -21,7 +21,7 @@
     android:theme="@style/GhostRiderMaterialTheme.WhiteBG">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,8 +96,9 @@
                         android:inputType="textCapWords|textPersonName"
                         android:imeOptions="actionSearch"
                         android:maxLines="1"
+                        android:textAllCaps="true"
                         android:textCursorDrawable="@drawable/white_cursor"
-                        android:hint="Search transnox" />
+                        android:hint="Search Application" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageButton
@@ -139,11 +140,11 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/lbl_AccountNo"
+                            android:id="@+id/lbl_transNox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="TransNox . : 000000000"
+                            android:text="TransNox . :"
                             android:textSize="14sp"
                             android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_bold"/>
@@ -176,17 +177,34 @@
                             android:id="@+id/lbl_clientNm"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:drawablePadding="5dp"
-                            android:drawableTint="@color/textColor_Black"
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="center_vertical"
-                            android:text="Ferrer, Jose M."
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/textColor_Black"
-                            app:drawableLeftCompat="@drawable/ic_collection_client"
-                            app:drawableStartCompat="@drawable/ic_collection_client" />
+                            android:drawableLeft="@drawable/ic_collection_client" />
                     </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/sHintDateApplied"
+                        android:textColorHint="@color/textColor_Black"
+                        style="@style/TextInputStyle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txt_dateApplied"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="date"
+                            android:focusableInTouchMode="false"
+                            android:focusable="false"
+                            android:focusedByDefault="false"
+                            style="@style/TextInputStyle.Edittext"
+                            android:autofillHints="Business trip destination and purpose."
+                            android:layout_margin="5dp"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -302,7 +320,7 @@
                         style="@style/TextInputTextAreaStyle">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edtRemarks"
+                            android:id="@+id/txt_purpose"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="false"

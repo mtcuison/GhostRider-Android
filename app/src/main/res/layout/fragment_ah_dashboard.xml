@@ -45,15 +45,32 @@
                     android:layout_marginTop="10dp"
                     android:gravity="end">
 
-                    <TextView
-                        android:id="@+id/lbl_userFullName"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="3dp"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="end"
-                        android:textColor="@color/material_black" />
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".7"
+                            android:layout_marginBottom="3dp"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="end"
+                            android:textColor="@color/material_black" />
+
+                        <TextView
+                            android:id="@+id/lbl_userFullName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginBottom="3dp"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="end"
+                            android:textColor="@color/material_black" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/lbl_userEmail"
@@ -116,32 +133,6 @@
                                 android:fontFamily="@font/roboto_regular"
                                 android:gravity="start"
                                 android:textColor="@color/material_black" />
-
-                            <LinearLayout
-                                android:id="@+id/linear_dataLabel"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="10dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="5dp"
-                                    android:fontFamily="@font/roboto_regular"
-                                    android:text="Downloading Data..."
-                                    android:gravity="start"
-                                    android:textColor="@color/material_black" />
-
-                                <ProgressBar
-                                    android:id="@+id/progress_dataUpdate"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:progress="60"
-                                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                                    android:scaleY="2"/>
-
-                            </LinearLayout>
 
                             <View
                                 android:layout_width="match_parent"
