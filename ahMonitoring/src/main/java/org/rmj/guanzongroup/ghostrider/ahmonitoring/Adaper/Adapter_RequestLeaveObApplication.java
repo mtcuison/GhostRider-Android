@@ -9,21 +9,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RequestLeaveObInfoModel;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RequestNamesInfoModel;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;
 
 public class Adapter_RequestLeaveObApplication extends RecyclerView.Adapter<Adapter_RequestLeaveObApplication.ViewHolder>{
 
-    private List<RequestLeaveObInfoModel> infoList;
-    private RequestLeaveObInfoModel infoModel;
+    private List<LeaveApprovalInfo> infoList;
+    private LeaveApprovalInfo infoModel;
     private Context mContext;
     private onItemClickListener mListener;
 
     public Adapter_RequestLeaveObApplication(Context context,
-                                             List<RequestLeaveObInfoModel> requestleaveOb_InfoModel_List){
+                                             List<LeaveApprovalInfo> requestleaveOb_InfoModel_List){
         this.mContext = context;
         this.infoList = requestleaveOb_InfoModel_List;
     }
@@ -44,7 +43,7 @@ public class Adapter_RequestLeaveObApplication extends RecyclerView.Adapter<Adap
         holder.requestNamesInfoModel = infoList.get(position);
         infoModel = infoList.get(position);
 
-        holder.textView.setText(infoModel.getEmployName());
+//        holder.textView.setText(infoModel.getEmployName());
     }
 
     @Override
@@ -53,7 +52,7 @@ public class Adapter_RequestLeaveObApplication extends RecyclerView.Adapter<Adap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        RequestLeaveObInfoModel requestNamesInfoModel;
+        LeaveApprovalInfo requestNamesInfoModel;
         TextView textView;
         public ViewHolder(@NonNull View itemView, final onItemClickListener listener) {
             super(itemView);

@@ -67,7 +67,7 @@ public class EEmployeeLeave {
     private String LveCredt;
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
-    @ColumnInfo(name = "sModified")
+    @ColumnInfo(name = "dModified")
     private String Modified;
 
     public EEmployeeLeave() {

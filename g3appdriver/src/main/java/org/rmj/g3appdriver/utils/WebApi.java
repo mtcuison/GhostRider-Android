@@ -214,6 +214,7 @@ public class WebApi {
 
     public static String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
 
-    public static String REQUEST_USER_ACCESS = "request_android_object.php";
+    public static String REQUEST_USER_ACCESS = "https://restgk.guanzongroup.com.ph/security/request_android_object.php";
+//    public static String REQUEST_USER_ACCESS = "http://192.168.10.140/security/request_android_object.php";
     public static String REQUEST_UPDATED_USER_ACCESS = "request_android_object_update.php";
 }

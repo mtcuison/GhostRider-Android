@@ -39,7 +39,9 @@ import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAHDashboard;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_DigitalGcard;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Help;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
 import static android.app.Activity.RESULT_OK;

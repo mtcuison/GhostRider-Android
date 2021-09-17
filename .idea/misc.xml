@@ -3,16 +3,29 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/CreditEvaluator/src/main/res/layout/activity_ci_application.xml" value="0.1631578947368421" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/CreditEvaluator/src/main/res/layout/activity_ci_history_info.xml" value="0.16103896103896104" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/CreditEvaluator/src/main/res/layout/activity_evaluation_history.xml" value="0.16103896103896104" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/drawable/bg_application_status.xml" value="0.17675438596491228" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/drawable/bg_leavecredits.xml" value="0.17675438596491228" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/drawable/bg_samsungknox.xml" value="0.17675438596491228" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/drawable/detail_border.xml" value="0.17675438596491228" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/drawable/ic_application_business_trip.xml" value="0.17675438596491228" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/drawable/ic_application_list.xml" value="0.17675438596491228" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/layout/activity_application.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/layout/activity_employee_applications.xml" value="0.12" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/layout/dialog_leave_ob_search.xml" value="0.11929824561403508" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_employee_applications_fragment.xml" value="0.2" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_leave_approval.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_leave_approval.xml" value="0.17" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_selfie_login.xml" value="0.1631578947368421" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/layout/list_item_applications.xml" value="0.2" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/layout/list_item_employee_app.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/ahMonitoring/src/main/res/menu/menu_application.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/app/src/main/res/layout/fragment_ah_dashboard.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/creditApp/src/main/res/layout/activity_branch_applications.xml" value="0.18" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/activity_collection_list.xml" value="0.16103896103896104" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/activity_transactionlog.xml" value="0.1631578947368421" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/settings/src/main/res/layout/activity_digital_gcard.xml" value="0.11008771929824561" />
       </map>
     </option>
   </component>

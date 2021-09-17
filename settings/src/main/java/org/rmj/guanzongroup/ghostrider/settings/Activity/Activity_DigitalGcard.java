@@ -45,7 +45,8 @@ public class Activity_DigitalGcard extends AppCompatActivity {
                     lblDateTm,
                     lblAvlPts,
                     lblModelx,
-                    lblTransN;
+                    lblTransN,
+                    lblTranPN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class Activity_DigitalGcard extends AppCompatActivity {
         lblAvlPts = findViewById(R.id.lbl_codePoints);
         lblModelx = findViewById(R.id.lbl_codeModel);
         lblTransN = findViewById(R.id.lbl_codeTransNox);
+        lblTranPN = findViewById(R.id.lbl_codeGetPin);
 
         btnScan.setOnClickListener(v -> {
             Intent loIntent = new Intent(Activity_DigitalGcard.this, Activity_QrCodeScanner.class);
@@ -108,6 +110,7 @@ public class Activity_DigitalGcard extends AppCompatActivity {
             lblAvlPts.setText(loGenerator.getPointsxx());
             lblModelx.setText(loGenerator.getSourceCD());
             lblTransN.setText(loGenerator.getTransNox());
+            lblTranPN.setText(loGenerator.getTransactionPIN());
         } catch (Exception e){
             e.printStackTrace();
         }

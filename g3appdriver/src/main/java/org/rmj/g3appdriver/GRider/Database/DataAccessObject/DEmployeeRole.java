@@ -27,18 +27,34 @@ public interface DEmployeeRole {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void InsertEmployeeRole(EEmployeeRole role);
 
-    @Query("DELETE FROM xxxAOEmpRole WHERE sProdctID =:Product AND sUserIDxx =:UserID AND sObjectNm=:Object")
-    void DeleteEmployeeRole(String Product, String UserID, String Object);
+    @Query("DELETE FROM xxxAOEmpRole WHERE sObjectNm=:Object")
+    void DeleteEmployeeRole(String Object);
 
     @Query("SELECT * FROM xxxAOEmpRole " +
-            "WHERE sUserIDxx = (" +
-            "SELECT sUserIDxx FROM User_Info_Master) " +
-            "AND cRecdStat = '1' AND sParentxx = ''")
+            "WHERE cRecdStat = '1' AND sParentxx = '' " +
+            "ORDER BY sSeqnceCd ASC")
     LiveData<List<EEmployeeRole>> getEmployeeRoles();
 
     @Query("SELECT * FROM xxxAOEmpRole " +
-            "WHERE sUserIDxx = (" +
-            "SELECT sUserIDxx FROM User_Info_Master) " +
-            "AND cRecdStat = '1' AND sParentxx != ''")
+            "WHERE cRecdStat = '1' AND sParentxx != '' " +
+            "ORDER BY sSeqnceCd ASC")
     LiveData<List<EEmployeeRole>> getChildRoles();
+
+    @Query("UPDATE xxxAOEmpRole SET " +
+            "cObjectTP=:ObjectTP, " +
+            "sObjectDs=:ObjectDs, " +
+            "sParentxx=:Parentxx, " +
+            "cHasChild=:HasChild, " +
+            "sSeqnceCD=:SeqnceCD, " +
+            "cRecdStat=:RecdStat, " +
+            "dTimeStmp=:TimeStmp " +
+            "WHERE sObjectNm=:ObjectNm")
+    void updateEmployeeRole(String ObjectNm,
+                            String ObjectTP,
+                            String ObjectDs,
+                            String Parentxx,
+                            String HasChild,
+                            String SeqnceCD,
+                            String RecdStat,
+                            String TimeStmp);
 }

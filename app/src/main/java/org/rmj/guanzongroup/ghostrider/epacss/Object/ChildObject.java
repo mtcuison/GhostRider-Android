@@ -16,6 +16,7 @@ import android.content.Intent;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Employee_Applications;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationHistory;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
@@ -90,8 +91,8 @@ public class ChildObject {
                 break;
 
             case "application approval":
-                loIntent = new Intent(context, Activity_Application.class);
-                loIntent.putExtra("app", AppConstants.INTENT_APPLICATION_APPROVAL);
+                loIntent = new Intent(context, Activity_Employee_Applications.class);
+//                loIntent.putExtra("app", AppConstants.INTENT_APPLICATION_APPROVAL);
                 break;
 
             case "unlock":

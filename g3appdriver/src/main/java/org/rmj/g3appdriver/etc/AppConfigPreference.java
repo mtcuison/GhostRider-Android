@@ -104,6 +104,7 @@ public class AppConfigPreference {
      */
     public String getAppServer(){
         return pref.getString(AppServer, "https://restgk.guanzongroup.com.ph/");
+//        return pref.getString(AppServer, "http://192.168.10.140/");
     }
 
     public void setTemp_ProductID(String ProductID){

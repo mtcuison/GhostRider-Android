@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.Activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
@@ -19,6 +20,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import androidx.annotation.Nullable;
@@ -107,15 +109,31 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                     expListView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
                         if(!poParentLst.get(groupPosition).isParent()){
                             loIntent = poParentLst.get(groupPosition).getIntent(Activity_Main.this);
-                            startActivity(loIntent);
-                            overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                            if(loIntent == null){
+                                loMessage.initDialog();
+                                loMessage.setTitle("Dashboard");
+                                loMessage.setMessage("No corresponding feature has been set.");
+                                loMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                loMessage.show();
+                            } else {
+                                startActivity(loIntent);
+                                overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                            }
                         }
                         return false;
                     });
                     expListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
                         loIntent = poChild.get(poParentLst.get(groupPosition)).get(childPosition).getIntent(Activity_Main.this);
-                        startActivity(loIntent);
-                        overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                        if(loIntent == null){
+                            loMessage.initDialog();
+                            loMessage.setTitle("Dashboard");
+                            loMessage.setMessage("No corresponding feature has been set.");
+                            loMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                            loMessage.show();
+                        } else {
+                            startActivity(loIntent);
+                            overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                        }
                         return false;
                     });
                 });

@@ -14,33 +14,29 @@ package org.rmj.g3appdriver.GRider.Database.Entities;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 
-@Entity (tableName = "xxxAOEmpRole", primaryKeys = {"sProdctID", "sUserIDxx", "sObjectNm"})
+@Entity (tableName = "xxxAOEmpRole")
 public class EEmployeeRole {
 
-    @NonNull
-    @ColumnInfo(name = "sProdctID")
-    private String ProdctID = "";
-
-    @NonNull
-    @ColumnInfo(name = "sUserIDxx")
-    private String UserIDxx = "";
-
+    @PrimaryKey
     @NonNull
     @ColumnInfo(name = "sObjectNm")
     private String ObjectNm = "";
-    @ColumnInfo(name = "sObjectTp")
+    @ColumnInfo(name = "sObjectDs")
+    private String ObjectDs = "";
+    @ColumnInfo(name = "cObjectTp")
     private String ObjectTP = "";
     @ColumnInfo(name = "cRecdStat")
     private String RecdStat = "";
     @ColumnInfo(name = "sParentxx")
     private String Parentxx = "";
+    @ColumnInfo(name = "sSeqnceCd")
+    private String SeqnceCd = "";
     @ColumnInfo(name = "cHasChild")
     private String HasChild = "";
-    @ColumnInfo(name = "sModified")
-    private String Modifier = "";
     @ColumnInfo(name = "dModified")
     private String Modified = "";
     @ColumnInfo(name = "dTimeStmp")
@@ -50,30 +46,20 @@ public class EEmployeeRole {
     }
 
     @NonNull
-    public String getProdctID() {
-        return ProdctID;
-    }
-
-    public void setProdctID(@NonNull String prodctID) {
-        ProdctID = prodctID;
-    }
-
-    @NonNull
-    public String getUserIDxx() {
-        return UserIDxx;
-    }
-
-    public void setUserIDxx(@NonNull String userIDxx) {
-        UserIDxx = userIDxx;
-    }
-
-    @NonNull
     public String getObjectNm() {
         return ObjectNm;
     }
 
     public void setObjectNm(@NonNull String objectNm) {
         ObjectNm = objectNm;
+    }
+
+    public String getObjectDs() {
+        return ObjectDs;
+    }
+
+    public void setObjectDs(String objectDs) {
+        ObjectDs = objectDs;
     }
 
     public String getRecdStat() {
@@ -92,12 +78,12 @@ public class EEmployeeRole {
         Parentxx = parentxx;
     }
 
-    public String getModifier() {
-        return Modifier;
+    public String getSeqnceCd() {
+        return SeqnceCd;
     }
 
-    public void setModifier(String modifier) {
-        Modifier = modifier;
+    public void setSeqnceCd(String seqnceCd) {
+        SeqnceCd = seqnceCd;
     }
 
     public String getModified() {

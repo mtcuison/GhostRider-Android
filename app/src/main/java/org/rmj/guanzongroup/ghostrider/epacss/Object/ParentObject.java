@@ -14,20 +14,9 @@ package org.rmj.guanzongroup.ghostrider.epacss.Object;
 import android.content.Context;
 import android.content.Intent;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Browser;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationHistory;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationList;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
-import org.rmj.guanzongroup.ghostrider.griderscanner.MainScanner;
-import org.rmj.guanzongroup.ghostrider.imgcapture.DCPPhotoCapture;
-import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_BranchApplications;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_DigitalGcard;
 
 public class ParentObject {
 
@@ -67,6 +56,12 @@ public class ParentObject {
             case "ci evaluation":
                 lnIcon = R.drawable.ic_menu_credit_investigate;
                 break;
+            case "approval code":
+                lnIcon = R.drawable.ic_menu_approval;
+                break;
+            case "gcard info":
+                lnIcon = R.drawable.ic_scan_qr_code;
+                break;
         }
         return lnIcon;
     }
@@ -82,6 +77,10 @@ public class ParentObject {
                 loIntent = new Intent(context, Activity_Browser.class);
                 loIntent.putExtra("url_link", "https://www.google.com/webhp?hl=ceb&sa=X&ved=0ahUKEwj0ne24tI7xAhV8yIsBHbQ7Az0QPAgI");
                 loIntent.putExtra("syscode", "2");
+                break;
+
+            case "gcard info":
+                loIntent = new Intent(context, Activity_DigitalGcard.class);
                 break;
 
             default:

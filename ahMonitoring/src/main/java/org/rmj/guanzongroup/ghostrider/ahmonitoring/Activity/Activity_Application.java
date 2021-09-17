@@ -25,7 +25,9 @@ import android.view.MenuItem;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Approval;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BranchOpening;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_BusinessTripApproval;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveApplication;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_LeaveApproval;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_ObApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_Reimbursement;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment.Fragment_SelfieLogin;
@@ -37,11 +39,23 @@ import java.util.Objects;
 
 public class Activity_Application extends AppCompatActivity {
     public static final String TAG = Activity_Application.class.getSimpleName();
+    private static Activity_Application instance;
+
+    private String sTransNox = "";
+
+    private static Activity_Application getInstance(){
+        return instance;
+    }
+
+    public String getTransNox(){
+        return sTransNox;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application);
+        instance = this;
         int application = getIntent().getIntExtra("app", 0);
 
         Toolbar toolbar = findViewById(R.id.toolbar_application);
@@ -56,8 +70,14 @@ public class Activity_Application extends AppCompatActivity {
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_SelfieLogin()));
         } else if(application == AppConstants.INTENT_REIMBURSEMENT){
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_Reimbursement()));
-        }else if(application == AppConstants.INTENT_APPLICATION_APPROVAL){
+        } else if(application == AppConstants.INTENT_APPLICATION_APPROVAL){
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_Approval()));
+        } else if(application == AppConstants.INTENT_LEAVE_APPROVAL){
+            sTransNox = getIntent().getStringExtra("sTransNox");
+            viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_LeaveApproval()));
+        } else if(application == AppConstants.INTENT_OB_APPROVAL){
+            sTransNox = getIntent().getStringExtra("sTransNox");
+            viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_BusinessTripApproval()));
         } else {
             viewPager.setAdapter(new ApplicationPageAdapter(getSupportFragmentManager(), new Fragment_BranchOpening()));
             toolbar.setTitle("Branch Opening Monitor");

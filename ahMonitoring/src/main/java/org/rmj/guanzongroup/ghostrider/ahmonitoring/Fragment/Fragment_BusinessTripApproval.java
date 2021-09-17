@@ -33,24 +33,23 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogKwikSearchLeave;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RequestLeaveObInfoModel;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VmLeaveOBApproval;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VmLeaveApproval;
 
 import java.util.List;
 
-public class Fragment_BusinessTripApproval extends Fragment implements VmLeaveOBApproval.OnKwikSearchCallBack, VmLeaveOBApproval.OnConfirmOBLeaveListener {
+public class Fragment_BusinessTripApproval extends Fragment implements VmLeaveApproval.OnKwikSearchCallBack, VmLeaveApproval.OnConfirmOBLeaveListener {
     public static final String TAG = Fragment_BusinessTripApproval.class.getSimpleName();
-    private VmLeaveOBApproval mViewModel;
+    private VmLeaveApproval mViewModel;
     private TextInputEditText txtSearch;
     ImageButton btnQuickSearch;
 
     private MaterialButton btnCancel, bntConfirm;
     private TextView lblEmployeNm, lblDateFrom, lblDateThru, lblRemarks;
     private TextInputLayout tilRemarks;
-    private RequestLeaveObInfoModel infoModel;
+    private LeaveApprovalInfo infoModel;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
     private CardView cvLeaveOb;
@@ -70,7 +69,7 @@ public class Fragment_BusinessTripApproval extends Fragment implements VmLeaveOB
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VmLeaveOBApproval.class);
+        mViewModel = new ViewModelProvider(this).get(VmLeaveApproval.class);
         Typeface typeface = ResourcesCompat.getFont(requireActivity(), R.font.roboto_bold);
         tilRemarks.setTypeface(typeface);
         btnQuickSearch.setOnClickListener(v ->  {
@@ -82,14 +81,14 @@ public class Fragment_BusinessTripApproval extends Fragment implements VmLeaveOB
         });
 
         bntConfirm.setOnClickListener(v -> {
-            mViewModel.saveObLeave(infoModel, WebApi.URL_CONFIRM_OB_APPLICATION,Fragment_BusinessTripApproval.this);
+//            mViewModel.saveObLeave(infoModel, WebApi.URL_CONFIRM_OB_APPLICATION,Fragment_BusinessTripApproval.this);
         });
         btnCancel.setOnClickListener(v -> {
-            mViewModel.saveObLeave(infoModel, WebApi.URL_CONFIRM_OB_APPLICATION,Fragment_BusinessTripApproval.this);
+//            mViewModel.saveObLeave(infoModel, WebApi.URL_CONFIRM_OB_APPLICATION,Fragment_BusinessTripApproval.this);
         });
     }
     public void initWidgets(View view){
-        infoModel = new RequestLeaveObInfoModel();
+        infoModel = new LeaveApprovalInfo();
         poDialogx = new LoadDialog(getActivity());
         poMessage = new MessageBox(getActivity());
         txtSearch = view.findViewById(R.id.txt_leave_ob_search);
@@ -121,10 +120,10 @@ public class Fragment_BusinessTripApproval extends Fragment implements VmLeaveOB
         poDialogx.dismiss();
         initErrorDialog("OB Application", message);
     }
-    public void initDialog(List<RequestLeaveObInfoModel> infoList){
+    public void initDialog(List<LeaveApprovalInfo> infoList){
         DialogKwikSearchLeave loDialog = new DialogKwikSearchLeave(getActivity(),infoList);
         loDialog.initDialogKwikSearch((dialog, infoModel) -> {
-            txtSearch.setText(infoModel.getsTransNox());
+//            txtSearch.setText(infoModel.getsTransNox());
             infoModel = infoModel;
             cvLeaveOb.setVisibility(View.VISIBLE);
             loDialog.dismiss();
