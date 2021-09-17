@@ -39,4 +39,6 @@
     <string name="sApplicationBusTrip">OB Application</string>
     <string name="sBtnSaveInventory">Save Inventory</string>
     <string name="sHintAmntExps">Amount of expense</string>
+    <string name="sHintDateApplied">Date Applied</string>
+    <string name="sLblWithPay">With Pay</string>
 </resources>

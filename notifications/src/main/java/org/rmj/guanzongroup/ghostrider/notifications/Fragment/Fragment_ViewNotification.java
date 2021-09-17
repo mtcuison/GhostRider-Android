@@ -36,10 +36,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.guanzongroup.ghostrider.notifications.Activity.Activity_Notifications;
 import org.rmj.guanzongroup.ghostrider.notifications.Dialog.Dialog_ReplyNotification;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
@@ -49,11 +52,13 @@ public class Fragment_ViewNotification extends Fragment {
 
     private VMViewNotification mViewModel;
     private MessageBox poMsgBox;
-    private MaterialButton btnDelete, btnReply;
     private String MessageID, Sender;
     private TextView title, sender, recepient, date, message;
     private ImageView imgSender;
+    private MaterialButton btnAction;
+    private FloatingActionButton fabCreate;
 
+    private SessionManager poSession;
     private LoadDialog poProgress;
     private MessageBox loMessage;
     public static Fragment_ViewNotification newInstance() {
@@ -64,8 +69,9 @@ public class Fragment_ViewNotification extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_view_message, container, false);
-        poProgress = new LoadDialog(getActivity());
-        loMessage = new MessageBox(getActivity());
+        poProgress = new LoadDialog(requireActivity());
+        loMessage = new MessageBox(requireActivity());
+        poSession = new SessionManager(requireActivity());
         setWidgets(view);
         return view;
     }
@@ -78,22 +84,15 @@ public class Fragment_ViewNotification extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMViewNotification.class);
         poMsgBox = new MessageBox(getActivity());
 
+        mViewModel.UpdateMessageStatus(Activity_Notifications.getInstance().getMessageID());
         mViewModel.getNotificationInfo(MessageID).observe(getViewLifecycleOwner(), notification -> {
             try {
                 title.setText(notification.MsgTitle);
-                if(!notification.CreatrNm.isEmpty()) {
-                    sender.setText(notification.CreatrNm);
-                    btnReply.setEnabled(true);
-                    imgSender.setImageResource(R.drawable.ic_user_profile);
-                } else {
-                    sender.setText("SYSTEM NOTIFICATION");
-                    btnReply.setEnabled(false);
-                    imgSender.setImageResource(R.drawable.ic_guanzon_logo);
-                }
+                setUpMessageTitle(notification.CreatrNm);
+                setupMessageType(notification.MsgType);
                 Sender = notification.CreatrNm;
                 recepient.setText(notification.Receipt);
                 date.setText(FormatUIText.getParseDateTime(notification.Received));
-//                StringUrl();
 
                 message.setMovementMethod(LinkMovementMethod.getInstance());
                 message.setText(notification.Messagex, TextView.BufferType.SPANNABLE);
@@ -135,51 +134,32 @@ public class Fragment_ViewNotification extends Fragment {
             }
         });
 
-        btnReply.setOnClickListener(v -> {
-            Dialog_ReplyNotification loDialog = new Dialog_ReplyNotification(getContext(), Sender);
-            loDialog.initDialog(new Dialog_ReplyNotification.OnDialogButtonClickListener() {
-                @Override
-                public void OnSend(Dialog Dialog, String fsMessage) {
-                    Toast.makeText(getContext(), "Reply currently not available.", Toast.LENGTH_SHORT).show();
-                    Dialog.dismiss();
-                    mViewModel.sendReply("", "Hello Guanzon."); //
-                }
-
-                @Override
-                public void OnCancel(Dialog Dialog) {
-                    Dialog.dismiss();
-                }
-            });
-            loDialog.show();
-        });
-
-        btnDelete.setOnClickListener(v -> {
-            poMsgBox.initDialog();
-            poMsgBox.setTitle("Confirmation");
-            poMsgBox.setMessage("Are you sure you want to delete this notification?");
-            poMsgBox.setPositiveButton("Yes", (view, dialog) -> {
-                dialog.dismiss();
-                // TODO: Initialize viewModel code here.
-                mViewModel.DeleteNotification(MessageID);
-                // ~> Til Here
-                requireActivity().finish();
-            });
-            poMsgBox.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
-            poMsgBox.show();
-        });
-        // TODO: Use the ViewModel
-        mViewModel.UpdateMessageStatus(Activity_Notifications.getInstance().getMessageID());
     }
 
     private void setWidgets(View v) {
-        btnReply = v.findViewById(R.id.btn_messageReply);
-        btnDelete = v.findViewById(R.id.btn_messageDelete);
         title = v.findViewById(R.id.lbl_messageTitle);
         sender = v.findViewById(R.id.lbl_messageSender);
         recepient = v.findViewById(R.id.lbl_messageRecipient);
         date = v.findViewById(R.id.lbl_messageDateTime);
         message = v.findViewById(R.id.lbl_messageBody);
         imgSender = v.findViewById(R.id.img_sender);
+        btnAction = v.findViewById(R.id.btn_notificationAction);
+        fabCreate = v.findViewById(R.id.fab_createMsg);
+        setupFabCreateMsg();
+        btnAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+        fabCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public void initErrorDialog(String title, String message){
@@ -189,5 +169,32 @@ public class Fragment_ViewNotification extends Fragment {
         loMessage.setPositiveButton("Okay", (view, dialog) ->
                 dialog.dismiss());
         loMessage.show();
+    }
+
+    private void setUpMessageTitle(String fsSender){
+        if(!fsSender.isEmpty()) {
+            sender.setText(fsSender);
+            imgSender.setImageResource(R.drawable.ic_user_profile);
+        } else {
+            sender.setText("SYSTEM NOTIFICATION");
+            imgSender.setImageResource(R.drawable.ic_guanzon_logo);
+        }
+    }
+
+    private void setupMessageType(String fsType){
+        if(fsType.equalsIgnoreCase("00000")){
+            btnAction.setVisibility(View.GONE);
+        } else if(fsType.equalsIgnoreCase("00003")){
+            btnAction.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setupFabCreateMsg(){
+        String EmpLvl = poSession.getEmployeeLevel();
+        if(!EmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_RANK_FILE))){
+           fabCreate.setVisibility(View.VISIBLE);
+        } else {
+            fabCreate.setVisibility(View.GONE);
+        }
     }
 }

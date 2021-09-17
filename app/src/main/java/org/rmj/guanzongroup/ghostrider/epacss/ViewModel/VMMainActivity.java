@@ -15,21 +15,36 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeRole;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeRole;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.InternetStatusReciever;
+
+import java.util.List;
 
 public class VMMainActivity extends AndroidViewModel {
     private static final String TAG = "GRider Main Activity";
     private final Application app;
     private final InternetStatusReciever poNetRecvr;
+    private final REmployeeRole poRole;
 
     public VMMainActivity(@NonNull Application application) {
         super(application);
         this.app = application;
         this.poNetRecvr = new InternetStatusReciever(app);
+        this.poRole = new REmployeeRole(application);
     }
 
     public InternetStatusReciever getInternetReceiver(){
         return poNetRecvr;
+    }
+
+    public LiveData<List<EEmployeeRole>> getEmployeeRole(){
+        return poRole.getEmployeeRoles();
+    }
+
+    public LiveData<List<EEmployeeRole>> getChildRoles(){
+        return poRole.getChildRoles();
     }
 }

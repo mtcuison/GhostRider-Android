@@ -10,64 +10,71 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="5dp"
     tools:context=".Fragment.Fragment_ViewNotification">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-        <TextView
-            android:id="@+id/lbl_messageTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/material_black"
-            android:padding="5dp"
-            android:layout_marginBottom="20dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="10dp">
-
-            <ImageView
-                android:id="@+id/img_sender"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="4.5"/>
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/lbl_messageSender"
+                android:id="@+id/lbl_messageTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="18sp"
+                android:layout_marginBottom="20dp"
                 android:fontFamily="@font/roboto_medium"
+                android:padding="5dp"
                 android:textColor="@color/material_black"
-                android:padding="5dp"/>
+                android:textSize="24sp" />
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_sender"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="4.5" />
+
+                <TextView
+                    android:id="@+id/lbl_messageSender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_medium"
+                    android:padding="5dp"
+                    android:textColor="@color/material_black"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_margin="5dp"
                 android:background="@drawable/message_info_bg"
-                android:padding="5dp"
-                android:layout_margin="5dp">
+                android:orientation="vertical"
+                android:padding="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -79,17 +86,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
+                        android:fontFamily="@font/roboto_regular"
                         android:text="@string/slblRecipient"
-                        android:textColor="@color/material_black"
-                        android:fontFamily="@font/roboto_regular"/>
+                        android:textColor="@color/material_black" />
 
                     <TextView
                         android:id="@+id/lbl_messageRecipient"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/material_black"
-                        android:fontFamily="@font/roboto_regular"/>
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/material_black" />
                 </LinearLayout>
 
 
@@ -103,85 +110,78 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
+                        android:fontFamily="@font/roboto_regular"
                         android:text="@string/slblDateTime"
-                        android:textColor="@color/material_black"
-                        android:fontFamily="@font/roboto_regular"/>
+                        android:textColor="@color/material_black" />
 
                     <TextView
                         android:id="@+id/lbl_messageDateTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/material_black"
-                        android:fontFamily="@font/roboto_regular"/>
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/material_black" />
                 </LinearLayout>
 
             </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:background="@drawable/message_info_bg"
-        android:layout_margin="5dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/message_info_bg"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-        <TextView
-            android:id="@+id/lbl_messageBody"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/material_black"
-            android:bufferType="spannable"
-            android:fontFamily="@font/roboto_regular" />
+                <TextView
+                    android:id="@+id/lbl_messageBody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:bufferType="spannable"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/material_black" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_cash_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="10dp"
-            android:backgroundTint="@color/guanzon_digital_orange"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/roboto"
-            android:text="Proceed to Cash Count"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="15dp"
-            android:visibility="gone"/>
-    </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_cash_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="15dp"
+                    android:backgroundTint="@color/guanzon_digital_orange"
+                    android:fontFamily="@font/roboto"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    android:text="Proceed to Cash Count"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_messageReply"
+                android:id="@+id/btn_notificationAction"
+                style="@style/MaterialButtonLight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Reply"
-                app:icon="@drawable/ic_message_reply"
+                android:visibility="gone"
+                android:text="Create Cash Count"
                 app:iconGravity="textStart"
-                app:iconTint="@color/material_black"
-                style="@style/MaterialButtonLight"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_messageDelete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Delete"
-                app:icon="@drawable/ic_message_delete"
-                app:iconGravity="textStart"
-                app:iconTint="@color/material_black"
-                style="@style/MaterialButtonLight"/>
+                app:iconTint="@color/material_black" />
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
-</ScrollView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_createMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_message_create"
+        android:contentDescription="@string/sContent_CreateMsg" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

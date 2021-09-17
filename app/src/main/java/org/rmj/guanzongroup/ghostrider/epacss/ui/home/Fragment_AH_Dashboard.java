@@ -11,23 +11,16 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.os.Environment;
-import android.os.ParcelFileDescriptor;
-import android.provider.DocumentsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,16 +39,10 @@ import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAHDashboard;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_DigitalGcard;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Help;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import static android.app.Activity.RESULT_OK;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SETTINGS;
@@ -98,15 +85,20 @@ public class Fragment_AH_Dashboard extends Fragment {
         btnLogout = view.findViewById(R.id.btn_logout);
         btnSettings = view.findViewById(R.id.btn_settings);
 
+        lblBranch.setText("Downloading Data");
+        lblAddx.setText("Please wait...");
+
         btnSelfie.setOnClickListener(v -> {
             if (!AppAssistantConfig.getInstance(getActivity()).getHELP_SLOGIN_NOTICE()){
                 Intent intent = new Intent(getActivity(), Activity_Help.class);
                 intent.putExtra("help", AppConstants.INTENT_SELFIE_LOGIN);
-                getActivity().startActivityForResult(intent, AppConstants.INTENT_SELFIE_LOGIN);
+                requireActivity().startActivityForResult(intent, AppConstants.INTENT_SELFIE_LOGIN);
+                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }else{
                 Intent intent = new Intent(getActivity(), Activity_Application.class);
                 intent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
                 startActivity(intent);
+                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }
 
         });
@@ -114,6 +106,7 @@ public class Fragment_AH_Dashboard extends Fragment {
         btnSettings.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), Activity_Settings.class);
             startActivityForResult(intent, SETTINGS);
+            requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
         });
 
         btnLogout.setOnClickListener(v -> {
@@ -135,6 +128,7 @@ public class Fragment_AH_Dashboard extends Fragment {
         return view;
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

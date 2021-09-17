@@ -12,7 +12,6 @@
 package org.rmj.g3appdriver.utils;
 
 import android.content.Context;
-import android.content.IntentSender;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,8 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
-import com.google.android.play.core.install.model.AppUpdateType;
-import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.android.play.core.tasks.Task;
 
@@ -55,20 +52,10 @@ public class UpdateChecker {
             public void onSuccess(AppUpdateInfo result) {
                 listener.OnCheck(result, updateManager);
                 Log.e(TAG, String.valueOf(result.updateAvailability()));
-                if(result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE){
-                    try {
-                        updateManager.startUpdateFlowForResult(result,
-                                AppUpdateType.IMMEDIATE,
-                                mActivity,
-                                InAppUpdateResult.RESULT_CODE);
-                    } catch (IntentSender.SendIntentException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         });
     }
     public interface InAppUpdateResult{
-        int RESULT_CODE = 1021;
+        int REQUEST_CODE = 1021;
     }
 }

@@ -12,12 +12,14 @@
 package org.rmj.guanzongroup.ghostrider.settings.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,8 +31,14 @@ import android.widget.TextView;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.UpdateAvailability;
 
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.utils.UpdateChecker;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMCheckUpdate;
 
@@ -46,6 +54,8 @@ public class Activity_CheckUpdate extends AppCompatActivity {
     private MaterialButton btnUpdate;
     private VMCheckUpdate mViewModel;
 
+    private MessageBox poMessage;
+
     private boolean isDownloading = false;
 
     @Override
@@ -53,7 +63,7 @@ public class Activity_CheckUpdate extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_update);
         mViewModel = new ViewModelProvider(this).get(VMCheckUpdate.class);
-
+        poMessage = new MessageBox(Activity_CheckUpdate.this);
         toolbar = findViewById(R.id.toolbar_checkUpdate);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -73,43 +83,90 @@ public class Activity_CheckUpdate extends AppCompatActivity {
 
         mViewModel.getVersionInfo().observe(this, s -> lblCurrent.setText(s));
 
-        btnUpdate.setOnClickListener(v -> mViewModel.DownloadUpdate(new VMCheckUpdate.SystemUpateCallback() {
-            @Override
-            public void OnDownloadUpdate(String title, String message) {
-                lnProgress.setVisibility(View.VISIBLE);
-                btnUpdate.setText("Downloading Updates...");
-                btnUpdate.setEnabled(false);
-                isDownloading = true;
-            }
+        btnUpdate.setOnClickListener(v -> {
+            String lsModel = android.os.Build.MODEL;
+//                String lsCompx = android.os.Build.MANUFACTURER;
+            String lsCompx = "Samsung";
+            if(lsCompx.equalsIgnoreCase("huawei")){
+                mViewModel.DownloadUpdate(new VMCheckUpdate.SystemUpateCallback() {
 
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void OnProgressUpdate(int progress) {
-                prgUpdate.setIndeterminate(false);
-                prgUpdate.setMax(100);
-                prgUpdate.setProgress(progress);
-                lblProgress.setText(progress+"%");
-            }
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void OnDownloadUpdate(String title, String message) {
+                        lnProgress.setVisibility(View.VISIBLE);
+                        btnUpdate.setText("Downloading Update...");
+                        btnUpdate.setEnabled(false);
+                        isDownloading = true;
+                    }
 
-            @Override
-            public void OnFinishDownload(Intent intent) {
-                startActivity(intent);
-                lnProgress.setVisibility(View.GONE);
-                btnUpdate.setText("Updated");
-                btnUpdate.setEnabled(true);
-                isDownloading = false;
-            }
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void OnProgressUpdate(int progress) {
+                        prgUpdate.setIndeterminate(false);
+                        prgUpdate.setMax(100);
+                        prgUpdate.setProgress(progress);
+                        lblProgress.setText(progress+"%");
+                    }
 
-            @Override
-            public void OnFailedDownload(String message) {
-                lnProgress.setVisibility(View.GONE);
-                btnUpdate.setText("Download Update");
-                btnUpdate.setEnabled(true);
-                isDownloading = false;
-                lblMessage.setVisibility(View.VISIBLE);
-                lblMessage.setText(message);
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void OnFinishDownload(Intent intent) {
+                        startActivity(intent);
+                        lnProgress.setVisibility(View.GONE);
+                        btnUpdate.setText("Updated");
+                        btnUpdate.setEnabled(true);
+                        isDownloading = false;
+                    }
+
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void OnFailedDownload(String message) {
+                        lnProgress.setVisibility(View.GONE);
+                        btnUpdate.setText("Download Update");
+                        btnUpdate.setEnabled(true);
+                        isDownloading = false;
+                        lblMessage.setVisibility(View.VISIBLE);
+                        lblMessage.setText(message);
+                    }
+                });
+            } else {
+                UpdateChecker loUpdate = new UpdateChecker(Activity_CheckUpdate.this, Activity_CheckUpdate.this);
+                loUpdate.Check_Update((result, updateManager) -> {
+                    if(result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE){
+                        try {
+                            updateManager.startUpdateFlowForResult(result,
+                                    AppUpdateType.IMMEDIATE,
+                                    Activity_CheckUpdate.this,
+                                    UpdateChecker.InAppUpdateResult.REQUEST_CODE);
+                        } catch (IntentSender.SendIntentException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        poMessage.initDialog();
+                        poMessage.setTitle("System Update");
+                        poMessage.setMessage("No update available.");
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+                });
             }
-        }));
+        });
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == UpdateChecker.InAppUpdateResult.REQUEST_CODE){
+            if(resultCode != RESULT_OK){
+                System.exit(1);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

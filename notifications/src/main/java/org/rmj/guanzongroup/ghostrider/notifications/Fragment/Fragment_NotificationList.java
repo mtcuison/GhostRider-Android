@@ -98,6 +98,7 @@ public class Fragment_NotificationList extends Fragment {
                             loIntent.putExtra("type", "notification");
                             loIntent.putExtra("receipt", Receipt);
                             startActivity(loIntent);
+                            requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                         }
 
                         @Override

@@ -33,17 +33,55 @@ public interface DEmployeeLeave {
     @Update
     void updateApplication(EEmployeeLeave poLeave);
 
+    @Query("SELECT * FROM Employee_Leave WHERE sTransNox =:TransNox")
+    List<EEmployeeLeave> getTransnoxIfExist(String TransNox);
+
     @Query("DELETE FROM Employee_Leave WHERE sTransNox =:TransNox")
     void deleteApplication(String TransNox);
 
-    @Query("UPDATE Employee_Leave SET cSentStat = '1', dSendDate =:DateSent WHERE sTransNox =:TransNox")
-    void updateSendStatus(String DateSent, String TransNox);
+    @Query("SELECT * FROM Employee_Leave WHERE sTransNox =:TransNox")
+    LiveData<EEmployeeLeave> getEmployeeLeaveInfo(String TransNox);
+
+    @Query("UPDATE Employee_Leave SET sTransNox =:newTransNox, cSentStat = '1', dSendDate =:DateSent WHERE sTransNox =:TransNox")
+    void updateSendStatus(String DateSent, String TransNox, String newTransNox);
+
+    @Query("UPDATE Employee_Leave SET cSentStat =:TranStat, dModified =:DateSent WHERE sTransNox =:TransNox")
+    void updateLeaveApproval(String TranStat, String TransNox, String DateSent);
 
     @Query("SELECT sTransNox, dTransact, sEmployID,  dDateFrom, dDateThru, sApproved, dApproved, dAppldFrx, dAppldTox, sPurposex FROM Employee_Leave UNION " +
             "SELECT sTransNox, dTransact, xEmployee, dDateFrom, dDateThru, sApproved, dApproved, dAppldFrx, dAppldTox, sRemarksx FROM Employee_Business_Trip " +
             "ORDER BY dTransact")
     LiveData<List<LeaveOBApplication>> getAllLeaveOBApplication();
 
+    @Query("SELECT * FROM Employee_Leave WHERE cTranStat = '0' ORDER BY dTransact DESC")
+    LiveData<List<EEmployeeLeave>> getEmployeeLeaveForApprovalList();
+
+//    @Query("UPDATE Employee_Leave SET sTransNox =:TransNox," +
+//            "dTransact =:Transact," +
+//            "sEmployID =:Employee," +
+//            "sBranchNm =:BranchNm," +
+//            "sDeptName =:DeptName," +
+//            "sPositnNm =:PositnNm," +
+//            "dAppldFrx =:AppldFrx," +
+//            "dAppldTox =:AppldTox," +
+//            "nNoDaysxx =:NoDaysxx," +
+//            "sPurposex =:Purposex," +
+//            "cLeaveTyp =:LeaveTyp," +
+//            "nLveCredt =:LveCredt," +
+//            "cTranStat =:TranStat")
+//    void updateLeaveInfo(String TransNox,
+//                                 String Transact,
+//                                 String Employee,
+//                                 String BranchNm,
+//                                 String DeptName,
+//                                 String PositnNm,
+//                                 String AppldFrx,
+//                                 String AppldTox,
+//                                 String NoDaysxx,
+//                                 String Purposex,
+//                                 String LeaveTyp,
+//                                 String LveCredt,
+//                                 String TranStat);
 
     class LeaveOBApplication {
         public String sTransNox;
@@ -51,10 +89,5 @@ public interface DEmployeeLeave {
         public String EmployName;
         public String dDateFrom;
         public String dDateThru;
-//        private String sApproved;
-//        private String dApprove;
-//        private String dAppldFrx;
-//        private String dAppldTox;
-//        private String sRemarks;
     }
 }

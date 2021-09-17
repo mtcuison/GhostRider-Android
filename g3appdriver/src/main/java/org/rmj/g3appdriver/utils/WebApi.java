@@ -202,15 +202,19 @@ public class WebApi {
     public static String URL_SEND_REQUEST = "https://restgk.guanzongroup.com.ph/nmm/send_request.php";
     public static String URL_KWIKSEARCH = "https://restgk.guanzongroup.com.ph/integsys/paramqry/cash_count_rqst_officer.php";
 
-    public static String URL_SEND_LEAVE_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/send_leave_application.php";
-    public static String URL_GET_LEAVE_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/get_leave_application.php";
-    public static String URL_CONFIRM_LEAVE_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/confirm_leave_application.php";
+    public static String URL_SEND_LEAVE_APPLICATION = "https://restgk.guanzongroup.com.ph/petmgr/send_leave_application.php";
+    public static String URL_GET_LEAVE_APPLICATION = "https://restgk.guanzongroup.com.ph/petmgr/get_leave_application.php";
+    public static String URL_CONFIRM_LEAVE_APPLICATION = "https://restgk.guanzongroup.com.ph/petmgr/confirm_leave_application.php";
 
-    public static String URL_SEND_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/send_ob_application.php";
-    public static String URL_GET_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/get_ob_application.php";
-    public static String URL_CONFIRM_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/hcm/confirm_ob_application.php";
+    public static String URL_SEND_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/petmgr/send_ob_application.php";
+    public static String URL_GET_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/petmgr/get_ob_application.php";
+    public static String URL_CONFIRM_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/petmgr/confirm_ob_application.php";
 
     public static String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gRider.apk";
 
     public static String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
+
+    public static String REQUEST_USER_ACCESS = "https://restgk.guanzongroup.com.ph/security/request_android_object.php";
+//    public static String REQUEST_USER_ACCESS = "http://192.168.10.140/security/request_android_object.php";
+    public static String REQUEST_UPDATED_USER_ACCESS = "request_android_object_update.php";
 }

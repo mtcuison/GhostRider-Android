@@ -157,6 +157,12 @@ public class Activity_Settings extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
     @PermissionStatus
     public static int getPermissionStatus(Activity activity, String androidPermissionName) {
         if(ContextCompat.checkSelfPermission(activity, androidPermissionName) != PackageManager.PERMISSION_GRANTED) {

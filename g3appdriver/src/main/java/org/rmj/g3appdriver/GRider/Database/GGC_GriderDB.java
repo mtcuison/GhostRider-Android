@@ -44,6 +44,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeLeave;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeRole;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DFileCode;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DLocatorSysLog;
@@ -89,6 +90,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
@@ -164,7 +166,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         ECashCount.class,
         EBranchOpenMonitor.class,
         EEmployeeLeave.class,
-        EEmployeeBusinessTrip.class}, version = 6, exportSchema = false)
+        EEmployeeBusinessTrip.class,
+        EEmployeeRole.class}, version = 16, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -214,6 +217,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DBranchOpeningMonitor openingMonitoryDao();
     public abstract DEmployeeLeave employeeLeaveDao();
     public abstract DEmployeeBusinessTrip employeeOBDao();
+    public abstract DEmployeeRole employeeRoleDao();
 
     public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){

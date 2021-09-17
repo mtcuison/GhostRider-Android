@@ -45,15 +45,32 @@
                     android:layout_marginTop="10dp"
                     android:gravity="end">
 
-                    <TextView
-                        android:id="@+id/lbl_userFullName"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="3dp"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="end"
-                        android:textColor="@color/material_black" />
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".7"
+                            android:layout_marginBottom="3dp"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="end"
+                            android:textColor="@color/material_black" />
+
+                        <TextView
+                            android:id="@+id/lbl_userFullName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginBottom="3dp"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="end"
+                            android:textColor="@color/material_black" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/lbl_userEmail"
@@ -128,14 +145,14 @@
 
                                 <com.google.android.material.button.MaterialButton
                                     android:id="@+id/btn_selfieLogin"
+                                    style="@style/Widget.AppCompat.Button.Borderless"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Selfie Log"
                                     android:gravity="center_vertical"
+                                    android:text="Selfie Log"
+                                    android:textColor="@color/textColor_Black"
                                     app:icon="@drawable/ic_dashboard_selfie"
-                                    app:iconTint="@color/textColor_Black"
-                                    style="@style/Widget.AppCompat.Button.Borderless"
-                                    android:textColor="@color/textColor_Black"/>
+                                    app:iconTint="@color/textColor_Black" />
 
                                 <TextView
                                     android:id="@+id/lbl_badge_selfieLog"

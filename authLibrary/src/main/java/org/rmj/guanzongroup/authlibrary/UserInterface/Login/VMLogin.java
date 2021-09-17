@@ -10,6 +10,8 @@
  */
 package org.rmj.guanzongroup.authlibrary.UserInterface.Login;
 
+import static org.rmj.g3appdriver.utils.WebApi.REQUEST_USER_ACCESS;
+
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
@@ -21,14 +23,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeRole;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
-import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -43,7 +47,6 @@ public class VMLogin extends AndroidViewModel {
     private final REmployee REmployee;
     private final WebApi webApi;
     private final HttpHeaders headers;
-    private final ConnectionUtil conn;
     private final SessionManager session;
     private final AppConfigPreference poConfig;
     private final Telephony poTlphony;
@@ -54,7 +57,6 @@ public class VMLogin extends AndroidViewModel {
         REmployee = new REmployee(application);
         webApi = new WebApi(application);
         headers = HttpHeaders.getInstance(application);
-        conn = new ConnectionUtil(application);
         session = new SessionManager(application);
         poConfig = AppConfigPreference.getInstance(application);
         poTlphony = new Telephony(application);
@@ -62,7 +64,11 @@ public class VMLogin extends AndroidViewModel {
 
     @SuppressLint("NewApi")
     public String getMobileNo(){
-        return poTlphony.getMobilNumbers();
+        if(poConfig.getMobileNo().isEmpty()) {
+            return poTlphony.getMobilNumbers();
+        } else {
+            return poConfig.getMobileNo();
+        }
     }
 
     public int hasMobileNo(){
@@ -83,21 +89,15 @@ public class VMLogin extends AndroidViewModel {
     public void Login(final UserAuthInfo authInfo, LoginCallback callback){
         authInfo.setMobileValidity(poConfig.getMobileNo().isEmpty());
         if(authInfo.isAuthInfoValid()) {
-            if(poConfig.getMobileNo().isEmpty()) {
-                poConfig.setMobileNo(authInfo.getMobileNo());
-            }
             JSONObject params = new JSONObject();
             try {
                 params.put("user", authInfo.getEmail());
                 params.put("pswd", authInfo.getPassword());
+                poConfig.setMobileNo(authInfo.getMobileNo());
+                new LoginTask(application, webApi, headers, session, REmployee, callback).execute(params);
             }catch (Exception e){
                 e.printStackTrace();
-            }
-
-            if(conn.isDeviceConnected()) {
-                new LoginTask(application, webApi, headers, session, REmployee, callback).execute(params);
-            } else {
-                callback.OnFailedLoginResult("Unable to connect. Please check your internet connection.");
+                callback.OnFailedLoginResult("An error occur while authentication. " + e.getMessage() + " Please take a screenshot and report to MIS");
             }
         } else {
             callback.OnFailedLoginResult(authInfo.getMessage());
@@ -110,7 +110,9 @@ public class VMLogin extends AndroidViewModel {
         private final LoginCallback callback;
         private final REmployee REmployee;
         private final SessionManager sessionManager;
+        private final ConnectionUtil poConn;
         private final AppConfigPreference poConfig;
+        private final REmployeeRole poRole;
 
         public LoginTask(Application application, WebApi webApi, HttpHeaders headers, SessionManager sessionManager, REmployee REmployee, LoginCallback callback){
             this.webApi = webApi;
@@ -118,7 +120,9 @@ public class VMLogin extends AndroidViewModel {
             this.REmployee = REmployee;
             this.callback = callback;
             this.sessionManager = sessionManager;
+            this.poConn = new ConnectionUtil(application);
             this.poConfig = AppConfigPreference.getInstance(application);
+            this.poRole = new REmployeeRole(application);
         }
 
         @Override
@@ -130,21 +134,57 @@ public class VMLogin extends AndroidViewModel {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(final JSONObject... authInfo) {
-            String response = "";
+            String response;
             try {
-                response = WebClient.httpsPostJSon(webApi.URL_AUTH_EMPLOYEE(), authInfo[0].toString(), headers.getHeaders());
-                if(!poConfig.isAgreedOnTermsAndConditions()) {
-                    JSONObject loJsonx = new JSONObject();
-                    JSONObject loError = new JSONObject();
-                    loError.put("message", "Please agree on terms and conditions before login.");
-                    loJsonx.put("result","error");
-                    loJsonx.put("error", loError);
+                if(poConfig.isAgreedOnTermsAndConditions()) {
+                    if(poConn.isDeviceConnected()) {
+                        String lsResponse = WebClient.httpsPostJSon(webApi.URL_AUTH_EMPLOYEE(), authInfo[0].toString(), headers.getHeaders());
+                        if(lsResponse == null){
+                            response = AppConstants.SERVER_NO_RESPONSE();
+                        } else {
+                            JSONObject loResponse = new JSONObject(lsResponse);
+                            String lsResult = loResponse.getString("result");
+                            if (lsResult.equalsIgnoreCase("success")) {
+                                saveAuthInfo(loResponse);
+                                response = lsResponse;
+                                Thread.sleep(1000);
 
-                    response = loJsonx.toString();
+                                JSONObject loMenu = new JSONObject();
+                                // M-> MENU
+                                // B-> Button
+//                            loMenu.put("obj_type", "M");
+                                String lsRole = WebClient.httpsPostJSon(REQUEST_USER_ACCESS, loMenu.toString(), headers.getHeaders());
+                                if (lsRole == null) {
+                                    response = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response while downloading authorize features.");
+                                } else {
+                                    loResponse = new JSONObject(lsRole);
+                                    if (loResponse.getString("result").equalsIgnoreCase("success")) {
+                                        JSONArray loArr = loResponse.getJSONArray("payload");
+                                        if(!poRole.SaveEmployeeRole(loArr)){
+                                            response = AppConstants.LOCAL_EXCEPTION_ERROR("Unable to same employee authorize features");
+                                        } else {
+                                            response = AppConstants.APPROVAL_CODE_GENERATED("User authorize.");
+                                        }
+                                    } else {
+                                        response = lsRole;
+                                    }
+                                }
+                            } else {
+                                response = lsResponse;
+                            }
+                        }
+                    } else {
+                        response = AppConstants.NO_INTERNET();
+                    }
+                } else {
+                    response = AppConstants.LOCAL_EXCEPTION_ERROR("Please agree on terms and conditions before login.");
                 }
-            } catch (IOException | JSONException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
                 response = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage() + "\n Please check your internet.");
+            } catch (Exception e) {
+                e.printStackTrace();
+                response = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
             }
             return response;
         }
@@ -157,16 +197,6 @@ public class VMLogin extends AndroidViewModel {
                 Log.e("JSONFormat", loResponse.toString());
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    saveAuthInfo(loResponse);
-                    String lsClientx = loResponse.getString("sClientID");
-                    String lsUserIDx = loResponse.getString("sUserIDxx");
-                    String lsLogNoxx = loResponse.getString("sLogNoxxx");
-                    String lsBranchx = loResponse.getString("sBranchCD");
-                    String lsDeptIDx = loResponse.getString("sDeptIDxx");
-                    String lsEmpIDxx = loResponse.getString("sEmployID");
-                    String lsPostIDx = loResponse.getString("sPositnID");
-                    String lsEmpLvlx = loResponse.getString("nUserLevl");
-                    sessionManager.initUserSession(lsUserIDx, lsClientx, lsLogNoxx, lsBranchx, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
                     callback.OnSuccessLoginResult();
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
@@ -196,8 +226,19 @@ public class VMLogin extends AndroidViewModel {
             employeeInfo.setAllowUpd(jsonInfo.getString("cAllowUpd"));
             employeeInfo.setEmployID(jsonInfo.getString("sEmployID"));
             employeeInfo.setLoginxxx(new AppConstants().DATE_MODIFIED);
-            employeeInfo.setSessionx(new AppConstants().CURRENT_DATE);
+            employeeInfo.setSessionx(AppConstants.CURRENT_DATE);
             REmployee.insertEmployee(employeeInfo);
+
+            String lsClientx = jsonInfo.getString("sClientID");
+            String lsUserIDx = jsonInfo.getString("sUserIDxx");
+            String lsLogNoxx = jsonInfo.getString("sLogNoxxx");
+            String lsBranchx = jsonInfo.getString("sBranchCD");
+            String lsDeptIDx = jsonInfo.getString("sDeptIDxx");
+            String lsEmpIDxx = jsonInfo.getString("sEmployID");
+            String lsPostIDx = jsonInfo.getString("sPositnID");
+            String lsEmpLvlx = jsonInfo.getString("nUserLevl");
+            sessionManager.initUserSession(lsUserIDx, lsClientx, lsLogNoxx, lsBranchx, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
         }
+
     }
 }

@@ -31,6 +31,8 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.ActivityFragmentAdapt
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMFragmentApproval;
 
+import java.util.Objects;
+
 public class Fragment_Approval extends Fragment {
 
     private VMFragmentApproval mViewModel;
@@ -41,9 +43,7 @@ public class Fragment_Approval extends Fragment {
     private int[] leave_tab = {
             R.drawable.ic_application_leave,
             R.drawable.ic_application_business_trip};
-    private String[] tab_Title = {
-            "Leave Approval",
-            "Business Trip Approval"};
+
     public static Fragment_Approval newInstance() {
         return new Fragment_Approval();
     }
@@ -53,12 +53,10 @@ public class Fragment_Approval extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_approval, container, false);
         setupWidgets();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(tab_Title[tabLayout.getSelectedTabPosition()]);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 tabLayout.getTabAt(tab.getPosition()).setIcon(leave_tab[tab.getPosition()]);
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(tab_Title[tab.getPosition()]);
             }
 
             @Override
@@ -90,7 +88,7 @@ public class Fragment_Approval extends Fragment {
         viewPager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(leave_tab[0]);
-        tabLayout.getTabAt(1).setIcon(leave_tab[1]);
+        Objects.requireNonNull(tabLayout.getTabAt(0)).setIcon(leave_tab[0]);
+        Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(leave_tab[1]);
     }
 }

@@ -16,7 +16,6 @@ import android.app.Application;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Environment;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -52,12 +51,8 @@ import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -710,11 +705,11 @@ public class VMCollectionList extends AndroidViewModel {
                                                 Thread.sleep(1000);
 
                                             } else {
-                                                JSONObject loError = new JSONObject(lsResponse);
+                                                JSONObject loError = new JSONObject(loUpload.toJSONString());
                                                 isDataSent[x] = false;
                                                 reason[x] = loError.getString("message");
-                                                Log.e(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. " + loDetail.nEntryNox + " was not uploaded to server.");
-                                                Log.e(TAG, "Reason : " + loError.getString("message"));
+                                                Log.d(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. " + loDetail.nEntryNox + " was not uploaded to server.");
+                                                Log.d(TAG, "Reason : " + loError.getString("message"));
                                             }
 
                                             if (loDetail.sRemCodex.equalsIgnoreCase("PAY")) {

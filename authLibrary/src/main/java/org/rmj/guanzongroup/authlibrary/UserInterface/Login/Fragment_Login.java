@@ -96,7 +96,7 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         btnLogin.setOnClickListener(view -> {
             String email = Objects.requireNonNull(tieEmail.getText()).toString();
             String password = Objects.requireNonNull(tiePassword.getText()).toString();
-            String mobileNo = tieMobileNo.getText().toString();
+            String mobileNo = Objects.requireNonNull(tieMobileNo.getText()).toString();
             mViewModel.Login(new UserAuthInfo(email,password, mobileNo), Fragment_Login.this);
         });
 
