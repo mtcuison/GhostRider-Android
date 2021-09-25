@@ -52,4 +52,8 @@ public class ROccupation {
     public String getLatestDataTime(){
         return OccupationDao.getLatestDataTime();
     }
+
+    public LiveData<String> getLiveOccupationName(String ID) {
+        return OccupationDao.getLiveOccupationName(ID);
+    }
 }

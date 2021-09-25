@@ -159,6 +159,7 @@ public class VMDisbursementInfo extends AndroidViewModel {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            Log.e("DisbursementInfo", s);
             if(s.equalsIgnoreCase("success")){
                 callback.onSaveSuccessResult("Success");
             } else {

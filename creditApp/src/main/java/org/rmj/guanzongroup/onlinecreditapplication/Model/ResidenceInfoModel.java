@@ -386,11 +386,11 @@ public class ResidenceInfoModel {
 
     private boolean isBarangayValid(){
         if(sBrgyIDxx == null || sBrgyIDxx.trim().isEmpty()){
-            message = "Please enter town";
+            message = "Please enter barangay";
             return false;
         } if(!oneAddress){
             if(!oneAddress && sPBrgyIDx == null || sPBrgyIDx.trim().isEmpty()){
-                message = "Please enter permanent address town";
+                message = "Please enter barangay";
                 return false;
             }
         }

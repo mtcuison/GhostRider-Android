@@ -341,6 +341,14 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
             } catch(JSONException e) {
                 e.printStackTrace();
             }
+        } else {
+            spnUnitUser.getText().clear();
+            spnOthrUser.getText().clear();
+
+            spnUnitPayr.getText().clear();
+            spnOthrPayr.getText().clear();
+            spnSourcexx.getText().clear();
+            spnUnitPrps.getText().clear();
         }
     }
 

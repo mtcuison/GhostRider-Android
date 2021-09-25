@@ -50,4 +50,7 @@ public interface DOccupationInfo {
 
     @Query("SELECT sOccptnNm FROM Occupation_Info WHERE sOccptnID=:ID")
     String getOccupationName(String ID);
+
+    @Query("SELECT sOccptnNm FROM Occupation_Info WHERE sOccptnID=:ID")
+    LiveData<String> getLiveOccupationName(String ID);
 }

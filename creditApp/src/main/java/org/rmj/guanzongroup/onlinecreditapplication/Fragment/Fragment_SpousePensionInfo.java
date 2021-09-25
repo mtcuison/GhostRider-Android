@@ -29,6 +29,9 @@ import android.widget.RadioGroup;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.TextFormatter;
@@ -66,7 +69,10 @@ public class Fragment_SpousePensionInfo extends Fragment implements ViewModelCal
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMSpousePensionInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo));
+        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
+            mViewModel.setDetailInfo(eCreditApplicantInfo);
+            setFieldValues(eCreditApplicantInfo);
+        });
     }
 
     private void initWidgets(View v) {
@@ -106,6 +112,42 @@ public class Fragment_SpousePensionInfo extends Fragment implements ViewModelCal
         infoModel.setsOtherSrc(Objects.requireNonNull(txtOtherSrc.getText().toString()));
         infoModel.setsOtherSrcIncx(Objects.requireNonNull(txtOtherSrcInc.getText().toString()));
         mViewModel.Save(infoModel, Fragment_SpousePensionInfo.this);
+    }
+
+    private void setFieldValues(ECreditApplicantInfo foCredtAp) {
+        if(foCredtAp.getSpsPensn() != null) {
+            try {
+                JSONObject loJson = new JSONObject(foCredtAp.getSpsPensn());
+                JSONObject loPension = loJson.getJSONObject("pensioner");
+                JSONObject loIncomex = loJson.getJSONObject("other_income");
+
+                if(!"".equalsIgnoreCase(loPension.getString("cPenTypex"))) {
+                    if("0".equalsIgnoreCase(loPension.getString("cPenTypex"))) {
+                        rgPensionSector.check(R.id.rb_government);
+                    } else if("1".equalsIgnoreCase(loPension.getString("cPenTypex"))) {
+                        rgPensionSector.check(R.id.rb_private);
+                    }
+                    mViewModel.setPensionSec(loPension.getString("cPenTypex"));
+                }
+
+                txtPensionAmt.setText( (!"".equalsIgnoreCase(loPension.getString("nPensionx"))) ? loPension.getString("nPensionx") : "" );
+                txtRetirementYr.setText( (!"".equalsIgnoreCase(loPension.getString("nRetrYear"))) ? loPension.getString("nRetrYear") : "" );
+
+                if(loIncomex != null) {
+                    txtOtherSrcInc.setText( (!"".equalsIgnoreCase(loIncomex.getString("sOthrIncm"))) ? loIncomex.getString("sOthrIncm") : "" );
+                }
+
+            } catch(JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            rgPensionSector.clearCheck();
+            txtPensionAmt.setText("");
+            txtRetirementYr.setText("");
+            txtOtherSrc.setText("");
+            txtOtherSrcInc.setText("");
+
+        }
     }
 
     @Override

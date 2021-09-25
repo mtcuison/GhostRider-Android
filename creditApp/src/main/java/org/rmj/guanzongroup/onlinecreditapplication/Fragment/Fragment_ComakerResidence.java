@@ -40,6 +40,7 @@ import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Data.UploadCreditApp;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerResidenceModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -69,6 +70,8 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
     private String spnLgnthStayPosition = "-1",
             spnHouseHoldPosition = "-1",
             spnHouseTypePosition = "-1";
+
+    private RadioGroup rgOwnsership, rgGarage;
 
     private TextInputLayout tilRelationship;
     private LinearLayout lnOtherInfo;
@@ -108,8 +111,8 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
         spnLgnthStay = v.findViewById(R.id.spn_lenghtStay);
         spnHouseHold = v.findViewById(R.id.spn_houseHold);
         spnHouseType = v.findViewById(R.id.spn_houseType);
-        RadioGroup rgOwnsership = v.findViewById(R.id.rg_ownership);
-        RadioGroup rgGarage = v.findViewById(R.id.rg_garage);
+        rgOwnsership = v.findViewById(R.id.rg_ownership);
+        rgGarage = v.findViewById(R.id.rg_garage);
         tilRelationship = v.findViewById(R.id.til_relationship);
         lnOtherInfo = v.findViewById(R.id.linear_otherInfo);
 
@@ -231,13 +234,75 @@ public class Fragment_ComakerResidence extends Fragment implements ViewModelCall
     private void setFieldValues(ECreditApplicantInfo foCredApp) {
         if(foCredApp.getCmResidx() != null) {
             try {
-                JSONObject loJson = new JSONObject(foCredApp.getComakerx());
+                JSONObject loJson = new JSONObject(foCredApp.getCmResidx());
                 Log.e(TAG + " jsonCon", loJson.toString());
                 // Value setter goes here
+
+                JSONObject loJsAddrs = loJson.getJSONObject("present_address");
+                    txtLandMark.setText( (!loJsAddrs.getString("sLandMark").equalsIgnoreCase("")) ?  loJsAddrs.getString("sLandMark") : "");
+                    txtHouseNox.setText( (!loJsAddrs.getString("sHouseNox").equalsIgnoreCase("")) ?  loJsAddrs.getString("sHouseNox") : "");
+
+                    txtAddress1.setText(( (!loJsAddrs.getString("sAddress1").equalsIgnoreCase("")) ?  loJsAddrs.getString("sAddress1") : ""));
+                    txtAddress2.setText(( (!loJsAddrs.getString("sAddress2").equalsIgnoreCase("")) ?  loJsAddrs.getString("sAddress2") : ""));
+
+                    mViewModel.getBrgyTownProvinceInfoWithID(loJsAddrs.getString("sBrgyIDxx")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
+                        txtMunicipality.setText(townProvinceInfo.sTownName);
+                        txtProvince.setText(townProvinceInfo.sProvName);
+                        txtBarangay.setText(townProvinceInfo.sBrgyName);
+                        mViewModel.setProvinceID(townProvinceInfo.sProvIDxx);
+                        mViewModel.setTownID(townProvinceInfo.sTownIDxx);
+                        infoModel.setsBrgyIDxx(townProvinceInfo.sBrgyIDxx);
+                        infoModel.setsMuncplID(townProvinceInfo.sTownIDxx);
+                    });
+
+                if (loJson.getString("cOwnershp").equalsIgnoreCase("0")) {
+                    rgOwnsership.check(R.id.rb_owned);
+                    infoModel.setsHouseOwn("0");
+                } else if (loJson.getString("cOwnershp").equalsIgnoreCase("1")) {
+                    rgOwnsership.check(R.id.rb_rent);
+                    infoModel.setsHouseOwn("1");
+                } else if (loJson.getString("cOwnershp").equalsIgnoreCase("2")) {
+                    rgOwnsership.check(R.id.rb_careTaker);
+                    infoModel.setsHouseOwn("2");
+                }
+
+                if(!loJson.getString("cOwnOther").equalsIgnoreCase("")) {
+                    spnHouseHold.setText(CreditAppConstants.HOUSEHOLDS[Integer.parseInt(loJson.getString("cOwnOther"))]);
+                    infoModel.setsHouseHld(loJson.getString("cOwnOther"));
+                }
+
+                if(!loJson.getString("cHouseTyp").equalsIgnoreCase("")) {
+                    spnHouseType.setText(CreditAppConstants.HOUSE_TYPE[Integer.parseInt(loJson.getString("cHouseTyp"))]);
+                    infoModel.setsHouseTpe(loJson.getString("cHouseTyp"));
+                }
+
+                if(loJson.getString("cGaragexx").equalsIgnoreCase("1")){
+                    rgGarage.check(R.id.rb_yes);
+                    infoModel.setsHasGarge("1");
+                }
+                else if(loJson.getString("cGaragexx").equalsIgnoreCase("0")){
+                    rgGarage.check(R.id.rb_no);
+                    infoModel.setsHasGarge("0");
+                }
+                txtRelationship.setText(loJson.getString("sCtkReltn"));
 
             } catch(JSONException e) {
                 e.printStackTrace();
             }
+        } else {
+            txtLandMark.getText().clear();
+            txtHouseNox.getText().clear();
+            txtAddress1.getText().clear();
+            txtAddress2.getText().clear();
+            txtMunicipality.getText().clear();
+            txtProvince.getText().clear();
+            txtBarangay.getText().clear();
+            rgOwnsership.clearCheck();
+
+            spnHouseHold.getText().clear();
+            spnHouseType.getText().clear();
+            rgGarage.clearCheck();
+            txtRelationship.getText().clear();
         }
     }
 

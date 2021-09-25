@@ -102,13 +102,15 @@ public class VMReviewLoanApp extends AndroidViewModel {
 
     public void SaveCreditOnlineApplication(UploadCreditApp.OnUploadLoanApplication listener){
         ECreditApplication loCreditApp = new ECreditApplication();
-        GOCASApplication loGOCas = GOCASHolder.getInstance().getGOCAS();
+        GoCasBuilder loModel = new GoCasBuilder(poInfo);
+        GOCASApplication loGOCas = new GOCASApplication();
+        loGOCas.setData(loModel.getConstructedDetailedInfo());
         loCreditApp.setTransNox(poCreditApp.getGOCasNextCode());
         loCreditApp.setBranchCd(poInfo.getBranchCd());
         loCreditApp.setClientNm(poInfo.getClientNm());
         loCreditApp.setUnitAppl(poInfo.getAppliedx());
         loCreditApp.setSourceCD("APP");
-        loCreditApp.setDetlInfo(loGOCas.toJSONString());
+        loCreditApp.setDetlInfo(loModel.getConstructedDetailedInfo());
         loCreditApp.setDownPaym(poInfo.getDownPaym());
         loCreditApp.setCreatedx(poInfo.getCreatedx());
         loCreditApp.setTransact(poInfo.getTransact());
@@ -152,7 +154,8 @@ public class VMReviewLoanApp extends AndroidViewModel {
             ECreditApplicantInfo poInfo = eCreditApplicantInfos[0];
             List<ReviewAppDetail> loListDetl = new ArrayList<>();
             try {
-                GOCASApplication loGOCas = GOCASHolder.getInstance().getGOCAS();
+                GOCASApplication loGOCas = new GOCASApplication();
+                loGOCas.setData(new GoCasBuilder(poInfo).getConstructedDetailedInfo());
                 loListDetl.add(new ReviewAppDetail(true, "Purchase Info", "", ""));
                 loListDetl.add(new ReviewAppDetail(false, "", "Branch", loGOCas.PurchaseInfo().getPreferedBranch()));
 
@@ -622,9 +625,10 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     loListDetl.add(new ReviewAppDetail(false, "", "Reference " + (i+1), ""));
                     loListDetl.add(new ReviewAppDetail(false, "", "Fullname ", loExp.get("sRefrNmex").toString()));
                     loListDetl.add(new ReviewAppDetail(false, "", "Mobile No. ", loExp.get("sRefrMPNx").toString()));
-                    String rfBirthPlace = loExp.get("sRefrTown").toString();
+                    DTownInfo.TownProvinceName rfBPlace = poTown.getTownProvinceName(loExp.get("sRefrTown").toString());
+                    String rfBirthPlace = rfBPlace.sTownName + ", " + rfBPlace.sProvName;
                     loListDetl.add(new ReviewAppDetail(false, "", "Address ", loExp.get("sRefrAddx").toString()));
-                    loListDetl.add(new ReviewAppDetail(false, "", "Town ", loExp.get("sRefrTown").toString()));
+                    loListDetl.add(new ReviewAppDetail(false, "", "Town ", rfBirthPlace));
                 }
 
 //                CO-MAKER

@@ -150,6 +150,16 @@ public class Fragment_Properties extends Fragment implements ViewModelCallBack {
             } catch(JSONException e) {
                 e.printStackTrace();
             }
+         } else {
+            txtLot1.getText().clear();
+            txtLot2.getText().clear();
+            txtLot3.getText().clear();
+            cb4Wheels.setChecked(false);
+            cb3Wheels.setChecked(false);
+            cb2Wheels.setChecked(false);
+            cbAircon.setChecked(false);
+            cbRefxx.setChecked(false);
+            cbTelevsn.setChecked(false);
         }
     }
 }
