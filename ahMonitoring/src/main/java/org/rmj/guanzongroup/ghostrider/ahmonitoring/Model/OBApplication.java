@@ -13,40 +13,51 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Model;
 
 public class OBApplication {
 
-    private String ObTypexx;
+    private String TransNox;
+    private String Transact;
+    private String EmployID;
     private String DateFrom;
     private String DateThru;
-    private String NoOfDays;
-    private String Remarks;
-    private String TimeINam;
-    private String TimeOUTam;
-    private String TimeINpm;
-    private String TimeOUTpm;
-    private String xEmployee;
-    private String sBranchNm;
-    private String sDeptName;
-    private String sPositnNm;
+    private String Destinat;
+    private String Remarksx;
+    private String Approved;
+    private String DateAppv;
+    private String AppldFrx;
+    private String AppldTox;
+    private String TranStat;
+    private String Modifier;
+    private String Modified;
+
     private String message;
-    private String Destination;
-    private String EmpID;
 
     public OBApplication(){
 
     }
-    public String getObTypexx() {
-        return ObTypexx;
+
+    public String getTransNox() {
+        return TransNox;
     }
 
-    public void setObTypexx(String obTypexx) {
-        ObTypexx = obTypexx;
-    }
-    public String getEmpID() {
-        return EmpID;
+    public void setTransNox(String transNox) {
+        TransNox = transNox;
     }
 
-    public void setEmpID(String empID) {
-        EmpID = empID;
+    public String getTransact() {
+        return Transact;
     }
+
+    public void setTransact(String transact) {
+        Transact = transact;
+    }
+
+    public String getEmployID() {
+        return EmployID;
+    }
+
+    public void setEmployID(String employID) {
+        EmployID = employID;
+    }
+
     public String getDateFrom() {
         return DateFrom;
     }
@@ -63,110 +74,87 @@ public class OBApplication {
         DateThru = dateThru;
     }
 
-    public String getNoOfDays() {
-        return NoOfDays;
+    public String getDestinat() {
+        return Destinat;
     }
 
-    public void setNoOfDays(String noOfDays) {
-        NoOfDays = noOfDays;
+    public void setDestinat(String destinat) {
+        Destinat = destinat;
     }
 
-    public String getRemarks() {
-        return Remarks;
+    public String getRemarksx() {
+        return Remarksx;
     }
 
-    public void setRemarks(String remarks) {
-        Remarks = remarks;
+    public void setRemarksx(String remarksx) {
+        Remarksx = remarksx;
     }
 
-    public String getTimeINam() {
-        return TimeINam;
+    public String getApproved() {
+        return Approved;
     }
 
-    public void setTimeINam(String timeINam) {
-        TimeINam = timeINam;
+    public void setApproved(String approved) {
+        Approved = approved;
     }
 
-    public String getTimeOUTam() {
-        return TimeOUTam;
+    public String getDateAppv() {
+        return DateAppv;
     }
 
-    public void setTimeOUTam(String timeOUTam) {
-        TimeOUTam = timeOUTam;
+    public void setDateAppv(String dateAppv) {
+        DateAppv = dateAppv;
     }
 
-    public String getTimeINpm() {
-        return TimeINpm;
+    public String getAppldFrx() {
+        return AppldFrx;
     }
 
-    public void setTimeINpm(String timeINpm) {
-        TimeINpm = timeINpm;
+    public void setAppldFrx(String appldFrx) {
+        AppldFrx = appldFrx;
     }
 
-    public String getTimeOUTpm() {
-        return TimeOUTpm;
+    public String getAppldTox() {
+        return AppldTox;
     }
 
-    public void setTimeOUTpm(String timeOUTpm) {
-        TimeOUTpm = timeOUTpm;
+    public void setAppldTox(String appldTox) {
+        AppldTox = appldTox;
     }
 
-    public String getxEmployee() {
-        return xEmployee;
+    public String getTranStat() {
+        return TranStat;
     }
 
-    public void setxEmployee(String xEmployee) {
-        this.xEmployee = xEmployee;
+    public void setTranStat(String tranStat) {
+        TranStat = tranStat;
     }
 
-    public String getsBranchNm() {
-        return sBranchNm;
+    public String getModifier() {
+        return Modifier;
     }
 
-    public void setsBranchNm(String sBranchNm) {
-        this.sBranchNm = sBranchNm;
+    public void setModifier(String modifier) {
+        Modifier = modifier;
     }
 
-    public String getsDeptName() {
-        return sDeptName;
+    public String getModified() {
+        return Modified;
     }
 
-    public void setsDeptName(String sDeptName) {
-        this.sDeptName = sDeptName;
+    public void setModified(String modified) {
+        Modified = modified;
     }
-
-    public String getsPositnNm() {
-        return sPositnNm;
-    }
-
-    public void setsPositnNm(String sPositnNm) {
-        this.sPositnNm = sPositnNm;
-    }
-    public String getDestination() {
-        return Destination;
-    }
-
-    public void setDestination(String destination) {
-        Destination = destination;
-    }
-
 
     public String getMessage() {
         return message;
     }
 
     public boolean isOBLeaveValid(){
-        return isObTypexx() &&
-                isDateFrom() &&
+        return isDateFrom() &&
                 isDateFrom();
     }
-    private boolean isObTypexx(){
-        if(ObTypexx.trim().isEmpty()){
-            message = "Please select leave type";
-            return false;
-        }
-        return true;
-    }
+
     private boolean isDateFrom(){
         if(DateFrom.trim().isEmpty()){
             message = "Please enter Date From";

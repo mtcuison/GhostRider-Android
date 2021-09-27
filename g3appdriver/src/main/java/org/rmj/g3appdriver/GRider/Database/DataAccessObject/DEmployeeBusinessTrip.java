@@ -11,14 +11,18 @@
 
 package org.rmj.g3appdriver.GRider.Database.DataAccessObject;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
+
+import java.util.List;
 
 @Dao
 public interface DEmployeeBusinessTrip {
@@ -35,4 +39,9 @@ public interface DEmployeeBusinessTrip {
     @Insert
     void insertNewOBLeave(EEmployeeBusinessTrip obLeave);
 
+    @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
+    List<EEmployeeBusinessTrip> getOBIfExist(String TransNox);
+
+    @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
+    LiveData<EEmployeeBusinessTrip> getBusinessTripInfo(String TransNox);
 }

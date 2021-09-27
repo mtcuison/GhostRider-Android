@@ -44,6 +44,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.guanzongroup.ghostrider.epacss.Service.Sync.BackgroundSync;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 
 import java.util.ArrayList;
@@ -75,6 +76,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
     private class SendDataTask extends AsyncTask<Void, String, String>{
         private final Application instance;
 
+        private final AppConfigPreference poConfig;
         private final HttpHeaders poHeaders;
         private final SessionManager poSession;
         private final Telephony poDevice;
@@ -86,7 +88,8 @@ public class InternetStatusReciever extends BroadcastReceiver {
         private final RBranchLoanApplication poLoan;
         private final RCreditApplicationDocument poDocs;
         private final RDCP_Remittance poRemit;
-        private final AppConfigPreference poConfig;
+
+        private final BackgroundSync poSync;
 
         private String lsClient;
         private String lsAccess;
@@ -119,6 +122,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
             this.poDocs = new RCreditApplicationDocument(instance);
             this.poRemit = new RDCP_Remittance(instance);
             this.poConfig = AppConfigPreference.getInstance(instance);
+            this.poSync = new BackgroundSync(instance);
         }
 
         @Override

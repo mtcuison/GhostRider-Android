@@ -116,12 +116,10 @@ public class VMObApplication extends AndroidViewModel {
                     detail.setTransNox(poOBLeave.getOBLeaveNextCode());
                     detail.setTransact(new AppConstants().DATE_MODIFIED);
                     detail.setEmployee(poUser.getEmployeeID());
-                    detail.setBranchNm(infoModel.getsBranchNm());
-                    detail.setDeptName(infoModel.getsDeptName());
-                    detail.setPositnNm(infoModel.getsPositnNm());
+                    detail.setBranchNm(infoModel.getDestinat());
                     detail.setDateFrom(infoModel.getDateFrom());
                     detail.setDateThru(infoModel.getDateThru());
-                    detail.setRemarksx(infoModel.getRemarks());
+                    detail.setRemarksx(infoModel.getRemarksx());
                     detail.setApproved("0");
                     detail.setDapprove(null);
                     detail.setAppldFrx(null);
@@ -136,9 +134,8 @@ public class VMObApplication extends AndroidViewModel {
                     loJson.put("sEmployID", poUser.getEmployeeID());
                     loJson.put("dDateFrom", infoModel.getDateFrom());
                     loJson.put("dDateThru", infoModel.getDateThru());
-                    loJson.put("nNoDaysxx", infoModel.getNoOfDays());
-                    loJson.put("sDestinat", infoModel.getDestination());
-                    loJson.put("sRemarks", infoModel.getRemarks());
+                    loJson.put("sDestinat", infoModel.getDestinat());
+                    loJson.put("sRemarksx", infoModel.getRemarksx());
                     loJson.put("sApproved", "");
                     loJson.put("dApproved", "");
                     loJson.put("dAppldFrx", "");

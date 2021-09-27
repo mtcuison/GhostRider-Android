@@ -36,7 +36,9 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -107,10 +109,8 @@ public class Fragment_ObApplication extends Fragment {
             try{
                 lblUsername.setText(eEmployeeInfo.getUserName());
                 lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
-                infoModel.setsDeptName(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
-                infoModel.setEmpID(eEmployeeInfo.getEmpLevID());
-                infoModel.setxEmployee(eEmployeeInfo.getUserName());
-                infoModel.setsPositnNm(eEmployeeInfo.getPositnID());
+                infoModel.setEmployID(eEmployeeInfo.getEmployID());
+                infoModel.setTransact(AppConstants.CURRENT_DATE);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -129,9 +129,28 @@ public class Fragment_ObApplication extends Fragment {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
             final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, month, dayOfMonth);
-                txtDateFrom.setText(dateFormatter.format(newDate.getTime()));
+                try {
+                    Calendar newDate = Calendar.getInstance();
+                    newDate.set(year, month, dayOfMonth);
+                    if(!txtDateTo.getText().toString().isEmpty()){
+                        Date dateTo = dateFormatter.parse(Objects.requireNonNull(txtDateTo.getText()).toString());
+                        String lsFrom = dateFormatter.format(newDate.getTime());
+                        Date dateFrom1 = dateFormatter.parse(lsFrom);
+                        int result = dateFrom1.compareTo(dateTo);
+                        if(result >= 0) {
+                            txtDateFrom.setText(dateFormatter.format(newDate.getTime()));
+                            long diff = dateTo.getTime() - dateFrom1.getTime();
+                            long noOfDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+                            txtNoDays.setText(String.valueOf(noOfDays));
+                        } else {
+                            GToast.CreateMessage(getActivity(), "Invalid date selected.", GToast.ERROR).show();
+                        }
+                    } else {
+                        txtDateFrom.setText(dateFormatter.format(newDate.getTime()));
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
             dateFrom.show();
         });
@@ -171,30 +190,32 @@ public class Fragment_ObApplication extends Fragment {
             txtBranchDestination.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
 
-
         txtBranchDestination.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBranchInfo().observe(getViewLifecycleOwner(), eBranchInfos -> {
             for(int x = 0; x < eBranchInfos.size(); x++){
                 if(txtBranchDestination.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getBranchNm())){
-                    infoModel.setDestination(eBranchInfos.get(x).getBranchCd());
-                    infoModel.setsBranchNm(eBranchInfos.get(x).getBranchNm());
+                    infoModel.setDestinat(eBranchInfos.get(x).getBranchCd());
                     break;
                 }
             }
         }));
         btnSubmit.setOnClickListener(v->{
-            infoModel.setDateFrom(Objects.requireNonNull(txtDateFrom.getText()).toString());
-            infoModel.setDateThru(Objects.requireNonNull(txtDateTo.getText()).toString());
-            infoModel.setNoOfDays(Objects.requireNonNull(txtNoDays.getText()).toString());
-            infoModel.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
+            infoModel.setDateFrom(FormatUIText.formatTextToData(Objects.requireNonNull(txtDateFrom.getText()).toString()));
+            infoModel.setDateThru(FormatUIText.formatTextToData(Objects.requireNonNull(txtDateTo.getText()).toString()));
+            infoModel.setRemarksx(Objects.requireNonNull(txtRemarks.getText()).toString());
             mViewModel.saveObLeave(infoModel, new VMObApplication.OnSubmitOBLeaveListener() {
                 @Override
                 public void onSuccess() {
                     poProgress.dismiss();
-
                     loMessage.initDialog();
-                    loMessage.setPositiveButton("Yes", (v, dialog) -> dialog.dismiss());
-                    loMessage.setNegativeButton("No", (v, dialog) -> dialog.dismiss());
-                    loMessage.setTitle("Business Trip Application");
+                    loMessage.setPositiveButton("Okay", (v, dialog) ->{
+                        dialog.dismiss();
+                        txtBranchDestination.setText("");
+                        txtDateFrom.setText("");
+                        txtDateTo.setText("");
+                        txtNoDays.setText("");
+                        txtRemarks.setText("");
+                    });
+                    loMessage.setTitle("PET Manager");
                     loMessage.setMessage("Your business trip application has been submitted.");
                     loMessage.show();
                 }
@@ -203,9 +224,8 @@ public class Fragment_ObApplication extends Fragment {
                 public void onFailed(String message) {
                     poProgress.dismiss();
                     loMessage.initDialog();
-                    loMessage.setPositiveButton("Yes", (v, dialog) -> dialog.dismiss());
-                    loMessage.setNegativeButton("No", (v, dialog) -> dialog.dismiss());
-                    loMessage.setTitle("Business Trip Application");
+                    loMessage.setPositiveButton("Okay", (v, dialog) -> dialog.dismiss());
+                    loMessage.setTitle("PET Manager");
                     loMessage.setMessage(message);
                     loMessage.show();
                 }

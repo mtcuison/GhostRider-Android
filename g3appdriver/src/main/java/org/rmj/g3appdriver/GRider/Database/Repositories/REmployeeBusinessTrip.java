@@ -58,6 +58,17 @@ public class REmployeeBusinessTrip implements DEmployeeBusinessTrip {
     public void insertNewOBLeave(EEmployeeBusinessTrip obLeave) {
         employeeBusinessTripDao.insertNewOBLeave(obLeave);
     }
+
+    @Override
+    public List<EEmployeeBusinessTrip> getOBIfExist(String TransNox) {
+        return employeeBusinessTripDao.getOBIfExist(TransNox);
+    }
+
+    @Override
+    public LiveData<EEmployeeBusinessTrip> getBusinessTripInfo(String TransNox) {
+        return employeeBusinessTripDao.getBusinessTripInfo(TransNox);
+    }
+
     public String getOBLeaveNextCode(){
         String lsTransNox = "";
         GConnection loConn = DbConnection.doConnect(app);

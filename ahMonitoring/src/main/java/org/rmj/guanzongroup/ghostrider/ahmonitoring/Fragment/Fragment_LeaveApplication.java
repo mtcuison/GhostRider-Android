@@ -92,6 +92,7 @@ public class Fragment_LeaveApplication extends Fragment {
             try{
                 lblUsername.setText(eEmployeeInfo.getUserName());
                 lblPosition.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+                poLeave.setEmploName(eEmployeeInfo.getUserName());
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -102,6 +103,7 @@ public class Fragment_LeaveApplication extends Fragment {
         mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
             try{
                 lblBranch.setText(eBranchInfo.getBranchNm());
+                poLeave.setBranchNme(eBranchInfo.getBranchNm());
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -111,9 +113,27 @@ public class Fragment_LeaveApplication extends Fragment {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
             final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, month, dayOfMonth);
-                txtDateFrom.setText(dateFormatter.format(newDate.getTime()));
+                try {
+                    Calendar newDate = Calendar.getInstance();
+                    newDate.set(year, month, dayOfMonth);
+                    if(!txtDateTo.getText().toString().isEmpty()){
+                        Date dateTo = dateFormatter.parse(Objects.requireNonNull(txtDateTo.getText()).toString());
+                        String lsFrom = dateFormatter.format(newDate.getTime());
+                        Date dateFrom1 = dateFormatter.parse(lsFrom);
+                        if(dateFrom1.compareTo(dateTo) <= 0) {
+                            txtDateFrom.setText(dateFormatter.format(newDate.getTime()));
+                            long diff = dateTo.getTime() - dateFrom1.getTime();
+                            long noOfDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+                            txtNoDays.setText(String.valueOf(noOfDays));
+                        } else {
+                            GToast.CreateMessage(getActivity(), "Invalid date selected.", GToast.ERROR).show();
+                        }
+                    } else {
+                        txtDateFrom.setText(dateFormatter.format(newDate.getTime()));
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
             dateFrom.show();
         });
@@ -168,7 +188,11 @@ public class Fragment_LeaveApplication extends Fragment {
                     poMessage.setMessage("Your leave application has been submitted.");
                     poMessage.setPositiveButton("Okay", (view, dialog) -> {
                         dialog.dismiss();
-                        requireActivity().finish();
+                        spnType.setSelection(0);
+                        txtDateFrom.setText("");
+                        txtDateTo.setText("");
+                        txtNoDays.setText("");
+                        txtRemarks.setText("");
                     });
                     poMessage.show();
                 }
