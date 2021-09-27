@@ -26,6 +26,7 @@ import org.rmj.guanzongroup.ghostrider.imgcapture.DCPPhotoCapture;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_BranchApplications;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditAppHome;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
 
 public class ChildObject {
@@ -53,6 +54,7 @@ public class ChildObject {
                 break;
             case "loan application":
                 loIntent = new Intent(context, Activity_IntroductoryQuestion.class);
+//                loIntent = new Intent(context, Activity_CreditAppHome.class);
                 break;
             case "user application list":
                 loIntent = new Intent(context, Activity_ApplicationHistory.class);

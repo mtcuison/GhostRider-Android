@@ -40,14 +40,20 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.DependentAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DependentsInfoModel;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalReferenceInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMDependent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VMDependent.ExpActionListener{
@@ -122,7 +128,14 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMDependent.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setCreditApplicantInfo(eCreditApplicantInfo));
+        mViewModel.getCreditApplicationInfo().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
+            try {
+                mViewModel.setCreditApplicantInfo(eCreditApplicantInfo);
+                setFieldValues(eCreditApplicantInfo);
+            } catch(NullPointerException e) {
+                e.printStackTrace();
+            }
+        });
         mViewModel.getSpnRelationx().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             actRelationx.setAdapter(stringArrayAdapter);
             actRelationx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
@@ -155,8 +168,18 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
             mEducLvlPosition = Integer.parseInt(s);
             Log.e("Employee ", s);
         });
+
         //RECYCLER VIEW
-        mViewModel.getAllDependent().observe(getViewLifecycleOwner(), dependentListUpdateObserver);
+        mViewModel.getAllDependent().observe(getViewLifecycleOwner(), dependents -> {
+            try {
+                adapter = new DependentAdapter(dependents);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            } catch(NullPointerException e) {
+                e.printStackTrace();
+            }
+        });
 
         //RadioGroup
         rgDpdStudent.setOnCheckedChangeListener(new OnDependencyStatusSelectionListener(rgDpdStudent,mViewModel));
@@ -239,15 +262,6 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
         btnPrev = view.findViewById(R.id.btn_creditAppPrvs);
     }
 
-    Observer<List<DependentsInfoModel>> dependentListUpdateObserver = new Observer<List<DependentsInfoModel>>() {
-        @Override
-        public void onChanged(List<DependentsInfoModel> userArrayList) {
-            adapter = new DependentAdapter(userArrayList);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recyclerView.setAdapter(adapter);
-        }
-    };
-
     @Override
     public void onSaveSuccessResult(String args) {
         Activity_CreditApplication.getInstance().moveToPageNumber(14);
@@ -270,6 +284,69 @@ public class Fragment_Dependent extends Fragment implements ViewModelCallBack,VM
     public void onFailed(String message) {
         Log.e(TAG, message);
         GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
+    }
+
+    @SuppressLint("NewApi")
+    private void setFieldValues(ECreditApplicantInfo foCredApp) {
+        if(foCredApp.getDependnt() != null) {
+            try {
+                JSONObject loJson = new JSONObject(foCredApp.getDependnt());
+                Log.e(TAG + " jsonCon", loJson.toString());
+
+                JSONArray loJsonArr = loJson.getJSONArray("children");
+                if(loJsonArr.length() > 0) {
+                    List<DependentsInfoModel> poDependnt = new ArrayList<>();
+                    for (int x = 0; x < loJsonArr.length(); x++) {
+                        JSONObject loJsonDep = loJsonArr.getJSONObject(x);
+
+                        String dpdFullname = loJsonDep.getString("sFullName");
+                        String dpdRlationship = loJsonDep.getString("sReltnCde");
+                        String dpdAge = String.valueOf(loJsonDep.getInt("nDepdAgex"));
+                        String dpdIsStudent = loJsonDep.getString("cIsPupilx");
+                        String dpdSchoolType = loJsonDep.getString("cIsPrivte");
+                        String dpdIsScholar = loJsonDep.getString("cIsSchlrx");
+                        String dpdEducLevel = loJsonDep.getString("sEducLevl");
+                        String dpdSchoolName = loJsonDep.getString("sSchlName");
+                        String dpdSchoolAddress = loJsonDep.getString("sSchlAddr");
+                        String dpdSchoolProv = "";
+                        String dpdSchoolTown = loJsonDep.getString("sSchlTown");
+                        String dpdIsEmployed = loJsonDep.getString("cHasWorkx");
+                        String dpdEmployedSector = loJsonDep.getString("cWorkType");
+                        String dpdCompanyName = loJsonDep.getString("sCompanyx");
+                        String dpdIsDependent = loJsonDep.getString("cDependnt");
+                        String dpdIsHouseHold = loJsonDep.getString("cHouseHld");
+                        String dpdIsMarried = loJsonDep.getString("cIsMarrdx");
+
+                        DependentsInfoModel loDependnt = new DependentsInfoModel(dpdFullname,
+                                dpdRlationship,
+                                dpdAge,
+                                dpdIsStudent,
+                                dpdSchoolType,
+                                dpdIsScholar,
+                                dpdEducLevel,
+                                dpdSchoolName,
+                                dpdSchoolAddress,
+                                dpdSchoolProv,
+                                dpdSchoolTown,
+                                dpdIsEmployed,
+                                dpdEmployedSector,
+                                dpdCompanyName,
+                                dpdIsDependent,
+                                dpdIsHouseHold,
+                                dpdIsMarried);
+                        if (!loDependnt.isDataValid()) {
+                            loJsonArr.remove(x);
+                        }else {
+                            poDependnt.add(loDependnt);
+                        };
+                    }
+                    mViewModel.setRetrievedDependentList(poDependnt);
+                    adapter.notifyDataSetChanged();
+                }
+            } catch(JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     class OnDependencyStatusSelectionListener implements RadioGroup.OnCheckedChangeListener{

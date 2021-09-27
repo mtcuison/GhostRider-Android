@@ -33,12 +33,16 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.g3appdriver.etc.OnDateSetListener;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SpouseInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -148,10 +152,14 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
 
 
         // Set DetailInfo to goCas
-        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), new Observer<ECreditApplicantInfo>() {
-            @Override
-            public void onChanged(ECreditApplicantInfo eCreditApplicantInfo) {
+        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
+            try {
                 mViewModel.setDetailInfo(eCreditApplicantInfo);
+                setFieldValues(eCreditApplicantInfo);
+            } catch(NullPointerException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
@@ -330,6 +338,128 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
     @Override
     public void onFailedResult(String message) {
         GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
+    }
+
+    // TODO: Value Setters
+    private void setFieldValues(ECreditApplicantInfo foCredtAp) {
+        if(foCredtAp.getSpousexx() != null) {
+            try {
+                JSONObject loJson = new JSONObject(foCredtAp.getSpousexx());
+
+                txtLastName.setText( (!"".equalsIgnoreCase(loJson.getString("sLastName"))) ? loJson.getString("sLastName") : "" );
+                txtFirstName.setText( (!"".equalsIgnoreCase(loJson.getString("sFrstName"))) ? loJson.getString("sFrstName") : "" );
+                txtSuffix.setText( (!"".equalsIgnoreCase(loJson.getString("sSuffixNm"))) ? loJson.getString("sSuffixNm") : "" );
+                txtMiddName.setText( (!"".equalsIgnoreCase(loJson.getString("sMiddName"))) ? loJson.getString("sMiddName") : "" );
+                txtNickName.setText( (!"".equalsIgnoreCase(loJson.getString("sNickName"))) ? loJson.getString("sNickName") : "" );
+                txtBDate.setText( (!"".equalsIgnoreCase(loJson.getString("dBirthDte"))) ? loJson.getString("dBirthDte") : "" );
+
+                if(!"".equalsIgnoreCase(loJson.getString("sBirthPlc"))) {
+                    mViewModel.getTownProvinceByTownID(loJson.getString("sBirthPlc")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
+                        try {
+                            txtProvince.setText(townProvinceInfo.sProvName);
+                            txtTownxx.setText(townProvinceInfo.sTownName);
+                            mViewModel.setTownID(townProvinceInfo.sTownIDxx);
+                            mViewModel.setProvinceID(townProvinceInfo.sProvIDxx);
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+
+                if(!"".equalsIgnoreCase(loJson.getString("sCitizenx"))) {
+                    mViewModel.getClientCitizenship(loJson.getString("sCitizenx")).observe(getViewLifecycleOwner(), citizen -> {
+                        try {
+                            txtCitizenx.setText(citizen);
+                            mViewModel.setCitizenship(loJson.getString("sCitizenx"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+
+                //Mobile number
+                JSONArray loCPArry = loJson.getJSONArray("mobile_number");
+                for(int x = 0; x < loCPArry.length(); x++) {
+                    if(x == 0) {
+                        JSONObject loJsonCp = loCPArry.getJSONObject(x);
+                        if( !"".equalsIgnoreCase(loJsonCp.getString("sMobileNo")) &&
+                                !"".equalsIgnoreCase(loJsonCp.getString("cPostPaid")) ) {
+                            txtPrimeCntc.setText(loJsonCp.getString("sMobileNo"));
+                            spnMobile1.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))]);
+                            if("1".equalsIgnoreCase(loJsonCp.getString("cPostPaid"))) {
+                                txtPrimeCntcYr.setText(String.valueOf(loJsonCp.getInt("nPostYear")));
+                            }
+                        }
+                    } else if(x == 1) {
+                        JSONObject loJsonCp = loCPArry.getJSONObject(x);
+                        if( !"".equalsIgnoreCase(loJsonCp.getString("sMobileNo")) &&
+                                !"".equalsIgnoreCase(loJsonCp.getString("cPostPaid")) ) {
+                            txtSecCntct.setText(loJsonCp.getString("sMobileNo"));
+                            spnMobile2.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))]);
+                            if("1".equalsIgnoreCase(loJsonCp.getString("cPostPaid"))) {
+                                txtSecCntctYr.setText(String.valueOf(loJsonCp.getInt("nPostYear")));
+                            }
+                        }
+                    } else if(x == 2) {
+                        JSONObject loJsonCp = loCPArry.getJSONObject(x);
+                        if( !"".equalsIgnoreCase(loJsonCp.getString("sMobileNo")) &&
+                                !"".equalsIgnoreCase(loJsonCp.getString("cPostPaid")) ) {
+                            txtThirCntct.setText(loJsonCp.getString("sMobileNo"));
+                            spnMobile3.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))]);
+                            if("1".equalsIgnoreCase(loJsonCp.getString("cPostPaid"))) {
+                                txtThirCntctYr.setText(String.valueOf(loJsonCp.getInt("nPostYear")));
+                            }
+                        }
+                    }
+                }
+
+                JSONArray loTelArr = loJson.getJSONArray("landline");
+                JSONObject loJsonTel = loTelArr.getJSONObject(0);
+                txtTelNox.setText( (!"".equalsIgnoreCase(loJsonTel.getString("sPhoneNox"))) ? loJsonTel.getString("sPhoneNox") : "" );
+
+                JSONArray loEmail = loJson.getJSONArray("email_address");
+                JSONObject loJsonEml =  loEmail.getJSONObject(0);
+                txtEmailAdd.setText( (!"".equalsIgnoreCase(loJsonEml.getString("sEmailAdd"))) ? loJsonEml.getString("sEmailAdd") : "" );
+
+//
+                JSONObject loJsonFb = loJson.getJSONObject("facebook");
+                txtFbAcct.setText( (!"".equalsIgnoreCase(loJsonFb.getString("sFBAcctxx"))) ? loJsonFb.getString("sFBAcctxx") : "" );
+
+                txtViberAcct.setText( (!"".equalsIgnoreCase(loJson.getString("sVibeAcct"))) ? loJson.getString("sVibeAcct") : "" );
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // clear input fields
+            txtLastName.getText().clear();
+            txtFirstName.getText().clear();
+            txtSuffix.getText().clear();
+            txtMiddName.getText().clear();
+            txtNickName.getText().clear();
+            txtBDate.getText().clear();
+            txtProvince.getText().clear();
+            txtTownxx.getText().clear();
+            txtCitizenx.getText().clear();
+            txtPrimeCntc.getText().clear();
+            txtSecCntct.getText().clear();
+            txtThirCntct.getText().clear();
+
+            spnMobile1.getText().clear();
+            spnMobile2.getText().clear();
+            spnMobile3.getText().clear();
+
+            txtPrimeCntcYr.getText().clear();
+            txtSecCntctYr.getText().clear();
+            txtThirCntctYr.getText().clear();
+            txtTelNox.getText().clear();
+            txtEmailAdd.getText().clear();
+            txtFbAcct.getText().clear();
+            txtViberAcct.getText().clear();
+        }
     }
 
     class OnItemClickListener implements AdapterView.OnItemClickListener {

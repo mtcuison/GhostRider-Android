@@ -32,10 +32,12 @@ import org.rmj.gocas.base.GOCASApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DependentsInfoModel;
+import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalReferenceInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class VMDependent extends AndroidViewModel {
     private static final String TAG = VMDependent.class.getSimpleName();
@@ -206,6 +208,11 @@ public class VMDependent extends AndroidViewModel {
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.STUDENT_YES_NO));
         return liveData;
+    }
+
+    public void setRetrievedDependentList(List<DependentsInfoModel> foRefs) {
+        Objects.requireNonNull(dependentInfo).getValue().clear();
+        Objects.requireNonNull(dependentInfo).setValue(foRefs);
     }
 
     public LiveData<List<DependentsInfoModel>> getAllDependent() {

@@ -54,7 +54,7 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
     private View v;
 
     private AutoCompleteTextView spnTypex;
-    private String typeX = "-1";
+    private String typeX ="";
     private TextInputEditText tieElctx;
     private TextInputEditText tieWater;
     private TextInputEditText tieFoodx;
@@ -138,7 +138,7 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
         tieLoans.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieLoans));
         tieLimit.addTextChangedListener(new TextFormatter.OnTextChangedCurrencyFormatter(tieLimit));
         spnTypex.setOnItemClickListener((parent, view, position, id) -> {
-            typeX = String.valueOf(position);
+            typeX = (String.valueOf(position) != null) ? String.valueOf(position) : "";
             mViewModel.setType(typeX);
         });
         btnNext.setOnClickListener(view -> {
@@ -172,10 +172,9 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
                 Log.e(TAG + " jsonCon", foCredApp.getDisbrsmt());
                 // Value setter goes here
 
-                JSONObject loDisburse = loJson.getJSONObject("disbursement_info");
-                JSONObject loCreditCd = loDisburse.getJSONObject("credit_card");
-                JSONObject loMonthExp = loDisburse.getJSONObject("monthly_expenses");
-                JSONObject loBankAcct = loDisburse.getJSONObject("bank_account");
+                JSONObject loCreditCd = loJson.getJSONObject("credit_card");
+                JSONObject loMonthExp = loJson.getJSONObject("monthly_expenses");
+                JSONObject loBankAcct = loJson.getJSONObject("bank_account");
 
                 // Monthly Expenses
                 tieElctx.setText(String.valueOf(loMonthExp.get("nElctrcBl")));
@@ -185,8 +184,13 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
 
                 //Bank Account
                 tieBankN.setText(loBankAcct.getString("sBankName"));
-                spnTypex.setText(CreditAppConstants.ACCOUNT_TYPE[Integer.parseInt(loBankAcct.getString("sAcctType"))]);
-                spnTypex.setSelection(Integer.parseInt(loBankAcct.getString("sAcctType")));
+                if(loBankAcct.getString("sAcctType") != null) {
+                    if(!loBankAcct.getString("sAcctType").equalsIgnoreCase("-1")) {
+                        spnTypex.setText(CreditAppConstants.ACCOUNT_TYPE[Integer.parseInt(loBankAcct.getString("sAcctType"))]);
+                        spnTypex.setSelection(Integer.parseInt(loBankAcct.getString("sAcctType")));
+                    }
+                }
+
                 typeX = loBankAcct.getString("sAcctType");
                 //Credit Card Account
                 tieCCBnk.setText(loCreditCd.getString("sBankName"));
@@ -196,6 +200,20 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
             } catch(JSONException e) {
                 e.printStackTrace();
             }
+        } else {
+            tieElctx.setText("");
+            tieWater.setText("");
+            tieFoodx.setText("");
+            tieLoans.setText("");
+
+            //Bank Account
+            tieBankN.setText("");
+            spnTypex.getText().clear();
+            spnTypex.getText().clear();
+            //Credit Card Account
+            tieCCBnk.setText("");
+            tieLimit.setText("");
+            tieYearS.setText("");
         }
     }
 

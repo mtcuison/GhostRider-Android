@@ -11,8 +11,10 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
-public class CoMakerResidenceModel {
+import android.util.Log;
 
+public class CoMakerResidenceModel {
+    private static final String TAG = CoMakerResidenceModel.class.getSimpleName();
     private String sLandMark;
     private String sHouseNox;
     private String sAddress1;
@@ -98,11 +100,13 @@ public class CoMakerResidenceModel {
     }
 
     public String getsMuncplID() {
+        Log.e(TAG + "townIdGetter", sMuncplID);
         return sMuncplID;
     }
 
     public void setsMuncplID(String sMuncplID) {
         this.sMuncplID = sMuncplID;
+        Log.e(TAG + "townIdSetter", this.sMuncplID);
     }
 
     public String getsBrgyName() {
@@ -236,7 +240,7 @@ public class CoMakerResidenceModel {
 
     private boolean isBarangayValid(){
         if(sBrgyIDxx == null || sBrgyIDxx.trim().isEmpty()){
-            message = "Please enter town";
+            message = "Please enter barangay";
             return false;
         }
         return true;

@@ -31,6 +31,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcBrand;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMcModel;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
@@ -59,10 +60,10 @@ public class VMReviewLoanApp extends AndroidViewModel {
     private final RImageInfo poImage;
     private EImageInfo poPhoto;
     private String TransNox;
-
     private ECreditApplicantInfo poInfo = new ECreditApplicantInfo();
-
+    private GOCASApplication poGOCas;
     private final MutableLiveData<List<ReviewAppDetail>> plAppDetail = new MutableLiveData<>();
+    private final MutableLiveData<String> brnName = new MutableLiveData<>();
 
     public interface OnFetchReviewListener{
         void OnDetailLoad(List<ReviewAppDetail> detailList);
@@ -75,6 +76,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
         this.plAppDetail.setValue(new ArrayList<>());
         this.poLoan = new RBranchLoanApplication(application);
         this.poImage = new RImageInfo(application);
+        this.poGOCas = GOCASHolder.getInstance().getGOCAS();
     }
 
     public void setTransNox(String transNox){
@@ -88,12 +90,14 @@ public class VMReviewLoanApp extends AndroidViewModel {
 
     public void setCreditAppInfo(ECreditApplicantInfo foInfo){
         this.poInfo = foInfo;
+
         new FetchReviewDetail(instance, plAppDetail::setValue).execute(poInfo);
     }
 
     public LiveData<List<ReviewAppDetail>> getAppDetail(){
         return plAppDetail;
     }
+
 
     public void saveImageFile(EImageInfo foImage){
         this.poPhoto = foImage;
@@ -102,13 +106,15 @@ public class VMReviewLoanApp extends AndroidViewModel {
 
     public void SaveCreditOnlineApplication(UploadCreditApp.OnUploadLoanApplication listener){
         ECreditApplication loCreditApp = new ECreditApplication();
-        GOCASApplication loGOCas = GOCASHolder.getInstance().getGOCAS();
+        GoCasBuilder loModel = new GoCasBuilder(poInfo);
+        GOCASApplication loGOCas = new GOCASApplication();
+        loGOCas.setData(loModel.getConstructedDetailedInfo());
         loCreditApp.setTransNox(poCreditApp.getGOCasNextCode());
         loCreditApp.setBranchCd(poInfo.getBranchCd());
         loCreditApp.setClientNm(poInfo.getClientNm());
         loCreditApp.setUnitAppl(poInfo.getAppliedx());
         loCreditApp.setSourceCD("APP");
-        loCreditApp.setDetlInfo(loGOCas.toJSONString());
+        loCreditApp.setDetlInfo(loModel.getConstructedDetailedInfo());
         loCreditApp.setDownPaym(poInfo.getDownPaym());
         loCreditApp.setCreatedx(poInfo.getCreatedx());
         loCreditApp.setTransact(poInfo.getTransact());
@@ -136,7 +142,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
         private final RCountry poCountry;
         private final ROccupation poJobx;
         private final OnFetchReviewListener mListener;
-
+        private RBranch poBranch;
         public FetchReviewDetail(Application application, OnFetchReviewListener listener) {
             this.instance = application;
             this.poModel = new RMcModel(instance);
@@ -144,17 +150,20 @@ public class VMReviewLoanApp extends AndroidViewModel {
             this.poTown = new RTown(instance);
             this.poCountry = new RCountry(instance);
             this.poJobx = new ROccupation(instance);
+            this.poBranch = new RBranch(instance);
             this.mListener = listener;
         }
 
         @Override
         protected List<ReviewAppDetail> doInBackground(ECreditApplicantInfo... eCreditApplicantInfos) {
             ECreditApplicantInfo poInfo = eCreditApplicantInfos[0];
+
             List<ReviewAppDetail> loListDetl = new ArrayList<>();
             try {
-                GOCASApplication loGOCas = GOCASHolder.getInstance().getGOCAS();
+                GOCASApplication loGOCas = new GOCASApplication();
+                loGOCas.setData(new GoCasBuilder(poInfo).getConstructedDetailedInfo());
                 loListDetl.add(new ReviewAppDetail(true, "Purchase Info", "", ""));
-                loListDetl.add(new ReviewAppDetail(false, "", "Branch", loGOCas.PurchaseInfo().getPreferedBranch()));
+                loListDetl.add(new ReviewAppDetail(false, "", "Branch", poBranch.getBranchNameForNotification(loGOCas.PurchaseInfo().getPreferedBranch())));
 
                 loListDetl.add(new ReviewAppDetail(false, "", "Unit Applied", loGOCas.PurchaseInfo().getBrandName()));
 
@@ -622,7 +631,6 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     loListDetl.add(new ReviewAppDetail(false, "", "Reference " + (i+1), ""));
                     loListDetl.add(new ReviewAppDetail(false, "", "Fullname ", loExp.get("sRefrNmex").toString()));
                     loListDetl.add(new ReviewAppDetail(false, "", "Mobile No. ", loExp.get("sRefrMPNx").toString()));
-                    String rfBirthPlace = loExp.get("sRefrTown").toString();
                     loListDetl.add(new ReviewAppDetail(false, "", "Address ", loExp.get("sRefrAddx").toString()));
                     loListDetl.add(new ReviewAppDetail(false, "", "Town ", loExp.get("sRefrTown").toString()));
                 }

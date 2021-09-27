@@ -27,6 +27,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EOccupationInfo;
@@ -244,12 +245,20 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
         return true;
     }
 
+    public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownID(String TownID)  {
+        return poTownRepo.getTownProvinceByTownID(TownID);
+    }
+
     public LiveData<String[]> getCountryNameList(){
         return poCountry.getAllCountryNames();
     }
 
     public LiveData<List<ECountryInfo>> getCountryInfoList(){
         return poCountry.getAllCountryInfo();
+    }
+
+    public LiveData<String> getCountryNameFromId(String fsCntryCd) {
+        return poCountry.getCountryNameFromId(fsCntryCd);
     }
 
     public boolean setCountry(String ID){
@@ -266,6 +275,10 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
 
     public LiveData<List<EOccupationInfo>> getJobTitleInfoList(){
         return poJobRepo.getAllOccupationInfo();
+    }
+
+    public LiveData<String> getLiveOccupationName(String ID) {
+        return  poJobRepo.getLiveOccupationName(ID);
     }
 
     public boolean setJobTitle(String ID){

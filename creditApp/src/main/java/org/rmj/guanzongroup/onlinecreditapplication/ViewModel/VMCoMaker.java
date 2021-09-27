@@ -28,6 +28,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
@@ -50,6 +51,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.Data.GoCasBuilder;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 
 import java.util.List;
+import java.util.Objects;
 
 public class VMCoMaker extends AndroidViewModel {
     private static final String TAG = VMCoMaker.class.getSimpleName();
@@ -129,6 +131,10 @@ public class VMCoMaker extends AndroidViewModel {
 
     public LiveData<String[]> getAllTownNames(){
         return RTown.getTownNamesFromProvince(lsProvID.getValue());
+    }
+
+    public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownID(String TownID)  {
+        return RTown.getTownProvinceByTownID(TownID);
     }
 
     public void setProvID(String ProvID) { this.lsProvID.setValue(ProvID); }
@@ -238,7 +244,7 @@ public class VMCoMaker extends AndroidViewModel {
 
     public boolean SubmitComaker(CoMakerModel infoModel, ViewModelCallBack callBack) {
         try {
-            new UpdateTask(poApplcnt, infoModel, callBack).execute();
+            new UpdateTask(poApplcnt, infoModel, lsBPlace.getValue(), callBack).execute();
             return true;
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -254,11 +260,13 @@ public class VMCoMaker extends AndroidViewModel {
         private final RCreditApplicant poDcp;
         private final CoMakerModel infoModel;
         private final ViewModelCallBack callback;
+        private final String psBPlace;
 
-        public UpdateTask(RCreditApplicant poDcp, CoMakerModel infoModel, ViewModelCallBack callback) {
+        public UpdateTask(RCreditApplicant poDcp, CoMakerModel infoModel, String fsBPlace, ViewModelCallBack callback) {
             this.poDcp = poDcp;
             this.infoModel = infoModel;
             this.callback = callback;
+            this.psBPlace = Objects.requireNonNull(fsBPlace);
         }
 
         @Override
@@ -272,7 +280,7 @@ public class VMCoMaker extends AndroidViewModel {
                     poGoCas.CoMakerInfo().setSuffixName(infoModel.getCoSuffix());
                     poGoCas.CoMakerInfo().setNickName(infoModel.getCoNickName());
                     poGoCas.CoMakerInfo().setBirthdate(infoModel.getCoBrthDate());
-                    poGoCas.CoMakerInfo().setBirthPlace(infoModel.getCoBrthPlce());
+                    poGoCas.CoMakerInfo().setBirthPlace(psBPlace);
                     poGoCas.CoMakerInfo().setIncomeSource(infoModel.getCoIncomeSource());
                     poGoCas.CoMakerInfo().setRelation(infoModel.getCoBorrowerRel());
                     poGoCas.CoMakerInfo().setMobileNoQty(infoModel.getCoMobileNoQty());
