@@ -255,29 +255,42 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
 
     private void addReference(){
         try {
-            mViewModel.getLiveTownProvinceNames(TownID).observe(getViewLifecycleOwner(), townProvNme -> {
-                String lsTownPrv = townProvNme.sTownName + ", " +townProvNme.sProvName;
-                String refName = (Objects.requireNonNull(tieRefName.getText()).toString());
-                String refContact = (Objects.requireNonNull(tieRefCntc.getText()).toString());
-                String refAddress = (Objects.requireNonNull(tieRefAdd1.getText()).toString());
-                PersonalReferenceInfoModel poRefInfo = new PersonalReferenceInfoModel(refName, refAddress, lsTownPrv, refContact);
-                mViewModel.addReference(poRefInfo, new VMOtherInfo.AddPersonalInfoListener() {
-                    @Override
-                    public void OnSuccess() {
-                        tieRefName.setText("");
-                        tieRefCntc.setText("");
-                        tieRefAdd1.setText("");
-                        tieAddProv.setText("");
-                        tieAddTown.setText("");
-                        TownID = "";
-                    }
+            if(tieRefName.getText().toString().isEmpty()){
+                GToast.CreateMessage(getActivity(),"Reference name required!", GToast.WARNING).show();
+            }else  if(tieRefCntc.getText().toString().isEmpty()){
+                GToast.CreateMessage(getActivity(),"Reference Contact Number required!", GToast.WARNING).show();
+            }else  if(tieRefAdd1.getText().toString().isEmpty()){
+                GToast.CreateMessage(getActivity(),"Reference Address required!", GToast.WARNING).show();
+            }else  if(tieAddProv.getText().toString().isEmpty()){
+                GToast.CreateMessage(getActivity(),"Reference Province required!", GToast.WARNING).show();
+            }else  if(tieAddTown.getText().toString().isEmpty()){
+                GToast.CreateMessage(getActivity(),"Reference Municipality required!", GToast.WARNING).show();
+            }else{
+                mViewModel.getLiveTownProvinceNames(TownID).observe(getViewLifecycleOwner(), townProvNme -> {
+                    String lsTownPrv = townProvNme.sTownName + ", " +townProvNme.sProvName;
+                    String refName = (Objects.requireNonNull(tieRefName.getText()).toString());
+                    String refContact = (Objects.requireNonNull(tieRefCntc.getText()).toString());
+                    String refAddress = (Objects.requireNonNull(tieRefAdd1.getText()).toString());
+                    PersonalReferenceInfoModel poRefInfo = new PersonalReferenceInfoModel(refName, refAddress, lsTownPrv, refContact);
+                    mViewModel.addReference(poRefInfo, new VMOtherInfo.AddPersonalInfoListener() {
+                        @Override
+                        public void OnSuccess() {
+                            tieRefName.setText("");
+                            tieRefCntc.setText("");
+                            tieRefAdd1.setText("");
+                            tieAddProv.setText("");
+                            tieAddTown.setText("");
+                            TownID = "";
+                        }
 
-                    @Override
-                    public void onFailed(String message) {
-                        GToast.CreateMessage(getContext(), message, GToast.ERROR).show();
-                    }
+                        @Override
+                        public void onFailed(String message) {
+                            GToast.CreateMessage(getContext(), message, GToast.ERROR).show();
+                        }
+                    });
                 });
-            });
+            }
+
         }catch (NullPointerException e){
             e.printStackTrace();
         } catch (Exception e){
