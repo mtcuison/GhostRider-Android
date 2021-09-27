@@ -433,8 +433,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
                             int lmEmpLvl = Integer.parseInt(loGOCas.SpouseMeansInfo().EmployedInfo().getEmployeeLevel());
                             loListDetl.add(new ReviewAppDetail(false, "", "Employee Level", CreditAppConstants.EMPLOYEE_LEVEL[lmEmpLvl]));
 
-                            int lnBizNatr = Integer.parseInt(loGOCas.SpouseMeansInfo().EmployedInfo().getNatureofBusiness());
-                            loListDetl.add(new ReviewAppDetail(false, "", "Business Industry", CreditAppConstants.BUSINESS_NATURE[lnBizNatr]));
+                            loListDetl.add(new ReviewAppDetail(false, "", "Business Industry", loGOCas.SpouseMeansInfo().EmployedInfo().getNatureofBusiness()));
                             loListDetl.add(new ReviewAppDetail(false, "", "Company Name", loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyName()));
 
                             DTownInfo.TownProvinceName loAddrs = poTown.getTownProvinceName(loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyTown());
@@ -625,10 +624,9 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     loListDetl.add(new ReviewAppDetail(false, "", "Reference " + (i+1), ""));
                     loListDetl.add(new ReviewAppDetail(false, "", "Fullname ", loExp.get("sRefrNmex").toString()));
                     loListDetl.add(new ReviewAppDetail(false, "", "Mobile No. ", loExp.get("sRefrMPNx").toString()));
-                    DTownInfo.TownProvinceName rfBPlace = poTown.getTownProvinceName(loExp.get("sRefrTown").toString());
-                    String rfBirthPlace = rfBPlace.sTownName + ", " + rfBPlace.sProvName;
+                    String rfBirthPlace = loExp.get("sRefrTown").toString();
                     loListDetl.add(new ReviewAppDetail(false, "", "Address ", loExp.get("sRefrAddx").toString()));
-                    loListDetl.add(new ReviewAppDetail(false, "", "Town ", rfBirthPlace));
+                    loListDetl.add(new ReviewAppDetail(false, "", "Town ", loExp.get("sRefrTown").toString()));
                 }
 
 //                CO-MAKER
