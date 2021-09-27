@@ -11,8 +11,10 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.gocas.pojo.ApplicantInfo;
@@ -37,6 +42,7 @@ import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMMeansInfoSelecti
 
 public class Fragment_MeansInfoSelection extends Fragment implements ViewModelCallBack {
 
+    private static final String TAG = Fragment_MeansInfoSelection.class.getSimpleName();
     private VMMeansInfoSelection.MeansInfo infoModel;
     private VMMeansInfoSelection mViewModel;
 
@@ -82,7 +88,11 @@ public class Fragment_MeansInfoSelection extends Fragment implements ViewModelCa
         mViewModel = new ViewModelProvider(this).get(VMMeansInfoSelection.class);
         mViewModel.setTransNox(TransNox);
         
-        mViewModel.getCreditApplicantInfo(TransNox).observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setGOCasDetailInfo(eCreditApplicantInfo));
+        mViewModel.getCreditApplicantInfo(TransNox).observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
+            mViewModel.setGOCasDetailInfo(eCreditApplicantInfo);
+            setFieldValues(eCreditApplicantInfo);
+        });
+
         btnNext.setOnClickListener(view -> {
 //            try {
 ////                String personal_info = Activity_CreditApplication.getInstance().getApplicantInfo().toJSONString();
@@ -128,6 +138,47 @@ public class Fragment_MeansInfoSelection extends Fragment implements ViewModelCa
             }).show();
         } else {
             GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
+        }
+    }
+    @SuppressLint("NewApi")
+    private void setFieldValues(ECreditApplicantInfo foCredApp){
+        if (foCredApp.getAppMeans() != null) {
+            try {
+                JSONObject loJson = new JSONObject(foCredApp.getAppMeans());
+                Log.e(TAG + " jsonCon", loJson.toString());
+                infoModel = new VMMeansInfoSelection.MeansInfo();
+                if(loJson.getString("employed").equalsIgnoreCase("1")){
+                    cbEmployed.setChecked(true);
+                    infoModel.setEmployed("1");
+                }else{
+                    cbEmployed.setChecked(false);
+                    infoModel.setEmployed("0");
+                }
+
+                if(loJson.getString("sEmplyed").equalsIgnoreCase("1")){
+                    cbSEmployd.setChecked(true);
+                    infoModel.setSelfEmployed("1");
+                }else{
+                    cbSEmployd.setChecked(false);
+                    infoModel.setSelfEmployed("0");
+                }
+                if(loJson.getString("financer").equalsIgnoreCase("1")){
+                    cbFinancex.setChecked(true);
+                    infoModel.setFinance("1");
+                }else{
+                    cbFinancex.setChecked(false);
+                    infoModel.setFinance("0");
+                }
+                if(loJson.getString("pensionx").equalsIgnoreCase("1")){
+                    cbPensionx.setChecked(true);
+                    infoModel.setPension("1");
+                }else{
+                    cbPensionx.setChecked(false);
+                    infoModel.setPension("0");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
