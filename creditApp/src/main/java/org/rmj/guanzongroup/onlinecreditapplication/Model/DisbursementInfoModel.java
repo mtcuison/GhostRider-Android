@@ -18,7 +18,7 @@ public class DisbursementInfoModel {
     private String foodX;
     private String loans;
     private String bankN;
-    private String stypeX;
+    private String stypeX = "";
     private String ccBnk;
     private String limitCC;
     private String yearS;
@@ -127,7 +127,7 @@ public class DisbursementInfoModel {
         return true;
     }
     private boolean isTypeX(){
-        if(Integer.parseInt(stypeX) < 0){
+        if(stypeX.equalsIgnoreCase("")){
             message = "Please select account type";
             return false;
         }

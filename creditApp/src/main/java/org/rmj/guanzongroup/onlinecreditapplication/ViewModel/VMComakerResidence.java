@@ -27,6 +27,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
@@ -120,6 +121,10 @@ public class VMComakerResidence extends AndroidViewModel {
 
     public LiveData<List<EBarangayInfo>> getBarangayInfoList(){
         return poBarangy.getAllBarangayFromTown(psTownID.getValue());
+    }
+
+    public LiveData<DTownInfo.BrgyTownProvinceInfoWithID> getBrgyTownProvinceInfoWithID(String BrgyID)  {
+        return poTownRpo.getBrgyTownProvinceInfoWithID(BrgyID);
     }
 
     public LiveData<ArrayAdapter<String>> getHouseHolds(){

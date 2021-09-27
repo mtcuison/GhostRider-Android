@@ -32,6 +32,8 @@ import android.widget.CompoundButton;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
@@ -99,7 +101,16 @@ public class Fragment_SpouseResidenceInfo extends Fragment implements ViewModelC
         mViewModel.setTransNox(transnox);
 
         // Set DetailInfo to goCas
-        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo));
+        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
+            try {
+                mViewModel.setDetailInfo(eCreditApplicantInfo);
+                setFieldValues(eCreditApplicantInfo);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
         // Set province list in txtProvince
         mViewModel.getProvinceNames().observe(getViewLifecycleOwner(), new Observer<String[]>() {
@@ -211,6 +222,51 @@ public class Fragment_SpouseResidenceInfo extends Fragment implements ViewModelC
         infoModel.setBarangay(Objects.requireNonNull(txtBarangay.getText().toString()));
 
         mViewModel.Save(infoModel, Fragment_SpouseResidenceInfo.this);
+    }
+
+    private void setFieldValues(ECreditApplicantInfo foCredtAp) {
+        if(foCredtAp.getSpsResdx() != null) {
+            try {
+                JSONObject loJson = new JSONObject(foCredtAp.getSpsResdx());
+                JSONObject loSpsAdrs = loJson.getJSONObject("present_address");
+
+                txtLandMark.setText( (!"".equalsIgnoreCase(loSpsAdrs.getString("sLandMark"))) ? loSpsAdrs.getString("sLandMark") : "" );
+                txtHouseNox.setText( (!"".equalsIgnoreCase(loSpsAdrs.getString("sHouseNox"))) ? loSpsAdrs.getString("sHouseNox") : "" );
+                txtAddress1.setText( (!"".equalsIgnoreCase(loSpsAdrs.getString("sAddress1"))) ? loSpsAdrs.getString("sAddress1") : "" );
+                txtAddress2.setText( (!"".equalsIgnoreCase(loSpsAdrs.getString("sAddress2"))) ? loSpsAdrs.getString("sAddress2") : "" );
+
+                mViewModel.getBrgyTownProvinceInfoWithID(loSpsAdrs.getString("sBrgyIDxx")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
+                    try {
+                        txtTown.setText(townProvinceInfo.sTownName);
+                        txtProvince.setText(townProvinceInfo.sProvName);
+                        txtBarangay.setText(townProvinceInfo.sBrgyName);
+
+                        mViewModel.setProvinceID(townProvinceInfo.sProvIDxx);
+                        mViewModel.setTownID(townProvinceInfo.sTownIDxx);
+                        mViewModel.setBrgyID(townProvinceInfo.sBrgyIDxx);
+                    } catch(NullPointerException e) {
+                        e.printStackTrace();
+                    } catch(Exception e) {
+                         e.printStackTrace();
+                    }
+                });
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            txtLandMark.getText().clear();
+            txtHouseNox.getText().clear();
+            txtAddress1.getText().clear();
+            txtAddress2.getText().clear();
+            txtProvince.getText().clear();
+            txtTown.getText().clear();
+            txtBarangay.getText().clear();
+
+            mViewModel.setProvinceID("");
+            mViewModel.setTownID("");
+            mViewModel.setBrgyID("");
+        }
     }
 
     @Override

@@ -33,10 +33,14 @@ import android.widget.Spinner;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.TextFormatter;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SpouseSelfEmployedInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -72,7 +76,16 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMSpouseSelfEmployedInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
-        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo));
+        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
+            try {
+                mViewModel.setDetailInfo(eCreditApplicantInfo);
+                setFieldValues(eCreditApplicantInfo);
+            } catch(NullPointerException e) {
+                e.printStackTrace();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        });
 
         mViewModel.getProvinceName().observe(getViewLifecycleOwner(), strings -> {
                 try{
@@ -177,6 +190,59 @@ public class Fragment_SpouseSelfEmployedInfo extends Fragment implements ViewMod
         infoModel.setsGrossMonthly(Objects.requireNonNull(txtMonthlyInc.getText().toString()));
         infoModel.setsMonthlyExps(Objects.requireNonNull(txtMonthlyExp.getText().toString()));
         mViewModel.Save(infoModel, Fragment_SpouseSelfEmployedInfo.this);
+    }
+
+    private void setFieldValues(ECreditApplicantInfo foCredtAp) {
+        if(foCredtAp.getSpsBusnx() != null) {
+            try {
+                JSONObject loJson = new JSONObject(foCredtAp.getSpsBusnx());
+
+                if(!"".equalsIgnoreCase(loJson.getString("sIndstBus"))) {
+                    spnBizIndustry.setText(CreditAppConstants.BUSINESS_NATURE[Integer.parseInt(loJson.getString("sIndstBus"))]);
+                    mViewModel.setBizIndustry(loJson.getString("sIndstBus"));
+                }
+
+                txtBizName.setText( (!"".equalsIgnoreCase(loJson.getString("sBusiness"))) ? loJson.getString("sBusiness") : "");
+                txtBizAddrss.setText( (!"".equalsIgnoreCase(loJson.getString("sBusAddrx"))) ? loJson.getString("sBusAddrx") : "");
+
+                mViewModel.getTownProvinceByTownID(loJson.getString("sBusTownx")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
+                    txtTown.setText(townProvinceInfo.sTownName);
+                    txtProvince.setText(townProvinceInfo.sProvName);
+                    mViewModel.setTownID(townProvinceInfo.sTownIDxx);
+                    mViewModel.setProvinceID(townProvinceInfo.sProvIDxx);
+                });
+
+                if(!"".equalsIgnoreCase(loJson.getString("cBusTypex"))) {
+                    spnBizType.setText(CreditAppConstants.BUSINESS_TYPE[Integer.parseInt(loJson.getString("cBusTypex"))]);
+                    mViewModel.setBizType(loJson.getString("cBusTypex"));
+                }
+
+                if(!"".equalsIgnoreCase(loJson.getString("cOwnSizex"))) {
+                    spnBizSize.setText(CreditAppConstants.BUSINESS_SIZE[Integer.parseInt(loJson.getString("cOwnSizex"))]);
+                    mViewModel.setBizSize(loJson.getString("cOwnSizex"));
+                }
+
+                txtBizLength.setText( (!"".equalsIgnoreCase(loJson.getString("nBusLenxx"))) ? loJson.getString("nBusLenxx") : "" );
+                txtMonthlyInc.setText( (!"".equalsIgnoreCase(loJson.getString("nBusIncom"))) ?  loJson.getString("nBusIncom") : "");
+                txtMonthlyExp.setText( (!"".equalsIgnoreCase(loJson.getString("nMonExpns"))) ?  loJson.getString("nMonExpns") : "");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // Clear fields
+            spnBizIndustry.getText().clear();
+            txtBizName.setText("");
+            txtBizAddrss.setText("");
+            txtProvince.setText("");
+            txtTown.setText("");
+            spnBizType.getText().clear();
+            spnBizSize.getText().clear();
+            txtBizLength.setText("");
+            spnMonthOrYr.getText().clear();
+            txtMonthlyInc.setText("");
+            txtMonthlyExp.setText("");
+        }
     }
 
     @Override

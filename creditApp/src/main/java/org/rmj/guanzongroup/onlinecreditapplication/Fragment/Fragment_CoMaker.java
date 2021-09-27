@@ -11,9 +11,11 @@
 
 package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -32,6 +34,7 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
@@ -42,6 +45,7 @@ import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
 import org.rmj.guanzongroup.onlinecreditapplication.Data.UploadCreditApp;
 import org.rmj.g3appdriver.etc.OnDateSetListener;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
@@ -274,9 +278,94 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
                 Log.e(TAG + " jsonCon", loJson.toString());
                 // Value setter goes here
 
+                tieLastname.setText( (!loJson.getString("sLastName").equalsIgnoreCase("")) ?  loJson.getString("sLastName") : "");
+                tieFrstname.setText( (!loJson.getString("sFrstName").equalsIgnoreCase("")) ?  loJson.getString("sFrstName") : "");
+                tieMiddname.setText( (!loJson.getString("sMiddName").equalsIgnoreCase("")) ?  loJson.getString("sMiddName") : "");
+                tieSuffixxx.setText( (!loJson.getString("sSuffixNm").equalsIgnoreCase("")) ?  loJson.getString("sSuffixNm") : "");
+                tieNickname.setText( (!loJson.getString("sNickName").equalsIgnoreCase("")) ?  loJson.getString("sNickName") : "");
+                tieBrthDate.setText( (!loJson.getString("dBirthDte").equalsIgnoreCase("")) ?  loJson.getString("dBirthDte") : "");
+
+                if(!loJson.getString("sBirthPlc").equalsIgnoreCase("")) {
+                    mViewModel.getTownProvinceByTownID(loJson.getString("sBirthPlc")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
+                        tieBrthTown.setText(townProvinceInfo.sTownName);
+                        tieBrthProv.setText(townProvinceInfo.sProvName);
+                        mViewModel.setTownID(townProvinceInfo.sTownIDxx);
+                        mViewModel.setProvID(townProvinceInfo.sProvIDxx);
+                    });
+                }
+//                spnIncmSrce
+                spnIncmSrce.setText(CreditAppConstants.CO_MAKER_INCOME_SOURCE[Integer.parseInt(loJson.getString("cIncmeSrc"))]);
+
+                JSONArray loCPArry = loJson.getJSONArray("mobile_number");
+                for(int x = 0; x < loCPArry.length(); x++) {
+
+                    if(x == 0) {
+                        JSONObject loJsonCp = loCPArry.getJSONObject(x);
+                        if( !"".equalsIgnoreCase(loJsonCp.getString("sMobileNo")) &&
+                                !"".equalsIgnoreCase(loJsonCp.getString("cPostPaid")) ) {
+                            tiePrmCntct.setText(loJsonCp.getString("sMobileNo"));
+                            spnPrmCntct.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))]);
+                            if("1".equalsIgnoreCase(loJsonCp.getString("cPostPaid"))) {
+                                tiePrmCntctPlan.setText(String.valueOf(loJsonCp.getInt("nPostYear")));
+                            }
+                        }
+                    } else if(x == 1) {
+                        JSONObject loJsonCp = loCPArry.getJSONObject(x);
+                        if( !"".equalsIgnoreCase(loJsonCp.getString("sMobileNo")) &&
+                                !"".equalsIgnoreCase(loJsonCp.getString("cPostPaid")) ) {
+                            tieScnCntct.setText(loJsonCp.getString("sMobileNo"));
+                            spnScnCntct.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))]);
+                            if("1".equalsIgnoreCase(loJsonCp.getString("cPostPaid"))) {
+                                tieScnCntctPlan.setText(String.valueOf(loJsonCp.getInt("nPostYear")));
+                            }
+                        }
+                    } else if(x == 2) {
+                        JSONObject loJsonCp = loCPArry.getJSONObject(x);
+                        if( !"".equalsIgnoreCase(loJsonCp.getString("sMobileNo")) &&
+                                !"".equalsIgnoreCase(loJsonCp.getString("cPostPaid")) ) {
+                            tieTrtCntct.setText(loJsonCp.getString("sMobileNo"));
+                            spnTrtCntct.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))]);
+                            if("1".equalsIgnoreCase(loJsonCp.getString("cPostPaid"))) {
+                                tieTrtCntctPlan.setText(String.valueOf(loJsonCp.getInt("nPostYear")));
+                            }
+                        }
+                    }
+
+                }
+
+                tieFbAcctxx.setText( (!loJson.getString("sFBAcctxx").equalsIgnoreCase("")) ?  loJson.getString("sFBAcctxx") : "");
+
             } catch(JSONException e) {
                 e.printStackTrace();
             }
+        } else {
+            tieLastname.getText().clear();
+            tieFrstname.getText().clear();
+            tieMiddname.getText().clear();
+            tieSuffixxx.getText().clear();
+            tieNickname.getText().clear();
+            tieBrthDate.getText().clear();
+
+            tieBrthTown.getText().clear();
+            tieBrthProv.getText().clear();
+
+            spnIncmSrce.getText().clear();;
+
+
+            tiePrmCntct.getText().clear();
+            spnPrmCntct.getText().clear();
+            tiePrmCntctPlan.getText().clear();
+
+            tieScnCntct.getText().clear();
+            spnScnCntct.getText().clear();
+            tieScnCntctPlan.getText().clear();
+
+            tieTrtCntct.getText().clear();
+            spnTrtCntct.getText().clear();
+            tieTrtCntctPlan.getText().clear();
+
+            tieFbAcctxx.getText().clear();;
+
         }
     }
 

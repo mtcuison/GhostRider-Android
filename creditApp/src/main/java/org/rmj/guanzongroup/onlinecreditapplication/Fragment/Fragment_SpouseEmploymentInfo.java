@@ -35,9 +35,13 @@ import android.widget.TextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
+import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.EmploymentInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.SpouseEmploymentInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
@@ -86,6 +90,8 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
 
     private TextView lblBizNature;
 
+    private RadioGroup rgSectorx, rgUniform, rgMiltary;
+
     private VMSpouseEmploymentInfo mViewModel;
     private SpouseEmploymentInfoModel infoModel;
 
@@ -103,9 +109,9 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
     }
 
     private void initWidgets(View v) {
-        RadioGroup rgSectorx = v.findViewById(R.id.rg_sector);
-        RadioGroup rgUniform = v.findViewById(R.id.rg_uniformPersonel);
-        RadioGroup rgMiltary = v.findViewById(R.id.rg_militaryPersonal);
+        rgSectorx = v.findViewById(R.id.rg_sector);
+        rgUniform = v.findViewById(R.id.rg_uniformPersonel);
+        rgMiltary = v.findViewById(R.id.rg_militaryPersonal);
         lblBizNature = v.findViewById(R.id.lbl_biz_nature);
         spnCmpLvl = v.findViewById(R.id.spn_employmentLevel);
         spnEmpLvl = v.findViewById(R.id.spn_employeeLevel);
@@ -149,7 +155,16 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
         mViewModel = ViewModelProviders.of(this).get(VMSpouseEmploymentInfo.class);
         mViewModel.setTransNox(Activity_CreditApplication.getInstance().getTransNox());
 
-        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> mViewModel.setDetailInfo(eCreditApplicantInfo));
+        mViewModel.getActiveGOCasApplication().observe(getViewLifecycleOwner(), eCreditApplicantInfo -> {
+            try {
+                mViewModel.setDetailInfo(eCreditApplicantInfo);
+                setFieldValues(eCreditApplicantInfo);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();;
+            }
+        });
 
         mViewModel.getCompanyLevelList().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
             spnCmpLvl.setAdapter(stringArrayAdapter);
@@ -270,6 +285,172 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
     @Override
     public void onFailedResult(String message) {
         GToast.CreateMessage(getActivity(), message, GToast.ERROR).show();
+    }
+
+    private void setFieldValues(ECreditApplicantInfo foCredtAp) {
+        if(foCredtAp.getSpsEmplx() != null) {
+            try {
+                JSONObject loJson =  new JSONObject(foCredtAp.getSpsEmplx());
+
+                if (loJson.getString("cEmpSectr").equalsIgnoreCase("1")) {
+                    // PRIVATE SECTOR
+                    rgSectorx.check(R.id.rb_private);
+                    if(!"".equalsIgnoreCase(loJson.getString("cCompLevl"))) {
+                        spnCmpLvl.setText(CreditAppConstants.COMPANY_LEVEL[Integer.parseInt(loJson.getString("cCompLevl"))]);
+                        mViewModel.setPsCmpLvl(loJson.getString("cCompLevl"));
+                    }
+                    if(!"".equalsIgnoreCase(loJson.getString("cEmpLevlx"))) {
+                        spnEmpLvl.setText(CreditAppConstants.EMPLOYEE_LEVEL[Integer.parseInt(loJson.getString("cEmpLevlx"))]);
+                        mViewModel.setPsEmpLvl(loJson.getString("cEmpLevlx"));
+                    }
+                    if(!"".equalsIgnoreCase(loJson.getString("sIndstWrk"))) {
+                        spnBusNtr.setText(loJson.getString("sIndstWrk"));
+                        mViewModel.setPsBsnssLvl(loJson.getString("sIndstWrk"));
+                    }
+                    txtCompNm.setText( (!"".equalsIgnoreCase(loJson.getString("sEmployer"))) ? loJson.getString("sEmployer") : "" );
+                    txtCompAd.setText( (!"".equalsIgnoreCase(loJson.getString("sWrkAddrx"))) ? loJson.getString("sWrkAddrx") : "" );
+                    mViewModel.getTownProvinceByTownID(loJson.getString("sWrkTownx")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
+                        txtTownNm.setText(townProvinceInfo.sTownName);
+                        txtProvNm.setText(townProvinceInfo.sProvName);
+                        mViewModel.setTownID(townProvinceInfo.sTownIDxx);
+                        mViewModel.setProvinceID(townProvinceInfo.sProvIDxx);
+                    });
+                    if(!"".equalsIgnoreCase(loJson.getString("sPosition"))) {
+                        mViewModel.setJobTitle(loJson.getString("sPosition"));
+                        mViewModel.getLiveOccupationName(loJson.getString("sPosition")).observe(getViewLifecycleOwner(), s -> {
+                            try {
+                                txtJobNme.setText(s);
+                            } catch(NullPointerException e) {
+                                e.printStackTrace();
+                            } catch(Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
+                    txtSpcfJb.setText( (!"".equalsIgnoreCase(loJson.getString("sFunction"))) ? loJson.getString("sFunction") : "" );
+
+                    if(!"".equalsIgnoreCase(loJson.getString("cEmpStatx"))) {
+                        spnEmpSts.setText(employmentStatChecker(loJson.getString("cEmpStatx")));
+                        mViewModel.setEmploymentStatus(loJson.getString("cEmpStatx"));
+                    }
+
+                    txtLngthS.setText( (!"".equalsIgnoreCase(loJson.getString("nLenServc"))) ? String.valueOf(loJson.get("nLenServc")) : "" );
+                    txtEsSlry.setText( (!"".equalsIgnoreCase(loJson.getString("nSalaryxx"))) ? String.valueOf(loJson.get("nSalaryxx")) : "" );
+                    txtCompCn.setText( (!"".equalsIgnoreCase(loJson.getString("sWrkTelno"))) ? String.valueOf(loJson.get("sWrkTelno")) : "" );
+
+                } else if (loJson.getString("cEmpSectr").equalsIgnoreCase("0")) {
+                    // GOVERNMENT SECTOR
+                    rgSectorx.check(R.id.rb_government);
+
+                    // is Uniformed
+                    if(!"".equalsIgnoreCase(loJson.getString("cUniforme"))) {
+                        if(loJson.getString("cUniforme").equalsIgnoreCase("Y")) {
+                            rgUniform.check(R.id.rb_uniform_yes);
+                            mViewModel.setUniformPersonnel("Y");
+                        } else if(loJson.getString("cUniforme").equalsIgnoreCase("N")) {
+                            rgUniform.check(R.id.rb_uniform_no);
+                            mViewModel.setUniformPersonnel("N");
+                        }
+                    }
+
+                    // is Military
+                    if(!"".equalsIgnoreCase(loJson.getString("cMilitary"))) {
+                        if(loJson.getString("cMilitary").equalsIgnoreCase("Y")) {
+                            rgMiltary.check(R.id.rb_military_yes);
+                            mViewModel.setMilitaryPersonnel("Y");
+                        } else if(loJson.getString("cMilitary").equalsIgnoreCase("N")) {
+                            rgMiltary.check(R.id.rb_military_no);
+                            mViewModel.setMilitaryPersonnel("N");
+                        }
+                    }
+
+                    // Govt Level
+                    if(!"".equalsIgnoreCase(loJson.getString("cCompLevl"))) {
+                        spnCmpLvl.setText(CreditAppConstants.GOVERMENT_LEVEL[Integer.parseInt(loJson.getString("cCompLevl"))]);
+                        mViewModel.setPsCmpLvl(loJson.getString("cCompLevl"));
+                    }
+                    // Employee Level
+                    if(!"".equalsIgnoreCase(loJson.getString("cEmpLevlx"))) {
+                        spnEmpLvl.setText(CreditAppConstants.EMPLOYEE_LEVEL[Integer.parseInt(loJson.getString("cEmpLevlx"))]);
+                        mViewModel.setPsEmpLvl(loJson.getString("cEmpLevlx"));
+                    }
+                    // Govt Institution
+                    txtCompNm.setText( (!"".equalsIgnoreCase(loJson.getString("sEmployer"))) ? loJson.getString("sEmployer") : "" );
+                    txtCompAd.setText( (!"".equalsIgnoreCase(loJson.getString("sWrkAddrx"))) ? loJson.getString("sWrkAddrx") : "" );
+                    mViewModel.getTownProvinceByTownID(loJson.getString("sWrkTownx")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
+                        txtTownNm.setText(townProvinceInfo.sTownName);
+                        txtProvNm.setText(townProvinceInfo.sProvName);
+                        mViewModel.setTownID(townProvinceInfo.sTownIDxx);
+                        mViewModel.setProvinceID(townProvinceInfo.sProvIDxx);
+                    });
+
+                    // Specific Job
+                    txtSpcfJb.setText( (!"".equalsIgnoreCase(loJson.getString("sFunction"))) ? loJson.getString("sFunction") : "" );
+
+                    // Employment Stats
+                    if(!"".equalsIgnoreCase(loJson.getString("cEmpStatx"))) {
+                        spnEmpSts.setText(employmentStatChecker(loJson.getString("cEmpStatx")));
+                        mViewModel.setEmploymentStatus(loJson.getString("cEmpStatx"));
+                    }
+
+                    txtLngthS.setText( (!"".equalsIgnoreCase(loJson.getString("nLenServc"))) ? String.valueOf(loJson.get("nLenServc")) : "" );
+                    txtEsSlry.setText( (!"".equalsIgnoreCase(loJson.getString("nSalaryxx"))) ? String.valueOf(loJson.get("nSalaryxx")) : "" );
+                    txtCompCn.setText( (!"".equalsIgnoreCase(loJson.getString("sWrkTelno"))) ? String.valueOf(loJson.get("sWrkTelno")) : "" );
+
+                } else if(loJson.getString("cEmpSectr").equalsIgnoreCase("2")) {
+                    // OFW
+                    rgSectorx.check(R.id.rb_ofw);
+
+                    // Region
+                    if(!"".equalsIgnoreCase(loJson.getString("cOFWRegnx"))) {
+                        spnCmpLvl.setText(CreditAppConstants.OFW_REGION[Integer.parseInt(loJson.getString("cOFWRegnx"))]);
+                        mViewModel.setPsCmpLvl(loJson.getString("cOFWRegnx"));
+                    }
+
+                    // OFW Category
+                    if(!"".equalsIgnoreCase(loJson.getString("cOcCatgry"))) {
+                        spnEmpLvl.setText(CreditAppConstants.OFW_CATEGORY[Integer.parseInt(loJson.getString("cOcCatgry"))]);
+                        mViewModel.setPsEmpLvl(loJson.getString("cOcCatgry"));
+                    }
+
+                    // Country
+                    if(!"".equalsIgnoreCase(loJson.getString("sOFWNatnx"))) {
+                        mViewModel.setCountry(loJson.getString("sOFWNatnx"));
+                        mViewModel.getCountryNameFromId(loJson.getString("sOFWNatnx")).observe(getViewLifecycleOwner(), string -> {
+                            try {
+                                txtCntryx.setText(string);
+                            } catch(NullPointerException e) {
+                                e.printStackTrace();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // clear fields
+//            .getText().clear()
+        }
+    }
+
+    private String employmentStatChecker(String fsEmpStat) {
+        switch(fsEmpStat) {
+            case "R":
+                return "Regular";
+            case "P":
+                return "Probationary";
+            case "C":
+                return "Contractual";
+            case "S":
+                return "Seasonal";
+            default:
+                return "";
+        }
     }
 
     private class OnRadioButtonSelectListener implements RadioGroup.OnCheckedChangeListener {

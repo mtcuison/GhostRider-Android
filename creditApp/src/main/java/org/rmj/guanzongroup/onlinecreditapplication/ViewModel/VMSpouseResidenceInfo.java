@@ -19,6 +19,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
     import androidx.lifecycle.LiveData;
     import androidx.lifecycle.MutableLiveData;
 
+    import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
     import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
     import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
     import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
@@ -177,6 +178,10 @@ package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
         public LiveData<String> getBarangayInfoFromID(String fsID) {
             return poBarangay.getBarangayInfoFromID(fsID);
+        }
+
+        public LiveData<DTownInfo.BrgyTownProvinceInfoWithID> getBrgyTownProvinceInfoWithID(String BrgyID)  {
+            return poTownRepo.getBrgyTownProvinceInfoWithID(BrgyID);
         }
 
         public boolean Save(SpouseResidenceInfoModel infoModel, ViewModelCallBack callBack){

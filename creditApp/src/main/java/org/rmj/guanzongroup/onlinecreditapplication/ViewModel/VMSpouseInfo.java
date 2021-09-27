@@ -26,6 +26,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
@@ -133,6 +134,14 @@ public class VMSpouseInfo extends AndroidViewModel {
         return RCountry.getAllCountryInfo();
     }
 
+    public LiveData<String> getClientCitizenship(String fsCntryCd) {
+        return RCountry.getClientCitizenship(fsCntryCd);
+    }
+
+    public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownID(String TownID)  {
+        return poTownRepo.getTownProvinceByTownID(TownID);
+    }
+
     public LiveData<ArrayAdapter<String>> getMobileNoType(){
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.MOBILE_NO_TYPE));
@@ -236,10 +245,11 @@ public class VMSpouseInfo extends AndroidViewModel {
                 poGoCas.SpouseInfo().PersonalInfo().setBirthPlace(psTownID.getValue());
                 poGoCas.SpouseInfo().PersonalInfo().setCitizenship(lsCitizen.getValue());
 
-                poGoCas.SpouseInfo().PersonalInfo().setMobileNoQty(infoModel.getMobileNoQty());
+//                poGoCas.SpouseInfo().PersonalInfo().setMobileNoQty(infoModel.getMobileNoQty());
                 for (int x = 0; x < infoModel.getMobileNoQty(); x++) {
                     // Debugging purposes
                     Log.e("NUMERO " + x , infoModel.getMobileNo(x));
+                    poGoCas.SpouseInfo().PersonalInfo().setMobileNoQty(x + 1);
                     poGoCas.SpouseInfo().PersonalInfo().setMobileNo(x, infoModel.getMobileNo(x));
                     poGoCas.SpouseInfo().PersonalInfo().IsMobilePostpaid(x, infoModel.getPostPaid(x));
                     poGoCas.SpouseInfo().PersonalInfo().setPostPaidYears(x, infoModel.getPostYear(x));

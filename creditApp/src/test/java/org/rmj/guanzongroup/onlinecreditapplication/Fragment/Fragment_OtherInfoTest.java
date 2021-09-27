@@ -106,11 +106,11 @@ public class Fragment_OtherInfoTest implements ViewModelCallBack, VMOtherInfo.Ex
 //            arrayList.add(poRefInfo);
 //        }
 //        infoModel.setPersonalReferences(arrayList);
-        infoModel.setUnitUser("0");
-        infoModel.setUnitPrps("2");
-        infoModel.setUnitPayr("0");
-        infoModel.setSource("5");
-        infoModel.setPayrRltn("2");
+//        infoModel.setUnitUser("0");
+//        infoModel.setUnitPrps("2");
+//        infoModel.setUnitPayr("0");
+//        infoModel.setSource("5");
+//        infoModel.setPayrRltn("2");
         infoModel.setCompanyInfoSource("Guanzon Group of Companies");
         for (int i  = 0; i <= 3; i++){
             poRefInfo = new PersonalReferenceInfoModel(refName, refAddress, refTown, refContact + i);

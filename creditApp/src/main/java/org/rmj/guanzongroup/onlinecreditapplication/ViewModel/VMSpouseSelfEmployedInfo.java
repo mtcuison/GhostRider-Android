@@ -27,6 +27,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
@@ -172,6 +173,10 @@ public class VMSpouseSelfEmployedInfo extends AndroidViewModel {
         MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
         liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.LENGTH_OF_STAY));
         return liveData;
+    }
+
+    public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownID(String TownID)  {
+        return poTownRepo.getTownProvinceByTownID(TownID);
     }
 
     public boolean Save(SpouseSelfEmployedInfoModel infoModel, ViewModelCallBack callBack) {
