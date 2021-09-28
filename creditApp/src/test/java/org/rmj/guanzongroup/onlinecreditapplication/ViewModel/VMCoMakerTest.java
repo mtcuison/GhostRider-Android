@@ -56,7 +56,7 @@ public class VMCoMakerTest {
         suffix = "";
         nName= "";
         bDate= "03/06/1990";
-        bTown= "20";
+        bTown= "0335";
         fbAcct= "";
         srcIncome = "2";
         coRelation = "2";
@@ -71,6 +71,7 @@ public class VMCoMakerTest {
         tertiaryContactPlan  = "0";
 
         mViewModel.setTransNox(TransNox);
+        mViewModel.setTownID(bTown);
         infoModel = new CoMakerModel(lName, fName, mName, suffix, nName,bDate, bTown, fbAcct, srcIncome, coRelation);
 
         if(!Objects.requireNonNull(primaryContact.isEmpty())) {
@@ -120,7 +121,8 @@ public class VMCoMakerTest {
             suffix = "";
             nName= "";
             bDate= "03/06/1990";
-            bTown= "20";
+            bTown= "0335";
+            mViewModel.setTownID(bTown);
             fbAcct= "";
             srcIncome = "2";
             coRelation = "2";
@@ -173,7 +175,7 @@ public class VMCoMakerTest {
         suffix = "";
         nName= "";
         bDate= "03/06/1990";
-        bTown= "20";
+        bTown= "0335";
         fbAcct= "";
         srcIncome = "2";
         coRelation = "2";

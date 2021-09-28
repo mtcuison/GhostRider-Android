@@ -60,7 +60,7 @@ public class VMPersonalInfo extends AndroidViewModel {
 
     private final MutableLiveData<PersonalInfoModel> poModel = new MutableLiveData<>();
 
-    private final MutableLiveData<String> TRANSNOX = new MutableLiveData<>();
+    public MutableLiveData<String> TRANSNOX = new MutableLiveData<>();
     private final MutableLiveData<String> lsProvID = new MutableLiveData<>();
     private final MutableLiveData<String> lsBPlace = new MutableLiveData<>();
     private final MutableLiveData<String> lsGender = new MutableLiveData<>();
@@ -93,8 +93,8 @@ public class VMPersonalInfo extends AndroidViewModel {
     }
 
     public boolean setTransNox(String transNox) {
-        this.TRANSNOX.setValue(Activity_CreditApplication.getInstance().getTransNox());
-        if(!this.TRANSNOX.getValue().equalsIgnoreCase(Activity_CreditApplication.getInstance().getTransNox())) {
+        this.TRANSNOX.setValue(transNox);
+        if(!this.TRANSNOX.getValue().equalsIgnoreCase(transNox)) {
             return false;
         }
         return true;

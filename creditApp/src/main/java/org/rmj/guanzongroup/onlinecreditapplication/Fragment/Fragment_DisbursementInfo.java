@@ -142,6 +142,7 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
             mViewModel.setType(typeX);
         });
         btnNext.setOnClickListener(view -> {
+            infoModel.setTransNo(TransNox);
             infoModel.setStypeX(typeX);
             infoModel.setElctX(Objects.requireNonNull(tieElctx.getText()).toString().replace(",", ""));
             infoModel.setFoodX(Objects.requireNonNull(tieFoodx.getText().toString().replace(",", "")));
