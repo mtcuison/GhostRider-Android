@@ -388,6 +388,7 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
                                 !"".equalsIgnoreCase(loJsonCp.getString("cPostPaid")) ) {
                             txtPrimeCntc.setText(loJsonCp.getString("sMobileNo"));
                             spnMobile1.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))]);
+                            mViewModel.setLsMobile1(loJsonCp.getString("cPostPaid"));
                             if("1".equalsIgnoreCase(loJsonCp.getString("cPostPaid"))) {
                                 txtPrimeCntcYr.setText(String.valueOf(loJsonCp.getInt("nPostYear")));
                             }
@@ -398,6 +399,7 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
                                 !"".equalsIgnoreCase(loJsonCp.getString("cPostPaid")) ) {
                             txtSecCntct.setText(loJsonCp.getString("sMobileNo"));
                             spnMobile2.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))]);
+                            mViewModel.setLsMobile2(loJsonCp.getString("cPostPaid"));
                             if("1".equalsIgnoreCase(loJsonCp.getString("cPostPaid"))) {
                                 txtSecCntctYr.setText(String.valueOf(loJsonCp.getInt("nPostYear")));
                             }
@@ -408,6 +410,7 @@ public class Fragment_SpouseInfo extends Fragment implements ViewModelCallBack {
                                 !"".equalsIgnoreCase(loJsonCp.getString("cPostPaid")) ) {
                             txtThirCntct.setText(loJsonCp.getString("sMobileNo"));
                             spnMobile3.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))]);
+                            mViewModel.setLsMobile3(loJsonCp.getString("cPostPaid"));
                             if("1".equalsIgnoreCase(loJsonCp.getString("cPostPaid"))) {
                                 txtThirCntctYr.setText(String.valueOf(loJsonCp.getInt("nPostYear")));
                             }

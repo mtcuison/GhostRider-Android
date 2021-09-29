@@ -43,15 +43,16 @@ public class Fragment_SpouseEmploymentInfoTest extends TestCase {
     private SpouseEmploymentInfoModel infoModel;
     private boolean cTransNox, cSectorxx, isUniform, isMlitary, cProvIdxx, cTownIdxx, cCountryx,
     cJobTitle, cEmpStatx;
-
+    private int empSector;
     @Before
     public void setUp() {
         mViewModel = new VMSpouseEmploymentInfo(TestConstants.APPLICATION);
         infoModel = new SpouseEmploymentInfoModel();
 
-        mViewModel.setDetailInfo(TestConstants.getDummyCreditApp());
+//        mViewModel.setDetailInfo(TestConstants.getDummyCreditApp());
         cTransNox = mViewModel.setTransNox(TestConstants.TRANSACTION_NO);
-        cSectorxx = mViewModel.setEmploymentSector(TestConstants.STRING_TWO);
+        cSectorxx = mViewModel.setEmploymentSector(STRING_ZERO);
+        empSector = Integer.parseInt(STRING_ZERO);
         mViewModel.setPsCmpLvl(TestConstants.STRING_ONE);
         mViewModel.setPsEmpLvl(TestConstants.STRING_TWO);
         mViewModel.setPsBsnssLvl(TestConstants.STRING_ZERO);
@@ -207,6 +208,17 @@ public class Fragment_SpouseEmploymentInfoTest extends TestCase {
     }
 
     @Test
+    public void test_saveSpouseEmploymentInfo(){
+        if (empSector == 0){
+
+        }else if (empSector == 1){
+
+        }else if (empSector == 2){
+
+        }
+    }
+
+
     public void test_Save_PrivateEmp() {
         setPrivateEmployment();
         assertTrue(mViewModel.Save(infoModel, new ViewModelCallBack() {
@@ -222,7 +234,7 @@ public class Fragment_SpouseEmploymentInfoTest extends TestCase {
         }));
     }
 
-    @Test
+
     public void test_Save_GovernmentEmp() {
         setGovEmployment();
         assertTrue(mViewModel.Save(infoModel, new ViewModelCallBack() {
@@ -238,7 +250,6 @@ public class Fragment_SpouseEmploymentInfoTest extends TestCase {
         }));
     }
 
-    @Test
     public void test_Save_OfwEmp() {
         setOfwEmployment();
         assertTrue(mViewModel.Save(infoModel, new ViewModelCallBack() {
@@ -261,7 +272,7 @@ public class Fragment_SpouseEmploymentInfoTest extends TestCase {
     }
 
     private void setPrivateEmployment() {
-        infoModel.setSector(STRING_ONE);
+        infoModel.setSector(STRING_ZERO);
         infoModel.setCompanyLvl(STRING_TWO);
         infoModel.setEmployeeLvl(STRING_ONE);
         infoModel.setBizIndustry(STRING_TWO);
@@ -276,7 +287,7 @@ public class Fragment_SpouseEmploymentInfoTest extends TestCase {
     }
 
     private void setGovEmployment() {
-        infoModel.setSector(STRING_ZERO);
+        infoModel.setSector(STRING_ONE);
         infoModel.setUniformedPersonnel(STRING_ZERO);
         infoModel.setMilitaryPersonnel(STRING_ONE);
         infoModel.setCompanyLvl(STRING_TWO);

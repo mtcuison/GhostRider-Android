@@ -20,94 +20,110 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeLeave;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
-import org.rmj.g3appdriver.dev.Telephony;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApprovalInfo;
 
-import java.util.List;
-
 import static org.rmj.g3appdriver.utils.WebApi.URL_GET_LEAVE_APPLICATION;
-import static org.rmj.g3appdriver.utils.WebApi.URL_GET_OB_APPLICATION;
 
-public class VmLeaveApproval extends AndroidViewModel {
+public class VMLeaveApproval extends AndroidViewModel {
 
-    public static final String TAG = VmLeaveApproval.class.getSimpleName();
+    public static final String TAG = VMLeaveApproval.class.getSimpleName();
     private final Application instance;
     private final RBranch pobranch;
     private final REmployee poUser;
     private final REmployeeLeave poLeave;
 
-    public VmLeaveApproval(@NonNull Application application) {
+    private final MutableLiveData<String> TransNox = new MutableLiveData<>();
+
+    public VMLeaveApproval(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.pobranch = new RBranch(instance);
         this.poUser = new REmployee(instance);
         this.poLeave = new REmployeeLeave(instance);
-    }
-    public interface OnKwikSearchCallBack{
-        void onStartKwikSearch();
-        void onSuccessKwikSearch(JSONObject leave);
-        void onKwikSearchFailed(String message);
+        this.TransNox.setValue("");
     }
 
-    public interface OnConfirmOBLeaveListener{
+    public interface OnDownloadLeaveAppInfo {
+        void OnDownload();
+        void OnSuccessDownload(String TransNox);
+        void OnFailedDownload(String message);
+    }
+
+    public interface OnConfirmLeaveAppCallback {
         void onConfirm();
         void onSuccess();
         void onFailed(String message);
     }
 
-    public LiveData<List<DEmployeeLeave.LeaveOBApplication>> getAllLeaveOBApplication(){
-        return poLeave.getAllLeaveOBApplication();
+    public void setTransNox(String transNox){
+        this.TransNox.setValue(transNox);
     }
 
-    public void downloadLeaveApplication(String transNox, OnKwikSearchCallBack callBack){
+    public LiveData<String> getTransNox(){
+        return TransNox;
+    }
+
+    public LiveData<EEmployeeLeave> getEmployeeLeaveInfo(String TransNox){
+        return poLeave.getEmployeeLeaveInfo(TransNox);
+    }
+
+    public LiveData<EEmployeeInfo> getUserInfo(){
+        return poUser.getEmployeeInfo();
+    }
+
+    public LiveData<EBranchInfo> getUserBranchInfo(){
+        return pobranch.getUserBranchInfo();
+    }
+
+    public void downloadLeaveApplication(String transNox, OnDownloadLeaveAppInfo callBack){
         JSONObject loJson = new JSONObject();
         try {
             if(transNox.isEmpty()){
-                callBack.onKwikSearchFailed("Please enter leave transaction no.");
+                callBack.OnFailedDownload("Please enter leave transaction no.");
             } else {
                 loJson.put("sTransNox", transNox);
                 new DownloadLeaveAppTask(instance, callBack).execute(loJson);
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            callBack.OnFailedDownload(e.getMessage());
         }
-
     }
 
-    private class DownloadLeaveAppTask extends AsyncTask<JSONObject, Void, String> {
+    private static class DownloadLeaveAppTask extends AsyncTask<JSONObject, Void, String> {
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
-        private final WebApi webApi;
-        private final OnKwikSearchCallBack callback;
+        private final REmployeeLeave poLeave;
+        private final OnDownloadLeaveAppInfo callback;
+        private String TransNox;
 
-        public DownloadLeaveAppTask(Application instance, OnKwikSearchCallBack callback) {
+        public DownloadLeaveAppTask(Application instance, OnDownloadLeaveAppInfo callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
-            this.webApi = new WebApi(instance);
+            this.poLeave = new REmployeeLeave(instance);
             this.callback = callback;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            callback.onStartKwikSearch();
+            callback.OnDownload();
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -126,6 +142,7 @@ public class VmLeaveApproval extends AndroidViewModel {
                             Log.d(TAG, "Leave application already exist.");
                         } else {
                             EEmployeeLeave loLeave = new EEmployeeLeave();
+                            TransNox = loJson.getString("sTransNox");
                             loLeave.setTransNox(loJson.getString("sTransNox"));
                             loLeave.setTransact(loJson.getString("dTransact"));
                             loLeave.setEmployID(loJson.getString("xEmployee"));
@@ -160,46 +177,41 @@ public class VmLeaveApproval extends AndroidViewModel {
                 JSONObject loJson = new JSONObject(s);
                 String lsResult = loJson.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    JSONArray loArr = loJson.getJSONArray("payload");
-                    callback.onSuccessKwikSearch(loArr.getJSONObject(0));
+                    callback.OnSuccessDownload(TransNox);
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     String message = loError.getString("message");
-                    callback.onKwikSearchFailed(message);
+                    callback.OnFailedDownload(message);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                callback.onKwikSearchFailed(e.getMessage());
+                callback.OnFailedDownload(e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
-                callback.onKwikSearchFailed(e.getMessage());
+                callback.OnFailedDownload(e.getMessage());
             }
         }
     }
 
-    public void confirmLeaveApplication(LeaveApprovalInfo infoModel, OnConfirmOBLeaveListener callBack){
+    public void confirmLeaveApplication(LeaveApprovalInfo infoModel, OnConfirmLeaveAppCallback callBack){
         new ConfirmLeaveTask(infoModel, instance, callBack).execute();
     }
 
-    private class ConfirmLeaveTask extends AsyncTask<Void, Void, String> {
+    private static class ConfirmLeaveTask extends AsyncTask<Void, Void, String> {
 
         private final LeaveApprovalInfo infoModel;
-        private final OnConfirmOBLeaveListener callback;
+        private final OnConfirmLeaveAppCallback callback;
 
         private final HttpHeaders poHeaders;
         private final ConnectionUtil poConn;
-        private final Telephony poDevID;
-        private final SessionManager poUser;
-        private final AppConfigPreference poConfig;
+        private final REmployeeLeave poLeave;
 
-        public ConfirmLeaveTask(LeaveApprovalInfo infoModel, Application instance, OnConfirmOBLeaveListener callback) {
+        public ConfirmLeaveTask(LeaveApprovalInfo infoModel, Application instance, OnConfirmLeaveAppCallback callback) {
             this.infoModel = infoModel;
             this.callback = callback;
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
-            this.poDevID = new Telephony(instance);
-            this.poUser = new SessionManager(instance);
-            this.poConfig = AppConfigPreference.getInstance(instance);
+            this.poLeave = new REmployeeLeave(instance);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -207,7 +219,6 @@ public class VmLeaveApproval extends AndroidViewModel {
         protected String doInBackground(Void... voids) {
             String lsResponse;
             try{
-                poLeave.updateLeaveApproval(infoModel.getTranStat(), infoModel.getTransNox(), new AppConstants().DATE_MODIFIED);
 
                 JSONObject loJson = new JSONObject();
                 loJson.put("sTransNox", infoModel.getTransNox());
@@ -215,6 +226,9 @@ public class VmLeaveApproval extends AndroidViewModel {
                 loJson.put("dAppldFrx", infoModel.getAppldFrx());
                 loJson.put("dAppldTox", infoModel.getAppldTox());
                 loJson.put("cTranStat", infoModel.getTranStat());
+                loJson.put("nWithPayx", infoModel.getWithPayx());
+                loJson.put("nWithOPay", infoModel.getWithOPay());
+                loJson.put("sApproved", infoModel.getApproved());
                 loJson.put("dApproved", AppConstants.CURRENT_DATE);
 
                 if(poConn.isDeviceConnected()) {
@@ -224,6 +238,9 @@ public class VmLeaveApproval extends AndroidViewModel {
                     } else {
                         JSONObject jsonResponse = new JSONObject(lsResponse);
                         String lsResult = jsonResponse.getString("result");
+                        if(lsResult.equalsIgnoreCase("success")){
+                            poLeave.updateLeaveApproval(infoModel.getTranStat(), infoModel.getTransNox(), new AppConstants().DATE_MODIFIED);
+                        }
                         Log.e(TAG, lsResponse);
                     }
                 } else {
@@ -244,6 +261,7 @@ public class VmLeaveApproval extends AndroidViewModel {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            callback.onConfirm();
         }
 
         @Override
@@ -266,86 +284,6 @@ public class VmLeaveApproval extends AndroidViewModel {
             } catch (Exception e) {
                 e.printStackTrace();
                 callback.onFailed(e.getMessage());
-            }
-        }
-    }
-
-    public void importRequestBusinessTrip(String names, OnKwikSearchCallBack callBack){
-        JSONObject loJson = new JSONObject();
-        try {
-            loJson.put("reqstdnm", names);
-            loJson.put("bsearch", true);
-
-            new importRequestBusinessTrip(instance, callBack).execute(loJson);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private class importRequestBusinessTrip extends AsyncTask<JSONObject, Void, String> {
-        private final HttpHeaders headers;
-        private final RBranchLoanApplication brnRepo;
-        private final ConnectionUtil conn;
-        private final WebApi webApi;
-        private final REmployeeLeave poLeave;
-        private final OnKwikSearchCallBack callback;
-        public importRequestBusinessTrip(Application instance,  OnKwikSearchCallBack callback) {
-            this.headers = HttpHeaders.getInstance(instance);
-            this.brnRepo = new RBranchLoanApplication(instance);
-            this.conn = new ConnectionUtil(instance);
-            this.webApi = new WebApi(instance);
-            this.poLeave = new REmployeeLeave(instance);
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.onStartKwikSearch();
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        @Override
-        protected String doInBackground(JSONObject... strings) {
-            String response = "";
-            try{
-                if(conn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(URL_GET_OB_APPLICATION, strings[0].toString(), headers.getHeaders());
-                    JSONObject loResponse = new JSONObject(response);
-                    String lsResult = loResponse.getString("result");
-                    if (lsResult.equalsIgnoreCase("success")) {
-
-                    }
-                } else {
-                    response = AppConstants.SERVER_NO_RESPONSE();
-                }
-            } catch (NullPointerException e){
-                e.printStackTrace();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject loJson = new JSONObject(s);
-                String lsResult = loJson.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    callback.onSuccessKwikSearch(loJson);
-                } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
-                    callback.onKwikSearchFailed(message);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                callback.onKwikSearchFailed(e.getMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-                callback.onKwikSearchFailed(e.getMessage());
             }
         }
     }

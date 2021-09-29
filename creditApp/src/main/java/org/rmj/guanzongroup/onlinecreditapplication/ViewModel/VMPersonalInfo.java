@@ -12,6 +12,7 @@
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
 import android.app.Application;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
@@ -20,13 +21,19 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EMcBrand;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RMcBrand;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RMcModel;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.g3appdriver.utils.AgeCalculator;
@@ -53,7 +60,7 @@ public class VMPersonalInfo extends AndroidViewModel {
 
     private final MutableLiveData<PersonalInfoModel> poModel = new MutableLiveData<>();
 
-    private final MutableLiveData<String> TRANSNOX = new MutableLiveData<>();
+    public MutableLiveData<String> TRANSNOX = new MutableLiveData<>();
     private final MutableLiveData<String> lsProvID = new MutableLiveData<>();
     private final MutableLiveData<String> lsBPlace = new MutableLiveData<>();
     private final MutableLiveData<String> lsGender = new MutableLiveData<>();
@@ -64,6 +71,8 @@ public class VMPersonalInfo extends AndroidViewModel {
     private final MutableLiveData<String> lsProvName = new MutableLiveData<>();
     private final MutableLiveData<String> lsCntryName = new MutableLiveData<>();
 
+    private final RMcBrand oBrandRepo;
+    private final RMcModel oModelRepo;
     public VMPersonalInfo(@NonNull Application application){
         super(application);
         RCreditApplicant = new RCreditApplicant(application);
@@ -75,6 +84,8 @@ public class VMPersonalInfo extends AndroidViewModel {
         poGoCas = new GOCASApplication();
         this.lnMthrNme.setValue(View.GONE);
         this.poModel.setValue(new PersonalInfoModel());
+        this.oBrandRepo = new RMcBrand(application);
+        this.oModelRepo = new RMcModel(application);
     }
 
     public LiveData<PersonalInfoModel> getPersonalInfoModel(){
@@ -82,8 +93,8 @@ public class VMPersonalInfo extends AndroidViewModel {
     }
 
     public boolean setTransNox(String transNox) {
-        this.TRANSNOX.setValue(Activity_CreditApplication.getInstance().getTransNox());
-        if(!this.TRANSNOX.getValue().equalsIgnoreCase(Activity_CreditApplication.getInstance().getTransNox())) {
+        this.TRANSNOX.setValue(transNox);
+        if(!this.TRANSNOX.getValue().equalsIgnoreCase(transNox)) {
             return false;
         }
         return true;
@@ -268,4 +279,25 @@ public class VMPersonalInfo extends AndroidViewModel {
     public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownID(String TownID)  {
         return RTown.getTownProvinceByTownID(TownID);
     }
+    public LiveData<List<EMcBrand>> getAllMcBrand(){
+        return oBrandRepo.getAllBrandInfo();
+    }
+//    public void setPoInfo(ECreditApplicantInfo creditApplicantInfo){
+//        try {
+//            JSONObject jsonInfo = new JSONObject(creditApplicantInfo.getPurchase());
+//            poGoCas.PurchaseInfo().setAppliedFor("0");
+//            poGoCas.PurchaseInfo().setTargetPurchase(jsonInfo.getString("dTargetDt"));
+//            poGoCas.PurchaseInfo().setCustomerType(jsonInfo.getString("cApplType"));
+//            poGoCas.PurchaseInfo().setPreferedBranch(jsonInfo.getString("sBranchCd"));
+//            poGoCas.PurchaseInfo().setBrandName(jsonInfo.getString("sUnitAppl"));
+//            poGoCas.PurchaseInfo().setModelID(jsonInfo.getString("sModelIDx"));
+//            poGoCas.PurchaseInfo().setDownPayment(Double.parseDouble(jsonInfo.getString("nDownPaym")));
+//            poGoCas.PurchaseInfo().setAccountTerm(Integer.parseInt(jsonInfo.getString("nAcctTerm")));
+//            poGoCas.PurchaseInfo().setDateApplied(jsonInfo.getString("dAppliedx"));
+//            poGoCas.PurchaseInfo().setMonthlyAmortization(Double.parseDouble(jsonInfo.getString("nMonAmort")));
+//            Log.e(TAG, poGoCas.PurchaseInfo().toJSONString());
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

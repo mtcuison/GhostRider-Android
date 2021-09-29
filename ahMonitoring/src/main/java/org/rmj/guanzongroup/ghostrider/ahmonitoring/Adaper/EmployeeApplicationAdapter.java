@@ -21,23 +21,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;
 
 public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApplicationAdapter.ApplicationViewHolder> {
 
-    private final List<EEmployeeLeave> poLeave;
-    private final OnLeaveItemClickListener mListener;
+    private List<EEmployeeLeave> poLeave;
+    private List<EEmployeeBusinessTrip> poBusTrip;
+    private OnLeaveItemClickListener mLvListener;
+    private OnOBItemClickListener mObListener;
 
     public interface OnLeaveItemClickListener{
+        void OnClick(String TransNox);
+    }
+    public interface OnOBItemClickListener{
         void OnClick(String TransNox);
     }
 
     public EmployeeApplicationAdapter(List<EEmployeeLeave> poLeave, OnLeaveItemClickListener listener) {
         this.poLeave = poLeave;
-        this.mListener = listener;
+        this.mLvListener = listener;
+    }
+
+    public EmployeeApplicationAdapter(List<EEmployeeBusinessTrip> poBusTrip, OnOBItemClickListener mListener) {
+        this.poBusTrip = poBusTrip;
+        this.mObListener = mListener;
     }
 
     @NonNull
@@ -49,15 +61,35 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
 
     @Override
     public void onBindViewHolder(@NonNull ApplicationViewHolder holder, int position) {
-        EEmployeeLeave loLeave = poLeave.get(position);
-        holder.lblTransNox.setText(loLeave.getTransNox());
-        holder.lblEmplName.setText(loLeave.getEmployID());
-        holder.lblDeptName.setText(loLeave.getDeptName());
-        holder.lblBrnchNme.setText(loLeave.getBranchNm());
-        holder.lblDateFrom.setText(loLeave.getDateFrom());
-        holder.lblDateThru.setText(loLeave.getDateThru());
-        holder.txtPurpose.setText(loLeave.getPurposex());
-        holder.itemView.setOnClickListener(v -> mListener.OnClick(loLeave.getTransNox()));
+        if(poLeave != null) {
+            EEmployeeLeave loLeave = poLeave.get(position);
+            holder.lblTransNox.setText(loLeave.getTransNox());
+            holder.lblEmplName.setText(loLeave.getEmployID());
+            holder.lblDeptName.setText(loLeave.getDeptName());
+            holder.lblBrnchNme.setText(loLeave.getBranchNm());
+            holder.lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(loLeave.getAppldFrx()));
+            holder.lblDateThru.setText(FormatUIText.formatGOCasBirthdate(loLeave.getAppldTox()));
+            holder.txtPurpose.setText(loLeave.getPurposex());
+            holder.itemView.setOnClickListener(v -> {
+                if(mLvListener != null){
+                    mLvListener.OnClick(loLeave.getTransNox());
+                }
+            });
+        } else if(poBusTrip != null){
+            EEmployeeBusinessTrip loBusTrip = poBusTrip.get(position);
+            holder.lblTransNox.setText(loBusTrip.getTransNox());
+            holder.lblEmplName.setText(loBusTrip.getEmployee());
+            holder.lblDeptName.setText(loBusTrip.getDeptName());
+            holder.lblBrnchNme.setText(loBusTrip.getBranchNm());
+            holder.lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(loBusTrip.getAppldFrx()));
+            holder.lblDateThru.setText(FormatUIText.formatGOCasBirthdate(loBusTrip.getAppldTox()));
+            holder.txtPurpose.setText(loBusTrip.getRemarksx());
+            holder.itemView.setOnClickListener(v -> {
+                if(mObListener != null){
+                    mLvListener.OnClick(loBusTrip.getTransNox());
+                }
+            });
+        }
     }
 
     @Override

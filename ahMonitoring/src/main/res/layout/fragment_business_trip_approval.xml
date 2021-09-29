@@ -46,6 +46,7 @@
                    android:text="Business Trip Application"
                    android:textColor="@color/textColor_White"
                    android:textSize="22sp" />
+
                <TextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
@@ -55,32 +56,36 @@
                    android:textSize="22sp" />
 
                <TextView
+                   android:id="@+id/lbl_headerBranch"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:layout_marginTop="5dp"
+                   android:textSize="15sp"
                    android:fontFamily="@font/roboto_light"
-                   android:text="GMC Dagupan - Honda"
                    android:textColor="@color/textColor_White"
-                   android:textSize="15sp" />
+                   android:layout_marginTop="5dp"/>
 
                <TextView
+                   android:id="@+id/lbl_headerAddress"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
+                   android:textSize="15sp"
                    android:fontFamily="@font/roboto_light"
-                   android:text="Guanzon Bldg., Perez Blvd., Dagupan City"
-                   android:textColor="@color/textColor_White"
-                   android:textSize="15sp" />
+                   android:textColor="@color/textColor_White"/>
+
            </LinearLayout>
 
            <View
                android:layout_width="match_parent"
                android:layout_height="0.8dp"
                android:background="#fff" />
+
            <LinearLayout
+               android:id="@+id/linear_search"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:orientation="horizontal"
                android:layout_marginVertical="10dp">
+
                <com.google.android.material.textfield.TextInputLayout
                    android:id="@+id/til_collectionSearch"
                    android:layout_width="match_parent"
@@ -117,7 +122,201 @@
            android:layout_height="match_parent"
            android:gravity="center_horizontal"
            android:orientation="vertical"
+           android:padding="5dp"
            android:paddingBottom="10dp">
+
+           <androidx.cardview.widget.CardView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:cardPreventCornerOverlap="true"
+               app:cardUseCompatPadding="true"
+               app:cardElevation="3dp"
+               app:cardCornerRadius="5dp">
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical"
+                   android:padding="5dp">
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal">
+
+                       <TextView
+                           android:id="@+id/lbl_transNox"
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:text="TransNox . :"
+                           android:textSize="16sp"
+                           android:textColor="@color/textColor_Black"
+                           android:fontFamily="@font/roboto_medium"/>
+
+                   </LinearLayout>
+
+                   <View
+                       android:layout_width="match_parent"
+                       android:layout_height="1dp"
+                       android:background="@color/guanzon_orange"/>
+
+                   <TextView
+                       android:id="@+id/lbl_clientNm"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:drawablePadding="5dp"
+                       android:fontFamily="@font/roboto_bold"
+                       android:gravity="center_vertical"
+                       android:layout_marginTop="10dp"
+                       android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                       android:textColor="@color/textColor_Black"
+                       android:drawableLeft="@drawable/ic_collection_client" />
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:layout_marginTop="10dp">
+
+                       <TextView
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight=".9"
+                           android:text="Date applied :"
+                           android:textColor="@color/textColor_Black"
+                           android:fontFamily="@font/roboto_bold"
+                           android:drawablePadding="5dp"
+                           android:gravity="center_vertical"
+                           app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
+                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
+                           android:drawableTint="@color/textColor_Black" />
+
+                       <TextView
+                           android:id="@+id/lbl_dateApplied"
+                           android:layout_width="0dp"
+                           android:layout_height="fill_parent"
+                           android:layout_weight="1"
+                           android:gravity="end|center_vertical"
+                           android:textColor="@color/textColor_Orange"
+                           android:fontFamily="@font/roboto_bold"/>
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:layout_marginTop="10dp">
+
+                       <TextView
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight=".9"
+                           android:text="Date approve :"
+                           android:textColor="@color/textColor_Black"
+                           android:fontFamily="@font/roboto_bold"
+                           android:drawablePadding="5dp"
+                           android:gravity="center_vertical"
+                           app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
+                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
+                           android:drawableTint="@color/textColor_Black" />
+
+                       <TextView
+                           android:id="@+id/lbl_dateApproved"
+                           android:layout_width="0dp"
+                           android:layout_height="fill_parent"
+                           android:layout_weight="1"
+                           android:gravity="end|center_vertical"
+                           android:textColor="@color/textColor_Orange"
+                           android:fontFamily="@font/roboto_bold"/>
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:layout_marginTop="10dp">
+
+                       <TextView
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight=".9"
+                           android:text="Applied date from :"
+                           android:textColor="@color/textColor_Black"
+                           android:fontFamily="@font/roboto_bold"
+                           android:drawablePadding="5dp"
+                           android:gravity="center_vertical"
+                           app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
+                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
+                           android:drawableTint="@color/textColor_Black" />
+
+                       <TextView
+                           android:id="@+id/lbl_dateFrom"
+                           android:layout_width="0dp"
+                           android:layout_height="fill_parent"
+                           android:layout_weight="1"
+                           android:gravity="end|center_vertical"
+                           android:textColor="@color/textColor_Orange"
+                           android:fontFamily="@font/roboto_bold"/>
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:layout_marginTop="10dp">
+
+                       <TextView
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight=".9"
+                           android:text="Applied date thru :"
+                           android:textColor="@color/textColor_Black"
+                           android:fontFamily="@font/roboto_bold"
+                           android:drawablePadding="5dp"
+                           android:gravity="center_vertical"
+                           app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
+                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"
+                           android:drawableTint="@color/textColor_Black"/>
+
+                       <TextView
+                           android:id="@+id/lbl_dateThru"
+                           android:layout_width="0dp"
+                           android:layout_height="fill_parent"
+                           android:layout_weight="1"
+                           android:gravity="end|center_vertical"
+                           android:textColor="@color/textColor_Orange"
+                           android:fontFamily="@font/roboto_bold"/>
+                   </LinearLayout>
+
+                   <com.google.android.material.textfield.TextInputLayout
+                       android:id="@+id/tilRemarks"
+                       android:layout_width="fill_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="20dp"
+                       android:textColorHint="@color/textColor_Black"
+                       android:hint="Purpose / Remarks :"
+                       style="@style/TextInputTextAreaStyle">
+
+                       <com.google.android.material.textfield.TextInputEditText
+                           android:id="@+id/txt_purpose"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:enabled="false"
+                           android:focusable="false"
+                           android:textColor="@color/material_black"
+                           android:focusableInTouchMode="false"
+                           android:inputType="textMultiLine"
+                           android:maxLength="50"
+                           android:gravity="top|left"
+                           android:lines="10"
+                           android:minLines="3"/>
+                   </com.google.android.material.textfield.TextInputLayout>
+
+               </LinearLayout>
+
+           </androidx.cardview.widget.CardView>
+
            <androidx.cardview.widget.CardView
                android:id="@+id/cv_leave_ob"
                android:layout_width="match_parent"
@@ -131,62 +330,16 @@
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:orientation="vertical"
-                   android:padding="10dp">
+                   android:padding="5dp">
 
-                   <LinearLayout
+                   <TextView
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:orientation="horizontal">
-
-                       <TextView
-                           android:id="@+id/lbl_AccountNo"
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:layout_weight="1"
-                           android:text="TransNox . : 000000000"
-                           android:textSize="14sp"
-                           android:textColor="@color/textColor_Black"
-                           android:fontFamily="@font/roboto_bold"/>
-
-                       <TextView
-                           android:id="@+id/lbl_dTransact"
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:layout_weight="2"
-                           android:gravity="end"
-                           android:textSize="14sp"
-                           android:textColor="@color/textColor_Black"
-                           android:fontFamily="@font/roboto_medium"/>
-
-                   </LinearLayout>
-
-                   <View
-                       android:layout_width="match_parent"
-                       android:layout_height="1dp"
-                       android:background="@color/guanzon_orange"/>
-
-                   <LinearLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:orientation="horizontal"
-                       android:layout_marginTop="10dp"
-                       android:padding="5dp">
-
-                       <TextView
-                           android:id="@+id/lbl_clientNm"
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:layout_weight="1"
-                           android:drawablePadding="5dp"
-                           android:drawableTint="@color/textColor_Black"
-                           android:fontFamily="@font/roboto_bold"
-                           android:gravity="center_vertical"
-                           android:text="Ferrer, Jose M."
-                           android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                           android:textColor="@color/textColor_Black"
-                           app:drawableLeftCompat="@drawable/ic_collection_client"
-                           app:drawableStartCompat="@drawable/ic_collection_client" />
-                   </LinearLayout>
+                       android:text="Approval"
+                       android:textSize="16sp"
+                       android:textColor="@color/black"
+                       android:fontFamily="@font/roboto_black"
+                       android:padding="10dp"/>
 
                    <com.google.android.material.textfield.TextInputLayout
                        android:layout_width="match_parent"
@@ -231,104 +384,13 @@
 
                    </com.google.android.material.textfield.TextInputLayout>
 
-                   <!--                   <LinearLayout-->
-<!--                       android:layout_width="match_parent"-->
-<!--                       android:layout_height="wrap_content"-->
-<!--                       android:orientation="horizontal"-->
-<!--                       android:layout_marginTop="10dp">-->
-
-<!--                       <TextView-->
-<!--                           android:layout_width="match_parent"-->
-<!--                           android:layout_height="wrap_content"-->
-<!--                           android:layout_weight="1"-->
-<!--                           android:text="Date From :"-->
-<!--                           android:textColor="@color/textColor_Black"-->
-<!--                           android:fontFamily="@font/roboto_bold"-->
-<!--                           android:drawablePadding="5dp"-->
-<!--                           android:gravity="center_vertical"-->
-<!--                           app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"-->
-<!--                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"-->
-<!--                           android:drawableTint="@color/textColor_Black" />-->
-
-<!--                       <TextView-->
-<!--                           android:id="@+id/lbl_dateFrom"-->
-<!--                           android:layout_width="match_parent"-->
-<!--                           android:layout_height="fill_parent"-->
-<!--                           android:layout_weight="1"-->
-<!--                           android:gravity="end"-->
-<!--                           android:textColor="@color/textColor_Orange"-->
-<!--                           android:fontFamily="@font/roboto_bold"/>-->
-<!--                   </LinearLayout>-->
-<!--                   <LinearLayout-->
-<!--                       android:layout_width="match_parent"-->
-<!--                       android:layout_height="wrap_content"-->
-<!--                       android:orientation="horizontal"-->
-<!--                       android:layout_marginTop="10dp"-->
-<!--                       android:layout_marginBottom="10dp">-->
-
-<!--                       <TextView-->
-<!--                           android:layout_width="match_parent"-->
-<!--                           android:layout_height="wrap_content"-->
-<!--                           android:layout_weight="1"-->
-<!--                           android:text="Date Thru :"-->
-<!--                           android:textColor="@color/textColor_Black"-->
-<!--                           android:fontFamily="@font/roboto_bold"-->
-<!--                           android:drawablePadding="5dp"-->
-<!--                           android:gravity="center_vertical"-->
-<!--                           app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"-->
-<!--                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"-->
-<!--                           android:drawableTint="@color/textColor_Black"/>-->
-
-<!--                       <TextView-->
-<!--                           android:id="@+id/lbl_dateThru"-->
-<!--                           android:layout_width="match_parent"-->
-<!--                           android:layout_height="fill_parent"-->
-<!--                           android:layout_weight="1"-->
-<!--                           android:gravity="end"-->
-<!--                           android:textColor="@color/textColor_Orange"-->
-<!--                           android:fontFamily="@font/roboto_bold"/>-->
-<!--                   </LinearLayout>-->
-
                    <!-- Remarks / Purpose  -->
-
-                   <com.google.android.material.textfield.TextInputLayout
-                       android:id="@+id/tilRemarks"
-                       android:layout_width="fill_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_weight="1"
-                       android:layout_marginTop="20dp"
-                       android:textColorHint="@color/textColor_Black"
-                       android:hint="Purpose / Remarks :"
-                       style="@style/TextInputTextAreaStyle">
-
-                       <com.google.android.material.textfield.TextInputEditText
-                           android:id="@+id/edtRemarks"
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:enabled="false"
-                           android:focusable="false"
-                           android:textColor="@color/material_black"
-                           android:focusableInTouchMode="false"
-                           android:inputType="textMultiLine"
-                           android:maxLength="50"
-                           android:gravity="top|left"
-                           android:lines="10"
-                           android:minLines="3"
-                           android:text="Sample Test Remarks / Purpose for leave approval" />
-                   </com.google.android.material.textfield.TextInputLayout>
 
                    <LinearLayout
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
                        android:orientation="horizontal"
                        android:layout_marginTop="30dp">
-                       <com.google.android.material.button.MaterialButton
-                           android:id="@+id/btn_cancel"
-                           android:layout_width="fill_parent"
-                           android:layout_height="wrap_content"
-                           style="@style/MaterialButtonCancel"
-                           android:layout_weight="1"
-                           android:text="Disapproved"/>
 
                        <com.google.android.material.button.MaterialButton
                            android:id="@+id/btn_confirm"
@@ -337,6 +399,14 @@
                            style="@style/MaterialButtonApproved"
                            android:layout_weight="1"
                            android:text="Approved"/>
+
+                       <com.google.android.material.button.MaterialButton
+                           android:id="@+id/btn_cancel"
+                           android:layout_width="fill_parent"
+                           android:layout_height="wrap_content"
+                           style="@style/MaterialButtonCancel"
+                           android:layout_weight="1"
+                           android:text="Disapproved"/>
                    </LinearLayout>
                </LinearLayout>
            </androidx.cardview.widget.CardView>

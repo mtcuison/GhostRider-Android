@@ -95,11 +95,13 @@ public class VMResidenceInfo extends AndroidViewModel {
         return RCreditApplicant.getCreditApplicantInfoLiveData(TRANSNOX.getValue());
     }
 
-    public void setGOCasDetailInfo(ECreditApplicantInfo DetailInfo){
+    public boolean setGOCasDetailInfo(ECreditApplicantInfo DetailInfo){
         try{
             poInfo = DetailInfo;
+            return true;
         } catch (Exception e){
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -164,7 +166,7 @@ public class VMResidenceInfo extends AndroidViewModel {
         return liveData;
     }
 
-    public void SaveResidenceInfo(ResidenceInfoModel infoModel, ViewModelCallBack callBack){
+    public boolean SaveResidenceInfo(ResidenceInfoModel infoModel, ViewModelCallBack callBack){
         try {
             if(poInfo.getApplInfo() != null) {
                 infoModel.setProvinceID(psProvID.getValue());
@@ -199,15 +201,20 @@ public class VMResidenceInfo extends AndroidViewModel {
                     Log.e(TAG, poGoCas.toJSONString());
                     RCreditApplicant.updateGOCasData(poInfo);
                     callBack.onSaveSuccessResult("Success");
+                    return true;
                 } else {
-                    callBack.onFailedResult(infoModel.getMessage());
+                    callBack.onFailedResult("Else " + infoModel.getMessage());
+//                    callBack.onFailedResult(infoModel.getMessage());
+                    return false;
                 }
-            } else {
+            }else {
                 callBack.onFailedResult("Personal Info is null.");
+                return false;
             }
         } catch (Exception e){
-            callBack.onFailedResult(e.getMessage());
+            callBack.onFailedResult("Exception " + e.getMessage());
             e.printStackTrace();
+            return false;
         }
     }
 }

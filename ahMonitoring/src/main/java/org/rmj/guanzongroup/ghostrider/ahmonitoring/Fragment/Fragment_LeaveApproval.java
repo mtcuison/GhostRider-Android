@@ -15,6 +15,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
@@ -26,37 +27,46 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VmLeaveApproval;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMLeaveApproval;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public class Fragment_LeaveApproval extends Fragment {
+public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.OnDownloadLeaveAppInfo {
     public static final String TAG = Fragment_LeaveApproval.class.getSimpleName();
-    private VmLeaveApproval mViewModel;
+    private VMLeaveApproval mViewModel;
 
     private LeaveApprovalInfo infoModel;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
 
+    private int lnCredits;
+
+    private LinearLayout lnSearch;
     private MaterialButton btnCancel, bntConfirm;
     private TextView
+            lblHdBranch,
+            lblHdAddrss,
             lblTransNox,
             lblEmployeNm,
             lblDeptName,
@@ -88,56 +98,73 @@ public class Fragment_LeaveApproval extends Fragment {
         return view;
     }
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint({"ResourceAsColor", "SetTextI18n"})
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VmLeaveApproval.class);
+        mViewModel = new ViewModelProvider(this).get(VMLeaveApproval.class);
         Typeface typeface = ResourcesCompat.getFont(requireActivity(), R.font.roboto_bold);
         tilRemarks.setTypeface(typeface);
-        btnQuickSearch.setOnClickListener(v -> mViewModel.downloadLeaveApplication(txtSearch.getText().toString(), new VmLeaveApproval.OnKwikSearchCallBack() {
-            @Override
-            public void onStartKwikSearch() {
-                txtSearch.setText("");
-                poDialogx.initDialog("Leave Application", "Searching leave application. Please wait...", false);
+        String TransNox = Activity_Application.getInstance().getTransNox();
+        if(TransNox.isEmpty()){
+            lnSearch.setVisibility(View.VISIBLE);
+        } else {
+            lnSearch.setVisibility(View.GONE);
+        }
+        mViewModel.setTransNox(TransNox);
+        mViewModel.getTransNox().observe(getViewLifecycleOwner(), s -> {
+            if(!s.isEmpty()){
+                txtSearch.setVisibility(View.GONE);
+                mViewModel.getEmployeeLeaveInfo(s).observe(requireActivity(), eEmployeeLeave -> {
+                    try {
+                        if(eEmployeeLeave == null){
+                            mViewModel.downloadLeaveApplication(TransNox, Fragment_LeaveApproval.this);
+                        } else {
+                            infoModel.setTransNox(TransNox);
+                            infoModel.setAppldFrx(eEmployeeLeave.getAppldFrx());
+                            infoModel.setAppldTox(eEmployeeLeave.getAppldTox());
+                            lblTransNox.setText("Transaction No. : " + eEmployeeLeave.getTransNox());
+                            lblEmployeNm.setText(eEmployeeLeave.getEmployID());
+                            lblDeptName.setText(eEmployeeLeave.getDeptName());
+                            lblBranchNm.setText(eEmployeeLeave.getBranchNm());
+                            lblLeaveCrd.setText("Leave Credits : " + eEmployeeLeave.getLveCredt());
+                            lblDateAppr.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE));
+                            lblDateAppl.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getTransact()));
+                            lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldFrx()));
+                            lblDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldTox()));
+                            tieDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldFrx()));
+                            tieDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldTox()));
+                            txtPurpse.setText(eEmployeeLeave.getPurposex());
+                            lnCredits = Integer.parseInt(eEmployeeLeave.getLveCredt());
+                            String lsFromx = eEmployeeLeave.getAppldFrx();
+                            String lsDteTo = eEmployeeLeave.getAppldTox();
+                            setWithPay(lnCredits, lsFromx, lsDteTo);
+                        }
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
             }
+        });
 
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onSuccessKwikSearch(JSONObject leave) {
-                poDialogx.dismiss();
-                try{
-                    infoModel.setTransNox(leave.getString("sTransNox"));
-                    infoModel.setAppldFrx(leave.getString("dAppldFrx"));
-                    infoModel.setAppldTox(leave.getString("dAppldTox"));
-                    lblTransNox.setText("Transaction No. : " + leave.getString("sTransNox"));
-                    lblEmployeNm.setText(leave.getString("xEmployee"));
-                    lblDeptName.setText(leave.getString("sDeptName"));
-                    lblBranchNm.setText(leave.getString("sBranchNm"));
-                    lblLeaveCrd.setText("Leave Credits : " + leave.getString("nLveCredt"));
-                    lblDateAppr.setText(AppConstants.CURRENT_DATE);
-                    lblDateAppl.setText(FormatUIText.formatGOCasBirthdate(leave.getString("dTransact")));
-                    lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(leave.getString("dAppldFrx")));
-                    lblDateThru.setText(FormatUIText.formatGOCasBirthdate(leave.getString("dAppldTox")));
-                    lblDateAppl.setText(FormatUIText.formatGOCasBirthdate(leave.getString("dTransact")));
-                    tieDateFrom.setText(FormatUIText.formatGOCasBirthdate(leave.getString("dAppldFrx")));
-                    tieDateThru.setText(FormatUIText.formatGOCasBirthdate(leave.getString("dAppldTox")));
-                    txtPurpse.setText(leave.getString("sPurposex"));
-                    int lnCredits = Integer.parseInt(leave.getString("nLveCredt"));
-                    String lsFromx = leave.getString("dAppldFrx");
-                    String lsDteTo = leave.getString("dAppldTox");
-                    setWithPay(lnCredits, lsFromx, lsDteTo);
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+        mViewModel.getUserInfo().observe(requireActivity(), eEmployeeInfo -> {
+            try{
+                infoModel.setApproved(eEmployeeInfo.getEmployID());
+            } catch (Exception e){
+                e.printStackTrace();
             }
+        });
 
-            @Override
-            public void onKwikSearchFailed(String message) {
-                poDialogx.dismiss();
-                initErrorDialog("Leave Application", message);
+        mViewModel.getUserBranchInfo().observe(requireActivity(), eBranchInfo -> {
+            try{
+                lblHdBranch.setText(eBranchInfo.getBranchNm());
+                lblHdAddrss.setText(eBranchInfo.getAddressx());
+            } catch (Exception e){
+                e.printStackTrace();
             }
-        }));
+        });
+
+        btnQuickSearch.setOnClickListener(v -> mViewModel.downloadLeaveApplication(Objects.requireNonNull(txtSearch.getText()).toString(), this));
 
         bntConfirm.setOnClickListener(v -> {
             infoModel.setTranStat("1");
@@ -148,10 +175,65 @@ public class Fragment_LeaveApproval extends Fragment {
             infoModel.setTranStat("3");
             sendLeaveUpdate();
         });
+
+
+        tieDateFrom.setOnClickListener(v -> {
+            final Calendar newCalendar = Calendar.getInstance();
+            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd");
+            final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, month, dayOfMonth);
+                try {
+                    Date dateTo = dataFormat.parse(Objects.requireNonNull(FormatUIText.formatTextToData(Objects.requireNonNull(tieDateThru.getText()).toString())));
+                    Date dteFrm = newDate.getTime();
+                    if(dteFrm.before(dateTo)) {
+                        infoModel.setAppldFrx(dataFormat.format(newDate.getTime()));
+                        tieDateFrom.setText(dateFormatter.format(newDate.getTime()));
+                        setWithPay(lnCredits,
+                                dataFormat.format(newDate.getTime()),
+                                FormatUIText.formatTextToData(Objects.requireNonNull(tieDateThru.getText()).toString()));
+                    } else {
+                        GToast.CreateMessage(requireActivity(), "Invalid date selected.", GToast.ERROR).show();
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    Toast.makeText(requireActivity(), "Error while selecting date. " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            dateFrom.show();
+        });
+
+        tieDateThru.setOnClickListener(v -> {
+            final Calendar newCalendar = Calendar.getInstance();
+            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd");
+            final DatePickerDialog dateFrom = new DatePickerDialog(getActivity(), (view, year, month, dayOfMonth) -> {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, month, dayOfMonth);
+                try {
+                    Date dateFrmx = dataFormat.parse(Objects.requireNonNull(FormatUIText.formatTextToData(Objects.requireNonNull(tieDateFrom.getText()).toString())));
+                    Date dateThru = newDate.getTime();
+                    if (dateThru.after(dateFrmx)){
+                        infoModel.setAppldFrx(dataFormat.format(newDate.getTime()));
+                        tieDateThru.setText(dateFormatter.format(newDate.getTime()));
+                        setWithPay(lnCredits,
+                                FormatUIText.formatTextToData(Objects.requireNonNull(tieDateFrom.getText()).toString()),
+                                dataFormat.format(newDate.getTime()));
+                    } else {
+                        GToast.CreateMessage(requireActivity(), "Invalid date selected.", GToast.ERROR).show();
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    Toast.makeText(requireActivity(), "Error while selecting date. " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            dateFrom.show();
+        });
     }
 
     private void sendLeaveUpdate(){
-        mViewModel.confirmLeaveApplication(infoModel, new VmLeaveApproval.OnConfirmOBLeaveListener() {
+        mViewModel.confirmLeaveApplication(infoModel, new VMLeaveApproval.OnConfirmLeaveAppCallback() {
             @Override
             public void onConfirm() {
                 poDialogx.initDialog("Leave Application", "Confirming leave application. Please wait...", false);
@@ -166,7 +248,7 @@ public class Fragment_LeaveApproval extends Fragment {
             @Override
             public void onFailed(String message) {
                 poDialogx.dismiss();
-                initErrorDialog("Leave Application", message);
+                initErrorDialog("PET Manager", message);
             }
         });
     }
@@ -174,8 +256,11 @@ public class Fragment_LeaveApproval extends Fragment {
     public void initWidgets(View view){
         poDialogx = new LoadDialog(getActivity());
         poMessage = new MessageBox(getActivity());
+        lnSearch = view.findViewById(R.id.linear_search);
         txtSearch = view.findViewById(R.id.txt_leave_ob_search);
         btnQuickSearch = view.findViewById(R.id.btn_quick_search);
+        lblHdBranch = view.findViewById(R.id.lbl_headerBranch);
+        lblHdAddrss = view.findViewById(R.id.lbl_headerAddress);
         lblTransNox = view.findViewById(R.id.lbl_transNox);
         lblEmployeNm = view.findViewById(R.id.lbl_clientNm);
         tieDateFrom = view.findViewById(R.id.txt_dateFrom);
@@ -208,15 +293,36 @@ public class Fragment_LeaveApproval extends Fragment {
 
     private void setWithPay(int credits, String fsDateFrm, String fsDateTo) throws ParseException {
         @SuppressLint("SimpleDateFormat") final SimpleDateFormat loDate = new SimpleDateFormat("yyyy-MM-dd");
-        @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
         Date dateFrom = loDate.parse(Objects.requireNonNull(fsDateFrm));
         Date dateTo = loDate.parse(Objects.requireNonNull(fsDateTo));
-        long diff = dateTo.getTime() - dateFrom.getTime();
+        long diff = Objects.requireNonNull(dateTo).getTime() - Objects.requireNonNull(dateFrom).getTime();
         long noOfDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
         if(credits == 0){
             tieWOPay.setText(String.valueOf(noOfDays));
+            infoModel.setWithOPay(String.valueOf(noOfDays));
         } else {
             tieWithPy.setText(String.valueOf(noOfDays));
+            infoModel.setWithPayx(String.valueOf(noOfDays));
         }
+    }
+
+    @Override
+    public void OnDownload() {
+        txtSearch.setText("");
+        poDialogx.initDialog("Leave Application", "Searching leave application. Please wait...", false);
+        poDialogx.show();
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void OnSuccessDownload(String TransNox) {
+        poDialogx.dismiss();
+        mViewModel.setTransNox(TransNox);
+    }
+
+    @Override
+    public void OnFailedDownload(String message) {
+        poDialogx.dismiss();
+        initErrorDialog("Leave Application", message);
     }
 }

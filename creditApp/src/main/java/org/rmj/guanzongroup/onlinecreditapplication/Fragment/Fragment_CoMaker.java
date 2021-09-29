@@ -277,7 +277,9 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
                 JSONObject loJson = new JSONObject(foCredApp.getComakerx());
                 Log.e(TAG + " jsonCon", loJson.toString());
                 // Value setter goes here
+                spnBrwrRltn.setText(CreditAppConstants.CO_MAKER_RELATIONSHIP[Integer.parseInt(loJson.getString("sReltnCde"))]);
 
+                mViewModel.setSpnCMakerRelation(loJson.getString("sReltnCde"));
                 tieLastname.setText( (!loJson.getString("sLastName").equalsIgnoreCase("")) ?  loJson.getString("sLastName") : "");
                 tieFrstname.setText( (!loJson.getString("sFrstName").equalsIgnoreCase("")) ?  loJson.getString("sFrstName") : "");
                 tieMiddname.setText( (!loJson.getString("sMiddName").equalsIgnoreCase("")) ?  loJson.getString("sMiddName") : "");
@@ -295,7 +297,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
                 }
 //                spnIncmSrce
                 spnIncmSrce.setText(CreditAppConstants.CO_MAKER_INCOME_SOURCE[Integer.parseInt(loJson.getString("cIncmeSrc"))]);
-
+                mViewModel.setSpnCMakeIncomeSource(loJson.getString("cIncmeSrc"));
                 JSONArray loCPArry = loJson.getJSONArray("mobile_number");
                 for(int x = 0; x < loCPArry.length(); x++) {
 
@@ -305,6 +307,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
                                 !"".equalsIgnoreCase(loJsonCp.getString("cPostPaid")) ) {
                             tiePrmCntct.setText(loJsonCp.getString("sMobileNo"));
                             spnPrmCntct.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))]);
+                            mViewModel.setPrimaryContact(loJsonCp.getString("cPostPaid"));
                             if("1".equalsIgnoreCase(loJsonCp.getString("cPostPaid"))) {
                                 tiePrmCntctPlan.setText(String.valueOf(loJsonCp.getInt("nPostYear")));
                             }
@@ -315,6 +318,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
                                 !"".equalsIgnoreCase(loJsonCp.getString("cPostPaid")) ) {
                             tieScnCntct.setText(loJsonCp.getString("sMobileNo"));
                             spnScnCntct.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))]);
+                            mViewModel.setSecondaryContact(loJsonCp.getString("cPostPaid"));
                             if("1".equalsIgnoreCase(loJsonCp.getString("cPostPaid"))) {
                                 tieScnCntctPlan.setText(String.valueOf(loJsonCp.getInt("nPostYear")));
                             }
@@ -325,6 +329,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
                                 !"".equalsIgnoreCase(loJsonCp.getString("cPostPaid")) ) {
                             tieTrtCntct.setText(loJsonCp.getString("sMobileNo"));
                             spnTrtCntct.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))]);
+                            mViewModel.setTertiaryContact(loJsonCp.getString("cPostPaid"));
                             if("1".equalsIgnoreCase(loJsonCp.getString("cPostPaid"))) {
                                 tieTrtCntctPlan.setText(String.valueOf(loJsonCp.getInt("nPostYear")));
                             }

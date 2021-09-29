@@ -142,6 +142,7 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
             mViewModel.setType(typeX);
         });
         btnNext.setOnClickListener(view -> {
+            infoModel.setTransNo(TransNox);
             infoModel.setStypeX(typeX);
             infoModel.setElctX(Objects.requireNonNull(tieElctx.getText()).toString().replace(",", ""));
             infoModel.setFoodX(Objects.requireNonNull(tieFoodx.getText().toString().replace(",", "")));
@@ -185,7 +186,7 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
                 //Bank Account
                 tieBankN.setText(loBankAcct.getString("sBankName"));
                 if(loBankAcct.getString("sAcctType") != null) {
-                    if(!loBankAcct.getString("sAcctType").equalsIgnoreCase("")) {
+                    if(!loBankAcct.getString("sAcctType").equalsIgnoreCase("-1")) {
                         spnTypex.setText(CreditAppConstants.ACCOUNT_TYPE[Integer.parseInt(loBankAcct.getString("sAcctType"))]);
                         spnTypex.setSelection(Integer.parseInt(loBankAcct.getString("sAcctType")));
                     }
