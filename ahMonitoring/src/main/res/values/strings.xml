@@ -41,4 +41,6 @@
     <string name="sHintAmntExps">Amount of expense</string>
     <string name="sHintDateApplied">Date Applied</string>
     <string name="sLblWithPay">With Pay</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

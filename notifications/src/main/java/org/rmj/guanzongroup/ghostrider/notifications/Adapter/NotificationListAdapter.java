@@ -49,7 +49,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         NotificationItemList message = notificationItemLists.get(position);
         holder.message = message;
-        if(!message.getName().isEmpty()) {
+        if(!message.getName().equalsIgnoreCase("null")) {
             holder.lblSender.setText(message.getName());
             holder.imgSendr.setImageResource(R.drawable.ic_user_profile);
         } else {

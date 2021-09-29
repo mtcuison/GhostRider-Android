@@ -43,7 +43,7 @@ public class Activity_Application extends AppCompatActivity {
 
     private String sTransNox = "";
 
-    private static Activity_Application getInstance(){
+    public static Activity_Application getInstance(){
         return instance;
     }
 
