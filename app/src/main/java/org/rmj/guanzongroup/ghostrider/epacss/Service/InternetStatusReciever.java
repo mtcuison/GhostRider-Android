@@ -107,7 +107,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
          * this List handles all the sent application to sever
          *
          */
-        private List<ECreditApplication> sentAppl = new ArrayList<>();
+        private final List<ECreditApplication> sentAppl = new ArrayList<>();
 
         public SendDataTask(Application instance) {
             this.instance = instance;
