@@ -142,7 +142,7 @@ public class VMDisbursementInfo extends AndroidViewModel {
                     poGoCasxx.DisbursementInfo().CreditCard().setBankName(Objects.requireNonNull(infoModel.getCcBnk()));
                     poGoCasxx.DisbursementInfo().CreditCard().setCreditLimit(infoModel.getLimitCC());
                     poGoCasxx.DisbursementInfo().CreditCard().setMemberSince(infoModel.getYearS());
-                    poInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
+                    poInfo.setTransNox(Objects.requireNonNull(infoModel.getTransNo()));
                     poInfo.setDisbrsmt(poGoCasxx.DisbursementInfo().toJSONString());
                     poApplcnt.updateGOCasData(poInfo);
                     return "success";

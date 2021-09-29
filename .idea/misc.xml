@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/GhostRider-Android-09-25-2021/authLibrary/src/main/res/layout/activity_authenticate.xml" value="0.20416666666666666" />
+        <entry key="..\:/GhostRider-Android-09-25-2021/authLibrary/src/main/res/layout/fragment_login.xml" value="0.22" />
+        <entry key="..\:/GhostRider-Android-09-25-2021/creditApp/src/main/res/layout/fragment_spouse_employment_info.xml" value="0.20416666666666666" />
+        <entry key="..\:/GhostRider-Android-09-25-2021/creditApp/src/main/res/layout/fragment_spouse_info.xml" value="0.21" />
+        <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/bg_gradient_light.xml" value="0.2203125" />
+        <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/ic_ghostrider_logo_day.xml" value="0.2203125" />
+        <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/ic_ghostrider_logo_night.xml" value="0.2203125" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/CreditEvaluator/src/main/res/layout/activity_ci_application.xml" value="0.1631578947368421" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/CreditEvaluator/src/main/res/layout/activity_ci_history_info.xml" value="0.16103896103896104" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/CreditEvaluator/src/main/res/layout/activity_evaluation_history.xml" value="0.16103896103896104" />

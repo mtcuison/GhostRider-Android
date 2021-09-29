@@ -45,11 +45,13 @@ public class OtherInfoModelTest {
         for (int x = 0; x < 3; x++){
             i++;
             infoModels = new OtherInfoModel();
-            infoModels.setUnitUser("0");
-            infoModels.setUnitPrps("2");
-            infoModels.setUnitPayr("0");
+            infoModels.setsUnitUser("0");
+            infoModels.setsPurposex("2");
+            infoModels.setsUnitPayr("0");
             infoModels.setSource("0");
-            infoModels.setPayrRltn("2");
+//            infoModels.setsPayrRltn("2");
+            infoModels.setsPyr2Buyr("2");
+
             poRefInfo = new PersonalReferenceInfoModel("Jonathan Sabiniano", "Cawayan Bogtong", "0335", "09452086661");
             arrayList.add(poRefInfo);
         }
@@ -65,9 +67,9 @@ public class OtherInfoModelTest {
             System.out.println("Address : " + arrayList.get(x).getAddress1());
             System.out.println("Town ID : " + arrayList.get(x).getTownCity());
             System.out.println("Contact No: " + arrayList.get(x).getContactN());
-            System.out.println("Unit User index: " + infoModels.getUnitUser());
-            System.out.println("Unit Purpose index: " + infoModels.getUnitPrps());
-            System.out.println("Payer index: " + infoModels.getUnitPayr());
+            System.out.println("Unit User index: " + infoModels.getsUnitUser());
+            System.out.println("Unit Purpose index: " + infoModels.getsPurposex());
+            System.out.println("Payer index: " + infoModels.getsUnitPayr());
             System.out.println("Company Source index: " + infoModels.getSource());
             System.out.println("\n");
         }

@@ -59,7 +59,7 @@ public class Fragment_CoMakerTest {
         suffix = "";
         nName= "";
         bDate= "03/06/1990";
-        bTown= "20";
+        bTown= "0335";
         fbAcct= "";
         srcIncome = "2";
         coRelation = "2";
@@ -73,6 +73,7 @@ public class Fragment_CoMakerTest {
         secondaryContactPlan  = "0";
         tertiaryContactPlan  = "0";
 
+        mViewModel.setTownID(bTown);
         mViewModel.setTransNox(TransNox);
         infoModel = new CoMakerModel(lName, fName, mName, suffix, nName,bDate, bTown, fbAcct, srcIncome, coRelation);
 
@@ -129,7 +130,7 @@ public class Fragment_CoMakerTest {
         suffix = "";
         nName= "";
         bDate= "03/06/1990";
-        bTown= "20";
+        bTown= "0335";
         fbAcct= "";
         srcIncome = "2";
         coRelation = "2";
