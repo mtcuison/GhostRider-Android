@@ -359,16 +359,22 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
                 rgSectorx.check(R.id.rb_ofw);
                 mViewModel.setEmploymentSector("2");
             }
-            spnCmpLvl.setText(CreditAppConstants.COMPANY_LEVEL[Integer.parseInt(employementObj.getString("cCompLevl"))], false);
-            spnCmpLvl.setSelection(Integer.parseInt(employementObj.getString("cCompLevl")));
-            infoModel.setCompanyLevel(employementObj.getString("cCompLevl"));
+            if(!"".equalsIgnoreCase(employementObj.getString("cCompLevl"))) {
+                spnCmpLvl.setText(CreditAppConstants.COMPANY_LEVEL[Integer.parseInt(employementObj.getString("cCompLevl"))], false);
+                spnCmpLvl.setSelection(Integer.parseInt(employementObj.getString("cCompLevl")));
+                infoModel.setCompanyLevel(employementObj.getString("cCompLevl"));
+            }
 
-            spnEmpLvl.setText(CreditAppConstants.EMPLOYEE_LEVEL[Integer.parseInt(employementObj.getString("cEmpLevlx"))], false);
-            spnEmpLvl.setSelection(Integer.parseInt(employementObj.getString("cEmpLevlx")));
-            infoModel.setEmployeeLevel(employementObj.getString("cEmpLevlx"));
+            if(!"".equalsIgnoreCase(employementObj.getString("cEmpLevlx"))) {
+                spnEmpLvl.setText(CreditAppConstants.EMPLOYEE_LEVEL[Integer.parseInt(employementObj.getString("cEmpLevlx"))], false);
+                spnEmpLvl.setSelection(Integer.parseInt(employementObj.getString("cEmpLevlx")));
+                infoModel.setEmployeeLevel(employementObj.getString("cEmpLevlx"));
+            }
 
-            spnBusNtr.setText(employementObj.getString("sIndstWrk"), false);
-            infoModel.setBusinessNature(employementObj.getString("sIndstWrk"));
+            if(!"".equalsIgnoreCase(employementObj.getString("sIndstWrk"))) {
+                spnBusNtr.setText(employementObj.getString("sIndstWrk"), false);
+                infoModel.setBusinessNature(employementObj.getString("sIndstWrk"));
+            }
 
             mViewModel.getTownProvinceByTownID(employementObj.getString("sWrkTownx")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
                 txtTownNm.setText(townProvinceInfo.sTownName);

@@ -305,7 +305,7 @@ public class EmploymentInfoModel {
     private boolean isCountryValid(){
         if(sSectorxx.equalsIgnoreCase("2")){
             if(sCountryx == null || sCountryx.equalsIgnoreCase("")){
-                message = "Please select business nature";
+                message = "Please select country.";
                 return false;
             }
         }
