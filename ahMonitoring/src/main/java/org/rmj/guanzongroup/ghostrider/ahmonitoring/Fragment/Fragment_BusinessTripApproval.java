@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,36 +25,57 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogKwikSearchLeave;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApprovalInfo;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.OBApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VmLeaveApproval;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMObApproval;
 
-import java.util.List;
+import java.util.Objects;
 
-public class Fragment_BusinessTripApproval extends Fragment implements VmLeaveApproval.OnKwikSearchCallBack, VmLeaveApproval.OnConfirmOBLeaveListener {
+public class Fragment_BusinessTripApproval extends Fragment implements VMObApproval.OnDownloadBusinessTripCallback, VMObApproval.OnConfirmApplicationCallback {
     public static final String TAG = Fragment_BusinessTripApproval.class.getSimpleName();
-    private VmLeaveApproval mViewModel;
-    private TextInputEditText txtSearch;
-    ImageButton btnQuickSearch;
+    private VMObApproval mViewModel;
 
+    private String TransNox;
+
+    private LinearLayout lnSearch;
+    private TextInputEditText
+            txtSearch,
+            txtPurpose,
+            tieDateFrom,
+            tieDateThru;
+    private ImageButton btnQuickSearch;
     private MaterialButton btnCancel, bntConfirm;
-    private TextView lblEmployeNm, lblDateFrom, lblDateThru, lblRemarks;
+    private TextView
+            lblBranchNm,
+            lblBranchAd,
+            lblTransNox,
+            lblEmployeNm,
+            lblDateAppd,
+            lblDateFrom,
+            lblDateThru,
+            lblDateAppx;
+    private CardView cvLeaveOb;
+
     private TextInputLayout tilRemarks;
-    private LeaveApprovalInfo infoModel;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
-    private CardView cvLeaveOb;
-    private TextInputEditText tieDateFrom, tieDateThru;
+    private OBApprovalInfo poModel;
+
     public static Fragment_BusinessTripApproval newInstance() {
         return new Fragment_BusinessTripApproval();
     }
@@ -69,98 +91,132 @@ public class Fragment_BusinessTripApproval extends Fragment implements VmLeaveAp
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VmLeaveApproval.class);
+        mViewModel = new ViewModelProvider(this).get(VMObApproval.class);
         Typeface typeface = ResourcesCompat.getFont(requireActivity(), R.font.roboto_bold);
         tilRemarks.setTypeface(typeface);
-        btnQuickSearch.setOnClickListener(v ->  {
-            if (txtSearch.getText().toString().isEmpty()){
-                initEmptyDialog();
-            }else {
-                mViewModel.importRequestBusinessTrip(txtSearch.getText().toString(), Fragment_BusinessTripApproval.this);
+        TransNox = Activity_Application.getInstance().getTransNox();
+        if(TransNox.isEmpty()){
+            lnSearch.setVisibility(View.VISIBLE);
+        } else {
+            lnSearch.setVisibility(View.GONE);
+        }
+        mViewModel.setTransNox(TransNox);
+        mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
+            try{
+                lblBranchNm.setText(eBranchInfo.getBranchNm());
+                lblBranchAd.setText(eBranchInfo.getAddressx());
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
 
+        mViewModel.getTransNox().observe(getViewLifecycleOwner(), s -> {
+            if(!s.isEmpty()) {
+                mViewModel.getBusinessTripInfo(s).observe(getViewLifecycleOwner(), eEmployeeBusinessTrip -> {
+                    if (eEmployeeBusinessTrip == null) {
+                        mViewModel.downloadBusinessTrip(s, Fragment_BusinessTripApproval.this);
+                    } else {
+                        lblTransNox.setText(eEmployeeBusinessTrip.getTransNox());
+                        lblDateAppd.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getTransact()));
+                        lblDateAppx.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE));
+                        lblEmployeNm.setText(eEmployeeBusinessTrip.getEmployee());
+                        lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateFrom()));
+                        lblDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateThru()));
+                        tieDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateFrom()));
+                        tieDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateThru()));
+                        txtPurpose.setText(eEmployeeBusinessTrip.getRemarksx());
+
+                        poModel.setAppldFrx(eEmployeeBusinessTrip.getDateFrom());
+                        poModel.setAppldTox(eEmployeeBusinessTrip.getDateThru());
+                        poModel.setDateAppv(eEmployeeBusinessTrip.getDapprove());
+                        poModel.setApproved(new SessionManager(requireActivity()).getEmployeeID());
+                    }
+                });
+            }
+        });
+
+        btnQuickSearch.setOnClickListener(v ->  {
+            mViewModel.downloadBusinessTrip(Objects.requireNonNull(txtSearch.getText()).toString(), Fragment_BusinessTripApproval.this);
+        });
+
         bntConfirm.setOnClickListener(v -> {
-//            mViewModel.saveObLeave(infoModel, WebApi.URL_CONFIRM_OB_APPLICATION,Fragment_BusinessTripApproval.this);
+            poModel.setTranStat("1");
+            mViewModel.confirmOBApplication(poModel, Fragment_BusinessTripApproval.this);
         });
         btnCancel.setOnClickListener(v -> {
-//            mViewModel.saveObLeave(infoModel, WebApi.URL_CONFIRM_OB_APPLICATION,Fragment_BusinessTripApproval.this);
+            poModel.setTranStat("3");
+            mViewModel.confirmOBApplication(poModel, Fragment_BusinessTripApproval.this);
         });
     }
     public void initWidgets(View view){
-        infoModel = new LeaveApprovalInfo();
         poDialogx = new LoadDialog(getActivity());
         poMessage = new MessageBox(getActivity());
+        poModel = new OBApprovalInfo();
+        lnSearch = view.findViewById(R.id.linear_search);
+        lblBranchNm = view.findViewById(R.id.lbl_headerBranch);
+        lblBranchAd = view.findViewById(R.id.lbl_headerAddress);
         txtSearch = view.findViewById(R.id.txt_leave_ob_search);
         btnQuickSearch = view.findViewById(R.id.btn_quick_search);
         cvLeaveOb = view.findViewById(R.id.cv_leave_ob);
+        lblTransNox = view.findViewById(R.id.lbl_transNox);
         lblEmployeNm = view.findViewById(R.id.lbl_clientNm);
         tieDateFrom = view.findViewById(R.id.txt_dateFrom);
         tieDateThru = view.findViewById(R.id.txt_dateTo);
         tilRemarks = view.findViewById(R.id.tilRemarks);
-//        lblRemarks = view.findViewById(R.id.lblRemarks);
+        txtPurpose = view.findViewById(R.id.txt_purpose);
+        tieDateFrom = view.findViewById(R.id.txt_dateFrom);
+        tieDateThru = view.findViewById(R.id.txt_dateTo);
+        lblDateAppd = view.findViewById(R.id.lbl_dateApplied);
+        lblDateFrom = view.findViewById(R.id.lbl_dateFrom);
+        lblDateThru = view.findViewById(R.id.lbl_dateThru);
+        lblDateAppx = view.findViewById(R.id.lbl_dateApproved);
+        tieDateFrom = view.findViewById(R.id.txt_dateFrom);
+        tieDateThru = view.findViewById(R.id.txt_dateTo);
         btnCancel = view.findViewById(R.id.btn_cancel);
         bntConfirm = view.findViewById(R.id.btn_confirm);
     }
 
-    @Override
-    public void onStartKwikSearch() {
-        poDialogx.initDialog("OB Application", "Searching ob application. Please wait...", false);
-        poDialogx.show();
-    }
-
-    @Override
-    public void onSuccessKwikSearch(JSONObject leave) {
-        poDialogx.dismiss();
-//        initDialog(infoList);
-    }
-
-    @Override
-    public void onKwikSearchFailed(String message) {
-        poDialogx.dismiss();
-        initErrorDialog("OB Application", message);
-    }
-    public void initDialog(List<LeaveApprovalInfo> infoList){
-        DialogKwikSearchLeave loDialog = new DialogKwikSearchLeave(getActivity(),infoList);
-        loDialog.initDialogKwikSearch((dialog, infoModel) -> {
-//            txtSearch.setText(infoModel.getsTransNox());
-            infoModel = infoModel;
-            cvLeaveOb.setVisibility(View.VISIBLE);
-            loDialog.dismiss();
-        });
-        loDialog.show();
-    }
-    public void initEmptyDialog(){
-        poDialogx.dismiss();
-        poMessage.initDialog();
-        poMessage.setTitle("OB Application");
-        poMessage.setMessage("TransNox Required!");
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
-    }
     public void initErrorDialog(String title, String message){
         poMessage.initDialog();
         poMessage.setTitle(title);
         poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) ->
-                dialog.dismiss());
+        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
     }
 
     @Override
-    public void onConfirm() {
-        poDialogx.initDialog("OB Application", "Confirming ob application. Please wait...", false);
+    public void OnDownload(String title, String message) {
+        poDialogx.initDialog(title, message, false);
         poDialogx.show();
     }
 
     @Override
-    public void onSuccess() {
+    public void OnSuccessDownload(String transNox) {
+        poDialogx.dismiss();
+        mViewModel.setTransNox(transNox);
+        poModel.setTransNox(transNox);
+    }
+
+    @Override
+    public void OnFailedDownload(String message) {
+        poDialogx.dismiss();
+        initErrorDialog("PET Manager", message);
+    }
+
+    @Override
+    public void OnConfirm(String title, String message) {
+        poDialogx.initDialog(title, message, false);
+        poDialogx.show();
+    }
+
+    @Override
+    public void OnSuccess() {
         poDialogx.dismiss();
     }
 
     @Override
-    public void onFailed(String message) {
+    public void OnFailed(String message) {
         poDialogx.dismiss();
-        initErrorDialog("OB Application", message);
+        initErrorDialog("PET Manager", message);
     }
 }

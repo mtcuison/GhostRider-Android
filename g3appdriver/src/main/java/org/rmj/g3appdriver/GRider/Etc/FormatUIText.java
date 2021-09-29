@@ -135,6 +135,24 @@ public class FormatUIText {
 
     /**
      *
+     * @param date pass the date to be parse
+     * This is use to parse birthdate for user interface.
+     * Date format from MMMM dd, yyyy to yyyy-MM-dd
+     * @return
+     */
+    @SuppressLint("SimpleDateFormat")
+    public static String formatTextToData(String date){
+        try {
+            Date parseDate = new SimpleDateFormat("MMMM dd, yyyy").parse(date);
+            return new SimpleDateFormat("yyyy-MM-dd").format(parseDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    /**
+     *
      * @param date pass the date with MMMM dd, yyyy HH:mm aa format
      *             to be parse into yyyyMMdd. This parsing is use in
      *             naming file.

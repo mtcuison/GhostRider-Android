@@ -115,8 +115,10 @@ public class VMLeaveApplication extends AndroidViewModel {
                 loApp.setTransNox(poLeave.getNextLeaveCode());
                 loApp.setTransact(AppConstants.CURRENT_DATE);
                 loApp.setEmployID(poSession.getEmployeeID());
-                loApp.setDateFrom(loLeave.getDateFromx());
-                loApp.setDateThru(loLeave.getDateThrux());
+                loApp.setEmployID(loLeave.getEmploName());
+                loApp.setBranchNm(loLeave.getBranchNme());
+                loApp.setAppldFrx(loLeave.getDateFromx());
+                loApp.setAppldTox(loLeave.getDateThrux());
                 loApp.setNoDaysxx(String.valueOf(loLeave.getNoOfDaysx()));
                 loApp.setPurposex(loLeave.getRemarksxx());
                 loApp.setEqualHrs(String.valueOf(loLeave.getNoOfHours()));

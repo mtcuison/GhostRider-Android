@@ -98,6 +98,12 @@ public class Activity_DigitalGcard extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
     private void parseQrCodeData(String data){
         try{
             loGenerator.setEncryptedQrCode(data);

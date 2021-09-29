@@ -14,6 +14,8 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Model;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 
 public class LeaveApplication {
+    private String EmploName = "";
+    private String BranchNme = "";
     private String leaveType = "";
     private String dateFromx = "";
     private String dateThrux = "";
@@ -28,6 +30,22 @@ public class LeaveApplication {
 
     public String getMessage() {
         return message;
+    }
+
+    public String getEmploName() {
+        return EmploName;
+    }
+
+    public void setEmploName(String emploName) {
+        EmploName = emploName;
+    }
+
+    public String getBranchNme() {
+        return BranchNme;
+    }
+
+    public void setBranchNme(String branchNme) {
+        BranchNme = branchNme;
     }
 
     public String getLeaveType() {

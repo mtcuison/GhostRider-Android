@@ -14,20 +14,21 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -43,8 +44,8 @@ public class VMEmployeeApplications extends AndroidViewModel {
     private final REmployeeLeave poLeave;
     private final RBranch poBranch;
 
-    public interface OnDownloadLeaveListListener{
-        void OnDownload(String message);
+    public interface OnDownloadApplicationListener {
+        void OnDownload(String Title, String message);
         void OnDownloadSuccess();
         void OnDownloadFailed(String message);
     }
@@ -64,7 +65,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
         return poBranch.getUserBranchInfo();
     }
 
-    public void DownloadLeaveForApproval(OnDownloadLeaveListListener listener){
+    public void DownloadLeaveForApproval(OnDownloadApplicationListener listener){
         new DownloadLeaveTask(instance, listener).execute();
     }
 
@@ -73,51 +74,95 @@ public class VMEmployeeApplications extends AndroidViewModel {
         private final REmployeeLeave loLeave;
         private final ConnectionUtil loConn;
         private final HttpHeaders loHeaders;
-        private final OnDownloadLeaveListListener mListener;
+        private final REmployeeBusinessTrip poBusTrip;
+        private final OnDownloadApplicationListener mListener;
 
-        public DownloadLeaveTask(Application instance, OnDownloadLeaveListListener listener){
+        public DownloadLeaveTask(Application instance, OnDownloadApplicationListener listener){
             this.loLeave = new REmployeeLeave(instance);
             this.loConn = new ConnectionUtil(instance);
             this.loHeaders = HttpHeaders.getInstance(instance);
+            this.poBusTrip = new REmployeeBusinessTrip(instance);
             this.mListener = listener;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mListener.OnDownload("Downloading leave applications. Please wait...");
+            mListener.OnDownload("PET Manager","Downloading leave applications. Please wait...");
         }
 
         @SuppressLint("NewApi")
         @Override
         protected String doInBackground(Void... voids) {
             String response;
+            JSONObject loResponse;
             try{
-                response = WebClient.httpsPostJSon(WebApi.URL_GET_LEAVE_APPLICATION, new JSONObject().toString(), loHeaders.getHeaders());
-                JSONObject loResponse = new JSONObject(response);
-                String lsResult = loResponse.getString("result");
-                if (lsResult.equalsIgnoreCase("success")) {
-                    JSONArray jsonA = loResponse.getJSONArray("payload");
-                    for(int x = 0; x < jsonA.length(); x++) {
-                        JSONObject loJson = jsonA.getJSONObject(x);
-                        if (loLeave.getTransnoxIfExist(loJson.getString("sTransNox")).size() > 0) {
-                            Log.d(TAG, "Leave application already exist.");
-                        } else {
-                            EEmployeeLeave leave = new EEmployeeLeave();
-                            leave.setTransNox("sTransNox");
-                            leave.setTransact("dTransact");
-                            leave.setEmployID("xEmployee");
-                            leave.setBranchNm("sBranchNm");
-                            leave.setDeptName("sDeptName");
-                            leave.setPositnNm("sPositnNm");
-                            leave.setAppldFrx("dAppldFrx");
-                            leave.setAppldTox("dAppldTox");
-                            leave.setNoDaysxx("nNoDaysxx");
-                            leave.setPurposex("sPurposex");
-                            leave.setLeaveTyp("cLeaveTyp");
-                            leave.setLveCredt("nLveCredt");
-                            leave.setTranStat("cTranStat");
-                            loLeave.insertApplication(leave);
+                if (!loConn.isDeviceConnected()) {
+                    response = AppConstants.NO_INTERNET();
+                } else{
+                    response = WebClient.httpsPostJSon(WebApi.URL_GET_LEAVE_APPLICATION, new JSONObject().toString(), loHeaders.getHeaders());
+                    if(response == null){
+                        response = AppConstants.SERVER_NO_RESPONSE();
+                    } else {
+                        loResponse = new JSONObject(response);
+                        String lsResult = loResponse.getString("result");
+                        if (lsResult.equalsIgnoreCase("success")) {
+                            JSONArray jsonA = loResponse.getJSONArray("payload");
+                            for (int x = 0; x < jsonA.length(); x++) {
+                                JSONObject loJson = jsonA.getJSONObject(x);
+                                if (loLeave.getTransnoxIfExist(loJson.getString("sTransNox")).size() > 0) {
+                                    Log.d(TAG, "Leave application already exist.");
+                                } else {
+                                    EEmployeeLeave leave = new EEmployeeLeave();
+                                    leave.setTransNox("sTransNox");
+                                    leave.setTransact("dTransact");
+                                    leave.setEmployID("xEmployee");
+                                    leave.setBranchNm("sBranchNm");
+                                    leave.setDeptName("sDeptName");
+                                    leave.setPositnNm("sPositnNm");
+                                    leave.setAppldFrx("dAppldFrx");
+                                    leave.setAppldTox("dAppldTox");
+                                    leave.setNoDaysxx("nNoDaysxx");
+                                    leave.setPurposex("sPurposex");
+                                    leave.setLeaveTyp("cLeaveTyp");
+                                    leave.setLveCredt("nLveCredt");
+                                    leave.setTranStat("cTranStat");
+                                    loLeave.insertApplication(leave);
+                                }
+                            }
+                        }
+                    }
+
+                    response = "";
+
+                    Thread.sleep(1000);
+
+                    response = WebClient.httpsPostJSon(WebApi.URL_GET_OB_APPLICATION, new JSONObject().toString(), loHeaders.getHeaders());
+                    if (response == null) {
+                        response = AppConstants.SERVER_NO_RESPONSE();
+                    } else {
+                        loResponse = new JSONObject(response);
+                        String result = loResponse.getString("result");
+                        if (result.equalsIgnoreCase("success")) {
+                            JSONArray jsonA = loResponse.getJSONArray("payload");
+                            for(int x = 0; x < jsonA.length(); x++) {
+                                JSONObject loJson = jsonA.getJSONObject(x);
+                                if (poBusTrip.getOBIfExist(loJson.getString("sTransNox")).size() > 0) {
+                                    Log.d(TAG, "OB application already exist.");
+                                } else {
+                                    EEmployeeBusinessTrip loOB = new EEmployeeBusinessTrip();
+                                    loOB.setTransNox(loJson.getString("sTransNox"));
+                                    loOB.setTransact(loJson.getString("dTransact"));
+                                    loOB.setEmployee(loJson.getString("sCompnyNm"));
+                                    loOB.setBranchNm(loJson.getString("sBranchNm"));
+                                    loOB.setDeptName(loJson.getString("sDeptName"));
+                                    loOB.setDateFrom(loJson.getString("dDateFrom"));
+                                    loOB.setDateThru(loJson.getString("dDateThru"));
+                                    loOB.setRemarksx(loJson.getString("sRemarksx"));
+                                    loOB.setTranStat(loJson.getString("cTranStat"));
+                                    poBusTrip.insert(loOB);
+                                }
+                            }
                         }
                     }
                 }
@@ -142,6 +187,102 @@ public class VMEmployeeApplications extends AndroidViewModel {
                 }
             } catch (Exception e){
                 e.printStackTrace();
+            }
+        }
+    }
+
+    public void DownloadBusinessTrip(OnDownloadApplicationListener callback){
+        try{
+            new DownloadBusinessTripTask(instance, callback).execute();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private static class DownloadBusinessTripTask extends AsyncTask<String, Void, String>{
+
+        private final REmployeeBusinessTrip poBusTrip;
+        private final ConnectionUtil poConn;
+        private final HttpHeaders poHeaders;
+        private final OnDownloadApplicationListener callback;
+
+        public DownloadBusinessTripTask(Application instance, OnDownloadApplicationListener callback) {
+            this.poBusTrip = new REmployeeBusinessTrip(instance);
+            this.poConn = new ConnectionUtil(instance);
+            this.poHeaders = HttpHeaders.getInstance(instance);
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnDownload("PET Manager", "Downloading business trip. Please wait...");
+        }
+
+        @SuppressLint("NewApi")
+        @Override
+        protected String doInBackground(String... strings) {
+            String lsResult;
+            try{
+                JSONObject params = new JSONObject();
+                if(!poConn.isDeviceConnected()){
+                    lsResult = AppConstants.NO_INTERNET();
+                } else {
+                    lsResult = WebClient.httpsPostJSon(WebApi.URL_GET_OB_APPLICATION, params.toString(), poHeaders.getHeaders());
+                    if (lsResult == null) {
+                        lsResult = AppConstants.SERVER_NO_RESPONSE();
+                    } else {
+                        JSONObject loResponse = new JSONObject(lsResult);
+                        String result = loResponse.getString("result");
+                        if (result.equalsIgnoreCase("success")) {
+                            JSONArray jsonA = loResponse.getJSONArray("payload");
+                            for(int x = 0; x < jsonA.length(); x++) {
+                                JSONObject loJson = jsonA.getJSONObject(x);
+                                if (poBusTrip.getOBIfExist(loJson.getString("sTransNox")).size() > 0) {
+                                    Log.d(TAG, "OB application already exist.");
+                                } else {
+                                    EEmployeeBusinessTrip loOB = new EEmployeeBusinessTrip();
+                                    loOB.setTransNox(loJson.getString("sTransNox"));
+                                    loOB.setTransact(loJson.getString("dTransact"));
+                                    loOB.setEmployee(loJson.getString("sCompnyNm"));
+                                    loOB.setBranchNm(loJson.getString("sBranchNm"));
+                                    loOB.setDeptName(loJson.getString("sDeptName"));
+                                    loOB.setDateFrom(loJson.getString("dDateFrom"));
+                                    loOB.setDateThru(loJson.getString("dDateThru"));
+                                    loOB.setRemarksx(loJson.getString("sRemarksx"));
+                                    loOB.setTranStat(loJson.getString("cTranStat"));
+                                    poBusTrip.insert(loOB);
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+            }
+            return lsResult;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject loJson = new JSONObject(s);
+                String lsResult = loJson.getString("result");
+                if(lsResult.equalsIgnoreCase("success")){
+                    callback.OnDownloadSuccess();
+                } else {
+                    JSONObject loError = loJson.getJSONObject("error");
+                    String message = loError.getString("message");
+                    callback.OnDownloadFailed(message);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                callback.OnDownloadFailed(e.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.OnDownloadFailed(e.getMessage());
             }
         }
     }

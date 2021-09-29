@@ -146,19 +146,13 @@ public class Fragment_ViewNotification extends Fragment {
         btnAction = v.findViewById(R.id.btn_notificationAction);
         fabCreate = v.findViewById(R.id.fab_createMsg);
         setupFabCreateMsg();
-        btnAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnAction.setOnClickListener(v12 -> {
 
-            }
         });
 
 
-        fabCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        fabCreate.setOnClickListener(v1 -> {
 
-            }
         });
     }
 
@@ -172,7 +166,7 @@ public class Fragment_ViewNotification extends Fragment {
     }
 
     private void setUpMessageTitle(String fsSender){
-        if(!fsSender.isEmpty()) {
+        if(!fsSender.equalsIgnoreCase("null")) {
             sender.setText(fsSender);
             imgSender.setImageResource(R.drawable.ic_user_profile);
         } else {
