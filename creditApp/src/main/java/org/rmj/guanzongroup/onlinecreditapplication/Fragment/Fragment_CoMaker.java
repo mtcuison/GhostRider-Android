@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Fragment;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -271,13 +272,14 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         });
     }
 
+    @SuppressLint("NewApi")
     private void setFieldValues(ECreditApplicantInfo foCredApp) {
         if(foCredApp.getComakerx() != null) {
             try {
                 JSONObject loJson = new JSONObject(foCredApp.getComakerx());
                 Log.e(TAG + " jsonCon", loJson.toString());
                 // Value setter goes here
-                spnBrwrRltn.setText(CreditAppConstants.CO_MAKER_RELATIONSHIP[Integer.parseInt(loJson.getString("sReltnCde"))]);
+                spnBrwrRltn.setText(CreditAppConstants.CO_MAKER_RELATIONSHIP[Integer.parseInt(loJson.getString("sReltnCde"))], false);
 
                 mViewModel.setSpnCMakerRelation(loJson.getString("sReltnCde"));
                 tieLastname.setText( (!loJson.getString("sLastName").equalsIgnoreCase("")) ?  loJson.getString("sLastName") : "");
@@ -296,7 +298,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
                     });
                 }
 //                spnIncmSrce
-                spnIncmSrce.setText(CreditAppConstants.CO_MAKER_INCOME_SOURCE[Integer.parseInt(loJson.getString("cIncmeSrc"))]);
+                spnIncmSrce.setText(CreditAppConstants.CO_MAKER_INCOME_SOURCE[Integer.parseInt(loJson.getString("cIncmeSrc"))], false);
                 mViewModel.setSpnCMakeIncomeSource(loJson.getString("cIncmeSrc"));
                 JSONArray loCPArry = loJson.getJSONArray("mobile_number");
                 for(int x = 0; x < loCPArry.length(); x++) {
@@ -306,7 +308,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
                         if( !"".equalsIgnoreCase(loJsonCp.getString("sMobileNo")) &&
                                 !"".equalsIgnoreCase(loJsonCp.getString("cPostPaid")) ) {
                             tiePrmCntct.setText(loJsonCp.getString("sMobileNo"));
-                            spnPrmCntct.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))]);
+                            spnPrmCntct.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))], false);
                             mViewModel.setPrimaryContact(loJsonCp.getString("cPostPaid"));
                             if("1".equalsIgnoreCase(loJsonCp.getString("cPostPaid"))) {
                                 tiePrmCntctPlan.setText(String.valueOf(loJsonCp.getInt("nPostYear")));
@@ -317,7 +319,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
                         if( !"".equalsIgnoreCase(loJsonCp.getString("sMobileNo")) &&
                                 !"".equalsIgnoreCase(loJsonCp.getString("cPostPaid")) ) {
                             tieScnCntct.setText(loJsonCp.getString("sMobileNo"));
-                            spnScnCntct.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))]);
+                            spnScnCntct.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))], false);
                             mViewModel.setSecondaryContact(loJsonCp.getString("cPostPaid"));
                             if("1".equalsIgnoreCase(loJsonCp.getString("cPostPaid"))) {
                                 tieScnCntctPlan.setText(String.valueOf(loJsonCp.getInt("nPostYear")));
@@ -328,7 +330,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
                         if( !"".equalsIgnoreCase(loJsonCp.getString("sMobileNo")) &&
                                 !"".equalsIgnoreCase(loJsonCp.getString("cPostPaid")) ) {
                             tieTrtCntct.setText(loJsonCp.getString("sMobileNo"));
-                            spnTrtCntct.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))]);
+                            spnTrtCntct.setText(CreditAppConstants.MOBILE_NO_TYPE[Integer.parseInt(loJsonCp.getString("cPostPaid"))], false);
                             mViewModel.setTertiaryContact(loJsonCp.getString("cPostPaid"));
                             if("1".equalsIgnoreCase(loJsonCp.getString("cPostPaid"))) {
                                 tieTrtCntctPlan.setText(String.valueOf(loJsonCp.getInt("nPostYear")));
