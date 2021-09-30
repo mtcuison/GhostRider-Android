@@ -26,6 +26,7 @@ public class TestConstants {
     public static final String STRING_TWO = "2";
     public static final String FAKE_STRING = "ABCDE12345";
     public static final String FAKE_JSON = "{\"key\":\"value\"}";
+    public static final String FAKE_APPMEANS= "{\"employed\":\"1\",\"sEmplyed\":\"0\",\"financer\":\"0\",\"pensionx\":\"0\",\"primay\":\"0\"}";
     public static final String FAKE_CODE = "00123";
     public static final String FAKE_NUMBER = "0123456789";
     public static final String FAKE_STRING_AMOUNT = "50,000";
@@ -42,7 +43,7 @@ public class TestConstants {
         loCredit.setPurchase(FAKE_STRING);
         loCredit.setApplInfo(FAKE_JSON);
         loCredit.setResidnce(FAKE_JSON);
-        loCredit.setAppMeans(FAKE_JSON);
+        loCredit.setAppMeans(FAKE_APPMEANS);
         loCredit.setEmplymnt(FAKE_JSON);
         loCredit.setBusnInfo(FAKE_JSON);
         loCredit.setFinancex(FAKE_JSON);

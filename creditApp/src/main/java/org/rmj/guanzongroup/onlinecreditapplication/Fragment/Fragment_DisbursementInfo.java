@@ -186,7 +186,7 @@ public class Fragment_DisbursementInfo extends Fragment implements ViewModelCall
                 //Bank Account
                 tieBankN.setText(loBankAcct.getString("sBankName"));
                 if(loBankAcct.getString("sAcctType") != null) {
-                    if(!loBankAcct.getString("sAcctType").equalsIgnoreCase("-1")) {
+                    if(!loBankAcct.getString("sAcctType").equalsIgnoreCase("")) {
                         spnTypex.setText(CreditAppConstants.ACCOUNT_TYPE[Integer.parseInt(loBankAcct.getString("sAcctType"))]);
                         spnTypex.setSelection(Integer.parseInt(loBankAcct.getString("sAcctType")));
                     }

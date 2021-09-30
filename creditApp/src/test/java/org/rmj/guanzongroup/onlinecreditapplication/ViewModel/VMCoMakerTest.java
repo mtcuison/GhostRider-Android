@@ -23,6 +23,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
+import org.rmj.guanzongroup.onlinecreditapplication.TestConstants;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
@@ -48,6 +49,8 @@ public class VMCoMakerTest {
     public void setUp() throws Exception {
         mViewModel = new VMCoMaker(ApplicationProvider.getApplicationContext());
         infoModel = new CoMakerModel();
+
+        mViewModel.setCreditApplicantInfo(TestConstants.getDummyCreditApp());
 //        mViewModel =  mock(VMCoMaker.class);
         TransNox = "Z3TXCBMCHCAO";
         lName = "Sabiniano";
@@ -160,7 +163,17 @@ public class VMCoMakerTest {
                     infoModel.setCoMobileNo(tertiaryContact, tertiarySimStats, 0);
                 }
             }
-            assertTrue(mViewModel.SubmitComaker(infoModel,callBack));
+            assertTrue(mViewModel.SubmitComaker(infoModel, new ViewModelCallBack() {
+                @Override
+                public void onSaveSuccessResult(String args) {
+
+                }
+
+                @Override
+                public void onFailedResult(String message) {
+
+                }
+            }));
         }catch (NullPointerException e){
             e.printStackTrace();
         } catch (Exception e){

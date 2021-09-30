@@ -28,6 +28,7 @@ import org.robolectric.annotation.Config;
 
 import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.FAKE_CODE;
 import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.FAKE_COMPANY;
+import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.FAKE_NUMBER;
 import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.FAKE_STRING;
 import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.FAKE_STRING_AMOUNT;
 import static org.rmj.guanzongroup.onlinecreditapplication.TestConstants.STRING_ONE;
@@ -49,10 +50,12 @@ public class Fragment_SpouseEmploymentInfoTest extends TestCase {
         mViewModel = new VMSpouseEmploymentInfo(TestConstants.APPLICATION);
         infoModel = new SpouseEmploymentInfoModel();
 
+        mViewModel.setDetailInfo(TestConstants.getDummyCreditApp());
 //        mViewModel.setDetailInfo(TestConstants.getDummyCreditApp());
         cTransNox = mViewModel.setTransNox(TestConstants.TRANSACTION_NO);
+        mViewModel.setTransNox(TestConstants.TRANSACTION_NO);
         cSectorxx = mViewModel.setEmploymentSector(STRING_ZERO);
-        empSector = Integer.parseInt(STRING_ZERO);
+        empSector = Integer.parseInt(STRING_ONE);
         mViewModel.setPsCmpLvl(TestConstants.STRING_ONE);
         mViewModel.setPsEmpLvl(TestConstants.STRING_TWO);
         mViewModel.setPsBsnssLvl(TestConstants.STRING_ZERO);
@@ -210,11 +213,11 @@ public class Fragment_SpouseEmploymentInfoTest extends TestCase {
     @Test
     public void test_saveSpouseEmploymentInfo(){
         if (empSector == 0){
-
+            test_Save_PrivateEmp();
         }else if (empSector == 1){
-
+            test_Save_GovernmentEmp();
         }else if (empSector == 2){
-
+            test_Save_OfwEmp();
         }
     }
 
@@ -271,6 +274,10 @@ public class Fragment_SpouseEmploymentInfoTest extends TestCase {
         infoModel = null;
     }
 
+    @Test
+    public void setcTransNox(){
+        assertTrue(mViewModel.setTransNox(TestConstants.TRANSACTION_NO));
+    }
     private void setPrivateEmployment() {
         infoModel.setSector(STRING_ZERO);
         infoModel.setCompanyLvl(STRING_TWO);
@@ -278,12 +285,15 @@ public class Fragment_SpouseEmploymentInfoTest extends TestCase {
         infoModel.setBizIndustry(STRING_TWO);
         infoModel.setCompanyName(FAKE_COMPANY);
         infoModel.setCompAddress(FAKE_STRING);
+        mViewModel.setProvinceID(FAKE_CODE);
         infoModel.setCompTown(FAKE_CODE);
         infoModel.setJobTitle(STRING_TWO);
         infoModel.setJobSpecific(FAKE_STRING);
-        infoModel.setEmploymentStat(STRING_ONE);
+        mViewModel.setEmploymentStatus(STRING_ONE);
         infoModel.setLengthOfService(STRING_TWO);
+        infoModel.setMonthOrYear(STRING_TWO);
         infoModel.setGrossMonthly(FAKE_STRING_AMOUNT);
+        infoModel.setCompTelNox(FAKE_NUMBER);
     }
 
     private void setGovEmployment() {
@@ -300,7 +310,9 @@ public class Fragment_SpouseEmploymentInfoTest extends TestCase {
         infoModel.setJobSpecific(FAKE_STRING);
         infoModel.setEmploymentStat(STRING_ONE);
         infoModel.setLengthOfService(STRING_TWO);
+        infoModel.setMonthOrYear(STRING_ZERO);
         infoModel.setGrossMonthly(FAKE_STRING_AMOUNT);
+        infoModel.setCompTelNox(FAKE_NUMBER);
     }
 
     private void setOfwEmployment() {
@@ -311,6 +323,8 @@ public class Fragment_SpouseEmploymentInfoTest extends TestCase {
         infoModel.setLengthOfService(STRING_TWO);
         infoModel.setMonthOrYear(STRING_ZERO);
         infoModel.setGrossMonthly(FAKE_STRING_AMOUNT);
+        infoModel.setCompTelNox(FAKE_NUMBER);
     }
+
 
 }
