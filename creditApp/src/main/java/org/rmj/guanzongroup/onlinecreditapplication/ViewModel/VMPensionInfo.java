@@ -88,12 +88,12 @@ public class VMPensionInfo extends AndroidViewModel {
     }
 
     public int getPreviousPage() throws Exception {
-        if(poJson.getValue().getString("employed").equalsIgnoreCase("1")) {
-            return 3;
-        } else if(poJson.getValue().getString("sEmplyed").equalsIgnoreCase("1")) {
+        if(poJson.getValue().getString("financer").equalsIgnoreCase("1")){
+            return 5;
+        } else if(poJson.getValue().getString("sEmplyed").equalsIgnoreCase("1")){
             return 4;
-        } else if(poJson.getValue().getString("financer").equalsIgnoreCase("1")) {
-            return 6;
+        } else if(poJson.getValue().getString("employed").equalsIgnoreCase("1")){
+            return 3;
         } else {
             return 2;
         }

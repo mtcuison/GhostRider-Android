@@ -184,17 +184,20 @@ public class EmploymentInfoModel {
     }
 
     public double getLengthOfService() {
-        try{
-            if(Integer.parseInt(cIsYearxx) == 0) {
-                double ldValue = Double.parseDouble(sLengthxx);
-                return ldValue / 12;
-            } else {
-                return Double.parseDouble(sLengthxx);
+        if(!sSectorxx.equalsIgnoreCase("2")) {
+            try {
+                if (Integer.parseInt(cIsYearxx) == 0) {
+                    double ldValue = Double.parseDouble(sLengthxx);
+                    return ldValue / 12;
+                } else {
+                    return Double.parseDouble(sLengthxx);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 0;
             }
-        } catch (Exception e){
-            e.printStackTrace();
-            return 0;
         }
+        return 0;
     }
 
     public void setLengthOfService(String sLengthxx) {
@@ -305,7 +308,7 @@ public class EmploymentInfoModel {
     private boolean isCountryValid(){
         if(sSectorxx.equalsIgnoreCase("2")){
             if(sCountryx == null || sCountryx.equalsIgnoreCase("")){
-                message = "Please select business nature";
+                message = "Please select country.";
                 return false;
             }
         }
