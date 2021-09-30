@@ -359,23 +359,38 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
                 rgSectorx.check(R.id.rb_ofw);
                 mViewModel.setEmploymentSector("2");
             }
-            spnCmpLvl.setText(CreditAppConstants.COMPANY_LEVEL[Integer.parseInt(employementObj.getString("cCompLevl"))], false);
-            spnCmpLvl.setSelection(Integer.parseInt(employementObj.getString("cCompLevl")));
-            infoModel.setCompanyLevel(employementObj.getString("cCompLevl"));
+            if(!"".equalsIgnoreCase(employementObj.getString("cCompLevl"))) {
+                spnCmpLvl.setText(CreditAppConstants.COMPANY_LEVEL[Integer.parseInt(employementObj.getString("cCompLevl"))], false);
+                spnCmpLvl.setSelection(Integer.parseInt(employementObj.getString("cCompLevl")));
+                infoModel.setCompanyLevel(employementObj.getString("cCompLevl"));
+            }
 
-            spnEmpLvl.setText(CreditAppConstants.EMPLOYEE_LEVEL[Integer.parseInt(employementObj.getString("cEmpLevlx"))], false);
-            spnEmpLvl.setSelection(Integer.parseInt(employementObj.getString("cEmpLevlx")));
-            infoModel.setEmployeeLevel(employementObj.getString("cEmpLevlx"));
+            if(!"".equalsIgnoreCase(employementObj.getString("cEmpLevlx"))) {
+                spnEmpLvl.setText(CreditAppConstants.EMPLOYEE_LEVEL[Integer.parseInt(employementObj.getString("cEmpLevlx"))], false);
+                spnEmpLvl.setSelection(Integer.parseInt(employementObj.getString("cEmpLevlx")));
+                infoModel.setEmployeeLevel(employementObj.getString("cEmpLevlx"));
+            }
 
-            spnBusNtr.setText(employementObj.getString("sIndstWrk"), false);
-            infoModel.setBusinessNature(employementObj.getString("sIndstWrk"));
+            if(!"".equalsIgnoreCase(employementObj.getString("sIndstWrk"))) {
+                spnBusNtr.setText(employementObj.getString("sIndstWrk"), false);
+                infoModel.setBusinessNature(employementObj.getString("sIndstWrk"));
+            }
 
-            mViewModel.getTownProvinceByTownID(employementObj.getString("sWrkTownx")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
-                txtTownNm.setText(townProvinceInfo.sTownName);
-                txtProvNm.setText(townProvinceInfo.sProvName);
-                infoModel.setTownID(townProvinceInfo.sTownIDxx);
-                mViewModel.setProvinceID(townProvinceInfo.sProvIDxx);
-            });
+            if(!"".equalsIgnoreCase(employementObj.getString("sWrkTownx"))) {
+                mViewModel.getTownProvinceByTownID(employementObj.getString("sWrkTownx")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
+                    try {
+                        txtTownNm.setText(townProvinceInfo.sTownName);
+                        txtProvNm.setText(townProvinceInfo.sProvName);
+                        infoModel.setTownID(townProvinceInfo.sTownIDxx);
+                        mViewModel.setProvinceID(townProvinceInfo.sProvIDxx);
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+
             txtCompNm.setText(employementObj.getString("sEmployer"));
             txtJobNme.setText(mViewModel.getOccupationName(employementObj.getString("sPosition")));
             infoModel.setJobTitle(employementObj.getString("sPosition"));
@@ -412,8 +427,8 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
                 spnServce.setText(CreditAppConstants.LENGTH_OF_STAY[1], false);
                 infoModel.setIsYear(String.valueOf(1));
             }
-            txtEsSlry.setText(employementObj.getString("nSalaryxx"));
-            txtCompCn.setText(employementObj.getString("sWrkTelno"));
+            txtEsSlry.setText( !"".equalsIgnoreCase(employementObj.getString("nSalaryxx")) ? employementObj.getString("nSalaryxx") : "");
+            txtCompCn.setText( !"".equalsIgnoreCase( employementObj.getString("sWrkTelno")) ? employementObj.getString("sWrkTelno") : "");
 
 
 //            infoModel.setIsYear(String.valueOf(i));
