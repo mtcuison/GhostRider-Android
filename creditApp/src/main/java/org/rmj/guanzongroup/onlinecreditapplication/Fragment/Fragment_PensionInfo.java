@@ -101,7 +101,7 @@ public class Fragment_PensionInfo extends Fragment implements ViewModelCallBack 
         });
         mViewModel.getSPensionSector().observe(getViewLifecycleOwner(), s -> {
             sectorPosition = s;
-            spnSector.setSelection(s.length());
+//            spnSector.setSelection(s.length());
         });
         spnSector.setOnItemClickListener(new OnItemClickListener(spnSector));
 
@@ -147,8 +147,11 @@ public class Fragment_PensionInfo extends Fragment implements ViewModelCallBack 
             JSONObject pensionObj = new JSONObject(credits.getPensionx());
             JSONObject otherIncomeObj = new JSONObject(pensionObj.getString("other_income"));
             JSONObject pensionerObj = new JSONObject(pensionObj.getString("pensioner"));
-            spnSector.setText(CreditAppConstants.PENSION_SECTOR[Integer.parseInt(pensionerObj.getString("cPenTypex"))], false);
-            spnSector.setSelection(Integer.parseInt(pensionerObj.getString("cPenTypex")));
+            if(!pensionerObj.getString("cPenTypex").equalsIgnoreCase("-1")){
+                spnSector.setText(CreditAppConstants.PENSION_SECTOR[Integer.parseInt(pensionerObj.getString("cPenTypex"))], false);
+                spnSector.setSelection(Integer.parseInt(pensionerObj.getString("cPenTypex")));
+            }
+
             sectorPosition = pensionerObj.getString("cPenTypex");
             mViewModel.setPensionSector(sectorPosition);
             txtRangxx.setText(pensionerObj.getString("nPensionx"));
