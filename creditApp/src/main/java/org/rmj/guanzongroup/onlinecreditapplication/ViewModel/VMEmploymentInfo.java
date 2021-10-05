@@ -202,7 +202,7 @@ public class VMEmploymentInfo extends AndroidViewModel {
         return liveData;
     }
 
-    public void SaveEmploymentInfo(EmploymentInfoModel infoModel, ViewModelCallBack callBack){
+    public boolean SaveEmploymentInfo(EmploymentInfoModel infoModel, ViewModelCallBack callBack){
         try{
             infoModel.setEmploymentSector(psSectorx.getValue());
             infoModel.setUniformPersonal(psUniform.getValue());
@@ -234,12 +234,15 @@ public class VMEmploymentInfo extends AndroidViewModel {
                 poCredtAp.updateGOCasData(poInfo);
                 Log.e(TAG, poGoCasxx.toJSONString());
                 callBack.onSaveSuccessResult(String.valueOf(getNextPage()));
+                return true;
             } else {
                 callBack.onFailedResult(infoModel.getMessage());
+                return false;
             }
         } catch (Exception e){
             e.printStackTrace();
             callBack.onFailedResult(e.getMessage());
+            return false;
         }
     }
 
