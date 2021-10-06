@@ -53,7 +53,7 @@ public class VMObApproval extends AndroidViewModel {
 
     public interface OnConfirmApplicationCallback{
         void OnConfirm(String title, String message);
-        void OnSuccess();
+        void OnSuccess(String message);
         void OnFailed(String message);
     }
 
@@ -224,6 +224,11 @@ public class VMObApproval extends AndroidViewModel {
                         String result = jsonResponse.getString("result");
                         if(result.equalsIgnoreCase("success")){
                             poBusTrip.updateOBApproval(loApp.getTranStat(), loApp.getTransNox(), new AppConstants().DATE_MODIFIED);
+                            if(loApp.getTranStat().equalsIgnoreCase("1")) {
+                                lsResult = AppConstants.APPROVAL_CODE_GENERATED("Business trip has been approve successfully.");
+                            } else {
+                                lsResult = AppConstants.APPROVAL_CODE_GENERATED("Business trip has been disapprove successfully.");
+                            }
                         }
                         Log.e(TAG, lsResult);
                     } else {
@@ -244,7 +249,7 @@ public class VMObApproval extends AndroidViewModel {
                 JSONObject loJson = new JSONObject(s);
                 String lsResult = loJson.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccess();
+                    callback.OnSuccess(loJson.getString("code"));
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     String message = loError.getString("message");

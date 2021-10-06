@@ -67,7 +67,7 @@ public class VMLeaveApproval extends AndroidViewModel {
 
     public interface OnConfirmLeaveAppCallback {
         void onConfirm();
-        void onSuccess();
+        void onSuccess(String message);
         void onFailed(String message);
     }
 
@@ -273,7 +273,11 @@ public class VMLeaveApproval extends AndroidViewModel {
                 Log.e(TAG, loJson.getString("result"));
                 String lsResult = loJson.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    callback.onSuccess();
+                    if(infoModel.getTranStat().equalsIgnoreCase("1")) {
+                        callback.onSuccess("Leave Application has been approved.");
+                    } else {
+                        callback.onSuccess("Leave Application has been disapproved.");
+                    }
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     String message = loError.getString("message");

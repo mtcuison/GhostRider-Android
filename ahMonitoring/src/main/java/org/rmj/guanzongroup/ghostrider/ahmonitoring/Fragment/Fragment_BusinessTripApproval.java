@@ -112,7 +112,6 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
 
         mViewModel.getTransNox().observe(getViewLifecycleOwner(), s -> {
             if(!s.isEmpty()) {
-                txtSearch.setVisibility(View.GONE);
                 mViewModel.getBusinessTripInfo(s).observe(getViewLifecycleOwner(), eEmployeeBusinessTrip -> {
                     try {
                         if (eEmployeeBusinessTrip == null) {
@@ -128,6 +127,7 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
                             tieDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateThru()));
                             txtPurpose.setText(eEmployeeBusinessTrip.getRemarksx());
 
+                            poModel.setTransNox(s);
                             poModel.setAppldFrx(eEmployeeBusinessTrip.getDateFrom());
                             poModel.setAppldTox(eEmployeeBusinessTrip.getDateThru());
                             poModel.setDateAppv(eEmployeeBusinessTrip.getDapprove());
@@ -145,12 +145,29 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
         });
 
         bntConfirm.setOnClickListener(v -> {
-            poModel.setTranStat("1");
-            mViewModel.confirmOBApplication(poModel, Fragment_BusinessTripApproval.this);
+            poMessage.initDialog();
+            poMessage.setTitle("Leave Approval");
+            poMessage.setMessage("Approve " + lblEmployeNm.getText().toString() + "'s business trip application?");
+            poMessage.setPositiveButton("Approve", (view, dialog) -> {
+                dialog.dismiss();
+                poModel.setTranStat("1");
+                mViewModel.confirmOBApplication(poModel, Fragment_BusinessTripApproval.this);
+            });
+            poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            poMessage.show();
         });
+
         btnCancel.setOnClickListener(v -> {
-            poModel.setTranStat("3");
-            mViewModel.confirmOBApplication(poModel, Fragment_BusinessTripApproval.this);
+            poMessage.initDialog();
+            poMessage.setTitle("Leave Approval");
+            poMessage.setMessage("Disapprove " + lblEmployeNm.getText().toString() + "'s business trip application?");
+            poMessage.setPositiveButton("Disapprove", (view, dialog) -> {
+                dialog.dismiss();
+                poModel.setTranStat("3");
+                mViewModel.confirmOBApplication(poModel, Fragment_BusinessTripApproval.this);
+            });
+            poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            poMessage.show();
         });
     }
     public void initWidgets(View view){
@@ -199,7 +216,6 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
     public void OnSuccessDownload(String transNox) {
         poDialogx.dismiss();
         mViewModel.setTransNox(transNox);
-        poModel.setTransNox(transNox);
     }
 
     @Override
@@ -215,8 +231,9 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
     }
 
     @Override
-    public void OnSuccess() {
+    public void OnSuccess(String message) {
         poDialogx.dismiss();
+        initErrorDialog("PET Manager", message);
     }
 
     @Override
