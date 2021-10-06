@@ -137,7 +137,7 @@ public class Fragment_ObApplication extends Fragment {
                         String lsFrom = dateFormatter.format(newDate.getTime());
                         Date dateFrom1 = dateFormatter.parse(lsFrom);
                         int result = dateFrom1.compareTo(dateTo);
-                        if(result >= 0) {
+                        if(result <= 0) {
                             txtDateFrom.setText(dateFormatter.format(newDate.getTime()));
                             long diff = dateTo.getTime() - dateFrom1.getTime();
                             long noOfDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
@@ -165,8 +165,8 @@ public class Fragment_ObApplication extends Fragment {
                     try {
                         Date dateFrom1 = dateFormatter.parse(Objects.requireNonNull(txtDateFrom.getText()).toString());
                         Date dateTo = newDate.getTime();
-                        assert dateFrom1 != null;
-                        if (dateFrom1.before(dateTo)) {
+                        int result = dateTo.compareTo(dateFrom1);
+                        if (result >= 0) {
                             txtDateTo.setText(dateFormatter.format(newDate.getTime()));
                             long diff = dateTo.getTime() - dateFrom1.getTime();
                             long noOfDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;

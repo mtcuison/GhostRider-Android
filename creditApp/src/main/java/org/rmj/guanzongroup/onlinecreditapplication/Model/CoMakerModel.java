@@ -85,14 +85,6 @@ public class CoMakerModel {
             return false;
         }
         return true;
-//        return isBorrowerRel() &&
-//                isLastNameValid() &&
-//                isFrstNameValid() &&
-//                isMiddNameValid() &&
-//                isBirthdateValid() &&
-//                isBirthPlaceValid() &&
-//                isIncomeSource() &&
-//                isContactValid();
     }
 
 

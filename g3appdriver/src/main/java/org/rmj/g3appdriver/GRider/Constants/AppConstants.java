@@ -123,7 +123,7 @@ public class AppConstants {
     public static int INTENT_OB_APPROVAL = 118;
 
     public static int INTENT_SELFIE_LOGIN = 103;
-// ADD FOR HELP PURPOSE
+    // ADD FOR HELP PURPOSE
     public static int INTENT_DOWNLOAD_DCP = 108;
     public static int INTENT_IMPORT_DCP = 109;
     public static int INTENT_ADD_COLLECTION_DCP = 110;
@@ -159,6 +159,7 @@ public class AppConstants {
     public String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
 
     public static String CURRENT_DATE = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().getTime());
+    public static String PERFORMANCE_CURRENT_PERIOD = new SimpleDateFormat("yyyyMM", Locale.getDefault()).format(Calendar.getInstance().getTime());
     public String CURRENT_DATE_WORD = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime());
 
     public static String CURRENT_TIME = String.valueOf(new Timestamp(new Date().getTime()));

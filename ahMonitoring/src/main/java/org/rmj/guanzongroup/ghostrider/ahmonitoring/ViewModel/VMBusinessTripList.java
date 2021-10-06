@@ -15,11 +15,24 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeBusinessTrip;
+
+import java.util.List;
 
 public class VMBusinessTripList extends AndroidViewModel {
 
+    private final REmployeeBusinessTrip poBussTrip;
+
     public VMBusinessTripList(@NonNull Application application) {
         super(application);
+        this.poBussTrip = new REmployeeBusinessTrip(application);
     }
-    // TODO: Implement the ViewModel
+
+    public LiveData<List<EEmployeeBusinessTrip>> getBusinessTripList(){
+        return poBussTrip.getOBListForApproval();
+    }
+
 }

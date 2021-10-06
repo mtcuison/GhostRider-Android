@@ -167,11 +167,9 @@ public class InternetStatusReciever extends BroadcastReceiver {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                try {
-                    uploadLoginDetails();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
+                poSync.uploadLoginDetails(poLog, loginDetails);
+
                 try {
                     uploadPaidCollectionDetail();
                 } catch (Exception e) {
@@ -507,5 +505,47 @@ public class InternetStatusReciever extends BroadcastReceiver {
                 }
             }
         }
+
+//        void uploadLeaveApplication() throws Exception {
+//            JSONObject param = new JSONObject();
+//            param.put("sTransNox", poLeave.getNextLeaveCode());
+//            param.put("dTransact", AppConstants.CURRENT_DATE);
+//            param.put("sEmployID", poSession.getEmployeeID());
+//            param.put("dDateFrom", loLeave.getDateFromx());
+//            param.put("dDateThru", loLeave.getDateThrux());
+//            param.put("nNoDaysxx", loLeave.getNoOfDaysx());
+//            param.put("sPurposex", loLeave.getRemarksxx());
+//            param.put("cLeaveTyp", loLeave.getLeaveType());
+//            param.put("dAppldFrx", loLeave.getDateFromx());
+//            param.put("dAppldTox", loLeave.getDateThrux());
+//            param.put("sEntryByx", poSession.getEmployeeID());
+//            param.put("dEntryDte", AppConstants.CURRENT_DATE);
+//            param.put("nWithOPay", "0");
+//            param.put("nEqualHrs", loApp.getEqualHrs());
+//            param.put("sApproved", "0");
+//            param.put("dApproved", "");
+//            param.put("dSendDate", "2017-07-19");
+//            param.put("cTranStat", "1");
+//            param.put("sModified", poSession.getEmployeeID());
+//
+//            if(poConn.isDeviceConnected()){
+//                lsResult = WebClient.sendRequest(WebApi.URL_SEND_LEAVE_APPLICATION, param.toString(), poHeaders.getHeaders());
+//                if(lsResult == null){
+//                    lsResult = AppConstants.SERVER_NO_RESPONSE();
+//                } else {
+//                    JSONObject loResult = new JSONObject(lsResult);
+//                    String result = loResult.getString("result");
+//                    if(result.equalsIgnoreCase("success")){
+//                        poLeave.updateSendStatus(
+//                                new AppConstants().DATE_MODIFIED,
+//                                loApp.getTransNox(),
+//                                loResult.getString("sTransNox"));
+//                        Log.d("Employee Leave", "Leave info updated!");
+//                    }
+//                }
+//            } else {
+//                lsResult = AppConstants.NO_INTERNET();
+//            }
+//        }
     }
 }
