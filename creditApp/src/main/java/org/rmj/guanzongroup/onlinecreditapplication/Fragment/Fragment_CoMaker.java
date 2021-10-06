@@ -194,6 +194,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
             for(int x = 0; x < townInfoList.size(); x++){
                 if(tieBrthTown.getText().toString().equalsIgnoreCase(townInfoList.get(x).getTownName())){
                     mViewModel.setTownID(townInfoList.get(x).getTownIDxx());
+                    infoModel.setcoBrthPlce(townInfoList.get(x).getTownIDxx());
                     break;
                 }
             }
@@ -205,6 +206,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
         spnBrwrRltn.setOnItemClickListener(new Fragment_CoMaker.OnItemClickListener(spnBrwrRltn));
 
     }
+
     private void setupWidgets(View v){
         tieLastname = v.findViewById(R.id.tie_cap_cmrLastname);
         tieFrstname = v.findViewById(R.id.tie_cap_cmrFirstname);

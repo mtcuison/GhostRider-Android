@@ -149,7 +149,8 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
 
         mViewModel.getUserInfo().observe(requireActivity(), eEmployeeInfo -> {
             try{
-                infoModel.setApproved(eEmployeeInfo.getEmployID());
+                infoModel.setApproved(AppConstants.CURRENT_DATE);
+                infoModel.setApprovex(eEmployeeInfo.getUserIDxx());
             } catch (Exception e){
                 e.printStackTrace();
             }

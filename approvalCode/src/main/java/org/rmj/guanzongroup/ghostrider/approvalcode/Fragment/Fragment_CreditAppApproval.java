@@ -42,6 +42,8 @@ import org.rmj.guanzongroup.ghostrider.approvalcode.Model.CreditApp;
 import org.rmj.guanzongroup.ghostrider.approvalcode.R;
 import org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel.VMCreditAppApproval;
 
+import java.util.Objects;
+
 public class Fragment_CreditAppApproval extends Fragment implements ViewModelCallback, VMCreditAppApproval.OnLoadApplicationListener {
 
     private VMCreditAppApproval mViewModel;
@@ -111,29 +113,29 @@ public class Fragment_CreditAppApproval extends Fragment implements ViewModelCal
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMCreditAppApproval.class);
         btnLoadApp.setOnClickListener(view -> {
-            String lsTransNo = txtTransNox.getText().toString();
+            String lsTransNo = Objects.requireNonNull(txtTransNox.getText()).toString();
             String lsBrnchCd = txtBranch.getText().toString();
             CreditApp loApp = new CreditApp(sSystemCD, lsTransNo, lsBrnchCd);
             mViewModel.LoadApplication(loApp, Fragment_CreditAppApproval.this);
         });
 
         btnApprove.setOnClickListener(view -> {
-            String lsTransNo = txtTransNox.getText().toString();
-            String lsReasonx = txtAppNotes.getText().toString();
+            String lsTransNo = Objects.requireNonNull(txtTransNox.getText()).toString();
+            String lsReasonx = Objects.requireNonNull(txtAppNotes.getText()).toString();
             CreditApp.Application loApp = new CreditApp.Application(lsTransNo, lsReasonx, "yes");
             mViewModel.ApproveApplication(loApp, Fragment_CreditAppApproval.this);
         });
 
         btnDApprove.setOnClickListener(view -> {
-            String lsTransNo = txtTransNox.getText().toString();
-            String lsReasonx = txtAppNotes.getText().toString();
+            String lsTransNo = Objects.requireNonNull(txtTransNox.getText()).toString();
+            String lsReasonx = Objects.requireNonNull(txtAppNotes.getText()).toString();
             CreditApp.Application loApp = new CreditApp.Application(lsTransNo, lsReasonx, "no");
             mViewModel.ApproveApplication(loApp, Fragment_CreditAppApproval.this);
         });
 
         btnAppNoCI.setOnClickListener(view -> {
-            String lsTransNo = txtTransNox.getText().toString();
-            String lsReasonx = txtAppNotes.getText().toString();
+            String lsTransNo = Objects.requireNonNull(txtTransNox.getText()).toString();
+            String lsReasonx = Objects.requireNonNull(txtAppNotes.getText()).toString();
             CreditApp.Application loApp = new CreditApp.Application(lsTransNo, lsReasonx, "na");
             mViewModel.ApproveApplication(loApp, Fragment_CreditAppApproval.this);
         });

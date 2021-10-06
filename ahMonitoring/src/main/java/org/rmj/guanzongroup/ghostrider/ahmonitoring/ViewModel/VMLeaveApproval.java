@@ -138,11 +138,11 @@ public class VMLeaveApproval extends AndroidViewModel {
                     if (lsResult.equalsIgnoreCase("success")) {
                         JSONArray jsonA = loResponse.getJSONArray("payload");
                         JSONObject loJson = jsonA.getJSONObject(0);
-                        if(poLeave.getTransnoxIfExist(loJson.getString("sTransNox")).size() > 0){
+                        TransNox = loJson.getString("sTransNox");
+                        if(poLeave.getTransnoxIfExist(loJson.getString("sTransNox"), loJson.getString("cTranStat")).size() > 0){
                             Log.d(TAG, "Leave application already exist.");
                         } else {
                             EEmployeeLeave loLeave = new EEmployeeLeave();
-                            TransNox = loJson.getString("sTransNox");
                             loLeave.setTransNox(loJson.getString("sTransNox"));
                             loLeave.setTransact(loJson.getString("dTransact"));
                             loLeave.setEmployID(loJson.getString("xEmployee"));
@@ -164,8 +164,10 @@ public class VMLeaveApproval extends AndroidViewModel {
                 }
             } catch (NullPointerException e){
                 e.printStackTrace();
+                response = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
             }catch (Exception e){
                 e.printStackTrace();
+                response = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
             }
             return response;
         }
@@ -219,7 +221,6 @@ public class VMLeaveApproval extends AndroidViewModel {
         protected String doInBackground(Void... voids) {
             String lsResponse;
             try{
-
                 JSONObject loJson = new JSONObject();
                 loJson.put("sTransNox", infoModel.getTransNox());
                 loJson.put("dTransact", AppConstants.CURRENT_DATE);
@@ -228,8 +229,8 @@ public class VMLeaveApproval extends AndroidViewModel {
                 loJson.put("cTranStat", infoModel.getTranStat());
                 loJson.put("nWithPayx", infoModel.getWithPayx());
                 loJson.put("nWithOPay", infoModel.getWithOPay());
-                loJson.put("sApproved", infoModel.getApproved());
-                loJson.put("dApproved", AppConstants.CURRENT_DATE);
+                loJson.put("sApproved", infoModel.getApprovex());
+                loJson.put("dApproved", infoModel.getApproved());
 
                 if(poConn.isDeviceConnected()) {
                     lsResponse = WebClient.sendRequest(WebApi.URL_CONFIRM_LEAVE_APPLICATION, loJson.toString(), poHeaders.getHeaders());

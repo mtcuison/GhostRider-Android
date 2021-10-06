@@ -110,23 +110,23 @@ public class VMEmployeeApplications extends AndroidViewModel {
                             JSONArray jsonA = loResponse.getJSONArray("payload");
                             for (int x = 0; x < jsonA.length(); x++) {
                                 JSONObject loJson = jsonA.getJSONObject(x);
-                                if (loLeave.getTransnoxIfExist(loJson.getString("sTransNox")).size() > 0) {
-                                    Log.d(TAG, "Leave application already exist.");
-                                } else {
-                                    EEmployeeLeave leave = new EEmployeeLeave();
-                                    leave.setTransNox("sTransNox");
-                                    leave.setTransact("dTransact");
-                                    leave.setEmployID("xEmployee");
-                                    leave.setBranchNm("sBranchNm");
-                                    leave.setDeptName("sDeptName");
-                                    leave.setPositnNm("sPositnNm");
-                                    leave.setAppldFrx("dAppldFrx");
-                                    leave.setAppldTox("dAppldTox");
-                                    leave.setNoDaysxx("nNoDaysxx");
-                                    leave.setPurposex("sPurposex");
-                                    leave.setLeaveTyp("cLeaveTyp");
-                                    leave.setLveCredt("nLveCredt");
-                                    leave.setTranStat("cTranStat");
+                                EEmployeeLeave leave = new EEmployeeLeave();
+                                leave.setTransNox(loJson.getString("sTransNox"));
+                                leave.setTransact(loJson.getString("dTransact"));
+                                leave.setEmployID(loJson.getString("xEmployee"));
+                                leave.setBranchNm(loJson.getString("sBranchNm"));
+                                leave.setDeptName(loJson.getString("sDeptName"));
+                                leave.setPositnNm(loJson.getString("sPositnNm"));
+                                leave.setAppldFrx(loJson.getString("dAppldFrx"));
+                                leave.setAppldTox(loJson.getString("dAppldTox"));
+                                leave.setNoDaysxx(loJson.getString("nNoDaysxx"));
+                                leave.setPurposex(loJson.getString("sPurposex"));
+                                leave.setLeaveTyp(loJson.getString("cLeaveTyp"));
+                                leave.setLveCredt(loJson.getString("nLveCredt"));
+                                leave.setTranStat(loJson.getString("cTranStat"));
+                                String lsTransNox = loJson.getString("sTransNox");
+                                String lsTranStat = loJson.getString("cTranStat");
+                                if (loLeave.getTransnoxIfExist(lsTransNox, lsTranStat).size() < 1) {
                                     loLeave.insertApplication(leave);
                                 }
                             }
@@ -187,102 +187,6 @@ public class VMEmployeeApplications extends AndroidViewModel {
                 }
             } catch (Exception e){
                 e.printStackTrace();
-            }
-        }
-    }
-
-    public void DownloadBusinessTrip(OnDownloadApplicationListener callback){
-        try{
-            new DownloadBusinessTripTask(instance, callback).execute();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    private static class DownloadBusinessTripTask extends AsyncTask<String, Void, String>{
-
-        private final REmployeeBusinessTrip poBusTrip;
-        private final ConnectionUtil poConn;
-        private final HttpHeaders poHeaders;
-        private final OnDownloadApplicationListener callback;
-
-        public DownloadBusinessTripTask(Application instance, OnDownloadApplicationListener callback) {
-            this.poBusTrip = new REmployeeBusinessTrip(instance);
-            this.poConn = new ConnectionUtil(instance);
-            this.poHeaders = HttpHeaders.getInstance(instance);
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.OnDownload("PET Manager", "Downloading business trip. Please wait...");
-        }
-
-        @SuppressLint("NewApi")
-        @Override
-        protected String doInBackground(String... strings) {
-            String lsResult;
-            try{
-                JSONObject params = new JSONObject();
-                if(!poConn.isDeviceConnected()){
-                    lsResult = AppConstants.NO_INTERNET();
-                } else {
-                    lsResult = WebClient.httpsPostJSon(WebApi.URL_GET_OB_APPLICATION, params.toString(), poHeaders.getHeaders());
-                    if (lsResult == null) {
-                        lsResult = AppConstants.SERVER_NO_RESPONSE();
-                    } else {
-                        JSONObject loResponse = new JSONObject(lsResult);
-                        String result = loResponse.getString("result");
-                        if (result.equalsIgnoreCase("success")) {
-                            JSONArray jsonA = loResponse.getJSONArray("payload");
-                            for(int x = 0; x < jsonA.length(); x++) {
-                                JSONObject loJson = jsonA.getJSONObject(x);
-                                if (poBusTrip.getOBIfExist(loJson.getString("sTransNox")).size() > 0) {
-                                    Log.d(TAG, "OB application already exist.");
-                                } else {
-                                    EEmployeeBusinessTrip loOB = new EEmployeeBusinessTrip();
-                                    loOB.setTransNox(loJson.getString("sTransNox"));
-                                    loOB.setTransact(loJson.getString("dTransact"));
-                                    loOB.setEmployee(loJson.getString("sCompnyNm"));
-                                    loOB.setBranchNm(loJson.getString("sBranchNm"));
-                                    loOB.setDeptName(loJson.getString("sDeptName"));
-                                    loOB.setDateFrom(loJson.getString("dDateFrom"));
-                                    loOB.setDateThru(loJson.getString("dDateThru"));
-                                    loOB.setRemarksx(loJson.getString("sRemarksx"));
-                                    loOB.setTranStat(loJson.getString("cTranStat"));
-                                    poBusTrip.insert(loOB);
-                                }
-                            }
-                        }
-                    }
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-            }
-            return lsResult;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject loJson = new JSONObject(s);
-                String lsResult = loJson.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnDownloadSuccess();
-                } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
-                    callback.OnDownloadFailed(message);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                callback.OnDownloadFailed(e.getMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-                callback.OnDownloadFailed(e.getMessage());
             }
         }
     }

@@ -112,24 +112,29 @@ public class Fragment_BusinessTripApproval extends Fragment implements VMObAppro
 
         mViewModel.getTransNox().observe(getViewLifecycleOwner(), s -> {
             if(!s.isEmpty()) {
+                txtSearch.setVisibility(View.GONE);
                 mViewModel.getBusinessTripInfo(s).observe(getViewLifecycleOwner(), eEmployeeBusinessTrip -> {
-                    if (eEmployeeBusinessTrip == null) {
-                        mViewModel.downloadBusinessTrip(s, Fragment_BusinessTripApproval.this);
-                    } else {
-                        lblTransNox.setText(eEmployeeBusinessTrip.getTransNox());
-                        lblDateAppd.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getTransact()));
-                        lblDateAppx.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE));
-                        lblEmployeNm.setText(eEmployeeBusinessTrip.getEmployee());
-                        lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateFrom()));
-                        lblDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateThru()));
-                        tieDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateFrom()));
-                        tieDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateThru()));
-                        txtPurpose.setText(eEmployeeBusinessTrip.getRemarksx());
+                    try {
+                        if (eEmployeeBusinessTrip == null) {
+                            mViewModel.downloadBusinessTrip(s, Fragment_BusinessTripApproval.this);
+                        } else {
+                            lblTransNox.setText(eEmployeeBusinessTrip.getTransNox());
+                            lblDateAppd.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getTransact()));
+                            lblDateAppx.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE));
+                            lblEmployeNm.setText(eEmployeeBusinessTrip.getEmployee());
+                            lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateFrom()));
+                            lblDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateThru()));
+                            tieDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateFrom()));
+                            tieDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeBusinessTrip.getDateThru()));
+                            txtPurpose.setText(eEmployeeBusinessTrip.getRemarksx());
 
-                        poModel.setAppldFrx(eEmployeeBusinessTrip.getDateFrom());
-                        poModel.setAppldTox(eEmployeeBusinessTrip.getDateThru());
-                        poModel.setDateAppv(eEmployeeBusinessTrip.getDapprove());
-                        poModel.setApproved(new SessionManager(requireActivity()).getEmployeeID());
+                            poModel.setAppldFrx(eEmployeeBusinessTrip.getDateFrom());
+                            poModel.setAppldTox(eEmployeeBusinessTrip.getDateThru());
+                            poModel.setDateAppv(eEmployeeBusinessTrip.getDapprove());
+                            poModel.setApproved(new SessionManager(requireActivity()).getEmployeeID());
+                        }
+                    } catch (Exception e){
+                        e.printStackTrace();
                     }
                 });
             }

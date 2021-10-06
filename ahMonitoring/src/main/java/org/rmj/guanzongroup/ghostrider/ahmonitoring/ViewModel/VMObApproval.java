@@ -184,6 +184,7 @@ public class VMObApproval extends AndroidViewModel {
 
     private static class ConfirmApplicationTask extends AsyncTask<OBApprovalInfo, Void, String>{
 
+        private final REmployeeBusinessTrip poBusTrip;
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
         private final OnConfirmApplicationCallback callback;
@@ -192,6 +193,7 @@ public class VMObApproval extends AndroidViewModel {
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.callback = callback;
+            this.poBusTrip = new REmployeeBusinessTrip(instance);
         }
 
         @Override
@@ -218,7 +220,12 @@ public class VMObApproval extends AndroidViewModel {
                     param.put("cTranStat", loApp.getTranStat());
                     lsResult = WebClient.httpsPostJSon(WebApi.URL_CONFIRM_OB_APPLICATION, param.toString(), poHeaders.getHeaders());
                     if (lsResult != null) {
-
+                        JSONObject jsonResponse = new JSONObject(lsResult);
+                        String result = jsonResponse.getString("result");
+                        if(result.equalsIgnoreCase("success")){
+                            poBusTrip.updateOBApproval(loApp.getTranStat(), loApp.getTransNox(), new AppConstants().DATE_MODIFIED);
+                        }
+                        Log.e(TAG, lsResult);
                     } else {
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }
