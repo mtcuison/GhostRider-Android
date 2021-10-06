@@ -83,10 +83,7 @@ public class SpousePensionInfoModel extends InputChecker {
     }
 
     public boolean isPensionDataValid(){
-        if(isPensionSectorValid() ||
-                isPensionAmtValid() ||
-                isRetirementYrValid()) {
-
+        if(isPensionAmtValid() || isRetirementYrValid()) {
             return isPensionSectorValid() &&
                     isPensionAmtValid() &&
                     isRetirementYrValid() &&

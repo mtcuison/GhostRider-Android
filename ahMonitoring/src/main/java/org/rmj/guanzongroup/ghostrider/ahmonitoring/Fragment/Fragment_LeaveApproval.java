@@ -15,6 +15,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +63,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
     private LoadDialog poDialogx;
     private MessageBox poMessage;
 
-    private int lnCredits;
+    private int pnCredits;
 
     private LinearLayout lnSearch;
     private MaterialButton btnCancel, bntConfirm;
@@ -114,7 +117,6 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
         mViewModel.setTransNox(TransNox);
         mViewModel.getTransNox().observe(getViewLifecycleOwner(), s -> {
             if(!s.isEmpty()){
-                txtSearch.setVisibility(View.GONE);
                 mViewModel.getEmployeeLeaveInfo(s).observe(requireActivity(), eEmployeeLeave -> {
                     try {
                         if(eEmployeeLeave == null){
@@ -135,10 +137,10 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                             tieDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldFrx()));
                             tieDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldTox()));
                             txtPurpse.setText(eEmployeeLeave.getPurposex());
-                            lnCredits = Integer.parseInt(eEmployeeLeave.getLveCredt());
+                            pnCredits = Integer.parseInt(eEmployeeLeave.getLveCredt());
                             String lsFromx = eEmployeeLeave.getAppldFrx();
                             String lsDteTo = eEmployeeLeave.getAppldTox();
-                            setWithPay(lnCredits, lsFromx, lsDteTo);
+                            setWithPay(pnCredits, lsFromx, lsDteTo);
                         }
                     } catch (Exception e){
                         e.printStackTrace();
@@ -149,7 +151,8 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
 
         mViewModel.getUserInfo().observe(requireActivity(), eEmployeeInfo -> {
             try{
-                infoModel.setApproved(eEmployeeInfo.getEmployID());
+                infoModel.setApproved(AppConstants.CURRENT_DATE);
+                infoModel.setApprovex(eEmployeeInfo.getUserIDxx());
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -167,13 +170,29 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
         btnQuickSearch.setOnClickListener(v -> mViewModel.downloadLeaveApplication(Objects.requireNonNull(txtSearch.getText()).toString(), this));
 
         bntConfirm.setOnClickListener(v -> {
-            infoModel.setTranStat("1");
-            sendLeaveUpdate();
+            poMessage.initDialog();
+            poMessage.setTitle("Leave Approval");
+            poMessage.setMessage("Approve " + lblEmployeNm.getText().toString() + "'s leave application?");
+            poMessage.setPositiveButton("Approve", (view, dialog) -> {
+                dialog.dismiss();
+                infoModel.setTranStat("1");
+                sendLeaveUpdate();
+            });
+            poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            poMessage.show();
         });
 
         btnCancel.setOnClickListener(v -> {
-            infoModel.setTranStat("3");
-            sendLeaveUpdate();
+            poMessage.initDialog();
+            poMessage.setTitle("Leave Approval");
+            poMessage.setMessage("Disapprove " + lblEmployeNm.getText().toString() + "'s leave application?");
+            poMessage.setPositiveButton("Disapprove", (view, dialog) -> {
+                dialog.dismiss();
+                infoModel.setTranStat("3");
+                sendLeaveUpdate();
+            });
+            poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            poMessage.show();
         });
 
 
@@ -190,7 +209,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                     if(dteFrm.before(dateTo)) {
                         infoModel.setAppldFrx(dataFormat.format(newDate.getTime()));
                         tieDateFrom.setText(dateFormatter.format(newDate.getTime()));
-                        setWithPay(lnCredits,
+                        setWithPay(pnCredits,
                                 dataFormat.format(newDate.getTime()),
                                 FormatUIText.formatTextToData(Objects.requireNonNull(tieDateThru.getText()).toString()));
                     } else {
@@ -217,7 +236,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                     if (dateThru.after(dateFrmx)){
                         infoModel.setAppldFrx(dataFormat.format(newDate.getTime()));
                         tieDateThru.setText(dateFormatter.format(newDate.getTime()));
-                        setWithPay(lnCredits,
+                        setWithPay(pnCredits,
                                 FormatUIText.formatTextToData(Objects.requireNonNull(tieDateFrom.getText()).toString()),
                                 dataFormat.format(newDate.getTime()));
                     } else {
@@ -230,6 +249,52 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
             dateFrom.show();
         });
+
+        tieWithPy.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try{
+                    tieWithPy.removeTextChangedListener(this);
+                    if(infoModel.getTransNox() != null) {
+                        if(pnCredits != 0) {
+                            int lnWOPay = Integer.parseInt(Objects.requireNonNull(tieWOPay.getText()).toString());
+                            int lnWthPay = Integer.parseInt(Objects.requireNonNull(tieWithPy.getText()).toString());
+
+                        }
+                    }
+                    tieWithPy.addTextChangedListener(this);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        tieWOPay.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void sendLeaveUpdate(){
@@ -241,8 +306,9 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             }
 
             @Override
-            public void onSuccess() {
+            public void onSuccess(String message) {
                 poDialogx.dismiss();
+                initErrorDialog("PET Manager", message);
             }
 
             @Override
@@ -299,10 +365,14 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
         long noOfDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
         if(credits == 0){
             tieWOPay.setText(String.valueOf(noOfDays));
+            tieWithPy.setText(String.valueOf(0));
+            infoModel.setWithPayx(String.valueOf(0));
             infoModel.setWithOPay(String.valueOf(noOfDays));
         } else {
+            tieWOPay.setText(String.valueOf(0));
             tieWithPy.setText(String.valueOf(noOfDays));
             infoModel.setWithPayx(String.valueOf(noOfDays));
+            infoModel.setWithOPay(String.valueOf(0));
         }
     }
 

@@ -16,6 +16,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -27,14 +28,14 @@ import java.util.List;
 @Dao
 public interface DEmployeeLeave {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertApplication(EEmployeeLeave poLeave);
 
     @Update
     void updateApplication(EEmployeeLeave poLeave);
 
-    @Query("SELECT * FROM Employee_Leave WHERE sTransNox =:TransNox")
-    List<EEmployeeLeave> getTransnoxIfExist(String TransNox);
+    @Query("SELECT * FROM Employee_Leave WHERE sTransNox =:TransNox AND cTranStat =:TranStat")
+    List<EEmployeeLeave> getTransnoxIfExist(String TransNox, String TranStat);
 
     @Query("DELETE FROM Employee_Leave WHERE sTransNox =:TransNox")
     void deleteApplication(String TransNox);
@@ -45,7 +46,12 @@ public interface DEmployeeLeave {
     @Query("UPDATE Employee_Leave SET sTransNox =:newTransNox, cSentStat = '1', dSendDate =:DateSent WHERE sTransNox =:TransNox")
     void updateSendStatus(String DateSent, String TransNox, String newTransNox);
 
-    @Query("UPDATE Employee_Leave SET cSentStat =:TranStat, dModified =:DateSent WHERE sTransNox =:TransNox")
+    @Query("UPDATE Employee_Leave SET " +
+            "cTranStat =:TranStat, " +
+            "dModified =:DateSent, " +
+            "dApproved =:DateSent, " +
+            "sApproved = (SELECT sUserIDxx FROM User_Info_Master) " +
+            "WHERE sTransNox =:TransNox")
     void updateLeaveApproval(String TranStat, String TransNox, String DateSent);
 
     @Query("SELECT sTransNox, dTransact, sEmployID,  dDateFrom, dDateThru, sApproved, dApproved, dAppldFrx, dAppldTox, sPurposex FROM Employee_Leave UNION " +
@@ -53,35 +59,8 @@ public interface DEmployeeLeave {
             "ORDER BY dTransact")
     LiveData<List<LeaveOBApplication>> getAllLeaveOBApplication();
 
-    @Query("SELECT * FROM Employee_Leave WHERE cTranStat = '0' ORDER BY dTransact DESC")
+    @Query("SELECT * FROM Employee_Leave WHERE sApproved IS NULL AND dApproved IS NULL ORDER BY dTransact DESC")
     LiveData<List<EEmployeeLeave>> getEmployeeLeaveForApprovalList();
-
-//    @Query("UPDATE Employee_Leave SET sTransNox =:TransNox," +
-//            "dTransact =:Transact," +
-//            "sEmployID =:Employee," +
-//            "sBranchNm =:BranchNm," +
-//            "sDeptName =:DeptName," +
-//            "sPositnNm =:PositnNm," +
-//            "dAppldFrx =:AppldFrx," +
-//            "dAppldTox =:AppldTox," +
-//            "nNoDaysxx =:NoDaysxx," +
-//            "sPurposex =:Purposex," +
-//            "cLeaveTyp =:LeaveTyp," +
-//            "nLveCredt =:LveCredt," +
-//            "cTranStat =:TranStat")
-//    void updateLeaveInfo(String TransNox,
-//                                 String Transact,
-//                                 String Employee,
-//                                 String BranchNm,
-//                                 String DeptName,
-//                                 String PositnNm,
-//                                 String AppldFrx,
-//                                 String AppldTox,
-//                                 String NoDaysxx,
-//                                 String Purposex,
-//                                 String LeaveTyp,
-//                                 String LveCredt,
-//                                 String TranStat);
 
     class LeaveOBApplication {
         public String sTransNox;

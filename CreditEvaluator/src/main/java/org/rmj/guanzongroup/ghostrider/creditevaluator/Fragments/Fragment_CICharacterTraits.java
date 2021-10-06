@@ -64,6 +64,7 @@ public class Fragment_CICharacterTraits extends Fragment implements ViewModelCal
     private CharacterTraitsInfoModel infoModel;
     private MessageBox poMessage;
     private LoadDialog poDialogx;
+
     public static Fragment_CICharacterTraits newInstance() {
         return new Fragment_CICharacterTraits();
     }
