@@ -44,4 +44,14 @@ public interface DEmployeeBusinessTrip {
 
     @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
     LiveData<EEmployeeBusinessTrip> getBusinessTripInfo(String TransNox);
+
+    @Query("UPDATE Employee_Business_Trip SET " +
+            "cTranStat =:TranStat, " +
+            "dApproved =:DateSent, " +
+            "sApproved = (SELECT sUserIDxx FROM User_Info_Master) " +
+            "WHERE sTransNox =:TransNox")
+    void updateOBApproval(String TranStat, String TransNox, String DateSent);
+
+    @Query("SELECT * FROM Employee_Business_Trip WHERE sApproved IS NULL AND dApproved IS NULL")
+    LiveData<List<EEmployeeBusinessTrip>> getOBListForApproval();
 }

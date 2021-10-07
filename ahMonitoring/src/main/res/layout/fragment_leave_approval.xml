@@ -101,7 +101,7 @@
                         android:maxLines="1"
                         android:textAllCaps="true"
                         android:textCursorDrawable="@drawable/white_cursor"
-                        android:hint="Search Application" />
+                        android:hint="Enter Transaction No." />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageButton

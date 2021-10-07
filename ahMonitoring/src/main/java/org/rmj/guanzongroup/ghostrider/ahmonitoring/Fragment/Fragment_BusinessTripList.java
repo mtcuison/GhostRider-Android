@@ -11,24 +11,41 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.EmployeeApplicationAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBusinessTripList;
+
+import java.util.List;
 
 public class Fragment_BusinessTripList extends Fragment {
 
     private VMBusinessTripList mViewModel;
+
+    private RecyclerView recyclerView;
+
+    private MessageBox poMessage;
+    private LoadDialog poDialog;
 
     public static Fragment_BusinessTripList newInstance() {
         return new Fragment_BusinessTripList();
@@ -37,14 +54,39 @@ public class Fragment_BusinessTripList extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_business_trip_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_business_trip_list, container, false);
+
+        setupWidgets(view);
+
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMBusinessTripList.class);
-        // TODO: Use the ViewModel
+
+        mViewModel.getBusinessTripList().observe(getViewLifecycleOwner(), eEmployeeBusinessTrips -> {
+            try{
+                LinearLayoutManager loManager = new LinearLayoutManager(getActivity());
+                loManager.setOrientation(RecyclerView.VERTICAL);
+                recyclerView.setLayoutManager(loManager);
+                recyclerView.setAdapter(new EmployeeApplicationAdapter(eEmployeeBusinessTrips, TransNox -> {
+                    Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
+                    loIntent.putExtra("app", AppConstants.INTENT_OB_APPROVAL);
+                    loIntent.putExtra("sTransNox", TransNox);
+                    startActivity(loIntent);
+                }));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
     }
 
+    private void setupWidgets(View v){
+        recyclerView = v.findViewById(R.id.recyclerview_applications);
+
+        poMessage = new MessageBox(requireActivity());
+        poDialog = new LoadDialog(requireActivity());
+    }
 }

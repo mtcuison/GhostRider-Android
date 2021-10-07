@@ -81,12 +81,12 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
             holder.lblEmplName.setText(loBusTrip.getEmployee());
             holder.lblDeptName.setText(loBusTrip.getDeptName());
             holder.lblBrnchNme.setText(loBusTrip.getBranchNm());
-            holder.lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(loBusTrip.getAppldFrx()));
-            holder.lblDateThru.setText(FormatUIText.formatGOCasBirthdate(loBusTrip.getAppldTox()));
+            holder.lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(loBusTrip.getDateFrom()));
+            holder.lblDateThru.setText(FormatUIText.formatGOCasBirthdate(loBusTrip.getDateThru()));
             holder.txtPurpose.setText(loBusTrip.getRemarksx());
             holder.itemView.setOnClickListener(v -> {
                 if(mObListener != null){
-                    mLvListener.OnClick(loBusTrip.getTransNox());
+                    mObListener.OnClick(loBusTrip.getTransNox());
                 }
             });
         }
@@ -94,7 +94,11 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
 
     @Override
     public int getItemCount() {
-        return poLeave.size();
+        if(poLeave != null) {
+            return poLeave.size();
+        } else {
+            return poBusTrip.size();
+        }
     }
 
     public static class ApplicationViewHolder extends RecyclerView.ViewHolder{

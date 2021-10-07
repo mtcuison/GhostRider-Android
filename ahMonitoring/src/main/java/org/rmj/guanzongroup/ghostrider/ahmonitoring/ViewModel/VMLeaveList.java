@@ -45,5 +45,4 @@ public class VMLeaveList extends AndroidViewModel {
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return poBranch.getUserBranchInfo();
     }
-
 }

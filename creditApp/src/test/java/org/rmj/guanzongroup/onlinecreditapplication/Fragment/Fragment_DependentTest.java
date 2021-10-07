@@ -24,6 +24,7 @@ import org.mockito.Mock;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.DependentsInfoModel;
 import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
+import org.rmj.guanzongroup.onlinecreditapplication.TestConstants;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMCoMaker;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMDependent;
 import org.rmj.guanzongroup.onlinecreditapplication.ViewModel.VMOtherInfo;
@@ -75,6 +76,7 @@ public class Fragment_DependentTest implements ViewModelCallBack, VMDependent.Ex
         infoModel = new DependentsInfoModel();
         fragment = new Fragment_Dependent();
 
+        mViewModel.setCreditApplicantInfo(TestConstants.getDummyCreditApp());
         TransNox = "Z3TXCBMCHCAO";
         dpdName = "Jonathan Sabiniano";
         mRelationPosition = "2";

@@ -35,30 +35,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.PERFORMANCE_CURRENT_PERIOD;
 import static org.rmj.g3appdriver.utils.WebApi.IMPORT_BRANCH_PERFORMANCE;
 
 public class ImportBranchPerformance implements ImportInstance {
     public static final String TAG = ImportBranchPerformance.class.getSimpleName();
 
-    private final ConnectionUtil conn;
-    private final HttpHeaders headers;
-    private final WebApi webApi;
+    private final Application instance;
     private final RBranchPerformance branchRepo;
 
     public ImportBranchPerformance(Application application) {
-        conn = new ConnectionUtil(application);
-        headers = HttpHeaders.getInstance(application);
-        webApi = new WebApi(application);
+        this.instance = application;
         branchRepo = new RBranchPerformance(application);
     }
 
     @Override
     public void ImportData(ImportDataCallback callback) {
         try {
-            JSONObject loJson = new JSONObject();
-            loJson.put("period", "201911");
-            loJson.put("areacd", "AreaCode");
-            new ImportDataTask(conn, headers, webApi, branchRepo, callback).execute(loJson);
+            new ImportDataTask(instance, callback).execute();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -67,19 +61,14 @@ public class ImportBranchPerformance implements ImportInstance {
     private static class ImportDataTask extends AsyncTask<JSONObject, Void, String> {
         private final ConnectionUtil conn;
         private final HttpHeaders headers;
-        private final WebApi webApi;
         private final RBranchPerformance branchRepo;
         private final ImportDataCallback callback;
 
-        public ImportDataTask(ConnectionUtil conn,
-                              HttpHeaders headers,
-                              WebApi webApi,
-                              RBranchPerformance branchRepo,
+        public ImportDataTask(Application instance,
                               ImportDataCallback callback) {
-            this.conn = conn;
-            this.headers = headers;
-            this.webApi = webApi;
-            this.branchRepo = branchRepo;
+            this.conn = new ConnectionUtil(instance);
+            this.headers = HttpHeaders.getInstance(instance);
+            this.branchRepo = new RBranchPerformance(instance);
             this.callback = callback;
         }
 
@@ -88,8 +77,17 @@ public class ImportBranchPerformance implements ImportInstance {
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";
             try {
+                JSONObject loJson = new JSONObject();
+                String lsAreaCd = branchRepo.getUserAreaCode();
+                String lsPeriod = PERFORMANCE_CURRENT_PERIOD;
+                loJson.put("period", "202109");
+//                loJson.put("period", lsPeriod);
+                loJson.put("areacd", lsAreaCd);
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(IMPORT_BRANCH_PERFORMANCE, jsonObjects[0].toString(), (HashMap) headers.getHeaders());
+                    response = WebClient.httpsPostJSon(IMPORT_BRANCH_PERFORMANCE, loJson.toString(), headers.getHeaders());
+                    JSONObject loResponse = new JSONObject(response);
+                    JSONArray laJson = loResponse.getJSONArray("detail");
+                    saveDataToLocal(laJson);
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }
@@ -108,8 +106,6 @@ public class ImportBranchPerformance implements ImportInstance {
                 JSONObject loJson = new JSONObject(s);
                 String lsResult = loJson.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    JSONArray laJson = loJson.getJSONArray("detail");
-                    saveDataToLocal(laJson);
                     callback.OnSuccessImportData();
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");

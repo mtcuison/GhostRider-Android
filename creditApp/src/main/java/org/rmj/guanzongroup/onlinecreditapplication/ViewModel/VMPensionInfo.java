@@ -112,7 +112,7 @@ public class VMPensionInfo extends AndroidViewModel {
     }
     public void SavePensionInfo(PensionInfoModel infoModel, ViewModelCallBack callBack){
         try{
-            if(infoModel.isPensionInfoValid()) {
+//            if(infoModel.isPensionInfoValid()) {
                 poGoCas.MeansInfo().PensionerInfo().setSource(infoModel.getPensionSector());
                 poGoCas.MeansInfo().PensionerInfo().setAmount(infoModel.getPensionIncomeRange());
                 poGoCas.MeansInfo().PensionerInfo().setYearRetired(infoModel.getRetirementYear());
@@ -125,9 +125,9 @@ public class VMPensionInfo extends AndroidViewModel {
                 Log.e(TAG, poGoCas.MeansInfo().getIncomeSource());
                 poCreditApp.updateGOCasData(poInfo);
                 callBack.onSaveSuccessResult(String.valueOf(getNextPage()));
-            } else {
-                callBack.onFailedResult(infoModel.getMessage());
-            }
+//            } else {
+//                callBack.onFailedResult(infoModel.getMessage());
+//            }
         } catch (Exception e){
             e.printStackTrace();
         }

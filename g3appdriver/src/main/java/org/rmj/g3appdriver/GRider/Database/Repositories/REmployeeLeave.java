@@ -51,8 +51,8 @@ public class REmployeeLeave implements DEmployeeLeave {
     }
 
     @Override
-    public List<EEmployeeLeave> getTransnoxIfExist(String TransNox) {
-        return employeeDao.getTransnoxIfExist(TransNox);
+    public List<EEmployeeLeave> getTransnoxIfExist(String TransNox, String TranStat) {
+        return employeeDao.getTransnoxIfExist(TransNox, TranStat);
     }
 
     @Override
@@ -95,71 +95,4 @@ public class REmployeeLeave implements DEmployeeLeave {
         }
         return lsNextCode;
     }
-
-//    public boolean saveEmployeeLeaveInfo(JSONArray foJson) throws Exception{
-//        GConnection loConn = DbConnection.doConnect(instance);
-//        boolean result = true;
-//        if (loConn == null){
-//            result = false;
-//        }
-//
-//        JSONObject loJson;
-//        String lsSQL;
-//        ResultSet loRS;
-//
-//        for(int x = 0; x < foJson.length(); x++){
-//            loJson = foJson.getJSONObject(x);
-//
-//            //check if record already exists on database
-//            lsSQL = "SELECT dTimeStmp FROM Employee_Leave" +
-//                    " WHERE sTransNox = " + SQLUtil.toSQL((String) loJson.get("sTransNox"));
-//            loRS = Objects.requireNonNull(loConn).executeQuery(lsSQL);
-//
-//            lsSQL = "";
-//            //record does not exists
-//            if (!loRS.next()){
-//                EEmployeeLeave leave = new EEmployeeLeave();
-//                leave.setTransNox("sTransNox");
-//                leave.setTransact("dTransact");
-//                leave.setEmployID("xEmployee");
-//                leave.setBranchNm("sBranchNm");
-//                leave.setDeptName("sDeptName");
-//                leave.setPositnNm("sPositnNm");
-//                leave.setAppldFrx("dAppldFrx");
-//                leave.setAppldTox("dAppldTox");
-//                leave.setNoDaysxx("nNoDaysxx");
-//                leave.setPurposex("sPurposex");
-//                leave.setLeaveTyp("cLeaveTyp");
-//                leave.setLveCredt("nLveCredt");
-//                leave.setTranStat("cTranStat");
-//                employeeDao.insertApplication(leave);
-//            } else { //record already exists
-//                Date ldDate1 = SQLUtil.toDate(loRS.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-//                Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-//
-//                //compare date if the record from API is newer than the database record
-//                if (!ldDate1.equals(ldDate2)){
-//                    //create update statement
-//                    employeeDao.updateLeaveInfo(
-//                            loJson.getString("sTransNox"),
-//                            loJson.getString("dTransact"),
-//                            loJson.getString("xEmployee"),
-//                            loJson.getString("sBranchNm"),
-//                            loJson.getString("sDeptName"),
-//                            loJson.getString("sPositnNm"),
-//                            loJson.getString("dAppldFrx"),
-//                            loJson.getString("dAppldTox"),
-//                            loJson.getString("nNoDaysxx"),
-//                            loJson.getString("sPurposex"),
-//                            loJson.getString("cLeaveTyp"),
-//                            loJson.getString("nLveCredt"),
-//                            loJson.getString("cTranStat"));
-//                }
-//            }
-//        }
-//
-//        //terminate object connection
-//        loConn = null;
-//        return result;
-//    }
 }

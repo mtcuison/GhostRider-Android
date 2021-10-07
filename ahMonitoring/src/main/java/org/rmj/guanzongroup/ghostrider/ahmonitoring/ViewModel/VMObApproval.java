@@ -53,7 +53,7 @@ public class VMObApproval extends AndroidViewModel {
 
     public interface OnConfirmApplicationCallback{
         void OnConfirm(String title, String message);
-        void OnSuccess();
+        void OnSuccess(String message);
         void OnFailed(String message);
     }
 
@@ -184,6 +184,7 @@ public class VMObApproval extends AndroidViewModel {
 
     private static class ConfirmApplicationTask extends AsyncTask<OBApprovalInfo, Void, String>{
 
+        private final REmployeeBusinessTrip poBusTrip;
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
         private final OnConfirmApplicationCallback callback;
@@ -192,6 +193,7 @@ public class VMObApproval extends AndroidViewModel {
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.callback = callback;
+            this.poBusTrip = new REmployeeBusinessTrip(instance);
         }
 
         @Override
@@ -218,7 +220,17 @@ public class VMObApproval extends AndroidViewModel {
                     param.put("cTranStat", loApp.getTranStat());
                     lsResult = WebClient.httpsPostJSon(WebApi.URL_CONFIRM_OB_APPLICATION, param.toString(), poHeaders.getHeaders());
                     if (lsResult != null) {
-
+                        JSONObject jsonResponse = new JSONObject(lsResult);
+                        String result = jsonResponse.getString("result");
+                        if(result.equalsIgnoreCase("success")){
+                            poBusTrip.updateOBApproval(loApp.getTranStat(), loApp.getTransNox(), new AppConstants().DATE_MODIFIED);
+                            if(loApp.getTranStat().equalsIgnoreCase("1")) {
+                                lsResult = AppConstants.APPROVAL_CODE_GENERATED("Business trip has been approve successfully.");
+                            } else {
+                                lsResult = AppConstants.APPROVAL_CODE_GENERATED("Business trip has been disapprove successfully.");
+                            }
+                        }
+                        Log.e(TAG, lsResult);
                     } else {
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }
@@ -237,7 +249,7 @@ public class VMObApproval extends AndroidViewModel {
                 JSONObject loJson = new JSONObject(s);
                 String lsResult = loJson.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccess();
+                    callback.OnSuccess(loJson.getString("code"));
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     String message = loError.getString("message");

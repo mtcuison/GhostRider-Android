@@ -418,12 +418,10 @@ public class Fragment_EmploymentInfo extends Fragment implements ViewModelCallBa
             int nlength = (int)(Double.parseDouble(employementObj.getString("nLenServc")) * 12);
             if (nlength < 12){
                 txtLngthS.setText(String.valueOf(nlength));
-                spnServce.setSelection(0);
                 spnServce.setText(CreditAppConstants.LENGTH_OF_STAY[0], false);
                 infoModel.setIsYear(String.valueOf(0));
             }else{
                 txtLngthS.setText(employementObj.getString("nLenServc"));
-                spnServce.setSelection(1);
                 spnServce.setText(CreditAppConstants.LENGTH_OF_STAY[1], false);
                 infoModel.setIsYear(String.valueOf(1));
             }

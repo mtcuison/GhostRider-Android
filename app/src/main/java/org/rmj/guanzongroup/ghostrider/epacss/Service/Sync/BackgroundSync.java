@@ -15,15 +15,26 @@ import static org.rmj.g3appdriver.etc.WebFileServer.RequestAccessToken;
 import static org.rmj.g3appdriver.etc.WebFileServer.RequestClientToken;
 
 import android.app.Application;
+import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
+
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.utils.WebApi;
 
 import java.util.List;
 import java.util.Objects;
@@ -44,8 +55,6 @@ public class BackgroundSync {
     public String getMessage() {
         return message;
     }
-
-
 
     public BackgroundSync(Application instance) {
         this.poSession = new SessionManager(instance);
@@ -108,6 +117,133 @@ public class BackgroundSync {
         } else {
             message = "No record to sync.";
         }
+        return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public boolean uploadLoginDetails(RLogSelfie poLog, List<ELog_Selfie> loginDetails) {
+        if (loginDetails.size() > 0) {
+            boolean[] isSent = new boolean[loginDetails.size()];
+            for (int x = 0; x < loginDetails.size(); x++) {
+                try {
+                    ELog_Selfie selfieLog = loginDetails.get(x);
+                    JSONObject loJson = new JSONObject();
+                    loJson.put("sEmployID", selfieLog.getEmployID());
+                    loJson.put("dLogTimex", selfieLog.getLogTimex());
+                    loJson.put("nLatitude", selfieLog.getLatitude());
+                    loJson.put("nLongitud", selfieLog.getLongitud());
+
+                    String lsResponse = WebClient.sendRequest(WebApi.URL_POST_SELFIELOG, loJson.toString(), poHeaders.getHeaders());
+
+                    if (lsResponse == null) {
+                        Log.e(TAG, "Sending selfie log info. Server no response");
+                        isSent[x] = false;
+                    } else {
+                        JSONObject loResponse = new JSONObject(lsResponse);
+                        String result = loResponse.getString("result");
+                        if (result.equalsIgnoreCase("success")) {
+                            String TransNox = loResponse.getString("sTransNox");
+                            String OldTrans = selfieLog.getTransNox();
+                            poLog.updateEmployeeLogStatus(TransNox, OldTrans);
+                            Log.e(TAG, "Selfie log has been uploaded successfully.");
+                            isSent[x] = true;
+                        } else {
+                            isSent[x] = false;
+                        }
+                    }
+
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    isSent[x] = false;
+                }
+            }
+            boolean allDataSent = true;
+            for (boolean b : isSent)
+                if (!b) {
+                    allDataSent = false;
+                    break;
+                }
+            if (allDataSent) {
+                message = message + "All selfie login info has been sent.\n";
+            } else {
+                message = message + "Some selfie login info has been sent.\n";
+            }
+        }
+        return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public boolean uploadPaidCollectionDetail(RDailyCollectionPlan poDcp, List<EDCPCollectionDetail> collectionDetails) {
+        if (collectionDetails.size() > 0) {
+            boolean[] isSent = new boolean[collectionDetails.size()];
+            for (int x = 0; x < collectionDetails.size(); x++) {
+                try {
+                    EDCPCollectionDetail loDetail = collectionDetails.get(x);
+                    JSONObject loData = new JSONObject();
+                    loData.put("sPRNoxxxx", loDetail.getPRNoxxxx());
+                    loData.put("nTranAmtx", loDetail.getTranAmtx());
+                    loData.put("nDiscount", loDetail.getDiscount());
+                    loData.put("nOthersxx", loDetail.getOthersxx());
+                    loData.put("cTranType", loDetail.getTranType());
+                    loData.put("nTranTotl", loDetail.getTranTotl());
+                    if (loDetail.getBankIDxx() == null) {
+                        loData.put("sBankIDxx", "");
+                        loData.put("sCheckDte", "");
+                        loData.put("sCheckNox", "");
+                        loData.put("sCheckAct", "");
+                    } else {
+                        loData.put("sBankIDxx", loDetail.getBankIDxx());
+                        loData.put("sCheckDte", loDetail.getCheckDte());
+                        loData.put("sCheckNox", loDetail.getCheckNox());
+                        loData.put("sCheckAct", loDetail.getCheckAct());
+                    }
+                    JSONObject loJson = new JSONObject();
+                    loJson.put("sTransNox", loDetail.getTransNox());
+                    loJson.put("nEntryNox", loDetail.getEntryNox());
+                    loJson.put("sAcctNmbr", loDetail.getAcctNmbr());
+                    loJson.put("sRemCodex", loDetail.getRemCodex());
+                    loJson.put("sJsonData", loData);
+                    loJson.put("dReceived", "");
+                    loJson.put("sUserIDxx", poSession.getUserID());
+                    loJson.put("sDeviceID", poDevice.getDeviceID());
+                    Log.e(TAG, loJson.toString());
+                    String lsResponse = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
+
+                    if (lsResponse == null) {
+                        Log.e(TAG, "Sending selfie log info. Server no response");
+                        isSent[x] = false;
+                    } else {
+                        JSONObject loResponse = new JSONObject(lsResponse);
+                        if (loResponse.getString("result").equalsIgnoreCase("success")) {
+                            loDetail.setSendStat("1");
+                            loDetail.setModified(new AppConstants().DATE_MODIFIED);
+                            poDcp.updateCollectionDetailInfo(loDetail);
+                            isSent[x] = true;
+                        } else {
+                            isSent[x] = false;
+                        }
+                    }
+
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    isSent[x] = false;
+                }
+            }
+            boolean allDataSent = true;
+            for (boolean b : isSent)
+                if (!b) {
+                    allDataSent = false;
+                    break;
+                }
+            if (allDataSent) {
+                message = message + "DCP Paid transactions has been sent.\n";
+            } else {
+                message = message + "Unable to send some DCP Paid transactions.\n";
+            }
+        }
+
         return true;
     }
 }

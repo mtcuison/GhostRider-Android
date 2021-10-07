@@ -64,4 +64,7 @@ public class RBranchPerformance {
         return branchPerformanceDao.getJOBranchPerformanceDESC();
     }
 
+    public String getUserAreaCode(){
+        return branchPerformanceDao.getUserAreaCode();
+    }
 }
