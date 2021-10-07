@@ -10,6 +10,9 @@
         <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/bg_gradient_light.xml" value="0.2203125" />
         <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/ic_ghostrider_logo_day.xml" value="0.2203125" />
         <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/ic_ghostrider_logo_night.xml" value="0.2203125" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/fragment_branch_monitor.xml" value="0.20416666666666666" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/fragment_mc_sales.xml" value="0.22" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/list_item_linechart.xml" value="0.20416666666666666" />
         <entry key="..\:/GhostRider-Android-09-30-2021/app/src/main/res/layout/fragment_home.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/CreditEvaluator/src/main/res/layout/activity_ci_application.xml" value="0.1631578947368421" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/CreditEvaluator/src/main/res/layout/activity_ci_history_info.xml" value="0.16103896103896104" />
@@ -42,13 +45,6 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/notifications/src/main/res/drawable/ic_user_profile.xml" value="0.12192982456140351" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/notifications/src/main/res/layout/fragment_notification_list.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/settings/src/main/res/layout/activity_digital_gcard.xml" value="0.11008771929824561" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_monitoring.xml" value="0.1631578947368421" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_branch_monitor.xml" value="0.25" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_job_order.xml" value="0.1631578947368421" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_mc_sales.xml" value="0.1631578947368421" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_sp_sales.xml" value="0.1631578947368421" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_home.xml" value="0.22" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_home_container.xml" value="0.1" />
       </map>
     </option>
   </component>

@@ -13,22 +13,45 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBranchMonitor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Fragment_BranchMonitor extends Fragment {
 
     private VMBranchMonitor mViewModel;
+    private LineData lineData;
+    private LineDataSet lineDataSet;
+    ArrayList<Entry> values1, values2, values3;
+    private LineChart lineChart;
+    private LineDataSet set1, set2, set3;
+    String[] months = new String[]{"Jan", "Feb", "Mar", "Apr","May","Jun", "Jul", "Aug","Sep","Oct", "Nov", "Dec"};
+
 
     public static Fragment_BranchMonitor newInstance() {
         return new Fragment_BranchMonitor();
@@ -37,14 +60,83 @@ public class Fragment_BranchMonitor extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_branch_monitor, container, false);
+        View view = inflater.inflate(R.layout.fragment_branch_monitor, container, false);
+        values1 = new ArrayList<>();
+        values2 = new ArrayList<>();
+        values3 = new ArrayList<>();
+        initWidgets(view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Log.e("brnCD",Activity_Monitoring.getInstance().getBranchCD());
         mViewModel = new ViewModelProvider(this).get(VMBranchMonitor.class);
+        mViewModel.getAllBranchPerformanceInfoByBranch(Activity_Monitoring.getInstance().getBranchCD()).observe(getViewLifecycleOwner(),eperformance ->{
+            Description desc = new Description();
+            desc.setText("Over All Sales");
+            desc.setTextSize(28);
+            for (int x = 0; x< eperformance.size(); x++){
+                values1.add(new Entry(x, eperformance.get(x).getSPActual()));
+                values2.add(new Entry(x, eperformance.get(x).getMCActual()));
+                values3.add(new Entry(x, eperformance.get(x).getJOGoalxx()));
+
+            }
+            LineDataSet lineDataSet1 = new LineDataSet(values1, "SP Sales");
+            LineDataSet lineDataSet2 = new LineDataSet(values2, "MC Sales");
+            LineDataSet lineDataSet3 = new LineDataSet(values3, "JO Sales");
+
+            // Set line attributes
+            lineDataSet1.setLineWidth(2);
+            lineDataSet2.setLineWidth(2);
+            lineDataSet3.setLineWidth(2);
+            lineDataSet1.setColors(getResources().getColor(R.color.guanzon_orange));
+            lineDataSet2.setColors(getResources().getColor(R.color.guanzon_deep_dark_grey));
+            lineDataSet3.setColors(getResources().getColor(R.color.guanzon_dark_grey));
+
+            //ArrayList<ILineDataSet> Contains list of LineDataSets
+            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+            dataSets.add(lineDataSet1);
+            dataSets.add(lineDataSet2);
+            dataSets.add(lineDataSet3);
+
+            // LineData Contains ArrayList<ILineDataSet>
+            LineData data = new LineData(dataSets);
+            lineChart.setData(data);
+            lineChart.invalidate();
+            lineChart.setDescription(desc);
+            lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(months));
+
+
+        });
         // TODO: Use the ViewModel
+    }
+
+    private void initWidgets(View v){
+
+        lineChart = v.findViewById(R.id.activity_main_linechart);
+    }
+    private ArrayList<Entry> getSPValues(List<EBranchPerformance> fnValues) {
+        ArrayList<Entry> dataVals = new ArrayList<Entry>();
+        for(int i = 0; i < fnValues.size(); i++) {
+            dataVals.add(new Entry(i, fnValues.get(i).getSPActual()));
+        }
+        return dataVals;
+    }
+    private ArrayList<Entry> getMCValues(List<EBranchPerformance> fnValues) {
+        ArrayList<Entry> dataVals = new ArrayList<Entry>();
+        for(int i = 0; i < fnValues.size(); i++) {
+            dataVals.add(new Entry(i, fnValues.get(i).getMCActual()));
+        }
+        return dataVals;
+    }
+    private ArrayList<Entry> getJOValues(List<EBranchPerformance> fnValues) {
+        ArrayList<Entry> dataVals = new ArrayList<Entry>();
+        for(int i = 0; i < fnValues.size(); i++) {
+            dataVals.add(new Entry(i, fnValues.get(i).getJOGoalxx()));
+        }
+        return dataVals;
     }
 
 }

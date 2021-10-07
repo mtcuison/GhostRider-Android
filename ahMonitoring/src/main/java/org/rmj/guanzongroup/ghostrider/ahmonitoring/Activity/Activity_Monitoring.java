@@ -36,11 +36,22 @@ import java.util.Objects;
 
 public class Activity_Monitoring extends AppCompatActivity {
 
+    private static Activity_Monitoring instance;
+    private String brnCD;
+
+    public static Activity_Monitoring getInstance(){
+        return instance;
+    }
+    public String getBranchCD(){
+        return brnCD;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitoring);
-
+        instance = this;
+        brnCD = getIntent().getStringExtra("brnCD");
         Toolbar toolbar = findViewById(R.id.toolbar_monitoring);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);

@@ -56,4 +56,5 @@ dependencies {
     implementation project(':g3appdriver')
     implementation project(':imgCapture')
     implementation project(':json-simple-1.1.1')
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
