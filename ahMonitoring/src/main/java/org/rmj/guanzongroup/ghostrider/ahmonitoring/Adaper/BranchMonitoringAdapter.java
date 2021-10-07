@@ -67,7 +67,7 @@ public class BranchMonitoringAdapter extends RecyclerView.Adapter<BranchMonitori
         holder.jbOrder.setProgress(jbOrder);
 
         holder.lblSpSales.setText(getPercentageValue(branch.getSPActual(), branch.getSPGoalxx()));
-        holder.lblMcSales.setText(getPercentageValue(branch.getMCActual(), branch.getMCGoalxx()));
+        holder.lblMcSales.setText(String.valueOf(branch.getMCActual()));
         holder.lblJbOrder.setText(getPercentageValue(branch.getLRActual(), branch.getLRGoalxx()));
 //        holder.progressBar.setScaleY(55f);
 //        holder.progressBar.setProgress(getParseValue(branch.getSalesPercentage()));

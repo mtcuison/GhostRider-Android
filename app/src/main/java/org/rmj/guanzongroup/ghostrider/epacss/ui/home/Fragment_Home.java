@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +68,7 @@ import static org.rmj.g3appdriver.GRider.Constants.AppConstants.INTENT_BRANCH_OP
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SETTINGS;
 
 public class Fragment_Home extends Fragment {
-
+    private static final String TAG = Fragment_Home.class.getSimpleName();
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private final String CAMERA_USAGE = "Login";
 
@@ -143,6 +144,7 @@ public class Fragment_Home extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Log.e(TAG , "Initialized");
         mViewModel = new ViewModelProvider(this).get(VMHome.class);
 
         mViewModel.getEmployeeInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
@@ -189,19 +191,20 @@ public class Fragment_Home extends Fragment {
 //            recyclerView.setAdapter(loAdapter);
 //        });
 
-        mViewModel.getBranchPerformance().observe(getViewLifecycleOwner(), new Observer<List<EBranchPerformance>>() {
-            @Override
-            public void onChanged(List<EBranchPerformance> eBranchPerformances) {
+        mViewModel.getBranchPerformance().observe(getViewLifecycleOwner(), eBranchPerformances -> {
+            try {
+                Log.e(TAG, "brancMonitoring Adapter Initialized");
                 BranchMonitoringAdapter loAdapter = new BranchMonitoringAdapter(eBranchPerformances, () -> {
                     Intent loIntent = new Intent(getActivity(), Activity_Monitoring.class);
-//                    loIntent.putExtra("app", INTENT_BRANCH_MONITORING);
                     startActivity(loIntent);
                 });
 
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.HORIZONTAL, false));
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 recyclerView.setAdapter(loAdapter);
+            } catch(NullPointerException e) {
+                e.printStackTrace();
             }
         });
 
