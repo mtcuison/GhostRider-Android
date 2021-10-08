@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CHART_MONTH_LABEL;
+
 import androidx.lifecycle.ViewModelProvider;
 
 import android.graphics.Color;
@@ -45,12 +47,8 @@ import java.util.List;
 public class Fragment_BranchMonitor extends Fragment {
 
     private VMBranchMonitor mViewModel;
-    private LineData lineData;
-    private LineDataSet lineDataSet;
     ArrayList<Entry> values1, values2, values3;
     private LineChart lineChart;
-    private LineDataSet set1, set2, set3;
-    String[] months = new String[]{"Jan", "Feb", "Mar", "Apr","May","Jun", "Jul", "Aug","Sep","Oct", "Nov", "Dec"};
 
 
     public static Fragment_BranchMonitor newInstance() {
@@ -71,7 +69,6 @@ public class Fragment_BranchMonitor extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.e("brnCD",Activity_Monitoring.getInstance().getBranchCD());
         mViewModel = new ViewModelProvider(this).get(VMBranchMonitor.class);
         mViewModel.getAllBranchPerformanceInfoByBranch(Activity_Monitoring.getInstance().getBranchCD()).observe(getViewLifecycleOwner(),eperformance ->{
             Description desc = new Description();
@@ -81,6 +78,7 @@ public class Fragment_BranchMonitor extends Fragment {
                 values1.add(new Entry(x, eperformance.get(x).getSPActual()));
                 values2.add(new Entry(x, eperformance.get(x).getMCActual()));
                 values3.add(new Entry(x, eperformance.get(x).getJOGoalxx()));
+                Log.e("MC", String.valueOf(eperformance.get(x).getMCActual()));
 
             }
             LineDataSet lineDataSet1 = new LineDataSet(values1, "SP Sales");
@@ -106,7 +104,8 @@ public class Fragment_BranchMonitor extends Fragment {
             lineChart.setData(data);
             lineChart.invalidate();
             lineChart.setDescription(desc);
-            lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(months));
+            lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
+            lineChart.setDoubleTapToZoomEnabled(false);
 
 
         });
@@ -116,27 +115,6 @@ public class Fragment_BranchMonitor extends Fragment {
     private void initWidgets(View v){
 
         lineChart = v.findViewById(R.id.activity_main_linechart);
-    }
-    private ArrayList<Entry> getSPValues(List<EBranchPerformance> fnValues) {
-        ArrayList<Entry> dataVals = new ArrayList<Entry>();
-        for(int i = 0; i < fnValues.size(); i++) {
-            dataVals.add(new Entry(i, fnValues.get(i).getSPActual()));
-        }
-        return dataVals;
-    }
-    private ArrayList<Entry> getMCValues(List<EBranchPerformance> fnValues) {
-        ArrayList<Entry> dataVals = new ArrayList<Entry>();
-        for(int i = 0; i < fnValues.size(); i++) {
-            dataVals.add(new Entry(i, fnValues.get(i).getMCActual()));
-        }
-        return dataVals;
-    }
-    private ArrayList<Entry> getJOValues(List<EBranchPerformance> fnValues) {
-        ArrayList<Entry> dataVals = new ArrayList<Entry>();
-        for(int i = 0; i < fnValues.size(); i++) {
-            dataVals.add(new Entry(i, fnValues.get(i).getJOGoalxx()));
-        }
-        return dataVals;
     }
 
 }

@@ -192,8 +192,9 @@ public class Fragment_Home extends Fragment {
         mViewModel.getBranchPerformance().observe(getViewLifecycleOwner(), new Observer<List<EBranchPerformance>>() {
             @Override
             public void onChanged(List<EBranchPerformance> eBranchPerformances) {
-                BranchMonitoringAdapter loAdapter = new BranchMonitoringAdapter(eBranchPerformances, () -> {
+                BranchMonitoringAdapter loAdapter = new BranchMonitoringAdapter(eBranchPerformances, (EBranchPerformance eBranchPerformance) -> {
                     Intent loIntent = new Intent(getActivity(), Activity_Monitoring.class);
+                    loIntent.putExtra("brnCD", eBranchPerformance.getBranchCd());
 //                    loIntent.putExtra("app", INTENT_BRANCH_MONITORING);
                     startActivity(loIntent);
                 });

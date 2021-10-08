@@ -143,13 +143,14 @@ public class ImportBranchPerformance implements ImportInstance {
                 info.setPeriodxx(loJson.getString("sPeriodxx"));
                 info.setBranchCd(loJson.getString("sBranchCd"));
                 info.setBranchNm(loJson.getString("sBranchNm"));
-                info.setMCGoalxx(loJson.getInt("nMCGoalxx"));
+//                info.setMCGoalxx(loJson.getInt("nMCGoalxx"));
                 info.setSPGoalxx(loJson.getInt("nSPGoalxx"));
 //                info.setJOGoalxx(loJson.getInt("nJOGoalxx"));
                 info.setJOGoalxx(random_jo);
                 info.setLRGoalxx(loJson.getInt("nLRGoalxx"));
 //                info.setMCGoalxx(loJson.getInt("nMCActual"));
-                info.setMCActual(random_mc);
+                info.setMCActual(loJson.getInt("nMCActual"));
+                info.setMCGoalxx(random_mc);
                 info.setSPActual(loJson.getInt("nSPActual"));
                 info.setLRActual(loJson.getInt("nLRActual"));
                 list.add(info);

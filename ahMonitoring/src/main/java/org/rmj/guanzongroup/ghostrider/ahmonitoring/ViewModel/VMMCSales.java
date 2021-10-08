@@ -26,7 +26,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
 import java.util.List;
 
 public class VMMCSales extends AndroidViewModel {
-    public static final String TAG = VMAreaMonitor.class.getSimpleName();
+    public static final String TAG = VMMCSales.class.getSimpleName();
 
     private final RBranchPerformance poDatabse;
 
@@ -35,14 +35,7 @@ public class VMMCSales extends AndroidViewModel {
         poDatabse = new RBranchPerformance(application);
     }
 
-    public LiveData<List<EBranchPerformance>> getMCSales(){
-        return poDatabse.getMCSalesBranchPerformanceASC();
-    }
-    public LiveData<List<EBranchPerformance>> getSPSales(){
-        return poDatabse.getSPSalesBranchPerformanceASC();
-    }
-
-    public LiveData<List<EBranchPerformance>> getJO(){
-        return poDatabse.getJOBranchPerformanceASC();
+    public LiveData<List<EBranchPerformance>>  getAllBranchPerformanceInfoByBranch(String branchCD){
+        return poDatabse.getAllBranchPerformanceInfoByBranch(branchCD);
     }
 }
