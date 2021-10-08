@@ -28,6 +28,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RAreaPerformance;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchOpeningMonitor;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
@@ -51,6 +52,7 @@ public class VMHome extends AndroidViewModel {
     private final RAreaPerformance poDatabse;
     private final RNotificationInfo poNotification;
     private final RBranchOpeningMonitor poOpening;
+    private final RBranch poBrInfo;
     private final RBranchPerformance poBranch;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
@@ -63,6 +65,7 @@ public class VMHome extends AndroidViewModel {
         this.poNotification = new RNotificationInfo(application);
         this.cv_ahMonitoring.setValue(View.GONE);
         this.poOpening = new RBranchOpeningMonitor(application);
+        this.poBrInfo = new RBranch(application);
         this.poBranch = new RBranchPerformance(application);
     }
 
@@ -121,5 +124,9 @@ public class VMHome extends AndroidViewModel {
 
     public LiveData<List<DBranchOpeningMonitor.BranchOpeningInfo>> getBranchOpeningInfoForDashBoard(){
         return poOpening.getBranchOpeningInfoForDashBoard(AppConstants.CURRENT_DATE);
+    }
+
+    public LiveData<String> getBranchAreaCode(String fsBranchCd) {
+        return poBrInfo.getBranchAreaCode(fsBranchCd);
     }
 }
