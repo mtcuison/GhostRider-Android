@@ -11,8 +11,31 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-public class VMMCSales extends ViewModel {
-    // TODO: Implement the ViewModel
+import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RAreaPerformance;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
+
+import java.util.List;
+
+public class VMMCSales extends AndroidViewModel {
+    public static final String TAG = VMMCSales.class.getSimpleName();
+
+    private final RBranchPerformance poDatabse;
+
+    public VMMCSales(@NonNull Application application) {
+        super(application);
+        poDatabse = new RBranchPerformance(application);
+    }
+
+    public LiveData<List<EBranchPerformance>>  getAllBranchPerformanceInfoByBranch(String branchCD){
+        return poDatabse.getAllBranchPerformanceInfoByBranch(branchCD);
+    }
 }

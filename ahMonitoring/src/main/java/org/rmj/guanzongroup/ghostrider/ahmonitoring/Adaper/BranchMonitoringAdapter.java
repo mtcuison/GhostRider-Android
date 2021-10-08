@@ -35,7 +35,7 @@ public class BranchMonitoringAdapter extends RecyclerView.Adapter<BranchMonitori
     private final OnBranchPerformanceClickListener mListener;
 
     public interface OnBranchPerformanceClickListener{
-        void OnClick();
+        void OnClick(EBranchPerformance eBranchPerformance);
     }
 
     public BranchMonitoringAdapter(List<EBranchPerformance> areaPerformances, OnBranchPerformanceClickListener listener){
@@ -54,6 +54,7 @@ public class BranchMonitoringAdapter extends RecyclerView.Adapter<BranchMonitori
     public void onBindViewHolder(@NonNull ChartViewHolder holder, int position) {
         EBranchPerformance branch = branchPerformances.get(position);
         holder.txtArea.setText(branch.getBranchCd());
+        holder.eBranch = branchPerformances.get(position);
 //        holder.txtPrct.setText(branch.getMCSalesPercentage());
 
         int mcSales = getPercentageProgress(branch.getMCActual(), branch.getMCGoalxx());
@@ -90,6 +91,7 @@ public class BranchMonitoringAdapter extends RecyclerView.Adapter<BranchMonitori
         public ProgressBar mcSales;
         public ProgressBar spSales;
         public ProgressBar jbOrder;
+        public EBranchPerformance eBranch;
 
         public ChartViewHolder(@NonNull View itemView, OnBranchPerformanceClickListener listener) {
             super(itemView);
@@ -101,7 +103,7 @@ public class BranchMonitoringAdapter extends RecyclerView.Adapter<BranchMonitori
             lblMcSales = itemView.findViewById(R.id.lbl_mcSales);
             lblJbOrder = itemView.findViewById(R.id.lbl_jbOrder);
 
-            itemView.setOnClickListener(v -> listener.OnClick());
+            itemView.setOnClickListener(v -> listener.OnClick(eBranch));
         }
     }
 

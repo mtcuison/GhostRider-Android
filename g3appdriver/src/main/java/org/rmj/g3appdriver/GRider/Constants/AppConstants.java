@@ -146,6 +146,19 @@ public class AppConstants {
     public static String UNLOCK_REQUEST = "DEVICES_UNLOCK";
     public static String OFFLINE_PIN_REQUEST = "DEVICES_OFFLINE_PIN";
     public static String GET_DEVICE_LOG_REQUEST = "DEVICES_GETDEVICELOG";
+    public static String[] CHART_MONTH_LABEL = {
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"};
 
     public static String[] LEAVE_TYPE = {
             "Vacation",
