@@ -59,7 +59,10 @@ public interface DBranchPerformance {
     @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nMCActual * 100.0 / 100, 1) DESC")
     LiveData<List<EBranchPerformance>> getMCSalesBranchPerformanceDESC();
 
-    @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nSPActual * 100.0 / 100, 1) ASC")
+//    @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nSPActual * 100.0 / 100, 1) ASC")
+//    LiveData<List<EBranchPerformance>> getSPSalesBranchPerformanceASC();
+
+    @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nSPActual * 100.0 / (SELECT MAX(nSPActual) + 10000 FROM MC_Branch_Performance), 1) DESC")
     LiveData<List<EBranchPerformance>> getSPSalesBranchPerformanceASC();
 
     @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nSPActual * 100.0 / 100, 1) DESC")

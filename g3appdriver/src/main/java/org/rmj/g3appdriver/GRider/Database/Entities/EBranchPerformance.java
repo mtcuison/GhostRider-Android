@@ -14,15 +14,16 @@ package org.rmj.g3appdriver.GRider.Database.Entities;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
-@Entity(tableName = "MC_Branch_Performance")
+@Entity(tableName = "MC_Branch_Performance", primaryKeys = {"sBranchCd", "sPeriodxx"})
 public class EBranchPerformance {
 
-    @PrimaryKey
     @NonNull
     @ColumnInfo(name = "sBranchCd")
     private String BranchCd;
+    @NonNull
+    @ColumnInfo(name = "sPeriodxx")
+    private String Periodxx;
     @ColumnInfo(name = "sBranchNm")
     private String BranchNm;
     @ColumnInfo(name = "nMCGoalxx")
@@ -50,6 +51,14 @@ public class EBranchPerformance {
 
     public void setBranchCd(@NonNull String branchCd) {
         BranchCd = branchCd;
+    }
+
+    public String getPeriodxx() {
+        return Periodxx;
+    }
+
+    public void setPeriodxx(String periodxx) {
+        Periodxx = periodxx;
     }
 
     public String getBranchNm() {

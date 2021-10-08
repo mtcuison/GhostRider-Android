@@ -28,11 +28,9 @@ import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.ImportData.ImportDataCallback;
 import org.rmj.g3appdriver.GRider.ImportData.ImportInstance;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.PERFORMANCE_CURRENT_PERIOD;
@@ -128,6 +126,7 @@ public class ImportBranchPerformance implements ImportInstance {
                 JSONObject loJson = laJson.getJSONObject(x);
                 EBranchPerformance info = new EBranchPerformance();
                 info.setBranchCd(loJson.getString("sBranchCd"));
+                info.setPeriodxx(loJson.getString("sPeriodxx"));
                 info.setBranchNm(loJson.getString("sBranchNm"));
                 info.setMCGoalxx(loJson.getInt("nMCGoalxx"));
                 info.setSPGoalxx(loJson.getInt("nSPGoalxx"));

@@ -42,6 +42,7 @@ public class Activity_Monitoring extends AppCompatActivity {
         setContentView(R.layout.activity_monitoring);
 
         Toolbar toolbar = findViewById(R.id.toolbar_monitoring);
+        toolbar.setTitle("AREA R1 - A");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         TabLayout tabLayout = findViewById(R.id.tablayout_monitoring);

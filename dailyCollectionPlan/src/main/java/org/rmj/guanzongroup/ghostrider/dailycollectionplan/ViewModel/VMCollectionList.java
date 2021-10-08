@@ -49,6 +49,7 @@ import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.guanzongroup.ghostrider.notifications.Function.GRiderErrorReport;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -282,7 +283,6 @@ public class VMCollectionList extends AndroidViewModel {
                                             loDetail.setMonAmort(loJson.getString("nMonAmort"));
                                             loCollectDetlList.add(loDetail);
                                         }
-
                                         callback.OnDataExtract(loCollectDetlList, loMaster);
                                     }
                                 } catch (JSONException e) {
@@ -631,6 +631,7 @@ public class VMCollectionList extends AndroidViewModel {
         private final Telephony poTelephony;
         private final HttpHeaders poHeaders;
         private final RCollectionUpdate rCollect;
+        private final GRiderErrorReport poReport;
         private final List<EAddressUpdate> paAddress;
         private final List<EMobileUpdate> paMobile;
         private final String sRemarksx;
@@ -646,6 +647,7 @@ public class VMCollectionList extends AndroidViewModel {
             this.poTelephony = new Telephony(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.rCollect = new RCollectionUpdate(instance);
+            this.poReport = new GRiderErrorReport(instance);
             this.sRemarksx = Remarksx;
         }
 
@@ -661,6 +663,7 @@ public class VMCollectionList extends AndroidViewModel {
         protected final String doInBackground(List<DDCPCollectionDetail.CollectionDetail>... lists) {
             String lsResult;
             String[] reason;
+            String[] params;
             List<DDCPCollectionDetail.CollectionDetail> laCollDetl = lists[0];
             try {
                 if(hasRemittedBeforePosting()) {
@@ -675,8 +678,10 @@ public class VMCollectionList extends AndroidViewModel {
                             boolean[] isDataSent = new boolean[laCollDetl.size()];
                             if (laCollDetl.size() > 0) {
                                 reason = new String[laCollDetl.size()];
+                                params = new String[laCollDetl.size()];
                                 for (int x = 0; x < laCollDetl.size(); x++) {
                                     try {
+                                        reason[x] = "reason is unknown \n";
                                         DDCPCollectionDetail.CollectionDetail loDetail = laCollDetl.get(x);
 
                                         JSONObject loData = new JSONObject();
@@ -697,7 +702,7 @@ public class VMCollectionList extends AndroidViewModel {
                                             Log.e(TAG, "Uploading image result : " + lsResponse);
 
                                             if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
-                                                Log.e(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. " + loDetail.nEntryNox + "was uploaded successfully");
+                                                Log.e(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. " + loDetail.nEntryNox + " was uploaded successfully");
 
                                                 String lsTransNo = (String) loUpload.get("sTransNox");
                                                 poImage.updateImageInfo(lsTransNo, loDetail.sImageIDx);
@@ -707,7 +712,7 @@ public class VMCollectionList extends AndroidViewModel {
                                             } else {
                                                 JSONObject loError = new JSONObject(loUpload.toJSONString());
                                                 isDataSent[x] = false;
-                                                reason[x] = loError.getString("message");
+                                                reason[x] = loError.getString("message") + "\n";
                                                 Log.d(TAG, "Image file of Account No. " + loDetail.sAcctNmbr + ", Entry No. " + loDetail.nEntryNox + " was not uploaded to server.");
                                                 Log.d(TAG, "Reason : " + loError.getString("message"));
                                             }
@@ -779,14 +784,16 @@ public class VMCollectionList extends AndroidViewModel {
                                             loJson.put("sRemCodex", loDetail.sRemCodex);
                                             loJson.put("dModified", loDetail.dModified);
                                         }
+
                                         loJson.put("sJsonData", loData);
                                         loJson.put("dReceived", "");
                                         loJson.put("sUserIDxx", poUser.getUserID());
                                         loJson.put("sDeviceID", poTelephony.getDeviceID());
-
+                                        params[x] =loJson.toString() + " \n";
                                         String lsResponse1 = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
                                         if (lsResponse1 == null) {
-                                            reason[x] = "Server no response";
+                                            reason[x] = "Server no response \n";
+                                            isDataSent[x] = false;
                                         } else {
                                             JSONObject loResponse = new JSONObject(lsResponse1);
 
@@ -797,26 +804,25 @@ public class VMCollectionList extends AndroidViewModel {
                                                 } else {
                                                     poDcp.updateCollectionDetailStatus(loDetail.sTransNox, loDetail.nEntryNox);
                                                 }
-
                                                 isDataSent[x] = true;
                                             } else {
                                                 JSONObject loError = loResponse.getJSONObject("error");
+                                                String lsMessage = loError.getString("message");
                                                 isDataSent[x] = false;
-                                                reason[x] = loError.getString("message");
+                                                reason[x] = lsMessage +"\n";
                                             }
                                         }
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                         isDataSent[x] = false;
-                                        reason[x] = e.getMessage();
+                                        reason[x] = e.getMessage() + "\n";
                                     }
 
                                     Thread.sleep(1000);
                                 }
 
                                 //call sending CNA details....
-
                                 sendCNADetails(laCollDetl.get(0).sTransNox);
 
                                 boolean allDataSent = true;
@@ -845,8 +851,9 @@ public class VMCollectionList extends AndroidViewModel {
                                         }
                                     }
                                 } else {
-                                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(String.format("An error occurred while posting dcp. Please take screenshot and report to MIS \n%s",
+                                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(String.format("An error occurred while posting dcp. Please take screenshot and report to MIS \n",
                                             Arrays.toString(reason)) + " Tap 'Okay' to create dcp file for backup");
+                                    poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. Please check the following parameters. \n" + lsResult);
                                 }
                             } else {
                                 // TODO: Display no details to post

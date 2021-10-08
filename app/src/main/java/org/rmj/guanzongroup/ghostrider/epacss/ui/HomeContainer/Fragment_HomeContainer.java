@@ -30,6 +30,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeContainer;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_AH_Dashboard;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Manager_Dashboard;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_MessageList;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
@@ -69,7 +70,7 @@ public class Fragment_HomeContainer extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMHomeContainer.class);
         try{
             if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_RANK_FILE))){
-                fragment = new Fragment[]{new Fragment_AH_Dashboard(), new Fragment_NotificationList()};
+                fragment = new Fragment[]{new Fragment_Manager_Dashboard(), new Fragment_NotificationList()};
                 appBarHome.setVisibility(View.VISIBLE);
             } else {
                 fragment = new Fragment[]{new Fragment_Home()};

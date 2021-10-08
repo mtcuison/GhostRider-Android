@@ -15,9 +15,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-
-<!--    android:layout_height="55dip"-->
-
     <TextView
         android:id="@+id/lblHelpListItem"
         android:layout_width="fill_parent"

@@ -16,10 +16,18 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
+
 public class VMBranchMonitor extends AndroidViewModel {
+    private static final String TAG = VMBranchMonitor.class.getSimpleName();
+
+    private RBranchPerformance poPerfrm;
 
     public VMBranchMonitor(@NonNull Application application) {
         super(application);
+        this.poPerfrm = new RBranchPerformance(application);
     }
-    // TODO: Implement the ViewModel
+
+
+
 }
