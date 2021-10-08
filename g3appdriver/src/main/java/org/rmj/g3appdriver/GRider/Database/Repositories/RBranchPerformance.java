@@ -67,4 +67,8 @@ public class RBranchPerformance {
     public String getUserAreaCode(){
         return branchPerformanceDao.getUserAreaCode();
     }
+
+    public LiveData<List<EBranchPerformance>> getAllBranchPerformanceInfoByBranch(String branchCD){
+        return branchPerformanceDao.getAllBranchPerformanceInfoByBranch(branchCD);
+    }
 }
