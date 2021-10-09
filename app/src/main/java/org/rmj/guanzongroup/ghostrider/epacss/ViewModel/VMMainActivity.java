@@ -12,6 +12,7 @@
 package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
 import android.app.Application;
+import android.provider.ContactsContract;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -20,6 +21,7 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeRole;
 import org.rmj.g3appdriver.GRider.ImportData.ImportDataCallback;
+import org.rmj.g3appdriver.GRider.ImportData.Import_AreaPerformance;
 import org.rmj.g3appdriver.GRider.ImportData.Import_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.InternetStatusReciever;
 
@@ -36,6 +38,17 @@ public class VMMainActivity extends AndroidViewModel {
         this.app = application;
         this.poNetRecvr = new InternetStatusReciever(app);
         this.poRole = new REmployeeRole(application);
+        new Import_AreaPerformance(app).ImportData(new ImportDataCallback() {
+            @Override
+            public void OnSuccessImportData() {
+
+            }
+
+            @Override
+            public void OnFailedImportData(String message) {
+
+            }
+        });
         new Import_BranchPerformance(app).ImportData(new ImportDataCallback() {
             @Override
             public void OnSuccessImportData() {

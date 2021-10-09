@@ -16,15 +16,17 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "MC_Area_Performance")
+@Entity(tableName = "MC_Area_Performance", primaryKeys = {"sAreaCode", "sPeriodxx"})
 public class EAreaPerformance {
 
-    @PrimaryKey
     @NonNull
     @ColumnInfo(name = "sAreaCode")
     private String AreaCode;
     @ColumnInfo(name = "sAreaDesc")
     private String AreaDesc;
+    @NonNull
+    @ColumnInfo(name = "sPeriodxx")
+    private String Periodxx;
     @ColumnInfo(name = "nMCGoalxx")
     private int MCGoalxx;
     @ColumnInfo(name = "nSPGoalxx")
@@ -54,6 +56,15 @@ public class EAreaPerformance {
 
     public String getAreaDesc() {
         return AreaDesc;
+    }
+
+    @NonNull
+    public String getPeriodxx() {
+        return Periodxx;
+    }
+
+    public void setPeriodxx(@NonNull String periodxx) {
+        Periodxx = periodxx;
     }
 
     public void setAreaDesc(String areaDesc) {
