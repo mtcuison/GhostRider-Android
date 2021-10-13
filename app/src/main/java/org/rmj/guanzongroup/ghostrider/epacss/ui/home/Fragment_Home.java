@@ -192,6 +192,9 @@ public class Fragment_Home extends Fragment {
         mViewModel.getBranchPerformance().observe(getViewLifecycleOwner(), eBranchPerformances -> {
             try {
                 BranchMonitoringAdapter loAdapter = new BranchMonitoringAdapter(eBranchPerformances, (EBranchPerformance eBranchPerformance) -> {
+//                    Intent loIntent = new Intent(getActivity(), Activity_Monitoring.class);
+//                    loIntent.putExtra("sAreaCode", eBranchPerformance.getBranchCd());
+//                    startActivity(loIntent);
                     mViewModel.getBranchAreaCode(eBranchPerformance.getBranchCd()).observe(getViewLifecycleOwner(), s -> {
                         try {
                             Intent loIntent = new Intent(getActivity(), Activity_Monitoring.class);

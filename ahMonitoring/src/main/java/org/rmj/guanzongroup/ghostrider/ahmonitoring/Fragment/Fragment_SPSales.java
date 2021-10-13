@@ -73,7 +73,7 @@ public class Fragment_SPSales extends Fragment {
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
         mViewModel = new ViewModelProvider(this).get(VMSPSales.class);
-        mViewModel.getAllBranchPerformanceInfoByBranch(Activity_Monitoring.getInstance().getBranchCD()).observe(getViewLifecycleOwner(), eperformance ->{
+        mViewModel.getAreaPerformanceInfoList().observe(getViewLifecycleOwner(), eperformance ->{
 //            Description desc = new Description();
 //            desc.setText("Spare Parts Sales");
 //            desc.setTextSize(28);
