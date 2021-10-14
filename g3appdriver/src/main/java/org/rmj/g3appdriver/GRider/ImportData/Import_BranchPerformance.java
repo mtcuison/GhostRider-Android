@@ -148,25 +148,52 @@ public class Import_BranchPerformance implements ImportInstance {
             }
             return response;
         }
-
         void saveDataToLocal(JSONArray laJson) throws Exception{
-            List<EBranchPerformance> branchInfo = new ArrayList<>();
+            List<EBranchPerformance> list = new ArrayList<>();
             for(int x = 0; x < laJson.length(); x++){
-                JSONObject loJson = new JSONObject(laJson.getString(x));
+                JSONObject loJson = laJson.getJSONObject(x);
                 EBranchPerformance info = new EBranchPerformance();
+                int min = loJson.getInt("nSPGoalxx")/2;
+                int max = loJson.getInt("nSPGoalxx");
+                int random_sp = (int)Math.floor(Math.random()*(max-min+1000)*100);
+                int random_jo = (int)Math.floor(Math.random()*(max-min+1000)*100);
+                int random_mc = (int)Math.floor(Math.random()*(loJson.getInt("nMCActual")-(loJson.getInt("nMCActual")/2)+1)*(loJson.getInt("nMCActual")/2));
+                info.setPeriodxx(loJson.getString("sPeriodxx"));
                 info.setBranchCd(loJson.getString("sBranchCd"));
                 info.setBranchNm(loJson.getString("sBranchNm"));
-                info.setMCGoalxx(Integer.parseInt(loJson.getString("nMCGoalxx")));
-                info.setSPGoalxx(Float.parseFloat(loJson.getString("nSPGoalxx")));
-                info.setJOGoalxx(Integer.parseInt(loJson.getString("nJOGoalxx")));
-                info.setLRGoalxx(Float.parseFloat(loJson.getString("nLRGoalxx")));
-                info.setMCActual(Integer.parseInt(loJson.getString("nMCActual")));
-                info.setSPActual(Float.parseFloat(loJson.getString("nSPActual")));
-                info.setLRActual(Float.parseFloat(loJson.getString("nLRActual")));
-                branchInfo.add(info);
+//                info.setMCGoalxx(loJson.getInt("nMCGoalxx"));
+//                info.setSPGoalxx(loJson.getInt("nSPGoalxx"));
+                info.setSPGoalxx(random_sp);
+//                info.setJOGoalxx(loJson.getInt("nJOGoalxx"));
+                info.setJOGoalxx(random_jo);
+                info.setLRGoalxx(loJson.getInt("nLRGoalxx"));
+//                info.setMCGoalxx(loJson.getInt("nMCActual"));
+                info.setMCActual(loJson.getInt("nMCActual"));
+                info.setMCGoalxx(random_mc);
+                info.setSPActual(loJson.getInt("nSPActual"));
+                info.setLRActual(loJson.getInt("nLRActual"));
+                list.add(info);
             }
-            loDatabse.insertBulkData(branchInfo);
-            Log.e(TAG, "Branch info has been save to local.");
+            loDatabse.insertBulkData(list);
         }
+//        void saveDataToLocal(JSONArray laJson) throws Exception{
+//            List<EBranchPerformance> branchInfo = new ArrayList<>();
+//            for(int x = 0; x < laJson.length(); x++){
+//                JSONObject loJson = new JSONObject(laJson.getString(x));
+//                EBranchPerformance info = new EBranchPerformance();
+//                info.setBranchCd(loJson.getString("sBranchCd"));
+//                info.setBranchNm(loJson.getString("sBranchNm"));
+//                info.setMCGoalxx(Integer.parseInt(loJson.getString("nMCGoalxx")));
+//                info.setSPGoalxx(Float.parseFloat(loJson.getString("nSPGoalxx")));
+//                info.setJOGoalxx(Integer.parseInt(loJson.getString("nJOGoalxx")));
+//                info.setLRGoalxx(Float.parseFloat(loJson.getString("nLRGoalxx")));
+//                info.setMCActual(Integer.parseInt(loJson.getString("nMCActual")));
+//                info.setSPActual(Float.parseFloat(loJson.getString("nSPActual")));
+//                info.setLRActual(Float.parseFloat(loJson.getString("nLRActual")));
+//                branchInfo.add(info);
+//            }
+//            loDatabse.insertBulkData(branchInfo);
+//            Log.e(TAG, "Branch info has been save to local.");
+//        }
     }
 }

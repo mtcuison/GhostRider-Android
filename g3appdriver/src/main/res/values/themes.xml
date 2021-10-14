@@ -44,6 +44,7 @@
         <item name="android:popupMenuStyle">@style/MyPopupOtherStyle</item>
         <item name="popupTheme">@style/MyPopupOtherStyle</item>
         <item name="android:windowBackground">@color/material_white</item>
+        <item name="colorControlNormal">@color/textColor_White</item>
     </style>
 
     <!-- Popup Other Style -->

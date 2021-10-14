@@ -10,13 +10,35 @@
         <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/bg_gradient_light.xml" value="0.2203125" />
         <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/ic_ghostrider_logo_day.xml" value="0.2203125" />
         <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/ic_ghostrider_logo_night.xml" value="0.2203125" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/activity_branch_opening_history.xml" value="0.1" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/activity_branch_performance.xml" value="0.22" />
         <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/activity_monitoring.xml" value="0.1" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/fragment_area_monitor.xml" value="0.20416666666666666" />
         <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/fragment_branch_monitor.xml" value="0.1" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/fragment_branch_opening.xml" value="0.20416666666666666" />
         <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/fragment_job_order.xml" value="0.20416666666666666" />
         <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/fragment_mc_sales.xml" value="0.22" />
         <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/fragment_sp_sales.xml" value="0.20416666666666666" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/list_item_branch_monitor.xml" value="0.20416666666666666" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/list_item_branch_opening.xml" value="0.20416666666666666" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/list_item_branch_performance.xml" value="0.20416666666666666" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/list_item_branch_performance_layout.xml" value="0.22" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/list_item_leave_ob.xml" value="0.20416666666666666" />
         <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/list_item_linechart.xml" value="0.20416666666666666" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/list_item_performance_output.xml" value="0.20416666666666666" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/list_item_time_log.xml" value="0.20416666666666666" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/ahMonitoring/src/main/res/layout/list_requestnames.xml" value="0.20416666666666666" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/app/src/main/res/layout/fragment_ah_dashboard.xml" value="0.1" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/app/src/main/res/layout/fragment_dashboard2.xml" value="0.20416666666666666" />
         <entry key="..\:/GhostRider-Android-09-30-2021/app/src/main/res/layout/fragment_home.xml" value="0.20416666666666666" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/creditApp/src/main/res/layout/activity_introductory_question.xml" value="0.1" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/dailyCollectionPlan/src/main/res/layout/activity_collection_log.xml" value="0.15" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/dailyCollectionPlan/src/main/res/layout/activity_collection_remittance.xml" value="0.22" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/dailyCollectionPlan/src/main/res/layout/activity_transaction.xml" value="0.1" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/dailyCollectionPlan/src/main/res/layout/activity_transactionlog.xml" value="0.20416666666666666" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/dailyCollectionPlan/src/main/res/layout/fragment_customer_not_around_log.xml" value="0.20416666666666666" />
+        <entry key="..\:/GhostRider-Android-09-30-2021/dailyCollectionPlan/src/main/res/layout/fragment_promise_to_pay.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/CreditEvaluator/src/main/res/layout/activity_ci_application.xml" value="0.1631578947368421" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/CreditEvaluator/src/main/res/layout/activity_ci_history_info.xml" value="0.16103896103896104" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/CreditEvaluator/src/main/res/layout/activity_evaluation_history.xml" value="0.16103896103896104" />
