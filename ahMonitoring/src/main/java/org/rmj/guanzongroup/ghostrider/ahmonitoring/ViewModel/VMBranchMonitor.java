@@ -18,6 +18,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
 
 import java.util.List;
@@ -26,13 +27,18 @@ public class VMBranchMonitor extends AndroidViewModel {
     public static final String TAG = VMBranchMonitor.class.getSimpleName();
 
     private final RBranchPerformance poDatabse;
-
+    private final RBranch poBranch;
     public VMBranchMonitor(@NonNull Application application) {
         super(application);
         poDatabse = new RBranchPerformance(application);
+        poBranch = new RBranch(application);
     }
 
     public LiveData<List<EBranchPerformance>>  getAllBranchPerformanceInfoByBranch(String branchCD){
         return poDatabse.getAllBranchPerformanceInfoByBranch(branchCD);
     }
+    public LiveData<String> getBranchName(String brnCD){
+        return poBranch.getBranchName(brnCD);
+    }
+
 }

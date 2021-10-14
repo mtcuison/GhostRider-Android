@@ -6,13 +6,18 @@
 
     <application>
         <activity
+            android:name=".Activity.Activity_BranchPerformance"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+            android:exported="true" />
+        <activity
             android:name=".Activity.Activity_Employee_Applications"
             android:exported="true"
             android:label="Payroll, Employee and Time Manager"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".Activity.Activity_BranchOpeningHistory"
+        <activity
+            android:name=".Activity.Activity_BranchOpeningHistory"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
             android:windowSoftInputMode="adjustPan" />
