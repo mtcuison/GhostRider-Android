@@ -97,4 +97,7 @@ public interface DBranchInfo {
 
     @Query("SELECT sBranchNm FROM Branch_Info WHERE sBranchCd =:sBranchCd")
     String getBranchNameForNotification(String sBranchCd);
+
+    @Query("SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = :fsBranchCd")
+    LiveData<String> getBranchAreaCode(String fsBranchCd);
 }

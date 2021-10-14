@@ -43,7 +43,6 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchOpeningAdapter;
@@ -194,8 +193,7 @@ public class Fragment_Home extends Fragment {
             @Override
             public void onChanged(List<EBranchPerformance> eBranchPerformances) {
                 BranchMonitoringAdapter loAdapter = new BranchMonitoringAdapter(eBranchPerformances, (EBranchPerformance eBranchPerformance) -> {
-//                    Intent loIntent = new Intent(getActivity(), Activity_Monitoring.class);
-                    Intent loIntent = new Intent(getActivity(), Activity_BranchPerformance.class);
+                    Intent loIntent = new Intent(getActivity(), Activity_Monitoring.class);
                     loIntent.putExtra("brnCD", eBranchPerformance.getBranchCd());
 //                    loIntent.putExtra("app", INTENT_BRANCH_MONITORING);
                     startActivity(loIntent);

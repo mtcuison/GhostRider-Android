@@ -70,7 +70,7 @@ public class Fragment_BranchMonitor extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMBranchMonitor.class);
-        mViewModel.getAllBranchPerformanceInfoByBranch(Activity_Monitoring.getInstance().getBranchCD()).observe(getViewLifecycleOwner(),eperformance ->{
+        mViewModel.getAllBranchPerformanceInfoByBranch(Activity_Monitoring.getInstance().getAreaCode()).observe(getViewLifecycleOwner(),eperformance ->{
             Description desc = new Description();
             desc.setText("Over All Sales");
             desc.setTextSize(28);
