@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CHART_MONTH_LABEL;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -129,21 +130,21 @@ public class Activity_AreaPerformance extends AppCompatActivity implements OnCha
                         chartValues.add(new Entry(x, performances.get(x).getMCActual()));
                     }
 
-                    BranchPerformanceAdapter.setIndexPosition(-1);
+                    AreaPerformanceMonitoringAdapter.setIndexPosition(-1);
                 }else if(pos == 1){
                     sales = "SP";
                     for (int x = 0; x< performances.size(); x++){
                         chartValues.add(new Entry(x, performances.get(x).getSPActual()));
                     }
 
-                    BranchPerformanceAdapter.setIndexPosition(-1);
+                    AreaPerformanceMonitoringAdapter.setIndexPosition(-1);
                 }else if(pos == 2){
                     sales = "JO";
                     for (int x = 0; x< performances.size(); x++){
                         chartValues.add(new Entry(x, performances.get(x).getJOGoalxx()));
                     }
 
-                    BranchPerformanceAdapter.setIndexPosition(-1);
+                    AreaPerformanceMonitoringAdapter.setIndexPosition(-1);
                 }
                 LineDataSet lineDataSet1 = new LineDataSet(chartValues, "");
 
@@ -172,14 +173,36 @@ public class Activity_AreaPerformance extends AppCompatActivity implements OnCha
                 lineChart.setBorderColor(getResources().getColor(R.color.color_dadada));
                 XAxis xAxis = lineChart.getXAxis();
                 xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                lineChart.setOnChartValueSelectedListener(this);
+                lineChart.setOnChartValueSelectedListener(Activity_AreaPerformance.this);
                 lineChart.invalidate();
 //          SET RECYLERVIEW
-                poAdapter = new AreaPerformanceMonitoringAdapter(Activity_AreaPerformance.this, sales, performances);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setLayoutManager(new LinearLayoutManager(this,  LinearLayoutManager.VERTICAL, false));
-                recyclerView.setAdapter(poAdapter);
+                mViewModel.getAreaBranchesSalesPerformance("202109").observe(Activity_AreaPerformance.this, branchPerformances -> {
+                    try {
+                        poAdapter = new AreaPerformanceMonitoringAdapter(
+                                Activity_AreaPerformance.this, pos,
+                                branchPerformances, sBranchCd -> {
+                                    try {
+                                        Intent loIntent = new Intent(
+                                                Activity_AreaPerformance.this,
+                                                Activity_BranchPerformance.class);
+                                        loIntent.putExtra("brnCD", sBranchCd);
+                                        startActivity(loIntent);
+                                    } catch (NullPointerException e) {
+                                        e.printStackTrace();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                         });
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setItemAnimator(new DefaultItemAnimator());
+                        recyclerView.setLayoutManager(new LinearLayoutManager(this,  LinearLayoutManager.VERTICAL, false));
+                        recyclerView.setAdapter(poAdapter);
+                    } catch(NullPointerException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
             } catch (NullPointerException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -192,7 +215,7 @@ public class Activity_AreaPerformance extends AppCompatActivity implements OnCha
     @Override
     public void onValueSelected(Entry e, Highlight h) {
         try{
-            BranchPerformanceAdapter.setIndexPosition((int) e.getX());
+            AreaPerformanceMonitoringAdapter.setIndexPosition((int) e.getX());
             poAdapter.notifyDataSetChanged();
         }catch (NullPointerException ex) {
             ex.printStackTrace();

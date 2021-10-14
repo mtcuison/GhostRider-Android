@@ -74,4 +74,9 @@ public interface DBranchPerformance {
     @Query("SELECT * FROM MC_Branch_Performance WHERE sBranchCd =:BranchCd")
     LiveData<List<EBranchPerformance>>  getAllBranchPerformanceInfoByBranch(String BranchCd);
 
+    // For Area Monitoring
+    @Query("SELECT * FROM MC_Branch_Performance WHERE sPeriodxx= :fsPeriodx ORDER BY sBranchNm ASC")
+    LiveData<List<EBranchPerformance>> getAreaBranchesSalesPerformance(String fsPeriodx);
+
+
 }

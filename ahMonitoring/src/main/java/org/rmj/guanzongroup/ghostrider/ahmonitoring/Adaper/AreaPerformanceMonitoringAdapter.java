@@ -35,39 +35,42 @@ import java.util.List;
 public class AreaPerformanceMonitoringAdapter extends RecyclerView.Adapter<AreaPerformanceMonitoringAdapter.OpeningViewHolder> {
 
     private final Context mContext;
-    private final List<EAreaPerformance> poAreaPrf;
-    private final String psCategry;
+    private final List<EBranchPerformance> poBranches;
+    private final OnBranchClickListener mListener;
+    private final int pnCategry;
     public static int index = -1;
     private final DecimalFormat currency_total = new DecimalFormat("###,###,###.###");
 
-    public AreaPerformanceMonitoringAdapter(Context context, String foCategry, List<EAreaPerformance> foAreaPrf) {
+    public AreaPerformanceMonitoringAdapter(Context context, int fnCategry, List<EBranchPerformance> foBranches, OnBranchClickListener mListener) {
         this.mContext = context;
-        this.poAreaPrf = foAreaPrf;
-        this.psCategry = foCategry;
+        this.mListener = mListener;
+        this.poBranches = foBranches;
+        this.pnCategry = fnCategry;
     }
 
     @NonNull
     @Override
     public OpeningViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_area_performance_layout, parent, false);
-        return new OpeningViewHolder(view,mContext, index);
+        return new OpeningViewHolder(view, mContext, index, mListener);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull OpeningViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        EAreaPerformance poArea = poAreaPrf.get(position);
-        holder.lblMonth.setText(AppConstants.CHART_MONTH_LABEL[position]);
+        EBranchPerformance loBranch= poBranches.get(position);
+        holder.sBranchCd = loBranch.getBranchCd();
+        holder.lblBranch.setText(loBranch.getBranchNm());
         holder.indexPosition = position;
-        if(psCategry.equalsIgnoreCase("MC")){
-            holder.lblGoal.setText(String.valueOf(poArea.getMCGoalxx()));
-            holder.lblActual.setText(String.valueOf(poArea.getMCActual()));
-        }else if(psCategry.equalsIgnoreCase("SP")){
-            holder.lblGoal.setText(currency_total.format(poArea.getSPGoalxx()));
-            holder.lblActual.setText(currency_total.format(poArea.getSPActual()));
-        }else if(psCategry.equalsIgnoreCase("JO")){
-            holder.lblGoal.setText(currency_total.format(poArea.getJOGoalxx()));
-            holder.lblActual.setText(currency_total.format(poArea.getJOGoalxx()));
+        if(pnCategry == 0 ){
+            holder.lblGoal.setText(String.valueOf(loBranch.getMCGoalxx()));
+            holder.lblActual.setText(String.valueOf(loBranch.getMCActual()));
+        }else if(pnCategry == 1){
+            holder.lblGoal.setText(currency_total.format(loBranch.getSPGoalxx()));
+            holder.lblActual.setText(currency_total.format(loBranch.getSPActual()));
+        }else if(pnCategry == 2){
+            holder.lblGoal.setText(currency_total.format(loBranch.getJOGoalxx()));
+            holder.lblActual.setText(currency_total.format(loBranch.getJOGoalxx()));
         }
 
         if (position == index){
@@ -79,7 +82,7 @@ public class AreaPerformanceMonitoringAdapter extends RecyclerView.Adapter<AreaP
 
     @Override
     public int getItemCount() {
-        return poAreaPrf.size();
+        return poBranches.size();
     }
 
     public static void setIndexPosition(int pos) {
@@ -89,18 +92,27 @@ public class AreaPerformanceMonitoringAdapter extends RecyclerView.Adapter<AreaP
     public static class OpeningViewHolder extends RecyclerView.ViewHolder{
 
         public LinearLayout indexLayout;
-        public TextView lblMonth, lblGoal, lblActual;
+        public String sBranchCd;
+        public TextView lblBranch, lblGoal, lblActual;
         public Context mContext;
         public int indexPosition;
 
-        public OpeningViewHolder(@NonNull View itemView, Context context, int pos) {
+        public OpeningViewHolder(@NonNull View itemView, Context context, int pos, OnBranchClickListener mListener) {
             super(itemView);
             mContext = context;
             indexLayout = itemView.findViewById(R.id.indexLayout);
-            lblMonth = itemView.findViewById(R.id.lbl_list_month);
+            lblBranch = itemView.findViewById(R.id.lbl_list_branch);
             lblGoal = itemView.findViewById(R.id.lbl_list_goal);
             lblActual = itemView.findViewById(R.id.lbl_list_actual);
+
+            indexLayout.setOnClickListener(v -> {
+                mListener.onClick(sBranchCd);
+            });
         }
 
+    }
+
+    public interface OnBranchClickListener {
+        void onClick(String sBranchCd);
     }
 }

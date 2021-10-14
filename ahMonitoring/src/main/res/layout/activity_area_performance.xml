@@ -96,6 +96,30 @@
                     android:layout_marginVertical="10dp"
                     android:padding="5dp" />
 
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginVertical="10dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Branch Performances"
+                        android:textColor="@color/guanzon_text_grey"
+                        android:textSize="17sp"
+                        android:fontFamily="@font/roboto_bold"/>
+                    <TextView
+                        android:id="@+id/lbl_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="January 2021"
+                        android:textColor="@color/guanzon_text_grey"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto"/>
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -111,8 +135,8 @@
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:maxLines="2"
-                        android:text="Month"
-                        android:textColor="@color/textColor_Black" />
+                        android:text="Branch"
+                        android:textColor="@color/textColor_White" />
 
                     <View
                         android:layout_width="1dp"
@@ -126,7 +150,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="Goal"
-                        android:textColor="@color/textColor_Black" />
+                        android:textColor="@color/textColor_White" />
 
                     <View
                         android:layout_width="1dp"
@@ -141,7 +165,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="Actual"
-                        android:textColor="@color/textColor_Black" />
+                        android:textColor="@color/textColor_White" />
                 </LinearLayout>
 
 
