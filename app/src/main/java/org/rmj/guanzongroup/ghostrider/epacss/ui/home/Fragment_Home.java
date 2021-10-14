@@ -189,29 +189,20 @@ public class Fragment_Home extends Fragment {
 //            recyclerView.setAdapter(loAdapter);
 //        });
 
-        mViewModel.getBranchPerformance().observe(getViewLifecycleOwner(), eBranchPerformances -> {
-            try {
+        mViewModel.getBranchPerformance().observe(getViewLifecycleOwner(), new Observer<List<EBranchPerformance>>() {
+            @Override
+            public void onChanged(List<EBranchPerformance> eBranchPerformances) {
                 BranchMonitoringAdapter loAdapter = new BranchMonitoringAdapter(eBranchPerformances, (EBranchPerformance eBranchPerformance) -> {
-                    mViewModel.getBranchAreaCode(eBranchPerformance.getBranchCd()).observe(getViewLifecycleOwner(), s -> {
-                        try {
-                            Intent loIntent = new Intent(getActivity(), Activity_Monitoring.class);
-                            loIntent.putExtra("sAreaCode", s);
-                            startActivity(loIntent);
-                        } catch (NullPointerException e) {
-                            e.printStackTrace();
-                        } catch(Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
+                    Intent loIntent = new Intent(getActivity(), Activity_Monitoring.class);
+                    loIntent.putExtra("brnCD", eBranchPerformance.getBranchCd());
+//                    loIntent.putExtra("app", INTENT_BRANCH_MONITORING);
+                    startActivity(loIntent);
                 });
+
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.HORIZONTAL, false));
                 recyclerView.setAdapter(loAdapter);
-            } catch(NullPointerException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         });
 
