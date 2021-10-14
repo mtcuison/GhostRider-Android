@@ -13,6 +13,13 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CHART_MONTH_LABEL;
 
+import android.os.Build;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,22 +29,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -47,16 +40,11 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.android.material.tabs.TabLayout;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchPerformanceAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBranchMonitor;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMCashCounter;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Activity_BranchPerformance extends AppCompatActivity implements OnChartValueSelectedListener {
@@ -78,7 +66,6 @@ public class Activity_BranchPerformance extends AppCompatActivity implements OnC
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         width = metrics.widthPixels;
         height = metrics.heightPixels;
-        Log.e("height", String.valueOf(height));
         mViewModel = new ViewModelProvider(Activity_BranchPerformance.this).get(VMBranchMonitor.class);
         brnCD = getIntent().getStringExtra("brnCD");
         mViewModel.getBranchName(brnCD).observe(Activity_BranchPerformance.this,bnName->{
@@ -195,17 +182,6 @@ public class Activity_BranchPerformance extends AppCompatActivity implements OnC
         try{
             BranchPerformanceAdapter.setIndexPosition((int) e.getX());
             adapter.notifyDataSetChanged();
-//            for(int x = 0; x < adapter.getItemCount(); x++){
-//                if (x == (int) e.getX()){
-//                    recyclerView.getChildAt(x).setBackgroundColor(getResources().getColor(R.color.guanzon_digital_orange_lighten));
-//                }
-//                else{
-//
-////                Log.e("onValueSelected", String.valueOf(adapter.getItemViewType(x)));
-//                    recyclerView.getChildAt(x).setBackgroundColor(getColor(android.R.color.transparent));
-//                }
-//
-//            }
         }catch (NullPointerException ex) {
             ex.printStackTrace();
         }

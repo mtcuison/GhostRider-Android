@@ -14,7 +14,6 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +80,6 @@ public class BranchPerformanceAdapter extends RecyclerView.Adapter<BranchPerform
             holder.lblActual.setText(currency_total.format(brnPerformance.getJOGoalxx()));
         }
 
-        Log.e("index", String.valueOf(index));
         if (position == index){
             holder.indexLayout.setBackgroundColor(mContext.getResources().getColor(R.color.guanzon_digital_orange_lighten));
         }else{
