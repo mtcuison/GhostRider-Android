@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.ahMonitoring
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 10/8/21, 1:18 PM
+  ~ project file last modified : 10/8/21, 1:18 PM
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_gradient_light"
+    tools:context=".Activity.Activity_AreaPerformance">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_area_performance"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center"
+            android:background="@color/material_tool_bar"
+            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay"  />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:id="@+id/cl_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:background="@drawable/bg_samsungknox">
+
+            <TextView
+                android:id="@+id/tvArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="UEMI Brooke's Point - YAMAHA"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/textColor_White"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/img_bg_guanzon_orange"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="190dp"-->
+        <!--            android:src="@drawable/bg_samsungknox"-->
+        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            app:layout_constraintRight_toRightOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="5dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="15dp"
+            app:cardPreventCornerOverlap="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tablayout_area_performance"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_alignParentTop="true"
+                    app:tabIndicatorColor="@color/guanzon_orange"
+                    app:tabSelectedTextColor="@color/guanzon_orange" />
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/activity_area_linechart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:padding="5dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/guanzon_orange"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:text="Month"
+                        android:textColor="@color/textColor_Black" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/color_dadada" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:text="Goal"
+                        android:textColor="@color/textColor_Black" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/color_dadada" />
+
+                    <TextView
+                        android:id="@+id/lbl_list_actual"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:text="Actual"
+                        android:textColor="@color/textColor_Black" />
+                </LinearLayout>
+
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:orientation="vertical"
+                    android:scrollbars="none"
+                    android:layout_marginBottom="10dp"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerview_area_performance"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:scrollbars="none"
+                        android:orientation="vertical" />
+                </androidx.core.widget.NestedScrollView>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+</LinearLayout>
