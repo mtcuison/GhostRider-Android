@@ -41,10 +41,11 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/notifications/src/main/res/drawable/ic_user_profile.xml" value="0.12192982456140351" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/notifications/src/main/res/layout/fragment_notification_list.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/settings/src/main/res/layout/activity_digital_gcard.xml" value="0.11008771929824561" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_monitoring.xml" value="0.18" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_monitoring.xml" value="0.2" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/custom_tab_ah.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_branch_monitor.xml" value="0.15" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_job_order.xml" value="0.1631578947368421" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_mc_sales.xml" value="0.1631578947368421" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_mc_sales.xml" value="0.15" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_sp_sales.xml" value="0.1631578947368421" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/list_item_branch_performance.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.12938596491228072" />
@@ -55,11 +56,14 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/drawable/tab_selector_bh_untoggled.xml" value="0.17675438596491228" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/custom_tab_bh.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_ah_dashboard.xml" value="0.10394736842105264" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_bh_dashboard.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_associate_dashboard.xml" value="0.12" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_bh_dashboard.xml" value="0.2" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_home.xml" value="0.33" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_home_container.xml" value="0.14" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_home_container.xml" value="0.12" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_manager_dashboard.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/xml/preferences.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/g3appdriver/src/main/res/drawable-v21/tab_selector_bh.xml" value="0.10043859649122808" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/g3appdriver/src/main/res/drawable-v21/tab_selector_bh_untoggled.xml" value="0.10043859649122808" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/g3appdriver/src/main/res/drawable/bg_dashboard.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/g3appdriver/src/main/res/layout/dialog_message_box.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/settings/src/main/res/layout/help_list_item.xml" value="0.1" />

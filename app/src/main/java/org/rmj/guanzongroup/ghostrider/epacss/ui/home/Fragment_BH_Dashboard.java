@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.ui.home;
 
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SETTINGS;
 import static org.rmj.guanzongroup.ghostrider.epacss.ui.home.VMBHDashboard.MC_SALES;
 import static org.rmj.guanzongroup.ghostrider.epacss.ui.home.VMBHDashboard.SP_SALES;
 
@@ -18,6 +19,7 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
@@ -45,9 +47,14 @@ import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchPerformance;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
+import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,10 +74,7 @@ public class Fragment_BH_Dashboard extends Fragment {
                     lblGoalxxx,
                     lblPrdRnge;
 
-    private MaterialButton btnChart,
-                    btnNotifx,
-                    btnSettng,
-                    btnLogout;
+    private MaterialButton btnSettng, btnLogout;
 
     private ColorStateList poColor;
     private TextView lblItem1;
@@ -103,8 +107,6 @@ public class Fragment_BH_Dashboard extends Fragment {
         lblGoalxxx = v.findViewById(R.id.lbl_performance_goal);
         lblPrdRnge = v.findViewById(R.id.lbl_performance_period_range);
 
-        btnChart = v.findViewById(R.id.btn_char);
-        btnNotifx = v.findViewById(R.id.btn_notifications);
         btnSettng = v.findViewById(R.id.btn_settings);
         btnLogout = v.findViewById(R.id.btn_logout);
 
@@ -117,32 +119,26 @@ public class Fragment_BH_Dashboard extends Fragment {
 
         lineChart = v.findViewById(R.id.linechar_bh);
 
-        btnChart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        btnSettng.setOnClickListener(v12 -> {
+            Intent intent = new Intent(getActivity(), Activity_Settings.class);
+            startActivityForResult(intent, SETTINGS);
+            requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
         });
 
-        btnNotifx.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        btnSettng.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        btnLogout.setOnClickListener(v1 -> {
+            MessageBox loMessage = new MessageBox(getActivity());
+            loMessage.initDialog();
+            loMessage.setNegativeButton("No", (view1, dialog) -> dialog.dismiss());
+            loMessage.setPositiveButton("Yes", (view1, dialog) -> {
+                dialog.dismiss();
+                requireActivity().finish();
+                new REmployee(requireActivity().getApplication()).LogoutUserSession();
+                AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
+                startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
+            });
+            loMessage.setTitle("GhostRider Session");
+            loMessage.setMessage("Are you sure you want to end session/logout?");
+            loMessage.show();
         });
     }
 

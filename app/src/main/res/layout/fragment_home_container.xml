@@ -43,18 +43,10 @@
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="-230dp">
 
-                <LinearLayout
+                <org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NonSwipeableViewPager
+                    android:id="@+id/viewpager_home"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <org.rmj.guanzongroup.ghostrider.epacss.ui.etc.NonSwipeableViewPager
-                        android:id="@+id/viewpager_home"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_above="@id/appbar_home"/>
-
-                </LinearLayout>
+                    android:layout_height="match_parent" />
 
             </RelativeLayout>
 

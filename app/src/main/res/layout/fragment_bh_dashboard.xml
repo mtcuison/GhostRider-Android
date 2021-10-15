@@ -260,48 +260,26 @@
                 </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_char"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Branch Performance Info"
-                    app:iconTint="@color/color_nav_dashboard"
-                    android:textColor="@color/color_nav_dashboard"
-                    app:icon="@drawable/ic_performance_chart"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:gravity="center|start"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_notifications"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Notifications"
-                    app:iconTint="@color/color_nav_dashboard"
-                    android:textColor="@color/color_nav_dashboard"
-                    app:icon="@drawable/ic_home_notification_toggled"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:gravity="start"/>
-
-                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_settings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Settings"
-                    app:iconTint="@color/color_nav_dashboard"
-                    android:textColor="@color/color_nav_dashboard"
+                    android:textColor="@color/textColor_Black"
+                    app:iconTint="@color/textColor_Black"
                     app:icon="@drawable/ic_dashboard_settings"
                     style="@style/Widget.AppCompat.Button.Borderless"
-                    android:gravity="start"/>
+                    android:gravity="start|center_vertical"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Logout"
-                    app:iconTint="@color/color_nav_dashboard"
-                    android:textColor="@color/color_nav_dashboard"
+                    android:textColor="@color/textColor_Black"
+                    app:iconTint="@color/textColor_Black"
                     app:icon="@drawable/ic_dashboard_logout"
                     style="@style/Widget.AppCompat.Button.Borderless"
-                    android:gravity="start"/>
+                    android:gravity="start|center_vertical"/>
 
             </LinearLayout>
 

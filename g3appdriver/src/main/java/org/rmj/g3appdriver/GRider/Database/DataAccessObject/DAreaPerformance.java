@@ -46,4 +46,7 @@ public interface DAreaPerformance {
 
     @Query("SELECT * FROM MC_Area_Performance ORDER BY ROUND(nMCActual * 100.0 / nMCGoalxx, 1) DESC LIMIT 5")
     LiveData<List<EAreaPerformance>> getAreaPerformanceDashboard();
+
+    @Query("SELECT sAreaDesc FROM MC_Area_Performance WHERE sAreaCode = (SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master))")
+    LiveData<String> getAreaDescription();
 }
