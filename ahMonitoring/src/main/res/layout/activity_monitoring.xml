@@ -10,7 +10,8 @@
   ~ project file last modified : 6/14/21 10:49 AM
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -66,17 +67,17 @@
                     app:cardElevation="5dp"
                     app:cardMaxElevation="10dp">
 
-                    <androidx.viewpager.widget.ViewPager
+                    <org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.NonSwipeableViewPager
                         android:id="@+id/viewpager_monitoring"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
                 </androidx.cardview.widget.CardView>
 
-
             </LinearLayout>
 
         </RelativeLayout>
+
     </RelativeLayout>
 
     <androidx.appcompat.widget.Toolbar

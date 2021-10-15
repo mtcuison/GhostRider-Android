@@ -49,4 +49,10 @@ public interface DAreaPerformance {
 
     @Query("SELECT sAreaDesc FROM MC_Area_Performance WHERE sAreaCode = (SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master))")
     LiveData<String> getAreaDescription();
+
+//    @Query("SELECT sAreaDesc FROM MC_Area_Performance WHERE sAreaCode = :fsAreaCde")
+//    LiveData<String> getAreaNameFromCode(String fsAreaCde);
+
+    @Query("SELECT sAreaDesc FROM MC_Area_Performance WHERE sAreaCode = (SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master))")
+    LiveData<String> getAreaNameFromCode();
 }

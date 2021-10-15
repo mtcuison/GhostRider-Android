@@ -46,4 +46,8 @@ public class RAreaPerformance {
     public LiveData<String> getAreaDescription(){
         return areaPerformanceDao.getAreaDescription();
     }
+
+    public LiveData<String> getAreaNameFromCode(String fsAreaCde){
+        return areaPerformanceDao.getAreaNameFromCode();
+    }
 }

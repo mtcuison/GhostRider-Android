@@ -16,6 +16,7 @@ import android.content.Intent;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Employee_Applications;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationHistory;
@@ -119,7 +120,7 @@ public class ChildObject {
                 break;
 
             case "branches performance info":
-                loIntent = new Intent(context, Activity_Monitoring.class);
+                loIntent = new Intent(context, Activity_AreaPerformance.class);
                 break;
 
             default:

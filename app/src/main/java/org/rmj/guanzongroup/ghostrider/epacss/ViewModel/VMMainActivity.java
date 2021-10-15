@@ -38,17 +38,17 @@ public class VMMainActivity extends AndroidViewModel {
         this.app = application;
         this.poNetRecvr = new InternetStatusReciever(app);
         this.poRole = new REmployeeRole(application);
-//        new Import_BranchPerformance(app).ImportData(new ImportDataCallback() {
-//            @Override
-//            public void OnSuccessImportData() {
-//
-//            }
-//
-//            @Override
-//            public void OnFailedImportData(String message) {
-//
-//            }
-//        });
+        new ImportBranchPerformance(app).ImportData(new ImportDataCallback() {
+            @Override
+            public void OnSuccessImportData() {
+
+            }
+
+            @Override
+            public void OnFailedImportData(String message) {
+
+            }
+        });
 
         new Import_AreaPerformance(app).ImportData(new ImportDataCallback() {
             @Override

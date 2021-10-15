@@ -58,12 +58,12 @@ public class Activity_AreaPerformance extends AppCompatActivity{
     private AreaPerformanceMonitoringAdapter poAdapter;
     private ArrayList<String> poPeriods = new ArrayList<>();
     private String[] brnSales = {"MC Sales","SP Sales","JO Sales"};
-    private String psAreaCde;
     ArrayList<Entry> chartValues;
     private LineChart lineChart;
     public int width;
     public int height;
     private TextView lblArea, lblDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +73,7 @@ public class Activity_AreaPerformance extends AppCompatActivity{
         width = metrics.widthPixels;
         height = metrics.heightPixels;
         mViewModel = new ViewModelProvider(Activity_AreaPerformance.this).get(VMAreaPerfromanceMonitoring.class);
-        psAreaCde = getIntent().getStringExtra("sAreaCode");
-        mViewModel.getAreaNameFromCode(psAreaCde).observe(Activity_AreaPerformance.this, sAreaName-> {
+        mViewModel.getAreaNameFromCode().observe(Activity_AreaPerformance.this, sAreaName-> {
             try {
                 lblArea.setText(sAreaName);
             } catch(NullPointerException e) {
@@ -187,25 +186,26 @@ public class Activity_AreaPerformance extends AppCompatActivity{
                                 poAdapter = new AreaPerformanceMonitoringAdapter(
                                         Activity_AreaPerformance.this, pos,
                                         branchPerformances, sBranchCd -> {
-                                            try {
-                                                Intent loIntent = new Intent(
-                                                        Activity_AreaPerformance.this,
-                                                        Activity_BranchPerformance.class);
-                                                loIntent.putExtra("brnCD", sBranchCd);
-                                                startActivity(loIntent);
-                                            } catch (NullPointerException ex) {
-                                                ex.printStackTrace();
-                                            }
+                                    try {
+                                        Intent loIntent = new Intent(
+                                                Activity_AreaPerformance.this,
+                                                Activity_BranchPerformance.class);
+                                        loIntent.putExtra("brnCD", sBranchCd);
+                                        startActivity(loIntent);
+                                    } catch (NullPointerException ex) {
+                                        ex.printStackTrace();
+                                    }
                                 });
                                 recyclerView.setHasFixedSize(true);
                                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(Activity_AreaPerformance.this, LinearLayoutManager.VERTICAL, false));
                                 recyclerView.setAdapter(poAdapter);
-                            } catch(NullPointerException ex) {
+                            } catch (NullPointerException ex) {
                                 ex.printStackTrace();
                             }
                         });
                         poAdapter.notifyDataSetChanged();
+
                     }
 
                     @Override

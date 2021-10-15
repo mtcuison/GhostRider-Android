@@ -38,8 +38,8 @@ public class VMAreaPerfromanceMonitoring extends AndroidViewModel {
         this.poBranch = new RBranchPerformance(application);
     }
 
-    public LiveData<String> getAreaNameFromCode(String fsAreaCde) {
-        return poArea.getAreaNameFromCode(fsAreaCde);
+    public LiveData<String> getAreaNameFromCode() {
+        return poArea.getAreaNameFromCode("");
     }
 
     public LiveData<List<EAreaPerformance>> getAreaPerformanceInfoList() {

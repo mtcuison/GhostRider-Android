@@ -78,5 +78,35 @@ public interface DBranchPerformance {
     @Query("SELECT * FROM MC_Branch_Performance WHERE sPeriodxx= :fsPeriodx ORDER BY sBranchNm ASC")
     LiveData<List<EBranchPerformance>> getAreaBranchesSalesPerformance(String fsPeriodx);
 
+    @Query("SELECT nMCActual AS Actual, ROUND (nMCActual * 100.0 / nMCGoalxx) AS Percentage, nMCGoalxx AS Goal FROM MC_Branch_Performance WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
+    LiveData<ActualGoal> getMCBranchPerformance();
 
+    @Query("SELECT nSPActual AS Actual, ROUND (nSPActual * 100.0 / nSPGoalxx) AS Percentage, nSPGoalxx AS Goal FROM MC_Branch_Performance WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
+    LiveData<ActualGoal> getSPBranchPerformance();
+
+    @Query("SELECT sPeriodxx AS Period, " +
+            "nMCActual AS Actual, " +
+            "nMCGoalxx AS Goal " +
+            "FROM MC_Branch_Performance " +
+            "WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
+    LiveData<List<PeriodicalPerformance>> getMCBranchPeriodicalPerformance();
+
+    @Query("SELECT sPeriodxx AS Period, " +
+            "nSPActual AS Actual, " +
+            "nSPGoalxx AS Goal " +
+            "FROM MC_Branch_Performance " +
+            "WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
+    LiveData<List<PeriodicalPerformance>> getSPBranchPeriodicalPerformance();
+
+    class ActualGoal{
+        public String Actual;
+        public String Percentage;
+        public String Goal;
+    }
+
+    class PeriodicalPerformance{
+        public String Period;
+        public String Actual;
+        public String Goal;
+    }
 }

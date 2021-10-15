@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.ghostrider.epacss.Service;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
@@ -88,5 +89,23 @@ public class PerformanceImportService extends JobService {
             AppConfigPreference.getInstance(PerformanceImportService.this).setLastSyncDate(new AppConstants().CURRENT_DATE);
             jobFinished(params, false);
         }).start();
+    }
+
+    private static class DownloadAreaBranchesPerformanceTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
     }
 }
