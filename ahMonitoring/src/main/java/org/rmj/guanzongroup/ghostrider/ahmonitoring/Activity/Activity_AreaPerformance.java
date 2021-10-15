@@ -43,6 +43,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.AreaPerformanceMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchPerformanceAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -51,17 +52,18 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMAreaPerfromanceM
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Activity_AreaPerformance extends AppCompatActivity implements OnChartValueSelectedListener {
+public class Activity_AreaPerformance extends AppCompatActivity{
     private VMAreaPerfromanceMonitoring mViewModel;
     private RecyclerView recyclerView;
     private AreaPerformanceMonitoringAdapter poAdapter;
+    private ArrayList<String> poPeriods = new ArrayList<>();
     private String[] brnSales = {"MC Sales","SP Sales","JO Sales"};
     private String psAreaCde;
     ArrayList<Entry> chartValues;
     private LineChart lineChart;
     public int width;
     public int height;
-    private TextView lblArea;
+    private TextView lblArea, lblDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,11 +81,13 @@ public class Activity_AreaPerformance extends AppCompatActivity implements OnCha
                 e.printStackTrace();
             }
         });
+        poPeriods = BranchPerformancePeriod.getList();
         initWidgets();
 
     }
     private void initWidgets(){
         lblArea = findViewById(R.id.tvArea);
+        lblDate = findViewById(R.id.lbl_date);
         recyclerView = findViewById(R.id.recyclerview_area_performance);
         lineChart = findViewById(R.id.activity_area_linechart);
         Toolbar toolbar = findViewById(R.id.toolbar_area_performance);
@@ -173,10 +177,46 @@ public class Activity_AreaPerformance extends AppCompatActivity implements OnCha
                 lineChart.setBorderColor(getResources().getColor(R.color.color_dadada));
                 XAxis xAxis = lineChart.getXAxis();
                 xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                lineChart.setOnChartValueSelectedListener(Activity_AreaPerformance.this);
+                lineChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+                    @Override
+                    public void onValueSelected(Entry e, Highlight h) {
+//                            AreaPerformanceMonitoringAdapter.setIndexPosition((int) e.getX());
+                        lblDate.setText(getPeriodText(poPeriods.get((int) e.getX())));
+                        mViewModel.getAreaBranchesSalesPerformance(poPeriods.get((int) e.getX())).observe(Activity_AreaPerformance.this, branchPerformances -> {
+                            try {
+                                poAdapter = new AreaPerformanceMonitoringAdapter(
+                                        Activity_AreaPerformance.this, pos,
+                                        branchPerformances, sBranchCd -> {
+                                            try {
+                                                Intent loIntent = new Intent(
+                                                        Activity_AreaPerformance.this,
+                                                        Activity_BranchPerformance.class);
+                                                loIntent.putExtra("brnCD", sBranchCd);
+                                                startActivity(loIntent);
+                                            } catch (NullPointerException ex) {
+                                                ex.printStackTrace();
+                                            }
+                                });
+                                recyclerView.setHasFixedSize(true);
+                                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                                recyclerView.setLayoutManager(new LinearLayoutManager(Activity_AreaPerformance.this, LinearLayoutManager.VERTICAL, false));
+                                recyclerView.setAdapter(poAdapter);
+                            } catch(NullPointerException ex) {
+                                ex.printStackTrace();
+                            }
+                        });
+                        poAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onNothingSelected() {
+
+                    }
+                });
                 lineChart.invalidate();
 //          SET RECYLERVIEW
-                mViewModel.getAreaBranchesSalesPerformance("202109").observe(Activity_AreaPerformance.this, branchPerformances -> {
+                lblDate.setText(getPeriodText(BranchPerformancePeriod.getLatestCompletePeriod()));
+                mViewModel.getAreaBranchesSalesPerformance(BranchPerformancePeriod.getLatestCompletePeriod()).observe(Activity_AreaPerformance.this, branchPerformances -> {
                     try {
                         poAdapter = new AreaPerformanceMonitoringAdapter(
                                 Activity_AreaPerformance.this, pos,
@@ -211,28 +251,72 @@ public class Activity_AreaPerformance extends AppCompatActivity implements OnCha
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
-    public void onValueSelected(Entry e, Highlight h) {
-        try{
-            AreaPerformanceMonitoringAdapter.setIndexPosition((int) e.getX());
-            poAdapter.notifyDataSetChanged();
-        }catch (NullPointerException ex) {
-            ex.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public void onNothingSelected() {
-
-    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private String getPeriodText(String fsPeriodx) {
+        String lsYearNox = fsPeriodx.substring(0,4);
+        String lsMonthNo = "";
+        String lsMonthNm = "";
+
+
+        if (fsPeriodx.length() > 2)
+        {
+            lsMonthNo = fsPeriodx.substring(fsPeriodx.length() - 2);
+        }
+        else
+        {
+            lsMonthNo = fsPeriodx;
+        }
+
+        switch(lsMonthNo) {
+            case "01":
+                lsMonthNm = "January";
+                break;
+            case "02":
+                lsMonthNm = "February";
+                break;
+            case "03":
+                lsMonthNm = "March";
+                break;
+            case "04":
+                lsMonthNm = "April";
+                break;
+            case "05":
+                lsMonthNm = "May";
+                break;
+            case "06":
+                lsMonthNm = "June";
+                break;
+            case "07":
+                lsMonthNm = "July";
+                break;
+            case "08":
+                lsMonthNm = "August";
+                break;
+            case "09":
+                lsMonthNm = "September";
+                break;
+            case "10":
+                lsMonthNm = "October";
+                break;
+            case "11":
+                lsMonthNm = "November";
+                break;
+            case "12":
+                lsMonthNm = "December";
+                break;
+            default:
+                lsMonthNm = "";
+                break;
+        }
+
+        return lsMonthNm + " " + lsYearNox;
     }
 
 }

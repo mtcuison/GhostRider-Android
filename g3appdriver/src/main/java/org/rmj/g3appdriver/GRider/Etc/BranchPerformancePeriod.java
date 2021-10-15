@@ -52,4 +52,32 @@ public class BranchPerformancePeriod {
             return null;
         }
     }
+
+    public static String getLatestCompletePeriod() {
+        try {
+            Calendar loCalendr = Calendar.getInstance(TimeZone.getTimeZone("Asia/Manila"));
+            final int MONTH_MIN = 1;
+            int lnMontNow = loCalendr.getInstance().get(Calendar.MONTH) + 1;
+            int lnMonthMax;
+            int lnRefYear;
+
+            if(lnMontNow == MONTH_MIN) {
+                lnRefYear = loCalendr.getInstance().get(Calendar.YEAR) - 1;
+                lnMonthMax = 12; // Up to December
+            } else {
+                lnRefYear = loCalendr.getInstance().get(Calendar.YEAR);
+                lnMonthMax = lnMontNow - 1; // Set previous Month
+            }
+
+            String lsMonth = lnMonthMax < 10 ? "0" + lnMonthMax : String.valueOf(lnMonthMax);
+            String lsPeriod = lnRefYear + lsMonth;
+            Log.e(TAG + " Period", lsPeriod);
+            return lsPeriod;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
