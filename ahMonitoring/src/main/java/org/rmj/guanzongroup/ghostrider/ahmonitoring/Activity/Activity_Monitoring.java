@@ -39,13 +39,13 @@ import java.util.Objects;
 public class Activity_Monitoring extends AppCompatActivity {
 
     private static Activity_Monitoring instance;
-    private String brnCD;
+    private String psAreaCde;
 
     public static Activity_Monitoring getInstance(){
         return instance;
     }
-    public String getBranchCD(){
-        return brnCD;
+    public String getAreaCode(){
+        return psAreaCde;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class Activity_Monitoring extends AppCompatActivity {
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
         instance = this;
-        brnCD = getIntent().getStringExtra("brnCD");
+        psAreaCde = getIntent().getStringExtra("sAreaCode");
         Toolbar toolbar = findViewById(R.id.toolbar_monitoring);
         toolbar.setTitle("AREA R1 - A");
         setSupportActionBar(toolbar);
