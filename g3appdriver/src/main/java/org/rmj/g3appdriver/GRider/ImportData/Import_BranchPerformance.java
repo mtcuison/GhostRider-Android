@@ -24,6 +24,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -47,7 +48,7 @@ public class Import_BranchPerformance implements ImportInstance {
         Log.e(TAG, "Initialized.");
         this.instance = application;
         this.poPeriodc = new ArrayList<>();
-        setUpPeriodList();
+        this.poPeriodc.addAll(BranchPerformancePeriod.getList());
     }
 
     public void setsAreaCode(String sAreaCode) {
@@ -56,39 +57,9 @@ public class Import_BranchPerformance implements ImportInstance {
 
     @Override
     public void ImportData(ImportDataCallback callback) {
-        JSONObject loJson = new JSONObject();
         try{
-//            loJson.put("period", "201911");
             new ImportBranchTask(instance, callback).execute(poPeriodc);
         } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    private void setUpPeriodList() {
-        try {
-            Calendar loCalendr = Calendar.getInstance(TimeZone.getTimeZone("Asia/Manila"));
-            final int MONTH_MIN = 1;
-            int lnMontNow = loCalendr.getInstance().get(Calendar.MONTH) + 1;
-            int lnMonthMax;
-            int lnRefYear;
-
-            if(lnMontNow == MONTH_MIN) {
-                lnRefYear = loCalendr.getInstance().get(Calendar.YEAR) - 1;
-                lnMonthMax = 12; // Up to December
-            } else {
-                lnRefYear = loCalendr.getInstance().get(Calendar.YEAR);
-                lnMonthMax = lnMontNow - 1; // Set previous Month
-            }
-
-            for (int x = 1; x <= lnMonthMax; x++) {
-                String lsMonth = x < 10 ? "0" + x : String.valueOf(x);
-                String lsPeriod = lnRefYear + lsMonth;
-                Log.e(TAG + " Period", lsPeriod);
-                poPeriodc.add(lsPeriod);
-            }
-
-        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -113,7 +84,6 @@ public class Import_BranchPerformance implements ImportInstance {
             String response = "";
             try {
                 if(loConn.isDeviceConnected()) {
-
                     if(strings[0].size() > 0) {
                         for(int x = 0; x < strings[0].size(); x++) {
                             JSONObject loJSon = new JSONObject();
@@ -148,52 +118,26 @@ public class Import_BranchPerformance implements ImportInstance {
             }
             return response;
         }
+
         void saveDataToLocal(JSONArray laJson) throws Exception{
-            List<EBranchPerformance> list = new ArrayList<>();
+            List<EBranchPerformance> branchInfo = new ArrayList<>();
             for(int x = 0; x < laJson.length(); x++){
-                JSONObject loJson = laJson.getJSONObject(x);
+                JSONObject loJson = new JSONObject(laJson.getString(x));
                 EBranchPerformance info = new EBranchPerformance();
-                int min = loJson.getInt("nSPGoalxx")/2;
-                int max = loJson.getInt("nSPGoalxx");
-                int random_sp = (int)Math.floor(Math.random()*(max-min+1000)*100);
-                int random_jo = (int)Math.floor(Math.random()*(max-min+1000)*100);
-                int random_mc = (int)Math.floor(Math.random()*(loJson.getInt("nMCActual")-(loJson.getInt("nMCActual")/2)+1)*(loJson.getInt("nMCActual")/2));
                 info.setPeriodxx(loJson.getString("sPeriodxx"));
                 info.setBranchCd(loJson.getString("sBranchCd"));
                 info.setBranchNm(loJson.getString("sBranchNm"));
-//                info.setMCGoalxx(loJson.getInt("nMCGoalxx"));
-//                info.setSPGoalxx(loJson.getInt("nSPGoalxx"));
-                info.setSPGoalxx(random_sp);
-//                info.setJOGoalxx(loJson.getInt("nJOGoalxx"));
-                info.setJOGoalxx(random_jo);
-                info.setLRGoalxx(loJson.getInt("nLRGoalxx"));
-//                info.setMCGoalxx(loJson.getInt("nMCActual"));
-                info.setMCActual(loJson.getInt("nMCActual"));
-                info.setMCGoalxx(random_mc);
-                info.setSPActual(loJson.getInt("nSPActual"));
-                info.setLRActual(loJson.getInt("nLRActual"));
-                list.add(info);
+                info.setMCGoalxx(Integer.parseInt(loJson.getString("nMCGoalxx")));
+                info.setSPGoalxx(Float.parseFloat(loJson.getString("nSPGoalxx")));
+                info.setJOGoalxx(Integer.parseInt(loJson.getString("nJOGoalxx")));
+                info.setLRGoalxx(Float.parseFloat(loJson.getString("nLRGoalxx")));
+                info.setMCActual(Integer.parseInt(loJson.getString("nMCActual")));
+                info.setSPActual(Float.parseFloat(loJson.getString("nSPActual")));
+                info.setLRActual(Float.parseFloat(loJson.getString("nLRActual")));
+                branchInfo.add(info);
             }
-            loDatabse.insertBulkData(list);
+            loDatabse.insertBulkData(branchInfo);
+            Log.e(TAG, "Branch info has been save to local.");
         }
-//        void saveDataToLocal(JSONArray laJson) throws Exception{
-//            List<EBranchPerformance> branchInfo = new ArrayList<>();
-//            for(int x = 0; x < laJson.length(); x++){
-//                JSONObject loJson = new JSONObject(laJson.getString(x));
-//                EBranchPerformance info = new EBranchPerformance();
-//                info.setBranchCd(loJson.getString("sBranchCd"));
-//                info.setBranchNm(loJson.getString("sBranchNm"));
-//                info.setMCGoalxx(Integer.parseInt(loJson.getString("nMCGoalxx")));
-//                info.setSPGoalxx(Float.parseFloat(loJson.getString("nSPGoalxx")));
-//                info.setJOGoalxx(Integer.parseInt(loJson.getString("nJOGoalxx")));
-//                info.setLRGoalxx(Float.parseFloat(loJson.getString("nLRGoalxx")));
-//                info.setMCActual(Integer.parseInt(loJson.getString("nMCActual")));
-//                info.setSPActual(Float.parseFloat(loJson.getString("nSPActual")));
-//                info.setLRActual(Float.parseFloat(loJson.getString("nLRActual")));
-//                branchInfo.add(info);
-//            }
-//            loDatabse.insertBulkData(branchInfo);
-//            Log.e(TAG, "Branch info has been save to local.");
-//        }
     }
 }

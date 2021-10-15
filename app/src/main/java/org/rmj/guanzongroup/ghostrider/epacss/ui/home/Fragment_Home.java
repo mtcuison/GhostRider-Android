@@ -43,6 +43,8 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchOpeningAdapter;
@@ -168,41 +170,29 @@ public class Fragment_Home extends Fragment {
 
         mViewModel.getCv_ahMonitoring().observe(getViewLifecycleOwner(), integer -> cvAHMonitoring.setVisibility(integer));
 
-//        mViewModel.getAreaPerformanceDashboard().observe(getViewLifecycleOwner(), areaPerformances -> {
-//            List<Area> areaList = new ArrayList<>();
-//            for(int x = 0; x < areaPerformances.size(); x++){
-//                Area area = new Area(areaPerformances.get(x).getAreaCode(),
-//                        areaPerformances.get(x).getAreaDesc(),
-//                        String.valueOf(areaPerformances.get(x).getMCGoalxx()),
-//                        String.valueOf(areaPerformances.get(x).getMCActual()));
-//                areaList.add(area);
-//            }
-//            AreaMonitoringDashbordAdapter loAdapter = new AreaMonitoringDashbordAdapter(areaList, () -> {
-//                Intent loIntent = new Intent(getActivity(), Activity_Application.class);
-//                loIntent.putExtra("app", INTENT_AREA_MONITORING);
-//                startActivity(loIntent);
-//            });
-//
-//            recyclerView.setHasFixedSize(true);
-//            recyclerView.setItemAnimator(new DefaultItemAnimator());
-//            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.HORIZONTAL, false));
-//            recyclerView.setAdapter(loAdapter);
-//        });
-
-        mViewModel.getBranchPerformance().observe(getViewLifecycleOwner(), new Observer<List<EBranchPerformance>>() {
-            @Override
-            public void onChanged(List<EBranchPerformance> eBranchPerformances) {
+        mViewModel.getBranchPerformance().observe(getViewLifecycleOwner(), eBranchPerformances -> {
+            try {
                 BranchMonitoringAdapter loAdapter = new BranchMonitoringAdapter(eBranchPerformances, (EBranchPerformance eBranchPerformance) -> {
-                    Intent loIntent = new Intent(getActivity(), Activity_Monitoring.class);
-                    loIntent.putExtra("brnCD", eBranchPerformance.getBranchCd());
-//                    loIntent.putExtra("app", INTENT_BRANCH_MONITORING);
-                    startActivity(loIntent);
+                    mViewModel.getBranchAreaCode(eBranchPerformance.getBranchCd()).observe(getViewLifecycleOwner(), s -> {
+                        try {
+                            Intent loIntent = new Intent(getActivity(), Activity_AreaPerformance.class);
+                            loIntent.putExtra("sAreaCode", s);
+                            startActivity(loIntent);
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
                 });
-
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.HORIZONTAL, false));
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 recyclerView.setAdapter(loAdapter);
+            } catch(NullPointerException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 

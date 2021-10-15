@@ -6,9 +6,13 @@
 
     <application>
         <activity
+            android:name=".Activity.Activity_AreaPerformance"
+            android:exported="true"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+        <activity
             android:name=".Activity.Activity_BranchPerformance"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activity.Activity_Employee_Applications"
             android:exported="true"

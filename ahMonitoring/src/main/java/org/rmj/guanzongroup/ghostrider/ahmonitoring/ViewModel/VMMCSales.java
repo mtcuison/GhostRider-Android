@@ -29,13 +29,19 @@ public class VMMCSales extends AndroidViewModel {
     public static final String TAG = VMMCSales.class.getSimpleName();
 
     private final RBranchPerformance poDatabse;
+    private final RAreaPerformance poArea;
 
     public VMMCSales(@NonNull Application application) {
         super(application);
         poDatabse = new RBranchPerformance(application);
+        this.poArea = new RAreaPerformance(application);
     }
 
     public LiveData<List<EBranchPerformance>>  getAllBranchPerformanceInfoByBranch(String branchCD){
         return poDatabse.getAllBranchPerformanceInfoByBranch(branchCD);
+    }
+
+    public LiveData<List<EAreaPerformance>> getAreaPerformanceInfoList() {
+        return poArea.getAreaPerformanceInfoList();
     }
 }

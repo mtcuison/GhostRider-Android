@@ -75,7 +75,7 @@ public class Fragment_MCSales extends Fragment {
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
         mViewModel = new ViewModelProvider(this).get(VMMCSales.class);
-        mViewModel.getAllBranchPerformanceInfoByBranch(Activity_Monitoring.getInstance().getBranchCD()).observe(getViewLifecycleOwner(), eperformance ->{
+        mViewModel.getAreaPerformanceInfoList().observe(getViewLifecycleOwner(), eperformance ->{
 //            Description desc = new Description();
 //            desc.setText("MC Unit Sales");
 //            desc.setTextSize(28);
