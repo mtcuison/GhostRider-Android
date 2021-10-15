@@ -15,19 +15,24 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
 
-public class VMBranchMonitor extends AndroidViewModel {
-    private static final String TAG = VMBranchMonitor.class.getSimpleName();
+import java.util.List;
 
-    private RBranchPerformance poPerfrm;
+public class VMBranchMonitor extends AndroidViewModel {
+    public static final String TAG = VMBranchMonitor.class.getSimpleName();
+
+    private final RBranchPerformance poDatabse;
 
     public VMBranchMonitor(@NonNull Application application) {
         super(application);
-        this.poPerfrm = new RBranchPerformance(application);
+        poDatabse = new RBranchPerformance(application);
     }
 
-
-
+    public LiveData<List<EBranchPerformance>>  getAllBranchPerformanceInfoByBranch(String branchCD){
+        return poDatabse.getAllBranchPerformanceInfoByBranch(branchCD);
+    }
 }

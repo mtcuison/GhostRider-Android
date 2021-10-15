@@ -21,7 +21,9 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -36,11 +38,26 @@ import java.util.Objects;
 
 public class Activity_Monitoring extends AppCompatActivity {
 
+    private static Activity_Monitoring instance;
+    private String brnCD;
+
+    public static Activity_Monitoring getInstance(){
+        return instance;
+    }
+    public String getBranchCD(){
+        return brnCD;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitoring);
-
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+        instance = this;
+        brnCD = getIntent().getStringExtra("brnCD");
         Toolbar toolbar = findViewById(R.id.toolbar_monitoring);
         toolbar.setTitle("AREA R1 - A");
         setSupportActionBar(toolbar);
@@ -49,6 +66,8 @@ public class Activity_Monitoring extends AppCompatActivity {
 
         ViewPager viewPager = findViewById(R.id.viewpager_monitoring);
         viewPager.setAdapter(new MonitoringPageAdapter(getSupportFragmentManager()));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, (height/3));
+        viewPager.setLayoutParams(params);
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -63,13 +82,13 @@ public class Activity_Monitoring extends AppCompatActivity {
     private static class MonitoringPageAdapter extends FragmentStatePagerAdapter {
 
         private final Fragment[] fragments = {
-                new Fragment_BranchMonitor(),
+//                new Fragment_BranchMonitor(),
                 new Fragment_MCSales(),
                 new Fragment_SPSales(),
                 new Fragment_JobOrder()};
 
         private final String[] titles = {
-                "Overall",
+//                "Overall",
                 "Mc Sales",
                 "Sp Sales",
                 "Job Order"};

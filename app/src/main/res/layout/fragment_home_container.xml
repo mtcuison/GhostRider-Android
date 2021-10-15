@@ -16,6 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#dbdbdb"
     tools:context=".ui.HomeContainer.Fragment_HomeContainer">
 
     <LinearLayout
@@ -31,7 +32,7 @@
             <ImageView
                 android:id="@+id/img_dashboard_header"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="240dp"
                 android:src="@drawable/bg_dashboard"
                 android:scaleType="centerCrop"/>
 
@@ -40,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/img_dashboard_header"
                 android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="-160dp">
+                android:layout_marginTop="-230dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"

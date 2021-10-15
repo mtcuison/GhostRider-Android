@@ -32,14 +32,17 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
+import org.rmj.guanzongroup.ghostrider.notifications.Function.GRiderErrorReport;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 public class VMPromiseToPay extends AndroidViewModel {
     private static final String TAG = VMPromiseToPay.class.getSimpleName();
+    private final Application instance;
     private final RBranch poBranch;
     private final RDailyCollectionPlan poDcp;
     private final RImageInfo poImage;
@@ -62,6 +65,7 @@ public class VMPromiseToPay extends AndroidViewModel {
     private final LiveData<String[]> paBranchNm;
     public VMPromiseToPay(@NonNull Application application) {
         super(application);
+        this.instance = application;
         this.poBranch = new RBranch(application);
         this.poDcp = new RDailyCollectionPlan(application);
         paBranchNm = poBranch.getAllMcBranchNames();
@@ -147,8 +151,7 @@ public class VMPromiseToPay extends AndroidViewModel {
     }
     public boolean savePtpInfo(PromiseToPayModel infoModel, ViewModelCallback callback) {
         try {
-
-            new UpdateTask(poDcp, infoModel, callback).execute(poDcpDetail.getValue());
+            new UpdateTask(instance, infoModel, callback).execute(poDcpDetail.getValue());
             return true;
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -179,11 +182,13 @@ public class VMPromiseToPay extends AndroidViewModel {
     private  class UpdateTask extends AsyncTask<EDCPCollectionDetail, Void, String> {
         private final RDailyCollectionPlan poDcp;
         private final PromiseToPayModel infoModel;
+        private final GRiderErrorReport poReport;
         private final ViewModelCallback callback;
 
-        public UpdateTask(RDailyCollectionPlan poDcp, PromiseToPayModel infoModel, ViewModelCallback callback) {
-            this.poDcp = poDcp;
+        public UpdateTask(Application instance, PromiseToPayModel infoModel, ViewModelCallback callback) {
+            this.poDcp = new RDailyCollectionPlan(instance);
             this.infoModel = infoModel;
+            this.poReport = new GRiderErrorReport(instance);
             this.callback = callback;
         }
 
@@ -214,6 +219,7 @@ public class VMPromiseToPay extends AndroidViewModel {
                 }
             } catch (Exception e){
                 e.printStackTrace();
+                poReport.SendErrorReport("DCP Transaction", "Promise to pay data: " + Arrays.toString(e.getStackTrace()));
                 return e.getMessage();
             }
         }

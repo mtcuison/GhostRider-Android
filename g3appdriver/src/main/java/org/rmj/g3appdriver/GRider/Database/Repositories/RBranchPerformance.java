@@ -67,4 +67,24 @@ public class RBranchPerformance {
     public String getUserAreaCode(){
         return branchPerformanceDao.getUserAreaCode();
     }
+
+    public LiveData<List<EBranchPerformance>> getAllBranchPerformanceInfoByBranch(String branchCD){
+        return branchPerformanceDao.getAllBranchPerformanceInfoByBranch(branchCD);
+    }
+
+    public LiveData<DBranchPerformance.ActualGoal> getMCBranchPerformance(){
+        return branchPerformanceDao.getMCBranchPerformance();
+    }
+
+    public LiveData<DBranchPerformance.ActualGoal> getSPBranchPerformance(){
+        return branchPerformanceDao.getSPBranchPerformance();
+    }
+
+    public LiveData<List<DBranchPerformance.PeriodicalPerformance>> getMCBranchPeriodicalPerformance(){
+        return branchPerformanceDao.getMCBranchPeriodicalPerformance();
+    }
+
+    public LiveData<List<DBranchPerformance.PeriodicalPerformance>> getSPBranchPeriodicalPerformance(){
+        return branchPerformanceDao.getSPBranchPeriodicalPerformance();
+    }
 }

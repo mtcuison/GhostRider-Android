@@ -185,6 +185,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
             StartTime.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
             StartTime.show();
         });
+
         rgPtpAppUnit.setOnCheckedChangeListener(new OnDependencyStatusSelectionListener(rgPtpAppUnit,mViewModel));
         btnPtp.setOnClickListener( v -> {
             try {

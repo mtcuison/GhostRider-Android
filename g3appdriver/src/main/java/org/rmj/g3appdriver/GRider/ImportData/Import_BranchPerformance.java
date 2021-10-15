@@ -30,7 +30,9 @@ import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import static org.rmj.g3appdriver.utils.WebApi.IMPORT_BRANCH_PERFORMANCE;
 
@@ -38,11 +40,14 @@ public class Import_BranchPerformance implements ImportInstance {
     public static final String TAG = Import_BranchPerformance.class.getSimpleName();
 
     private final Application instance;
-
+    private final ArrayList<String> poPeriodc;
     private String sAreaCode;
 
     public Import_BranchPerformance(Application application) {
+        Log.e(TAG, "Initialized.");
         this.instance = application;
+        this.poPeriodc = new ArrayList<>();
+        setUpPeriodList();
     }
 
     public void setsAreaCode(String sAreaCode) {
@@ -53,14 +58,42 @@ public class Import_BranchPerformance implements ImportInstance {
     public void ImportData(ImportDataCallback callback) {
         JSONObject loJson = new JSONObject();
         try{
-            loJson.put("period", "201911");
-            new ImportBranchTask(instance, callback).execute(loJson);
+//            loJson.put("period", "201911");
+            new ImportBranchTask(instance, callback).execute(poPeriodc);
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    private static class ImportBranchTask extends AsyncTask<JSONObject, Void, String>{
+    private void setUpPeriodList() {
+        try {
+            Calendar loCalendr = Calendar.getInstance(TimeZone.getTimeZone("Asia/Manila"));
+            final int MONTH_MIN = 1;
+            int lnMontNow = loCalendr.getInstance().get(Calendar.MONTH) + 1;
+            int lnMonthMax;
+            int lnRefYear;
+
+            if(lnMontNow == MONTH_MIN) {
+                lnRefYear = loCalendr.getInstance().get(Calendar.YEAR) - 1;
+                lnMonthMax = 12; // Up to December
+            } else {
+                lnRefYear = loCalendr.getInstance().get(Calendar.YEAR);
+                lnMonthMax = lnMontNow - 1; // Set previous Month
+            }
+
+            for (int x = 1; x <= lnMonthMax; x++) {
+                String lsMonth = x < 10 ? "0" + x : String.valueOf(x);
+                String lsPeriod = lnRefYear + lsMonth;
+                Log.e(TAG + " Period", lsPeriod);
+                poPeriodc.add(lsPeriod);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static class ImportBranchTask extends AsyncTask<ArrayList<String>, Void, String>{
         private final ImportDataCallback callback;
         private final HttpHeaders loHeaders;
         private final RBranchPerformance loDatabse;
@@ -76,26 +109,34 @@ public class Import_BranchPerformance implements ImportInstance {
         }
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
-        protected String doInBackground(JSONObject... jsonObjects) {
-            JSONObject loJSon = jsonObjects[0];
+        protected String doInBackground(ArrayList<String>... strings) {
             String response = "";
             try {
                 if(loConn.isDeviceConnected()) {
-                    loJSon.put("areacd", poUser.getUserAreaCode());
-                    response = WebClient.httpsPostJSon(IMPORT_BRANCH_PERFORMANCE, loJSon.toString(), loHeaders.getHeaders());
-                    if(response == null){
-                        response = AppConstants.SERVER_NO_RESPONSE();
-                    } else {
-                        JSONObject loJson = new JSONObject(response);
-                        Log.e(TAG, loJson.getString("result"));
-                        String lsResult = loJson.getString("result");
-                        if (lsResult.equalsIgnoreCase("success")) {
-                            JSONArray laJson = loJson.getJSONArray("detail");
-                            saveDataToLocal(laJson);
-                        } else {
-                            JSONObject loError = loJson.getJSONObject("error");
-                            String message = loError.getString("message");
-                            callback.OnFailedImportData(message);
+
+                    if(strings[0].size() > 0) {
+                        for(int x = 0; x < strings[0].size(); x++) {
+                            JSONObject loJSon = new JSONObject();
+                            loJSon.put("period", strings[0].get(x));
+                            loJSon.put("areacd", poUser.getUserAreaCode());
+                            response = WebClient.httpsPostJSon(IMPORT_BRANCH_PERFORMANCE, loJSon.toString(), loHeaders.getHeaders());
+                            if(response == null){
+                                response = AppConstants.SERVER_NO_RESPONSE();
+                            } else {
+                                JSONObject loJson = new JSONObject(response);
+                                Log.e(TAG, loJson.getString("result"));
+                                String lsResult = loJson.getString("result");
+                                if (lsResult.equalsIgnoreCase("success")) {
+                                    JSONArray laJson = loJson.getJSONArray("detail");
+                                    Log.e(TAG, laJson.toString());
+                                    saveDataToLocal(laJson);
+                                } else {
+                                    JSONObject loError = loJson.getJSONObject("error");
+                                    String message = loError.getString("message");
+                                    callback.OnFailedImportData(message);
+                                }
+                            }
+                            Thread.sleep(1000);
                         }
                     }
                 } else {

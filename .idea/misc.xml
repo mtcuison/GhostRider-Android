@@ -47,7 +47,16 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_mc_sales.xml" value="0.1631578947368421" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_sp_sales.xml" value="0.1631578947368421" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/list_item_branch_performance.xml" value="0.25" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_home.xml" value="0.12" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.12938596491228072" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/drawable/ic_performance_chart.xml" value="0.17675438596491228" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/drawable/line_grap_actual.xml" value="0.17675438596491228" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/drawable/line_graph_goal.xml" value="0.17675438596491228" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/drawable/tab_selector_bh.xml" value="0.17675438596491228" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/drawable/tab_selector_bh_untoggled.xml" value="0.17675438596491228" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/custom_tab_bh.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_ah_dashboard.xml" value="0.10394736842105264" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_bh_dashboard.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_home_container.xml" value="0.14" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_manager_dashboard.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/xml/preferences.xml" value="0.1" />
