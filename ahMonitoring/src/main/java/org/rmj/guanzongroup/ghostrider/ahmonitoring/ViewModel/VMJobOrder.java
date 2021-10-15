@@ -18,7 +18,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RAreaPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
 
 import java.util.List;
@@ -27,13 +29,19 @@ public class VMJobOrder  extends AndroidViewModel {
     public static final String TAG = VMJobOrder.class.getSimpleName();
 
     private final RBranchPerformance poDatabse;
+    private final RAreaPerformance poArea;
 
     public VMJobOrder(@NonNull Application application) {
         super(application);
         poDatabse = new RBranchPerformance(application);
+        this.poArea = new RAreaPerformance(application);
     }
 
     public LiveData<List<EBranchPerformance>> getAllBranchPerformanceInfoByBranch(String branchCD){
         return poDatabse.getAllBranchPerformanceInfoByBranch(branchCD);
+    }
+
+    public LiveData<List<EAreaPerformance>> getAreaPerformanceInfoList() {
+        return poArea.getAreaPerformanceInfoList();
     }
 }

@@ -23,6 +23,8 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RAreaPerformance;
+import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -35,12 +37,13 @@ import static org.rmj.g3appdriver.utils.WebApi.IMPORT_AREA_PERFORMANCE;
 
 public class Import_AreaPerformance implements ImportInstance {
     private static final String TAG = Import_AreaPerformance.class.getSimpleName();
-
+    private final Application poApp;
     private final RAreaPerformance poDataBse;
     private final ConnectionUtil poConn;
     private final HttpHeaders poHeaders;
 
     public Import_AreaPerformance(Application application) {
+        this.poApp = application;
         this.poDataBse = new RAreaPerformance(application);
         this.poConn = new ConnectionUtil(application);
         this.poHeaders = HttpHeaders.getInstance(application);
@@ -48,45 +51,53 @@ public class Import_AreaPerformance implements ImportInstance {
 
     @Override
     public void ImportData(ImportDataCallback callback) {
-        JSONObject loJson = new JSONObject();
         try{
-            loJson.put("period", "201911");
-            new ImportAreaTask(callback, poHeaders, poDataBse, poConn).execute(loJson);
+            new ImportAreaTask(poApp, callback, poHeaders, poDataBse, poConn).execute(BranchPerformancePeriod.getList());
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    private static class ImportAreaTask extends AsyncTask<JSONObject, Void, String>{
+    private static class ImportAreaTask extends AsyncTask<ArrayList<String>, Void, String>{
         private final ImportDataCallback callback;
         private final HttpHeaders loHeaders;
         private final RAreaPerformance loDatabse;
         private final ConnectionUtil loConn;
+        private final REmployee poUser;
 
-        public ImportAreaTask(ImportDataCallback callback, HttpHeaders loHeaders, RAreaPerformance loDatabse, ConnectionUtil loConn) {
+        public ImportAreaTask(Application foApp, ImportDataCallback callback, HttpHeaders loHeaders, RAreaPerformance loDatabse, ConnectionUtil loConn) {
             this.callback = callback;
             this.loHeaders = loHeaders;
             this.loDatabse = loDatabse;
             this.loConn = loConn;
+            this.poUser = new REmployee(foApp);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
-        protected String doInBackground(JSONObject... jsonObjects) {
+        protected String doInBackground(ArrayList<String>... arrayLists) {
             String response = "";
             try {
                 if(loConn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(IMPORT_AREA_PERFORMANCE, jsonObjects[0].toString(), loHeaders.getHeaders());
-                    JSONObject loJson = new JSONObject(response);
-                    Log.e(TAG, loJson.getString("result"));
-                    String lsResult = loJson.getString("result");
-                    if(lsResult.equalsIgnoreCase("success")){
-                        JSONArray laJson = loJson.getJSONArray("detail");
-                        saveDataToLocal(laJson);
-                    } else {
-                        JSONObject loError = loJson.getJSONObject("error");
-                        String message = loError.getString("message");
-                        callback.OnFailedImportData(message);
+                    if(arrayLists[0].size() > 0) {
+                        for(int x = 0 ; x < arrayLists[0].size(); x++) {
+                            JSONObject loJSon = new JSONObject();
+                            loJSon.put("period", arrayLists[0].get(x));
+                            loJSon.put("areacd", poUser.getUserAreaCode());
+                            response = WebClient.httpsPostJSon(IMPORT_AREA_PERFORMANCE, loJSon.toString(), loHeaders.getHeaders());
+                            JSONObject loJson = new JSONObject(response);
+                            Log.e(TAG, loJson.getString("result"));
+                            String lsResult = loJson.getString("result");
+                            if (lsResult.equalsIgnoreCase("success")) {
+                                JSONArray laJson = loJson.getJSONArray("detail");
+                                saveDataToLocal(laJson);
+                            } else {
+                                JSONObject loError = loJson.getJSONObject("error");
+                                String message = loError.getString("message");
+                                callback.OnFailedImportData(message);
+                            }
+                            Thread.sleep(1000);
+                        }
                     }
                 } else {
                     response = AppConstants.NO_INTERNET();
@@ -103,6 +114,7 @@ public class Import_AreaPerformance implements ImportInstance {
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = new JSONObject(laJson.getString(x));
                 EAreaPerformance info = new EAreaPerformance();
+                info.setPeriodxx(loJson.getString("sPeriodxx"));
                 info.setAreaCode(loJson.getString("sAreaCode"));
                 info.setAreaDesc(loJson.getString("sAreaDesc"));
                 info.setMCGoalxx(Integer.parseInt(loJson.getString("nMCGoalxx")));

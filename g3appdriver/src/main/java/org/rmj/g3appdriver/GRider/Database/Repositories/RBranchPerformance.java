@@ -72,6 +72,12 @@ public class RBranchPerformance {
         return branchPerformanceDao.getAllBranchPerformanceInfoByBranch(branchCD);
     }
 
+    // For Area Monitoring
+    public LiveData<List<EBranchPerformance>> getAreaBranchesSalesPerformance(String fsPeriodx) {
+        return branchPerformanceDao.getAreaBranchesSalesPerformance(fsPeriodx);
+    }
+
+
     public LiveData<DBranchPerformance.ActualGoal> getMCBranchPerformance(){
         return branchPerformanceDao.getMCBranchPerformance();
     }
