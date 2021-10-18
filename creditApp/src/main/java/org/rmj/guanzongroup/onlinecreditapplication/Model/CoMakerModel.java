@@ -213,6 +213,9 @@ public class CoMakerModel {
         if(coMiddName == null || coMiddName.trim().isEmpty()){
             message = "Please enter middle name";
             return false;
+        }else if(coMiddName.length() <= 1){
+            message = "Please provide valid Middle name.";
+            return false;
         }
         return true;
     }

@@ -95,6 +95,14 @@ public interface DTownInfo {
     LiveData<TownProvinceInfo> getTownProvinceByTownID(String TownID);
 
 
+    @Query("SELECT a.sTownIDxx, b.sProvIDxx, a.sTownName, b.sProvName " +
+            "FROM Town_Info a " +
+            "LEFT JOIN Province_Info b " +
+            "ON a.sProvIDxx = b.sProvIDxx " +
+            "WHERE sTownName =:TownNm")
+    LiveData<TownProvinceInfo> getTownProvinceByTownName(String TownNm);
+
+
     @Query("SELECT a.sBrgyIDxx, a.sBrgyName,b.sTownIDxx, b.sTownName,c.sProvIDxx, c.sProvName " +
             "FROM Barangay_Info a " +
             "LEFT JOIN Town_Info b " +
