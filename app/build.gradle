@@ -108,4 +108,8 @@ dependencies {
     implementation project(':settings')
     implementation project(':json-simple-1.1.1')
     implementation project(':commons-codec-1.11') //implement commons codec
+
+    // For Unit Testing
+    testImplementation 'org.mockito:mockito-core:2.23.0'
+    testImplementation 'org.robolectric:robolectric:4.5'
 }
