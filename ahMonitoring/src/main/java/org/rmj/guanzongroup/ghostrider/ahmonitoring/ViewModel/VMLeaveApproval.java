@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -40,6 +41,12 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApprovalInfo;
 
 import static org.rmj.g3appdriver.utils.WebApi.URL_GET_LEAVE_APPLICATION;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
 public class VMLeaveApproval extends AndroidViewModel {
 
     public static final String TAG = VMLeaveApproval.class.getSimpleName();
@@ -49,6 +56,10 @@ public class VMLeaveApproval extends AndroidViewModel {
     private final REmployeeLeave poLeave;
 
     private final MutableLiveData<String> TransNox = new MutableLiveData<>();
+    private final MutableLiveData<Integer> pnCredit = new MutableLiveData<>();
+    private final MutableLiveData<Integer> pnWithPay = new MutableLiveData<>();
+    private final MutableLiveData<Integer> pnWOPay = new MutableLiveData<>();
+    private final MutableLiveData<Integer> pnNoDays = new MutableLiveData<>();
 
     public VMLeaveApproval(@NonNull Application application) {
         super(application);
@@ -290,6 +301,81 @@ public class VMLeaveApproval extends AndroidViewModel {
                 e.printStackTrace();
                 callback.onFailed(e.getMessage());
             }
+        }
+    }
+
+    public void setCredits(int value){
+        this.pnCredit.setValue(value);
+    }
+
+    public void calculateWithOPay(int fnWithOPy){
+        int lnNoDays = pnNoDays.getValue();
+        int lnCredt = pnCredit.getValue();
+        if(lnCredt > 0) {
+            int lnWOPayx;
+            if (fnWithOPy <= lnNoDays) {
+                lnWOPayx = Math.abs(fnWithOPy - lnNoDays);
+                pnWOPay.setValue(lnWOPayx);
+            } else {
+                pnWithPay.setValue(lnNoDays);
+                calculateWithOPay(lnNoDays);
+            }
+        } else {
+            pnWOPay.setValue(lnNoDays);
+            pnWithPay.setValue(0);
+        }
+    }
+
+    public void calculateWithPay(int fnWithPay){
+        int lnNoDays = pnNoDays.getValue();
+        int lnCredt = pnCredit.getValue();
+        if(lnCredt > 0) {
+            if (fnWithPay <= lnNoDays) {
+                int lnWithPay;
+                lnWithPay = Math.abs(lnNoDays - fnWithPay);
+                pnWithPay.setValue(lnWithPay);
+            } else {
+                pnWOPay.setValue(lnNoDays);
+                calculateWithPay(lnNoDays);
+            }
+        } else {
+            pnWOPay.setValue(lnNoDays);
+            pnWithPay.setValue(0);
+        }
+    }
+
+    public LiveData<Integer> getWithPay(){
+        return pnWithPay;
+    }
+
+    public LiveData<Integer> getWOPay(){
+        return pnWOPay;
+    }
+
+    public void calculateLeavePay(String fsDateFrm, String fsDateTo) throws ParseException {
+        int lnCredt = pnCredit.getValue();
+        @SuppressLint("SimpleDateFormat") final SimpleDateFormat loDate = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateFrom = loDate.parse(Objects.requireNonNull(fsDateFrm));
+        Date dateTo = loDate.parse(Objects.requireNonNull(fsDateTo));
+        long diff = Objects.requireNonNull(dateTo).getTime() - Objects.requireNonNull(dateFrom).getTime();
+        long noOfDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+        pnNoDays.setValue((int) noOfDays);
+        if(noOfDays > lnCredt && lnCredt != 0){
+            int lnDiff = (int) (noOfDays - lnCredt);
+            pnWOPay.setValue(lnDiff);
+
+            int lnDays = (int) (lnCredt - noOfDays);
+            if(lnDays < 0){
+                pnWithPay.setValue(0);
+            } else {
+                pnWithPay.setValue((int) (lnCredt - noOfDays));
+            }
+        } else if(lnCredt == 0){
+            pnWOPay.setValue((int) noOfDays);
+            pnWithPay.setValue(0);
+        } else {
+            pnWithPay.setValue((int) noOfDays);
+            pnWOPay.setValue(0);
         }
     }
 }

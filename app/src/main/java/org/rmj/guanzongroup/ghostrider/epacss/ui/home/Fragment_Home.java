@@ -185,7 +185,7 @@ public class Fragment_Home extends Fragment {
                         }
                     });
                 });
-                recyclerView.setHasFixedSize(true);
+//                recyclerView.setHasFixedSize(true);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 recyclerView.setAdapter(loAdapter);
@@ -234,7 +234,7 @@ public class Fragment_Home extends Fragment {
         mViewModel.getBranchOpeningInfoForDashBoard().observe(getViewLifecycleOwner(), new Observer<List<DBranchOpeningMonitor.BranchOpeningInfo>>() {
             @Override
             public void onChanged(List<DBranchOpeningMonitor.BranchOpeningInfo> branchOpeningInfos) {
-                recyclerViewOpening.setHasFixedSize(true);
+//                recyclerViewOpening.setHasFixedSize(true);
                 recyclerViewOpening.setItemAnimator(new DefaultItemAnimator());
                 recyclerViewOpening.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.VERTICAL, false));
                 recyclerViewOpening.setAdapter(new BranchOpeningAdapter(getActivity(), branchOpeningInfos, () -> {

@@ -70,18 +70,21 @@
         <activity android:name=".Activity.Activity_DataManager"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true"/>
 
         <activity
             android:name=".Activity.Activity_Settings"
             android:label="@string/title_activity_settings"
-            android:screenOrientation="userPortrait" />
+            android:screenOrientation="userPortrait"
+            android:exported="true" />
 
         <activity
             android:name=".Activity.Activity_SplashScreen"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -94,7 +97,8 @@
             android:name=".Activity.Activity_Main"
             android:label="Home"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+            android:exported="true"/>
 
         <service
             android:name=".Service.DataImportService"
@@ -110,7 +114,8 @@
 
         <service
             android:name=".Service.GMessagingService"
-            tools:ignore="ExportedService,InnerclassSeparator">
+            tools:ignore="ExportedService,InnerclassSeparator"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

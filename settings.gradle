@@ -32,3 +32,4 @@ include ':g3appdriver'
 include ':app'
 include ':appdriver'
 rootProject.name = "GhostRider_Android"
+include ':dataChecker'

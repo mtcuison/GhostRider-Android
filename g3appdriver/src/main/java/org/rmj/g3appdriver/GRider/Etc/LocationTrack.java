@@ -162,6 +162,8 @@ public class LocationTrack extends Service implements LocationListener {
     public double getLongitude() {
         if (loc != null) {
             longitude = loc.getLongitude();
+        } else {
+            longitude = 0.00;
         }
         return longitude;
     }
@@ -174,12 +176,16 @@ public class LocationTrack extends Service implements LocationListener {
     public double getLatitude() {
         if (loc != null) {
             latitude = loc.getLatitude();
+        } else {
+            latitude = 0.00;
         }
         return latitude;
     }
     public double getAlt() {
         if (loc != null) {
             alt = loc.getAltitude();
+        } else {
+            alt = 0.00;
         }
         return alt;
     }

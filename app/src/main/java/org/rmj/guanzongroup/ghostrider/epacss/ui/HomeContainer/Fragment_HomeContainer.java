@@ -28,6 +28,7 @@ import com.google.android.material.tabs.TabLayout;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMHomeContainer;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Associate_Dashboard;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_Home;
 import org.rmj.guanzongroup.ghostrider.epacss.ui.home.Fragment_BH_Dashboard;
 import org.rmj.guanzongroup.ghostrider.notifications.Fragment.Fragment_NotificationList;
@@ -68,7 +69,7 @@ public class Fragment_HomeContainer extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMHomeContainer.class);
         try{
             if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_RANK_FILE))){
-                fragment = new Fragment[]{new Fragment_BH_Dashboard(), new Fragment_NotificationList()};
+                fragment = new Fragment[]{new Fragment_Associate_Dashboard(), new Fragment_NotificationList()};
                 appBarHome.setVisibility(View.VISIBLE);
             } else {
                 fragment = new Fragment[]{new Fragment_Home()};

@@ -36,6 +36,7 @@ import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.guanzongroup.ghostrider.dataChecker.Activity.Activity_DB_Explorer;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_CheckUpdate;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Developer;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_HelpList;
@@ -116,7 +117,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         }
         if (cameraPref != null) {
             cameraPref.setOnPreferenceClickListener(preference -> {
-                if ((ActivityCompat.checkSelfPermission(getActivity(), CAMERA) != PackageManager.PERMISSION_GRANTED)) {
+                if ((ActivityCompat.checkSelfPermission(requireActivity(), CAMERA) != PackageManager.PERMISSION_GRANTED)) {
                     mViewModel.getCamPermissions().observe(getViewLifecycleOwner(), strings -> {
                         ActivityCompat.requestPermissions(getActivity(),strings, CAMERA_REQUEST);
                     });
@@ -140,7 +141,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
 
         if (phonePref != null) {
             phonePref.setOnPreferenceClickListener(preference -> {
-                if ((ActivityCompat.checkSelfPermission(getActivity(), READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)) {
+                if ((ActivityCompat.checkSelfPermission(requireActivity(), READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)) {
                     mViewModel.getPhPermissions().observe(getViewLifecycleOwner(), strings -> {
                         ActivityCompat.requestPermissions(getActivity(),strings, STORAGE_REQUEST);
 
@@ -162,7 +163,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
                    mViewModel.isStoragePermissionGranted().observe(getViewLifecycleOwner(), isGranted -> {
                       if (!isGranted){
                           mViewModel.getStoragePermission().observe(getViewLifecycleOwner(), strings -> {
-                              ActivityCompat.requestPermissions(getActivity(),strings, STORAGE_REQUEST);
+                              ActivityCompat.requestPermissions(requireActivity(),strings, STORAGE_REQUEST);
                           });
                       }else {
                           showExportDialog(dbExport.export());
@@ -182,7 +183,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
 
         if(localData != null){
             localData.setOnPreferenceClickListener(preference -> {
-                Intent loIntent = new Intent(getActivity(), Activity_LocalData.class);
+                Intent loIntent = new Intent(getActivity(), Activity_DB_Explorer.class);
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
@@ -232,7 +233,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         }
 
         if(debugMode != null){
-            SessionManager poUser = new SessionManager(getActivity());
+            SessionManager poUser = new SessionManager(requireActivity());
             if (!poUser.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
                 debugMode.setVisible(true);
             } else {
@@ -277,7 +278,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
 
     boolean checkPermissionCamera() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
+            if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA)
                     == PackageManager.PERMISSION_GRANTED) {
                 cameraPref.setSummary("Camera Permission Enabled");
                 mViewModel.getCameraSummary().observe(getViewLifecycleOwner(), s -> cameraPref.setSummary(s));
@@ -293,7 +294,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
     }
     boolean checkPermissionPhoneState() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_PHONE_STATE)
+            if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_PHONE_STATE)
                     == PackageManager.PERMISSION_GRANTED) {
                 phonePref.setSummary("Phone State Permission Enabled");
                 return true;
@@ -319,7 +320,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
     public void GetLocation(){
 
 
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
 
 
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -329,11 +330,11 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
 
 
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+            if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
-                    (getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    (requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+                ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
 
             } else {
                 locationPref.setSummary(R.string.location_on_summary);

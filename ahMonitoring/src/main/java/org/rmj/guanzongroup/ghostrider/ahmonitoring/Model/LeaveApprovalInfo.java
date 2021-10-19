@@ -2,14 +2,14 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Model;
 
 public class LeaveApprovalInfo {
 
-    private String TransNox;
-    private String AppldFrx;
-    private String AppldTox;
-    private String WithPayx;
-    private String WithOPay;
-    private String Approved;
-    private String Approvex;
-    private String TranStat;
+    private String TransNox = "";
+    private String AppldFrx = "";
+    private String AppldTox = "";
+    private String WithPayx = "";
+    private String WithOPay = "";
+    private String Approved = "";
+    private String Approvex = "";
+    private String TranStat = "";
 
     private String message;
 
@@ -86,8 +86,20 @@ public class LeaveApprovalInfo {
     }
 
     public boolean isDataValid(){
-        if(TransNox == null){
+        if(TransNox.isEmpty()){
             message = "No leave to approve or cancel";
+            return false;
+        } else if(WithPayx == null || WithPayx.isEmpty()){
+            message = "With pay value is invalid.";
+            return false;
+        } else if(WithOPay == null || WithOPay.isEmpty()){
+            message = "Without pay value is invalid.";
+            return false;
+        } else if (Integer.parseInt(WithPayx) < 0){
+            message = "Negative numbers are not allowed";
+            return false;
+        } else if(Integer.parseInt(WithOPay) < 0){
+            message = "Negative numbers are not allowed";
             return false;
         }
         return true;

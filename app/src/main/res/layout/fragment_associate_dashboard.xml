@@ -20,7 +20,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="90dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -139,40 +140,40 @@
                                 android:layout_height="1dp"
                                 android:background="@color/guanzon_orange" />
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+<!--                            <RelativeLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content">-->
 
-                                <com.google.android.material.button.MaterialButton
-                                    android:id="@+id/btn_selfieLogin"
-                                    style="@style/Widget.AppCompat.Button.Borderless"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_vertical"
-                                    android:text="Selfie Log"
-                                    android:textColor="@color/textColor_Black"
-                                    app:icon="@drawable/ic_dashboard_selfie"
-                                    app:iconTint="@color/textColor_Black" />
+<!--                                <com.google.android.material.button.MaterialButton-->
+<!--                                    android:id="@+id/btn_selfieLogin"-->
+<!--                                    style="@style/Widget.AppCompat.Button.Borderless"-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:gravity="center_vertical"-->
+<!--                                    android:text="Selfie Log"-->
+<!--                                    android:textColor="@color/textColor_Black"-->
+<!--                                    app:icon="@drawable/ic_dashboard_selfie"-->
+<!--                                    app:iconTint="@color/textColor_Black" />-->
 
-                                <TextView
-                                    android:id="@+id/lbl_badge_selfieLog"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:background="@drawable/bg_badge_red"
-                                    android:fontFamily="@font/roboto_black"
-                                    android:gravity="center"
-                                    android:text="!"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_centerVertical="true"
-                                    android:textColor="#ffff"
-                                    android:layout_alignParentEnd="true" />
+<!--                                <TextView-->
+<!--                                    android:id="@+id/lbl_badge_selfieLog"-->
+<!--                                    android:layout_width="24dp"-->
+<!--                                    android:layout_height="24dp"-->
+<!--                                    android:background="@drawable/bg_badge_red"-->
+<!--                                    android:fontFamily="@font/roboto_black"-->
+<!--                                    android:gravity="center"-->
+<!--                                    android:text="!"-->
+<!--                                    android:layout_alignParentRight="true"-->
+<!--                                    android:layout_centerVertical="true"-->
+<!--                                    android:textColor="#ffff"-->
+<!--                                    android:layout_alignParentEnd="true" />-->
 
-                            </RelativeLayout>
+<!--                            </RelativeLayout>-->
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@color/guanzon_orange" />
+<!--                            <View-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="1dp"-->
+<!--                                android:background="@color/guanzon_orange" />-->
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
@@ -180,14 +181,14 @@
 
                                 <com.google.android.material.button.MaterialButton
                                     android:id="@+id/btn_settings"
+                                    style="@style/Widget.AppCompat.Button.Borderless"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Settings"
                                     android:gravity="center_vertical"
+                                    android:text="Settings"
+                                    android:textColor="@color/textColor_Black"
                                     app:icon="@drawable/ic_dashboard_settings"
-                                    app:iconTint="@color/textColor_Black"
-                                    style="@style/Widget.AppCompat.Button.Borderless"
-                                    android:textColor="@color/textColor_Black"/>
+                                    app:iconTint="@color/textColor_Black" />
 
                                 <TextView
                                     android:id="@+id/lbl_badge_settings"

@@ -84,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginVertical="10dp">
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_collectionSearch"
                     android:layout_width="match_parent"
@@ -122,7 +123,8 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:padding="5dp"
-            android:paddingBottom="10dp">
+            android:paddingBottom="10dp"
+            android:layout_marginBottom="50dp">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -212,7 +214,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".9"
-                            android:text="Date applied :"
+                            android:text="Entry Date :"
                             android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_bold"
                             android:drawablePadding="5dp"
@@ -241,7 +243,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".9"
-                            android:text="Date approve :"
+                            android:text="Approval Date :"
                             android:textColor="@color/textColor_Black"
                             android:fontFamily="@font/roboto_bold"
                             android:drawablePadding="5dp"
@@ -372,11 +374,10 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
+                        android:orientation="horizontal">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="@string/sHintDateFrm"
@@ -397,35 +398,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".5"
-                            android:hint="With Pay"
-                            android:textColorHint="@color/textColor_Black"
-                            style="@style/TextInputStyle">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txt_withPay"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="number|none"
-                                android:gravity="center"
-                                style="@style/TextInputStyle.Edittext"
-                                android:autofillHints="Business trip destination and purpose."
-                                android:layout_margin="5dp"/>
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="@string/sHintDateTo"
@@ -440,6 +413,34 @@
                                 android:focusable="false"
                                 android:focusedByDefault="false"
                                 android:inputType="date"
+                                style="@style/TextInputStyle.Edittext"
+                                android:autofillHints="Business trip destination and purpose."
+                                android:layout_margin="5dp"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:hint="With Pay"
+                            android:textColorHint="@color/textColor_Black"
+                            style="@style/TextInputStyle">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/txt_withPay"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number|none"
+                                android:gravity="center"
                                 style="@style/TextInputStyle.Edittext"
                                 android:autofillHints="Business trip destination and purpose."
                                 android:layout_margin="5dp"/>
@@ -465,6 +466,7 @@
                                 android:layout_margin="5dp"/>
 
                         </com.google.android.material.textfield.TextInputLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
