@@ -103,8 +103,9 @@ public class UploadCreditApp {
         protected String doInBackground(Void... strings) {
             String lsResult;
             try {
-                poImage.setTransNox(poImgMngr.getImageNextCode());
-                poImgMngr.insertImageInfo(poImage);
+//                Comment for uploading creditapp purpose
+//                poImage.setTransNox(poImgMngr.getImageNextCode());
+//                poImgMngr.insertImageInfo(poImage);
                 poCreditApp.insertCreditApplication(poInfo);
                 poLoan.insertNewLoanApplication(poBranchApp);
                 if (poConn.isDeviceConnected()) {
@@ -115,42 +116,43 @@ public class UploadCreditApp {
                     if(lsResponse != null) {
                         JSONObject loResponse = new JSONObject(lsResponse);
 
-                        String result = loResponse.getString("result");
-                        if(result.equalsIgnoreCase("success")){
-                            String lsTransNox = loResponse.getString("sTransNox");
-                            poCreditApp.updateSentLoanAppl(poInfo.getTransNox(), lsTransNox);
-
-                            Thread.sleep(1000);
-
-                            String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(),
-                                    poUser.getClientId(),
-                                    poUser.getUserID());
-                            String lsAccess = WebFileServer.RequestAccessToken(lsClient);
-
-                            if(!lsAccess.isEmpty()){
-                                org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
-                                        poImage.getFileLoct(),
-                                        lsAccess,
-                                        poImage.getFileCode(),
-                                        poImage.getDtlSrcNo(),
-                                        poImage.getImageNme(),
-                                        poUser.getBranchCode(),
-                                        poImage.getSourceCD(),
-                                        poImage.getSourceCD(),
-                                        "");
-
-                                lsResponse = (String) loUpload.get("result");
-                                Log.e(TAG, "Uploading image result : " + lsResponse);
-
-                                if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
-                                    String lsTransNo = (String) loUpload.get("sTransNox");
-                                    poImgMngr.updateImageInfo(lsTransNo, poImage.getTransNox());
-                                    lsResponse = (String) loUpload.toJSONString();
-                                } else {
-                                    lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Loan application has been sent. But failed to upload customer photo.");
-                                }
-                            }
-                        }
+//                          Comment for uploading creditapp purpose
+//                        String result = loResponse.getString("result");
+//                        if(result.equalsIgnoreCase("success")){
+//                            String lsTransNox = loResponse.getString("sTransNox");
+//                            poCreditApp.updateSentLoanAppl(poInfo.getTransNox(), lsTransNox);
+//
+//                            Thread.sleep(1000);
+//
+//                            String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(),
+//                                    poUser.getClientId(),
+//                                    poUser.getUserID());
+//                            String lsAccess = WebFileServer.RequestAccessToken(lsClient);
+//
+//                            if(!lsAccess.isEmpty()){
+//                                org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
+//                                        poImage.getFileLoct(),
+//                                        lsAccess,
+//                                        poImage.getFileCode(),
+//                                        poImage.getDtlSrcNo(),
+//                                        poImage.getImageNme(),
+//                                        poUser.getBranchCode(),
+//                                        poImage.getSourceCD(),
+//                                        poImage.getSourceCD(),
+//                                        "");
+//
+//                                lsResponse = (String) loUpload.get("result");
+//                                Log.e(TAG, "Uploading image result : " + lsResponse);
+//
+//                                if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
+//                                    String lsTransNo = (String) loUpload.get("sTransNox");
+//                                    poImgMngr.updateImageInfo(lsTransNo, poImage.getTransNox());
+//                                    lsResponse = (String) loUpload.toJSONString();
+//                                } else {
+//                                    lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Loan application has been sent. But failed to upload customer photo.");
+//                                }
+//                            }
+//                        }
                         lsResult = lsResponse;
                     } else {
                         lsResult = AppConstants.SERVER_NO_RESPONSE();

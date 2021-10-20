@@ -83,6 +83,9 @@ public class RTown {
     public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownID(String TownID){
         return townDao.getTownProvinceByTownID(TownID);
     }
+    public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownName(String TownNm){
+        return townDao.getTownProvinceByTownName(TownNm);
+    }
     public LiveData<DTownInfo.BrgyTownProvinceInfoWithID> getBrgyTownProvinceInfoWithID(String BrgyID){
         return townDao.getBrgyTownProvinceInfoWithID(BrgyID);
     }
