@@ -292,7 +292,7 @@ public class Fragment_CoMaker extends Fragment implements ViewModelCallBack {
                 tieBrthDate.setText( (!loJson.getString("dBirthDte").equalsIgnoreCase("")) ?  loJson.getString("dBirthDte") : "");
 
                 if(!loJson.getString("sBirthPlc").equalsIgnoreCase("")) {
-                    mViewModel.getTownProvinceByTownID(loJson.getString("sBirthPlc")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
+                    mViewModel.getTownProvinceByTownName(loJson.getString("sBirthPlc")).observe(getViewLifecycleOwner(), townProvinceInfo -> {
                         tieBrthTown.setText(townProvinceInfo.sTownName);
                         tieBrthProv.setText(townProvinceInfo.sProvName);
                         mViewModel.setTownID(townProvinceInfo.sTownIDxx);

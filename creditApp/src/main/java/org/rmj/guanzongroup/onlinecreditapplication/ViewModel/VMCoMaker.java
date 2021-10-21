@@ -119,8 +119,8 @@ public class VMCoMaker extends AndroidViewModel {
         return RTown.getTownNamesFromProvince(lsProvID.getValue());
     }
 
-    public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownID(String TownID)  {
-        return RTown.getTownProvinceByTownID(TownID);
+    public LiveData<DTownInfo.TownProvinceInfo> getTownProvinceByTownName(String TownNm)  {
+        return RTown.getTownProvinceByTownName(TownNm);
     }
 
     public void setProvID(String ProvID) { this.lsProvID.setValue(ProvID); }
