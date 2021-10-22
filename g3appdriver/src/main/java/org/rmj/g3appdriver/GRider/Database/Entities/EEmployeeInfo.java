@@ -55,6 +55,10 @@ public class EEmployeeInfo {
     private String EmployID;
     @ColumnInfo(name = "cPrivatex")
     private String Privatex;
+    @ColumnInfo(name = "sDeviceID")
+    private String DeviceID;
+    @ColumnInfo(name = "sModelIDx")
+    private String ModelIDx;
 
     public EEmployeeInfo() {
     }
@@ -195,5 +199,21 @@ public class EEmployeeInfo {
 
     public void setPrivatex(String privatex) {
         Privatex = privatex;
+    }
+
+    public String getDeviceID() {
+        return DeviceID;
+    }
+
+    public void setDeviceID(String deviceID) {
+        DeviceID = deviceID;
+    }
+
+    public String getModelIDx() {
+        return ModelIDx;
+    }
+
+    public void setModelIDx(String modelIDx) {
+        ModelIDx = modelIDx;
     }
 }

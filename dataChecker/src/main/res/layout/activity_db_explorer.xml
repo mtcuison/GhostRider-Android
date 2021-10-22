@@ -36,54 +36,63 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/linear_searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbar_collectionPost">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_dbName"
+            style="@style/TextInputStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_weight="1">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_dbName"
-                style="@style/TextInputStyle"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_dbName"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:enabled="true"
+                android:hint="Data of Branch"
+                android:imeOptions="actionSearch"
+                android:inputType="textCapWords|textPersonName"
+                android:maxLines="1"
+                android:textAllCaps="true" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_dbName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Data of Branch"
-                    android:imeOptions="actionSearch"
-                    android:inputType="textCapWords|textPersonName"
-                    android:maxLines="1"
-                    android:textAllCaps="true" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_findDb"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                style="@style/MaterialButtonAccent"
-                android:text="Find DB"/>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_findDb"
+            style="@style/MaterialButtonAccent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="10dp"/>
+            android:layout_weight=".5"
+            android:text="Find DB" />
 
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_searchBar"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_post"
+        style="@style/MaterialButtonAccent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Post"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

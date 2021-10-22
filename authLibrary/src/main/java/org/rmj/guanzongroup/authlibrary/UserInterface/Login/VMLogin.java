@@ -113,6 +113,7 @@ public class VMLogin extends AndroidViewModel {
         private final ConnectionUtil poConn;
         private final AppConfigPreference poConfig;
         private final REmployeeRole poRole;
+        private final Telephony poDevID;
 
         public LoginTask(Application application, WebApi webApi, HttpHeaders headers, SessionManager sessionManager, REmployee REmployee, LoginCallback callback){
             this.webApi = webApi;
@@ -120,6 +121,7 @@ public class VMLogin extends AndroidViewModel {
             this.REmployee = REmployee;
             this.callback = callback;
             this.sessionManager = sessionManager;
+            this.poDevID = new Telephony(application);
             this.poConn = new ConnectionUtil(application);
             this.poConfig = AppConfigPreference.getInstance(application);
             this.poRole = new REmployeeRole(application);
@@ -225,6 +227,9 @@ public class VMLogin extends AndroidViewModel {
             employeeInfo.setEmpLevID(jsonInfo.getString("sEmpLevID"));
             employeeInfo.setAllowUpd(jsonInfo.getString("cAllowUpd"));
             employeeInfo.setEmployID(jsonInfo.getString("sEmployID"));
+            employeeInfo.setDeviceID(poDevID.getDeviceID());
+            employeeInfo.setModelIDx(Build.MODEL);
+            employeeInfo.setMobileNo(poConfig.getMobileNo());
             employeeInfo.setLoginxxx(new AppConstants().DATE_MODIFIED);
             employeeInfo.setSessionx(AppConstants.CURRENT_DATE);
             REmployee.insertEmployee(employeeInfo);

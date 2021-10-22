@@ -17,12 +17,15 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ServiceInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Looper;
+import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -151,6 +154,7 @@ public class GLocatorService extends Service {
     }
 
     private static class SaveLocationTask extends AsyncTask<JSONObject, Void, String> {
+        private final Application instance;
         private final SessionManager poUser;
         private final Telephony poDevID;
         private final RLocationSysLog poSysLog;
@@ -162,6 +166,7 @@ public class GLocatorService extends Service {
         private boolean hasDcp = false;
 
         public SaveLocationTask(Application instance){
+            this.instance = instance;
             poUser = new SessionManager(instance);
             poDevID = new Telephony(instance);
             poSysLog = new RLocationSysLog(instance);
@@ -171,6 +176,7 @@ public class GLocatorService extends Service {
             this.DateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
         }
 
+        @SuppressLint("NewApi")
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(JSONObject... jsonObjects) {
@@ -186,6 +192,16 @@ public class GLocatorService extends Service {
                     loSysLog.setTimeStmp(DateTime);
                     loSysLog.setTransact(DateTime);
                     loSysLog.setUserIDxx(poUser.getUserID());
+                    String lsLat = loDetail.getString("latitude");
+                    String lsLon = loDetail.getString("longitude");
+                    if(isLocationEnabled(instance)) {
+                        loSysLog.setRemarksx("Location service is not enabled.");
+                    } else if(lsLat.equalsIgnoreCase("0.00000000000") ||
+                    lsLon.equalsIgnoreCase("0.00000000000")){
+                        loSysLog.setRemarksx("Unable to trace location while gps is active.");
+                    } else {
+
+                    }
                     poSysLog.saveCurrentLocation(loSysLog);
 
                     if (poConn.isDeviceConnected()) {
@@ -212,6 +228,29 @@ public class GLocatorService extends Service {
                 e.printStackTrace();
             }
             return lsResult;
+        }
+
+        public static boolean isLocationEnabled(Context context) {
+            int locationMode = 0;
+            String locationProviders;
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                try {
+                    locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
+
+                } catch (Settings.SettingNotFoundException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+
+                return locationMode != Settings.Secure.LOCATION_MODE_OFF;
+
+            }else{
+                locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+                return !TextUtils.isEmpty(locationProviders);
+            }
+
+
         }
     }
 }

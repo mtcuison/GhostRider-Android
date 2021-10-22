@@ -38,18 +38,26 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_localData"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:orientation="vertical"
-            android:layout_above="@id/btn_refreshRecords"/>
+            android:padding="10dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_refreshRecords"
+            style="@style/MaterialButtonLight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/recyclerview_localData"
+            android:text="Sync All Records" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_Clear_Data"
             style="@style/MaterialButtonLight"
-            android:text="Sync All Records"
-            android:layout_alignParentBottom="true"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_refreshRecords"
+            android:text="Clear Data" />
 
     </RelativeLayout>
 

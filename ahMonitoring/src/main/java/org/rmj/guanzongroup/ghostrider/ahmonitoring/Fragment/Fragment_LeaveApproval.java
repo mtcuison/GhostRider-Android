@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LEAVE_TYPE;
+
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -79,7 +81,8 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             lblDateAppl,
             lblDateFrom,
             lblDateThru,
-            lblDateAppr;
+            lblDateAppr,
+            lblLeaveTpe;
     private TextInputEditText txtSearch,
             tieDateFrom,
             tieDateThru,
@@ -135,6 +138,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                             lblDateAppl.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getTransact()));
                             lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldFrx()));
                             lblDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldTox()));
+                            lblLeaveTpe.setText(LEAVE_TYPE[Integer.parseInt(eEmployeeLeave.getLeaveTyp())]);
                             tieDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldFrx()));
                             tieDateThru.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldTox()));
                             txtPurpse.setText(eEmployeeLeave.getPurposex());
@@ -365,6 +369,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
         lblDateFrom = view.findViewById(R.id.lbl_dateFrom);
         lblDateThru = view.findViewById(R.id.lbl_dateThru);
         lblDateAppr = view.findViewById(R.id.lbl_dateApproved);
+        lblLeaveTpe = view.findViewById(R.id.lbl_leaveType);
         tieDateThru = view.findViewById(R.id.txt_dateTo);
         tilRemarks = view.findViewById(R.id.tilRemarks);
         txtPurpse = view.findViewById(R.id.txt_purpose);

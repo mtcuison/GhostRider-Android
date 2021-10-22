@@ -71,6 +71,9 @@ public class Fragment_HomeContainer extends Fragment {
             if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_RANK_FILE))){
                 fragment = new Fragment[]{new Fragment_Associate_Dashboard(), new Fragment_NotificationList()};
                 appBarHome.setVisibility(View.VISIBLE);
+            }  else if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_BEANCH_HEAD))) {
+                fragment = new Fragment[]{new Fragment_BH_Dashboard(), new Fragment_NotificationList()};
+                appBarHome.setVisibility(View.VISIBLE);
             } else {
                 fragment = new Fragment[]{new Fragment_Home()};
                 appBarHome.setVisibility(View.GONE);

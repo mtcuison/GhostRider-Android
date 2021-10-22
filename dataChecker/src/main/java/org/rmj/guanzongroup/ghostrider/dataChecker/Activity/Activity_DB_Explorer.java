@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import android.view.View;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Etc.ProgressDialog;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Adapter.DCPDataAdapter;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Obj.DCPData;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Obj.UserInfo;
@@ -41,9 +43,14 @@ public class Activity_DB_Explorer extends AppCompatActivity {
     private VMDBExplorer mViewModel;
 
     private TextInputEditText txtDataName;
-    private MaterialButton btnFind;
+    private MaterialButton btnFind, btnPost;
     private RecyclerView recyclerView;
+    private ProgressDialog poDialog;
 
+    private ArrayList<DCPData> poDcp = new ArrayList<>();
+    private UserInfo poUser;
+
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,12 +59,32 @@ public class Activity_DB_Explorer extends AppCompatActivity {
         setupWidgets();
 
         btnFind.setOnClickListener(v -> mViewModel.FindDatabase(findDB -> startActivityForResult(findDB, PICK_DB_FILE)));
+        btnPost.setOnClickListener(v -> mViewModel.PostCollectionDetail(poDcp, poUser, new VMDBExplorer.OnPostCollectionListener() {
+            @Override
+            public void OnPost(String message) {
+                poDialog.initDialog("Posting DCP", "Posting collection details. Please wait...",  false);
+                poDialog.show();
+            }
+
+            @Override
+            public void OnPostSuccess(String message) {
+                poDialog.dismiss();
+            }
+
+            @Override
+            public void OnPostFailed(String message) {
+                poDialog.dismiss();
+            }
+        }));
     }
 
     private void setupWidgets(){
         txtDataName = findViewById(R.id.txt_dbName);
         btnFind = findViewById(R.id.btn_findDb);
+        btnPost = findViewById(R.id.btn_post);
         recyclerView = findViewById(R.id.recyclerView);
+
+        poDialog = new ProgressDialog(Activity_DB_Explorer.this);
     }
 
     @Override
@@ -73,6 +100,7 @@ public class Activity_DB_Explorer extends AppCompatActivity {
 
                 @Override
                 public void OnDCPListRetrieve(ArrayList<DCPData> dcpData) {
+                    poDcp = dcpData;
                     LinearLayoutManager loManager = new LinearLayoutManager(Activity_DB_Explorer.this);
                     loManager.setOrientation(RecyclerView.VERTICAL);
                     recyclerView.setAdapter(new DCPDataAdapter(dcpData));
@@ -81,6 +109,11 @@ public class Activity_DB_Explorer extends AppCompatActivity {
 
                 @Override
                 public void OnOwnerInfoRetrieve(UserInfo info) {
+                    poUser = info;
+                }
+
+                @Override
+                public void OnFailedRetrieveInfo(String message) {
 
                 }
             });

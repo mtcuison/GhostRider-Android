@@ -5,7 +5,10 @@
     <application>
         <activity
             android:name=".Activity.Activity_DB_Explorer"
-            android:exported="true" />
+            android:exported="true">
+
+        </activity>
+
     </application>
 
 </manifest>

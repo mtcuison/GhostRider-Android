@@ -116,7 +116,7 @@ public class VMLocalData extends AndroidViewModel {
         new RefreshAllRecordsTask(instance, callback).execute();
     }
 
-    public static class RefreshAllRecordsTask extends AsyncTask<String, Void, Integer>{
+    public static class RefreshAllRecordsTask extends AsyncTask<String, Void, String>{
         private final Application instance;
         private final OnRefreshDataCallback callback;
 
@@ -150,34 +150,44 @@ public class VMLocalData extends AndroidViewModel {
         }
 
         @Override
-        protected Integer doInBackground(String... strings) {
-            int counter = 0;
-            while(counter != importInstances.length){
-                importInstances[counter].ImportData(new ImportDataCallback() {
-                    @Override
-                    public void OnSuccessImportData() {
+        protected String doInBackground(String... strings) {
+            String result;
+            try {
+                for (int x = 0; x < importInstances.length; x++) {
+                    importInstances[x].ImportData(new ImportDataCallback() {
+                        @Override
+                        public void OnSuccessImportData() {
 
+                        }
+
+                        @Override
+                        public void OnFailedImportData(String message) {
+
+                        }
+                    });
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-
-                    @Override
-                    public void OnFailedImportData(String message) {
-
-                    }
-                });
-                counter++;
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
+
+                result = "success";
+            } catch (Exception e){
+                e.printStackTrace();
+                result = "error";
             }
-            return null;
+            return result;
         }
 
         @Override
-        protected void onPostExecute(Integer integer) {
+        protected void onPostExecute(String integer) {
             super.onPostExecute(integer);
-            callback.OnSuccess();
+            if(integer.equalsIgnoreCase("success")) {
+                callback.OnSuccess();
+            } else {
+                callback.OnFailed();
+            }
         }
     }
 }

@@ -30,18 +30,30 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.SecUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Obj.DCPData;
+import org.rmj.guanzongroup.ghostrider.dataChecker.Obj.FileUtil;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Obj.UserInfo;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class VMDBExplorer extends AndroidViewModel {
     private static final String TAG = VMDBExplorer.class.getSimpleName();
@@ -58,6 +70,13 @@ public class VMDBExplorer extends AndroidViewModel {
         void OnDataOwnerRetrieve(String DataOwner);
         void OnDCPListRetrieve(ArrayList<DCPData> dcpData);
         void OnOwnerInfoRetrieve(UserInfo info);
+        void OnFailedRetrieveInfo(String message);
+    }
+
+    public interface OnPostCollectionListener{
+        void OnPost(String message);
+        void OnPostSuccess(String message);
+        void OnPostFailed(String message);
     }
 
     public VMDBExplorer(@NonNull Application application) {
@@ -90,15 +109,10 @@ public class VMDBExplorer extends AndroidViewModel {
 
         @Override
         protected String doInBackground(Void... voids) {
+            String result;
             try {
-                //Defining your external storage path.
-                String extStore = Environment.getExternalStorageDirectory().getPath();
-
-                //Defining the file to be opened.
-                File dbfile = new File(extStore + "/" + getFileName(poData));
-
                 //stablishing the connection
-                SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+                SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(FileUtil.from(instance, poData), null);
 
                 //working with query and results.
                 psOwner = getDataOwner(db);
@@ -107,20 +121,27 @@ public class VMDBExplorer extends AndroidViewModel {
 
                 poUserInfo = getUserInfo(db);
 
-            } catch (SQLiteCantOpenDatabaseException e) {
+                result = "success";
+            } catch (SQLiteCantOpenDatabaseException | IOException e) {
                 Log.d(TAG, "Error opening sqlite database: " + e.getMessage());
+                return "error";
             }
-            return null;
+            return result;
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            callback.OnDataOwnerRetrieve(psOwner);
+            if(s.equalsIgnoreCase("success")){
+                callback.OnDataOwnerRetrieve(psOwner);
 
-            callback.OnDCPListRetrieve(poDCPData);
+                callback.OnDCPListRetrieve(poDCPData);
 
-            callback.OnOwnerInfoRetrieve(poUserInfo);
+                callback.OnOwnerInfoRetrieve(poUserInfo);
+            } else {
+                callback.OnFailedRetrieveInfo("unable to retrieve data.");
+            }
+
         }
     }
 
@@ -128,8 +149,9 @@ public class VMDBExplorer extends AndroidViewModel {
     public void FindDatabase(FindDatabaseCallback callback){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/vnd.sqlite3");
+        intent.setType("*/*");
 //        intent.setType("text/plain");
+//        intent.setType("file/*");
 
         // Optionally, specify a URI for the file that should appear in the
         // system file picker when it loads.
@@ -319,16 +341,16 @@ public class VMDBExplorer extends AndroidViewModel {
     private UserInfo getUserInfo(SQLiteDatabase db){
         UserInfo loInfo = new UserInfo();
         try {
-            Cursor cursor = db.rawQuery("SELECT * FROM User_Info_Master", null);
+            Cursor cursor = db.rawQuery("SELECT a.*, b.* FROM User_Info_Master a LEFT JOIN App_Token_Info b", null);
 
             if (cursor.getCount() >= 1) {
                 while (cursor.moveToNext()) {
-                    loInfo.UserID = cursor.getString(cursor.getColumnIndex("sUserName"));
-                    loInfo.ClientId = cursor.getString(cursor.getColumnIndex("sUserName"));
-                    loInfo.LogNumber = cursor.getString(cursor.getColumnIndex("sUserName"));
-                    loInfo.AppToken = cursor.getString(cursor.getColumnIndex("sUserName"));
-                    loInfo.ProducID = cursor.getString(cursor.getColumnIndex("sUserName"));
-                    loInfo.DeviceID = cursor.getString(cursor.getColumnIndex("sUserName"));
+                    loInfo.UserID = cursor.getString(cursor.getColumnIndex("sUserIDxx"));
+                    loInfo.ClientId = cursor.getString(cursor.getColumnIndex("sClientID"));
+                    loInfo.LogNumber = cursor.getString(cursor.getColumnIndex("sLogNoxxx"));
+                    loInfo.AppToken = cursor.getString(cursor.getColumnIndex("sTokenInf"));
+                    loInfo.ProducID = "gRider";
+                    loInfo.DeviceID = cursor.getString(cursor.getColumnIndex("sDeviceID"));
                     loInfo.MobileNo = cursor.getString(cursor.getColumnIndex("sUserName"));
                 }
             }
@@ -340,7 +362,7 @@ public class VMDBExplorer extends AndroidViewModel {
         return loInfo;
     }
 
-    private Map<String, String> initHttpHeaders(UserInfo info) {
+    private HashMap<String, String> initHttpHeaders(UserInfo info) {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .permitAll().build();
@@ -354,20 +376,20 @@ public class VMDBExplorer extends AndroidViewModel {
         String lsClientx = info.ClientId;
         String lsLogNoxx = info.LogNumber;
         String lsTokenxx = info.AppToken;
-        String lsProduct = info.ProducID;
-        String lsDevcIDx = info.DeviceID;
+        String lsProduct = "gRider";
+        String lsDevcIDx = "355d1cbe24df1e1d";
         String lsDateTme = SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss");
         String lsDevcMdl = Build.MODEL;
         String lsMobileN = info.MobileNo;
 
-        Map<String, String> headers = new HashMap<>();
+        HashMap<String, String> headers = new HashMap<>();
         headers.put("Accept", "application/json");
         headers.put("Content-Type", "application/json");
         headers.put("g-api-id", lsProduct);
         headers.put("g-api-client", lsClientx);
         headers.put("g-api-imei", lsDevcIDx);
-        headers.put("g-api-model", lsDevcMdl);
-        headers.put("g-api-mobile", lsMobileN);
+        headers.put("g-api-model", "");
+        headers.put("g-api-mobile", "09171870011");
         headers.put("g-api-token", lsTokenxx);
         headers.put("g-api-user", lsUserIDx);
         headers.put("g-api-key", lsDateTme);
@@ -376,5 +398,194 @@ public class VMDBExplorer extends AndroidViewModel {
         headers.put("g-api-hash", hash_toLower);
         headers.put("g-api-log", lsLogNoxx);
         return headers;
+    }
+
+    public void PostCollectionDetail(ArrayList<DCPData> dcpData, UserInfo foUser, OnPostCollectionListener listener){
+        new PostCollectionTask(dcpData, foUser, listener).execute();
+    }
+
+    private class PostCollectionTask extends AsyncTask<String, Integer, String>{
+
+        private final OnPostCollectionListener mListener;
+        private final List<DCPData> poDcp;
+        private final UserInfo poUser;
+
+        public PostCollectionTask(List<DCPData> foDcp, UserInfo foUser, OnPostCollectionListener listener) {
+            this.poDcp = foDcp;
+            this.poUser = foUser;
+            this.mListener = listener;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            mListener.OnPost("Posting DCP details. Please wait...");
+            super.onPreExecute();
+        }
+
+        @SuppressLint("NewApi")
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                boolean[] isDataSent = new boolean[poDcp.size()];
+                String[] reason = new String[poDcp.size()];
+                for (int x = 0; x < poDcp.size(); x++) {
+                    publishProgress(x);
+                    try {
+                        reason[x] = "reason is unknown \n";
+                        DCPData loDetail = poDcp.get(x);
+
+                        JSONObject loData = new JSONObject();
+
+                        if (!loDetail.sRemCodex.isEmpty()) {
+
+                            if (loDetail.sRemCodex.equalsIgnoreCase("PAY")) {
+                                loData.put("sPRNoxxxx", loDetail.sPRNoxxxx);
+                                loData.put("nTranAmtx", loDetail.nTranAmtx);
+                                loData.put("nDiscount", loDetail.nDiscount);
+                                loData.put("nOthersxx", loDetail.nOthersxx);
+                                loData.put("cTranType", loDetail.cTranType);
+                                loData.put("nTranTotl", loDetail.nTranTotl);
+//                                               Added by Jonathan 07/27/2021
+                                loData.put("sRemarksx", loDetail.sRemarksx);
+                            } else if (loDetail.sRemCodex.equalsIgnoreCase("PTP")) {
+                                //Required parameters for Promise to pay..
+                                loData.put("cApntUnit", loDetail.cApntUnit);
+                                loData.put("sBranchCd", loDetail.sBranchCd);
+                                loData.put("dPromised", loDetail.dPromised);
+
+                                loData.put("sImageNme", loDetail.sImageNme);
+                                loData.put("sSourceCD", loDetail.sSourceCD);
+                                loData.put("nLongitud", loDetail.nLongitud);
+                                loData.put("nLatitude", loDetail.nLatitude);
+
+                            } else if (loDetail.sRemCodex.equalsIgnoreCase("LUn") ||
+                                    loDetail.sRemCodex.equalsIgnoreCase("TA") ||
+                                    loDetail.sRemCodex.equalsIgnoreCase("FO")) {
+
+                                //TODO: replace JSON parameters get the parameters which is being generated by RClientUpdate...
+                                loData.put("sLastName", loDetail.sLastName);
+                                loData.put("sFrstName", loDetail.sFrstName);
+                                loData.put("sMiddName", loDetail.sMiddName);
+                                loData.put("sSuffixNm", loDetail.sSuffixNm);
+                                loData.put("sHouseNox", loDetail.sHouseNox);
+                                loData.put("sAddressx", loDetail.sAddressx);
+                                loData.put("sTownIDxx", loDetail.sTownIDxx);
+                                loData.put("cGenderxx", loDetail.cGenderxx);
+                                loData.put("cCivlStat", loDetail.cCivlStat);
+                                loData.put("dBirthDte", loDetail.dBirthDte);
+                                loData.put("dBirthPlc", loDetail.dBirthPlc);
+                                loData.put("sLandline", loDetail.sLandline);
+                                loData.put("sMobileNo", loDetail.sMobileNo);
+                                loData.put("sEmailAdd", loDetail.sEmailAdd);
+
+                                loData.put("sImageNme", loDetail.sImageNme);
+                                loData.put("sSourceCD", loDetail.sSourceCD);
+                                if(loDetail.nLongitud != null &&
+                                        loDetail.nLatitude != null) {
+                                    loData.put("nLongitud", loDetail.nLongitud);
+                                    loData.put("nLatitude", loDetail.nLatitude);
+                                } else {
+                                    loData.put("nLongitud", "0.0");
+                                    loData.put("nLatitude", "0.0");
+                                }
+                            } else {
+                                loData.put("sImageNme", loDetail.sImageNme);
+                                loData.put("sSourceCD", loDetail.sSourceCD);
+                                loData.put("nLongitud", loDetail.nLongitud);
+                                loData.put("nLatitude", loDetail.nLatitude);
+                            }
+
+                            loData.put("sRemarksx", loDetail.sRemarksx);
+                        } else {
+                            loData.put("sRemarksx", "Not visited");
+                        }
+
+                        JSONObject loJson = new JSONObject();
+                        loJson.put("sTransNox", loDetail.sTransNox);
+                        loJson.put("nEntryNox", loDetail.nEntryNox);
+                        loJson.put("sAcctNmbr", loDetail.sAcctNmbr);
+                        if (loDetail.sRemCodex.isEmpty()) {
+                            loJson.put("sRemCodex", "NV");
+                            loJson.put("dModified", new AppConstants().DATE_MODIFIED);
+                        } else {
+                            loJson.put("sRemCodex", loDetail.sRemCodex);
+                            loJson.put("dModified", loDetail.dModified);
+                        }
+
+                        loJson.put("sJsonData", loData);
+                        loJson.put("dReceived", "");
+                        loJson.put("sUserIDxx", poUser.UserID);
+                        loJson.put("sDeviceID", "355d1cbe24df1e1d");
+//                        params[x] = loJson.toString() + " \n";
+                        String lsResponse1 = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, loJson.toString(), HttpHeaders.getInstance(instance).getHeaders());
+                        if (lsResponse1 == null) {
+                            reason[x] = "Server no response \n";
+                            isDataSent[x] = false;
+                        } else {
+                            JSONObject loResponse = new JSONObject(lsResponse1);
+
+                            String result = loResponse.getString("result");
+                            if (result.equalsIgnoreCase("success")) {
+                                if (loDetail.sRemCodex == null) {
+//                                    poDcp.updateCollectionDetailStatusWithRemarks(loDetail.sTransNox, loDetail.nEntryNox, sRemarksx);
+                                } else {
+//                                    poDcp.updateCollectionDetailStatus(loDetail.sTransNox, loDetail.nEntryNox);
+                                }
+                                isDataSent[x] = true;
+                            } else {
+                                JSONObject loError = loResponse.getJSONObject("error");
+                                String lsMessage = loError.getString("message");
+                                isDataSent[x] = false;
+                                reason[x] = lsMessage + "\n";
+                            }
+                        }
+
+                        boolean allDataSent = true;
+                        for (boolean b : isDataSent) {
+                            if (!b) {
+                                allDataSent = false;
+                                break;
+                            }
+                        }
+
+                        if (allDataSent) {
+                            JSONObject loparam = new JSONObject();
+                            loparam.put("sTransNox", poDcp.get(0).sTransNox);
+                            String lsResponse2 = WebClient.sendRequest(WebApi.URL_POST_DCP_MASTER, loparam.toString(), HttpHeaders.getInstance(instance).getHeaders());
+                            if (lsResponse2 == null) {
+//                                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response on posting DCP master detail. Tap 'Okay' to create dcp file for backup");
+                            } else {
+                                JSONObject loResponse = new JSONObject(lsResponse2);
+                                String result = loResponse.getString("result");
+                                if (result.equalsIgnoreCase("success")) {
+//                                    poDcp.updateSentPostedDCPMaster(laCollDetl.get(0).sTransNox);
+//                                    lsResult = loResponse.toString();
+                                } else {
+                                    JSONObject loError = loResponse.getJSONObject("error");
+//                                    lsResult = loError.toString();
+                                }
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+//                        isDataSent[x] = false;
+                        reason[x] = e.getMessage() + "\n";
+                    }
+
+                    Thread.sleep(1000);
+                    }
+                } catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            mListener.OnPostSuccess("");
+//            mListener.OnPostFailed("");
+        }
     }
 }

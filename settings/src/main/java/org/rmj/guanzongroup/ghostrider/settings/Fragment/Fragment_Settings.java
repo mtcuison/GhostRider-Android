@@ -183,7 +183,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
 
         if(localData != null){
             localData.setOnPreferenceClickListener(preference -> {
-                Intent loIntent = new Intent(getActivity(), Activity_DB_Explorer.class);
+                Intent loIntent = new Intent(getActivity(), Activity_LocalData.class);
                 startActivity(loIntent);
                 requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                 return false;
