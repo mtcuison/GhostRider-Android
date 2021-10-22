@@ -263,8 +263,11 @@ public class PersonalInfoModel implements Parcelable {
     }
 
     private boolean isMiddNameValid(){
-        if(MiddName.trim().isEmpty()){
+        if(MiddName.trim().isEmpty()) {
             message = "Please enter middle name";
+            return false;
+        }else if(MiddName.length() <= 1){
+            message = "Please provide valid Middle name.";
             return false;
         }
         return true;

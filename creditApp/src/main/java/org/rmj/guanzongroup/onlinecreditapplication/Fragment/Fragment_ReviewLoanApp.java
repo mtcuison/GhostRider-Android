@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -203,8 +204,11 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        poImage.setMD5Hashx(WebFileServer.createMD5Hash(poImage.getFileLoct()));
-        mViewModel.saveImageFile(poImage);
+        Log.e("TAG", String.valueOf(requestCode));
+        if(requestCode == ImageFileCreator.GCAMERA){
+            poImage.setMD5Hashx(WebFileServer.createMD5Hash(poImage.getFileLoct()));
+            mViewModel.saveImageFile(poImage);
+        }
         mViewModel.SaveCreditOnlineApplication(Fragment_ReviewLoanApp.this);
     }
 }

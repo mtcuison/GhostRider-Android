@@ -221,6 +221,9 @@ package org.rmj.guanzongroup.onlinecreditapplication.Model;
             if(MiddName.trim().isEmpty()){
                 message = "Please provide Middle name.";
                 return false;
+            }else if(MiddName.length() <= 1){
+                message = "Please provide valid Middle name.";
+                return false;
             }
             return true;
         }

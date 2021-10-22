@@ -107,7 +107,8 @@ public class VMSpouseEmploymentInfo extends AndroidViewModel {
     public void setDetailInfo(ECreditApplicantInfo fsDetailInfo){
         try{
             poInfo = fsDetailInfo;
-            poGoCas.setData(poInfo.getDetlInfo());
+//            poGoCas.setData(poInfo.getDetlInfo());
+            poGoCas.setData(fsDetailInfo.getSpsEmplx());
         } catch (Exception e){
             e.printStackTrace();
         }
