@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Browser;
+import org.rmj.guanzongroup.ghostrider.dataChecker.Activity.Activity_DB_Explorer;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_DigitalGcard;
 
@@ -62,6 +63,9 @@ public class ParentObject {
             case "gcard info":
                 lnIcon = R.drawable.ic_scan_qr_code;
                 break;
+            case "db explorer":
+                lnIcon = R.drawable.ic_settings_localdata;
+                break;
         }
         return lnIcon;
     }
@@ -81,6 +85,10 @@ public class ParentObject {
 
             case "gcard info":
                 loIntent = new Intent(context, Activity_DigitalGcard.class);
+                break;
+
+            case "db explorer":
+                loIntent = new Intent(context, Activity_DB_Explorer.class);
                 break;
 
             default:

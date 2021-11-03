@@ -36,6 +36,7 @@
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager_approvalEntry"
         android:layout_width="match_parent"

@@ -160,6 +160,10 @@ public class AppConstants {
             "Nov",
             "Dec"};
 
+    public String getPeriodName(int period){
+        return CHART_MONTH_LABEL[period];
+    }
+
     public static String[] LEAVE_TYPE = {
             "Vacation",
             "Sick",
@@ -177,4 +181,15 @@ public class AppConstants {
 
     public static String CURRENT_TIME = String.valueOf(new Timestamp(new Date().getTime()));
 
+
+    public static String getLeaveStatus(String value){
+        switch (value){
+            case "0":
+                return "OPEN";
+            case "1":
+            case "2":
+                return "APPROVE";
+        }
+        return "CANCELED";
+    }
 }

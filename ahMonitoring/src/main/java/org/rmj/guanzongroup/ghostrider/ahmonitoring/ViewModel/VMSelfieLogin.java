@@ -56,6 +56,7 @@ public class VMSelfieLogin extends AndroidViewModel {
     private final RImageInfo poImage;
     private final RLogSelfie poLog;
     private final RBranch pobranch;
+    private final SessionManager poSession;
 
     private final REmployee poUser;
 
@@ -74,6 +75,7 @@ public class VMSelfieLogin extends AndroidViewModel {
         this.poUser = new REmployee(instance);
         this.poLog = new RLogSelfie(instance);
         this.pobranch = new RBranch(instance);
+        this.poSession = new SessionManager(instance);
         paPermisions.setValue(new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION});
@@ -112,6 +114,10 @@ public class VMSelfieLogin extends AndroidViewModel {
     }
     public LiveData<List<ELog_Selfie>> getCurrentTimeLog(){
         return poLog.getCurrentTimeLog(AppConstants.CURRENT_DATE);
+    }
+
+    public String getEmployeeLevel(){
+        return poSession.getEmployeeLevel();
     }
 
     public LiveData<List<String>> getLastLogDate(){

@@ -31,12 +31,12 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.AppTokenManager;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RSysConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 
+import java.io.IOException;
 import java.util.Date;
 
 public class VMSplashScreen extends AndroidViewModel {
@@ -58,7 +58,7 @@ public class VMSplashScreen extends AndroidViewModel {
 
     @SuppressLint("InlinedApi")
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public VMSplashScreen(@NonNull Application application) {
+    public VMSplashScreen(@NonNull Application application) throws IOException {
         super(application);
         poUserDbx = new REmployee(application);
         poConfigx = AppConfigPreference.getInstance(application);

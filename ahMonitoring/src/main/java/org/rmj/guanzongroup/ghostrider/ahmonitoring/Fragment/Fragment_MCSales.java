@@ -112,15 +112,10 @@ public class Fragment_MCSales extends Fragment {
             XAxis xAxis = lineChart.getXAxis();
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
             lineChart.invalidate();
-
-
-
-
         });
     }
 
     private void initWidgets(View v){
-
         lineChart = v.findViewById(R.id.activity_mc_linechart);
     }
 }

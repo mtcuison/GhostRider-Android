@@ -85,7 +85,7 @@ public class PromiseToPayModel {
         return true;
     }
     public boolean isPtpAppointBranch(){
-        if (ptpBranch.trim().isEmpty()){
+        if (ptpBranch == null || ptpBranch.trim().isEmpty()){
             message = "Please enter branch.";
             return false;
         }

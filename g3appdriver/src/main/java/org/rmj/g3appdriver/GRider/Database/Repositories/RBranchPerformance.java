@@ -77,4 +77,28 @@ public class RBranchPerformance {
         return branchPerformanceDao.getAreaBranchesSalesPerformance(fsPeriodx);
     }
 
+
+    public LiveData<DBranchPerformance.ActualGoal> getMCBranchPerformance(){
+        return branchPerformanceDao.getMCBranchPerformance();
+    }
+
+    public LiveData<DBranchPerformance.ActualGoal> getSPBranchPerformance(){
+        return branchPerformanceDao.getSPBranchPerformance();
+    }
+
+    public LiveData<List<DBranchPerformance.PeriodicalPerformance>> getMCBranchPeriodicalPerformance(){
+        return branchPerformanceDao.getMCBranchPeriodicalPerformance();
+    }
+
+    public LiveData<List<DBranchPerformance.PeriodicalPerformance>> getSPBranchPeriodicalPerformance(){
+        return branchPerformanceDao.getSPBranchPeriodicalPerformance();
+    }
+
+    public LiveData<EBranchPerformance> getCurrentPeriodPerformance(){
+        return branchPerformanceDao.getCurrentPeriodPerformance();
+    }
+
+    public LiveData<DBranchPerformance.PeriodRange> getPeriodRange(){
+        return branchPerformanceDao.getPeriodRange();
+    }
 }

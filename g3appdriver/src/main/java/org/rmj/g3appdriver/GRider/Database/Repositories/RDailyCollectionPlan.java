@@ -72,6 +72,10 @@ public class RDailyCollectionPlan {
         masterDao.updateSentPostedDCPMaster(TransNox, new AppConstants().DATE_MODIFIED);
     }
 
+    public List<EDCPCollectionMaster> getCollectionMasterIfExist(String TransNox){
+        return masterDao.getCollectionMasterIfExist(TransNox);
+    }
+
     public LiveData<List<EDCPCollectionDetail>> getCollectionDetailList(){
         return detailDao.getCollectionDetailList();
     }
@@ -379,5 +383,13 @@ public class RDailyCollectionPlan {
             masterDao.insert(edcpCollectionMasters[0]);
             return null;
         }
+    }
+
+    public LiveData<List<EDCPCollectionDetail>> getDCPDetailForPosting(){
+        return detailDao.getDCPDetailForPosting();
+    }
+
+    public List<EDCPCollectionDetail> getCheckPostedCollectionDetail(String TransNox){
+        return detailDao.getCheckPostedCollectionDetail(TransNox);
     }
 }

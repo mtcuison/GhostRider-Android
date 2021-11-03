@@ -36,6 +36,8 @@ public class EGLocatorSysLog {
     private String Latitude = "0.00";
     @ColumnInfo(name = "cSendStat")
     private String SendStat = "0";
+    @ColumnInfo(name = "sRemarksx")
+    private String Remarksx;
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp = "";
     @ColumnInfo(name = "dLstUpdte")
@@ -90,6 +92,14 @@ public class EGLocatorSysLog {
 
     public void setSendStat(String sendStat) {
         SendStat = sendStat;
+    }
+
+    public String getRemarksx() {
+        return Remarksx;
+    }
+
+    public void setRemarksx(String remarksx) {
+        Remarksx = remarksx;
     }
 
     public String getTimeStmp() {

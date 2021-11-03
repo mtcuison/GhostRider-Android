@@ -104,8 +104,7 @@ public class Activity_ApprovalCode extends AppCompatActivity {
     private Fragment getFragmentUI(String SysCode){
         if(SysCode.equalsIgnoreCase("0")){
             return new Fragment_ApprovalEntry();
-        }
-        if(SysCode.equalsIgnoreCase("1")){
+        } else if(SysCode.equalsIgnoreCase("1")){
             return new Fragment_CreditAppApproval();
         } else {
             return new Fragment_ManualLog();

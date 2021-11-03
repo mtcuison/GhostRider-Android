@@ -16,15 +16,15 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
         minSdkVersion 16
-        targetSdkVersion 30
-        versionCode 13
-        versionName "GhostRider Build v.1.1.13"
+        targetSdkVersion 31
+        versionCode 14
+        versionName "GhostRider Build v.1.1.14"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -102,14 +102,12 @@ dependencies {
     implementation project(':imgCapture')
     implementation project(':griderScanner')
     implementation project(':dailyCollectionPlan')
+    implementation project(':dataChecker')
     implementation project(path: ':griderScanner')
 //    implementation project(':documentScanner')
     implementation project(':appdriver') //implement GhostRider Application Driver
     implementation project(':settings')
     implementation project(':json-simple-1.1.1')
     implementation project(':commons-codec-1.11') //implement commons codec
-
-    // For Unit Testing
-    testImplementation 'org.mockito:mockito-core:2.23.0'
-    testImplementation 'org.robolectric:robolectric:4.5'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

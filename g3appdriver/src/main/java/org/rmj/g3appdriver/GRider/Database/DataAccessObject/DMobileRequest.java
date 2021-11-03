@@ -44,6 +44,9 @@ public interface DMobileRequest {
     @Query("SELECT * FROM Mobile_Update_Request WHERE sClientID =:ClientID")
     LiveData<List<EMobileUpdate>> getMobileRequestListForClient(String ClientID);
 
+    @Query("SELECT * FROM Mobile_Update_Request WHERE sClientID =:ClientID")
+    EMobileUpdate getMobileUpdateInfoForPosting(String ClientID);
+
     @Query("SELECT M.cReqstCDe AS mobileReqstCDe," +
             " M.sMobileNo," +
             " M.cPrimaryx AS mobilePrimaryx," +

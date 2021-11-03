@@ -123,6 +123,10 @@ public class RClientUpdate {
         }
     }
 
+    public EClientUpdate getClientUpdateInfoForPosting(String TransNox, String AcctNox){
+        return clientDao.getClientUpdateInfoForPosting(TransNox, AcctNox);
+    }
+
     public String getClientNextCode(){
         String lsNextCode = "";
         GConnection loConn = DbConnection.doConnect(app);

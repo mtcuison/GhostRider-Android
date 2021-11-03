@@ -28,11 +28,9 @@ import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.ImportData.ImportDataCallback;
 import org.rmj.g3appdriver.GRider.ImportData.ImportInstance;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -53,12 +51,7 @@ public class ImportBranchPerformance implements ImportInstance {
     @Override
     public void ImportData(ImportDataCallback callback) {
         try {
-            for(int x = 1; x <= 9; x++){
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("period","20210" +x);
-                new ImportDataTask(instance, callback).execute(jsonObject);
-            }
-
+            new ImportDataTask(instance, callback).execute();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -81,26 +74,29 @@ public class ImportBranchPerformance implements ImportInstance {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(JSONObject... jsonObjects) {
-            JSONObject loJSon = jsonObjects[0];
             String response = "";
             try {
-//                JSONObject loJson = new JSONObject();
                 String lsAreaCd = branchRepo.getUserAreaCode();
-                String lsPeriod = PERFORMANCE_CURRENT_PERIOD;
+                for(int x = 1; x <= 9; x++){
+                    JSONObject params = new JSONObject();
+                    params.put("period","20210" +x);
+                    JSONObject loJson = new JSONObject();
+                    String lsPeriod = PERFORMANCE_CURRENT_PERIOD;
 //                loJSon.put("period", "202109");
 //                loJson.put("period", lsPeriod);
-                loJSon.put("areacd", lsAreaCd);
-                if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(IMPORT_BRANCH_PERFORMANCE, loJSon.toString(), headers.getHeaders());
-                    JSONObject loResponse = new JSONObject(response);
-                    JSONArray laJson = loResponse.getJSONArray("detail");
-                    Log.e(TAG,laJson.toString());
-                    saveDataToLocal(laJson);
-                } else {
-                    response = AppConstants.NO_INTERNET();
+                    params.put("areacd", lsAreaCd);
+                    if(conn.isDeviceConnected()) {
+                        response = WebClient.httpsPostJSon(IMPORT_BRANCH_PERFORMANCE, params.toString(), headers.getHeaders());
+                        JSONObject loResponse = new JSONObject(response);
+                        JSONArray laJson = loResponse.getJSONArray("detail");
+                        Log.e(TAG,laJson.toString());
+                        saveDataToLocal(laJson);
+                    } else {
+                        response = AppConstants.NO_INTERNET();
+                    }
+                    Thread.sleep(700);
                 }
-                Thread.sleep(700);
-
+//
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -138,14 +134,17 @@ public class ImportBranchPerformance implements ImportInstance {
                 EBranchPerformance info = new EBranchPerformance();
                 int min = loJson.getInt("nSPGoalxx")/2;
                 int max = loJson.getInt("nSPGoalxx");
-                int random_mc = (int)Math.floor(Math.random()*(max-min+1000)*100);
-                int random_jo = (int)Math.floor(Math.random()*(max-min+1000)*100);
+                int random_mc = new Random().nextInt(30 + 50);
+                int random_sp = new Random().nextInt(80000 + 130000);
+                int random_jo = new Random().nextInt(80000 + 110000);
                 info.setPeriodxx(loJson.getString("sPeriodxx"));
                 info.setBranchCd(loJson.getString("sBranchCd"));
+                info.setPeriodxx(loJson.getString("sPeriodxx"));
                 info.setBranchNm(loJson.getString("sBranchNm"));
 //                info.setMCGoalxx(loJson.getInt("nMCGoalxx"));
-                info.setSPGoalxx(loJson.getInt("nSPGoalxx"));
+//                info.setSPGoalxx(loJson.getInt("nSPGoalxx"));
 //                info.setJOGoalxx(loJson.getInt("nJOGoalxx"));
+                info.setSPGoalxx(random_sp);
                 info.setJOGoalxx(random_jo);
                 info.setLRGoalxx(loJson.getInt("nLRGoalxx"));
 //                info.setMCGoalxx(loJson.getInt("nMCActual"));

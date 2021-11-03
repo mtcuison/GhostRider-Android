@@ -43,6 +43,7 @@
         <activity
             android:name=".Activity.Activity_LocalData"
             android:screenOrientation="portrait"
+            android:label="Manage Space"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activity.Activity_Settings"

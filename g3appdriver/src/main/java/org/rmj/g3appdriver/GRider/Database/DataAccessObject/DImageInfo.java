@@ -116,4 +116,7 @@ public interface DImageInfo {
 
     @Query("SELECT sFileLoct FROM Image_Information WHERE sSourceNo = :fsSource")
     LiveData<String> getImageLocationFromSrcId(String fsSource);
+
+    @Query("SELECT * FROM Image_Information WHERE sSourceNo =:TransNox AND sDtlSrcNo=:AccntNo")
+    EImageInfo getDCPImageInfoForPosting(String TransNox, String AccntNo);
 }

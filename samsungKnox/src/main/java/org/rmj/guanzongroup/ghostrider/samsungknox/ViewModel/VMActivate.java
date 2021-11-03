@@ -112,6 +112,7 @@ public class VMActivate extends AndroidViewModel {
                 }
             } catch (Exception e){
                 e.printStackTrace();
+                callBack.OnRequestFailed(e.getMessage());
             }
             this.cancel(false);
         }

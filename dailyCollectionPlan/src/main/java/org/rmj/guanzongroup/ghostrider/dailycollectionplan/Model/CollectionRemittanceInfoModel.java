@@ -27,7 +27,7 @@ public class CollectionRemittanceInfoModel {
     private String RemitTyp;
     private String CompnyNm;
     private String BankAcct;
-    private String ReferNox;
+    private String ReferNox = "";
     private String Amountxx;
     private String SendStat;
     private String DateSent;

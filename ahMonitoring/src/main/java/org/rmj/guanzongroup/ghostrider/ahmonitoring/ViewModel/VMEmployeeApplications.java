@@ -102,7 +102,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
                 } else{
                     response = WebClient.httpsPostJSon(WebApi.URL_GET_LEAVE_APPLICATION, new JSONObject().toString(), loHeaders.getHeaders());
                     if(response == null){
-                        response = AppConstants.SERVER_NO_RESPONSE();
+                        response = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response while downloading leave applications");
                     } else {
                         loResponse = new JSONObject(response);
                         String lsResult = loResponse.getString("result");
@@ -139,7 +139,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
 
                     response = WebClient.httpsPostJSon(WebApi.URL_GET_OB_APPLICATION, new JSONObject().toString(), loHeaders.getHeaders());
                     if (response == null) {
-                        response = AppConstants.SERVER_NO_RESPONSE();
+                        response = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response while downloading business trip applications");
                     } else {
                         loResponse = new JSONObject(response);
                         String result = loResponse.getString("result");

@@ -11,9 +11,14 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper;
 
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LEAVE_TYPE;
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.getLeaveStatus;
+
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,6 +39,7 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
     private List<EEmployeeBusinessTrip> poBusTrip;
     private OnLeaveItemClickListener mLvListener;
     private OnOBItemClickListener mObListener;
+    private boolean forViewing = false;
 
     public interface OnLeaveItemClickListener{
         void OnClick(String TransNox);
@@ -42,8 +48,9 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
         void OnClick(String TransNox);
     }
 
-    public EmployeeApplicationAdapter(List<EEmployeeLeave> poLeave, OnLeaveItemClickListener listener) {
+    public EmployeeApplicationAdapter(List<EEmployeeLeave> poLeave, boolean value, OnLeaveItemClickListener listener) {
         this.poLeave = poLeave;
+        this.forViewing = value;
         this.mLvListener = listener;
     }
 
@@ -59,8 +66,14 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
         return new ApplicationViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ApplicationViewHolder holder, int position) {
+        if(forViewing){
+            holder.lnStatus.setVisibility(View.VISIBLE);
+        } else {
+            holder.lnStatus.setVisibility(View.GONE);
+        }
         if(poLeave != null) {
             EEmployeeLeave loLeave = poLeave.get(position);
             holder.lblTransNox.setText(loLeave.getTransNox());
@@ -69,6 +82,8 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
             holder.lblBrnchNme.setText(loLeave.getBranchNm());
             holder.lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(loLeave.getAppldFrx()));
             holder.lblDateThru.setText(FormatUIText.formatGOCasBirthdate(loLeave.getAppldTox()));
+            holder.lblAppStats.setText(getLeaveStatus(loLeave.getTranStat()));
+            holder.lblLeaveTpe.setText("Leave Type : " + LEAVE_TYPE[Integer.parseInt(loLeave.getLeaveTyp())]);
             holder.txtPurpose.setText(loLeave.getPurposex());
             holder.itemView.setOnClickListener(v -> {
                 if(mLvListener != null){
@@ -108,7 +123,11 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
                  lblDeptName,
                  lblBrnchNme,
                  lblDateFrom,
-                 lblDateThru;
+                 lblDateThru,
+                 lblLeaveTpe,
+                 lblAppStats;
+
+        LinearLayout lnStatus;
 
         TextInputEditText txtPurpose;
 
@@ -120,7 +139,10 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
             lblDeptName = view.findViewById(R.id.lbl_deptNme);
             lblDateFrom = view.findViewById(R.id.lbl_dateFrom);
             lblDateThru = view.findViewById(R.id.lbl_dateThru);
+            lblLeaveTpe = view.findViewById(R.id.lbl_leaveType);
+            lblAppStats = view.findViewById(R.id.lbl_leaveStatus);
             txtPurpose = view.findViewById(R.id.txt_purpose);
+            lnStatus = view.findViewById(R.id.linear_status);
         }
     }
 }

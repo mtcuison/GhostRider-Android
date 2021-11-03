@@ -242,6 +242,16 @@ public class FormatUIText {
         }
     }
 
+    public static String dbPeriodToUI(String val){
+        try{
+            Date parseDate = new SimpleDateFormat("yyyyMM").parse(val);
+            return new SimpleDateFormat("MMMM yyyy").format(parseDate);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public static class CurrencyFormat implements TextWatcher{
 
         private TextInputEditText textInputEditText;
@@ -333,6 +343,5 @@ public class FormatUIText {
             str3.insert(0, str1.charAt(k));
             i++;
         }
-
     }
 }

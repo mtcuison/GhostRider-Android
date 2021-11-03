@@ -43,7 +43,11 @@ public class RAreaPerformance {
         return areaPerformanceDao.getAreaPerformanceDashboard();
     }
 
-    public LiveData<String> getAreaNameFromCode(String fsAreaCde) {
-        return areaPerformanceDao.getAreaNameFromCode(fsAreaCde);
+    public LiveData<String> getAreaDescription(){
+        return areaPerformanceDao.getAreaDescription();
+    }
+
+    public LiveData<String> getAreaNameFromCode(String fsAreaCde){
+        return areaPerformanceDao.getAreaNameFromCode();
     }
 }
