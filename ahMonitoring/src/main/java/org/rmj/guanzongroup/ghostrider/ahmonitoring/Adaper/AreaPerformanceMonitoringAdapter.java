@@ -37,15 +37,15 @@ public class AreaPerformanceMonitoringAdapter extends RecyclerView.Adapter<AreaP
     private final Context mContext;
     private final List<EBranchPerformance> poBranches;
     private final OnBranchClickListener mListener;
-    private final int pnCategry;
+    private final String psType;
     public static int index = -1;
     private final DecimalFormat currency_total = new DecimalFormat("###,###,###.###");
 
-    public AreaPerformanceMonitoringAdapter(Context context, int fnCategry, List<EBranchPerformance> foBranches, OnBranchClickListener mListener) {
+    public AreaPerformanceMonitoringAdapter(Context context, String fsType, List<EBranchPerformance> foBranches, OnBranchClickListener mListener) {
         this.mContext = context;
         this.mListener = mListener;
         this.poBranches = foBranches;
-        this.pnCategry = fnCategry;
+        this.psType = fsType;
     }
 
     @NonNull
@@ -62,15 +62,12 @@ public class AreaPerformanceMonitoringAdapter extends RecyclerView.Adapter<AreaP
         holder.sBranchCd = loBranch.getBranchCd();
         holder.lblBranch.setText(loBranch.getBranchNm());
         holder.indexPosition = position;
-        if(pnCategry == 0 ){
+        if(psType.equalsIgnoreCase("MC")){
             holder.lblGoal.setText(String.valueOf(loBranch.getMCGoalxx()));
             holder.lblActual.setText(String.valueOf(loBranch.getMCActual()));
-        }else if(pnCategry == 1){
+        }else {
             holder.lblGoal.setText(currency_total.format(loBranch.getSPGoalxx()));
             holder.lblActual.setText(currency_total.format(loBranch.getSPActual()));
-        }else if(pnCategry == 2){
-            holder.lblGoal.setText(currency_total.format(loBranch.getJOGoalxx()));
-            holder.lblActual.setText(currency_total.format(loBranch.getJOGoalxx()));
         }
 
         if (position == index){

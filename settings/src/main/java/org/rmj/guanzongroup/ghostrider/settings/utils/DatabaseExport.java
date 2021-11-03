@@ -24,9 +24,9 @@ import java.nio.channels.FileChannel;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SUB_FOLDER_EXPORTS;
 
 public class DatabaseExport {
-    public Context context;
+    private final Context context;
     private final String FILE_FOLDER;
-    private String dataName;
+    private final String dataName;
 
     public DatabaseExport(Context context, String usage, String dataName) {
         this.context = context;

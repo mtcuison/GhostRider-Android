@@ -514,7 +514,9 @@ public class VMDBExplorer extends AndroidViewModel {
 
                         loJson.put("sJsonData", loData);
                         loJson.put("dReceived", "");
-                        loJson.put("sUserIDxx", poUser.UserID);
+
+                        loJson.put("sUserIDxx", "GAP021003973");
+//                        loJson.put("sUserIDxx", poUser.UserID);
                         loJson.put("sDeviceID", "355d1cbe24df1e1d");
 //                        params[x] = loJson.toString() + " \n";
                         String lsResponse1 = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, loJson.toString(), HttpHeaders.getInstance(instance).getHeaders());
@@ -526,7 +528,7 @@ public class VMDBExplorer extends AndroidViewModel {
 
                             String result = loResponse.getString("result");
                             if (result.equalsIgnoreCase("success")) {
-                                if (loDetail.sRemCodex == null) {
+                                if (loDetail.sRemCodex.isEmpty()) {
 //                                    poDcp.updateCollectionDetailStatusWithRemarks(loDetail.sTransNox, loDetail.nEntryNox, sRemarksx);
                                 } else {
 //                                    poDcp.updateCollectionDetailStatus(loDetail.sTransNox, loDetail.nEntryNox);

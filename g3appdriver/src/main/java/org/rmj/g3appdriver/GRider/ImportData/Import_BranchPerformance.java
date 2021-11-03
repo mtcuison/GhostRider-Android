@@ -45,7 +45,6 @@ public class Import_BranchPerformance implements ImportInstance {
     private String sAreaCode;
 
     public Import_BranchPerformance(Application application) {
-        Log.e(TAG, "Initialized.");
         this.instance = application;
         this.poPeriodc = new ArrayList<>();
         this.poPeriodc.addAll(BranchPerformancePeriod.getList());
@@ -94,11 +93,9 @@ public class Import_BranchPerformance implements ImportInstance {
                                 response = AppConstants.SERVER_NO_RESPONSE();
                             } else {
                                 JSONObject loJson = new JSONObject(response);
-                                Log.e(TAG, loJson.getString("result"));
                                 String lsResult = loJson.getString("result");
                                 if (lsResult.equalsIgnoreCase("success")) {
                                     JSONArray laJson = loJson.getJSONArray("detail");
-                                    Log.e(TAG, laJson.toString());
                                     saveDataToLocal(laJson);
                                 } else {
                                     JSONObject loError = loJson.getJSONObject("error");
@@ -137,7 +134,6 @@ public class Import_BranchPerformance implements ImportInstance {
                 branchInfo.add(info);
             }
             loDatabse.insertBulkData(branchInfo);
-            Log.e(TAG, "Branch info has been save to local.");
         }
     }
 }

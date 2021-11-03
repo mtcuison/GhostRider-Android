@@ -71,7 +71,9 @@ public interface DEmployeeInfo {
     @Query("SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
     String getUserAreaCode();
 
-    @Query("SELECT sAreaCode FROM Branch_Info WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
+    @Query("SELECT sAreaDesc FROM MC_Area_Performance " +
+            "WHERE sAreaCode = (SELECT sAreaCode FROM Branch_Info " +
+            "WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master))")
     LiveData<String> getUserAreaCodeForDashboard();
 
     class Session{

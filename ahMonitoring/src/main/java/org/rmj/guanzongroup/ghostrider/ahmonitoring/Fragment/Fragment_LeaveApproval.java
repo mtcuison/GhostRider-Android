@@ -12,6 +12,7 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LEAVE_TYPE;
+import static org.rmj.g3appdriver.GRider.Constants.AppConstants.getLeaveStatus;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.Observer;
@@ -68,7 +69,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
 
     private int pnCredits;
 
-    private LinearLayout lnSearch;
+    private LinearLayout lnSearch, lnApprvl;
     private MaterialButton btnCancel, bntConfirm;
     private TextView
             lblHdBranch,
@@ -82,7 +83,8 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
             lblDateFrom,
             lblDateThru,
             lblDateAppr,
-            lblLeaveTpe;
+            lblLeaveTpe,
+            lblLeaveStx;
     private TextInputEditText txtSearch,
             tieDateFrom,
             tieDateThru,
@@ -118,6 +120,13 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
         } else {
             lnSearch.setVisibility(View.GONE);
         }
+        boolean forViewing = requireActivity().getIntent().getBooleanExtra("type", false);
+        if(forViewing){
+            lnApprvl.setVisibility(View.GONE);
+        } else {
+            lnApprvl.setVisibility(View.VISIBLE);
+        }
+
         mViewModel.setTransNox(TransNox);
         mViewModel.getTransNox().observe(getViewLifecycleOwner(), s -> {
             if(!s.isEmpty()){
@@ -134,6 +143,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
                             lblDeptName.setText(eEmployeeLeave.getDeptName());
                             lblBranchNm.setText(eEmployeeLeave.getBranchNm());
                             lblLeaveCrd.setText("Leave Credits : " + eEmployeeLeave.getLveCredt());
+                            lblLeaveStx.setText(getLeaveStatus(eEmployeeLeave.getTranStat()));
                             lblDateAppr.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE));
                             lblDateAppl.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getTransact()));
                             lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(eEmployeeLeave.getAppldFrx()));
@@ -355,6 +365,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
         poDialogx = new LoadDialog(getActivity());
         poMessage = new MessageBox(getActivity());
         lnSearch = view.findViewById(R.id.linear_search);
+        lnApprvl = view.findViewById(R.id.linear_approval);
         txtSearch = view.findViewById(R.id.txt_leave_ob_search);
         btnQuickSearch = view.findViewById(R.id.btn_quick_search);
         lblHdBranch = view.findViewById(R.id.lbl_headerBranch);
@@ -370,6 +381,7 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
         lblDateThru = view.findViewById(R.id.lbl_dateThru);
         lblDateAppr = view.findViewById(R.id.lbl_dateApproved);
         lblLeaveTpe = view.findViewById(R.id.lbl_leaveType);
+        lblLeaveStx = view.findViewById(R.id.lbl_leaveStatus);
         tieDateThru = view.findViewById(R.id.txt_dateTo);
         tilRemarks = view.findViewById(R.id.tilRemarks);
         txtPurpse = view.findViewById(R.id.txt_purpose);
@@ -409,4 +421,5 @@ public class Fragment_LeaveApproval extends Fragment implements VMLeaveApproval.
         poDialogx.dismiss();
         initErrorDialog("Leave Application", message);
     }
+
 }

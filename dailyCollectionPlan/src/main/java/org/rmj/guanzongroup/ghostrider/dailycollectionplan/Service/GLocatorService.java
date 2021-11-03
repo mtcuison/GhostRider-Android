@@ -146,7 +146,7 @@ public class GLocatorService extends Service {
             long interval = Long.parseLong(result);
             interval = interval * 60000;
             loRequest.setInterval(interval);
-            loRequest.setFastestInterval(120000);
+            loRequest.setFastestInterval(300000);
             loRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
             LocationServices.getFusedLocationProviderClient(GLocatorService.this).requestLocationUpdates(loRequest, locationCallback, Looper.getMainLooper());

@@ -181,4 +181,15 @@ public class AppConstants {
 
     public static String CURRENT_TIME = String.valueOf(new Timestamp(new Date().getTime()));
 
+
+    public static String getLeaveStatus(String value){
+        switch (value){
+            case "0":
+                return "OPEN";
+            case "1":
+            case "2":
+                return "APPROVE";
+        }
+        return "CANCELED";
+    }
 }

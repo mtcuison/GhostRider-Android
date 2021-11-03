@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +40,7 @@ public class Activity_LocalData extends AppCompatActivity {
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
-    private MaterialButton btnRefresh;
+    private MaterialButton btnRefresh, btnClearDb;
 
     private VMLocalData mViewModel;
 
@@ -56,6 +57,7 @@ public class Activity_LocalData extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_localData);
         recyclerView = findViewById(R.id.recyclerview_localData);
         btnRefresh = findViewById(R.id.btn_refreshRecords);
+        btnClearDb = findViewById(R.id.btn_Clear_Data);
 
         poDialog = new LoadDialog(Activity_LocalData.this);
         poMessage = new MessageBox(Activity_LocalData.this);
@@ -101,6 +103,25 @@ public class Activity_LocalData extends AppCompatActivity {
                 poDialog.dismiss();
             }
         }));
+
+        btnClearDb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                poMessage.initDialog();
+                poMessage.setTitle("Manage Local Data");
+                poMessage.setMessage("Clearing your device local data can delete your current transaction details such as unposted DCP, Leave Applications, etc... \n" +
+                        "\n" +
+                        "Tap okay to back up and export database before clearing local data.");
+                poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                    mViewModel.ExportDatabase();
+                    mViewModel.killProcessesAround(Activity_LocalData.this);
+                    mViewModel.ClearData();
+                });
+                poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+        });
     }
 
     @Override
@@ -115,5 +136,13 @@ public class Activity_LocalData extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showResultMessage(String message){
+        poMessage.initDialog();
+        poMessage.setTitle("Manage Local Data");
+        poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
     }
 }

@@ -19,6 +19,8 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -32,6 +34,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -47,13 +50,17 @@ import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchPerformance;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
+import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.AppDeptIcon;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
 import java.util.ArrayList;
@@ -80,8 +87,10 @@ public class Fragment_BH_Dashboard extends Fragment {
     private TextView lblItem1;
     private TextView lblItem2;
     private TextView lblSelectd;
-
+    private ImageView imgDept;
     private LineChart lineChart;
+
+    private String BranchCd;
 
     public static Fragment_BH_Dashboard newInstance() {
         return new Fragment_BH_Dashboard();
@@ -106,7 +115,7 @@ public class Fragment_BH_Dashboard extends Fragment {
         lblPrgPrct = v.findViewById(R.id.lbl_performance_progress_percentage);
         lblGoalxxx = v.findViewById(R.id.lbl_performance_goal);
         lblPrdRnge = v.findViewById(R.id.lbl_performance_period_range);
-
+        imgDept = v.findViewById(R.id.img_deptLogo);
         btnSettng = v.findViewById(R.id.btn_settings);
         btnLogout = v.findViewById(R.id.btn_logout);
 
@@ -118,6 +127,14 @@ public class Fragment_BH_Dashboard extends Fragment {
         lblItem2.setOnClickListener(new TabClickHandler());
 
         lineChart = v.findViewById(R.id.linechar_bh);
+
+        lineChart.setOnClickListener(v13 -> {
+            if(BranchCd != null) {
+                Intent loIntent = new Intent(requireActivity(), Activity_BranchPerformance.class);
+                loIntent.putExtra("brnCD", BranchCd);
+                requireActivity().startActivity(loIntent);
+            }
+        });
 
         btnSettng.setOnClickListener(v12 -> {
             Intent intent = new Intent(getActivity(), Activity_Settings.class);
@@ -142,6 +159,7 @@ public class Fragment_BH_Dashboard extends Fragment {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -153,6 +171,7 @@ public class Fragment_BH_Dashboard extends Fragment {
                 lblUserName.setText(eEmployeeInfo.getUserName());
                 lblUserPost.setText(DeptCode.parseUserLevel(Integer.parseInt(eEmployeeInfo.getEmpLevID())));
                 lblUserDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+                BranchCd = eEmployeeInfo.getBranchCD();
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -165,15 +184,32 @@ public class Fragment_BH_Dashboard extends Fragment {
                 e.printStackTrace();
             }
         });
+        mViewModel.getCurrentPeriodPerformance().observe(getViewLifecycleOwner(), eBranchPerformance -> {
+            try{
+                lblPeriod.setText("Progress and Goal for " + FormatUIText.dbPeriodToUI(eBranchPerformance.getPeriodxx()));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
 
+        mViewModel.getPeriodRange().observe(getViewLifecycleOwner(), periodRange -> {
+            try{
+                lblPrdRnge.setText("Periodic Performance Chart from "+FormatUIText.dbPeriodToUI(periodRange.Start) + " to " + FormatUIText.dbPeriodToUI(periodRange.Current));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
         mViewModel.getSales().observe(getViewLifecycleOwner(), s -> {
+
             if(s.equalsIgnoreCase(MC_SALES)){
                 mViewModel.getMCBranchPerformance().observe(getViewLifecycleOwner(), actualGoal -> {
                     try {
                         lblProgrss.setText(actualGoal.Actual);
                         lblProgrss.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_performance_mc_unit, 0, 0, 0);
                         lblProgrss.setCompoundDrawablePadding(10);
-                        lblPrgPrct.setText(actualGoal.Percentage + "% Current Progress");
+                        if(actualGoal.Percentage != null) {
+                            lblPrgPrct.setText(actualGoal.Percentage + "% Current Progress");
+                        }
                         lblGoalxxx.setText(actualGoal.Goal);
                         lblGoalxxx.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_performance_goal, 0);
                         lblGoalxxx.setCompoundDrawablePadding(10);
@@ -190,7 +226,9 @@ public class Fragment_BH_Dashboard extends Fragment {
                         lblProgrss.setText(FormatUIText.getCurrencyUIFormat(actualGoal.Actual));
                         lblProgrss.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                         lblProgrss.setCompoundDrawablePadding(0);
-                        lblPrgPrct.setText(actualGoal.Percentage + "% Current Progress");
+                        if(actualGoal.Percentage != null) {
+                            lblPrgPrct.setText(actualGoal.Percentage + "% Current Progress");
+                        }
                         lblGoalxxx.setText(FormatUIText.getCurrencyUIFormat(actualGoal.Goal));
                         lblGoalxxx.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                         lblGoalxxx.setCompoundDrawablePadding(0);
@@ -283,5 +321,17 @@ public class Fragment_BH_Dashboard extends Fragment {
 
         lineChart.notifyDataSetChanged();
         lineChart.invalidate();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == SETTINGS){
+            if(resultCode == Activity.RESULT_OK) {
+                Intent loIntent = new Intent(getActivity(), Activity_Main.class);
+                requireActivity().finish();
+                startActivity(loIntent);
+            }
+        }
     }
 }

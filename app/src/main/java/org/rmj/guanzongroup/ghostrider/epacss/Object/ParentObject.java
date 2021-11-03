@@ -63,6 +63,9 @@ public class ParentObject {
             case "gcard info":
                 lnIcon = R.drawable.ic_scan_qr_code;
                 break;
+            case "db explorer":
+                lnIcon = R.drawable.ic_settings_localdata;
+                break;
         }
         return lnIcon;
     }

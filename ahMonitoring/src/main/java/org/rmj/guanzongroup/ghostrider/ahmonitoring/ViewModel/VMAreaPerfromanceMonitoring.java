@@ -17,6 +17,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
@@ -30,12 +31,14 @@ public class VMAreaPerfromanceMonitoring extends AndroidViewModel {
     private static final String TAG = VMAreaPerfromanceMonitoring.class.getSimpleName();
     private final RAreaPerformance poArea;
     private final RBranchPerformance poBranch;
+    private final MutableLiveData<String> psType = new MutableLiveData<>();
 
     public VMAreaPerfromanceMonitoring(@NonNull Application application) {
         super(application);
         Log.e(TAG, "Initialized.");
         this.poArea = new RAreaPerformance(application);
         this.poBranch = new RBranchPerformance(application);
+        psType.setValue("MC");
     }
 
     public LiveData<String> getAreaNameFromCode() {
@@ -48,6 +51,14 @@ public class VMAreaPerfromanceMonitoring extends AndroidViewModel {
 
     public LiveData<List<EBranchPerformance>> getAreaBranchesSalesPerformance(String fsPeriodx) {
         return poBranch.getAreaBranchesSalesPerformance(fsPeriodx);
+    }
+
+    public void setType(String value){
+        psType.setValue(value);
+    }
+
+    public LiveData<String> getType(){
+        return psType;
     }
 
 }

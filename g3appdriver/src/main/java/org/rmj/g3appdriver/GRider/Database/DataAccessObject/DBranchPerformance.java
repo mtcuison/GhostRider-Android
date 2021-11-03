@@ -84,6 +84,9 @@ public interface DBranchPerformance {
     @Query("SELECT nSPActual AS Actual, ROUND (nSPActual * 100.0 / nSPGoalxx) AS Percentage, nSPGoalxx AS Goal FROM MC_Branch_Performance WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
     LiveData<ActualGoal> getSPBranchPerformance();
 
+    @Query("SELECT * FROM MC_Branch_Performance ORDER BY sPeriodxx DESC LIMIT 1")
+    LiveData<EBranchPerformance> getCurrentPeriodPerformance();
+
     @Query("SELECT sPeriodxx AS Period, " +
             "nMCActual AS Actual, " +
             "nMCGoalxx AS Goal " +
@@ -98,6 +101,9 @@ public interface DBranchPerformance {
             "WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
     LiveData<List<PeriodicalPerformance>> getSPBranchPeriodicalPerformance();
 
+    @Query("SELECT MIN(sPeriodxx) AS Start, MAX(sPeriodxx) AS Current FROM MC_Branch_Performance;")
+    LiveData<PeriodRange> getPeriodRange();
+
     class ActualGoal{
         public String Actual;
         public String Percentage;
@@ -108,5 +114,10 @@ public interface DBranchPerformance {
         public String Period;
         public String Actual;
         public String Goal;
+    }
+
+    class PeriodRange{
+        public String Start;
+        public String Current;
     }
 }

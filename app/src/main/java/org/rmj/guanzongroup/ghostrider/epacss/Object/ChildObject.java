@@ -19,6 +19,8 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Applicatio
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Employee_Applications;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
+import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalCode;
+import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalSelection;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationHistory;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
@@ -58,19 +60,19 @@ public class ChildObject {
                 loIntent = new Intent(context, Activity_IntroductoryQuestion.class);
 //                loIntent = new Intent(context, Activity_CreditAppHome.class);
                 break;
-            case "user application list":
-                loIntent = new Intent(context, Activity_ApplicationHistory.class);
-                loIntent.putExtra("app", AppConstants.INTENT_OB_APPLICATION);
-                break;
-            case "branch application list":
-                loIntent = new Intent(context, Activity_BranchApplications.class);
-                break;
-            case "document scanner":
-                loIntent = new Intent(context, MainScanner.class);
-                break;
-            case "":
-                loIntent = new Intent(context, DCPPhotoCapture.class);
-                break;
+//            case "user application list":
+//                loIntent = new Intent(context, Activity_ApplicationHistory.class);
+//                loIntent.putExtra("app", AppConstants.INTENT_OB_APPLICATION);
+//                break;
+//            case "branch application list":
+//                loIntent = new Intent(context, Activity_BranchApplications.class);
+//                break;
+//            case "document scanner":
+//                loIntent = new Intent(context, MainScanner.class);
+//                break;
+//            case "":
+//                loIntent = new Intent(context, DCPPhotoCapture.class);
+//                break;
             case "ci evaluation list":
                 loIntent = new Intent(context, Activity_EvaluationList.class);
                 break;
@@ -123,6 +125,24 @@ public class ChildObject {
                 loIntent = new Intent(context, Activity_AreaPerformance.class);
                 break;
 
+            case "applications":
+                loIntent = new Intent(context, Activity_Employee_Applications.class);
+                loIntent.putExtra("type", true);
+                break;
+
+            case "by reference":
+                loIntent = new Intent(context, Activity_ApprovalSelection.class);
+                loIntent.putExtra("sysCode", "1");
+                break;
+
+            case "by name":
+                loIntent = new Intent(context, Activity_ApprovalSelection.class);
+                loIntent.putExtra("sysCode", "2");
+
+            case "manual log":
+                loIntent = new Intent(context, Activity_ApprovalCode.class);
+                loIntent.putExtra("sysCode", "2");
+                break;
             default:
                 loIntent = null;
         }
