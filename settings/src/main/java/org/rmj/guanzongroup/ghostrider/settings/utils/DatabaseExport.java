@@ -33,6 +33,7 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -40,7 +41,7 @@ import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 
 public class DatabaseExport {
     private static final String TAG = DatabaseExport.class.getSimpleName();
-    public Context context;
+    private final Context context;
     private final SessionManager poSession;
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private final StorageReference poRefrnce = storage.getReference().child("database");
@@ -75,17 +76,14 @@ public class DatabaseExport {
         File backupDB = new File(sd, dataName);
 
         try {
-//            ** UPLOAD TO EXTERNAL STORAGE **
+            // UPLOAD TO EXTERNAL STORAGE
             source = new FileInputStream(currentDB).getChannel();
             destination = new FileOutputStream(backupDB).getChannel();
             destination.transferFrom(source, 0, source.size());
             source.close();
             destination.close();
 
-//            ** USING PUTBYTES() **
-//            byte[] poByte = new byte[(int) currentDB.length()];
-//            uploadToFirebase(poByte);
-
+            // UPLOAD TO FIREBASE
             uploadToFirebase(backupDB.getPath());
             return "Database successfully exported";
 
@@ -103,7 +101,11 @@ public class DatabaseExport {
         try {
             File loFile = new File(fsPath);
             InputStream stream = new FileInputStream(loFile);
-            UploadTask uploadTask = getReference().putStream(stream);
+            StorageMetadata metadata = new StorageMetadata.Builder()
+                    .setContentType("sqlite/database-file")
+                    .build();
+
+            UploadTask uploadTask = getReference().putStream(stream, metadata);
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
@@ -143,21 +145,5 @@ public class DatabaseExport {
             return null;
         }
     }
-
-//    ** PUTBYTE METHOD() **
-//    private void uploadToFirebase(byte[] foByte) {
-//        UploadTask uploadTask = poRefrnce.putBytes(foByte);
-//        uploadTask.addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                Log.e("FirebaseUpload", "ERROR | " + exception.getMessage());
-//            }
-//        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                Log.e("FirebaseUpload", "SUCCESS");
-//            }
-//        });
-//    }
 
 }
