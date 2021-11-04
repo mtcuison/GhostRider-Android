@@ -12,6 +12,7 @@
 package org.rmj.guanzongroup.ghostrider.settings.utils;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
@@ -33,6 +34,7 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -106,7 +108,12 @@ public class DatabaseExport {
                     .build();
 
             UploadTask uploadTask = getReference().putStream(stream, metadata);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
+            uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
                     Log.e("FirebaseUpload", "ERROR | " + exception.getMessage());
@@ -114,6 +121,11 @@ public class DatabaseExport {
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    getReference().getDownloadUrl().addOnSuccessListener(uri -> {
+                        // TODO: Handle URI
+                    }).addOnFailureListener(e -> {
+                        Log.e("getDownloadUrl() error", e.getMessage());
+                    });
                     Log.e("FirebaseUpload", "SUCCESS");
                 }
             });
