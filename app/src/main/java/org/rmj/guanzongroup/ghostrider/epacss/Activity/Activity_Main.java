@@ -22,6 +22,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -30,15 +32,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.google.android.material.navigation.NavigationView;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
@@ -49,6 +54,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.InternetStatusReciever;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMMainActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.ExpandableListDrawerAdapter;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.AppDeptIcon;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,6 +70,8 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     private MessageBox loMessage;
     private Intent loIntent;
 
+    private ImageView imgDept;
+    private TextView lblDept;
     private ExpandableListDrawerAdapter listAdapter;
     private  ExpandableListView expListView;
 
@@ -82,6 +90,17 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         mViewModel = new ViewModelProvider(this).get(VMMainActivity.class);
         poNetRecvr = mViewModel.getInternetReceiver();
 
+        mViewModel.getEmployeeInfo().observe(this, new Observer<EEmployeeInfo>() {
+            @Override
+            public void onChanged(EEmployeeInfo eEmployeeInfo) {
+                try{
+                    imgDept.setImageResource(AppDeptIcon.getIcon(eEmployeeInfo.getDeptIDxx()));
+                    lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
         mViewModel.getEmployeeRole().observe(this, roles -> {
             try{
                 mViewModel.getChildRoles().observe(this, childMenus -> {
@@ -166,6 +185,9 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View view = navigationView.getHeaderView(0);
+        imgDept = view.findViewById(R.id.img_deptLogo);
+        lblDept = view.findViewById(R.id.lbl_deptNme);
     }
 
     /*Edited by mike*/

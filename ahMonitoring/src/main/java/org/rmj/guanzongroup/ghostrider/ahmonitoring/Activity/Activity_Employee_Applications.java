@@ -55,12 +55,16 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
     private MessageBox poMessage;
     private LoadDialog poDialog;
 
+    private boolean forViewing = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_applications);
         mViewModel = new ViewModelProvider(this).get(VMEmployeeApplications.class);
         setupWidgets();
+
+        forViewing = getIntent().getBooleanExtra("type", false);
 
         mViewModel.getUserBranchInfo().observe(Activity_Employee_Applications.this, eBranchInfo -> {
             try{
@@ -70,14 +74,14 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
                 e.printStackTrace();
             }
         });
-
         mViewModel.DownloadLeaveForApproval(Activity_Employee_Applications.this);
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.employee_applications, menu);
+        if(!forViewing) {
+            getMenuInflater().inflate(R.menu.employee_applications, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

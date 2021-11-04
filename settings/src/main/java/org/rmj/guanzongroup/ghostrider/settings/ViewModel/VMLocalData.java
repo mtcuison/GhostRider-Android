@@ -11,10 +11,25 @@
 
 package org.rmj.guanzongroup.ghostrider.settings.ViewModel;
 
+import static android.app.AppOpsManager.OPSTR_GET_USAGE_STATS;
+import static android.content.Context.ACTIVITY_SERVICE;
+import static android.content.Context.NETWORK_STATS_SERVICE;
+
+import static androidx.core.app.AppOpsManagerCompat.MODE_ALLOWED;
+
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.AppOpsManager;
 import android.app.Application;
+import android.app.usage.NetworkStatsManager;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.telephony.TelephonyManager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -39,6 +54,7 @@ import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Relation;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SysConfig;
 import org.rmj.guanzongroup.ghostrider.settings.Objects.LocalData;
+import org.rmj.guanzongroup.ghostrider.settings.utils.DatabaseExport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +88,11 @@ public class VMLocalData extends AndroidViewModel {
     public interface OnRefreshDataCallback{
         void OnLoad(String Title, String Message);
         void OnSuccess();
+        void OnFailed();
+    }
+
+    public interface OnClearDataCallBack{
+        void OnClear();
         void OnFailed();
     }
 
@@ -190,4 +211,35 @@ public class VMLocalData extends AndroidViewModel {
             }
         }
     }
+
+    public void ExportDatabase(){
+        DatabaseExport loExport = new DatabaseExport(instance, "Database", "GGC_ISysDBF.db");
+        loExport.export();
+    }
+
+    public void ClearData(){
+        try {
+            // clearing app data
+            Runtime runtime = Runtime.getRuntime();
+            runtime.exec("pm clear org.rmj.guanzongroup.ghostrider.epacss");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void killProcessesAround(Activity activity) {
+        try {
+        ActivityManager am = (ActivityManager)activity.getSystemService(Context.ACTIVITY_SERVICE);
+        String myProcessPrefix = activity.getApplicationInfo().processName;
+        String myProcessName = activity.getPackageManager().getActivityInfo(activity.getComponentName(), 0).processName;
+        for (ActivityManager.RunningAppProcessInfo proc : am.getRunningAppProcesses()) {
+            if (proc.processName.startsWith(myProcessPrefix) && !proc.processName.equals(myProcessName)) {
+                android.os.Process.killProcess(proc.pid);
+            }
+        }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

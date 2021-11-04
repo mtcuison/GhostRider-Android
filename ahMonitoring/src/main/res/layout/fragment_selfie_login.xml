@@ -103,6 +103,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
+        android:id="@+id/lbl_notice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="2 Log attempt are available for each day. \nUse the 1st for Login and 2nd for logout"

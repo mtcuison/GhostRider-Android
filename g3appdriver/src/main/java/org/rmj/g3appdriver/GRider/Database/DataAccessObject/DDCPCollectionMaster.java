@@ -51,4 +51,7 @@ public interface DDCPCollectionMaster {
             "dModified =:dModified " +
             "WHERE sTransNox =:Transnox")
     void updateSentPostedDCPMaster(String Transnox, String dModified);
+
+    @Query("SELECT * FROM LR_DCP_Collection_Master WHERE sTransNox =:TransNox")
+    List<EDCPCollectionMaster> getCollectionMasterIfExist(String TransNox);
 }

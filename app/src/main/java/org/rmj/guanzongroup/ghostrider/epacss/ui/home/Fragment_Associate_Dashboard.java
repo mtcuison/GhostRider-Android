@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -39,6 +40,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAHDashboard;
+import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.AppDeptIcon;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Help;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
@@ -56,6 +58,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
             lblBranch,
             lblAddx,
             lblVersion;
+    private ImageView imgDept;
 
     private MaterialButton btnSettings, btnLogout;
 
@@ -75,26 +78,11 @@ public class Fragment_Associate_Dashboard extends Fragment {
         lblDept = view.findViewById(R.id.lbl_userDepartment);
         lblBranch = view.findViewById(R.id.lbl_userBranch);
         lblAddx = view.findViewById(R.id.lbl_userAddress);
-//        lblSelfie = view.findViewById(R.id.lbl_badge_selfieLog);
+        imgDept = view.findViewById(R.id.img_deptLogo);
         lblVersion = view.findViewById(R.id.lbl_versionInfo);
-
-//        btnSelfie = view.findViewById(R.id.btn_selfieLogin);
+        imgDept = view.findViewById(R.id.img_deptLogo);
         btnLogout = view.findViewById(R.id.btn_logout);
         btnSettings = view.findViewById(R.id.btn_settings);
-
-//        btnSelfie.setOnClickListener(v -> {
-//            if (!AppAssistantConfig.getInstance(getActivity()).getHELP_SLOGIN_NOTICE()){
-//                Intent intent = new Intent(getActivity(), Activity_Help.class);
-//                intent.putExtra("help", AppConstants.INTENT_SELFIE_LOGIN);
-//                requireActivity().startActivityForResult(intent, AppConstants.INTENT_SELFIE_LOGIN);
-//                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
-//            }else{
-//                Intent intent = new Intent(getActivity(), Activity_Application.class);
-//                intent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
-//                startActivity(intent);
-//                requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
-//            }
-//        });
 
         btnSettings.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), Activity_Settings.class);
@@ -126,16 +114,6 @@ public class Fragment_Associate_Dashboard extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMAHDashboard.class);
-
-//        mViewModel.getCurrentLogTimeIfExist().observe(getViewLifecycleOwner(), eLog_selfies -> {
-//            if(eLog_selfies.size()>0){
-//                lblSelfie.setText("✔");
-//                lblSelfie.setBackground(getResources().getDrawable(R.drawable.bg_badge_green));
-//            } else {
-//                lblSelfie.setText("!");
-//                lblSelfie.setBackground(getResources().getDrawable(R.drawable.bg_badge_red));
-//            }
-//        });
 
         mViewModel.getVersionInfo().observe(getViewLifecycleOwner(), s -> lblVersion.setText(s));
 

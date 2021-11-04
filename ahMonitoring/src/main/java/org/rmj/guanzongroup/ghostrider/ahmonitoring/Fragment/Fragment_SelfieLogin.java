@@ -56,7 +56,7 @@ public class Fragment_SelfieLogin extends Fragment {
 
     private VMSelfieLogin mViewModel;
 
-    private TextView lblUsername, lblPosition, lblBranch;
+    private TextView lblUsername, lblPosition, lblBranch, lblNotice;
     private MaterialButton btnCamera;
     private RecyclerView recyclerView;
 
@@ -70,9 +70,9 @@ public class Fragment_SelfieLogin extends Fragment {
 
     private String photPath;
 
-    private List<ELog_Selfie> currentDateLog;
-
     private static boolean isDialogShown;
+
+    private String psEmpLvl;
 
     public static Fragment_SelfieLogin newInstance() {
         return new Fragment_SelfieLogin();
@@ -90,6 +90,7 @@ public class Fragment_SelfieLogin extends Fragment {
         lblUsername = view.findViewById(R.id.lbl_username);
         lblPosition = view.findViewById(R.id.lbl_userPosition);
         lblBranch = view.findViewById(R.id.lbl_userBranch);
+        lblNotice = view.findViewById(R.id.lbl_notice);
         btnCamera = view.findViewById(R.id.btn_takeSelfie);
         recyclerView = view.findViewById(R.id.recyclerview_timeLog);
 
@@ -98,15 +99,18 @@ public class Fragment_SelfieLogin extends Fragment {
 //        poLoad = new LoadDialog(getActivity());
         poMessage = new MessageBox(getActivity());
         loLocation = new GLocationManager(getActivity());
-
-        currentDateLog = new ArrayList<>();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMSelfieLogin.class);
-
+        psEmpLvl = mViewModel.getEmployeeLevel();
+        if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
+            lblNotice.setVisibility(View.GONE);
+        } else {
+            lblNotice.setVisibility(View.VISIBLE);
+        }
         mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
                 poUser = eEmployeeInfo;
@@ -137,13 +141,7 @@ public class Fragment_SelfieLogin extends Fragment {
         });
         btnCamera.setOnClickListener(view -> {
             mViewModel.getCurrentTimeLog().observe(getViewLifecycleOwner(), currentLog ->{
-                if (currentLog.size() >= 2) {
-                    poMessage.initDialog();
-                    poMessage.setTitle("Selfie Login");
-                    poMessage.setMessage("You already login today.");
-                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                } else {
+                if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
                     mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
                         if (!isGranted) {
                             mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(getActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
@@ -151,7 +149,22 @@ public class Fragment_SelfieLogin extends Fragment {
                             initCamera();
                         }
                     });
-
+                } else {
+                    if (currentLog.size() >= 2) {
+                        poMessage.initDialog();
+                        poMessage.setTitle("Selfie Login");
+                        poMessage.setMessage("You already login today.");
+                        poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    } else {
+                        mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
+                            if (!isGranted) {
+                                mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(getActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
+                            } else {
+                                initCamera();
+                            }
+                        });
+                    }
                 }
             });
         });

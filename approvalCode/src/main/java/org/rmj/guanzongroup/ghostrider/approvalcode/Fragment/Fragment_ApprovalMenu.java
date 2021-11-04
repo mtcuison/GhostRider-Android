@@ -97,18 +97,15 @@ public class Fragment_ApprovalMenu extends Fragment {
         public void onClick(View view) {
             if(view.getId() == R.id.btn_dayToDay){
                 Toast.makeText(getActivity(), "Under develop", Toast.LENGTH_SHORT).show();
-            }
-            if(view.getId() == R.id.btn_manualLog){
+            } else if(view.getId() == R.id.btn_manualLog){
                 Intent intent = new Intent(getActivity(), Activity_ApprovalCode.class);
                 intent.putExtra("sysCode", "2");
                 startActivity(intent);
-            }
-            if(view.getId() == R.id.btn_byReference){
+            } else if(view.getId() == R.id.btn_byReference){
                 Intent intent = new Intent(getActivity(), Activity_ApprovalSelection.class);
                 intent.putExtra("syscode", "1");
                 startActivity(intent);
-            }
-            if(view.getId() == R.id.btn_byName){
+            } else if(view.getId() == R.id.btn_byName){
                 Intent intent = new Intent(getActivity(), Activity_ApprovalSelection.class);
                 intent.putExtra("syscode", "2");
                 startActivity(intent);

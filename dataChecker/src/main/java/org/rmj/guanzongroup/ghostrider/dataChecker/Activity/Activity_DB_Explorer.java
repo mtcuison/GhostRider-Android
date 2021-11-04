@@ -13,8 +13,10 @@ package org.rmj.guanzongroup.ghostrider.dataChecker.Activity;
 
 import static org.rmj.guanzongroup.ghostrider.dataChecker.ViewModel.VMDBExplorer.PICK_DB_FILE;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +25,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.button.MaterialButton;
@@ -36,12 +39,14 @@ import org.rmj.guanzongroup.ghostrider.dataChecker.R;
 import org.rmj.guanzongroup.ghostrider.dataChecker.ViewModel.VMDBExplorer;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Activity_DB_Explorer extends AppCompatActivity {
     private static final String TAG = Activity_DB_Explorer.class.getSimpleName();
 
     private VMDBExplorer mViewModel;
 
+    private Toolbar toolbar;
     private TextInputEditText txtDataName;
     private MaterialButton btnFind, btnPost;
     private RecyclerView recyclerView;
@@ -79,6 +84,9 @@ public class Activity_DB_Explorer extends AppCompatActivity {
     }
 
     private void setupWidgets(){
+        toolbar = findViewById(R.id.toolbar_dbExplorer);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         txtDataName = findViewById(R.id.txt_dbName);
         btnFind = findViewById(R.id.btn_findDb);
         btnPost = findViewById(R.id.btn_post);
@@ -118,5 +126,13 @@ public class Activity_DB_Explorer extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -93,4 +93,12 @@ public class RBranchPerformance {
     public LiveData<List<DBranchPerformance.PeriodicalPerformance>> getSPBranchPeriodicalPerformance(){
         return branchPerformanceDao.getSPBranchPeriodicalPerformance();
     }
+
+    public LiveData<EBranchPerformance> getCurrentPeriodPerformance(){
+        return branchPerformanceDao.getCurrentPeriodPerformance();
+    }
+
+    public LiveData<DBranchPerformance.PeriodRange> getPeriodRange(){
+        return branchPerformanceDao.getPeriodRange();
+    }
 }

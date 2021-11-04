@@ -5,6 +5,8 @@
     <application>
         <activity
             android:name=".Activity.Activity_DB_Explorer"
+            android:screenOrientation="userPortrait"
+            android:label="DB Explorer"
             android:exported="true">
 
         </activity>

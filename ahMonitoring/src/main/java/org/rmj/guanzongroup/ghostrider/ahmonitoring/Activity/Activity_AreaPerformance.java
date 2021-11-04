@@ -14,7 +14,8 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CHART_MONTH_LABEL;
 
 import android.content.Intent;
-import android.os.Build;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -29,15 +30,16 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,7 +47,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.AreaPerformanceMonitoringAdapter;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchPerformanceAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMAreaPerfromanceMonitoring;
 
@@ -63,6 +64,11 @@ public class Activity_AreaPerformance extends AppCompatActivity{
     public int width;
     public int height;
     private TextView lblArea, lblDate;
+
+    private ColorStateList poColor;
+    private TextView lblItem1;
+    private TextView lblItem2;
+    private TextView lblSelectd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +88,7 @@ public class Activity_AreaPerformance extends AppCompatActivity{
         });
         poPeriods = BranchPerformancePeriod.getList();
         initWidgets();
-
+        mViewModel.getType().observe(this, s -> setChartValue(s));
     }
     private void initWidgets(){
         lblArea = findViewById(R.id.tvArea);
@@ -93,58 +99,26 @@ public class Activity_AreaPerformance extends AppCompatActivity{
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        TabLayout tabLayout = findViewById(R.id.tablayout_area_performance);
-        TabLayout.Tab mcTab = tabLayout.newTab();
-        TabLayout.Tab spTab = tabLayout.newTab();
-        TabLayout.Tab joTab = tabLayout.newTab();
-        mcTab.setText("MC Sales");
-        spTab.setText("SP Sales");
-        joTab.setText("JO Sales");
-        tabLayout.addTab(mcTab);
-        tabLayout.addTab(spTab);
-        tabLayout.addTab(joTab);
-        setChartValue(0);
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                setChartValue(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-// called when tab unselected
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-// called when a tab is reselected
-            }
-        });
+        lblItem1 = findViewById(R.id.item1);
+        lblItem2 = findViewById(R.id.item2);
+        lblSelectd = findViewById(R.id.select);
+        poColor = lblItem2.getTextColors();
+        lblItem1.setOnClickListener(new TabClickHandler());
+        lblItem2.setOnClickListener(new TabClickHandler());
     }
-    public void setChartValue(int pos){
+
+    public void setChartValue(String sales){
         mViewModel.getAreaPerformanceInfoList().observe(Activity_AreaPerformance.this, performances -> {
             try {
                 chartValues = new ArrayList<>();
-                String sales = "";
-                if (pos == 0){
-                    sales = "MC";
-
+                if (sales.equalsIgnoreCase("MC")){
                     for (int x = 0; x< performances.size(); x++){
                         chartValues.add(new Entry(x, performances.get(x).getMCActual()));
                     }
-
                     AreaPerformanceMonitoringAdapter.setIndexPosition(-1);
-                }else if(pos == 1){
-                    sales = "SP";
+                }else {
                     for (int x = 0; x< performances.size(); x++){
                         chartValues.add(new Entry(x, performances.get(x).getSPActual()));
-                    }
-
-                    AreaPerformanceMonitoringAdapter.setIndexPosition(-1);
-                }else if(pos == 2){
-                    sales = "JO";
-                    for (int x = 0; x< performances.size(); x++){
-                        chartValues.add(new Entry(x, performances.get(x).getJOGoalxx()));
                     }
 
                     AreaPerformanceMonitoringAdapter.setIndexPosition(-1);
@@ -174,6 +148,7 @@ public class Activity_AreaPerformance extends AppCompatActivity{
                 lineChart.setDrawBorders(true);
                 lineChart.setBorderWidth(1);
                 lineChart.setBorderColor(getResources().getColor(R.color.color_dadada));
+                lineChart.animateX(500);
                 XAxis xAxis = lineChart.getXAxis();
                 xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
                 lineChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
@@ -184,7 +159,7 @@ public class Activity_AreaPerformance extends AppCompatActivity{
                         mViewModel.getAreaBranchesSalesPerformance(poPeriods.get((int) e.getX())).observe(Activity_AreaPerformance.this, branchPerformances -> {
                             try {
                                 poAdapter = new AreaPerformanceMonitoringAdapter(
-                                        Activity_AreaPerformance.this, pos,
+                                        Activity_AreaPerformance.this, sales,
                                         branchPerformances, sBranchCd -> {
                                     try {
                                         Intent loIntent = new Intent(
@@ -219,7 +194,7 @@ public class Activity_AreaPerformance extends AppCompatActivity{
                 mViewModel.getAreaBranchesSalesPerformance(BranchPerformancePeriod.getLatestCompletePeriod()).observe(Activity_AreaPerformance.this, branchPerformances -> {
                     try {
                         poAdapter = new AreaPerformanceMonitoringAdapter(
-                                Activity_AreaPerformance.this, pos,
+                                Activity_AreaPerformance.this, sales,
                                 branchPerformances, sBranchCd -> {
                                     try {
                                         Intent loIntent = new Intent(
@@ -317,6 +292,25 @@ public class Activity_AreaPerformance extends AppCompatActivity{
         }
 
         return lsMonthNm + " " + lsYearNox;
+    }
+
+    private class TabClickHandler implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+            if (view.getId() == R.id.item1){
+                lblSelectd.animate().x(0).setDuration(100);
+                lblItem1.setTextColor(Color.WHITE);
+                lblItem2.setTextColor(poColor);
+                mViewModel.setType("MC");
+            } else if (view.getId() == R.id.item2){
+                lblItem1.setTextColor(poColor);
+                lblItem2.setTextColor(Color.WHITE);
+                int size = lblItem2.getWidth();
+                lblSelectd.animate().x(size).setDuration(100);
+                mViewModel.setType("SP");
+            }
+        }
     }
 
 }

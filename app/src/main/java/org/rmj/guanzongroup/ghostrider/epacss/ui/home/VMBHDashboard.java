@@ -53,6 +53,14 @@ public class VMBHDashboard extends AndroidViewModel {
         return psSales;
     }
 
+    public LiveData<EBranchPerformance> getCurrentPeriodPerformance(){
+        return poPerFormance.getCurrentPeriodPerformance();
+    }
+
+    public LiveData<DBranchPerformance.PeriodRange> getPeriodRange(){
+        return poPerFormance.getPeriodRange();
+    }
+
     public LiveData<DBranchPerformance.ActualGoal> getMCBranchPerformance(){
         return poPerFormance.getMCBranchPerformance();
     }
@@ -67,4 +75,5 @@ public class VMBHDashboard extends AndroidViewModel {
     public LiveData<List<DBranchPerformance.PeriodicalPerformance>> getSPBranchPeriodicalPerformance(){
         return poPerFormance.getSPBranchPeriodicalPerformance();
     }
+
 }

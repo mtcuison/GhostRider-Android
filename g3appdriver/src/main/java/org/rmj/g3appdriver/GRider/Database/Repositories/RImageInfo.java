@@ -133,6 +133,10 @@ public class RImageInfo {
         }
     }
 
+    public EImageInfo getDCPImageInfoForPosting(String TransNox, String AccntNo){
+        return imageDao.getDCPImageInfoForPosting(TransNox, AccntNo);
+    }
+
     public String getImageNextCode(){
         String lsNextCode = "";
         try{

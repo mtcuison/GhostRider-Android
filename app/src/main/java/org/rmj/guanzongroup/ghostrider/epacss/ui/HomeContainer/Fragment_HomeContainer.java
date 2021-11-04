@@ -78,6 +78,7 @@ public class Fragment_HomeContainer extends Fragment {
                 fragment = new Fragment[]{new Fragment_Home()};
                 appBarHome.setVisibility(View.GONE);
             }
+//            fragment = new Fragment[]{new Fragment_Associate_Dashboard(), new Fragment_NotificationList()};
             viewPager.setAdapter(new FragmentAdapter(getChildFragmentManager(), fragment));
             if(fragment.length > 1){
                 tabLayout.setupWithViewPager(viewPager);

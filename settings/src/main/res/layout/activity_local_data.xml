@@ -39,7 +39,9 @@
             android:id="@+id/recyclerview_localData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_refreshRecords"
             android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:orientation="vertical"
             android:padding="10dp" />
 
@@ -48,7 +50,8 @@
             style="@style/MaterialButtonLight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/recyclerview_localData"
+            android:layout_above="@+id/btn_Clear_Data"
+            android:layout_centerHorizontal="true"
             android:text="Sync All Records" />
 
         <com.google.android.material.button.MaterialButton
@@ -56,7 +59,7 @@
             style="@style/MaterialButtonLight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btn_refreshRecords"
+            android:layout_alignParentBottom="true"
             android:text="Clear Data" />
 
     </RelativeLayout>

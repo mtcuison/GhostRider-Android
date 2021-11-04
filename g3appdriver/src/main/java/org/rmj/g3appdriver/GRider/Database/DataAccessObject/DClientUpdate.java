@@ -46,6 +46,10 @@ public interface DClientUpdate {
             "AND sClientID =:ClientID")
     void updateClientInfoImage(String ClientID, String ImageName);
 //
+
+    @Query("SELECT * FROM Client_Update_Request WHERE sSourceNo =:TransNox AND sDtlSrcNo =:AcctNox")
+    EClientUpdate getClientUpdateInfoForPosting(String TransNox, String AcctNox);
+
     @Query
     ("SELECT * FROM Client_Update_Request")
     LiveData<List<EClientUpdate>> selectClientUpdate();

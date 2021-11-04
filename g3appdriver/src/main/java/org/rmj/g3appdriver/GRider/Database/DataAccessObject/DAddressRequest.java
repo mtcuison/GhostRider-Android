@@ -43,6 +43,9 @@ public interface DAddressRequest {
             "WHERE sTransNox=:oldTransNox")
     void updateAddressStatus(String TransNox, String oldTransNox, String DateEntry);
 
+    @Query("SELECT * FROM Address_Update_Request WHERE sClientID=:ClientID")
+    EAddressUpdate getAddressUpdateInfoForPosting(String ClientID);
+
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT AU.sTransNox, " +
             "AU.sClientID, " +

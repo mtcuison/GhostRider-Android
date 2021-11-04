@@ -52,6 +52,7 @@
             android:textColor="@color/textColor_Black"
             android:drawableLeft="@drawable/ic_collection_client" />
 
+
         <TextView
             android:id="@+id/lbl_deptNme"
             android:layout_width="match_parent"
@@ -69,8 +70,42 @@
             android:drawablePadding="5dp"
             android:fontFamily="@font/roboto_bold"
             android:gravity="center_vertical"
-            android:layout_marginTop="5dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+            android:layout_marginTop="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/textColor_Black" />
+
+        <LinearLayout
+            android:id="@+id/linear_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginVertical="5dp">
+
+            <TextView
+                android:id="@+id/lbl_leaveType"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="start|center_vertical"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/roboto_bold"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/textColor_Black"/>
+
+            <TextView
+                android:id="@+id/lbl_leaveStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/material_white"
+                android:paddingVertical="3dp"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:background="@drawable/bg_leavecredits"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

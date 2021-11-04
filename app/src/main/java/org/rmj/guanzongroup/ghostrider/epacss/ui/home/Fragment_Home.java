@@ -185,7 +185,6 @@ public class Fragment_Home extends Fragment {
                         }
                     });
                 });
-//                recyclerView.setHasFixedSize(true);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 recyclerView.setAdapter(loAdapter);
@@ -195,18 +194,6 @@ public class Fragment_Home extends Fragment {
                 e.printStackTrace();
             }
         });
-
-//        mViewModel.getUnreadMessagesCount().observeForever(unReadMessageCount -> {
-//            try {
-//                if(unReadMessageCount > 0) {
-//                    navHeader.getOrCreateBadge(R.id.menu_message).setNumber(unReadMessageCount);
-//                } else {
-//                    navHeader.removeBadge(R.id.menu_message);
-//                }
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        });
 
         mViewModel.getUnreadNotificationsCount().observe(getViewLifecycleOwner(), integer -> {
             try {
@@ -220,29 +207,14 @@ public class Fragment_Home extends Fragment {
             }
         });
 
-//        mViewModel.getBranchOpeningMonitor().observe(getViewLifecycleOwner(), eBranchOpenMonitors -> {
-//            recyclerViewOpening.setHasFixedSize(true);
-//            recyclerViewOpening.setItemAnimator(new DefaultItemAnimator());
-//            recyclerViewOpening.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.VERTICAL, false));
-//            recyclerViewOpening.setAdapter(new BranchOpeningAdapter(getActivity(), eBranchOpenMonitors, () -> {
-//                Intent loIntent = new Intent(getActivity(), Activity_Application.class);
-//                loIntent.putExtra("app", INTENT_BRANCH_OPENING);
-//                startActivity(loIntent);
-//            }));
-//        });
-
-        mViewModel.getBranchOpeningInfoForDashBoard().observe(getViewLifecycleOwner(), new Observer<List<DBranchOpeningMonitor.BranchOpeningInfo>>() {
-            @Override
-            public void onChanged(List<DBranchOpeningMonitor.BranchOpeningInfo> branchOpeningInfos) {
-//                recyclerViewOpening.setHasFixedSize(true);
-                recyclerViewOpening.setItemAnimator(new DefaultItemAnimator());
-                recyclerViewOpening.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.VERTICAL, false));
-                recyclerViewOpening.setAdapter(new BranchOpeningAdapter(getActivity(), branchOpeningInfos, () -> {
-                    Intent loIntent = new Intent(getActivity(), Activity_Application.class);
-                    loIntent.putExtra("app", INTENT_BRANCH_OPENING);
-                    startActivity(loIntent);
-                }));
-            }
+        mViewModel.getBranchOpeningInfoForDashBoard().observe(getViewLifecycleOwner(), branchOpeningInfos -> {
+            recyclerViewOpening.setItemAnimator(new DefaultItemAnimator());
+            recyclerViewOpening.setLayoutManager(new LinearLayoutManager(getContext(),  LinearLayoutManager.VERTICAL, false));
+            recyclerViewOpening.setAdapter(new BranchOpeningAdapter(getActivity(), branchOpeningInfos, () -> {
+                Intent loIntent = new Intent(getActivity(), Activity_Application.class);
+                loIntent.putExtra("app", INTENT_BRANCH_OPENING);
+                startActivity(loIntent);
+            }));
         });
 
         adapter.notifyDataSetChanged();

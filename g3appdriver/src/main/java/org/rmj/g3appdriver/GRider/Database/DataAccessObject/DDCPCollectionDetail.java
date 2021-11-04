@@ -87,7 +87,7 @@ public interface DDCPCollectionDetail {
      */
     @Query("UPDATE LR_DCP_Collection_Detail " +
             "SET cSendStat='1', " +
-            "sRemCodex = 'OTH', " +
+            "sRemCodex = 'NV', " +
             "sRemarksx =:Remarks, " +
             "cTranstat = '2', " +
             "dModified=:DateEntry " +
@@ -165,6 +165,10 @@ public interface DDCPCollectionDetail {
             "LR_DCP_Collection_Master WHERE dReferDte =:dTransact) " +
             "AND cTranStat = '2'")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailForDate(String dTransact);
+
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox = (" +
+            "SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dReferDte =:dTransact)")
+    LiveData<List<EDCPCollectionDetail>> getUnpostedCollectionDetail(String dTransact);
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1' AND sRemCodex == 'PAY'")
     List<EDCPCollectionDetail> getUnsentPaidCollection();
@@ -244,6 +248,12 @@ public interface DDCPCollectionDetail {
             "ON a.sClientID = e.sClientID " +
             "WHERE a.cSendStat <> '1'")
     LiveData<List<CollectionDetail>> getCollectionDetailForPosting();
+
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1'")
+    LiveData<List<EDCPCollectionDetail>> getDCPDetailForPosting();
+
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox =:TransNox")
+    List<EDCPCollectionDetail> getCheckPostedCollectionDetail(String TransNox);
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +
             "WHERE sTransNox = :TransNox " +

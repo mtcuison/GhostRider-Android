@@ -30,6 +30,11 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
     <uses-permission android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
     <uses-feature android:name="android.hardware.location.gps" />
@@ -64,6 +69,7 @@
         android:label="@string/menu_home"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
+        android:manageSpaceActivity="org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_LocalData"
         android:roundIcon="@mipmap/grider_launcher_foreground_round"
         android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 

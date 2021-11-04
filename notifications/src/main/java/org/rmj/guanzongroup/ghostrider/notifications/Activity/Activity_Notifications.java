@@ -101,7 +101,8 @@ public class Activity_Notifications extends AppCompatActivity {
     }
 
     private String getTitle(String type){
-        if(type.equalsIgnoreCase("notification")){
+        if(type == null ||
+                type.equalsIgnoreCase("notification")){
             return "";
         } else {
             return Title;

@@ -72,15 +72,6 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <com.google.android.material.tabs.TabLayout
-                            android:id="@+id/tablayout_area_performance"
-                            android:layout_width="match_parent"
-                            android:layout_height="?attr/actionBarSize"
-                            android:layout_alignParentTop="true"
-                            android:visibility="gone"
-                            app:tabIndicatorColor="@color/guanzon_orange"
-                            app:tabSelectedTextColor="@color/guanzon_orange" />
-
                         <com.github.mikephil.charting.charts.LineChart
                             android:id="@+id/activity_area_linechart"
                             android:layout_width="match_parent"

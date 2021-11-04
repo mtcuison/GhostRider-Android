@@ -312,15 +312,16 @@
             </RelativeLayout>
 
             <ImageView
+                android:id="@+id/img_deptLogo"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:background="@drawable/circular_imageview"
                 android:padding="10dp"
-                android:src="@drawable/ic_ghostrider_logo_day"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginStart="20dp" />
+                android:src="@drawable/ic_ghostrider_logo_day" />
 
         </RelativeLayout>
 

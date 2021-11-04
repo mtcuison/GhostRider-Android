@@ -110,6 +110,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
                                                         }
                                                     }
                                                     if (sessionValid) {
+                                                        ServiceScheduler.scheduleJob(Activity_SplashScreen.this, PerformanceImportService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
                                                         mViewModel.getEmployeeLevel().observe(Activity_SplashScreen.this, empLevel ->{
                                                             try{
                                                                 if (empLevel.isEmpty() || DeptCode.parseUserLevel(Integer.parseInt(empLevel)).equalsIgnoreCase("Area Manager")
