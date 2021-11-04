@@ -39,6 +39,8 @@ public class SessionManager {
 
     private static final String KEY_BRANCH_CODE = "sBranchCd";
 
+    private static final String KEY_BRANCH_NAME = "sBranchNm";
+
     private static final String KEY_USER_ID = "sUserIDxx";
 
     private static final String KEY_DEPT_ID = "sDeptIDxx";
@@ -63,6 +65,7 @@ public class SessionManager {
                                 String Client,
                                 String LogNo,
                                 String Branch,
+                                String BranchNm,
                                 String DeptID,
                                 String EmpID,
                                 String Position,
@@ -86,6 +89,11 @@ public class SessionManager {
         editor.putString(KEY_BRANCH_CODE, Branch);
         if(editor.commit()){
             Log.e(TAG, "Branch code for this session has been set.");
+        }
+
+        editor.putString(KEY_BRANCH_NAME, BranchNm);
+        if(editor.commit()){
+            Log.e(TAG, "Branch name for this session has been set.");
         }
 
         editor.putString(KEY_DEPT_ID, DeptID);
@@ -171,6 +179,10 @@ public class SessionManager {
 
     public String getBranchCode() {
         return pref.getString(KEY_BRANCH_CODE, "");
+    }
+
+    public String getBranchName() {
+        return pref.getString(KEY_BRANCH_NAME, "");
     }
 
     public String getDeptID(){
