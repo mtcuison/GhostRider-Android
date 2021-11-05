@@ -11,6 +11,7 @@
 
 plugins {
     id 'com.android.library'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -38,6 +39,7 @@ android {
     }
 }
 
+apply plugin: 'com.google.gms.google-services'
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.3.0'
@@ -49,6 +51,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.fragment:fragment:1.3.5'
     implementation 'com.google.android.play:core:1.10.0'
+    implementation 'com.google.firebase:firebase-storage:20.0.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -75,4 +78,7 @@ dependencies {
     implementation project(':dataChecker')
     implementation project(':appdriver') //implement GhostRider Application Driver
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+    implementation 'com.google.firebase:firebase-analytics'
 }

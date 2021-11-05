@@ -12,24 +12,48 @@
 package org.rmj.guanzongroup.ghostrider.settings.utils;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SUB_FOLDER_EXPORTS;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+
 public class DatabaseExport {
+    private static final String TAG = DatabaseExport.class.getSimpleName();
     private final Context context;
+    private final SessionManager poSession;
+    private final FirebaseStorage storage = FirebaseStorage.getInstance();
+    private final StorageReference poRefrnce = storage.getReference().child("database");
     private final String FILE_FOLDER;
-    private final String dataName;
+    private String dataName;
 
     public DatabaseExport(Context context, String usage, String dataName) {
+        Log.e(TAG, "Initialized.");
         this.context = context;
+        this.poSession = new SessionManager(context);
         this.FILE_FOLDER = usage;
         this.dataName = dataName;
     }
@@ -54,18 +78,18 @@ public class DatabaseExport {
         File backupDB = new File(sd, dataName);
 
         try {
+            // UPLOAD TO EXTERNAL STORAGE
             source = new FileInputStream(currentDB).getChannel();
             destination = new FileOutputStream(backupDB).getChannel();
             destination.transferFrom(source, 0, source.size());
             source.close();
             destination.close();
 
-        return "Database successfully exported";
+            // UPLOAD TO FIREBASE
+            uploadToFirebase(backupDB.getPath());
+            return "Database successfully exported";
 
         } catch(SecurityException e) {
-            e.printStackTrace();
-            return "Exporting failed!, " + e.getMessage();
-        } catch(IOException e) {
             e.printStackTrace();
             return "Exporting failed!, " + e.getMessage();
         } catch (Exception e){
@@ -73,4 +97,65 @@ public class DatabaseExport {
             return "Exporting failed!, " + e.getMessage();
         }
     }
+
+    // Using putStream()
+    private void uploadToFirebase(String fsPath) {
+        try {
+            File loFile = new File(fsPath);
+            InputStream stream = new FileInputStream(loFile);
+            StorageMetadata metadata = new StorageMetadata.Builder()
+                    .setContentType("sqlite/database-file")
+                    .build();
+
+            UploadTask uploadTask = getReference().putStream(stream, metadata);
+            uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Log.e("FirebaseUpload", "ERROR | " + exception.getMessage());
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    getReference().getDownloadUrl().addOnSuccessListener(uri -> {
+                        // TODO: Handle URI
+                    }).addOnFailureListener(e -> {
+                        Log.e("getDownloadUrl() error", e.getMessage());
+                    });
+                    Log.e("FirebaseUpload", "SUCCESS");
+                }
+            });
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private StorageReference getReference() {
+        try {
+            Calendar loCalendr = Calendar.getInstance(TimeZone.getTimeZone("Asia/Manila"));
+            String lsBranchN = poSession.getBranchName();
+            int lnMonthxx = loCalendr.get(Calendar.MONTH) + 1;
+            String lsMonthxx = (lnMonthxx < 10) ? "0" + lnMonthxx : String.valueOf(lnMonthxx);
+            String lsMnthDay = (loCalendr.get(Calendar.DAY_OF_MONTH) < 10) ?
+                    "0" + loCalendr.get(Calendar.DAY_OF_MONTH)
+                    : String.valueOf(loCalendr.get(Calendar.DAY_OF_MONTH));
+            String lsYearxxx = String.valueOf(loCalendr.get(Calendar.YEAR)).substring(2, 4);
+            String lsFileNme = lsBranchN + " - " + lsMonthxx + lsMnthDay + lsYearxxx + ".db";
+            Log.e("Sampal Date", lsFileNme);
+
+            return poRefrnce.child(lsFileNme);
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
