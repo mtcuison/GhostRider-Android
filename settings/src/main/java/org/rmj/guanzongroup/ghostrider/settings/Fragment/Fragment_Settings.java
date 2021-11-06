@@ -166,7 +166,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
                               ActivityCompat.requestPermissions(requireActivity(),strings, STORAGE_REQUEST);
                           });
                       }else {
-                          showExportDialog(dbExport.export());
+                          dbExport.export();
                       }
                    });
 
@@ -339,21 +339,6 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
             } else {
                 locationPref.setSummary(R.string.location_on_summary);
             }
-        }
-    }
-
-    public void showExportDialog(String message){
-        loMessage.initDialog();
-        loMessage.setNegativeButton("Okay", (view, dialog) -> dialog.dismiss());
-        loMessage.setTitle("GhostRider Permissions");
-
-        if (message.equalsIgnoreCase("Exporting failed!")){
-            loMessage.setPositiveButton("Retry", (view, dialog) -> dbExport.export());
-            loMessage.setMessage(message);
-            loMessage.show();
-        }else {
-            loMessage.setMessage(message);
-            loMessage.show();
         }
     }
 }

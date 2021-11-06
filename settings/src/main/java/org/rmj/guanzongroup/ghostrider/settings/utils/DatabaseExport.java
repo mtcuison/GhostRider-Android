@@ -39,6 +39,8 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 
 public class DatabaseExport {
@@ -47,6 +49,8 @@ public class DatabaseExport {
     private final SessionManager poSession;
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private final StorageReference poRefrnce = storage.getReference().child("database");
+    private final LoadDialog poDiaLoad;
+    private final MessageBox poMessage;
     private final String FILE_FOLDER;
     private String dataName;
 
@@ -54,11 +58,13 @@ public class DatabaseExport {
         Log.e(TAG, "Initialized.");
         this.context = context;
         this.poSession = new SessionManager(context);
+        this.poDiaLoad = new LoadDialog(context);
+        this.poMessage = new MessageBox(context);
         this.FILE_FOLDER = usage;
         this.dataName = dataName;
     }
 
-    public String export(){
+    public void export(){
         String root = String.valueOf(context.getExternalFilesDir(null));
         File sd = new File(root + "/" + SUB_FOLDER_EXPORTS + "/");
 
@@ -87,14 +93,11 @@ public class DatabaseExport {
 
             // UPLOAD TO FIREBASE
             uploadToFirebase(backupDB.getPath());
-            return "Database successfully exported";
 
         } catch(SecurityException e) {
             e.printStackTrace();
-            return "Exporting failed!, " + e.getMessage();
         } catch (Exception e){
             e.printStackTrace();
-            return "Exporting failed!, " + e.getMessage();
         }
     }
 
@@ -108,24 +111,25 @@ public class DatabaseExport {
                     .build();
 
             UploadTask uploadTask = getReference().putStream(stream, metadata);
+            poDiaLoad.initDialog("Export Database","Exporting database. Please wait...", false);
+
             uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-
+                    poDiaLoad.show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-                    Log.e("FirebaseUpload", "ERROR | " + exception.getMessage());
+                    poDiaLoad.dismiss();
+                    showExportDialog(false, exception.getMessage());
+                    Log.e("FirebaseUpload", "ERROR -> " + exception.getMessage());
                 }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    getReference().getDownloadUrl().addOnSuccessListener(uri -> {
-                        // TODO: Handle URI
-                    }).addOnFailureListener(e -> {
-                        Log.e("getDownloadUrl() error", e.getMessage());
-                    });
+                    poDiaLoad.dismiss();
+                    showExportDialog(true, "Database Exported Successfully.");
                     Log.e("FirebaseUpload", "SUCCESS");
                 }
             });
@@ -155,6 +159,22 @@ public class DatabaseExport {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private void showExportDialog(boolean isSuccess, String message){
+        poMessage.initDialog();
+        poMessage.setNegativeButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.setTitle("Export Database");
+
+        if(isSuccess == false){
+            poMessage.setPositiveButton("Retry", (view, dialog) -> export());
+            poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            poMessage.setMessage(message);
+            poMessage.show();
+        }else {
+            poMessage.setMessage(message);
+            poMessage.show();
         }
     }
 
