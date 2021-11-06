@@ -114,7 +114,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
                                                             try{
                                                                 if (empLevel.isEmpty() || DeptCode.parseUserLevel(Integer.parseInt(empLevel)).equalsIgnoreCase("Area Manager")
                                                                         || DeptCode.parseUserLevel(Integer.parseInt(empLevel)).equalsIgnoreCase("General Manager")){
-
                                                                     Log.e(TAG, "emp level = "+ DeptCode.parseUserLevel(Integer.parseInt(empLevel)));
                                                                     ServiceScheduler.scheduleJob(Activity_SplashScreen.this, PerformanceImportService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
                                                                 }
