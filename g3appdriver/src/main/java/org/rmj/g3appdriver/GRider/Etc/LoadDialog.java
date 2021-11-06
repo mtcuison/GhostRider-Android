@@ -28,7 +28,7 @@ import org.rmj.g3appdriver.R;
 public class LoadDialog {
     private AlertDialog poDialogx;
     private final Context context;
-
+    private static boolean isShown;
     public LoadDialog(Context context) {
         this.context = context;
     }
@@ -51,14 +51,18 @@ public class LoadDialog {
     }
 
     public void show() {
-        poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
-        poDialogx.show();
+        if(!isShown) {
+            poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
+            poDialogx.show();
+            isShown = true;
+        }
     }
 
     public void dismiss(){
         if(poDialogx != null && poDialogx.isShowing()){
             poDialogx.dismiss();
+            isShown = false;
         }
     }
 }
