@@ -11,8 +11,10 @@
 
 package org.rmj.guanzongroup.ghostrider.settings.utils;
 
+import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
@@ -42,6 +44,7 @@ import com.google.firebase.storage.UploadTask;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.guanzongroup.ghostrider.notifications.Function.GRiderErrorReport;
 
 public class DatabaseExport {
     private static final String TAG = DatabaseExport.class.getSimpleName();
@@ -49,6 +52,7 @@ public class DatabaseExport {
     private final SessionManager poSession;
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private final StorageReference poRefrnce = storage.getReference().child("database");
+    private final GRiderErrorReport poReportx;
     private final LoadDialog poDiaLoad;
     private final MessageBox poMessage;
     private final String FILE_FOLDER;
@@ -57,6 +61,7 @@ public class DatabaseExport {
     public DatabaseExport(Context context, String usage, String dataName) {
         Log.e(TAG, "Initialized.");
         this.context = context;
+        this.poReportx = new GRiderErrorReport((Application) context.getApplicationContext());
         this.poSession = new SessionManager(context);
         this.poDiaLoad = new LoadDialog(context);
         this.poMessage = new MessageBox(context);
@@ -128,9 +133,20 @@ public class DatabaseExport {
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    poDiaLoad.dismiss();
-                    showExportDialog(true, "Database Exported Successfully.");
-                    Log.e("FirebaseUpload", "SUCCESS");
+                    getReference().getDownloadUrl().addOnSuccessListener( uri -> {
+                       Log.e("downloadLink", uri.toString());
+                        sendDownloadLink(uri.toString(), isSent -> {
+                            if(isSent) {
+                                poDiaLoad.dismiss();
+                                showExportDialog(true, "Database Exported Successfully.");
+                                Log.e("FirebaseUpload", "SUCCESS");
+                            } else {
+                                poDiaLoad.dismiss();
+                                showExportDialog(true, "Database Exported Successfully.");
+                                Log.e("FirebaseUpload", "ERROR -> GRiderErrorReport");
+                            }
+                        });
+                    });
                 }
             });
         } catch (FileNotFoundException e) {
@@ -162,6 +178,16 @@ public class DatabaseExport {
         }
     }
 
+    private void sendDownloadLink(String fsUrl, DownloadLinkListener foCallBck) {
+        try {
+            new SendDownloadLinkAsync(poReportx, foCallBck).execute(fsUrl);
+        } catch(NullPointerException e) {
+            e.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void showExportDialog(boolean isSuccess, String message){
         poMessage.initDialog();
         poMessage.setNegativeButton("Okay", (view, dialog) -> dialog.dismiss());
@@ -176,6 +202,33 @@ public class DatabaseExport {
             poMessage.setMessage(message);
             poMessage.show();
         }
+    }
+
+    private static class SendDownloadLinkAsync extends AsyncTask<String, Void, Boolean> {
+
+        private final GRiderErrorReport poReportx;
+        private final DownloadLinkListener callBack;
+
+        SendDownloadLinkAsync(GRiderErrorReport foReportx, DownloadLinkListener fsCallBck) {
+            this.poReportx = foReportx;
+            this.callBack = fsCallBck;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return poReportx.SendErrorReport("Database Export", "Database download link: \n \n" + "[" + strings[0] + "]");
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            callBack.onSent(aBoolean);
+        }
+
+    }
+
+    private interface DownloadLinkListener {
+        void onSent(boolean isSent);
     }
 
 }
