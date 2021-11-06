@@ -104,13 +104,12 @@ public class Activity_SplashScreen extends AppCompatActivity {
                                                         prgrssBar.setProgress(progress);
                                                         x++;
                                                         try {
-                                                            Thread.sleep(1000);
+                                                             Thread.sleep(1000);
                                                         } catch (InterruptedException e) {
                                                             e.printStackTrace();
                                                         }
                                                     }
                                                     if (sessionValid) {
-                                                        ServiceScheduler.scheduleJob(Activity_SplashScreen.this, PerformanceImportService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
                                                         mViewModel.getEmployeeLevel().observe(Activity_SplashScreen.this, empLevel ->{
                                                             try{
                                                                 if (empLevel.isEmpty() || DeptCode.parseUserLevel(Integer.parseInt(empLevel)).equalsIgnoreCase("Area Manager")

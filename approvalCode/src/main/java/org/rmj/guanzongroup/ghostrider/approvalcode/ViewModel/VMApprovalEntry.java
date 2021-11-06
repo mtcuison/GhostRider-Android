@@ -36,6 +36,7 @@ import java.util.List;
 
 public class VMApprovalEntry extends AndroidViewModel {
     private static final String TAG = VMApprovalEntry.class.getSimpleName();
+    private final Application instance;
     private final RBranch poBranchx;
     private final RApprovalCode poAppCdeR;
     private final SessionManager poSession;
@@ -46,12 +47,17 @@ public class VMApprovalEntry extends AndroidViewModel {
 
     public VMApprovalEntry(@NonNull Application application) {
         super(application);
+        this.instance = application;
         poBranchx = new RBranch(application);
         this.poAppCdeR = new RApprovalCode(application);
         this.poSession = new SessionManager(application);
         this.poConnect = new ConnectionUtil(application);
         this.poHeaders = HttpHeaders.getInstance(application);
         this.psPackage = application.getPackageName();
+    }
+
+    public LiveData<String> getApprovalDesc(String AppCode){
+        return poAppCdeR.getApprovalDesc(AppCode);
     }
 
     public LiveData<String[]> getBranchNameList(){
@@ -63,18 +69,22 @@ public class VMApprovalEntry extends AndroidViewModel {
     }
 
     public void CreateApprovalCode(ApprovalEntry foEntry, CodeApprovalCreatedListener callback){
-        new CreateCodeTask(poSession, psPackage, callback).execute(foEntry);
+        new CreateCodeTask(instance, psPackage, callback).execute(foEntry);
     }
 
     private static class CreateCodeTask extends AsyncTask<ApprovalEntry, Void, String>{
         private final SessionManager loSession;
         private final String lsPackage;
+        private final ConnectionUtil poConn;
+        private final HttpHeaders poHeaders;
         private final CodeApprovalCreatedListener listener;
 
-        public CreateCodeTask(SessionManager loSession, String lsPackage, CodeApprovalCreatedListener listener) {
-            this.loSession = loSession;
+        public CreateCodeTask(Application instance, String lsPackage, CodeApprovalCreatedListener listener) {
+            this.loSession = new SessionManager(instance);
             this.lsPackage = lsPackage;
             this.listener = listener;
+            this.poConn = new ConnectionUtil(instance);
+            this.poHeaders = HttpHeaders.getInstance(instance);
         }
 
         @Override

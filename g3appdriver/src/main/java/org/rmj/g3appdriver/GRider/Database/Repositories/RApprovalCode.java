@@ -58,4 +58,8 @@ public class RApprovalCode {
     public LiveData<List<ESCA_Request>> getAuthorizedFeatures(SupportSQLiteQuery sqLiteQuery){
         return approvalDao.getAuthorizedFeatures(sqLiteQuery);
     }
+
+    public LiveData<String> getApprovalDesc(String appCode){
+        return approvalDao.getApprovalDesc(appCode);
+    }
 }

@@ -180,6 +180,13 @@ public class Activity_BranchPerformance extends AppCompatActivity implements OnC
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
+
     private class TabClickHandler implements View.OnClickListener{
 
         @Override

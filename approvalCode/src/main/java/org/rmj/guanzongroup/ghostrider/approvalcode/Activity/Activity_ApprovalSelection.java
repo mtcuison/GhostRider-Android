@@ -37,7 +37,7 @@ public class Activity_ApprovalSelection extends AppCompatActivity {
         setContentView(R.layout.activity_approval_selection);
         mViewModel = ViewModelProviders.of(this).get(VMApprovalSelection.class);
 
-        String lsSysType = getIntent().getStringExtra("syscode");
+        String lsSysType = getIntent().getStringExtra("sysCode");
         Toolbar toolbar = findViewById(R.id.toolbar_approvalSelection);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -56,12 +56,11 @@ public class Activity_ApprovalSelection extends AppCompatActivity {
                 loIntentx.putExtra("sSystemCd", SystemCode);
                 loIntentx.putExtra("sSCATypex", SCAType);
                 startActivity(loIntentx);
+                overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             }));
             recyclerView.setLayoutManager(manager);
         });
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -70,4 +69,11 @@ public class Activity_ApprovalSelection extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
 }

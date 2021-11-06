@@ -32,9 +32,9 @@
             <ImageView
                 android:id="@+id/img_dashboard_header"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:src="@drawable/bg_dashboard"
-                android:scaleType="centerCrop"/>
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_ah_header"
+                android:scaleType="center"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"

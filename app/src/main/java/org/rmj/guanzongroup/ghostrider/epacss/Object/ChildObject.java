@@ -138,6 +138,7 @@ public class ChildObject {
             case "by name":
                 loIntent = new Intent(context, Activity_ApprovalSelection.class);
                 loIntent.putExtra("sysCode", "2");
+                break;
 
             case "manual log":
                 loIntent = new Intent(context, Activity_ApprovalCode.class);

@@ -23,13 +23,6 @@
         android:layout_height="wrap_content"
         android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/img_dashboard_header"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:src="@drawable/bg_dashboard"
-            android:scaleType="centerCrop"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -15,12 +15,12 @@
     <application>
         <activity android:name=".Activity.Activity_ApprovalSelection"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
-            android:label="Approval Selection"/>
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+            android:label="Approval Code"/>
         <activity
             android:name=".Activity.Activity_ApprovalCode"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
-            android:label="Approval Entry" />
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
+            android:label="Approval Code" />
     </application>
 </manifest>

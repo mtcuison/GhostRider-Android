@@ -121,16 +121,19 @@ public class Fragment_Home extends Fragment {
                 case R.id.menu_selfielog:
                     loIntent = new Intent(getActivity(), Activity_Application.class);
                     loIntent.putExtra("app", AppConstants.INTENT_SELFIE_LOGIN);
-                    startActivity(loIntent);
+                    requireActivity().startActivity(loIntent);
+                    requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                     return true;
                 case R.id.menu_notif:
                     loIntent = new Intent(getActivity(), Activity_Container.class);
                     loIntent.putExtra("type", "notification");
-                    startActivity(loIntent);
+                    requireActivity().startActivity(loIntent);
+                    requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                     return true;
                 case R.id.menu_settings:
                     loIntent = new Intent(getActivity(), Activity_Settings.class);
                     startActivityForResult(loIntent, SETTINGS);
+                    requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                     return true;
                 case R.id.menu_logout:
                     showDialog();
@@ -177,7 +180,8 @@ public class Fragment_Home extends Fragment {
                         try {
                             Intent loIntent = new Intent(getActivity(), Activity_AreaPerformance.class);
                             loIntent.putExtra("sAreaCode", s);
-                            startActivity(loIntent);
+                            requireActivity().startActivity(loIntent);
+                            requireActivity().overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                         } catch (NullPointerException e) {
                             e.printStackTrace();
                         } catch(Exception e) {
