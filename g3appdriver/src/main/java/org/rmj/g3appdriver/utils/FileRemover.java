@@ -11,14 +11,10 @@ import android.util.Log;
 
 import java.io.File;
 
-public class OldFileRemover {
-    private final String TAG = OldFileRemover.class.getSimpleName();
+public class FileRemover {
+    private static final String TAG = FileRemover.class.getSimpleName();
 
-    public OldFileRemover() {
-        Log.e(TAG, "Initialized.");
-    }
-
-    public boolean execute(String fsFolder) {
+    public static boolean execute(String fsFolder) {
         try {
             if(fsFolder != null) {
                 Log.e(TAG, "Target Folder ~> " + fsFolder);
