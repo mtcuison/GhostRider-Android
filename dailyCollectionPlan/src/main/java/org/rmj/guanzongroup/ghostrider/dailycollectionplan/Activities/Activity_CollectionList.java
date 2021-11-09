@@ -653,7 +653,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
     private void deleteOldFileSchedule() {
         if(deleteFile)
-        if(DayCheck.isTuesday()) {
+        if(DayCheck.isMonday()) {
             poMessage.initDialog();
             poMessage.setPositiveButton("Confirm", (view, dialog) -> {
                 dialog.dismiss();
