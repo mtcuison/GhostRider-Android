@@ -120,24 +120,24 @@ public class VMCollectionList extends AndroidViewModel {
     @SuppressLint("SimpleDateFormat")
     public void DownloadDcp(String date, OnDownloadCollection callback){
         try{
-            @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-            String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(loDate));
-            boolean isExist = false;
-            for(int x = 0; x < Objects.requireNonNull(masterList.getValue()).size(); x++){
-                if(masterList.getValue().get(x).getReferDte().equalsIgnoreCase(lsDate)){
-                    isExist = true;
-                }
-            }
-
-            if(!isExist) {
-                JSONObject loJson = new JSONObject();
-                loJson.put("sEmployID", psEmployeeID);
-                loJson.put("dTransact", lsDate);
-                loJson.put("cDCPTypex", "1");
-                new ImportLRCollection(instance, masterList.getValue(), callback).execute(loJson);
-            } else {
-                callback.OnDownloadFailed("Record already exist. Creating multiple DCP schedule for one day is not allowed.");
-            }
+//            @SuppressLint("SimpleDateFormat") Date loDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+//            String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(loDate));
+//            boolean isExist = false;
+//            for(int x = 0; x < Objects.requireNonNull(masterList.getValue()).size(); x++){
+//                if(masterList.getValue().get(x).getReferDte().equalsIgnoreCase(lsDate)){
+//                    isExist = true;
+//                }
+//            }
+            JSONObject loJson = new JSONObject();
+            loJson.put("sEmployID", psEmployeeID);
+            loJson.put("dTransact", date);
+            loJson.put("cDCPTypex", "1");
+            new ImportLRCollection(instance, masterList.getValue(), callback).execute(loJson);
+//            if(!isExist) {
+//
+//            } else {
+//                callback.OnDownloadFailed("Record already exist. Creating multiple DCP schedule for one day is not allowed.");
+//            }
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -549,14 +549,9 @@ public class VMCollectionList extends AndroidViewModel {
         }
 
         boolean saveMasterDataToLocal(JSONObject foJson) throws Exception {
-            boolean isExist = true;
             JSONObject loJson = foJson.getJSONObject("master");
-            for(int x = 0; x < masterList.size(); x++){
-                if(masterList.get(x).getTransNox().equalsIgnoreCase(loJson.getString("sTransNox"))){
-                    isExist = false;
-                }
-            }
             String lsTransNox = loJson.getString("sTransNox");
+
             List<EDCPCollectionMaster> laMaster = dcpRepo.getCollectionMasterIfExist(lsTransNox);
             if(laMaster.size() <= 0) {
                 EDCPCollectionMaster collectionMaster = new EDCPCollectionMaster();
@@ -574,10 +569,10 @@ public class VMCollectionList extends AndroidViewModel {
                 JSONArray laJson = foJson.getJSONArray("detail");
                 dcpRepo.insertMasterData(collectionMaster);
                 saveDetailDataToLocal(laJson, loJson);
+                return true;
             } else {
-
+                return false;
             }
-            return isExist;
         }
 
         void saveDetailDataToLocal(JSONArray faJson, JSONObject jsonMaster) throws JSONException {
