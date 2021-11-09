@@ -34,5 +34,8 @@ public class VMBusinessTripList extends AndroidViewModel {
     public LiveData<List<EEmployeeBusinessTrip>> getBusinessTripList(){
         return poBussTrip.getOBListForApproval();
     }
+    public LiveData<List<EEmployeeBusinessTrip>> getOBList(){
+        return poBussTrip.getOBList();
+    }
 
 }

@@ -45,7 +45,6 @@ public class Activity_PostDcp extends AppCompatActivity {
             public void OnProgress(String label, int value) {
 
             }
-
             @Override
             public void OnFinishPosting(boolean isSuccess, String Message) {
                 Posting = true;

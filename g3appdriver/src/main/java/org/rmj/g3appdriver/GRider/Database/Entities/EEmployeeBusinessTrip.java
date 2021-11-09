@@ -37,6 +37,8 @@ public class EEmployeeBusinessTrip {
     private String DateFrom;
     @ColumnInfo(name = "dDateThru")
     private String DateThru;
+    @ColumnInfo(name = "sDestinat")
+    private String Destinat;
     @ColumnInfo(name = "sRemarksx")
     private String Remarksx;
     @ColumnInfo(name = "sApproved")
@@ -174,5 +176,13 @@ public class EEmployeeBusinessTrip {
 
     public void setSendStat(String sendStat) {
         SendStat = sendStat;
+    }
+
+    public String getDestinat() {
+        return Destinat;
+    }
+
+    public void setDestinat(String destinat) {
+        Destinat = destinat;
     }
 }

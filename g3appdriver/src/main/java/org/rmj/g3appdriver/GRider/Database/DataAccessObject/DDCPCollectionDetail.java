@@ -95,6 +95,12 @@ public interface DDCPCollectionDetail {
             "AND nEntryNox =:EntryNox")
     void updateCollectionDetailStatusWithRemarks(String TransNox, int EntryNox, String DateEntry, String Remarks);
 
+    @Query("SELECT COUNT(*) FROM LR_DCP_Collection_Detail WHERE sTransNox =:TransNox AND sAcctNmbr != '';")
+    int getAccountNoCount(String TransNox);
+
+    @Query("SELECT COUNT(*) FROM LR_DCP_Collection_Detail WHERE cSendStat = '0' AND sTransNox =:TransNox")
+    int getUnsentCollectionDetail(String TransNox);
+
     @Delete
     void delete(EDCPCollectionDetail collectionDetail);
 
@@ -249,8 +255,9 @@ public interface DDCPCollectionDetail {
             "WHERE a.cSendStat <> '1'")
     LiveData<List<CollectionDetail>> getCollectionDetailForPosting();
 
-    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1'")
-    LiveData<List<EDCPCollectionDetail>> getDCPDetailForPosting();
+    @Query("SELECT * FROM LR_DCP_Collection_Detail " +
+            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dReferDte =:dTransact)")
+    LiveData<List<EDCPCollectionDetail>> getDCPDetailForPosting(String dTransact);
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox =:TransNox")
     List<EDCPCollectionDetail> getCheckPostedCollectionDetail(String TransNox);

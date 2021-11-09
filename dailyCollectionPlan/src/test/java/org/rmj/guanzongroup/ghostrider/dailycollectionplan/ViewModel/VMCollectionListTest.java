@@ -35,4 +35,20 @@ public class VMCollectionListTest {
         }
         assertTrue(hasRemitted);
     }
+
+    @Test
+    public void TestDCPPostTagging(){
+        boolean postDcp;
+        int accounts = 1;
+        int unposted = 0;
+        if(accounts == 0){
+            postDcp = false;
+        } else if(unposted == 0){
+            postDcp = true;
+        } else {
+            postDcp = false;
+        }
+
+        assertFalse(postDcp);
+    }
 }

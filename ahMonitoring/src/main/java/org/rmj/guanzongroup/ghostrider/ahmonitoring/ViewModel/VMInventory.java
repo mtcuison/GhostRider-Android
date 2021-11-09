@@ -18,6 +18,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RandomItem;
 
 import java.util.ArrayList;
@@ -27,10 +29,10 @@ import java.util.List;
 public class VMInventory extends AndroidViewModel {
 
     private final MutableLiveData<List<RandomItem>> psRandom = new MutableLiveData<>();
-
+    private final RBranch poBranch;
     public VMInventory(@NonNull Application application) {
         super(application);
-
+        this.poBranch = new RBranch(application);
         List<RandomItem> randomItems = new ArrayList<>();
         randomItems.add(new RandomItem("1000438", "N0842736853", "Tmx 155 Cam Follower"));
         randomItems.add(new RandomItem("1005049", "N0740345581", "Tmx 125 Alpha Side Cover"));
@@ -39,7 +41,9 @@ public class VMInventory extends AndroidViewModel {
         randomItems.add(new RandomItem("1007580", "N0722848998", "Honda Click Exhaust"));
         psRandom.setValue(randomItems);
     }
-
+    public LiveData<EBranchInfo> getUserBranchInfo(){
+        return poBranch.getUserBranchInfo();
+    }
     public LiveData<List<RandomItem>> getRandomItemList() {
         return psRandom;
     }

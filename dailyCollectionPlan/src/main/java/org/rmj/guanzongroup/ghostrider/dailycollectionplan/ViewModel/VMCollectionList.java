@@ -136,7 +136,7 @@ public class VMCollectionList extends AndroidViewModel {
                 loJson.put("cDCPTypex", "1");
                 new ImportLRCollection(instance, masterList.getValue(), callback).execute(loJson);
             } else {
-                callback.OnDownloadFailed("Record already exist");
+                callback.OnDownloadFailed("Record already exist. Creating multiple DCP schedule for one day is not allowed.");
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -681,13 +681,10 @@ public class VMCollectionList extends AndroidViewModel {
                         if (lsClient.isEmpty() || lsAccess.isEmpty()) {
                             lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
                         } else {
-                            boolean[] isDataSent = new boolean[laCollDetl.size()];
                             if (laCollDetl.size() > 0) {
-//                                reason = new String[laCollDetl.size()];
                                 params = new String[laCollDetl.size()];
                                 for (int x = 0; x < laCollDetl.size(); x++) {
                                     try {
-//                                        reason[x] = "reason is unknown \n";
                                         DDCPCollectionDetail.CollectionDetail loDetail = laCollDetl.get(x);
 
                                         JSONObject loData = new JSONObject();
@@ -718,12 +715,10 @@ public class VMCollectionList extends AndroidViewModel {
                                                 Thread.sleep(1000);
 
                                             } else {
-                                                JSONObject loError = new JSONObject(loUpload.toJSONString());
-                                                isDataSent[x] = false;
                                                 loUnpost.add(new UnpostedDCP(loDetail.sAcctNmbr,
                                                         loDetail.sRemCodex,
                                                         new JSONObject(),
-                                                        loError.getString("message")));
+                                                        "Server no response while uploading dcp image"));
                                                 poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + loUnpost.get(x).getMessage());
                                             }
 
@@ -797,19 +792,16 @@ public class VMCollectionList extends AndroidViewModel {
 
                                         loJson.put("sJsonData", loData);
                                         loJson.put("dReceived", "");
-//                                        loJson.put("sUserIDxx", "");
                                         loJson.put("sUserIDxx", poUser.getUserID());
                                         loJson.put("sDeviceID", poTelephony.getDeviceID());
                                         params[x] =loJson.toString() + " \n";
                                         String lsResponse1 = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
                                         if (lsResponse1 == null) {
-//                                            reason[x] = "Server no response \n";
                                             loUnpost.add(new UnpostedDCP(loDetail.sAcctNmbr,
                                                     loDetail.sRemCodex,
                                                     loJson,
                                                     "Server no response"));
                                             poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + loUnpost.get(x).getMessage());
-                                            isDataSent[x] = false;
                                         } else {
                                             JSONObject loResponse = new JSONObject(lsResponse1);
 
@@ -820,11 +812,9 @@ public class VMCollectionList extends AndroidViewModel {
                                                 } else {
                                                     poDcp.updateCollectionDetailStatus(loDetail.sTransNox, loDetail.nEntryNox);
                                                 }
-                                                isDataSent[x] = true;
                                             } else {
                                                 JSONObject loError = loResponse.getJSONObject("error");
                                                 String lsMessage = loError.getString("message");
-                                                isDataSent[x] = false;
                                                 loUnpost.add(new UnpostedDCP(loDetail.sAcctNmbr,
                                                         loDetail.sRemCodex,
                                                         loJson,
@@ -835,7 +825,6 @@ public class VMCollectionList extends AndroidViewModel {
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
-                                        isDataSent[x] = false;
                                         loUnpost.add(new UnpostedDCP(laCollDetl.get(x).sAcctNmbr,
                                                 laCollDetl.get(x).sRemCodex,
                                                 new JSONObject(),
@@ -849,15 +838,13 @@ public class VMCollectionList extends AndroidViewModel {
                                 //call sending CNA details....
                                 sendCNADetails(laCollDetl.get(0).sTransNox);
 
-                                boolean allDataSent = true;
-                                for (boolean b : isDataSent) {
-                                    if (!b) {
-                                        allDataSent = false;
-                                        break;
-                                    }
-                                }
+                                String lsTransNox = laCollDetl.get(0).sTransNox;
+                                int UnPostedDcp = poDcp.getUnsentCollectionDetail(lsTransNox);
+                                int UnsentAccnt = poDcp.getAccountNoCount(lsTransNox);
 
-                                if (allDataSent) {
+                                if(UnsentAccnt == 0){
+                                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("No customers account has been collected.");//
+                                } else if (UnPostedDcp == 0){
                                     JSONObject loJson = new JSONObject();
                                     loJson.put("sTransNox", laCollDetl.get(0).sTransNox);
                                     String lsResponse1 = WebClient.sendRequest(WebApi.URL_POST_DCP_MASTER, loJson.toString(), poHeaders.getHeaders());
@@ -875,7 +862,7 @@ public class VMCollectionList extends AndroidViewModel {
                                         }
                                     }
                                 } else {
-                                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("An error occurred while posting dcp. Please take screenshot and report to MIS");//
+                                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("An error occurred while posting dcp. Please try again.");//
                                 }
                             } else {
                                 // TODO: Display no details to post
@@ -889,7 +876,7 @@ public class VMCollectionList extends AndroidViewModel {
             } catch (Exception e){
                 e.printStackTrace();
                 lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-                poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + Arrays.toString(e.getStackTrace()));
+                poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + e.getMessage() + " \n " + Arrays.toString(e.getStackTrace()));
             }
             return lsResult;
         }

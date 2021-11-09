@@ -120,6 +120,7 @@ public class VMObApplication extends AndroidViewModel {
                     detail.setDateFrom(infoModel.getDateFrom());
                     detail.setDateThru(infoModel.getDateThru());
                     detail.setRemarksx(infoModel.getRemarksx());
+                    detail.setDestinat(infoModel.getDestinat());
                     detail.setApproved("0");
                     detail.setDapprove(null);
                     detail.setAppldFrx(null);

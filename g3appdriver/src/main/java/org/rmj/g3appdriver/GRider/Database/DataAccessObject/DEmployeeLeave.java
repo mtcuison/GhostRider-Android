@@ -62,6 +62,10 @@ public interface DEmployeeLeave {
     @Query("SELECT * FROM Employee_Leave WHERE sApproved IS NULL AND dApproved IS NULL ORDER BY dTransact DESC")
     LiveData<List<EEmployeeLeave>> getEmployeeLeaveForApprovalList();
 
+    @Query("SELECT * FROM Employee_Leave " +
+            "WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master)")
+    LiveData<List<EEmployeeLeave>> getEmployeeLeaveList();
+
     class LeaveOBApplication {
         public String sTransNox;
         public String dTransact;
@@ -69,4 +73,7 @@ public interface DEmployeeLeave {
         public String dDateFrom;
         public String dDateThru;
     }
+
+    @Query("SELECT * FROM Employee_Leave WHERE cSentStat <> '1'")
+    List<EEmployeeLeave> getUnsentEmployeeLeave();
 }

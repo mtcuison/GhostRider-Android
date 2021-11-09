@@ -14,28 +14,62 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.ItemAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMInventory;
 
 public class Activity_Inventory extends AppCompatActivity {
+    private VMInventory mViewModel;
 
-    private TextView lblTransNox;
-
+    private RecyclerView recyclerView;
+    private TextView lblBranch, lblAddxx, lblDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
-
+        initWidgets();
+        mViewModel = new ViewModelProvider(this).get(VMInventory.class);
+        mViewModel.getUserBranchInfo().observe(Activity_Inventory.this, eBranchInfo -> {
+            try {
+                lblBranch.setText(eBranchInfo.getBranchNm());
+                lblAddxx.setText(eBranchInfo.getAddressx());
+                lblDate.setText(new AppConstants().CURRENT_DATE_WORD);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+        mViewModel.getRandomItemList().observe(Activity_Inventory.this, randomItems -> {
+            LinearLayoutManager manager = new LinearLayoutManager(Activity_Inventory.this);
+            manager.setOrientation(RecyclerView.VERTICAL);
+            recyclerView.setLayoutManager(manager);
+            recyclerView.setAdapter(new ItemAdapter(randomItems, (TransNox, ItemCode, Description) -> {
+//                GToast.CreateMessage(Activity_Inventory.this, TransNox, GToast.INFORMATION).show();
+                Intent loIntent = new Intent(Activity_Inventory.this, Activity_InventoryTransaction.class);
+                loIntent.putExtra("transno", TransNox);
+                loIntent.putExtra("code", ItemCode);
+                loIntent.putExtra("desc", Description);
+                startActivity(loIntent);
+            }));
+        });
+    }
+    public void initWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar_inventory);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        lblTransNox = findViewById(R.id.lbl_itemTransNox);
-        lblTransNox.setText(getIntent().getStringExtra("transno"));
+        recyclerView = findViewById(R.id.recyclerview_inventory);
+        lblBranch = findViewById(R.id.lbl_headerBranch);
+        lblAddxx = findViewById(R.id.lbl_headerAddress);
+        lblDate = findViewById(R.id.lbl_headerDate);
     }
 
     @Override
@@ -44,5 +78,10 @@ public class Activity_Inventory extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

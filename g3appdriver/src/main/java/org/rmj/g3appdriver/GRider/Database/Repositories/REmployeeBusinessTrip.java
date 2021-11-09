@@ -77,6 +77,11 @@ public class REmployeeBusinessTrip implements DEmployeeBusinessTrip {
     }
 
     @Override
+    public void updateOBSentStatus(String TransNox) {
+        employeeBusinessTripDao.updateOBSentStatus(TransNox);
+    }
+
+    @Override
     public void updateOBApproval(String TranStat, String TransNox, String DateSent) {
         employeeBusinessTripDao.updateOBApproval(TranStat, TransNox, DateSent);
     }
@@ -84,6 +89,16 @@ public class REmployeeBusinessTrip implements DEmployeeBusinessTrip {
     @Override
     public LiveData<List<EEmployeeBusinessTrip>> getOBListForApproval() {
         return employeeBusinessTripDao.getOBListForApproval();
+    }
+
+    @Override
+    public LiveData<List<EEmployeeBusinessTrip>> getOBList() {
+        return employeeBusinessTripDao.getOBList();
+    }
+
+    @Override
+    public List<EEmployeeBusinessTrip> getUnsentEmployeeOB() {
+        return employeeBusinessTripDao.getUnsentEmployeeOB();
     }
 
     public String getOBLeaveNextCode(){
