@@ -181,7 +181,8 @@ public class WebApi {
     public static String URL_LOAD_APPLICATION_APPROVAL = "https://restgk.guanzongroup.com.ph/integsys/codeapproval/code_load.php";
     public static String URL_APPLICATION_APPROVE = "https://restgk.guanzongroup.com.ph/integsys/codeapproval/code_decide.php";
 
-    public static String URL_DOWNLOAD_DCP = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_download.php";
+//    public static String URL_DOWNLOAD_DCP = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_download.php";
+    public static String URL_DOWNLOAD_DCP = "http://192.168.10.141/integsys/dcp/dcp_download.php";
     public static String URL_DCP_SUBMIT = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_submit.php";
     public static String URL_POST_DCP_MASTER = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_post.php";
     public static String URL_GET_AR_CLIENT = "https://restgk.guanzongroup.com.ph/query/client/get_ar_client.php";
@@ -210,6 +211,8 @@ public class WebApi {
     public static String URL_SEND_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/petmgr/send_ob_application.php";
     public static String URL_GET_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/petmgr/get_ob_application.php";
     public static String URL_CONFIRM_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/petmgr/confirm_ob_application.php";
+
+    public static String URL_REQUEST_RANDOM_STOCK_INVENTORY = "https://restgk.guanzongroup.com.ph/integsys/bullseye/random_stock_inventory_request.php";
 
     public static String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gRider.apk";
 

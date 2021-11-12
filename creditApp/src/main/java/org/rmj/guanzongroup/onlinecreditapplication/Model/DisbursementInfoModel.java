@@ -12,17 +12,17 @@
 package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
 public class DisbursementInfoModel {
-    private String transNo;
-    private String elctX;
-    private String waterX;
-    private String foodX;
-    private String loans;
-    private String bankN;
+    private String transNo = "";
+    private String elctX = "";
+    private String waterX = "";
+    private String foodX = "";
+    private String loans = "";
+    private String bankN = "";
     private String stypeX = "";
-    private String ccBnk;
-    private String limitCC;
-    private String yearS;
-    private String message;
+    private String ccBnk = "";
+    private String limitCC = "";
+    private String yearS = "";
+    private String message = "";
 
     public DisbursementInfoModel() {
     }

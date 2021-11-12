@@ -46,8 +46,8 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_branch_performance.xml" value="0.18" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_cash_count_submit.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_employee_applications.xml" value="0.1" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_inventory.xml" value="0.18" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_inventory_transaction.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_inventory.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_inventory_transaction.xml" value="0.2" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_monitoring.xml" value="0.16" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/custom_tab_ah.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_branch_monitor.xml" value="0.15" />
@@ -91,6 +91,11 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/approvalCode/src/main/res/layout/fragment_approval_entry.xml" value="0.21" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/approvalCode/src/main/res/layout/fragment_credit_app_approval.xml" value="0.2" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/approvalCode/src/main/res/layout/fragment_manual_log.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/creditApp/src/main/res/layout/fragment_comaker.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/creditApp/src/main/res/layout/fragment_comaker_residence.xml" value="0.21" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/creditApp/src/main/res/layout/fragment_self_employed_info.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/creditApp/src/main/res/layout/fragment_spouse_employment_info.xml" value="0.21" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/creditApp/src/main/res/layout/fragment_spouse_self_employed_info.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/creditApp/src/main/res/layout/list_item_document_to_scan.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/dailyCollectionPlan/src/main/res/layout/activity_collection_list.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/dailyCollectionPlan/src/main/res/layout/activity_collection_remittance.xml" value="0.1" />

@@ -28,11 +28,14 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.ItemAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMInventory;
 
+import java.util.Objects;
+
 public class Activity_Inventory extends AppCompatActivity {
     private VMInventory mViewModel;
 
     private RecyclerView recyclerView;
     private TextView lblBranch, lblAddxx, lblDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,7 @@ public class Activity_Inventory extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
+
         mViewModel.getRandomItemList().observe(Activity_Inventory.this, randomItems -> {
             LinearLayoutManager manager = new LinearLayoutManager(Activity_Inventory.this);
             manager.setOrientation(RecyclerView.VERTICAL);
@@ -62,10 +66,11 @@ public class Activity_Inventory extends AppCompatActivity {
             }));
         });
     }
+
     public void initWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar_inventory);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         recyclerView = findViewById(R.id.recyclerview_inventory);
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddxx = findViewById(R.id.lbl_headerAddress);
