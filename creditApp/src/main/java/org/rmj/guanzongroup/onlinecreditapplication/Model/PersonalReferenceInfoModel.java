@@ -13,10 +13,10 @@ package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
 public class PersonalReferenceInfoModel {
 
-    private String Fullname;
-    private String Address1;
-    private String TownCity;
-    private String ContactN;
+    private String Fullname = "";
+    private String Address1 = "";
+    private String TownCity = "";
+    private String ContactN = "";
 
     public PersonalReferenceInfoModel(String fullname, String address1, String townCity, String contactN) {
         Fullname = fullname;

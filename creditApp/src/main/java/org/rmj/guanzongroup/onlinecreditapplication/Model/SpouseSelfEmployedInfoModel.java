@@ -18,7 +18,7 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
     private String sMsg;
 
     private String sBizIndustry;
-    private String sBizName;
+    private String sBizName = "";
     private String sBizAddress;
     private String sProvId;
     private String sTownId;
