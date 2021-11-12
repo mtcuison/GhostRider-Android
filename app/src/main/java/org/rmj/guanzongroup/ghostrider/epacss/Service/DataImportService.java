@@ -37,6 +37,7 @@ import org.rmj.g3appdriver.GRider.ImportData.Import_BankList;
 import org.rmj.g3appdriver.GRider.ImportData.Import_BranchPerformance;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Relation;
+import org.rmj.g3appdriver.GRider.ImportData.Import_SCARequest;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SysConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 
@@ -78,6 +79,7 @@ public class DataImportService extends JobService {
                 new ImportCountry(getApplication()),
                 new Import_Occupations(getApplication()),
                 new Import_SysConfig(getApplication()),
+                new Import_SCARequest(getApplication()),
                 new ImportBranch(getApplication())};
         new Thread(() -> {
             for (ImportInstance importInstance : importInstances) {

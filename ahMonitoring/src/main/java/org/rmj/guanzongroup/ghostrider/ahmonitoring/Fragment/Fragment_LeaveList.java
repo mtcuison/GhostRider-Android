@@ -27,12 +27,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.EmployeeApplicationAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMLeaveList;
+
+import java.util.List;
 
 public class Fragment_LeaveList extends Fragment {
 
@@ -42,6 +45,8 @@ public class Fragment_LeaveList extends Fragment {
 
     private MessageBox poMessage;
     private LoadDialog poDialog;
+
+    private boolean forViewing;
 
     public static Fragment_LeaveList newInstance() {
         return new Fragment_LeaveList();
@@ -61,24 +66,31 @@ public class Fragment_LeaveList extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMLeaveList.class);
 
-        mViewModel.getEmployeeLeaveForApprovalList().observe(getViewLifecycleOwner(), eEmployeeLeaves -> {
-            try{
-                boolean forViewing = requireActivity().getIntent().getBooleanExtra("type", false);
-                LinearLayoutManager loManager = new LinearLayoutManager(getActivity());
-                loManager.setOrientation(RecyclerView.VERTICAL);
-                recyclerView.setLayoutManager(loManager);
-                recyclerView.setAdapter(new EmployeeApplicationAdapter(eEmployeeLeaves, forViewing, TransNox -> {
-                    if(!forViewing) {
-                        Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
-                        loIntent.putExtra("app", AppConstants.INTENT_LEAVE_APPROVAL);
-                        loIntent.putExtra("sTransNox", TransNox);
-                        startActivity(loIntent);
-                    }
-                }));
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+        forViewing = requireActivity().getIntent().getBooleanExtra("type", false);
+
+        if(forViewing) {
+            mViewModel.getEmployeeLeaveList().observe(getViewLifecycleOwner(), this::setupList);
+        } else {
+            mViewModel.getEmployeeLeaveForApprovalList().observe(getViewLifecycleOwner(), this::setupList);
+        }
+    }
+
+    private void setupList(List<EEmployeeLeave> fsList){
+        try{
+            LinearLayoutManager loManager = new LinearLayoutManager(getActivity());
+            loManager.setOrientation(RecyclerView.VERTICAL);
+            recyclerView.setLayoutManager(loManager);
+            recyclerView.setAdapter(new EmployeeApplicationAdapter(fsList, forViewing, TransNox -> {
+                if(!forViewing) {
+                    Intent loIntent = new Intent(requireActivity(), Activity_Application.class);
+                    loIntent.putExtra("app", AppConstants.INTENT_LEAVE_APPROVAL);
+                    loIntent.putExtra("sTransNox", TransNox);
+                    startActivity(loIntent);
+                }
+            }));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void setupWidgets(View v){

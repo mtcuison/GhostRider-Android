@@ -22,7 +22,6 @@
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:background="@drawable/selector_list_item"
         android:textColor="@color/material_black"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -32,4 +31,5 @@
         android:layout_height="1dp"
         android:layout_above="@id/layoutDots"
         android:background="@color/guanzon_orange" />
+
 </LinearLayout>

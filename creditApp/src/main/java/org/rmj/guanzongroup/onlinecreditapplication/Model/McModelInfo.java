@@ -13,14 +13,14 @@ package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
 public class McModelInfo {
 
-    private String sApplType;
-    private String sCustmrTp;
-    private String sBranchCd;
-    private String sBrandCde;
-    private String sModelCde;
-    private String sDownPymt;
-    private String sInsTermx;
-    private String sMnthAmrt;
+    private String sApplType = "";
+    private String sCustmrTp = "";
+    private String sBranchCd = "";
+    private String sBrandCde = "";
+    private String sModelCde = "";
+    private String sDownPymt = "";
+    private String sInsTermx = "";
+    private String sMnthAmrt = "";
 
     private String message;
 

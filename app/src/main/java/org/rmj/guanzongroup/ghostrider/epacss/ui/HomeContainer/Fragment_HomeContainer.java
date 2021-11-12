@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +44,8 @@ public class Fragment_HomeContainer extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
+    private ImageView imgHeader;
+
     private Fragment[] fragment;
 
     private final int[] toggled_icons = {R.drawable.ic_home_dashboard_toggled,
@@ -60,6 +63,7 @@ public class Fragment_HomeContainer extends Fragment {
         appBarHome = root.findViewById(R.id.appbar_home);
         tabLayout = root.findViewById(R.id.tab_home);
         viewPager = root.findViewById(R.id.viewpager_home);
+        imgHeader = root.findViewById(R.id.img_dashboard_header);
         return root;
     }
 
@@ -71,12 +75,15 @@ public class Fragment_HomeContainer extends Fragment {
             if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_RANK_FILE))){
                 fragment = new Fragment[]{new Fragment_Associate_Dashboard(), new Fragment_NotificationList()};
                 appBarHome.setVisibility(View.VISIBLE);
+                imgHeader.setImageResource(R.drawable.img_associate);
             }  else if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_BEANCH_HEAD))) {
                 fragment = new Fragment[]{new Fragment_BH_Dashboard(), new Fragment_NotificationList()};
                 appBarHome.setVisibility(View.VISIBLE);
+                imgHeader.setImageResource(R.drawable.img_bh_header);
             } else {
                 fragment = new Fragment[]{new Fragment_Home()};
                 appBarHome.setVisibility(View.GONE);
+                imgHeader.setImageResource(R.drawable.img_ah_header);
             }
 //            fragment = new Fragment[]{new Fragment_Associate_Dashboard(), new Fragment_NotificationList()};
             viewPager.setAdapter(new FragmentAdapter(getChildFragmentManager(), fragment));

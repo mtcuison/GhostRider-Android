@@ -85,6 +85,16 @@ public class REmployeeLeave implements DEmployeeLeave {
         return employeeDao.getEmployeeLeaveForApprovalList();
     }
 
+    @Override
+    public LiveData<List<EEmployeeLeave>> getEmployeeLeaveList() {
+        return employeeDao.getEmployeeLeaveList();
+    }
+
+    @Override
+    public List<EEmployeeLeave> getUnsentEmployeeLeave() {
+        return employeeDao.getUnsentEmployeeLeave();
+    }
+
     public String getNextLeaveCode(){
         String lsNextCode = "";
         try{

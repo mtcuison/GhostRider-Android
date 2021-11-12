@@ -12,6 +12,8 @@
 package org.rmj.g3appdriver.GRider.Constants;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.R;
+import org.rmj.g3appdriver.dev.DeptCode;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -191,5 +193,13 @@ public class AppConstants {
                 return "APPROVE";
         }
         return "CANCELED";
+    }
+
+    public static int getUserIcon(String level){
+        if (level.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_RANK_FILE))){
+            return R.drawable.ic_user_associate;
+        } else {
+            return R.drawable.ic_user_supervisor;
+        }
     }
 }

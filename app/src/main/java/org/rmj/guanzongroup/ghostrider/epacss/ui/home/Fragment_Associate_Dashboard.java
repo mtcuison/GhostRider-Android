@@ -24,24 +24,18 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.AppAssistantConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_Main;
 import org.rmj.guanzongroup.ghostrider.epacss.Activity.Activity_SplashScreen;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMAHDashboard;
-import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.AppDeptIcon;
-import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Help;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 
 import static android.app.Activity.RESULT_OK;
@@ -58,7 +52,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
             lblBranch,
             lblAddx,
             lblVersion;
-    private ImageView imgDept;
+//    private ImageView imgUser;
 
     private MaterialButton btnSettings, btnLogout;
 
@@ -78,9 +72,8 @@ public class Fragment_Associate_Dashboard extends Fragment {
         lblDept = view.findViewById(R.id.lbl_userDepartment);
         lblBranch = view.findViewById(R.id.lbl_userBranch);
         lblAddx = view.findViewById(R.id.lbl_userAddress);
-        imgDept = view.findViewById(R.id.img_deptLogo);
+//        imgUser = view.findViewById(R.id.img_userLogo);
         lblVersion = view.findViewById(R.id.lbl_versionInfo);
-        imgDept = view.findViewById(R.id.img_deptLogo);
         btnLogout = view.findViewById(R.id.btn_logout);
         btnSettings = view.findViewById(R.id.btn_settings);
 
@@ -123,6 +116,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
                 lblEmail.setText(eEmployeeInfo.getEmailAdd());
                 lblUserLvl.setText(DeptCode.parseUserLevel(Integer.parseInt(eEmployeeInfo.getEmpLevID())));
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+//                imgUser.setImageResource(AppConstants.getUserIcon(eEmployeeInfo.getUserLevl()));
             } catch (Exception e){
                 e.printStackTrace();
             }

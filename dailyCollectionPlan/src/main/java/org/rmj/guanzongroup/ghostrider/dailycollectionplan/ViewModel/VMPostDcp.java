@@ -46,6 +46,8 @@ import java.util.Objects;
 public class VMPostDcp extends AndroidViewModel {
     private static final String TAG = VMPostDcp.class.getSimpleName();
 
+    private final Application instance;
+
     public interface OnPostCollectionCallback{
         void OnStartPosting(String Title, String Message);
         void OnProgress(String label, int value);
@@ -54,10 +56,11 @@ public class VMPostDcp extends AndroidViewModel {
 
     public VMPostDcp(@NonNull Application application) {
         super(application);
+        this.instance = application;
     }
 
     public void PostDCP(OnPostCollectionCallback callback){
-
+        new PostLRDCP(instance).execute();
     }
 
     private class PostLRDCP extends AsyncTask<List<EDCPCollectionDetail>, Integer, JSONObject>{
@@ -192,7 +195,7 @@ public class VMPostDcp extends AndroidViewModel {
                         JSONObject loResult = new JSONObject(lsDtlResult);
                         String lsResult = loResult.getString("result");
                         if(lsResult.equalsIgnoreCase("success")){
-
+                            UpdateLocalDCPStatus(loDetail);
                         } else {
 
                         }

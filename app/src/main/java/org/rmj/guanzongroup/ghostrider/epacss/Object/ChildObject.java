@@ -60,10 +60,10 @@ public class ChildObject {
                 loIntent = new Intent(context, Activity_IntroductoryQuestion.class);
 //                loIntent = new Intent(context, Activity_CreditAppHome.class);
                 break;
-//            case "user application list":
-//                loIntent = new Intent(context, Activity_ApplicationHistory.class);
+            case "user application list":
+                loIntent = new Intent(context, Activity_ApplicationHistory.class);
 //                loIntent.putExtra("app", AppConstants.INTENT_OB_APPLICATION);
-//                break;
+                break;
 //            case "branch application list":
 //                loIntent = new Intent(context, Activity_BranchApplications.class);
 //                break;
@@ -138,6 +138,7 @@ public class ChildObject {
             case "by name":
                 loIntent = new Intent(context, Activity_ApprovalSelection.class);
                 loIntent.putExtra("sysCode", "2");
+                break;
 
             case "manual log":
                 loIntent = new Intent(context, Activity_ApprovalCode.class);

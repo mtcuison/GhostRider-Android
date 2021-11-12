@@ -6,12 +6,17 @@
 
     <application>
         <activity
+            android:name=".Activity.Activity_InventoryTransaction"
+            android:exported="true" />
+        <activity
             android:name=".Activity.Activity_AreaPerformance"
             android:exported="true"
+            android:label="Area Performance Monitoring"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activity.Activity_BranchPerformance"
             android:exported="true"
+            android:label="Branch Performance Monitoring"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activity.Activity_Employee_Applications"

@@ -38,6 +38,7 @@ public class Activity_ApprovalCode extends AppCompatActivity {
         return instance;
     }
 
+    private String psSysCode;
     private String psSystemType;
     private String psSystemCode;
     private String psSCATypexxx;
@@ -110,4 +111,11 @@ public class Activity_ApprovalCode extends AppCompatActivity {
             return new Fragment_ManualLog();
         }
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
 }

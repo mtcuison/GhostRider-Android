@@ -116,6 +116,13 @@ public class RDailyCollectionPlan {
         detailDao.updateCollectionDetailStatusWithRemarks(TransNox, EntryNox, new AppConstants().DATE_MODIFIED, Remarks);
     }
 
+    public int getAccountNoCount(String TransNox){
+        return detailDao.getAccountNoCount(TransNox);
+    }
+
+    public int getUnsentCollectionDetail(String TransNox){
+        return detailDao.getUnsentCollectionDetail(TransNox);
+    }
 
     public void updateCollectionDetailImage(String AccntNox){
         detailDao.updateCustomerDetailImage(AccntNox);
@@ -386,7 +393,7 @@ public class RDailyCollectionPlan {
     }
 
     public LiveData<List<EDCPCollectionDetail>> getDCPDetailForPosting(){
-        return detailDao.getDCPDetailForPosting();
+        return detailDao.getDCPDetailForPosting(AppConstants.CURRENT_DATE);
     }
 
     public List<EDCPCollectionDetail> getCheckPostedCollectionDetail(String TransNox){

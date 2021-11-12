@@ -13,11 +13,11 @@ package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
 public class PensionInfoModel{
 
-    private String sSectorx;
-    private String sRangexx;
-    private String sRtrYear;
-    private String sNtrIncm;
-    private String sRngIncm;
+    private String sSectorx = "";
+    private String sRangexx = "";
+    private String sRtrYear = "";
+    private String sNtrIncm = "";
+    private String sRngIncm = "";
 
     private String message;
 

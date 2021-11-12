@@ -49,4 +49,10 @@ public class Activity_CIHistoryInfo extends AppCompatActivity {
         lblHOthers = findViewById(R.id.lbl_hasother);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
 }

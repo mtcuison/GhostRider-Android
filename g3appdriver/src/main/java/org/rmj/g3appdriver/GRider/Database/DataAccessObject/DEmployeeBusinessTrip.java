@@ -45,6 +45,9 @@ public interface DEmployeeBusinessTrip {
     @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
     LiveData<EEmployeeBusinessTrip> getBusinessTripInfo(String TransNox);
 
+    @Query("UPDATE Employee_Business_Trip SET cSendStat = '1' WHERE sTransNox =:TransNox")
+    void updateOBSentStatus(String TransNox);
+
     @Query("UPDATE Employee_Business_Trip SET " +
             "cTranStat =:TranStat, " +
             "dApproved =:DateSent, " +
@@ -54,4 +57,11 @@ public interface DEmployeeBusinessTrip {
 
     @Query("SELECT * FROM Employee_Business_Trip WHERE sApproved IS NULL AND dApproved IS NULL")
     LiveData<List<EEmployeeBusinessTrip>> getOBListForApproval();
+
+    @Query("SELECT * FROM Employee_Business_Trip " +
+            "WHERE xEmployee = (SELECT sEmployID FROM User_Info_Master)")
+    LiveData<List<EEmployeeBusinessTrip>> getOBList();
+
+    @Query("SELECT * FROM Employee_Business_Trip WHERE cSendStat <> '1'")
+    List<EEmployeeBusinessTrip> getUnsentEmployeeOB();
 }

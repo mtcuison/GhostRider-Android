@@ -52,4 +52,7 @@ public interface DApprovalCode {
 
     @RawQuery(observedEntities = ESCA_Request.class)
     LiveData<List<ESCA_Request>> getAuthorizedFeatures(SupportSQLiteQuery sqLiteQuery);
+
+    @Query("SELECT sSCATitle FROM xxxSCA_Request WHERE sSCACodex =:AppCode")
+    LiveData<String> getApprovalDesc(String AppCode);
 }

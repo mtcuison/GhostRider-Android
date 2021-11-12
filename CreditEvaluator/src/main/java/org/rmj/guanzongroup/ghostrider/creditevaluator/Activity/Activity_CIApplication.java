@@ -141,4 +141,10 @@ public class Activity_CIApplication extends AppCompatActivity {
         getViewModelStore().clear();
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+    }
+
 }

@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.approvalcode.Fragment;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.DatePickerDialog;
@@ -30,6 +31,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -57,6 +59,7 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
     private TextInputLayout tilReferNo;
     private TextInputEditText txtDate, txtReferNo, txtLastNm, txtFrstNm, txtMiddNm, txtSuffix, txtRemarks;
     private EditText txtAppCode;
+    private TextView lblAppv;
     private LinearLayout lnFullNm;
     private MaterialButton btnCreate;
     private ImageButton btnCopy;
@@ -95,6 +98,7 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
         txtSuffix = v.findViewById(R.id.txt_appSuffix);
         txtRemarks = v.findViewById(R.id.txt_appRemarks);
         txtAppCode = v.findViewById(R.id.txt_approvalCode);
+        lblAppv = v.findViewById(R.id.lbl_approval);
         btnCreate = v.findViewById(R.id.btn_requestAppCode);
         btnCopy = v.findViewById(R.id.btn_CopyToClipboard);
 
@@ -148,6 +152,14 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMApprovalEntry.class);
+
+        mViewModel.getApprovalDesc(psSysCode).observe(getViewLifecycleOwner(), s -> {
+            try {
+                lblAppv.setText(s);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
 
         mViewModel.getBranchNameList().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);

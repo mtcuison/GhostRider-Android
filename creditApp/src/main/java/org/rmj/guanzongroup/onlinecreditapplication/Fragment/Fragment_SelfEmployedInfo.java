@@ -117,6 +117,7 @@ public class Fragment_SelfEmployedInfo extends Fragment implements ViewModelCall
                 e.printStackTrace();
             }
         });
+
         mViewModel.getAllProvinceNames().observe(getViewLifecycleOwner(), strings -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
             txtProvnc.setAdapter(adapter);

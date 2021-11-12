@@ -10,213 +10,231 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="5dp"
+    app:cardMaxElevation="5dp"
+    app:cardCornerRadius="10dp"
+    app:cardPreventCornerOverlap="true"
     tools:context=".Fragment.Fragment_CreditAppApproval"
     android:theme="@style/GhostRiderMaterialTheme">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:gravity="center">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
+                android:id="@+id/lbl_approval"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/TextInputStyle"
-                android:hint="@string/sHintTransNox">
+                android:fontFamily="@font/roboto_medium"
+                android:text="Credit Application Approval"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:textColor="@color/material_black"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_appTransNox"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/guanzon_orange"
+                android:layout_marginBottom="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/TextInputStyle.Edittext"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    style="@style/TextInputStyle"
+                    android:hint="@string/sHintTransNox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_appTransNox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/TextInputStyle.Edittext"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextInputStyle"
+                        android:hint="@string/sHintBranch">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/txt_appBranch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/AutoCompleteStyleTheme"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_loadApplication"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/MaterialButtonAccent"
+                        android:text="Load" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/material_black"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextInputStyle"
+                    android:hint="@string/sHintReqBranch">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/txt_appReqstBranch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/AutoCompleteStyleTheme"
+                        android:digits="@string/free_text_restriction"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextInputStyle"
+                    android:hint="@string/sHintReqDate">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_appRequestDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/TextInputStyle.Edittext"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextInputStyle"
+                    android:hint="Miscellaneous Info">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_appMiscInfo"
+                        style="@style/TextInputStyle.Edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number|none"
+                        android:digits="@string/free_text_restriction"
+                        android:maxLength="50" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextInputStyle"
+                    android:hint="@string/sHintRemarks">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_appRemarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/TextInputStyle.Edittext"
+                        android:inputType="textMultiLine"
+                        android:digits="@string/free_text_restriction"
+                        android:lines="3"
+                        android:maxLength="200"
+                        android:maxLines="5"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextInputStyle"
+                    android:hint="@string/sHintAppNotes">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_appNotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/TextInputStyle.Edittext"
+                        android:inputType="textMultiLine"
+                        android:digits="@string/free_text_restriction"
+                        android:lines="3"
+                        android:maxLength="200"
+                        android:maxLines="5"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginBottom="20dp">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
+                <EditText
+                    android:id="@+id/txt_approvalCode"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    style="@style/TextInputStyle"
-                    android:hint="@string/sHintBranch">
+                    android:maxLines="1"
+                    android:maxLength="11"
+                    android:letterSpacing="1"
+                    android:gravity="center"
+                    android:textColor="@color/material_black"
+                    android:backgroundTint="@color/textColor_Orange"
+                    android:textCursorDrawable="@null"
+                    android:fontFamily="@font/roboto_medium"
+                    android:enabled="false"
+                    tools:ignore="UnusedAttribute" />
 
-                    <AutoCompleteTextView
-                        android:id="@+id/txt_appBranch"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/AutoCompleteStyleTheme"/>
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_loadApplication"
-                    android:layout_width="match_parent"
+                <ImageButton
+                    android:id="@+id/btn_CopyToClipboard"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    style="@style/MaterialButtonAccent"
-                    android:text="Load" />
+                    android:layout_weight=".15"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:src="@drawable/ic_copy_content"/>
 
             </LinearLayout>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/material_black"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginHorizontal="10dp">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle"
-                android:hint="@string/sHintReqBranch">
-
-                <AutoCompleteTextView
-                    android:id="@+id/txt_appReqstBranch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/AutoCompleteStyleTheme"
-                    android:digits="@string/free_text_restriction"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle"
-                android:hint="@string/sHintReqDate">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_appRequestDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/TextInputStyle.Edittext"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle"
-                android:hint="Miscellaneous Info">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_appMiscInfo"
-                    style="@style/TextInputStyle.Edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number|none"
-                    android:digits="@string/free_text_restriction"
-                    android:maxLength="50" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle"
-                android:hint="@string/sHintRemarks">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_appRemarks"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/TextInputStyle.Edittext"
-                    android:inputType="textMultiLine"
-                    android:digits="@string/free_text_restriction"
-                    android:lines="3"
-                    android:maxLength="200"
-                    android:maxLines="5"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextInputStyle"
-                android:hint="@string/sHintAppNotes">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_appNotes"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/TextInputStyle.Edittext"
-                    android:inputType="textMultiLine"
-                    android:digits="@string/free_text_restriction"
-                    android:lines="3"
-                    android:maxLength="200"
-                    android:maxLines="5"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_marginBottom="20dp">
-
-            <EditText
-                android:id="@+id/txt_approvalCode"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:maxLines="1"
-                android:maxLength="11"
-                android:letterSpacing="1"
-                android:gravity="center"
-                android:textColor="@color/material_black"
-                android:backgroundTint="@color/textColor_Orange"
-                android:textCursorDrawable="@null"
-                android:fontFamily="@font/roboto_medium"
-                android:enabled="false"
-                tools:ignore="UnusedAttribute" />
-
-            <ImageButton
-                android:id="@+id/btn_CopyToClipboard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".15"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:src="@drawable/ic_copy_content"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_ApproveWithCI"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 style="@style/MaterialButtonAccent"
                 android:text="Approve" />
 
@@ -224,7 +242,6 @@
                 android:id="@+id/btn_DisapproveApp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 style="@style/MaterialButtonAccent"
                 android:text="Disapprove" />
 
@@ -232,12 +249,12 @@
                 android:id="@+id/btn_ApproveAppNoCI"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 style="@style/MaterialButtonAccent"
-                android:text="Approve(No CI)" />
+                android:text="Approve(No CI)"
+                android:layout_marginBottom="20dp" />
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
-</ScrollView>
+</androidx.cardview.widget.CardView>

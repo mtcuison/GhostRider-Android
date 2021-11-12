@@ -13,17 +13,17 @@ package org.rmj.guanzongroup.onlinecreditapplication.Model;
 
 public class SelfEmployedInfoModel {
 
-    private String sBussNtrx;
-    private String sBussName;
-    private String sBussAddx;
-    private String sBussProv;
-    private String sBussTown;
-    private String sBussType;
-    private String sBussSize;
-    private String sLenghtSv;
-    private String sLenghtSpinner;
-    private String sMnthlyIn;
-    private String sMnthlyEx;
+    private String sBussNtrx = "";
+    private String sBussName = "";
+    private String sBussAddx = "";
+    private String sBussProv = "";
+    private String sBussTown = "";
+    private String sBussType = "";
+    private String sBussSize = "";
+    private String sLenghtSv = "";
+    private String sLenghtSpinner = "";
+    private String sMnthlyIn = "";
+    private String sMnthlyEx = "";
 
     private String message;
 

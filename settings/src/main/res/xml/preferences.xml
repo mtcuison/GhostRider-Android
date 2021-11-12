@@ -85,8 +85,7 @@
             app:icon="@drawable/ic_menu_help"
             app:title="Help"
             app:iconSpaceReserved="false"
-            app:defaultValue="false"
-            app:summary="@string/summary_settings_help"/>
+            app:defaultValue="false"/>
 
     </PreferenceCategory>
 

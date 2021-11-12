@@ -16,11 +16,11 @@ import org.rmj.g3appdriver.GRider.Etc.InputChecker;
 public class SpousePensionInfoModel extends InputChecker {
     // TODO: Test first
     private String sMgs;
-    private String sPensionSector;
-    private String sPensionAmt;
-    private String sRetirementYr;
-    private String sOtherSrc;
-    private String sOtherSrcIncx;
+    private String sPensionSector = "";
+    private String sPensionAmt = "";
+    private String sRetirementYr = "";
+    private String sOtherSrc = "";
+    private String sOtherSrcIncx = "";
 
     public String getsMgs() {
         return sMgs;

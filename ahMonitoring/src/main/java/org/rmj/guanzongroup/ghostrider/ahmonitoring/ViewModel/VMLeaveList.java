@@ -42,6 +42,10 @@ public class VMLeaveList extends AndroidViewModel {
         return poLeave.getEmployeeLeaveForApprovalList();
     }
 
+    public LiveData<List<EEmployeeLeave>> getEmployeeLeaveList(){
+        return poLeave.getEmployeeLeaveList();
+    }
+
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return poBranch.getUserBranchInfo();
     }
