@@ -50,7 +50,9 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_inventory_transaction.xml" value="0.2" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_monitoring.xml" value="0.16" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/custom_tab_ah.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/dialog_inventory_branch_selection.xml" value="0.33" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_branch_monitor.xml" value="0.15" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_branch_opening.xml" value="0.1631578947368421" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_emp_application_list.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_job_order.xml" value="0.1631578947368421" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/fragment_leave_application.xml" value="0.1631578947368421" />
