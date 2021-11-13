@@ -276,6 +276,7 @@ public class Activity_ApplicationHistory extends AppCompatActivity implements Vi
             mViewModel.saveApplicantImageFromCamera(poImage.getSourceNo());
         }
     }
+
     public void onPreviewImage(String FileLoct){
         Bitmap bitmap = null;
         try {
