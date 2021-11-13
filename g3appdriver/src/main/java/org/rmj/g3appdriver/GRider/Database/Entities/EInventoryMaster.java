@@ -5,7 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Inventory_Count_Master>")
+@Entity(tableName = "Inventory_Count_Master")
 public class EInventoryMaster {
 
     @NonNull

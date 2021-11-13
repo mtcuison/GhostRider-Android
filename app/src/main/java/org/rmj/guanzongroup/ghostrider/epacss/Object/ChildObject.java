@@ -18,6 +18,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Employee_Applications;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Inventory;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalCode;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalSelection;
@@ -143,6 +144,10 @@ public class ChildObject {
             case "manual log":
                 loIntent = new Intent(context, Activity_ApprovalCode.class);
                 loIntent.putExtra("sysCode", "2");
+                break;
+
+            case "random stock inventory":
+                loIntent = new Intent(context, Activity_Inventory.class);
                 break;
             default:
                 loIntent = null;

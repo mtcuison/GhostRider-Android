@@ -10,7 +10,7 @@
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
     android:background="@color/material_lightgrey"
-    android:layout_marginHorizontal="60dp">
+    android:layout_marginHorizontal="30dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,28 +42,13 @@
             android:textAlignment="center"
             android:fontFamily="@font/roboto"
             android:paddingTop="25dp"
-            android:paddingBottom="30dp"/>
-        
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:gravity="center_horizontal" />
+            android:paddingBottom="10dp"/>
 
-        <View
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_branch"
             android:layout_width="match_parent"
-            android:layout_height="0.7dp"
-            android:background="@color/guanzon_orange"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_dialogPositive"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Confirm"
-            app:rippleColor="@color/guanzon_digital_orange"
-            android:textColor="@color/material_black"
-            android:fontFamily="@font/roboto_medium"
-            style="@style/Widget.AppCompat.Button.Borderless" />
+            android:layout_height="200dp"
+            android:padding="10dp"/>
 
     </LinearLayout>
 
