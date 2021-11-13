@@ -81,8 +81,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     private static final int PICK_TEXT_FILE = 105;
     private static final int EXPORT_TEXT_FILE = 106;
 
-    private static boolean deleteFile = true;
-
     private LoadDialog poDialogx;
     private MessageBox poMessage;
     private DialogAddCollection loDialog;
@@ -117,9 +115,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         mViewModel = new ViewModelProvider(this).get(VMCollectionList.class);
         expCollectDetl = new JSONArray();
         initWidgets();
-        if(DayCheck.isSunday()) {
-            deleteFile = true;
-        }
         mViewModel.getEmplopyeInfo().observe(this, eEmployeeInfo ->{
             try {
                 mViewModel.setEmployeeID(eEmployeeInfo.getEmployID());
@@ -651,42 +646,11 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         });
     }
 
-    private void deleteOldFileSchedule() {
-        if(deleteFile)
-        if(DayCheck.isMonday()) {
-            poMessage.initDialog();
-            poMessage.setPositiveButton("Confirm", (view, dialog) -> {
-                dialog.dismiss();
-                poDialogx.initDialog("Delete Files", "Deleting old exported DCP files. Please wait...", false);
-                poDialogx.show();
-                if(FileRemover.execute(Environment.getExternalStorageDirectory() + "/Android/data/org.rmj.guanzongroup.ghostrider.epacss/files/Exported Files")) {
-                    poDialogx.dismiss();
-
-                    poMessage.initDialog();
-                    poMessage.setNegativeButton("Okay", (v, d) -> d.dismiss());
-                    poMessage.setTitle("Daily Collection Plan");
-                    poMessage.setMessage("Old files has been deleted.");
-                    poMessage.show();
-                    deleteFile = false;
-                } else {
-                    poDialogx.dismiss();
-
-                    poMessage.initDialog();
-                    poMessage.setNegativeButton("Okay", (v, d) -> d.dismiss());
-                    poMessage.setTitle("Daily Collection Plan");
-                    poMessage.setMessage("An error occurred while deleting old files.");
-                    poMessage.show();
-                }
-            });
-            poMessage.setNegativeButton("Cancel", (view, dialog) -> {
-                deleteFile = false;
-                dialog.dismiss();
-            });
-            poMessage.setTitle("Daily Collection Plan");
-            poMessage.setMessage("An action to remove old exported DCP files has been invoked. Do you want to continue? \n\n" +
-                    "NOTE: Once confirmed, it cannot be undone.");
-            poMessage.show();
-        }
+    private boolean deleteOldFileSchedule() {
+        if(DayCheck.isMonday())
+            return FileRemover.execute(Environment.getExternalStorageDirectory() + "/Android/data/org.rmj.guanzongroup.ghostrider.epacss/files/Exported Files");
+        else
+            return false;
     }
 
     private void postDCPTransaction(){
