@@ -22,6 +22,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -37,6 +38,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.utils.DayCheck;
+import org.rmj.g3appdriver.utils.FileRemover;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.CollectionLogAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCollectionLog;
@@ -229,6 +232,10 @@ public class Activity_LogCollection extends AppCompatActivity {
                     mViewModel.Calculate_Check_Remitted(s, result -> psCltCheck = result);
 
                     mViewModel.Calculate_COH_Remitted(s, result -> psCltCashx = result);
+
+                    // Remove Old DCP Transaction Image
+                    deleteOldImageSchedule();
+
                 } else {
                     lnEmptyList.setVisibility(View.VISIBLE);
                     txtNoName.setVisibility(View.GONE);
@@ -318,4 +325,12 @@ public class Activity_LogCollection extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private boolean deleteOldImageSchedule() {
+        if(DayCheck.isMonday())
+            return FileRemover.execute(Environment.getExternalStorageDirectory() + "/Android/data/org.rmj.guanzongroup.ghostrider.epacss/files/DCP");
+        else
+            return false;
+    }
+
 }
