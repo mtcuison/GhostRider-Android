@@ -70,8 +70,8 @@ public class Activity_Inventory extends AppCompatActivity {
                         }
                     });
                 } else {
-                    mViewModel.getInventoryDetailForBranch(fsBranchCde).observe(Activity_Inventory.this, randomItems -> {
-                        if(randomItems.size() <=0){
+                    mViewModel.getInventoryMasterForBranch(fsBranchCde).observe(Activity_Inventory.this, inventoryMaster -> {
+                        if(inventoryMaster == null){
                             mViewModel.RequestRandomStockInventory(fsBranchCde, new VMInventory.OnRequestInventoryCallback() {
                                 @Override
                                 public void OnRequest(String title, String message) {
@@ -100,16 +100,20 @@ public class Activity_Inventory extends AppCompatActivity {
                                 }
                             });
                         } else {
-                            LinearLayoutManager manager = new LinearLayoutManager(Activity_Inventory.this);
-                            manager.setOrientation(RecyclerView.VERTICAL);
-                            recyclerView.setLayoutManager(manager);
-                            recyclerView.setAdapter(new InventoryItemAdapter(randomItems, (TransNox, ItemCode, Description) -> {
-                                Intent loIntent = new Intent(Activity_Inventory.this, Activity_InventoryTransaction.class);
-                                loIntent.putExtra("transno", TransNox);
-                                loIntent.putExtra("code", ItemCode);
-                                loIntent.putExtra("desc", Description);
-                                startActivity(loIntent);
-                            }));
+                            mViewModel.getInventoryDetailForBranch(inventoryMaster.getTransNox()).observe(Activity_Inventory.this, randomItems -> {
+                                if(randomItems.size() != 0){
+                                    LinearLayoutManager manager = new LinearLayoutManager(Activity_Inventory.this);
+                                    manager.setOrientation(RecyclerView.VERTICAL);
+                                    recyclerView.setLayoutManager(manager);
+                                    recyclerView.setAdapter(new InventoryItemAdapter(randomItems, (TransNox, PartID, BarCode) -> {
+                                        Intent loIntent = new Intent(Activity_Inventory.this, Activity_InventoryEntry.class);
+                                        loIntent.putExtra("transno", TransNox);
+                                        loIntent.putExtra("partID", PartID);
+                                        loIntent.putExtra("barcode", BarCode);
+                                        startActivity(loIntent);
+                                    }));
+                                }
+                            });
                         }
                     });
                 }

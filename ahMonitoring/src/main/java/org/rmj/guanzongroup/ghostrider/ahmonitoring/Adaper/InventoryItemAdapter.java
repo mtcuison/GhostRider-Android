@@ -47,9 +47,9 @@ public class InventoryItemAdapter extends RecyclerView.Adapter<InventoryItemAdap
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         EInventoryDetail item = randomItems.get(position);
         holder.item = item;
-        holder.lblTransNox.setText("Transaction No. : " + item.getTransNox());
-//        holder.lblItemCode.setText("Item Code : " + item.getItemCode());
-//        holder.lblItemDesc.setText("Description : " + item.getItemDesc());
+        holder.lblTransNox.setText("Transaction No. : " + item.getPartsIDx());
+        holder.lblItemCode.setText("Item Code : " + item.getBarrCode());
+        holder.lblItemDesc.setText("Description : " + item.getDescript());
     }
 
     @Override
@@ -70,11 +70,13 @@ public class InventoryItemAdapter extends RecyclerView.Adapter<InventoryItemAdap
             lblItemCode = itemView.findViewById(R.id.lbl_itemCode);
             lblItemDesc = itemView.findViewById(R.id.lbl_itemDescription);
 
-//            itemView.setOnClickListener(view -> listener.OnClick(item.getTransNox(), item.getItemCode(), item.getItemDesc()));
+            itemView.setOnClickListener(view -> listener.OnClick(item.getTransNox(), item.getPartsIDx(), item.getDescript()));
         }
     }
 
     public interface OnItemClickListener{
-        void OnClick(String TransNox, String ItemCode, String Description);
+        void OnClick(String TransNox,
+                     String PartsID,
+                     String BarCode);
     }
 }

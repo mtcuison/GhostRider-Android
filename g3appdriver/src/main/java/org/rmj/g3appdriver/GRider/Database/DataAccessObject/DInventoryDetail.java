@@ -16,6 +16,6 @@ public interface DInventoryDetail {
     void insertInventoryDetail(List<EInventoryDetail> foDetail);
 
     @Query("SELECT * FROM Inventory_Count_Detail " +
-            "WHERE sTransNox = (SELECT sTransNox FROM Inventory_Count_Master WHERE sBranchCd =:BranchCd)")
-    LiveData<List<EInventoryDetail>> getInventoryDetailForBranch(String BranchCd);
+            "WHERE sTransNox =:TransNox")
+    LiveData<List<EInventoryDetail>> getInventoryDetailForBranch(String TransNox);
 }

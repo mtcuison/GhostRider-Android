@@ -2,9 +2,13 @@ package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DInventoryMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryMaster;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
+
+import java.util.List;
 
 public class RInventoryMaster implements DInventoryMaster {
     private static final String TAG = RInventoryMaster.class.getSimpleName();
@@ -19,6 +23,11 @@ public class RInventoryMaster implements DInventoryMaster {
 
     @Override
     public void insertInventoryMaster(EInventoryMaster foMaster) {
-        poDao.insertInventoryMaster(foMaster);
+        this.poDao.insertInventoryMaster(foMaster);
+    }
+
+    @Override
+    public LiveData<EInventoryMaster> getInventoryMasterForBranch(String Transact, String BranchCd) {
+        return poDao.getInventoryMasterForBranch(Transact, BranchCd);
     }
 }

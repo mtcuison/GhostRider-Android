@@ -27,7 +27,7 @@ public class RInventoryDetail implements DInventoryDetail {
     }
 
     @Override
-    public LiveData<List<EInventoryDetail>> getInventoryDetailForBranch(String BranchCd) {
-        return poDao.getInventoryDetailForBranch(BranchCd);
+    public LiveData<List<EInventoryDetail>> getInventoryDetailForBranch(String TransNox) {
+        return poDao.getInventoryDetailForBranch(TransNox);
     }
 }

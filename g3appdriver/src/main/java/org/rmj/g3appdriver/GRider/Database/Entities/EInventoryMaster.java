@@ -11,7 +11,7 @@ public class EInventoryMaster {
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = "sTransNox")
-    private String TransNox = "";
+    private String TransNox;
     @ColumnInfo(name = "sBranchCd")
     private String BranchCd = "";
     @ColumnInfo(name = "dTransact")

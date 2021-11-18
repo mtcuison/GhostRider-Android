@@ -6,7 +6,7 @@
 
     <application>
         <activity
-            android:name=".Activity.Activity_InventoryTransaction"
+            android:name=".Activity.Activity_InventoryEntry"
             android:exported="true" />
         <activity
             android:name=".Activity.Activity_AreaPerformance"

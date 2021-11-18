@@ -11,13 +11,10 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.CURRENT_DATE;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -25,10 +22,9 @@ import android.widget.TextView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
-public class Activity_InventoryTransaction extends AppCompatActivity {
+public class Activity_InventoryEntry extends AppCompatActivity {
     private TextView lblTransNox;
     private TextInputEditText txtDesc,
             txtDate,
@@ -44,7 +40,7 @@ public class Activity_InventoryTransaction extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inventory_transaction);
+        setContentView(R.layout.activity_inventory_entry);
         initWidgets();
         try {
             lblTransNox.setText(getIntent().getStringExtra("transno"));
@@ -55,13 +51,13 @@ public class Activity_InventoryTransaction extends AppCompatActivity {
         }
     }
     public void initWidgets(){
-//        Toolbar toolbar = findViewById(R.id.toolbar_inventory_transaction);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setTitle("Inventory");
-//        lblTransNox = findViewById(R.id.lbl_invTransNox);
-//        txtDesc = findViewById(R.id.txt_invDescription);
-//        txtDate = findViewById(R.id.txt_invDate);
+        Toolbar toolbar = findViewById(R.id.toolbar_inventory_transaction);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Inventory");
+        lblTransNox = findViewById(R.id.lbl_invTransNox);
+        txtDesc = findViewById(R.id.txt_invDescription);
+        txtDate = findViewById(R.id.txt_invDate);
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

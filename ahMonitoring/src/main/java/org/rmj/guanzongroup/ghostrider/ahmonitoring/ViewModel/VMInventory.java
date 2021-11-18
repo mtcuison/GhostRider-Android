@@ -49,6 +49,7 @@ public class VMInventory extends AndroidViewModel {
 
     private final RBranch poBranch;
     private final RInventoryDetail poDetail;
+    private final RInventoryMaster poMaster;
 
     public interface OnRequestInventoryCallback{
         void OnRequest(String title, String message);
@@ -61,8 +62,9 @@ public class VMInventory extends AndroidViewModel {
         this.instance = application;
         this.poBranch = new RBranch(application);
         this.poDetail = new RInventoryDetail(application);
+        this.poMaster = new RInventoryMaster(application);
         List<RandomItem> randomItems = new ArrayList<>();
-        psBranchCd.setValue("");
+        psBranchCd.setValue("M001");
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
@@ -81,8 +83,12 @@ public class VMInventory extends AndroidViewModel {
         return poBranch.getAreaBranchList();
     }
 
-    public LiveData<List<EInventoryDetail>> getInventoryDetailForBranch(String BranchCd){
-        return poDetail.getInventoryDetailForBranch(BranchCd);
+    public LiveData<List<EInventoryDetail>> getInventoryDetailForBranch(String TransNox){
+        return poDetail.getInventoryDetailForBranch(TransNox);
+    }
+
+    public LiveData<EInventoryMaster> getInventoryMasterForBranch(String BranchCd){
+        return poMaster.getInventoryMasterForBranch(AppConstants.CURRENT_DATE, BranchCd);
     }
 
     public void RequestRandomStockInventory(String BranchCd, OnRequestInventoryCallback callback){
@@ -172,6 +178,7 @@ public class VMInventory extends AndroidViewModel {
                                 inventoryDetails.add(loDetail);
                             }
                             poDetail.insertInventoryDetail(inventoryDetails);
+                            lsResult = loResponse.toString();
                         }
                     }
                 }
@@ -185,6 +192,18 @@ public class VMInventory extends AndroidViewModel {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            try{
+                JSONObject loJson = new JSONObject(s);
+                String lsResult = loJson.getString("result");
+                if(lsResult.equalsIgnoreCase("success")){
+                    poCallback.OnSuccessResult("Random inventory items has been imported successfully");
+                } else {
+                    JSONObject loError = loJson.getJSONObject("error");
+                    poCallback.OnFaileResult(loError.getString("message"));
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }
