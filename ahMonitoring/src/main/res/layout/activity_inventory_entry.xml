@@ -47,23 +47,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/img_header"
+            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="-140dp"
             android:layout_marginHorizontal="10dp"
-            app:cardElevation="5dp"
+            android:layout_marginTop="-140dp"
             app:cardCornerRadius="10dp"
-            app:cardUseCompatPadding="true"
-            app:cardPreventCornerOverlap="true"
+            app:cardElevation="5dp"
             app:cardMaxElevation="5dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true">
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,11 +79,11 @@
                     android:textColor="@color/material_black"
                     android:textSize="20sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/guanzon_orange"
-                android:layout_marginBottom="10dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/guanzon_orange" />
 
                 <ScrollView
                     android:layout_width="match_parent"
@@ -93,147 +92,222 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:gravity="center"
+                        android:orientation="vertical"
                         android:padding="5dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="20dp">
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="16sp"
-                                android:text="@string/sHintTransNox"
-                                android:fontFamily="@font/roboto_medium"
-                                android:paddingLeft="10dp"
-                                android:paddingStart="10dp"
                                 android:layout_weight="1"
+                                android:fontFamily="@font/roboto_medium"
+                                android:paddingStart="10dp"
+                                android:paddingLeft="10dp"
+                                android:text="@string/sHintTransNox"
+                                android:textSize="16sp"
                                 tools:ignore="RtlSymmetry" />
 
                             <TextView
                                 android:id="@+id/lbl_invTransNox"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="18sp"
                                 android:layout_weight="1"
-                                android:text="@string/sHintTransNox"
                                 android:fontFamily="@font/roboto_medium"
-                                android:textColor="@color/textColor_Black"
-                                android:paddingEnd="10dp"
-                                android:textAlignment="textEnd"
-                                tools:ignore="RtlSymmetry"
                                 android:gravity="end"
-                                android:paddingRight="10dp" />
+                                android:paddingEnd="10dp"
+                                android:paddingRight="10dp"
+                                android:text="@string/sHintTransNox"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/textColor_Black"
+                                android:textSize="18sp"
+                                tools:ignore="RtlSymmetry" />
                         </LinearLayout>
+
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:weightSum="1"
                             android:layout_weight="1"
                             android:hint="@string/sHintDate"
-                            style="@style/TextInputStyle">
+                            android:weightSum="1">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/txt_invDate"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:enabled="false"
-                                android:textColor="@color/textColor_Black"
-                                android:inputType="textShortMessage" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/sHintRemarks"
-                            style="@style/TextInputStyle">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txt_invRemarks1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textMultiLine"
-                                android:lines="4"
-                                android:autofillHints="Business trip destination and purpose."
-                                android:layout_margin="5dp"/>
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:weightSum="1"
-                            android:layout_weight="1"
-                            android:hint="Entry No."
-                            style="@style/TextInputStyle">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txt_invEntryNox1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:focusedByDefault="false"
                                 android:inputType="textShortMessage"
-                                android:autofillHints="Business trip destination and purpose."
-                                android:layout_margin="5dp"/>
+                                android:textColor="@color/textColor_Black" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center">
+                            android:orientation="horizontal">
 
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:weightSum="1"
                                 android:layout_weight="1"
-                                android:hint="Actual Quantity"
-                                style="@style/TextInputStyle">
+                                android:hint="Entry No."
+                                android:weightSum="1">
+
                                 <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/txt_invQty"
+                                    android:id="@+id/txt_invEntryNox1"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="number|none"
+                                    android:layout_margin="5dp"
+                                    android:gravity="center"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:focusedByDefault="false"
                                     android:autofillHints="Business trip destination and purpose."
-                                    android:layout_margin="5dp"/>
+                                    android:inputType="textShortMessage" />
 
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:weightSum="1"
+                                android:layout_weight="1"
+                                android:hint="Warehouse"
+                                android:weightSum="1">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txt_invWareHouse"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:gravity="center"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:focusedByDefault="false"
+                                    android:autofillHints="Business trip destination and purpose."
+                                    android:inputType="textShortMessage" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Bin"
+                                android:weightSum="1">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txt_invBin"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:gravity="center"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:focusedByDefault="false"
+                                    android:autofillHints="Business trip destination and purpose."
+                                    android:inputType="textShortMessage" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Section"
+                                android:weightSum="1">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txt_invSection"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:gravity="center"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:focusedByDefault="false"
+                                    android:autofillHints="Business trip destination and purpose."
+                                    android:inputType="textShortMessage" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:hint="Quantity On Hand"
-                                style="@style/TextInputStyle">
+                                android:weightSum="1">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/txt_invQtyOnHand"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="number|none"
+                                    android:layout_margin="5dp"
+                                    android:gravity="center"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:focusedByDefault="false"
                                     android:autofillHints="Business trip destination and purpose."
-                                    android:layout_margin="5dp"/>
+                                    android:inputType="number|none" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/TextInputStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Actual Quantity"
+                                android:weightSum="1">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txt_invQty"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:autofillHints="Business trip destination and purpose."
+                                    android:inputType="number|none" />
 
                             </com.google.android.material.textfield.TextInputLayout>
 
                         </LinearLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/sHintRemarks"
-                            style="@style/TextInputStyle">
+                            android:hint="@string/sHintRemarks">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txt_invRemarks2"
+                                android:id="@+id/txt_invRemarks1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
@@ -243,102 +317,13 @@
 
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:weightSum="1"
-                            android:layout_weight="1"
-                            android:hint="Entry No."
-                            style="@style/TextInputStyle">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txt_invEntryNox2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textShortMessage"
-                                android:autofillHints="Business trip destination and purpose."
-                                android:layout_margin="5dp"/>
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Description"
-                            style="@style/TextInputStyle">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txt_invDescription"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textMultiLine"
-                                android:lines="2"
-                                android:autofillHints="Business trip destination and purpose."
-                                android:layout_margin="5dp"/>
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:weightSum="1"
-                            android:layout_weight="1"
-                            android:hint="Warehouse"
-                            style="@style/TextInputStyle">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txt_invWareHouse"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textShortMessage"
-                                android:autofillHints="Business trip destination and purpose."
-                                android:layout_margin="5dp"/>
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:weightSum="1"
-                            android:layout_weight="1"
-                            android:hint="Section"
-                            style="@style/TextInputStyle">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txt_invSection"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textShortMessage"
-                                android:autofillHints="Business trip destination and purpose."
-                                android:layout_margin="5dp"/>
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:weightSum="1"
-                            android:layout_weight="1"
-                            android:hint="Bin"
-                            style="@style/TextInputStyle">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txt_invBin"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textShortMessage"
-                                android:autofillHints="Business trip destination and purpose."
-                                android:layout_margin="5dp"/>
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_saveInventory"
+                            style="@style/MaterialButtonAccent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingVertical="10dp"
-                            android:text="@string/sBtnSaveInventory"
-                            style="@style/MaterialButtonAccent"/>
+                            android:text="@string/sBtnSaveInventory" />
                     </LinearLayout>
 
                 </ScrollView>

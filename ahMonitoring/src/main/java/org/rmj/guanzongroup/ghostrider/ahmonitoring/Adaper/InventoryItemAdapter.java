@@ -70,7 +70,7 @@ public class InventoryItemAdapter extends RecyclerView.Adapter<InventoryItemAdap
             lblItemCode = itemView.findViewById(R.id.lbl_itemCode);
             lblItemDesc = itemView.findViewById(R.id.lbl_itemDescription);
 
-            itemView.setOnClickListener(view -> listener.OnClick(item.getTransNox(), item.getPartsIDx(), item.getDescript()));
+            itemView.setOnClickListener(view -> listener.OnClick(item.getTransNox(), item.getPartsIDx(), item.getBarrCode()));
         }
     }
 

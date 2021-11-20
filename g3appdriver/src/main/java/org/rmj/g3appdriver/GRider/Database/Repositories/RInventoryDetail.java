@@ -30,4 +30,14 @@ public class RInventoryDetail implements DInventoryDetail {
     public LiveData<List<EInventoryDetail>> getInventoryDetailForBranch(String TransNox) {
         return poDao.getInventoryDetailForBranch(TransNox);
     }
+
+    @Override
+    public LiveData<EInventoryDetail> getInventoryItemDetail(String TransNox, String PartID, String BarCode) {
+        return poDao.getInventoryItemDetail(TransNox, PartID, BarCode);
+    }
+
+    @Override
+    public void UpdateInventoryItem(String TransNox, String BarCode, String PartID, String ActualQty, String Remarks) {
+        poDao.UpdateInventoryItem(TransNox, BarCode, PartID, ActualQty, Remarks);
+    }
 }

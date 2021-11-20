@@ -64,7 +64,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -86,9 +87,18 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_inventory"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:padding="10dp"/>
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_saveInventory"
+                    style="@style/MaterialButtonAccent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10dp"
+                    android:text="@string/sBtnSaveInventory"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"/>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

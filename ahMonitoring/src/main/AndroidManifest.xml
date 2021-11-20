@@ -7,16 +7,20 @@
     <application>
         <activity
             android:name=".Activity.Activity_InventoryEntry"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activity.Activity_AreaPerformance"
             android:exported="true"
             android:label="Area Performance Monitoring"
+            android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activity.Activity_BranchPerformance"
             android:exported="true"
             android:label="Branch Performance Monitoring"
+            android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activity.Activity_Employee_Applications"
