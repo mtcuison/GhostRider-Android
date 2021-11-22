@@ -12,7 +12,6 @@
 package org.rmj.guanzongroup.ghostrider.imgcapture;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,8 +21,6 @@ import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.GRider.Etc.LocationTrack;
 
 import java.io.File;
@@ -43,7 +40,6 @@ public class ImageFileCreator {
     String currentPhotoPath;
     private double latitude, longitude;
     private String SUB_FOLDER;
-    GeoLocator poLocator;
     LocationTrack locationTrack;
 
     File image;
@@ -89,7 +85,6 @@ public class ImageFileCreator {
     }
 
     public void CreateFile(OnImageFileWithLocationCreatedListener listener) {
-        poLocator = new GeoLocator(poContext, (Activity) poContext);
         locationTrack = new LocationTrack(poContext);
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -203,7 +198,6 @@ public class ImageFileCreator {
 
     //CreateFile for Document Scanner Camera
     public void CreateScanFile(OnImageFileWithLocationCreatedListener listener) {
-        poLocator = new GeoLocator(poContext, (Activity) poContext);
         locationTrack = new LocationTrack(poContext);
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent

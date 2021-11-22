@@ -143,9 +143,9 @@ public class AndroidNotificationManager {
                             loMonitor.setTransact(loData.getString("dTransact"));
                             loMonitor.setTimeOpen(loData.getString("sTimeOpen"));
                             loMonitor.setOpenNowx(loData.getString("sOpenNowx"));
-                            loMonitor.setSendDate(loData.getString("dSendDate"));
-                            loMonitor.setNotified(loData.getString("dNotified"));
-                            loMonitor.setTimeStmp(loData.getString("dTimeStmp"));
+//                            loMonitor.setSendDate(loData.getString("dSendDate"));
+//                            loMonitor.setNotified(loData.getString("dNotified"));
+//                            loMonitor.setTimeStmp(loData.getString("dTimeStmp"));
                             poOpening.insert(loMonitor);
                         }
                     }
@@ -202,7 +202,7 @@ public class AndroidNotificationManager {
                         GNotifBuilder.createFirebaseNotification(instance,
                                 loParser.getValueOf("transno"),
                                 "Branch Opening Monitor",
-                                BranchNm + " opened at " + poJson.getString("sOpenNowx"),
+                                loParser.getDataValueOf("message"),
                                 lnChannelID).show();
                     }
                 }

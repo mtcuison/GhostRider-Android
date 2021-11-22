@@ -171,7 +171,7 @@ public class Fragment_Home extends Fragment {
             }
         });
 
-        mViewModel.getCv_ahMonitoring().observe(getViewLifecycleOwner(), integer -> cvAHMonitoring.setVisibility(integer));
+//        mViewModel.getCv_ahMonitoring().observe(getViewLifecycleOwner(), integer -> cvAHMonitoring.setVisibility(integer));
 
         mViewModel.getBranchPerformance().observe(getViewLifecycleOwner(), eBranchPerformances -> {
             try {

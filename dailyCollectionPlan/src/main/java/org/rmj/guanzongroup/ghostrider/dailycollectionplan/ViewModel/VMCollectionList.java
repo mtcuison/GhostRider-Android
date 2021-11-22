@@ -128,7 +128,6 @@ public class VMCollectionList extends AndroidViewModel {
 //                }
 //            }
 
-            
             JSONObject loJson = new JSONObject();
             loJson.put("sEmployID", psEmployeeID);
             loJson.put("dTransact", date);
@@ -828,7 +827,7 @@ public class VMCollectionList extends AndroidViewModel {
                                         loUnpost.add(new UnpostedDCP(laCollDetl.get(x).sAcctNmbr,
                                                 laCollDetl.get(x).sRemCodex,
                                                 new JSONObject(),
-                                                Arrays.toString(e.getStackTrace())));
+                                                e.getMessage() + "\n " +Arrays.toString(e.getStackTrace())));
                                         poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + loUnpost.get(x).getMessage());
                                     }
 
