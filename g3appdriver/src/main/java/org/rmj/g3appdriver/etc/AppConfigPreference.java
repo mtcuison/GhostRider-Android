@@ -42,6 +42,7 @@ public class AppConfigPreference {
     private static final String APP_DATE_RELEASE = "gRider_DateRelease";
     private static final String LAST_SYNC_DATE = "gRider_last_date_sync";
     private static final String UPDATE_LOCALLY = "gRider_local_update";
+    private static final String EXPORTED_DCP = "gRider_dcp_export_file";
 
     private static final String HELP_LOGIN_NOTICE = "Login_Instruction_Notice";
     private static final String HELP_DCP_DOWNLOAD_NOTICE = "DCP_Download_Instruction_Notice";
@@ -104,7 +105,7 @@ public class AppConfigPreference {
      */
     public String getAppServer(){
         return pref.getString(AppServer, "https://restgk.guanzongroup.com.ph/");
-//        return pref.getString(AppServer, "http://192.168.10.140/");
+//        return pref.getString(AppServer, "http://192.168.10.141/");
     }
 
     public void setTemp_ProductID(String ProductID){
@@ -261,5 +262,14 @@ public class AppConfigPreference {
 
     public boolean getUpdateStatus(){
         return pref.getBoolean(UPDATE_LOCALLY, false);
+    }
+
+    public void setExportedDcp(boolean val){
+        editor.putBoolean(EXPORTED_DCP, val);
+        editor.commit();
+    }
+
+    public boolean isExportedDcp(){
+        return pref.getBoolean(EXPORTED_DCP, true);
     }
 }

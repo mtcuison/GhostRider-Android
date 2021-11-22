@@ -59,6 +59,8 @@ public class VMCashCountSubmit extends AndroidViewModel {
     private final RCashCount poCashCount;
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
     private final List<RequestNamesInfoModel> infoList;
+    private final SessionManager poSession;
+
     public VMCashCountSubmit(@NonNull Application application) {
         super(application);
         this.instance = application;
@@ -68,6 +70,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
         this.eCashCount = new ECashCount();
         this.infoList = new ArrayList<>();
         this.psTransNox.setValue(poCashCount.getCashCountNextCode());
+        this.poSession = new SessionManager(application);
     }
     public interface OnKwikSearchCallBack{
         void onStartKwikSearch();
@@ -259,7 +262,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
                     if(!poConn.isDeviceConnected()) {
                         lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Connection error.");
                     } else {
-                        lsResponse = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, jsonObject.toString(), poHeaders.getHeaders());
+                        lsResponse = WebClient.sendRequest(WebApi.URL_SUBMIT_CASHCOUNT, jsonObject.toString(), poHeaders.getHeaders());
 
                         if(lsResponse == null){
                             lsResponse = AppConstants.SERVER_NO_RESPONSE();
@@ -281,13 +284,23 @@ public class VMCashCountSubmit extends AndroidViewModel {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if(s.equalsIgnoreCase("success")){
-                callback.onSuccessSaveCashCount();
-            } else {
-                callback.onSaveCashCountFailed(s);
+            try{
+                JSONObject loJSon = new JSONObject(s);
+                String lsResult = loJSon.getString("result");
+                if(lsResult.equalsIgnoreCase("success")){
+                    callback.onSuccessSaveCashCount();
+                } else {
+                    JSONObject loError = loJSon.getJSONObject("error");
+                    callback.onSaveCashCountFailed(loError.getString("message"));
+                }
+
+            } catch (Exception e){
+                e.printStackTrace();
             }
         }
     }
 
-
+    public String getEmployeeLevel(){
+        return poSession.getEmployeeLevel();
+    }
 }

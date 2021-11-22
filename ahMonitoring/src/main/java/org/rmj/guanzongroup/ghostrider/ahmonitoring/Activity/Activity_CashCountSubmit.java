@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -30,6 +31,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.DialogKwikSearch;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountInfoModel;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RequestNamesInfoModel;
@@ -211,7 +213,6 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
 
     @Override
     public void onSuccessSaveCashCount() {
-//        GToast.CreateMessage(Activity_CashCountSubmit.this,"Cash count has been saved successfully.",GToast.INFORMATION).show();
         poMessage.initDialog();
         poMessage.setTitle("Cast Count");
         poMessage.setMessage("Cash count has been saved successfully.");
@@ -220,14 +221,15 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
                     Activity_CashCounter.getInstance().finish();
                     finish();
                     this.overridePendingTransition(R.anim.anim_pop_in,R.anim.anim_pop_out);
+                    checkEmployeeLevelForInventory();
                 });
-
         poMessage.show();
     }
 
     @Override
     public void onSaveCashCountFailed(String message) {
         initDialog("Cash Count",message);
+        checkEmployeeLevelForInventory();
     }
 
     @Override
@@ -242,5 +244,18 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    private void checkEmployeeLevelForInventory(){
+        if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
+            poMessage.initDialog();
+            poMessage.setTitle("GhostRider");
+            poMessage.setMessage("To complete your selfie log. Please proceed to Random Stock Inventory");
+            poMessage.setPositiveButton("Proceed", (btnView, mDialog) -> {
+                mDialog.dismiss();
+                startActivity(new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class));
+            });
+            poMessage.show();
+        }
     }
 }

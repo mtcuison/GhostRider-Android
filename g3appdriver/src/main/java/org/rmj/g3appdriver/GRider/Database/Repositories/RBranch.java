@@ -63,6 +63,10 @@ public class RBranch {
         return branchInfoDao.getBranchAreaCode(fsBranchCd);
     }
 
+    public LiveData<List<EBranchInfo>> getAreaBranchList(){
+        return branchInfoDao.getAreaBranchList();
+    }
+
     @SuppressLint("NewApi")
     public boolean insertBranchInfos(JSONArray faJson) throws Exception {
         GConnection loConn = DbConnection.doConnect(application);

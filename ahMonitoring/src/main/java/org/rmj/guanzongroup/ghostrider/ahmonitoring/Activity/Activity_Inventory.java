@@ -24,7 +24,10 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.ItemAdapter;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.InventoryItemAdapter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogBranchSelection;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMInventory;
 
@@ -35,6 +38,9 @@ public class Activity_Inventory extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TextView lblBranch, lblAddxx, lblDate;
+
+    private LoadDialog poDialog;
+    private MessageBox poMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,18 +58,68 @@ public class Activity_Inventory extends AppCompatActivity {
             }
         });
 
-        mViewModel.getRandomItemList().observe(Activity_Inventory.this, randomItems -> {
-            LinearLayoutManager manager = new LinearLayoutManager(Activity_Inventory.this);
-            manager.setOrientation(RecyclerView.VERTICAL);
-            recyclerView.setLayoutManager(manager);
-            recyclerView.setAdapter(new ItemAdapter(randomItems, (TransNox, ItemCode, Description) -> {
-//                GToast.CreateMessage(Activity_Inventory.this, TransNox, GToast.INFORMATION).show();
-                Intent loIntent = new Intent(Activity_Inventory.this, Activity_InventoryTransaction.class);
-                loIntent.putExtra("transno", TransNox);
-                loIntent.putExtra("code", ItemCode);
-                loIntent.putExtra("desc", Description);
-                startActivity(loIntent);
-            }));
+        mViewModel.getBranchCode().observe(Activity_Inventory.this, fsBranchCde -> {
+            try {
+                if (fsBranchCde.isEmpty()) {
+                    mViewModel.getAreaBranchList().observe(Activity_Inventory.this, eBranchInfos -> {
+                        try{
+                            DialogBranchSelection loSelect = new DialogBranchSelection(Activity_Inventory.this, eBranchInfos);
+                            loSelect.initDialog(BranchCode -> mViewModel.setBranchCde(BranchCode));
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
+                } else {
+                    mViewModel.getInventoryMasterForBranch(fsBranchCde).observe(Activity_Inventory.this, inventoryMaster -> {
+                        if(inventoryMaster == null){
+                            mViewModel.RequestRandomStockInventory(fsBranchCde, new VMInventory.OnRequestInventoryCallback() {
+                                @Override
+                                public void OnRequest(String title, String message) {
+                                    poDialog.initDialog(title, message, false);
+                                    poDialog.show();
+                                }
+
+                                @Override
+                                public void OnSuccessResult(String message) {
+                                    poDialog.dismiss();
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Random Stock Inventory");
+                                    poMessage.setMessage(message);
+                                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                    poMessage.show();
+                                }
+
+                                @Override
+                                public void OnFaileResult(String message) {
+                                    poDialog.dismiss();
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Random Stock Inventory");
+                                    poMessage.setMessage(message);
+                                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                    poMessage.show();
+                                }
+                            });
+                        } else {
+                            mViewModel.getInventoryDetailForBranch(inventoryMaster.getTransNox()).observe(Activity_Inventory.this, randomItems -> {
+                                if(randomItems.size() != 0){
+                                    LinearLayoutManager manager = new LinearLayoutManager(Activity_Inventory.this);
+                                    manager.setOrientation(RecyclerView.VERTICAL);
+                                    recyclerView.setLayoutManager(manager);
+                                    recyclerView.setAdapter(new InventoryItemAdapter(randomItems, (TransNox, PartID, BarCode) -> {
+                                        Intent loIntent = new Intent(Activity_Inventory.this, Activity_InventoryEntry.class);
+                                        loIntent.putExtra("transno", TransNox);
+                                        loIntent.putExtra("partID", PartID);
+                                        loIntent.putExtra("barcode", BarCode);
+                                        startActivity(loIntent);
+                                    }));
+                                }
+                            });
+                        }
+                    });
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
     }
 
@@ -75,6 +131,9 @@ public class Activity_Inventory extends AppCompatActivity {
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddxx = findViewById(R.id.lbl_headerAddress);
         lblDate = findViewById(R.id.lbl_headerDate);
+
+        poDialog = new LoadDialog(Activity_Inventory.this);
+        poMessage = new MessageBox(Activity_Inventory.this);
     }
 
     @Override

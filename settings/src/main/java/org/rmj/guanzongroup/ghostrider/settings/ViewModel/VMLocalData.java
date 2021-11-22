@@ -52,6 +52,7 @@ import org.rmj.g3appdriver.GRider.ImportData.ImportTown;
 import org.rmj.g3appdriver.GRider.ImportData.Import_BankList;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Occupations;
 import org.rmj.g3appdriver.GRider.ImportData.Import_Relation;
+import org.rmj.g3appdriver.GRider.ImportData.Import_SCARequest;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SysConfig;
 import org.rmj.guanzongroup.ghostrider.settings.Objects.LocalData;
 import org.rmj.guanzongroup.ghostrider.settings.utils.DatabaseExport;
@@ -75,6 +76,7 @@ import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_PROVINCE;
 import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_RAFFLE_BASIS;
 import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_TERM_CATEGORY;
 import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_TOWN;
+import static org.rmj.g3appdriver.utils.WebApi.URL_SCA_REQUEST;
 
 public class VMLocalData extends AndroidViewModel {
 
@@ -110,11 +112,8 @@ public class VMLocalData extends AndroidViewModel {
         poAppData = localData;
         dataList.clear();
         loDataList.setValue(dataList);
+        dataList.add(new LocalData("Approval Code Data", poAppData.Approval_Code, URL_SCA_REQUEST));
         dataList.add(new LocalData("Branch Data", poAppData.Branch_Data, URL_IMPORT_BRANCHES));
-        dataList.add(new LocalData("Barangay Data", poAppData.Barangay_Data, URL_IMPORT_BARANGAY));
-        dataList.add(new LocalData("Town Data", poAppData.Town_Data, URL_IMPORT_TOWN));
-        dataList.add(new LocalData("Province Data", poAppData.Province_Data, URL_IMPORT_PROVINCE));
-        dataList.add(new LocalData("Country Data", poAppData.Country_Data, URL_IMPORT_COUNTRY));
         dataList.add(new LocalData("Mc Brand", poAppData.Mc_Brand, URL_IMPORT_BRAND));
         dataList.add(new LocalData("Mc Model", poAppData.Mc_Model, URL_IMPORT_MC_MODEL));
         dataList.add(new LocalData("Mc Category", poAppData.Mc_Category, URL_IMPORT_MC_CATEGORY));
@@ -125,6 +124,10 @@ public class VMLocalData extends AndroidViewModel {
         dataList.add(new LocalData("File Code", poAppData.File_Code, URL_IMPORT_FILE_CODE));
         dataList.add(new LocalData("Bank Data", poAppData.Bank_Data, URL_DOWNLOAD_BANK_INFO));
         dataList.add(new LocalData("Remittance Data", poAppData.Remittance_Data, URL_BRANCH_REMITTANCE_ACC));
+        dataList.add(new LocalData("Barangay Data", poAppData.Barangay_Data, URL_IMPORT_BARANGAY));
+        dataList.add(new LocalData("Town Data", poAppData.Town_Data, URL_IMPORT_TOWN));
+        dataList.add(new LocalData("Province Data", poAppData.Province_Data, URL_IMPORT_PROVINCE));
+        dataList.add(new LocalData("Country Data", poAppData.Country_Data, URL_IMPORT_COUNTRY));
         dataList.add(new LocalData("Relation Data", poAppData.Relation_Data, URL_DOWNLOAD_RELATION));
         loDataList.setValue(dataList);
     }
@@ -161,6 +164,7 @@ public class VMLocalData extends AndroidViewModel {
                     new ImportMcTermCategory(instance),
                     new ImportCountry(instance),
                     new Import_Occupations(instance),
+                    new Import_SCARequest(instance),
                     new Import_SysConfig(instance)};
         }
 

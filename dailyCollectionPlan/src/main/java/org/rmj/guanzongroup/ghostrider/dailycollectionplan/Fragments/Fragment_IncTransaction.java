@@ -33,6 +33,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
@@ -135,8 +136,10 @@ public class Fragment_IncTransaction extends Fragment {
                         poImageInfo.setImageNme(FileName);
                         poImageInfo.setFileLoct(photPath);
                         poImageInfo.setFileCode("0020");
-                        poImageInfo.setLatitude(String.valueOf(latitude));
-                        poImageInfo.setLongitud(String.valueOf(longitude));
+                        new LocationRetriever(getActivity()).getLocation((message, latitude1, longitude1) -> {
+                            poImageInfo.setLatitude(String.valueOf(latitude1));
+                            poImageInfo.setLongitud(String.valueOf(longitude1));
+                        });
                         mViewModel.setImagePath(photPath);
                         startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                     });
