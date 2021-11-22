@@ -10,6 +10,7 @@
         <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/bg_gradient_light.xml" value="0.2203125" />
         <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/ic_ghostrider_logo_day.xml" value="0.2203125" />
         <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/ic_ghostrider_logo_night.xml" value="0.2203125" />
+        <entry key="..\:/Projects/GhostRider-Android-02-25-21/ahMonitoring/src/main/res/layout/list_item_area_performance_layout.xml" value="0.12894736842105264" />
         <entry key="..\:/Projects/GhostRider-Android-02-25-21/app/src/main/res/layout/fragment_home.xml" value="0.12894736842105264" />
         <entry key="..\:/Projects/GhostRider-Android-02-25-21/dailyCollectionPlan/src/main/res/layout/activity_collection_log.xml" value="0.12894736842105264" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/CreditEvaluator/src/main/res/layout/activity_ci_application.xml" value="0.1631578947368421" />
@@ -132,7 +133,7 @@
     </list>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
