@@ -100,4 +100,5 @@ public class EBranchOpenMonitor {
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
     }
+
 }

@@ -44,15 +44,16 @@ public class VMApprovalSelection extends AndroidViewModel {
 
     public LiveData<List<ESCA_Request>> getReferenceAuthList(String Type){
         String lsSqlQryxx = "SELECT *" +
-                " FROM xxxSCA_Request" +
-                " WHERE cSCATypex = " + SQLUtil.toSQL(Type)  +
-                " AND cRecdStat = '1'" +
-                " ORDER BY sSCATitle";
+                            " FROM xxxSCA_Request" +
+                            " WHERE cSCATypex = " + SQLUtil.toSQL(Type)  +
+                                " AND cRecdStat = '1'" +
+                            " ORDER BY sSCATitle";
 
         String lsCondition = "";
-        String lsEmpLvID = poSession.getEmployeeID();
+        String lsEmpLvID = poSession.getEmployeeLevel();
         String lsDeptIDx = poSession.getDeptID();
         String lsPostion = poSession.getPositionID();
+
         if (lsEmpLvID.equals("4")){
             lsCondition  = "cAreaHead = '1'";
         } else{
