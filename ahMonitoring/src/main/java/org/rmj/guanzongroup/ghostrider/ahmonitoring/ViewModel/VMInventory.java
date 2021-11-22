@@ -91,6 +91,10 @@ public class VMInventory extends AndroidViewModel {
         return poMaster.getInventoryMasterForBranch(AppConstants.CURRENT_DATE, BranchCd);
     }
 
+    public LiveData<String> getInventoryCountForBranch(String TransNox){
+        return poDetail.getInventoryCountForBranch(TransNox);
+    }
+
     public void RequestRandomStockInventory(String BranchCd, OnRequestInventoryCallback callback){
         new RequestInventoryTask(instance, callback).execute(BranchCd);
     }

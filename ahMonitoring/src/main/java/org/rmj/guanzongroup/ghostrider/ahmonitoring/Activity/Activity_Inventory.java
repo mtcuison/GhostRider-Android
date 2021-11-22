@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +38,7 @@ public class Activity_Inventory extends AppCompatActivity {
     private VMInventory mViewModel;
 
     private RecyclerView recyclerView;
-    private TextView lblBranch, lblAddxx, lblDate;
+    private TextView lblBranch, lblAddxx, lblDate, lblCountx;
 
     private LoadDialog poDialog;
     private MessageBox poMessage;
@@ -100,6 +101,17 @@ public class Activity_Inventory extends AppCompatActivity {
                                 }
                             });
                         } else {
+                            mViewModel.getInventoryCountForBranch(inventoryMaster.getTransNox()).observe(Activity_Inventory.this, new Observer<String>() {
+                                @Override
+                                public void onChanged(String itemCount) {
+                                    try{
+                                        lblCountx.setText("Updated Inventory Items : " + itemCount);
+                                    } catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+
                             mViewModel.getInventoryDetailForBranch(inventoryMaster.getTransNox()).observe(Activity_Inventory.this, randomItems -> {
                                 if(randomItems.size() != 0){
                                     LinearLayoutManager manager = new LinearLayoutManager(Activity_Inventory.this);
@@ -131,6 +143,7 @@ public class Activity_Inventory extends AppCompatActivity {
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddxx = findViewById(R.id.lbl_headerAddress);
         lblDate = findViewById(R.id.lbl_headerDate);
+        lblCountx = findViewById(R.id.lbl_inventoryCount);
 
         poDialog = new LoadDialog(Activity_Inventory.this);
         poMessage = new MessageBox(Activity_Inventory.this);

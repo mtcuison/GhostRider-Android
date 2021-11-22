@@ -665,10 +665,11 @@ public class VMCollectionList extends AndroidViewModel {
         protected final String doInBackground(List<DDCPCollectionDetail.CollectionDetail>... lists) {
             String lsResult;
             ArrayList<UnpostedDCP> loUnpost = new ArrayList<>();
-//            String[] reason;
             String[] params;
+
             List<DDCPCollectionDetail.CollectionDetail> laCollDetl = lists[0];
             try {
+                String lsTransNox = "";
                 if(hasRemittedBeforePosting()) {
                     if (!poConn.isDeviceConnected()) {
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Not connected to internet. Tap 'Okay' to export backup file.");
@@ -680,6 +681,7 @@ public class VMCollectionList extends AndroidViewModel {
                         } else {
                             if (laCollDetl.size() > 0) {
                                 params = new String[laCollDetl.size()];
+                                lsTransNox = laCollDetl.get(0).sTransNox;
                                 for (int x = 0; x < laCollDetl.size(); x++) {
                                     try {
                                         DDCPCollectionDetail.CollectionDetail loDetail = laCollDetl.get(x);
@@ -834,9 +836,7 @@ public class VMCollectionList extends AndroidViewModel {
                                 }
 
                                 //call sending CNA details....
-                                sendCNADetails(laCollDetl.get(0).sTransNox);
-
-                                String lsTransNox = laCollDetl.get(0).sTransNox;
+                                sendCNADetails(lsTransNox);
                                 int UnPostedDcp = poDcp.getUnsentCollectionDetail(lsTransNox);
                                 int UnsentAccnt = poDcp.getAccountNoCount(lsTransNox);
 
@@ -844,7 +844,7 @@ public class VMCollectionList extends AndroidViewModel {
                                     lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("No customers account has been collected.");//
                                 } else if (UnPostedDcp == 0){
                                     JSONObject loJson = new JSONObject();
-                                    loJson.put("sTransNox", laCollDetl.get(0).sTransNox);
+                                    loJson.put("sTransNox", lsTransNox);
                                     String lsResponse1 = WebClient.sendRequest(WebApi.URL_POST_DCP_MASTER, loJson.toString(), poHeaders.getHeaders());
                                     if (lsResponse1 == null) {
                                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response on posting DCP master detail. Tap 'Okay' to create dcp file for backup");

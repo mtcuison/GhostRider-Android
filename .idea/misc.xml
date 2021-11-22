@@ -48,7 +48,7 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_cash_count_submit.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_cash_counter.xml" value="0.1631578947368421" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_employee_applications.xml" value="0.1" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_inventory.xml" value="0.12" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_inventory.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_inventory_entry.xml" value="0.16" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_inventory_transaction.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_monitoring.xml" value="0.16" />
@@ -88,7 +88,7 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_ah_dashboard.xml" value="0.10394736842105264" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_associate_dashboard.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_bh_dashboard.xml" value="0.14" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_home.xml" value="0.16" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_home.xml" value="0.18" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_home_container.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/fragment_manager_dashboard.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/app/src/main/res/layout/nav_header_main.xml" value="0.22" />
@@ -120,6 +120,7 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/g3appdriver/src/main/res/drawable-v21/tab_selector_bh.xml" value="0.10043859649122808" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/g3appdriver/src/main/res/drawable-v21/tab_selector_bh_untoggled.xml" value="0.10043859649122808" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/g3appdriver/src/main/res/drawable/bg_dashboard.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/g3appdriver/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/g3appdriver/src/main/res/layout/dialog_message_box.xml" value="0.18" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/g3appdriver/src/main/res/layout/dialog_progress.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/g3appdriver/src/main/res/layout/dialog_progress_view.xml" value="0.22" />

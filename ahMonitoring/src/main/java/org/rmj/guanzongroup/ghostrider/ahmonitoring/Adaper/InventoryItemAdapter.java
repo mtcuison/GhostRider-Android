@@ -15,6 +15,7 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,6 +51,12 @@ public class InventoryItemAdapter extends RecyclerView.Adapter<InventoryItemAdap
         holder.lblTransNox.setText("Transaction No. : " + item.getPartsIDx());
         holder.lblItemCode.setText("Item Code : " + item.getBarrCode());
         holder.lblItemDesc.setText("Description : " + item.getDescript());
+
+        if(item.getRemarksx().isEmpty() && item.getActCtr01() == 0){
+            holder.imgStatusx.setImageResource(R.drawable.ic_baseline_add_24);
+        } else {
+            holder.imgStatusx.setImageResource(R.drawable.ic_baseline_done_24);
+        }
     }
 
     @Override
@@ -62,6 +69,7 @@ public class InventoryItemAdapter extends RecyclerView.Adapter<InventoryItemAdap
         public TextView lblTransNox;
         public TextView lblItemCode;
         public TextView lblItemDesc;
+        public ImageView imgStatusx;
 
         public ItemViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
@@ -69,6 +77,7 @@ public class InventoryItemAdapter extends RecyclerView.Adapter<InventoryItemAdap
             lblTransNox = itemView.findViewById(R.id.lbl_itemTransNox);
             lblItemCode = itemView.findViewById(R.id.lbl_itemCode);
             lblItemDesc = itemView.findViewById(R.id.lbl_itemDescription);
+            imgStatusx = itemView.findViewById(R.id.img_status);
 
             itemView.setOnClickListener(view -> listener.OnClick(item.getTransNox(), item.getPartsIDx(), item.getBarrCode()));
         }

@@ -37,6 +37,11 @@ public class RInventoryDetail implements DInventoryDetail {
     }
 
     @Override
+    public LiveData<String> getInventoryCountForBranch(String TransNox) {
+        return poDao.getInventoryCountForBranch(TransNox);
+    }
+
+    @Override
     public void UpdateInventoryItem(String TransNox, String BarCode, String PartID, String ActualQty, String Remarks) {
         poDao.UpdateInventoryItem(TransNox, BarCode, PartID, ActualQty, Remarks);
     }

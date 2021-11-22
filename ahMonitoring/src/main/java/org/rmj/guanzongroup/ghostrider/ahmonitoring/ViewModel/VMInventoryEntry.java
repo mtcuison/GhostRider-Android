@@ -33,7 +33,7 @@ public class VMInventoryEntry extends AndroidViewModel {
     }
 
     public void saveInventoryUpdate(RandomItem foItem, OnInventoryUpdateCallBack callBack){
-        new UpdateInventoryUpdateTask(instance, callBack).execute();
+        new UpdateInventoryUpdateTask(instance, callBack).execute(foItem);
     }
 
     private static class UpdateInventoryUpdateTask extends AsyncTask<RandomItem, Void, Boolean>{
