@@ -81,6 +81,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -96,11 +97,11 @@
                         android:text="Time In(AM)"/>
 
                     <CheckBox
-                        android:id="@+id/cb_timeOutAM"
+                        android:id="@+id/cb_timeInPM"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Time In(AM)"/>
+                        android:text="Time In(PM)"/>
 
                     <CheckBox
                         android:id="@+id/cb_timeInOT"
@@ -113,14 +114,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:gravity="center">
 
                     <CheckBox
-                        android:id="@+id/cb_timeInPM"
+                        android:id="@+id/cb_timeOutAM"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Time Out(PM)"/>
+                        android:text="Time Out(AM)"/>
 
                     <CheckBox
                         android:id="@+id/cb_timeOutPM"
@@ -135,6 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Time Out(OT)"/>
+
                 </LinearLayout>
 
             </LinearLayout>
