@@ -17,7 +17,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,7 +25,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
@@ -34,18 +32,14 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.GeoLocator;
 import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
@@ -60,7 +54,6 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCustomerN
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
-import java.util.List;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -209,7 +202,6 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 }
             }));
 
-
             mViewModel.getRequestCodeOptions().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
                 spnRequestCode.setAdapter(stringArrayAdapter);
                 spnRequestCode.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
@@ -222,19 +214,19 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 poMessage.setPositiveButton("Okay", (view, dialog) -> {
                     dialog.dismiss();
                     poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                        psPhotox = photPath;
-                        poImageInfo.setSourceNo(TransNox);
-                        poImageInfo.setSourceCD("DCPa");
-                        poImageInfo.setImageNme(FileName);
-                        poImageInfo.setFileLoct(photPath);
-                        poImageInfo.setFileCode("0020");
                         new LocationRetriever(getActivity()).getLocation((message, latitude1, longitude1) -> {
+                            psPhotox = photPath;
+                            poImageInfo.setSourceNo(TransNox);
+                            poImageInfo.setSourceCD("DCPa");
+                            poImageInfo.setImageNme(FileName);
+                            poImageInfo.setFileLoct(photPath);
+                            poImageInfo.setFileCode("0020");
                             poImageInfo.setLatitude(String.valueOf(latitude1));
                             poImageInfo.setLongitud(String.valueOf(longitude1));
+                            mViewModel.setImagePath(photPath);
+                            mViewModel.setImgFileNme(FileName);
+                            startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                         });
-                        mViewModel.setImagePath(photPath);
-                        mViewModel.setImgFileNme(FileName);
-                        startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                     });
                 });
                 poMessage.setNegativeButton("Cancel", (view, dialog) -> {

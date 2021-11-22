@@ -200,7 +200,7 @@ public class GLocatorService extends Service {
                     lsLon.equalsIgnoreCase("0.00000000000")){
                         loSysLog.setRemarksx("Unable to trace location while gps is active.");
                     } else {
-
+                        loSysLog.setRemarksx("Location Retrieve.");
                     }
                     poSysLog.saveCurrentLocation(loSysLog);
 
