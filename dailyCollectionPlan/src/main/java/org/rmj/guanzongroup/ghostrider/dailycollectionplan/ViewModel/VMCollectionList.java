@@ -69,7 +69,6 @@ public class VMCollectionList extends AndroidViewModel {
     private final RCollectionUpdate poUpdate;
     private final REmployee poEmploye;
     private final LiveData<List<EDCPCollectionDetail>> collectionList;
-
     private final AppConfigPreference poConfig;
 
     private String psEmployeeID = "";
@@ -128,6 +127,7 @@ public class VMCollectionList extends AndroidViewModel {
 //                    isExist = true;
 //                }
 //            }
+
             JSONObject loJson = new JSONObject();
             loJson.put("sEmployID", psEmployeeID);
             loJson.put("dTransact", date);
@@ -198,6 +198,7 @@ public class VMCollectionList extends AndroidViewModel {
                         boolean isCollectDetlInserted = importDCPListBulkData(collectionDetlList);
                         if (isCollectDetlInserted) {
                             callback.OnSuccessResult(new String[]{"Collection detail imported successfully."});
+                            poConfig.setExportedDcp(true);
                         } else {
                             callback.OnFailedResult("Collection Detail Import Failed: DETAIL");
                         }
@@ -234,7 +235,7 @@ public class VMCollectionList extends AndroidViewModel {
                                 try {
                                     if(!doesExist1) {
                                         GToast.CreateMessage(getApplication(), "Collection list not applicable for the current logged user.", GToast.WARNING).show();
-                                    } else if(!loJSON_Master.getString("dTransact").equalsIgnoreCase(new AppConstants().CURRENT_DATE)) {
+                                    } else if(!loJSON_Master.getString("dReferDte").equalsIgnoreCase(new AppConstants().CURRENT_DATE)) {
                                         GToast.CreateMessage(getApplication(), "Collection list is not applicable for the current date.", GToast.WARNING).show();
                                     } else {
                                         EDCPCollectionMaster loMaster = new EDCPCollectionMaster();
@@ -686,7 +687,8 @@ public class VMCollectionList extends AndroidViewModel {
 
                                         if (!loDetail.sRemCodex.isEmpty()) {
 
-                                            org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(loDetail.sFileLoct,
+                                            org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
+                                                    loDetail.sFileLoct,
                                                     lsAccess,
                                                     loDetail.sFileCode,
                                                     loDetail.sAcctNmbr,
@@ -823,7 +825,7 @@ public class VMCollectionList extends AndroidViewModel {
                                         loUnpost.add(new UnpostedDCP(laCollDetl.get(x).sAcctNmbr,
                                                 laCollDetl.get(x).sRemCodex,
                                                 new JSONObject(),
-                                                Arrays.toString(e.getStackTrace())));
+                                                e.getMessage() + "\n " +Arrays.toString(e.getStackTrace())));
                                         poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + loUnpost.get(x).getMessage());
                                     }
 
@@ -1269,5 +1271,13 @@ public class VMCollectionList extends AndroidViewModel {
                     "\n" +
                     "Parameters : " + data + "\n";
         }
+    }
+
+    public void setExportedDCP(boolean val){
+        poConfig.setExportedDcp(val);
+    }
+
+    public boolean isExportedDCP(){
+        return poConfig.isExportedDcp();
     }
 }

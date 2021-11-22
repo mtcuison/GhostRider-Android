@@ -35,6 +35,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import com.google.android.material.button.MaterialButton;
@@ -302,10 +303,12 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
                         poImageInfo.setImageNme(FileName);
                         poImageInfo.setFileLoct(photPath);
                         poImageInfo.setFileCode("0020");
-                        poImageInfo.setLatitude(String.valueOf(latitude));
-                        poImageInfo.setLongitud(String.valueOf(longitude));
-                        mViewModel.setLatitude(String.valueOf(latitude));
-                        mViewModel.setLongitude(String.valueOf(longitude));
+                        new LocationRetriever(getActivity()).getLocation((message, latitude1, longitude1) -> {
+                            poImageInfo.setLatitude(String.valueOf(latitude1));
+                            poImageInfo.setLongitud(String.valueOf(longitude1));
+                            mViewModel.setLatitude(String.valueOf(latitude1));
+                            mViewModel.setLongitude(String.valueOf(longitude1));
+                        });
                         mViewModel.setImgName(FileName);
                         startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                     } catch (Exception e) {

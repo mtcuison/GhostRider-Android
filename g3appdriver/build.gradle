@@ -52,6 +52,7 @@ dependencies {
     //androidTestImplementation 'org.junit.jupiter:junit-jupiter'
     annotationProcessor 'androidx.room:room-compiler:2.3.0'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
 
     testImplementation 'org.mockito:mockito-core:2.23.4'
 

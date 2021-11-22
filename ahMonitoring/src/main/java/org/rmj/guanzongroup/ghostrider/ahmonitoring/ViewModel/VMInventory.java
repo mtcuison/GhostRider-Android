@@ -42,8 +42,14 @@ import java.util.List;
 public class VMInventory extends AndroidViewModel {
     private static final String TAG = VMInventory.class.getSimpleName();
 
-    private final MutableLiveData<List<RandomItem>> psRandom = new MutableLiveData<>();
+    private final Application instance;
+
+    private final MutableLiveData<List<EInventoryDetail>> psRandom = new MutableLiveData<>();
+    private final MutableLiveData<String> psBranchCd = new MutableLiveData<>();
+
     private final RBranch poBranch;
+    private final RInventoryDetail poDetail;
+    private final RInventoryMaster poMaster;
 
     public interface OnRequestInventoryCallback{
         void OnRequest(String title, String message);
@@ -53,22 +59,40 @@ public class VMInventory extends AndroidViewModel {
 
     public VMInventory(@NonNull Application application) {
         super(application);
+        this.instance = application;
         this.poBranch = new RBranch(application);
+        this.poDetail = new RInventoryDetail(application);
+        this.poMaster = new RInventoryMaster(application);
         List<RandomItem> randomItems = new ArrayList<>();
-        psRandom.setValue(randomItems);
+        psBranchCd.setValue("M001");
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return poBranch.getUserBranchInfo();
     }
 
-    public LiveData<List<RandomItem>> getRandomItemList() {
-        return psRandom;
+    public LiveData<String> getBranchCode(){
+        return psBranchCd;
+    }
+
+    public void setBranchCde(String value){
+        this.psBranchCd.setValue(value);
+    }
+
+    public LiveData<List<EBranchInfo>> getAreaBranchList(){
+        return poBranch.getAreaBranchList();
+    }
+
+    public LiveData<List<EInventoryDetail>> getInventoryDetailForBranch(String TransNox){
+        return poDetail.getInventoryDetailForBranch(TransNox);
+    }
+
+    public LiveData<EInventoryMaster> getInventoryMasterForBranch(String BranchCd){
+        return poMaster.getInventoryMasterForBranch(AppConstants.CURRENT_DATE, BranchCd);
     }
 
     public void RequestRandomStockInventory(String BranchCd, OnRequestInventoryCallback callback){
-
-
+        new RequestInventoryTask(instance, callback).execute(BranchCd);
     }
 
     private static class RequestInventoryTask extends AsyncTask<String, Void, String>{
@@ -154,6 +178,7 @@ public class VMInventory extends AndroidViewModel {
                                 inventoryDetails.add(loDetail);
                             }
                             poDetail.insertInventoryDetail(inventoryDetails);
+                            lsResult = loResponse.toString();
                         }
                     }
                 }
@@ -167,6 +192,18 @@ public class VMInventory extends AndroidViewModel {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            try{
+                JSONObject loJson = new JSONObject(s);
+                String lsResult = loJson.getString("result");
+                if(lsResult.equalsIgnoreCase("success")){
+                    poCallback.OnSuccessResult("Random inventory items has been imported successfully");
+                } else {
+                    JSONObject loError = loJson.getJSONObject("error");
+                    poCallback.OnFaileResult(loError.getString("message"));
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }

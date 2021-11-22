@@ -13,24 +13,42 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Model;
 
 public class RandomItem {
     private final String TransNox;
-    private final String ItemCode;
-    private final String ItemDesc;
+    private final String PartIDxx;
+    private final String BarCodex;
+    private int ItemQtyx = 0;
+    private String Remarksx = "";
 
-    public RandomItem(String transNox, String itemCode, String itemDesc) {
+    public RandomItem(String transNox, String partIDxx, String barCodex) {
         TransNox = transNox;
-        ItemCode = itemCode;
-        ItemDesc = itemDesc;
+        PartIDxx = partIDxx;
+        BarCodex = barCodex;
     }
 
     public String getTransNox() {
         return TransNox;
     }
 
-    public String getItemCode() {
-        return ItemCode;
+    public String getPartIDxx() {
+        return PartIDxx;
     }
 
-    public String getItemDesc() {
-        return ItemDesc;
+    public String getBarCodex() {
+        return BarCodex;
+    }
+
+    public String getItemQtyx() {
+        return String.valueOf(ItemQtyx);
+    }
+
+    public void setItemQtyx(int itemQtyx) {
+        ItemQtyx = itemQtyx;
+    }
+
+    public String getRemarksx() {
+        return Remarksx;
+    }
+
+    public void setRemarksx(String remarksx) {
+        Remarksx = remarksx;
     }
 }

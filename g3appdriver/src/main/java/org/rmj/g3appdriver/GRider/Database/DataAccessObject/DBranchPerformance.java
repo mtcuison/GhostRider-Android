@@ -50,7 +50,7 @@ public interface DBranchPerformance {
             "WHERE b.sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
     String getUserAreaCode();
 
-    @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nMCActual * 100.0 / 100, 1) DESC LIMIT 3")
+    @Query("SELECT * FROM MC_Branch_Performance GROUP BY sBranchCd ORDER BY nSPActual DESC, nMCActual DESC LIMIT 3")
     LiveData<List<EBranchPerformance>> getBranchPerformanceForDashBoard();
 
     @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nMCActual * 100.0 / 100, 1) ASC")

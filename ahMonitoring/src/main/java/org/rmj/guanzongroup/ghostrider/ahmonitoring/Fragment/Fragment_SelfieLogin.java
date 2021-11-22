@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -41,6 +42,7 @@ import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.dev.GLocationManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.TimeLogAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLogin;
@@ -168,30 +170,6 @@ public class Fragment_SelfieLogin extends Fragment {
                 }
             });
         });
-
-//        btnCamera.setOnClickListener(view -> {
-//
-//            if (currentDateLog.size() > 0) {
-//                poMessage.initDialog();
-//                poMessage.setTitle("Selfie Login");
-//                poMessage.setMessage("You already login today.");
-//                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-//                poMessage.show();
-//            } else {
-//                mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
-//                    if (!isGranted) {
-//                        mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(getActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
-//                    } else {
-//                        initCamera();
-//                    }
-//                });
-//
-//            }
-////            else if (!loLocation.isLocationEnabled()) {
-////                requestLocationEnabled();
-////            }
-//
-//        });
     }
 
     @Override
@@ -204,30 +182,27 @@ public class Fragment_SelfieLogin extends Fragment {
                 mViewModel.loginTimeKeeper(poLog, poImage, new VMSelfieLogin.OnLoginTimekeeperListener() {
                     @Override
                     public void OnLogin() {
-//                        poLoad.initDialog("Selfie Login", "Uploading your login time. Please wait...", false);
-//                        poLoad.show();
                     }
 
                     @Override
                     public void OnSuccess(String args) {
-//                        poLoad.dismiss();
-//                        poMessage.initDialog();
-//                        poMessage.setTitle("Selfie Login");
-//                        poMessage.setMessage(args);
-//                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-//                        poMessage.show();
                     }
 
                     @Override
                     public void OnFailed(String message) {
-//                        poLoad.dismiss();
-//                        poMessage.initDialog();
-//                        poMessage.setTitle("Selfie Login");
-//                        poMessage.setMessage(message);
-//                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-//                        poMessage.show();
                     }
                 });
+                if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
+                    poMessage.initDialog();
+                    poMessage.setTitle("GhostRider");
+                    poMessage.setMessage("To complete your selfie log. Please proceed to CashCount entry and Random Stock Inventory");
+                    poMessage.setPositiveButton("Proceed", (view, dialog) -> {
+                        requireActivity().startActivity(new Intent(getActivity(), Activity_CashCounter.class));
+                        dialog.dismiss();
+                        requireActivity().finish();
+                    });
+                    poMessage.show();
+                }
             }
         } else if(requestCode == GLocationManager.GLocationResCode){
             boolean isEnabled = loLocation.isLocationEnabled();

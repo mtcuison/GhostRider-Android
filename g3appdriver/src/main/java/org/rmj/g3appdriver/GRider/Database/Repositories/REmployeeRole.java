@@ -64,6 +64,11 @@ public class REmployeeRole implements DEmployeeRole {
 
     }
 
+    @Override
+    public void clearEmployeeRole() {
+        roleDao.clearEmployeeRole();
+    }
+
     public boolean SaveEmployeeRole(JSONArray faJson) throws Exception{
         GConnection loConn = DbConnection.doConnect(application);
         boolean result = true;

@@ -13,11 +13,15 @@ package org.rmj.guanzongroup.ghostrider.epacss.Object;
 
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Employee_Applications;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Inventory;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalCode;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalSelection;
@@ -101,6 +105,11 @@ public class ChildObject {
 //                loIntent.putExtra("app", AppConstants.INTENT_APPLICATION_APPROVAL);
                 break;
 
+            case "applications":
+                loIntent = new Intent(context, Activity_Employee_Applications.class);
+                loIntent.putExtra("type", true);
+                break;
+
             case "unlock":
                 loIntent = new Intent(context, Activity_Knox.class);
                 loIntent.putExtra("knox", 2);
@@ -121,15 +130,6 @@ public class ChildObject {
                 loIntent.putExtra("knox", 5);
                 break;
 
-            case "branches performance info":
-                loIntent = new Intent(context, Activity_AreaPerformance.class);
-                break;
-
-            case "applications":
-                loIntent = new Intent(context, Activity_Employee_Applications.class);
-                loIntent.putExtra("type", true);
-                break;
-
             case "by reference":
                 loIntent = new Intent(context, Activity_ApprovalSelection.class);
                 loIntent.putExtra("sysCode", "1");
@@ -144,6 +144,15 @@ public class ChildObject {
                 loIntent = new Intent(context, Activity_ApprovalCode.class);
                 loIntent.putExtra("sysCode", "2");
                 break;
+//            case "random stock inventory":
+//                loIntent = new Intent(context, Activity_Inventory.class);
+//                break;
+//            case "branches performance info":
+//                loIntent = new Intent(context, Activity_AreaPerformance.class);
+//                break;
+//            case "cash count":
+//                loIntent = new Intent(context, Activity_CashCounter.class);
+//                break;
             default:
                 loIntent = null;
         }

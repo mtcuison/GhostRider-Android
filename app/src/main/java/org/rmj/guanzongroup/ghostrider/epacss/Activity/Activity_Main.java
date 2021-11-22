@@ -42,7 +42,9 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.GRider.ImportData.ImportEmployeeRole;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
@@ -68,6 +70,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 
     private AppBarConfiguration mAppBarConfiguration;
     private MessageBox loMessage;
+    private LoadDialog poDialog;
     private Intent loIntent;
 
     private ImageView imgDept;
@@ -101,6 +104,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 }
             }
         });
+
         mViewModel.getEmployeeRole().observe(this, roles -> {
             try{
                 mViewModel.getChildRoles().observe(this, childMenus -> {
@@ -174,6 +178,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         int width = metrics.widthPixels;
 
         loMessage = new MessageBox(Activity_Main.this);
+        poDialog = new LoadDialog(Activity_Main.this);
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setIndicatorBoundsRelative(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
 
@@ -188,6 +193,34 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         View view = navigationView.getHeaderView(0);
         imgDept = view.findViewById(R.id.img_deptLogo);
         lblDept = view.findViewById(R.id.lbl_deptNme);
+        lblDept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImportEmployeeRole loImport = new ImportEmployeeRole(getApplication());
+                loImport.RefreshEmployeeRole(new ImportEmployeeRole.OnImportEmployeeRoleCallback() {
+                    @Override
+                    public void OnRequest() {
+                        poDialog.initDialog("GhostRider", "Refreshing employee access. Please wait...", false);
+                        poDialog.show();
+                    }
+
+                    @Override
+                    public void OnSuccess() {
+                        poDialog.dismiss();
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+                        poDialog.dismiss();
+                        loMessage.initDialog();
+                        loMessage.setTitle("GhostRider");
+                        loMessage.setMessage(message);
+                        loMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                        loMessage.show();
+                    }
+                });
+            }
+        });
     }
 
     /*Edited by mike*/

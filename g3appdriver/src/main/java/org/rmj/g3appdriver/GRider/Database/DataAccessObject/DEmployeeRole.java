@@ -57,4 +57,7 @@ public interface DEmployeeRole {
                             String SeqnceCD,
                             String RecdStat,
                             String TimeStmp);
+
+    @Query("DELETE FROM xxxAOEmpRole")
+    void clearEmployeeRole();
 }

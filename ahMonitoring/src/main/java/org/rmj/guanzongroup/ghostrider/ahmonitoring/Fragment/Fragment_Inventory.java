@@ -27,7 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Inventory;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.ItemAdapter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.InventoryItemAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMInventory;
 
@@ -55,18 +55,18 @@ public class Fragment_Inventory extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMInventory.class);
-        mViewModel.getRandomItemList().observe(getViewLifecycleOwner(), randomItems -> {
-            LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-            manager.setOrientation(RecyclerView.VERTICAL);
-            recyclerView.setLayoutManager(manager);
-            recyclerView.setAdapter(new ItemAdapter(randomItems, (TransNox, ItemCode, Description) -> {
-                Intent loIntent = new Intent(getActivity(), Activity_Inventory.class);
-                loIntent.putExtra("transno", TransNox);
-                loIntent.putExtra("code", ItemCode);
-                loIntent.putExtra("desc", Description);
-                startActivity(loIntent);
-            }));
-        });
+//        mViewModel.getRandomItemList().observe(getViewLifecycleOwner(), randomItems -> {
+//            LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+//            manager.setOrientation(RecyclerView.VERTICAL);
+//            recyclerView.setLayoutManager(manager);
+//            recyclerView.setAdapter(new InventoryItemAdapter(randomItems, (TransNox, ItemCode, Description) -> {
+//                Intent loIntent = new Intent(getActivity(), Activity_Inventory.class);
+//                loIntent.putExtra("transno", TransNox);
+//                loIntent.putExtra("code", ItemCode);
+//                loIntent.putExtra("desc", Description);
+//                startActivity(loIntent);
+//            }));
+//        });
     }
 
 }

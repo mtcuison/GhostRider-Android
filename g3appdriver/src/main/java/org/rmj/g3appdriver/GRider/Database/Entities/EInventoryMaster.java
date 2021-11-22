@@ -5,13 +5,13 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Inventory_Count_Master>")
+@Entity(tableName = "Inventory_Count_Master")
 public class EInventoryMaster {
 
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = "sTransNox")
-    private String TransNox = "";
+    private String TransNox;
     @ColumnInfo(name = "sBranchCd")
     private String BranchCd = "";
     @ColumnInfo(name = "dTransact")

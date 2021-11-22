@@ -88,7 +88,8 @@ public interface DRawDao {
             "(SELECT COUNT(*) FROM EDocSys_File) AS File_Code," +
             "(SELECT COUNT(*) FROM Bank_Info) AS Bank_Data," +
             "(SELECT COUNT(*) FROM Collection_Account_Remittance) AS Remittance_Data," +
-            "(SELECT COUNT(*) FROM Relation) AS Relation_Data")
+            "(SELECT COUNT(*) FROM Relation) AS Relation_Data, " +
+            "(SELECT COUNT(*) FROM XXXSCA_REQUEST) AS Approval_Code")
     LiveData<AppLocalData> getAppLocalData();
 
     class McAmortInfo{
@@ -118,5 +119,6 @@ public interface DRawDao {
         public int Bank_Data;
         public int Remittance_Data;
         public int Relation_Data;
+        public int Approval_Code;
     }
 }

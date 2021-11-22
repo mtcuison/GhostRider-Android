@@ -2,6 +2,8 @@ package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DInventoryDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryDetail;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
@@ -22,5 +24,20 @@ public class RInventoryDetail implements DInventoryDetail {
     @Override
     public void insertInventoryDetail(List<EInventoryDetail> foDetail) {
         poDao.insertInventoryDetail(foDetail);
+    }
+
+    @Override
+    public LiveData<List<EInventoryDetail>> getInventoryDetailForBranch(String TransNox) {
+        return poDao.getInventoryDetailForBranch(TransNox);
+    }
+
+    @Override
+    public LiveData<EInventoryDetail> getInventoryItemDetail(String TransNox, String PartID, String BarCode) {
+        return poDao.getInventoryItemDetail(TransNox, PartID, BarCode);
+    }
+
+    @Override
+    public void UpdateInventoryItem(String TransNox, String BarCode, String PartID, String ActualQty, String Remarks) {
+        poDao.UpdateInventoryItem(TransNox, BarCode, PartID, ActualQty, Remarks);
     }
 }

@@ -63,11 +63,8 @@ public class Activity_CashCountLog extends AppCompatActivity {
                     loan.setReqstdNm(ciList.get(x).getReqstdBy());
                     infoModelList.add(loan);
                 }
-                adapter = new CashCountLogAdapter(infoModelList, new CashCountLogAdapter.OnApplicationClickListener() {
-                    @Override
-                    public void OnClick(int position, List<CashCountInfoModel> loanList) {
+                adapter = new CashCountLogAdapter(infoModelList, (position, loanList) -> {
 
-                    }
                 });
                 LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_CashCountLog.this);
                 recyclerView.setAdapter(adapter);
