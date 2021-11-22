@@ -109,8 +109,8 @@ public class VMManualLog extends AndroidViewModel {
                 if(manualLogs[0].isDataValid()) {
                     RequestApproval loApprovl = new RequestApproval(lsPackage);
                     loApprovl.setDeptIDxx(loSession.getDeptID());
-                    loApprovl.setEmpLevID(loSession.getEmployeeID());
-                    loApprovl.setEmployID(loSession.getClientId());
+                    loApprovl.setEmpLevID(loSession.getEmployeeLevel());
+                    loApprovl.setEmployID(loSession.getEmployeeID());
                     loApprovl.setReason(manualLogs[0].getRemarks());
 
                     String lsReqDate = manualLogs[0].getReqDatex();

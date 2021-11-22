@@ -94,8 +94,8 @@ public class VMApprovalEntry extends AndroidViewModel {
                 if(approvalEntries[0].isDataValid()) {
                     RequestApproval loApprovl = new RequestApproval(lsPackage);
                     loApprovl.setDeptIDxx(loSession.getDeptID());
-                    loApprovl.setEmpLevID(loSession.getEmployeeID());
-                    loApprovl.setEmployID(loSession.getClientId());
+                    loApprovl.setEmpLevID(loSession.getEmployeeLevel());
+                    loApprovl.setEmployID(loSession.getEmployeeID());
                     loApprovl.setRemarks(approvalEntries[0].getRemarks());
 
                     String lsAppCode = loApprovl.Generate(
