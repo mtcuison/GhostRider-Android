@@ -111,11 +111,11 @@ public class DatabaseExport {
         try {
             File loFile = new File(fsPath);
             InputStream stream = new FileInputStream(loFile);
-            StorageMetadata metadata = new StorageMetadata.Builder()
-                    .setContentType("sqlite/database-file")
-                    .build();
+//            StorageMetadata metadata = new StorageMetadata.Builder()
+//                    .setContentType("sqlite/database-file")
+//                    .build();
 
-            UploadTask uploadTask = getReference().putStream(stream, metadata);
+            UploadTask uploadTask = getReference().putStream(stream);
             poDiaLoad.initDialog("Export Database","Exporting database. Please wait...", false);
 
             uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
