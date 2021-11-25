@@ -52,7 +52,7 @@ public class InventoryItemAdapter extends RecyclerView.Adapter<InventoryItemAdap
         holder.lblItemCode.setText("Item Code : " + item.getBarrCode());
         holder.lblItemDesc.setText("Description : " + item.getDescript());
 
-        if(item.getRemarksx().isEmpty() && item.getActCtr01() == 0){
+        if(item.getTranStat().equalsIgnoreCase("0")){
             holder.imgStatusx.setImageResource(R.drawable.ic_baseline_add_24);
         } else {
             holder.imgStatusx.setImageResource(R.drawable.ic_baseline_done_24);
@@ -79,13 +79,25 @@ public class InventoryItemAdapter extends RecyclerView.Adapter<InventoryItemAdap
             lblItemDesc = itemView.findViewById(R.id.lbl_itemDescription);
             imgStatusx = itemView.findViewById(R.id.img_status);
 
-            itemView.setOnClickListener(view -> listener.OnClick(item.getTransNox(), item.getPartsIDx(), item.getBarrCode()));
+            itemView.setOnClickListener(v -> {
+                boolean isUpdated = false;
+                if(item != null){
+                    isUpdated = item.getTranStat() != null && item.getTranStat().equalsIgnoreCase("1");
+                }
+                listener.OnClick(item.getTransNox(),
+                        item.getPartsIDx(),
+                        item.getBarrCode(),
+                        isUpdated,
+                        new String[]{item.getDescript(), item.getRemarksx(), String.valueOf(item.getActCtr01())});
+            });
         }
     }
 
     public interface OnItemClickListener{
         void OnClick(String TransNox,
                      String PartsID,
-                     String BarCode);
+                     String BarCode,
+                     boolean isUpdated,
+                     String[] args);
     }
 }

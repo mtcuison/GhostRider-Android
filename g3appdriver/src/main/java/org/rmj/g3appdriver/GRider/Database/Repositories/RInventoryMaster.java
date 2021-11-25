@@ -8,8 +8,6 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DInventoryMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryMaster;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 
-import java.util.List;
-
 public class RInventoryMaster implements DInventoryMaster {
     private static final String TAG = RInventoryMaster.class.getSimpleName();
 
@@ -30,4 +28,22 @@ public class RInventoryMaster implements DInventoryMaster {
     public LiveData<EInventoryMaster> getInventoryMasterForBranch(String Transact, String BranchCd) {
         return poDao.getInventoryMasterForBranch(Transact, BranchCd);
     }
+
+    @Override
+    public EInventoryMaster getInventoryMasterForPosting(String TransNox) {
+        return poDao.getInventoryMasterForPosting(TransNox);
+    }
+
+    @Override
+    public void UpdateInventoryMasterRemarks(String TransNox, String Remarks) {
+        poDao.UpdateInventoryMasterRemarks(TransNox, Remarks);
+    }
+
+    @Override
+    public void UpdateInventoryMasterPostedStatus(String TransNox) {
+        poDao.UpdateInventoryMasterPostedStatus(TransNox);
+    }
+
+
 }
+

@@ -62,4 +62,16 @@ public class RApprovalCode {
     public LiveData<String> getApprovalDesc(String appCode){
         return approvalDao.getApprovalDesc(appCode);
     }
+
+    public List<ECodeApproval> getSystemApprovalForUploading(){
+        return approvalDao.getSystemApprovalForUploading();
+    }
+
+    public void updateUploaded(String TransNox, String NTransNo){
+        approvalDao.updateUploaded(TransNox, NTransNo);
+    }
+
+    public Integer getUnpostedApprovalCode(){
+        return approvalDao.getUnpostedApprovalCode();
+    }
 }

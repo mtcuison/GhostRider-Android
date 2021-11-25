@@ -663,12 +663,12 @@ public class VMCollectionList extends AndroidViewModel {
         @Override
         protected final String doInBackground(List<DDCPCollectionDetail.CollectionDetail>... lists) {
             String lsResult;
-            ArrayList<UnpostedDCP> loUnpost = new ArrayList<>();
+            UnpostedDCP loUnposted;
             String[] params;
 
             List<DDCPCollectionDetail.CollectionDetail> laCollDetl = lists[0];
             try {
-                String lsTransNox = "";
+                String lsTransNox;
                 if(hasRemittedBeforePosting()) {
                     if (!poConn.isDeviceConnected()) {
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Not connected to internet. Tap 'Okay' to export backup file.");
@@ -682,6 +682,9 @@ public class VMCollectionList extends AndroidViewModel {
                                 params = new String[laCollDetl.size()];
                                 lsTransNox = laCollDetl.get(0).sTransNox;
                                 for (int x = 0; x < laCollDetl.size(); x++) {
+                                    if(lsTransNox == null) {
+                                        lsTransNox = laCollDetl.get(x).sTransNox;
+                                    }
                                     try {
                                         DDCPCollectionDetail.CollectionDetail loDetail = laCollDetl.get(x);
 
@@ -702,11 +705,11 @@ public class VMCollectionList extends AndroidViewModel {
 
                                             String lsResponse = (String) loUpload.get("result");
                                             if(lsResponse == null){
-                                                loUnpost.add(new UnpostedDCP(loDetail.sAcctNmbr,
+                                                loUnposted = new UnpostedDCP(loDetail.sAcctNmbr,
                                                         loDetail.sRemCodex,
                                                         new JSONObject(),
-                                                        "Failed to upload collection image. Server no response."));
-                                                poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + loUnpost.get(x).getMessage());
+                                                        "Failed to upload collection image. Server no response.");
+                                                poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + loUnposted.getMessage());
                                             } else if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
                                                 String lsTransNo = (String) loUpload.get("sTransNox");
                                                 poImage.updateImageInfo(lsTransNo, loDetail.sImageIDx);
@@ -714,11 +717,11 @@ public class VMCollectionList extends AndroidViewModel {
                                                 Thread.sleep(1000);
 
                                             } else {
-                                                loUnpost.add(new UnpostedDCP(loDetail.sAcctNmbr,
+                                                loUnposted = new UnpostedDCP(loDetail.sAcctNmbr,
                                                         loDetail.sRemCodex,
                                                         new JSONObject(),
-                                                        "Server no response while uploading dcp image"));
-                                                poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + loUnpost.get(x).getMessage());
+                                                        "Server no response while uploading dcp image");
+                                                poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + loUnposted.getMessage());
                                             }
 
                                             if (loDetail.sRemCodex.equalsIgnoreCase("PAY")) {
@@ -796,11 +799,11 @@ public class VMCollectionList extends AndroidViewModel {
                                         params[x] =loJson.toString() + " \n";
                                         String lsResponse1 = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
                                         if (lsResponse1 == null) {
-                                            loUnpost.add(new UnpostedDCP(loDetail.sAcctNmbr,
+                                            loUnposted = new UnpostedDCP(loDetail.sAcctNmbr,
                                                     loDetail.sRemCodex,
                                                     loJson,
-                                                    "Server no response"));
-                                            poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + loUnpost.get(x).getMessage());
+                                                    "Server no response");
+                                            poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + loUnposted.getMessage());
                                         } else {
                                             JSONObject loResponse = new JSONObject(lsResponse1);
 
@@ -814,21 +817,22 @@ public class VMCollectionList extends AndroidViewModel {
                                             } else {
                                                 JSONObject loError = loResponse.getJSONObject("error");
                                                 String lsMessage = loError.getString("message");
-                                                loUnpost.add(new UnpostedDCP(loDetail.sAcctNmbr,
+
+                                                loUnposted = new UnpostedDCP(loDetail.sAcctNmbr,
                                                         loDetail.sRemCodex,
                                                         loJson,
-                                                        lsMessage));
-                                                poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + loUnpost.get(x).getMessage());
+                                                        lsMessage);
+                                                poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + loUnposted.getMessage());
                                             }
                                         }
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
-                                        loUnpost.add(new UnpostedDCP(laCollDetl.get(x).sAcctNmbr,
+                                        loUnposted = new UnpostedDCP(laCollDetl.get(x).sAcctNmbr,
                                                 laCollDetl.get(x).sRemCodex,
                                                 new JSONObject(),
-                                                e.getMessage() + "\n " +Arrays.toString(e.getStackTrace())));
-                                        poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + loUnpost.get(x).getMessage());
+                                                e.getMessage() + "\n " +Arrays.toString(e.getStackTrace()));
+                                        poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + loUnposted.getMessage());
                                     }
 
                                     Thread.sleep(1000);

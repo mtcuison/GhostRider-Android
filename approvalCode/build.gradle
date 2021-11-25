@@ -53,7 +53,7 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.2.6'
     implementation 'androidx.sqlite:sqlite:2.1.0'
 
-    implementation files('libs/appdriver-mob(app).jar')
+    implementation files('libs/appdriver-mob.jar')
     implementation files('libs/commons-lang3-3.3.2.jar')
     implementation project(':g3appdriver')
     

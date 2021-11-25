@@ -11,11 +11,15 @@
 
 package org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel;
 
+import static org.rmj.g3appdriver.utils.WebApi.URL_SAVE_APPROVAL;
+
 import android.app.Application;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -30,6 +34,8 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.utils.WebClient;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Model.ApprovalEntry;
 
 import java.util.List;
@@ -77,6 +83,7 @@ public class VMApprovalEntry extends AndroidViewModel {
         private final String lsPackage;
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
+        private final RApprovalCode poApproval;
         private final CodeApprovalCreatedListener listener;
 
         public CreateCodeTask(Application instance, String lsPackage, CodeApprovalCreatedListener listener) {
@@ -85,8 +92,10 @@ public class VMApprovalEntry extends AndroidViewModel {
             this.listener = listener;
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
+            this.poApproval = new RApprovalCode(instance);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(ApprovalEntry... approvalEntries) {
             String lsResponse = "";
@@ -108,6 +117,57 @@ public class VMApprovalEntry extends AndroidViewModel {
                         lsResponse = AppConstants.APPROVAL_CODE_EMPTY(loApprovl.getMessage());
                     } else {
                         lsResponse = AppConstants.APPROVAL_CODE_GENERATED(lsAppCode);
+
+                        if(!poConn.isDeviceConnected()){
+                            Log.d(TAG, "No internet.");
+                        } else {
+                            List<ECodeApproval> laForPost = poApproval.getSystemApprovalForUploading();
+                            for (int x = 0; x < laForPost.size(); x++) {
+                                ECodeApproval detail = laForPost.get(x);
+                                JSONObject param = new JSONObject();
+                                param.put("sTransNox", detail.getTransNox());
+                                param.put("dTransact", detail.getTransact());
+                                param.put("sSystemCD", detail.getSystemCD());
+                                param.put("sReqstdBy", detail.getReqstdBy());
+                                param.put("dReqstdxx", detail.getReqstdxx());
+                                param.put("cIssuedBy", detail.getIssuedBy());
+                                param.put("sMiscInfo", detail.getMiscInfo());
+                                param.put("sRemarks1", detail.getRemarks1());
+                                param.put("sRemarks2", detail.getApprCode() == null ? "" : detail.getRemarks2());
+                                param.put("sApprCode", detail.getApprCode());
+                                param.put("sEntryByx", detail.getEntryByx());
+                                param.put("sApprvByx", detail.getApprvByx());
+                                param.put("sReasonxx", detail.getReasonxx() == null ? "" : detail.getReasonxx());
+                                param.put("sReqstdTo", detail.getReqstdTo() == null ? "" : detail.getReqstdTo());
+                                param.put("cTranStat", detail.getTranStat());
+
+                                String response = WebClient.httpsPostJSon(URL_SAVE_APPROVAL, param.toString(), poHeaders.getHeaders());
+                                if (response == null) {
+                                    Log.d(TAG, "Server no response");
+                                } else {
+                                    JSONObject loResponse = new JSONObject(response);
+                                    String result = loResponse.getString("result");
+                                    if (result.equalsIgnoreCase("success")) {
+                                        String TransNox = loResponse.getString("sTransNox");
+                                        poApproval.updateUploaded(detail.getTransNox(), TransNox);
+                                        Log.d(TAG, "Approval Code has been uploaded to server");
+                                    } else {
+                                        JSONObject loError = loResponse.getJSONObject("error");
+                                        String message = loError.getString("message");
+                                        Log.d(TAG, "Failed to upload approval code. " + message);
+                                    }
+                                }
+
+                                Thread.sleep(1000);
+                            }
+
+                            int unposted = poApproval.getUnpostedApprovalCode();
+                            if (unposted > 0) {
+                                Log.d(TAG, "Approval Code has been uploaded to server");
+                            } else {
+                                Log.d(TAG, "Approval Code has been uploaded to server");
+                            }
+                        }
                     }
                 } else {
                     lsResponse = AppConstants.APPROVAL_CODE_EMPTY(approvalEntries[0].getMessage());

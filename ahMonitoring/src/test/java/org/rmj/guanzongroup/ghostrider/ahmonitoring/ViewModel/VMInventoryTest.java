@@ -30,6 +30,7 @@ import java.util.List;
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest= Config.NONE)
 public class VMInventoryTest {
+
     private VMInventory mViewModel;
 
     @Before

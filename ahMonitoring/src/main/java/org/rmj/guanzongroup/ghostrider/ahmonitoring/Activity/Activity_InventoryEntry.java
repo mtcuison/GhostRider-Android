@@ -78,30 +78,33 @@ public class Activity_InventoryEntry extends AppCompatActivity {
                     txtWareHouse.setText(item.getWHouseNm());
                     txtSection.setText(item.getSectnNme());
                     txtBin.setText(item.getBinNamex());
+                    if(item.getTranStat().equalsIgnoreCase("1")){
+                        txtActualQty.setText(String.valueOf(item.getActCtr01()));
+                        txtRemarks1.setText(item.getRemarksx());
+                    }
                 } catch (Exception e){
                     e.printStackTrace();
                 }
             }
         });
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                poItem.setItemQtyx(Integer.parseInt(txtActualQty.getText().toString()));
-                poItem.setRemarksx(txtRemarks1.getText().toString());
-                mViewModel.saveInventoryUpdate(poItem, new VMInventoryEntry.OnInventoryUpdateCallBack() {
-                    @Override
-                    public void OnUpdate(String message) {
-                        GToast.CreateMessage(Activity_InventoryEntry.this, message, GToast.INFORMATION).show();
-                        finish();
-                    }
+        btnSave.setOnClickListener(v -> {
+            poItem.setItemQtyx(Integer.parseInt(txtActualQty.getText().toString()));
+            poItem.setRemarksx(txtRemarks1.getText().toString());
+            mViewModel.saveInventoryUpdate(poItem, new VMInventoryEntry.OnInventoryUpdateCallBack() {
+                @Override
+                public void OnUpdate(String message) {
+                    GToast.CreateMessage(Activity_InventoryEntry.this, message, GToast.INFORMATION).show();
+                    finish();
+                    overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+                }
 
-                    @Override
-                    public void OnError(String message) {
-                        GToast.CreateMessage(Activity_InventoryEntry.this, message, GToast.INFORMATION).show();
-                        finish();
-                    }
-                });
-            }
+                @Override
+                public void OnError(String message) {
+                    GToast.CreateMessage(Activity_InventoryEntry.this, message, GToast.INFORMATION).show();
+                    finish();
+                    overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+                }
+            });
         });
     }
     public void initWidgets(){
@@ -128,6 +131,7 @@ public class Activity_InventoryEntry extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
             finish();
+            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -135,5 +139,6 @@ public class Activity_InventoryEntry extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
 }

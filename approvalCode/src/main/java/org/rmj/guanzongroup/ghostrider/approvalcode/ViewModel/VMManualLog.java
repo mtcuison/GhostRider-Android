@@ -30,9 +30,9 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ECodeApproval;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RApprovalCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebClient;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Model.ManualLog;
 
@@ -42,6 +42,7 @@ import static org.rmj.g3appdriver.utils.WebApi.URL_SAVE_APPROVAL;
 
 public class VMManualLog extends AndroidViewModel {
     public static final String TAG = VMManualLog.class.getSimpleName();
+    private final Application instance;
     private final RBranch poBranchR;
     private final RApprovalCode poAppCdeR;
     private final SessionManager poSession;
@@ -52,6 +53,7 @@ public class VMManualLog extends AndroidViewModel {
 
     public VMManualLog(@NonNull Application application) {
         super(application);
+        this.instance = application;
         this.poBranchR = new RBranch(application);
         this.poAppCdeR = new RApprovalCode(application);
         this.poSession = new SessionManager(application);
@@ -69,7 +71,7 @@ public class VMManualLog extends AndroidViewModel {
     }
 
     public void creatApprovalCode(ManualLog model, CodeApprovalCreatedListener listener){
-        new CreateCodeTask(poSession, psPackage, listener).execute(model);
+        new CreateCodeTask(instance, poSession, psPackage, listener).execute(model);
     }
 
     public LiveData<ECodeApproval> getCodeApprovalInfo(){
@@ -80,21 +82,24 @@ public class VMManualLog extends AndroidViewModel {
         this.mCodeApproval.setValue(codeApprovalInfo);
     }
 
-    public void UploadApprovalCode(ViewModelCallback foCallBck){
-        new SubmitApprovalInfoTask(poConnect, poAppCdeR, poHeaders, foCallBck).execute(mCodeApproval.getValue());
-    }
-
     private static class CreateCodeTask extends AsyncTask<ManualLog, Void, String>{
         private final SessionManager loSession;
         private final CodeApprovalCreatedListener listener;
         private final String lsPackage;
+        private final HttpHeaders loHeaders;
+        private final ConnectionUtil poConn;
+        private final RApprovalCode loApproval;
 
-        public CreateCodeTask(SessionManager foSession,
+        public CreateCodeTask(Application instance,
+                              SessionManager foSession,
                               String fsPackage,
                               CodeApprovalCreatedListener listener) {
             this.loSession = foSession;
             this.lsPackage = fsPackage;
             this.listener = listener;
+            this.loHeaders = HttpHeaders.getInstance(instance);
+            this.poConn = new ConnectionUtil(instance);
+            this.loApproval = new RApprovalCode(instance);
         }
 
         @Override
@@ -102,6 +107,7 @@ public class VMManualLog extends AndroidViewModel {
             super.onPreExecute();
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(ManualLog... manualLogs) {
             String lsResponse = "";
@@ -126,6 +132,57 @@ public class VMManualLog extends AndroidViewModel {
                         lsResponse = AppConstants.APPROVAL_CODE_EMPTY(loApprovl.getMessage());
                     } else {
                         lsResponse = AppConstants.APPROVAL_CODE_GENERATED(lsAppCode);
+
+                        if(poConn.isDeviceConnected()) {
+                            List<ECodeApproval> laForPost = loApproval.getSystemApprovalForUploading();
+                            for (int x = 0; x < laForPost.size(); x++) {
+                                ECodeApproval detail = laForPost.get(x);
+                                JSONObject param = new JSONObject();
+                                param.put("sTransNox", detail.getTransNox());
+                                param.put("dTransact", detail.getTransact());
+                                param.put("sSystemCD", detail.getSystemCD());
+                                param.put("sReqstdBy", detail.getReqstdBy());
+                                param.put("dReqstdxx", detail.getReqstdxx());
+                                param.put("cIssuedBy", detail.getIssuedBy());
+                                param.put("sMiscInfo", detail.getMiscInfo());
+                                param.put("sRemarks1", detail.getRemarks1());
+                                param.put("sRemarks2", detail.getApprCode() == null ? "" : detail.getRemarks2());
+                                param.put("sApprCode", detail.getApprCode());
+                                param.put("sEntryByx", detail.getEntryByx());
+                                param.put("sApprvByx", detail.getApprvByx());
+                                param.put("sReasonxx", detail.getReasonxx() == null ? "" : detail.getReasonxx());
+                                param.put("sReqstdTo", detail.getReqstdTo() == null ? "" : detail.getReqstdTo());
+                                param.put("cTranStat", detail.getTranStat());
+
+                                String response = WebClient.httpsPostJSon(URL_SAVE_APPROVAL, param.toString(), loHeaders.getHeaders());
+                                if (response == null) {
+                                    Log.d(TAG, "Server no response");
+                                } else {
+                                    JSONObject loResponse = new JSONObject(response);
+                                    String result = loResponse.getString("result");
+                                    if (result.equalsIgnoreCase("success")) {
+                                        String TransNox = loResponse.getString("sTransNox");
+                                        loApproval.updateUploaded(detail.getTransNox(), TransNox);
+                                        Log.d(TAG, "Approval Code has been uploaded to server");
+                                    } else {
+                                        JSONObject loError = loResponse.getJSONObject("error");
+                                        String message = loError.getString("message");
+                                        Log.d(TAG, "Failed to upload approval code. " + message);
+                                    }
+                                }
+
+                                Thread.sleep(1000);
+                            }
+
+                            int unposted = loApproval.getUnpostedApprovalCode();
+                            if (unposted > 0) {
+                                Log.d(TAG, "Approval Code has been uploaded to server");
+                            } else {
+                                Log.d(TAG, "Approval Code has been uploaded to server");
+                            }
+                        } else {
+                            Log.d(TAG, "Approval Code has been uploaded to server");
+                        }
                     }
                 } else {
                     lsResponse = AppConstants.APPROVAL_CODE_EMPTY(manualLogs[0].getMessage());
@@ -154,86 +211,6 @@ public class VMManualLog extends AndroidViewModel {
                 e.printStackTrace();
             }
             this.cancel(false);
-        }
-    }
-
-    private static class SubmitApprovalInfoTask extends AsyncTask<ECodeApproval, Void, String>{
-        private final ConnectionUtil loConnectx;
-        private final RApprovalCode loApprovl;
-        private final ViewModelCallback loCallbck;
-        private final HttpHeaders loheaders;
-
-        public SubmitApprovalInfoTask(ConnectionUtil foConnectx, RApprovalCode foApprovl, HttpHeaders foHeades, ViewModelCallback foCallbck){
-            this.loConnectx = foConnectx;
-            this.loApprovl = foApprovl;
-            this.loCallbck = foCallbck;
-            this.loheaders = foHeades;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            loCallbck.OnLoadData("Approval Code", "Uploading approval code. Please wait...");
-            super.onPreExecute();
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        @Override
-        protected String doInBackground(ECodeApproval... eCodeApprovals) {
-            String lsReponse = "";
-            try{
-                if(loConnectx.isDeviceConnected()) {
-                    final JSONObject param = new JSONObject();
-                    param.put("sTransNox", eCodeApprovals[0].getTransNox());
-                    param.put("dTransact", eCodeApprovals[0].getTransact());
-                    param.put("sSystemCD", eCodeApprovals[0].getSystemCD());
-                    param.put("sReqstdBy", eCodeApprovals[0].getReqstdBy());
-                    param.put("dReqstdxx", eCodeApprovals[0].getReqstdxx());
-                    param.put("cIssuedBy", eCodeApprovals[0].getIssuedBy());
-                    param.put("sMiscInfo", eCodeApprovals[0].getMiscInfo());
-                    param.put("sRemarks1", eCodeApprovals[0].getRemarks1());
-                    param.put("sRemarks2", eCodeApprovals[0].getRemarks2());
-                    param.put("sApprCode", eCodeApprovals[0].getApprCode());
-                    param.put("sEntryByx", eCodeApprovals[0].getEntryByx());
-                    param.put("sApprvByx", eCodeApprovals[0].getApprvByx());
-                    param.put("sReasonxx", eCodeApprovals[0].getReasonxx());
-                    param.put("sReqstdTo", eCodeApprovals[0].getReqstdTo());
-                    param.put("cTranStat", eCodeApprovals[0].getTranStat());
-
-                    lsReponse = WebClient.sendRequest(URL_SAVE_APPROVAL, param.toString(), loheaders.getHeaders());
-                    JSONObject loJson = new JSONObject(lsReponse);
-                    Log.e(TAG, loJson.getString("result"));
-                    String lsResult = loJson.getString("result");
-                    if(lsResult.equalsIgnoreCase("success")){
-                        String lsTransNo = loJson.getString("TransNox");
-                        eCodeApprovals[0].setTransNox(lsTransNo);
-                        eCodeApprovals[0].setSendxxxx("1");
-                        loApprovl.update(eCodeApprovals[0]);
-                    }
-                } else {
-                    lsReponse = AppConstants.NO_INTERNET();
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            return lsReponse;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject loJson = new JSONObject(s);
-                String lsResultx = loJson.getString("result");
-                if (lsResultx.equalsIgnoreCase("success")) {
-                    loCallbck.OnSuccessResult("");
-                } else {
-                    JSONObject loErrorxx = loJson.getJSONObject("error");
-                    String lsMessage = loErrorxx.getString("message");
-                    loCallbck.OnFailedResult(lsMessage);
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
         }
     }
 

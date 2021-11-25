@@ -293,6 +293,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="5dp"
+                                    android:gravity="center"
                                     android:autofillHints="Business trip destination and purpose."
                                     android:inputType="number|none" />
 
@@ -311,9 +312,10 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
+                                android:maxLength="128"
                                 android:autofillHints="Business trip destination and purpose."
                                 android:inputType="textMultiLine"
-                                android:lines="4" />
+                                android:lines="3" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 

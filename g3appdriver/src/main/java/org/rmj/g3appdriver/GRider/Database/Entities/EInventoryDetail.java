@@ -47,6 +47,8 @@ public class EInventoryDetail {
     private String LedgerNo = "";
     @ColumnInfo(name = "nBegQtyxx")
     private String BegQtyxx = "";
+    @ColumnInfo(name = "cTranStat")
+    private String TranStat = "0";
     @ColumnInfo(name = "sRemarksx")
     private String Remarksx = "";
     @ColumnInfo(name = "dModified")
@@ -206,6 +208,14 @@ public class EInventoryDetail {
 
     public void setBegQtyxx(String begQtyxx) {
         BegQtyxx = begQtyxx;
+    }
+
+    public String getTranStat() {
+        return TranStat;
+    }
+
+    public void setTranStat(String tranStat) {
+        TranStat = tranStat;
     }
 }
 

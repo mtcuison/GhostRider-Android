@@ -66,6 +66,7 @@ public class ChildObject {
                 loIntent = new Intent(context, Activity_ApplicationHistory.class);
 //                loIntent.putExtra("app", AppConstants.INTENT_OB_APPLICATION);
                 break;
+
 //            case "branch application list":
 //                loIntent = new Intent(context, Activity_BranchApplications.class);
 //                break;
@@ -75,6 +76,7 @@ public class ChildObject {
 //            case "":
 //                loIntent = new Intent(context, DCPPhotoCapture.class);
 //                break;
+
             case "ci evaluation list":
                 loIntent = new Intent(context, Activity_EvaluationList.class);
                 break;
@@ -143,9 +145,9 @@ public class ChildObject {
                 loIntent.putExtra("sysCode", "2");
                 break;
 
-            case "random stock inventory":
-                loIntent = new Intent(context, Activity_Inventory.class);
-                break;
+//            case "random stock inventory":
+//                loIntent = new Intent(context, Activity_Inventory.class);
+//                break;
 //            case "branches performance info":
 //                loIntent = new Intent(context, Activity_AreaPerformance.class);
 //                break;

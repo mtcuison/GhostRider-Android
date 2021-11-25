@@ -83,14 +83,33 @@
                     android:layout_height="1dp"
                     android:background="@color/guanzon_orange"
                     android:layout_marginBottom="10dp"/>
-                <TextView
-                    android:id="@+id/lbl_inventoryCount"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Updated Inventory Items"
-                    android:padding="10dp"
-                    android:textColor="@color/material_black"/>
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/lbl_inventoryCount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Updated Inventory Items"
+                        android:padding="10dp"
+                        android:textColor="@color/material_black"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_post"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".4"
+                        android:text="Submit"
+                        style="@style/MaterialButtonAccent"/>
+
+                </LinearLayout>
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_inventory"

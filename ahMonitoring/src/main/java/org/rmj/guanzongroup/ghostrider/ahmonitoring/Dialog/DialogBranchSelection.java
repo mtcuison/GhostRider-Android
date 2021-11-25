@@ -39,7 +39,7 @@ public class DialogBranchSelection {
         this.poMessage = new MessageBox(mContext);
     }
 
-    public void initDialog( OnBranchSelectedCallback foCallback){
+    public void initDialog(OnBranchSelectedCallback foCallback){
         callback = foCallback;
 
         AlertDialog.Builder poBuilder = new AlertDialog.Builder(mContext);

@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
+import static org.rmj.g3appdriver.utils.WebApi.URL_SUBMIT_RANDOM_STOCK_INVENTORY;
+
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -204,6 +206,109 @@ public class VMInventory extends AndroidViewModel {
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     poCallback.OnFaileResult(loError.getString("message"));
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void PostInventory(String TransNox, String Remarks, OnRequestInventoryCallback callback){
+        new PostInventoryTask(instance, Remarks, callback).execute(TransNox);
+    }
+
+    private static class PostInventoryTask extends AsyncTask<String, Void, String>{
+
+        private final ConnectionUtil poConn;
+        private final HttpHeaders poHeaders;
+        private final RInventoryDetail poDetail;
+        private final RInventoryMaster poMaster;
+        private final String Remarksx;
+        private final OnRequestInventoryCallback callback;
+
+        public PostInventoryTask(Application instance, String Remarks, OnRequestInventoryCallback callback){
+            this.poConn = new ConnectionUtil(instance);
+            this.poHeaders = HttpHeaders.getInstance(instance);
+            this.Remarksx = Remarks;
+            this.callback = callback;
+            this.poDetail = new RInventoryDetail(instance);
+            this.poMaster = new RInventoryMaster(instance);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnRequest("Random Stock Inventory", "Posting inventory details. Please wait...");
+        }
+
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected String doInBackground(String... strings) {
+            String lsResult = "";
+            try{
+                if(!poConn.isDeviceConnected()){
+                    lsResult = AppConstants.NO_INTERNET();
+                } else {
+                    String lsTransNox = strings[0];
+                    int lnUncount = poDetail.getUncountedInventoryItems(lsTransNox);
+                    if(lnUncount > 0){
+                        lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Please finish your inventory before posting.");
+                    } else {
+                        poMaster.UpdateInventoryMasterRemarks(lsTransNox, Remarksx);
+                        List<EInventoryDetail> loDetail = poDetail.getInventoryDetailForPosting(lsTransNox);
+                        EInventoryMaster loMaster = poMaster.getInventoryMasterForPosting(lsTransNox);
+                        JSONObject joMaster = new JSONObject();
+                        joMaster.put("sTransNox", loMaster.getTransNox());
+                        joMaster.put("sRemarksx", loMaster.getRemarksx());
+                        JSONArray jaDetail = new JSONArray();
+                        for (int x = 0; x < loDetail.size(); x++) {
+                            JSONObject params = new JSONObject();
+                            params.put("sTransNox", loDetail.get(x).getTransNox());
+                            params.put("nEntryNox", loDetail.get(x).getEntryNox());
+                            params.put("sPartsIDx", loDetail.get(x).getPartsIDx());
+                            params.put("nActCtr01", loDetail.get(x).getActCtr01());
+                            params.put("sRemarksx", loDetail.get(x).getRemarksx());
+                            jaDetail.put(params);
+                        }
+                        joMaster.put("detail", jaDetail);
+                        String response = WebClient.httpsPostJSon(URL_SUBMIT_RANDOM_STOCK_INVENTORY, joMaster.toString(), poHeaders.getHeaders());
+//                        String response = AppConstants.APPROVAL_CODE_GENERATED("sample");
+                        if(response == null){
+                            lsResult = AppConstants.SERVER_NO_RESPONSE();
+                        } else {
+                            JSONObject loResponse = new JSONObject(response);
+                            String result = loResponse.getString("result");
+                            if(result.equalsIgnoreCase("success")){
+                                for (int x = 0; x < loDetail.size(); x++) {
+                                    String lsPartID = loDetail.get(x).getPartsIDx();
+                                    poDetail.UpdateInventoryItemPostedStatus(lsTransNox, lsPartID);
+                                }
+                                poMaster.UpdateInventoryMasterPostedStatus(lsTransNox);
+                            }
+                            lsResult = response;
+                        }
+                    }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+            }
+            return lsResult;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try{
+                JSONObject loJson = new JSONObject(s);
+                String result = loJson.getString("result");
+                if(result.equalsIgnoreCase("success")){
+                    callback.OnSuccessResult("Random stock inventory has been posted.");
+                } else {
+                    JSONObject loError = loJson.getJSONObject("error");
+                    String message = loError.getString("message");
+                    callback.OnFaileResult(message);
                 }
             } catch (Exception e){
                 e.printStackTrace();

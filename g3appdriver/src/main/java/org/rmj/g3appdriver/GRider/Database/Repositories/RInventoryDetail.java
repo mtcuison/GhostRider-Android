@@ -45,4 +45,24 @@ public class RInventoryDetail implements DInventoryDetail {
     public void UpdateInventoryItem(String TransNox, String BarCode, String PartID, String ActualQty, String Remarks) {
         poDao.UpdateInventoryItem(TransNox, BarCode, PartID, ActualQty, Remarks);
     }
+
+    @Override
+    public Integer getUncountedInventoryItems(String TransNox) {
+        return poDao.getUncountedInventoryItems(TransNox);
+    }
+
+    @Override
+    public List<EInventoryDetail> getInventoryDetailForPosting(String TransNox) {
+        return poDao.getInventoryDetailForPosting(TransNox);
+    }
+
+    @Override
+    public void UpdateInventoryItemPostedStatus(String TransNox, String PartID) {
+        poDao.UpdateInventoryItemPostedStatus(TransNox, PartID);
+    }
+
+    @Override
+    public Integer checkForUnpostedInventoryDetail(String TransNox) {
+        return poDao.checkForUnpostedInventoryDetail(TransNox);
+    }
 }
