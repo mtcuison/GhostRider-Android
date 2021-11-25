@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +37,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.dev.GLocationManager;
@@ -47,9 +48,6 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.TimeLogAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLogin;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -67,10 +65,10 @@ public class Fragment_SelfieLogin extends Fragment {
     private ELog_Selfie poLog;
     private GLocationManager loLocation;
 
-//    private LoadDialog poLoad;
+    private LoadDialog poLoad;
     private MessageBox poMessage;
 
-    private String photPath;
+    private String psPhotoPath;
 
     private static boolean isDialogShown;
 
@@ -177,32 +175,38 @@ public class Fragment_SelfieLogin extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ImageFileCreator.GCAMERA){
             if(resultCode == RESULT_OK){
-                poImage.setMD5Hashx(WebFileServer.createMD5Hash(photPath));
+                poImage.setMD5Hashx(WebFileServer.createMD5Hash(psPhotoPath));
                 poImage.setCaptured(new AppConstants().DATE_MODIFIED);
                 mViewModel.loginTimeKeeper(poLog, poImage, new VMSelfieLogin.OnLoginTimekeeperListener() {
                     @Override
                     public void OnLogin() {
+                        poLoad.initDialog("Selfie Log", "Sending your time in. Please wait...", false);
+                        poLoad.show();
                     }
 
                     @Override
                     public void OnSuccess(String args) {
+                        poLoad.dismiss();
+                        showMessageDialog("Your time in has been save to server.");
                     }
 
                     @Override
                     public void OnFailed(String message) {
+                        poLoad.dismiss();
+                        showMessageDialog("Your time in has been save.");
                     }
                 });
-                if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
-                    poMessage.initDialog();
-                    poMessage.setTitle("GhostRider");
-                    poMessage.setMessage("To complete your selfie log. Please proceed to CashCount entry and Random Stock Inventory");
-                    poMessage.setPositiveButton("Proceed", (view, dialog) -> {
-                        requireActivity().startActivity(new Intent(getActivity(), Activity_CashCounter.class));
-                        dialog.dismiss();
-                        requireActivity().finish();
-                    });
-                    poMessage.show();
-                }
+//                if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
+//                    poMessage.initDialog();
+//                    poMessage.setTitle("GhostRider");
+//                    poMessage.setMessage("To complete your selfie log. Please proceed to CashCount entry and Random Stock Inventory");
+//                    poMessage.setPositiveButton("Proceed", (view, dialog) -> {
+//                        requireActivity().startActivity(new Intent(getActivity(), Activity_CashCounter.class));
+//                        dialog.dismiss();
+//                        requireActivity().finish();
+//                    });
+//                    poMessage.show();
+//                }
             }
         } else if(requestCode == GLocationManager.GLocationResCode){
             boolean isEnabled = loLocation.isLocationEnabled();
@@ -218,22 +222,24 @@ public class Fragment_SelfieLogin extends Fragment {
         try {
             ImageFileCreator loImage = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_SELFIE_LOG, poUser.getUserIDxx());
             loImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                this.photPath = photPath;
-                poLog.setEmployID(poUser.getEmployID());
-                poLog.setLogTimex(new AppConstants().DATE_MODIFIED);
-                poLog.setLatitude(String.valueOf(latitude));
-                poLog.setLongitud(String.valueOf(longitude));
-                poLog.setSendStat("0");
+                new LocationRetriever(getActivity()).getLocation((message, latitude1, longitude1) -> {
+                    psPhotoPath = photPath;
+                    poLog.setEmployID(poUser.getEmployID());
+                    poLog.setLogTimex(new AppConstants().DATE_MODIFIED);
+                    poLog.setLatitude(String.valueOf(latitude1));
+                    poLog.setLongitud(String.valueOf(longitude1));
+                    poLog.setSendStat("0");
 
-                poImage.setFileCode("0021");
-                poImage.setSourceNo(poUser.getClientID());
-                poImage.setDtlSrcNo(poUser.getUserIDxx());
-                poImage.setSourceCD("LOGa");
-                poImage.setImageNme(FileName);
-                poImage.setFileLoct(photPath);
-                poImage.setLatitude(String.valueOf(latitude));
-                poImage.setLongitud(String.valueOf(longitude));
-                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                    poImage.setFileCode("0021");
+                    poImage.setSourceNo(poUser.getClientID());
+                    poImage.setDtlSrcNo(poUser.getUserIDxx());
+                    poImage.setSourceCD("LOGa");
+                    poImage.setImageNme(FileName);
+                    poImage.setFileLoct(photPath);
+                    poImage.setLatitude(String.valueOf(latitude1));
+                    poImage.setLongitud(String.valueOf(longitude1));
+                    startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                });
             });
         } catch(NullPointerException e) {
             e.printStackTrace();
@@ -260,5 +266,13 @@ public class Fragment_SelfieLogin extends Fragment {
         });
         poMessage.show();
         isDialogShown = true;
+    }
+
+    private void showMessageDialog(String message){
+        poMessage.initDialog();
+        poMessage.setTitle("Selfie Log");
+        poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
     }
 }

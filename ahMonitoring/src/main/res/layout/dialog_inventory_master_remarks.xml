@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    app:cardCornerRadius="15dp"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="true"
+    android:background="@color/material_lightgrey"
+    android:layout_marginHorizontal="30dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/background_dialog">
+
+        <TextView
+            android:id="@+id/lbl_dialogTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Randon Stock Inventory"
+            android:textColor="@color/material_black"
+            android:textSize="21sp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:paddingTop="20dp"
+            android:fontFamily="@font/roboto_bold"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please enter remarks for overall inventory for this branch."
+            android:textColor="@color/material_black"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:textAlignment="center"
+            android:fontFamily="@font/roboto"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/TextInputStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sHintRemarks">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_remarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:maxLength="500"
+                android:autofillHints="Business trip destination and purpose."
+                android:inputType="textMultiLine"
+                android:lines="3" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Confirm"
+            app:rippleColor="@color/guanzon_digital_orange"
+            android:textColor="@color/material_black"
+            android:fontFamily="@font/roboto_medium"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel"
+            app:rippleColor="@color/guanzon_digital_orange"
+            android:textColor="@color/material_black"
+            android:fontFamily="@font/roboto_medium"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

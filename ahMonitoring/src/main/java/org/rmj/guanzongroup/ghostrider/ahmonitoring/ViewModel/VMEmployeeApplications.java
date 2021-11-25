@@ -96,15 +96,17 @@ public class VMEmployeeApplications extends AndroidViewModel {
         protected String doInBackground(Void... voids) {
             String response;
             JSONObject loResponse;
+            String message = null;
             try{
                 if (!loConn.isDeviceConnected()) {
                     response = AppConstants.NO_INTERNET();
                 } else{
-                    response = WebClient.httpsPostJSon(WebApi.URL_GET_LEAVE_APPLICATION, new JSONObject().toString(), loHeaders.getHeaders());
-                    if(response == null){
-                        response = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response while downloading leave applications");
+                    String lvResponse = WebClient.httpsPostJSon(WebApi.URL_GET_LEAVE_APPLICATION, new JSONObject().toString(), loHeaders.getHeaders());
+//                    String lvResponse = AppConstants.LOCAL_EXCEPTION_ERROR("unknown error occurred");
+                    if(lvResponse == null){
+                        message = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response while downloading leave applications");
                     } else {
-                        loResponse = new JSONObject(response);
+                        loResponse = new JSONObject(lvResponse);
                         String lsResult = loResponse.getString("result");
                         if (lsResult.equalsIgnoreCase("success")) {
                             JSONArray jsonA = loResponse.getJSONArray("payload");
@@ -130,18 +132,23 @@ public class VMEmployeeApplications extends AndroidViewModel {
                                     loLeave.insertApplication(leave);
                                 }
                             }
+                        } else {
+                            JSONObject loError = loResponse.getJSONObject("error");
+                            message = "Fail to retrieve leave applications. Reason: " + loError.getString("message");
                         }
                     }
 
-                    response = "";
-
                     Thread.sleep(1000);
 
-                    response = WebClient.httpsPostJSon(WebApi.URL_GET_OB_APPLICATION, new JSONObject().toString(), loHeaders.getHeaders());
-                    if (response == null) {
-                        response = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response while downloading business trip applications");
+                    String obResponse = WebClient.httpsPostJSon(WebApi.URL_GET_OB_APPLICATION, new JSONObject().toString(), loHeaders.getHeaders());
+                    if (obResponse == null) {
+                        if(message != null){
+                            message = message + "\n" + "Server no response while downloading business trip applications";
+                        } else {
+                            message = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response while downloading business trip applications");
+                        }
                     } else {
-                        loResponse = new JSONObject(response);
+                        loResponse = new JSONObject(obResponse);
                         String result = loResponse.getString("result");
                         if (result.equalsIgnoreCase("success")) {
                             JSONArray jsonA = loResponse.getJSONArray("payload");
@@ -163,7 +170,20 @@ public class VMEmployeeApplications extends AndroidViewModel {
                                     poBusTrip.insert(loOB);
                                 }
                             }
+                        } else {
+                            JSONObject loError = loResponse.getJSONObject("error");
+                            if(message != null){
+                                message = message + "\n" + "Fail to retrieve business trip applications. Reason: " + loError.getString("message");
+                            } else {
+                                message = "Fail to retrieve business trip applications. Reason: " + loError.getString("message");
+                            }
                         }
+                    }
+
+                    if(message == null){
+                        response = AppConstants.APPROVAL_CODE_GENERATED("");
+                    } else {
+                        response = AppConstants.LOCAL_EXCEPTION_ERROR(message);
                     }
                 }
 
@@ -191,3 +211,5 @@ public class VMEmployeeApplications extends AndroidViewModel {
         }
     }
 }
+
+

@@ -295,22 +295,22 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
                 dialog.dismiss();
                 poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
                     try {
-                        infoModel.setPtpImgPath(photPath);
-                        poImageInfo = new EImageInfo();
-                        poImageInfo.setDtlSrcNo(AccntNox);
-                        poImageInfo.setSourceNo(TransNox);
-                        poImageInfo.setSourceCD("DCPa");
-                        poImageInfo.setImageNme(FileName);
-                        poImageInfo.setFileLoct(photPath);
-                        poImageInfo.setFileCode("0020");
                         new LocationRetriever(getActivity()).getLocation((message, latitude1, longitude1) -> {
+                            infoModel.setPtpImgPath(photPath);
+                            poImageInfo = new EImageInfo();
+                            poImageInfo.setDtlSrcNo(AccntNox);
+                            poImageInfo.setSourceNo(TransNox);
+                            poImageInfo.setSourceCD("DCPa");
+                            poImageInfo.setImageNme(FileName);
+                            poImageInfo.setFileLoct(photPath);
+                            poImageInfo.setFileCode("0020");
                             poImageInfo.setLatitude(String.valueOf(latitude1));
                             poImageInfo.setLongitud(String.valueOf(longitude1));
                             mViewModel.setLatitude(String.valueOf(latitude1));
                             mViewModel.setLongitude(String.valueOf(longitude1));
+                            mViewModel.setImgName(FileName);
+                            startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                         });
-                        mViewModel.setImgName(FileName);
-                        startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -318,7 +318,6 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
             });
             poMessage.setNegativeButton("Cancel", (view, dialog) -> {
                 dialog.dismiss();
-//            Objects.requireNonNull(getActivity()).finish();
             });
             poMessage.show();
         } catch (Exception e) {

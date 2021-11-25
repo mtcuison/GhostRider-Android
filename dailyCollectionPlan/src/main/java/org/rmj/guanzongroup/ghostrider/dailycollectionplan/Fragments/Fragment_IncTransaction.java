@@ -130,18 +130,18 @@ public class Fragment_IncTransaction extends Fragment {
                 loMessage.setPositiveButton("Okay", (view, dialog) -> {
                     dialog.dismiss();
                     poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                        psPhotox = photPath;
-                        poImageInfo.setSourceNo(TransNox);
-                        poImageInfo.setSourceCD("DCPa");
-                        poImageInfo.setImageNme(FileName);
-                        poImageInfo.setFileLoct(photPath);
-                        poImageInfo.setFileCode("0020");
                         new LocationRetriever(getActivity()).getLocation((message, latitude1, longitude1) -> {
+                            psPhotox = photPath;
+                            poImageInfo.setSourceNo(TransNox);
+                            poImageInfo.setSourceCD("DCPa");
+                            poImageInfo.setImageNme(FileName);
+                            poImageInfo.setFileLoct(photPath);
+                            poImageInfo.setFileCode("0020");
                             poImageInfo.setLatitude(String.valueOf(latitude1));
                             poImageInfo.setLongitud(String.valueOf(longitude1));
+                            mViewModel.setImagePath(photPath);
+                            startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                         });
-                        mViewModel.setImagePath(photPath);
-                        startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                     });
                 });
                 loMessage.setNegativeButton("Cancel", (view, dialog) -> {

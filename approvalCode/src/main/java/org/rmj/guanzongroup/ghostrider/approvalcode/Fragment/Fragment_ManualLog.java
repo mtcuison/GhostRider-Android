@@ -159,15 +159,12 @@ public class Fragment_ManualLog extends Fragment implements ViewModelCallback {
             mViewModel.creatApprovalCode(loManual, new VMManualLog.CodeApprovalCreatedListener() {
                 @Override
                 public void OnCreate(String args) {
-                    mViewModel.getCodeApprovalInfo().observe(getViewLifecycleOwner(), codeApproval -> {
-                        mViewModel.setCodeApprovalInfo(codeApproval);
-                        mViewModel.UploadApprovalCode(Fragment_ManualLog.this);
-                    });
+                    txtAppCode.setText(args);
                 }
 
                 @Override
                 public void OnCreateFailed(String message) {
-
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                 }
             });
         });
@@ -182,7 +179,6 @@ public class Fragment_ManualLog extends Fragment implements ViewModelCallback {
     @Override
     public void OnSuccessResult(String args) {
         poDialog.dismiss();
-        txtAppCode.setText(args);
     }
 
     @Override

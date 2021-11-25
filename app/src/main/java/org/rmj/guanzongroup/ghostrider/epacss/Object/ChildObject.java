@@ -13,10 +13,8 @@ package org.rmj.guanzongroup.ghostrider.epacss.Object;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
@@ -68,6 +66,7 @@ public class ChildObject {
                 loIntent = new Intent(context, Activity_ApplicationHistory.class);
 //                loIntent.putExtra("app", AppConstants.INTENT_OB_APPLICATION);
                 break;
+
 //            case "branch application list":
 //                loIntent = new Intent(context, Activity_BranchApplications.class);
 //                break;
@@ -77,6 +76,7 @@ public class ChildObject {
 //            case "":
 //                loIntent = new Intent(context, DCPPhotoCapture.class);
 //                break;
+
             case "ci evaluation list":
                 loIntent = new Intent(context, Activity_EvaluationList.class);
                 break;
@@ -144,6 +144,7 @@ public class ChildObject {
                 loIntent = new Intent(context, Activity_ApprovalCode.class);
                 loIntent.putExtra("sysCode", "2");
                 break;
+
 //            case "random stock inventory":
 //                loIntent = new Intent(context, Activity_Inventory.class);
 //                break;

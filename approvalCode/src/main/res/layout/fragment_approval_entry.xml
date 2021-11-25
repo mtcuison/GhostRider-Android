@@ -220,7 +220,7 @@
                     android:layout_weight="1"
                     android:maxLines="1"
                     android:maxLength="11"
-                    android:letterSpacing="1"
+                    android:letterSpacing=".4"
                     android:gravity="center"
                     android:textColor="@color/material_black"
                     android:backgroundTint="@color/textColor_Orange"

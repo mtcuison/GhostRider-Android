@@ -55,4 +55,13 @@ public interface DApprovalCode {
 
     @Query("SELECT sSCATitle FROM xxxSCA_Request WHERE sSCACodex =:AppCode")
     LiveData<String> getApprovalDesc(String AppCode);
+
+    @Query("SELECT * FROM System_Code_Approval WHERE cSendxxxx = '0'")
+    List<ECodeApproval> getSystemApprovalForUploading();
+
+    @Query("UPDATE System_Code_Approval SET sTransNox=:NTransNo,  cSendxxxx = '1' WHERE sTransNox =:TransNox")
+    void updateUploaded(String TransNox, String NTransNo);
+
+    @Query("SELECT COUNT(*) FROM System_Code_Approval WHERE cSendxxxx = '0'")
+    Integer getUnpostedApprovalCode();
 }
