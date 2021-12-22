@@ -71,6 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextInputStyle.Edittext"
+                android:digits="@string/free_text_restriction"
                 android:inputType="textMultiLine|textCapSentences"
                 android:lines="3"
                 android:maxLines="5"

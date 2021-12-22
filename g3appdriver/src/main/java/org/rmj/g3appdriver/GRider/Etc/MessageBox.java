@@ -40,9 +40,6 @@ public class  MessageBox {
         // Must be, at all times, pass Activity Context.
         this.context = Objects.requireNonNull(context);
     }
-
-    private static boolean isDialogShown;
-
     public void initDialog(){
         AlertDialog.Builder poBuilder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_message_box, null);
@@ -82,7 +79,7 @@ public class  MessageBox {
         btnPositive.setText(psBtnPost);
         btnPositive.setOnClickListener(view -> {
             listener.OnButtonClick(view, poDialogx);
-            isDialogShown = false;
+//            isDialogShown = false;
         });
     }
 
@@ -92,22 +89,18 @@ public class  MessageBox {
         btnNegative.setText(psBtnNegt);
         btnNegative.setOnClickListener(view -> {
             listener.OnButtonClick(view, poDialogx);
-            isDialogShown = false;
+//            isDialogShown = false;
         });
     }
 
     public void show() {
-        if(isDialogShown) {
-            return;
-        }
-
         if(!poDialogx.isShowing()) {
             poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
             try {
                 if (!((Activity) context).isFinishing()) {
                     poDialogx.show();
-                    isDialogShown = true;
+//                    isDialogShown = true;
                 }
             } catch (Exception e) {
                 e.printStackTrace();

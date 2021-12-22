@@ -12,6 +12,7 @@
 package org.rmj.g3appdriver.GRider.Http;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
 import org.rmj.g3appdriver.dev.Telephony;
@@ -30,7 +31,7 @@ public class HttpHeaders {
     private final AppConfigPreference poConfigx;
     private final SessionManager poSession;
 
-    private HttpHeaders(Application application){
+    private HttpHeaders(Context application){
         this.poTlphony = new Telephony(application);
         this.poConfigx = AppConfigPreference.getInstance(application);
         this.poSession = new SessionManager(application);
@@ -39,6 +40,13 @@ public class HttpHeaders {
     private static HttpHeaders mHeaders;
 
     public static HttpHeaders getInstance(Application application){
+        if(mHeaders == null){
+            mHeaders = new HttpHeaders(application);
+        }
+        return mHeaders;
+    }
+
+    public static HttpHeaders getInstance(Context application){
         if(mHeaders == null){
             mHeaders = new HttpHeaders(application);
         }

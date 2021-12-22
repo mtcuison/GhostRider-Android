@@ -144,7 +144,7 @@ public class VMLocalData extends AndroidViewModel {
         private final Application instance;
         private final OnRefreshDataCallback callback;
 
-        ImportInstance[]  importInstances;
+        private final ImportInstance[]  importInstances;
 
         public RefreshAllRecordsTask(Application application, OnRefreshDataCallback callback){
             this.instance = application;

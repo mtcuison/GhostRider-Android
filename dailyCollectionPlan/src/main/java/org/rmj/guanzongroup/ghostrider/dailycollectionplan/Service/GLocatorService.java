@@ -47,6 +47,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RSysConfig;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.dev.GLocationManager;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
@@ -125,6 +126,14 @@ public class GLocatorService extends Service {
             double longitude = locationResult.getLastLocation().getLongitude();
             try {
                 JSONObject loJson = new JSONObject();
+                boolean isGpsEnabld = new GLocationManager(GLocatorService.this).isLocationEnabled();
+                if(!isGpsEnabld) {
+                    loJson.put("cGPSEnbld", "0");
+                } else if (latitude == 0.0 || longitude == 0.0){
+                    loJson.put("cGPSEnbld", "2");
+                } else {
+                    loJson.put("cGPSEnbld", "1");
+                }
                 loJson.put("latitude", latitude);
                 loJson.put("longitude", longitude);
                 new SaveLocationTask(getApplication()).execute(loJson);

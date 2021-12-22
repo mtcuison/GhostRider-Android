@@ -118,9 +118,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         mViewModel.getEmplopyeInfo().observe(this, eEmployeeInfo ->{
             try {
                 mViewModel.setEmployeeID(eEmployeeInfo.getEmployID());
-            } catch(NullPointerException e) {
-                e.printStackTrace();
-            }catch(Exception e) {
+            } catch(Exception e) {
                 e.printStackTrace();
             }
         });

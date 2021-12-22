@@ -66,7 +66,7 @@ public class VMInventory extends AndroidViewModel {
         this.poDetail = new RInventoryDetail(application);
         this.poMaster = new RInventoryMaster(application);
         List<RandomItem> randomItems = new ArrayList<>();
-        psBranchCd.setValue("M001");
+        psBranchCd.setValue("");
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
@@ -75,6 +75,10 @@ public class VMInventory extends AndroidViewModel {
 
     public LiveData<String> getBranchCode(){
         return psBranchCd;
+    }
+
+    public LiveData<String> getBranchName(String BranchCd){
+        return poBranch.getBranchName(BranchCd);
     }
 
     public void setBranchCde(String value){
@@ -258,6 +262,7 @@ public class VMInventory extends AndroidViewModel {
                         poMaster.UpdateInventoryMasterRemarks(lsTransNox, Remarksx);
                         List<EInventoryDetail> loDetail = poDetail.getInventoryDetailForPosting(lsTransNox);
                         EInventoryMaster loMaster = poMaster.getInventoryMasterForPosting(lsTransNox);
+                        JSONObject master = new JSONObject();
                         JSONObject joMaster = new JSONObject();
                         joMaster.put("sTransNox", loMaster.getTransNox());
                         joMaster.put("sRemarksx", loMaster.getRemarksx());
@@ -271,8 +276,9 @@ public class VMInventory extends AndroidViewModel {
                             params.put("sRemarksx", loDetail.get(x).getRemarksx());
                             jaDetail.put(params);
                         }
-                        joMaster.put("detail", jaDetail);
-                        String response = WebClient.httpsPostJSon(URL_SUBMIT_RANDOM_STOCK_INVENTORY, joMaster.toString(), poHeaders.getHeaders());
+                        master.put("master", joMaster);
+                        master.put("detail", jaDetail);
+                        String response = WebClient.httpsPostJSon(URL_SUBMIT_RANDOM_STOCK_INVENTORY, master.toString(), poHeaders.getHeaders());
 //                        String response = AppConstants.APPROVAL_CODE_GENERATED("sample");
                         if(response == null){
                             lsResult = AppConstants.SERVER_NO_RESPONSE();

@@ -705,9 +705,18 @@ public class VMCollectionList extends AndroidViewModel {
 
                                             String lsResponse = (String) loUpload.get("result");
                                             if(lsResponse == null){
+                                                JSONObject imgParams = new JSONObject();
+                                                imgParams.put("sFileLoct", loDetail.sFileLoct);
+                                                imgParams.put("lsAccess", lsAccess);
+                                                imgParams.put("sFileCode", loDetail.sFileCode);
+                                                imgParams.put("sAcctNmbr", loDetail.sAcctNmbr);
+                                                imgParams.put("sImageNme", loDetail.sImageNme);
+                                                imgParams.put("sSourceCD", loDetail.sSourceCD);
+                                                imgParams.put("sTransNox", loDetail.sTransNox);
+                                                imgParams.put("sBranchCD", poUser.getBranchCode());
                                                 loUnposted = new UnpostedDCP(loDetail.sAcctNmbr,
                                                         loDetail.sRemCodex,
-                                                        new JSONObject(),
+                                                        imgParams,
                                                         "Failed to upload collection image. Server no response.");
                                                 poReport.SendErrorReport("DCP Error Report", "Unable to post DCP. \n" + loUnposted.getMessage());
                                             } else if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
@@ -842,6 +851,8 @@ public class VMCollectionList extends AndroidViewModel {
                                 sendCNADetails(lsTransNox);
                                 int UnPostedDcp = poDcp.getUnsentCollectionDetail(lsTransNox);
                                 int UnsentAccnt = poDcp.getAccountNoCount(lsTransNox);
+
+                                Thread.sleep(1000);
 
                                 if(UnsentAccnt == 0){
                                     lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("No customers account has been collected.");//

@@ -25,6 +25,8 @@ public class ELog_Selfie {
     private String TransNox;
     @ColumnInfo(name = "sEmployID")
     private String EmployID;
+    @ColumnInfo(name = "sBranchCd")
+    private String BranchCd;
     @ColumnInfo(name = "dLogTimex")
     private String LogTimex;
     @ColumnInfo(name = "nLatitude")
@@ -94,5 +96,13 @@ public class ELog_Selfie {
 
     public void setSendDate(String sendDate) {
         SendDate = sendDate;
+    }
+
+    public String getBranchCd() {
+        return BranchCd;
+    }
+
+    public void setBranchCd(String branchCd) {
+        BranchCd = branchCd;
     }
 }

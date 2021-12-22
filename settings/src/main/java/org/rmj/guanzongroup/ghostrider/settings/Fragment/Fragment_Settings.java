@@ -235,7 +235,7 @@ public class Fragment_Settings  extends PreferenceFragmentCompat {
         if(debugMode != null){
             SessionManager poUser = new SessionManager(requireActivity());
             if (!poUser.getDeptID().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
-                debugMode.setVisible(true);
+                debugMode.setVisible(false);
             } else {
                 debugMode.setVisible(true);
             }

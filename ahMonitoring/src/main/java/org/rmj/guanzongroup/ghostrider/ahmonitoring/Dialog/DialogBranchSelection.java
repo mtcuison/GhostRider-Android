@@ -11,6 +11,8 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
+
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.AdapterInventoryBranch;
@@ -31,6 +33,7 @@ public class DialogBranchSelection {
 
     public interface OnBranchSelectedCallback{
         void OnSelect(String BranchCode);
+        void OnCancel();
     }
 
     public DialogBranchSelection(Context context, List<EBranchInfo> branchList) {
@@ -39,7 +42,7 @@ public class DialogBranchSelection {
         this.poMessage = new MessageBox(mContext);
     }
 
-    public void initDialog(OnBranchSelectedCallback foCallback){
+    public void initDialog(boolean isCancelable, OnBranchSelectedCallback foCallback){
         callback = foCallback;
 
         AlertDialog.Builder poBuilder = new AlertDialog.Builder(mContext);
@@ -50,13 +53,14 @@ public class DialogBranchSelection {
         poDialogx.setCancelable(false);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview_branch);
+        MaterialButton btnCancel = view.findViewById(R.id.btn_cancel);
         LinearLayoutManager loManager = new LinearLayoutManager(mContext);
         loManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setAdapter(new AdapterInventoryBranch(paBranchLst, (BranchCode, BranchName) -> {
             try{
                 poMessage.initDialog();
                 poMessage.setTitle("Branch Selected");
-                poMessage.setMessage("Select " + BranchName + " for random stock inventory?");
+                poMessage.setMessage("Select " + BranchName + " for Selfie Log, Cash Count and Random stock inventory?");
                 poMessage.setPositiveButton("Yes", (view12, dialog) -> {
                     callback.OnSelect(BranchCode);
                     dialog.dismiss();
@@ -69,6 +73,14 @@ public class DialogBranchSelection {
             }
         }));
         recyclerView.setLayoutManager(loManager);
+
+        if(isCancelable){
+            btnCancel.setVisibility(View.VISIBLE);
+        } else {
+            btnCancel.setVisibility(View.GONE);
+        }
+
+        btnCancel.setOnClickListener(v -> poDialogx.dismiss());
 
         if(!poDialogx.isShowing()) {
             poDialogx.show();

@@ -65,11 +65,19 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
 
     private LoadDialog poDialogx;
     private MessageBox poMessage;
+
+    private String BranchCd = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cash_count_submit);
         initWidgets();
+        try {
+            BranchCd = getIntent().getStringExtra("BranchCd");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         infoModel = new CashCountInfoModel();
         mViewModel = new ViewModelProvider(this).get(VMCashCountSubmit.class);
         mViewModel.getUserBranchInfo().observe(Activity_CashCountSubmit.this, eBranchInfo -> {
@@ -150,8 +158,6 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         tilSalesRcpt = findViewById(R.id.til_ccSI);
         tilPrvnlRcpt = findViewById(R.id.til_ccPR);
         tilCllctRcpt = findViewById(R.id.til_ccCR);
-
-
     }
 
     @Override
@@ -193,9 +199,6 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         return null;
     }
 
-
-
-
     public void initDialog(String title, String message){
         poMessage.initDialog();
         poMessage.setTitle(title);
@@ -218,9 +221,6 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         poMessage.setMessage("Cash count has been saved successfully.");
         poMessage.setPositiveButton("Okay", (view, dialog) ->{
                     dialog.dismiss();
-                    Activity_CashCounter.getInstance().finish();
-                    finish();
-                    this.overridePendingTransition(R.anim.anim_pop_in,R.anim.anim_pop_out);
                     checkEmployeeLevelForInventory();
                 });
         poMessage.show();
@@ -240,7 +240,6 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onBackPressed() {
         finish();
@@ -248,14 +247,29 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
 
     private void checkEmployeeLevelForInventory(){
         if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
-            poMessage.initDialog();
-            poMessage.setTitle("GhostRider");
-            poMessage.setMessage("To complete your selfie log. Please proceed to Random Stock Inventory");
-            poMessage.setPositiveButton("Proceed", (btnView, mDialog) -> {
-                mDialog.dismiss();
-                startActivity(new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class));
+            mViewModel.CheckConnectivity(isDeviceConnected -> {
+                if (isDeviceConnected) {
+                    poMessage.initDialog();
+                    poMessage.setTitle("GhostRider");
+                    poMessage.setMessage("To complete your selfie log. Please proceed to Random Stock Inventory");
+                    poMessage.setPositiveButton("Proceed", (btnView, mDialog) -> {
+                        mDialog.dismiss();
+                        Intent loIntent = new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class);
+                        loIntent.putExtra("BranchCd", BranchCd);
+                        startActivity(loIntent);
+                        Activity_CashCounter.getInstance().finish();
+                        finish();
+                    });
+                    poMessage.show();
+                } else {
+                    Activity_CashCounter.getInstance().finish();
+                    finish();
+                }
             });
-            poMessage.show();
+        } else {
+            Activity_CashCounter.getInstance().finish();
+            finish();
+            this.overridePendingTransition(R.anim.anim_pop_in,R.anim.anim_pop_out);
         }
     }
 }

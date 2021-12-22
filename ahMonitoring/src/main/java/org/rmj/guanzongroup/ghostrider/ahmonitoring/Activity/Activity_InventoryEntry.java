@@ -88,23 +88,27 @@ public class Activity_InventoryEntry extends AppCompatActivity {
             }
         });
         btnSave.setOnClickListener(v -> {
-            poItem.setItemQtyx(Integer.parseInt(txtActualQty.getText().toString()));
-            poItem.setRemarksx(txtRemarks1.getText().toString());
-            mViewModel.saveInventoryUpdate(poItem, new VMInventoryEntry.OnInventoryUpdateCallBack() {
-                @Override
-                public void OnUpdate(String message) {
-                    GToast.CreateMessage(Activity_InventoryEntry.this, message, GToast.INFORMATION).show();
-                    finish();
-                    overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-                }
+            if(!txtActualQty.getText().toString().isEmpty()) {
+                poItem.setItemQtyx(Integer.parseInt(txtActualQty.getText().toString()));
+                poItem.setRemarksx(txtRemarks1.getText().toString());
+                mViewModel.saveInventoryUpdate(poItem, new VMInventoryEntry.OnInventoryUpdateCallBack() {
+                    @Override
+                    public void OnUpdate(String message) {
+                        GToast.CreateMessage(Activity_InventoryEntry.this, message, GToast.INFORMATION).show();
+                        finish();
+                        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+                    }
 
-                @Override
-                public void OnError(String message) {
-                    GToast.CreateMessage(Activity_InventoryEntry.this, message, GToast.INFORMATION).show();
-                    finish();
-                    overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-                }
-            });
+                    @Override
+                    public void OnError(String message) {
+                        GToast.CreateMessage(Activity_InventoryEntry.this, message, GToast.INFORMATION).show();
+                        finish();
+                        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+                    }
+                });
+            } else {
+                GToast.CreateMessage(Activity_InventoryEntry.this, "Please enter quantity", GToast.ERROR).show();
+            }
         });
     }
     public void initWidgets(){

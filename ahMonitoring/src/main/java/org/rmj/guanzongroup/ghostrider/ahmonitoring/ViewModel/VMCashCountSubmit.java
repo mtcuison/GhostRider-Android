@@ -82,6 +82,11 @@ public class VMCashCountSubmit extends AndroidViewModel {
         void onSuccessSaveCashCount();
         void onSaveCashCountFailed(String message);
     }
+
+    public interface OnDeviceConnectionCheck{
+        void OnCheck(boolean isDeviceConnected);
+    }
+
     public LiveData<EEmployeeInfo> getEmplopyeInfo(){
         return this.poEmploye.getEmployeeInfo();
     }
@@ -302,5 +307,31 @@ public class VMCashCountSubmit extends AndroidViewModel {
 
     public String getEmployeeLevel(){
         return poSession.getEmployeeLevel();
+    }
+
+    public void CheckConnectivity(OnDeviceConnectionCheck callback){
+        new ConnectionCheckTask(instance, callback).execute();
+    }
+
+    private static class ConnectionCheckTask extends AsyncTask<String, Void, Boolean>{
+
+        private final Application instance;
+        private final OnDeviceConnectionCheck callback;
+
+        public ConnectionCheckTask(Application instance, OnDeviceConnectionCheck callback) {
+            this.instance = instance;
+            this.callback = callback;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return new ConnectionUtil(instance).isDeviceConnected();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isConnected) {
+            super.onPostExecute(isConnected);
+            callback.OnCheck(isConnected);
+        }
     }
 }

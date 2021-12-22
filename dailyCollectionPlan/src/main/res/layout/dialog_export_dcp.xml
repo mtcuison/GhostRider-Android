@@ -67,6 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextInputStyle.Edittext"
+                android:digits="@string/free_text_restriction"
                 android:gravity="center"
                 android:inputType="textShortMessage"
                 android:maxLines="3"

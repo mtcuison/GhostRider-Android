@@ -57,7 +57,6 @@ public class VMSelfieLogin extends AndroidViewModel {
     private final RLogSelfie poLog;
     private final RBranch pobranch;
     private final SessionManager poSession;
-
     private final REmployee poUser;
 
     private final MutableLiveData<Boolean> pbGranted = new MutableLiveData<>();
@@ -122,6 +121,10 @@ public class VMSelfieLogin extends AndroidViewModel {
 
     public LiveData<List<String>> getLastLogDate(){
         return poLog.getLastLogDate();
+    }
+
+    public LiveData<List<EBranchInfo>> getAreaBranchList(){
+        return pobranch.getAreaBranchList();
     }
 
     public void loginTimeKeeper(ELog_Selfie selfieLog, EImageInfo loImage, OnLoginTimekeeperListener callback){
@@ -201,6 +204,7 @@ public class VMSelfieLogin extends AndroidViewModel {
                     if(lsClient.isEmpty() || lsAccess.isEmpty()){
                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
                     } else {
+
                         org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
                                 poImageInfo.getFileLoct(),
                                 lsAccess,
@@ -223,6 +227,7 @@ public class VMSelfieLogin extends AndroidViewModel {
                                 Thread.sleep(1000);
 
                                 String lsResponse = WebClient.sendRequest(WebApi.URL_POST_SELFIELOG, loJson[0].toString(), poHeaders.getHeaders());
+//                                String lsResponse = AppConstants.APPROVAL_CODE_GENERATED("sample");
 
                                 if(lsResponse == null){
                                     lsResult = AppConstants.SERVER_NO_RESPONSE();

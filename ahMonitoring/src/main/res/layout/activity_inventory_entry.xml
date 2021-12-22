@@ -295,7 +295,8 @@
                                     android:layout_margin="5dp"
                                     android:gravity="center"
                                     android:autofillHints="Business trip destination and purpose."
-                                    android:inputType="number|none" />
+                                    android:inputType="number|none"
+                                    android:imeOptions="actionDone"/>
 
                             </com.google.android.material.textfield.TextInputLayout>
 

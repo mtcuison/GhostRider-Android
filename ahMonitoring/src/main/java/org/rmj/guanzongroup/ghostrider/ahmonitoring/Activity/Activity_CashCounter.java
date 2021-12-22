@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -77,6 +78,8 @@ public class Activity_CashCounter extends AppCompatActivity {
     private CashCountInfoModel infoModel;
     DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
     private String psNotifNo = "";
+    private String BranchCd = "";
+    private boolean cancelable = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,13 +88,14 @@ public class Activity_CashCounter extends AppCompatActivity {
         instance = Activity_CashCounter.this;
         mViewModel = new ViewModelProvider(this).get(VMCashCounter.class);
         initWidgets();
-//        if(!getIntent().getStringExtra("sTransNox").equalsIgnoreCase("")
-//                && getIntent().getStringExtra("sTransNox") != null) {
-//            psNotifNo = getIntent().getStringExtra("sTransNox");
-//        }
+        try {
+            BranchCd = getIntent().getStringExtra("BranchCd");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        cancelable = getIntent().getBooleanExtra("cancelable", true);
         poMessage = new MessageBox(Activity_CashCounter.this);
         infoModel = new CashCountInfoModel();
-        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         mViewModel.getUserBranchInfo().observe(Activity_CashCounter.this, eBranchInfo -> {
             try {
                 lblBranch.setText(eBranchInfo.getBranchNm());
@@ -264,6 +268,7 @@ public class Activity_CashCounter extends AppCompatActivity {
             } else {
                 Intent intent = new Intent(Activity_CashCounter.this, Activity_CashCountSubmit.class);
                 intent.putExtra("params", String.valueOf(mViewModel.getJsonData().getValue()));
+                intent.putExtra("BranchCd", BranchCd);
                 startActivity(intent);
 //                poMessage.initDialog();
 //                poMessage.setTitle("Collection Remittance");
@@ -273,7 +278,6 @@ public class Activity_CashCounter extends AppCompatActivity {
 //
 //                });
 //                poMessage.show();
-
             }
         });
     }
@@ -347,15 +351,26 @@ public class Activity_CashCounter extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            finish();
+            finishActivity();
         }
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onBackPressed() {
-        finish();
+        finishActivity();
+    }
+
+    private void finishActivity(){
+        if(cancelable) {
+            finish();
+        } else {
+            poMessage.initDialog();
+            poMessage.setTitle("Cash Count");
+            poMessage.setMessage("To finish your selfie log. Please finish cash count entry.");
+            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+            poMessage.show();
+        }
     }
 
 }
