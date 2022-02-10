@@ -295,7 +295,7 @@ public class Fragment_PromiseToPay extends Fragment implements ViewModelCallback
                 dialog.dismiss();
                 poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
                     try {
-                        new LocationRetriever(getActivity()).getLocation((message, latitude1, longitude1) -> {
+                        new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude1, longitude1) -> {
                             infoModel.setPtpImgPath(photPath);
                             poImageInfo = new EImageInfo();
                             poImageInfo.setDtlSrcNo(AccntNox);

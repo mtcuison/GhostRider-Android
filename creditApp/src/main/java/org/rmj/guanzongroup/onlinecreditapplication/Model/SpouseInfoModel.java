@@ -133,7 +133,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Model;
         }
 
         public String getEmailAdd() {
-            return EmailAdd;
+            return EmailAdd.trim();
         }
 
         public void setEmailAdd(String emailAdd) {
@@ -141,7 +141,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Model;
         }
 
         public String getFBacct() {
-            return FBacct;
+            return FBacct.trim();
         }
 
         public void setFBacct(String FBacct) {

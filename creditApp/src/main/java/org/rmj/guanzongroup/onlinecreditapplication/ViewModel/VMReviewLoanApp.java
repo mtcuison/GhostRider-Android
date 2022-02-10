@@ -83,7 +83,7 @@ public class VMReviewLoanApp extends AndroidViewModel {
 
     public LiveData<ECreditApplicantInfo> getApplicantInfo(){
         return poCreditApp.getCreditApplicantInfoLiveData(TransNox);
-//        return poCreditApp.getCreditApplicantInfoLiveData("210000000006");
+//        return poCreditApp.getCreditApplicantInfoLiveData("220000000001");
     }
 
     public void setCreditAppInfo(ECreditApplicantInfo foInfo){
@@ -275,8 +275,14 @@ public class VMReviewLoanApp extends AndroidViewModel {
                         loListDetl.add(new ReviewAppDetail(false, "", "Position", lsPosition));
                         loListDetl.add(new ReviewAppDetail(false, "", "Specific Job", loGOCas.MeansInfo().EmployedInfo().getJobDescription()));
 
-                        double lnService = loGOCas.MeansInfo().EmployedInfo().getLengthOfService() * 12;
-                        loListDetl.add(new ReviewAppDetail(false, "", "Length of Service", String.valueOf(lnService)));
+                        double lnService = loGOCas.MeansInfo().EmployedInfo().getLengthOfService();
+                        double lnValue = 0;
+                        if(lnService % 1 == 0){
+                            lnValue = lnService;
+                        } else {
+                            lnValue = lnService * 12;
+                        }
+                        loListDetl.add(new ReviewAppDetail(false, "", "Length of Service", String.valueOf(lnValue) + " Year/s"));
                         loListDetl.add(new ReviewAppDetail(false, "", "Estimated Salary", FormatUIText.getCurrencyUIFormat(String.valueOf(loGOCas.MeansInfo().EmployedInfo().getSalary()))));
                         loListDetl.add(new ReviewAppDetail(false, "", "Company Contact", loGOCas.MeansInfo().EmployedInfo().getCompanyNo()));
                         loListDetl.add(new ReviewAppDetail(false, "", "Employee Status", parseEmployeeStatus(loGOCas.MeansInfo().EmployedInfo().getEmployeeStatus())));
@@ -300,8 +306,14 @@ public class VMReviewLoanApp extends AndroidViewModel {
                         loListDetl.add(new ReviewAppDetail(false, "", "Estimated Salary", String.valueOf(loGOCas.MeansInfo().EmployedInfo().getSalary())));
                         loListDetl.add(new ReviewAppDetail(false, "", "Contact", loGOCas.MeansInfo().EmployedInfo().getCompanyNo()));
 
-                        double lnService = loGOCas.MeansInfo().EmployedInfo().getLengthOfService() * 12;
-                        loListDetl.add(new ReviewAppDetail(false, "", "Length Of Service", String.valueOf(lnService)));
+                        double lnService = loGOCas.MeansInfo().EmployedInfo().getLengthOfService();
+                        double lnValue = 0;
+                        if(lnService % 1 == 0){
+                            lnValue = lnService;
+                        } else {
+                            lnValue = lnService * 12;
+                        }
+                        loListDetl.add(new ReviewAppDetail(false, "", "Length Of Service", String.valueOf(lnValue) + " Year/s"));
                     }
                     else if(lsMSector.equalsIgnoreCase("2")){
                         loListDetl.add(new ReviewAppDetail(false, "", "OFW", ""));
@@ -373,7 +385,9 @@ public class VMReviewLoanApp extends AndroidViewModel {
                     loListDetl.add(new ReviewAppDetail(false, "", "Middle Name", loGOCas.SpouseInfo().PersonalInfo().getMiddleName()));
                     loListDetl.add(new ReviewAppDetail(false, "", "Suffix", loGOCas.SpouseInfo().PersonalInfo().getSuffixName()));
                     loListDetl.add(new ReviewAppDetail(false, "", "Nickname", loGOCas.SpouseInfo().PersonalInfo().getNickName()));
-                    loListDetl.add(new ReviewAppDetail(false, "", "Birthdate", loGOCas.SpouseInfo().PersonalInfo().getBirthdate()));
+
+                    String lsBirthDte = FormatUIText.getBirthDateUIFormat(loGOCas.SpouseInfo().PersonalInfo().getBirthdate());
+                    loListDetl.add(new ReviewAppDetail(false, "", "Birthdate", lsBirthDte));
 
                     DTownInfo.TownProvinceName loBPlaceS = poTown.getTownProvinceName(loGOCas.SpouseInfo().PersonalInfo().getBirthPlace());
                     String lsSpouseBP = loBPlaceS.sTownName + ", " + loBPlaceS.sProvName;
@@ -452,8 +466,14 @@ public class VMReviewLoanApp extends AndroidViewModel {
 
                             loListDetl.add(new ReviewAppDetail(false, "", "Employment Status", parseEmployeeStatus(loGOCas.SpouseMeansInfo().EmployedInfo().getEmployeeStatus())));
 
-                            String lsLength = loGOCas.SpouseMeansInfo().EmployedInfo().getLengthOfService() + " year/s";
-                            loListDetl.add(new ReviewAppDetail(false, "", "Length of Service", lsLength));
+                            double lnService = loGOCas.SpouseMeansInfo().EmployedInfo().getLengthOfService();
+                            double lnValue = 0;
+                            if(lnService % 1 == 0){
+                                lnValue = lnService;
+                            } else {
+                                lnValue = lnService * 12;
+                            }
+                            loListDetl.add(new ReviewAppDetail(false, "", "Length of Service", String.valueOf(lnValue) + " Year/s"));
                             loListDetl.add(new ReviewAppDetail(false, "", "Gross Monthly Income", FormatUIText.getCurrencyUIFormat(String.valueOf(loGOCas.SpouseMeansInfo().EmployedInfo().getSalary()))));
                             loListDetl.add(new ReviewAppDetail(false, "", "Company Contact No.", String.valueOf(loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyNo())));
                         } else if(loGOCas.SpouseMeansInfo().EmployedInfo().getEmploymentSector().equalsIgnoreCase("0")) {
@@ -475,8 +495,14 @@ public class VMReviewLoanApp extends AndroidViewModel {
                             loListDetl.add(new ReviewAppDetail(false, "", "Estimated Salary", String.valueOf(loGOCas.SpouseMeansInfo().EmployedInfo().getSalary())));
                             loListDetl.add(new ReviewAppDetail(false, "", "Contact", loGOCas.SpouseMeansInfo().EmployedInfo().getCompanyNo()));
 
-                            double lnService = loGOCas.SpouseMeansInfo().EmployedInfo().getLengthOfService() * 12;
-                            loListDetl.add(new ReviewAppDetail(false, "", "Length Of Service", String.valueOf(lnService)));
+                            double lnService = loGOCas.SpouseMeansInfo().EmployedInfo().getLengthOfService();
+                            double lnValue = 0;
+                            if(lnService % 1 == 0){
+                                lnValue = lnService;
+                            } else {
+                                lnValue = lnService * 12;
+                            }
+                            loListDetl.add(new ReviewAppDetail(false, "", "Length Of Service", String.valueOf(lnValue) + " Year/s"));
 
                         } else {
                             // OFW
@@ -517,8 +543,14 @@ public class VMReviewLoanApp extends AndroidViewModel {
                         int lnBizSize = Integer.parseInt(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getOwnershipSize());
                         loListDetl.add(new ReviewAppDetail(false, "", "Business Size", CreditAppConstants.BUSINESS_SIZE[lnBizSize]));
 
-                        String lsBizAge = loGOCas.SpouseMeansInfo().SelfEmployedInfo().getBusinessLength() + " Year/s";
-                        loListDetl.add(new ReviewAppDetail(false, "", "Length of Service", lsBizAge));
+                        double lnService = loGOCas.SpouseMeansInfo().SelfEmployedInfo().getBusinessLength();
+                        double lnValue = 0;
+                        if(lnService % 1 == 0){
+                            lnValue = lnService;
+                        } else {
+                            lnValue = lnService * 12;
+                        }
+                        loListDetl.add(new ReviewAppDetail(false, "", "Length of Service", String.valueOf(lnValue) + " Year/s"));
 
                         loListDetl.add(new ReviewAppDetail(false, "", "Gross Monthly Income", FormatUIText.getCurrencyUIFormat(String.valueOf(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getIncome()))));
                         loListDetl.add(new ReviewAppDetail(false, "", "Monthly Expenses", FormatUIText.getCurrencyUIFormat(String.valueOf(loGOCas.SpouseMeansInfo().SelfEmployedInfo().getMonthlyExpense()))));
@@ -815,11 +847,19 @@ public class VMReviewLoanApp extends AndroidViewModel {
             return CreditAppConstants.PENSION_SECTOR[Integer.parseInt(value)];
         }
         String parseUnitUser(String value){
-            return CreditAppConstants.UNIT_USER[Integer.parseInt(value)];
+            if(!CreditAppConstants.UNIT_USER[Integer.parseInt(value)].equalsIgnoreCase("Others")) {
+                return CreditAppConstants.UNIT_USER[Integer.parseInt(value)];
+            } else {
+                return CreditAppConstants.UNIT_USER_OTHERS[Integer.parseInt(value)];
+            }
         }
 
         String parseUnitPayor(String value){
-            return CreditAppConstants.UNIT_PAYER[Integer.parseInt(value)];
+            if(!CreditAppConstants.UNIT_USER[Integer.parseInt(value)].equalsIgnoreCase("Others")) {
+                return CreditAppConstants.UNIT_USER[Integer.parseInt(value)];
+            } else {
+                return CreditAppConstants.UNIT_PAYER[Integer.parseInt(value)];
+            }
         }
         String parseUnitPurpose(String value){
             return CreditAppConstants.UNIT_PURPOSE[Integer.parseInt(value)];

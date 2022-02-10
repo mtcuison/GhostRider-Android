@@ -13,24 +13,18 @@ package org.rmj.g3appdriver.utils;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
-import android.provider.Settings;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 
 import org.rmj.g3appdriver.GRider.Etc.LocationInfo;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 
 import java.io.IOException;
 import java.util.List;

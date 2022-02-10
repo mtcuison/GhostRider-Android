@@ -53,11 +53,7 @@ import java.util.Objects;
 
 public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModelCallBack {
     private static final String TAG = Fragment_EmploymentInfo.class.getSimpleName();
-    //    private Spinner spnCmpLvl,
-//            spnEmpLvl,
-//            spnBusNtr,
-//            spnEmpSts,
-//            spnServce;
+
     private AutoCompleteTextView spnCmpLvl,
             spnEmpLvl,
             spnBusNtr,
@@ -208,6 +204,7 @@ public class Fragment_SpouseEmploymentInfo extends Fragment implements ViewModel
             txtProvNm.setAdapter(adapter);
             txtProvNm.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
+
         txtProvNm.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getProvinceInfo().observe(getViewLifecycleOwner(), eProvinceInfos -> {
             for (int x = 0; x < eProvinceInfos.size(); x++) {
                 if (txtProvNm.getText().toString().equalsIgnoreCase(eProvinceInfos.get(x).getProvName())) {

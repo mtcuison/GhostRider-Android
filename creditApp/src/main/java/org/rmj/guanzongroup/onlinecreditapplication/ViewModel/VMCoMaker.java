@@ -264,8 +264,8 @@ public class VMCoMaker extends AndroidViewModel {
                     poGoCas.CoMakerInfo().setBirthPlace(infoModel.getCoBrthPlce());
                     poGoCas.CoMakerInfo().setIncomeSource(infoModel.getCoIncomeSource());
                     poGoCas.CoMakerInfo().setRelation(infoModel.getCoBorrowerRel());
-                    poGoCas.CoMakerInfo().setMobileNoQty(infoModel.getCoMobileNoQty());
                     for (int x = 0; x < infoModel.getCoMobileNoQty(); x++) {
+                        poGoCas.CoMakerInfo().setMobileNoQty(x + 1);
                         poGoCas.CoMakerInfo().setMobileNo(x, infoModel.getCoMobileNo(x));
                         poGoCas.CoMakerInfo().IsMobilePostpaid(x, infoModel.getCoPostPaid(x));
                         poGoCas.CoMakerInfo().setPostPaidYears(x, infoModel.getCoPostYear(x));

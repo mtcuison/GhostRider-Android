@@ -51,6 +51,7 @@ public class Activity_Inventory extends AppCompatActivity {
 
     private String Transnox;
 
+    private String BranchCde = "";
     private boolean cancelable = true;
 
     @Override
@@ -59,8 +60,8 @@ public class Activity_Inventory extends AppCompatActivity {
         setContentView(R.layout.activity_inventory);
         initWidgets();
         mViewModel = new ViewModelProvider(this).get(VMInventory.class);
-
-        mViewModel.setBranchCde(getIntent().getStringExtra("BranchCd"));
+        BranchCde = getIntent().getStringExtra("BranchCd");
+        mViewModel.setBranchCde(BranchCde);
         mViewModel.getBranchCode().observe(Activity_Inventory.this, fsBranchCde -> {
             try {
                 if (fsBranchCde.isEmpty()) {
@@ -86,7 +87,7 @@ public class Activity_Inventory extends AppCompatActivity {
                             btnPost.setEnabled(false);
                             recyclerView.setVisibility(View.GONE);
                             lblStatus.setVisibility(View.VISIBLE);
-                            lblStatus.setText("Please download inventory items.");
+                            lblStatus.setText("No inventory items found. Tap here to retry downloading items.");
                             mViewModel.RequestRandomStockInventory(fsBranchCde, new VMInventory.OnRequestInventoryCallback() {
                                 @Override
                                 public void OnRequest(String title, String message) {
@@ -173,6 +174,34 @@ public class Activity_Inventory extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
+
+        lblStatus.setOnClickListener(v -> mViewModel.RequestRandomStockInventory(BranchCde, new VMInventory.OnRequestInventoryCallback() {
+            @Override
+            public void OnRequest(String title, String message) {
+                poDialog.initDialog(title, message, false);
+                poDialog.show();
+            }
+
+            @Override
+            public void OnSuccessResult(String message) {
+                poDialog.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Random Stock Inventory");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+
+            @Override
+            public void OnFaileResult(String message) {
+                poDialog.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Random Stock Inventory");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                poMessage.show();
+            }
+        }));
 
         btnSelect.setOnClickListener(v -> mViewModel.getAreaBranchList().observe(Activity_Inventory.this, eBranchInfos -> {
             try{

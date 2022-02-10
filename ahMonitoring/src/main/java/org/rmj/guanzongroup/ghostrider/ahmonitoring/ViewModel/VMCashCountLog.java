@@ -18,6 +18,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCashCount;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECashCount;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
@@ -52,7 +53,8 @@ public class VMCashCountLog extends AndroidViewModel {
         return poBranch.getUserBranchInfo();
     }
 
-    public LiveData<List<ECashCount>> getAllCashCountLog(){
-        return poCashCount.getAllCashCountLog();
+
+    public LiveData<List<DCashCount.CashCountLog>> getCashCountLog(){
+        return poCashCount.getCashCountLog();
     }
 }

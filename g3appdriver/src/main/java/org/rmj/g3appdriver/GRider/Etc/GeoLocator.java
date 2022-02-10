@@ -97,7 +97,7 @@ public class GeoLocator {
         }
     }
 
-    public double getLattitude() {
+    public double getLatitude() {
         return lattitude;
     }
 

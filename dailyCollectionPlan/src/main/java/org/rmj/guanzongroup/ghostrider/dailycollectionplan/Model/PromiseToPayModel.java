@@ -33,7 +33,7 @@ public class PromiseToPayModel {
         this.ptpRemCode = ptpRemCode;
     }
 
-    public String getPtpRemarks() { return this.ptpRemarks; }
+    public String getPtpRemarks() { return this.ptpRemarks.trim(); }
     public void setPtpRemarks(String ptpRemarks) {
         this.ptpRemarks = ptpRemarks;
     }

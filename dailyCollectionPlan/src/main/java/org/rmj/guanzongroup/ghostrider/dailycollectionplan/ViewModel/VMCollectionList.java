@@ -1284,7 +1284,7 @@ public class VMCollectionList extends AndroidViewModel {
                     "Remarks Code : " + RemCode + "\n" +
                     "Error Message : " + Message +
                     "\n" +
-                    "Parameters : " + data + "\n";
+                    "Parameters : " + data.toString() + "\n";
         }
     }
 

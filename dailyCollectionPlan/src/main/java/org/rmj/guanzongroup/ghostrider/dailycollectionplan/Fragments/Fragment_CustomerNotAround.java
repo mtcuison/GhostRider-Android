@@ -214,7 +214,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 poMessage.setPositiveButton("Okay", (view, dialog) -> {
                     dialog.dismiss();
                     poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                        new LocationRetriever(getActivity()).getLocation((message, latitude1, longitude1) -> {
+                        new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude1, longitude1) -> {
                             psPhotox = photPath;
                             poImageInfo.setSourceNo(TransNox);
                             poImageInfo.setSourceCD("DCPa");
@@ -310,7 +310,7 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
     private void addAddress() {
         addressInfoModel.setHouseNumber(Objects.requireNonNull(Objects.requireNonNull(txtHouseNox.getText()).toString()));
         addressInfoModel.setAddress(Objects.requireNonNull(Objects.requireNonNull(txtAddress.getText()).toString()));
-        new LocationRetriever(getActivity()).getLocation((message, latitude, longitude) -> {
+        new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude, longitude) -> {
             addressInfoModel.setLatitude(String.valueOf(latitude));
             addressInfoModel.setLongitude(String.valueOf(longitude));
         });

@@ -63,7 +63,7 @@ public interface DEmployeeLeave {
     LiveData<List<EEmployeeLeave>> getEmployeeLeaveForApprovalList();
 
     @Query("SELECT * FROM Employee_Leave " +
-            "WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master)")
+            "WHERE sEntryByx = (SELECT sEmployID FROM User_Info_Master)")
     LiveData<List<EEmployeeLeave>> getEmployeeLeaveList();
 
     class LeaveOBApplication {

@@ -65,7 +65,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
         return poBranch.getUserBranchInfo();
     }
 
-    public void DownloadLeaveForApproval(OnDownloadApplicationListener listener){
+    public void  DownloadLeaveForApproval(OnDownloadApplicationListener listener){
         new DownloadLeaveTask(instance, listener).execute();
     }
 
@@ -116,6 +116,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
                                 leave.setTransNox(loJson.getString("sTransNox"));
                                 leave.setTransact(loJson.getString("dTransact"));
                                 leave.setEmployID(loJson.getString("xEmployee"));
+                                leave.setEntryByx(loJson.getString("sEmployID"));
                                 leave.setBranchNm(loJson.getString("sBranchNm"));
                                 leave.setDeptName(loJson.getString("sDeptName"));
                                 leave.setPositnNm(loJson.getString("sPositnNm"));
@@ -160,7 +161,8 @@ public class VMEmployeeApplications extends AndroidViewModel {
                                     EEmployeeBusinessTrip loOB = new EEmployeeBusinessTrip();
                                     loOB.setTransNox(loJson.getString("sTransNox"));
                                     loOB.setTransact(loJson.getString("dTransact"));
-                                    loOB.setEmployee(loJson.getString("sCompnyNm"));
+                                    loOB.setEmployee(loJson.getString("sEmployID"));
+                                    loOB.setFullName(loJson.getString("sCompnyNm"));
                                     loOB.setBranchNm(loJson.getString("sBranchNm"));
                                     loOB.setDeptName(loJson.getString("sDeptName"));
                                     loOB.setDateFrom(loJson.getString("dDateFrom"));

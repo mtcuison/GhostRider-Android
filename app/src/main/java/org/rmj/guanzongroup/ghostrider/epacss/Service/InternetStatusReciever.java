@@ -24,12 +24,14 @@ import androidx.annotation.RequiresApi;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECashCount;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RCashCount;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
@@ -92,6 +94,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
         private final RBranchLoanApplication poLoan;
         private final RCreditApplicationDocument poDocs;
         private final RDCP_Remittance poRemit;
+        private final RCashCount poCashCount;
 
         private final BackgroundSync poSync;
 
@@ -100,6 +103,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
 
         private String Message;
 
+        private List<ECashCount> cashCounts = new ArrayList<>();
         private List<ELog_Selfie> loginDetails = new ArrayList<>();
         private List<EImageInfo> loginImageInfo = new ArrayList<>();
         private List<EDCPCollectionDetail> collectionDetails = new ArrayList<>();
@@ -127,6 +131,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
             this.poRemit = new RDCP_Remittance(instance);
             this.poConfig = AppConfigPreference.getInstance(instance);
             this.poSync = new BackgroundSync(instance);
+            this.poCashCount = new RCashCount(instance);
         }
 
         @Override
@@ -165,10 +170,21 @@ public class InternetStatusReciever extends BroadcastReceiver {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                try{
+                    cashCounts = poCashCount.getAllUnsentCashCountEntries();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
                 //loanDocs = poImage.getUnsentLoanAppDocFiles();
                 try {
                     uploadLoginImages();
                 } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try{
+                    uploadCashCountEntries();
+                } catch (Exception e){
                     e.printStackTrace();
                 }
 
@@ -507,6 +523,48 @@ public class InternetStatusReciever extends BroadcastReceiver {
                         }
                     }
                 }
+            }
+        }
+
+        void uploadCashCountEntries() throws Exception{
+            for(int x = 0; x < cashCounts.size(); x++){
+                JSONObject params = new JSONObject();
+                ECashCount loCC = cashCounts.get(x);
+                params.put("sTransNox", loCC.getTransNox());
+                params.put("sBranchCd", loCC.getBranchCd());
+                params.put("sORNoxxxx", loCC.getORNoxxxx());
+                params.put("sSINoxxxx", loCC.getSINoxxxx());
+                params.put("sPRNoxxxx", loCC.getPRNoxxxx());
+                params.put("sCRNoxxxx", loCC.getCRNoxxxx());
+                params.put("dTransact", loCC.getTransact());
+                params.put("dEntryDte", loCC.getEntryDte());
+                params.put("sReqstdBy", loCC.getReqstdBy());
+                params.put("nCn0005cx", loCC.getCn0005cx());
+                params.put("nCn0010cx", loCC.getCn0010cx());
+                params.put("nCn0025cx", loCC.getCn0025cx());
+                params.put("nCn0050cx", loCC.getCn0050cx());
+                params.put("nCn0001px", loCC.getCn0001px());
+                params.put("nCn0005px", loCC.getCn0005px());
+                params.put("nCn0010px", loCC.getCn0010px());
+                params.put("nNte0020p", loCC.getNte0020p());
+                params.put("nNte0050p", loCC.getNte0050p());
+                params.put("nNte0100p", loCC.getNte0100p());
+                params.put("nNte0200p", loCC.getNte0200p());
+                params.put("nNte0500p", loCC.getNte0500p());
+                params.put("nNte1000p", loCC.getNte1000p());
+
+                String lsResponse = WebClient.sendRequest(WebApi.URL_SUBMIT_CASHCOUNT, params.toString(), poHeaders.getHeaders());
+
+                if(lsResponse == null){
+                    lsResponse = AppConstants.SERVER_NO_RESPONSE();
+                } else {
+                    JSONObject loResponse = new JSONObject(lsResponse);
+                    if(loResponse.getString("result").equalsIgnoreCase("success")){
+                        poCashCount.UpdateByTransNox(loCC.getTransNox());
+                    }
+                }
+
+                Thread.sleep(1000);
             }
         }
 

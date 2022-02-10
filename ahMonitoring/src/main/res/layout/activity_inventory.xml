@@ -144,7 +144,6 @@
                     android:padding="10dp"
                     android:visibility="gone"/>
 
-
                 <TextView
                     android:id="@+id/lbl_inventoryStatus"
                     android:layout_width="match_parent"

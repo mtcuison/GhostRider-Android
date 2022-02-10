@@ -16,29 +16,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.gocas.base.GOCASApplication;
-import org.rmj.gocas.pojo.ApplicantInfo;
-import org.rmj.gocas.pojo.MeansEmployed;
-import org.rmj.gocas.pojo.MeansFinancer;
-import org.rmj.gocas.pojo.MeansInfo;
-import org.rmj.gocas.pojo.MeansPensioner;
-import org.rmj.gocas.pojo.MeansSelfEmployed;
-import org.rmj.gocas.pojo.ResidenceInfo;
-import org.rmj.gocas.pojo.SpouseInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.Adapter.FragmentAdapter;
 import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_EmploymentInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_MeansInfoSelection;
 import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_PersonalInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SelfEmployedInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Fragment.Fragment_SpouseInfo;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
 import java.util.Objects;

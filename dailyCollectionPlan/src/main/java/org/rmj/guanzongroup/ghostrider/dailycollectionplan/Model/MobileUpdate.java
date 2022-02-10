@@ -23,7 +23,7 @@ public class MobileUpdate {
         this.cReqstCde = cReqstCde;
         this.sMobileNo = sMobileNo;
         this.cPrimaryx = cPrimaryx;
-        this.sRemarksx = sRemarksx;
+        this.sRemarksx = sRemarksx.trim();
     }
 
     public String getMessage(){

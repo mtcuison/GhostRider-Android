@@ -64,11 +64,11 @@
             android:layout_marginVertical="5dp">
 
             <TextView
-                android:id="@+id/lbl_list_ccRequestName"
+                android:id="@+id/lbl_list_ccBranch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Ferrer, Jose M."
+                android:text="GMC Dagupan"
                 android:textColor="@color/textColor_Black"
                 android:fontFamily="@font/roboto_bold"
                 android:drawablePadding="5dp"
@@ -76,8 +76,6 @@
                 android:gravity="center_vertical"
                 app:drawableStartCompat="@drawable/ic_settings_account"
                 app:drawableLeftCompat="@drawable/ic_settings_account" />
-
-
 
         </LinearLayout>
 
@@ -91,7 +89,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:text="Date Send :"
+                android:text="Date Entry :"
                 android:textSize="14sp"
                 android:textColor="@color/textColor_Black"
                 android:gravity="start"
@@ -100,7 +98,7 @@
                 tools:targetApi="jelly_bean"/>
 
             <TextView
-                android:id="@+id/lbl_list_ccDateSent"
+                android:id="@+id/lbl_list_ccEntryDte"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -114,6 +112,38 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginVertical="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="Total Entry"
+                android:textSize="14sp"
+                android:textColor="@color/textColor_Black"
+                android:gravity="start"
+                tools:ignore="HardcodedText"
+                android:fontFamily="@font/roboto"
+                tools:targetApi="jelly_bean"/>
+
+            <TextView
+                android:id="@+id/lbl_list_ccTotalEntry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto"
+                android:gravity="end"
+                android:text="25,000"
+                android:textColor="@color/textColor_Black"
+                android:textSize="14sp"
+                tools:ignore="HardcodedText"
+                tools:targetApi="jelly_bean" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

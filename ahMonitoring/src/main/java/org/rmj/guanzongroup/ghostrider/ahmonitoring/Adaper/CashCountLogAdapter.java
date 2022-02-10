@@ -14,57 +14,53 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountInfoModel;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCashCount;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECashCount;
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class CashCountLogAdapter extends RecyclerView.Adapter<CashCountLogAdapter.CreditEvaluationViewHolder> implements Filterable {
+public class CashCountLogAdapter extends RecyclerView.Adapter<CashCountLogAdapter.CashCountViewHolder> {
 
     private static final String TAG = CashCountLogAdapter.class.getSimpleName();
-    private List<CashCountInfoModel> plCashCount;
-    private List<CashCountInfoModel> plCashCount1;
-    private List<CashCountInfoModel> plSchList;
-    private List<CashCountInfoModel> filteredList;
-    private OnVoidApplicationListener onVoidApplicationListener;
-    private OnExportGOCASListener onExportGOCASListener;
-    private OnApplicationClickListener onApplicationClickListener;
+    private final List<DCashCount.CashCountLog> plCashCount;
+    private final OnItemClickListener mListener;
 
-//    private final SearchFilter poSearch;
+    public interface OnItemClickListener{
+        void OnClick(DCashCount.CashCountLog cashCountLog);
+    }
 
-    public CashCountLogAdapter(List<CashCountInfoModel> plCashCount, OnApplicationClickListener onApplicationClickListener) {
+    public CashCountLogAdapter(List<DCashCount.CashCountLog> plCashCount, OnItemClickListener listener) {
         this.plCashCount = plCashCount;
-        this.plCashCount1 = plCashCount;
-        this.onApplicationClickListener = onApplicationClickListener;
-//        this.poSearch = new SearchFilter();
+        this.mListener = listener;
     }
-    public interface OnItemClickListener {
-        void OnClick(int position);
 
-        void OnActionButtonClick();
-    }
     @NonNull
     @Override
-    public CashCountLogAdapter.CreditEvaluationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CashCountViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_cash_count_log, parent, false);
-        return new CashCountLogAdapter.CreditEvaluationViewHolder(view,onApplicationClickListener);
+        return new CashCountViewHolder(view);
     }
 
         @Override
-        public void onBindViewHolder(@NonNull CreditEvaluationViewHolder holder, int position) {
-            CashCountInfoModel poCount = plCashCount.get(position);
+        public void onBindViewHolder(@NonNull CashCountViewHolder holder, int position) {
+            DCashCount.CashCountLog poCount = plCashCount.get(position);
 
-            holder.lblTransNoxxx.setText("Transaction No.: " + poCount.getTransNox());
-            holder.lblRqstName.setText(poCount.getReqstdNm());
-            holder.lblSendDate.setText(poCount.getTranDate());
+            holder.lblTransNox.setText("Transaction No.: " + poCount.sTransNox);
+            if(poCount.sSendStat.equalsIgnoreCase("1")) {
+                holder.lblSendStat.setText("Sent");
+            } else {
+                holder.lblSendStat.setText("Waiting to send...");
+            }
+            holder.lblBranchCde.setText(poCount.sBranchNm);
+            holder.lblEntryDte.setText(FormatUIText.getParseDateTime(poCount.dEntryDte));
+            holder.itemView.setOnClickListener(v -> mListener.OnClick(poCount));
         }
 
         @Override
@@ -72,82 +68,29 @@ public class CashCountLogAdapter extends RecyclerView.Adapter<CashCountLogAdapte
             return plCashCount.size();
         }
 
-//    public SearchFilter getSearchFilter(){
-//        return poSearch;
-//    }
-public class CreditEvaluationViewHolder extends RecyclerView.ViewHolder{
+    public static class CashCountViewHolder extends RecyclerView.ViewHolder{
 
-    TextView lblTransNoxxx;
-    TextView lblRqstName;
-    TextView lblSendDate;
-    TextView lblStats;
+        TextView lblTransNox, lblEntryDte, lblBranchCde, lblSendStat, lblTotalEntry;
 
-    public CreditEvaluationViewHolder(@NonNull View itemView, CashCountLogAdapter.OnApplicationClickListener onApplicationClickListener) {
-        super(itemView);
+        public CashCountViewHolder(@NonNull View itemView) {
+            super(itemView);
 
-        lblTransNoxxx = itemView.findViewById(R.id.lbl_list_ccTransNox);
-        lblRqstName = itemView.findViewById(R.id.lbl_list_ccRequestName);
-        lblSendDate = itemView.findViewById(R.id.lbl_list_ccDateSent);
-        lblStats = itemView.findViewById(R.id.lbl_list_ccSentStatus);
-
-
-        itemView.setOnClickListener(v12 -> {
-            if(CashCountLogAdapter.this.onApplicationClickListener !=null){
-                int lnPos = getAdapterPosition();
-                if(lnPos != RecyclerView.NO_POSITION){
-                    CashCountLogAdapter.this.onApplicationClickListener.OnClick(lnPos, plCashCount);
-                }
-            }
-        });
+            lblTransNox = itemView.findViewById(R.id.lbl_list_ccTransNox);
+            lblBranchCde = itemView.findViewById(R.id.lbl_list_ccBranch);
+            lblEntryDte = itemView.findViewById(R.id.lbl_list_ccEntryDte);
+            lblSendStat = itemView.findViewById(R.id.lbl_list_ccSentStatus);
+            lblTotalEntry = itemView.findViewById(R.id.lbl_list_ccTotalEntry);
+        }
     }
-}
 
-
-public interface OnVoidApplicationListener{
-    void OnVoid(int position, String TransNox);
-}
-
-public interface OnApplicationClickListener{
-    void OnClick(int position, List<CashCountInfoModel> loanList);
-}
-
-public interface OnExportGOCASListener{
-    void onExport(String GOCAS, String ClientName,String DateApplied);
-}
-
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                String charString = charSequence.toString();
-
-                if (charString.isEmpty() || charString.length()==0 || charString == null) {
-                    plCashCount = plCashCount1;
-
-                } else {
-                    filteredList = new ArrayList<>();
-                    for (CashCountInfoModel row : plCashCount1) {
-                        // name match condition. this might differ depending on your requirement
-                        // here we are looking for name or category in match match
-                        if (row.getReqstdNm().toLowerCase().contains(charString.toLowerCase())) {
-                            filteredList.add(row);
-                        }
-
-                    }
-
-                    plCashCount = filteredList;
-                }
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = plCashCount;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                plCashCount = (ArrayList<CashCountInfoModel>) filterResults.values;
-                notifyDataSetChanged();
-            }
-        };
+    private String getTotalEntry(ECashCount cashCount){
+        double lnTotal = 0.0;
+        int Qty = 0;
+        double denomination = 0.0;
+        if(!cashCount.getNte1000p().equalsIgnoreCase("0")){
+            denomination = 1000;
+            Qty = Integer.valueOf(cashCount.getNte1000p());
+        }
+        return String.valueOf(lnTotal);
     }
 }

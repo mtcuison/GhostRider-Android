@@ -59,7 +59,7 @@ public class DialogKwikSearch {
         custAdapter.setOnItemClickListener(new Adapter_RequestNames.onItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                listener.OnClick(poDialogx,infoList.get(position).getRequestName());
+                listener.OnClick(poDialogx,infoList.get(position).getRequestName(), infoList.get(position).getRequestIDxx());
 //                new Activity_CashCountSubmit().getInstance().setName(requestNamesList.get(position).getRequestName());
 //                dialog.dismiss();
             }
@@ -95,7 +95,7 @@ public class DialogKwikSearch {
     }
 
     public interface DialogButtonClickListener{
-        void OnClick(Dialog dialog, String name);
+        void OnClick(Dialog dialog, String name, String emploID);
     }
 
 }

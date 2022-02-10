@@ -50,11 +50,11 @@ public class AddressUpdate {
     }
 
     public void setcAddrssTp(String cAddrssTp) {
-        this.cAddrssTp = cAddrssTp;
+        this.cAddrssTp = cAddrssTp.trim();
     }
 
     public String getHouseNumber() {
-        return sHouseNox;
+        return sHouseNox.trim();
     }
 
     public void setHouseNumber(String sHouseNox) {
@@ -62,7 +62,7 @@ public class AddressUpdate {
     }
 
     public String getAddress() {
-        return sAddressx;
+        return sAddressx.trim();
     }
 
     public void setAddress(String sAddressx) {
@@ -118,7 +118,7 @@ public class AddressUpdate {
     }
 
     public String getRemarks() {
-        return sRemarksx;
+        return sRemarksx.trim();
     }
 
     public void setsRemarksx(String sRemarksx) {

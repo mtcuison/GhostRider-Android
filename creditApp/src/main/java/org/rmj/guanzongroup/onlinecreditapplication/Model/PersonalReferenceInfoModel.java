@@ -31,11 +31,11 @@ public class PersonalReferenceInfoModel {
         return message;
     }
     public String getFullname() {
-        return Fullname;
+        return Fullname.trim();
     }
 
     public String getAddress1() {
-        return Address1;
+        return Address1.trim();
     }
 
     public String getTownCity() {

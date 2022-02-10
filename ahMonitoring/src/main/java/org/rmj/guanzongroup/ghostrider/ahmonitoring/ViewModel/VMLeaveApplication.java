@@ -147,7 +147,7 @@ public class VMLeaveApplication extends AndroidViewModel {
                 param.put("nEqualHrs", loApp.getEqualHrs());
                 param.put("sApproved", "0");
                 param.put("dApproved", "");
-                param.put("dSendDate", "2017-07-19");
+                param.put("dSendDate", AppConstants.CURRENT_DATE);
                 param.put("cTranStat", "1");
                 param.put("sModified", poSession.getEmployeeID());
 

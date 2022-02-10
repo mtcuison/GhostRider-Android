@@ -18,15 +18,9 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplication;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCashCount;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECashCount;
-import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 
 import java.util.List;
@@ -44,9 +38,6 @@ public class RCashCount {
     }
     public void updateCashCount(ECashCount cashCount){
         ccDao.updateCashCount(cashCount);
-    }
-    public LiveData<List<ECashCount>> getAllCashCountLog(){
-        return ccDao.getAllCashCountLog();
     }
     public void UpdateByTransNox(String transNox){
         new UpdateByTransNox(ccDao).execute(transNox);
@@ -77,4 +68,15 @@ public class RCashCount {
         return lsNextCode;
     }
 
+    public LiveData<List<DCashCount.CashCountLog>> getCashCountLog(){
+        return ccDao.getCashCountLog();
+    }
+
+    public List<ECashCount> getAllUnsentCashCountEntries(){
+        return ccDao.getAllUnsentCashCountEntries();
+    }
+
+    public LiveData<ECashCount> getCashCounDetetail(String TransNox){
+        return ccDao.getCashCounDetetail(TransNox);
+    }
 }

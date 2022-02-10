@@ -45,7 +45,7 @@ public class GeoLocatorTest extends TestCase {
 
     @Test
     public void test_getLattitude() {
-        assertNotNull(poLocator.getLattitude());
+        assertNotNull(poLocator.getLatitude());
     }
 
     @Test

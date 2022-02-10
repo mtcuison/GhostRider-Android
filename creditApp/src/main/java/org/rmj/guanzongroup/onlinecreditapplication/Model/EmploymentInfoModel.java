@@ -136,7 +136,7 @@ public class EmploymentInfoModel {
     }
 
     public String getCompanyAddress() {
-        return sCompAddx;
+        return sCompAddx.trim();
     }
 
     public void setCompanyAddress(String sCompAddx) {
@@ -168,7 +168,7 @@ public class EmploymentInfoModel {
     }
 
     public String getSpecificJob() {
-        return sSpceficx;
+        return sSpceficx.trim();
     }
 
     public void setSpecificJob(String sSpceficx) {

@@ -32,7 +32,7 @@ public class DialogBranchSelection {
     private AlertDialog poDialogx;
 
     public interface OnBranchSelectedCallback{
-        void OnSelect(String BranchCode);
+        void OnSelect(String BranchCode, AlertDialog dialog);
         void OnCancel();
     }
 
@@ -62,9 +62,8 @@ public class DialogBranchSelection {
                 poMessage.setTitle("Branch Selected");
                 poMessage.setMessage("Select " + BranchName + " for Selfie Log, Cash Count and Random stock inventory?");
                 poMessage.setPositiveButton("Yes", (view12, dialog) -> {
-                    callback.OnSelect(BranchCode);
+                    callback.OnSelect(BranchCode, poDialogx);
                     dialog.dismiss();
-                    poDialogx.dismiss();
                 });
                 poMessage.setNegativeButton("No", (view1, dialog) -> dialog.dismiss());
                 poMessage.show();
