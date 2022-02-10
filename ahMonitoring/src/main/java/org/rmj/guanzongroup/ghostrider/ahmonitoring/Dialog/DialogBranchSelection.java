@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -15,7 +14,7 @@ import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.AdapterInventoryBranch;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AdapterInventoryBranch;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;

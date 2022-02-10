@@ -25,7 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.AreaMonitoringAdapter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.Area;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMAreaMonitor;

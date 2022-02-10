@@ -23,7 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.Adapter_RequestLeaveObApplication;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.Adapter_RequestLeaveObApplication;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApprovalInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 

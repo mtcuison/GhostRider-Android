@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper;
+package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

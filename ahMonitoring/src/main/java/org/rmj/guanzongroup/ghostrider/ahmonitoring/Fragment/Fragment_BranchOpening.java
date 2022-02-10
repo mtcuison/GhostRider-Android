@@ -32,7 +32,7 @@ import android.widget.TextView;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.BranchOpeningAdapter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.BranchOpeningAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBranchOpening;
 

@@ -9,10 +9,8 @@
  * project file last modified : 4/24/21 3:18 PM
  */
 
-package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper;
+package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 
-import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -9,7 +9,7 @@
  * project file last modified : 4/24/21 3:18 PM
  */
 
-package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper;
+package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +20,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.etc.ProgressBar.VerticalProgressBar;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.Branch;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.text.DecimalFormat;

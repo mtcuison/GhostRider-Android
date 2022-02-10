@@ -9,7 +9,7 @@
  * project file last modified : 6/8/21 1:10 PM
  */
 
-package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper;
+package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 
 import android.content.Context;
 import android.os.Build;

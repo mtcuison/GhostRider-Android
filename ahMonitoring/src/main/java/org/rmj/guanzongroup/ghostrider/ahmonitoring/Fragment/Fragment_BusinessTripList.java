@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -32,7 +31,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.EmployeeApplicationAdapter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.EmployeeApplicationAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBusinessTripList;
 

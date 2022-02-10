@@ -9,7 +9,7 @@
  * project file last modified : 6/15/21 2:08 PM
  */
 
-package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper;
+package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 
 import android.view.View;
 import android.view.ViewGroup;

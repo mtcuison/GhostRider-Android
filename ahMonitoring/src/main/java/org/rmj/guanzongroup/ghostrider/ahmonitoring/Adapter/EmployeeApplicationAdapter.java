@@ -9,7 +9,7 @@
  * project file last modified : 9/16/21, 10:47 AM
  */
 
-package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper;
+package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.LEAVE_TYPE;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.getLeaveStatus;

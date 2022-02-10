@@ -20,16 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.google.android.material.textfield.TextInputEditText;
-
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.CashCountLogAdapter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.CashCountLogAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountInfoModel;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMCashCountLog;
@@ -57,7 +52,10 @@ public class Activity_CashCountLog extends AppCompatActivity {
                 loading.setVisibility(View.GONE);
                 infoModelList = new ArrayList<>();
                 adapter = new CashCountLogAdapter(cashCounts, (cashCount) -> {
-
+                    Intent loIntent = new Intent(Activity_CashCountLog.this,
+                            Activity_CashCountLogDetails.class);
+                    loIntent.putExtra("sTransNox", cashCount.sTransNox);
+                    startActivity(loIntent);
                 });
                 LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_CashCountLog.this);
                 recyclerView.setAdapter(adapter);

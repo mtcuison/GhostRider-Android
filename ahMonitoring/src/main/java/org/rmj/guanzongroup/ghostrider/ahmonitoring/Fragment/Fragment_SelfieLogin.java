@@ -13,7 +13,6 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
@@ -48,7 +47,7 @@ import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.dev.GLocationManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.TimeLogAdapter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.TimeLogAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogBranchSelection;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLogin;
