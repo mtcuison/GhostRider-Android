@@ -223,7 +223,7 @@ public class PersonalInfoModel implements Parcelable {
     }
 
     public String getEmailAdd() {
-        return EmailAdd;
+        return EmailAdd.trim();
     }
 
     public void setEmailAdd(String emailAdd) {
@@ -231,7 +231,7 @@ public class PersonalInfoModel implements Parcelable {
     }
 
     public String getFbAccntx() {
-        return FbAccntx;
+        return FbAccntx.trim();
     }
 
     public void setFbAccntx(String fbAccntx) {

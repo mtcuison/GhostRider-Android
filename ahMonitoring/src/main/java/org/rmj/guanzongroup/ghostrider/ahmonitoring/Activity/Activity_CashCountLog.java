@@ -44,7 +44,6 @@ public class Activity_CashCountLog extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<CashCountInfoModel> infoModelList;
     private LinearLayout loading,layoutNoRecord;
-    private TextInputEditText txtSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,53 +51,18 @@ public class Activity_CashCountLog extends AppCompatActivity {
         setContentView(R.layout.activity_cash_count_log);
         initWidgets();
         mViewModel = new ViewModelProvider(Activity_CashCountLog.this).get(VMCashCountLog.class);
-        mViewModel.getAllCashCountLog().observe(Activity_CashCountLog.this, ciList -> {
-            if(ciList.size()>0) {
+
+        mViewModel.getCashCountLog().observe(Activity_CashCountLog.this, cashCounts -> {
+            if(cashCounts.size()>0) {
                 loading.setVisibility(View.GONE);
                 infoModelList = new ArrayList<>();
-                for (int x = 0; x < ciList.size(); x++) {
-                    CashCountInfoModel loan = new CashCountInfoModel();
-                    loan.setTransNox(ciList.get(x).getTransNox());
-                    loan.setTranDate(ciList.get(x).getTransact());
-                    loan.setReqstdNm(ciList.get(x).getReqstdBy());
-                    infoModelList.add(loan);
-                }
-                adapter = new CashCountLogAdapter(infoModelList, (position, loanList) -> {
+                adapter = new CashCountLogAdapter(cashCounts, (cashCount) -> {
 
                 });
                 LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_CashCountLog.this);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(layoutManager);
                 adapter.notifyDataSetChanged();
-
-                txtSearch.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        try {
-
-                            adapter.getFilter().filter(s.toString());
-                            adapter.notifyDataSetChanged();
-                            if (adapter.getItemCount() == 0){
-                                layoutNoRecord.setVisibility(View.VISIBLE);
-
-                            }else {
-                                layoutNoRecord.setVisibility(View.GONE);
-                            }
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-
-                    }
-                });
             }else{
                 layoutNoRecord.setVisibility(View.VISIBLE);
             }
@@ -111,7 +75,6 @@ public class Activity_CashCountLog extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview_cashcountLog);
         loading = findViewById(R.id.linear_progress);
         layoutNoRecord = findViewById(R.id.layout_cash_count_noRecord);
-        txtSearch = findViewById(R.id.txt_nameSearch);
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -120,7 +83,6 @@ public class Activity_CashCountLog extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onBackPressed() {

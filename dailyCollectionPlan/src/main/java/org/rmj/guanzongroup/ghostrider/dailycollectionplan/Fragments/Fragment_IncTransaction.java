@@ -130,7 +130,7 @@ public class Fragment_IncTransaction extends Fragment {
                 loMessage.setPositiveButton("Okay", (view, dialog) -> {
                     dialog.dismiss();
                     poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                        new LocationRetriever(getActivity()).getLocation((message, latitude1, longitude1) -> {
+                        new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude1, longitude1) -> {
                             psPhotox = photPath;
                             poImageInfo.setSourceNo(TransNox);
                             poImageInfo.setSourceCD("DCPa");

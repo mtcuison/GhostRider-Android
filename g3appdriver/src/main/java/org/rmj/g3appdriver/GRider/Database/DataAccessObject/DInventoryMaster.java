@@ -3,6 +3,7 @@ package org.rmj.g3appdriver.GRider.Database.DataAccessObject;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryMaster;
@@ -12,7 +13,7 @@ import java.util.List;
 @Dao
 public interface DInventoryMaster {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertInventoryMaster(EInventoryMaster foMaster);
 
     @Query("SELECT * FROM Inventory_Count_Master WHERE dTransact =:Transact AND sBranchCd =:BranchCd")

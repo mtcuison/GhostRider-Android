@@ -77,7 +77,7 @@ public class PaidTransactionModel {
     }
 
     public String getRemarks() {
-        return Remarks;
+        return Remarks.trim();
     }
 
     public void setRemarks(String remarks) {

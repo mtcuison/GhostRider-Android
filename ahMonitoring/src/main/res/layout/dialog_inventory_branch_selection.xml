@@ -46,9 +46,24 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_branch"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="230dp"
             android:padding="10dp"/>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel"
+            app:rippleColor="@color/guanzon_digital_orange"
+            android:textColor="@color/material_black"
+            android:fontFamily="@font/roboto_medium"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

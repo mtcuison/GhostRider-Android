@@ -43,7 +43,7 @@ public interface DLog_Selfie {
     @Query("SELECT * FROM Employee_Log_Selfie WHERE cSendStat <> '1'")
     List<ELog_Selfie> getUnsentSelfieLogin();
 
-    @Query("SELECT * FROM Employee_Log_Selfie WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master)")
+    @Query("SELECT * FROM Employee_Log_Selfie WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) ORDER BY dLogTimex DESC")
     LiveData<List<ELog_Selfie>> getAllEmployeeTimeLog();
 
     @Query("SELECT dLogTimex FROM Employee_Log_Selfie WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) " +

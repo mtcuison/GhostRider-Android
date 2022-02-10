@@ -135,17 +135,20 @@ public class DatabaseExport {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     getReference().getDownloadUrl().addOnSuccessListener( uri -> {
                        Log.e("downloadLink", uri.toString());
-                        sendDownloadLink(uri.toString(), isSent -> {
-                            if(isSent) {
-                                poDiaLoad.dismiss();
-                                showExportDialog(true, "Database Exported Successfully.");
-                                Log.e("FirebaseUpload", "SUCCESS");
-                            } else {
-                                poDiaLoad.dismiss();
-                                showExportDialog(true, "Database Exported Successfully.");
-                                Log.e("FirebaseUpload", "ERROR -> GRiderErrorReport");
-                            }
-                        });
+                        poDiaLoad.dismiss();
+                        showExportDialog(true, "Database Exported Successfully.");
+                        Log.e("FirebaseUpload", "SUCCESS");
+//                        sendDownloadLink(uri.toString(), isSent -> {
+//                            if(isSent) {
+//                                poDiaLoad.dismiss();
+//                                showExportDialog(true, "Database Exported Successfully.");
+//                                Log.e("FirebaseUpload", "SUCCESS");
+//                            } else {
+//                                poDiaLoad.dismiss();
+//                                showExportDialog(true, "Database Exported Successfully.");
+//                                Log.e("FirebaseUpload", "ERROR -> GRiderErrorReport");
+//                            }
+//                        });
                     });
                 }
             });

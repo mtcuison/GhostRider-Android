@@ -27,6 +27,8 @@ public class EEmployeeBusinessTrip {
     private String Transact;
     @ColumnInfo(name = "xEmployee")
     private String Employee;
+    @ColumnInfo(name = "sFullName")
+    private String FullName;
     @ColumnInfo(name = "sBranchNm")
     private String BranchNm;
     @ColumnInfo(name = "sDeptName")
@@ -80,6 +82,14 @@ public class EEmployeeBusinessTrip {
 
     public void setEmployee(String employee) {
         Employee = employee;
+    }
+
+    public String getFullName() {
+        return FullName;
+    }
+
+    public void setFullName(String fullName) {
+        FullName = fullName;
     }
 
     public String getBranchNm() {

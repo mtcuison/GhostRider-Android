@@ -51,4 +51,6 @@ public class RandomItem {
     public void setRemarksx(String remarksx) {
         Remarksx = remarksx;
     }
+
+
 }

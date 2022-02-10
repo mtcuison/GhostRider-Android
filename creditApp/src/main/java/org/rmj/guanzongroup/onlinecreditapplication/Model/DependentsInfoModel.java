@@ -120,7 +120,7 @@ public class DependentsInfoModel {
     public void setDpdSchoolAddress(String dpdSchoolAddress){
         this.dpdSchoolAddress = dpdSchoolAddress;
     }
-    public String getDpdSchoolAddress(){ return dpdSchoolAddress;}
+    public String getDpdSchoolAddress(){ return dpdSchoolAddress.trim();}
 
 
     public void setDpdSchoolProv(String dpdSchoolProv){

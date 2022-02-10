@@ -78,8 +78,8 @@ public class Fragment_ReviewLoanApp extends Fragment implements UploadCreditApp.
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_review_loan_app, container, false);
-//        TransNox = Activity_CreditApplication.getInstance().getTransNox();
-        TransNox = "210000000001";
+        TransNox = Activity_CreditApplication.getInstance().getTransNox();
+//        TransNox = "220000000018";
         initWidgets(v);
         return v;
     }

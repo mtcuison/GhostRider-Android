@@ -95,7 +95,7 @@ public interface DDCPCollectionDetail {
             "AND nEntryNox =:EntryNox")
     void updateCollectionDetailStatusWithRemarks(String TransNox, int EntryNox, String DateEntry, String Remarks);
 
-    @Query("SELECT COUNT(*) FROM LR_DCP_Collection_Detail WHERE sTransNox =:TransNox AND sAcctNmbr != '';")
+    @Query("SELECT COUNT(*) FROM LR_DCP_Collection_Detail WHERE sTransNox =:TransNox AND sAcctNmbr != ''")
     int getAccountNoCount(String TransNox);
 
     @Query("SELECT COUNT(*) FROM LR_DCP_Collection_Detail WHERE cSendStat = '0' AND sTransNox =:TransNox")

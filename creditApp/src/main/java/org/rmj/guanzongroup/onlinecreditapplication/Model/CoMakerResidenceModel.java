@@ -44,7 +44,7 @@ public class CoMakerResidenceModel {
     }
 
     public String getsLandMark() {
-        return sLandMark;
+        return sLandMark.trim();
     }
 
     public void setsLandMark(String sLandMark) {
@@ -52,7 +52,7 @@ public class CoMakerResidenceModel {
     }
 
     public String getsHouseNox() {
-        return sHouseNox;
+        return sHouseNox.trim();
     }
 
     public void setsHouseNox(String sHouseNox) {
@@ -60,7 +60,7 @@ public class CoMakerResidenceModel {
     }
 
     public String getsAddress1() {
-        return sAddress1;
+        return sAddress1.trim();
     }
 
     public void setsAddress1(String sAddress1) {
@@ -68,7 +68,7 @@ public class CoMakerResidenceModel {
     }
 
     public String getsAddress2() {
-        return sAddress2;
+        return sAddress2.trim();
     }
 
     public void setsAddress2(String sAddress2) {

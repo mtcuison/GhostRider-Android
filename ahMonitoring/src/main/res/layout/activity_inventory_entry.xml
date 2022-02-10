@@ -168,11 +168,11 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="5dp"
-                                    android:gravity="center"
+                                    android:autofillHints="Business trip destination and purpose."
                                     android:focusable="false"
                                     android:focusableInTouchMode="false"
                                     android:focusedByDefault="false"
-                                    android:autofillHints="Business trip destination and purpose."
+                                    android:gravity="center"
                                     android:inputType="textShortMessage" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -190,11 +190,11 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="5dp"
-                                    android:gravity="center"
+                                    android:autofillHints="Business trip destination and purpose."
                                     android:focusable="false"
                                     android:focusableInTouchMode="false"
                                     android:focusedByDefault="false"
-                                    android:autofillHints="Business trip destination and purpose."
+                                    android:gravity="center"
                                     android:inputType="textShortMessage" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -219,11 +219,11 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="5dp"
-                                    android:gravity="center"
+                                    android:autofillHints="Business trip destination and purpose."
                                     android:focusable="false"
                                     android:focusableInTouchMode="false"
                                     android:focusedByDefault="false"
-                                    android:autofillHints="Business trip destination and purpose."
+                                    android:gravity="center"
                                     android:inputType="textShortMessage" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -241,11 +241,11 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="5dp"
-                                    android:gravity="center"
+                                    android:autofillHints="Business trip destination and purpose."
                                     android:focusable="false"
                                     android:focusableInTouchMode="false"
                                     android:focusedByDefault="false"
-                                    android:autofillHints="Business trip destination and purpose."
+                                    android:gravity="center"
                                     android:inputType="textShortMessage" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -271,11 +271,11 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="5dp"
-                                    android:gravity="center"
+                                    android:autofillHints="Business trip destination and purpose."
                                     android:focusable="false"
                                     android:focusableInTouchMode="false"
                                     android:focusedByDefault="false"
-                                    android:autofillHints="Business trip destination and purpose."
+                                    android:gravity="center"
                                     android:inputType="number|none" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -293,8 +293,9 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="5dp"
-                                    android:gravity="center"
                                     android:autofillHints="Business trip destination and purpose."
+                                    android:gravity="center"
+                                    android:imeOptions="actionDone"
                                     android:inputType="number|none" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -312,10 +313,10 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:maxLength="128"
                                 android:autofillHints="Business trip destination and purpose."
                                 android:inputType="textMultiLine"
-                                android:lines="3" />
+                                android:lines="3"
+                                android:maxLength="128" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 

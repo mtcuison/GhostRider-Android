@@ -23,7 +23,7 @@ public interface DInventoryDetail {
     LiveData<EInventoryDetail> getInventoryItemDetail(String TransNox, String PartID, String BarCode);
 
     @Query("SELECT (SELECT COUNT(*) FROM Inventory_Count_Detail " +
-            "WHERE sTransNox =:TransNox AND sRemarksx <> '' AND nActCtr01 <> '0')" +
+            "WHERE sTransNox =:TransNox AND cTranStat == '1')" +
             " || '/' || " +
             "(SELECT COUNT(*) FROM Inventory_Count_Detail " +
             "WHERE sTransNox =:TransNox) AS Current_Inventory")
@@ -46,4 +46,6 @@ public interface DInventoryDetail {
 
     @Query("SELECT COUNT(*) FROM Inventory_Count_Detail WHERE sTransNox=:TransNox AND cTranStat = '1'")
     Integer checkForUnpostedInventoryDetail(String TransNox);
+
+
 }

@@ -17,6 +17,7 @@ import android.content.Intent;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCountLog;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Employee_Applications;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Inventory;
@@ -49,7 +50,8 @@ public class ChildObject {
 
     public Intent getIntent(Context context){
         Intent loIntent;
-        switch (psObjName.toLowerCase()){
+        String menu = psObjName.toLowerCase();
+        switch (menu){
             case "collection list":
                 loIntent = new Intent(context, Activity_CollectionList.class);
                 loIntent.putExtra("syscode", "2");
@@ -148,12 +150,15 @@ public class ChildObject {
 //            case "random stock inventory":
 //                loIntent = new Intent(context, Activity_Inventory.class);
 //                break;
-//            case "branches performance info":
-//                loIntent = new Intent(context, Activity_AreaPerformance.class);
-//                break;
+            case "branches performance info":
+                loIntent = new Intent(context, Activity_AreaPerformance.class);
+                break;
 //            case "cash count":
 //                loIntent = new Intent(context, Activity_CashCounter.class);
 //                break;
+            case "cash count log":
+                loIntent = new Intent(context, Activity_CashCountLog.class);
+                break;
             default:
                 loIntent = null;
         }

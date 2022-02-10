@@ -60,7 +60,7 @@ public class ResidenceInfoModel {
         return oneAddress;
     }
     public String getLandMark() {
-        return sLandMark;
+        return sLandMark.trim();
     }
 
     public void setLandMark(String sLandMark) {
@@ -68,7 +68,7 @@ public class ResidenceInfoModel {
     }
 
     public String getHouseNox() {
-        return sHouseNox;
+        return sHouseNox.trim();
     }
 
     public void setHouseNox(String sHouseNox) {
@@ -76,7 +76,7 @@ public class ResidenceInfoModel {
     }
 
     public String getAddress1() {
-        return sAddress1;
+        return sAddress1.trim();
     }
 
     public void setAddress1(String sAddress1) {
@@ -84,7 +84,7 @@ public class ResidenceInfoModel {
     }
 
     public String getAddress2() {
-        return sAddress2;
+        return sAddress2.trim();
     }
 
     public void setAddress2(String sAddress2) {
@@ -175,7 +175,7 @@ public class ResidenceInfoModel {
         if(oneAddress){
             return sLandMark;
         }
-        return sPLndMark;
+        return sPLndMark.trim();
     }
 
     public void setPermanentLandMark(String sPLndMark) {
@@ -186,7 +186,7 @@ public class ResidenceInfoModel {
         if(oneAddress){
             return sHouseNox;
         }
-        return sPHouseNo;
+        return sPHouseNo.trim();
     }
 
     public void setPermanentHouseNo(String sPHouseNo) {
@@ -197,7 +197,7 @@ public class ResidenceInfoModel {
         if(oneAddress){
             return sAddress1;
         }
-        return sPAddrss1;
+        return sPAddrss1.trim();
     }
 
     public void setPermanentAddress1(String sPAddrss1) {
@@ -208,7 +208,7 @@ public class ResidenceInfoModel {
         if(oneAddress){
             return sAddress2;
         }
-        return sPAddrss2;
+        return sPAddrss2.trim();
     }
 
     public void setPermanentAddress2(String sPAddrss2) {

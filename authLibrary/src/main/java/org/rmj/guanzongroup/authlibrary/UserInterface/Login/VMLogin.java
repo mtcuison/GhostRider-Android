@@ -242,7 +242,7 @@ public class VMLogin extends AndroidViewModel {
             String lsDeptIDx = jsonInfo.getString("sDeptIDxx");
             String lsEmpIDxx = jsonInfo.getString("sEmployID");
             String lsPostIDx = jsonInfo.getString("sPositnID");
-            String lsEmpLvlx = jsonInfo.getString("nUserLevl");
+            String lsEmpLvlx = jsonInfo.getString("sEmpLevID");
             sessionManager.initUserSession(lsUserIDx, lsClientx, lsLogNoxx, lsBranchx, lsBranchN, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
         }
 

@@ -324,19 +324,18 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity implements 
                     int term = 0;
                     switch (i) {
                         case 0:
-                        case 1:
                             term = 36;
                             break;
-                        case 2:
+                        case 1:
                             term = 24;
                             break;
-                        case 3:
+                        case 2:
                             term = 18;
                             break;
-                        case 4:
+                        case 3:
                             term = 12;
                             break;
-                        case 5:
+                        case 4:
                             term = 6;
                             break;
                     }

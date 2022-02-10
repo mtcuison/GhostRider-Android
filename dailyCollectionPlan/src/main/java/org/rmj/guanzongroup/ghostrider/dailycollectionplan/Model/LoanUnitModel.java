@@ -44,7 +44,7 @@ public class LoanUnitModel {
 
     public String getMessage() { return message; }
 
-    public String getLuRemarks() { return this.luRemarks; }
+    public String getLuRemarks() { return this.luRemarks.trim(); }
     public void setLuRemarks(String luRemarks) {
         this.luRemarks = luRemarks;
     }

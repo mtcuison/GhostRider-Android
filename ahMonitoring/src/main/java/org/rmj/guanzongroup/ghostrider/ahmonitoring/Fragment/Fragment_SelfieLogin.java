@@ -11,11 +11,14 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -33,6 +36,7 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
@@ -45,11 +49,15 @@ import org.rmj.g3appdriver.dev.GLocationManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.TimeLogAdapter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogBranchSelection;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLogin;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import static android.app.Activity.RESULT_OK;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Fragment_SelfieLogin extends Fragment {
     private static final String TAG = Fragment_SelfieLogin.class.getSimpleName();
@@ -71,7 +79,10 @@ public class Fragment_SelfieLogin extends Fragment {
     private String psPhotoPath;
 
     private static boolean isDialogShown;
+    private boolean isLoginToday = false;
+    private static String sSlectBranch = "";
 
+    private List<EBranchInfo> paBranch = new ArrayList<>();
     private String psEmpLvl;
 
     public static Fragment_SelfieLogin newInstance() {
@@ -96,9 +107,9 @@ public class Fragment_SelfieLogin extends Fragment {
 
         poImage = new EImageInfo();
         poLog = new ELog_Selfie();
-//        poLoad = new LoadDialog(getActivity());
-        poMessage = new MessageBox(getActivity());
-        loLocation = new GLocationManager(getActivity());
+        poLoad = new LoadDialog(requireActivity());
+        poMessage = new MessageBox(requireActivity());
+        loLocation = new GLocationManager(requireActivity());
     }
 
     @Override
@@ -106,11 +117,34 @@ public class Fragment_SelfieLogin extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMSelfieLogin.class);
         psEmpLvl = mViewModel.getEmployeeLevel();
-        if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
-            lblNotice.setVisibility(View.GONE);
-        } else {
-            lblNotice.setVisibility(View.VISIBLE);
-        }
+        mViewModel.getAreaBranchList().observe(getViewLifecycleOwner(), eBranchInfos -> {
+            try {
+                paBranch = eBranchInfos;
+                if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))
+                && sSlectBranch.isEmpty()) {
+                    lblNotice.setVisibility(View.GONE);
+                    new DialogBranchSelection(requireActivity(), eBranchInfos).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
+                        @Override
+                        public void OnSelect(String BranchCode, AlertDialog dialog) {
+                            poLog.setBranchCd(BranchCode);
+                            sSlectBranch = BranchCode;
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void OnCancel() {
+                            requireActivity().finish();
+                        }
+                    });
+                } else {
+                        lblNotice.setVisibility(View.VISIBLE);
+                        poLog.setBranchCd(poUser.getBranchCD());
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
         mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
                 poUser = eEmployeeInfo;
@@ -131,42 +165,51 @@ public class Fragment_SelfieLogin extends Fragment {
 
         mViewModel.getAllEmployeeTimeLog().observe(getViewLifecycleOwner(), eLog_selfies -> {
             TimeLogAdapter logAdapter = new TimeLogAdapter(eLog_selfies, sTransNox -> {
-                GToast.CreateMessage(getActivity(), "Feature not yet implemented", GToast.INFORMATION).show();
+                GToast.CreateMessage(requireActivity(), "Feature not yet implemented", GToast.INFORMATION).show();
             });
-            LinearLayoutManager loManager = new LinearLayoutManager(getActivity());
+            LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
             loManager.setOrientation(RecyclerView.VERTICAL);
             recyclerView.setLayoutManager(loManager);
             recyclerView.setAdapter(logAdapter);
 
         });
+
+        mViewModel.getCurrentTimeLog().observe(getViewLifecycleOwner(), currentLog ->{
+            try {
+                if (currentLog.size() >= 2) {
+                    isLoginToday = true;
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
         btnCamera.setOnClickListener(view -> {
-            mViewModel.getCurrentTimeLog().observe(getViewLifecycleOwner(), currentLog ->{
-                if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
+            if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
+                mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
+                    if (!isGranted) {
+                        mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
+                    } else {
+                        initCamera();
+                    }
+                });
+            } else {
+                if (isLoginToday) {
+                    poMessage.initDialog();
+                    poMessage.setTitle("Selfie Login");
+                    poMessage.setMessage("You already login today.");
+                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                } else {
                     mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
                         if (!isGranted) {
-                            mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(getActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
+                            mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
                         } else {
                             initCamera();
                         }
                     });
-                } else {
-                    if (currentLog.size() >= 2) {
-                        poMessage.initDialog();
-                        poMessage.setTitle("Selfie Login");
-                        poMessage.setMessage("You already login today.");
-                        poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                        poMessage.show();
-                    } else {
-                        mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
-                            if (!isGranted) {
-                                mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(getActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
-                            } else {
-                                initCamera();
-                            }
-                        });
-                    }
                 }
-            });
+            }
         });
     }
 
@@ -186,27 +229,25 @@ public class Fragment_SelfieLogin extends Fragment {
 
                     @Override
                     public void OnSuccess(String args) {
-                        poLoad.dismiss();
+                        try {
+                            poLoad.dismiss();
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
                         showMessageDialog("Your time in has been save to server.");
                     }
 
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
                     @Override
                     public void OnFailed(String message) {
-                        poLoad.dismiss();
+                        try {
+                            poLoad.dismiss();
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
                         showMessageDialog("Your time in has been save.");
                     }
                 });
-//                if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
-//                    poMessage.initDialog();
-//                    poMessage.setTitle("GhostRider");
-//                    poMessage.setMessage("To complete your selfie log. Please proceed to CashCount entry and Random Stock Inventory");
-//                    poMessage.setPositiveButton("Proceed", (view, dialog) -> {
-//                        requireActivity().startActivity(new Intent(getActivity(), Activity_CashCounter.class));
-//                        dialog.dismiss();
-//                        requireActivity().finish();
-//                    });
-//                    poMessage.show();
-//                }
             }
         } else if(requestCode == GLocationManager.GLocationResCode){
             boolean isEnabled = loLocation.isLocationEnabled();
@@ -220,9 +261,9 @@ public class Fragment_SelfieLogin extends Fragment {
 
     private void initCamera(){
         try {
-            ImageFileCreator loImage = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_SELFIE_LOG, poUser.getUserIDxx());
+            ImageFileCreator loImage = new ImageFileCreator(requireActivity(), AppConstants.SUB_FOLDER_SELFIE_LOG, poUser.getUserIDxx());
             loImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                new LocationRetriever(getActivity()).getLocation((message, latitude1, longitude1) -> {
+                new LocationRetriever(requireActivity(), requireActivity()).getLocation((message, latitude1, longitude1) -> {
                     psPhotoPath = photPath;
                     poLog.setEmployID(poUser.getEmployID());
                     poLog.setLogTimex(new AppConstants().DATE_MODIFIED);
@@ -272,7 +313,27 @@ public class Fragment_SelfieLogin extends Fragment {
         poMessage.initDialog();
         poMessage.setTitle("Selfie Log");
         poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+        poMessage.setPositiveButton("Okay", (view, dialog) ->{
+            checkEmployeeLevel();
+            dialog.dismiss();
+        });
         poMessage.show();
+    }
+
+    private void checkEmployeeLevel(){
+        if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
+            poMessage.initDialog();
+            poMessage.setTitle("GhostRider");
+            poMessage.setMessage("To complete your selfie log. Please proceed to CashCount entry and Random Stock Inventory");
+            poMessage.setPositiveButton("Proceed", (view, dialog) -> {
+                Intent loIntent = new Intent(requireActivity(), Activity_CashCounter.class);
+                loIntent.putExtra("BranchCd", poLog.getBranchCd());
+                loIntent.putExtra("cancelable", false);
+                requireActivity().startActivity(loIntent);
+                dialog.dismiss();
+                requireActivity().finish();
+            });
+            poMessage.show();
+        }
     }
 }

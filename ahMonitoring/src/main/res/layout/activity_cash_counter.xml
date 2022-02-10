@@ -179,6 +179,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="number|none"
+                                android:digits="00123456789"
                                 android:maxLength="50" />
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -240,6 +241,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="number|none"
+                                android:digits="0123456789"
                                 android:maxLength="50" />
                         </com.google.android.material.textfield.TextInputLayout>
                         <com.google.android.material.textfield.TextInputLayout
@@ -300,6 +302,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="number|none"
+                                android:digits="0123456789"
                                 android:maxLength="50" />
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -362,6 +365,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="number|none"
+                                android:digits="0123456789"
                                 android:maxLength="50" />
                         </com.google.android.material.textfield.TextInputLayout>
                         <com.google.android.material.textfield.TextInputLayout
@@ -423,6 +427,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="number|none"
+                                android:digits="0123456789"
                                 android:maxLength="50" />
                         </com.google.android.material.textfield.TextInputLayout>
                         <com.google.android.material.textfield.TextInputLayout
@@ -485,6 +490,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="number|none"
+                                android:digits="0123456789"
                                 android:maxLength="50" />
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -577,6 +583,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:inputType="number|none"
+                                    android:digits="0123456789"
                                     android:maxLength="50" />
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -638,6 +645,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:inputType="number|none"
+                                    android:digits="0123456789"
                                     android:maxLength="50" />
                             </com.google.android.material.textfield.TextInputLayout>
                             <com.google.android.material.textfield.TextInputLayout
@@ -698,6 +706,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:inputType="number|none"
+                                    android:digits="0123456789"
                                     android:maxLength="50" />
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -710,68 +719,6 @@
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/edtTotal1pc"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:enabled="false"
-                                    android:focusable="false"
-                                    android:focusableInTouchMode="false"
-                                    android:textColor="@color/material_black"
-                                    android:inputType="none|number"
-                                    android:maxLength="50"
-                                    android:text="0"/>
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                        </LinearLayout>
-                        <!--100 -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
-                            android:weightSum="3">
-
-                            <RelativeLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1.1">
-
-                                <TextView
-                                    android:id="@+id/tv50cc"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:gravity="center"
-                                    android:text="¢50"
-                                    android:textStyle="bold" />
-                            </RelativeLayout>
-
-                            <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".9"
-                            android:hint="Enter Quantity"
-                            style="@style/TextInputStyle"
-                            >
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/edt50cc"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="number|none"
-                                    android:maxLength="50" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:hint="Total"
-                                style="@style/TextInputStyle">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/edtTotal50cc"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:enabled="false"
@@ -822,6 +769,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:inputType="number|none"
+                                    android:digits="0123456789"
                                     android:maxLength="50" />
                             </com.google.android.material.textfield.TextInputLayout>
                             <com.google.android.material.textfield.TextInputLayout
@@ -883,6 +831,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:inputType="number|none"
+                                    android:digits="0123456789"
                                     android:maxLength="50" />
                             </com.google.android.material.textfield.TextInputLayout>
                             <com.google.android.material.textfield.TextInputLayout
@@ -946,6 +895,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:inputType="number|none"
+                                    android:digits="0123456789"
                                     android:maxLength="50" />
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -970,7 +920,69 @@
                             </com.google.android.material.textfield.TextInputLayout>
 
                         </LinearLayout>
+                        <!--100 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:weightSum="3">
 
+                            <RelativeLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1.1">
+
+                                <TextView
+                                    android:id="@+id/tv1cc"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:gravity="center"
+                                    android:text="¢1"
+                                    android:textStyle="bold" />
+                            </RelativeLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".9"
+                                android:hint="Enter Quantity"
+                                style="@style/TextInputStyle"
+                                >
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edt1cc"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number|none"
+                                    android:digits="0123456789"
+                                    android:maxLength="50" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Total"
+                                style="@style/TextInputStyle">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edtTotal1cc"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:enabled="false"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:textColor="@color/material_black"
+                                    android:inputType="none|number"
+                                    android:maxLength="50"
+                                    android:text="0"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout

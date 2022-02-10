@@ -65,11 +65,20 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
 
     private LoadDialog poDialogx;
     private MessageBox poMessage;
+
+    private String BranchCd = "";
+    private String EmployID = ""; //EmployeeID of requesting employee
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cash_count_submit);
         initWidgets();
+        try {
+            BranchCd = getIntent().getStringExtra("BranchCd");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         infoModel = new CashCountInfoModel();
         mViewModel = new ViewModelProvider(this).get(VMCashCountSubmit.class);
         mViewModel.getUserBranchInfo().observe(Activity_CashCountSubmit.this, eBranchInfo -> {
@@ -92,28 +101,25 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
             }
         });
         btnSendToServer.setOnClickListener(v->{
-            if (txtRequestID.getText().toString().isEmpty()){
-                emptNameDialog();
-            }else {
-                JSONObject parameters = getParameters();
-                try{
-                    parameters.put("sTransNox", txtTransNox.getText().toString());
-                    parameters.put("sORNoxxxx", txtOfficialReceipt.getText().toString());
-                    parameters.put("sSINoxxxx", txtSalesInvoice.getText().toString());
-                    parameters.put("sPRNoxxxx", txtProvisionalReceipt.getText().toString());
-                    parameters.put("sCRNoxxxx", txtCollectionReceipt.getText().toString());
-                    parameters.put("EntryTime", new AppConstants().DATE_MODIFIED);
-                    parameters.put("sReqstdBy", txtRequestID.getText().toString());
-                    infoModel.setCrNoxxxx(txtCollectionReceipt.getText().toString());
-                    infoModel.setPrNoxxxx(txtProvisionalReceipt.getText().toString());
-                    infoModel.setSiNoxxxx(txtSalesInvoice.getText().toString());
-                    infoModel.setOrNoxxxx(txtOfficialReceipt.getText().toString());
-                    infoModel.setEntryTme(new AppConstants().DATE_MODIFIED);
-                    mViewModel.saveCashCount(infoModel, parameters, Activity_CashCountSubmit.this);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
+            JSONObject parameters = getParameters();
+            try{
+                parameters.put("sTransNox", txtTransNox.getText().toString());
+                parameters.put("sBranchCd", BranchCd);
+                parameters.put("sORNoxxxx", txtOfficialReceipt.getText().toString());
+                parameters.put("sSINoxxxx", txtSalesInvoice.getText().toString());
+                parameters.put("sPRNoxxxx", txtProvisionalReceipt.getText().toString());
+                parameters.put("sCRNoxxxx", txtCollectionReceipt.getText().toString());
+                parameters.put("dTransact", AppConstants.CURRENT_DATE);
+                parameters.put("dEntryDte", new AppConstants().DATE_MODIFIED);
+                parameters.put("sReqstdBy", EmployID);
+                infoModel.setCrNoxxxx(txtCollectionReceipt.getText().toString());
+                infoModel.setPrNoxxxx(txtProvisionalReceipt.getText().toString());
+                infoModel.setSiNoxxxx(txtSalesInvoice.getText().toString());
+                infoModel.setOrNoxxxx(txtOfficialReceipt.getText().toString());
+                infoModel.setEntryTme(new AppConstants().DATE_MODIFIED);
+                mViewModel.saveCashCount(infoModel, parameters, Activity_CashCountSubmit.this);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         });
     }
@@ -125,6 +131,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
     }
+
     public void initWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar_cashCountSubmit);
         setSupportActionBar(toolbar);
@@ -150,8 +157,6 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         tilSalesRcpt = findViewById(R.id.til_ccSI);
         tilPrvnlRcpt = findViewById(R.id.til_ccPR);
         tilCllctRcpt = findViewById(R.id.til_ccCR);
-
-
     }
 
     @Override
@@ -173,8 +178,9 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
     }
     public void initDialog(List<RequestNamesInfoModel> infoList){
         DialogKwikSearch loDialog = new DialogKwikSearch(Activity_CashCountSubmit.this,infoList);
-        loDialog.initDialogKwikSearch((dialog, name) -> {
+        loDialog.initDialogKwikSearch((dialog, name, employID) -> {
             txtRequestID.setText(name);
+            EmployID = employID;
             loDialog.dismiss();
         });
         loDialog.show();
@@ -185,16 +191,12 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
      * JSON is converted into string...*/
     private JSONObject getParameters(){
         try {
-            JSONObject jsonObject = new JSONObject(getIntent().getStringExtra("params"));
-            return jsonObject;
+            return new JSONObject(getIntent().getStringExtra("params"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return null;
     }
-
-
-
 
     public void initDialog(String title, String message){
         poMessage.initDialog();
@@ -218,9 +220,6 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         poMessage.setMessage("Cash count has been saved successfully.");
         poMessage.setPositiveButton("Okay", (view, dialog) ->{
                     dialog.dismiss();
-                    Activity_CashCounter.getInstance().finish();
-                    finish();
-                    this.overridePendingTransition(R.anim.anim_pop_in,R.anim.anim_pop_out);
                     checkEmployeeLevelForInventory();
                 });
         poMessage.show();
@@ -240,7 +239,6 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onBackPressed() {
         finish();
@@ -248,14 +246,29 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
 
     private void checkEmployeeLevelForInventory(){
         if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
-            poMessage.initDialog();
-            poMessage.setTitle("GhostRider");
-            poMessage.setMessage("To complete your selfie log. Please proceed to Random Stock Inventory");
-            poMessage.setPositiveButton("Proceed", (btnView, mDialog) -> {
-                mDialog.dismiss();
-                startActivity(new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class));
+            mViewModel.CheckConnectivity(isDeviceConnected -> {
+                if (isDeviceConnected) {
+                    poMessage.initDialog();
+                    poMessage.setTitle("GhostRider");
+                    poMessage.setMessage("To complete your selfie log. Please proceed to Random Stock Inventory");
+                    poMessage.setPositiveButton("Proceed", (btnView, mDialog) -> {
+                        mDialog.dismiss();
+                        Intent loIntent = new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class);
+                        loIntent.putExtra("BranchCd", BranchCd);
+                        startActivity(loIntent);
+                        Activity_CashCounter.getInstance().finish();
+                        finish();
+                    });
+                    poMessage.show();
+                } else {
+                    Activity_CashCounter.getInstance().finish();
+                    finish();
+                }
             });
-            poMessage.show();
+        } else {
+            Activity_CashCounter.getInstance().finish();
+            finish();
+            this.overridePendingTransition(R.anim.anim_pop_in,R.anim.anim_pop_out);
         }
     }
 }

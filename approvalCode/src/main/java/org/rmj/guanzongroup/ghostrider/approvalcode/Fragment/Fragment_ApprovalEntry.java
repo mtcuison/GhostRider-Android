@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.approvalcode.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
@@ -65,6 +66,8 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
     private ImageButton btnCopy;
     private ApprovalEntry poEntryxx;
     private MessageBox poMesgBox;
+
+    private boolean createNew = true;
 
     public static Fragment_ApprovalEntry newInstance() {
         return new Fragment_ApprovalEntry();
@@ -176,28 +179,48 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
         }));
 
         btnCreate.setOnClickListener(view -> {
-            poEntryxx.setReqDatex(Objects.requireNonNull(txtDate.getText()).toString());
-            poEntryxx.setReferNox(Objects.requireNonNull(txtReferNo.getText()).toString());
-            poEntryxx.setLastName(Objects.requireNonNull(txtLastNm.getText()).toString());
-            poEntryxx.setFrstName(Objects.requireNonNull(txtFrstNm.getText()).toString());
-            poEntryxx.setSuffix(Objects.requireNonNull(txtSuffix.getText()).toString());
-            poEntryxx.setMiddName(Objects.requireNonNull(txtMiddNm.getText()).toString());
-            poEntryxx.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
-            mViewModel.CreateApprovalCode(poEntryxx, new VMApprovalEntry.CodeApprovalCreatedListener() {
-                @Override
-                public void OnCreate(String args) {
-                    txtAppCode.setText(args);
-                }
+            if(!createNew){
+                poMesgBox.initDialog();
+                poMesgBox.setTitle("Approval Code");
+                poMesgBox.setMessage("Create new approval code?");
+                poMesgBox.setPositiveButton("Yes", (view13, dialog) -> {
+                    txtBranch.setEnabled(true);
+                    txtReferNo.setEnabled(true);
+                    txtLastNm.setEnabled(true);
+                    txtFrstNm.setEnabled(true);
+                    txtMiddNm.setEnabled(true);
+                    txtSuffix.setEnabled(true);
+                    txtRemarks.setEnabled(true);
+                    createNew = true;
 
-                @Override
-                public void OnCreateFailed(String message) {
-                    poMesgBox.initDialog();
-                    poMesgBox.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                    poMesgBox.setTitle("Approval Code");
-                    poMesgBox.setMessage(message);
-                    poMesgBox.show();
-                }
-            });
+                    btnCreate.setText("Request Approval Code");
+                });
+                poMesgBox.setNegativeButton("No", (view12, dialog) -> dialog.dismiss());
+                poMesgBox.show();
+            } else {
+                poEntryxx.setReqDatex(Objects.requireNonNull(txtDate.getText()).toString());
+                poEntryxx.setReferNox(Objects.requireNonNull(txtReferNo.getText()).toString());
+                poEntryxx.setLastName(Objects.requireNonNull(txtLastNm.getText()).toString());
+                poEntryxx.setFrstName(Objects.requireNonNull(txtFrstNm.getText()).toString());
+                poEntryxx.setSuffix(Objects.requireNonNull(txtSuffix.getText()).toString());
+                poEntryxx.setMiddName(Objects.requireNonNull(txtMiddNm.getText()).toString());
+                poEntryxx.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
+                mViewModel.CreateApprovalCode(poEntryxx, new VMApprovalEntry.CodeApprovalCreatedListener() {
+                    @Override
+                    public void OnCreate(String args) {
+                        txtAppCode.setText(args);
+                    }
+
+                    @Override
+                    public void OnCreateFailed(String message) {
+                        poMesgBox.initDialog();
+                        poMesgBox.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                        poMesgBox.setTitle("Approval Code");
+                        poMesgBox.setMessage(message);
+                        poMesgBox.show();
+                    }
+                });
+            }
         });
     }
 
@@ -209,6 +232,16 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
     @Override
     public void OnSuccessResult(String args) {
         txtAppCode.setText(args);
+        txtBranch.setEnabled(false);
+        txtReferNo.setEnabled(false);
+        txtLastNm.setEnabled(false);
+        txtFrstNm.setEnabled(false);
+        txtMiddNm.setEnabled(false);
+        txtSuffix.setEnabled(false);
+        txtRemarks.setEnabled(false);
+        createNew = false;
+
+        btnCreate.setText("Create New");
     }
 
     @Override

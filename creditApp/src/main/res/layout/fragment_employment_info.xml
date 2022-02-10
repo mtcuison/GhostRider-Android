@@ -395,7 +395,7 @@
                     android:id="@+id/txt_monthlySalary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="6"
+                    android:maxLength="7"
                     android:inputType="number|none"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/txt_companyContact"/>

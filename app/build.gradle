@@ -23,8 +23,8 @@ android {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
         minSdkVersion 19
         targetSdkVersion 31
-        versionCode 17
-        versionName "GhostRider Build v.1.1.17"
+        versionCode 22
+        versionName "GhostRider Build v.1.1.22"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

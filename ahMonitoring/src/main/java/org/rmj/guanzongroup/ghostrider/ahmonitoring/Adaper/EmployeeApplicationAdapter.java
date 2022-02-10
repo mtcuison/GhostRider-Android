@@ -93,7 +93,7 @@ public class EmployeeApplicationAdapter extends RecyclerView.Adapter<EmployeeApp
         } else if(poBusTrip != null){
             EEmployeeBusinessTrip loBusTrip = poBusTrip.get(position);
             holder.lblTransNox.setText(loBusTrip.getTransNox());
-            holder.lblEmplName.setText(loBusTrip.getEmployee());
+            holder.lblEmplName.setText(loBusTrip.getFullName());
             holder.lblDeptName.setText(loBusTrip.getDeptName());
             holder.lblBrnchNme.setText(loBusTrip.getBranchNm());
             holder.lblDateFrom.setText(FormatUIText.formatGOCasBirthdate(loBusTrip.getDateFrom()));

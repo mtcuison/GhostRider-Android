@@ -121,8 +121,8 @@ public class VMObApplication extends AndroidViewModel {
                     detail.setDateThru(infoModel.getDateThru());
                     detail.setRemarksx(infoModel.getRemarksx());
                     detail.setDestinat(infoModel.getDestinat());
-                    detail.setApproved("0");
-                    detail.setDapprove(null);
+                    detail.setApproved(poUser.getUserID());
+                    detail.setDapprove(AppConstants.CURRENT_DATE);
                     detail.setAppldFrx(null);
                     detail.setAppldTox(null);
                     detail.setTranStat("0");
@@ -137,8 +137,8 @@ public class VMObApplication extends AndroidViewModel {
                     loJson.put("dDateThru", infoModel.getDateThru());
                     loJson.put("sDestinat", infoModel.getDestinat());
                     loJson.put("sRemarksx", infoModel.getRemarksx());
-                    loJson.put("sApproved", "");
-                    loJson.put("dApproved", "");
+                    loJson.put("sApproved", poUser.getUserID());
+                    loJson.put("dApproved", detail.getDapprove());
                     loJson.put("dAppldFrx", "");
                     loJson.put("dAppldTox", "");
                     loJson.put("cTranStat", "0");
@@ -149,6 +149,9 @@ public class VMObApplication extends AndroidViewModel {
                         lsResponse = WebClient.sendRequest(WebApi.URL_SEND_OB_APPLICATION, loJson.toString(), poHeaders.getHeaders());
                         JSONObject jsonResponse = new JSONObject(lsResponse);
                         String lsResult = jsonResponse.getString("result");
+                        if(lsResult.equalsIgnoreCase("success")){
+                            poOBLeave.updateOBSentStatus(loJson.getString("sTransNox"));
+                        }
                         Log.e(TAG, lsResponse);
                     } else {
                         lsResponse = AppConstants.SERVER_NO_RESPONSE();

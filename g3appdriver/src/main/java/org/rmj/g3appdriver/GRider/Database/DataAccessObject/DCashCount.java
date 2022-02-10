@@ -31,21 +31,40 @@ public interface DCashCount {
     @Update
     void updateCashCount(ECashCount cashCount);
 
-//    @Update
-//    void update(ECashCount cashCount);
-
     @Delete
     void delete(ECashCount cashCount);
 
     @Query("SELECT * FROM Cash_Count_Master WHERE sTransNox =:TransNox")
-    List<ECashCount> getDuplicateTransNox(String TransNox);
+    LiveData<ECashCount> getCashCounDetetail(String TransNox);
 
-    @Query("SELECT * FROM Cash_Count_Master")
-    LiveData<List<ECashCount>> getAllCashCountLog();
+    @Query("SELECT * FROM Cash_Count_Master WHERE sTransNox =:TransNox")
+    List<ECashCount> getDuplicateTransNox(String TransNox);
 
     @Query("UPDATE Cash_Count_Master SET " +
             "sSendStat = 1 " +
             "WHERE sTransNox =:TransNox ")
     void UpdateByTransNox(String TransNox);
 
+    @Query("SELECT * FROM Cash_Count_Master WHERE sSendStat <> '1'")
+    List<ECashCount> getAllUnsentCashCountEntries();
+
+    @Query("SELECT a.sTransNox, " +
+            "a.sBranchCd, " +
+            "b.sBranchNm, " +
+            "a.sSendStat, " +
+            "a.dTransact, " +
+            "a.dEntryDte FROM " +
+            "Cash_Count_Master a LEFT JOIN " +
+            "Branch_Info b ON " +
+            "a.sBranchCd = b.sBranchCd")
+    LiveData<List<CashCountLog>> getCashCountLog();
+
+    class CashCountLog{
+        public String sTransNox;
+        public String sBranchCd;
+        public String sBranchNm;
+        public String sSendStat;
+        public String dTransact;
+        public String dEntryDte;
+    }
 }

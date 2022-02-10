@@ -29,7 +29,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Model;
         }
 
         public String getLandmark() {
-            return landmark;
+            return landmark.trim();
         }
 
         public void setLandmark(String landmark) {
@@ -37,7 +37,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Model;
         }
 
         public String getHouseNox() {
-            return houseNox;
+            return houseNox.trim();
         }
 
         public void setHouseNox(String houseNox) {
@@ -45,7 +45,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Model;
         }
 
         public String getAddress1() {
-            return address1;
+            return address1.trim();
         }
 
         public void setAddress1(String address1) {
@@ -53,7 +53,7 @@ package org.rmj.guanzongroup.onlinecreditapplication.Model;
         }
 
         public String getAddress2() {
-            return address2;
+            return address2.trim();
         }
 
         public void setAddress2(String address2) {

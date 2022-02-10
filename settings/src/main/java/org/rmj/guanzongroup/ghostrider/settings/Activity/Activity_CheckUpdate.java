@@ -85,9 +85,9 @@ public class Activity_CheckUpdate extends AppCompatActivity {
 
         btnUpdate.setOnClickListener(v -> {
             String lsModel = android.os.Build.MODEL;
-//                String lsCompx = android.os.Build.MANUFACTURER;
-            String lsCompx = "Samsung";
-            if(lsCompx.equalsIgnoreCase("huawei")){
+            String lsCompx = android.os.Build.MANUFACTURER;
+//            String lsCompx = "Samsung";
+            if(lsCompx.toLowerCase().equalsIgnoreCase("huawei")){
                 mViewModel.DownloadUpdate(new VMCheckUpdate.SystemUpateCallback() {
 
                     @SuppressLint("SetTextI18n")

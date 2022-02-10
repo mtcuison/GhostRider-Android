@@ -39,7 +39,7 @@ public class FinanceInfoModel {
     }
 
     public String getFinancierName() {
-        return sFNamex;
+        return sFNamex.trim();
     }
 
     public void setFinancierName(String sFNamex) {

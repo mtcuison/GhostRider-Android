@@ -106,7 +106,7 @@ public class SpouseEmploymentInfoModel {
     }
 
     public String getCompanyName() {
-        return companyName;
+        return companyName.trim();
     }
 
     public void setCompanyName(String companyName) {
@@ -114,7 +114,7 @@ public class SpouseEmploymentInfoModel {
     }
 
     public String getCompAddress() {
-        return compAddress;
+        return compAddress.trim();
     }
 
     public void setCompAddress(String compAddress) {
@@ -146,7 +146,7 @@ public class SpouseEmploymentInfoModel {
     }
 
     public String getJobSpecific() {
-        return jobSpecific;
+        return jobSpecific.trim();
     }
 
     public void setJobSpecific(String jobSpecific) {

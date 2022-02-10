@@ -110,17 +110,17 @@ public class UploadCreditApp {
                 poLoan.insertNewLoanApplication(poBranchApp);
                 if (poConn.isDeviceConnected()) {
                     JSONObject params = new JSONObject(poInfo.getDetlInfo());
-                    params.put("dCreatedx", poInfo.getClientNm());
+                    params.put("dCreatedx", poInfo.getCreatedx());
 
                     String lsResponse = WebClient.sendRequest(WebApi.URL_SUBMIT_ONLINE_APPLICATION, params.toString(), poHeaders.getHeaders());
                     if(lsResponse != null) {
                         JSONObject loResponse = new JSONObject(lsResponse);
 
 //                          Comment for uploading creditapp purpose
-//                        String result = loResponse.getString("result");
-//                        if(result.equalsIgnoreCase("success")){
-//                            String lsTransNox = loResponse.getString("sTransNox");
-//                            poCreditApp.updateSentLoanAppl(poInfo.getTransNox(), lsTransNox);
+                        String result = loResponse.getString("result");
+                        if(result.equalsIgnoreCase("success")){
+                            String lsTransNox = loResponse.getString("sTransNox");
+                            poCreditApp.updateSentLoanAppl(poInfo.getTransNox(), lsTransNox);
 //
 //                            Thread.sleep(1000);
 //
@@ -152,7 +152,7 @@ public class UploadCreditApp {
 //                                    lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Loan application has been sent. But failed to upload customer photo.");
 //                                }
 //                            }
-//                        }
+                        }
                         lsResult = lsResponse;
                     } else {
                         lsResult = AppConstants.SERVER_NO_RESPONSE();

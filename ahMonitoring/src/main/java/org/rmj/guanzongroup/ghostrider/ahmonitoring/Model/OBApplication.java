@@ -83,7 +83,7 @@ public class OBApplication {
     }
 
     public String getRemarksx() {
-        return Remarksx;
+        return Remarksx.trim();
     }
 
     public void setRemarksx(String remarksx) {

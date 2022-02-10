@@ -163,6 +163,7 @@ public class Fragment_OtherInfo extends Fragment implements ViewModelCallBack {
             spnSourcexx.setAdapter(adapter);
             spnSourcexx.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
+
 //        spnUnitUser.setAdapter(mViewModel.getUnitUser());
 //        spnOthrUser.setAdapter(mViewModel.getOtherUnitUser());
 //        spnUnitPrps.setAdapter(mViewModel.getUnitPurpose());

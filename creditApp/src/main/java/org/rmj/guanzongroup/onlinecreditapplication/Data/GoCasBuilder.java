@@ -88,9 +88,9 @@ public class GoCasBuilder {
         poGOCas.ApplicantInfo().setMaidenName(loAppl.getString("sMaidenNm"));
 
         JSONArray loMobile = loAppl.getJSONArray("mobile_number");
-        poGOCas.ApplicantInfo().setMobileNoQty(loMobile.length());
         for (int x = 0; x < loMobile.length(); x++) {
             JSONObject mobile = loMobile.getJSONObject(x);
+            poGOCas.ApplicantInfo().setMobileNoQty(x+1);
             poGOCas.ApplicantInfo().setMobileNo(x, mobile.getString("sMobileNo"));
             poGOCas.ApplicantInfo().IsMobilePostpaid(x, mobile.getString("cPostPaid"));
             poGOCas.ApplicantInfo().setPostPaidYears(x, Integer.parseInt(mobile.getString("nPostYear")));
@@ -236,9 +236,9 @@ public class GoCasBuilder {
             poGOCas.SpouseInfo().PersonalInfo().setCitizenship(loSpouse.getString("sCitizenx"));
 
             JSONArray loMobile = loSpouse.getJSONArray("mobile_number");
-            poGOCas.SpouseInfo().PersonalInfo().setMobileNoQty(loMobile.length());
             for(int x = 0; x < loMobile.length(); x++){
                 JSONObject mobile = loMobile.getJSONObject(x);
+                poGOCas.SpouseInfo().PersonalInfo().setMobileNoQty(x+1);
                 poGOCas.SpouseInfo().PersonalInfo().setMobileNo(x, mobile.getString("sMobileNo"));
                 poGOCas.SpouseInfo().PersonalInfo().IsMobilePostpaid(x, mobile.getString("cPostPaid"));
                 poGOCas.SpouseInfo().PersonalInfo().setPostPaidYears(x, Integer.parseInt(mobile.getString("nPostYear")));
@@ -439,9 +439,9 @@ public class GoCasBuilder {
             poGOCas.CoMakerInfo().setRelation(loCoMker.getString("sReltnCde"));
 
             JSONArray loMobile = loCoMker.getJSONArray("mobile_number");
-            poGOCas.CoMakerInfo().setMobileNoQty(loMobile.length());
             for (int x = 0; x < loMobile.length(); x++) {
                 JSONObject mobile = loMobile.getJSONObject(x);
+                poGOCas.CoMakerInfo().setMobileNoQty(x+1);
                 poGOCas.CoMakerInfo().setMobileNo(x, mobile.getString("sMobileNo"));
                 poGOCas.CoMakerInfo().IsMobilePostpaid(x, mobile.getString("cPostPaid"));
                 poGOCas.CoMakerInfo().setPostPaidYears(x, Integer.parseInt(mobile.getString("nPostYear")));

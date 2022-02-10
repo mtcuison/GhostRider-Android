@@ -363,13 +363,7 @@ public class VMLeaveApproval extends AndroidViewModel {
         if(noOfDays > lnCredt && lnCredt != 0){
             int lnDiff = (int) (noOfDays - lnCredt);
             pnWOPay.setValue(lnDiff);
-
-            int lnDays = (int) (lnCredt - noOfDays);
-            if(lnDays < 0){
-                pnWithPay.setValue(0);
-            } else {
-                pnWithPay.setValue((int) (lnCredt - noOfDays));
-            }
+            pnWithPay.setValue(lnCredt);
         } else if(lnCredt == 0){
             pnWOPay.setValue((int) noOfDays);
             pnWithPay.setValue(0);

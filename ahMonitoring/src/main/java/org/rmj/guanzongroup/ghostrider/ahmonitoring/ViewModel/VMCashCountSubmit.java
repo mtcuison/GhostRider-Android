@@ -15,6 +15,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -82,6 +83,11 @@ public class VMCashCountSubmit extends AndroidViewModel {
         void onSuccessSaveCashCount();
         void onSaveCashCountFailed(String message);
     }
+
+    public interface OnDeviceConnectionCheck{
+        void OnCheck(boolean isDeviceConnected);
+    }
+
     public LiveData<EEmployeeInfo> getEmplopyeInfo(){
         return this.poEmploye.getEmployeeInfo();
     }
@@ -230,12 +236,11 @@ public class VMCashCountSubmit extends AndroidViewModel {
         protected String doInBackground(Void... voids) {
             String lsResponse = "";
             try {
-
                 if (!infoModel.isDataValid()) {
                     lsResponse = infoModel.getMessage();
-
                 } else {
                     eCashCount.setTransNox(jsonObject.getString("sTransNox"));
+                    eCashCount.setBranchCd(jsonObject.getString("sBranchCd"));
                     eCashCount.setTransact(new AppConstants().CURRENT_DATE);
                     eCashCount.setCn0005cx(jsonObject.getString("nCn0005cx"));
                     eCashCount.setCn0010cx(jsonObject.getString("nCn0010cx"));
@@ -254,9 +259,8 @@ public class VMCashCountSubmit extends AndroidViewModel {
                     eCashCount.setSINoxxxx(jsonObject.getString("sSINoxxxx"));
                     eCashCount.setPRNoxxxx(jsonObject.getString("sPRNoxxxx"));
                     eCashCount.setCRNoxxxx(jsonObject.getString("sCRNoxxxx"));
-                    eCashCount.setEntryDte(jsonObject.getString("EntryTime"));
+                    eCashCount.setEntryDte(jsonObject.getString("dEntryDte"));
                     eCashCount.setReqstdBy(jsonObject.getString("sReqstdBy"));
-                    eCashCount.setModified(jsonObject.getString("EntryTime"));
                     eCashCount.setSendStat("0");
                     pocashcount.insertNewCashCount(eCashCount);
                     if(!poConn.isDeviceConnected()) {
@@ -277,14 +281,17 @@ public class VMCashCountSubmit extends AndroidViewModel {
                 return lsResponse;
             } catch (Exception e){
                 e.printStackTrace();
-                return e.getMessage();
+                lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
             }
+
+            return lsResponse;
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try{
+                Log.e(TAG, s);
                 JSONObject loJSon = new JSONObject(s);
                 String lsResult = loJSon.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
@@ -302,5 +309,31 @@ public class VMCashCountSubmit extends AndroidViewModel {
 
     public String getEmployeeLevel(){
         return poSession.getEmployeeLevel();
+    }
+
+    public void CheckConnectivity(OnDeviceConnectionCheck callback){
+        new ConnectionCheckTask(instance, callback).execute();
+    }
+
+    private static class ConnectionCheckTask extends AsyncTask<String, Void, Boolean>{
+
+        private final Application instance;
+        private final OnDeviceConnectionCheck callback;
+
+        public ConnectionCheckTask(Application instance, OnDeviceConnectionCheck callback) {
+            this.instance = instance;
+            this.callback = callback;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return new ConnectionUtil(instance).isDeviceConnected();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isConnected) {
+            super.onPostExecute(isConnected);
+            callback.OnCheck(isConnected);
+        }
     }
 }

@@ -42,7 +42,7 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
     }
 
     public String getsBizName() {
-        return sBizName;
+        return sBizName.trim();
     }
 
     public void setsBizName(String sBizName) {
@@ -50,7 +50,7 @@ public class SpouseSelfEmployedInfoModel extends InputChecker {
     }
 
     public String getsBizAddress() {
-        return sBizAddress;
+        return sBizAddress.trim();
     }
 
     public void setsBizAddress(String sBizAddress) {

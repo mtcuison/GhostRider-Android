@@ -54,7 +54,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="-140dp"
+            android:layout_marginTop="-120dp"
             android:layout_marginHorizontal="10dp"
             app:cardElevation="5dp"
             app:cardCornerRadius="10dp"
@@ -65,7 +65,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <TextView
@@ -91,6 +91,33 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/lbl_branchNm"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="GMC Dagupan Honda"
+                        android:padding="10dp"
+                        android:textColor="@color/material_black"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_selectBranch"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".4"
+                        android:text="Select Branch"
+                        style="@style/MaterialButtonAccent"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <TextView
                         android:id="@+id/lbl_inventoryCount"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -105,27 +132,26 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight=".4"
-                        android:text="Submit"
+                        android:text="Post"
                         style="@style/MaterialButtonAccent"/>
 
                 </LinearLayout>
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_inventory"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="10dp"/>
+                    android:padding="10dp"
+                    android:visibility="gone"/>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_saveInventory"
-                    style="@style/MaterialButtonAccent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="10dp"
-                    android:text="@string/sBtnSaveInventory"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"/>
+                <TextView
+                    android:id="@+id/lbl_inventoryStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/roboto_medium"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:textColor="@color/material_black"/>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

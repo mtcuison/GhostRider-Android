@@ -31,8 +31,8 @@ public class CashCountInfoModel {
     private String prNoxxxx;
     private String crNoxxxx;
     private String entryTme;
-    private String reqstdId;
-    private String reqstdNm;
+    private String reqstdId = "";
+    private String reqstdNm = "";
     private String message;
 
     public CashCountInfoModel() {

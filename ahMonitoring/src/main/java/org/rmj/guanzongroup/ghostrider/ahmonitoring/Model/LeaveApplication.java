@@ -81,7 +81,7 @@ public class LeaveApplication {
     }
 
     public String getRemarksxx() {
-        return Remarksxx;
+        return Remarksxx.trim();
     }
 
     public void setRemarksxx(String remarksxx) {

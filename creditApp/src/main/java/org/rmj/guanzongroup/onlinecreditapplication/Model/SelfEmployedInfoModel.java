@@ -91,7 +91,12 @@ public class SelfEmployedInfoModel {
     }
 
     public double getLenghtOfService() {
-        return Double.parseDouble(sLenghtSv);
+        if(sLenghtSpinner.equalsIgnoreCase("0")){
+            double ldValue = Double.parseDouble(sLenghtSv);
+            return ldValue / 12;
+        } else {
+            return Double.parseDouble(sLenghtSv);
+        }
     }
 
     public void setLengthOfService(String sLenghtSv) {

@@ -24,6 +24,9 @@ public class ECashCount {
     @ColumnInfo(name = "sTransNox")
     private String TransNox;
 
+    @ColumnInfo(name = "sBranchCd")
+    private String BranchCd;
+
     @ColumnInfo(name = "dTransact")
     private String Transact;
 
@@ -166,6 +169,14 @@ public class ECashCount {
 
     public void setTransNox(@NonNull String transNox) {
         TransNox = transNox;
+    }
+
+    public String getBranchCd() {
+        return BranchCd;
+    }
+
+    public void setBranchCd(String branchCd) {
+        BranchCd = branchCd;
     }
 
     public String getTransact() {

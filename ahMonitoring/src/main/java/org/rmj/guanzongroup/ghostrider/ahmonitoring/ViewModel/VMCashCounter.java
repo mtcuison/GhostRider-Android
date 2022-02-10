@@ -12,7 +12,6 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -21,7 +20,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
@@ -44,10 +42,25 @@ public class VMCashCounter extends AndroidViewModel {
     private final MutableLiveData<Double> p10 = new MutableLiveData<>();
     private final MutableLiveData<Double> p5 = new MutableLiveData<>();
     private final MutableLiveData<Double> p1 = new MutableLiveData<>();
-    private final MutableLiveData<Double> c50 = new MutableLiveData<>();
+    private final MutableLiveData<Double> c1 = new MutableLiveData<>();
     private final MutableLiveData<Double> c25 = new MutableLiveData<>();
     private final MutableLiveData<Double> c10 = new MutableLiveData<>();
     private final MutableLiveData<Double> c5 = new MutableLiveData<>();
+
+    private final MutableLiveData<Integer> qtyp1000 = new MutableLiveData<>();
+    private final MutableLiveData<Integer> qtyp500 = new MutableLiveData<>();
+    private final MutableLiveData<Integer> qtyp200 = new MutableLiveData<>();
+    private final MutableLiveData<Integer> qtyp100 = new MutableLiveData<>();
+    private final MutableLiveData<Integer> qtyp50 = new MutableLiveData<>();
+    private final MutableLiveData<Integer> qtyp20 = new MutableLiveData<>();
+
+    private final MutableLiveData<Integer> qtyp10 = new MutableLiveData<>();
+    private final MutableLiveData<Integer> qtyp5 = new MutableLiveData<>();
+    private final MutableLiveData<Integer> qtyp1 = new MutableLiveData<>();
+    private final MutableLiveData<Integer> qtyc50 = new MutableLiveData<>();
+    private final MutableLiveData<Integer> qtyc25 = new MutableLiveData<>();
+    private final MutableLiveData<Integer> qtyc10 = new MutableLiveData<>();
+    private final MutableLiveData<Integer> qtyc5 = new MutableLiveData<>();
 
     private final MutableLiveData<Double> pnTotalx = new MutableLiveData<>();
     private final MutableLiveData<Double> cnTotalx = new MutableLiveData<>();
@@ -68,10 +81,25 @@ public class VMCashCounter extends AndroidViewModel {
         this.p10.setValue((double) 0);
         this.p5.setValue((double) 0);
         this.p1.setValue((double) 0);
-        this.c50.setValue((double) 0);
+        this.c1.setValue((double) 0);
         this.c25.setValue((double) 0);
         this.c10.setValue((double) 0);
         this.c5.setValue((double) 0);
+
+        this.qtyp1000.setValue(0);
+        this.qtyp500.setValue(0);
+        this.qtyp200.setValue(0);
+        this.qtyp100.setValue(0);
+        this.qtyp50.setValue(0);
+        this.qtyp20.setValue(0);
+
+        this.qtyp10.setValue(0);
+        this.qtyp5.setValue(0);
+        this.qtyp1.setValue(0);
+        this.qtyc50.setValue(0);
+        this.qtyc25.setValue(0);
+        this.qtyc10.setValue(0);
+        this.qtyc5.setValue(0);
 
         this.pnTotalx.setValue((double) 0);
         this.cnTotalx.setValue((double) 0);
@@ -100,28 +128,34 @@ public class VMCashCounter extends AndroidViewModel {
 
     //Added by Jonathan 2021/04/13
     //set  peso bill value
-    public void setP1000(Double fnAmount){
+    public void setP1000(Double fnAmount, int qty){
         this.p1000.setValue(fnAmount);
+        this.qtyp1000.setValue(qty);
         calculatePesoTotal();
     }
-    public void setP500(Double fnAmount){
+    public void setP500(Double fnAmount, int qty){
         this.p500.setValue(fnAmount);
+        this.qtyp500.setValue(qty);
         calculatePesoTotal();
     }
-    public void setP200(Double fnAmount){
+    public void setP200(Double fnAmount, int qty){
         this.p200.setValue(fnAmount);
+        this.qtyp200.setValue(qty);
         calculatePesoTotal();
     }
-    public void setP100(Double fnAmount){
+    public void setP100(Double fnAmount, int qty){
         this.p100.setValue(fnAmount);
+        this.qtyp100.setValue(qty);
         calculatePesoTotal();
     }
-    public void setP50(Double fnAmount){
+    public void setP50(Double fnAmount, int qty){
         this.p50.setValue(fnAmount);
+        this.qtyp50.setValue(qty);
         calculatePesoTotal();
     }
-    public void setP20(Double fnAmount){
+    public void setP20(Double fnAmount, int qty){
         this.p20.setValue(fnAmount);
+        this.qtyp20.setValue(qty);
         calculatePesoTotal();
     }
     public LiveData<Double> getPesoTotalAmount(){
@@ -135,43 +169,50 @@ public class VMCashCounter extends AndroidViewModel {
         double d10 = p10.getValue();
         double d5 = p5.getValue();
         double d1 = p1.getValue();
-        double dc50 = c50.getValue();
         double dc25 = c25.getValue();
         double dc10 = c10.getValue();
         double dc5 = c5.getValue();
-        double lnCTotal = d10 + d5 + d1 + dc50 + dc25 + dc10+ dc5;
+        double dc1 = c1.getValue();
+        double lnCTotal = d10 + d5 + d1 + dc1 + dc25 + dc10+ dc5;
         cnTotalx.setValue(lnCTotal);
         calc_grandTotal();
     }
 
     //Added by Jonathan 2021/04/13
     //set coins bill value
-    public void setP10(Double fnAmount){
+    public void setP10(Double fnAmount, int qty){
         this.p10.setValue(fnAmount);
+        this.qtyp10.setValue(qty);
         calculateCoinsTotal();
     }
-    public void setP5(Double fnAmount){
+    public void setP5(Double fnAmount, int qty){
         this.p5.setValue(fnAmount);
+        this.qtyp5.setValue(qty);
         calculateCoinsTotal();
     }
-    public void setP1(Double fnAmount){
+    public void setP1(Double fnAmount, int qty){
         this.p1.setValue(fnAmount);
+        this.qtyp1.setValue(qty);
         calculateCoinsTotal();
     }
-    public void setC50(Double fnAmount){
-        this.c50.setValue(fnAmount);
+    public void setC1(Double fnAmount, int qty){
+        this.c1.setValue(fnAmount);
+        this.qtyc50.setValue(qty);
         calculateCoinsTotal();
     }
-    public void setC25(Double fnAmount){
+    public void setC25(Double fnAmount, int qty){
         this.c25.setValue(fnAmount);
+        this.qtyc25.setValue(qty);
         calculateCoinsTotal();
     }
-    public void setC10(Double fnAmount){
+    public void setC10(Double fnAmount, int qty){
         this.c10.setValue(fnAmount);
+        this.qtyc10.setValue(qty);
         calculateCoinsTotal();
     }
-    public void setC5(Double fnAmount){
+    public void setC5(Double fnAmount, int qty){
         this.c5.setValue(fnAmount);
+        this.qtyc5.setValue(qty);
         calculateCoinsTotal();
     }
     public LiveData<Double> getCoinsTotalAmount(){
@@ -193,20 +234,19 @@ public class VMCashCounter extends AndroidViewModel {
     private JSONObject createJSONParameters(){
         JSONObject param = new JSONObject();
         try {
-            param.put("trandate", new AppConstants().CURRENT_DATE);
-            param.put("nCn0005cx", c5.getValue());
-            param.put("nCn0010cx", c10.getValue());
-            param.put("nCn0025cx", c25.getValue());
-            param.put("nCn0050cx", c50.getValue());
-            param.put("nCn0001px", p1.getValue());
-            param.put("nCn0005px", p5.getValue());
-            param.put("nCn0010px", p10.getValue());
-            param.put("nNte0020p", p20.getValue());
-            param.put("nNte0050p", p50.getValue());
-            param.put("nNte0100p", p100.getValue());
-            param.put("nNte0200p", p200.getValue());
-            param.put("nNte0500p", p500.getValue());
-            param.put("nNte1000p", p1000.getValue());
+            param.put("nCn0005cx", qtyc5.getValue());
+            param.put("nCn0010cx", qtyc10.getValue());
+            param.put("nCn0025cx", qtyc25.getValue());
+            param.put("nCn0050cx", qtyc50.getValue());
+            param.put("nCn0001px", qtyp1.getValue());
+            param.put("nCn0005px", qtyp5.getValue());
+            param.put("nCn0010px", qtyp10.getValue());
+            param.put("nNte0020p", qtyp20.getValue());
+            param.put("nNte0050p", qtyp50.getValue());
+            param.put("nNte0100p", qtyp100.getValue());
+            param.put("nNte0200p", qtyp200.getValue());
+            param.put("nNte0500p", qtyp500.getValue());
+            param.put("nNte1000p", qtyp1000.getValue());
         }catch (JSONException e) {
             e.printStackTrace();
         }

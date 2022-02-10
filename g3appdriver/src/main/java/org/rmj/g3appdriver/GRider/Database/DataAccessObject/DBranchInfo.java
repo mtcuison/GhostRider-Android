@@ -105,4 +105,5 @@ public interface DBranchInfo {
             "WHERE sAreaCode = (SELECT sAreaCode FROM Branch_Info " +
             "WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master))")
     LiveData<List<EBranchInfo>> getAreaBranchList();
+
 }

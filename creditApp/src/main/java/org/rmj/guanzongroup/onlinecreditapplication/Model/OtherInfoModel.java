@@ -165,7 +165,7 @@ public class OtherInfoModel {
     }
 
     private boolean isReferencesValid(){
-        if(poRefInfo.size() < 2){
+        if(poRefInfo.size() <= 2){
             message = "Please provide 3 personal references";
             return false;
         }
