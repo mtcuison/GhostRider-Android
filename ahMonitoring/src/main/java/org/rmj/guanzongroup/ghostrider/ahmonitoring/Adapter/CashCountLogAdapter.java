@@ -9,7 +9,7 @@
  * project file last modified : 6/10/21 1:06 PM
  */
 
-package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper;
+package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;

@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper;
+package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,22 +9,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApprovalInfo;
+
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RequestNamesInfoModel;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;
 
-public class Adapter_RequestLeaveObApplication extends RecyclerView.Adapter<Adapter_RequestLeaveObApplication.ViewHolder>{
+public class Adapter_RequestNames extends RecyclerView.Adapter<Adapter_RequestNames.ViewHolder>{
 
-    private List<LeaveApprovalInfo> infoList;
-    private LeaveApprovalInfo infoModel;
+    private List<RequestNamesInfoModel> infoList;
+    private RequestNamesInfoModel infoModel;
     private Context mContext;
     private onItemClickListener mListener;
 
-    public Adapter_RequestLeaveObApplication(Context context,
-                                             List<LeaveApprovalInfo> requestleaveOb_InfoModel_List){
+    public Adapter_RequestNames(Context context,
+                                List<RequestNamesInfoModel> requestNames_InfoModel_List){
         this.mContext = context;
-        this.infoList = requestleaveOb_InfoModel_List;
+        this.infoList = requestNames_InfoModel_List;
     }
 
     public void setOnItemClickListener(onItemClickListener listener){
@@ -43,7 +44,7 @@ public class Adapter_RequestLeaveObApplication extends RecyclerView.Adapter<Adap
         holder.requestNamesInfoModel = infoList.get(position);
         infoModel = infoList.get(position);
 
-//        holder.textView.setText(infoModel.getEmployName());
+        holder.textView.setText(infoModel.getRequestName());
     }
 
     @Override
@@ -52,7 +53,7 @@ public class Adapter_RequestLeaveObApplication extends RecyclerView.Adapter<Adap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        LeaveApprovalInfo requestNamesInfoModel;
+        RequestNamesInfoModel requestNamesInfoModel;
         TextView textView;
         public ViewHolder(@NonNull View itemView, final onItemClickListener listener) {
             super(itemView);

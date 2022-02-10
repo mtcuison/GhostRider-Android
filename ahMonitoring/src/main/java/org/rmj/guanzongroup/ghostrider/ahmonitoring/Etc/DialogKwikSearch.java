@@ -23,7 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adaper.Adapter_RequestNames;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.Adapter_RequestNames;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RequestNamesInfoModel;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
