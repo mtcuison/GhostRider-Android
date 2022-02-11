@@ -38,9 +38,9 @@ public class ELog_Selfie {
     @ColumnInfo(name = "dSendDate")
     private String SendDate;
     @ColumnInfo(name = "cReqCCntx")
-    private String ReqCCntx;
+    private String ReqCCntx = "0";
     @ColumnInfo(name = "cReqRSIxx")
-    private String ReqRSIxx;
+    private String ReqRSIxx = "0";
 
     public ELog_Selfie() {
     }

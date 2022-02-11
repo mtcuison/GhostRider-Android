@@ -109,6 +109,10 @@ public class VMSelfieLogin extends AndroidViewModel {
         return pobranch.getUserBranchInfo();
     }
 
+    public LiveData<EBranchInfo> getBranchInfo(String BranchCD){
+        return pobranch.getBranchInfo(BranchCD);
+    }
+
     public LiveData<List<ELog_Selfie>> getAllEmployeeTimeLog(){
         return poLog.getAllEmployeeTimeLog();
     }
@@ -133,11 +137,7 @@ public class VMSelfieLogin extends AndroidViewModel {
             loImage.setTransNox(poImage.getImageNextCode());
             poImage.insertImageInfo(loImage);
             selfieLog.setTransNox(poLog.getLogNextCode());
-            if(poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
-                selfieLog.setReqCCntx("1");
-            } else {
-                selfieLog.setReqCCntx("0");
-            }
+            selfieLog.setReqCCntx("0");
             poLog.insertSelfieLog(selfieLog);
 
             JSONObject loJson = new JSONObject();
@@ -243,11 +243,7 @@ public class VMSelfieLogin extends AndroidViewModel {
                                     if(result.equalsIgnoreCase("success")){
                                         String TransNox = loResponse.getString("sTransNox");
                                         String OldTrans = selfieLog.getTransNox();
-                                        if(poUser.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
-                                            poLog.UpdateEmployeeLogStatRequireRSI(TransNox, OldTrans);
-                                        } else {
-                                            poLog.updateEmployeeLogStatus(TransNox, OldTrans);
-                                        }
+                                        poLog.updateEmployeeLogStatus(TransNox, OldTrans);
                                         Log.e(TAG, "Selfie log has been uploaded successfully.");
                                     }
                                     lsResult = lsResponse;

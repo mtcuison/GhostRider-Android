@@ -74,17 +74,13 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cash_count_submit);
         initWidgets();
-        try {
-            BranchCd = getIntent().getStringExtra("BranchCd");
-        } catch (Exception e){
-            e.printStackTrace();
-        }
         infoModel = new CashCountInfoModel();
         mViewModel = new ViewModelProvider(this).get(VMCashCountSubmit.class);
-        mViewModel.getUserBranchInfo().observe(Activity_CashCountSubmit.this, eBranchInfo -> {
+        mViewModel.getSelfieLogBranchInfo().observe(Activity_CashCountSubmit.this, eBranchInfo -> {
             try {
                 lblBranch.setText(eBranchInfo.getBranchNm());
                 lblAddxx.setText(eBranchInfo.getAddressx());
+                BranchCd = eBranchInfo.getBranchCd();
             } catch (Exception e){
                 e.printStackTrace();
             }

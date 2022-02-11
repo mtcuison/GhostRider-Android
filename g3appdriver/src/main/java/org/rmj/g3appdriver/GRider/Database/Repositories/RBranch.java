@@ -160,4 +160,11 @@ public class RBranch {
         return branchInfoDao.getBranchName(BranchCde);
     }
 
+    public LiveData<EBranchInfo> getSelfieLogBranchInfo(){
+        return branchInfoDao.getSelfieLogBranchInfo();
+    }
+
+    public LiveData<EBranchInfo> getBranchInfo(String BranchCD){
+        return branchInfoDao.getBranchInfo(BranchCD);
+    }
 }

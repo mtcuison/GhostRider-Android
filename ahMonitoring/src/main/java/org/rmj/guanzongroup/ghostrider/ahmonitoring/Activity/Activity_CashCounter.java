@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -73,19 +74,15 @@ public class Activity_CashCounter extends AppCompatActivity {
         instance = Activity_CashCounter.this;
         mViewModel = new ViewModelProvider(this).get(VMCashCounter.class);
         initWidgets();
-        try {
-            BranchCd = getIntent().getStringExtra("BranchCd");
-        } catch (Exception e){
-            e.printStackTrace();
-        }
         cancelable = getIntent().getBooleanExtra("cancelable", true);
         poMessage = new MessageBox(Activity_CashCounter.this);
         infoModel = new CashCountInfoModel();
-        mViewModel.getUserBranchInfo().observe(Activity_CashCounter.this, eBranchInfo -> {
+        mViewModel.getSelfieLogBranchInfo().observe(Activity_CashCounter.this, eBranchInfo -> {
             try {
                 lblBranch.setText(eBranchInfo.getBranchNm());
                 lblAddxx.setText(eBranchInfo.getAddressx());
                 lblDate.setText(new AppConstants().CURRENT_DATE_WORD);
+                BranchCd = eBranchInfo.getBranchCd();
             } catch (Exception e){
                 e.printStackTrace();
             }

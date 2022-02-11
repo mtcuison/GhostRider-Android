@@ -166,12 +166,4 @@ public class VMSplashScreen extends AndroidViewModel {
         }
         return true;
     }
-
-    public LiveData<String> getCashCountRequireStatus(){
-        return poLogx.getCashCountRequireStatus();
-    }
-
-    public LiveData<String> getInventoryRequireStatus(){
-        return poLogx.getInventoryRequireStatus();
-    }
 }
