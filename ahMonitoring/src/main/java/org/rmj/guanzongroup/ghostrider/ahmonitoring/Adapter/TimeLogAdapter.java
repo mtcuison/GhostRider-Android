@@ -57,6 +57,11 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
             String[] dTime = selfieLogList.get(position).getLogTimex().split(" ");
             holder.lblDateLog.setText(dTime[0]);
             holder.lblTimeLog.setText(dTime[1]);
+            if(selfieLogList.get(position).getBranchCd() != null) {
+                holder.lblBranchCD.setText(selfieLogList.get(position).getBranchCd());
+            } else {
+                holder.lblBranchCD.setVisibility(View.GONE);
+            }
             if (selfieLogList.get(position).getSendStat().equalsIgnoreCase("1")) {
                 holder.lblStatusx.setText("Uploaded");
                 holder.lblStatusx.setTextColor(Color.parseColor("008000"));
@@ -77,6 +82,7 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
     public static class TimeLogViewHolder extends RecyclerView.ViewHolder {
 
         ELog_Selfie logSelfie;
+        TextView lblBranchCD;
         TextView lblTimeLog;
         TextView lblDateLog;
         TextView lblStatusx;
@@ -86,6 +92,7 @@ public class TimeLogAdapter extends RecyclerView.Adapter<TimeLogAdapter.TimeLogV
             super(itemView);
 
             lblDateLog = itemView.findViewById(R.id.lbl_list_logDate);
+            lblBranchCD = itemView.findViewById(R.id.lbl_list_BranchCD);
             lblTimeLog = itemView.findViewById(R.id.lbl_list_logTime);
             lblStatusx = itemView.findViewById(R.id.lbl_list_logStatus);
             btnPreview = itemView.findViewById(R.id.btn_list_logImagePreview);

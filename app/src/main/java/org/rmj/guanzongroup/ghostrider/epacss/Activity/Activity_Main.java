@@ -44,10 +44,12 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.ImportData.ImportEmployeeRole;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.epacss.Object.ChildObject;
@@ -71,6 +73,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     private AppBarConfiguration mAppBarConfiguration;
     private MessageBox loMessage;
     private LoadDialog poDialog;
+    private SessionManager poSession;
     private Intent loIntent;
 
     private ImageView imgDept;
@@ -93,15 +96,12 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         mViewModel = new ViewModelProvider(this).get(VMMainActivity.class);
         poNetRecvr = mViewModel.getInternetReceiver();
 
-        mViewModel.getEmployeeInfo().observe(this, new Observer<EEmployeeInfo>() {
-            @Override
-            public void onChanged(EEmployeeInfo eEmployeeInfo) {
-                try{
-                    imgDept.setImageResource(AppDeptIcon.getIcon(eEmployeeInfo.getDeptIDxx()));
-                    lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+        mViewModel.getEmployeeInfo().observe(this, eEmployeeInfo -> {
+            try{
+                imgDept.setImageResource(AppDeptIcon.getIcon(eEmployeeInfo.getDeptIDxx()));
+                lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
 
@@ -164,6 +164,35 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 e.printStackTrace();
             }
         });
+
+        mViewModel.getLastSelfieLog().observe(this, selfieLog -> {
+            try {
+                String cReqCCx = selfieLog.getReqCCntx();
+                if (cReqCCx.equalsIgnoreCase("0") &&
+                        poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
+                    loMessage.initDialog();
+                    loMessage.setTitle("Cash Count");
+                    loMessage.setMessage("You have an unfinish cash count entry. Proceed to Cash Count?");
+                    loMessage.setPositiveButton("Proceed", new MessageBox.DialogButton() {
+                        @Override
+                        public void OnButtonClick(View view, AlertDialog dialog) {
+                            Intent loIntent = new Intent(Activity_Main.this, Activity_CashCounter.class);
+                            startActivity(loIntent);
+                            dialog.dismiss();
+                        }
+                    });
+                    loMessage.setNegativeButton("Cancel", new MessageBox.DialogButton() {
+                        @Override
+                        public void OnButtonClick(View view, AlertDialog dialog) {
+                            dialog.dismiss();
+                        }
+                    });
+                    loMessage.show();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -179,6 +208,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 
         loMessage = new MessageBox(Activity_Main.this);
         poDialog = new LoadDialog(Activity_Main.this);
+        poSession = new SessionManager(Activity_Main.this);
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setIndicatorBoundsRelative(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
 

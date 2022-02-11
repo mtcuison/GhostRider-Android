@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
@@ -127,6 +128,13 @@ public class Fragment_SelfieLogin extends Fragment {
                         public void OnSelect(String BranchCode, AlertDialog dialog) {
                             poLog.setBranchCd(BranchCode);
                             sSlectBranch = BranchCode;
+                            mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
+                                try{
+                                    lblBranch.setText(eBranchInfo.getBranchNm());
+                                } catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            });
                             dialog.dismiss();
                         }
 
