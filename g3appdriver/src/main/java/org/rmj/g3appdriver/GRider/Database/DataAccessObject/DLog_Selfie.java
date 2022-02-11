@@ -40,6 +40,14 @@ public interface DLog_Selfie {
             "WHERE sTransNox =:OldTransNox")
     void updateEmployeeLogStat(String TransNox, String OldTransNox, String DateSent);
 
+    @Query("UPDATE Employee_Log_Selfie " +
+            "SET sTransNox =:TransNox, " +
+            "cSendStat = '1', " +
+            "dSendDate =:DateSent, " +
+            "cReqRSIxx = '1'" +
+            "WHERE sTransNox =:OldTransNox")
+    void UpdateEmployeeLogStatRequireRSI(String TransNox, String OldTransNox, String DateSent);
+
     @Query("SELECT * FROM Employee_Log_Selfie WHERE cSendStat <> '1'")
     List<ELog_Selfie> getUnsentSelfieLogin();
 
@@ -49,4 +57,19 @@ public interface DLog_Selfie {
     @Query("SELECT dLogTimex FROM Employee_Log_Selfie WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) " +
             "ORDER BY dLogTimex DESC LIMIT 2")
     LiveData<List<String>> getLastLogDate();
+
+    @Query("SELECT cReqCCntx FROM EMPLOYEE_LOG_SELFIE ORDER BY dLogTimex DESC LIMIT 1")
+    LiveData<String> getCashCountRequireStatus();
+
+    @Query("SELECT cReqRSIxx FROM EMPLOYEE_LOG_SELFIE ORDER BY dLogTimex DESC LIMIT 1")
+    LiveData<String> getInventoryRequireStatus();
+
+    @Query("UPDATE EMPLOYEE_LOG_SELFIE SET cReqCCntx = '0' WHERE sTransNox=:TransNox")
+    void UpdateCashCountRequireStatus(String TransNox);
+
+    @Query("UPDATE EMPLOYEE_LOG_SELFIE SET cReqCCntx = '0' WHERE sTransNox=:TransNox")
+    void UpdateInventoryRequireStatus(String TransNox);
+
+    @Query("SELECT sBranchCd FROM Employee_Log_Selfie ORDER BY dLogTimex DESC LIMIT 1")
+    LiveData<String> getSelfieBranchCode();
 }

@@ -41,6 +41,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RLocationSysLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -132,6 +133,11 @@ public class VMSelfieLogin extends AndroidViewModel {
             loImage.setTransNox(poImage.getImageNextCode());
             poImage.insertImageInfo(loImage);
             selfieLog.setTransNox(poLog.getLogNextCode());
+            if(poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
+                selfieLog.setReqCCntx("1");
+            } else {
+                selfieLog.setReqCCntx("0");
+            }
             poLog.insertSelfieLog(selfieLog);
 
             JSONObject loJson = new JSONObject();
@@ -237,7 +243,11 @@ public class VMSelfieLogin extends AndroidViewModel {
                                     if(result.equalsIgnoreCase("success")){
                                         String TransNox = loResponse.getString("sTransNox");
                                         String OldTrans = selfieLog.getTransNox();
-                                        poLog.updateEmployeeLogStatus(TransNox, OldTrans);
+                                        if(poUser.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
+                                            poLog.UpdateEmployeeLogStatRequireRSI(TransNox, OldTrans);
+                                        } else {
+                                            poLog.updateEmployeeLogStatus(TransNox, OldTrans);
+                                        }
                                         Log.e(TAG, "Selfie log has been uploaded successfully.");
                                     }
                                     lsResult = lsResponse;
