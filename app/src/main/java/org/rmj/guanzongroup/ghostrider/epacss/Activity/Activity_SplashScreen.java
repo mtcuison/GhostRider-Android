@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -55,6 +56,9 @@ public class Activity_SplashScreen extends AppCompatActivity {
     private VMSplashScreen mViewModel;
 
     private AppConfigPreference poConfigx;
+
+    private static boolean pbReqCCx = false;
+    private static boolean pbReqRSI = false;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("SetTextI18n")
@@ -180,6 +184,28 @@ public class Activity_SplashScreen extends AppCompatActivity {
                 }
             });
 
+            mViewModel.getCashCountRequireStatus().observe(Activity_SplashScreen.this, new Observer<String>() {
+                @Override
+                public void onChanged(String s) {
+                    try{
+                        pbReqCCx = s.equalsIgnoreCase("1");
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            mViewModel.getInventoryRequireStatus().observe(Activity_SplashScreen.this, new Observer<String>() {
+                @Override
+                public void onChanged(String s) {
+                    try{
+                        pbReqRSI = s.equalsIgnoreCase("1");
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+
         }catch (NullPointerException e){
             e.printStackTrace();
         }catch (RuntimeException e){
@@ -223,6 +249,15 @@ public class Activity_SplashScreen extends AppCompatActivity {
             } else if (resultCode == RESULT_CANCELED) {
                 finish();
             }
+        }
+    }
+
+    private void ProceedToNextTask(){
+        if(pbReqCCx == true) {
+
+        } else {
+            startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
+            finish();
         }
     }
 }

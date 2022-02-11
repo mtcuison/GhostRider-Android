@@ -34,9 +34,13 @@ public class ELog_Selfie {
     @ColumnInfo(name = "nLongitud")
     private String Longitud;
     @ColumnInfo(name = "cSendStat")
-    private String SendStat;
+    private String SendStat = "0";
     @ColumnInfo(name = "dSendDate")
     private String SendDate;
+    @ColumnInfo(name = "cReqCCntx")
+    private String ReqCCntx;
+    @ColumnInfo(name = "cReqRSIxx")
+    private String ReqRSIxx;
 
     public ELog_Selfie() {
     }
@@ -104,5 +108,21 @@ public class ELog_Selfie {
 
     public void setBranchCd(String branchCd) {
         BranchCd = branchCd;
+    }
+
+    public String getReqCCntx() {
+        return ReqCCntx;
+    }
+
+    public void setReqCCntx(String reqCCntx) {
+        ReqCCntx = reqCCntx;
+    }
+
+    public String getReqRSIxx() {
+        return ReqRSIxx;
+    }
+
+    public void setReqRSIxx(String reqRSIxx) {
+        ReqRSIxx = reqRSIxx;
     }
 }

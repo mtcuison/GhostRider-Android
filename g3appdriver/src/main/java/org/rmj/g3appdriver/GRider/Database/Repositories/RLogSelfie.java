@@ -65,6 +65,26 @@ public class RLogSelfie {
         selfieDao.updateEmployeeLogStat(sTransNox, OldTransNox, new AppConstants().DATE_MODIFIED);
     }
 
+    public void UpdateEmployeeLogStatRequireRSI(String sTransNox, String OldTransNox){
+        selfieDao.UpdateEmployeeLogStatRequireRSI(sTransNox, OldTransNox, new AppConstants().DATE_MODIFIED);
+    }
+
+    public LiveData<String> getCashCountRequireStatus(){
+        return selfieDao.getCashCountRequireStatus();
+    }
+    public LiveData<String> getInventoryRequireStatus(){
+        return selfieDao.getInventoryRequireStatus();
+    }
+    public void UpdateCashCountRequireStatus(String TransNox){
+        selfieDao.UpdateCashCountRequireStatus(TransNox);
+    }
+    public void UpdateInventoryRequireStatus(String TransNox){
+        selfieDao.UpdateInventoryRequireStatus(TransNox);
+    }
+    public LiveData<String> getSelfieBranchCode(){
+        return selfieDao.getSelfieBranchCode();
+    }
+
     public String getLogNextCode(){
         String lsNextCode = "";
         try{
