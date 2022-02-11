@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/guanzon_digital_orange"
+        android:background="@color/footer_dark_grey"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="19dp"
+        android:layout_marginTop="5dp">
 
         <TextView
             android:id="@+id/txtTitle"
@@ -24,33 +27,109 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/subhead_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="19dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="#202020"
+                android:text="Cash"
+                android:textAllCaps="true"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="#202020"
+                android:text="Quantity"
+                android:textAllCaps="true"
+                android:textSize="16sp"
+                android:gravity="center_horizontal"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="#202020"
+                android:text="total"
+                android:textAllCaps="true"
+                android:textSize="16sp"
+                android:gravity="right"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/data_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="19dp"
+        android:layout_gravity="center">
 
         <TextView
             android:id="@+id/txtLabel"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
             android:textColor="#202020"
-            android:text="Label:"
-            android:textSize="16sp"/>
+            android:text="Label"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
             android:id="@+id/txtData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/roboto_medium"
             android:textColor="#202020"
             android:text="Data"
             android:textSize="16sp"
-            android:gravity="right"/>
+            app:layout_constraintLeft_toRightOf="@id/txtLabel"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/txtTotal"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/txtTotal"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="#202020"
+            android:text="Total"
+            android:textSize="16sp"
+            android:gravity="right"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

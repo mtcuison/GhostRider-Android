@@ -8,15 +8,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.Adapter_CashCountDetailInfo;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountDetailedInfo;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountInfoModel;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMCashCountLog;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMCashCountLogDetails;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class Activity_CashCountLogDetails extends AppCompatActivity {
 
-    private VMCashCountLog mViewModel;
+    private VMCashCountLogDetails mViewModel;
     private Adapter_CashCountDetailInfo poAdapter;
     private Toolbar toolbar;
     private RecyclerView recyclerView;
@@ -25,12 +33,41 @@ public class Activity_CashCountLogDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cash_count_log_details);
+        String lsTransNo = Objects.requireNonNull(getIntent().getStringExtra("sTransNox"));
         initWidgets();
 
         mViewModel = new ViewModelProvider(Activity_CashCountLogDetails.this)
-                .get(VMCashCountLog.class);
+                .get(VMCashCountLogDetails.class);
 
-//        poAdapter = new Adapter_CashCountDetailInfo();
+        mViewModel.getCashCounDetetail(lsTransNo).observe(Activity_CashCountLogDetails.this, cashCount -> {
+            List<CashCountDetailedInfo> loDtaInfo = new ArrayList<>();
+
+            loDtaInfo.add(new CashCountDetailedInfo(true, false,"Peso Bills (₱)", "","", CashCountDetailedInfo.Values.NONE));
+            loDtaInfo.add(new CashCountDetailedInfo(false, true,"", "","", CashCountDetailedInfo.Values.NONE));
+            loDtaInfo.add(new CashCountDetailedInfo(false, false, "","₱1000", cashCount.getNte1000p(), CashCountDetailedInfo.Values.P1000));
+            loDtaInfo.add(new CashCountDetailedInfo(false, false,"", "₱500", cashCount.getNte0500p(), CashCountDetailedInfo.Values.P0500));
+            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱200", cashCount.getNte0200p(), CashCountDetailedInfo.Values.P0200));
+            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱100", cashCount.getNte0100p(), CashCountDetailedInfo.Values.P0100));
+            loDtaInfo.add(new CashCountDetailedInfo(false, false,  "", "₱50", cashCount.getNte0050p(), CashCountDetailedInfo.Values.P0050));
+            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱20", cashCount.getNte0020p(), CashCountDetailedInfo.Values.P0020));
+
+            loDtaInfo.add(new CashCountDetailedInfo(true, false, "Peso Coins (₱)", "", "", CashCountDetailedInfo.Values.NONE));
+            loDtaInfo.add(new CashCountDetailedInfo(false, true,"", "","", CashCountDetailedInfo.Values.NONE));
+            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱10", cashCount.getCn0010px(), CashCountDetailedInfo.Values.P0010));
+            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱5", cashCount.getCn0005px(), CashCountDetailedInfo.Values.P0005));
+            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱1", cashCount.getCn0001px(), CashCountDetailedInfo.Values.P0001));
+            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "¢25", cashCount.getCn0025cx(), CashCountDetailedInfo.Values.C0025));
+            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "¢10", cashCount.getCn0010cx(), CashCountDetailedInfo.Values.C0010));
+            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "¢5", cashCount.getCn0005cx(), CashCountDetailedInfo.Values.C0005));
+//            loDtaInfo.add(new CashCountDetailedInfo(false , "", "¢1", cashCount.getCn000cx()));
+
+
+            poAdapter = new Adapter_CashCountDetailInfo(loDtaInfo);
+            recyclerView.setAdapter(poAdapter);
+            poAdapter.notifyDataSetChanged();
+
+        });
+
     }
 
     @Override
