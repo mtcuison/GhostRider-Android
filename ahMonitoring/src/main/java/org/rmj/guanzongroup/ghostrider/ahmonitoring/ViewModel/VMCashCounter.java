@@ -24,6 +24,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
 
 public class VMCashCounter extends AndroidViewModel {
 
@@ -31,6 +32,9 @@ public class VMCashCounter extends AndroidViewModel {
     private final Application instance;
     private final REmployee poEmploye;
     private final RBranch poBranch;
+    private final RLogSelfie poSelfie;
+
+    private String SelfieLogTransNox = "";
 
     private final MutableLiveData<Double> p1000 = new MutableLiveData<>();
     private final MutableLiveData<Double> p500 = new MutableLiveData<>();
@@ -61,16 +65,19 @@ public class VMCashCounter extends AndroidViewModel {
     private final MutableLiveData<Integer> qtyc25 = new MutableLiveData<>();
     private final MutableLiveData<Integer> qtyc10 = new MutableLiveData<>();
     private final MutableLiveData<Integer> qtyc5 = new MutableLiveData<>();
+    private final MutableLiveData<Integer> qtyc1 = new MutableLiveData<>();
 
     private final MutableLiveData<Double> pnTotalx = new MutableLiveData<>();
     private final MutableLiveData<Double> cnTotalx = new MutableLiveData<>();
     private final MutableLiveData<Double> grandTotalx = new MutableLiveData<>();
     private final MutableLiveData<JSONObject> jsonData = new MutableLiveData<>();
+
     public VMCashCounter(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poEmploye = new REmployee(application);
         this.poBranch = new RBranch(application);
+        this.poSelfie = new RLogSelfie(application);
         this.p1000.setValue((double) 0);
         this.p500.setValue((double) 0);
         this.p200.setValue((double) 0);
@@ -100,6 +107,7 @@ public class VMCashCounter extends AndroidViewModel {
         this.qtyc25.setValue(0);
         this.qtyc10.setValue(0);
         this.qtyc5.setValue(0);
+        this.qtyc1.setValue(0);
 
         this.pnTotalx.setValue((double) 0);
         this.cnTotalx.setValue((double) 0);
@@ -110,6 +118,10 @@ public class VMCashCounter extends AndroidViewModel {
     }
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return poBranch.getUserBranchInfo();
+    }
+
+    public LiveData<EBranchInfo> getSelfieLogBranchInfo(){
+        return poBranch.getSelfieLogBranchInfo();
     }
     //Added by Jonathan 2021/06/08
     //Computation for all peso bill
@@ -123,7 +135,6 @@ public class VMCashCounter extends AndroidViewModel {
         double lnTotal = d1000 + d500 + d200 + d100 + d50 + d20;
         pnTotalx.setValue(lnTotal);
         calc_grandTotal();
-
     }
 
     //Added by Jonathan 2021/04/13
@@ -197,7 +208,7 @@ public class VMCashCounter extends AndroidViewModel {
     }
     public void setC1(Double fnAmount, int qty){
         this.c1.setValue(fnAmount);
-        this.qtyc50.setValue(qty);
+        this.qtyc1.setValue(qty);
         calculateCoinsTotal();
     }
     public void setC25(Double fnAmount, int qty){
@@ -215,6 +226,7 @@ public class VMCashCounter extends AndroidViewModel {
         this.qtyc5.setValue(qty);
         calculateCoinsTotal();
     }
+
     public LiveData<Double> getCoinsTotalAmount(){
         return cnTotalx;
     }
@@ -234,6 +246,7 @@ public class VMCashCounter extends AndroidViewModel {
     private JSONObject createJSONParameters(){
         JSONObject param = new JSONObject();
         try {
+            param.put("nCn0001cx", qtyc1.getValue());
             param.put("nCn0005cx", qtyc5.getValue());
             param.put("nCn0010cx", qtyc10.getValue());
             param.put("nCn0025cx", qtyc25.getValue());

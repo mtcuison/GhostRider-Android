@@ -34,6 +34,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCashCount;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
@@ -96,6 +97,10 @@ public class VMCashCountSubmit extends AndroidViewModel {
     }
     public LiveData<String> getTransNox(){
         return psTransNox;
+    }
+
+    public LiveData<EBranchInfo> getSelfieLogBranchInfo(){
+        return poBranch.getSelfieLogBranchInfo();
     }
 
     public void importRequestNames(String names,OnKwikSearchCallBack callBack){
@@ -216,6 +221,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
         private JSONObject jsonObject;
         private final HttpHeaders poHeaders;
         private final ConnectionUtil poConn;
+        private final RLogSelfie poLog;
         private final Telephony poDevID;
         private final SessionManager poUser;
         private final AppConfigPreference poConfig;
@@ -229,6 +235,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
             this.poDevID = new Telephony(instance);
             this.poUser = new SessionManager(instance);
             this.poConfig = AppConfigPreference.getInstance(instance);
+            this.poLog = new RLogSelfie(instance);
         }
 
         @SuppressLint("NewApi")
@@ -242,6 +249,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
                     eCashCount.setTransNox(jsonObject.getString("sTransNox"));
                     eCashCount.setBranchCd(jsonObject.getString("sBranchCd"));
                     eCashCount.setTransact(new AppConstants().CURRENT_DATE);
+                    eCashCount.setCn0001cx(jsonObject.getString("nCn0001cx"));
                     eCashCount.setCn0005cx(jsonObject.getString("nCn0005cx"));
                     eCashCount.setCn0010cx(jsonObject.getString("nCn0010cx"));
                     eCashCount.setCn0025cx(jsonObject.getString("nCn0025cx"));
@@ -263,11 +271,11 @@ public class VMCashCountSubmit extends AndroidViewModel {
                     eCashCount.setReqstdBy(jsonObject.getString("sReqstdBy"));
                     eCashCount.setSendStat("0");
                     pocashcount.insertNewCashCount(eCashCount);
+                    poLog.UpdateCashCountRequireStatus();
                     if(!poConn.isDeviceConnected()) {
                         lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Connection error.");
                     } else {
                         lsResponse = WebClient.sendRequest(WebApi.URL_SUBMIT_CASHCOUNT, jsonObject.toString(), poHeaders.getHeaders());
-
                         if(lsResponse == null){
                             lsResponse = AppConstants.SERVER_NO_RESPONSE();
                         } else {

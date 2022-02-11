@@ -30,6 +30,9 @@ public class ECashCount {
     @ColumnInfo(name = "dTransact")
     private String Transact;
 
+    @ColumnInfo(name = "nCn0001cx")
+    private String Cn0001cx;
+
     @ColumnInfo(name = "nCn0005cx")
     private String Cn0005cx;
 
@@ -185,6 +188,14 @@ public class ECashCount {
 
     public void setTransact(String transact) {
         Transact = transact;
+    }
+
+    public String getCn0001cx() {
+        return Cn0001cx;
+    }
+
+    public void setCn0001cx(String cn0001cx) {
+        Cn0001cx = cn0001cx;
     }
 
     public String getCn0005cx() {

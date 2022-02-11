@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -34,6 +35,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.AppDirectoryCreator;
 import org.rmj.g3appdriver.utils.ServiceScheduler;
 import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorService;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataImportService;
@@ -55,6 +57,9 @@ public class Activity_SplashScreen extends AppCompatActivity {
     private VMSplashScreen mViewModel;
 
     private AppConfigPreference poConfigx;
+
+    private static boolean pbReqCCx = false;
+    private static boolean pbReqRSI = false;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("SetTextI18n")
@@ -217,6 +222,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
                         ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataImportService.class, EIGHT_HOUR_PERIODIC, AppConstants.DataServiceID);
                     }
                 }
+
                 startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
                 finish();
 //                overridePendingTransition(R.anim.anim_intent_slide_up_out, R.anim.anim_intent_slide_up_in);

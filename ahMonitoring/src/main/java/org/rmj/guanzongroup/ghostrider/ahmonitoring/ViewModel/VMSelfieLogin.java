@@ -41,6 +41,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RLocationSysLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -108,6 +109,10 @@ public class VMSelfieLogin extends AndroidViewModel {
         return pobranch.getUserBranchInfo();
     }
 
+    public LiveData<EBranchInfo> getBranchInfo(String BranchCD){
+        return pobranch.getBranchInfo(BranchCD);
+    }
+
     public LiveData<List<ELog_Selfie>> getAllEmployeeTimeLog(){
         return poLog.getAllEmployeeTimeLog();
     }
@@ -132,6 +137,7 @@ public class VMSelfieLogin extends AndroidViewModel {
             loImage.setTransNox(poImage.getImageNextCode());
             poImage.insertImageInfo(loImage);
             selfieLog.setTransNox(poLog.getLogNextCode());
+            selfieLog.setReqCCntx("0");
             poLog.insertSelfieLog(selfieLog);
 
             JSONObject loJson = new JSONObject();

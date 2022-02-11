@@ -49,4 +49,13 @@ public interface DLog_Selfie {
     @Query("SELECT dLogTimex FROM Employee_Log_Selfie WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) " +
             "ORDER BY dLogTimex DESC LIMIT 2")
     LiveData<List<String>> getLastLogDate();
+
+    @Query("UPDATE EMPLOYEE_LOG_SELFIE SET cReqCCntx = '1' WHERE sTransNox=(SELECT sTransNox FROM Employee_Log_Selfie ORDER BY dLogTimex DESC LIMIT 1)")
+    void UpdateCashCountRequireStatus();
+
+    @Query("SELECT sBranchCd FROM Employee_Log_Selfie ORDER BY dLogTimex DESC LIMIT 1")
+    LiveData<String> getSelfieBranchCode();
+
+    @Query("SELECT * FROM EMPLOYEE_LOG_SELFIE ORDER BY dLogTimex DESC LIMIT 1")
+    LiveData<ELog_Selfie> getLastSelfieLog();
 }

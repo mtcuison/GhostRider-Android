@@ -29,8 +29,10 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.AppTokenManager;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RCashCount;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -55,6 +57,7 @@ public class VMSplashScreen extends AndroidViewModel {
     private final ConnectionUtil poConn;
     private final AppTokenManager poToken;
     private final RDailyCollectionPlan poDcp;
+    private final RLogSelfie poLogx;
 
     @SuppressLint("InlinedApi")
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -65,6 +68,7 @@ public class VMSplashScreen extends AndroidViewModel {
         poSession = new SessionManager(application);
         poConfigx.setTemp_ProductID("gRider");
         poConfigx.setUpdateLocally(false);
+        poLogx = new RLogSelfie(application);
         Date buildDate = new Date(BuildConfig.TIMESTAMP);
         poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, String.valueOf(buildDate.getTime()));
         poConn = new ConnectionUtil(application);

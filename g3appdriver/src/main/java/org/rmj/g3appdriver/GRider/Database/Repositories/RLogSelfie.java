@@ -65,6 +65,17 @@ public class RLogSelfie {
         selfieDao.updateEmployeeLogStat(sTransNox, OldTransNox, new AppConstants().DATE_MODIFIED);
     }
 
+    public LiveData<ELog_Selfie> getLastSelfieLog(){
+        return selfieDao.getLastSelfieLog();
+    }
+
+    public void UpdateCashCountRequireStatus(){
+        selfieDao.UpdateCashCountRequireStatus();
+    }
+    public LiveData<String> getSelfieBranchCode(){
+        return selfieDao.getSelfieBranchCode();
+    }
+
     public String getLogNextCode(){
         String lsNextCode = "";
         try{
