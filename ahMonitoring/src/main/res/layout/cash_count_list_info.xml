@@ -13,7 +13,8 @@
         android:orientation="horizontal"
         android:paddingVertical="10dp"
         android:paddingHorizontal="19dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal">
 
         <TextView
             android:id="@+id/txtTitle"

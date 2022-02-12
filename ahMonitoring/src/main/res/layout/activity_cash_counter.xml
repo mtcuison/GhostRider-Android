@@ -1000,7 +1000,7 @@
                         <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Peso Total :"
+                            android:text="Bills Total :"
                             android:layout_weight="1"
                             android:textSize="20sp"
                             />

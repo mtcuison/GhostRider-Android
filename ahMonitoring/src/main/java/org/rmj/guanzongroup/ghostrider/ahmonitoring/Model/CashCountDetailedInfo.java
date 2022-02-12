@@ -82,7 +82,7 @@ public class CashCountDetailedInfo {
             case C0001:
                 return String.valueOf(0.01 * lnCashQty);
             default:
-                return "";
+                return "0.0";
         }
     }
 

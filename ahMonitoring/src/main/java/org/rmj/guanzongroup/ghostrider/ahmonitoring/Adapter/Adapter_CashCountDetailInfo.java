@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GRider.Etc.CashFormatter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountDetailedInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
@@ -49,7 +50,7 @@ public class Adapter_CashCountDetailInfo extends RecyclerView.Adapter<Adapter_Ca
             holder.txtLabel.setText(loCashDta.getLabel());
             holder.txtDatax.setText(loCashDta.getContent());
 
-            holder.txtTotal.setText(loCashDta.getTotal());
+            holder.txtTotal.setText(CashFormatter.parse(loCashDta.getTotal()));
 
         }
     }
