@@ -33,7 +33,7 @@ public class Activity_CashCountLogDetails extends AppCompatActivity {
     private Adapter_CashCountDetailInfo poAdapter;
     private Toolbar toolbar;
     private RecyclerView recyclerView;
-    private TextView lblBranch, lblTranDt, lblTransN, lblGrandT;
+    private TextView lblBranch, lblTranDt, lblTransN, lblGrandT, lblOrNoxx, lblSiNoxx, lblPrNoxx, lblCrNoxx;
     private String psTransNo = "";
 
     @Override
@@ -74,6 +74,12 @@ public class Activity_CashCountLogDetails extends AppCompatActivity {
         lblTranDt = findViewById(R.id.lbl_date);
         lblTransN = findViewById(R.id.lbl_transNo);
         lblGrandT = findViewById(R.id.lbl_grand_total);
+
+        lblOrNoxx = findViewById(R.id.lbl_orNo);
+        lblSiNoxx = findViewById(R.id.lbl_siNo);
+        lblPrNoxx = findViewById(R.id.lbl_prNo);
+        lblCrNoxx = findViewById(R.id.lbl_crNo);
+
     }
 
     private void setViewValues() {
@@ -82,8 +88,12 @@ public class Activity_CashCountLogDetails extends AppCompatActivity {
             mViewModel.getBranchName(cashCount.getBranchCd()).observe(Activity_CashCountLogDetails.this,
                     branchName -> lblBranch.setText(branchName + " Cash Count"));
 
-            lblTransN.setText("Transaction No.: " + psTransNo);
-            lblTranDt.setText("as of " + FormatUIText.getParseDateTime(cashCount.getEntryDte()));
+            lblTransN.setText(psTransNo);
+            lblTranDt.setText(FormatUIText.getParseDateTime(cashCount.getEntryDte()));
+            lblOrNoxx.setText(cashCount.getORNoxxxx());
+            lblSiNoxx.setText(cashCount.getSINoxxxx());
+            lblPrNoxx.setText(cashCount.getPRNoxxxx());
+            lblCrNoxx.setText(cashCount.getCRNoxxxx());
 
             List<CashCountDetailedInfo> loDtaInfo = new ArrayList<>();
             loDtaInfo.add(new CashCountDetailedInfo(true, false,"Peso Bills (₱)", "","", CashCountDetailedInfo.Values.NONE));
