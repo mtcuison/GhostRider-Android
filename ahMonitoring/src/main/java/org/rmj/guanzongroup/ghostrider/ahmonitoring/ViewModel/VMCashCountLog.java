@@ -39,6 +39,7 @@ public class VMCashCountLog extends AndroidViewModel {
     private final RCashCount poCashCount;
     private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
     private final List<RequestNamesInfoModel> infoList;
+
     public VMCashCountLog(@NonNull Application application) {
         super(application);
         this.instance = application;
