@@ -168,8 +168,10 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         mViewModel.getLastSelfieLog().observe(this, selfieLog -> {
             try {
                 String cReqCCx = selfieLog.getReqCCntx();
+                String lsDate1 = selfieLog.getLogTimex().substring(0, 10);
                 if (cReqCCx.equalsIgnoreCase("0") &&
-                        poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
+                        poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER)) &&
+                        lsDate1.equalsIgnoreCase(AppConstants.CURRENT_DATE)) {
                     loMessage.initDialog();
                     loMessage.setTitle("Cash Count");
                     loMessage.setMessage("You have an unfinish cash count entry. Proceed to Cash Count?");

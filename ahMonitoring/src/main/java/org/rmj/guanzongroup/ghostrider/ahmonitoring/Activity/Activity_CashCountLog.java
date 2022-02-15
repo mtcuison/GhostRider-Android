@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +24,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.CashCountLogAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountInfoModel;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -34,6 +37,7 @@ import java.util.List;
 
 public class Activity_CashCountLog extends AppCompatActivity {
 
+    private TextView lblBranch, lblAddrxx;
     private CashCountLogAdapter adapter;
     private VMCashCountLog mViewModel;
     private RecyclerView recyclerView;
@@ -46,6 +50,18 @@ public class Activity_CashCountLog extends AppCompatActivity {
         setContentView(R.layout.activity_cash_count_log);
         initWidgets();
         mViewModel = new ViewModelProvider(Activity_CashCountLog.this).get(VMCashCountLog.class);
+
+        mViewModel.getUserBranchInfo().observe(Activity_CashCountLog.this, new Observer<EBranchInfo>() {
+            @Override
+            public void onChanged(EBranchInfo eBranchInfo) {
+                try{
+                    lblBranch.setText(eBranchInfo.getBranchNm());
+                    lblAddrxx.setText(eBranchInfo.getAddressx());
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
 
         mViewModel.getCashCountLog().observe(Activity_CashCountLog.this, cashCounts -> {
             if(cashCounts.size()>0) {
@@ -73,6 +89,8 @@ public class Activity_CashCountLog extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview_cashcountLog);
         loading = findViewById(R.id.linear_progress);
         layoutNoRecord = findViewById(R.id.layout_cash_count_noRecord);
+        lblBranch = findViewById(R.id.lbl_headerBranch);
+        lblAddrxx = findViewById(R.id.lbl_headerAddress);
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
