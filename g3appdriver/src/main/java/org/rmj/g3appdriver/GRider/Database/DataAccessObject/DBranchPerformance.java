@@ -71,7 +71,7 @@ public interface DBranchPerformance {
     @Query("SELECT * FROM MC_Branch_Performance ORDER BY ROUND(nJOGoalxx * 100.0 / 100, 1) DESC")
     LiveData<List<EBranchPerformance>> getJOBranchPerformanceDESC();
 
-    @Query("SELECT * FROM MC_Branch_Performance WHERE sBranchCd =:BranchCd")
+    @Query("SELECT * FROM MC_Branch_Performance WHERE sBranchCd =:BranchCd ORDER BY sPeriodxx ASC")
     LiveData<List<EBranchPerformance>>  getAllBranchPerformanceInfoByBranch(String BranchCd);
 
     // For Area Monitoring

@@ -100,7 +100,7 @@ public class BranchPerformancePeriod {
         List<String> loList = new ArrayList<>();
 
         for(int x = 0; x < foList.size(); x++) {
-            loList.add(foList.get(x).getPeriodxx());
+            loList.add(parseDateLabel(foList.get(x).getPeriodxx()));
         }
 
         String[] loArray = loList.toArray(new String[0]);
@@ -113,7 +113,7 @@ public class BranchPerformancePeriod {
         List<String> loList = new ArrayList<>();
 
         for(int x = 0; x < foList.size(); x++) {
-            loList.add(foList.get(x).getPeriodxx());
+            loList.add(parseDateLabel(foList.get(x).getPeriodxx()));
         }
 
         String[] loArray = loList.toArray(new String[0]);
@@ -121,5 +121,43 @@ public class BranchPerformancePeriod {
         return loArray;
 
     };
+
+    public static String parseDateLabel(String fsDate) {
+        if(!"".equalsIgnoreCase(fsDate)) {
+            String lsMonth = fsDate.substring(4, 6);
+            String lsYear = fsDate.substring(0, 4);
+
+            switch (lsMonth) {
+                case "01":
+                    return "Jan " + lsYear;
+                case "02":
+                    return "Feb " + lsYear;
+                case "03":
+                    return "Mar " + lsYear;
+                case "04":
+                    return "Apr " + lsYear;
+                case "05":
+                    return "May " + lsYear;
+                case "06":
+                    return "Jun " + lsYear;
+                case "07":
+                    return "Jul " + lsYear;
+                case "08":
+                    return "Aug " + lsYear;
+                case "09":
+                    return "Sep " + lsYear;
+                case "10":
+                    return "Oct " + lsYear;
+                case "11":
+                    return "Nov " + lsYear;
+                case "12":
+                    return "Dec " + lsYear;
+                default:
+                    return null;
+            }
+        } else {
+            return null;
+        }
+    }
 
 }

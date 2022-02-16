@@ -149,7 +149,11 @@ public class Activity_BranchPerformance extends AppCompatActivity implements OnC
             adapter = new BranchPerformanceAdapter(this,sales, eperformance);
             recyclerView.setHasFixedSize(true);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setLayoutManager(new LinearLayoutManager(this,  LinearLayoutManager.VERTICAL, false));
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,  LinearLayoutManager.VERTICAL, false);
+            linearLayoutManager.setReverseLayout(true);
+            linearLayoutManager.setStackFromEnd(true);
+            recyclerView.setLayoutManager(linearLayoutManager);
+
             recyclerView.setAdapter(adapter);
 
         });
