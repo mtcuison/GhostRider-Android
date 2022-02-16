@@ -41,7 +41,7 @@ public interface DAreaPerformance {
     @Query("DELETE FROM MC_Area_Performance")
     void deleteAllAreaPerformanceInfo();
 
-    @Query("SELECT * FROM MC_Area_Performance")
+    @Query("SELECT * FROM MC_Area_Performance ORDER BY sPeriodxx ASC")
     LiveData<List<EAreaPerformance>> getAllAreaPerformanceInfo();
 
     @Query("SELECT * FROM MC_Area_Performance ORDER BY ROUND(nMCActual * 100.0 / nMCGoalxx, 1) DESC LIMIT 5")

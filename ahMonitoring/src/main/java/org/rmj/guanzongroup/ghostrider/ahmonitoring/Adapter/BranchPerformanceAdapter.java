@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.text.DecimalFormat;
@@ -61,7 +62,7 @@ public class BranchPerformanceAdapter extends RecyclerView.Adapter<BranchPerform
     @Override
     public void onBindViewHolder(@NonNull OpeningViewHolder holder, @SuppressLint("RecyclerView") int position) {
         EBranchPerformance brnPerformance = brnPerformances.get(position);
-        holder.lblMonth.setText(AppConstants.CHART_MONTH_LABEL[position]);
+        holder.lblMonth.setText(BranchPerformancePeriod.parseDateLabel(brnPerformance.getPeriodxx()));
         holder.indexPosition = position;
         if(category.equalsIgnoreCase("MC")){
             holder.lblGoal.setText(String.valueOf(brnPerformance.getMCGoalxx()));

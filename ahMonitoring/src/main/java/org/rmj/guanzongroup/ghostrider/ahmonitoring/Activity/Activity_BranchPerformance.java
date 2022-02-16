@@ -42,6 +42,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.BranchPerformanceAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBranchMonitor;
@@ -128,7 +129,7 @@ public class Activity_BranchPerformance extends AppCompatActivity implements OnC
             LineData data = new LineData(dataSets);
             lineChart.setData(data);
             lineChart.setDescription(null);
-            lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
+            lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(BranchPerformancePeriod.getBranchTableLabel(eperformance)));
             lineChart.setDoubleTapToZoomEnabled(false);
             lineChart.getXAxis().setTextSize(14f);
             lineChart.setExtraOffsets(0,0,10f,18f);
@@ -148,7 +149,11 @@ public class Activity_BranchPerformance extends AppCompatActivity implements OnC
             adapter = new BranchPerformanceAdapter(this,sales, eperformance);
             recyclerView.setHasFixedSize(true);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setLayoutManager(new LinearLayoutManager(this,  LinearLayoutManager.VERTICAL, false));
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,  LinearLayoutManager.VERTICAL, false);
+            linearLayoutManager.setReverseLayout(true);
+            linearLayoutManager.setStackFromEnd(true);
+            recyclerView.setLayoutManager(linearLayoutManager);
+
             recyclerView.setAdapter(adapter);
 
         });

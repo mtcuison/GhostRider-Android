@@ -32,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -84,7 +85,7 @@ public class Activity_AreaPerformance extends AppCompatActivity{
                 e.printStackTrace();
             }
         });
-        poPeriods = BranchPerformancePeriod.getList();
+        poPeriods = BranchPerformancePeriod.getSortedPeriodList(BranchPerformancePeriod.getList());
         initWidgets();
         mViewModel.getType().observe(this, s -> setChartValue(s));
     }
@@ -135,9 +136,9 @@ public class Activity_AreaPerformance extends AppCompatActivity{
                 LineData data = new LineData(dataSets);
                 lineChart.setData(data);
                 lineChart.setDescription(null);
-                lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(CHART_MONTH_LABEL));
+                lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(BranchPerformancePeriod.getAreaTableLabel(performances)));
                 lineChart.setDoubleTapToZoomEnabled(false);
-                lineChart.getXAxis().setTextSize(14f);
+                lineChart.getXAxis().setTextSize(12f);
                 lineChart.setExtraOffsets(0,0,10f,18f);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, (height/3));
                 lineChart.setLayoutParams(params);
