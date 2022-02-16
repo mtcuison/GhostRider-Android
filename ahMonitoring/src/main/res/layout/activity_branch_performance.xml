@@ -93,7 +93,7 @@
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:maxLines="2"
-                                android:text="Branch"
+                                android:text="Month"
                                 android:textColor="@color/textColor_White" />
 
                             <View
