@@ -253,10 +253,12 @@ public class VMSelfieLogin extends AndroidViewModel {
                             lsResult = AppConstants.SERVER_NO_RESPONSE();
                         }
                     }
-                    lsResult = AppConstants.APPROVAL_CODE_GENERATED("success");
+//                    lsResult = AppConstants.APPROVAL_CODE_GENERATED("success");
                 } else {
                     lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Your login will be sent to server automatically if device is connected to internet.");
                 }
+                    lsResult = AppConstants.APPROVAL_CODE_GENERATED("success");
+
             } catch (Exception e){
                 e.printStackTrace();
                 lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());

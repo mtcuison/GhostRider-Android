@@ -106,6 +106,10 @@ public class VMInventory extends AndroidViewModel {
         new RequestInventoryTask(instance, callback).execute(BranchCd);
     }
 
+    public LiveData<EBranchInfo> getSelfieLogBranchInfo(){
+        return poBranch.getSelfieLogBranchInfo();
+    }
+
     private static class RequestInventoryTask extends AsyncTask<String, Void, String>{
         private final Application instance;
 

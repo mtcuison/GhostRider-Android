@@ -147,9 +147,9 @@ public class ChildObject {
                 loIntent.putExtra("sysCode", "2");
                 break;
 
-//            case "random stock inventory":
-//                loIntent = new Intent(context, Activity_Inventory.class);
-//                break;
+            case "random stock inventory":
+                loIntent = new Intent(context, Activity_Inventory.class);
+                break;
             case "branches performance info":
                 loIntent = new Intent(context, Activity_AreaPerformance.class);
                 break;
