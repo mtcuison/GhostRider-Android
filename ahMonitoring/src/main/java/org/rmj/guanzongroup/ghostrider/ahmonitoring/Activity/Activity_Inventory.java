@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.InventoryItemAdapter;
@@ -57,7 +59,13 @@ public class Activity_Inventory extends AppCompatActivity {
         setContentView(R.layout.activity_inventory);
         initWidgets();
         mViewModel = new ViewModelProvider(this).get(VMInventory.class);
-        mViewModel.setBranchCde(BranchCde);
+        mViewModel.getSelfieLogBranchInfo().observe(Activity_Inventory.this, eBranchInfo -> {
+            try{
+                mViewModel.setBranchCde(eBranchInfo.getBranchCd());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
         mViewModel.getBranchCode().observe(Activity_Inventory.this, fsBranchCde -> {
             try {
                 if (fsBranchCde.isEmpty()) {
