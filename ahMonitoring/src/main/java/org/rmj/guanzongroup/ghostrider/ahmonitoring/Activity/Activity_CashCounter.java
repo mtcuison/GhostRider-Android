@@ -99,65 +99,58 @@ public class Activity_CashCounter extends AppCompatActivity {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    try {
-                        int total = 0;
-                        String price = "", qty = "";
-                        price = String.valueOf(cprice[i].getText());
-                        qty = String.valueOf(qtyPeso[i].getText());
-                        if (qty.isEmpty()){
-                            totalPeso[i].setText("0");
-                            if (i == 0) {
-                                mViewModel.setP1000((double) total, Integer.parseInt(qty));
-                            }
-                            else if (i == 1) {
-                                mViewModel.setP500((double) total, Integer.parseInt(qty));
-                            }
-                            else if (i == 2) {
-                                mViewModel.setP200((double) total, Integer.parseInt(qty));
-                            }
-                            else if (i == 3) {
-                                mViewModel.setP100((double) total, Integer.parseInt(qty));
-                            }
-                            else if (i == 4) {
-                                mViewModel.setP50((double) total, Integer.parseInt(qty));
-                            }
-                            else if (i == 5) {
-                                mViewModel.setP20((double) total, Integer.parseInt(qty));
-                            }
+                    int total = 0;
+                    String price = "", qty = "";
+                    price = String.valueOf(cprice[i].getText());
+                    qty = String.valueOf(qtyPeso[i].getText());
+                    if (qty.isEmpty()){
+                        qty = "0";
+                        totalPeso[i].setText("0");
+                        if (i == 0) {
+                            mViewModel.setP1000((double) total, Integer.parseInt(qty));
                         }
-                        else {
-                            total = Integer.parseInt(price.substring(1)) * Integer.parseInt(qty);
-
-                            if (i == 0) {
-                                totalPeso[i].setText(formatter.format(total));
-                                infoModel.setnNte1000p(String.valueOf(total));
-                                mViewModel.setP1000((double) total, Integer.parseInt(qty));
-                            } else if (i == 1) {
-                                totalPeso[i].setText(formatter.format(total));
-                                infoModel.setnNte0500p(String.valueOf(total));
-                                mViewModel.setP500((double) total, Integer.parseInt(qty));
-                            } else if (i == 2) {
-                                totalPeso[i].setText(formatter.format(total));
-                                infoModel.setnNte0200p(String.valueOf(total));
-                                mViewModel.setP200((double) total, Integer.parseInt(qty));
-                            } else if (i == 3) {
-                                totalPeso[i].setText(formatter.format(total));
-                                infoModel.setnNte0100p(String.valueOf(total));
-                                mViewModel.setP100((double) total, Integer.parseInt(qty));
-                            } else if (i == 4) {
-                                totalPeso[i].setText(formatter.format(total));
-                                infoModel.setnNte0050p(String.valueOf(total));
-                                mViewModel.setP50((double) total, Integer.parseInt(qty));
-                            } else if (i == 5) {
-                                totalPeso[i].setText(formatter.format(total));
-                                infoModel.setnNte0020p(String.valueOf(total));
-                                mViewModel.setP20((double) total, Integer.parseInt(qty));
-                            }
-
+                        else if (i == 1) {
+                            mViewModel.setP500((double) total, Integer.parseInt(qty));
                         }
-
-                    } catch (Exception e){
-                        e.printStackTrace();
+                        else if (i == 2) {
+                            mViewModel.setP200((double) total, Integer.parseInt(qty));
+                        }
+                        else if (i == 3) {
+                            mViewModel.setP100((double) total, Integer.parseInt(qty));
+                        }
+                        else if (i == 4) {
+                            mViewModel.setP50((double) total, Integer.parseInt(qty));
+                        }
+                        else if (i == 5) {
+                            mViewModel.setP20((double) total, Integer.parseInt(qty));
+                        }
+                    } else {
+                        total = Integer.parseInt(price.substring(1)) * Integer.parseInt(qty);
+                        if (i == 0) {
+                            totalPeso[i].setText(formatter.format(total));
+                            infoModel.setnNte1000p(String.valueOf(total));
+                            mViewModel.setP1000((double) total, Integer.parseInt(qty));
+                        } else if (i == 1) {
+                            totalPeso[i].setText(formatter.format(total));
+                            infoModel.setnNte0500p(String.valueOf(total));
+                            mViewModel.setP500((double) total, Integer.parseInt(qty));
+                        } else if (i == 2) {
+                            totalPeso[i].setText(formatter.format(total));
+                            infoModel.setnNte0200p(String.valueOf(total));
+                            mViewModel.setP200((double) total, Integer.parseInt(qty));
+                        } else if (i == 3) {
+                            totalPeso[i].setText(formatter.format(total));
+                            infoModel.setnNte0100p(String.valueOf(total));
+                            mViewModel.setP100((double) total, Integer.parseInt(qty));
+                        } else if (i == 4) {
+                            totalPeso[i].setText(formatter.format(total));
+                            infoModel.setnNte0050p(String.valueOf(total));
+                            mViewModel.setP50((double) total, Integer.parseInt(qty));
+                        } else if (i == 5) {
+                            totalPeso[i].setText(formatter.format(total));
+                            infoModel.setnNte0020p(String.valueOf(total));
+                            mViewModel.setP20((double) total, Integer.parseInt(qty));
+                        }
                     }
                 }
 
@@ -183,64 +176,60 @@ public class Activity_CashCounter extends AppCompatActivity {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    try {
-                        Double totalcoin = 0.0;
-                        int totalcoins = 0;
-                        String coinprice = "", qtycoins = "";
-                        coinprice = String.valueOf(cpriceCoin[b].getText());
-                        qtycoins = String.valueOf(qtyCoin[b].getText());
-                        if (qtycoins.isEmpty()) {
-                            totalCoin[b].setText("0");
-                            if (b == 0) {
-                                mViewModel.setP10((double) totalcoins, Integer.parseInt(qtycoins));
-                            } else if (b == 1) {
-                                mViewModel.setP5((double) totalcoins, Integer.parseInt(qtycoins));
-                            } else if (b == 2) {
-                                mViewModel.setP1((double) totalcoins, Integer.parseInt(qtycoins));
-                            } else if (b == 3) {
-                                mViewModel.setC1(Double.valueOf(totalcoin), Integer.parseInt(qtycoins));
-                            } else if (b == 4) {
-                                mViewModel.setC25(Double.valueOf(totalcoin), Integer.parseInt(qtycoins));
-                            } else if (b == 5) {
-                                mViewModel.setC10(Double.valueOf(totalcoin), Integer.parseInt(qtycoins));
-                            } else if (b == 6) {
-                                mViewModel.setC5(Double.valueOf(totalcoin), Integer.parseInt(qtycoins));
-                            }
-                        } else {
-                            if (b <= 2) {
-                                totalcoins = Integer.parseInt(coinprice.substring(1)) * Integer.parseInt(qtycoins);
-                                totalCoin[b].setText(formatter.format(totalcoins));
-                            } else {
-                                totalcoin = (Double.parseDouble(coinprice.substring(1)) * Integer.parseInt(qtycoins)) / 100;
-                                totalCoin[b].setText(formatter.format(totalcoin));
-                            }
-                            if (b == 0) {
-                                totalCoin[b].setText(formatter.format(totalcoins));
-                                mViewModel.setP10((double) totalcoins, Integer.parseInt(qtycoins));
-                            } else if (b == 1) {
-                                totalCoin[b].setText(formatter.format(totalcoins));
-                                mViewModel.setP5((double) totalcoins, Integer.parseInt(qtycoins));
-                            } else if (b == 2) {
-                                totalCoin[b].setText(formatter.format(totalcoins));
-                                mViewModel.setP1((double) totalcoins, Integer.parseInt(qtycoins));
-                            } else if (b == 3) {
-                                totalCoin[b].setText(formatter.format(totalcoin));
-                                mViewModel.setC25(Double.valueOf(totalcoin), Integer.parseInt(qtycoins));
-                            } else if (b == 4) {
-                                totalCoin[b].setText(formatter.format(totalcoin));
-                                mViewModel.setC10(Double.valueOf(totalcoin), Integer.parseInt(qtycoins));
-                            } else if (b == 5) {
-                                totalCoin[b].setText(formatter.format(totalcoin));
-                                mViewModel.setC5(Double.valueOf(totalcoin), Integer.parseInt(qtycoins));
-                            } else if (b == 6) {
-                                totalCoin[b].setText(formatter.format(totalcoin));
-                                mViewModel.setC1(Double.valueOf(totalcoin), Integer.parseInt(qtycoins));
-                            }
+                    Double totalcoin = 0.0;
+                    int totalcoins = 0;
+                    String coinprice = "", qtycoins = "";
+                    coinprice = String.valueOf(cpriceCoin[b].getText());
+                    qtycoins = String.valueOf(qtyCoin[b].getText());
+                    if (qtycoins.isEmpty()) {
+                        qtycoins = "0";
+                        totalCoin[b].setText("0");
+                        if (b == 0) {
+                            mViewModel.setP10((double) totalcoins, Integer.parseInt(qtycoins));
+                        } else if (b == 1) {
+                            mViewModel.setP5((double) totalcoins, Integer.parseInt(qtycoins));
+                        } else if (b == 2) {
+                            mViewModel.setP1((double) totalcoins, Integer.parseInt(qtycoins));
+                        } else if (b == 3) {
+                            mViewModel.setC25(totalcoin, Integer.parseInt(qtycoins));
+                        } else if (b == 4) {
+                            mViewModel.setC10(totalcoin, Integer.parseInt(qtycoins));
+                        } else if (b == 5) {
+                            mViewModel.setC5(totalcoin, Integer.parseInt(qtycoins));
+                        } else if (b == 6) {
+                            mViewModel.setC1(totalcoin, Integer.parseInt(qtycoins));
                         }
-                    } catch (Exception e){
-                        e.printStackTrace();
+                    } else {
+                        if (b <= 2) {
+                            totalcoins = Integer.parseInt(coinprice.substring(1)) * Integer.parseInt(qtycoins);
+                            totalCoin[b].setText(formatter.format(totalcoins));
+                        } else {
+                            totalcoin = (Double.parseDouble(coinprice.substring(1)) * Integer.parseInt(qtycoins)) / 100;
+                            totalCoin[b].setText(formatter.format(totalcoin));
+                        }
+                        if (b == 0) {
+                            totalCoin[b].setText(formatter.format(totalcoins));
+                            mViewModel.setP10((double) totalcoins, Integer.parseInt(qtycoins));
+                        } else if (b == 1) {
+                            totalCoin[b].setText(formatter.format(totalcoins));
+                            mViewModel.setP5((double) totalcoins, Integer.parseInt(qtycoins));
+                        } else if (b == 2) {
+                            totalCoin[b].setText(formatter.format(totalcoins));
+                            mViewModel.setP1((double) totalcoins, Integer.parseInt(qtycoins));
+                        } else if (b == 3) {
+                            totalCoin[b].setText(formatter.format(totalcoin));
+                            mViewModel.setC25(totalcoin, Integer.parseInt(qtycoins));
+                        } else if (b == 4) {
+                            totalCoin[b].setText(formatter.format(totalcoin));
+                            mViewModel.setC10(totalcoin, Integer.parseInt(qtycoins));
+                        } else if (b == 5) {
+                            totalCoin[b].setText(formatter.format(totalcoin));
+                            mViewModel.setC5(totalcoin, Integer.parseInt(qtycoins));
+                        } else if (b == 6) {
+                            totalCoin[b].setText(formatter.format(totalcoin));
+                            mViewModel.setC1(Double.valueOf(totalcoin), Integer.parseInt(qtycoins));
+                        }
                     }
-
                 }
 
                 @Override

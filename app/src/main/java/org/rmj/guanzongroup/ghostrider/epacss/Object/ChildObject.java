@@ -153,9 +153,9 @@ public class ChildObject {
             case "branches performance info":
                 loIntent = new Intent(context, Activity_AreaPerformance.class);
                 break;
-            case "cash count":
-                loIntent = new Intent(context, Activity_CashCounter.class);
-                break;
+//            case "cash count":
+//                loIntent = new Intent(context, Activity_CashCounter.class);
+//                break;
             case "cash count log":
                 loIntent = new Intent(context, Activity_CashCountLog.class);
                 break;

@@ -56,6 +56,7 @@ public class VMInventory extends AndroidViewModel {
     public interface OnRequestInventoryCallback{
         void OnRequest(String title, String message);
         void OnSuccessResult(String message);
+        void OnNoStockRetrieve(String message);
         void OnFaileResult(String message);
     }
 
@@ -209,7 +210,12 @@ public class VMInventory extends AndroidViewModel {
                     poCallback.OnSuccessResult("Random inventory items has been imported successfully");
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
-                    poCallback.OnFaileResult(loError.getString("message"));
+                    String lsMessage = loError.getString("message");
+                    if(lsMessage.equalsIgnoreCase("No record found.")){
+                        poCallback.OnNoStockRetrieve("No inventory items available.");
+                    } else {
+                        poCallback.OnFaileResult(loError.getString("message"));
+                    }
                 }
             } catch (Exception e){
                 e.printStackTrace();
