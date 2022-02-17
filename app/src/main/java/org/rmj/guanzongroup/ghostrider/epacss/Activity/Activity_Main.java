@@ -48,6 +48,7 @@ import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.ImportData.ImportEmployeeRole;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
@@ -79,7 +80,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     private ImageView imgDept;
     private TextView lblDept;
     private ExpandableListDrawerAdapter listAdapter;
-    private  ExpandableListView expListView;
+    private ExpandableListView expListView;
 
     private final List<ParentObject> poParentLst = new ArrayList<>();
     private List<ChildObject> poChildLst;
@@ -168,6 +169,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         mViewModel.getLastSelfieLog().observe(this, selfieLog -> {
             try {
                 String cReqCCx = selfieLog.getReqCCntx();
+                String cReqRSI = selfieLog.getReqRSIxx();
                 String lsDate1 = selfieLog.getLogTimex().substring(0, 10);
                 if (cReqCCx.equalsIgnoreCase("0") &&
                         poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER)) &&
@@ -179,6 +181,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                         @Override
                         public void OnButtonClick(View view, AlertDialog dialog) {
                             Intent loIntent = new Intent(Activity_Main.this, Activity_CashCounter.class);
+                            loIntent.putExtra("cancelable", false);
                             startActivity(loIntent);
                             dialog.dismiss();
                         }
@@ -190,6 +193,9 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                         }
                     });
                     loMessage.show();
+                } else if (cReqRSI.equalsIgnoreCase("0") &&
+                        poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
+
                 }
             } catch (Exception e){
                 e.printStackTrace();

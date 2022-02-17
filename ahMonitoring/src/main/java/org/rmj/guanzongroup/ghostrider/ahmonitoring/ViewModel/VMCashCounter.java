@@ -176,7 +176,6 @@ public class VMCashCounter extends AndroidViewModel {
     //Added by Jonathan 2021/06/08
     //Computation for all peso bill
     private void calculateCoinsTotal(){
-
         double d10 = p10.getValue();
         double d5 = p5.getValue();
         double d1 = p1.getValue();

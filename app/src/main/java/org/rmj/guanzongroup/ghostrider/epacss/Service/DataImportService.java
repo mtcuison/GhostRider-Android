@@ -80,6 +80,8 @@ public class DataImportService extends JobService {
                 new Import_Occupations(getApplication()),
                 new Import_SysConfig(getApplication()),
                 new Import_SCARequest(getApplication()),
+                new Import_AreaPerformance(getApplication()),
+                new Import_BranchPerformance(getApplication()),
                 new ImportBranch(getApplication())};
         new Thread(() -> {
             for (ImportInstance importInstance : importInstances) {
