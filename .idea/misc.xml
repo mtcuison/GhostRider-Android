@@ -10,17 +10,23 @@
         <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/bg_gradient_light.xml" value="0.2203125" />
         <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/ic_ghostrider_logo_day.xml" value="0.2203125" />
         <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/ic_ghostrider_logo_night.xml" value="0.2203125" />
-        <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/activity_area_performance.xml" value="0.13651315789473684" />
+        <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/activity_area_performance.xml" value="0.1" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/activity_branch_performance.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/activity_cash_count_log.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/activity_cash_count_log_details.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/activity_cash_counter.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/cash_count_grand_total_adapter.xml" value="0.13517915309446255" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/cash_count_list_info.xml" value="0.12" />
+        <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_area_performance_bar_chart.xml" value="0.12763157894736843" />
+        <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_area_performance_line_chart.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_branch_opening.xml" value="0.13651315789473684" />
+        <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_leave_application.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/list_item_area_performance_layout.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/list_item_branch_performance_layout.xml" value="0.13651315789473684" />
+        <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/menu/chart_menu.xml" value="0.1" />
         <entry key="..\:/Projects/GhostRider-Android/creditApp/src/main/res/layout/list_item_loan_review.xml" value="0.13651315789473684" />
+        <entry key="..\:/Projects/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/dialog_debug_entry.xml" value="0.13651315789473684" />
+        <entry key="..\:/Projects/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/dialog_get_client.xml" value="0.13651315789473684" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/CreditEvaluator/src/main/res/layout/activity_ci_application.xml" value="0.1631578947368421" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/CreditEvaluator/src/main/res/layout/activity_ci_history_info.xml" value="0.16103896103896104" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/CreditEvaluator/src/main/res/layout/activity_evaluation_history.xml" value="0.16103896103896104" />
@@ -167,7 +173,7 @@
     </list>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
