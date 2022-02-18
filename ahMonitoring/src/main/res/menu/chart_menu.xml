@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.ahMonitoring
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 2/18/22, 4:33 PM
+  ~ project file last modified : 2/18/22, 4:33 PM
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/line_chart"
+        android:icon="@drawable/ic_application_list"
+        android:title="Line Chart" />
+    <item
+        android:id="@+id/pie_chart"
+        android:icon="@drawable/ic_application_list"
+        android:title="Pie Chart" />
+    <item
+        android:id="@+id/bar_chart"
+        android:icon="@drawable/ic_application_list"
+        android:title="Bar Chart" />
+
+</menu>
