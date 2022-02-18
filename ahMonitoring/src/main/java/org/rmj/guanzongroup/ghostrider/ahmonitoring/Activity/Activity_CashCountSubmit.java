@@ -57,6 +57,9 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
             txtSalesInvoice,
             txtProvisionalReceipt,
             txtCollectionReceipt,
+            txtORNorthPoint,
+            txtPRNorthPoint,
+            txtDeliveryRcpt,
             txtTransNox;
     private Button btnSendToServer;
 
@@ -105,6 +108,9 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
                 parameters.put("sSINoxxxx", txtSalesInvoice.getText().toString());
                 parameters.put("sPRNoxxxx", txtProvisionalReceipt.getText().toString());
                 parameters.put("sCRNoxxxx", txtCollectionReceipt.getText().toString());
+                parameters.put("sORNoxNPt", txtORNorthPoint.getText().toString());
+                parameters.put("sPRNoxNPt", txtPRNorthPoint.getText().toString());
+                parameters.put("sDRNoxxxx", txtDeliveryRcpt.getText().toString());
                 parameters.put("dTransact", AppConstants.CURRENT_DATE);
                 parameters.put("dEntryDte", new AppConstants().DATE_MODIFIED);
                 parameters.put("sReqstdBy", EmployID);
@@ -142,6 +148,9 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         txtSalesInvoice = findViewById(R.id.txtSalesInvoice);
         txtProvisionalReceipt = findViewById(R.id.txtProvisionalReceipt);
         txtCollectionReceipt = findViewById(R.id.txtCollectionReceipt);
+        txtORNorthPoint = findViewById(R.id.txtORNorthPoint);
+        txtPRNorthPoint = findViewById(R.id.txtPRNorthPoint);
+        txtDeliveryRcpt = findViewById(R.id.txtDeliveryReceipt);
         txtTransNox = findViewById(R.id.txtTransNox);
         btnSendToServer = findViewById(R.id.btnSendToServer);
         txtCurr_DateTime = findViewById(R.id.txtCurrentDateTime);

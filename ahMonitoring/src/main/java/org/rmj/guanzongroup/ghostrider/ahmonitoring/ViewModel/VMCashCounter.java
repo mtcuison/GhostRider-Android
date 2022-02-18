@@ -259,6 +259,7 @@ public class VMCashCounter extends AndroidViewModel {
             param.put("nNte0200p", qtyp200.getValue());
             param.put("nNte0500p", qtyp500.getValue());
             param.put("nNte1000p", qtyp1000.getValue());
+
         }catch (JSONException e) {
             e.printStackTrace();
         }

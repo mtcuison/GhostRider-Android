@@ -154,7 +154,8 @@ public class Activity_AreaPerformance extends AppCompatActivity{
                     @Override
                     public void onValueSelected(Entry e, Highlight h) {
 //                            AreaPerformanceMonitoringAdapter.setIndexPosition((int) e.getX());
-                        lblDate.setText(getPeriodText(poPeriods.get((int) e.getX())));
+                        int position = (int) e.getX();
+                        lblDate.setText(getPeriodText(poPeriods.get(position)));
                         mViewModel.getAreaBranchesSalesPerformance(poPeriods.get((int) e.getX())).observe(Activity_AreaPerformance.this, branchPerformances -> {
                             try {
                                 poAdapter = new AreaPerformanceMonitoringAdapter(

@@ -64,7 +64,7 @@ public class Fragment_SelfieLogin extends Fragment {
     private VMSelfieLogin mViewModel;
 
     private TextView lblUsername, lblPosition, lblBranch, lblNotice;
-    private MaterialButton btnCamera;
+    private MaterialButton btnCamera, btnBranch;
     private RecyclerView recyclerView;
 
     private EEmployeeInfo poUser;
@@ -102,6 +102,7 @@ public class Fragment_SelfieLogin extends Fragment {
         lblBranch = view.findViewById(R.id.lbl_userBranch);
         lblNotice = view.findViewById(R.id.lbl_notice);
         btnCamera = view.findViewById(R.id.btn_takeSelfie);
+        btnBranch = view.findViewById(R.id.btn_selectBranch);
         recyclerView = view.findViewById(R.id.recyclerview_timeLog);
 
         poImage = new EImageInfo();
@@ -122,6 +123,7 @@ public class Fragment_SelfieLogin extends Fragment {
                 if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))
                         && sSlectBranch.isEmpty()) {
                     lblNotice.setVisibility(View.GONE);
+                    btnBranch.setVisibility(View.VISIBLE);
                     new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
                         @Override
                         public void OnSelect(String BranchCode, AlertDialog dialog) {
@@ -144,6 +146,7 @@ public class Fragment_SelfieLogin extends Fragment {
                     });
                 } else {
                     lblNotice.setVisibility(View.VISIBLE);
+                    btnBranch.setVisibility(View.GONE);
                     poLog.setBranchCd(poUser.getBranchCD());
                 }
             } catch (Exception e){
@@ -187,6 +190,32 @@ public class Fragment_SelfieLogin extends Fragment {
                 }
             }catch (Exception e){
                 e.printStackTrace();
+            }
+        });
+
+        btnBranch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
+                    @Override
+                    public void OnSelect(String BranchCode, AlertDialog dialog) {
+                        poLog.setBranchCd(BranchCode);
+                        sSlectBranch = BranchCode;
+                        mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
+                            try{
+                                lblBranch.setText(eBranchInfo.getBranchNm());
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        });
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void OnCancel() {
+                        requireActivity().finish();
+                    }
+                });
             }
         });
 

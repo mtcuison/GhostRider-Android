@@ -84,6 +84,15 @@ public class ECashCount {
     @ColumnInfo(name = "sCRNoxxxx")
     private String CRNoxxxx;
 
+    @ColumnInfo(name = "sORNoxNPt")
+    private String ORNoxNPt;
+
+    @ColumnInfo(name = "sPRNoxNPt")
+    private String PRNoxNPt;
+
+    @ColumnInfo(name = "sDRNoxxxx")
+    private String DRNoxxxx;
+
     @ColumnInfo(name = "dEntryDte")
     private String EntryDte;
 
@@ -301,4 +310,27 @@ public class ECashCount {
         Nte1000p = nte1000p;
     }
 
+    public String getORNoxNPt() {
+        return ORNoxNPt;
+    }
+
+    public void setORNoxNPt(String ORNoxNPt) {
+        this.ORNoxNPt = ORNoxNPt;
+    }
+
+    public String getPRNoxNPt() {
+        return PRNoxNPt;
+    }
+
+    public void setPRNoxNPt(String PRNoxNPt) {
+        this.PRNoxNPt = PRNoxNPt;
+    }
+
+    public String getDRNoxxxx() {
+        return DRNoxxxx;
+    }
+
+    public void setDRNoxxxx(String DRNoxxxx) {
+        this.DRNoxxxx = DRNoxxxx;
+    }
 }
