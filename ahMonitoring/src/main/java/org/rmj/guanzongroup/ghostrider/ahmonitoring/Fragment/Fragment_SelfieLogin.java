@@ -67,7 +67,7 @@ public class Fragment_SelfieLogin extends Fragment {
     private MaterialButton btnCamera, btnBranch;
     private RecyclerView recyclerView;
 
-    private EEmployeeInfo poUser;
+    private static EEmployeeInfo poUser;
     private EImageInfo poImage;
     private ELog_Selfie poLog;
     private GLocationManager loLocation;
@@ -75,11 +75,14 @@ public class Fragment_SelfieLogin extends Fragment {
     private LoadDialog poLoad;
     private MessageBox poMessage;
 
-    private String psPhotoPath;
+    private static String sSlectBranch = "";
+    private static String psPhotoPath = "";
+    private static String pnLatittude = "";
+    private static String pnLongitude = "";
+    private static String psFileNamex = "";
 
     private static boolean isDialogShown;
     private boolean isLoginToday = false;
-    private static String sSlectBranch = "";
 
     private List<EBranchInfo> paBranch = new ArrayList<>();
     private String psEmpLvl;
@@ -117,37 +120,37 @@ public class Fragment_SelfieLogin extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMSelfieLogin.class);
         psEmpLvl = mViewModel.getEmployeeLevel();
+
         mViewModel.getAreaBranchList().observe(getViewLifecycleOwner(), eBranchInfos -> {
             try {
                 paBranch = eBranchInfos;
-                if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))
-                        && sSlectBranch.isEmpty()) {
+                if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
                     lblNotice.setVisibility(View.GONE);
                     btnBranch.setVisibility(View.VISIBLE);
-                    new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
-                        @Override
-                        public void OnSelect(String BranchCode, AlertDialog dialog) {
-                            poLog.setBranchCd(BranchCode);
-                            sSlectBranch = BranchCode;
-                            mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
-                                try{
-                                    lblBranch.setText(eBranchInfo.getBranchNm());
-                                } catch (Exception e){
-                                    e.printStackTrace();
-                                }
-                            });
-                            dialog.dismiss();
-                        }
+                    if(sSlectBranch.isEmpty()) {
+                        new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
+                            @Override
+                            public void OnSelect(String BranchCode, AlertDialog dialog) {
+                                sSlectBranch = BranchCode;
+                                mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
+                                    try {
+                                        lblBranch.setText(eBranchInfo.getBranchNm());
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                });
+                                dialog.dismiss();
+                            }
 
-                        @Override
-                        public void OnCancel() {
-                            requireActivity().finish();
-                        }
-                    });
+                            @Override
+                            public void OnCancel() {
+//                                requireActivity().finish();
+                            }
+                        });
+                    }
                 } else {
                     lblNotice.setVisibility(View.VISIBLE);
                     btnBranch.setVisibility(View.GONE);
-                    poLog.setBranchCd(poUser.getBranchCD());
                 }
             } catch (Exception e){
                 e.printStackTrace();
@@ -164,13 +167,24 @@ public class Fragment_SelfieLogin extends Fragment {
             }
         });
 
-        mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
-            try{
-                lblBranch.setText(eBranchInfo.getBranchNm());
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+        if(!psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
+            mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
+                try {
+                    lblBranch.setText(eBranchInfo.getBranchNm());
+                    sSlectBranch = eBranchInfo.getBranchCd();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        } else {
+            mViewModel.getBranchInfo(sSlectBranch).observe(getViewLifecycleOwner(), eBranchInfo -> {
+                try {
+                    lblBranch.setText(eBranchInfo.getBranchNm());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
 
         mViewModel.getAllEmployeeTimeLog().observe(getViewLifecycleOwner(), eLog_selfies -> {
             TimeLogAdapter logAdapter = new TimeLogAdapter(eLog_selfies, sTransNox -> {
@@ -193,31 +207,25 @@ public class Fragment_SelfieLogin extends Fragment {
             }
         });
 
-        btnBranch.setOnClickListener(new View.OnClickListener() {
+        btnBranch.setOnClickListener(v -> new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
             @Override
-            public void onClick(View v) {
-                new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
-                    @Override
-                    public void OnSelect(String BranchCode, AlertDialog dialog) {
-                        poLog.setBranchCd(BranchCode);
-                        sSlectBranch = BranchCode;
-                        mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
-                            try{
-                                lblBranch.setText(eBranchInfo.getBranchNm());
-                            } catch (Exception e){
-                                e.printStackTrace();
-                            }
-                        });
-                        dialog.dismiss();
-                    }
-
-                    @Override
-                    public void OnCancel() {
-                        requireActivity().finish();
+            public void OnSelect(String BranchCode, AlertDialog dialog) {
+                sSlectBranch = BranchCode;
+                mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
+                    try{
+                        lblBranch.setText(eBranchInfo.getBranchNm());
+                    } catch (Exception e){
+                        e.printStackTrace();
                     }
                 });
+                dialog.dismiss();
             }
-        });
+
+            @Override
+            public void OnCancel() {
+//                        requireActivity().finish();
+            }
+        }));
 
         btnCamera.setOnClickListener(view -> {
             if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
@@ -228,7 +236,6 @@ public class Fragment_SelfieLogin extends Fragment {
                         new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
                             @Override
                             public void OnSelect(String BranchCode, AlertDialog dialog) {
-                                poLog.setBranchCd(BranchCode);
                                 sSlectBranch = BranchCode;
                                 mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
                                     try{
@@ -249,12 +256,11 @@ public class Fragment_SelfieLogin extends Fragment {
 
                             @Override
                             public void OnCancel() {
-                                requireActivity().finish();
+//                                requireActivity().finish();
                             }
                         });
                     } else {
                         lblNotice.setVisibility(View.VISIBLE);
-                        poLog.setBranchCd(poUser.getBranchCD());
                     }
                 } else {
                     mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
@@ -290,6 +296,22 @@ public class Fragment_SelfieLogin extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ImageFileCreator.GCAMERA){
             if(resultCode == RESULT_OK){
+                poLog.setBranchCd(sSlectBranch);
+                poLog.setEmployID(poUser.getEmployID());
+                poLog.setLogTimex(new AppConstants().DATE_MODIFIED);
+                poLog.setLatitude(pnLatittude);
+                poLog.setLongitud(pnLongitude);
+                poLog.setSendStat("0");
+
+
+                poImage.setFileCode("0021");
+                poImage.setSourceNo(poUser.getClientID());
+                poImage.setDtlSrcNo(poUser.getUserIDxx());
+                poImage.setSourceCD("LOGa");
+                poImage.setImageNme(psFileNamex);
+                poImage.setFileLoct(psPhotoPath);
+                poImage.setLatitude(pnLatittude);
+                poImage.setLongitud(pnLongitude);
                 poImage.setMD5Hashx(WebFileServer.createMD5Hash(psPhotoPath));
                 poImage.setCaptured(new AppConstants().DATE_MODIFIED);
                 mViewModel.loginTimeKeeper(poLog, poImage, new VMSelfieLogin.OnLoginTimekeeperListener() {
@@ -337,20 +359,9 @@ public class Fragment_SelfieLogin extends Fragment {
             loImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
                 new LocationRetriever(requireActivity(), requireActivity()).getLocation((message, latitude1, longitude1) -> {
                     psPhotoPath = photPath;
-                    poLog.setEmployID(poUser.getEmployID());
-                    poLog.setLogTimex(new AppConstants().DATE_MODIFIED);
-                    poLog.setLatitude(String.valueOf(latitude1));
-                    poLog.setLongitud(String.valueOf(longitude1));
-                    poLog.setSendStat("0");
-
-                    poImage.setFileCode("0021");
-                    poImage.setSourceNo(poUser.getClientID());
-                    poImage.setDtlSrcNo(poUser.getUserIDxx());
-                    poImage.setSourceCD("LOGa");
-                    poImage.setImageNme(FileName);
-                    poImage.setFileLoct(photPath);
-                    poImage.setLatitude(String.valueOf(latitude1));
-                    poImage.setLongitud(String.valueOf(longitude1));
+                    psFileNamex = FileName;
+                    pnLatittude = String.valueOf(latitude1);
+                    pnLongitude = String.valueOf(longitude1);
                     startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                 });
             });
@@ -403,7 +414,6 @@ public class Fragment_SelfieLogin extends Fragment {
                 loIntent.putExtra("cancelable", false);
                 requireActivity().startActivity(loIntent);
                 dialog.dismiss();
-                requireActivity().finish();
             });
             poMessage.show();
         }

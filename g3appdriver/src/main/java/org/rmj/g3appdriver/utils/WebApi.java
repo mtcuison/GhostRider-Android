@@ -172,8 +172,8 @@ public class WebApi {
 
     public static String URL_REQUEST_ORCR_STATUS = "https://restgk.guanzongroup.com.ph/integsys/registration/reqst_orcr_status.php";
 
-//    public static String URL_SUBMIT_CASHCOUNT = "https://restgk.guanzongroup.com.ph/integsys/cashcount/submit_cash_count.php";
-    public static String URL_SUBMIT_CASHCOUNT = "http://192.168.10.141/integsys/cashcount/submit_cash_count.php";
+    public static String URL_SUBMIT_CASHCOUNT = "https://restgk.guanzongroup.com.ph/integsys/cashcount/submit_cash_count.php";
+//    public static String URL_SUBMIT_CASHCOUNT = "http://192.168.10.141/integsys/cashcount/submit_cash_count.php";
     public static String URL_QUICK_SEARCH = "https://restgk.guanzongroup.com.ph/integsys/paramqry/cash_count_rqst_officer.php";
 
     public static String URL_APPROVAL_USER_AUTH = "";
