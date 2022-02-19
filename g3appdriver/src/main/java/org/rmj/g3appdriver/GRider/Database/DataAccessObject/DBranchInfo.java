@@ -107,7 +107,7 @@ public interface DBranchInfo {
     LiveData<List<EBranchInfo>> getAreaBranchList();
 
     @Query("SELECT * FROM Branch_Info WHERE sBranchCd = " +
-            "(SELECT sBranchCd FROM Employee_Log_Selfie WHERE cReqCCntx != '1' ORDER BY dLogTimex DESC LIMIT 1)")
+            "(SELECT sBranchCd FROM Employee_Log_Selfie WHERE cReqCCntx != '1' || cReqRSIxx != '1' ORDER BY dLogTimex DESC LIMIT 1)")
     LiveData<EBranchInfo> getSelfieLogBranchInfo();
 
     @Query("SELECT * FROM Branch_Info WHERE sBranchCd =:BranchCd")

@@ -287,6 +287,60 @@
                                    android:imeOptions="flagNoExtractUi"
                                    android:maxLength="10"/>
                            </com.google.android.material.textfield.TextInputLayout>
+
+                           <com.google.android.material.textfield.TextInputLayout
+                               android:id="@+id/til_ccORNPnt"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:hint="Official Reciept (North Point)"
+                               style="@style/TextInputStyle">
+
+                               <com.google.android.material.textfield.TextInputEditText
+                                   android:id="@+id/txtORNorthPoint"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:textSize="16sp"
+                                   android:textStyle="normal"
+                                   android:inputType="text"
+                                   android:imeOptions="flagNoExtractUi"
+                                   android:maxLength="10"/>
+                           </com.google.android.material.textfield.TextInputLayout>
+
+                           <com.google.android.material.textfield.TextInputLayout
+                               android:id="@+id/til_ccPRNPnt"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:hint="Provisional Receipt (North Point)"
+                               style="@style/TextInputStyle">
+
+                               <com.google.android.material.textfield.TextInputEditText
+                                   android:id="@+id/txtPRNorthPoint"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:textSize="16sp"
+                                   android:textStyle="normal"
+                                   android:inputType="text"
+                                   android:imeOptions="flagNoExtractUi"
+                                   android:maxLength="10"/>
+                           </com.google.android.material.textfield.TextInputLayout>
+
+                           <com.google.android.material.textfield.TextInputLayout
+                               android:id="@+id/til_ccDRNo"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:hint="Delivery Receipt No."
+                               style="@style/TextInputStyle">
+
+                               <com.google.android.material.textfield.TextInputEditText
+                                   android:id="@+id/txtDeliveryReceipt"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:textSize="16sp"
+                                   android:textStyle="normal"
+                                   android:inputType="text"
+                                   android:imeOptions="flagNoExtractUi"
+                                   android:maxLength="10"/>
+                           </com.google.android.material.textfield.TextInputLayout>
                        </LinearLayout>
                    </androidx.cardview.widget.CardView>
 

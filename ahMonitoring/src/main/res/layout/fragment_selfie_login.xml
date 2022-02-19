@@ -125,15 +125,35 @@
             android:layout_above="@id/btn_takeSelfie"/>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_selectBranch"
+            style="@style/MaterialButtonAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/recyclerview_timeLog"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="286dp"
+            android:text="Select Branch"/>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_takeSelfie"
             style="@style/MaterialButtonAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Take Selfie"
-            app:icon="@drawable/ic_camera_24"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Take Selfie"
+            app:icon="@drawable/ic_camera_24" />
 
     </RelativeLayout>
 

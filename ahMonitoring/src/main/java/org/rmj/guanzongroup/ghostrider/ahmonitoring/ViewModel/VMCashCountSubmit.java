@@ -269,6 +269,9 @@ public class VMCashCountSubmit extends AndroidViewModel {
                     eCashCount.setCRNoxxxx(jsonObject.getString("sCRNoxxxx"));
                     eCashCount.setEntryDte(jsonObject.getString("dEntryDte"));
                     eCashCount.setReqstdBy(jsonObject.getString("sReqstdBy"));
+                    eCashCount.setORNoxNPt(jsonObject.getString("sORNoxNPt"));
+                    eCashCount.setPRNoxNPt(jsonObject.getString("sPRNoxNPt"));
+                    eCashCount.setDRNoxxxx(jsonObject.getString("sDRNoxxxx"));
                     eCashCount.setSendStat("0");
                     pocashcount.insertNewCashCount(eCashCount);
                     poLog.UpdateCashCountRequireStatus();

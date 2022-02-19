@@ -44,7 +44,8 @@ public class WebApi {
     }
 
     public String URL_AUTH_EMPLOYEE(){
-        return appConfigPreference.getAppServer() + URL_SECURITY + "mlogin.php";
+        return "https://restgk.guanzongroup.com.ph/security/mlogin.php";
+//        return "http://192.168.10.141/security/mlogin.php";
     }
 
     public String URL_SIGN_IN_USER(){
@@ -172,6 +173,7 @@ public class WebApi {
     public static String URL_REQUEST_ORCR_STATUS = "https://restgk.guanzongroup.com.ph/integsys/registration/reqst_orcr_status.php";
 
     public static String URL_SUBMIT_CASHCOUNT = "https://restgk.guanzongroup.com.ph/integsys/cashcount/submit_cash_count.php";
+//    public static String URL_SUBMIT_CASHCOUNT = "http://192.168.10.141/integsys/cashcount/submit_cash_count.php";
     public static String URL_QUICK_SEARCH = "https://restgk.guanzongroup.com.ph/integsys/paramqry/cash_count_rqst_officer.php";
 
     public static String URL_APPROVAL_USER_AUTH = "";
@@ -222,6 +224,7 @@ public class WebApi {
     public static String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
 
     public static String REQUEST_USER_ACCESS = "https://restgk.guanzongroup.com.ph/security/request_android_object.php";
+//    public static String REQUEST_USER_ACCESS = "http://192.168.10.141/security/request_android_object.php";
 //    public static String REQUEST_USER_ACCESS = "http://192.168.10.140/security/request_android_object.php";
     public static String REQUEST_UPDATED_USER_ACCESS = "request_android_object_update.php";
 }

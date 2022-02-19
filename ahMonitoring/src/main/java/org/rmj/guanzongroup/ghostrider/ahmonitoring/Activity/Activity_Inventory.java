@@ -69,7 +69,7 @@ public class Activity_Inventory extends AppCompatActivity {
         mViewModel.getBranchCode().observe(Activity_Inventory.this, fsBranchCde -> {
             try {
                 if (fsBranchCde.isEmpty()) {
-                    lblStatus.setText("Please select branch.");
+                    lblStatus.setText("No branch detected on selfie log. Please take a selfie login to request random inventory items");
                     mViewModel.getAreaBranchList().observe(Activity_Inventory.this, eBranchInfos -> {
                         try{
 //                            DialogBranchSelection loSelect = new DialogBranchSelection(Activity_Inventory.this, eBranchInfos);
