@@ -53,6 +53,10 @@ public class VMAreaPerfromanceMonitoring extends AndroidViewModel {
         return poBranch.getAreaBranchesSalesPerformance(fsPeriodx);
     }
 
+    public LiveData<DBranchPerformance.MonthlyPieChart> getMonthlyPieChartData(String fsPeriodx) {
+        return poBranch.getMonthlyPieChartData(fsPeriodx);
+    }
+
     public void setType(String value){
         psType.setValue(value);
     }

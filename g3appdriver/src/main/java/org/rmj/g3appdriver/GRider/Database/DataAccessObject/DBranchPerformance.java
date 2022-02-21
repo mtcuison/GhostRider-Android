@@ -104,6 +104,15 @@ public interface DBranchPerformance {
     @Query("SELECT MIN(sPeriodxx) AS Start, MAX(sPeriodxx) AS Current FROM MC_Branch_Performance;")
     LiveData<PeriodRange> getPeriodRange();
 
+    @Query("SELECT" +
+            " SUM(nMCGoalxx) as mcGoal," +
+            " SUM(nMCActual) as mcActual," +
+            " SUM(nSPGoalxx) as spGoal," +
+            " SUM(nSPActual) as spActual" +
+            " FROM MC_Branch_Performance" +
+            " WHERE sPeriodxx = :fsPeriodx")
+    LiveData<MonthlyPieChart> getMonthlyPieChartData(String fsPeriodx);
+
     class ActualGoal{
         public String Actual;
         public String Percentage;
@@ -119,5 +128,12 @@ public interface DBranchPerformance {
     class PeriodRange{
         public String Start;
         public String Current;
+    }
+
+    class MonthlyPieChart {
+        public int mcGoal;
+        public int mcActual;
+        public int spGoal;
+        public int spActual;
     }
 }
