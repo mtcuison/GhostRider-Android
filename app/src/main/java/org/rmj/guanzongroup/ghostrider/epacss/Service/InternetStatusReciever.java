@@ -536,6 +536,9 @@ public class InternetStatusReciever extends BroadcastReceiver {
                 params.put("sSINoxxxx", loCC.getSINoxxxx());
                 params.put("sPRNoxxxx", loCC.getPRNoxxxx());
                 params.put("sCRNoxxxx", loCC.getCRNoxxxx());
+                params.put("sORNoxNPt", loCC.getORNoxNPt());
+                params.put("sPRNoxNPt", loCC.getPRNoxNPt());
+                params.put("sDRNoxxxx", loCC.getDRNoxxxx());
                 params.put("dTransact", loCC.getTransact());
                 params.put("dEntryDte", loCC.getEntryDte());
                 params.put("sReqstdBy", loCC.getReqstdBy());

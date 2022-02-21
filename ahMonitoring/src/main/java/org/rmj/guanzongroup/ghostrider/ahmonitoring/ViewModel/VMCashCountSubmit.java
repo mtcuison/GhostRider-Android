@@ -276,7 +276,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
                     pocashcount.insertNewCashCount(eCashCount);
                     poLog.UpdateCashCountRequireStatus();
                     if(!poConn.isDeviceConnected()) {
-                        lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Connection error.");
+                        lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Cash count entry has been save to local device.");
                     } else {
                         lsResponse = WebClient.sendRequest(WebApi.URL_SUBMIT_CASHCOUNT, jsonObject.toString(), poHeaders.getHeaders());
                         if(lsResponse == null){
@@ -311,7 +311,6 @@ public class VMCashCountSubmit extends AndroidViewModel {
                     JSONObject loError = loJSon.getJSONObject("error");
                     callback.onSaveCashCountFailed(loError.getString("message"));
                 }
-
             } catch (Exception e){
                 e.printStackTrace();
             }
