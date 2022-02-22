@@ -303,7 +303,6 @@ public class Fragment_SelfieLogin extends Fragment {
                 poLog.setLongitud(pnLongitude);
                 poLog.setSendStat("0");
 
-
                 poImage.setFileCode("0021");
                 poImage.setSourceNo(poUser.getClientID());
                 poImage.setDtlSrcNo(poUser.getUserIDxx());
@@ -328,6 +327,11 @@ public class Fragment_SelfieLogin extends Fragment {
                         } catch (Exception e){
                             e.printStackTrace();
                         }
+                        sSlectBranch = "";
+                        psPhotoPath = "";
+                        pnLatittude = "";
+                        pnLongitude = "";
+                        psFileNamex = "";
                         showMessageDialog("Your time in has been save to server.");
                     }
 

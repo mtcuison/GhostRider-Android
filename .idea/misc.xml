@@ -135,6 +135,7 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/creditApp/src/main/res/layout/fragment_spouse_employment_info.xml" value="0.21" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/creditApp/src/main/res/layout/fragment_spouse_self_employed_info.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/creditApp/src/main/res/layout/list_item_document_to_scan.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/creditEvaluation/src/main/res/layout/activity_evaluation.xml" value="0.19375" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/dailyCollectionPlan/src/main/res/layout/activity_collection_list.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/dailyCollectionPlan/src/main/res/layout/activity_collection_remittance.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/dailyCollectionPlan/src/main/res/layout/activity_post_dcp.xml" value="0.2" />
@@ -177,7 +178,7 @@
     </list>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

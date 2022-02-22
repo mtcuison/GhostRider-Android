@@ -54,6 +54,4 @@ public interface DCreditApplicantInfo {
 
     @Query("DELETE FROM Credit_Applicant_Info")
     void deleteAllCreditApp();
-
-
 }
