@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
+import static org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod.getLatestCompletePeriod;
+
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -84,7 +86,7 @@ public class Fragment_PieChart_Monthly extends Fragment {
 
         poPeriods = BranchPerformancePeriod.getSortedPeriodList(BranchPerformancePeriod.getList());
         initPieChart();
-        mViewModel.getType().observe(getActivity(), s -> setChartValue(s, "202201"));
+        mViewModel.getType().observe(getActivity(), s -> setChartValue(s, getLatestCompletePeriod()));
     }
 
     private void initWidgets(View v) {
@@ -113,6 +115,8 @@ public class Fragment_PieChart_Monthly extends Fragment {
     }
 
     public void setChartValue(String sales, String fsPeriodx){
+
+        /**Pie Chart Data*/
 
         mViewModel.getMonthlyPieChartData(fsPeriodx).observe(getActivity(), monthlyPieChart -> {
             try {
@@ -159,6 +163,10 @@ public class Fragment_PieChart_Monthly extends Fragment {
                 e.printStackTrace();
             }
         });
+
+        /** RecyclerView Data*/
+
+        lblDate.setText(getPeriodText(fsPeriodx));
 
         mViewModel.getAreaBranchesSalesPerformance(fsPeriodx).observe(getActivity(), branchPerformances -> {
             try {
