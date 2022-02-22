@@ -52,14 +52,4 @@ public class VMCashCounterLogTest {
             }
         });
     }
-
-    @Test
-    public void testGetAllCashCountLog() {
-        mViewModel.getAllCashCountLog().observeForever(new Observer<List<ECashCount>>() {
-            @Override
-            public void onChanged(List<ECashCount> eCashCounts) {
-                Assert.assertNotNull(eCashCounts);
-            }
-        });
-    }
 }

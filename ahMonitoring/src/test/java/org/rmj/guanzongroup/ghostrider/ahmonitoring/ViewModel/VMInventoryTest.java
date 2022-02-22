@@ -43,13 +43,4 @@ public class VMInventoryTest {
         mViewModel = null;
     }
 
-    @Test
-    public void testGetRandomItemList() {
-        mViewModel.getRandomItemList().observeForever(new Observer<List<RandomItem>>() {
-            @Override
-            public void onChanged(List<RandomItem> randomItems) {
-                Assert.assertNotNull(randomItems);
-            }
-        });
-    }
 }

@@ -18,7 +18,6 @@ plugins {
 
 android {
     compileSdkVersion 31
-    buildToolsVersion "30.0.2"
 
     defaultConfig {
         minSdkVersion 16

@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
+import static org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod.getPeriodText;
+
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -163,7 +165,7 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
                     public void onValueSelected(Entry e, Highlight h) {
 //                            AreaPerformanceMonitoringAdapter.setIndexPosition((int) e.getX());
                         lblDate.setText(getPeriodText(poPeriods.get((int) e.getX())));
-                        mViewModel.getAreaBranchesSalesPerformance(poPeriods.get((int) e.getX())).observe(getActivity(), branchPerformances -> {
+                        mViewModel.getAreaBranchesSalesPerformance(poPeriods.get((int) e.getX()), sales).observe(getActivity(), branchPerformances -> {
                             try {
                                 poAdapter = new AreaPerformanceMonitoringAdapter(
                                         getActivity(), sales,
@@ -198,7 +200,7 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
                 lineChart.invalidate();
 //          SET RECYLERVIEW
                 lblDate.setText(getPeriodText(BranchPerformancePeriod.getLatestCompletePeriod()));
-                mViewModel.getAreaBranchesSalesPerformance(BranchPerformancePeriod.getLatestCompletePeriod()).observe(getActivity(), branchPerformances -> {
+                mViewModel.getAreaBranchesSalesPerformance(BranchPerformancePeriod.getLatestCompletePeriod(),sales).observe(getActivity(), branchPerformances -> {
                     try {
                         poAdapter = new AreaPerformanceMonitoringAdapter(
                                 getActivity(), sales,
@@ -231,66 +233,6 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
                 e.printStackTrace();
             }
         });
-    }
-
-    private String getPeriodText(String fsPeriodx) {
-        String lsYearNox = fsPeriodx.substring(0,4);
-        String lsMonthNo = "";
-        String lsMonthNm = "";
-
-
-        if (fsPeriodx.length() > 2)
-        {
-            lsMonthNo = fsPeriodx.substring(fsPeriodx.length() - 2);
-        }
-        else
-        {
-            lsMonthNo = fsPeriodx;
-        }
-
-        switch(lsMonthNo) {
-            case "01":
-                lsMonthNm = "January";
-                break;
-            case "02":
-                lsMonthNm = "February";
-                break;
-            case "03":
-                lsMonthNm = "March";
-                break;
-            case "04":
-                lsMonthNm = "April";
-                break;
-            case "05":
-                lsMonthNm = "May";
-                break;
-            case "06":
-                lsMonthNm = "June";
-                break;
-            case "07":
-                lsMonthNm = "July";
-                break;
-            case "08":
-                lsMonthNm = "August";
-                break;
-            case "09":
-                lsMonthNm = "September";
-                break;
-            case "10":
-                lsMonthNm = "October";
-                break;
-            case "11":
-                lsMonthNm = "November";
-                break;
-            case "12":
-                lsMonthNm = "December";
-                break;
-            default:
-                lsMonthNm = "";
-                break;
-        }
-
-        return lsMonthNm + " " + lsYearNox;
     }
 
     private class TabClickHandler implements View.OnClickListener{

@@ -16,7 +16,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_gradient_light"
-    tools:context=".Activity.Activity_AreaPerformance">
+    tools:context="Fragment.Fragment_AreaPerformance_LineChart">
 
     <RelativeLayout
         android:id="@+id/cl_header"
