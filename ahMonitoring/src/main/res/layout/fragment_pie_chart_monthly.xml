@@ -75,19 +75,12 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <com.github.mikephil.charting.charts.PieChart
-                            android:id="@+id/pie_chart"
-                            android:layout_width="match_parent"
-                            android:layout_height="230dp"
-                            android:layout_marginVertical="10dp"
-                            android:padding="5dp"
-                            android:layout_gravity="center"/>
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:gravity="center"
+                            android:layout_marginTop="20dp"
                             android:layout_marginBottom="10dp">
 
                             <View
@@ -132,6 +125,22 @@
                                 android:text="Excess"/>
 
                         </LinearLayout>
+
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:id="@+id/pie_chart_month"
+                            android:layout_width="match_parent"
+                            android:layout_height="230dp"
+                            android:layout_marginVertical="20dp"
+                            android:padding="5dp"
+                            android:layout_gravity="center"/>
+
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:id="@+id/pie_chart_year"
+                            android:layout_width="match_parent"
+                            android:layout_height="230dp"
+                            android:layout_marginVertical="20dp"
+                            android:padding="5dp"
+                            android:layout_gravity="center"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"

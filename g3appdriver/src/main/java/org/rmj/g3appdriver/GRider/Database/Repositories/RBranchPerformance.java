@@ -105,4 +105,8 @@ public class RBranchPerformance {
     public LiveData<DBranchPerformance.MonthlyPieChart> getMonthlyPieChartData(String fsPeriodx) {
         return branchPerformanceDao.getMonthlyPieChartData(fsPeriodx);
     }
+
+    public LiveData<DBranchPerformance.MonthlyPieChart> get12MonthPieChartData(String fsValue1, String fsValue2) {
+        return branchPerformanceDao.get12MonthPieChartData(fsValue1, fsValue2);
+    }
 }

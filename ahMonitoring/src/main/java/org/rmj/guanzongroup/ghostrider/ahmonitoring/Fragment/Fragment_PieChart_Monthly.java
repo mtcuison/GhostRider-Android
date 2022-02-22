@@ -12,6 +12,8 @@
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
 import static org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod.getLatestCompletePeriod;
+import static org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod.getList;
+import static org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod.getPeriodText;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -26,6 +28,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,13 +53,14 @@ import java.util.Map;
 
 public class Fragment_PieChart_Monthly extends Fragment {
     private VMAreaPerfromanceMonitoring mViewModel;
-    private PieChart pieChart;
+    private PieChart pieChart, pieChart2;
     private RecyclerView recyclerView;
     private AreaPerformanceMonitoringAdapter poAdapter;
     private ArrayList<String> poPeriods = new ArrayList<>();
     private String[] brnSales = {"MC Sales","SP Sales","JO Sales"};
     private TextView lblArea, lblDate, lblItem1, lblItem2, lblSelectd, lgdGoal, lgdActual, lgdExcess;
     private ColorStateList poColor;
+    private float mcGoal, mcActual, spGoal, spActual;
 
     public Fragment_PieChart_Monthly() { }
 
@@ -87,7 +91,8 @@ public class Fragment_PieChart_Monthly extends Fragment {
     }
 
     private void initWidgets(View v) {
-        pieChart = v.findViewById(R.id.pie_chart);
+        pieChart = v.findViewById(R.id.pie_chart_month);
+        pieChart2 = v.findViewById(R.id.pie_chart_year);
         lblArea = v.findViewById(R.id.tvArea);
         lblDate = v.findViewById(R.id.lbl_date);
         recyclerView = v.findViewById(R.id.recyclerview_area_performance);
@@ -106,54 +111,40 @@ public class Fragment_PieChart_Monthly extends Fragment {
         pieChart.setUsePercentValues(false);
         pieChart.getDescription().setEnabled(false);
         pieChart.setRotationEnabled(false);
-        pieChart.setDragDecelerationFrictionCoef(0.9f);
         pieChart.setRotationAngle(0);
         pieChart.setHighlightPerTapEnabled(true);
-        pieChart.animateY(1400, Easing.EaseInOutQuad);
         pieChart.setHoleRadius(60f);
         pieChart.setTransparentCircleRadius(65f);
         pieChart.setEntryLabelColor(Color.WHITE);
-        pieChart.setCenterText("Month Performance");
+        pieChart.setCenterText(getPeriodText(getLatestCompletePeriod()) + " Performance");
         pieChart.setCenterTextSize(14f);
+
+        pieChart2.setUsePercentValues(false);
+        pieChart2.getDescription().setEnabled(false);
+        pieChart2.setRotationEnabled(false);
+        pieChart2.setRotationAngle(0);
+        pieChart2.setHighlightPerTapEnabled(true);
+        pieChart2.setHoleRadius(60f);
+        pieChart2.setTransparentCircleRadius(65f);
+        pieChart2.setEntryLabelColor(Color.WHITE);
+        pieChart2.setCenterText("12 Months Performance");
+        pieChart2.setCenterTextSize(14f);
+
     }
 
     public void setChartValue(String sales, String fsPeriodx){
 
         /**Pie Chart Data*/
-        setMonthlyPieChartData(sales, fsPeriodx);
-        setYearPieChartData(sales, fsPeriodx);
+        setMonthPieChartData(sales, fsPeriodx);
+        setYearPieChartData(sales);
 
         /** RecyclerView Data*/
         lblDate.setText(getPeriodText(fsPeriodx));
-
-        mViewModel.getAreaBranchesSalesPerformance(fsPeriodx).observe(getActivity(), branchPerformances -> {
-            try {
-                poAdapter = new AreaPerformanceMonitoringAdapter(
-                        getActivity(), sales,
-                        branchPerformances, sBranchCd -> {
-                    try {
-                        Intent loIntent = new Intent(
-                                getActivity(),
-                                Activity_BranchPerformance.class);
-                        loIntent.putExtra("brnCD", sBranchCd);
-                        startActivity(loIntent);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                });
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                recyclerView.setAdapter(poAdapter);
-                poAdapter.notifyDataSetChanged();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
+        setTableData(sales, fsPeriodx);
 
     }
 
-    private void setMonthlyPieChartData(String sales, String fsPeriodx) {
+    private void setMonthPieChartData(String sales, String fsPeriodx) {
         mViewModel.getMonthlyPieChartData(fsPeriodx).observe(getActivity(), monthlyPieChart -> {
             try {
                 ArrayList<PieEntry> pieEntries = new ArrayList<>();
@@ -167,8 +158,8 @@ public class Fragment_PieChart_Monthly extends Fragment {
                     pieEntries.add(new PieEntry(monthlyPieChart.mcGoal, ""));
                     pieEntries.add(new PieEntry(monthlyPieChart.mcActual, ""));
                     if(monthlyPieChart.mcActual > monthlyPieChart.mcGoal) {
-                        int lnActual = monthlyPieChart.mcActual;
-                        int lnGoal = monthlyPieChart.mcGoal;
+                        float lnActual = monthlyPieChart.mcActual;
+                        float lnGoal = monthlyPieChart.mcGoal;
                         pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
                     }
                 } else {
@@ -179,8 +170,8 @@ public class Fragment_PieChart_Monthly extends Fragment {
                     pieEntries.add(new PieEntry(monthlyPieChart.spGoal, ""));
                     pieEntries.add(new PieEntry(monthlyPieChart.spActual, ""));
                     if(monthlyPieChart.spActual > monthlyPieChart.spGoal) {
-                        int lnActual = monthlyPieChart.spActual;
-                        int lnGoal = monthlyPieChart.spGoal;
+                        float lnActual = monthlyPieChart.spActual;
+                        float lnGoal = monthlyPieChart.spGoal;
                         pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
                     }
                 }
@@ -204,68 +195,85 @@ public class Fragment_PieChart_Monthly extends Fragment {
         });
     }
 
-    private void setYearPieChartData(String sales, String fsPeriodx) {
+    private void setYearPieChartData(String sales) {
+        mViewModel.get12MonthPieChartData(getList().get(getList().size()-1), getList().get(0)).observe(getActivity(), monthlyPieChart -> {
+            try {
+                ArrayList<PieEntry> pieEntries = new ArrayList<>();
+                String label = "type";
 
+                if(sales.equalsIgnoreCase("MC")) {
+                    lgdGoal.setText("MC Goal");
+                    lgdActual.setText("MC Actual");
+                    lgdExcess.setText("MC Excess");
+                    pieEntries.clear();
+                    pieEntries.add(new PieEntry(monthlyPieChart.mcGoal, ""));
+                    pieEntries.add(new PieEntry(monthlyPieChart.mcActual, ""));
+                    if(monthlyPieChart.mcActual > monthlyPieChart.mcGoal) {
+                        float lnActual = monthlyPieChart.mcActual;
+                        float lnGoal = monthlyPieChart.mcGoal;
+                        pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
+                    }
+                } else {
+                    lgdGoal.setText("SP Goal");
+                    lgdActual.setText("SP Actual");
+                    lgdExcess.setText("SP Excess");
+                    pieEntries.clear();
+                    pieEntries.add(new PieEntry(monthlyPieChart.spGoal, ""));
+                    pieEntries.add(new PieEntry(monthlyPieChart.spActual, ""));
+                    if(monthlyPieChart.spActual > monthlyPieChart.spGoal) {
+                        float lnActual = monthlyPieChart.spActual;
+                        float lnGoal = monthlyPieChart.spGoal;
+                        pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
+                    }
+                }
+
+                ArrayList<Integer> colors = new ArrayList<>();
+                colors.add(Color.parseColor("#454545"));
+                colors.add(Color.parseColor("#FF8200"));
+                colors.add(Color.parseColor("#114F87"));
+                PieDataSet pieDataSet = new PieDataSet(pieEntries,label);
+                pieDataSet.setValueTextSize(12f);
+                pieDataSet.setColors(colors);
+                PieData pieData = new PieData(pieDataSet);
+                pieData.setDrawValues(true);
+                pieChart2.getLegend().setEnabled(false);
+                pieChart2.setData(pieData);
+                pieChart2.invalidate();
+
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
-    private String getPeriodText(String fsPeriodx) {
-        String lsYearNox = fsPeriodx.substring(0,4);
-        String lsMonthNo = "";
-        String lsMonthNm = "";
-
-
-        if (fsPeriodx.length() > 2)
-        {
-            lsMonthNo = fsPeriodx.substring(fsPeriodx.length() - 2);
-        }
-        else
-        {
-            lsMonthNo = fsPeriodx;
-        }
-
-        switch(lsMonthNo) {
-            case "01":
-                lsMonthNm = "January";
-                break;
-            case "02":
-                lsMonthNm = "February";
-                break;
-            case "03":
-                lsMonthNm = "March";
-                break;
-            case "04":
-                lsMonthNm = "April";
-                break;
-            case "05":
-                lsMonthNm = "May";
-                break;
-            case "06":
-                lsMonthNm = "June";
-                break;
-            case "07":
-                lsMonthNm = "July";
-                break;
-            case "08":
-                lsMonthNm = "August";
-                break;
-            case "09":
-                lsMonthNm = "September";
-                break;
-            case "10":
-                lsMonthNm = "October";
-                break;
-            case "11":
-                lsMonthNm = "November";
-                break;
-            case "12":
-                lsMonthNm = "December";
-                break;
-            default:
-                lsMonthNm = "";
-                break;
-        }
-
-        return lsMonthNm + " " + lsYearNox;
+    private void setTableData(String sales, String fsPeriodx) {
+        mViewModel.getAreaBranchesSalesPerformance(fsPeriodx).observe(getActivity(), branchPerformances -> {
+            try {
+                poAdapter = new AreaPerformanceMonitoringAdapter(
+                        getActivity(), sales,
+                        branchPerformances, sBranchCd -> {
+                    try {
+                        Intent loIntent = new Intent(
+                                getActivity(),
+                                Activity_BranchPerformance.class);
+                        loIntent.putExtra("brnCD", sBranchCd);
+                        startActivity(loIntent);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                recyclerView.setLayoutManager(
+                        new LinearLayoutManager(getActivity(),
+                        LinearLayoutManager.VERTICAL,
+                        false));
+                recyclerView.setAdapter(poAdapter);
+                poAdapter.notifyDataSetChanged();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     private class TabClickHandler implements View.OnClickListener{
