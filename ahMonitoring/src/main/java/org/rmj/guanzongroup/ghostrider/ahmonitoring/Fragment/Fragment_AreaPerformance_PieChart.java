@@ -242,7 +242,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
     }
 
     private void setTableData(String sales, String fsPeriodx) {
-        mViewModel.getAreaBranchesSalesPerformance(fsPeriodx).observe(getActivity(), branchPerformances -> {
+        mViewModel.getAreaBranchesSalesPerformance(fsPeriodx, sales).observe(getActivity(), branchPerformances -> {
             try {
                 poAdapter = new AreaPerformanceMonitoringAdapter(
                         getActivity(), sales,

@@ -49,8 +49,12 @@ public class VMAreaPerfromanceMonitoring extends AndroidViewModel {
         return poArea.getAreaPerformanceInfoList();
     }
 
-    public LiveData<List<EBranchPerformance>> getAreaBranchesSalesPerformance(String fsPeriodx) {
-        return poBranch.getAreaBranchesSalesPerformance(fsPeriodx);
+    public LiveData<List<EBranchPerformance>> getAreaBranchesSalesPerformance(String fsPeriodx, String fsType) {
+        switch(fsType) {
+            case "MC": return poBranch.getAreaBranchesMCSalesPerformance(fsPeriodx);
+            case "SP": return poBranch.getAreaBranchesSPSalesPerformance(fsPeriodx);
+            default: return null;
+        }
     }
 
     public LiveData<DBranchPerformance.MonthlyPieChart> getMonthlyPieChartData(String fsPeriodx) {

@@ -165,7 +165,7 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
                     public void onValueSelected(Entry e, Highlight h) {
 //                            AreaPerformanceMonitoringAdapter.setIndexPosition((int) e.getX());
                         lblDate.setText(getPeriodText(poPeriods.get((int) e.getX())));
-                        mViewModel.getAreaBranchesSalesPerformance(poPeriods.get((int) e.getX())).observe(getActivity(), branchPerformances -> {
+                        mViewModel.getAreaBranchesSalesPerformance(poPeriods.get((int) e.getX()), sales).observe(getActivity(), branchPerformances -> {
                             try {
                                 poAdapter = new AreaPerformanceMonitoringAdapter(
                                         getActivity(), sales,
@@ -200,7 +200,7 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
                 lineChart.invalidate();
 //          SET RECYLERVIEW
                 lblDate.setText(getPeriodText(BranchPerformancePeriod.getLatestCompletePeriod()));
-                mViewModel.getAreaBranchesSalesPerformance(BranchPerformancePeriod.getLatestCompletePeriod()).observe(getActivity(), branchPerformances -> {
+                mViewModel.getAreaBranchesSalesPerformance(BranchPerformancePeriod.getLatestCompletePeriod(),sales).observe(getActivity(), branchPerformances -> {
                     try {
                         poAdapter = new AreaPerformanceMonitoringAdapter(
                                 getActivity(), sales,

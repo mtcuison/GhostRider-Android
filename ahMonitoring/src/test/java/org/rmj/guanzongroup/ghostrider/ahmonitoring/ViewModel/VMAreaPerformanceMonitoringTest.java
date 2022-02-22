@@ -46,7 +46,7 @@ public class VMAreaPerformanceMonitoringTest {
 
     @Test
     public void testGetAreaNameFromCode() {
-        mViewModel.getAreaNameFromCode("M001").observeForever(new Observer<String>() {
+        mViewModel.getAreaNameFromCode().observeForever(new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 Assert.assertNotNull(s);
@@ -66,7 +66,7 @@ public class VMAreaPerformanceMonitoringTest {
 
     @Test
     public void testGetAreaBranchesSalesPerformance() {
-        mViewModel.getAreaBranchesSalesPerformance("202101").observeForever(new Observer<List<EBranchPerformance>>() {
+        mViewModel.getAreaBranchesSalesPerformance("202101", "MC").observeForever(new Observer<List<EBranchPerformance>>() {
             @Override
             public void onChanged(List<EBranchPerformance> eBranchPerformances) {
                 Assert.assertNotNull(eBranchPerformances);

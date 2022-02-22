@@ -75,8 +75,11 @@ public interface DBranchPerformance {
     LiveData<List<EBranchPerformance>>  getAllBranchPerformanceInfoByBranch(String BranchCd);
 
     // For Area Monitoring
-    @Query("SELECT * FROM MC_Branch_Performance WHERE sPeriodxx= :fsPeriodx ORDER BY sBranchNm ASC")
-    LiveData<List<EBranchPerformance>> getAreaBranchesSalesPerformance(String fsPeriodx);
+    @Query("SELECT * FROM MC_Branch_Performance WHERE sPeriodxx= :fsPeriodx ORDER BY nMCActual DESC")
+    LiveData<List<EBranchPerformance>> getAreaBranchesMCSalesPerformance(String fsPeriodx);
+
+    @Query("SELECT * FROM MC_Branch_Performance WHERE sPeriodxx= :fsPeriodx ORDER BY nSPActual DESC")
+    LiveData<List<EBranchPerformance>> getAreaBranchesSPSalesPerformance(String fsPeriodx);
 
     @Query("SELECT nMCActual AS Actual, ROUND (nMCActual * 100.0 / nMCGoalxx) AS Percentage, nMCGoalxx AS Goal FROM MC_Branch_Performance WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
     LiveData<ActualGoal> getMCBranchPerformance();
