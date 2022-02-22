@@ -55,10 +55,7 @@ public class Fragment_PieChart_Monthly extends Fragment {
     private AreaPerformanceMonitoringAdapter poAdapter;
     private ArrayList<String> poPeriods = new ArrayList<>();
     private String[] brnSales = {"MC Sales","SP Sales","JO Sales"};
-    private TextView lblArea, lblDate;
-    private TextView lblItem1;
-    private TextView lblItem2;
-    private TextView lblSelectd;
+    private TextView lblArea, lblDate, lblItem1, lblItem2, lblSelectd, lgdGoal, lgdActual, lgdExcess;
     private ColorStateList poColor;
 
     public Fragment_PieChart_Monthly() { }
@@ -94,6 +91,9 @@ public class Fragment_PieChart_Monthly extends Fragment {
         lblArea = v.findViewById(R.id.tvArea);
         lblDate = v.findViewById(R.id.lbl_date);
         recyclerView = v.findViewById(R.id.recyclerview_area_performance);
+        lgdGoal = v.findViewById(R.id.lgd_goal);
+        lgdActual = v.findViewById(R.id.lgd_actual);
+        lgdExcess = v.findViewById(R.id.lgd_excess);
         lblItem1 = v.findViewById(R.id.item1);
         lblItem2 = v.findViewById(R.id.item2);
         lblSelectd = v.findViewById(R.id.select);
@@ -103,15 +103,18 @@ public class Fragment_PieChart_Monthly extends Fragment {
     }
 
     private void initPieChart(){
-        pieChart.setUsePercentValues(true);
+        pieChart.setUsePercentValues(false);
         pieChart.getDescription().setEnabled(false);
         pieChart.setRotationEnabled(false);
         pieChart.setDragDecelerationFrictionCoef(0.9f);
         pieChart.setRotationAngle(0);
         pieChart.setHighlightPerTapEnabled(true);
         pieChart.animateY(1400, Easing.EaseInOutQuad);
-        pieChart.setHoleRadius(40f);
-        pieChart.setTransparentCircleRadius(45f);
+        pieChart.setHoleRadius(60f);
+        pieChart.setTransparentCircleRadius(65f);
+        pieChart.setEntryLabelColor(Color.WHITE);
+        pieChart.setCenterText("Month Performance");
+        pieChart.setCenterTextSize(14f);
     }
 
     public void setChartValue(String sales, String fsPeriodx){
@@ -122,27 +125,30 @@ public class Fragment_PieChart_Monthly extends Fragment {
             try {
                 ArrayList<PieEntry> pieEntries = new ArrayList<>();
                 String label = "type";
+
                 if(sales.equalsIgnoreCase("MC")) {
+                    lgdGoal.setText("MC Goal");
+                    lgdActual.setText("MC Actual");
+                    lgdExcess.setText("MC Excess");
                     pieEntries.clear();
-                    pieEntries.add(new PieEntry(monthlyPieChart.mcGoal, "MC Goal"));
-                    pieEntries.add(new PieEntry(monthlyPieChart.mcActual, "MC Actual"));
+                    pieEntries.add(new PieEntry(monthlyPieChart.mcGoal, ""));
+                    pieEntries.add(new PieEntry(monthlyPieChart.mcActual, ""));
                     if(monthlyPieChart.mcActual > monthlyPieChart.mcGoal) {
-                        // Remove this if you want to make it as ratio type.
-                        pieEntries.clear();
                         int lnActual = monthlyPieChart.mcActual;
                         int lnGoal = monthlyPieChart.mcGoal;
-                        pieEntries.add(new PieEntry(lnActual - lnGoal, "Exceeded MC Sales"));
+                        pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
                     }
                 } else {
+                    lgdGoal.setText("SP Goal");
+                    lgdActual.setText("SP Actual");
+                    lgdExcess.setText("SP Excess");
                     pieEntries.clear();
-                    pieEntries.add(new PieEntry(monthlyPieChart.spGoal, "SP Goal"));
-                    pieEntries.add(new PieEntry(monthlyPieChart.spActual, "SP Actual"));
+                    pieEntries.add(new PieEntry(monthlyPieChart.spGoal, ""));
+                    pieEntries.add(new PieEntry(monthlyPieChart.spActual, ""));
                     if(monthlyPieChart.spActual > monthlyPieChart.spGoal) {
-                        // Remove this if you want to make it as ratio type.
-                        pieEntries.clear();
                         int lnActual = monthlyPieChart.spActual;
                         int lnGoal = monthlyPieChart.spGoal;
-                        pieEntries.add(new PieEntry(lnActual - lnGoal, "Exceeded SP Sales"));
+                        pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
                     }
                 }
 
