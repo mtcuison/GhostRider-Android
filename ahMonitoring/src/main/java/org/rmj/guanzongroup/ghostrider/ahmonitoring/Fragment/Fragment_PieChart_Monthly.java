@@ -120,7 +120,40 @@ public class Fragment_PieChart_Monthly extends Fragment {
     public void setChartValue(String sales, String fsPeriodx){
 
         /**Pie Chart Data*/
+        setMonthlyPieChartData(sales, fsPeriodx);
+        setYearPieChartData(sales, fsPeriodx);
 
+        /** RecyclerView Data*/
+        lblDate.setText(getPeriodText(fsPeriodx));
+
+        mViewModel.getAreaBranchesSalesPerformance(fsPeriodx).observe(getActivity(), branchPerformances -> {
+            try {
+                poAdapter = new AreaPerformanceMonitoringAdapter(
+                        getActivity(), sales,
+                        branchPerformances, sBranchCd -> {
+                    try {
+                        Intent loIntent = new Intent(
+                                getActivity(),
+                                Activity_BranchPerformance.class);
+                        loIntent.putExtra("brnCD", sBranchCd);
+                        startActivity(loIntent);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                recyclerView.setAdapter(poAdapter);
+                poAdapter.notifyDataSetChanged();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+    }
+
+    private void setMonthlyPieChartData(String sales, String fsPeriodx) {
         mViewModel.getMonthlyPieChartData(fsPeriodx).observe(getActivity(), monthlyPieChart -> {
             try {
                 ArrayList<PieEntry> pieEntries = new ArrayList<>();
@@ -169,35 +202,9 @@ public class Fragment_PieChart_Monthly extends Fragment {
                 e.printStackTrace();
             }
         });
+    }
 
-        /** RecyclerView Data*/
-
-        lblDate.setText(getPeriodText(fsPeriodx));
-
-        mViewModel.getAreaBranchesSalesPerformance(fsPeriodx).observe(getActivity(), branchPerformances -> {
-            try {
-                poAdapter = new AreaPerformanceMonitoringAdapter(
-                        getActivity(), sales,
-                        branchPerformances, sBranchCd -> {
-                    try {
-                        Intent loIntent = new Intent(
-                                getActivity(),
-                                Activity_BranchPerformance.class);
-                        loIntent.putExtra("brnCD", sBranchCd);
-                        startActivity(loIntent);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                });
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                recyclerView.setAdapter(poAdapter);
-                poAdapter.notifyDataSetChanged();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
+    private void setYearPieChartData(String sales, String fsPeriodx) {
 
     }
 
