@@ -207,8 +207,10 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         poMessage.initDialog();
         poMessage.setTitle(title);
         poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) ->
-                dialog.dismiss());
+        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+            checkEmployeeLevelForInventory();
+        });
         poMessage.show();
     }
 
@@ -233,7 +235,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
     @Override
     public void onSaveCashCountFailed(String message) {
         initDialog("Cash Count",message);
-        checkEmployeeLevelForInventory();
+//        checkEmployeeLevelForInventory();
     }
 
     @Override

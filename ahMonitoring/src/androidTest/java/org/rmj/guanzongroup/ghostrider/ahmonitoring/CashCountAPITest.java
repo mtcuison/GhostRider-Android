@@ -5,9 +5,14 @@ import static org.junit.Assert.assertTrue;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import org.json.JSONObject;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.SecUtil;
@@ -17,12 +22,14 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@RunWith(AndroidJUnit4.class)
 public class CashCountAPITest {
     private static final String TAG = CashCountAPITest.class.getSimpleName();
     private static final String LIVE_LOGIN = "https://restgk.guanzongroup.com.ph/security/mlogin.php";
     private static final String LOCAL_LOGIN = "http://192.168.10.141/security/mlogin.php";
     private static final String LIVE_CashCount = "https://restgk.guanzongroup.com.ph/integsys/cashcount/submit_cash_count.php";
-    private static final String LOCAL_CashCount = "http://192.168.10.141/security/mlogin.php";
+    private static final String LOCAL_CashCount = "http://192.168.10.141/integsys/cashcount/submit_cash_count.php";
 //    private final Application instance;
 //    private final Context mContext;
 
@@ -55,8 +62,8 @@ public class CashCountAPITest {
     public void test01Login() throws Exception{
         JSONObject params = new JSONObject();
         params.put("user", "mikegarcia8748@gmail.com");
-        params.put("pswd", "123456");
-        String lsResponse = WebClient.httpPostJSon(LIVE_LOGIN,
+        params.put("pswd", "12345678");
+        String lsResponse = WebClient.httpPostJSon(LOCAL_LOGIN,
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -80,14 +87,14 @@ public class CashCountAPITest {
     @Test
     public void test02CashCountNewFields() throws Exception{
         JSONObject params = new JSONObject();
-        params.put("nCn0001cx", "0");
+        params.put("nCn0001cx", "10");
         params.put("nCn0005cx", "0");
         params.put("nCn0010cx", "0");
         params.put("nCn0025cx", "0");
         params.put("nCn0050cx", "0");
         params.put("nCn0001px", "0");
         params.put("nCn0005px", "0");
-        params.put("nCn0010px", "0");
+        params.put("nCn0010px", "10");
         params.put("nNte0020p", "0");
         params.put("nNte0050p", "0");
         params.put("nNte0100p", "33");
@@ -107,7 +114,7 @@ public class CashCountAPITest {
         params.put("dEntryDte", new AppConstants().DATE_MODIFIED);
         params.put("sReqstdBy", "");
 
-        String lsResponse = WebClient.httpPostJSon(LIVE_CashCount,
+        String lsResponse = WebClient.httpPostJSon(LOCAL_CashCount,
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
