@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.ahMonitoring
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 2/23/22, 3:35 PM
+  ~ project file last modified : 2/23/22, 3:35 PM
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingVertical="5dp"
+    android:paddingHorizontal="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/progress_goal"
+                android:layout_width="30dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:indeterminateOnly="false"
+                android:layout_gravity="center_horizontal"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:rotation="270"
+                android:progress="30"
+                android:scaleX="7"
+                android:scaleY="10"
+                android:progressBackgroundTint="@color/white"
+                android:progressTintMode="multiply"
+                android:progressTint="#454545"
+                tools:ignore="UnusedAttribute" />
+
+            <TextView
+                android:id="@+id/lbl_goal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".2"
+                android:gravity="center"
+                android:fontFamily="@font/roboto_regular"
+                android:text="90"
+                android:textColor="@color/white"
+                android:textSize="10sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/progress_actual"
+                android:layout_width="30dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:rotation="270"
+                android:progress="30"
+                android:scaleX="7"
+                android:scaleY="10"
+                android:progressBackgroundTint="@color/white"
+                android:progressTintMode="multiply"
+                tools:ignore="UnusedAttribute"
+                android:progressTint="#FF8200"/>
+
+            <TextView
+                android:id="@+id/lbl_actual"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".2"
+                android:gravity="center"
+                android:fontFamily="@font/roboto_regular"
+                android:text="90"
+                android:textColor="@color/white"
+                android:textSize="10sp"/>
+
+        </LinearLayout>
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <ProgressBar-->
+<!--                android:id="@+id/progress_excess"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:indeterminateOnly="false"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                style="@style/Widget.AppCompat.ProgressBar.Horizontal"-->
+<!--                android:rotation="270"-->
+<!--                android:progress="30"-->
+<!--                android:scaleX="7"-->
+<!--                android:scaleY="10"-->
+<!--                android:progressTint="#114F87"-->
+<!--                android:progressBackgroundTint="@color/white"-->
+<!--                android:progressTintMode="multiply"-->
+<!--                tools:ignore="UnusedAttribute" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/lbl_excess"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:layout_weight=".2"-->
+<!--                android:gravity="center"-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:text="90"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="10sp"/>-->
+
+<!--        </LinearLayout>-->
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lbl_period"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Period"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"/>
+
+</LinearLayout>

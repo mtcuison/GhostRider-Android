@@ -60,11 +60,12 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <com.github.mikephil.charting.charts.LineChart
-                            android:id="@+id/activity_area_linechart"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView_chart"
                             android:layout_width="match_parent"
                             android:layout_height="170dp"
                             android:layout_marginVertical="10dp"
+                            android:orientation="vertical"
                             android:padding="5dp" />
 
                         <LinearLayout

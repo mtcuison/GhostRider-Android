@@ -30,16 +30,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaPerformanceAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaPerformanceMonitoringAdapter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.BranchMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMAreaPerfromanceMonitoring;
 
 public class Fragment_AreaPerformance_BarChart extends Fragment {
     private static final String TAG = Fragment_AreaPerformance_BarChart.class.getSimpleName();
     private VMAreaPerfromanceMonitoring mViewModel;
-    private RecyclerView rvTable;
+    private RecyclerView rvTable, rvChart;
+    private AreaPerformanceAdapter poChartAd;
     private AreaPerformanceMonitoringAdapter poTblAdpt;
     private String[] brnSales = {"MC Sales","SP Sales","JO Sales"};
     private TextView lblArea, lblDate, lblItem1, lblItem2, lblSelectd, lgdGoal, lgdActual, lgdExcess;
@@ -65,12 +70,13 @@ public class Fragment_AreaPerformance_BarChart extends Fragment {
                 e.printStackTrace();
             }
         });
-        mViewModel.getType().observe(getViewLifecycleOwner(), s -> setChartValue(s, getLatestCompletePeriod()));
+        mViewModel.getType().observe(getViewLifecycleOwner(), s -> setValues(s, getLatestCompletePeriod()));
     }
 
     private void initWidgets(View v) {
         lblArea = v.findViewById(R.id.tvArea);
         lblDate = v.findViewById(R.id.lbl_date);
+        rvChart = v.findViewById(R.id.recyclerView_chart);
         rvTable = v.findViewById(R.id.recyclerview_table);
         lgdGoal = v.findViewById(R.id.lgd_goal);
         lgdActual = v.findViewById(R.id.lgd_actual);
@@ -83,8 +89,29 @@ public class Fragment_AreaPerformance_BarChart extends Fragment {
         lblItem2.setOnClickListener(new TabClickHandler());
     }
 
-    private void setChartValue(String sales, String fsPeriodx) {
+    private void setValues(String sales, String fsPeriodx) {
+        setChartData(sales, fsPeriodx);
         setTableData(sales, fsPeriodx);
+    }
+
+    private void setChartData(String sales, String fsPeriodx) {
+        mViewModel.getAreaPerformanceInfoList().observe(getViewLifecycleOwner(), performances -> {
+            try {
+                poChartAd = new AreaPerformanceAdapter(performances, sales, eAreaPerformance -> {
+
+                });
+                rvChart.setHasFixedSize(true);
+                rvChart.setItemAnimator(new DefaultItemAnimator());
+                rvChart.setLayoutManager(
+                        new LinearLayoutManager(getActivity(),
+                                LinearLayoutManager.HORIZONTAL,
+                                false));
+                rvChart.setAdapter(poChartAd);
+                poChartAd.notifyDataSetChanged();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void setTableData(String sales, String fsPeriodx) {
