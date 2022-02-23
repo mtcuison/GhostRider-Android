@@ -74,7 +74,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMAreaPerfromanceMonitoring.class);
-        mViewModel.getAreaNameFromCode().observe(getActivity(), sAreaName-> {
+        mViewModel.getAreaNameFromCode().observe(getViewLifecycleOwner(), sAreaName-> {
             try {
                 lblArea.setText(sAreaName);
             } catch(NullPointerException e) {
@@ -84,7 +84,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
 
         poPeriods = BranchPerformancePeriod.getSortedPeriodList(BranchPerformancePeriod.getList());
         initPieChart();
-        mViewModel.getType().observe(getActivity(), s -> setChartValue(s, getLatestCompletePeriod()));
+        mViewModel.getType().observe(getViewLifecycleOwner(), s -> setChartValue(s, getLatestCompletePeriod()));
     }
 
     private void initWidgets(View v) {
@@ -140,7 +140,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
     }
 
     private void setMonthPieChartData(String sales, String fsPeriodx) {
-        mViewModel.getMonthlyPieChartData(fsPeriodx).observe(getActivity(), monthlyPieChart -> {
+        mViewModel.getMonthlyPieChartData(fsPeriodx).observe(getViewLifecycleOwner(), monthlyPieChart -> {
             try {
                 ArrayList<PieEntry> pieEntries = new ArrayList<>();
                 String label = "type";
@@ -191,7 +191,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
     }
 
     private void setYearPieChartData(String sales) {
-        mViewModel.get12MonthPieChartData(getList().get(getList().size()-1), getList().get(0)).observe(getActivity(), monthlyPieChart -> {
+        mViewModel.get12MonthPieChartData(getList().get(getList().size()-1), getList().get(0)).observe(getViewLifecycleOwner(), monthlyPieChart -> {
             try {
                 ArrayList<PieEntry> pieEntries = new ArrayList<>();
                 String label = "type";
@@ -242,7 +242,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
     }
 
     private void setTableData(String sales, String fsPeriodx) {
-        mViewModel.getAreaBranchesSalesPerformance(fsPeriodx, sales).observe(getActivity(), branchPerformances -> {
+        mViewModel.getAreaBranchesSalesPerformance(fsPeriodx, sales).observe(getViewLifecycleOwner(), branchPerformances -> {
             try {
                 poAdapter = new AreaPerformanceMonitoringAdapter(
                         getActivity(), sales,

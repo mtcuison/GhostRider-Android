@@ -91,7 +91,7 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
         width = metrics.widthPixels;
         height = metrics.heightPixels;
         mViewModel = new ViewModelProvider(requireActivity()).get(VMAreaPerfromanceMonitoring.class);
-        mViewModel.getAreaNameFromCode().observe(getActivity(), sAreaName-> {
+        mViewModel.getAreaNameFromCode().observe(getViewLifecycleOwner(), sAreaName-> {
             try {
                 lblArea.setText(sAreaName);
             } catch(NullPointerException e) {
@@ -99,7 +99,7 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
             }
         });
         poPeriods = BranchPerformancePeriod.getSortedPeriodList(BranchPerformancePeriod.getList());
-        mViewModel.getType().observe(getActivity(), s -> setChartValue(s));
+        mViewModel.getType().observe(getViewLifecycleOwner(), s -> setChartValue(s));
     }
 
     private void initWidgets(View v){
@@ -117,7 +117,7 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
     }
 
     public void setChartValue(String sales){
-        mViewModel.getAreaPerformanceInfoList().observe(getActivity(), performances -> {
+        mViewModel.getAreaPerformanceInfoList().observe(getViewLifecycleOwner(), performances -> {
             try {
                 chartValues = new ArrayList<>();
                 if (sales.equalsIgnoreCase("MC")){
@@ -165,7 +165,7 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
                     public void onValueSelected(Entry e, Highlight h) {
 //                            AreaPerformanceMonitoringAdapter.setIndexPosition((int) e.getX());
                         lblDate.setText(getPeriodText(poPeriods.get((int) e.getX())));
-                        mViewModel.getAreaBranchesSalesPerformance(poPeriods.get((int) e.getX()), sales).observe(getActivity(), branchPerformances -> {
+                        mViewModel.getAreaBranchesSalesPerformance(poPeriods.get((int) e.getX()), sales).observe(getViewLifecycleOwner(), branchPerformances -> {
                             try {
                                 poAdapter = new AreaPerformanceMonitoringAdapter(
                                         getActivity(), sales,
@@ -200,7 +200,7 @@ public class Fragment_AreaPerformance_LineChart extends Fragment {
                 lineChart.invalidate();
 //          SET RECYLERVIEW
                 lblDate.setText(getPeriodText(BranchPerformancePeriod.getLatestCompletePeriod()));
-                mViewModel.getAreaBranchesSalesPerformance(BranchPerformancePeriod.getLatestCompletePeriod(),sales).observe(getActivity(), branchPerformances -> {
+                mViewModel.getAreaBranchesSalesPerformance(BranchPerformancePeriod.getLatestCompletePeriod(),sales).observe(getViewLifecycleOwner(), branchPerformances -> {
                     try {
                         poAdapter = new AreaPerformanceMonitoringAdapter(
                                 getActivity(), sales,

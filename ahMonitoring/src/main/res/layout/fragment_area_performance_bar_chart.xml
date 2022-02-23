@@ -150,7 +150,7 @@
                             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                             <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/recyclerview_area_performance"
+                                android:id="@+id/recyclerview_table"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:clipToPadding="false"

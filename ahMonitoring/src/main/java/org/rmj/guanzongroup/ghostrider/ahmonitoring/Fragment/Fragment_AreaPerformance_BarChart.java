@@ -11,32 +11,129 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
+import static org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod.getLatestCompletePeriod;
+
+import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaPerformanceMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMAreaPerfromanceMonitoring;
 
 public class Fragment_AreaPerformance_BarChart extends Fragment {
     private static final String TAG = Fragment_AreaPerformance_BarChart.class.getSimpleName();
+    private VMAreaPerfromanceMonitoring mViewModel;
+    private RecyclerView rvTable;
+    private AreaPerformanceMonitoringAdapter poTblAdpt;
+    private String[] brnSales = {"MC Sales","SP Sales","JO Sales"};
+    private TextView lblArea, lblDate, lblItem1, lblItem2, lblSelectd, lgdGoal, lgdActual, lgdExcess;
+    private ColorStateList poColor;
 
     public Fragment_AreaPerformance_BarChart() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_area_performance_bar_chart, container, false);
-
+        initWidgets(view);
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMAreaPerfromanceMonitoring.class);
+        mViewModel.getAreaNameFromCode().observe(getViewLifecycleOwner(), sAreaName-> {
+            try {
+                lblArea.setText(sAreaName);
+            } catch(NullPointerException e) {
+                e.printStackTrace();
+            }
+        });
+        mViewModel.getType().observe(getViewLifecycleOwner(), s -> setChartValue(s, getLatestCompletePeriod()));
+    }
+
+    private void initWidgets(View v) {
+        lblArea = v.findViewById(R.id.tvArea);
+        lblDate = v.findViewById(R.id.lbl_date);
+        rvTable = v.findViewById(R.id.recyclerview_table);
+        lgdGoal = v.findViewById(R.id.lgd_goal);
+        lgdActual = v.findViewById(R.id.lgd_actual);
+        lgdExcess = v.findViewById(R.id.lgd_excess);
+        lblItem1 = v.findViewById(R.id.item1);
+        lblItem2 = v.findViewById(R.id.item2);
+        lblSelectd = v.findViewById(R.id.select);
+        poColor = lblItem2.getTextColors();
+        lblItem1.setOnClickListener(new TabClickHandler());
+        lblItem2.setOnClickListener(new TabClickHandler());
+    }
+
+    private void setChartValue(String sales, String fsPeriodx) {
+        setTableData(sales, fsPeriodx);
+    }
+
+    private void setTableData(String sales, String fsPeriodx) {
+        mViewModel.getAreaBranchesSalesPerformance(fsPeriodx, sales).observe(getViewLifecycleOwner(), branchPerformances -> {
+            try {
+                poTblAdpt = new AreaPerformanceMonitoringAdapter(
+                        getActivity(), sales,
+                        branchPerformances, sBranchCd -> {
+                    try {
+                        Intent loIntent = new Intent(
+                                getActivity(),
+                                Activity_BranchPerformance.class);
+                        loIntent.putExtra("brnCD", sBranchCd);
+                        startActivity(loIntent);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                rvTable.setHasFixedSize(true);
+                rvTable.setItemAnimator(new DefaultItemAnimator());
+                rvTable.setLayoutManager(
+                        new LinearLayoutManager(getActivity(),
+                                LinearLayoutManager.VERTICAL,
+                                false));
+                rvTable.setAdapter(poTblAdpt);
+                poTblAdpt.notifyDataSetChanged();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    private class TabClickHandler implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+            if (view.getId() == R.id.item1){
+                lblSelectd.animate().x(0).setDuration(100);
+                lblItem1.setTextColor(Color.WHITE);
+                lblItem2.setTextColor(poColor);
+                mViewModel.setType("MC");
+            } else if (view.getId() == R.id.item2){
+                lblItem1.setTextColor(poColor);
+                lblItem2.setTextColor(Color.WHITE);
+                int size = lblItem2.getWidth();
+                lblSelectd.animate().x(size).setDuration(100);
+                mViewModel.setType("SP");
+            }
+        }
 
     }
 
