@@ -90,11 +90,20 @@ public class Fragment_AreaPerformance_BarChart extends Fragment {
     }
 
     private void setValues(String sales, String fsPeriodx) {
-        setChartData(sales, fsPeriodx);
+        setChartData(sales);
         setTableData(sales, fsPeriodx);
     }
 
-    private void setChartData(String sales, String fsPeriodx) {
+    private void setChartData(String sales) {
+        if(sales.equalsIgnoreCase("MC")) {
+            lgdGoal.setText("MC Goal");
+            lgdActual.setText("MC Actual");
+            lgdExcess.setText("MC Excess");
+        } else if(sales.equalsIgnoreCase("SP")) {
+            lgdGoal.setText("SP Goal");
+            lgdActual.setText("SP Actual");
+            lgdExcess.setText("SP Excess");
+        }
         mViewModel.getAreaPerformanceInfoList().observe(getViewLifecycleOwner(), performances -> {
             try {
                 poChartAd = new AreaPerformanceAdapter(performances, sales, eAreaPerformance -> {

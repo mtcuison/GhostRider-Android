@@ -71,6 +71,56 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginBottom="15dp">
+
+                            <View
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:background="#454545"
+                                android:layout_marginTop="1dp"
+                                android:layout_marginRight="5dp"/>
+
+                            <TextView
+                                android:id="@+id/lgd_goal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Goal"
+                                android:layout_marginRight="10dp"/>
+
+                            <View
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:background="#FF8200"
+                                android:layout_marginTop="1dp"
+                                android:layout_marginRight="5dp"/>
+
+                            <TextView
+                                android:id="@+id/lgd_actual"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Actual"
+                                android:layout_marginRight="10dp"/>
+
+                            <View
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:background="#114F87"
+                                android:layout_marginTop="1dp"
+                                android:layout_marginRight="5dp"/>
+
+                            <TextView
+                                android:id="@+id/lgd_excess"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Excess"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:layout_marginVertical="10dp"
                             android:orientation="vertical">

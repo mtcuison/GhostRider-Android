@@ -91,40 +91,40 @@
 
         </LinearLayout>
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="30dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="vertical">-->
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-<!--            <ProgressBar-->
-<!--                android:id="@+id/progress_excess"-->
-<!--                android:layout_width="30dp"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:indeterminateOnly="false"-->
-<!--                android:layout_gravity="center_horizontal"-->
-<!--                style="@style/Widget.AppCompat.ProgressBar.Horizontal"-->
-<!--                android:rotation="270"-->
-<!--                android:progress="30"-->
-<!--                android:scaleX="7"-->
-<!--                android:scaleY="10"-->
-<!--                android:progressTint="#114F87"-->
-<!--                android:progressBackgroundTint="@color/white"-->
-<!--                android:progressTintMode="multiply"-->
-<!--                tools:ignore="UnusedAttribute" />-->
+            <ProgressBar
+                android:id="@+id/progress_excess"
+                android:layout_width="30dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:indeterminateOnly="false"
+                android:layout_gravity="center_horizontal"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:rotation="270"
+                android:progress="30"
+                android:scaleX="7"
+                android:scaleY="10"
+                android:progressTint="#114F87"
+                android:progressBackgroundTint="@color/white"
+                android:progressTintMode="multiply"
+                tools:ignore="UnusedAttribute" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/lbl_excess"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_weight=".2"-->
-<!--                android:gravity="center"-->
-<!--                android:fontFamily="@font/roboto_regular"-->
-<!--                android:text="90"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="10sp"/>-->
+            <TextView
+                android:id="@+id/lbl_excess"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".2"
+                android:gravity="center"
+                android:fontFamily="@font/roboto_regular"
+                android:text="90"
+                android:textColor="@color/white"
+                android:textSize="10sp"/>
 
-<!--        </LinearLayout>-->
+        </LinearLayout>
 
     </LinearLayout>
 

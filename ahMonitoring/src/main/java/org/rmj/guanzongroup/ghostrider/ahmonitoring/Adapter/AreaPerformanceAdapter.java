@@ -57,7 +57,6 @@ public class AreaPerformanceAdapter extends RecyclerView.Adapter<AreaPerformance
         holder.eArea = areaPerformances.get(position);
 
         if("MC".equalsIgnoreCase(psType)) {
-
             int lnGoal = getPercentageProgress(area.getMCGoalxx(),area.getMCGoalxx());
             holder.pGoal.setMax(getDynamicSize(area.getMCGoalxx()));
             holder.pGoal.setProgress(lnGoal);
@@ -68,7 +67,14 @@ public class AreaPerformanceAdapter extends RecyclerView.Adapter<AreaPerformance
             holder.pActual.setProgress(lnActual);
             holder.lblActual.setText(getPercentageValue(area.getMCActual(), area.getMCGoalxx()));
 
-        } else if("SP".equalsIgnoreCase(psType)) {
+            if(area.getMCActual() > area.getMCGoalxx()) {
+                int lnExcess = getPercentageProgress(area.getMCActual() - area.getMCGoalxx(), area.getMCGoalxx());
+                holder.pExcess.setMax(getDynamicSize(area.getMCGoalxx()));
+                holder.pExcess.setProgress(lnExcess);
+                holder.lblExcess.setText(getPercentageValue(area.getMCActual() - area.getMCGoalxx(), area.getMCGoalxx()));
+            }
+
+        } else {
             int lnGoal = getPercentageProgress(area.getSPGoalxx(),area.getSPGoalxx());
             holder.pGoal.setMax(getDynamicSize(area.getSPGoalxx()));
             holder.pGoal.setProgress(lnGoal);
@@ -79,28 +85,14 @@ public class AreaPerformanceAdapter extends RecyclerView.Adapter<AreaPerformance
             holder.pActual.setProgress(lnActual);
             holder.lblActual.setText(getPercentageValue(area.getSPActual(), area.getSPGoalxx()));
 
+            if(area.getSPActual() > area.getSPGoalxx()) {
+                int lnExcess = getPercentageProgress(area.getSPActual() - area.getSPGoalxx(), area.getSPGoalxx());
+                holder.pExcess.setMax(getDynamicSize(area.getSPGoalxx()));
+                holder.pExcess.setProgress(lnExcess);
+                holder.lblExcess.setText(getPercentageValue(area.getSPActual() - area.getSPGoalxx(), area.getSPGoalxx()));
+            }
         }
 
-////        holder.txtPrct.setText(branch.getMCSalesPercentage());
-//
-//        int mcSales = getPercentageProgress(area.getMCActual(), area.getMCGoalxx());
-//        holder.mcSales.setMax(getDynamicSize(area.getMCGoalxx()));
-//        holder.mcSales.setProgress(mcSales);
-//        int spSales = getPercentageProgress(area.getSPActual(), area.getSPGoalxx());
-//        holder.spSales.setMax(getDynamicSize(area.getSPGoalxx()));
-//        holder.spSales.setProgress(spSales);
-//        int jbOrder =getPercentageProgress(area.getLRActual(), area.getLRGoalxx());
-//        holder.jbOrder.setMax(getDynamicSize(area.getLRGoalxx()));
-//        holder.jbOrder.setProgress(jbOrder);
-//
-//        holder.lblSpSales.setText(getPercentageValue(area.getSPActual(), area.getSPGoalxx()));
-//        holder.lblMcSales.setText(String.valueOf(area.getMCActual()));
-//        holder.lblJbOrder.setText(getPercentageValue(area.getLRActual(), area.getLRGoalxx()));
-////        holder.progressBar.setScaleY(55f);
-////        holder.progressBar.setProgress(getParseValue(branch.getSalesPercentage()));
-////
-////        progress = getParseValue(branch.getSalesPercentage().replace("%",""));
-////        holder.progressBar.setProgress(progress);
     }
 
     @Override
@@ -113,8 +105,10 @@ public class AreaPerformanceAdapter extends RecyclerView.Adapter<AreaPerformance
         public TextView txtPeriod;
         public TextView lblGoal;
         public TextView lblActual;
+        public TextView lblExcess;
         public ProgressBar pGoal;
         public ProgressBar pActual;
+        public ProgressBar pExcess;
         public EAreaPerformance eArea;
 
         public ChartViewHolder(@NonNull View itemView, OnBranchPerformanceClickListener listener) {
@@ -122,8 +116,10 @@ public class AreaPerformanceAdapter extends RecyclerView.Adapter<AreaPerformance
             txtPeriod = itemView.findViewById(R.id.lbl_period);
             pGoal = itemView.findViewById(R.id.progress_goal);
             pActual = itemView.findViewById(R.id.progress_actual);
+            pExcess = itemView.findViewById(R.id.progress_excess);
             lblGoal = itemView.findViewById(R.id.lbl_goal);
             lblActual = itemView.findViewById(R.id.lbl_actual);
+            lblExcess = itemView.findViewById(R.id.lbl_excess);
 
             itemView.setOnClickListener(v -> listener.OnClick(eArea));
         }
