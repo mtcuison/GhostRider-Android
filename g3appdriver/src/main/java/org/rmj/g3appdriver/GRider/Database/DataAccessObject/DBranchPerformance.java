@@ -126,6 +126,17 @@ public interface DBranchPerformance {
             " BETWEEN :fsValue1 AND :fsValue2")
     LiveData<MonthlyPieChart> get12MonthPieChartData(String fsValue1, String fsValue2);
 
+    @Query("SELECT" +
+            " SUM(nMCGoalxx) as mcGoal," +
+            " SUM(nMCActual) as mcActual," +
+            " SUM(nSPGoalxx) as spGoal," +
+            " SUM(nSPActual) as spActual" +
+            " FROM MC_Branch_Performance" +
+            " WHERE sBranchCd = :sBranchCd" +
+            " AND sPeriodxx BETWEEN" +
+            " :fsValue1 AND :fsValue2")
+    LiveData<MonthlyPieChart> get12MonthBranchPieChartData(String sBranchCd, String fsValue1, String fsValue2);
+
     class ActualGoal{
         public String Actual;
         public String Percentage;
