@@ -81,66 +81,6 @@ public class BranchPerformancePeriod {
         }
     }
 
-    public static String getPeriodText(String fsPeriodx) {
-        String lsYearNox = fsPeriodx.substring(0,4);
-        String lsMonthNo = "";
-        String lsMonthNm = "";
-
-
-        if (fsPeriodx.length() > 2)
-        {
-            lsMonthNo = fsPeriodx.substring(fsPeriodx.length() - 2);
-        }
-        else
-        {
-            lsMonthNo = fsPeriodx;
-        }
-
-        switch(lsMonthNo) {
-            case "01":
-                lsMonthNm = "January";
-                break;
-            case "02":
-                lsMonthNm = "February";
-                break;
-            case "03":
-                lsMonthNm = "March";
-                break;
-            case "04":
-                lsMonthNm = "April";
-                break;
-            case "05":
-                lsMonthNm = "May";
-                break;
-            case "06":
-                lsMonthNm = "June";
-                break;
-            case "07":
-                lsMonthNm = "July";
-                break;
-            case "08":
-                lsMonthNm = "August";
-                break;
-            case "09":
-                lsMonthNm = "September";
-                break;
-            case "10":
-                lsMonthNm = "October";
-                break;
-            case "11":
-                lsMonthNm = "November";
-                break;
-            case "12":
-                lsMonthNm = "December";
-                break;
-            default:
-                lsMonthNm = "";
-                break;
-        }
-
-        return lsMonthNm + " " + lsYearNox;
-    }
-
     public static ArrayList<String> getSortedPeriodList(ArrayList<String> foList) {
         if(foList.size() > 0) {
 
