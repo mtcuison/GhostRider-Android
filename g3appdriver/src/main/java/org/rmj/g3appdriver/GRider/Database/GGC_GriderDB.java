@@ -38,6 +38,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCountryInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCP_Remittance;
@@ -86,6 +87,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
@@ -173,7 +175,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EUncapturedClient;
         EEmployeeBusinessTrip.class,
         EEmployeeRole.class,
         EInventoryMaster.class,
-        EInventoryDetail.class}, version = 32, exportSchema = false)
+        EInventoryDetail.class,
+        ECreditOnlineApplicationCI.class}, version = 32, exportSchema = false)
 public abstract class GGC_GriderDB extends RoomDatabase {
     private static final String TAG = "GhostRider_DB_Manager";
     private static GGC_GriderDB instance;
@@ -226,6 +229,7 @@ public abstract class GGC_GriderDB extends RoomDatabase {
     public abstract DEmployeeRole employeeRoleDao();
     public abstract DInventoryMaster inventoryMasterDao();
     public abstract DInventoryDetail inventoryDetailDao();
+    public abstract DCreditOnlineApplicationCI creditEvaluationDao();
 
     public static synchronized GGC_GriderDB getInstance(Context context){
         if(instance == null){
