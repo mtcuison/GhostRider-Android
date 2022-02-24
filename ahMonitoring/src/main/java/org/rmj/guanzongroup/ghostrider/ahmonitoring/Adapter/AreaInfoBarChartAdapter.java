@@ -11,7 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 
-import android.util.Log;
+import static org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod.parseDateLabel;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class AreaPerformanceAdapter extends RecyclerView.Adapter<AreaPerformanceAdapter.ChartViewHolder> {
+public class AreaInfoBarChartAdapter extends RecyclerView.Adapter<AreaInfoBarChartAdapter.ChartViewHolder> {
 
     private final List<EAreaPerformance> areaPerformances;
     private final OnBranchPerformanceClickListener mListener;
@@ -37,7 +38,7 @@ public class AreaPerformanceAdapter extends RecyclerView.Adapter<AreaPerformance
         void OnClick(EAreaPerformance eAreaPerformance);
     }
 
-    public AreaPerformanceAdapter(List<EAreaPerformance> areaPerformances, String fsType, OnBranchPerformanceClickListener listener){
+    public AreaInfoBarChartAdapter(List<EAreaPerformance> areaPerformances, String fsType, OnBranchPerformanceClickListener listener){
         this.areaPerformances = areaPerformances;
         this.mListener = listener;
         this.psType = fsType;
@@ -53,7 +54,7 @@ public class AreaPerformanceAdapter extends RecyclerView.Adapter<AreaPerformance
     @Override
     public void onBindViewHolder(@NonNull ChartViewHolder holder, int position) {
         EAreaPerformance area = areaPerformances.get(position);
-        holder.txtPeriod.setText(area.getPeriodxx());
+        holder.txtPeriod.setText(parseDateLabel(area.getPeriodxx()));
         holder.eArea = areaPerformances.get(position);
 
         if("MC".equalsIgnoreCase(psType)) {
@@ -75,6 +76,7 @@ public class AreaPerformanceAdapter extends RecyclerView.Adapter<AreaPerformance
             }
 
         } else {
+
             int lnGoal = getPercentageProgress(area.getSPGoalxx(),area.getSPGoalxx());
             holder.pGoal.setMax(getDynamicSize(area.getSPGoalxx()));
             holder.pGoal.setProgress(lnGoal);

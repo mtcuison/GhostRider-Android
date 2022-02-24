@@ -133,8 +133,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Period"
+        android:textSize="14sp"
         android:gravity="center"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"/>
+        android:paddingVertical="8dp"/>
 
 </LinearLayout>

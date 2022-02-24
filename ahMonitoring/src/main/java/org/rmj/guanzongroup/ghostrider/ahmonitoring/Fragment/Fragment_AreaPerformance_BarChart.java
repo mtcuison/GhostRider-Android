@@ -30,13 +30,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_BranchPerformance;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaPerformanceAdapter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaInfoBarChartAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.AreaPerformanceMonitoringAdapter;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.BranchMonitoringAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMAreaPerfromanceMonitoring;
 
@@ -44,7 +40,7 @@ public class Fragment_AreaPerformance_BarChart extends Fragment {
     private static final String TAG = Fragment_AreaPerformance_BarChart.class.getSimpleName();
     private VMAreaPerfromanceMonitoring mViewModel;
     private RecyclerView rvTable, rvChart;
-    private AreaPerformanceAdapter poChartAd;
+    private AreaInfoBarChartAdapter poChartAd;
     private AreaPerformanceMonitoringAdapter poTblAdpt;
     private String[] brnSales = {"MC Sales","SP Sales","JO Sales"};
     private TextView lblArea, lblDate, lblItem1, lblItem2, lblSelectd, lgdGoal, lgdActual, lgdExcess;
@@ -106,9 +102,10 @@ public class Fragment_AreaPerformance_BarChart extends Fragment {
         }
         mViewModel.getAreaPerformanceInfoList().observe(getViewLifecycleOwner(), performances -> {
             try {
-                poChartAd = new AreaPerformanceAdapter(performances, sales, eAreaPerformance -> {
+                poChartAd = new AreaInfoBarChartAdapter(performances, sales, eAreaPerformance -> {
 
                 });
+                poChartAd.notifyDataSetChanged();
                 rvChart.setHasFixedSize(true);
                 rvChart.setItemAnimator(new DefaultItemAnimator());
                 rvChart.setLayoutManager(
@@ -116,7 +113,6 @@ public class Fragment_AreaPerformance_BarChart extends Fragment {
                                 LinearLayoutManager.HORIZONTAL,
                                 false));
                 rvChart.setAdapter(poChartAd);
-                poChartAd.notifyDataSetChanged();
             } catch (Exception e) {
                 e.printStackTrace();
             }

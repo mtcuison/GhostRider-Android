@@ -63,7 +63,7 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView_chart"
                             android:layout_width="match_parent"
-                            android:layout_height="170dp"
+                            android:layout_height="wrap_content"
                             android:layout_marginVertical="10dp"
                             android:orientation="vertical"
                             android:padding="5dp" />

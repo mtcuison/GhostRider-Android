@@ -63,8 +63,6 @@ public class Fragment_BranchPerformance_PieChart extends Fragment {
     private String brnCD;
     ArrayList<Entry> chartValues;
     private LineChart lineChart;
-    public int width;
-    public int height;
     private TextView lblBranch, lgdGoal, lgdActual, lgdExcess;
 
     private ColorStateList poColor;
