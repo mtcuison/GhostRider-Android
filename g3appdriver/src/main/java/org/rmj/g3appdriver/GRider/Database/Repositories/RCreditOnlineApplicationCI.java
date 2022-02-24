@@ -27,7 +27,7 @@ public class RCreditOnlineApplicationCI implements DCreditOnlineApplicationCI {
     }
 
     @Override
-    public void UpdateTransaction() {
-        poDao.UpdateTransaction();
+    public void UpdateTransaction(String TransNox) {
+        poDao.UpdateTransaction(TransNox);
     }
 }
