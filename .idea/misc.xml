@@ -23,6 +23,7 @@
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_area_performance_line_chart.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_area_performance_pie_chart.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_branch_opening.xml" value="0.13651315789473684" />
+        <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_branch_performance_line_chart.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_leave_application.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_pie_chart_monthly.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_pie_chart_yearly.xml" value="0.12763157894736843" />
@@ -184,7 +185,7 @@
     </list>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
