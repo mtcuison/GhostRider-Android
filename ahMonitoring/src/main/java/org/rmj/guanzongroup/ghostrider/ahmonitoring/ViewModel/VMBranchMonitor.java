@@ -18,6 +18,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
@@ -41,6 +42,11 @@ public class VMBranchMonitor extends AndroidViewModel {
     public LiveData<List<EBranchPerformance>>  getAllBranchPerformanceInfoByBranch(String branchCD){
         return poDatabse.getAllBranchPerformanceInfoByBranch(branchCD);
     }
+
+    public LiveData<DBranchPerformance.MonthlyPieChart> get12MonthBranchPieChartData(String sBranchCd, String fsValue1, String fsValue2) {
+        return poDatabse.get12MonthBranchPieChartData(sBranchCd, fsValue1, fsValue2);
+    }
+
     public LiveData<String> getBranchName(String brnCD){
         return poBranch.getBranchName(brnCD);
     }
