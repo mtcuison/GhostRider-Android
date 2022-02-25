@@ -219,6 +219,8 @@ public class WebApi {
     public static String URL_REQUEST_RANDOM_STOCK_INVENTORY = "https://restgk.guanzongroup.com.ph/integsys/bullseye/random_stock_inventory_request.php";
     public static String URL_SUBMIT_RANDOM_STOCK_INVENTORY  = "https://restgk.guanzongroup.com.ph/integsys/bullseye/random_stock_inventory_submit.php";
 
+    public static String URL_DOWNLOAD_CI_APPLICATION = "";
+
     public static String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gRider.apk";
 
     public static String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
