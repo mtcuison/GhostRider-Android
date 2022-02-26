@@ -281,12 +281,12 @@ public class Activity_CashCounter extends AppCompatActivity {
                 findViewById(R.id.edt20p)
         };
         cprice = new TextView[] {
-               findViewById(R.id.tv1000p),
-               findViewById(R.id.tv500p),
-               findViewById(R.id.tv200p),
-               findViewById(R.id.tv100p),
-               findViewById(R.id.tv50p),
-               findViewById(R.id.tv20p)
+                findViewById(R.id.tv1000p),
+                findViewById(R.id.tv500p),
+                findViewById(R.id.tv200p),
+                findViewById(R.id.tv100p),
+                findViewById(R.id.tv50p),
+                findViewById(R.id.tv20p)
         };
         totalPeso = new TextInputEditText[] {
                 findViewById(R.id.edtTotal1000p),
@@ -307,12 +307,12 @@ public class Activity_CashCounter extends AppCompatActivity {
                 findViewById(R.id.edt1cc),
         };
         cpriceCoin = new TextView[] {
-               findViewById(R.id.tv10pc),
-               findViewById(R.id.tv5pc),
-               findViewById(R.id.tv1pc),
-               findViewById(R.id.tv25cc),
-               findViewById(R.id.tv10cc),
-               findViewById(R.id.tv5cc),
+                findViewById(R.id.tv10pc),
+                findViewById(R.id.tv5pc),
+                findViewById(R.id.tv1pc),
+                findViewById(R.id.tv25cc),
+                findViewById(R.id.tv10cc),
+                findViewById(R.id.tv5cc),
                 findViewById(R.id.tv1cc)
         };
         totalCoin = new TextInputEditText[] {
