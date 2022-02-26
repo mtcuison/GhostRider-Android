@@ -29,6 +29,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
@@ -60,6 +61,8 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
             txtORNorthPoint,
             txtPRNorthPoint,
             txtDeliveryRcpt,
+            txtPettyCashxxx,
+            txtTotalSalesxx,
             txtTransNox;
     private Button btnSendToServer;
 
@@ -89,8 +92,14 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
             }
         });
         mViewModel.getTransNox().observe(Activity_CashCountSubmit.this, s-> {
-            txtTransNox.setText(s);
-            txtCurr_DateTime.setText(new AppConstants().CURRENT_DATE_WORD);
+            try {
+                JSONObject loJson = getParameters();
+                txtTransNox.setText(s);
+                txtTotalSalesxx.setText(FormatUIText.getCurrencyUIFormat(loJson.getString("nTotSales")));
+                txtCurr_DateTime.setText(new AppConstants().CURRENT_DATE_WORD);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
         btnQuickSearch.setOnClickListener(v ->  {
             if (txtRequestID.getText().toString().isEmpty()){
@@ -102,15 +111,16 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         btnSendToServer.setOnClickListener(v->{
             JSONObject parameters = getParameters();
             try{
-                parameters.put("sTransNox", txtTransNox.getText().toString());
+                parameters.put("sTransNox", Objects.requireNonNull(txtTransNox.getText()).toString());
                 parameters.put("sBranchCd", BranchCd);
-                parameters.put("sORNoxxxx", txtOfficialReceipt.getText().toString());
-                parameters.put("sSINoxxxx", txtSalesInvoice.getText().toString());
-                parameters.put("sPRNoxxxx", txtProvisionalReceipt.getText().toString());
-                parameters.put("sCRNoxxxx", txtCollectionReceipt.getText().toString());
-                parameters.put("sORNoxNPt", txtORNorthPoint.getText().toString());
-                parameters.put("sPRNoxNPt", txtPRNorthPoint.getText().toString());
-                parameters.put("sDRNoxxxx", txtDeliveryRcpt.getText().toString());
+                parameters.put("sPettyAmt", Objects.requireNonNull(txtPettyCashxxx.getText()).toString().replace(",", ""));
+                parameters.put("sORNoxxxx", Objects.requireNonNull(txtOfficialReceipt.getText()).toString());
+                parameters.put("sSINoxxxx", Objects.requireNonNull(txtSalesInvoice.getText()).toString());
+                parameters.put("sPRNoxxxx", Objects.requireNonNull(txtProvisionalReceipt.getText()).toString());
+                parameters.put("sCRNoxxxx", Objects.requireNonNull(txtCollectionReceipt.getText()).toString());
+                parameters.put("sORNoxNPt", Objects.requireNonNull(txtORNorthPoint.getText()).toString());
+                parameters.put("sPRNoxNPt", Objects.requireNonNull(txtPRNorthPoint.getText()).toString());
+                parameters.put("sDRNoxxxx", Objects.requireNonNull(txtDeliveryRcpt.getText()).toString());
                 parameters.put("dTransact", AppConstants.CURRENT_DATE);
                 parameters.put("dEntryDte", new AppConstants().DATE_MODIFIED);
                 parameters.put("sReqstdBy", EmployID);
@@ -151,6 +161,8 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         txtORNorthPoint = findViewById(R.id.txtORNorthPoint);
         txtPRNorthPoint = findViewById(R.id.txtPRNorthPoint);
         txtDeliveryRcpt = findViewById(R.id.txtDeliveryReceipt);
+        txtPettyCashxxx = findViewById(R.id.txtPettyCash);
+        txtTotalSalesxx = findViewById(R.id.txtTotalSales);
         txtTransNox = findViewById(R.id.txtTransNox);
         btnSendToServer = findViewById(R.id.btnSendToServer);
         txtCurr_DateTime = findViewById(R.id.txtCurrentDateTime);
@@ -162,6 +174,8 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         tilSalesRcpt = findViewById(R.id.til_ccSI);
         tilPrvnlRcpt = findViewById(R.id.til_ccPR);
         tilCllctRcpt = findViewById(R.id.til_ccCR);
+
+        txtPettyCashxxx.addTextChangedListener(new FormatUIText.CurrencyFormat(txtPettyCashxxx));
     }
 
     @Override
@@ -208,7 +222,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         poMessage.setTitle(title);
         poMessage.setMessage(message);
         poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                    dialog.dismiss();
+            dialog.dismiss();
             checkEmployeeLevelForInventory();
         });
         poMessage.show();
@@ -226,9 +240,9 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         poMessage.setTitle("Cast Count");
         poMessage.setMessage("Cash count has been saved successfully.");
         poMessage.setPositiveButton("Okay", (view, dialog) ->{
-                    dialog.dismiss();
-                    checkEmployeeLevelForInventory();
-                });
+            dialog.dismiss();
+            checkEmployeeLevelForInventory();
+        });
         poMessage.show();
     }
 

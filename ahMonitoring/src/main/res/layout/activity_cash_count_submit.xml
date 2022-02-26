@@ -124,249 +124,290 @@
                     />
             </LinearLayout>
         </LinearLayout>
-       <ScrollView
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           >
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="10dp"
-               android:orientation="vertical">
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:orientation="vertical">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                   <androidx.cardview.widget.CardView
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_marginHorizontal="10dp"
-                       app:cardCornerRadius="10dp">
-                       <LinearLayout
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:layout_marginHorizontal="15dp"
-                           android:layout_marginVertical="15dp"
-                           android:layout_weight="1"
-                           android:orientation="vertical">
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        app:cardCornerRadius="10dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="15dp"
+                            android:layout_marginVertical="15dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                           <LinearLayout
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:gravity="center"
-                               android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
-                               <com.google.android.material.textfield.TextInputLayout
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:hint="Date Time"
-                                   style="@style/TextInputStyle">
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Date Time"
+                                    style="@style/TextInputStyle">
 
-                                   <com.google.android.material.textfield.TextInputEditText
-                                       android:id="@+id/txtCurrentDateTime"
-                                       android:layout_width="match_parent"
-                                       android:layout_height="wrap_content"
-                                       android:enabled="false"
-                                       android:textSize="16sp"
-                                       android:maxLines="1"
-                                       android:textColor="@color/material_black"
-                                       android:textStyle="normal" />
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/txtCurrentDateTime"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:enabled="false"
+                                        android:textSize="16sp"
+                                        android:maxLines="1"
+                                        android:textColor="@color/material_black"
+                                        android:textStyle="normal" />
 
-                               </com.google.android.material.textfield.TextInputLayout>
-                           </LinearLayout>
+                                </com.google.android.material.textfield.TextInputLayout>
+                            </LinearLayout>
 
-                           <com.google.android.material.textfield.TextInputLayout
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:layout_marginBottom="10dp"
-                               style="@style/TextInputStyle">
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                style="@style/TextInputStyle">
 
-                               <com.google.android.material.textfield.TextInputEditText
-                                   android:id="@+id/txtTransNox"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:hint="@string/sHintTransNox"
-                                   android:textSize="14sp"
-                                   android:textStyle="normal"
-                                   android:textColor="@color/material_black"
-                                   android:focusableInTouchMode="false"
-                                   android:focusable="false"
-                                   android:enabled="false"/>
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtTransNox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/sHintTransNox"
+                                    android:textSize="14sp"
+                                    android:textStyle="normal"
+                                    android:textColor="@color/material_black"
+                                    android:focusableInTouchMode="false"
+                                    android:focusable="false"
+                                    android:enabled="false"/>
 
-                           </com.google.android.material.textfield.TextInputLayout>
+                            </com.google.android.material.textfield.TextInputLayout>
 
-                       </LinearLayout>
+                        </LinearLayout>
 
-                   </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>
 
-                   <androidx.cardview.widget.CardView
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_marginHorizontal="10dp"
-                       android:layout_marginVertical="3dp"
-                       app:cardCornerRadius="10dp">
-                       <LinearLayout
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:layout_marginHorizontal="15dp"
-                           android:layout_weight="1"
-                           android:orientation="vertical"
-                           android:paddingBottom="15dp"
-                           android:layout_marginTop="15dp">
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="3dp"
+                        app:cardCornerRadius="10dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="15dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingBottom="15dp"
+                            android:layout_marginTop="15dp">
 
-                           <com.google.android.material.textfield.TextInputLayout
-                               android:id="@+id/til_ccOR"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:hint="Official Receipt No."
-                               style="@style/TextInputStyle">
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/til_ccTotalSales"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Total Sales"
+                                style="@style/TextInputStyle">
 
-                               <com.google.android.material.textfield.TextInputEditText
-                                   android:id="@+id/txtOfficialReceipt"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:textSize="16sp"
-                                   android:textStyle="normal"
-                                   android:inputType="text"
-                                   android:imeOptions="flagNoExtractUi"
-                                   android:maxLength="10"/>
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtTotalSales"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"
+                                    android:textStyle="normal"
+                                    android:inputType="text"
+                                    android:imeOptions="flagNoExtractUi"
+                                    android:enabled="false"
+                                    android:focusableInTouchMode="false"
+                                    android:focusable="false"
+                                    android:textColor="@color/material_black"/>
 
-                           </com.google.android.material.textfield.TextInputLayout>
+                            </com.google.android.material.textfield.TextInputLayout>
 
-                           <com.google.android.material.textfield.TextInputLayout
-                               android:id="@+id/til_ccSI"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:hint="Sales Invoice No."
-                               style="@style/TextInputStyle">
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/til_ccPettyCash"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Total Petty Cash"
+                                style="@style/TextInputStyle">
 
-                               <com.google.android.material.textfield.TextInputEditText
-                                   android:id="@+id/txtSalesInvoice"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:textSize="16sp"
-                                   android:textStyle="normal"
-                                   android:inputType="text"
-                                   android:imeOptions="flagNoExtractUi"
-                                   android:maxLength="10"/>
-                           </com.google.android.material.textfield.TextInputLayout>
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtPettyCash"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"
+                                    android:textStyle="normal"
+                                    android:inputType="text"
+                                    android:imeOptions="flagNoExtractUi"
+                                    android:maxLength="10"/>
 
-                           <com.google.android.material.textfield.TextInputLayout
-                               android:id="@+id/til_ccPR"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:hint="Provisional Receipt No."
-                               style="@style/TextInputStyle">
+                            </com.google.android.material.textfield.TextInputLayout>
 
-                               <com.google.android.material.textfield.TextInputEditText
-                                   android:id="@+id/txtProvisionalReceipt"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:textSize="16sp"
-                                   android:textStyle="normal"
-                                   android:inputType="text"
-                                   android:imeOptions="flagNoExtractUi"
-                                   android:maxLength="10"/>
-                           </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/til_ccOR"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Official Receipt No."
+                                style="@style/TextInputStyle">
 
-                           <com.google.android.material.textfield.TextInputLayout
-                               android:id="@+id/til_ccCR"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:hint="Collection Receipt No."
-                               style="@style/TextInputStyle">
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtOfficialReceipt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"
+                                    android:textStyle="normal"
+                                    android:inputType="text"
+                                    android:imeOptions="flagNoExtractUi"
+                                    android:maxLength="10"/>
 
-                               <com.google.android.material.textfield.TextInputEditText
-                                   android:id="@+id/txtCollectionReceipt"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:textSize="16sp"
-                                   android:textStyle="normal"
-                                   android:inputType="text"
-                                   android:imeOptions="flagNoExtractUi"
-                                   android:maxLength="10"/>
-                           </com.google.android.material.textfield.TextInputLayout>
+                            </com.google.android.material.textfield.TextInputLayout>
 
-                           <com.google.android.material.textfield.TextInputLayout
-                               android:id="@+id/til_ccORNPnt"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:hint="Official Reciept (North Point)"
-                               style="@style/TextInputStyle">
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/til_ccSI"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Sales Invoice No."
+                                style="@style/TextInputStyle">
 
-                               <com.google.android.material.textfield.TextInputEditText
-                                   android:id="@+id/txtORNorthPoint"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:textSize="16sp"
-                                   android:textStyle="normal"
-                                   android:inputType="text"
-                                   android:imeOptions="flagNoExtractUi"
-                                   android:maxLength="10"/>
-                           </com.google.android.material.textfield.TextInputLayout>
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtSalesInvoice"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"
+                                    android:textStyle="normal"
+                                    android:inputType="text"
+                                    android:imeOptions="flagNoExtractUi"
+                                    android:maxLength="10"/>
+                            </com.google.android.material.textfield.TextInputLayout>
 
-                           <com.google.android.material.textfield.TextInputLayout
-                               android:id="@+id/til_ccPRNPnt"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:hint="Provisional Receipt (North Point)"
-                               style="@style/TextInputStyle">
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/til_ccPR"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Provisional Receipt No."
+                                style="@style/TextInputStyle">
 
-                               <com.google.android.material.textfield.TextInputEditText
-                                   android:id="@+id/txtPRNorthPoint"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:textSize="16sp"
-                                   android:textStyle="normal"
-                                   android:inputType="text"
-                                   android:imeOptions="flagNoExtractUi"
-                                   android:maxLength="10"/>
-                           </com.google.android.material.textfield.TextInputLayout>
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtProvisionalReceipt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"
+                                    android:textStyle="normal"
+                                    android:inputType="text"
+                                    android:imeOptions="flagNoExtractUi"
+                                    android:maxLength="10"/>
+                            </com.google.android.material.textfield.TextInputLayout>
 
-                           <com.google.android.material.textfield.TextInputLayout
-                               android:id="@+id/til_ccDRNo"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:hint="Delivery Receipt No."
-                               style="@style/TextInputStyle">
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/til_ccCR"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Collection Receipt No."
+                                style="@style/TextInputStyle">
 
-                               <com.google.android.material.textfield.TextInputEditText
-                                   android:id="@+id/txtDeliveryReceipt"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:textSize="16sp"
-                                   android:textStyle="normal"
-                                   android:inputType="text"
-                                   android:imeOptions="flagNoExtractUi"
-                                   android:maxLength="10"/>
-                           </com.google.android.material.textfield.TextInputLayout>
-                       </LinearLayout>
-                   </androidx.cardview.widget.CardView>
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtCollectionReceipt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"
+                                    android:textStyle="normal"
+                                    android:inputType="text"
+                                    android:imeOptions="flagNoExtractUi"
+                                    android:maxLength="10"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/til_ccORNPnt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Official Reciept (North Point)"
+                                style="@style/TextInputStyle">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtORNorthPoint"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"
+                                    android:textStyle="normal"
+                                    android:inputType="text"
+                                    android:imeOptions="flagNoExtractUi"
+                                    android:maxLength="10"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/til_ccPRNPnt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Provisional Receipt (North Point)"
+                                style="@style/TextInputStyle">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtPRNorthPoint"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"
+                                    android:textStyle="normal"
+                                    android:inputType="text"
+                                    android:imeOptions="flagNoExtractUi"
+                                    android:maxLength="10"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/til_ccDRNo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Delivery Receipt No."
+                                style="@style/TextInputStyle">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtDeliveryReceipt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"
+                                    android:textStyle="normal"
+                                    android:inputType="text"
+                                    android:imeOptions="flagNoExtractUi"
+                                    android:maxLength="10"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
 
 
-                 <LinearLayout
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:orientation="vertical"
-                     android:layout_marginVertical="20dp"
-                     android:layout_marginHorizontal="15dp">
-                     <com.google.android.material.button.MaterialButton
-                         android:id="@+id/btnSendToServer"
-                         android:layout_width="wrap_content"
-                         android:layout_gravity="end"
-                         android:layout_height="wrap_content"
-                         android:paddingVertical="10dp"
-                         android:layout_marginVertical="15dp"
-                         android:text="Submit cash count"
-                         android:textSize="16sp"
-                         android:layout_marginRight="20dp"
-                         android:fontFamily="@font/roboto_thin"
-                         style="@style/MaterialButtonAccent"/>
-                 </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginVertical="20dp"
+                        android:layout_marginHorizontal="15dp">
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnSendToServer"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="10dp"
+                            android:layout_marginVertical="15dp"
+                            android:text="Submit cash count"
+                            android:textSize="16sp"
+                            android:layout_marginRight="20dp"
+                            android:fontFamily="@font/roboto_thin"
+                            style="@style/MaterialButtonAccent"/>
+                    </LinearLayout>
 
-               </LinearLayout>
-           </LinearLayout>
-       </ScrollView>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 </LinearLayout>
