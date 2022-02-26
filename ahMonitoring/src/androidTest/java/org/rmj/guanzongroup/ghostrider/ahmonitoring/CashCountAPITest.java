@@ -103,6 +103,7 @@ public class CashCountAPITest {
         params.put("nNte1000p", "4");
         params.put("sTransNox", "M09877123");
         params.put("sBranchCd", "M001");
+        params.put("nPettyAmt", "12000");
         params.put("sORNoxxxx", "125334");
         params.put("sSINoxxxx", "256348");
         params.put("sPRNoxxxx", "256348");
