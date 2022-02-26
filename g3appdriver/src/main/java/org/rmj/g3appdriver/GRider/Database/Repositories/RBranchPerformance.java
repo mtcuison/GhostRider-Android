@@ -73,10 +73,13 @@ public class RBranchPerformance {
     }
 
     // For Area Monitoring
-    public LiveData<List<EBranchPerformance>> getAreaBranchesSalesPerformance(String fsPeriodx) {
-        return branchPerformanceDao.getAreaBranchesSalesPerformance(fsPeriodx);
+    public LiveData<List<EBranchPerformance>> getAreaBranchesMCSalesPerformance(String fsPeriodx) {
+        return branchPerformanceDao.getAreaBranchesMCSalesPerformance(fsPeriodx);
     }
 
+    public LiveData<List<EBranchPerformance>> getAreaBranchesSPSalesPerformance(String fsPeriodx) {
+        return branchPerformanceDao.getAreaBranchesSPSalesPerformance(fsPeriodx);
+    }
 
     public LiveData<DBranchPerformance.ActualGoal> getMCBranchPerformance(){
         return branchPerformanceDao.getMCBranchPerformance();
@@ -100,5 +103,17 @@ public class RBranchPerformance {
 
     public LiveData<DBranchPerformance.PeriodRange> getPeriodRange(){
         return branchPerformanceDao.getPeriodRange();
+    }
+
+    public LiveData<DBranchPerformance.MonthlyPieChart> getMonthlyPieChartData(String fsPeriodx) {
+        return branchPerformanceDao.getMonthlyPieChartData(fsPeriodx);
+    }
+
+    public LiveData<DBranchPerformance.MonthlyPieChart> get12MonthPieChartData(String fsValue1, String fsValue2) {
+        return branchPerformanceDao.get12MonthPieChartData(fsValue1, fsValue2);
+    }
+
+    public LiveData<DBranchPerformance.MonthlyPieChart> get12MonthBranchPieChartData(String sBranchCd, String fsValue1, String fsValue2) {
+        return branchPerformanceDao.get12MonthBranchPieChartData(sBranchCd, fsValue1, fsValue2);
     }
 }

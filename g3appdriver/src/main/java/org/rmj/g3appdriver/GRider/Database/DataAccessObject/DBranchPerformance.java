@@ -75,8 +75,11 @@ public interface DBranchPerformance {
     LiveData<List<EBranchPerformance>>  getAllBranchPerformanceInfoByBranch(String BranchCd);
 
     // For Area Monitoring
-    @Query("SELECT * FROM MC_Branch_Performance WHERE sPeriodxx= :fsPeriodx ORDER BY sBranchNm ASC")
-    LiveData<List<EBranchPerformance>> getAreaBranchesSalesPerformance(String fsPeriodx);
+    @Query("SELECT * FROM MC_Branch_Performance WHERE sPeriodxx= :fsPeriodx ORDER BY nMCActual DESC")
+    LiveData<List<EBranchPerformance>> getAreaBranchesMCSalesPerformance(String fsPeriodx);
+
+    @Query("SELECT * FROM MC_Branch_Performance WHERE sPeriodxx= :fsPeriodx ORDER BY nSPActual DESC")
+    LiveData<List<EBranchPerformance>> getAreaBranchesSPSalesPerformance(String fsPeriodx);
 
     @Query("SELECT nMCActual AS Actual, ROUND (nMCActual * 100.0 / nMCGoalxx) AS Percentage, nMCGoalxx AS Goal FROM MC_Branch_Performance WHERE sBranchCd = (SELECT sBranchCd FROM User_Info_Master)")
     LiveData<ActualGoal> getMCBranchPerformance();
@@ -104,6 +107,36 @@ public interface DBranchPerformance {
     @Query("SELECT MIN(sPeriodxx) AS Start, MAX(sPeriodxx) AS Current FROM MC_Branch_Performance;")
     LiveData<PeriodRange> getPeriodRange();
 
+    @Query("SELECT" +
+            " SUM(nMCGoalxx) as mcGoal," +
+            " SUM(nMCActual) as mcActual," +
+            " SUM(nSPGoalxx) as spGoal," +
+            " SUM(nSPActual) as spActual" +
+            " FROM MC_Branch_Performance" +
+            " WHERE sPeriodxx = :fsPeriodx")
+    LiveData<MonthlyPieChart> getMonthlyPieChartData(String fsPeriodx);
+
+    @Query("SELECT" +
+            " SUM(nMCGoalxx) as mcGoal," +
+            " SUM(nMCActual) as mcActual," +
+            " SUM(nSPGoalxx) as spGoal," +
+            " SUM(nSPActual) as spActual" +
+            " FROM MC_Branch_Performance" +
+            " WHERE sPeriodxx" +
+            " BETWEEN :fsValue1 AND :fsValue2")
+    LiveData<MonthlyPieChart> get12MonthPieChartData(String fsValue1, String fsValue2);
+
+    @Query("SELECT" +
+            " SUM(nMCGoalxx) as mcGoal," +
+            " SUM(nMCActual) as mcActual," +
+            " SUM(nSPGoalxx) as spGoal," +
+            " SUM(nSPActual) as spActual" +
+            " FROM MC_Branch_Performance" +
+            " WHERE sBranchCd = :sBranchCd" +
+            " AND sPeriodxx BETWEEN" +
+            " :fsValue1 AND :fsValue2")
+    LiveData<MonthlyPieChart> get12MonthBranchPieChartData(String sBranchCd, String fsValue1, String fsValue2);
+
     class ActualGoal{
         public String Actual;
         public String Percentage;
@@ -119,5 +152,12 @@ public interface DBranchPerformance {
     class PeriodRange{
         public String Start;
         public String Current;
+    }
+
+    class MonthlyPieChart {
+        public float mcGoal;
+        public float mcActual;
+        public float spGoal;
+        public float spActual;
     }
 }
