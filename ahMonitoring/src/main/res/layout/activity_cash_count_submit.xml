@@ -216,6 +216,47 @@
                            android:layout_marginTop="15dp">
 
                            <com.google.android.material.textfield.TextInputLayout
+                               android:id="@+id/til_ccTotalSales"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:hint="Total Sales"
+                               style="@style/TextInputStyle">
+
+                               <com.google.android.material.textfield.TextInputEditText
+                                   android:id="@+id/txtTotalSales"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:textSize="16sp"
+                                   android:textStyle="normal"
+                                   android:inputType="text"
+                                   android:imeOptions="flagNoExtractUi"
+                                   android:enabled="false"
+                                   android:focusableInTouchMode="false"
+                                   android:focusable="false"
+                                   android:textColor="@color/material_black"/>
+
+                           </com.google.android.material.textfield.TextInputLayout>
+
+                           <com.google.android.material.textfield.TextInputLayout
+                               android:id="@+id/til_ccPettyCash"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:hint="Total Petty Cash"
+                               style="@style/TextInputStyle">
+
+                               <com.google.android.material.textfield.TextInputEditText
+                                   android:id="@+id/txtPettyCash"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:textSize="16sp"
+                                   android:textStyle="normal"
+                                   android:inputType="text"
+                                   android:imeOptions="flagNoExtractUi"
+                                   android:maxLength="10"/>
+
+                           </com.google.android.material.textfield.TextInputLayout>
+
+                           <com.google.android.material.textfield.TextInputLayout
                                android:id="@+id/til_ccOR"
                                android:layout_width="match_parent"
                                android:layout_height="wrap_content"

@@ -39,4 +39,11 @@ public class ExampleUnitTest {
         String lsResult = WebClient.httpPostJSon("http://192.168.10.22/android_sample/login.php", param.toString(), null);
         assertNotNull(lsResult);
     }
+
+    @Test
+    public void testNumberFormatToNumeric() throws Exception{
+        String lnAmount = "";
+        String lnResult = "";
+        assertEquals(lnResult, lnAmount.replace(",", ""));
+    }
 }

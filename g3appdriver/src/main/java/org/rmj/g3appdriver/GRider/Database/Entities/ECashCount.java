@@ -72,6 +72,9 @@ public class ECashCount {
     @ColumnInfo(name = "nNte1000p")
     private String Nte1000p;
 
+    @ColumnInfo(name = "sPettyAmt")
+    private String PettyAmt;
+
     @ColumnInfo(name = "sORNoxxxx")
     private String ORNoxxxx;
 
@@ -113,11 +116,19 @@ public class ECashCount {
     @ColumnInfo(name = "sSendStat")
     private String SendStat;
 
-
     public ECashCount() {
     }
+
     public String getORNoxxxx() {
         return ORNoxxxx;
+    }
+
+    public String getPettyAmt() {
+        return PettyAmt;
+    }
+
+    public void setPettyAmt(String pettAmnt) {
+        PettyAmt = pettAmnt;
     }
 
     public void setORNoxxxx(String ORNoxxxx) {
