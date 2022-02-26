@@ -33,7 +33,8 @@ public class Activity_CashCountLogDetails extends AppCompatActivity {
     private Adapter_CashCountDetailInfo poAdapter;
     private Toolbar toolbar;
     private RecyclerView recyclerView;
-    private TextView lblBranch, lblTranDt, lblTransN, lblGrandT, lblOrNoxx, lblSiNoxx, lblPrNoxx, lblCrNoxx;
+    private TextView lblBranch, lblTranDt, lblTransN, lblGrandT, lblOrNoxx,
+    lblSiNoxx, lblPrNoxx, lblCrNoxx, lblPettyC ;
     private String psTransNo = "";
 
     @Override
@@ -75,6 +76,7 @@ public class Activity_CashCountLogDetails extends AppCompatActivity {
         lblTransN = findViewById(R.id.lbl_transNo);
         lblGrandT = findViewById(R.id.lbl_grand_total);
 
+        lblPettyC = findViewById(R.id.lbl_total_pettyCash);
         lblOrNoxx = findViewById(R.id.lbl_orNo);
         lblSiNoxx = findViewById(R.id.lbl_siNo);
         lblPrNoxx = findViewById(R.id.lbl_prNo);
@@ -90,6 +92,7 @@ public class Activity_CashCountLogDetails extends AppCompatActivity {
 
             lblTransN.setText(psTransNo);
             lblTranDt.setText(FormatUIText.getParseDateTime(cashCount.getEntryDte()));
+            lblPettyC.setText(cashCount.getPettyAmt());
             lblOrNoxx.setText(cashCount.getORNoxxxx());
             lblSiNoxx.setText(cashCount.getSINoxxxx());
             lblPrNoxx.setText(cashCount.getPRNoxxxx());
