@@ -399,4 +399,8 @@ public class RDailyCollectionPlan {
     public List<EDCPCollectionDetail> getCheckPostedCollectionDetail(String TransNox){
         return detailDao.getCheckPostedCollectionDetail(TransNox);
     }
+
+    public EDCPCollectionDetail getCollectionDetail(String TransNox, String Account){
+        return detailDao.getCollectionDetail(TransNox, Account);
+    }
 }

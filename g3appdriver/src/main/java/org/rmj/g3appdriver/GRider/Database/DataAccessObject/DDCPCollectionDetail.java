@@ -287,6 +287,9 @@ public interface DDCPCollectionDetail {
             "(SELECT SUM(nAmountxx) FROM LR_DCP_Remittance WHERE dTransact =:dTransact) AS Remitted_Collection")
     DCP_Posting_Validation_Data getValidationData(String dTransact);
 
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox =:TransNox AND sAcctNmbr=:Account")
+    EDCPCollectionDetail getCollectionDetail(String TransNox, String Account);
+
     class CollectionDetail{
         public String sTransNox;
         public int nEntryNox;

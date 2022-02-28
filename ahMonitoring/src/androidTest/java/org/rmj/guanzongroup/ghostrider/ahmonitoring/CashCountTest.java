@@ -2,9 +2,6 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring;
 
 import static org.junit.Assert.assertTrue;
 
-import android.app.Application;
-import android.content.Context;
-
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.json.JSONObject;
@@ -24,8 +21,9 @@ import java.util.Map;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
-public class CashCountAPITest {
-    private static final String TAG = CashCountAPITest.class.getSimpleName();
+public class CashCountTest {
+
+    private static final String TAG = CashCountTest.class.getSimpleName();
     private static final String LIVE_LOGIN = "https://restgk.guanzongroup.com.ph/security/mlogin.php";
     private static final String LOCAL_LOGIN = "http://192.168.10.141/security/mlogin.php";
     private static final String LIVE_CashCount = "https://restgk.guanzongroup.com.ph/integsys/cashcount/submit_cash_count.php";
@@ -62,8 +60,8 @@ public class CashCountAPITest {
     public void test01Login() throws Exception{
         JSONObject params = new JSONObject();
         params.put("user", "mikegarcia8748@gmail.com");
-        params.put("pswd", "12345678");
-        String lsResponse = WebClient.httpPostJSon(LOCAL_LOGIN,
+        params.put("pswd", "123456");
+        String lsResponse = WebClient.httpPostJSon(LIVE_LOGIN,
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -100,7 +98,7 @@ public class CashCountAPITest {
         params.put("nNte0100p", "33");
         params.put("nNte0200p", "34");
         params.put("nNte0500p", "16");
-        params.put("nNte1000p", "4");
+        params.put("nNte1000p", "123");
         params.put("sTransNox", "M09877123");
         params.put("sBranchCd", "M001");
         params.put("nPettyAmt", "12000.50");
@@ -115,7 +113,7 @@ public class CashCountAPITest {
         params.put("dEntryDte", new AppConstants().DATE_MODIFIED);
         params.put("sReqstdBy", "");
 
-        String lsResponse = WebClient.httpPostJSon(LOCAL_CashCount,
+        String lsResponse = WebClient.httpPostJSon(LIVE_CashCount,
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;

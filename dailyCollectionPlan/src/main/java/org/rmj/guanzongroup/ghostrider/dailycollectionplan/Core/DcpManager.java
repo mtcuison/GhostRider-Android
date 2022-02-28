@@ -7,13 +7,22 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.CustomerNotAround;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.OthTransaction;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.Paid;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.PromiseToPay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +39,9 @@ public class DcpManager {
     private final REmployee poEmploye;
     private final DcpAPIs poApis;
     private final HttpHeaders poHeaders;
+    private final SessionManager poUser;
+    private final RImageInfo poImage;
+    private final Telephony poTlphny;
 
     public interface OnActionCallback{
         void OnSuccess(String args);
@@ -45,6 +57,9 @@ public class DcpManager {
         this.poApis = new DcpAPIs(true);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
+        this.poUser = new SessionManager(instance);
+        this.poImage = new RImageInfo(instance);
+        this.poTlphny = new Telephony(instance);
     }
 
     public void ImportDcpMaster(OnActionCallback callback) {
@@ -136,9 +151,73 @@ public class DcpManager {
         }
     }
 
-    public void PostLRDCPTransaction(String sTransNox, String fsAccount, OnActionCallback callback){
-        try{
+    public iDCPTransaction getTransaction(String fsRemCode){
+        switch (fsRemCode) {
+            case "PAY":
+                return new Paid(instance);
+            case "PTP":
+                return new PromiseToPay(instance);
+            case "CNA":
+                return new CustomerNotAround(instance);
+            default:
+                return new OthTransaction(instance);
+        }
+    }
 
+    public void PostLRDCPTransaction(String fsRemarks, String fsTransNo, String fsAccount, OnActionCallback callback){
+        try{
+            String lsProdtID = poConfig.ProducID();
+            String lsClntIDx = poUser.getClientId();
+            String lsUserIDx = poUser.getUserID();
+
+            EDCPCollectionDetail loDetail = poDcp.getCollectionDetail(fsTransNo, fsAccount);
+
+            String lsClient = WebFileServer.RequestClientToken(lsProdtID, lsClntIDx, lsUserIDx);
+            String lsAccess = WebFileServer.RequestAccessToken(lsClient);
+
+            if(loDetail == null){
+                callback.OnFailed("No account info found.");
+            } else if(loDetail.getRemCodex().isEmpty()){
+                JSONObject loData = new JSONObject();
+                JSONObject loJson = new JSONObject();
+                loData.put("sRemarksx", fsRemarks);
+                loJson.put("sTransNox", loDetail.getTransNox());
+                loJson.put("nEntryNox", loDetail.getEntryNox());
+                loJson.put("sAcctNmbr", loDetail.getAcctNmbr());
+                loJson.put("sRemCodex", "NV");
+                loJson.put("dModified", new AppConstants().DATE_MODIFIED);
+                loJson.put("sJsonData", loData);
+                loJson.put("dReceived", "");
+                loJson.put("sUserIDxx", poUser.getUserID());
+                loJson.put("sDeviceID", poTlphny.getDeviceID());
+            } else {
+                EImageInfo loImage = poImage.getDCPImageInfoForPosting(fsTransNo, fsAccount);
+                if(loImage == null){
+                     callback.OnFailed("Unable to upload collection detail image. No image info found");
+                } else {
+                    org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
+                            loImage.getFileLoct(),
+                            lsAccess,
+                            loImage.getFileCode(),
+                            loDetail.getAcctNmbr(),
+                            loImage.getImageNme(),
+                            poUser.getBranchCode(),
+                            loImage.getSourceCD(),
+                            loDetail.getTransNox(),
+                            "");
+
+                    String lsResult = (String) loUpload.get("result");
+                    if(lsResult == null){
+                        callback.OnFailed("Unable to upload collection detail image. Server has no response.");
+                    } else {
+                        if(lsResult.equalsIgnoreCase("success")){
+
+                        } else {
+
+                        }
+                    }
+                }
+            }
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailed("PostLRDCPTransaction " + e.getMessage());
