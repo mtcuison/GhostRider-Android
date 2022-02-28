@@ -79,4 +79,7 @@ public interface DEmployeeInfo {
     class Session{
         public int Session;
     }
+
+    @Query("SELECT sEmployID FROM User_Info_Master")
+    String getEmployeeID();
 }
