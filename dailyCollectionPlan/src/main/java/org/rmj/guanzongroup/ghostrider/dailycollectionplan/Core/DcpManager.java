@@ -71,7 +71,7 @@ public class DcpManager {
                         callback.OnFailed(lsMessage);
                     } else {
                         JSONObject loMaster = loResponse.getJSONObject("master");
-                        String lsTransNox = loJson.getString("sTransNox");
+                        String lsTransNox = loMaster.getString("sTransNox");
 
                         if(poDcp.getCollectionMasterIfExist(lsTransNox).size() > 0){
                             callback.OnFailed("Record already exist on local data.");
@@ -97,32 +97,32 @@ public class DcpManager {
                             JSONArray laJson = loResponse.getJSONArray("detail");
                             List<EDCPCollectionDetail> collectionDetails = new ArrayList<>();
                             for(int x = 0; x < laJson.length(); x++){
-//                                JSONObject loJson = faJson.getJSONObject(x);
+                                JSONObject loDetail = laJson.getJSONObject(x);
                                 EDCPCollectionDetail collectionDetail = new EDCPCollectionDetail();
-//                                collectionDetail.setTransNox(jsonMaster.getString("sTransNox"));
+                                collectionDetail.setTransNox(loMaster.getString("sTransNox"));
                                 collectionDetail.setEntryNox(Integer.parseInt(loJson.getString("nEntryNox")));
-                                collectionDetail.setAcctNmbr(loJson.getString("sAcctNmbr"));
-                                collectionDetail.setFullName(loJson.getString("xFullName"));
-                                collectionDetail.setIsDCPxxx(loJson.getString("cIsDCPxxx"));
-                                collectionDetail.setMobileNo(loJson.getString("sMobileNo"));
-                                collectionDetail.setHouseNox(loJson.getString("sHouseNox"));
-                                collectionDetail.setAddressx(loJson.getString("sAddressx"));
-                                collectionDetail.setBrgyName(loJson.getString("sBrgyName"));
-                                collectionDetail.setTownName(loJson.getString("sTownName"));
-                                collectionDetail.setPurchase(loJson.getString("dPurchase"));
-                                collectionDetail.setAmtDuexx(loJson.getString("nAmtDuexx"));
-                                collectionDetail.setApntUnit(loJson.getString("cApntUnit"));
-                                collectionDetail.setDueDatex(loJson.getString("dDueDatex"));
-                                collectionDetail.setLongitud(loJson.getString("nLongitud"));
-                                collectionDetail.setLatitude(loJson.getString("nLatitude"));
-                                collectionDetail.setClientID(loJson.getString("sClientID"));
-                                collectionDetail.setSerialID(loJson.getString("sSerialID"));
-                                collectionDetail.setSerialNo(loJson.getString("sSerialNo"));
-                                collectionDetail.setLastPaym(loJson.getString("nLastPaym"));
-                                collectionDetail.setLastPaid(loJson.getString("dLastPaym"));
-                                collectionDetail.setABalance(loJson.getString("nABalance"));
-                                collectionDetail.setDelayAvg(loJson.getString("nDelayAvg"));
-                                collectionDetail.setMonAmort(loJson.getString("nMonAmort"));
+                                collectionDetail.setAcctNmbr(loDetail.getString("sAcctNmbr"));
+                                collectionDetail.setFullName(loDetail.getString("xFullName"));
+                                collectionDetail.setIsDCPxxx(loDetail.getString("cIsDCPxxx"));
+                                collectionDetail.setMobileNo(loDetail.getString("sMobileNo"));
+                                collectionDetail.setHouseNox(loDetail.getString("sHouseNox"));
+                                collectionDetail.setAddressx(loDetail.getString("sAddressx"));
+                                collectionDetail.setBrgyName(loDetail.getString("sBrgyName"));
+                                collectionDetail.setTownName(loDetail.getString("sTownName"));
+                                collectionDetail.setPurchase(loDetail.getString("dPurchase"));
+                                collectionDetail.setAmtDuexx(loDetail.getString("nAmtDuexx"));
+                                collectionDetail.setApntUnit(loDetail.getString("cApntUnit"));
+                                collectionDetail.setDueDatex(loDetail.getString("dDueDatex"));
+                                collectionDetail.setLongitud(loDetail.getString("nLongitud"));
+                                collectionDetail.setLatitude(loDetail.getString("nLatitude"));
+                                collectionDetail.setClientID(loDetail.getString("sClientID"));
+                                collectionDetail.setSerialID(loDetail.getString("sSerialID"));
+                                collectionDetail.setSerialNo(loDetail.getString("sSerialNo"));
+                                collectionDetail.setLastPaym(loDetail.getString("nLastPaym"));
+                                collectionDetail.setLastPaid(loDetail.getString("dLastPaym"));
+                                collectionDetail.setABalance(loDetail.getString("nABalance"));
+                                collectionDetail.setDelayAvg(loDetail.getString("nDelayAvg"));
+                                collectionDetail.setMonAmort(loDetail.getString("nMonAmort"));
                                 collectionDetails.add(collectionDetail);
                             }
                             poDcp.insertDetailBulkData(collectionDetails);
@@ -136,11 +136,21 @@ public class DcpManager {
         }
     }
 
-    public void SaveDCPMaster(JSONObject poJson) throws Exception{
+    public void PostLRDCPTransaction(String sTransNox, String fsAccount, OnActionCallback callback){
+        try{
 
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailed("PostLRDCPTransaction " + e.getMessage());
+        }
     }
 
-    public void SaveDCPDetail(JSONObject poJson) throws Exception{
+    public void PostLRDCPCollection(String fsRemarks, OnActionCallback callback){
+        try{
 
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailed("PostLRDCPCollection " + e.getMessage());
+        }
     }
 }
