@@ -4,7 +4,10 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.iDCPTransaction;
 
@@ -24,7 +27,22 @@ public class OthTransaction implements iDCPTransaction {
     }
 
     @Override
-    public void OnSaveTransaction(EDCPCollectionDetail foDetail, TransactionCallback callback) {
+    public void SaveAddress(EAddressUpdate foAddress) {
+        throw new NullPointerException();
+    }
 
+    @Override
+    public void SaveMobileUpdate(EMobileUpdate foAddress) {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public void SaveImageInfo(EImageInfo foImage) {
+
+    }
+
+    @Override
+    public void OnSaveTransaction(EDCPCollectionDetail foDetail, TransactionCallback callback) {
+        poDcp.updateCollectionDetail(foDetail.getEntryNox(), foDetail.getRemCodex(), foDetail.getRemarksx());
     }
 }

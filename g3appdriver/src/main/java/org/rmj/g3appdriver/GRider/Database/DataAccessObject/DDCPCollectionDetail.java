@@ -101,6 +101,12 @@ public interface DDCPCollectionDetail {
     @Query("SELECT COUNT(*) FROM LR_DCP_Collection_Detail WHERE cSendStat = '0' AND sTransNox =:TransNox")
     int getUnsentCollectionDetail(String TransNox);
 
+    @Query("SELECT cSendStat FROM LR_DCP_Collection_Master WHERE sTransNox =:TransNox")
+    String getMasterSendStatus(String TransNox);
+
+    @Query("SELECT sTransNox FROM LR_DCP_Collection_Master WHERE cSendStat IS NULL ORDER BY dReferDte DESC LIMIT 1")
+    String getUnpostedDcpMaster();
+
     @Delete
     void delete(EDCPCollectionDetail collectionDetail);
 
@@ -289,6 +295,15 @@ public interface DDCPCollectionDetail {
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox =:TransNox AND sAcctNmbr=:Account")
     EDCPCollectionDetail getCollectionDetail(String TransNox, String Account);
+
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1'")
+    List<EDCPCollectionDetail> getLRDCPCollectionForPosting();
+
+    @Query("UPDATE LR_DCP_Collection_Detail SET sRemCodex = 'NV', " +
+            "sRemarksx =:Remarks, " +
+            "dModified =:dModfied " +
+            "WHERE sTransNox =:TransNox")
+    void updateNotVisitedCollections(String Remarks, String TransNox, String dModfied);
 
     class CollectionDetail{
         public String sTransNox;

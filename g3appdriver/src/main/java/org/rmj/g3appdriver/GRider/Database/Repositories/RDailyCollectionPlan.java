@@ -108,6 +108,10 @@ public class RDailyCollectionPlan {
         detailDao.updateCollectionDetailInfo(EntryNox, RemCode, Remarks, new AppConstants().DATE_MODIFIED);
     }
 
+    public void updateNotVisitedCollections(String Remarks, String TransNox){
+        detailDao.updateNotVisitedCollections(Remarks, TransNox, new AppConstants().DATE_MODIFIED);
+    }
+
     public void updateCollectionDetailStatus(String TransNox, int EntryNox){
         detailDao.updateCollectionDetailStatus(TransNox, EntryNox, new AppConstants().DATE_MODIFIED);
     }
@@ -122,6 +126,14 @@ public class RDailyCollectionPlan {
 
     public int getUnsentCollectionDetail(String TransNox){
         return detailDao.getUnsentCollectionDetail(TransNox);
+    }
+
+    public String getMasterSendStatus(String TransNox){
+        return detailDao.getMasterSendStatus(TransNox);
+    }
+
+    public String getUnpostedDcpMaster(){
+        return detailDao.getUnpostedDcpMaster();
     }
 
     public void updateCollectionDetailImage(String AccntNox){
@@ -402,5 +414,9 @@ public class RDailyCollectionPlan {
 
     public EDCPCollectionDetail getCollectionDetail(String TransNox, String Account){
         return detailDao.getCollectionDetail(TransNox, Account);
+    }
+
+    public List<EDCPCollectionDetail> getLRDCPCollectionForPosting(){
+        return detailDao.getLRDCPCollectionForPosting();
     }
 }
