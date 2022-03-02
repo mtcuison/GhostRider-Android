@@ -113,7 +113,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
             try{
                 parameters.put("sTransNox", Objects.requireNonNull(txtTransNox.getText()).toString());
                 parameters.put("sBranchCd", BranchCd);
-                parameters.put("sPettyAmt", Objects.requireNonNull(txtPettyCashxxx.getText()).toString().replace(",", ""));
+                parameters.put("nPettyAmt", Objects.requireNonNull(txtPettyCashxxx.getText()).toString().replace(",", ""));
                 parameters.put("sORNoxxxx", Objects.requireNonNull(txtOfficialReceipt.getText()).toString());
                 parameters.put("sSINoxxxx", Objects.requireNonNull(txtSalesInvoice.getText()).toString());
                 parameters.put("sPRNoxxxx", Objects.requireNonNull(txtProvisionalReceipt.getText()).toString());
@@ -193,7 +193,14 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
     @Override
     public void onKwikSearchFailed(String message) {
         poDialogx.dismiss();
-        initDialog("Kwik Search",message);
+        poMessage.initDialog();
+        poMessage.setTitle("Kwik Search");
+        poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view, dialog) ->{
+            dialog.dismiss();
+        });
+        poMessage.show();
+
     }
     public void initDialog(List<RequestNamesInfoModel> infoList){
         DialogKwikSearch loDialog = new DialogKwikSearch(Activity_CashCountSubmit.this,infoList);
