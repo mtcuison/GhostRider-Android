@@ -41,6 +41,8 @@
         <entry key="..\:/Projects/GhostRider-Android/app/src/main/res/layout/fragment_home.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/authLibrary/src/main/res/layout/fragment_login.xml" value="0.13517915309446255" />
         <entry key="..\:/Projects/GhostRider-Android/creditApp/src/main/res/layout/list_item_loan_review.xml" value="0.13651315789473684" />
+        <entry key="..\:/Projects/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/activity_collection_list.xml" value="0.13651315789473684" />
+        <entry key="..\:/Projects/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/activity_image_log.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/activity_post_dcp.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/dialog_account_detail.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/dialog_confirm_post.xml" value="0.13651315789473684" />
@@ -50,6 +52,7 @@
         <entry key="..\:/Projects/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/dialog_import_dcp.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/list_item_client_search.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/list_item_collection.xml" value="0.13651315789473684" />
+        <entry key="..\:/Projects/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/list_item_image_log.xml" value="0.25" />
         <entry key="..\:/Projects/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/list_item_transaction.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/post_dcp_adapter.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/dailyCollectionPlan/src/main/res/menu/action_menu_dcp_list.xml" value="0.13651315789473684" />

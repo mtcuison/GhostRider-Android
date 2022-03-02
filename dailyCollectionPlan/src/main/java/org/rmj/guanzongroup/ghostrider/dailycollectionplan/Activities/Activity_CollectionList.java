@@ -314,7 +314,8 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         } else if (item.getItemId() == R.id.action_menu_post_collection) {
             showPostCollection();
         } else if (item.getItemId() == R.id.action_menu_image_log) {
-            Toast.makeText(this, "Image Log Clicked", Toast.LENGTH_SHORT).show();
+            Intent loIntent = new Intent(Activity_CollectionList.this, Activity_ImageLog.class);
+            startActivity(loIntent);
         }
         return super.onOptionsItemSelected(item);
     }
