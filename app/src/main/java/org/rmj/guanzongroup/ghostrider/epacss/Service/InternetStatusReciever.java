@@ -532,6 +532,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                 ECashCount loCC = cashCounts.get(x);
                 params.put("sTransNox", loCC.getTransNox());
                 params.put("sBranchCd", loCC.getBranchCd());
+                params.put("nPettyAmt", loCC.getPettyAmt());
                 params.put("sORNoxxxx", loCC.getORNoxxxx());
                 params.put("sSINoxxxx", loCC.getSINoxxxx());
                 params.put("sPRNoxxxx", loCC.getPRNoxxxx());

@@ -193,7 +193,14 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
     @Override
     public void onKwikSearchFailed(String message) {
         poDialogx.dismiss();
-        initDialog("Kwik Search",message);
+        poMessage.initDialog();
+        poMessage.setTitle("Kwik Search");
+        poMessage.setMessage(message);
+        poMessage.setPositiveButton("Okay", (view, dialog) ->{
+            dialog.dismiss();
+        });
+        poMessage.show();
+
     }
     public void initDialog(List<RequestNamesInfoModel> infoList){
         DialogKwikSearch loDialog = new DialogKwikSearch(Activity_CashCountSubmit.this,infoList);
