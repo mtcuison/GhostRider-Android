@@ -276,18 +276,11 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
             mViewModel.CheckConnectivity(isDeviceConnected -> {
                 if (isDeviceConnected) {
-                    poMessage.initDialog();
-                    poMessage.setTitle("GhostRider");
-                    poMessage.setMessage("To complete your selfie log. Please proceed to Random Stock Inventory");
-                    poMessage.setPositiveButton("Proceed", (btnView, mDialog) -> {
-                        mDialog.dismiss();
-                        Intent loIntent = new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class);
-                        loIntent.putExtra("BranchCd", BranchCd);
-                        startActivity(loIntent);
-                        Activity_CashCounter.getInstance().finish();
-                        finish();
-                    });
-                    poMessage.show();
+                    Intent loIntent = new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class);
+                    loIntent.putExtra("BranchCd", BranchCd);
+                    startActivity(loIntent);
+                    Activity_CashCounter.getInstance().finish();
+                    finish();
                 } else {
                     Activity_CashCounter.getInstance().finish();
                     finish();

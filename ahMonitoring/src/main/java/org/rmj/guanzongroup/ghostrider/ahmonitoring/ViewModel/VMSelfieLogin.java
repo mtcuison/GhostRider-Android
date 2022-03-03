@@ -26,6 +26,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
@@ -33,10 +34,14 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RInventoryDetail;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RInventoryMaster;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLocationSysLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
@@ -49,6 +54,7 @@ import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VMSelfieLogin extends AndroidViewModel {
@@ -145,6 +151,7 @@ public class VMSelfieLogin extends AndroidViewModel {
             loJson.put("dLogTimex", selfieLog.getLogTimex());
             loJson.put("nLatitude", selfieLog.getLatitude());
             loJson.put("nLongitud", selfieLog.getLongitud());
+            loJson.put("sBranchCD", selfieLog.getBranchCd());
 
             new LoginTimekeeperTask(loImage, selfieLog, instance, callback).execute(loJson);
         } catch (Exception e){
@@ -166,6 +173,8 @@ public class VMSelfieLogin extends AndroidViewModel {
         private final OnLoginTimekeeperListener callback;
         private final Application application;
         private final AppConfigPreference poConfig;
+        private final RInventoryDetail poDetail;
+        private final RInventoryMaster poMaster;
 
         public LoginTimekeeperTask(EImageInfo foImage, ELog_Selfie logInfo, Application instance, OnLoginTimekeeperListener callback){
             this.poImageInfo = foImage;
@@ -177,6 +186,8 @@ public class VMSelfieLogin extends AndroidViewModel {
             this.poUser = new SessionManager(instance);
             this.poDevice = new Telephony(instance);
             this.poSysLog = new RLocationSysLog(instance);
+            this.poDetail = new RInventoryDetail(instance);
+            this.poMaster = new RInventoryMaster(instance);
             this.callback = callback;
             this.application = instance;
             this.poConfig = AppConfigPreference.getInstance(instance);
@@ -229,31 +240,89 @@ public class VMSelfieLogin extends AndroidViewModel {
                                 String lsTransnox = (String) loUpload.get("sTransNox");
                                 poImage.updateImageInfo(lsTransnox, poImageInfo.getTransNox());
                                 Log.e(TAG, "Selfie log image has been uploaded successfully.");
-
-                                Thread.sleep(1000);
-
-                                String lsResponse = WebClient.sendRequest(WebApi.URL_POST_SELFIELOG, loJson[0].toString(), poHeaders.getHeaders());
-//                                String lsResponse = AppConstants.APPROVAL_CODE_GENERATED("sample");
-
-                                if(lsResponse == null){
-                                    lsResult = AppConstants.SERVER_NO_RESPONSE();
-                                } else {
-                                    JSONObject loResponse = new JSONObject(lsResponse);
-                                    String result = loResponse.getString("result");
-                                    if(result.equalsIgnoreCase("success")){
-                                        String TransNox = loResponse.getString("sTransNox");
-                                        String OldTrans = selfieLog.getTransNox();
-                                        poLog.updateEmployeeLogStatus(TransNox, OldTrans);
-                                        Log.e(TAG, "Selfie log has been uploaded successfully.");
-                                    }
-                                    lsResult = lsResponse;
-                                }
                             }
                         } else {
                             lsResult = AppConstants.SERVER_NO_RESPONSE();
                         }
                     }
-//                    lsResult = AppConstants.APPROVAL_CODE_GENERATED("success");
+
+                    Thread.sleep(1000);
+
+                    String lsResponse = WebClient.sendRequest(WebApi.URL_POST_SELFIELOG, loJson[0].toString(), poHeaders.getHeaders());
+
+                    if(lsResponse == null){
+                        lsResult = AppConstants.SERVER_NO_RESPONSE();
+                    } else {
+                        JSONObject loResponse = new JSONObject(lsResponse);
+                        String result = loResponse.getString("result");
+                        if(result.equalsIgnoreCase("success")){
+                            String TransNox = loResponse.getString("sTransNox");
+                            String OldTrans = selfieLog.getTransNox();
+                            poLog.updateEmployeeLogStatus(TransNox, OldTrans);
+                            Log.e(TAG, "Selfie log has been uploaded successfully.");
+                        }
+                        lsResult = lsResponse;
+                    }
+
+                    Thread.sleep(1000);
+
+                    JSONObject params = new JSONObject();
+                    params.put("branchcd", loJson[0].getString("sBranchCD"));
+                    lsResult = org.rmj.g3appdriver.utils.WebClient.httpsPostJSon(WebApi.URL_REQUEST_RANDOM_STOCK_INVENTORY, params.toString(), poHeaders.getHeaders());
+                    if(lsResult == null){
+                        lsResult = AppConstants.SERVER_NO_RESPONSE();
+                    } else {
+                        JSONObject loResponse = new JSONObject(lsResult);
+                        lsResult = loResponse.getString("result");
+                        if(lsResult.equalsIgnoreCase("success")){
+                            JSONObject joMaster = loResponse.getJSONObject("master");
+                            EInventoryMaster loMaster = new EInventoryMaster();
+                            loMaster.setTransNox(joMaster.getString("sTransNox"));
+                            loMaster.setBranchCd(joMaster.getString("sBranchCd"));
+                            loMaster.setTransact(joMaster.getString("dTransact"));
+                            loMaster.setRemarksx(joMaster.getString("sRemarksx"));
+                            loMaster.setEntryNox(Integer.parseInt(joMaster.getString("nEntryNox")));
+                            loMaster.setRqstdByx(joMaster.getString("sRqstdByx"));
+                            loMaster.setVerifyBy(joMaster.getString("sVerified"));
+                            loMaster.setDateVrfy(joMaster.getString("dVerified"));
+                            loMaster.setApprveBy(joMaster.getString("sApproved"));
+                            loMaster.setDateAppv(joMaster.getString("dApproved"));
+                            loMaster.setTranStat(joMaster.getString("cTranStat"));
+                            poMaster.insertInventoryMaster(loMaster);
+
+                            JSONArray joDetail = loResponse.getJSONArray("detail");
+                            List<EInventoryDetail> inventoryDetails = new ArrayList<>();
+                            for (int x = 0; x < joDetail.length(); x++) {
+                                JSONObject loData = joDetail.getJSONObject(x);
+                                EInventoryDetail loDetail = new EInventoryDetail();
+                                loDetail.setTransNox(loData.getString("sTransNox"));
+                                loDetail.setEntryNox(Integer.parseInt(loData.getString("nEntryNox")));
+                                loDetail.setBarrCode(loData.getString("sBarrCode"));
+                                loDetail.setDescript(loData.getString("sDescript"));
+                                loDetail.setWHouseNm(loData.getString("sWHouseNm"));
+                                loDetail.setWHouseID(loData.getString("sWHouseID"));
+                                loDetail.setSectnNme(loData.getString("sSectnNme"));
+                                loDetail.setBinNamex(loData.getString("sBinNamex"));
+                                loDetail.setQtyOnHnd(Integer.parseInt(loData.getString("nQtyOnHnd")));
+                                loDetail.setActCtr01(Integer.parseInt(loData.getString("nActCtr01")));
+                                loDetail.setActCtr02(Integer.parseInt(loData.getString("nActCtr02")));
+                                loDetail.setActCtr03(Integer.parseInt(loData.getString("nActCtr03")));
+                                loDetail.setRemarksx(loData.getString("sRemarksx"));
+                                loDetail.setPartsIDx(loData.getString("sPartsIDx"));
+                                loDetail.setWHouseID(loData.getString("sWHouseID"));
+                                loDetail.setSectnIDx(loData.getString("sSectnIDx"));
+                                loDetail.setBinIDxxx(loData.getString("sBinIDxxx"));
+                                loDetail.setLedgerNo(loData.getString("nLedgerNo"));
+                                loDetail.setBegQtyxx(loData.getString("nBegQtyxx"));
+                                inventoryDetails.add(loDetail);
+                            }
+                            poDetail.insertInventoryDetail(inventoryDetails);
+                            lsResult = loResponse.toString();
+                        } else {
+
+                        }
+                    }
+
                 } else {
                     lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Your login will be sent to server automatically if device is connected to internet.");
                 }

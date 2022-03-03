@@ -48,7 +48,7 @@ public class RImageInfo {
     }
 
     public void insertImageInfo(EImageInfo imageInfo){
-        imageInfo.setTransNox(getImageNextCode());
+//        imageInfo.setTransNox(getImageNextCode());
         new InsertTask(imageDao, "insert").execute(imageInfo);
     }
     public void insertDownloadedImageInfo(EImageInfo imageInfo){
