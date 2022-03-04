@@ -20,7 +20,6 @@ import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.WebClient;
 
 public class SelfieLogTest {
@@ -48,6 +47,9 @@ public class SelfieLogTest {
         poEmp = new REmployee(instance);
         poTlphny = new Telephony(instance);
         poConfig.setIsTesting(true);
+        poConfig.setMobileNo("09171870011");
+        poConfig.setTemp_ProductID("gRider");
+        poConfig.setAppToken("f7qNSw8TRPWHSCga0g8YFF:APA91bG3i_lBPPWv9bbRasNzRH1XX1y0vzp6Ct8S_a-yMPDvSmud8FEVPMr26zZtBPHq2CmaIw9Rx0MZmf3sbuK44q3vQemUBoPPS4Meybw8pnTpcs3p0VbiTuoLHJtdncC6BgirJxt3");
     }
 
     @After
@@ -136,7 +138,23 @@ public class SelfieLogTest {
 
         poSelfie.setSelfieLogInfo(loSelfie);
 
-        poSelfie.SaveTransaction(new SelfieLog.OnActionCallback() {
+        poSelfie.PostSelfieInfo(new SelfieLog.OnActionCallback() {
+            @Override
+            public void OnSuccess(String args) {
+                isSuccess = true;
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                isSuccess = false;
+            }
+        });
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test03RequestInventory() throws Exception{
+        poSelfie.RequestInventoryStocks("", new SelfieLog.OnActionCallback() {
             @Override
             public void OnSuccess(String args) {
                 isSuccess = true;

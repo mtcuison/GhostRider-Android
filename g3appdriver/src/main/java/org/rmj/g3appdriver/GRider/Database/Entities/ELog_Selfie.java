@@ -27,6 +27,8 @@ public class ELog_Selfie {
     private String EmployID;
     @ColumnInfo(name = "sBranchCd")
     private String BranchCd;
+    @ColumnInfo(name = "dTransact")
+    private String Transact;
     @ColumnInfo(name = "dLogTimex")
     private String LogTimex;
     @ColumnInfo(name = "nLatitude")
@@ -124,5 +126,13 @@ public class ELog_Selfie {
 
     public void setReqRSIxx(String reqRSIxx) {
         ReqRSIxx = reqRSIxx;
+    }
+
+    public String getTransact() {
+        return Transact;
+    }
+
+    public void setTransact(String transact) {
+        Transact = transact;
     }
 }

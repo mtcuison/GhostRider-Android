@@ -55,7 +55,10 @@ public class RLogSelfie {
 
     public void insertSelfieLog(ELog_Selfie selfieLog){
         selfieDao.insertLoginSelfie(selfieLog);
-//        new InsertSelfieTask(selfieDao).execute(selfieLog);
+    }
+
+    public int checkBranchCodeIfExist(String BranchCd, String Transact){
+        return selfieDao.checkBranchCodeIfExist(BranchCd, Transact);
     }
 
     public LiveData<List<String>> getLastLogDate(){

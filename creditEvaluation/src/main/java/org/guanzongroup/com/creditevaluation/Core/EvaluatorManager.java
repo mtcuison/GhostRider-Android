@@ -148,7 +148,7 @@ public class EvaluatorManager {
         }
     }
 
-    public void UpdateEvaluationResult(OnActionCallback callback){
+    public void UpdateEvaluationResult(oChildFndg foObject, OnActionCallback callback){
         try{
 
         } catch (Exception e){
@@ -166,4 +166,6 @@ public class EvaluatorManager {
         }
         return true;
     }
+
+
 }

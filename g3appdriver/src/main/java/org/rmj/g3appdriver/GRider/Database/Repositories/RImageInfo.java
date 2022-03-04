@@ -51,6 +51,12 @@ public class RImageInfo {
 //        imageInfo.setTransNox(getImageNextCode());
         new InsertTask(imageDao, "insert").execute(imageInfo);
     }
+
+    public void saveSelfieLogImage(EImageInfo imageInfo){
+        imageInfo.setTransNox(getImageNextCode());
+        imageDao.insert(imageInfo);
+    }
+
     public void insertDownloadedImageInfo(EImageInfo imageInfo){
 
         new InsertTask(imageDao, "insert").execute(imageInfo);

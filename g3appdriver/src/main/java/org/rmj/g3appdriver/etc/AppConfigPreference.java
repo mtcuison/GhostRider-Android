@@ -44,6 +44,8 @@ public class AppConfigPreference {
     private static final String UPDATE_LOCALLY = "gRider_local_update";
     private static final String EXPORTED_DCP = "gRider_dcp_export_file";
 
+    private static final String INVENTORY_COUNT = "gRider_inventory_count";
+
     private static final String HELP_LOGIN_NOTICE = "Login_Instruction_Notice";
     private static final String HELP_DCP_DOWNLOAD_NOTICE = "DCP_Download_Instruction_Notice";
 
@@ -271,5 +273,14 @@ public class AppConfigPreference {
 
     public boolean isExportedDcp(){
         return pref.getBoolean(EXPORTED_DCP, true);
+    }
+
+    public void setInventoryCount(boolean hasInventory){
+        editor.putBoolean(INVENTORY_COUNT, hasInventory);
+        editor.commit();
+    }
+
+    public boolean hasInventory(){
+        return pref.getBoolean(INVENTORY_COUNT, true);
     }
 }
