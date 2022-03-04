@@ -240,6 +240,7 @@ public class VMCashCounter extends AndroidViewModel {
         return grandTotalx;
     }
     public LiveData<JSONObject> getJsonData(){
+        createJSONParameters();
         return jsonData;
     }
     private JSONObject createJSONParameters(){
