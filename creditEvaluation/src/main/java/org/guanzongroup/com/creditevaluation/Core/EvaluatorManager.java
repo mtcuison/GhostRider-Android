@@ -1,7 +1,10 @@
 package org.guanzongroup.com.creditevaluation.Core;
 
 import android.app.Application;
+import android.os.Build;
+import android.util.Log;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
@@ -12,6 +15,7 @@ import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class EvaluatorManager {
@@ -26,6 +30,11 @@ public class EvaluatorManager {
 
     public interface OnActionCallback {
         void OnSuccess(String args);
+        void OnFailed(String message);
+    }
+
+    public interface OnRetrieveDataCallback{
+        void OnRetrieve(HashMap<oParentFndg, List<oChildFndg>> foEvaluate, ECreditOnlineApplicationCI foData);
         void OnFailed(String message);
     }
 
@@ -126,6 +135,27 @@ public class EvaluatorManager {
         return poCI.getForEvaluationList();
     }
 
+    public void RetrieveApplicationData(String TransNox, OnRetrieveDataCallback callback){
+        try{
+            HashMap<oParentFndg, List<oChildFndg>> loForEval = new HashMap<>();
+            ECreditOnlineApplicationCI loApp = poCI.getApplication(TransNox);
+            if(loApp == null){
+                callback.OnFailed("No application record found.");
+            } else {
+                loForEval.putAll(FindingsParser.getForEvaluation(oChildFndg.FIELDS.ADDRESS, loApp.getAddressx(), loApp.getAddrFndg()));
+                loForEval.putAll(FindingsParser.getForEvaluation(oChildFndg.FIELDS.MEANS, loApp.getIncomexx(), loApp.getIncmFndg()));
+                loForEval.putAll(FindingsParser.getForEvaluation(oChildFndg.FIELDS.ASSETS, loApp.getAssetsxx(), loApp.getAsstFndg()));
+
+                callback.OnRetrieve(loForEval, loApp);
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
+            callback.OnFailed(e.getMessage());
+        }
+    }
+
     public void PostEvaluation(OnActionCallback callback){
         try{
             JSONObject params = new JSONObject();
@@ -148,15 +178,6 @@ public class EvaluatorManager {
         }
     }
 
-    public void UpdateEvaluationResult(oChildFndg foObject, OnActionCallback callback){
-        try{
-
-        } catch (Exception e){
-            e.printStackTrace();
-            callback.OnFailed("UpdateEvaluationResult " + e.getMessage());
-        }
-    }
-
     public boolean UpdatePostedEvaluation(String TransNox){
         try {
             poCI.UpdateTransaction(TransNox);
@@ -165,5 +186,38 @@ public class EvaluatorManager {
             return false;
         }
         return true;
+    }
+
+    public void UpdateCIResult(String TransNox, oParentFndg foParent, oChildFndg foChild, OnActionCallback callback) {
+        try{
+            String lsFindings = "";
+            String lsResult = "";
+            String lsField = foParent.getField();
+            switch (foParent.getField()){
+                case oChildFndg.FIELDS.ADDRESS:
+                    lsFindings = poCI.getAddressForEvaluation(TransNox);
+                    lsResult = CIResultHandler.toStringResult(lsField, lsFindings, foParent, foChild);
+                    poCI.updateAddressEvaluation(TransNox, lsResult);
+                    break;
+
+                case oChildFndg.FIELDS.ASSETS:
+                    lsFindings = poCI.getAssetsForEvaluation(TransNox);
+                    lsResult = CIResultHandler.toStringResult(lsField, lsFindings, foParent, foChild);
+                    poCI.updateAssetEvaluation(TransNox, lsResult);
+                    break;
+
+                case oChildFndg.FIELDS.MEANS:
+                    lsFindings = poCI.getIncomeForEvaluation(TransNox);
+                    lsResult = CIResultHandler.toStringResult(lsField, lsFindings, foParent, foChild);
+                    poCI.updateIncomeEvaluation(TransNox, lsResult);
+                    break;
+
+            }
+            callback.OnSuccess("Updated successfully");
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
+            callback.OnFailed("UpdateCIResult " + e.getMessage());
+        }
     }
 }

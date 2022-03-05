@@ -13,7 +13,19 @@ public class FindingsParser {
     private List<oChildFndg> poChildLst;
     private final HashMap<oParentFndg, List<oChildFndg>> poChild = new HashMap<>();
 
-    public static HashMap<oParentFndg, List<oChildFndg>> getForEvaluation(String Field, String fsLabel, String fsFindings) throws Exception{
+    public static HashMap<oParentFndg, List<oChildFndg>> getForEvaluation(String fsField, String fsLabel, String fsFindings) throws Exception{
+        switch (fsField){
+            case oChildFndg.FIELDS.ADDRESS:
+            case oChildFndg.FIELDS.MEANS:
+                return getWithParent(fsField, fsLabel, fsFindings);
+            default:
+                return getChild(fsField, fsLabel, fsFindings);
+        }
+    }
+
+    private static HashMap<oParentFndg, List<oChildFndg>> getWithParent(String Field, String fsLabel, String fsFindings) throws Exception{
+        List<String> poParentEvl = new ArrayList<>();
+
         List<oParentFndg> poParentLst = new ArrayList<>();
         List<oChildFndg> poChlFndng;
 
@@ -33,45 +45,52 @@ public class FindingsParser {
         // Scan the JSON Inside the parent JSON
         for(int x = 0; x < laForLbel.length(); x++) {
 
-            JSONObject loParent = loForLbel.getJSONObject(laForLbel.getString(x));
-            JSONArray laChild = loParent.names();
-            for(int i = 0; i < laChild.length(); i++){
-
-                //get the value of saddressxx key inside the child json
-                poChlLabel.add(loParent.getString(laChild.getString(i)));
+            //Check if the child json on parent is notNull
+            if (!loForLbel.isNull(laForLbel.getString(x))){
+                poParentEvl.add(laForLbel.getString(x));
+                JSONObject loParent = loForLbel.getJSONObject(laForLbel.getString(x));
+                JSONArray laChild = loParent.names();
+                for (int i = 0; i < laChild.length(); i++) {
+                    //get the value of sAddressx key inside the child json
+                    poChlLabel.add(loParent.getString(laChild.getString(i)));
+                }
             }
         }
 
         //Parse and Scan the JSON to identify which parameters will be evaluated
+
         JSONArray laParent = loForEval.names();
-        for(int x = 0; x < laParent.length(); x++){
-            JSONObject loParent = loForEval.getJSONObject(laParent.getString(x));
-            oParentFndg loPrntObj = new oParentFndg(oChildFndg.FIELDS.ADDRESS, laParent.getString(x));
-            poParentLst.add(new oParentFndg(oChildFndg.FIELDS.ADDRESS, laParent.getString(x)));
-            poChlFndng = new ArrayList<>();
-            JSONArray laChild = loParent.names();
-            for(int i = 0; i < laChild.length(); i++){
+        for (int j = 0; j < poParentEvl.size(); j++){
 
-                //Get all value which has negative 1
-                if(loParent.getString(laChild.getString(i)).equalsIgnoreCase("-1")) {
-                    oChildFndg loChild = new oChildFndg(poChlLabel.get(i),
-                            laChild.getString(i),
-                            loParent.getString(laChild.getString(i)));
-                    poChlFndng.add(loChild);
+            String lsParentNme = poParentEvl.get(j);
+
+            for(int x = 0; x < laParent.length(); x++){
+
+                if(lsParentNme.equalsIgnoreCase(laParent.getString(x))) {
+                    JSONObject loParent = loForEval.getJSONObject(laParent.getString(x));
+                    oParentFndg loPrntObj = new oParentFndg(Field, laParent.getString(x));
+                    poParentLst.add(new oParentFndg(Field, laParent.getString(x)));
+                    poChlFndng = new ArrayList<>();
+                    JSONArray laChild = loParent.names();
+
+                    for (int i = 0; i < laChild.length(); i++) {
+                        //Get all value which has negative 1
+                        if (loParent.getString(laChild.getString(i)).equalsIgnoreCase("-1")) {
+                            oChildFndg loChild = new oChildFndg(poChlLabel.get(i),
+                                    laChild.getString(i),
+                                    loParent.getString(laChild.getString(i)));
+                            poChlFndng.add(loChild);
+                        }
+                        poChild.put(loPrntObj, poChlFndng);
+                    }
                 }
-                poChild.put(loPrntObj, poChlFndng);
-
             }
         }
         return poChild;
     }
 
-
-    public static HashMap<oParentFndg, List<oChildFndg>> getWithParent(String Field, String fsLabel, String fsFindings) throws Exception{
-        List<oParentFndg> poParentLst = new ArrayList<>();
+    private static HashMap<oParentFndg, List<oChildFndg>> getChild(String Field, String fsLabel, String fsFindings) throws Exception{
         List<oChildFndg> poChlFndng;
-
-        //Arraylist for storing labels which will be displayed on UI for confirmation
         List<String> poChlLabel = new ArrayList<>();
         HashMap<oParentFndg, List<oChildFndg>> poChild = new HashMap<>();
 
@@ -80,92 +99,21 @@ public class FindingsParser {
 
         //Parse Json for Label
         JSONObject loForLbel = new JSONObject(fsLabel);
-
-        // Get the list of keys in parent JSONObject
         JSONArray laForLbel = loForLbel.names();
-
-        // Scan the JSON Inside the parent JSON
         for(int x = 0; x < laForLbel.length(); x++) {
-
-            JSONObject loParent = loForLbel.getJSONObject(laForLbel.getString(x));
-            JSONArray laChild = loParent.names();
-            for(int i = 0; i < laChild.length(); i++){
-
-                //get the value of saddressxx key inside the child json
-                poChlLabel.add(loParent.getString(laChild.getString(i)));
-            }
+            poChlLabel.add(loForLbel.getString(laForLbel.getString(x)));
         }
 
-        //Parse and Scan the JSON to identify which parameters will be evaluated
         JSONArray laParent = loForEval.names();
-        for(int x = 0; x < laParent.length(); x++){
-            JSONObject loParent = loForEval.getJSONObject(laParent.getString(x));
-            oParentFndg loPrntObj = new oParentFndg(oChildFndg.FIELDS.ADDRESS, laParent.getString(x));
-            poParentLst.add(new oParentFndg(oChildFndg.FIELDS.ADDRESS, laParent.getString(x)));
+        for(int x = 0; x < laParent.length(); x++) {
             poChlFndng = new ArrayList<>();
-            JSONArray laChild = loParent.names();
-            for(int i = 0; i < laChild.length(); i++){
+            oParentFndg loPrntObj = new oParentFndg(Field, null);
+            if (loForEval.getString(laParent.getString(x)).equalsIgnoreCase("-1")) {
+                oChildFndg loChild = new oChildFndg(poChlLabel.get(x),
+                        laParent.getString(x),
+                        loForEval.getString(laParent.getString(x)));
+                poChlFndng.add(loChild);
 
-                //Get all value which has negative 1
-                if(loParent.getString(laChild.getString(i)).equalsIgnoreCase("-1")) {
-                    oChildFndg loChild = new oChildFndg(poChlLabel.get(i),
-                            laChild.getString(i),
-                            loParent.getString(laChild.getString(i)));
-                    poChlFndng.add(loChild);
-                }
-                poChild.put(loPrntObj, poChlFndng);
-
-            }
-        }
-        return poChild;
-    }
-
-    public static HashMap<oParentFndg, List<oChildFndg>> getChild(String Field, String fsLabel, String fsFindings) throws Exception{
-        List<oParentFndg> poParentLst = new ArrayList<>();
-        List<oChildFndg> poChlFndng;
-
-        //Arraylist for storing labels which will be displayed on UI for confirmation
-        List<String> poChlLabel = new ArrayList<>();
-        HashMap<oParentFndg, List<oChildFndg>> poChild = new HashMap<>();
-
-        //Parse Json for Evaluation
-        JSONObject loForEval = new JSONObject(fsFindings);
-
-        //Parse Json for Label
-        JSONObject loForLbel = new JSONObject(fsLabel);
-
-        // Get the list of keys in parent JSONObject
-        JSONArray laForLbel = loForLbel.names();
-
-        // Scan the JSON Inside the parent JSON
-        for(int x = 0; x < laForLbel.length(); x++) {
-
-            JSONObject loParent = loForLbel.getJSONObject(laForLbel.getString(x));
-            JSONArray laChild = loParent.names();
-            for(int i = 0; i < laChild.length(); i++){
-
-                //get the value of saddressxx key inside the child json
-                poChlLabel.add(loParent.getString(laChild.getString(i)));
-            }
-        }
-
-        //Parse and Scan the JSON to identify which parameters will be evaluated
-        JSONArray laParent = loForEval.names();
-        for(int x = 0; x < laParent.length(); x++){
-            JSONObject loParent = loForEval.getJSONObject(laParent.getString(x));
-            oParentFndg loPrntObj = new oParentFndg(oChildFndg.FIELDS.ADDRESS, laParent.getString(x));
-            poParentLst.add(new oParentFndg(oChildFndg.FIELDS.ADDRESS, laParent.getString(x)));
-            poChlFndng = new ArrayList<>();
-            JSONArray laChild = loParent.names();
-            for(int i = 0; i < laChild.length(); i++){
-
-                //Get all value which has negative 1
-                if(loParent.getString(laChild.getString(i)).equalsIgnoreCase("-1")) {
-                    oChildFndg loChild = new oChildFndg(poChlLabel.get(i),
-                            laChild.getString(i),
-                            loParent.getString(laChild.getString(i)));
-                    poChlFndng.add(loChild);
-                }
                 poChild.put(loPrntObj, poChlFndng);
             }
         }
