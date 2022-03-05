@@ -33,6 +33,7 @@ import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.DialogKwikSearch;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountInfoModel;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RequestNamesInfoModel;
@@ -275,20 +276,16 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
     private void checkEmployeeLevelForInventory(){
         if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
             mViewModel.CheckConnectivity(isDeviceConnected -> {
-                if (isDeviceConnected) {
-                    poMessage.initDialog();
-                    poMessage.setTitle("GhostRider");
-                    poMessage.setMessage("To complete your selfie log. Please proceed to Random Stock Inventory");
-                    poMessage.setPositiveButton("Proceed", (btnView, mDialog) -> {
-                        mDialog.dismiss();
-                        Intent loIntent = new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class);
-                        loIntent.putExtra("BranchCd", BranchCd);
-                        startActivity(loIntent);
-                        Activity_CashCounter.getInstance().finish();
-                        finish();
-                    });
-                    poMessage.show();
+                if (!isDeviceConnected) {
+                    Activity_CashCounter.getInstance().finish();
+                    finish();
+                } else if(!AppConfigPreference.getInstance(Activity_CashCountSubmit.this).hasInventory()){
+                    Activity_CashCounter.getInstance().finish();
+                    finish();
                 } else {
+                    Intent loIntent = new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class);
+                    loIntent.putExtra("BranchCd", BranchCd);
+                    startActivity(loIntent);
                     Activity_CashCounter.getInstance().finish();
                     finish();
                 }

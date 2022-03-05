@@ -21,7 +21,7 @@
             android:id="@+id/lbl_dialogTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Randon Stock Inventory"
+            android:text="AH Branches"
             android:textColor="@color/material_black"
             android:textSize="21sp"
             android:gravity="center"

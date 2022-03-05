@@ -74,8 +74,7 @@ public class DcpManager {
         try{
 //            String lsEmployID = poEmploye.getEmployeeID();
             String lsEmployID = "M00121000570";
-            if(lsEmployID == null ||
-                    lsEmployID.equalsIgnoreCase("")){
+            if(lsEmployID == null || lsEmployID.equalsIgnoreCase("")){
                 callback.OnFailed("Unable to download DCP. Please relogin your account and try again.");
             } else {
                 JSONObject loJson = new JSONObject();

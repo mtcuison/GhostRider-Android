@@ -40,7 +40,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorServi
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataImportService;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.GMessagingService;
-import org.rmj.guanzongroup.ghostrider.epacss.Service.PerformanceImportService;
+//import org.rmj.guanzongroup.ghostrider.epacss.Service.PerformanceImportService;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMSplashScreen;
 
 import java.text.SimpleDateFormat;
@@ -120,7 +120,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
                                                                 if (empLevel.isEmpty() || DeptCode.parseUserLevel(Integer.parseInt(empLevel)).equalsIgnoreCase("Area Manager")
                                                                         || DeptCode.parseUserLevel(Integer.parseInt(empLevel)).equalsIgnoreCase("General Manager")){
                                                                     Log.e(TAG, "emp level = "+ DeptCode.parseUserLevel(Integer.parseInt(empLevel)));
-                                                                    ServiceScheduler.scheduleJob(Activity_SplashScreen.this, PerformanceImportService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
+//                                                                    ServiceScheduler.scheduleJob(Activity_SplashScreen.this, PerformanceImportService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
                                                                 }
                                                             }catch (NumberFormatException e){
                                                                 e.printStackTrace();

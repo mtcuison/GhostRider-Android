@@ -20,41 +20,30 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EGLocatorSysLog;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLocationSysLog;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
-import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Core.SelfieLog;
 
 import java.util.List;
 
 public class VMSelfieLogin extends AndroidViewModel {
     private static final String TAG = VMSelfieLogin.class.getSimpleName();
     private final Application instance;
-    private final RImageInfo poImage;
     private final RLogSelfie poLog;
     private final RBranch pobranch;
     private final SessionManager poSession;
@@ -68,10 +57,15 @@ public class VMSelfieLogin extends AndroidViewModel {
         void OnFailed(String message);
     }
 
+    public interface OnBranchSelectedCallback {
+        void OnLoad();
+        void OnSuccess();
+        void OnFailed(String message);
+    }
+
     public VMSelfieLogin(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poImage = new RImageInfo(instance);
         this.poUser = new REmployee(instance);
         this.poLog = new RLogSelfie(instance);
         this.pobranch = new RBranch(instance);
@@ -88,9 +82,11 @@ public class VMSelfieLogin extends AndroidViewModel {
     public LiveData<String[]> getPermisions(){
         return paPermisions;
     }
+
     public void setPermissionsGranted(boolean isGranted){
         this.pbGranted.setValue(isGranted);
     }
+
     private static boolean hasPermissions(Context context, String... permissions){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M && permissions!=null ){
             for (String permission: permissions){
@@ -101,6 +97,7 @@ public class VMSelfieLogin extends AndroidViewModel {
         }
         return true;
     }
+
     public LiveData<EEmployeeInfo> getUserInfo(){
         return poUser.getUserInfo();
     }
@@ -116,6 +113,7 @@ public class VMSelfieLogin extends AndroidViewModel {
     public LiveData<List<ELog_Selfie>> getAllEmployeeTimeLog(){
         return poLog.getAllEmployeeTimeLog();
     }
+
     public LiveData<List<ELog_Selfie>> getCurrentTimeLog(){
         return poLog.getCurrentTimeLog(AppConstants.CURRENT_DATE);
     }
@@ -132,21 +130,107 @@ public class VMSelfieLogin extends AndroidViewModel {
         return pobranch.getAreaBranchList();
     }
 
+    public void checkIfAlreadyLog(String BranchCde, OnBranchSelectedCallback callback){
+        new OnBranchCheckTask(instance, callback).execute(BranchCde);
+    }
+
+    private static class OnBranchCheckTask extends AsyncTask<String, Void, String>{
+
+        private final Application instance;
+        private final OnBranchSelectedCallback callback;
+        private final RLogSelfie poLog;
+        private String lsResult = "";
+
+        public OnBranchCheckTask(Application application, OnBranchSelectedCallback callback) {
+            this.instance = application;
+            this.callback = callback;
+            this.poLog = new RLogSelfie(instance);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String BranchCD = strings[0];
+            if(poLog.checkBranchCodeIfExist(BranchCD, AppConstants.CURRENT_DATE) > 0){
+                return AppConstants.LOCAL_EXCEPTION_ERROR("You already log in this branch.");
+            } else {
+                try {
+                    return AppConstants.APPROVAL_CODE_GENERATED("Branch selected.");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+                }
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject loJson = new JSONObject(s);
+                Log.e(TAG, loJson.getString("result"));
+                String lsResult = loJson.getString("result");
+                if(lsResult.equalsIgnoreCase("success")){
+                    callback.OnSuccess();
+                } else {
+                    JSONObject loError = loJson.getJSONObject("error");
+                    String message = loError.getString("message");
+                    callback.OnFailed(message);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.OnFailed(e.getMessage());
+            }
+        }
+    }
+
+    public void importInventoryTask(String sBranchCode){
+        new ImportInventoryTask(instance).execute(sBranchCode);
+    }
+
+    private static class ImportInventoryTask extends AsyncTask<String, String, String>{
+
+        private final SelfieLog poSlMaster;
+        private final AppConfigPreference poConfig;
+
+        public ImportInventoryTask(Application application) {
+            this.poSlMaster = new SelfieLog(application);
+            this.poConfig = AppConfigPreference.getInstance(application);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.e(TAG, "Started importing branch inventory");
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            poSlMaster.RequestInventoryStocks(strings[0], new SelfieLog.OnActionCallback() {
+                @Override
+                public void OnSuccess(String args) {
+                    poConfig.setInventoryCount(true);
+                    Log.e(TAG, "Started importing branch inventory");
+                }
+
+                @Override
+                public void OnFailed(String message) {
+                    poConfig.setInventoryCount(true);
+                    Log.e(TAG, "unable to download inventory stocks. " + message);
+                }
+            });
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.e(TAG, "Finished importing branch inventory");
+        }
+    }
+
     public void loginTimeKeeper(ELog_Selfie selfieLog, EImageInfo loImage, OnLoginTimekeeperListener callback){
         try {
-            loImage.setTransNox(poImage.getImageNextCode());
-            poImage.insertImageInfo(loImage);
-            selfieLog.setTransNox(poLog.getLogNextCode());
-            selfieLog.setReqCCntx("0");
-            poLog.insertSelfieLog(selfieLog);
-
-            JSONObject loJson = new JSONObject();
-            loJson.put("sEmployID", selfieLog.getEmployID());
-            loJson.put("dLogTimex", selfieLog.getLogTimex());
-            loJson.put("nLatitude", selfieLog.getLatitude());
-            loJson.put("nLongitud", selfieLog.getLongitud());
-
-            new LoginTimekeeperTask(loImage, selfieLog, instance, callback).execute(loJson);
+            new LoginTimekeeperTask(loImage, selfieLog, instance, callback).execute();
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailed(e.getMessage());
@@ -154,32 +238,20 @@ public class VMSelfieLogin extends AndroidViewModel {
     }
 
     private static class LoginTimekeeperTask extends AsyncTask<JSONObject, Void, String>{
-        private final HttpHeaders poHeaders;
         private final ConnectionUtil poConn;
-        private final RImageInfo poImage;
-        private final RLogSelfie poLog;
         private final EImageInfo poImageInfo;
         private final ELog_Selfie selfieLog;
-        private final SessionManager poUser;
-        private final Telephony poDevice;
-        private final RLocationSysLog poSysLog;
         private final OnLoginTimekeeperListener callback;
-        private final Application application;
-        private final AppConfigPreference poConfig;
+
+        private final SelfieLog poSlMaster;
+        private String lsResult = "";
 
         public LoginTimekeeperTask(EImageInfo foImage, ELog_Selfie logInfo, Application instance, OnLoginTimekeeperListener callback){
             this.poImageInfo = foImage;
             this.selfieLog = logInfo;
-            this.poHeaders = HttpHeaders.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
-            this.poImage = new RImageInfo(instance);
-            this.poLog = new RLogSelfie(instance);
-            this.poUser = new SessionManager(instance);
-            this.poDevice = new Telephony(instance);
-            this.poSysLog = new RLocationSysLog(instance);
             this.callback = callback;
-            this.application = instance;
-            this.poConfig = AppConfigPreference.getInstance(instance);
+            this.poSlMaster = new SelfieLog(instance);
         }
 
         @Override
@@ -188,80 +260,32 @@ public class VMSelfieLogin extends AndroidViewModel {
             callback.OnLogin();
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(JSONObject... loJson) {
-            String lsResult = "";
-            try{
-                EGLocatorSysLog loSysLog = new EGLocatorSysLog();
-                loSysLog.setUserIDxx(poUser.getUserID());
-                loSysLog.setTransact(new AppConstants().DATE_MODIFIED);
-                loSysLog.setLongitud(selfieLog.getLongitud());
-                loSysLog.setLatitude(selfieLog.getLatitude());
-                loSysLog.setDeviceID(poDevice.getDeviceID());
-                loSysLog.setSendStat("0");
-                loSysLog.setTimeStmp(new AppConstants().DATE_MODIFIED);
-                poSysLog.saveCurrentLocation(loSysLog);
 
-                if(poConn.isDeviceConnected()){
-                    String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(), poUser.getClientId(), poUser.getUserID());
-                    String lsAccess = WebFileServer.RequestAccessToken(lsClient);
+            poSlMaster.setImageInfo(poImageInfo);
+            poSlMaster.setSelfieLogInfo(selfieLog);
+            if (poConn.isDeviceConnected()) {
 
-                    if(lsClient.isEmpty() || lsAccess.isEmpty()){
-                        lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Failed to request generated Client or Access token.");
-                    } else {
-
-                        org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
-                                poImageInfo.getFileLoct(),
-                                lsAccess,
-                                poImageInfo.getFileCode(),
-                                poImageInfo.getDtlSrcNo(),
-                                poImageInfo.getImageNme(),
-                                poUser.getBranchCode(),
-                                poImageInfo.getSourceCD(),
-                                poImageInfo.getTransNox(),
-                                "");
-
-                        if(loUpload != null){
-                            String lsImgResult = (String) loUpload.get("result");
-
-                            if(lsImgResult.equalsIgnoreCase("success")){
-                                String lsTransnox = (String) loUpload.get("sTransNox");
-                                poImage.updateImageInfo(lsTransnox, poImageInfo.getTransNox());
-                                Log.e(TAG, "Selfie log image has been uploaded successfully.");
-
-                                Thread.sleep(1000);
-
-                                String lsResponse = WebClient.sendRequest(WebApi.URL_POST_SELFIELOG, loJson[0].toString(), poHeaders.getHeaders());
-//                                String lsResponse = AppConstants.APPROVAL_CODE_GENERATED("sample");
-
-                                if(lsResponse == null){
-                                    lsResult = AppConstants.SERVER_NO_RESPONSE();
-                                } else {
-                                    JSONObject loResponse = new JSONObject(lsResponse);
-                                    String result = loResponse.getString("result");
-                                    if(result.equalsIgnoreCase("success")){
-                                        String TransNox = loResponse.getString("sTransNox");
-                                        String OldTrans = selfieLog.getTransNox();
-                                        poLog.updateEmployeeLogStatus(TransNox, OldTrans);
-                                        Log.e(TAG, "Selfie log has been uploaded successfully.");
-                                    }
-                                    lsResult = lsResponse;
-                                }
-                            }
-                        } else {
-                            lsResult = AppConstants.SERVER_NO_RESPONSE();
+                poSlMaster.PostSelfieInfo(new SelfieLog.OnActionCallback() {
+                    @Override
+                    public void OnSuccess(String args) {
+                        try {
+                            lsResult = AppConstants.APPROVAL_CODE_GENERATED(args);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
-//                    lsResult = AppConstants.APPROVAL_CODE_GENERATED("success");
-                } else {
-                    lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Your login will be sent to server automatically if device is connected to internet.");
-                }
-                    lsResult = AppConstants.APPROVAL_CODE_GENERATED("success");
 
-            } catch (Exception e){
-                e.printStackTrace();
-                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
+                    @Override
+                    public void OnFailed(String message) {
+                        try {
+                            lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(message);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
             return lsResult;
         }
@@ -280,9 +304,6 @@ public class VMSelfieLogin extends AndroidViewModel {
                     String message = loError.getString("message");
                     callback.OnFailed(message);
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                callback.OnFailed(e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
                 callback.OnFailed(e.getMessage());

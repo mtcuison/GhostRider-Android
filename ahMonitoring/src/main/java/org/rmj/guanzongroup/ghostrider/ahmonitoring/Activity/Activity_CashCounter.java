@@ -241,13 +241,10 @@ public class Activity_CashCounter extends AppCompatActivity {
         mViewModel.getCoinsTotalAmount().observe(this, val -> lblCoinsTotal.setText(formatter.format(val)));
         mViewModel.getGrandTotalAmount().observe(this, val -> lblGrandTotal.setText(formatter.format(val)));
         btnNext.setOnClickListener(v->{
-            if(lblGrandTotal.getText().toString().equalsIgnoreCase("0.00")) {
-                GToast.CreateMessage(this, "Cash Details are Empty.", GToast.ERROR).show();
-            } else {
-                Intent intent = new Intent(Activity_CashCounter.this, Activity_CashCountSubmit.class);
-                intent.putExtra("params", String.valueOf(mViewModel.getJsonData().getValue()));
-                intent.putExtra("BranchCd", BranchCd);
-                startActivity(intent);
+            Intent intent = new Intent(Activity_CashCounter.this, Activity_CashCountSubmit.class);
+            intent.putExtra("params", String.valueOf(mViewModel.getJsonData().getValue()));
+            intent.putExtra("BranchCd", BranchCd);
+            startActivity(intent);
 //                poMessage.initDialog();
 //                poMessage.setTitle("Collection Remittance");
 //                poMessage.setMessage(mViewModel.getJsonData().getValue().toString());
@@ -256,7 +253,6 @@ public class Activity_CashCounter extends AppCompatActivity {
 //
 //                });
 //                poMessage.show();
-            }
         });
     }
 
@@ -350,5 +346,4 @@ public class Activity_CashCounter extends AppCompatActivity {
             poMessage.show();
         }
     }
-
 }

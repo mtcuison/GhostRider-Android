@@ -110,7 +110,7 @@
                         android:imeOptions="actionSearch"
                         android:maxLines="1"
                         android:textCursorDrawable="@drawable/white_cursor"
-                        android:hint="Resquest name" />
+                        android:hint="Request name" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageButton

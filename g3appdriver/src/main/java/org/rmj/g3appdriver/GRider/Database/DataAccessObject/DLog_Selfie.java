@@ -58,4 +58,7 @@ public interface DLog_Selfie {
 
     @Query("SELECT * FROM EMPLOYEE_LOG_SELFIE ORDER BY dLogTimex DESC LIMIT 1")
     LiveData<ELog_Selfie> getLastSelfieLog();
+
+    @Query("SELECT COUNT(*) FROM Employee_Log_Selfie WHERE sBranchCd=:BranchCd AND dTransact=:Transact")
+    public int checkBranchCodeIfExist(String BranchCd, String Transact);
 }

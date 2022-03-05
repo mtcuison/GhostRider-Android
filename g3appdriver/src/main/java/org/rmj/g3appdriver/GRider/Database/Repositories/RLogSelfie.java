@@ -54,7 +54,11 @@ public class RLogSelfie {
     }
 
     public void insertSelfieLog(ELog_Selfie selfieLog){
-        new InsertSelfieTask(selfieDao).execute(selfieLog);
+        selfieDao.insertLoginSelfie(selfieLog);
+    }
+
+    public int checkBranchCodeIfExist(String BranchCd, String Transact){
+        return selfieDao.checkBranchCodeIfExist(BranchCd, Transact);
     }
 
     public LiveData<List<String>> getLastLogDate(){
@@ -96,7 +100,6 @@ public class RLogSelfie {
 
         @Override
         protected String doInBackground(ELog_Selfie... eLog_selfies) {
-            selfieDao.insertLoginSelfie(eLog_selfies[0]);
             return null;
         }
     }

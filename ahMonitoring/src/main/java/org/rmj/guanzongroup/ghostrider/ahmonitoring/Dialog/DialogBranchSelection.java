@@ -59,7 +59,7 @@ public class DialogBranchSelection {
             try{
                 poMessage.initDialog();
                 poMessage.setTitle("Branch Selected");
-                poMessage.setMessage("Select " + BranchName + " for Selfie Log, Cash Count and Random stock inventory?");
+                poMessage.setMessage("You selected " + BranchName + ". Continue Selfie log?");
                 poMessage.setPositiveButton("Yes", (view12, dialog) -> {
                     callback.OnSelect(BranchCode, poDialogx);
                     dialog.dismiss();
