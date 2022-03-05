@@ -4,8 +4,15 @@
 
     <application>
         <activity
+            android:name=".Activity.Activity_EvaluationList"
+            android:label="CI Evaluation"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
+        <activity
             android:name=".Activity.Activity_Evaluation"
-            android:exported="true" />
+            android:label="CI Evaluation"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
     </application>
 
 </manifest>

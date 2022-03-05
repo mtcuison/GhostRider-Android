@@ -98,6 +98,7 @@ dependencies {
     implementation project(':samsungKnox')
     implementation project(':approvalCode')
     implementation project(':CreditEvaluator')
+    implementation project(':creditEvaluation')
     implementation project(':notifications')
     implementation project(':imgCapture')
     implementation project(':griderScanner')

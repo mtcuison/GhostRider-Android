@@ -1,1 +1,9 @@
-<resources></resources>
+<resources>
+    <string name="sLblTransNo">Transaction no. :</string>
+    <string name="sLblLoanUnit">Model :</string>
+    <string name="sLblDownpayment">Downpayment :</string>
+    <string name="sLblTerms">Terms :</string>
+    <string name="sLblApproved">Approved</string>
+    <string name="sLblDisapproved">Disapproved</string>
+    <string name="sLblCiResult">CI Result</string>
+</resources>
