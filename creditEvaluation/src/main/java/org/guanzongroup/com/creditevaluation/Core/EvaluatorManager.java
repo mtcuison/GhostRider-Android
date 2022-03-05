@@ -166,6 +166,4 @@ public class EvaluatorManager {
         }
         return true;
     }
-
-
 }

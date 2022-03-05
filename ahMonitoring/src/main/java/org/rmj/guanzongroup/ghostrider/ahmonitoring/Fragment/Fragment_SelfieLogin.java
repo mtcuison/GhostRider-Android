@@ -234,11 +234,13 @@ public class Fragment_SelfieLogin extends Fragment {
                 mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
                     @Override
                     public void OnLoad() {
-
+                        poLoad.initDialog("Selfie Log", "Validating branch. Please wait...", false);
+                        poLoad.show();
                     }
 
                     @Override
                     public void OnSuccess() {
+                        poLoad.dismiss();
                         sSlectBranch = BranchCode;
                         mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
                             try{
@@ -252,6 +254,7 @@ public class Fragment_SelfieLogin extends Fragment {
 
                     @Override
                     public void OnFailed(String message) {
+                        poLoad.dismiss();
                         poMessage.initDialog();
                         poMessage.setTitle("Selfie Login");
                         poMessage.setMessage(message);
