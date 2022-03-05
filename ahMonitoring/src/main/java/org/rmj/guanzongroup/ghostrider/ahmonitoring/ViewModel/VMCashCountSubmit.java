@@ -243,50 +243,46 @@ public class VMCashCountSubmit extends AndroidViewModel {
         protected String doInBackground(Void... voids) {
             String lsResponse = "";
             try {
-                if (!infoModel.isDataValid()) {
-                    lsResponse = infoModel.getMessage();
+                eCashCount.setTransNox(jsonObject.getString("sTransNox"));
+                eCashCount.setBranchCd(jsonObject.getString("sBranchCd"));
+                eCashCount.setTransact(new AppConstants().CURRENT_DATE);
+                eCashCount.setCn0001cx(jsonObject.getString("nCn0001cx"));
+                eCashCount.setCn0005cx(jsonObject.getString("nCn0005cx"));
+                eCashCount.setCn0010cx(jsonObject.getString("nCn0010cx"));
+                eCashCount.setCn0025cx(jsonObject.getString("nCn0025cx"));
+                eCashCount.setCn0050cx(jsonObject.getString("nCn0050cx"));
+                eCashCount.setCn0001px(jsonObject.getString("nCn0001px"));
+                eCashCount.setCn0005px(jsonObject.getString("nCn0005px"));
+                eCashCount.setCn0010px(jsonObject.getString("nCn0010px"));
+                eCashCount.setNte0020p(jsonObject.getString("nNte0020p"));
+                eCashCount.setNte0050p(jsonObject.getString("nNte0050p"));
+                eCashCount.setNte0100p(jsonObject.getString("nNte0100p"));
+                eCashCount.setNte0200p(jsonObject.getString("nNte0200p"));
+                eCashCount.setNte0500p(jsonObject.getString("nNte0500p"));
+                eCashCount.setNte1000p(jsonObject.getString("nNte1000p"));
+                eCashCount.setORNoxxxx(jsonObject.getString("sORNoxxxx"));
+                eCashCount.setSINoxxxx(jsonObject.getString("sSINoxxxx"));
+                eCashCount.setPRNoxxxx(jsonObject.getString("sPRNoxxxx"));
+                eCashCount.setCRNoxxxx(jsonObject.getString("sCRNoxxxx"));
+                eCashCount.setEntryDte(jsonObject.getString("dEntryDte"));
+                eCashCount.setReqstdBy(jsonObject.getString("sReqstdBy"));
+                eCashCount.setORNoxNPt(jsonObject.getString("sORNoxNPt"));
+                eCashCount.setPRNoxNPt(jsonObject.getString("sPRNoxNPt"));
+                eCashCount.setDRNoxxxx(jsonObject.getString("sDRNoxxxx"));
+                eCashCount.setPettyAmt(jsonObject.getString("nPettyAmt"));
+                eCashCount.setSendStat("0");
+                pocashcount.insertNewCashCount(eCashCount);
+                poLog.UpdateCashCountRequireStatus();
+                if(!poConn.isDeviceConnected()) {
+                    lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Cash count entry has been save to local device.");
                 } else {
-                    eCashCount.setTransNox(jsonObject.getString("sTransNox"));
-                    eCashCount.setBranchCd(jsonObject.getString("sBranchCd"));
-                    eCashCount.setTransact(new AppConstants().CURRENT_DATE);
-                    eCashCount.setCn0001cx(jsonObject.getString("nCn0001cx"));
-                    eCashCount.setCn0005cx(jsonObject.getString("nCn0005cx"));
-                    eCashCount.setCn0010cx(jsonObject.getString("nCn0010cx"));
-                    eCashCount.setCn0025cx(jsonObject.getString("nCn0025cx"));
-                    eCashCount.setCn0050cx(jsonObject.getString("nCn0050cx"));
-                    eCashCount.setCn0001px(jsonObject.getString("nCn0001px"));
-                    eCashCount.setCn0005px(jsonObject.getString("nCn0005px"));
-                    eCashCount.setCn0010px(jsonObject.getString("nCn0010px"));
-                    eCashCount.setNte0020p(jsonObject.getString("nNte0020p"));
-                    eCashCount.setNte0050p(jsonObject.getString("nNte0050p"));
-                    eCashCount.setNte0100p(jsonObject.getString("nNte0100p"));
-                    eCashCount.setNte0200p(jsonObject.getString("nNte0200p"));
-                    eCashCount.setNte0500p(jsonObject.getString("nNte0500p"));
-                    eCashCount.setNte1000p(jsonObject.getString("nNte1000p"));
-                    eCashCount.setORNoxxxx(jsonObject.getString("sORNoxxxx"));
-                    eCashCount.setSINoxxxx(jsonObject.getString("sSINoxxxx"));
-                    eCashCount.setPRNoxxxx(jsonObject.getString("sPRNoxxxx"));
-                    eCashCount.setCRNoxxxx(jsonObject.getString("sCRNoxxxx"));
-                    eCashCount.setEntryDte(jsonObject.getString("dEntryDte"));
-                    eCashCount.setReqstdBy(jsonObject.getString("sReqstdBy"));
-                    eCashCount.setORNoxNPt(jsonObject.getString("sORNoxNPt"));
-                    eCashCount.setPRNoxNPt(jsonObject.getString("sPRNoxNPt"));
-                    eCashCount.setDRNoxxxx(jsonObject.getString("sDRNoxxxx"));
-                    eCashCount.setPettyAmt(jsonObject.getString("nPettyAmt"));
-                    eCashCount.setSendStat("0");
-                    pocashcount.insertNewCashCount(eCashCount);
-                    poLog.UpdateCashCountRequireStatus();
-                    if(!poConn.isDeviceConnected()) {
-                        lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Cash count entry has been save to local device.");
+                    lsResponse = WebClient.sendRequest(WebApi.URL_SUBMIT_CASHCOUNT, jsonObject.toString(), poHeaders.getHeaders());
+                    if(lsResponse == null){
+                        lsResponse = AppConstants.SERVER_NO_RESPONSE();
                     } else {
-                        lsResponse = WebClient.sendRequest(WebApi.URL_SUBMIT_CASHCOUNT, jsonObject.toString(), poHeaders.getHeaders());
-                        if(lsResponse == null){
-                            lsResponse = AppConstants.SERVER_NO_RESPONSE();
-                        } else {
-                            JSONObject loResponse = new JSONObject(lsResponse);
-                            if(loResponse.getString("result").equalsIgnoreCase("success")){
-                                pocashcount.UpdateByTransNox(eCashCount.getTransNox());
-                            }
+                        JSONObject loResponse = new JSONObject(lsResponse);
+                        if(loResponse.getString("result").equalsIgnoreCase("success")){
+                            pocashcount.UpdateByTransNox(eCashCount.getTransNox());
                         }
                     }
                 }

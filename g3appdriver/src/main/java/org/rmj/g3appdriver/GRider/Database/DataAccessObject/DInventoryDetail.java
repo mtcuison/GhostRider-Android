@@ -3,6 +3,7 @@ package org.rmj.g3appdriver.GRider.Database.DataAccessObject;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryDetail;
@@ -12,7 +13,7 @@ import java.util.List;
 @Dao
 public interface DInventoryDetail {
 
-    @Insert
+    @Insert (onConflict = OnConflictStrategy.IGNORE)
     void insertInventoryDetail(List<EInventoryDetail> foDetail);
 
     @Query("SELECT * FROM Inventory_Count_Detail " +

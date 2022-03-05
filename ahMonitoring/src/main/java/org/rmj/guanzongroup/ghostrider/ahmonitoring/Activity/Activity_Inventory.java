@@ -317,7 +317,17 @@ public class Activity_Inventory extends AppCompatActivity {
                 finish();
                 overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
             } else {
-                showPostingMessage("Please finish you inventory first.");
+                poMessage.initDialog();
+                poMessage.setTitle("Random Stock Inventory");
+                poMessage.setMessage("Exit Random Stock Inventory?");
+                poMessage.setPositiveButton("Yes", (view, dialog) -> {
+                    dialog.dismiss();
+                    finish();
+                });
+                poMessage.setNegativeButton("No", (view, dialog) -> {
+                    dialog.dismiss();
+                });
+                poMessage.show();
             }
         }
         return super.onOptionsItemSelected(item);
@@ -329,7 +339,17 @@ public class Activity_Inventory extends AppCompatActivity {
             finish();
             overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
         } else {
-            showPostingMessage("Please finish you inventory first.");
+            poMessage.initDialog();
+            poMessage.setTitle("Random Stock Inventory");
+            poMessage.setMessage("Exit Random Stock Inventory?");
+            poMessage.setPositiveButton("Yes", (view, dialog) -> {
+                dialog.dismiss();
+                finish();
+            });
+            poMessage.setNegativeButton("No", (view, dialog) -> {
+                dialog.dismiss();
+            });
+            poMessage.show();
         }
     }
 
