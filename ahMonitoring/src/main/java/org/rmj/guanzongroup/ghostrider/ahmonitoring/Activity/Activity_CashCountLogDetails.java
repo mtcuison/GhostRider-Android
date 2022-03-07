@@ -86,48 +86,59 @@ public class Activity_CashCountLogDetails extends AppCompatActivity {
 
     private void setViewValues() {
         mViewModel.getCashCounDetetail(psTransNo).observe(Activity_CashCountLogDetails.this, cashCount -> {
+            try {
+                mViewModel.getBranchName(cashCount.getBranchCd()).observe(Activity_CashCountLogDetails.this,
+                        branchName -> {
+                            try {
+                                lblBranch.setText(branchName + " Cash Count");
+                            } catch (NullPointerException e) {
+                                e.printStackTrace();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
 
-            mViewModel.getBranchName(cashCount.getBranchCd()).observe(Activity_CashCountLogDetails.this,
-                    branchName -> lblBranch.setText(branchName + " Cash Count"));
+                lblTransN.setText(psTransNo);
+                lblTranDt.setText(FormatUIText.getParseDateTime(cashCount.getEntryDte()));
+                lblPettyC.setText(cashCount.getPettyAmt());
+                lblOrNoxx.setText(cashCount.getORNoxxxx());
+                lblSiNoxx.setText(cashCount.getSINoxxxx());
+                lblPrNoxx.setText(cashCount.getPRNoxxxx());
+                lblCrNoxx.setText(cashCount.getCRNoxxxx());
 
-            lblTransN.setText(psTransNo);
-            lblTranDt.setText(FormatUIText.getParseDateTime(cashCount.getEntryDte()));
-            lblPettyC.setText(cashCount.getPettyAmt());
-            lblOrNoxx.setText(cashCount.getORNoxxxx());
-            lblSiNoxx.setText(cashCount.getSINoxxxx());
-            lblPrNoxx.setText(cashCount.getPRNoxxxx());
-            lblCrNoxx.setText(cashCount.getCRNoxxxx());
+                List<CashCountDetailedInfo> loDtaInfo = new ArrayList<>();
+                loDtaInfo.add(new CashCountDetailedInfo(true, false, "Peso Bills (₱)", "", "", CashCountDetailedInfo.Values.NONE));
+                loDtaInfo.add(new CashCountDetailedInfo(false, true, "", "", "", CashCountDetailedInfo.Values.NONE));
+                loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱1000", cashCount.getNte1000p(), CashCountDetailedInfo.Values.P1000));
+                loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱500", cashCount.getNte0500p(), CashCountDetailedInfo.Values.P0500));
+                loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱200", cashCount.getNte0200p(), CashCountDetailedInfo.Values.P0200));
+                loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱100", cashCount.getNte0100p(), CashCountDetailedInfo.Values.P0100));
+                loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱50", cashCount.getNte0050p(), CashCountDetailedInfo.Values.P0050));
+                loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱20", cashCount.getNte0020p(), CashCountDetailedInfo.Values.P0020));
 
-            List<CashCountDetailedInfo> loDtaInfo = new ArrayList<>();
-            loDtaInfo.add(new CashCountDetailedInfo(true, false,"Peso Bills (₱)", "","", CashCountDetailedInfo.Values.NONE));
-            loDtaInfo.add(new CashCountDetailedInfo(false, true,"", "","", CashCountDetailedInfo.Values.NONE));
-            loDtaInfo.add(new CashCountDetailedInfo(false, false, "","₱1000", cashCount.getNte1000p(), CashCountDetailedInfo.Values.P1000));
-            loDtaInfo.add(new CashCountDetailedInfo(false, false,"", "₱500", cashCount.getNte0500p(), CashCountDetailedInfo.Values.P0500));
-            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱200", cashCount.getNte0200p(), CashCountDetailedInfo.Values.P0200));
-            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱100", cashCount.getNte0100p(), CashCountDetailedInfo.Values.P0100));
-            loDtaInfo.add(new CashCountDetailedInfo(false, false,  "", "₱50", cashCount.getNte0050p(), CashCountDetailedInfo.Values.P0050));
-            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱20", cashCount.getNte0020p(), CashCountDetailedInfo.Values.P0020));
-
-            loDtaInfo.add(new CashCountDetailedInfo(true, false, "Peso Coins (₱)", "", "", CashCountDetailedInfo.Values.NONE));
-            loDtaInfo.add(new CashCountDetailedInfo(false, true,"", "","", CashCountDetailedInfo.Values.NONE));
-            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱10", cashCount.getCn0010px(), CashCountDetailedInfo.Values.P0010));
-            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱5", cashCount.getCn0005px(), CashCountDetailedInfo.Values.P0005));
-            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱1", cashCount.getCn0001px(), CashCountDetailedInfo.Values.P0001));
-            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "¢25", cashCount.getCn0025cx(), CashCountDetailedInfo.Values.C0025));
-            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "¢10", cashCount.getCn0010cx(), CashCountDetailedInfo.Values.C0010));
-            loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "¢5", cashCount.getCn0005cx(), CashCountDetailedInfo.Values.C0005));
-            loDtaInfo.add(new CashCountDetailedInfo(false , false, "", "¢1", cashCount.getCn0001cx(), CashCountDetailedInfo.Values.C0001));
-            poAdapter = new Adapter_CashCountDetailInfo(loDtaInfo);
-            recyclerView.setAdapter(poAdapter);
-            poAdapter.notifyDataSetChanged();
+                loDtaInfo.add(new CashCountDetailedInfo(true, false, "Peso Coins (₱)", "", "", CashCountDetailedInfo.Values.NONE));
+                loDtaInfo.add(new CashCountDetailedInfo(false, true, "", "", "", CashCountDetailedInfo.Values.NONE));
+                loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱10", cashCount.getCn0010px(), CashCountDetailedInfo.Values.P0010));
+                loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱5", cashCount.getCn0005px(), CashCountDetailedInfo.Values.P0005));
+                loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "₱1", cashCount.getCn0001px(), CashCountDetailedInfo.Values.P0001));
+                loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "¢25", cashCount.getCn0025cx(), CashCountDetailedInfo.Values.C0025));
+                loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "¢10", cashCount.getCn0010cx(), CashCountDetailedInfo.Values.C0010));
+                loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "¢5", cashCount.getCn0005cx(), CashCountDetailedInfo.Values.C0005));
+                loDtaInfo.add(new CashCountDetailedInfo(false, false, "", "¢1", cashCount.getCn0001cx(), CashCountDetailedInfo.Values.C0001));
+                poAdapter = new Adapter_CashCountDetailInfo(loDtaInfo);
+                recyclerView.setAdapter(poAdapter);
+                poAdapter.notifyDataSetChanged();
 
 
-            String lsGrandT = "";
-            double lnGrandT = 0.0;
-            for(int x = 0; x < loDtaInfo.size(); x++) {
-                lnGrandT += Double.parseDouble(loDtaInfo.get(x).getTotal());
+                String lsGrandT = "";
+                double lnGrandT = 0.0;
+                for (int x = 0; x < loDtaInfo.size(); x++) {
+                    lnGrandT += Double.parseDouble(loDtaInfo.get(x).getTotal());
+                }
+                lblGrandT.setText(CashFormatter.parse(String.valueOf(lnGrandT)));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            lblGrandT.setText(CashFormatter.parse(String.valueOf(lnGrandT)));
 
         });
     }
