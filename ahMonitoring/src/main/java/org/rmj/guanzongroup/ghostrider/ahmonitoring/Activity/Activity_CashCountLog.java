@@ -64,21 +64,25 @@ public class Activity_CashCountLog extends AppCompatActivity {
         });
 
         mViewModel.getCashCountLog().observe(Activity_CashCountLog.this, cashCounts -> {
-            if(cashCounts.size()>0) {
-                loading.setVisibility(View.GONE);
-                infoModelList = new ArrayList<>();
-                adapter = new CashCountLogAdapter(cashCounts, (cashCount) -> {
-                    Intent loIntent = new Intent(Activity_CashCountLog.this,
-                            Activity_CashCountLogDetails.class);
-                    loIntent.putExtra("sTransNox", cashCount.sTransNox);
-                    startActivity(loIntent);
-                });
-                LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_CashCountLog.this);
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(layoutManager);
-                adapter.notifyDataSetChanged();
-            }else{
-                layoutNoRecord.setVisibility(View.VISIBLE);
+            try {
+                if (cashCounts.size() > 0) {
+                    loading.setVisibility(View.GONE);
+                    infoModelList = new ArrayList<>();
+                    adapter = new CashCountLogAdapter(cashCounts, (cashCount) -> {
+                        Intent loIntent = new Intent(Activity_CashCountLog.this,
+                                Activity_CashCountLogDetails.class);
+                        loIntent.putExtra("sTransNox", cashCount.sTransNox);
+                        startActivity(loIntent);
+                    });
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_CashCountLog.this);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(layoutManager);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    layoutNoRecord.setVisibility(View.VISIBLE);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }

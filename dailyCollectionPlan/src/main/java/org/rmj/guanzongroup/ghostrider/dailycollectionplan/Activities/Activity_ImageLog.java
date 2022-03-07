@@ -5,15 +5,15 @@
  * Project name : GhostRider_Android
  * Module : GhostRider_Android.dailyCollectionPlan
  * Electronic Personnel Access Control Security System
- * project file created : 10/22/21, 3:13 PM
- * project file last modified : 10/22/21, 3:13 PM
+ * project file created : 3/2/22, 10:55 AM
+ * project file last modified : 3/2/22, 10:55 AM
  */
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,51 +22,30 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AdapterImageLog;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.PostDcpAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPostDcp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class Activity_PostDcp extends AppCompatActivity {
+public class Activity_ImageLog extends AppCompatActivity {
 
-    private VMPostDcp mViewModel;
-    private LoadDialog poLoading;
-    private RecyclerView recyclerV;
     private TextView lblBranch, lblAddrss;
-    private boolean Posting;
+    private RecyclerView recyclerV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_dcp);
-        mViewModel = new ViewModelProvider(this).get(VMPostDcp.class);
+        setContentView(R.layout.activity_image_log);
         initWidgets();
         setUpDcpList();
-        mViewModel.PostDCP(new VMPostDcp.OnPostCollectionCallback() {
-
-            @Override
-            public void OnStartPosting(String Title, String Message) {
-                Posting = true;
-            }
-
-            @Override
-            public void OnProgress(String label, int value) {
-
-            }
-            @Override
-            public void OnFinishPosting(boolean isSuccess, String Message) {
-                Posting = true;
-            }
-        });
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home &&
-            !Posting){
+        if(item.getItemId() == android.R.id.home){
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -75,16 +54,17 @@ public class Activity_PostDcp extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(!Posting){
-            finish();
-        }
+        finish();
     }
 
     private void initWidgets() {
+        Toolbar toolbar = findViewById(R.id.toolbar_collectionList);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddrss = findViewById(R.id.lbl_headerAddress);
         recyclerV = findViewById(R.id.recyclerView);
-        LinearLayoutManager lnManager = new LinearLayoutManager(Activity_PostDcp.this);
+        LinearLayoutManager lnManager = new LinearLayoutManager(Activity_ImageLog.this);
         lnManager.setOrientation(RecyclerView.VERTICAL);
         recyclerV.setLayoutManager(lnManager);
     }
@@ -93,11 +73,8 @@ public class Activity_PostDcp extends AppCompatActivity {
         // TODO: Call the viewModel's dcp list getter.
         /**Sample dcp list*/
         List<EDCPCollectionDetail> loList = new ArrayList<EDCPCollectionDetail>();
-        PostDcpAdapter poAdapter = new PostDcpAdapter(loList, new PostDcpAdapter.OnPostDcpClick() {
-            @Override
-            public void onClick(EDCPCollectionDetail dcpDetail) {
-                // TODO: call the individual posting of dcp clicked.
-            }
+        AdapterImageLog poAdapter = new AdapterImageLog(loList, dcpDetail -> {
+
         });
         recyclerV.setAdapter(poAdapter);
         poAdapter.notifyDataSetChanged();

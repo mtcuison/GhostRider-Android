@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -310,8 +311,11 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             }else {
                 showAddDcpCollection();
             }
-        } else if(item.getItemId() == R.id.action_menu_post_collection){
+        } else if (item.getItemId() == R.id.action_menu_post_collection) {
             showPostCollection();
+        } else if (item.getItemId() == R.id.action_menu_image_log) {
+            Intent loIntent = new Intent(Activity_CollectionList.this, Activity_ImageLog.class);
+            startActivity(loIntent);
         }
         return super.onOptionsItemSelected(item);
     }

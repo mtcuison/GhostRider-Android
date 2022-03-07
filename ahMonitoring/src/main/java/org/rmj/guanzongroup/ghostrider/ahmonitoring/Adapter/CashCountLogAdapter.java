@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCashCount;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECashCount;
+import org.rmj.g3appdriver.GRider.Etc.CashFormatter;
 import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
@@ -60,6 +61,7 @@ public class CashCountLogAdapter extends RecyclerView.Adapter<CashCountLogAdapte
             }
             holder.lblBranchCde.setText(poCount.sBranchNm);
             holder.lblEntryDte.setText(FormatUIText.getParseDateTime(poCount.dEntryDte));
+            holder.lblTotalEntry.setText(getTotalCashCount(poCount));
             holder.itemView.setOnClickListener(v -> mListener.OnClick(poCount));
         }
 
@@ -83,14 +85,75 @@ public class CashCountLogAdapter extends RecyclerView.Adapter<CashCountLogAdapte
         }
     }
 
-    private String getTotalEntry(ECashCount cashCount){
-        double lnTotal = 0.0;
-        int Qty = 0;
-        double denomination = 0.0;
-        if(!cashCount.getNte1000p().equalsIgnoreCase("0")){
-            denomination = 1000;
-            Qty = Integer.valueOf(cashCount.getNte1000p());
-        }
-        return String.valueOf(lnTotal);
+    private String getTotalCashCount(DCashCount.CashCountLog foCashCnt) {
+        double lnTotalCsh = 0.0;
+        lnTotalCsh += cashMultiplier(CashValues.P1000, foCashCnt.nNte1000p);
+        lnTotalCsh += cashMultiplier(CashValues.P0500, foCashCnt.nNte0500p);
+        lnTotalCsh += cashMultiplier(CashValues.P0200, foCashCnt.nNte0200p);
+        lnTotalCsh += cashMultiplier(CashValues.P0100, foCashCnt.nNte0100p);
+        lnTotalCsh += cashMultiplier(CashValues.P0050, foCashCnt.nNte0050p);
+        lnTotalCsh += cashMultiplier(CashValues.P0020, foCashCnt.nNte0020p);
+        lnTotalCsh += cashMultiplier(CashValues.P0010, foCashCnt.nCn0010px);
+        lnTotalCsh += cashMultiplier(CashValues.P0005, foCashCnt.nCn0005px);
+        lnTotalCsh += cashMultiplier(CashValues.P0001, foCashCnt.nCn0001px);
+        lnTotalCsh += cashMultiplier(CashValues.C0050, foCashCnt.nCn0050cx);
+        lnTotalCsh += cashMultiplier(CashValues.C0025, foCashCnt.nCn0025cx);
+        lnTotalCsh += cashMultiplier(CashValues.C0010, foCashCnt.nCn0010cx);
+        lnTotalCsh += cashMultiplier(CashValues.C0005, foCashCnt.nCn0005cx);
+        lnTotalCsh += cashMultiplier(CashValues.C0001, foCashCnt.nCn0001cx);
+        return CashFormatter.parse(String.valueOf(lnTotalCsh));
     }
+    
+    public double cashMultiplier(CashValues foValue, String fnQuantty) {
+        switch (foValue) {
+            case P1000:
+                return 1000 * Double.parseDouble(fnQuantty);
+            case P0500:
+                return 500 * Double.parseDouble(fnQuantty);
+            case P0200:
+                return 200 * Double.parseDouble(fnQuantty);
+            case P0100:
+                return 100  * Double.parseDouble(fnQuantty);
+            case P0050:
+                return 50  * Double.parseDouble(fnQuantty);
+            case P0020:
+                return 20 * Double.parseDouble(fnQuantty);
+            case P0010:
+                return 10  * Double.parseDouble(fnQuantty);
+            case P0005:
+                return 5 * Double.parseDouble(fnQuantty);
+            case P0001:
+                return 1 * Double.parseDouble(fnQuantty);
+            case C0050:
+                return 0.50 * Double.parseDouble(fnQuantty);
+            case C0025:
+                return 0.25 * Double.parseDouble(fnQuantty);
+            case C0010:
+                return 0.10 * Double.parseDouble(fnQuantty);
+            case C0005:
+                return 0.05 * Double.parseDouble(fnQuantty);
+            case C0001:
+                return 0.01 * Double.parseDouble(fnQuantty);
+            default:
+                return 0.0;
+        }
+    }
+
+    public enum CashValues{
+        P1000,
+        P0500,
+        P0200,
+        P0100,
+        P0050,
+        P0020,
+        P0010,
+        P0005,
+        P0001,
+        C0050,
+        C0025,
+        C0010,
+        C0005,
+        C0001,
+    }
+
 }
