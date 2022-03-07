@@ -22,12 +22,52 @@ public class RCreditOnlineApplicationCI implements DCreditOnlineApplicationCI {
     }
 
     @Override
+    public void SaveApplicationInfo(ECreditOnlineApplicationCI foCI) {
+        poDao.SaveApplicationInfo(foCI);
+    }
+
+    @Override
     public LiveData<List<ECreditOnlineApplicationCI>> getForEvaluationList() {
         return poDao.getForEvaluationList();
     }
 
     @Override
+    public ECreditOnlineApplicationCI getApplication(String TransNox) {
+        return poDao.getApplication(TransNox);
+    }
+
+    @Override
     public void UpdateTransaction(String TransNox) {
         poDao.UpdateTransaction(TransNox);
+    }
+
+    @Override
+    public String getAddressForEvaluation(String TransNox) {
+        return poDao.getAddressForEvaluation(TransNox);
+    }
+
+    @Override
+    public String getAssetsForEvaluation(String TransNox) {
+        return poDao.getAssetsForEvaluation(TransNox);
+    }
+
+    @Override
+    public String getIncomeForEvaluation(String TransNox) {
+        return poDao.getIncomeForEvaluation(TransNox);
+    }
+
+    @Override
+    public void updateAddressEvaluation(String TransNox, String Findings) {
+        poDao.updateAddressEvaluation(TransNox, Findings);
+    }
+
+    @Override
+    public void updateAssetEvaluation(String TransNox, String Findings) {
+        poDao.updateAssetEvaluation(TransNox, Findings);
+    }
+
+    @Override
+    public void updateIncomeEvaluation(String TransNox, String Findings) {
+        poDao.updateIncomeEvaluation(TransNox, Findings);
     }
 }
