@@ -43,4 +43,25 @@ public interface DCreditOnlineApplicationCI {
     @Query("UPDATE Credit_Online_Application_CI SET sIncmFndg=:Findings WHERE sTransNox =:TransNox")
     void updateIncomeEvaluation(String TransNox, String Findings);
 
+//    @Query("SELECT sTransNox")
+
+    public class oDataEvaluationInfo {
+        public String sTransNox;
+        public String sCredInvx;
+        public String sAddressx;
+        public String sAddrFndg;
+        public String sAssetsxx;
+        public String sAsstFndg;
+        public String sIncomexx;
+        public String sIncmFndg;
+        public String cHasRecrd;
+        public String sRecrdRem;
+        public String sClientNm;
+        public String dTransact;
+        public String sBranchNm;
+        public String sMobileNo;
+        public String nDownPaym;
+        public String sModelIDx;
+        public String nAcctTerm;
+    }
 }
