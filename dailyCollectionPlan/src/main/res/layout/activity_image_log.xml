@@ -6,8 +6,8 @@
   ~ Project name : GhostRider_Android
   ~ Module : GhostRider_Android.dailyCollectionPlan
   ~ Electronic Personnel Access Control Security System
-  ~ project file created : 10/22/21, 3:13 PM
-  ~ project file last modified : 10/22/21, 3:13 PM
+  ~ project file created : 3/2/22, 10:55 AM
+  ~ project file last modified : 3/2/22, 10:55 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +16,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.Activity_PostDcp">
+    tools:context=".Activities.Activity_ImageLog">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarlayout"
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
-                android:text="@string/sTitle_DCP"
+                android:text="@string/sTitle_DCPImageLog"
                 android:textColor="@color/textColor_White"
                 android:textSize="22sp" />
 

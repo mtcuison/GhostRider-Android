@@ -6,34 +6,37 @@
 
     <application>
         <activity
+            android:name=".Activities.Activity_ImageLog"
+            android:exported="false" />
+        <activity
             android:name=".Activities.Activity_PostDcp"
-            android:screenOrientation="userPortrait"
             android:exported="true"
+            android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_CollectionRemittance"
-            android:screenOrientation="userPortrait"
             android:exported="true"
+            android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_LogCollection"
-            android:screenOrientation="userPortrait"
             android:exported="true"
+            android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_CollectionList"
-            android:screenOrientation="userPortrait"
             android:exported="true"
+            android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_Transaction"
-            android:screenOrientation="userPortrait"
             android:exported="true"
+            android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <activity
             android:name=".Activities.Activity_TransactionDetail"
-            android:screenOrientation="userPortrait"
             android:exported="true"
+            android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
     </application>
 

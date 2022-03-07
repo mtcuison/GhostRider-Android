@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.dailyCollectionPlan
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 3/2/22, 10:53 AM
+  ~ project file last modified : 3/2/22, 10:53 AM
+  -->
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardUseCompatPadding="true"
+    android:background="#e2e2e2"
+    app:cardCornerRadius="10dp"
+    app:cardPreventCornerOverlap="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/lbl_AccountNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Account No. : 000000000"
+                android:textSize="14sp"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/ic_upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_file_upload_24"
+                android:tint="@color/textColor_Black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="UseAppTint" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/lbl_imgName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Image Name: "
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_bold"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                app:drawableStartCompat="@drawable/ic_collection_client"
+                app:drawableLeftCompat="@drawable/ic_collection_client" />
+
+            <TextView
+                android:id="@+id/lbl_dcpRemarkCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="end"
+                android:textColor="@color/textColor_Orange"
+                android:fontFamily="@font/roboto_bold"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Remarks"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/textColor_Black"
+            android:fontFamily="@font/roboto_medium"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/lbl_dcpRemarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="5dp"
+                android:layout_weight="2"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Customer Not Around"
+                android:textColor="@color/textColor_Black" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
