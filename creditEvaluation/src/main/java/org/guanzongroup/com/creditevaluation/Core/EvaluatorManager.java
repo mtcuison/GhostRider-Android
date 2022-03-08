@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
@@ -133,6 +134,11 @@ public class EvaluatorManager {
 
     public LiveData<List<ECreditOnlineApplicationCI>> getForEvaluationList(){
         return poCI.getForEvaluationList();
+    }
+
+    // call this inside asyncTask
+    public DCreditOnlineApplicationCI.oDataEvaluationInfo getForEvaluationInfo(String TransNox) {
+        return poCI.getForEvaluateInfo(TransNox);
     }
 
     public void RetrieveApplicationData(String TransNox, OnRetrieveDataCallback callback){

@@ -1,9 +1,7 @@
-package org.rmj.guanzongroup.ghostrider.ahmonitoring;
+package org.guanzongroup.com.creditevaluation.APITest;
+
 
 import static org.junit.Assert.assertTrue;
-
-import android.app.Application;
-import android.content.Context;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -24,14 +22,16 @@ import java.util.Map;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
-public class CashCountAPITest {
-    private static final String TAG = CashCountAPITest.class.getSimpleName();
+public class DownloadCI {
+    private static final String TAG = DownloadCI.class.getSimpleName();
     private static final String LIVE_LOGIN = "https://restgk.guanzongroup.com.ph/security/mlogin.php";
     private static final String LOCAL_LOGIN = "http://192.168.10.141/security/mlogin.php";
     private static final String LIVE_CashCount = "https://restgk.guanzongroup.com.ph/integsys/cashcount/submit_cash_count.php";
     private static final String LOCAL_CashCount = "http://192.168.10.141/integsys/cashcount/submit_cash_count.php";
 
     public static String IMPORT_FOR_EVALUATION = "http://192.168.10.141/integsys/evaluator/import_for_evaluations.php";
+    public static String SUBMIT_EVALUATION_RESULT = "http://192.168.10.141/integsys/evaluator/submit_evaluation_result.php";
+
 //    private final Application instance;
 //    private final Context mContext;
 
@@ -135,11 +135,57 @@ public class CashCountAPITest {
 //        assertTrue(isSuccess);
 //    }
 
+//    @Test
+//    public void test03DownloadForEvaluator() throws Exception {
+//        JSONObject params = new JSONObject();
+//        params.put("sEmployID", "M00117000702");
+//        String lsResponse = WebClient.httpPostJSon(IMPORT_FOR_EVALUATION,
+//                params.toString(), (HashMap<String, String>) headers);
+//        if(lsResponse == null){
+//            isSuccess = false;
+//        } else {
+//            JSONObject loResponse = new JSONObject(lsResponse);
+//            String lsResult = loResponse.getString("result");
+//            if(lsResult.equalsIgnoreCase("success")){
+//                isSuccess = true;
+//            } else {
+//                JSONObject loError = loResponse.getJSONObject("error");
+//                String lsMessage = loError.getString("message");
+//                isSuccess = false;
+//            }
+//        }
+//        assertTrue(isSuccess);
+//    }
+
     @Test
-    public void test03DownloadForEvaluator() throws Exception {
+    public void test04SubmitEvaluation() throws Exception {
         JSONObject params = new JSONObject();
-        params.put("sEmployID", "M00119001131");
-        String lsResponse = WebClient.httpPostJSon(IMPORT_FOR_EVALUATION,
+        params.put("sTransNox", "CI4K52200069");
+        params.put("sAddrFndg", "sample");
+        params.put("sAsstFndg", "sample");
+        params.put("sIncmFndg", "sample");
+        params.put("cHasRecrd", "1");
+        params.put("sRecrdRem", "sample");
+        params.put("sPrsnBrgy", "sample");
+        params.put("sPrsnPstn", "sample");
+        params.put("sPrsnNmbr", "sample");
+        params.put("sNeighBr1", "sample");
+        params.put("sNeighBr2", "sample");
+        params.put("sNeighBr3", "sample");
+        params.put("dRcmdRcd1", "sample");
+        params.put("dRcmdtnx1", "sample");
+        params.put("cRcmdtnx1", "sample");
+        params.put("sRcmdtnx1", "sample");
+        params.put("dRcmdRcd2", "sample");
+        params.put("dRcmdtnx2", "sample");
+        params.put("cRcmdtnx2", "sample");
+        params.put("sRcmdtnx2", "sample");
+        params.put("cTranStat", "2");
+        params.put("sApproved", "M00117000702");
+        params.put("dApproved", AppConstants.CURRENT_DATE);
+
+
+        String lsResponse = WebClient.httpPostJSon(SUBMIT_EVALUATION_RESULT,
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;

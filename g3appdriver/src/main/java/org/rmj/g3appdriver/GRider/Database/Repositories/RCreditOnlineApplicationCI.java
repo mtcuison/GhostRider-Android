@@ -70,4 +70,9 @@ public class RCreditOnlineApplicationCI implements DCreditOnlineApplicationCI {
     public void updateIncomeEvaluation(String TransNox, String Findings) {
         poDao.updateIncomeEvaluation(TransNox, Findings);
     }
+
+    @Override
+    public oDataEvaluationInfo getForEvaluateInfo(String TransNox) {
+        return poDao.getForEvaluateInfo(TransNox);
+    }
 }
