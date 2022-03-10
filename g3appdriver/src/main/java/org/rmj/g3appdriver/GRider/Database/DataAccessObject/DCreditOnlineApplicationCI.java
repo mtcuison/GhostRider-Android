@@ -22,8 +22,8 @@ public interface DCreditOnlineApplicationCI {
     @Query("SELECT * FROM Credit_Online_Application_CI WHERE sTransNox=:TransNox")
     ECreditOnlineApplicationCI getApplication(String TransNox);
 
-    @Query("Update Credit_Online_Application_CI SET cTranStat = '1' WHERE sTransNox =:TransNox")
-    void UpdateTransaction(String TransNox);
+    @Query("Update Credit_Online_Application_CI SET cSendStat = '1' WHERE sTransNox =:TransNox")
+    void UpdateTransactionSendStat(String TransNox);
 
     @Query("SELECT sAddrFndg FROM Credit_Online_Application_CI WHERE sTransNox =:TransNox")
     String getAddressForEvaluation(String TransNox);
@@ -42,6 +42,44 @@ public interface DCreditOnlineApplicationCI {
 
     @Query("UPDATE Credit_Online_Application_CI SET sIncmFndg=:Findings WHERE sTransNox =:TransNox")
     void updateIncomeEvaluation(String TransNox, String Findings);
+
+    @Query("UPDATE Credit_Online_Application_CI SET cHasRecrd =:val WHERE sTransNox =:TransNox")
+    public void UpdateRecordInfo(String TransNox, String val);
+
+    @Query("UPDATE Credit_Online_Application_CI SET sRecrdRem =:val WHERE sTransNox =:TransNox")
+    public void UpdateRecordRemarks(String TransNox, String val);
+
+    @Query("UPDATE Credit_Online_Application_CI SET sPrsnBrgy =:val WHERE sTransNox =:TransNox")
+    public void UpdatePresentBarangay(String TransNox, String val);
+
+    @Query("UPDATE Credit_Online_Application_CI SET sPrsnPstn =:val WHERE sTransNox =:TransNox")
+    public void UpdatePosition(String TransNox, String val);
+
+    @Query("UPDATE Credit_Online_Application_CI SET sPrsnNmbr =:val WHERE sTransNox =:TransNox")
+    public void UpdateContact(String TransNox, String val);
+
+    @Query("UPDATE Credit_Online_Application_CI SET sNeighBr1 =:val WHERE sTransNox =:TransNox")
+    public void UpdateNeighbor1(String TransNox, String val);
+
+    @Query("UPDATE Credit_Online_Application_CI SET sNeighBr2 =:val WHERE sTransNox =:TransNox")
+    public void UpdateNeighbor2(String TransNox, String val);
+
+    @Query("UPDATE Credit_Online_Application_CI SET sNeighBr3 =:val WHERE sTransNox =:TransNox")
+    public void UpdateNeighbor3(String TransNox, String val);
+
+    @Query("UPDATE Credit_Online_Application_CI SET " +
+            "cRcmdtnx1 =:fsResult, " +
+            "sRcmdtnx1 =:fsRemarks, " +
+            "cSendStat = '0' " +
+            "WHERE sTransNox =:TransNox")
+    public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks);
+
+    @Query("UPDATE Credit_Online_Application_CI SET " +
+            "cRcmdtnx2 =:fsResult, " +
+            "sRcmdtnx2 =:fsRemarks, " +
+            "cSendStat = '0' " +
+            "WHERE sTransNox =:TransNox")
+    public void SaveBHApproval(String TransNox, String fsResult, String fsRemarks);
 
     @Query("SELECT a.sTransNox, " +
             "a.sCredInvx, " +
