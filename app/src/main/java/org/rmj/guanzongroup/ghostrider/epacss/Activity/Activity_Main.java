@@ -160,6 +160,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                         }
                         return false;
                     });
+                    expListView.collapseGroup(1);
                 });
             } catch (Exception e){
                 e.printStackTrace();

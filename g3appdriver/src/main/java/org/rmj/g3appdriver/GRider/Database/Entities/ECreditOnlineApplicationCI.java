@@ -60,6 +60,8 @@ public class ECreditOnlineApplicationCI {
     private String Rcmdtns2;
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
+    @ColumnInfo(name = "cSendStat")
+    private String SendStat;
     @ColumnInfo(name = "sApproved")
     private String Approved;
     @ColumnInfo(name = "dApproved")
@@ -403,6 +405,14 @@ public class ECreditOnlineApplicationCI {
      */
     public void setTranStat(String tranStat) {
         TranStat = tranStat;
+    }
+
+    public String getSendStat() {
+        return SendStat;
+    }
+
+    public void setSendStat(String sendStat) {
+        SendStat = sendStat;
     }
 
     /**

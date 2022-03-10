@@ -1,10 +1,8 @@
 package org.guanzongroup.com.creditevaluation.Core;
 
 import android.app.Application;
-import android.os.Build;
 import android.util.Log;
 
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
@@ -50,6 +48,7 @@ public class EvaluatorManager {
     public void DownloadCreditApplications(OnActionCallback callback){
         try{
             JSONObject params = new JSONObject();
+            params.put("sEmployID", poSession.getEmployeeID());
             String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadApplications(), params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Server no response.");
@@ -73,6 +72,7 @@ public class EvaluatorManager {
     public void AddApplication(String TransNox, OnActionCallback callback){
         try{
             JSONObject params = new JSONObject();
+            params.put("sTransNox", TransNox);
             String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadApplications(), params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Server no response.");
@@ -80,6 +80,20 @@ public class EvaluatorManager {
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
+                    JSONArray loDetail = loResponse.getJSONArray("detail");
+                    for(int x= 0 ; x < loDetail.length(); x++){
+                        JSONObject loJson = loDetail.getJSONObject(x);
+                        ECreditOnlineApplicationCI loApp = new ECreditOnlineApplicationCI();
+                        loApp.setTransNox(loJson.getString("sTransNox"));
+                        loApp.setCredInvx(loJson.getString("sCredInvx"));
+                        loApp.setAddressx(loJson.getString("sAddressx"));
+                        loApp.setAddrFndg(loJson.getString("sAddrFndg"));
+                        loApp.setAssetsxx(loJson.getString("sAssetsxx"));
+                        loApp.setAsstFndg(loJson.getString("sAsstFndg"));
+                        loApp.setIncomexx(loJson.getString("sIncomexx"));
+                        loApp.setIncmFndg(loJson.getString("sIncmFndg"));
+                        poCI.SaveApplicationInfo(loApp);
+                    }
                     callback.OnSuccess(loResponse.toString());
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
@@ -93,50 +107,10 @@ public class EvaluatorManager {
         }
     }
 
-    public boolean SaveApplication(JSONObject foJson) {
-        try{
-            JSONArray loDetail = foJson.getJSONArray("detail");
-            for(int x= 0 ; x < loDetail.length(); x++){
-                JSONObject loJson = loDetail.getJSONObject(x);
-                ECreditOnlineApplicationCI loApp = new ECreditOnlineApplicationCI();
-                loApp.setTransNox(loJson.getString("sTransNox"));
-                loApp.setCredInvx(loJson.getString("sCredInvx"));
-                loApp.setAddressx(loJson.getString("sAddressx"));
-                loApp.setAddrFndg(loJson.getString("sAddrFndg"));
-                loApp.setAssetsxx(loJson.getString("sAssetsxx"));
-                loApp.setAsstFndg(loJson.getString("sAsstFndg"));
-                loApp.setIncomexx(loJson.getString("sIncomexx"));
-                loApp.setIncmFndg(loJson.getString("sIncmFndg"));
-                loApp.setHasRecrd(loJson.getString("cHasRecrd"));
-                loApp.setRecrdRem(loJson.getString("sRecrdRem"));
-                loApp.setPrsnBrgy(loJson.getString("sPrsnBrgy"));
-                loApp.setPrsnPstn(loJson.getString("sPrsnPstn"));
-                loApp.setPrsnNmbr(loJson.getString("sPrsnNmbr"));
-                loApp.setNeighBr1(loJson.getString("sNeighBr1"));
-                loApp.setNeighBr2(loJson.getString("sNeighBr2"));
-                loApp.setNeighBr3(loJson.getString("sNeighBr3"));
-                loApp.setRcmdRcd1(loJson.getString("dRcmdRcd1"));
-                loApp.setRcmdtnx1(loJson.getString("dRcmdtnx1"));
-                loApp.setRcmdtnc1(loJson.getString("cRcmdtnx1"));
-                loApp.setRcmdtns1(loJson.getString("sRcmdtnx1"));
-                loApp.setRcmdRcd2(loJson.getString("dRcmdRcd2"));
-                loApp.setRcmdtnx2(loJson.getString("dRcmdtnx2"));
-                loApp.setRcmdtnc2(loJson.getString("cRcmdtnx2"));
-                loApp.setRcmdtns2(loJson.getString("sRcmdtnx2"));
-                loApp.setTranStat(loJson.getString("cTranStat"));
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
     public LiveData<List<ECreditOnlineApplicationCI>> getForEvaluationList(){
         return poCI.getForEvaluationList();
     }
 
-    // call this inside asyncTask
     public DCreditOnlineApplicationCI.oDataEvaluationInfo getForEvaluationInfo(String TransNox) {
         return poCI.getForEvaluateInfo(TransNox);
     }
@@ -162,39 +136,39 @@ public class EvaluatorManager {
         }
     }
 
-    public void PostEvaluation(OnActionCallback callback){
-        try{
-            JSONObject params = new JSONObject();
-            String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitResult(), params.toString(), poHeaders.getHeaders());
-            if(lsResponse == null){
-                callback.OnFailed("Server no response.");
-            } else {
-                JSONObject loResponse = new JSONObject(lsResponse);
-                String lsResult = loResponse.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccess("Credit evaluation has been posted successfully");
-                } else {
-                    JSONObject loError = loResponse.getJSONObject("error");
-                    String lsMessage = loError.getString("message");
-                    callback.OnFailed(lsMessage);
-                }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public void UpdateRecordInfo(String TransNox, String val){
+        poCI.UpdateRecordInfo(TransNox, val);
     }
 
-    public boolean UpdatePostedEvaluation(String TransNox){
-        try {
-            poCI.UpdateTransaction(TransNox);
-        } catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+    public void UpdateRecordRemarks(String TransNox, String val){
+        poCI.UpdateRecordRemarks(TransNox, val);
     }
 
-    public void UpdateCIResult(String TransNox, oParentFndg foParent, oChildFndg foChild, OnActionCallback callback) {
+    public void UpdatePresentBarangay(String TransNox, String val){
+        poCI.UpdatePresentBarangay(TransNox, val);
+    }
+
+    public void UpdatePosition(String TransNox, String val){
+        poCI.UpdatePosition(TransNox, val);
+    }
+
+    public void UpdateContact(String TransNox, String val){
+        poCI.UpdateContact(TransNox, val);
+    }
+
+    public void UpdateNeighbor1(String TransNox, String val){
+        poCI.UpdateNeighbor1(TransNox, val);
+    }
+
+    public void UpdateNeighbor2(String TransNox, String val){
+        poCI.UpdateNeighbor2(TransNox, val);
+    }
+
+    public void UpdateNeighbor3(String TransNox, String val){
+        poCI.UpdateNeighbor3(TransNox, val);
+    }
+
+    public void UpdateConfirmInfos(String TransNox, oParentFndg foParent, oChildFndg foChild, OnActionCallback callback) {
         try{
             String lsFindings = "";
             String lsResult = "";
@@ -224,6 +198,174 @@ public class EvaluatorManager {
             e.printStackTrace();
             Log.e(TAG, e.getMessage());
             callback.OnFailed("UpdateCIResult " + e.getMessage());
+        }
+    }
+
+    public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks, OnActionCallback callback){
+        try{
+            poCI.SaveCIApproval(TransNox, fsResult, fsRemarks);
+            callback.OnSuccess("");
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailed(e.getMessage());
+        }
+    }
+
+    public void SaveBHApproval(String TransNox, String fsResult, String fsRemarks, OnActionCallback callback){
+        try{
+            poCI.SaveCIApproval(TransNox, fsResult, fsRemarks);
+            callback.OnSuccess("");
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailed(e.getMessage());
+        }
+    }
+
+    public void UploadEvaluationResult(String Transnox, OnActionCallback callback){
+        try{
+            ECreditOnlineApplicationCI loDetail = poCI.getApplication(Transnox);
+            JSONObject params = new JSONObject();
+            params.put("sTransNox", loDetail.getTransNox());
+            params.put("sAddressx", loDetail.getAddressx());
+            params.put("sAddrFndg", loDetail.getAddrFndg());
+            params.put("sAsstFndg", loDetail.getAsstFndg());
+            params.put("sIncmFndg", loDetail.getIncmFndg());
+            params.put("cHasRecrd", loDetail.getHasRecrd());
+            params.put("sRecrdRem", loDetail.getRecrdRem());
+            params.put("sPrsnBrgy", loDetail.getPrsnBrgy());
+            params.put("sPrsnPstn", loDetail.getPrsnPstn());
+            params.put("sPrsnNmbr", loDetail.getPrsnNmbr());
+            params.put("sNeighBr1", loDetail.getNeighBr1());
+            params.put("sNeighBr2", loDetail.getNeighBr2());
+            params.put("sNeighBr3", loDetail.getNeighBr3());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitResult(), params.toString(), poHeaders.getHeaders());
+            if(lsResponse == null){
+                callback.OnFailed("Server no response.");
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(lsResult.equalsIgnoreCase("success")){
+                    callback.OnSuccess("Credit evaluation has been posted successfully");
+                } else {
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    String lsMessage = loError.getString("message");
+                    callback.OnFailed(lsMessage);
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void PostCIApproval(String TransNox, OnActionCallback callback){
+        try{
+            ECreditOnlineApplicationCI loDetail = poCI.getApplication(TransNox);
+            JSONObject params = new JSONObject();
+            params.put("sTransNox", loDetail.getTransNox());
+            params.put("dRcmdRcd1", loDetail.getRcmdRcd1());
+            params.put("dRcmdtnx1", loDetail.getRcmdtnx1());
+            params.put("cRcmdtnx1", loDetail.getRcmdtnc1());
+            params.put("sRcmdtnx1", loDetail.getRcmdtns1());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitResult(), params.toString(), poHeaders.getHeaders());
+            if (lsResponse == null) {
+                callback.OnFailed("Server no response.");
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(lsResult.equalsIgnoreCase("success")){
+                    poCI.UpdateTransactionSendStat(TransNox);
+                    callback.OnSuccess("Approval sent.");
+                } else {
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    String lsMessage = loError.getString("message");
+                    callback.OnFailed(lsMessage);
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailed(e.getMessage());
+        }
+    }
+
+    public void DownloadApplicationsForBHApproval(OnActionCallback callback){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("sEmployID", "M00117000702");
+
+            String lsResponse = org.rmj.g3appdriver.utils.WebClient.httpPostJSon(poApis.getUrlDownloadBhPreview(),
+                    params.toString(), poHeaders.getHeaders());
+            if(lsResponse == null){
+                callback.OnFailed("Sever no response.");
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(lsResult.equalsIgnoreCase("success")){
+                    JSONArray loDetail = loResponse.getJSONArray("detail");
+                    for(int x= 0 ; x < loDetail.length(); x++){
+                        JSONObject loJson = loDetail.getJSONObject(x);
+                        ECreditOnlineApplicationCI loApp = new ECreditOnlineApplicationCI();
+                        loApp.setTransNox(loJson.getString("sTransNox"));
+                        loApp.setCredInvx(loJson.getString("sCredInvx"));
+                        loApp.setAddressx(loJson.getString("sAddressx"));
+                        loApp.setAddrFndg(loJson.getString("sAddrFndg"));
+                        loApp.setAssetsxx(loJson.getString("sAssetsxx"));
+                        loApp.setAsstFndg(loJson.getString("sAsstFndg"));
+                        loApp.setIncomexx(loJson.getString("sIncomexx"));
+                        loApp.setIncmFndg(loJson.getString("sIncmFndg"));
+                        loApp.setHasRecrd(loJson.getString("cHasRecrd"));
+                        loApp.setRecrdRem(loJson.getString("sRecrdRem"));
+                        loApp.setPrsnBrgy(loJson.getString("sPrsnBrgy"));
+                        loApp.setPrsnPstn(loJson.getString("sPrsnPstn"));
+                        loApp.setPrsnNmbr(loJson.getString("sPrsnNmbr"));
+                        loApp.setNeighBr1(loJson.getString("sNeighBr1"));
+                        loApp.setNeighBr2(loJson.getString("sNeighBr2"));
+                        loApp.setNeighBr3(loJson.getString("sNeighBr3"));
+                        loApp.setRcmdRcd1(loJson.getString("dRcmdRcd1"));
+                        loApp.setRcmdtnx1(loJson.getString("dRcmdtnx1"));
+                        loApp.setRcmdtnc1(loJson.getString("cRcmdtnx1"));
+                        loApp.setRcmdtns1(loJson.getString("sRcmdtnx1"));
+                        loApp.setTranStat(loJson.getString("cTranStat"));
+                        poCI.SaveApplicationInfo(loApp);
+                    }
+                    callback.OnSuccess(loResponse.toString());
+                } else {
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    String lsMessage = loError.getString("message");
+                    callback.OnFailed(lsMessage);
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void PostBHApproval(String TransNox, OnActionCallback callback){
+        try{
+            ECreditOnlineApplicationCI loDetail = poCI.getApplication(TransNox);
+            JSONObject params = new JSONObject();
+            params.put("sTransNox", loDetail.getTransNox());
+            params.put("dRcmdRcd2", loDetail.getRcmdRcd2());
+            params.put("dRcmdtnx2", loDetail.getRcmdtnx2());
+            params.put("cRcmdtnx2", loDetail.getRcmdtnc2());
+            params.put("sRcmdtnx2", loDetail.getRcmdtns2());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitResult(), params.toString(), poHeaders.getHeaders());
+            if (lsResponse == null) {
+                callback.OnFailed("Server no response.");
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(lsResult.equalsIgnoreCase("success")){
+                    poCI.UpdateTransactionSendStat(TransNox);
+                    callback.OnSuccess("Approval sent.");
+                } else {
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    String lsMessage = loError.getString("message");
+                    callback.OnFailed(lsMessage);
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailed(e.getMessage());
         }
     }
 }

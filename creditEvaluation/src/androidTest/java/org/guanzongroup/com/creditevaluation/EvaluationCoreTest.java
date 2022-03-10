@@ -95,7 +95,7 @@ public class EvaluationCoreTest {
                     oChildFndg loChild = oChild.get(x);
                     loChild.setsValue("1");
                     String lsField = oParent.getField();
-                    poSystem.UpdateCIResult("CI5UV2200018", oParent, loChild, new EvaluatorManager.OnActionCallback() {
+                    poSystem.UpdateConfirmInfos("CI5UV2200018", oParent, loChild, new EvaluatorManager.OnActionCallback() {
                         @Override
                         public void OnSuccess(String args) {
                             isSuccess = true;

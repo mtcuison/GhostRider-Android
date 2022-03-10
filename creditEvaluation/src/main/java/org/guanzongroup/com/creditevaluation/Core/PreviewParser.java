@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class FindingsParser {
+public class PreviewParser {
 
     private final List<JSONObject> poParentLst = new ArrayList<>();
     private List<oChildFndg> poChildLst;
@@ -75,7 +75,7 @@ public class FindingsParser {
 
                     for (int i = 0; i < laChild.length(); i++) {
                         //Get all value which has negative 1
-                        if (loParent.getString(laChild.getString(i)).equalsIgnoreCase("-1") ||
+                        if (loParent.getString(laChild.getString(i)).equalsIgnoreCase("1") ||
                                 loParent.getString(laChild.getString(i)).equalsIgnoreCase("0")) {
                             oChildFndg loChild = new oChildFndg(poChlLabel.get(i),
                                     laChild.getString(i),
@@ -109,7 +109,8 @@ public class FindingsParser {
         for(int x = 0; x < laParent.length(); x++) {
             poChlFndng = new ArrayList<>();
             oParentFndg loPrntObj = new oParentFndg(Field, null);
-            if (loForEval.getString(laParent.getString(x)).equalsIgnoreCase("-1")) {
+            if (loForEval.getString(laParent.getString(x)).equalsIgnoreCase("1") ||
+                    loForEval.getString(laParent.getString(x)).equalsIgnoreCase("0")) {
                 oChildFndg loChild = new oChildFndg(poChlLabel.get(x),
                         laParent.getString(x),
                         loForEval.getString(laParent.getString(x)));

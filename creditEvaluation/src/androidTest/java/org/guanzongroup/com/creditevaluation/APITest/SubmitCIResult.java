@@ -1,10 +1,13 @@
 package org.guanzongroup.com.creditevaluation.APITest;
 
-
 import static org.junit.Assert.assertTrue;
 
+import android.app.Application;
+
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.guanzongroup.com.creditevaluation.Core.CIAPIs;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -22,20 +25,15 @@ import java.util.Map;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
-public class DownloadCI {
-    private static final String TAG = DownloadCI.class.getSimpleName();
+public class SubmitCIResult {
+
+    private CIAPIs poApis;
+
     private static final String LIVE_LOGIN = "https://restgk.guanzongroup.com.ph/security/mlogin.php";
     private static final String LOCAL_LOGIN = "http://192.168.10.141/security/mlogin.php";
-    private static final String LIVE_CashCount = "https://restgk.guanzongroup.com.ph/integsys/cashcount/submit_cash_count.php";
-    private static final String LOCAL_CashCount = "http://192.168.10.141/integsys/cashcount/submit_cash_count.php";
-
-    public static String IMPORT_FOR_EVALUATION = "http://192.168.10.141/integsys/evaluator/import_for_evaluations.php";
-    public static String SUBMIT_EVALUATION_RESULT = "http://192.168.10.141/integsys/evaluator/submit_evaluation_result.php";
-
-//    private final Application instance;
-//    private final Context mContext;
 
     private static Map<String, String> headers = new HashMap<>();
+
     private static boolean isSuccess = false;
 
     private static String sClientID = "";
@@ -44,6 +42,8 @@ public class DownloadCI {
 
     @Before
     public void setup() throws Exception{
+        poApis = new CIAPIs(true);
+
         headers.put("Content-Type", "application/json");
         headers.put("g-api-id", "gRider");
         headers.put("g-api-client", sClientID);
@@ -85,61 +85,30 @@ public class DownloadCI {
         }
         assertTrue(isSuccess);
     }
-//
-//    @Test
-//    public void test02CashCountNewFields() throws Exception{
-//        JSONObject params = new JSONObject();
-//        params.put("nCn0001cx", "10");
-//        params.put("nCn0005cx", "0");
-//        params.put("nCn0010cx", "0");
-//        params.put("nCn0025cx", "0");
-//        params.put("nCn0050cx", "0");
-//        params.put("nCn0001px", "0");
-//        params.put("nCn0005px", "0");
-//        params.put("nCn0010px", "10");
-//        params.put("nNte0020p", "0");
-//        params.put("nNte0050p", "0");
-//        params.put("nNte0100p", "33");
-//        params.put("nNte0200p", "34");
-//        params.put("nNte0500p", "16");
-//        params.put("nNte1000p", "4");
-//        params.put("sTransNox", "M09877123");
-//        params.put("sBranchCd", "M001");
-//        params.put("nPettyAmt", "12000.50");
-//        params.put("sORNoxxxx", "125334");
-//        params.put("sSINoxxxx", "256348");
-//        params.put("sPRNoxxxx", "256348");
-//        params.put("sCRNoxxxx", "256348");
-//        params.put("sORNoxNPt", "256348");
-//        params.put("sPRNoxNPt", "256348");
-//        params.put("sDRNoxxxx", "256348");
-//        params.put("dTransact", AppConstants.CURRENT_DATE);
-//        params.put("dEntryDte", new AppConstants().DATE_MODIFIED);
-//        params.put("sReqstdBy", "");
-//
-//        String lsResponse = WebClient.httpPostJSon(LOCAL_CashCount,
-//                params.toString(), (HashMap<String, String>) headers);
-//        if(lsResponse == null){
-//            isSuccess = false;
-//        } else {
-//            JSONObject loResponse = new JSONObject(lsResponse);
-//            String lsResult = loResponse.getString("result");
-//            if(lsResult.equalsIgnoreCase("success")){
-//                isSuccess = true;
-//            } else {
-//                JSONObject loError = loResponse.getJSONObject("error");
-//                String lsMessage = loError.getString("message");
-//                isSuccess = false;
-//            }
-//        }
-//        assertTrue(isSuccess);
-//    }
 
-    @Test
-    public void test03DownloadForEvaluator() throws Exception {
+//    @Test
+    public void test02SubmitEvaluation() throws Exception {
         JSONObject params = new JSONObject();
-        params.put("sEmployID", "M00117000702");
-        String lsResponse = WebClient.httpPostJSon(IMPORT_FOR_EVALUATION,
+        String lsAddressx = "{\"present_address\":{\"cAddrType\":null,\"sAddressx\":\"1\",\"sAddrImge\":null,\"nLatitude\":0.0,\"nLongitud\":0.0},\"primary_address\":{\"cAddrType\":null,\"sAddressx\":\"1\",\"sAddrImge\":null,\"nLatitude\":0.0,\"nLongitud\":0.0}}";
+        String lsAssetsxx = "{\"sProprty1\":null,\"sProprty2\":null,\"sProprty3\":null,\"cWith4Whl\":null,\"cWith3Whl\":null,\"cWith2Whl\":null,\"cWithRefx\":\"1\",\"cWithTVxx\":\"1\",\"cWithACxx\":null}";
+        String lsIncomexx = "{\"employed\":{\"sEmployer\":null,\"sWrkAddrx\":\"1\",\"sPosition\":null,\"nLenServc\":0.0,\"nSalaryxx\":-1.0},\"self_employed\":{\"sBusiness\":null,\"sBusAddrx\":null,\"nBusLenxx\":0.0,\"nBusIncom\":0.0,\"nMonExpns\":0.0},\"financed\":{\"sFinancer\":null,\"sReltnDsc\":null,\"sCntryNme\":null,\"nEstIncme\":0.0},\"pensioner\":{\"sPensionx\":null,\"nPensionx\":0.0}}";
+        params.put("sTransNox", "CI4K52200069");
+        params.put("sAddrFndg", new JSONObject(lsAddressx));
+        params.put("sAsstFndg", new JSONObject(lsAssetsxx));
+        params.put("sIncmFndg", new JSONObject(lsIncomexx));
+        params.put("cHasRecrd", "1");
+        params.put("sRecrdRem", "Barangay blotter due to unable to pay credits");
+        params.put("sPrsnBrgy", "sample");
+        params.put("sPrsnPstn", "sample");
+        params.put("sPrsnNmbr", "09171870011");
+        params.put("sNeighBr1", "sample neighbor 1");
+        params.put("sNeighBr2", "sample neighbor 2");
+        params.put("sNeighBr3", "sample neighbor 3");
+        params.put("cTranStat", "2");
+        params.put("sApproved", "M00117000702");
+        params.put("dApproved", AppConstants.CURRENT_DATE);
+
+        String lsResponse = WebClient.httpPostJSon(poApis.getUrlSubmitResult(),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -158,33 +127,65 @@ public class DownloadCI {
     }
 
     @Test
-    public void test04SubmitEvaluation() throws Exception {
+    public void test03DownloadCIList() throws Exception{
+        JSONObject params = new JSONObject();
+        params.put("sEmployID", "M00117000702");
+
+        String lsResponse = WebClient.httpPostJSon(poApis.getUrlDownloadBhPreview(),
+                params.toString(), (HashMap<String, String>) headers);
+        if(lsResponse == null){
+            isSuccess = false;
+        } else {
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("success")){
+                isSuccess = true;
+            } else {
+                JSONObject loError = loResponse.getJSONObject("error");
+                String lsMessage = loError.getString("message");
+                isSuccess = false;
+            }
+        }
+        assertTrue(isSuccess);
+    }
+
+//    @Test
+    public void test04PostEvaluation() throws Exception{
         JSONObject params = new JSONObject();
         params.put("sTransNox", "CI4K52200069");
-        params.put("sAddrFndg", "sample");
-        params.put("sAsstFndg", "sample");
-        params.put("sIncmFndg", "sample");
-        params.put("cHasRecrd", "1");
-        params.put("sRecrdRem", "sample");
-        params.put("sPrsnBrgy", "sample");
-        params.put("sPrsnPstn", "sample");
-        params.put("sPrsnNmbr", "sample");
-        params.put("sNeighBr1", "sample");
-        params.put("sNeighBr2", "sample");
-        params.put("sNeighBr3", "sample");
-        params.put("dRcmdRcd1", "sample");
-        params.put("dRcmdtnx1", "sample");
-        params.put("cRcmdtnx1", "sample");
+        params.put("dRcmdRcv1", new AppConstants().DATE_MODIFIED);
+        params.put("dRcmdtnx1", new AppConstants().DATE_MODIFIED);
+        params.put("cRcmdtnx1", "1");
         params.put("sRcmdtnx1", "sample");
-        params.put("dRcmdRcd2", "sample");
-        params.put("dRcmdtnx2", "sample");
-        params.put("cRcmdtnx2", "sample");
-        params.put("sRcmdtnx2", "sample");
-        params.put("cTranStat", "2");
-        params.put("sApproved", "M00117000702");
-        params.put("dApproved", AppConstants.CURRENT_DATE);
 
-        String lsResponse = WebClient.httpPostJSon(SUBMIT_EVALUATION_RESULT,
+        String lsResponse = WebClient.httpPostJSon(poApis.getUrlPostCiApproval(),
+                params.toString(), (HashMap<String, String>) headers);
+        if(lsResponse == null){
+            isSuccess = false;
+        } else {
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("success")){
+                isSuccess = true;
+            } else {
+                JSONObject loError = loResponse.getJSONObject("error");
+                String lsMessage = loError.getString("message");
+                isSuccess = false;
+            }
+        }
+        assertTrue(isSuccess);
+    }
+
+//    @Test
+    public void test05PostBHEvaluation() throws Exception{
+        JSONObject params = new JSONObject();
+        params.put("sTransNox", "CI4K52200069");
+        params.put("dRcmdRcv2", new AppConstants().DATE_MODIFIED);
+        params.put("dRcmdtnx2", new AppConstants().DATE_MODIFIED);
+        params.put("cRcmdtnx2", "1");
+        params.put("sRcmdtnx2", "sample");
+
+        String lsResponse = WebClient.httpPostJSon(poApis.getUrlPostBhApproval(),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
