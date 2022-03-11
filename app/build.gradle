@@ -107,6 +107,7 @@ dependencies {
 //    implementation project(':documentScanner')
     implementation project(':appdriver') //implement GhostRider Application Driver
     implementation project(':settings')
+    implementation project(':creditEvaluation')
     implementation project(':json-simple-1.1.1')
     implementation project(':commons-codec-1.11') //implement commons codec
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
