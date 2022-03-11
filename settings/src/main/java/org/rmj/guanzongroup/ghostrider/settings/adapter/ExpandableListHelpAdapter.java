@@ -115,7 +115,6 @@ public class ExpandableListHelpAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.help_list_header, null);
         }
 
-
         TextView lblListHeader = convertView.findViewById(R.id.lblHelpHeader);
         ImageView iconImg = convertView.findViewById(R.id.icon_help_image);
         iconImg.setImageResource(headerIcon);
