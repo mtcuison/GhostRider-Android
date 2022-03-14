@@ -21,7 +21,34 @@ public class oChildFndg {
     }
 
     public String getLabel() {
-        return sLabelx;
+        String lsValue;
+        if(sLabelx.equalsIgnoreCase("1")){
+            lsValue = "YES";
+        } else {
+            lsValue = "NO";
+        }
+        switch (sKeyxxx){
+            case "sProprty1":
+                return "Property 1";
+            case "sProprty2":
+                return "Property 2";
+            case "sProprty3":
+                return "Property 3";
+            case "cWith4Whl":
+                return "Has 4 Wheeled Vehicle : "  + lsValue;
+            case "cWith3Whl":
+                return "Has 3 Wheel Vehicle(Tricycle) : " + lsValue;
+            case "cWith2Whl":
+                return "Has Bicycles/Motorcycles : " + lsValue;
+            case "cWithRefx":
+                return "Has Refrigerator : " + lsValue;
+            case "cWithTVxx":
+                return "Has Television : " + lsValue;
+            case "cWithACxx":
+                return "Has air condition : " + lsValue;
+            default:
+                return sLabelx;
+        }
     }
 
     public String getKey() {

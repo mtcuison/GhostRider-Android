@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/lbl_evalField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sample"/>
+
+    <TextView
+        android:id="@+id/lbl_evalTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sample"/>
+
+    <TextView
+        android:id="@+id/lbl_evalLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sample"/>
+
+    <RadioGroup
+        android:id="@+id/rg_evaluator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_correct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Correct"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/rb_incorrect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Incorrect"
+            android:layout_weight="1"/>
+
+    </RadioGroup>
+</LinearLayout>

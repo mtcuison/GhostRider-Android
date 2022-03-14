@@ -32,27 +32,31 @@ public class oParentFndg {
     }
 
     public String getParentDescript(){
-        switch (sParent){
-            case "present_address":
-                return "Present Address";
+        if(sParent == null){
+            return "";
+        } else {
+            switch (sParent) {
+                case "present_address":
+                    return "Present Address";
 
-            case "primary_address":
-                return "Primary Address";
+                case "primary_address":
+                    return "Primary Address";
 
-            case "employed":
-                return "Employment";
+                case "employed":
+                    return "Employment";
 
-            case "self_employed":
-                return "Business";
+                case "self_employed":
+                    return "Business";
 
-            case "financed":
-                return "Financier";
+                case "financed":
+                    return "Financier";
 
-            case "pensioner":
-                return "Pension";
+                case "pensioner":
+                    return "Pension";
 
-            default:
-                return "";
+                default:
+                    return "";
+            }
         }
     }
 }
