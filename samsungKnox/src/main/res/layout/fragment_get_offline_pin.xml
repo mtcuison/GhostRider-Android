@@ -82,7 +82,7 @@
                 android:id="@+id/txt_knoxImei"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number|none"
+                android:digits="@string/free_text_restriction"
                 android:maxLength="16"
                 android:layout_marginBottom="3dp"/>
         </com.google.android.material.textfield.TextInputLayout>
