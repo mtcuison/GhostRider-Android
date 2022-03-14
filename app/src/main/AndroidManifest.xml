@@ -86,7 +86,7 @@
             android:exported="true" />
 
         <activity
-            android:name="org.guanzongroup.com.creditevaluation.Activity.Activity_ApplicationList"
+            android:name=".Activity.Activity_SplashScreen"
             android:screenOrientation="userPortrait"
             android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"
