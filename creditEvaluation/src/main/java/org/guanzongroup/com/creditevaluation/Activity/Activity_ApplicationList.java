@@ -36,6 +36,12 @@ public class Activity_ApplicationList extends AppCompatActivity {
         setContentView(R.layout.activity_application_list);
 
         listView = findViewById(R.id.expListview);
+
+        listView.setGroupIndicator(null);
+        listView.setChildIndicator(null);
+        listView.setChildDivider(getResources().getDrawable(R.color.textColor_Black));
+        listView.setDivider(getResources().getDrawable(R.color.textColor_Black));
+        listView.setDividerHeight(2);
         String lsLabel = "{\"present_address\":{\"cAddrType\":\"0\",\"sAddressx\":\"B3 Lt4 Lingueta St., Pio Cruzcosa, Calumpit Bulacan\",\"sAddrImge\":\"\",\"nLatitude\":0.0,\"nLongitud\":0.0},\"primary_address\":{\"cAddrType\":\"1\",\"sAddressx\":\"B3 Lt4 Lingueta St., Pio Cruzcosa, Calumpit Bulacan\",\"sAddrImge\":\"\",\"nLatitude\":0.0,\"nLongitud\":0.0}}";
         String lsFndng = "{\"present_address\":{\"cAddrType\":null,\"sAddressx\":\"-1\",\"sAddrImge\":null,\"nLatitude\":0.0,\"nLongitud\":0.0},\"primary_address\":{\"cAddrType\":null,\"sAddressx\":\"-1\",\"sAddrImge\":null,\"nLatitude\":0.0,\"nLongitud\":0.0}}";
 

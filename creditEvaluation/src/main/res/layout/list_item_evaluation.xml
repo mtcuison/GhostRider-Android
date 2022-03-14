@@ -4,30 +4,44 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
     <TextView
         android:id="@+id/lbl_evalField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sample"/>
+        android:fontFamily="@font/roboto_regular"
+        android:text="Sample"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textColor="@color/textColor_Black" />
 
     <TextView
         android:id="@+id/lbl_evalTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sample"/>
+        android:fontFamily="@font/roboto_regular"
+        android:text="Sample"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textColor="@color/textColor_Black" />
 
     <TextView
         android:id="@+id/lbl_evalLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sample"/>
+        android:fontFamily="@font/roboto_regular"
+        android:text="Sample"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="@color/textColor_Black" />
 
     <RadioGroup
         android:id="@+id/rg_evaluator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="8dp">
 
         <RadioButton
             android:id="@+id/rb_correct"
@@ -42,6 +56,5 @@
             android:layout_height="wrap_content"
             android:text="Incorrect"
             android:layout_weight="1"/>
-
     </RadioGroup>
 </LinearLayout>

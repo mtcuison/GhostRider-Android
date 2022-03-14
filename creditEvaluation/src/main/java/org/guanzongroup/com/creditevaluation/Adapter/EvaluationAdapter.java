@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.guanzongroup.com.creditevaluation.Activity.Activity_ApplicationList;
+import org.guanzongroup.com.creditevaluation.Activity.Activity_Evaluation;
 import org.guanzongroup.com.creditevaluation.Core.oChildFndg;
 import org.guanzongroup.com.creditevaluation.Core.oParentFndg;
 import org.guanzongroup.com.creditevaluation.R;
@@ -98,7 +100,6 @@ public class EvaluationAdapter extends BaseExpandableListAdapter {
         RadioGroup rgEval = view.findViewById(R.id.rg_evaluator);
         txtListChild.setVisibility(View.GONE);
         rgEval.setVisibility(View.GONE);
-
         TextView lblField = view.findViewById(R.id.lbl_evalField);
         TextView lblTitle = view.findViewById(R.id.lbl_evalTitle);
         lblField.setText(loParent.getTitle());
@@ -108,7 +109,6 @@ public class EvaluationAdapter extends BaseExpandableListAdapter {
         lblTitle.setText(loParent.getParentDescript());
         return view;
     }
-
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean b, View view, ViewGroup viewGroup) {
         oParentFndg loParent = (oParentFndg) getGroup(groupPosition);
@@ -146,4 +146,5 @@ public class EvaluationAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int i, int i1) {
         return false;
     }
+
 }
