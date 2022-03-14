@@ -22,20 +22,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMcTermCategory;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RMcTermCategory;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_TERM_CATEGORY;
 
 public class ImportMcTermCategory implements ImportInstance{
     public static final String TAG = ImportMcTermCategory.class.getSimpleName();
@@ -72,14 +64,14 @@ public class ImportMcTermCategory implements ImportInstance{
     private static class ImportDataTask extends AsyncTask<JSONObject, Void, String>{
         private final RMcTermCategory repository;
         private final ConnectionUtil conn;
-        private final WebApi webApi;
+        private final WebApi poApi;
         private final HttpHeaders headers;
         private final ImportDataCallback callback;
 
         public ImportDataTask(Application instance, ImportDataCallback callback) {
             this.repository = new RMcTermCategory(instance);
             this.conn = new ConnectionUtil(instance);
-            this.webApi = new WebApi(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.headers = HttpHeaders.getInstance(instance);
             this.callback = callback;
         }
@@ -90,7 +82,7 @@ public class ImportMcTermCategory implements ImportInstance{
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(URL_IMPORT_TERM_CATEGORY, jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportTermCategory(), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

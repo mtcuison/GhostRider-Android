@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.WebApi;
 
 public class CashCount {
@@ -16,6 +17,7 @@ public class CashCount {
 
     private final Context mContext;
     private final Application instance;
+    private final WebApi poApi;
 
     private final HttpHeaders poHeaders;
 
@@ -28,12 +30,13 @@ public class CashCount {
         this.mContext = mContext;
         this.instance = instance;
         this.poHeaders = HttpHeaders.getInstance(instance);
+        this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void SubmitCashCount(JSONObject foJson, SubmitCashCountCallback callback){
         try {
-            String lsResponse = WebClient.httpPostJSon(WebApi.URL_SUBMIT_CASHCOUNT, foJson.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.httpPostJSon(poApi.getUrlSubmitCashcount(), foJson.toString(), poHeaders.getHeaders());
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("success")){

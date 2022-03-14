@@ -1,7 +1,5 @@
 package org.rmj.g3appdriver.GRider.ImportData;
 
-import static org.rmj.g3appdriver.utils.WebApi.REQUEST_USER_ACCESS;
-
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -13,7 +11,9 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeRole;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 public class ImportEmployeeRole {
@@ -40,12 +40,14 @@ public class ImportEmployeeRole {
         private final REmployeeRole poRole;
         private final HttpHeaders poHeaders;
         private final ConnectionUtil poConn;
+        private final WebApi poApi;
         private final OnImportEmployeeRoleCallback callback;
 
         public ImportEmployeeRoleTask(Application instance, OnImportEmployeeRoleCallback callback) {
             this.poRole = new REmployeeRole(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.callback =  callback;
         }
 
@@ -60,7 +62,7 @@ public class ImportEmployeeRole {
         protected String doInBackground(String... strings) {
             String lsResult;
             try{
-                lsResult = WebClient.httpsPostJSon(REQUEST_USER_ACCESS, new JSONObject().toString(), poHeaders.getHeaders());
+                lsResult = WebClient.httpsPostJSon(poApi.getRequestUserAccess(), new JSONObject().toString(), poHeaders.getHeaders());
                 if (lsResult == null) {
                     lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response while downloading authorize features.");
                 } else {

@@ -75,12 +75,12 @@ public class AppConfigPreference {
         return pref.getBoolean(isAppFirstLaunch, true);
     }
 
-    public void setIsLocalHostChange(boolean isChange){
-        editor.putBoolean(isLocalHostChange, isChange);
+    public void setIsLocalHostChange(boolean isTestCase){
+        editor.putBoolean(isLocalHostChange, isTestCase);
         editor.commit();
     }
 
-    public boolean getIsLocalHostChange() {
+    public boolean getTestStatus() {
         return pref.getBoolean(isLocalHostChange, true);
     }
 

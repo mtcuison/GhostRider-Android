@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;
@@ -32,31 +33,35 @@ import org.rmj.guanzongroup.ghostrider.approvalcode.Model.CreditApp;
 import java.io.IOException;
 
 public class VMCreditAppApproval extends AndroidViewModel {
+    private final Application instance;
     private final ConnectionUtil poConn;
     private final HttpHeaders poHeaders;
 
     public VMCreditAppApproval(@NonNull Application application) {
         super(application);
+        this.instance = application;
         poConn = new ConnectionUtil(application);
         poHeaders = HttpHeaders.getInstance(application);
     }
 
     public void LoadApplication(CreditApp params, OnLoadApplicationListener listener){
-        new LoadApplicationTask(poConn, poHeaders, listener).execute(params);
+        new LoadApplicationTask(instance, listener).execute(params);
     }
 
     public void ApproveApplication(CreditApp.Application foParams, ViewModelCallback listener){
-        new ApproveRequestTask(poConn, poHeaders, listener).execute(foParams);
+        new ApproveRequestTask(instance, listener).execute(foParams);
     }
 
     private static class LoadApplicationTask extends AsyncTask<CreditApp, Void, String>{
         private final ConnectionUtil loConn;
         private final HttpHeaders loHeaders;
+        private final WebApi poApi;
         private final OnLoadApplicationListener listener;
 
-        public LoadApplicationTask(ConnectionUtil loConn, HttpHeaders loHeaders, OnLoadApplicationListener listener) {
-            this.loConn = loConn;
-            this.loHeaders = loHeaders;
+        public LoadApplicationTask(Application instance, OnLoadApplicationListener listener) {
+            this.loConn = new ConnectionUtil(instance);
+            this.loHeaders = HttpHeaders.getInstance(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.listener = listener;
         }
 
@@ -77,7 +82,7 @@ public class VMCreditAppApproval extends AndroidViewModel {
                         loJson.put("systemcd", CreditApp[0].getSystemCD());
                         loJson.put("branchcd", CreditApp[0].getBranchCD());
                         loJson.put("transnox", CreditApp[0].getTransNox());
-                        lsResponse = WebClient.sendRequest(WebApi.URL_LOAD_APPLICATION_APPROVAL, loJson.toString(), loHeaders.getHeaders());
+                        lsResponse = WebClient.sendRequest(poApi.getUrlLoadApplicationApproval(), loJson.toString(), loHeaders.getHeaders());
                         if(lsResponse == null){
                             lsResponse = AppConstants.SERVER_NO_RESPONSE();
                         }
@@ -126,11 +131,13 @@ public class VMCreditAppApproval extends AndroidViewModel {
     private static class ApproveRequestTask extends AsyncTask<CreditApp.Application, Void, String>{
         private final ConnectionUtil loConn;
         private final HttpHeaders loHeaders;
+        private final WebApi poApi;
         private final ViewModelCallback listener;
 
-        public ApproveRequestTask(ConnectionUtil loConn, HttpHeaders loHeaders, ViewModelCallback listener) {
-            this.loConn = loConn;
-            this.loHeaders = loHeaders;
+        public ApproveRequestTask(Application instance, ViewModelCallback listener) {
+            this.loConn = new ConnectionUtil(instance);
+            this.loHeaders = HttpHeaders.getInstance(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.listener = listener;
         }
 
@@ -151,7 +158,7 @@ public class VMCreditAppApproval extends AndroidViewModel {
                             loJson.put("transnox", params[0].getTransNox());
                             loJson.put("reasonxx", params[0].getReasonxx());
                             loJson.put("approved", params[0].getApproved());
-                            lsResponse = WebClient.sendRequest(WebApi.URL_APPLICATION_APPROVE, loJson.toString(), loHeaders.getHeaders());
+                            lsResponse = WebClient.sendRequest(poApi.getUrlApplicationApprove(), loJson.toString(), loHeaders.getHeaders());
                             if(lsResponse == null){
                                 lsResponse = AppConstants.SERVER_NO_RESPONSE();
                             }

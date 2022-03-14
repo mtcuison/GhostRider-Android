@@ -35,11 +35,10 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApprovalInfo;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_GET_LEAVE_APPLICATION;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -123,12 +122,19 @@ public class VMLeaveApproval extends AndroidViewModel {
         private final REmployeeLeave poLeave;
         private final OnDownloadLeaveAppInfo callback;
         private String TransNox;
+        private WebApi poApi;
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
 
         public DownloadLeaveAppTask(Application instance, OnDownloadLeaveAppInfo callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poLeave = new REmployeeLeave(instance);
             this.callback = callback;
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @Override
@@ -143,7 +149,7 @@ public class VMLeaveApproval extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(URL_GET_LEAVE_APPLICATION, strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(poApi.getUrlGetLeaveApplication(), strings[0].toString(), headers.getHeaders());
                     JSONObject loResponse = new JSONObject(response);
                     String lsResult = loResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
@@ -218,6 +224,7 @@ public class VMLeaveApproval extends AndroidViewModel {
         private final HttpHeaders poHeaders;
         private final ConnectionUtil poConn;
         private final REmployeeLeave poLeave;
+        private final WebApi poApi;
 
         public ConfirmLeaveTask(LeaveApprovalInfo infoModel, Application instance, OnConfirmLeaveAppCallback callback) {
             this.infoModel = infoModel;
@@ -225,6 +232,7 @@ public class VMLeaveApproval extends AndroidViewModel {
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
             this.poLeave = new REmployeeLeave(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -244,7 +252,7 @@ public class VMLeaveApproval extends AndroidViewModel {
                 loJson.put("dApproved", infoModel.getApproved());
 
                 if(poConn.isDeviceConnected()) {
-                    lsResponse = WebClient.sendRequest(WebApi.URL_CONFIRM_LEAVE_APPLICATION, loJson.toString(), poHeaders.getHeaders());
+                    lsResponse = WebClient.sendRequest(poApi.getUrlConfirmLeaveApplication(), loJson.toString(), poHeaders.getHeaders());
                     if(lsResponse == null) {
                         lsResponse = AppConstants.SERVER_NO_RESPONSE();
                     } else {

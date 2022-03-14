@@ -92,6 +92,7 @@ public class VMObApplication extends AndroidViewModel {
         private final SessionManager poUser;
         private final AppConfigPreference poConfig;
         private final REmployeeBusinessTrip poOBLeave;
+        private final WebApi poApi;
         public PostObLeaveTask(OBApplication infoModel, Application instance, OnSubmitOBLeaveListener callback) {
 
             this.infoModel = infoModel;
@@ -102,6 +103,7 @@ public class VMObApplication extends AndroidViewModel {
             this.poDevID = new Telephony(instance);
             this.poUser = new SessionManager(instance);
             this.poConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(poConfig.getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -146,7 +148,7 @@ public class VMObApplication extends AndroidViewModel {
                     loJson.put("dModified", AppConstants.CURRENT_DATE);
 
                     if(poConn.isDeviceConnected()) {
-                        lsResponse = WebClient.sendRequest(WebApi.URL_SEND_OB_APPLICATION, loJson.toString(), poHeaders.getHeaders());
+                        lsResponse = WebClient.sendRequest(poApi.getUrlSendObApplication(), loJson.toString(), poHeaders.getHeaders());
                         JSONObject jsonResponse = new JSONObject(lsResponse);
                         String lsResult = jsonResponse.getString("result");
                         if(lsResult.equalsIgnoreCase("success")){

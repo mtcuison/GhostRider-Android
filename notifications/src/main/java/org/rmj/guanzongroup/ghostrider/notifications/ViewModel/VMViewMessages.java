@@ -31,8 +31,6 @@ import org.rmj.g3appdriver.utils.WebClient;
 import java.util.List;
 import java.util.Objects;
 
-import static org.rmj.g3appdriver.utils.WebApi.URL_SEND_RESPONSE;
-
 public class VMViewMessages extends AndroidViewModel {
     private static final String TAG = VMViewMessages.class.getSimpleName();
     private final RNotificationInfo poNotification;
