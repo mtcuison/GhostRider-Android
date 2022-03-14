@@ -111,8 +111,16 @@ public class EvaluatorManager {
         return poCI.getForEvaluationList();
     }
 
-    public DCreditOnlineApplicationCI.oDataEvaluationInfo getForEvaluationInfo(String TransNox) {
+    public LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListData(){
+        return poCI.getForEvaluationListData();
+    }
+
+    public LiveData<DCreditOnlineApplicationCI.oDataEvaluationInfo> getForEvaluationInfo(String TransNox) {
         return poCI.getForEvaluateInfo(TransNox);
+    }
+
+    public LiveData<ECreditOnlineApplicationCI> getApplications(String TransNox) {
+        return poCI.getApplications(TransNox);
     }
 
     public void RetrieveApplicationData(String TransNox, OnRetrieveDataCallback callback){

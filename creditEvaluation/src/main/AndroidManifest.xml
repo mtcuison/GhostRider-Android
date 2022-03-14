@@ -3,9 +3,12 @@
     package="org.guanzongroup.com.creditevaluation">
 
     <application android:usesCleartextTraffic="true">
-<!--        <activity-->
-<!--            android:name=".Activity.Activity_ApplicationList"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".Activity.Activity_EvaluationList"
+            android:exported="false" />
+        <!-- <activity -->
+        <!-- android:name=".Activity.Activity_ApplicationList" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".Activity.Activity_Evaluation"
             android:exported="true" />

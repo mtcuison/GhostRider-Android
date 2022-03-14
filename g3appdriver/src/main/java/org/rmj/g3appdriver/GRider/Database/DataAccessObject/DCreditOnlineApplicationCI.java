@@ -22,6 +22,9 @@ public interface DCreditOnlineApplicationCI {
     @Query("SELECT * FROM Credit_Online_Application_CI WHERE sTransNox=:TransNox")
     ECreditOnlineApplicationCI getApplication(String TransNox);
 
+    @Query("SELECT * FROM Credit_Online_Application_CI WHERE sTransNox=:TransNox")
+    LiveData<ECreditOnlineApplicationCI> getApplications(String TransNox);
+
     @Query("Update Credit_Online_Application_CI SET cSendStat = '1' WHERE sTransNox =:TransNox")
     void UpdateTransactionSendStat(String TransNox);
 
@@ -101,7 +104,28 @@ public interface DCreditOnlineApplicationCI {
             "LEFT JOIN Branch_Info c " +
             "ON b.sBranchCd = c.sBranchCd " +
             "WHERE a.sTransNox=:TransNox")
-    oDataEvaluationInfo getForEvaluateInfo(String TransNox);
+    LiveData<oDataEvaluationInfo> getForEvaluateInfo(String TransNox);
+
+    @Query("SELECT a.sTransNox, " +
+            "a.sCredInvx, " +
+            "a.sAddressx, " +
+            "a.sAddrFndg, " +
+            "a.sAssetsxx, " +
+            "a.sAsstFndg, " +
+            "a.sIncomexx, " +
+            "a.sIncmFndg, " +
+            "a.cHasRecrd, " +
+            "a.sRecrdRem, " +
+            "b.sClientNm, " +
+            "b.dTransact, " +
+            "c.sBranchNm, " +
+            "b.nDownPaym " +
+            "FROM CREDIT_ONLINE_APPLICATION_CI a " +
+            "LEFT JOIN Credit_Online_Application b " +
+            "ON a.sTransNox = b.sTransNox " +
+            "LEFT JOIN Branch_Info c " +
+            "ON b.sBranchCd = c.sBranchCd ")
+    LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListData();
 
     public class oDataEvaluationInfo {
         public String sTransNox;
