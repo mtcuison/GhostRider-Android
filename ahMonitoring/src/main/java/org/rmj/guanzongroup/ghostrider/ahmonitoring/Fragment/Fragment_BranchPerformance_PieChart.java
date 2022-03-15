@@ -115,8 +115,8 @@ public class Fragment_BranchPerformance_PieChart extends Fragment {
         pieChart.setRotationEnabled(false);
         pieChart.setRotationAngle(270f);
         pieChart.setHighlightPerTapEnabled(true);
-        pieChart.setHoleRadius(60f);
-        pieChart.setTransparentCircleRadius(65f);
+        pieChart.setHoleRadius(0f);
+        pieChart.setTransparentCircleRadius(0f);
         pieChart.setEntryLabelColor(Color.WHITE);
         pieChart.setCenterText("12 Months Performance");
         pieChart.setCenterTextSize(14f);

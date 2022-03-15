@@ -125,8 +125,8 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
         pieChart.setRotationEnabled(false);
         pieChart.setRotationAngle(270f);
         pieChart.setHighlightPerTapEnabled(true);
-        pieChart.setHoleRadius(60f);
-        pieChart.setTransparentCircleRadius(65f);
+        pieChart.setHoleRadius(0f);
+        pieChart.setTransparentCircleRadius(0f);
         pieChart.setEntryLabelColor(Color.WHITE);
         pieChart.setCenterText(getPeriodText(getLatestCompletePeriod()) + " Performance");
         pieChart.setCenterTextSize(14f);
@@ -136,8 +136,8 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
         pieChart2.setRotationEnabled(false);
         pieChart2.setRotationAngle(270f);
         pieChart2.setHighlightPerTapEnabled(true);
-        pieChart2.setHoleRadius(60f);
-        pieChart2.setTransparentCircleRadius(65f);
+        pieChart2.setHoleRadius(0f);
+        pieChart2.setTransparentCircleRadius(0f);
         pieChart2.setEntryLabelColor(Color.WHITE);
         pieChart2.setCenterText("12 Months Performance");
         pieChart2.setCenterTextSize(14f);
