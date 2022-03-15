@@ -123,7 +123,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
         pieChart.setUsePercentValues(false);
         pieChart.getDescription().setEnabled(false);
         pieChart.setRotationEnabled(false);
-        pieChart.setRotationAngle(0);
+        pieChart.setRotationAngle(270f);
         pieChart.setHighlightPerTapEnabled(true);
         pieChart.setHoleRadius(60f);
         pieChart.setTransparentCircleRadius(65f);
@@ -134,7 +134,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
         pieChart2.setUsePercentValues(false);
         pieChart2.getDescription().setEnabled(false);
         pieChart2.setRotationEnabled(false);
-        pieChart2.setRotationAngle(0);
+        pieChart2.setRotationAngle(270f);
         pieChart2.setHighlightPerTapEnabled(true);
         pieChart2.setHoleRadius(60f);
         pieChart2.setTransparentCircleRadius(65f);

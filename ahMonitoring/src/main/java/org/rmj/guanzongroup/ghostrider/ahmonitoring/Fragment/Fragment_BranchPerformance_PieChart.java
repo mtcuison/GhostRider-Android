@@ -113,7 +113,7 @@ public class Fragment_BranchPerformance_PieChart extends Fragment {
         pieChart.setUsePercentValues(false);
         pieChart.getDescription().setEnabled(false);
         pieChart.setRotationEnabled(false);
-        pieChart.setRotationAngle(0);
+        pieChart.setRotationAngle(270f);
         pieChart.setHighlightPerTapEnabled(true);
         pieChart.setHoleRadius(60f);
         pieChart.setTransparentCircleRadius(65f);
