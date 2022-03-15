@@ -31,6 +31,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -58,6 +59,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
     private String[] brnSales = {"MC Sales","SP Sales","JO Sales"};
     private TextView lblArea, lblDate, lblItem1, lblItem2, lblSelectd, lgdGoal, lgdActual, lgdExcess;
     private ColorStateList poColor;
+    private RadioGroup rgPeriodx;
 
     public Fragment_AreaPerformance_PieChart() { }
 
@@ -85,6 +87,18 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
         poPeriods = BranchPerformancePeriod.getSortedPeriodList(BranchPerformancePeriod.getList());
         initPieChart();
         mViewModel.getType().observe(getViewLifecycleOwner(), s -> setChartValue(s, getLatestCompletePeriod()));
+        rgPeriodx.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if(i == R.id.rb_month) {
+                    pieChart.setVisibility(View.VISIBLE);
+                    pieChart2.setVisibility(View.GONE);
+                } else if(i == R.id.rb_year) {
+                    pieChart.setVisibility(View.GONE);
+                    pieChart2.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void initWidgets(View v) {
@@ -100,6 +114,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
         lblItem2 = v.findViewById(R.id.item2);
         lblSelectd = v.findViewById(R.id.select);
         poColor = lblItem2.getTextColors();
+        rgPeriodx = v.findViewById(R.id.rg_period);
         lblItem1.setOnClickListener(new TabClickHandler());
         lblItem2.setOnClickListener(new TabClickHandler());
     }
