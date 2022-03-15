@@ -143,6 +143,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
         mViewModel.getMonthlyPieChartData(fsPeriodx).observe(getViewLifecycleOwner(), monthlyPieChart -> {
             try {
                 ArrayList<PieEntry> pieEntries = new ArrayList<>();
+                ArrayList<Integer> colors = new ArrayList<>();
                 String label = "type";
 
                 if(sales.equalsIgnoreCase("MC")) {
@@ -150,11 +151,19 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
                     lgdActual.setText("MC Actual");
                     lgdExcess.setText("MC Excess");
                     pieEntries.clear();
+                    colors.clear();
+                    colors.add(Color.parseColor("#454545"));
+                    colors.add(Color.parseColor("#FF8200"));
                     pieEntries.add(new PieEntry(monthlyPieChart.mcGoal, ""));
                     pieEntries.add(new PieEntry(monthlyPieChart.mcActual, ""));
                     if(monthlyPieChart.mcActual > monthlyPieChart.mcGoal) {
+                        pieEntries.clear();
+                        colors.clear();
+                        colors.add(Color.parseColor("#FF8200"));
+                        colors.add(Color.parseColor("#114F87"));
                         float lnActual = monthlyPieChart.mcActual;
                         float lnGoal = monthlyPieChart.mcGoal;
+                        pieEntries.add(new PieEntry(monthlyPieChart.mcActual, ""));
                         pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
                     }
                 } else {
@@ -162,19 +171,23 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
                     lgdActual.setText("SP Actual");
                     lgdExcess.setText("SP Excess");
                     pieEntries.clear();
+                    colors.clear();
+                    colors.add(Color.parseColor("#454545"));
+                    colors.add(Color.parseColor("#FF8200"));
                     pieEntries.add(new PieEntry(monthlyPieChart.spGoal, ""));
                     pieEntries.add(new PieEntry(monthlyPieChart.spActual, ""));
                     if(monthlyPieChart.spActual > monthlyPieChart.spGoal) {
+                        pieEntries.clear();
+                        colors.clear();
+                        colors.add(Color.parseColor("#FF8200"));
+                        colors.add(Color.parseColor("#114F87"));
                         float lnActual = monthlyPieChart.spActual;
                         float lnGoal = monthlyPieChart.spGoal;
+                        pieEntries.add(new PieEntry(monthlyPieChart.spActual, ""));
                         pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
                     }
                 }
 
-                ArrayList<Integer> colors = new ArrayList<>();
-                colors.add(Color.parseColor("#454545"));
-                colors.add(Color.parseColor("#FF8200"));
-                colors.add(Color.parseColor("#114F87"));
                 PieDataSet pieDataSet = new PieDataSet(pieEntries,label);
                 pieDataSet.setValueTextSize(12f);
                 pieDataSet.setColors(colors);
@@ -194,6 +207,7 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
         mViewModel.get12MonthPieChartData(getList().get(getList().size()-1), getList().get(0)).observe(getViewLifecycleOwner(), monthlyPieChart -> {
             try {
                 ArrayList<PieEntry> pieEntries = new ArrayList<>();
+                ArrayList<Integer> colors = new ArrayList<>();
                 String label = "type";
 
                 if(sales.equalsIgnoreCase("MC")) {
@@ -201,11 +215,19 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
                     lgdActual.setText("MC Actual");
                     lgdExcess.setText("MC Excess");
                     pieEntries.clear();
+                    colors.clear();
+                    colors.add(Color.parseColor("#454545"));
+                    colors.add(Color.parseColor("#FF8200"));
                     pieEntries.add(new PieEntry(monthlyPieChart.mcGoal, ""));
                     pieEntries.add(new PieEntry(monthlyPieChart.mcActual, ""));
                     if(monthlyPieChart.mcActual > monthlyPieChart.mcGoal) {
+                        pieEntries.clear();
+                        colors.clear();
+                        colors.add(Color.parseColor("#FF8200"));
+                        colors.add(Color.parseColor("#114F87"));
                         float lnActual = monthlyPieChart.mcActual;
                         float lnGoal = monthlyPieChart.mcGoal;
+                        pieEntries.add(new PieEntry(monthlyPieChart.mcActual, ""));
                         pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
                     }
                 } else {
@@ -213,19 +235,23 @@ public class Fragment_AreaPerformance_PieChart extends Fragment {
                     lgdActual.setText("SP Actual");
                     lgdExcess.setText("SP Excess");
                     pieEntries.clear();
+                    colors.clear();
+                    colors.add(Color.parseColor("#454545"));
+                    colors.add(Color.parseColor("#FF8200"));
                     pieEntries.add(new PieEntry(monthlyPieChart.spGoal, ""));
                     pieEntries.add(new PieEntry(monthlyPieChart.spActual, ""));
                     if(monthlyPieChart.spActual > monthlyPieChart.spGoal) {
+                        pieEntries.clear();
+                        colors.clear();
+                        colors.add(Color.parseColor("#FF8200"));
+                        colors.add(Color.parseColor("#114F87"));
                         float lnActual = monthlyPieChart.spActual;
                         float lnGoal = monthlyPieChart.spGoal;
+                        pieEntries.add(new PieEntry(monthlyPieChart.spActual, ""));
                         pieEntries.add(new PieEntry(lnActual - lnGoal, ""));
                     }
                 }
 
-                ArrayList<Integer> colors = new ArrayList<>();
-                colors.add(Color.parseColor("#454545"));
-                colors.add(Color.parseColor("#FF8200"));
-                colors.add(Color.parseColor("#114F87"));
                 PieDataSet pieDataSet = new PieDataSet(pieEntries,label);
                 pieDataSet.setValueTextSize(12f);
                 pieDataSet.setColors(colors);
