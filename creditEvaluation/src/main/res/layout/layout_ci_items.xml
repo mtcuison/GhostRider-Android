@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.creditEvaluation
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 2/24/22, 3:43 PM
+  ~ project file last modified : 2/24/22, 3:42 PM
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/layoutCiValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/lbl_evalField"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Title :"
+            android:textColor="@color/textColor_Black"
+            android:padding="5dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="start|center_vertical"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/lbl_evalTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="Title :"
+                    android:textColor="@color/textColor_Black"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="start|center_vertical"
+                    />
+
+            <TextView
+                android:id="@+id/lbl_evalLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="start|center_vertical"
+                android:padding="5dp"
+                android:text="Title :"
+                android:textColor="@color/textColor_Black" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.6"
+                android:gravity="start|center_vertical"
+                android:singleLine="false"
+                android:text="Findings :"
+                android:textColor="@color/textColor_Black"
+                android:fontFamily="@font/roboto_regular"/>
+            <RadioGroup
+                android:id="@+id/rg_evaluator"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".4"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_correct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Correct"
+                    android:layout_weight="1"/>
+
+                <RadioButton
+                    android:id="@+id/rb_incorrect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Incorrect"
+                    android:layout_weight="1"/>
+
+            </RadioGroup>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="5dp"
+            android:paddingBottom="3dp"
+            android:background="@color/guanzon_orange"/>
+    </LinearLayout>
+</LinearLayout>
