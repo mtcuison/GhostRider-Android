@@ -79,4 +79,8 @@ public class RCashCount {
     public LiveData<ECashCount> getCashCounDetetail(String TransNox){
         return ccDao.getCashCounDetetail(TransNox);
     }
+
+    public ECashCount getCashCountIFExist(String TransNox){
+        return ccDao.getCashCountIFExist(TransNox);
+    }
 }

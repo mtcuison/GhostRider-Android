@@ -271,20 +271,28 @@ public class VMCashCountSubmit extends AndroidViewModel {
                 eCashCount.setDRNoxxxx(jsonObject.getString("sDRNoxxxx"));
                 eCashCount.setPettyAmt(jsonObject.getString("nPettyAmt"));
                 eCashCount.setSendStat("0");
-                pocashcount.insertNewCashCount(eCashCount);
-                poLog.UpdateCashCountRequireStatus();
-                if(!poConn.isDeviceConnected()) {
-                    lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Cash count entry has been save to local device.");
-                } else {
-                    lsResponse = WebClient.sendRequest(WebApi.URL_SUBMIT_CASHCOUNT, jsonObject.toString(), poHeaders.getHeaders());
-                    if(lsResponse == null){
-                        lsResponse = AppConstants.SERVER_NO_RESPONSE();
+
+                ECashCount loCashCount = poCashCount.getCashCountIFExist(eCashCount.getTransNox());
+
+                if(loCashCount == null){
+                    pocashcount.insertNewCashCount(eCashCount);
+                    poLog.UpdateCashCountRequireStatus();
+
+                    if(!poConn.isDeviceConnected()) {
+                        lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Cash count entry has been save to local device.");
                     } else {
-                        JSONObject loResponse = new JSONObject(lsResponse);
-                        if(loResponse.getString("result").equalsIgnoreCase("success")){
-                            pocashcount.UpdateByTransNox(eCashCount.getTransNox());
+                        lsResponse = WebClient.sendRequest(WebApi.URL_SUBMIT_CASHCOUNT, jsonObject.toString(), poHeaders.getHeaders());
+                        if(lsResponse == null){
+                            lsResponse = AppConstants.SERVER_NO_RESPONSE();
+                        } else {
+                            JSONObject loResponse = new JSONObject(lsResponse);
+                            if(loResponse.getString("result").equalsIgnoreCase("success")){
+                                pocashcount.UpdateByTransNox(eCashCount.getTransNox());
+                            }
                         }
                     }
+                } else {
+                    lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Cash count entry already exist. Please check you entry on Cash Count Log");
                 }
                 return lsResponse;
             } catch (Exception e){

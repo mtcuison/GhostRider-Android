@@ -25,6 +25,7 @@ import java.util.List;
 
 @Dao
 public interface DCashCount {
+
     @Insert
     void insertCashCount(ECashCount cashCount);
 
@@ -36,6 +37,9 @@ public interface DCashCount {
 
     @Query("SELECT * FROM Cash_Count_Master WHERE sTransNox =:TransNox")
     LiveData<ECashCount> getCashCounDetetail(String TransNox);
+
+    @Query("SELECT * FROM Cash_Count_Master WHERE sTransNox =:TransNox")
+    ECashCount getCashCountIFExist(String TransNox);
 
     @Query("SELECT * FROM Cash_Count_Master WHERE sTransNox =:TransNox")
     List<ECashCount> getDuplicateTransNox(String TransNox);
