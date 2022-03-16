@@ -34,7 +34,9 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RRaffleInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 import org.rmj.guanzongroup.promotions.Etc.RaffleEntryCallback;
 import org.rmj.guanzongroup.promotions.Model.RaffleEntry;
@@ -44,8 +46,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_RAFFLE_BASIS;
 
 public class VMRaffleEntry extends AndroidViewModel {
     public static final String TAG = VMRaffleEntry.class.getSimpleName();
@@ -58,8 +58,11 @@ public class VMRaffleEntry extends AndroidViewModel {
     private final RTown poTown;
     private final RBranch poBranch;
 
+    private final Application instance;
+
     public VMRaffleEntry(@NonNull Application application) {
         super(application);
+        this.instance = application;
         headers = HttpHeaders.getInstance(application);
         conn = new ConnectionUtil(application);
         raffleRepo = new RRaffleInfo(application);
@@ -87,7 +90,7 @@ public class VMRaffleEntry extends AndroidViewModel {
     }
 
     public void importDocuments(){
-        new ImportDocumentType(headers, raffleRepo).execute();
+        new ImportDocumentType(instance).execute();
     }
 
     public void submit(RaffleEntry voucher, RaffleEntryCallback callBack){
@@ -103,10 +106,12 @@ public class VMRaffleEntry extends AndroidViewModel {
     private static class ImportDocumentType extends AsyncTask<RaffleEntry, Void, String> {
         private final HttpHeaders headers;
         private final RRaffleInfo raffleRepo;
+        private final WebApi poApi;
 
-        public ImportDocumentType(HttpHeaders headers, RRaffleInfo raffleRepo){
-            this.headers = headers;
-            this.raffleRepo = raffleRepo;
+        public ImportDocumentType(Application instance){
+            this.headers = HttpHeaders.getInstance(instance);
+            this.raffleRepo = new RRaffleInfo(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -115,7 +120,7 @@ public class VMRaffleEntry extends AndroidViewModel {
             String response = "";
             try {
                 JSONObject loJson = new JSONObject();
-                response = WebClient.httpsPostJSon(URL_IMPORT_RAFFLE_BASIS, loJson.toString(), headers.getHeaders());
+                response = WebClient.httpsPostJSon(poApi.getUrlImportRaffleBasis(), loJson.toString(), headers.getHeaders());
                 Log.e(TAG, response);
                 JSONObject jsonResponse = new JSONObject(response);
                 String lsResult = jsonResponse.getString("result");

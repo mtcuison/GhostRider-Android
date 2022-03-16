@@ -33,6 +33,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 
@@ -41,8 +42,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_DOWNLOAD_UPDATE;
 
 public class VMSettings extends AndroidViewModel {
 
@@ -200,7 +199,7 @@ public class VMSettings extends AndroidViewModel {
             this.callback = callback;
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @Override
@@ -218,7 +217,7 @@ public class VMSettings extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()){
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    lsResult = WebClient.sendRequest(poApi.URL_CHANGE_PASSWORD(), param.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(poApi.getUrlChangePassword(), param.toString(), poHeaders.getHeaders());
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }
@@ -276,7 +275,7 @@ public class VMSettings extends AndroidViewModel {
             this.callback = callback;
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -288,7 +287,7 @@ public class VMSettings extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()){
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    lsResult = WebClient.sendRequest(poApi.URL_CHANGE_PASSWORD(), param.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(poApi.getUrlChangePassword(), param.toString(), poHeaders.getHeaders());
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }
@@ -337,11 +336,13 @@ public class VMSettings extends AndroidViewModel {
         private final Application instance;
         private final SystemUpateCallback callback;
         private final String PATH;
+        private final WebApi poApi;
         private final ConnectionUtil poConn;
 
         public DownloadUpdateTask(Application application, SystemUpateCallback callback){
             this.instance = application;
             this.callback = callback;
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
             this.poConn = new ConnectionUtil(instance);
         }
@@ -357,7 +358,7 @@ public class VMSettings extends AndroidViewModel {
             String lsResult;
             try {
                 if(poConn.isDeviceConnected()) {
-                    URL url = new URL(URL_DOWNLOAD_UPDATE);
+                    URL url = new URL(poApi.getUrlDownloadUpdate());
                     HttpURLConnection c = (HttpURLConnection) url.openConnection();
                     c.setRequestMethod("GET");
                     c.setDoOutput(true);

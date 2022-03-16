@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.WebClient;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.WebApi;
 
 public class GRiderErrorReport {
@@ -25,12 +26,14 @@ public class GRiderErrorReport {
     private final Application instance;
 
     private final HttpHeaders poHeaders;
+    private final WebApi poApi;
 
     private String Message;
 
     public GRiderErrorReport(Application application) {
         this.instance = application;
         this.poHeaders = HttpHeaders.getInstance(instance);
+        this.poApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
     }
 
     public String getMessage() {
@@ -65,7 +68,7 @@ public class GRiderErrorReport {
 
             JSONObject json_obj = null;
 
-            String response = WebClient.sendHTTP(WebApi.URL_SEND_REQUEST, param.toString(), poHeaders.getHeaders());
+            String response = WebClient.sendHTTP(poApi.getUrlSendRequest(), param.toString(), poHeaders.getHeaders());
             if(response == null) {
                 Message = "No server response";
                 return false;

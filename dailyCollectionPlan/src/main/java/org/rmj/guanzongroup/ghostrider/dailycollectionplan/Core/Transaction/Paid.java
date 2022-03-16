@@ -23,10 +23,12 @@ public class Paid implements iDCPTransaction {
 
     private final Application instance;
     private final RDailyCollectionPlan poDcp;
+    private final WebApi poApi;
 
     public Paid(Application application) {
         this.instance = application;
         this.poDcp = new RDailyCollectionPlan(instance);
+        this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
     }
 
     @Override
@@ -92,7 +94,7 @@ public class Paid implements iDCPTransaction {
             loJson.put("sUserIDxx", loUser.getUserID());
             loJson.put("sDeviceID", loTlphny.getDeviceID());
 
-            String lsResponse = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, loJson.toString(), loHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(), loJson.toString(), loHeaders.getHeaders());
 
             if(lsResponse == null){
                 callback.OnFailed("Server no response");

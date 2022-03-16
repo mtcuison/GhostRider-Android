@@ -72,6 +72,7 @@ public class UploadCreditApp {
         private final EImageInfo poImage;
         private final SessionManager poUser;
         private final AppConfigPreference poConfig;
+        private final WebApi poApi;
 
         public UploadTask(Application application,
                           ECreditApplication foUserApp,
@@ -90,6 +91,7 @@ public class UploadCreditApp {
             this.poImgMngr = new RImageInfo(instance);
             this.mListener = listener;
             this.poConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(poConfig.getTestStatus());
         }
 
         @Override
@@ -112,7 +114,7 @@ public class UploadCreditApp {
                     JSONObject params = new JSONObject(poInfo.getDetlInfo());
                     params.put("dCreatedx", poInfo.getCreatedx());
 
-                    String lsResponse = WebClient.sendRequest(WebApi.URL_SUBMIT_ONLINE_APPLICATION, params.toString(), poHeaders.getHeaders());
+                    String lsResponse = WebClient.sendRequest(poApi.getUrlSubmitOnlineApplication(), params.toString(), poHeaders.getHeaders());
                     if(lsResponse != null) {
                         JSONObject loResponse = new JSONObject(lsResponse);
 

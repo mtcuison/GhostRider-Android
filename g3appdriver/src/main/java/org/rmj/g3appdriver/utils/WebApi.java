@@ -25,6 +25,7 @@ public class WebApi {
     private static final String URL_AUTH_EMPLOYEE = "security/mlogin.php";
     private static final String URL_CREATE_ACCOUNT = "security/signup.php";
     private static final String URL_FORGOT_PASSWORD = "security/forgotpswd.php";
+    private static final String URL_CHANGE_PASSWORD = "security/acctupdate.php";
     private static final String URL_KNOX = "samsung/knox.php";
     private static final String IMPORT_BRANCH_PERFORMANCE = "integsys/bullseye/import_mc_branch_performance.php";
     private static final String IMPORT_AREA_PERFORMANCE = "integsys/bullseye/import_mc_area_performance.php";
@@ -116,6 +117,13 @@ public class WebApi {
             return LOCAL + URL_KNOX;
         }
         return LIVE + URL_KNOX;
+    }
+
+    public String getUrlChangePassword() {
+        if(isUnitTest){
+            return LOCAL + URL_CHANGE_PASSWORD;
+        }
+        return LIVE + URL_CHANGE_PASSWORD;
     }
 
     public String getImportBranchPerformance() {
@@ -489,11 +497,15 @@ public class WebApi {
         return LIVE + REQUEST_USER_ACCESS;
     }
 
-    public static String getUrlDownloadUpdate() {
+    public String getUrlDownloadUpdate() {
         return URL_DOWNLOAD_UPDATE;
     }
 
-    public static String getUrlDownloadTestUpdate() {
+    public String getUrlDownloadTestUpdate() {
         return URL_DOWNLOAD_TEST_UPDATE;
+    }
+
+    public String getUrlCheckUpdate(){
+        return "";
     }
 }

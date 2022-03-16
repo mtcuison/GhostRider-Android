@@ -74,6 +74,7 @@ public class VMPostDcp extends AndroidViewModel {
         private final HttpHeaders poHeaders;
         private final RDailyCollectionPlan poDcp;
         private final AppConfigPreference poConfig;
+        private final WebApi poApi;
         private String sRemarksx;
         private String psResult;
         private String psAccess;
@@ -93,6 +94,7 @@ public class VMPostDcp extends AndroidViewModel {
             this.poConfig = AppConfigPreference.getInstance(instance);
             this.poUnposted = new ArrayList<>();
             this.poUnpstImg = new ArrayList<>();
+            this.poApi = new WebApi(poConfig.getTestStatus());
         }
 
         public void setRemarks(String value){
@@ -188,7 +190,7 @@ public class VMPostDcp extends AndroidViewModel {
                     params.put("sUserIDxx", poUser.getUserID());
                     params.put("sDeviceID", poTelephony.getDeviceID());
 
-                    String lsDtlResult = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, params.toString(), poHeaders.getHeaders());
+                    String lsDtlResult = WebClient.sendRequest(poApi.getUrlDcpSubmit(), params.toString(), poHeaders.getHeaders());
                     if(lsDtlResult == null){
 
                     } else {

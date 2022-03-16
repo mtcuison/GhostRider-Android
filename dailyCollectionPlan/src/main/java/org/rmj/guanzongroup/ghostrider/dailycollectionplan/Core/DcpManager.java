@@ -41,7 +41,7 @@ public class DcpManager {
     private final AppConfigPreference poConfig;
     private final RCollectionUpdate poUpdate;
     private final REmployee poEmploye;
-    private final DcpAPIs poApis;
+    private final WebApi poApis;
     private final HttpHeaders poHeaders;
     private final SessionManager poUser;
     private final RImageInfo poImage;
@@ -60,7 +60,6 @@ public class DcpManager {
         this.poBranch = new RBranch(instance);
         this.poUpdate = new RCollectionUpdate(instance);
         this.poEmploye = new REmployee(instance);
-        this.poApis = new DcpAPIs(true);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poUser = new SessionManager(instance);
@@ -68,6 +67,7 @@ public class DcpManager {
         this.poTlphny = new Telephony(instance);
         this.poClient = new RClientUpdate(instance);
         this.poDcpUpdte = new RCollectionUpdate(instance);
+        this.poApis = new WebApi(poConfig.getTestStatus());
     }
 
     public void ImportDcpMaster(OnActionCallback callback) {
@@ -202,34 +202,37 @@ public class DcpManager {
                 loJson.put("sUserIDxx", poUser.getUserID());
                 loJson.put("sDeviceID", poTlphny.getDeviceID());
             } else {
-                EImageInfo loImage = poImage.getDCPImageInfoForPosting(fsTransNo, fsAccount);
-                if(loImage == null){
-                     callback.OnFailed("Unable to upload collection detail image. No image info found");
-                } else {
-                    org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
-                            loImage.getFileLoct(),
-                            lsAccess,
-                            loImage.getFileCode(),
-                            loDetail.getAcctNmbr(),
-                            loImage.getImageNme(),
-                            poUser.getBranchCode(),
-                            loImage.getSourceCD(),
-                            loDetail.getTransNox(),
-                            "");
-
-                    String lsResult = (String) loUpload.get("result");
-                    if(lsResult == null){
-                        callback.OnFailed("Unable to upload collection detail image. Server has no response.");
+                if(!poConfig.getTestStatus()) {
+                    EImageInfo loImage = poImage.getDCPImageInfoForPosting(fsTransNo, fsAccount);
+                    if (loImage == null) {
+                        callback.OnFailed("Unable to upload collection detail image. No image info found");
                     } else {
-                        if(lsResult.equalsIgnoreCase("success")){
-                            String lsTransNo = (String) loUpload.get("sTransNox");
-                            poImage.updateImageInfo(lsTransNo, loImage.getTransNox());
+                        org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
+                                loImage.getFileLoct(),
+                                lsAccess,
+                                loImage.getFileCode(),
+                                loDetail.getAcctNmbr(),
+                                loImage.getImageNme(),
+                                poUser.getBranchCode(),
+                                loImage.getSourceCD(),
+                                loDetail.getTransNox(),
+                                "");
 
+                        String lsResult = (String) loUpload.get("result");
+                        if (lsResult == null) {
+                            callback.OnFailed("Unable to upload collection detail image. Server has no response.");
                         } else {
+                            if (lsResult.equalsIgnoreCase("success")) {
+                                String lsTransNo = (String) loUpload.get("sTransNox");
+                                poImage.updateImageInfo(lsTransNo, loImage.getTransNox());
 
+                            } else {
+
+                            }
                         }
                     }
                 }
+
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -249,9 +252,6 @@ public class DcpManager {
             String lsProdtID = poConfig.ProducID();
             String lsClntIDx = poUser.getClientId();
             String lsUserIDx = poUser.getUserID();
-
-            String lsClient = WebFileServer.RequestClientToken(lsProdtID, lsClntIDx, lsUserIDx);
-            String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
             if(loDcpList == null){
                 callback.OnFailed("No record for posting");
@@ -359,27 +359,32 @@ public class DcpManager {
                         }
                     }
 
-                    EImageInfo loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
+                    if(!poConfig.getTestStatus()) {
+                        String lsClient = WebFileServer.RequestClientToken(lsProdtID, lsClntIDx, lsUserIDx);
+                        String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
-                    org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
-                            loImage.getFileLoct(),
-                            lsAccess,
-                            loImage.getFileCode(),
-                            loDcp.getAcctNmbr(),
-                            loImage.getImageNme(),
-                            poUser.getBranchCode(),
-                            loImage.getSourceCD(),
-                            loDcp.getTransNox(),
-                            "");
+                        EImageInfo loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
-                    String lsResult = (String) loUpload.get("result");
-                    if (lsResult == null) {
-                        callback.OnFailed("Unable to upload collection detail image. Server has no response.");
-                    } else {
-                        if (lsResult.equalsIgnoreCase("success")) {
+                        org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
+                                loImage.getFileLoct(),
+                                lsAccess,
+                                loImage.getFileCode(),
+                                loDcp.getAcctNmbr(),
+                                loImage.getImageNme(),
+                                poUser.getBranchCode(),
+                                loImage.getSourceCD(),
+                                loDcp.getTransNox(),
+                                "");
 
+                        String lsResult = (String) loUpload.get("result");
+                        if (lsResult == null) {
+                            callback.OnFailed("Unable to upload collection detail image. Server has no response.");
                         } else {
+                            if (lsResult.equalsIgnoreCase("success")) {
 
+                            } else {
+
+                            }
                         }
                     }
 
@@ -403,7 +408,7 @@ public class DcpManager {
                     lsStatus == null){
                 JSONObject loJson = new JSONObject();
                 loJson.put("sTransNox", lsTransNox);
-                String lsResponse = WebClient.sendRequest(poApis.getUrlPostDcp(), loJson.toString(), poHeaders.getHeaders());
+                String lsResponse = WebClient.sendRequest(poApis.getUrlPostDcpMaster(), loJson.toString(), poHeaders.getHeaders());
                 if (lsResponse == null) {
                     callback.OnFailed("Posting dcp master failed. Server no response");
                 } else {

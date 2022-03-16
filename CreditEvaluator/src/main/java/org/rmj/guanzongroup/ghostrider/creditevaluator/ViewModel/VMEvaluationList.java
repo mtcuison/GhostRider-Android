@@ -37,12 +37,11 @@ import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.GRider.ImportData.Import_CreditAppList;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 
 import java.util.List;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_BRANCH_LOAN_APP;
 
 public class VMEvaluationList extends AndroidViewModel {
     private static final String TAG = VMEvaluationList.class.getSimpleName();
@@ -103,7 +102,7 @@ public class VMEvaluationList extends AndroidViewModel {
             JSONObject param = new JSONObject();
             param.put("value", fsTransno.trim());
             param.put("bsearch", true);
-            new ImportApplicationInfoTask(instance,  WebApi.URL_DOWNLOAD_CREDIT_ONLINE_APP, callback).execute(param);
+            new ImportApplicationInfoTask(instance,  new WebApi(AppConfigPreference.getInstance(instance).getTestStatus()).getUrlDownloadCreditOnlineApp(), callback).execute(param);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -122,7 +121,7 @@ public class VMEvaluationList extends AndroidViewModel {
             this.brnRepo = new RBranchLoanApplication(instance);
             this.poCreditApp = new RBranchLoanApplication(instance);
             this.conn = new ConnectionUtil(instance);
-            this.webApi = new WebApi(instance);
+            this.webApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.callback = callback;
         }
 
@@ -138,7 +137,7 @@ public class VMEvaluationList extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(URL_BRANCH_LOAN_APP, strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(webApi.getUrlBranchLoanApp(), strings[0].toString(), headers.getHeaders());
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
