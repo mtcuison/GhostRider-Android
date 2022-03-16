@@ -19,10 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.PostDcpAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPostDcp;
@@ -34,33 +36,22 @@ public class Activity_PostDcp extends AppCompatActivity {
 
     private VMPostDcp mViewModel;
     private LoadDialog poLoading;
+    private MessageBox poMessage;
     private RecyclerView recyclerV;
-    private TextView lblBranch, lblAddrss;
+    private TextView lblBranch, lblAddrss, lblNoList;
+    private String psRemarks = "";
     private boolean Posting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_dcp);
+        psRemarks = getIntent().getStringExtra("sRemarksx");
         mViewModel = new ViewModelProvider(this).get(VMPostDcp.class);
+        poMessage = new MessageBox(Activity_PostDcp.this);
         initWidgets();
         setUpDcpList();
-        mViewModel.PostDCP(new VMPostDcp.OnPostCollectionCallback() {
-
-            @Override
-            public void OnStartPosting(String Title, String Message) {
-                Posting = true;
-            }
-
-            @Override
-            public void OnProgress(String label, int value) {
-
-            }
-            @Override
-            public void OnFinishPosting(boolean isSuccess, String Message) {
-                Posting = true;
-            }
-        });
+        postCollection();
     }
 
     @Override
@@ -83,6 +74,7 @@ public class Activity_PostDcp extends AppCompatActivity {
     private void initWidgets() {
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddrss = findViewById(R.id.lbl_headerAddress);
+        lblNoList = findViewById(R.id.lbl_noAvailable);
         recyclerV = findViewById(R.id.recyclerView);
         LinearLayoutManager lnManager = new LinearLayoutManager(Activity_PostDcp.this);
         lnManager.setOrientation(RecyclerView.VERTICAL);
@@ -90,17 +82,65 @@ public class Activity_PostDcp extends AppCompatActivity {
     }
 
     private void setUpDcpList() {
-        // TODO: Call the viewModel's dcp list getter.
-        /**Sample dcp list*/
-        List<EDCPCollectionDetail> loList = new ArrayList<EDCPCollectionDetail>();
-        PostDcpAdapter poAdapter = new PostDcpAdapter(loList, new PostDcpAdapter.OnPostDcpClick() {
-            @Override
-            public void onClick(EDCPCollectionDetail dcpDetail) {
-                // TODO: call the individual posting of dcp clicked.
+        mViewModel.getUnpostedCollectionList().observe(Activity_PostDcp.this, unpostedList -> {
+            try {
+                if(unpostedList.size() > 0) {
+                    lblNoList.setVisibility(View.GONE);
+                    recyclerV.setVisibility(View.VISIBLE);
+                    PostDcpAdapter poAdapter = new PostDcpAdapter(unpostedList, new PostDcpAdapter.OnPostDcpClick() {
+                        @Override
+                        public void onClick(EDCPCollectionDetail dcpDetail) {
+                            // TODO: call the individual posting of dcp clicked.
+                        }
+                    });
+                    recyclerV.setAdapter(poAdapter);
+                    poAdapter.notifyDataSetChanged();
+                } else {
+                    lblNoList.setVisibility(View.VISIBLE);
+                    recyclerV.setVisibility(View.GONE);
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
-        recyclerV.setAdapter(poAdapter);
-        poAdapter.notifyDataSetChanged();
+
+    }
+
+    private void postCollection() {
+        mViewModel.PostLRDCPCollection(psRemarks, new VMPostDcp.OnPostCollection() {
+            @Override
+            public void onLoading() {
+                poLoading = new LoadDialog(Activity_PostDcp.this);
+                poLoading.initDialog("Posting DCP List", "Posting DCP List. Please wait...", false);
+                poLoading.show();
+            }
+
+            @Override
+            public void onSuccess(String fsMessage) {
+                poLoading.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Daily Collection Plan");
+                poMessage.setMessage(fsMessage);
+                poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                });
+                poMessage.show();
+            }
+
+            @Override
+            public void onFailed(String fsMessage) {
+                poLoading.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Daily Collection Plan");
+                poMessage.setMessage(fsMessage);
+                poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                });
+                poMessage.show();
+            }
+        });
     }
 
 }

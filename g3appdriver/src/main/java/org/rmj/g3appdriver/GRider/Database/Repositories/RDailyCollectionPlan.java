@@ -419,4 +419,8 @@ public class RDailyCollectionPlan {
     public List<EDCPCollectionDetail> getLRDCPCollectionForPosting(){
         return detailDao.getLRDCPCollectionForPosting();
     }
+
+    public LiveData<List<EDCPCollectionDetail>> getCollectionDetailLog() {
+        return detailDao.getCollectionDetailLog();
+    }
 }

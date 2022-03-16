@@ -708,44 +708,50 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                         }
                     });
 
-                    mViewModel.PostLRCollectionDetail(Remarks, new ViewModelCallback() {
-                        @Override
-                        public void OnStartSaving() {
-                            poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
-                            poDialogx.show();
-                        }
+//                    mViewModel.PostLRCollectionDetail(Remarks, new ViewModelCallback() {
+//                        @Override
+//                        public void OnStartSaving() {
+//                            poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
+//                            poDialogx.show();
+//                        }
+//
+//                        @SuppressLint("NewApi")
+//                        @Override
+//                        public void OnSuccessResult(String[] args) {
+//                            poDialogx.dismiss();
+//                            poMessage.initDialog();
+//                            poMessage.setTitle("Daily Collection Plan");
+//                            poMessage.setMessage(args[0]);
+//                            poMessage.setPositiveButton("Okay", (view, dialog) -> {
+//                                startIntentExportDCPPost();
+//                                dialog.dismiss();
+//                            });
+//                            poMessage.show();
+//                            stopService(new Intent(Activity_CollectionList.this, GLocatorService.class));
+//                        }
+//
+//                        @SuppressLint("NewApi")
+//                        @Override
+//                        public void OnFailedResult(String message) {
+//                            poDialogx.dismiss();
+//                            poMessage.initDialog();
+//                            poMessage.setTitle("Daily Collection Plan");
+//                            poMessage.setMessage(message);
+//                            poMessage.setPositiveButton("Okay", (view, dialog) -> {
+//                                if(!message.equalsIgnoreCase("Please remit collection before posting")) {
+//                                    startIntentExportDCPPost();
+//                                }
+//                                dialog.dismiss();
+//                            });
+//                            poMessage.show();
+//                        }
+//                    });
 
-                        @SuppressLint("NewApi")
-                        @Override
-                        public void OnSuccessResult(String[] args) {
-                            poDialogx.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Daily Collection Plan");
-                            poMessage.setMessage(args[0]);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                                startIntentExportDCPPost();
-                                dialog.dismiss();
-                            });
-                            poMessage.show();
-                            stopService(new Intent(Activity_CollectionList.this, GLocatorService.class));
-                        }
+                    startIntentExportDCPPost();
+                    Intent loIntent = new Intent(Activity_CollectionList.this, Activity_PostDcp.class);
+                    loIntent.putExtra("sRemarksx", Remarks);
+                    startActivity(loIntent);
 
-                        @SuppressLint("NewApi")
-                        @Override
-                        public void OnFailedResult(String message) {
-                            poDialogx.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Daily Collection Plan");
-                            poMessage.setMessage(message);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                                if(!message.equalsIgnoreCase("Please remit collection before posting")) {
-                                    startIntentExportDCPPost();
-                                }
-                                dialog.dismiss();
-                            });
-                            poMessage.show();
-                        }
-                    });
                 }
 
                 @Override
@@ -755,34 +761,38 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             });
             loPost.show();
         } else {
-            mViewModel.PostLRCollectionDetail("", new ViewModelCallback() {
-                @Override
-                public void OnStartSaving() {
-                    poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
-                    poDialogx.show();
-                }
+//            mViewModel.PostLRCollectionDetail("", new ViewModelCallback() {
+//                @Override
+//                public void OnStartSaving() {
+//                    poDialogx.initDialog("Daily Collection Plan", "Posting collection details. Please wait...", false);
+//                    poDialogx.show();
+//                }
+//
+//                @Override
+//                public void OnSuccessResult(String[] args) {
+//                    poDialogx.dismiss();
+//                    poMessage.initDialog();
+//                    poMessage.setTitle("Daily Collection Plan");
+//                    poMessage.setMessage(args[0]);
+//                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+//                    poMessage.show();
+//                    stopService(new Intent(Activity_CollectionList.this, GLocatorService.class));
+//                }
+//
+//                @Override
+//                public void OnFailedResult(String message) {
+//                    poDialogx.dismiss();
+//                    poMessage.initDialog();
+//                    poMessage.setTitle("Daily Collection Plan");
+//                    poMessage.setMessage(message);
+//                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+//                    poMessage.show();
+//                }
+//            });
 
-                @Override
-                public void OnSuccessResult(String[] args) {
-                    poDialogx.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Daily Collection Plan");
-                    poMessage.setMessage(args[0]);
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                    stopService(new Intent(Activity_CollectionList.this, GLocatorService.class));
-                }
-
-                @Override
-                public void OnFailedResult(String message) {
-                    poDialogx.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Daily Collection Plan");
-                    poMessage.setMessage(message);
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                }
-            });
+            Intent loIntent = new Intent(Activity_CollectionList.this, Activity_PostDcp.class);
+            loIntent.putExtra("sRemarksx", "");
+            startActivity(loIntent);
 
             mViewModel.getExportDataList("", new VMCollectionList.FileManagerCallBack() {
                 @Override
