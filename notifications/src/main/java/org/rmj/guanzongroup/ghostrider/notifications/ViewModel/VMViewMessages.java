@@ -25,13 +25,13 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.List;
 import java.util.Objects;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_SEND_RESPONSE;
 
 public class VMViewMessages extends AndroidViewModel {
     private static final String TAG = VMViewMessages.class.getSimpleName();
@@ -56,12 +56,14 @@ public class VMViewMessages extends AndroidViewModel {
         private final ConnectionUtil loConn;
         private final HttpHeaders poHeaders;
         private final RNotificationInfo poNotif;
+        private final WebApi poApi;
 
         public UpdateMessagesTask(Application application) {
             this.instance = application;
             this.loConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poNotif = new RNotificationInfo(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @SuppressLint("NewApi")
@@ -81,7 +83,7 @@ public class VMViewMessages extends AndroidViewModel {
                         params.put("stamp", lsDateReadx);
                         params.put("infox", "");
 
-                        String response = WebClient.httpsPostJSon(URL_SEND_RESPONSE, params.toString(), poHeaders.getHeaders());
+                        String response = WebClient.httpsPostJSon(poApi.getUrlSendResponse(), params.toString(), poHeaders.getHeaders());
                         JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                         String result = loJson.getString("result");
                         if (result.equalsIgnoreCase("success")) {

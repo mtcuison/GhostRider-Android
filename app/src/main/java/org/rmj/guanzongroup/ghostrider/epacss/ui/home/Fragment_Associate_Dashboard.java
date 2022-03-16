@@ -24,9 +24,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -52,6 +55,9 @@ public class Fragment_Associate_Dashboard extends Fragment {
             lblBranch,
             lblAddx,
             lblVersion;
+    private LinearLayout lnDevMode;
+    private SwitchMaterial poSwitch;
+    private AppConfigPreference poConfig;
 //    private ImageView imgUser;
 
     private MaterialButton btnSettings, btnLogout;
@@ -65,17 +71,66 @@ public class Fragment_Associate_Dashboard extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_associate_dashboard, container, false);
-
+        poConfig = AppConfigPreference.getInstance(requireActivity());
         lblFullNme = view.findViewById(R.id.lbl_userFullName);
         lblEmail = view.findViewById(R.id.lbl_userEmail);
         lblUserLvl = view.findViewById(R.id.lbl_userLevel);
         lblDept = view.findViewById(R.id.lbl_userDepartment);
         lblBranch = view.findViewById(R.id.lbl_userBranch);
         lblAddx = view.findViewById(R.id.lbl_userAddress);
+        lnDevMode = view.findViewById(R.id.ln_devMode);
+        poSwitch = view.findViewById(R.id.sm_dcpTest);
 //        imgUser = view.findViewById(R.id.img_userLogo);
         lblVersion = view.findViewById(R.id.lbl_versionInfo);
         btnLogout = view.findViewById(R.id.btn_logout);
         btnSettings = view.findViewById(R.id.btn_settings);
+
+        poSwitch.setChecked(poConfig.getTestStatus());
+
+        poSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean switchOn) {
+                MessageBox loMessage = new MessageBox(getActivity());
+                loMessage.initDialog();
+                if(switchOn) {
+                    loMessage.setNegativeButton("Cancel", (view1, dialog) -> {
+                        poSwitch.setOnCheckedChangeListener(null);
+                        poSwitch.setChecked(false);
+                        poSwitch.setOnCheckedChangeListener(this);
+                        dialog.dismiss();
+                    });
+                    loMessage.setPositiveButton("Continue", (view1, dialog) -> {
+                        dialog.dismiss();
+                        poConfig.setTestCase(switchOn);
+                        requireActivity().finish();
+                        new REmployee(requireActivity().getApplication()).LogoutUserSession();
+                        AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
+                        startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
+                    });
+                    loMessage.setTitle("GhostRider Dev Mode");
+                    loMessage.setMessage("Test mode changes connection of this app \n From LIVE (240) to LOCAL(192.168.10.141) \n NOTE: Features that requires taking images will still be require but images will not be uploaded. \n Requires re-login account.");
+                    loMessage.show();
+                } else {
+                    loMessage.setNegativeButton("Cancel", (view1, dialog) -> {
+                        poSwitch.setOnCheckedChangeListener(null);
+                        poSwitch.setChecked(false);
+                        poSwitch.setOnCheckedChangeListener(this);
+                        dialog.dismiss();
+                    });
+                    loMessage.setPositiveButton("Continue", (view1, dialog) -> {
+                        dialog.dismiss();
+                        poConfig.setTestCase(switchOn);
+                        requireActivity().finish();
+                        new REmployee(requireActivity().getApplication()).LogoutUserSession();
+                        AppConfigPreference.getInstance(getActivity()).setIsAppFirstLaunch(false);
+                        startActivity(new Intent(getActivity(), Activity_SplashScreen.class));
+                    });
+                    loMessage.setTitle("GhostRider Dev Mode");
+                    loMessage.setMessage("Switching to Live Data Requires re-login account.");
+                    loMessage.show();
+                }
+            }
+        });
 
         btnSettings.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), Activity_Settings.class);
@@ -117,6 +172,11 @@ public class Fragment_Associate_Dashboard extends Fragment {
                 lblUserLvl.setText(DeptCode.parseUserLevel(Integer.parseInt(eEmployeeInfo.getEmpLevID())));
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
 //                imgUser.setImageResource(AppConstants.getUserIcon(eEmployeeInfo.getUserLevl()));
+                if(eEmployeeInfo.getDeptIDxx().equalsIgnoreCase(DeptCode.MANAGEMENT_INFORMATION_SYSTEM)){
+                    lnDevMode.setVisibility(View.VISIBLE);
+                } else {
+                    lnDevMode.setVisibility(View.GONE);
+                }
             } catch (Exception e){
                 e.printStackTrace();
             }

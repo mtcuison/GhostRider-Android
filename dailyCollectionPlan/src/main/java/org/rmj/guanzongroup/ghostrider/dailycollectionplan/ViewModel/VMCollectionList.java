@@ -70,6 +70,7 @@ public class VMCollectionList extends AndroidViewModel {
     private final REmployee poEmploye;
     private final LiveData<List<EDCPCollectionDetail>> collectionList;
     private final AppConfigPreference poConfig;
+    private final WebApi poApi;
 
     private String psEmployeeID = "";
 
@@ -101,6 +102,7 @@ public class VMCollectionList extends AndroidViewModel {
         poUpdate = new RCollectionUpdate(application);
         poEmploye = new REmployee(application);
         poConfig = AppConfigPreference.getInstance(application);
+        poApi = new WebApi(poConfig.getTestStatus());
         this.collectionList = poDCPRepo.getCollectionDetailList();
     }
 
@@ -334,7 +336,7 @@ public class VMCollectionList extends AndroidViewModel {
                 JSONObject loJson = new JSONObject();
                 loJson.put("value", clientName);
                 loJson.put("bycode", false);
-                new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), WebApi.URL_GET_REG_CLIENT, callback).execute(loJson);
+                new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), poApi.getUrlGetRegClient(), callback).execute(loJson);
             } else {
                 callback.OnFailedDownload("Please download or import collection detail before adding.");
             }
@@ -366,7 +368,7 @@ public class VMCollectionList extends AndroidViewModel {
                 loJson.put("bycode", false);
                 String lsTransNox = psTransNox.getValue();
                 int lnEntryNox = pnEntryNox.getValue();
-                new ImportData(instance, lsTransNox, lnEntryNox, WebApi.URL_GET_AR_CLIENT, callback).execute(loJson);
+                new ImportData(instance, lsTransNox, lnEntryNox, poApi.getUrlGetRegClient(), callback).execute(loJson);
             } else {
                 callback.OnFailedDownload("Please download or import collection detail before adding.");
             }
@@ -492,7 +494,7 @@ public class VMCollectionList extends AndroidViewModel {
             this.headers = HttpHeaders.getInstance(instance);
             this.dcpRepo = new RDailyCollectionPlan(instance);
             this.conn = new ConnectionUtil(instance);
-            this.webApi = new WebApi(instance);
+            this.webApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.masterList = masterList;
             this.callback = callback;
         }
@@ -509,7 +511,7 @@ public class VMCollectionList extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(WebApi.URL_DOWNLOAD_DCP, strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(webApi.getUrlDownloadDcp(), strings[0].toString(), headers.getHeaders());
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
@@ -806,7 +808,7 @@ public class VMCollectionList extends AndroidViewModel {
                                         loJson.put("sUserIDxx", poUser.getUserID());
                                         loJson.put("sDeviceID", poTelephony.getDeviceID());
                                         params[x] =loJson.toString() + " \n";
-                                        String lsResponse1 = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
+                                        String lsResponse1 = WebClient.sendRequest(poApi.getUrlDcpSubmit(), loJson.toString(), poHeaders.getHeaders());
                                         if (lsResponse1 == null) {
                                             loUnposted = new UnpostedDCP(loDetail.sAcctNmbr,
                                                     loDetail.sRemCodex,
@@ -859,7 +861,7 @@ public class VMCollectionList extends AndroidViewModel {
                                 } else if (UnPostedDcp == 0){
                                     JSONObject loJson = new JSONObject();
                                     loJson.put("sTransNox", lsTransNox);
-                                    String lsResponse1 = WebClient.sendRequest(WebApi.URL_POST_DCP_MASTER, loJson.toString(), poHeaders.getHeaders());
+                                    String lsResponse1 = WebClient.sendRequest(poApi.getUrlPostDcpMaster(), loJson.toString(), poHeaders.getHeaders());
                                     if (lsResponse1 == null) {
                                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response on posting DCP master detail. Tap 'Okay' to create dcp file for backup");
                                     } else {
@@ -949,7 +951,7 @@ public class VMCollectionList extends AndroidViewModel {
 
                     Log.e("Address JsonParam", param.toString());
 
-                    String lsAddressUpdtResponse = WebClient.sendRequest(WebApi.URL_UPDATE_ADDRESS, param.toString(), poHeaders.getHeaders());
+                    String lsAddressUpdtResponse = WebClient.sendRequest(poApi.getUrlUpdateAddress(), param.toString(), poHeaders.getHeaders());
 
                     if (lsAddressUpdtResponse == null) {
                         Log.e("Address Update Result:", "Server no Repsonse");
@@ -986,7 +988,7 @@ public class VMCollectionList extends AndroidViewModel {
 
                     Log.e("Mobile JsonParam", param.toString());
 
-                    String lsMobileUpdtResponse = WebClient.sendRequest(WebApi.URL_UPDATE_MOBILE, param.toString(), poHeaders.getHeaders());
+                    String lsMobileUpdtResponse = WebClient.sendRequest(poApi.getUrlUpdateMobile(), param.toString(), poHeaders.getHeaders());
 
                     if (lsMobileUpdtResponse == null) {
                         Log.e("Mobile Update Result:", "Server no Repsonse");

@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.KnoxErrorCode;
@@ -34,16 +35,18 @@ public class VMGetPin extends AndroidViewModel {
     public static final String TAG = VMGetPin.class.getSimpleName();
     private final ConnectionUtil conn;
     private final HttpHeaders headers;
+    private final Application instance;
 
     public VMGetPin(@NonNull Application application) {
         super(application);
+        this.instance = application;
         conn = new ConnectionUtil(application);
         headers = HttpHeaders.getInstance(application);
     }
 
     public void GetPIN(String DeviceID,ViewModelCallBack callBack){
         if(!DeviceID.trim().isEmpty()) {
-            new GetPinRequest(conn, headers, callBack).execute(DeviceID);
+            new GetPinRequest(instance, callBack).execute(DeviceID);
         } else {
             callBack.OnRequestFailed("Please enter device ID/IMEI");
         }
@@ -52,11 +55,13 @@ public class VMGetPin extends AndroidViewModel {
     private static class GetPinRequest extends AsyncTask<String, Void, String>{
         private final ConnectionUtil conn;
         private final HttpHeaders headers;
+        private final WebApi poApi;
         private final ViewModelCallBack callBack;
 
-        public GetPinRequest(ConnectionUtil conn, HttpHeaders headers,ViewModelCallBack callBack) {
-            this.conn = conn;
-            this.headers = headers;
+        public GetPinRequest(Application instance,ViewModelCallBack callBack) {
+            this.conn = new ConnectionUtil(instance);
+            this.headers = HttpHeaders.getInstance(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.callBack = callBack;
         }
 
@@ -77,7 +82,7 @@ public class VMGetPin extends AndroidViewModel {
                     loJSon.put("deviceUid", string[0]);
                     loParam.put("request", AppConstants.GET_PIN_REQUEST);
                     loParam.put("param", loJSon.toString());
-                    response = WebClient.sendRequest(WebApi.URL_KNOX, loParam.toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(poApi.getUrlKnox(), loParam.toString(), headers.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }

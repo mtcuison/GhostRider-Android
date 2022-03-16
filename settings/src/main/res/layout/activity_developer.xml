@@ -35,6 +35,30 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <TextView
+        android:id="@+id/lblTest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/error_red"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="15sp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="30dp"
+        android:text="Test mode changes connection of this app \n From LIVE (240) to LOCAL(192.168.10.141)"
+        app:layout_constraintTop_toBottomOf="@+id/appbarlayout"/>
+
+
+    <TextView
+        android:id="@+id/lblTest1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/error_red"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="15sp"
+        android:paddingHorizontal="10dp"
+        android:text="NOTE: Features that requires taking images will \n still be require but images will not be uploaded."
+        app:layout_constraintTop_toBottomOf="@+id/lblTest"/>
+
     <LinearLayout
         android:id="@+id/linear_layout1"
         android:layout_width="match_parent"
@@ -42,7 +66,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:padding="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/appbarlayout">
+        app:layout_constraintTop_toBottomOf="@+id/lblTest1">
 
         <TextView
             android:layout_width="0dp"
@@ -51,7 +75,7 @@
             android:textColor="@color/textColor_Black"
             android:fontFamily="@font/roboto_medium"
             android:textSize="15sp"
-            android:text="DCP Transaction Test"/>
+            android:text="Test Mode"/>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/sm_dcpTest"
@@ -63,37 +87,13 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linear_layout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:padding="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/linear_layout1">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/textColor_Black"
-            android:fontFamily="@font/roboto_medium"
-            android:textSize="15sp"
-            android:text="Change Department to:"/>
-
-        <Spinner
-            android:id="@+id/spn_department"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/linear_layout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_vertical"
         android:padding="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/linear_layout2">
+        app:layout_constraintTop_toBottomOf="@+id/linear_layout1">
 
         <TextView
             android:layout_width="match_parent"
@@ -110,16 +110,6 @@
 
     </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_updateTestingApp"
-        style="@style/MaterialButtonAccent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Download update for testing"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_layout3" />
-
     <RelativeLayout
         android:id="@+id/linear_downloadProgress"
         android:layout_width="wrap_content"
@@ -127,7 +117,6 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_Save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_updateTestingApp"
         android:orientation="vertical"
         android:padding="10dp">
 

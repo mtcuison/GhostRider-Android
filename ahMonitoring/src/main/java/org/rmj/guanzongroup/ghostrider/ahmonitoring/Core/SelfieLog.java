@@ -78,35 +78,37 @@ public class SelfieLog {
                 loJson.put("nLongitud", poSelfiex.getLongitud());
                 loJson.put("sBranchCD", poSelfiex.getBranchCd());
 
-                String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(),
-                        poSession.getClientId(),
-                        poSession.getUserID());
-                String lsAccess = WebFileServer.RequestAccessToken(lsClient);
+                if(!poConfig.getTestStatus()) {
+                    String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(),
+                            poSession.getClientId(),
+                            poSession.getUserID());
+                    String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
-                if(lsClient.isEmpty() || lsAccess.isEmpty()){
-                    callback.OnFailed("Failed to request generated Client or Access token.");
-                } else {
-                    org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
-                            poImgInfo.getFileLoct(),
-                            lsAccess,
-                            poImgInfo.getFileCode(),
-                            poImgInfo.getDtlSrcNo(),
-                            poImgInfo.getImageNme(),
-                            poSession.getBranchCode(),
-                            poImgInfo.getSourceCD(),
-                            poImgInfo.getTransNox(),
-                            "");
-
-                    if(loUpload != null){
-                        String lsImgResult = (String) loUpload.get("result");
-
-                        if(lsImgResult.equalsIgnoreCase("success")){
-                            String lsTransnox = (String) loUpload.get("sTransNox");
-                            poImage.updateImageInfo(lsTransnox, poImgInfo.getTransNox());
-                            Log.d(TAG, "Selfie log image has been uploaded successfully.");
-                        }
+                    if (lsClient.isEmpty() || lsAccess.isEmpty()) {
+                        callback.OnFailed("Failed to request generated Client or Access token.");
                     } else {
-                        Log.e(TAG, "Unable to upload selfie image. Server no response.");
+                        org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
+                                poImgInfo.getFileLoct(),
+                                lsAccess,
+                                poImgInfo.getFileCode(),
+                                poImgInfo.getDtlSrcNo(),
+                                poImgInfo.getImageNme(),
+                                poSession.getBranchCode(),
+                                poImgInfo.getSourceCD(),
+                                poImgInfo.getTransNox(),
+                                "");
+
+                        if (loUpload != null) {
+                            String lsImgResult = (String) loUpload.get("result");
+
+                            if (lsImgResult.equalsIgnoreCase("success")) {
+                                String lsTransnox = (String) loUpload.get("sTransNox");
+                                poImage.updateImageInfo(lsTransnox, poImgInfo.getTransNox());
+                                Log.d(TAG, "Selfie log image has been uploaded successfully.");
+                            }
+                        } else {
+                            Log.e(TAG, "Unable to upload selfie image. Server no response.");
+                        }
                     }
                 }
 

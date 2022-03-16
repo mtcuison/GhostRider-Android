@@ -16,6 +16,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 
@@ -41,6 +42,7 @@ public class UploadEmployeeApplication {
         private final SessionManager poSession;
         private final REmployeeLeave poLeave;
         private final REmployeeBusinessTrip poBusTrp;
+        private final WebApi poApi;
 
         public UploadTask(Application instance) {
             this.poLeave = new REmployeeLeave(instance);
@@ -48,6 +50,7 @@ public class UploadEmployeeApplication {
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poSession = new SessionManager(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @Override
@@ -107,7 +110,7 @@ public class UploadEmployeeApplication {
                         param.put("cTranStat", "1");
                         param.put("sModified", leave.getEmployID());
 
-                        lsResult = WebClient.sendRequest(WebApi.URL_SEND_LEAVE_APPLICATION, param.toString(), poHeaders.getHeaders());
+                        lsResult = WebClient.sendRequest(poApi.getUrlSendLeaveApplication(), param.toString(), poHeaders.getHeaders());
                         if(lsResult == null){
                             Log.d(TAG, "Sending employee leave. server no response");
                         } else {
@@ -155,7 +158,7 @@ public class UploadEmployeeApplication {
                         loJson.put("sModified", poSession.getUserID());
                         loJson.put("dModified", AppConstants.CURRENT_DATE);
 
-                        lsResult = WebClient.sendRequest(WebApi.URL_SEND_OB_APPLICATION, loJson.toString(), poHeaders.getHeaders());
+                        lsResult = WebClient.sendRequest(poApi.getUrlSendObApplication(), loJson.toString(), poHeaders.getHeaders());
                         if(lsResult == null){
                             Log.d(TAG, "Server no response while posting business trip.");
                         } else {

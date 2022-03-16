@@ -27,26 +27,23 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.ROccupation;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_OCCUPATIONS;
-
 public class Import_Occupations implements ImportInstance {
     public static final String TAG = Import_Occupations.class.getSimpleName();
+    private final Application instance;
     private final ROccupation db;
-    private final ConnectionUtil loConnectx;
-    private final HttpHeaders loHeaders;
     private final AppConfigPreference poConfig;
     private String lsTimeStmp;
 
     public Import_Occupations(Application application) {
-        this.db = new ROccupation(application);
-        this.loConnectx = new ConnectionUtil(application);
-        this.loHeaders = HttpHeaders.getInstance(application);
-        this.poConfig = AppConfigPreference.getInstance(application);
+        this.instance = application;
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.db = new ROccupation(instance);
     }
 
     @Override
@@ -62,7 +59,7 @@ public class Import_Occupations implements ImportInstance {
                 lsTimeStmp = db.getLatestDataTime();
                 loJson.put("dTimeStmp", lsTimeStmp);
             }
-            new ImportDataTask(db, loConnectx, loHeaders, callback).execute(loJson);
+            new ImportDataTask(instance, callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -72,12 +69,16 @@ public class Import_Occupations implements ImportInstance {
         private final ROccupation db;
         private final ConnectionUtil loConnectx;
         private final HttpHeaders loHeaders;
+        private final WebApi poApi;
+        private final AppConfigPreference poConfig;
         private final ImportDataCallback callback;
 
-        public ImportDataTask(ROccupation db, ConnectionUtil loConnectx, HttpHeaders loHeaders, ImportDataCallback callback) {
-            this.db = db;
-            this.loConnectx = loConnectx;
-            this.loHeaders = loHeaders;
+        public ImportDataTask(Application instance, ImportDataCallback callback) {
+            this.db = new ROccupation(instance);
+            this.loConnectx = new ConnectionUtil(instance);
+            this.loHeaders = HttpHeaders.getInstance(instance);
+            this.poConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(poConfig.getTestStatus());
             this.callback = callback;
         }
 
@@ -87,7 +88,7 @@ public class Import_Occupations implements ImportInstance {
             String response = "";
             try {
                 if (loConnectx.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(URL_IMPORT_OCCUPATIONS, jsonObjects[0].toString(), loHeaders.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportOccupations(), jsonObjects[0].toString(), loHeaders.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

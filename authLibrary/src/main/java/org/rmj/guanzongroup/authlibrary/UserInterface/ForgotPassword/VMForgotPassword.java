@@ -24,6 +24,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -39,7 +40,7 @@ public class VMForgotPassword extends AndroidViewModel {
 
     public VMForgotPassword(@NonNull Application application) {
         super(application);
-        webApi = new WebApi(application);
+        webApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
         headers = HttpHeaders.getInstance(application);
         conn = new ConnectionUtil(application);
     }
@@ -89,7 +90,7 @@ public class VMForgotPassword extends AndroidViewModel {
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";
             try {
-                response = new WebClient().httpsPostJSon(webApi.URL_FORGOTPASSWORD(), jsonObjects[0].toString(), headers.getHeaders());
+                response = WebClient.httpsPostJSon(webApi.getUrlForgotPassword(), jsonObjects[0].toString(), headers.getHeaders());
                 Log.e(TAG, response);
             } catch (IOException e) {
                 e.printStackTrace();

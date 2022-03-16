@@ -37,12 +37,11 @@ import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.GRider.ImportData.Import_CreditAppList;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 
 import java.util.List;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_BRANCH_LOAN_APP;
 
 public class VMBranchApplications extends AndroidViewModel {
     private static final String TAG = VMBranchApplications.class.getSimpleName();
@@ -114,7 +113,7 @@ public class VMBranchApplications extends AndroidViewModel {
             this.headers = HttpHeaders.getInstance(instance);
             this.brnRepo = new RBranchLoanApplication(instance);
             this.conn = new ConnectionUtil(instance);
-            this.webApi = new WebApi(instance);
+            this.webApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.callback = callback;
             this.rCreditApps = new RCreditApplication(instance);
             this.eCreditApplications = rCreditApps.getAllCreditOnlineApplication().getValue();
@@ -132,7 +131,7 @@ public class VMBranchApplications extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(URL_BRANCH_LOAN_APP, strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(webApi.getUrlBranchLoanApp(), strings[0].toString(), headers.getHeaders());
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {

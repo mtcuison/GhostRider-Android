@@ -26,6 +26,7 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.notifications.Object.EmployeeSearchItem;
@@ -69,12 +70,14 @@ public class VMMessageList extends AndroidViewModel {
 
         private final HttpHeaders poHeaders;
         private final ConnectionUtil poConn;
+        private final WebApi poApi;
 
         public SearchEmployeeTask(Application application, OnEmloyeeSearchListener listener) {
             this.instance = application;
             this.mListener = listener;
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @SuppressLint("NewApi")
@@ -87,7 +90,7 @@ public class VMMessageList extends AndroidViewModel {
                     loJson.put("reqstdnm", strings[0]);
                     loJson.put("bsearch", true);
 
-                    lsResult = WebClient.sendRequest(WebApi.URL_QUICK_SEARCH, loJson.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(poApi.getUrlKwiksearch(), loJson.toString(), poHeaders.getHeaders());
 
                 } else {
                     lsResult = AppConstants.NO_INTERNET();

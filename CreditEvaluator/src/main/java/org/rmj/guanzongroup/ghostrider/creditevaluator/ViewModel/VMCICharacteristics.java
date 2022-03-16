@@ -30,6 +30,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CharacterTraitsInfoModel;
@@ -99,11 +100,13 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CharacterTraitsInfo
         private final OnPostCallBack callback;
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
+        private final WebApi poApi;
         public UpdateTask(Application instance,RCIEvaluation poCIEvaluation, CharacterTraitsInfoModel infoModel, OnPostCallBack callback) {
             this.poCIEvaluation = poCIEvaluation;
             this.infoModel = infoModel;
             this.callback = callback;
             this.poHeaders = HttpHeaders.getInstance(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.poConn = new ConnectionUtil(instance);
         }
 
@@ -189,7 +192,7 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CharacterTraitsInfo
                         loJSON.put("dApproved", loDetail.getApproved());
                         poCIEvaluation.updaCharacterTraits(loDetail);
                         Log.e(TAG, loJSON.toString());
-                        String lsResponse1 = WebClient.sendRequest(WebApi.URL_UPLOAD_CI_RESULT, loJSON.toString(), poHeaders.getHeaders());
+                        String lsResponse1 = WebClient.sendRequest(poApi.getUrlUploadCiResult(), loJSON.toString(), poHeaders.getHeaders());
                         if (lsResponse1 == null) {
                             response = "Server no response.";
                         } else {

@@ -10,8 +10,6 @@
  */
 package org.rmj.guanzongroup.authlibrary.UserInterface.Login;
 
-import static org.rmj.g3appdriver.utils.WebApi.REQUEST_USER_ACCESS;
-
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
@@ -55,10 +53,10 @@ public class VMLogin extends AndroidViewModel {
         super(application);
         this.application =application;
         REmployee = new REmployee(application);
-        webApi = new WebApi(application);
         headers = HttpHeaders.getInstance(application);
         session = new SessionManager(application);
         poConfig = AppConfigPreference.getInstance(application);
+        webApi = new WebApi(poConfig.getTestStatus());
         poTlphony = new Telephony(application);
     }
 
@@ -140,7 +138,7 @@ public class VMLogin extends AndroidViewModel {
             try {
                 if(poConfig.isAgreedOnTermsAndConditions()) {
                     if(poConn.isDeviceConnected()) {
-                        String lsResponse = WebClient.httpsPostJSon(webApi.URL_AUTH_EMPLOYEE(), authInfo[0].toString(), headers.getHeaders());
+                        String lsResponse = WebClient.httpsPostJSon(webApi.getUrlAuthEmployee(), authInfo[0].toString(), headers.getHeaders());
                         if(lsResponse == null){
                             response = AppConstants.SERVER_NO_RESPONSE();
                         } else {
@@ -155,7 +153,7 @@ public class VMLogin extends AndroidViewModel {
                                 // M-> MENU
                                 // B-> Button
 //                            loMenu.put("obj_type", "M");
-                                String lsRole = WebClient.httpsPostJSon(REQUEST_USER_ACCESS, loMenu.toString(), headers.getHeaders());
+                                String lsRole = WebClient.httpsPostJSon(webApi.getRequestUserAccess(), loMenu.toString(), headers.getHeaders());
                                 if (lsRole == null) {
                                     response = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response while downloading authorize features.");
                                 } else {

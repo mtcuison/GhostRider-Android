@@ -31,14 +31,14 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RApprovalCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Model.ManualLog;
 
 import java.util.List;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_SAVE_APPROVAL;
 
 public class VMManualLog extends AndroidViewModel {
     public static final String TAG = VMManualLog.class.getSimpleName();
@@ -89,6 +89,7 @@ public class VMManualLog extends AndroidViewModel {
         private final HttpHeaders loHeaders;
         private final ConnectionUtil poConn;
         private final RApprovalCode loApproval;
+        private final WebApi poApi;
 
         public CreateCodeTask(Application instance,
                               SessionManager foSession,
@@ -100,6 +101,7 @@ public class VMManualLog extends AndroidViewModel {
             this.loHeaders = HttpHeaders.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
             this.loApproval = new RApprovalCode(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @Override
@@ -154,7 +156,7 @@ public class VMManualLog extends AndroidViewModel {
                                 param.put("sReqstdTo", detail.getReqstdTo() == null ? "" : detail.getReqstdTo());
                                 param.put("cTranStat", detail.getTranStat());
 
-                                String response = WebClient.httpsPostJSon(URL_SAVE_APPROVAL, param.toString(), loHeaders.getHeaders());
+                                String response = WebClient.httpsPostJSon(poApi.getUrlSaveApproval(), param.toString(), loHeaders.getHeaders());
                                 if (response == null) {
                                     Log.d(TAG, "Server no response");
                                 } else {

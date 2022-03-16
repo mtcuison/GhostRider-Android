@@ -42,8 +42,6 @@ import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static org.rmj.g3appdriver.utils.WebApi.URL_DOWNLOAD_UPDATE;
-
 public class VMCheckUpdate extends AndroidViewModel {
 
     private final Application instance;
@@ -90,7 +88,7 @@ public class VMCheckUpdate extends AndroidViewModel {
             this.callback = callback;
             this.poConn = new ConnectionUtil(application);
             this.poHeaders = HttpHeaders.getInstance(application);
-            this.poApi = new WebApi(application);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
         }
 
         @Override
@@ -108,7 +106,7 @@ public class VMCheckUpdate extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()){
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    lsResult = WebClient.sendRequest(poApi.URL_CHANGE_PASSWORD(), param.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(poApi.getUrlCheckUpdate(), param.toString(), poHeaders.getHeaders());
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }
@@ -162,7 +160,7 @@ public class VMCheckUpdate extends AndroidViewModel {
             this.poConn = new ConnectionUtil(application);
             this.poHeaders = HttpHeaders.getInstance(application);
             PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
-            this.poApi = new WebApi(application);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @Override
@@ -177,7 +175,7 @@ public class VMCheckUpdate extends AndroidViewModel {
             try {
                 if(poConn.isWifiConnected()) {
                     if (poConn.isDeviceConnected()) {
-                        URL url = new URL(URL_DOWNLOAD_UPDATE);
+                        URL url = new URL(poApi.getUrlDownloadUpdate());
                         HttpURLConnection c = (HttpURLConnection) url.openConnection();
                         c.setRequestMethod("GET");
                         c.setDoOutput(true);

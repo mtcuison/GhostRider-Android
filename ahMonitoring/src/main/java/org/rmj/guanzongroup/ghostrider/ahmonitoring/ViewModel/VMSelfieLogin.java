@@ -262,7 +262,6 @@ public class VMSelfieLogin extends AndroidViewModel {
 
         @Override
         protected String doInBackground(JSONObject... loJson) {
-
             poSlMaster.setImageInfo(poImageInfo);
             poSlMaster.setSelfieLogInfo(selfieLog);
             if (poConn.isDeviceConnected()) {

@@ -48,8 +48,6 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RequestNamesInfoModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.rmj.g3appdriver.utils.WebApi.URL_KWIKSEARCH;
-
 public class VMCashCountSubmit extends AndroidViewModel {
 
     private static final String TAG = VMCashCountSubmit.class.getSimpleName();
@@ -120,13 +118,13 @@ public class VMCashCountSubmit extends AndroidViewModel {
         private final HttpHeaders headers;
         private final RBranchLoanApplication brnRepo;
         private final ConnectionUtil conn;
-        private final WebApi webApi;
+        private final WebApi poApi;
         private final OnKwikSearchCallBack callback;
         public ImportRequestNames(Application instance,  OnKwikSearchCallBack callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.brnRepo = new RBranchLoanApplication(instance);
             this.conn = new ConnectionUtil(instance);
-            this.webApi = new WebApi(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.callback = callback;
         }
 
@@ -142,7 +140,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(URL_KWIKSEARCH, strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(poApi.getUrlKwiksearch(), strings[0].toString(), headers.getHeaders());
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
@@ -225,6 +223,8 @@ public class VMCashCountSubmit extends AndroidViewModel {
         private final Telephony poDevID;
         private final SessionManager poUser;
         private final AppConfigPreference poConfig;
+        private final WebApi poApi;
+
         public UpdateTask(RCashCount poDcp, CashCountInfoModel infoModel, JSONObject jsonObject, OnSaveCashCountCallBack callback) {
             this.pocashcount = poDcp;
             this.infoModel = infoModel;
@@ -236,6 +236,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
             this.poUser = new SessionManager(instance);
             this.poConfig = AppConfigPreference.getInstance(instance);
             this.poLog = new RLogSelfie(instance);
+            this.poApi = new WebApi(poConfig.getTestStatus());
         }
 
         @SuppressLint("NewApi")
@@ -276,7 +277,7 @@ public class VMCashCountSubmit extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()) {
                     lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Cash count entry has been save to local device.");
                 } else {
-                    lsResponse = WebClient.sendRequest(WebApi.URL_SUBMIT_CASHCOUNT, jsonObject.toString(), poHeaders.getHeaders());
+                    lsResponse = WebClient.sendRequest(poApi.getUrlSubmitCashcount(), jsonObject.toString(), poHeaders.getHeaders());
                     if(lsResponse == null){
                         lsResponse = AppConstants.SERVER_NO_RESPONSE();
                     } else {

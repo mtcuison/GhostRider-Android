@@ -25,24 +25,20 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESCA_Request;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RApprovalCode;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.rmj.g3appdriver.utils.WebApi.URL_SCA_REQUEST;
-
 public class Import_SCARequest implements ImportInstance{
     public static final String TAG = Import_SCARequest.class.getSimpleName();
-    private final RApprovalCode db;
-    private final ConnectionUtil loConnectx;
-    private final HttpHeaders loHeaders;
+    private final Application instance;
 
     public Import_SCARequest(Application application) {
-        this.db = new RApprovalCode(application);
-        this.loConnectx = new ConnectionUtil(application);
-        this.loHeaders = HttpHeaders.getInstance(application);
+        this.instance = application;
     }
 
     @Override
@@ -51,7 +47,7 @@ public class Import_SCARequest implements ImportInstance{
             JSONObject loJson = new JSONObject();
             loJson.put("bsearch", true);
             loJson.put("id", "All");
-            new ImportDataTask(db, loConnectx, loHeaders, callback).execute(loJson);
+            new ImportDataTask(instance, callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -61,12 +57,14 @@ public class Import_SCARequest implements ImportInstance{
         private final RApprovalCode db;
         private final ConnectionUtil loConnectx;
         private final HttpHeaders loHeaders;
+        private final WebApi poApi;
         private final ImportDataCallback callback;
 
-        public ImportDataTask(RApprovalCode db, ConnectionUtil loConnectx, HttpHeaders loHeaders, ImportDataCallback callback) {
-            this.db = db;
-            this.loConnectx = loConnectx;
-            this.loHeaders = loHeaders;
+        public ImportDataTask(Application instance, ImportDataCallback callback) {
+            this.db = new RApprovalCode(instance);
+            this.loConnectx = new ConnectionUtil(instance);
+            this.loHeaders = HttpHeaders.getInstance(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.callback = callback;
         }
 
@@ -76,7 +74,7 @@ public class Import_SCARequest implements ImportInstance{
             String response = "";
             try {
                 if (loConnectx.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(URL_SCA_REQUEST, jsonObjects[0].toString(), loHeaders.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlScaRequest(), jsonObjects[0].toString(), loHeaders.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

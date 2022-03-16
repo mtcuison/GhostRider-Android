@@ -32,7 +32,9 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchOpeningMonitor;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.NotificationAssets;
 import org.rmj.guanzongroup.ghostrider.notifications.Etc.RemoteMessageParser;
@@ -40,8 +42,6 @@ import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
 
 import java.util.Date;
 import java.util.Objects;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_SEND_RESPONSE;
 
 public class AndroidNotificationManager {
     private static final String TAG  = AndroidNotificationManager.class.getSimpleName();
@@ -65,6 +65,7 @@ public class AndroidNotificationManager {
         private final GConnection loDbConn;
         private final RBranchOpeningMonitor poOpening;
         private final RBranch poBranch;
+        private final WebApi poApi;
         private boolean pbSpecial = false;
         private char pcSpecial;
         private JSONObject poJson;
@@ -79,6 +80,7 @@ public class AndroidNotificationManager {
             this.loDbConn = DbConnection.doConnect(instance);
             this.poOpening = new RBranchOpeningMonitor(instance);
             this.poBranch = new RBranch(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @SuppressLint("NewApi")
@@ -159,7 +161,7 @@ public class AndroidNotificationManager {
                         params.put("stamp", new AppConstants().DATE_MODIFIED);
                         params.put("infox", "");
 
-                        String response = WebClient.httpsPostJSon(URL_SEND_RESPONSE, params.toString(), poHeaders.getHeaders());
+                        String response = WebClient.httpsPostJSon(poApi.getUrlSendResponse(), params.toString(), poHeaders.getHeaders());
                         JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                         Log.e(TAG, loJson.getString("result"));
                         String lsResult = loJson.getString("result");

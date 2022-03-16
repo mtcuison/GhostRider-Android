@@ -25,13 +25,13 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.Arrays;
 import java.util.Objects;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_BRANCH_LOAN_APP;
 
 public class Import_CreditAppList implements ImportInstance{
     private static final String TAG = Import_CreditAppList.class.getSimpleName();
@@ -67,12 +67,14 @@ public class Import_CreditAppList implements ImportInstance{
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
         private final RBranchLoanApplication poLoan;
+        private final WebApi poApi;
 
         public ImportDataTask(Application instance, ImportDataCallback callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poLoan = new RBranchLoanApplication(instance);
             this.callback = callback;
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -81,7 +83,7 @@ public class Import_CreditAppList implements ImportInstance{
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(URL_BRANCH_LOAN_APP, jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlDownloadCreditOnlineApp(), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

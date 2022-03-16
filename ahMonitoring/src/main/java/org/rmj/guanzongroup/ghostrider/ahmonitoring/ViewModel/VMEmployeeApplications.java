@@ -31,6 +31,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -75,6 +76,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
         private final ConnectionUtil loConn;
         private final HttpHeaders loHeaders;
         private final REmployeeBusinessTrip poBusTrip;
+        private final WebApi poApi;
         private final OnDownloadApplicationListener mListener;
 
         public DownloadLeaveTask(Application instance, OnDownloadApplicationListener listener){
@@ -82,6 +84,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
             this.loConn = new ConnectionUtil(instance);
             this.loHeaders = HttpHeaders.getInstance(instance);
             this.poBusTrip = new REmployeeBusinessTrip(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.mListener = listener;
         }
 
@@ -101,7 +104,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
                 if (!loConn.isDeviceConnected()) {
                     response = AppConstants.NO_INTERNET();
                 } else{
-                    String lvResponse = WebClient.httpsPostJSon(WebApi.URL_GET_LEAVE_APPLICATION, new JSONObject().toString(), loHeaders.getHeaders());
+                    String lvResponse = WebClient.httpsPostJSon(poApi.getUrlGetLeaveApplication(), new JSONObject().toString(), loHeaders.getHeaders());
 //                    String lvResponse = AppConstants.LOCAL_EXCEPTION_ERROR("unknown error occurred");
                     if(lvResponse == null){
                         message = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response while downloading leave applications");
@@ -141,7 +144,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
 
                     Thread.sleep(1000);
 
-                    String obResponse = WebClient.httpsPostJSon(WebApi.URL_GET_OB_APPLICATION, new JSONObject().toString(), loHeaders.getHeaders());
+                    String obResponse = WebClient.httpsPostJSon(poApi.getUrlGetObApplication(), new JSONObject().toString(), loHeaders.getHeaders());
                     if (obResponse == null) {
                         if(message != null){
                             message = message + "\n" + "Server no response while downloading business trip applications";

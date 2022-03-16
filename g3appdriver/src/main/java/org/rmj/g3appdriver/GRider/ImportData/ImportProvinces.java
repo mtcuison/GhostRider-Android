@@ -31,23 +31,20 @@ import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_PROVINCE;
 
 public class ImportProvinces implements ImportInstance{
     public static final String TAG = ImportProvinces.class.getSimpleName();
+    private final Application instance;
     private final RProvince poProv;
-    private final WebApi webApi;
     private final HttpHeaders headers;
     private final ConnectionUtil conn;
     private final AppConfigPreference poConfig;
     private String lsTimeStmp = "";
 
     public ImportProvinces(Application application) {
+        this.instance = application;
         poProv = new RProvince(application);
-        webApi = new WebApi(application);
         headers = HttpHeaders.getInstance(application);
         conn = new ConnectionUtil(application);
         poConfig = AppConfigPreference.getInstance(application);
@@ -66,7 +63,7 @@ public class ImportProvinces implements ImportInstance{
                 lsTimeStmp = poProv.getLatestDataTime();
                 loJson.put("dTimeStmp", lsTimeStmp);
             }
-            new ImportProvinceTask(callback, headers, poProv, conn).execute(loJson);
+            new ImportProvinceTask(instance, callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -77,12 +74,14 @@ public class ImportProvinces implements ImportInstance{
         private final HttpHeaders headers;
         private final RProvince repository;
         private final ConnectionUtil conn;
+        private final WebApi poApi;
 
-        public ImportProvinceTask(ImportDataCallback callback, HttpHeaders headers, RProvince repository, ConnectionUtil conn) {
+        public ImportProvinceTask(Application instance, ImportDataCallback callback) {
             this.callback = callback;
-            this.headers = headers;
-            this.repository = repository;
-            this.conn = conn;
+            this.headers = HttpHeaders.getInstance(instance);
+            this.repository = new RProvince(instance);
+            this.conn = new ConnectionUtil(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -91,7 +90,7 @@ public class ImportProvinces implements ImportInstance{
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(URL_IMPORT_PROVINCE, jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportProvince(), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

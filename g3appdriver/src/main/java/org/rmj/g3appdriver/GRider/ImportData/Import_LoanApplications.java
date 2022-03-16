@@ -64,6 +64,7 @@ public class Import_LoanApplications implements ImportInstance{
         private final HttpHeaders loHeaders;
         private final SessionManager poUser;
         private final AppConfigPreference poConfig;
+        private final WebApi poApi;
         private final ImportDataCallback callback;
 
         public ImportDataTask(Application application, ImportDataCallback callback) {
@@ -74,6 +75,7 @@ public class Import_LoanApplications implements ImportInstance{
             this.poUser = new SessionManager(application);
             this.poConfig = AppConfigPreference.getInstance(application);
             this.callback = callback;
+            this.poApi = new WebApi(poConfig.getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -82,7 +84,7 @@ public class Import_LoanApplications implements ImportInstance{
             String response = "";
             try {
                 if (loConnectx.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(WebApi.URL_IMPORT_ONLINE_APPLICATIONS, jsonObjects[0].toString(), loHeaders.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportOnlineApplications(), jsonObjects[0].toString(), loHeaders.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

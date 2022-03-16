@@ -34,6 +34,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RRemittanceAccount;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 
@@ -48,6 +49,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
     private final RDCP_Remittance poRemit;
     private final ConnectionUtil poConn;
     private final HttpHeaders poHeaders;
+    private final WebApi poApi;
 
     private String dTransact;
     private double nTotRCash = 0;
@@ -79,6 +81,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
         this.poConn = new ConnectionUtil(application);
         this.poHeaders = HttpHeaders.getInstance(application);
         this.poRemittance = new RRemittanceAccount(application);
+        this.poApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
     }
     public void setCltCashx(String psCltCashx) {
         this.psCltCashx = psCltCashx;
@@ -235,7 +238,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
                     param.put("cPaymType", loRemit.getPaymForm());
                     param.put("nAmountxx", Double.parseDouble(loRemit.getAmountxx()));
 
-                    String lsResponse = WebClient.sendRequest(WebApi.URL_DCP_REMITTANCE, param.toString(), poHeaders.getHeaders());
+                    String lsResponse = WebClient.sendRequest(poApi.getUrlDcpRemittance(), param.toString(), poHeaders.getHeaders());
                     JSONObject loJson;
                     if (lsResponse != null) {
                         loJson = new JSONObject(lsResponse);
@@ -301,7 +304,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
                         JSONObject param = new JSONObject();
                         param.put("bsearch", true);
                         param.put("descript", "all");
-                        String lsResponse = WebClient.sendRequest(WebApi.URL_BRANCH_REMITTANCE_ACC, param.toString(), poHeaders.getHeaders());
+                        String lsResponse = WebClient.sendRequest(poApi.getUrlBranchRemittanceAcc(), param.toString(), poHeaders.getHeaders());
                         JSONObject loResult = new JSONObject(lsResponse);
                         if(loResult.getString("result").equalsIgnoreCase("success")){
                             JSONArray loDetail = loResult.getJSONArray("detail");

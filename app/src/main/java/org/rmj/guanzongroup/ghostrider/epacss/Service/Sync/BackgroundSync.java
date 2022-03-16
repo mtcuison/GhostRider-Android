@@ -46,6 +46,7 @@ public class BackgroundSync {
     private final HttpHeaders poHeaders;
     private final SessionManager poSession;
     private final Telephony poDevice;
+    private final WebApi poApi;
 
     private String psClient;
     private String psTokenx;
@@ -61,6 +62,7 @@ public class BackgroundSync {
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poDevice = new Telephony(instance);
+        this.poApi = new WebApi(poConfig.getTestStatus());
     }
 
     public boolean syncSelfieLogInfo(RImageInfo poImage, List<EImageInfo> loginImageInfo){
@@ -133,7 +135,7 @@ public class BackgroundSync {
                     loJson.put("nLatitude", selfieLog.getLatitude());
                     loJson.put("nLongitud", selfieLog.getLongitud());
 
-                    String lsResponse = WebClient.sendRequest(WebApi.URL_POST_SELFIELOG, loJson.toString(), poHeaders.getHeaders());
+                    String lsResponse = WebClient.sendRequest(poApi.getUrlPostSelfielog(), loJson.toString(), poHeaders.getHeaders());
 
                     if (lsResponse == null) {
                         Log.e(TAG, "Sending selfie log info. Server no response");
@@ -208,7 +210,7 @@ public class BackgroundSync {
                     loJson.put("sUserIDxx", poSession.getUserID());
                     loJson.put("sDeviceID", poDevice.getDeviceID());
                     Log.e(TAG, loJson.toString());
-                    String lsResponse = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
+                    String lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(), loJson.toString(), poHeaders.getHeaders());
 
                     if (lsResponse == null) {
                         Log.e(TAG, "Sending selfie log info. Server no response");

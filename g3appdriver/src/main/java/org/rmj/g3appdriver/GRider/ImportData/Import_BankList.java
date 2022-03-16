@@ -26,12 +26,10 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RBankInfo;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
-import java.util.Arrays;
 import java.util.Objects;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_DOWNLOAD_BANK_INFO;
 
 public class Import_BankList implements ImportInstance{
     private static final String TAG = Import_BankList.class.getSimpleName();
@@ -63,11 +61,13 @@ public class Import_BankList implements ImportInstance{
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
         private final RBankInfo poBank;
+        private final WebApi poApi;
 
         public ImportBankListTask(Application instance, ImportDataCallback callback){
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poBank = new RBankInfo(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.callback = callback;
         }
 
@@ -78,7 +78,7 @@ public class Import_BankList implements ImportInstance{
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(URL_DOWNLOAD_BANK_INFO, jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlDownloadBankInfo(), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     String lsResult = loJson.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
