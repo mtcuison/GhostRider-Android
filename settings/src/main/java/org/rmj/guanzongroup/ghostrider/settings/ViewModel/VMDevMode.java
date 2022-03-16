@@ -65,7 +65,7 @@ public class VMDevMode extends AndroidViewModel {
     }
 
     public void setDebugMode(boolean val){
-        poConfig.setIsTesting(val);
+        poConfig.setTestCase(val);
     }
 
     public boolean getIsDebugMode(){
