@@ -4,14 +4,20 @@
 
     <application android:usesCleartextTraffic="true">
         <activity
-            android:name=".Activity.Activity_EvaluationList"
-            android:exported="false" />
+            android:name=".Activity.Activity_CIEvaluationList"
+            android:screenOrientation="portrait"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+        <activity
+            android:name=".Activity.Activity_EvaluationCIHistory"
+            android:screenOrientation="portrait"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
         <!-- <activity -->
         <!-- android:name=".Activity.Activity_ApplicationList" -->
         <!-- android:exported="false" /> -->
         <activity
             android:name=".Activity.Activity_Evaluation"
-            android:exported="true" />
+            android:screenOrientation="portrait"
+            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
     </application>
 
 </manifest>

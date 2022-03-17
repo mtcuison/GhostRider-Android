@@ -202,20 +202,25 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/settings/src/main/res/layout/help_list_header.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/settings/src/main/res/layout/help_list_item.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/settings/src/main/res/xml/preferences.xml" value="0.1" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/CreditEvaluator/src/main/res/layout/activity_evaluation_list.xml" value="0.18" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/app/src/main/res/layout/activity_main.xml" value="0.1431159420289855" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/app/src/main/res/layout/app_bar_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/app/src/main/res/layout/content_main.xml" value="0.1431159420289855" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/app/src/main/res/layout/nav_header_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditApp/src/main/res/layout/activity_introductory_question.xml" value="0.15" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditApp/src/main/res/layout/fragment_personal_info.xml" value="0.15534420289855072" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditApp/src/main/res/layout/fragment_personal_references.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/layout/activity_application_list.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/layout/activity_cievaluation_list.xml" value="0.182518115942029" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/layout/activity_evaluation.xml" value="0.33" />
-        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/layout/activity_evaluation_list.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/layout/ci_list_item.xml" value="0.1" />
-        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/layout/credit_app_list.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/layout/activity_evaluation_cihistory.xml" value="0.13293051359516617" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/layout/activity_evaluation_history.xml" value="0.2028985507246377" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/layout/activity_evaluation_list.xml" value="0.33" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/layout/ci_list_item.xml" value="0.18" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/layout/credit_app_list.xml" value="0.22" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/layout/dialog_ci_approval.xml" value="0.33" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/layout/layout_ci_items.xml" value="0.25" />
-        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/layout/list_item_evaluation.xml" value="0.1" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/layout/list_item_evaluation.xml" value="0.25" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-11-2022/creditEvaluation/src/main/res/menu/action_menu_credit_evaluation_list.xml" value="0.20416666666666666" />
       </map>
     </option>

@@ -211,6 +211,7 @@
                             android:layout_height="wrap_content"
                             android:nestedScrollingEnabled="true"
                             android:padding="5dp"
+                            android:groupIndicator="@null"
                             />
 <!--                        <ExpandableListView-->
 <!--                            android:id="@+id/expListview"-->
