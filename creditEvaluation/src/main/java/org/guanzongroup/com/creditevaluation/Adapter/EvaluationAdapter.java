@@ -103,10 +103,14 @@ public class EvaluationAdapter extends BaseExpandableListAdapter {
         TextView lblField = view.findViewById(R.id.lbl_evalField);
         TextView lblTitle = view.findViewById(R.id.lbl_evalTitle);
         lblField.setText(loParent.getTitle());
-        if(loParent.getParentDescript().isEmpty()){
-            lblTitle.setVisibility(View.GONE);
-        }
         lblTitle.setText(loParent.getParentDescript());
+//        if(loParent.getParentDescript().isEmpty()){
+//            lblTitle.setVisibility(View.GONE);
+//        }
+//
+        lblField.setVisibility(View.GONE);
+        lblTitle.setVisibility(View.GONE);
+
         return view;
     }
     @Override
@@ -123,10 +127,22 @@ public class EvaluationAdapter extends BaseExpandableListAdapter {
         TextView lblTitle = view.findViewById(R.id.lbl_evalTitle);
         lblField.setVisibility(View.GONE);
         lblTitle.setVisibility(View.GONE);
-
         TextView txtListChild = view.findViewById(R.id.lbl_evalLabel);
         RadioGroup rgEval = view.findViewById(R.id.rg_evaluator);
         txtListChild.setText(lsLabel);
+        if(txtListChild.getVisibility() == View.GONE){
+            lblField.setVisibility(View.GONE);
+            lblTitle.setVisibility(View.GONE);
+        }else{
+            if(loParent.getParentDescript().isEmpty()){
+                lblTitle.setVisibility(View.GONE);
+            }else{
+                lblField.setText(loParent.getTitle());
+                lblTitle.setText(loParent.getParentDescript());
+                lblTitle.setVisibility(View.VISIBLE);
+                lblField.setVisibility(View.VISIBLE);
+            }
+        }
         rgEval.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {

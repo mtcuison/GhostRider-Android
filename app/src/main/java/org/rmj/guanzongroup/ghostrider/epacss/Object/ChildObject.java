@@ -14,7 +14,8 @@ package org.rmj.guanzongroup.ghostrider.epacss.Object;
 import android.content.Context;
 import android.content.Intent;
 
-import org.guanzongroup.com.creditevaluation.Activity.Activity_EvaluationList;
+import org.guanzongroup.com.creditevaluation.Activity.Activity_CIEvaluationList;
+import org.guanzongroup.com.creditevaluation.Activity.Activity_EvaluationCIHistory;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Application;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_AreaPerformance;
@@ -22,18 +23,12 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCountL
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_CashCounter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Employee_Applications;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Inventory;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Monitoring;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalCode;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalSelection;
-import org.rmj.guanzongroup.ghostrider.creditevaluator.Activity.Activity_EvaluationHistory;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
-import org.rmj.guanzongroup.ghostrider.griderscanner.MainScanner;
-import org.rmj.guanzongroup.ghostrider.imgcapture.DCPPhotoCapture;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_BranchApplications;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditAppHome;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
 
 public class ChildObject {
@@ -80,11 +75,11 @@ public class ChildObject {
 //                break;
 
             case "ci evaluation list":
-                loIntent = new Intent(context, Activity_EvaluationList.class);
+                loIntent = new Intent(context, Activity_CIEvaluationList.class);
                 break;
 
             case "ci evaluation history":
-                loIntent = new Intent(context, Activity_EvaluationHistory.class);
+                loIntent = new Intent(context, Activity_EvaluationCIHistory.class);
                 break;
 
             case "leave application":

@@ -6,8 +6,8 @@
   ~ Project name : GhostRider_Android
   ~ Module : GhostRider_Android.creditEvaluation
   ~ Electronic Personnel Access Control Security System
-  ~ project file created : 3/11/22, 11:18 AM
-  ~ project file last modified : 3/11/22, 11:18 AM
+  ~ project file created : 3/17/22, 1:28 PM
+  ~ project file last modified : 3/17/22, 1:28 PM
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,7 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activity.Activity_EvaluationList"
+    tools:context=".Activity.Activity_CIEvaluationList"
     android:background="@drawable/bg_gradient_light"
     android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
     <com.google.android.material.appbar.AppBarLayout
@@ -71,21 +71,22 @@
                 android:textSize="22sp" />
 
             <TextView
+                android:id="@+id/lbl_Branch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:textSize="15sp"
                 android:fontFamily="@font/roboto_light"
-                android:text="GMC Dagupan - Honda"
                 android:textColor="@color/textColor_White"
-                android:textSize="15sp" />
+                android:layout_marginTop="5dp"/>
 
             <TextView
+                android:id="@+id/lbl_Address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:fontFamily="@font/roboto_light"
-                android:text="Guanzon Bldg., Perez Blvd., Dagupan City"
                 android:textColor="@color/textColor_White"
-                android:textSize="15sp" />
+                android:layout_marginBottom="7dp"/>
         </LinearLayout>
 
         <View

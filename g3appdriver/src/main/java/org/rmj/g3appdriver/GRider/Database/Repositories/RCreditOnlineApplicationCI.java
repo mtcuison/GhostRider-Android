@@ -45,6 +45,11 @@ public class RCreditOnlineApplicationCI implements DCreditOnlineApplicationCI {
     public LiveData<ECreditOnlineApplicationCI> getApplications(String TransNox) {
         return poDao.getApplications(TransNox);
     }
+
+    @Override
+    public LiveData<ECreditOnlineApplicationCI> RetrieveApplicationData(String TransNox) {
+        return poDao.RetrieveApplicationData(TransNox);
+    }
     @Override
     public void UpdateTransactionSendStat(String TransNox) {
         poDao.UpdateTransactionSendStat(TransNox);

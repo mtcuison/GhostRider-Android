@@ -28,6 +28,7 @@ public class AppConstants {
     public static final String SUB_FOLDER_SELFIE_LOG = "/SelfieLog";
     public static final String SUB_FOLDER_CREDIT_APP_DOCUMENTS = "/COAD";
     public static final String SUB_FOLDER_EXPORTS = "/Exported Files";
+    public static final String SUB_FOLDER_CI_ADDRESS = "/CI Address";
 
     public static String ALL_DATA_SENT() throws Exception{
         JSONObject loJson = new JSONObject();

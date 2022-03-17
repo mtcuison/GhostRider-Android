@@ -46,8 +46,8 @@ import org.rmj.g3appdriver.utils.WebClient;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VMEvaluationList extends AndroidViewModel {
-    private static final String TAG = VMEvaluationList.class.getSimpleName();
+public class VMEvaluationHistory extends AndroidViewModel {
+    private static final String TAG = VMEvaluationHistory.class.getSimpleName();
     private final Application instance;
     private final EvaluatorManager poManager;
     private final SessionManager poSession;
@@ -56,7 +56,7 @@ public class VMEvaluationList extends AndroidViewModel {
 
     private final RBranch RBranch;
     private final REmployee poEmploye;
-    public VMEvaluationList(@NonNull Application application) {
+    public VMEvaluationHistory(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poManager = new EvaluatorManager(application);
@@ -66,78 +66,13 @@ public class VMEvaluationList extends AndroidViewModel {
         this.RBranch = new RBranch(application);
     }
 
-    public void importApplicationInfo(String fsTransno, ViewModelCallback callback) {
-        try{
-            new AddApplicationInfoTask(instance,fsTransno.trim(),callback).execute();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    public LiveData<EBranchInfo> getUserBranch(){
-        return RBranch.getUserBranchInfo();
-    }
-    public static class AddApplicationInfoTask extends AsyncTask<JSONObject, Void, String> {
-        private final RCreditApplication db;
-        private final RImageInfo loImage;
-        private final ConnectionUtil loConnectx;
-        private final HttpHeaders loHeaders;
-        private final SessionManager poUser;
-        private final AppConfigPreference poConfig;
-        private final ViewModelCallback callback;
-        private final EvaluatorManager foManager;
-        private final String foTransNox;
-
-        public AddApplicationInfoTask(Application application, String transNo,ViewModelCallback callback) {
-            this.db = new RCreditApplication(application);
-            this.loImage = new RImageInfo(application);
-            this.loConnectx = new ConnectionUtil(application);
-            this.loHeaders = HttpHeaders.getInstance(application);
-            this.poUser = new SessionManager(application);
-            this.poConfig = AppConfigPreference.getInstance(application);
-            this.callback = callback;
-            this.foTransNox = transNo;
-            this.foManager = new EvaluatorManager(application);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.OnStartSaving();
-        }
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        @Override
-        protected String doInBackground(JSONObject... jsonObjects) {
-            String response = "";
-            try {
-                if (loConnectx.isDeviceConnected()) {
-                    foManager.AddApplication(foTransNox, new EvaluatorManager.OnActionCallback() {
-                        @Override
-                        public void OnSuccess(String args) {
-                            Log.e("Add Success", args);
-                        }
-
-                        @Override
-                        public void OnFailed(String message) {
-                            Log.e("Add Failed", message);
-                        }
-                    });
-                }else {
-                    response = AppConstants.NO_INTERNET();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                e.getCause();
-            }
-            return response;
-        }
-    }
     public interface OnImportCallBack{
         void onStartImport();
         void onSuccessImport();
         void onImportFailed(String message);
     }
-    public LiveData<DCreditOnlineApplicationCI.oDataEvaluationInfo> getForEvaluationInfo(String transNox) {
-        return poManager.getForEvaluationInfo(transNox);
+    public LiveData<EBranchInfo> getUserBranchInfo(){
+        return RBranch.getUserBranchInfo();
     }
     public LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListData() {
         return poManager.getForEvaluationListData();

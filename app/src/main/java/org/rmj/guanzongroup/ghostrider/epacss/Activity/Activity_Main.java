@@ -198,7 +198,9 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                         poSession.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
 
                 }
-            } catch (Exception e){
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            }catch (Exception e){
                 e.printStackTrace();
             }
         });
