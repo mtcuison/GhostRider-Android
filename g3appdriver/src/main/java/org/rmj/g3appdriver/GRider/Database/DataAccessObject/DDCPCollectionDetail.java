@@ -119,7 +119,7 @@ public interface DDCPCollectionDetail {
     @Query("SELECT * FROM Client_Update_Request WHERE sDtlSrcNo = :AccountNox")
     LiveData<EClientUpdate> getClient_Update_Info(String AccountNox);
 
-    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cTranStat = 1 AND cSendStat = 0")
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat = 0")
     LiveData<List<EDCPCollectionDetail>> getCollectionDetailLog();
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +

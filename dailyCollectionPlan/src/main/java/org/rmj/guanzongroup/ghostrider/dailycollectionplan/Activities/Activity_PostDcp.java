@@ -13,6 +13,7 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +32,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMPostDcp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Activity_PostDcp extends AppCompatActivity {
 
@@ -72,6 +74,9 @@ public class Activity_PostDcp extends AppCompatActivity {
     }
 
     private void initWidgets() {
+        Toolbar toolbar = findViewById(R.id.toolbar_collectionList);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         lblBranch = findViewById(R.id.lbl_headerBranch);
         lblAddrss = findViewById(R.id.lbl_headerAddress);
         lblNoList = findViewById(R.id.lbl_noAvailable);
@@ -82,6 +87,16 @@ public class Activity_PostDcp extends AppCompatActivity {
     }
 
     private void setUpDcpList() {
+
+        mViewModel.getUserBranchInfo().observe(Activity_PostDcp.this, eBranchInfo -> {
+            try {
+                lblBranch.setText(eBranchInfo.getBranchNm());
+                lblAddrss.setText(eBranchInfo.getAddressx());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
         mViewModel.getUnpostedCollectionList().observe(Activity_PostDcp.this, unpostedList -> {
             try {
                 if(unpostedList.size() > 0) {
@@ -109,7 +124,7 @@ public class Activity_PostDcp extends AppCompatActivity {
     }
 
     private void postCollection() {
-        mViewModel.PostLRDCPCollection(psRemarks, new VMPostDcp.OnPostCollection() {
+        mViewModel.PostLRDCPCollection(new VMPostDcp.OnPostCollection() {
             @Override
             public void onLoading() {
                 poLoading = new LoadDialog(Activity_PostDcp.this);

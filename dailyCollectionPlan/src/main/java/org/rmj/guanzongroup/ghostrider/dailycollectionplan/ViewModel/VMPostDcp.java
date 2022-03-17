@@ -24,10 +24,12 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
@@ -49,22 +51,28 @@ public class VMPostDcp extends AndroidViewModel {
     private static final String TAG = VMPostDcp.class.getSimpleName();
     private final Application instance;
     private final RDailyCollectionPlan poDcpRepo;
+    private final RBranch poBranchx;
 
     public VMPostDcp(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poDcpRepo = new RDailyCollectionPlan(instance);
+        this.poBranchx = new RBranch(application);
     }
 
     public LiveData<List<EDCPCollectionDetail>> getUnpostedCollectionList() {
         return poDcpRepo.getCollectionDetailLog();
     }
 
-    public void PostLRDCPCollection(String fsRemarks, OnPostCollection foCallBck) {
-        new PostLRDCPCollectionTask(instance, foCallBck).execute(fsRemarks);
+    public LiveData<EBranchInfo> getUserBranchInfo(){
+        return poBranchx.getUserBranchInfo();
     }
 
-    private static class PostLRDCPCollectionTask extends AsyncTask<String, Void, String> {
+    public void PostLRDCPCollection(OnPostCollection foCallBck) {
+        new PostLRDCPCollectionTask(instance, foCallBck).execute();
+    }
+
+    private static class PostLRDCPCollectionTask extends AsyncTask<Void, Void, String> {
         private final ConnectionUtil poConnect;
         private final DcpManager poDcpMngr;
         private final OnPostCollection poCallBck;
@@ -83,27 +91,16 @@ public class VMPostDcp extends AndroidViewModel {
         }
 
         @Override
-        protected String doInBackground(String... strings) {
-            String lsRemarks = Objects.requireNonNull(strings[0]);
+        protected String doInBackground(Void... voids) {
             final String[] lsResult = {""};
 
             try {
                 if(poConnect.isDeviceConnected()) {
-                    poDcpMngr.UpdateNotVisitedCollections(lsRemarks, new DcpManager.OnActionCallback() {
+                    poDcpMngr.PostLRDCPCollection(new DcpManager.OnActionCallback() {
                         @Override
                         public void OnSuccess(String args) {
-                            poDcpMngr.PostLRDCPCollection(new DcpManager.OnActionCallback() {
-                                @Override
-                                public void OnSuccess(String args) {
-                                    isSuccess = true;
-                                    lsResult[0] = args;
-                                }
-
-                                @Override
-                                public void OnFailed(String message) {
-                                    lsResult[0] = message;
-                                }
-                            });
+                            isSuccess = true;
+                            lsResult[0] = args;
                         }
 
                         @Override

@@ -748,9 +748,36 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 //                    });
 
                     startIntentExportDCPPost();
-                    Intent loIntent = new Intent(Activity_CollectionList.this, Activity_PostDcp.class);
-                    loIntent.putExtra("sRemarksx", Remarks);
-                    startActivity(loIntent);
+
+                    mViewModel.UpdateNotVisitedCollections(Remarks, new VMCollectionList.OnUpdateCollectionRemCode() {
+                        @Override
+                        public void onLoading() {
+                            poDialogx = new LoadDialog(Activity_CollectionList.this);
+                            poDialogx.initDialog("Daily Collection Plan", "Updating unvisited collections.", false);
+                            poDialogx.show();
+                        }
+
+                        @Override
+                        public void onSuccess(String fsMessage) {
+                            poDialogx.dismiss();
+                            Intent loIntent = new Intent(Activity_CollectionList.this, Activity_PostDcp.class);
+                            loIntent.putExtra("sRemarksx", Remarks);
+                            startActivity(loIntent);
+                        }
+
+                        @Override
+                        public void onFailed(String fsMessage) {
+                            poDialogx.dismiss();
+                            poDialogx.dismiss();
+                            poMessage.initDialog();
+                            poMessage.setTitle("Daily Collection Plan");
+                            poMessage.setMessage(fsMessage);
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                                dialog.dismiss();
+                            });
+                            poMessage.show();
+                        }
+                    });
 
                 }
 

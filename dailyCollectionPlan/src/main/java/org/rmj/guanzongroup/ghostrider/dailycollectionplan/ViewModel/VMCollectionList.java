@@ -49,6 +49,7 @@ import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.DcpManager;
 import org.rmj.guanzongroup.ghostrider.notifications.Function.GRiderErrorReport;
 
 import java.io.BufferedReader;
@@ -116,6 +117,10 @@ public class VMCollectionList extends AndroidViewModel {
 
     public boolean isDebugMode(){
         return poConfig.isTesting_Phase();
+    }
+
+    public void UpdateNotVisitedCollections(String fsRemarks, OnUpdateCollectionRemCode foCallBck) {
+        new UpdateNotVisitedCollectionsTask(instance, foCallBck).execute(fsRemarks);
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -1241,6 +1246,65 @@ public class VMCollectionList extends AndroidViewModel {
         }
     }
 
+    private static class UpdateNotVisitedCollectionsTask extends AsyncTask<String, Void, String> {
+        private final ConnectionUtil poConnect;
+        private final DcpManager poDcpMngr;
+        private final OnUpdateCollectionRemCode poCallBck;
+        private boolean isSuccess = false;
+
+        private UpdateNotVisitedCollectionsTask(Application foApp, OnUpdateCollectionRemCode foCallBck) {
+            this.poConnect = new ConnectionUtil(foApp);
+            this.poDcpMngr = new DcpManager(foApp);
+            this.poCallBck = foCallBck;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            poCallBck.onLoading();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String lsRemarks = strings[0];
+            final String[] lsResultx = {""};
+            try {
+                if(poConnect.isDeviceConnected()) {
+                    poDcpMngr.UpdateNotVisitedCollections(lsRemarks, new DcpManager.OnActionCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            isSuccess = true;
+                            lsResultx[0] = args;
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            lsResultx[0] = message;
+                        }
+                    });
+                } else {
+                    lsResultx[0] = AppConstants.SERVER_NO_RESPONSE();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsResultx[0] = e.getMessage();
+            }
+
+
+            return lsResultx[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(isSuccess) {
+                poCallBck.onSuccess(s);
+            } else {
+                poCallBck.onFailed(s);
+            }
+        }
+    }
+
     public interface CheckImport {
         void OnCheck(boolean doesExist);
     }
@@ -1296,5 +1360,11 @@ public class VMCollectionList extends AndroidViewModel {
 
     public boolean isExportedDCP(){
         return poConfig.isExportedDcp();
+    }
+
+    public interface OnUpdateCollectionRemCode {
+        void onLoading();
+        void onSuccess(String fsMessage);
+        void onFailed(String fsMessage);
     }
 }

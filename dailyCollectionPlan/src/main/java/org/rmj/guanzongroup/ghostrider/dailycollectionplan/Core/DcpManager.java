@@ -241,8 +241,14 @@ public class DcpManager {
     }
 
     public void UpdateNotVisitedCollections(String fsRemarks, OnActionCallback callback){
-        String lsTransNox = poDcp.getUnpostedDcpMaster();
-        poDcp.updateNotVisitedCollections(fsRemarks, lsTransNox);
+        try {
+            String lsTransNox = poDcp.getUnpostedDcpMaster();
+            poDcp.updateNotVisitedCollections(fsRemarks, lsTransNox);
+            callback.OnSuccess("");
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailed(e.getMessage());
+        }
     }
 
     public void PostLRDCPCollection(OnActionCallback callback){
@@ -264,8 +270,11 @@ public class DcpManager {
 
                     String lsTransNo = loDcp.getTransNox();
                     String lsAccntNo = loDcp.getAcctNmbr();
+
+                    EImageInfo loImage;
                     switch (lsRemCode){
                         case "":
+                        case "NV":
                             loData.put("sRemarksx", loDcp.getRemarksx());
                             loJson.put("sRemCodex", "NV");
                             loJson.put("dModified", new AppConstants().DATE_MODIFIED);
@@ -289,12 +298,14 @@ public class DcpManager {
                             loJson.put("sRemCodex", loDcp.getRemCodex());
                             loJson.put("dModified", loDcp.getModified());
 
-                            EImageInfo loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
+                            if(!poConfig.getTestStatus()) {
+                                loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
-                            loData.put("sImageNme", loImage.getImageNme());
-                            loData.put("sSourceCD", loImage.getSourceCD());
-                            loData.put("nLongitud", loImage.getLongitud());
-                            loData.put("nLatitude", loImage.getLatitude());
+                                loData.put("sImageNme", loImage.getImageNme());
+                                loData.put("sSourceCD", loImage.getSourceCD());
+                                loData.put("nLongitud", loImage.getLongitud());
+                                loData.put("nLatitude", loImage.getLatitude());
+                            }
                             break;
                         case "LUn":
                         case "TA":
@@ -316,21 +327,25 @@ public class DcpManager {
                             loData.put("sMobileNo", loClient.getMobileNo());
                             loData.put("sEmailAdd", loClient.getEmailAdd());
 
-                            loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
+                            if(!poConfig.getTestStatus()) {
+                                loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
-                            loData.put("sImageNme", loImage.getImageNme());
-                            loData.put("sSourceCD", loImage.getSourceCD());
-                            loData.put("nLongitud", loImage.getLongitud());
-                            loData.put("nLatitude", loImage.getLatitude());
-                            loJson.put("sRemCodex", loDcp.getRemCodex());
-                            loJson.put("dModified", loDcp.getModified());
+                                loData.put("sImageNme", loImage.getImageNme());
+                                loData.put("sSourceCD", loImage.getSourceCD());
+                                loData.put("nLongitud", loImage.getLongitud());
+                                loData.put("nLatitude", loImage.getLatitude());
+                                loJson.put("sRemCodex", loDcp.getRemCodex());
+                                loJson.put("dModified", loDcp.getModified());
+                            }
                             break;
                         default:
-                            loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
-                            loData.put("sImageNme", loImage.getImageNme());
-                            loData.put("sSourceCD", loImage.getSourceCD());
-                            loData.put("nLongitud", loImage.getLongitud());
-                            loData.put("nLatitude", loImage.getLatitude());
+                            if(!poConfig.getTestStatus()) {
+                                loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
+                                loData.put("sImageNme", loImage.getImageNme());
+                                loData.put("sSourceCD", loImage.getSourceCD());
+                                loData.put("nLongitud", loImage.getLongitud());
+                                loData.put("nLatitude", loImage.getLatitude());
+                            }
                     }
 
                     loJson.put("sTransNox", loDcp.getTransNox());
@@ -363,7 +378,7 @@ public class DcpManager {
                         String lsClient = WebFileServer.RequestClientToken(lsProdtID, lsClntIDx, lsUserIDx);
                         String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
-                        EImageInfo loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
+                        loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
                         org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
                                 loImage.getFileLoct(),
@@ -390,7 +405,7 @@ public class DcpManager {
 
                     Thread.sleep(1000);
                 }
-                callback.OnSuccess("");
+                callback.OnSuccess("DCP Transactions Posted Successfully.");
             }
 
         } catch (Exception e){
