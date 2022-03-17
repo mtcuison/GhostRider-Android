@@ -122,6 +122,11 @@ public class ChildObject {
                 loIntent.putExtra("knox", 4);
                 break;
 
+            case "activate":
+                loIntent = new Intent(context, Activity_Knox.class);
+                loIntent.putExtra("knox", 1);
+                break;
+
             case "check status":
                 loIntent = new Intent(context, Activity_Knox.class);
                 loIntent.putExtra("knox", 5);

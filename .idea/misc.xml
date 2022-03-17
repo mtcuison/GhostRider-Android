@@ -10,6 +10,10 @@
         <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/bg_gradient_light.xml" value="0.2203125" />
         <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/ic_ghostrider_logo_day.xml" value="0.2203125" />
         <entry key="..\:/GhostRider-Android-09-25-2021/g3appdriver/src/main/res/drawable/ic_ghostrider_logo_night.xml" value="0.2203125" />
+        <entry key="..\:/Projects/Android/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_area_performance_pie_chart.xml" value="0.12894736842105264" />
+        <entry key="..\:/Projects/Android/GhostRider-Android/creditApp/src/main/res/layout/fragment_spouse_employment_info.xml" value="0.12894736842105264" />
+        <entry key="..\:/Projects/Android/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/activity_post_dcp.xml" value="0.12894736842105264" />
+        <entry key="..\:/Projects/Android/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/dialog_confirm_post.xml" value="0.1287568306010929" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/activity_area_performance.xml" value="0.1" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/activity_branch_performance.xml" value="0.13651315789473684" />
         <entry key="..\:/Projects/GhostRider-Android/ahMonitoring/src/main/res/layout/activity_cash_count_log.xml" value="0.13651315789473684" />
@@ -96,6 +100,12 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/list_item_evaluation.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/activity_application_list.xml" value="0.15052083333333333" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/list_item_evaluation.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/samsungKnox/src/main/res/layout/fragment_activate.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/samsungKnox/src/main/res/layout/fragment_get_offline_pin.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/samsungKnox/src/main/res/layout/fragment_get_pin.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/samsungKnox/src/main/res/layout/fragment_get_status.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/samsungKnox/src/main/res/layout/fragment_unlock.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/samsungKnox/src/main/res/layout/fragment_upload.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/CreditEvaluator/src/main/res/layout/fragment_ci_special_info.xml" value="0.18" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_application.xml" value="0.1631578947368421" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/ahMonitoring/src/main/res/layout/activity_area_performance.xml" value="0.17" />
