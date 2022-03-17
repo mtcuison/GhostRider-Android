@@ -64,13 +64,64 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical">
 
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Performance Period"
+                                android:textColor="@color/guanzon_text_grey"
+                                android:textSize="17sp"
+                                android:fontFamily="@font/roboto_bold"
+                                android:gravity="center"
+                                android:layout_marginTop="15dp"/>
+
+                            <RadioGroup
+                                android:id="@+id/rg_period"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:layout_marginTop="10dp">
+
+                                <RadioButton
+                                    android:id="@+id/rb_month"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Month"
+                                    android:checked="true"
+                                    android:layout_marginHorizontal="10dp"/>
+
+                                <RadioButton
+                                    android:id="@+id/rb_year"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Year"
+                                    android:layout_marginHorizontal="10dp"/>
+
+                            </RadioGroup>
+
+                            <com.github.mikephil.charting.charts.PieChart
+                                android:id="@+id/pie_chart_month"
+                                android:layout_width="match_parent"
+                                android:layout_height="230dp"
+                                android:layout_marginVertical="20dp"
+                                android:padding="5dp"
+                                android:layout_gravity="center"/>
+
+                            <com.github.mikephil.charting.charts.PieChart
+                                android:id="@+id/pie_chart_year"
+                                android:layout_width="match_parent"
+                                android:layout_height="230dp"
+                                android:layout_marginVertical="20dp"
+                                android:padding="5dp"
+                                android:layout_gravity="center"
+                                android:visibility="gone"/>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:gravity="center"
-                                android:layout_marginTop="20dp"
-                                android:layout_marginBottom="10dp">
+                                android:layout_marginVertical="10dp">
 
                                 <View
                                     android:layout_width="10dp"
@@ -114,22 +165,6 @@
                                     android:text="Excess"/>
 
                             </LinearLayout>
-
-                            <com.github.mikephil.charting.charts.PieChart
-                                android:id="@+id/pie_chart_month"
-                                android:layout_width="match_parent"
-                                android:layout_height="230dp"
-                                android:layout_marginVertical="20dp"
-                                android:padding="5dp"
-                                android:layout_gravity="center"/>
-
-                            <com.github.mikephil.charting.charts.PieChart
-                                android:id="@+id/pie_chart_year"
-                                android:layout_width="match_parent"
-                                android:layout_height="230dp"
-                                android:layout_marginVertical="20dp"
-                                android:padding="5dp"
-                                android:layout_gravity="center"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"

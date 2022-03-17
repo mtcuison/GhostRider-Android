@@ -28,7 +28,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
 import java.util.List;
 
 @Dao
-public interface DCreditApplication {
+public interface    DCreditApplication {
 
     @Insert
     void insert(ECreditApplication creditApplication);

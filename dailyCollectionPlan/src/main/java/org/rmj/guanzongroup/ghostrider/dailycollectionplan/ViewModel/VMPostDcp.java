@@ -18,6 +18,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
@@ -38,6 +39,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.DcpManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,247 +47,97 @@ import java.util.Objects;
 
 public class VMPostDcp extends AndroidViewModel {
     private static final String TAG = VMPostDcp.class.getSimpleName();
-
     private final Application instance;
-
-    public interface OnPostCollectionCallback{
-        void OnStartPosting(String Title, String Message);
-        void OnProgress(String label, int value);
-        void OnFinishPosting(boolean isSuccess, String Message);
-    }
+    private final RDailyCollectionPlan poDcpRepo;
 
     public VMPostDcp(@NonNull Application application) {
         super(application);
         this.instance = application;
+        this.poDcpRepo = new RDailyCollectionPlan(instance);
     }
 
-    public void PostDCP(OnPostCollectionCallback callback){
-        new PostLRDCP(instance).execute();
+    public LiveData<List<EDCPCollectionDetail>> getUnpostedCollectionList() {
+        return poDcpRepo.getCollectionDetailLog();
     }
 
-    private class PostLRDCP extends AsyncTask<List<EDCPCollectionDetail>, Integer, JSONObject>{
+    public void PostLRDCPCollection(String fsRemarks, OnPostCollection foCallBck) {
+        new PostLRDCPCollectionTask(instance, foCallBck).execute(fsRemarks);
+    }
 
-        private final Application instance;
-        private final ConnectionUtil poConn;
-        private final SessionManager poUser;
-        private final RImageInfo poImage;
-        private final RClientUpdate poClient;
-        private final Telephony poTelephony;
-        private final HttpHeaders poHeaders;
-        private final RDailyCollectionPlan poDcp;
-        private final AppConfigPreference poConfig;
-        private final WebApi poApi;
-        private String sRemarksx;
-        private String psResult;
-        private String psAccess;
+    private static class PostLRDCPCollectionTask extends AsyncTask<String, Void, String> {
+        private final ConnectionUtil poConnect;
+        private final DcpManager poDcpMngr;
+        private final OnPostCollection poCallBck;
+        private boolean isSuccess = false;
 
-        private ArrayList<UnpostedData> poUnposted;
-        private ArrayList<UnpostedImage> poUnpstImg;
-
-        public PostLRDCP(Application instance) {
-            this.instance = instance;
-            this.poConn = new ConnectionUtil(instance);
-            this.poUser = new SessionManager(instance);
-            this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poDcp = new RDailyCollectionPlan(instance);
-            this.poImage = new RImageInfo(instance);
-            this.poClient = new RClientUpdate(instance);
-            this.poTelephony = new Telephony(instance);
-            this.poConfig = AppConfigPreference.getInstance(instance);
-            this.poUnposted = new ArrayList<>();
-            this.poUnpstImg = new ArrayList<>();
-            this.poApi = new WebApi(poConfig.getTestStatus());
-        }
-
-        public void setRemarks(String value){
-            this.sRemarksx = value;
-        }
-
-        @SuppressLint("NewApi")
-        @Override
-        protected JSONObject doInBackground(List<EDCPCollectionDetail>... lists) {
-            try{
-                psAccess = getAccessToken();
-                List<EDCPCollectionDetail> laDetail = lists[0];
-                for(int x = 0; x < laDetail.size(); x++){
-                    EDCPCollectionDetail loDetail = laDetail.get(x);
-                    JSONObject loData = new JSONObject();
-                    if(loDetail.getRemCodex().isEmpty()){
-                        loData.put("sRemarksx", sRemarksx);
-                    } else {
-                        String lsRemCode = loDetail.getRemCodex();
-                        if(!lsRemCode.equalsIgnoreCase("PAY")){
-                            EImageInfo loImgInfo = uploadDCPImageFile(loDetail);
-                            if (lsRemCode.equalsIgnoreCase("PTP")) {
-                                //Required loDataeters for Promise to pay..
-                                loData.put("cApntUnit", loDetail.getApntUnit());
-                                loData.put("sBranchCd", loDetail.getBranchCd());
-                                loData.put("dPromised", loDetail.getPromised());
-
-                                loData.put("sImageNme", loDetail.getImageNme());
-                                loData.put("sSourceCD", loImgInfo.getSourceCD());
-                                loData.put("nLongitud", loImgInfo.getLongitud());
-                                loData.put("nLatitude", loImgInfo.getLatitude());
-
-                            } else if (lsRemCode.equalsIgnoreCase("LUn") ||
-                                    lsRemCode.equalsIgnoreCase("TA") ||
-                                    lsRemCode.equalsIgnoreCase("FO")) {
-
-                                //TODO: replace JSON loDataeters get the loDataeters which is being generated by RClientUpdate...
-                                EClientUpdate loClient = poClient.getClientUpdateInfoForPosting(loDetail.getTransNox(), loDetail.getAcctNmbr());
-                                loData.put("sLastName", loClient.getLastName());
-                                loData.put("sFrstName", loClient.getFrstName());
-                                loData.put("sMiddName", loClient.getMiddName());
-                                loData.put("sSuffixNm", loClient.getSuffixNm());
-                                loData.put("sHouseNox", loClient.getHouseNox());
-                                loData.put("sAddressx", loClient.getAddressx());
-                                loData.put("sTownIDxx", loClient.getTownIDxx());
-                                loData.put("cGenderxx", loClient.getGenderxx());
-                                loData.put("cCivlStat", loClient.getCivlStat());
-                                loData.put("dBirthDte", loClient.getBirthDte());
-                                loData.put("dBirthPlc", loClient.getBirthPlc());
-                                loData.put("sLandline", loClient.getLandline());
-                                loData.put("sMobileNo", loClient.getMobileNo());
-                                loData.put("sEmailAdd", loClient.getEmailAdd());
-
-                                loData.put("sImageNme", loImgInfo.getImageNme());
-                                loData.put("sSourceCD", loImgInfo.getSourceCD());
-                                loData.put("nLongitud", loImgInfo.getLongitud());
-                                loData.put("nLatitude", loImgInfo.getLatitude());
-                            } else {
-                                loData.put("sImageNme", loImgInfo.getImageNme());
-                                loData.put("sSourceCD", loImgInfo.getSourceCD());
-                                loData.put("nLongitud", loImgInfo.getLongitud());
-                                loData.put("nLatitude", loImgInfo.getLatitude());
-                            }
-
-                            loData.put("sRemarksx", loDetail.getRemarksx());
-
-                        } else {
-                            loData.put("sPRNoxxxx", loDetail.getPRNoxxxx());
-                            loData.put("nTranAmtx", loDetail.getTranAmtx());
-                            loData.put("nDiscount", loDetail.getDiscount());
-                            loData.put("nOthersxx", loDetail.getOthersxx());
-                            loData.put("cTranType", loDetail.getTranType());
-                            loData.put("nTranTotl", loDetail.getTranTotl());
-//                                               Added by Jonathan 07/27/2021
-                            loData.put("sRemarksx", loDetail.getRemarksx());
-                        }
-                    }
-
-                    JSONObject params = new JSONObject();
-                    params.put("sTransNox", loDetail.getTransNox());
-                    params.put("nEntryNox", loDetail.getEntryNox());
-                    params.put("sAcctNmbr", loDetail.getAcctNmbr());
-                    if (loDetail.getRemCodex().isEmpty()) {
-                        params.put("sRemCodex", "NV");
-                        params.put("dModified", new AppConstants().DATE_MODIFIED);
-                    } else {
-                        params.put("sRemCodex", loDetail.getRemCodex());
-                        params.put("dModified", loDetail.getModified());
-                    }
-
-                    params.put("sJsonData", loData);
-                    params.put("dReceived", "");
-                    params.put("sUserIDxx", poUser.getUserID());
-                    params.put("sDeviceID", poTelephony.getDeviceID());
-
-                    String lsDtlResult = WebClient.sendRequest(poApi.getUrlDcpSubmit(), params.toString(), poHeaders.getHeaders());
-                    if(lsDtlResult == null){
-
-                    } else {
-                        JSONObject loResult = new JSONObject(lsDtlResult);
-                        String lsResult = loResult.getString("result");
-                        if(lsResult.equalsIgnoreCase("success")){
-                            UpdateLocalDCPStatus(loDetail);
-                        } else {
-
-                        }
-                    }
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            return null;
+        private PostLRDCPCollectionTask(Application foAppsxxx, OnPostCollection foCallBck) {
+            this.poConnect = new ConnectionUtil(foAppsxxx);
+            this.poDcpMngr = new DcpManager(foAppsxxx);
+            this.poCallBck = foCallBck;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            poCallBck.onLoading();
         }
 
         @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-        }
+        protected String doInBackground(String... strings) {
+            String lsRemarks = Objects.requireNonNull(strings[0]);
+            final String[] lsResult = {""};
 
-        @Override
-        protected void onPostExecute(JSONObject jsonObject) {
-            super.onPostExecute(jsonObject);
-        }
-
-        String getAccessToken(){
-            String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(), poUser.getClientId(), poUser.getUserID());
-            String lsAccess = WebFileServer.RequestAccessToken(lsClient);
-            return lsAccess;
-        }
-
-        EImageInfo uploadDCPImageFile(EDCPCollectionDetail foDetail){
-            String lsTransNox = foDetail.getTransNox();
-            String lsAccntNox = foDetail.getAcctNmbr();
-            EImageInfo loImgInfo = poImage.getDCPImageInfoForPosting(lsTransNox, lsAccntNox);;
             try {
-                org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(loImgInfo.getFileLoct(),
-                        psAccess,
-                        loImgInfo.getFileCode(),
-                        foDetail.getAcctNmbr(),
-                        foDetail.getImageNme(),
-                        poUser.getBranchCode(),
-                        loImgInfo.getSourceCD(),
-                        foDetail.getTransNox(),
-                        "");
+                if(poConnect.isDeviceConnected()) {
+                    poDcpMngr.UpdateNotVisitedCollections(lsRemarks, new DcpManager.OnActionCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            poDcpMngr.PostLRDCPCollection(new DcpManager.OnActionCallback() {
+                                @Override
+                                public void OnSuccess(String args) {
+                                    isSuccess = true;
+                                    lsResult[0] = args;
+                                }
 
-                String lsResponse = (String) loUpload.get("result");
+                                @Override
+                                public void OnFailed(String message) {
+                                    lsResult[0] = message;
+                                }
+                            });
+                        }
 
-                if (Objects.requireNonNull(lsResponse).equalsIgnoreCase("success")) {
-                    String lsTransNo = (String) loUpload.get("sTransNox");
-                    poImage.updateImageInfo(lsTransNo, loImgInfo.getTransNox());
+                        @Override
+                        public void OnFailed(String message) {
+                            lsResult[0] = message;
+                        }
+                    });
                 } else {
-                    JSONObject loError = new JSONObject(loUpload.toJSONString());
-                    poUnpstImg.add(new UnpostedImage(foDetail.getTransNox(), loError.getString("message")));
+                    lsResult[0] = AppConstants.SERVER_NO_RESPONSE();
                 }
-
-                Thread.sleep(1000);
-
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
+                lsResult[0] = e.getMessage();
             }
-            return loImgInfo;
+
+            return lsResult[0];
         }
 
-        void UpdateLocalDCPStatus(EDCPCollectionDetail loDetail){
-            if(loDetail.getRemCodex().isEmpty()){
-                poDcp.updateCollectionDetailStatusWithRemarks(loDetail.getTransNox(), loDetail.getEntryNox(), sRemarksx);
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(isSuccess) {
+                poCallBck.onSuccess(s);
             } else {
-                poDcp.updateCollectionDetailStatus(loDetail.getTransNox(), loDetail.getEntryNox());
+                poCallBck.onFailed(s);
             }
         }
+
     }
 
-    class UnpostedData{
-        String AccName;
-        String RemCode;
-        JSONObject data;
-        String Message;
+    public interface OnPostCollection {
+        void onLoading();
+        void onSuccess(String fsMessage);
+        void onFailed(String fsMessage);
     }
 
-    class UnpostedImage{
-        String TransNox;
-        String Message;
-
-        public UnpostedImage(String transNox, String message) {
-            TransNox = transNox;
-            Message = message;
-        }
-    }
 }

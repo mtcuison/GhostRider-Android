@@ -32,10 +32,19 @@ public class RCreditOnlineApplicationCI implements DCreditOnlineApplicationCI {
     }
 
     @Override
+    public LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListData() {
+        return poDao.getForEvaluationListData();
+    }
+
+    @Override
     public ECreditOnlineApplicationCI getApplication(String TransNox) {
         return poDao.getApplication(TransNox);
     }
 
+    @Override
+    public LiveData<ECreditOnlineApplicationCI> getApplications(String TransNox) {
+        return poDao.getApplications(TransNox);
+    }
     @Override
     public void UpdateTransactionSendStat(String TransNox) {
         poDao.UpdateTransactionSendStat(TransNox);
@@ -122,7 +131,7 @@ public class RCreditOnlineApplicationCI implements DCreditOnlineApplicationCI {
     }
 
     @Override
-    public oDataEvaluationInfo getForEvaluateInfo(String TransNox) {
+    public LiveData<oDataEvaluationInfo> getForEvaluateInfo(String TransNox) {
         return poDao.getForEvaluateInfo(TransNox);
     }
 }
