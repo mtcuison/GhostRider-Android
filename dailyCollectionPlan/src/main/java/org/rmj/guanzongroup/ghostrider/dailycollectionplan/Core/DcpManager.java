@@ -376,6 +376,8 @@ public class DcpManager {
                         Log.d(TAG, "Error : Server no response.");
                     } else {
                         if (lsResult.equalsIgnoreCase("success")) {
+                            String lsImageID = (String) loUpload.get("sTransNox");
+                            poImage.updateImageInfo(lsImageID, loImage.getTransNox());
                             Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Success!");
                         } else {
                             JSONObject loError = new JSONObject((String) loUpload.get("error"));
@@ -594,6 +596,8 @@ public class DcpManager {
                             Log.d(TAG, "Error : Server no response.");
                         } else {
                             if (lsResult.equalsIgnoreCase("success")) {
+                                String lsImageID = (String) loUpload.get("sTransNox");
+                                poImage.updateImageInfo(lsImageID, loImage.getTransNox());
                                 Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Success!");
                             } else {
                                 JSONObject loError = new JSONObject((String) loUpload.get("error"));

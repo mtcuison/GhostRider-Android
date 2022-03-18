@@ -245,7 +245,6 @@ public class BackgroundSync {
                 message = message + "Unable to send some DCP Paid transactions.\n";
             }
         }
-
         return true;
     }
 }

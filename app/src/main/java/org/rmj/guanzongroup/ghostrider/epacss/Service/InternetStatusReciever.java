@@ -24,6 +24,7 @@ import androidx.annotation.RequiresApi;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECashCount;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
@@ -204,6 +205,11 @@ public class InternetStatusReciever extends BroadcastReceiver {
                 }
                 try {
                     uploadLoanApplicationsDocuments();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    uploadDcpImages();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -567,6 +573,50 @@ public class InternetStatusReciever extends BroadcastReceiver {
                     JSONObject loResponse = new JSONObject(lsResponse);
                     if(loResponse.getString("result").equalsIgnoreCase("success")){
                         poCashCount.UpdateByTransNox(loCC.getTransNox());
+                    }
+                }
+
+                Thread.sleep(1000);
+            }
+        }
+
+        void uploadDcpImages() throws Exception{
+
+            String lsProdtID = poConfig.ProducID();
+            String lsClntIDx = poSession.getClientId();
+            String lsUserIDx = poSession.getUserID();
+
+            List<DImageInfo.DcpImageForPosting> loImages = poImage.getDCPUnpostedImageListForBackgroundSync();
+
+            for(int x = 0; x < loImages.size(); x++){
+                DImageInfo.DcpImageForPosting loDetail = loImages.get(x);
+                String lsClient = WebFileServer.RequestClientToken(lsProdtID, lsClntIDx, lsUserIDx);
+                String lsAccess = WebFileServer.RequestAccessToken(lsClient);
+
+                org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
+                        loDetail.sFileLoct,
+                        lsAccess,
+                        loDetail.sFileCode,
+                        loDetail.sAcctNmbr,
+                        loDetail.sFileName,
+                        poSession.getBranchCode(),
+                        loDetail.sSourceCD,
+                        loDetail.sTransNox,
+                        "");
+
+                String lsResult = (String) loUpload.get("result");
+                if (lsResult == null) {
+                    Log.d(TAG, "Background DCP Image Sync Error : Server no response.");
+                } else {
+                    if (lsResult.equalsIgnoreCase("success")) {
+                        String lsImageID = (String) loUpload.get("sTransNox");
+                        poImage.updateImageInfo(lsImageID, loDetail.sImageIDx);
+                        Log.d(TAG, "Posting collection Image with account no. :" + loDetail.sAcctNmbr + "Success!");
+                    } else {
+                        JSONObject loError = new JSONObject((String) loUpload.get("error"));
+                        String lsMessage = loError.getString("message");
+                        Log.d(TAG, "Background DCP Image Sync : Posting collection Image with account no. :" + loDetail.sAcctNmbr + "Failed!");
+                        Log.d(TAG, "Background DCP Image Sync Error : " + lsMessage);
                     }
                 }
 
