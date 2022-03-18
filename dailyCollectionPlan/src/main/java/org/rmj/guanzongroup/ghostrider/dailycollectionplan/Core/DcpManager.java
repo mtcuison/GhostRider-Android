@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
@@ -642,5 +644,9 @@ public class DcpManager {
             e.printStackTrace();
             callback.OnFailed("Posting dcp master failed. " + e.getMessage());
         }
+    }
+
+    public LiveData<List<EImageInfo>> getDCPImageInfoList(){
+        return poImage.getDCPUnpostedImageList();
     }
 }
