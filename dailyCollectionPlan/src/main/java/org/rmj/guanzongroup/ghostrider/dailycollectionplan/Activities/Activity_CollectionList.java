@@ -349,8 +349,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             showDownloadDcp();
         }else if (requestCode == AppConstants.INTENT_ADD_COLLECTION_DCP && resultCode == RESULT_OK){
             showAddDcpCollection();
-        }else if (requestCode == AppConstants.INTENT_DCP_POST_COLLECTION && resultCode == RESULT_OK){
-            showPostCollection();
         }else if (requestCode == AppConstants.INTENT_TRANSACTION_DCP && resultCode == RESULT_OK){
             mViewModel.getCollectionList().observe(this, collectionDetails -> {
                 showTransaction(DCP_Constants.collectionPos, collectionDetails);
@@ -439,16 +437,34 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
     }
     public void showPostCollection(){
-        poMessage.initDialog();
-        poMessage.setPositiveButton("Post", (view, dialog) -> {
-            dialog.dismiss();
-            postDCPTransaction();
+        mViewModel.getCollectionList().observe(Activity_CollectionList.this, collections -> {
+            try {
+                if(collections.size() > 0) {
+                    poMessage.initDialog();
+                    poMessage.setPositiveButton("Post", (view, dialog) -> {
+                        dialog.dismiss();
+                        postDCPTransaction();
+                    });
+                    poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setMessage("Continue posting DCP transactions? \n" +
+                            "NOTE: Once posted records are unable to update.");
+                    poMessage.show();
+                } else {
+                    poMessage.initDialog();
+                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setMessage("No DCP Transactions to Post.");
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                        dialog.dismiss();
+                    });
+                    poMessage.show();
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
-        poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
-        poMessage.setTitle("Daily Collection Plan");
-        poMessage.setMessage("Continue posting DCP transactions? \n" +
-                "NOTE: Once posted records are unable to update.");
-        poMessage.show();
     }
 
     public void showTransaction(int position, List<EDCPCollectionDetail> collectionDetails){
