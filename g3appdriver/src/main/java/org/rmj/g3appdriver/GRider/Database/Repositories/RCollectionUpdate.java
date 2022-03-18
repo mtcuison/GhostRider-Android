@@ -66,6 +66,15 @@ public class RCollectionUpdate {
         return mobileDao.getMobileRequestListForClient(ClientID);
     }
 
+    public EAddressUpdate getAddressUpdateInfoForPosting(String ClientID){
+        return addressDao.getAddressUpdateInfoForPosting(ClientID);
+    }
+
+    public EMobileUpdate getMobileUpdateInfoForPosting(String ClientID){
+        return mobileDao.getMobileUpdateInfoForPosting(ClientID);
+    }
+
+
     public void insertUpdateAddress(List<EAddressUpdate> addressUpdate){
         new UpdateAddressTask(addressDao).execute(addressUpdate);
     }

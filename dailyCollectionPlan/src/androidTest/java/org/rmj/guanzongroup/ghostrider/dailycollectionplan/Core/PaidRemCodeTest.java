@@ -118,7 +118,7 @@ public class PaidRemCodeTest {
 
     @Test
     public void test02DownloadDCP() throws Exception{
-        poDcp.ImportDcpMaster(new DcpManager.OnActionCallback() {
+        poDcp.ImportDcpMaster("", "", new DcpManager.OnActionCallback() {
             @Override
             public void OnSuccess(String args) {
                 isSuccess = true;

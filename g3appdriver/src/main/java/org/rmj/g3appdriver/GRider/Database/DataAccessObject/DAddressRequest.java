@@ -31,7 +31,7 @@ public interface DAddressRequest {
     @Query("DELETE FROM Address_Update_Request WHERE sTransNox = :sTransNox")
     void deleteAddressInfo(String sTransNox);
 
-    @Query("SELECT * FROM Address_Update_Request")
+    @Query("SELECT * FROM Address_Update_Request WHERE cSendStat <> '1'")
     LiveData<List<EAddressUpdate>> getAddressRequestList();
 
     @Query("UPDATE Address_Update_Request " +
