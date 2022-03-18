@@ -105,7 +105,41 @@ public class Activity_PostDcp extends AppCompatActivity {
                     PostDcpAdapter poAdapter = new PostDcpAdapter(unpostedList, new PostDcpAdapter.OnPostDcpClick() {
                         @Override
                         public void onClick(EDCPCollectionDetail dcpDetail) {
-                            // TODO: call the individual posting of dcp clicked.
+                            mViewModel.PostLRDCPTransaction(dcpDetail, new VMPostDcp.OnPostCollection() {
+                                @Override
+                                public void onLoading() {
+                                    isPosting = true;
+                                    poLoading = new LoadDialog(Activity_PostDcp.this);
+                                    poLoading.initDialog("Posting DCP", "Posting DCP. Please wait...", false);
+                                    poLoading.show();
+                                }
+
+                                @Override
+                                public void onSuccess(String fsMessage) {
+                                    isPosting = false;
+                                    poLoading.dismiss();
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Daily Collection Plan");
+                                    poMessage.setMessage(fsMessage);
+                                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                                        dialog.dismiss();
+                                    });
+                                    poMessage.show();
+                                }
+
+                                @Override
+                                public void onFailed(String fsMessage) {
+                                    isPosting = false;
+                                    poLoading.dismiss();
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Daily Collection Plan");
+                                    poMessage.setMessage(fsMessage);
+                                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                                        dialog.dismiss();
+                                    });
+                                    poMessage.show();
+                                }
+                            });
                         }
                     });
                     recyclerV.setAdapter(poAdapter);
