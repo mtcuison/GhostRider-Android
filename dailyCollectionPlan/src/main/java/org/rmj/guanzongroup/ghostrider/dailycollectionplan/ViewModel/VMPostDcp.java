@@ -60,12 +60,12 @@ public class VMPostDcp extends AndroidViewModel {
         this.poBranchx = new RBranch(application);
     }
 
-    public LiveData<List<EDCPCollectionDetail>> getUnpostedCollectionList() {
-        return poDcpRepo.getCollectionDetailLog();
-    }
-
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return poBranchx.getUserBranchInfo();
+    }
+
+    public LiveData<List<EDCPCollectionDetail>> getUnpostedCollectionList() {
+        return poDcpRepo.getCollectionDetailLog();
     }
 
     public void PostLRDCPCollection(OnPostCollection foCallBck) {
