@@ -59,35 +59,35 @@ public class EvaluationCoreTest {
 
     @Test
     public void test02TestRetrieve(){
-        poSystem.RetrieveApplicationData("CI5UV2200018", new EvaluatorManager.OnRetrieveDataCallback() {
-            @Override
-            public void OnRetrieve(HashMap<oParentFndg, List<oChildFndg>> foEvaluate, ECreditOnlineApplicationCI foData) {
-                poEvaluate = foEvaluate;
-                isSuccess = true;
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                isSuccess = false;
-            }
-        });
-        assertTrue(isSuccess);
+//        poSystem.RetrieveApplicationData("CI5UV2200018", new EvaluatorManager.OnRetrieveDataCallback() {
+//            @Override
+//            public void OnRetrieve(HashMap<oParentFndg, List<oChildFndg>> foEvaluate, ECreditOnlineApplicationCI foData) {
+//                poEvaluate = foEvaluate;
+//                isSuccess = true;
+//            }
+//
+//            @Override
+//            public void OnFailed(String message) {
+//                isSuccess = false;
+//            }
+//        });
+//        assertTrue(isSuccess);
     }
 
     @Test
     public void test03TestUpdateCI() throws Exception{
-        poSystem.RetrieveApplicationData("CI5UV2200018", new EvaluatorManager.OnRetrieveDataCallback() {
-            @Override
-            public void OnRetrieve(HashMap<oParentFndg, List<oChildFndg>> foEvaluate, ECreditOnlineApplicationCI foData) {
-                poEvaluate = foEvaluate;
-                isSuccess = true;
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                isSuccess = false;
-            }
-        });
+//        poSystem.RetrieveApplicationData("CI5UV2200018", new EvaluatorManager.OnRetrieveDataCallback() {
+//            @Override
+//            public void OnRetrieve(HashMap<oParentFndg, List<oChildFndg>> foEvaluate, ECreditOnlineApplicationCI foData) {
+//                poEvaluate = foEvaluate;
+//                isSuccess = true;
+//            }
+//
+//            @Override
+//            public void OnFailed(String message) {
+//                isSuccess = false;
+//            }
+//        });
 
         poEvaluate.forEach((oParent, oChild) -> {
             if(oChild.size() > 0) {
