@@ -133,6 +133,10 @@ public class VMCollectionList extends AndroidViewModel {
         new ImportDcpMasterTask(instance, foCallBck).execute(loDataMap);
     }
 
+    public void getSearchList(String fsClientNm, OnCollectionNameSearch foCallBck) {
+        new GetSearchListTask(instance, foCallBck).execute(fsClientNm);
+    }
+
     @SuppressLint("SimpleDateFormat")
     public void DownloadDcp(String date, OnDownloadCollection callback){
         try{
@@ -1380,6 +1384,67 @@ public class VMCollectionList extends AndroidViewModel {
 
     }
 
+    private static class GetSearchListTask extends AsyncTask<String, Void, String> {
+        private final ConnectionUtil poConnect;
+        private final DcpManager poDcpMngr;
+        private final OnCollectionNameSearch poCallBck;
+        private List<EDCPCollectionDetail> poDetailx;
+        private boolean isSuccess = false;
+
+        private GetSearchListTask(Application foApp, OnCollectionNameSearch foCallBck) {
+            this.poConnect = new ConnectionUtil(foApp);
+            this.poDcpMngr = new DcpManager(foApp);
+            this.poCallBck = foCallBck;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            poCallBck.onLoading();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String lsClientN = strings[0];
+            final String[] lsResultx = {""};
+
+            try {
+                if(poConnect.isDeviceConnected()) {
+                    poDcpMngr.getSearchList(lsClientN, new DcpManager.OnSearchCallback() {
+                        @Override
+                        public void OnSuccess(List<EDCPCollectionDetail> foDetail) {
+                            isSuccess = true;
+                            poDetailx = foDetail;
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            lsResultx[0] = message;
+                        }
+                    });
+                } else {
+                    lsResultx[0] = AppConstants.SERVER_NO_RESPONSE();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsResultx[0] = e.getMessage();
+            }
+
+            return lsResultx[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(isSuccess) {
+                poCallBck.onSuccess(poDetailx);
+            } else {
+                poCallBck.onFailed(s);
+            }
+        }
+
+    }
+
     public interface CheckImport {
         void OnCheck(boolean doesExist);
     }
@@ -1440,6 +1505,12 @@ public class VMCollectionList extends AndroidViewModel {
     public interface OnTransactionCallback {
         void onLoading();
         void onSuccess(String fsMessage);
+        void onFailed(String fsMessage);
+    }
+
+    public interface OnCollectionNameSearch {
+        void onLoading();
+        void onSuccess(List<EDCPCollectionDetail> foDetail);
         void onFailed(String fsMessage);
     }
 }
