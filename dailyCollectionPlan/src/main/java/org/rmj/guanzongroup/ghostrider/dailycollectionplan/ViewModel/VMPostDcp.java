@@ -60,16 +60,20 @@ public class VMPostDcp extends AndroidViewModel {
         this.poBranchx = new RBranch(application);
     }
 
-    public LiveData<List<EDCPCollectionDetail>> getUnpostedCollectionList() {
-        return poDcpRepo.getCollectionDetailLog();
-    }
-
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return poBranchx.getUserBranchInfo();
     }
 
+    public LiveData<List<EDCPCollectionDetail>> getUnpostedCollectionList() {
+        return poDcpRepo.getCollectionDetailLog();
+    }
+
     public void PostLRDCPCollection(OnPostCollection foCallBck) {
         new PostLRDCPCollectionTask(instance, foCallBck).execute();
+    }
+
+    public void PostLRDCPTransaction(EDCPCollectionDetail foDcpInfo, OnPostCollection foCallBck) {
+        new PostLRDCPTransactionTask(instance, foCallBck).execute(foDcpInfo);
     }
 
     private static class PostLRDCPCollectionTask extends AsyncTask<Void, Void, String> {
@@ -117,6 +121,67 @@ public class VMPostDcp extends AndroidViewModel {
             }
 
             return lsResult[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(isSuccess) {
+                poCallBck.onSuccess(s);
+            } else {
+                poCallBck.onFailed(s);
+            }
+        }
+
+    }
+
+    private static class PostLRDCPTransactionTask extends AsyncTask<EDCPCollectionDetail, Void, String> {
+        private final ConnectionUtil poConnect;
+        private final DcpManager poDcpMngr;
+        private final OnPostCollection poCallBck;
+        private boolean isSuccess = false;
+
+        private PostLRDCPTransactionTask(Application foAppsxxx, OnPostCollection foCallBck) {
+            this.poConnect = new ConnectionUtil(foAppsxxx);
+            this.poDcpMngr = new DcpManager(foAppsxxx);
+            this.poCallBck = foCallBck;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            poCallBck.onLoading();
+        }
+
+        @Override
+        protected String doInBackground(EDCPCollectionDetail... edcpCollectionDetails) {
+            EDCPCollectionDetail loDcpInfo = edcpCollectionDetails[0];
+            final String[] lsResultx = {""};
+
+            try {
+                if(poConnect.isDeviceConnected()) {
+                    poDcpMngr.PostLRDCPTransaction(loDcpInfo.getTransNox(), loDcpInfo.getAcctNmbr(),
+                            new DcpManager.OnActionCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            isSuccess = true;
+                            lsResultx[0] = args;
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            lsResultx[0] = message;
+                        }
+                    });
+                } else {
+                    lsResultx[0] = AppConstants.SERVER_NO_RESPONSE();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsResultx[0] = e.getMessage();
+            }
+
+            return lsResultx[0];
         }
 
         @Override

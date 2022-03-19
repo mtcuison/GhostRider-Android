@@ -5,8 +5,8 @@
  * Project name : GhostRider_Android
  * Module : GhostRider_Android.creditEvaluation
  * Electronic Personnel Access Control Security System
- * project file created : 3/11/22, 11:18 AM
- * project file last modified : 3/11/22, 11:18 AM
+ * project file created : 3/17/22, 10:36 AM
+ * project file last modified : 3/17/22, 10:36 AM
  */
 
 package org.guanzongroup.com.creditevaluation.Activity;
@@ -18,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -34,10 +33,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
 import org.guanzongroup.com.creditevaluation.Adapter.CreditEvaluationListAdapter;
-import org.guanzongroup.com.creditevaluation.Dialog.DialogAddApplication;
 import org.guanzongroup.com.creditevaluation.R;
+import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationHistory;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationList;
-import org.guanzongroup.com.creditevaluation.ViewModel.ViewModelCallback;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -46,10 +44,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Activity_EvaluationList extends AppCompatActivity implements VMEvaluationList.OnImportCallBack{
-    private static final String TAG = Activity_EvaluationList.class.getSimpleName();
+public class Activity_EvaluationCIHistory extends AppCompatActivity implements VMEvaluationHistory.OnImportCallBack{
+    private static final String TAG = Activity_EvaluationCIHistory.class.getSimpleName();
     private RecyclerView recyclerViewClient;
-    private VMEvaluationList mViewModel;
+    private VMEvaluationHistory mViewModel;
     private LinearLayoutManager layoutManager;
     private CreditEvaluationListAdapter adapter;
     private LinearLayout loading;
@@ -59,35 +57,40 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
     private String userBranch;
     private TextInputEditText txtSearch;
     private TextView layoutNoRecord;
+    private TextView lblBranch,lblAddress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_evaluation_list);
+        setContentView(R.layout.activity_evaluation_cihistory);
         initWidgets();
-        mViewModel = new ViewModelProvider(Activity_EvaluationList.this).get(VMEvaluationList.class);
-        mViewModel.importApplicationInfo(Activity_EvaluationList.this);
+        mViewModel = new ViewModelProvider(Activity_EvaluationCIHistory.this).get(VMEvaluationHistory.class);
+        mViewModel.importApplicationInfo(Activity_EvaluationCIHistory.this);
+        mViewModel.getUserBranchInfo().observe(this, eBranchInfo -> {
+            try {
+                lblBranch.setText(eBranchInfo.getBranchNm());
+                lblAddress.setText(eBranchInfo.getAddressx());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
 
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.action_menu_credit_evaluation_list, menu);
-
-        return true;
     }
     private void initWidgets() {
 
         Toolbar toolbar = findViewById(R.id.toolbar_creditEvalutionList);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        poDialogx = new LoadDialog(Activity_EvaluationList.this);
-        poMessage = new MessageBox(Activity_EvaluationList.this);
+        poDialogx = new LoadDialog(Activity_EvaluationCIHistory.this);
+        poMessage = new MessageBox(Activity_EvaluationCIHistory.this);
 
         recyclerViewClient = findViewById(R.id.recyclerview_ciList);
         txtSearch = findViewById(R.id.txt_ci_search);
-        layoutManager = new LinearLayoutManager(Activity_EvaluationList.this);
+        layoutManager = new LinearLayoutManager(Activity_EvaluationCIHistory.this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         loading = findViewById(R.id.linear_progress);
         layoutNoRecord = findViewById(R.id.layout_ci_noRecord);
+        lblBranch = findViewById(R.id.lblBranch);
+        lblAddress = findViewById(R.id.lblAddress);
     }
 
     @Override
@@ -112,60 +115,17 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
         poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         poMessage.show();
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
-        } else if(item.getItemId() == R.id.action_menu_add_application) {
-            try {
-                DialogAddApplication loDialog = new DialogAddApplication(Activity_EvaluationList.this);
-                loDialog.initDialog(new DialogAddApplication.OnDialogButtonClickListener() {
-                    @Override
-                    public void OnDownloadClick(Dialog Dialog, String args) {
-                        mViewModel.importApplicationInfo(args, new ViewModelCallback() {
-                            @Override
-                            public void OnStartSaving() {
-                                poDialogx.initDialog("Add Application", "Downloading client info. Please wait...", false);
-                                poDialogx.show();
-                            }
-
-                            @Override
-                            public void OnSuccessResult() {
-                                Dialog.dismiss();
-                                poDialogx.dismiss();
-                                poMessage.initDialog();
-                                poMessage.setTitle("Add Application");
-                                poMessage.setMessage("Credit Application saved successfully");
-                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                poMessage.show();
-                            }
-
-                            @Override
-                            public void OnFailedResult(String message) {
-                                poDialogx.dismiss();
-                                poMessage.initDialog();
-                                poMessage.setTitle("Add Application");
-                                poMessage.setMessage(message);
-                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                poMessage.show();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void OnCancel(Dialog Dialog) {
-                        Dialog.dismiss();
-                    }
-                });
-                loDialog.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
         return super.onOptionsItemSelected(item);
     }
+
     public void initData() {
-        mViewModel.getForEvaluationListData().observe(Activity_EvaluationList.this, ciList -> {
+        mViewModel.getForEvaluationListData().observe(Activity_EvaluationCIHistory.this, ciList -> {
             Log.e("size", String.valueOf(ciList.size()));
             try {
                 if (ciList.size() > 0) {
@@ -187,12 +147,13 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
                         loan.cHasRecrd = (ciList.get(x).cHasRecrd);
                         loan.sBranchNm = (ciList.get(x).sBranchNm);
                         loan.sRecrdRem = (ciList.get(x).sRecrdRem);
+                        loan.sRcmdtnx1 = (ciList.get(x).sRcmdtnx1);
 
-                        Log.e("sBranchNm ",loan.sBranchNm);
-                        Log.e("sTransNox ",loan.sTransNox);
-                        Log.e("sClientNm ",loan.sClientNm);
+                        Log.e("sBranchNm ", loan.sBranchNm);
+                        Log.e("sTransNox ", loan.sTransNox);
+                        Log.e("sClientNm ", loan.sClientNm);
 //                        Log.e("nAcctTerm ",loan.nAcctTerm);
-                        Log.e("nDownPaym ",loan.nDownPaym);
+                        Log.e("nDownPaym ", loan.nDownPaym);
                         ciEvaluationList.add(loan);
                         continue;
                     }
@@ -200,21 +161,25 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
 
                     String json = new Gson().toJson(ciEvaluationList);
 
-                    adapter = new CreditEvaluationListAdapter(ciEvaluationList, new CreditEvaluationListAdapter.OnApplicationClickListener() {
+                    adapter = new CreditEvaluationListAdapter(ciEvaluationList, "CI Evaluation History", new CreditEvaluationListAdapter.OnApplicationClickListener() {
                         @Override
                         public void OnClick(int position, List<DCreditOnlineApplicationCI.oDataEvaluationInfo> ciEvaluationLists) {
-
-                            Intent loIntent = new Intent(Activity_EvaluationList.this, Activity_Evaluation.class);
-                            loIntent.putExtra("transno", ciEvaluationLists.get(position).sTransNox);
-                            loIntent.putExtra("ClientNm", ciEvaluationLists.get(position).sClientNm);
-                            loIntent.putExtra("dTransact", ciEvaluationLists.get(position).dTransact);
-                            loIntent.putExtra("Branch", ciEvaluationLists.get(position).sBranchNm);
-                            startActivity(loIntent);
+                            poMessage.initDialog();
+                            poMessage.setTitle("CI Evaluation History");
+                            poMessage.setMessage("No corresponding feature has been set.");
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                            poMessage.show();
+//                            Intent loIntent = new Intent(Activity_EvaluationCIHistory.this, Activity_Evaluation.class);
+//                            loIntent.putExtra("transno", ciEvaluationLists.get(position).sTransNox);
+//                            loIntent.putExtra("ClientNm", ciEvaluationLists.get(position).sClientNm);
+//                            loIntent.putExtra("dTransact", ciEvaluationLists.get(position).dTransact);
+//                            loIntent.putExtra("Branch", ciEvaluationLists.get(position).sBranchNm);
+//                            startActivity(loIntent);
 
                         }
 
                     });
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_EvaluationList.this);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_EvaluationCIHistory.this);
                     recyclerViewClient.setAdapter(adapter);
                     recyclerViewClient.setLayoutManager(layoutManager);
                     adapter.notifyDataSetChanged();
@@ -251,7 +216,7 @@ public class Activity_EvaluationList extends AppCompatActivity implements VMEval
                         }
                     });
                 } else {
-//                    mViewModel.ImportCIApplications(Activity_EvaluationList.this);
+//                    mViewModel.ImportCIApplications(Activity_EvaluationCIHistory.this);
                     layoutNoRecord.setVisibility(View.VISIBLE);
                 }
             } catch (NullPointerException e) {

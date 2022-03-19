@@ -42,7 +42,7 @@ public class Activity_PostDcp extends AppCompatActivity {
     private RecyclerView recyclerV;
     private TextView lblBranch, lblAddrss, lblNoList;
     private String psRemarks = "";
-    private boolean Posting;
+    private boolean isPosting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class Activity_PostDcp extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home &&
-            !Posting){
+            !isPosting){
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -68,7 +68,7 @@ public class Activity_PostDcp extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(!Posting){
+        if(!isPosting){
             finish();
         }
     }
@@ -105,7 +105,41 @@ public class Activity_PostDcp extends AppCompatActivity {
                     PostDcpAdapter poAdapter = new PostDcpAdapter(unpostedList, new PostDcpAdapter.OnPostDcpClick() {
                         @Override
                         public void onClick(EDCPCollectionDetail dcpDetail) {
-                            // TODO: call the individual posting of dcp clicked.
+                            mViewModel.PostLRDCPTransaction(dcpDetail, new VMPostDcp.OnPostCollection() {
+                                @Override
+                                public void onLoading() {
+                                    isPosting = true;
+                                    poLoading = new LoadDialog(Activity_PostDcp.this);
+                                    poLoading.initDialog("Posting DCP", "Posting DCP. Please wait...", false);
+                                    poLoading.show();
+                                }
+
+                                @Override
+                                public void onSuccess(String fsMessage) {
+                                    isPosting = false;
+                                    poLoading.dismiss();
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Daily Collection Plan");
+                                    poMessage.setMessage(fsMessage);
+                                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                                        dialog.dismiss();
+                                    });
+                                    poMessage.show();
+                                }
+
+                                @Override
+                                public void onFailed(String fsMessage) {
+                                    isPosting = false;
+                                    poLoading.dismiss();
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Daily Collection Plan");
+                                    poMessage.setMessage(fsMessage);
+                                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                                        dialog.dismiss();
+                                    });
+                                    poMessage.show();
+                                }
+                            });
                         }
                     });
                     recyclerV.setAdapter(poAdapter);
@@ -127,6 +161,7 @@ public class Activity_PostDcp extends AppCompatActivity {
         mViewModel.PostLRDCPCollection(new VMPostDcp.OnPostCollection() {
             @Override
             public void onLoading() {
+                isPosting = true;
                 poLoading = new LoadDialog(Activity_PostDcp.this);
                 poLoading.initDialog("Posting DCP List", "Posting DCP List. Please wait...", false);
                 poLoading.show();
@@ -134,6 +169,7 @@ public class Activity_PostDcp extends AppCompatActivity {
 
             @Override
             public void onSuccess(String fsMessage) {
+                isPosting = false;
                 poLoading.dismiss();
                 poMessage.initDialog();
                 poMessage.setTitle("Daily Collection Plan");
@@ -146,6 +182,7 @@ public class Activity_PostDcp extends AppCompatActivity {
 
             @Override
             public void onFailed(String fsMessage) {
+                isPosting = false;
                 poLoading.dismiss();
                 poMessage.initDialog();
                 poMessage.setTitle("Daily Collection Plan");

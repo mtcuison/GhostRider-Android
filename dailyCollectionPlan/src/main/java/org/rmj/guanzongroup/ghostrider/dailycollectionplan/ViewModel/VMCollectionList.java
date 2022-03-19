@@ -59,11 +59,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
 public class VMCollectionList extends AndroidViewModel {
     private static final String TAG = VMCollectionList.class.getSimpleName();
+    private static final String KEY_EMPLOYEE_ID = "sEmployId";
+    private static final String KEY_REFER_DATE = "sReferDte";
     private final Application instance;
     private final RDailyCollectionPlan poDCPRepo;
     private final RBranch poBranch;
@@ -121,6 +124,13 @@ public class VMCollectionList extends AndroidViewModel {
 
     public void UpdateNotVisitedCollections(String fsRemarks, OnUpdateCollectionRemCode foCallBck) {
         new UpdateNotVisitedCollectionsTask(instance, foCallBck).execute(fsRemarks);
+    }
+
+    public void ImportDcpMaster(String EmployID, String ReferDte, OnUpdateCollectionRemCode foCallBck) {
+        HashMap<String, String> loDataMap = new HashMap<>();
+        loDataMap.put(KEY_EMPLOYEE_ID, EmployID);
+        loDataMap.put(KEY_REFER_DATE, ReferDte);
+        new ImportDcpMasterTask(instance, foCallBck).execute(loDataMap);
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -1303,6 +1313,71 @@ public class VMCollectionList extends AndroidViewModel {
                 poCallBck.onFailed(s);
             }
         }
+    }
+
+    private static class ImportDcpMasterTask extends AsyncTask<HashMap<String, String>, Void, String> {
+        private final ConnectionUtil poConnect;
+        private final DcpManager poDcpMngr;
+        private final OnUpdateCollectionRemCode poCallBck;
+        private boolean isSuccess = false;
+
+        private ImportDcpMasterTask(Application foApp, OnUpdateCollectionRemCode foCallBck) {
+            this.poConnect = new ConnectionUtil(foApp);
+            this.poDcpMngr = new DcpManager(foApp);
+            this.poCallBck = foCallBck;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            poCallBck.onLoading();
+        }
+
+        @Override
+        protected String doInBackground(HashMap<String, String>... hashMaps) {
+            HashMap<String, String> loDataMap = hashMaps[0];
+            final String[] lsResultx = {""};
+
+            try {
+                if(poConnect.isDeviceConnected()) {
+                    poDcpMngr.ImportDcpMaster(
+                            loDataMap.get(KEY_EMPLOYEE_ID),
+                            loDataMap.get(KEY_REFER_DATE),
+                            new DcpManager.OnActionCallback() {
+
+                        @Override
+                        public void OnSuccess(String args) {
+                            isSuccess = true;
+                            lsResultx[0] = args;
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            lsResultx[0] = message;
+                        }
+
+                    });
+                } else {
+                    lsResultx[0] = AppConstants.SERVER_NO_RESPONSE();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsResultx[0] = e.getMessage();
+            }
+
+            return lsResultx[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(isSuccess) {
+                poCallBck.onSuccess(s);
+            } else {
+                poCallBck.onFailed(s);
+            }
+        }
+
     }
 
     public interface CheckImport {

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,13 +38,14 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
     private OnVoidApplicationListener onVoidApplicationListener;
     private OnExportGOCASListener onExportGOCASListener;
     private OnApplicationClickListener onApplicationClickListener;
-
+    private String evaluation;
 //    private final SearchFilter poSearch;
 
-    public CreditEvaluationListAdapter(List<DCreditOnlineApplicationCI.oDataEvaluationInfo> plLoanApp, OnApplicationClickListener onApplicationClickListener) {
+    public CreditEvaluationListAdapter(List<DCreditOnlineApplicationCI.oDataEvaluationInfo> plLoanApp, String val,OnApplicationClickListener onApplicationClickListener) {
         this.plLoanApp = plLoanApp;
         this.plLoanApp1 = plLoanApp;
         this.onApplicationClickListener = onApplicationClickListener;
+        this.evaluation = val;
 //        this.poSearch = new SearchFilter();
     }
     public interface OnItemClickListener {
@@ -67,6 +69,13 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
         holder.lblClientName.setText(poLoan.sClientNm);
         holder.lblAppltnDate.setText(poLoan.dTransact);
         holder.lblBranch.setText(poLoan.sBranchNm);
+        holder.lnRcmdtnx1.setVisibility(View.GONE);
+        if (evaluation.equalsIgnoreCase("CI Evaluation History")){
+            holder.lnRcmdtnx1.setVisibility(View.VISIBLE);
+            if(poLoan.sRcmdtnx1 != null){
+                holder.lblRcmdtnx1.setText(poLoan.sRcmdtnx1);
+            }
+        }
 
     }
 
@@ -84,6 +93,8 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
         private TextView lblClientName;
         private TextView lblAppltnDate;
         private TextView lblBranch;
+        private TextView lblRcmdtnx1;
+        private LinearLayout lnRcmdtnx1;
 
         public CreditEvaluationViewHolder(@NonNull View itemView, OnApplicationClickListener onApplicationClickListener) {
             super(itemView);
@@ -92,6 +103,8 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
             lblClientName = itemView.findViewById(R.id.lbl_ci_applicantName);
             lblAppltnDate = itemView.findViewById(R.id.lbl_ci_applicationDate);
             lblBranch = itemView.findViewById(R.id.lbl_ci_sBranch);
+            lnRcmdtnx1 = itemView.findViewById(R.id.lnRcmdtnx1);
+            lblRcmdtnx1 = itemView.findViewById(R.id.lbl_ci_sRcmdtnx1);
 
 
             itemView.setOnClickListener(v12 -> {
