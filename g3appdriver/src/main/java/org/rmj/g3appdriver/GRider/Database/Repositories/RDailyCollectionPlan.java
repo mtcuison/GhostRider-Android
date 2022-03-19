@@ -113,7 +113,7 @@ public class RDailyCollectionPlan {
     }
 
     public EDCPCollectionMaster CheckIfHasCollection(){
-        return masterDao.CheckIfHasCollection(AppConstants.CURRENT_DATE);
+        return masterDao.CheckIfHasCollection();
     }
 
     public void updateCollectionDetail(int EntryNox, String RemCode, String Remarks){

@@ -485,6 +485,24 @@ public class DcpManager {
         }
     }
 
+    public void ValidatePostCollection(OnActionCallback callback){
+        try{
+            if(poDcp.CheckIfHasCollection() == null){
+                callback.OnFailed("No Collection to post.");
+            } else {
+                EDCPCollectionMaster loMaster = poDcp.CheckIfHasCollection();
+                if(loMaster.getSendStat().equalsIgnoreCase("1")){
+                    callback.OnFailed("Collection for today was already posted.");
+                } else {
+                    callback.OnSuccess("Continue posting DCP transactions? \n" +
+                            "NOTE: Once posted records are unable to update.");
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public void UpdateNotVisitedCollections(String fsRemarks, OnActionCallback callback){
         try {
             String lsTransNox = poDcp.getUnpostedDcpMaster();

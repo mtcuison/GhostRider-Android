@@ -636,9 +636,9 @@ public class VMCollectionList extends AndroidViewModel {
         return poDCPRepo.getCollectionDetailForPosting();
     }
 
-    public void PostLRCollectionDetail(String Remarks, ViewModelCallback callback){
-        new PostLRCollectionDetail(instance, Remarks,  plAddress.getValue(), plMobile.getValue(), callback).execute(plDetail.getValue());
-    }
+//    public void PostLRCollectionDetail(String Remarks, ViewModelCallback callback){
+//        new PostLRCollectionDetail(instance, Remarks,  plAddress.getValue(), plMobile.getValue(), callback).execute(plDetail.getValue());
+//    }
 
     public class PostLRCollectionDetail extends AsyncTask<List<DDCPCollectionDetail.CollectionDetail>, Void, String>{
         private final ConnectionUtil poConn;

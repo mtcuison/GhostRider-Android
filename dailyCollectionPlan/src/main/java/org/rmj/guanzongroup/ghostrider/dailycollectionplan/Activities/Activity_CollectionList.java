@@ -437,19 +437,21 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
     }
     public void showPostCollection(){
+        poMessage.initDialog();
+        poMessage.setPositiveButton("Post", (view, dialog) -> {
+            dialog.dismiss();
+            postDCPTransaction();
+        });
+        poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+        poMessage.setTitle("Daily Collection Plan");
+        poMessage.setMessage("Continue posting DCP transactions? \n" +
+                "NOTE: Once posted records are unable to update.");
+        poMessage.show();
+
         mViewModel.getCollectionList().observe(Activity_CollectionList.this, collections -> {
             try {
                 if(collections.size() > 0) {
-                    poMessage.initDialog();
-                    poMessage.setPositiveButton("Post", (view, dialog) -> {
-                        dialog.dismiss();
-                        postDCPTransaction();
-                    });
-                    poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
-                    poMessage.setTitle("Daily Collection Plan");
-                    poMessage.setMessage("Continue posting DCP transactions? \n" +
-                            "NOTE: Once posted records are unable to update.");
-                    poMessage.show();
+
                 } else {
                     poMessage.initDialog();
                     poMessage.setTitle("Daily Collection Plan");
