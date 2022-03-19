@@ -137,6 +137,10 @@ public class VMCollectionList extends AndroidViewModel {
         new GetSearchListTask(instance, foCallBck).execute(fsClientNm);
     }
 
+    public void AddCollection(EDCPCollectionDetail foDetail, OnTransactionCallback foCallBck) {
+        new AddCollectionTask(instance, foCallBck).execute(foDetail);
+    }
+
     @SuppressLint("SimpleDateFormat")
     public void DownloadDcp(String date, OnDownloadCollection callback){
         try{
@@ -1438,6 +1442,66 @@ public class VMCollectionList extends AndroidViewModel {
             super.onPostExecute(s);
             if(isSuccess) {
                 poCallBck.onSuccess(poDetailx);
+            } else {
+                poCallBck.onFailed(s);
+            }
+        }
+
+    }
+
+    private static class AddCollectionTask extends AsyncTask<EDCPCollectionDetail, Void, String> {
+        private final ConnectionUtil poConnect;
+        private final DcpManager poDcpMngr;
+        private final OnTransactionCallback poCallBck;
+        private boolean isSuccess = false;
+
+        private AddCollectionTask(Application foApp, OnTransactionCallback foCallBck) {
+            this.poConnect = new ConnectionUtil(foApp);
+            this.poDcpMngr = new DcpManager(foApp);
+            this.poCallBck = foCallBck;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            poCallBck.onLoading();
+        }
+
+        @Override
+        protected String doInBackground(EDCPCollectionDetail... edcpCollectionDetails) {
+            EDCPCollectionDetail loDetailx = edcpCollectionDetails[0];
+            final String[] lsResultx = {""};
+
+            try {
+                if(poConnect.isDeviceConnected()) {
+                    poDcpMngr.AddCollection(loDetailx, new DcpManager.OnActionCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            isSuccess = true;
+                            lsResultx[0] = args;
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            lsResultx[0] = message;
+                        }
+                    });
+                } else {
+                    lsResultx[0] = AppConstants.SERVER_NO_RESPONSE();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsResultx[0] = e.getMessage();
+            }
+
+            return lsResultx[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(isSuccess) {
+                poCallBck.onSuccess(s);
             } else {
                 poCallBck.onFailed(s);
             }
