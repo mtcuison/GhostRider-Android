@@ -93,7 +93,7 @@ public class DcpManager {
             String lsReferDte;
             if(poConfig.getTestStatus()) {
                 lsEmployID = EmployID;
-                lsReferDte = ReferDte;
+                lsReferDte = FormatUIText.formatTextToData(ReferDte);
             } else {
                 lsEmployID = poUser.getEmployeeID();
                 lsReferDte = AppConstants.CURRENT_DATE;
@@ -204,7 +204,7 @@ public class DcpManager {
                     lnEntryNox = poDcp.getDetailCollection(loMaster.getTransNox()).get(0).getEntryNox() + 1;
                 }
 
-                String lsResponse = WebClient.sendRequest(poApis.getUrlGetRegClient(), loJson.toString(), poHeaders.getHeaders());
+                String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadDcp(), loJson.toString(), poHeaders.getHeaders());
                 if(lsResponse == null){
                     callback.OnFailed("Server no response");
                 } else {
@@ -490,22 +490,21 @@ public class DcpManager {
         }
     }
 
-    public void ValidatePostCollection(OnValidateCallback callback){
+    public void ValidatePostCollection(OnActionCallback callback){
         try{
             if(poDcp.CheckIfHasCollection() == null){
                 callback.OnFailed("No Collection to post.");
             } else {
                 EDCPCollectionMaster loMaster = poDcp.CheckIfHasCollection();
-                if(loMaster.getSendStat() != null){
+                if(loMaster.getSendStat().equalsIgnoreCase("1")){
                     callback.OnFailed("Collection for today was already posted.");
                 } else {
-                    callback.OnSuccess(poDcp.CheckCollectionDetailNoRemCode(loMaster.getTransNox()).size() > 0,"Continue posting DCP transactions? \n" +
+                    callback.OnSuccess("Continue posting DCP transactions? \n" +
                             "NOTE: Once posted records are unable to update.");
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
-            callback.OnFailed(e.getMessage());
         }
     }
 
@@ -752,6 +751,7 @@ public class DcpManager {
                     if (result.equalsIgnoreCase("success")) {
                         poDcp.updateSentPostedDCPMaster(lsTransNox);
                         callback.OnSuccess("Dcp for today has been posted.");
+                        instance.stopService(new Intent(instance, GLocatorService.class));
                     } else {
                         JSONObject loError = loResponse.getJSONObject("error");
                         String lsMessage = loError.getString("message");
@@ -768,4 +768,5 @@ public class DcpManager {
     public LiveData<List<EImageInfo>> getDCPImageInfoList(){
         return poImage.getDCPUnpostedImageList();
     }
+
 }
