@@ -93,7 +93,7 @@ public class DcpManager {
             String lsReferDte;
             if(poConfig.getTestStatus()) {
                 lsEmployID = EmployID;
-                lsReferDte = FormatUIText.formatTextToData(ReferDte);
+                lsReferDte = ReferDte;
             } else {
                 lsEmployID = poUser.getEmployeeID();
                 lsReferDte = AppConstants.CURRENT_DATE;
@@ -192,7 +192,7 @@ public class DcpManager {
             EDCPCollectionMaster loMaster = poDcp.CheckIfHasCollection();
             if(loMaster == null){
                 callback.OnFailed("Unable to add collection. No DCP has been created for today.");
-            } else if(loMaster.getSendStat().equalsIgnoreCase("1")){
+            } else if("1".equalsIgnoreCase(loMaster.getSendStat())){
                 callback.OnFailed("Unable to add collection. DCP is already posted.");
             } else {
                 JSONObject loJson = new JSONObject();
@@ -204,7 +204,7 @@ public class DcpManager {
                     lnEntryNox = poDcp.getDetailCollection(loMaster.getTransNox()).get(0).getEntryNox() + 1;
                 }
 
-                String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadDcp(), loJson.toString(), poHeaders.getHeaders());
+                String lsResponse = WebClient.sendRequest(poApis.getUrlGetRegClient(), loJson.toString(), poHeaders.getHeaders());
                 if(lsResponse == null){
                     callback.OnFailed("Server no response");
                 } else {
@@ -496,7 +496,7 @@ public class DcpManager {
                 callback.OnFailed("No Collection to post.");
             } else {
                 EDCPCollectionMaster loMaster = poDcp.CheckIfHasCollection();
-                if(loMaster.getSendStat().equalsIgnoreCase("1")){
+                if("1".equalsIgnoreCase(loMaster.getSendStat())){
                     callback.OnFailed("Collection for today was already posted.");
                 } else {
                     callback.OnSuccess(poDcp.CheckCollectionDetailNoRemCode(loMaster.getTransNox()).size() > 0,"Continue posting DCP transactions? \n" +
