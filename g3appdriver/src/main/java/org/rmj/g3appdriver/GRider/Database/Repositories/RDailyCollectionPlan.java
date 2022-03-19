@@ -52,6 +52,10 @@ public class RDailyCollectionPlan {
         masterDao = GGCGriderDB.DcpMasterDao();
     }
 
+    public void AddCollectionAccount(EDCPCollectionDetail foDetail){
+        detailDao.insert(foDetail);
+    }
+
     public void insertDetailBulkData(List<EDCPCollectionDetail> collectionDetails){
         new InsertBulkDCPListAsyncTask(detailDao).execute(collectionDetails);
     }
@@ -84,6 +88,10 @@ public class RDailyCollectionPlan {
         return detailDao.getUnsentPaidCollection();
     }
 
+    public EDCPCollectionDetail CheckIFAccountExist(String AccNmbr){
+        return detailDao.CheckIFAccountExist(AppConstants.CURRENT_DATE, AccNmbr);
+    }
+
     public LiveData<List<EDCPCollectionMaster>> getCollectioMasterList(){
         return masterDao.getCollectionMasterList();
     }
@@ -102,6 +110,10 @@ public class RDailyCollectionPlan {
 
     public void updateCollectionDetailInfo(EDCPCollectionDetail collectionDetail){
         detailDao.update(collectionDetail);
+    }
+
+    public EDCPCollectionMaster CheckIfHasCollection(){
+        return masterDao.CheckIfHasCollection(AppConstants.CURRENT_DATE);
     }
 
     public void updateCollectionDetail(int EntryNox, String RemCode, String Remarks){
@@ -418,6 +430,10 @@ public class RDailyCollectionPlan {
 
     public List<EDCPCollectionDetail> getLRDCPCollectionForPosting(){
         return detailDao.getLRDCPCollectionForPosting();
+    }
+
+    public List<EDCPCollectionDetail> getDetailCollection(String TransNox){
+        return detailDao.getDetailCollection(TransNox);
     }
 
     public LiveData<List<EDCPCollectionDetail>> getCollectionDetailLog() {

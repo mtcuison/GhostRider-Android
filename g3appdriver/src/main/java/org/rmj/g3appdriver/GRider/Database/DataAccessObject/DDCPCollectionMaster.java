@@ -54,4 +54,7 @@ public interface DDCPCollectionMaster {
 
     @Query("SELECT * FROM LR_DCP_Collection_Master WHERE sTransNox =:TransNox")
     List<EDCPCollectionMaster> getCollectionMasterIfExist(String TransNox);
+
+    @Query("SELECT * FROM LR_DCP_Collection_Master WHERE dReferDte =:fsCurrntDte")
+    EDCPCollectionMaster CheckIfHasCollection(String fsCurrntDte);
 }

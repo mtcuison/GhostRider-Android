@@ -185,6 +185,14 @@ public interface DDCPCollectionDetail {
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE cSendStat <> '1' AND sRemCodex == 'PAY'")
     List<EDCPCollectionDetail> getUnsentPaidCollection();
 
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox =:TransNox ORDER BY nEntryNox DESC")
+    List<EDCPCollectionDetail> getDetailCollection(String TransNox);
+
+    @Query("SELECT * FROM LR_DCP_Collection_Detail " +
+            "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dReferDte =:ReferDte) " +
+            "AND sAcctNmbr =:AccNmbr")
+    EDCPCollectionDetail CheckIFAccountExist(String ReferDte, String AccNmbr);
+
     @Query("SELECT (SELECT COUNT(cTranStat) FROM LR_DCP_Collection_Detail " +
             "WHERE cTranStat <> '2' AND sTransNox = " +
             "(SELECT sTransNox FROM LR_DCP_Collection_Master " +
