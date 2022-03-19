@@ -1,6 +1,6 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import android.app.Application;
 import android.os.Build;
@@ -16,23 +16,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.utils.SQLUtil;
-import org.rmj.g3appdriver.utils.SecUtil;
 import org.rmj.g3appdriver.utils.WebClient;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
-public class DownloadPostDCPWithoutRemCodeTest {
+public class AddCollectionTest {
+
 
     private static final String LOCAL_LOGIN = "http://192.168.10.141/security/mlogin.php";
 
@@ -124,10 +122,10 @@ public class DownloadPostDCPWithoutRemCodeTest {
     }
 
     @Test
-    public void test02DownloadDCP() throws Exception{
-        poDcp.ImportDcpMaster("M00119001357", "2022-02-22", new DcpManager.OnActionCallback() {
+    public void test02SearchList() throws Exception{
+        poDcp.getSearchList("Bautista", new DcpManager.OnSearchCallback() {
             @Override
-            public void OnSuccess(String args) {
+            public void OnSuccess(List<EDCPCollectionDetail> foDetail) {
                 isSuccess = true;
             }
 
@@ -136,58 +134,7 @@ public class DownloadPostDCPWithoutRemCodeTest {
                 isSuccess = false;
             }
         });
-        assertTrue(isSuccess);
-    }
 
-    @Test
-    public void test03ValidatePostCollection() throws Exception{
-        poDcp.ValidatePostCollection(new DcpManager.OnValidateCallback() {
-            @Override
-            public void OnSuccess(boolean hasNV, String args) {
-                if(hasNV){
-                    isSuccess = true;
-                } else {
-                    isSuccess = false;
-                }
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                isSuccess = false;
-            }
-        });
-        assertTrue(isSuccess);
-    }
-
-    @Test
-    public void test04PostLRDCPCollectionWithoutRemCode() throws Exception{
-        poDcp.PostLRDCPCollection(new DcpManager.OnActionCallback() {
-            @Override
-            public void OnSuccess(String args) {
-                isSuccess = true;
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                isSuccess = false;
-            }
-        });
-        assertTrue(isSuccess);
-    }
-
-    @Test
-    public void test05PostDcpMaster() throws Exception{
-        poDcp.PostDcpMaster(new DcpManager.OnActionCallback() {
-            @Override
-            public void OnSuccess(String args) {
-                isSuccess = true;
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                isSuccess = false;
-            }
-        });
         assertTrue(isSuccess);
     }
 }

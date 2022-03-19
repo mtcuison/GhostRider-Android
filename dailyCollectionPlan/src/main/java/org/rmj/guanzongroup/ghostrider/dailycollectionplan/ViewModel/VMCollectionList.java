@@ -75,6 +75,7 @@ public class VMCollectionList extends AndroidViewModel {
     private final LiveData<List<EDCPCollectionDetail>> collectionList;
     private final AppConfigPreference poConfig;
     private final WebApi poApi;
+    private final DcpManager poDcp;
 
     private String psEmployeeID = "";
 
@@ -107,6 +108,7 @@ public class VMCollectionList extends AndroidViewModel {
         poEmploye = new REmployee(application);
         poConfig = AppConfigPreference.getInstance(application);
         poApi = new WebApi(poConfig.getTestStatus());
+        poDcp = new DcpManager(application);
         this.collectionList = poDCPRepo.getCollectionDetailList();
     }
 
@@ -342,7 +344,6 @@ public class VMCollectionList extends AndroidViewModel {
     }
 
     // TODO: Import DCP List --- END
-
 
     public void importInsuranceInfo(String clientName, OnDownloadClientList callback){
         try{
@@ -1253,6 +1254,58 @@ public class VMCollectionList extends AndroidViewModel {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             mListener.OnCheck(aBoolean);
+        }
+    }
+
+    public void ValidatePostDCP(ValidateDCPTask.OnValidateCallback callback){
+        new ValidateDCPTask(instance, callback).execute();
+    }
+
+    public static class ValidateDCPTask extends AsyncTask<String, Void, Boolean>{
+
+        private final DcpManager poDcp;
+        private final OnValidateCallback callback;
+        private boolean isSuccess = true;
+        private boolean hasNV = false;
+        private String message;
+
+        public interface OnValidateCallback{
+            void OnSuccess(boolean hasNV, String args);
+            void OnFailed(String message);
+        }
+
+        public ValidateDCPTask(Application instance, OnValidateCallback callback){
+            poDcp = new DcpManager(instance);
+            this.callback = callback;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            poDcp.ValidatePostCollection(new DcpManager.OnValidateCallback() {
+                @Override
+                public void OnSuccess(boolean fbHasNV, String args) {
+                    isSuccess = true;
+                    hasNV = fbHasNV;
+                    message = args;
+                }
+
+                @Override
+                public void OnFailed(String fsMessage) {
+                    isSuccess = false;
+                    message = fsMessage;
+                }
+            });
+            return isSuccess;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean s) {
+            if(isSuccess){
+                callback.OnSuccess(hasNV, message);
+            } else {
+                callback.OnFailed(message);
+            }
+            super.onPostExecute(s);
         }
     }
 

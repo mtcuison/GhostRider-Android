@@ -112,6 +112,17 @@ public class VMPostDcp extends AndroidViewModel {
                             lsResult[0] = message;
                         }
                     });
+                    poDcpMngr.PostDcpMaster(new DcpManager.OnActionCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+
+                        }
+                    });
                 } else {
                     lsResult[0] = AppConstants.SERVER_NO_RESPONSE();
                 }

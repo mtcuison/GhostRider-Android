@@ -128,6 +128,10 @@ public class RDailyCollectionPlan {
         detailDao.updateCollectionDetailStatus(TransNox, EntryNox, new AppConstants().DATE_MODIFIED);
     }
 
+    public List<EDCPCollectionDetail> CheckCollectionDetailNoRemCode(String TransNox){
+        return detailDao.CheckCollectionDetailNoRemCode(TransNox);
+    }
+
     public void updateCollectionDetailStatusWithRemarks(String TransNox, int EntryNox, String Remarks){
         detailDao.updateCollectionDetailStatusWithRemarks(TransNox, EntryNox, new AppConstants().DATE_MODIFIED, Remarks);
     }

@@ -188,6 +188,9 @@ public interface DDCPCollectionDetail {
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox =:TransNox ORDER BY nEntryNox DESC")
     List<EDCPCollectionDetail> getDetailCollection(String TransNox);
 
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox =:TransNox AND sRemCodex = '' ORDER BY nEntryNox DESC")
+    List<EDCPCollectionDetail> CheckCollectionDetailNoRemCode(String TransNox);
+
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +
             "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dReferDte =:ReferDte) " +
             "AND sAcctNmbr =:AccNmbr")
