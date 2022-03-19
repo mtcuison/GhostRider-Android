@@ -857,10 +857,11 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                 }
             });
             loPost.show();
-
+        } else {
             Intent loIntent = new Intent(Activity_CollectionList.this, Activity_PostDcp.class);
             loIntent.putExtra("sRemarksx", "");
             startActivity(loIntent);
+
         }
     }
 
