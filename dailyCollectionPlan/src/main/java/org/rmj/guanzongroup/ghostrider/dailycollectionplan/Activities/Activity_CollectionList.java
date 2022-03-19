@@ -629,7 +629,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 //                    mViewModel.DownloadDcp(loJson.getString("date"), Activity_CollectionList.this);
                     mViewModel.ImportDcpMaster(loJson.getString("employid"),
                             loJson.getString("date"),
-                            new VMCollectionList.OnUpdateCollectionRemCode() {
+                            new VMCollectionList.OnTransactionCallback() {
                                 @Override
                                 public void onLoading() {
                                     poDialogx.initDialog("Daily Collection Plan",
@@ -799,7 +799,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
                     startIntentExportDCPPost();
 
-                    mViewModel.UpdateNotVisitedCollections(Remarks, new VMCollectionList.OnUpdateCollectionRemCode() {
+                    mViewModel.UpdateNotVisitedCollections(Remarks, new VMCollectionList.OnTransactionCallback() {
                         @Override
                         public void onLoading() {
                             poDialogx = new LoadDialog(Activity_CollectionList.this);

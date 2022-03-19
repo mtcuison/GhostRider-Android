@@ -122,11 +122,11 @@ public class VMCollectionList extends AndroidViewModel {
         return poConfig.isTesting_Phase();
     }
 
-    public void UpdateNotVisitedCollections(String fsRemarks, OnUpdateCollectionRemCode foCallBck) {
+    public void UpdateNotVisitedCollections(String fsRemarks, OnTransactionCallback foCallBck) {
         new UpdateNotVisitedCollectionsTask(instance, foCallBck).execute(fsRemarks);
     }
 
-    public void ImportDcpMaster(String EmployID, String ReferDte, OnUpdateCollectionRemCode foCallBck) {
+    public void ImportDcpMaster(String EmployID, String ReferDte, OnTransactionCallback foCallBck) {
         HashMap<String, String> loDataMap = new HashMap<>();
         loDataMap.put(KEY_EMPLOYEE_ID, EmployID);
         loDataMap.put(KEY_REFER_DATE, ReferDte);
@@ -1259,10 +1259,10 @@ public class VMCollectionList extends AndroidViewModel {
     private static class UpdateNotVisitedCollectionsTask extends AsyncTask<String, Void, String> {
         private final ConnectionUtil poConnect;
         private final DcpManager poDcpMngr;
-        private final OnUpdateCollectionRemCode poCallBck;
+        private final OnTransactionCallback poCallBck;
         private boolean isSuccess = false;
 
-        private UpdateNotVisitedCollectionsTask(Application foApp, OnUpdateCollectionRemCode foCallBck) {
+        private UpdateNotVisitedCollectionsTask(Application foApp, OnTransactionCallback foCallBck) {
             this.poConnect = new ConnectionUtil(foApp);
             this.poDcpMngr = new DcpManager(foApp);
             this.poCallBck = foCallBck;
@@ -1318,10 +1318,10 @@ public class VMCollectionList extends AndroidViewModel {
     private static class ImportDcpMasterTask extends AsyncTask<HashMap<String, String>, Void, String> {
         private final ConnectionUtil poConnect;
         private final DcpManager poDcpMngr;
-        private final OnUpdateCollectionRemCode poCallBck;
+        private final OnTransactionCallback poCallBck;
         private boolean isSuccess = false;
 
-        private ImportDcpMasterTask(Application foApp, OnUpdateCollectionRemCode foCallBck) {
+        private ImportDcpMasterTask(Application foApp, OnTransactionCallback foCallBck) {
             this.poConnect = new ConnectionUtil(foApp);
             this.poDcpMngr = new DcpManager(foApp);
             this.poCallBck = foCallBck;
@@ -1437,7 +1437,7 @@ public class VMCollectionList extends AndroidViewModel {
         return poConfig.isExportedDcp();
     }
 
-    public interface OnUpdateCollectionRemCode {
+    public interface OnTransactionCallback {
         void onLoading();
         void onSuccess(String fsMessage);
         void onFailed(String fsMessage);
