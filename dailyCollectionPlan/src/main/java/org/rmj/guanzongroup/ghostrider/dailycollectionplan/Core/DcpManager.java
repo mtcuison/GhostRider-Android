@@ -490,7 +490,7 @@ public class DcpManager {
         }
     }
 
-    public void ValidatePostCollection(OnActionCallback callback){
+    public void ValidatePostCollection(OnValidateCallback callback){
         try{
             if(poDcp.CheckIfHasCollection() == null){
                 callback.OnFailed("No Collection to post.");
@@ -499,7 +499,7 @@ public class DcpManager {
                 if(loMaster.getSendStat().equalsIgnoreCase("1")){
                     callback.OnFailed("Collection for today was already posted.");
                 } else {
-                    callback.OnSuccess("Continue posting DCP transactions? \n" +
+                    callback.OnSuccess(poDcp.CheckCollectionDetailNoRemCode(loMaster.getTransNox()).size() > 0,"Continue posting DCP transactions? \n" +
                             "NOTE: Once posted records are unable to update.");
                 }
             }

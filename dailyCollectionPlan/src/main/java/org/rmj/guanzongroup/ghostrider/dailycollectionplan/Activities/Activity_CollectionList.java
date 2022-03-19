@@ -327,7 +327,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                             public void OnConfirm(AlertDialog dialog, String Remarks) {
                                 dialog.dismiss();
 
-                                mViewModel.UpdateNotVisitedCollections(Remarks, new VMCollectionList.OnUpdateCollectionRemCode() {
+                                mViewModel.UpdateNotVisitedCollections(Remarks, new VMCollectionList.OnTransactionCallback() {
                                     @Override
                                     public void onLoading() {
                                         poDialogx = new LoadDialog(Activity_CollectionList.this);

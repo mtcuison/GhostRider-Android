@@ -1303,6 +1303,7 @@ public class VMCollectionList extends AndroidViewModel {
                     message = fsMessage;
                 }
             });
+
             return isSuccess;
         }
 
