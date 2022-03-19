@@ -623,8 +623,40 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             loDebug.iniDialog(args -> {
                 try {
                     JSONObject loJson = new JSONObject(args);
-                    mViewModel.setEmployeeID(loJson.getString("employid"));
-                    mViewModel.DownloadDcp(loJson.getString("date"), Activity_CollectionList.this);
+//                    mViewModel.setEmployeeID(loJson.getString("employid"));
+//                    mViewModel.DownloadDcp(loJson.getString("date"), Activity_CollectionList.this);
+                    mViewModel.ImportDcpMaster(loJson.getString("employid"),
+                            loJson.getString("date"),
+                            new VMCollectionList.OnUpdateCollectionRemCode() {
+                                @Override
+                                public void onLoading() {
+                                    poDialogx.initDialog("Daily Collection Plan",
+                                            "Download DCP List ... Please wait.", false);
+                                    poDialogx.show();
+                                }
+
+                                @Override
+                                public void onSuccess(String fsMessage) {
+                                    poDialogx.dismiss();
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Daily Collection Plan");
+                                    poMessage.setMessage(fsMessage);
+                                    poMessage.setPositiveButton("Export", (view, dialog) -> {
+                                        dialog.dismiss();
+                                    });
+                                }
+
+                                @Override
+                                public void onFailed(String fsMessage) {
+                                    poDialogx.dismiss();
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Daily Collection Plan");
+                                    poMessage.setMessage(fsMessage);
+                                    poMessage.setPositiveButton("Export", (view, dialog) -> {
+                                        dialog.dismiss();
+                                    });
+                                }
+                            });
                 } catch (Exception e){
                     e.printStackTrace();
                 }
