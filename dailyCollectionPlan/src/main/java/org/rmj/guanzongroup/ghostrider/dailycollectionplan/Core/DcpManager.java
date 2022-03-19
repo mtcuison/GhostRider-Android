@@ -93,7 +93,7 @@ public class DcpManager {
             String lsReferDte;
             if(poConfig.getTestStatus()) {
                 lsEmployID = EmployID;
-                lsReferDte = FormatUIText.formatTextToData(ReferDte);
+                lsReferDte = ReferDte;
             } else {
                 lsEmployID = poUser.getEmployeeID();
                 lsReferDte = AppConstants.CURRENT_DATE;

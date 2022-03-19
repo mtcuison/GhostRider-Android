@@ -370,7 +370,16 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
                 @Override
                 public void OnFailed(String message) {
-
+                    Log.e(TAG, "Error exporting DCP : " + message);
+                    poDialogx.dismiss();
+                    poDialogx.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                        dialog.dismiss();
+                    });
+                    poMessage.show();
                 }
             });
         }
