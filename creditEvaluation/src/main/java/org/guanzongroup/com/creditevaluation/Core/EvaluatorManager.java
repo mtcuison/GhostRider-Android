@@ -7,12 +7,18 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.WebFileServer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +31,9 @@ public class EvaluatorManager {
     private final HttpHeaders poHeaders;
     private final SessionManager poSession;
     private final RCreditOnlineApplicationCI poCI;
+    private final RImageInfo poImage;
     private final CIAPIs poApis;
+    private final AppConfigPreference poConfig;
 
     public interface OnActionCallback {
         void OnSuccess(String args);
@@ -42,7 +50,9 @@ public class EvaluatorManager {
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poSession = new SessionManager(instance);
         this.poCI = new RCreditOnlineApplicationCI(instance);
-        this.poApis = new CIAPIs(true);
+        this.poImage = new RImageInfo(instance);
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poApis = new CIAPIs(poConfig.getTestStatus());
     }
 
     public void DownloadCreditApplications(OnActionCallback callback){
@@ -123,7 +133,6 @@ public class EvaluatorManager {
         return poCI.getApplications(TransNox);
     }
 
-
     public HashMap<oParentFndg, List<oChildFndg>> parseToEvaluationData(ECreditOnlineApplicationCI foDetail) throws Exception{
         HashMap<oParentFndg, List<oChildFndg>> loForEval = new HashMap<>();
 
@@ -137,28 +146,6 @@ public class EvaluatorManager {
     public LiveData<ECreditOnlineApplicationCI> RetrieveApplicationData(String TransNox){
         return poCI.RetrieveApplicationData(TransNox);
     }
-
-
-//    public void RetrieveApplicationData(String TransNox, OnRetrieveDataCallback callback){
-//        try{
-//            HashMap<oParentFndg, List<oChildFndg>> loForEval = new HashMap<>();
-//            ECreditOnlineApplicationCI loApp = poCI.getApplication(TransNox);
-//            if(loApp == null){
-//                callback.OnFailed("No application record found.");
-//            } else {
-//                loForEval.putAll(FindingsParser.getForEvaluation(oChildFndg.FIELDS.ADDRESS, loApp.getAddressx(), loApp.getAddrFndg()));
-//                loForEval.putAll(FindingsParser.getForEvaluation(oChildFndg.FIELDS.MEANS, loApp.getIncomexx(), loApp.getIncmFndg()));
-//                loForEval.putAll(FindingsParser.getForEvaluation(oChildFndg.FIELDS.ASSETS, loApp.getAssetsxx(), loApp.getAsstFndg()));
-//
-//                callback.OnRetrieve(loForEval, loApp);
-//            }
-//
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            Log.e(TAG, e.getMessage());
-//            callback.OnFailed(e.getMessage());
-//        }
-//    }
 
     public void UpdateRecordInfo(String TransNox, String val){
         poCI.UpdateRecordInfo(TransNox, val);
@@ -245,6 +232,41 @@ public class EvaluatorManager {
         }
     }
 
+    public void SaveSelfieImage(String TransNox, EImageInfo foImage, boolean isPrimary, OnActionCallback callback){
+        try {
+            foImage.setTransNox(poImage.getImageNextCode());
+            foImage.setCaptured(new AppConstants().DATE_MODIFIED);
+            foImage.setSourceCD("COAD");
+            foImage.setFileCode("CI001");
+            foImage.setDtlSrcNo(TransNox);
+            foImage.setMD5Hashx(WebFileServer.createMD5Hash(foImage.getFileLoct()));
+            poImage.insertImageInfo(foImage);
+
+            callback.OnSuccess("Image info Save!");
+
+            String lsFindings = poCI.getAddressForEvaluation(TransNox);
+            JSONObject loFndng = new JSONObject(lsFindings);
+            JSONObject loChild;
+            if(isPrimary) {
+                loChild = loFndng.getJSONObject("present_address");
+            } else {
+                loChild = loFndng.getJSONObject("primary_address");
+            }
+            loChild.put("nLatitude", foImage.getLatitude());
+            loChild.put("nLongitud", foImage.getLongitud());
+            if(isPrimary) {
+                loFndng.put("present_address", loChild);
+            } else {
+                loFndng.put("primary_address", loChild);
+            }
+
+            poCI.updateAddressEvaluation(TransNox, loFndng.toString());
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailed(e.getMessage());
+        }
+    }
+
     public void UploadEvaluationResult(String Transnox, OnActionCallback callback){
         try{
             ECreditOnlineApplicationCI loDetail = poCI.getApplication(Transnox);
@@ -276,8 +298,46 @@ public class EvaluatorManager {
                     callback.OnFailed(lsMessage);
                 }
             }
+
+            String lsClient = "";
+            String lsAccess = "";
+
+            if(!poConfig.getTestStatus()){
+                if(poImage.getCIImageForPosting(loDetail.getTransNox()) == null){
+                    Log.e(TAG, "Unable to upload CI selfie image. No image found.");
+                } else if(lsAccess.isEmpty()){
+                    Log.e(TAG, "Unable to upload CI selfie image. Access token na generated.");
+                } else {
+                    EImageInfo loImage = poImage.getCIImageForPosting(loDetail.getTransNox());
+
+                    org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
+                            loImage.getFileLoct(),
+                            lsAccess,
+                            loImage.getFileCode(),
+                            loImage.getDtlSrcNo(),
+                            loImage.getImageNme(),
+                            poSession.getBranchCode(),
+                            loImage.getSourceCD(),
+                            loImage.getTransNox(),
+                            "");
+
+                    if (loUpload == null) {
+                        Log.e(TAG, "Unable to upload CI selfie image. Access token na generated.");
+                    } else {
+                        String lsImgResult = (String) loUpload.get("result");
+
+                        if (lsImgResult.equalsIgnoreCase("success")) {
+                            String lsTransnox = (String) loUpload.get("sTransNox");
+                            poImage.updateImageInfo(lsTransnox, loImage.getTransNox());
+                            Log.d(TAG, "Selfie log image has been uploaded successfully.");
+                        }
+                    }
+                }
+            }
+
         } catch (Exception e){
             e.printStackTrace();
+            callback.OnFailed(e.getMessage());
         }
     }
 

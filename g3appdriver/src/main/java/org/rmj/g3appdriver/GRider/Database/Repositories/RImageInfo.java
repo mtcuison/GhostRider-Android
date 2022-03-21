@@ -147,6 +147,10 @@ public class RImageInfo {
         return imageDao.getDCPImageInfoForPosting(TransNox, AccntNo);
     }
 
+    public EImageInfo getCIImageForPosting(String TransNox){
+        return imageDao.getCIImageForPosting(TransNox);
+    }
+
     public List<DImageInfo.DcpImageForPosting> getDCPUnpostedImageListForBackgroundSync(){
         return imageDao.getDCPUnpostedImageListForBackgroundSync();
     }
