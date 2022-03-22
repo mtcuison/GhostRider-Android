@@ -721,6 +721,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                                     poMessage.setPositiveButton("Export", (view, dialog) -> {
                                         dialog.dismiss();
                                     });
+                                    poMessage.show();
                                 }
 
                                 @Override
@@ -732,6 +733,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                                     poMessage.setPositiveButton("Export", (view, dialog) -> {
                                         dialog.dismiss();
                                     });
+                                    poMessage.show();
                                 }
                             });
                 } catch (Exception e){
