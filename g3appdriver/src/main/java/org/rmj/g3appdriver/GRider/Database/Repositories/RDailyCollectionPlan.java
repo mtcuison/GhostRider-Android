@@ -116,6 +116,10 @@ public class RDailyCollectionPlan {
         return masterDao.CheckIfHasCollection();
     }
 
+    public List<EDCPCollectionDetail> checkDCPPAYTransaction(){
+        return detailDao.checkDCPPAYTransaction();
+    }
+
     public void updateCollectionDetail(int EntryNox, String RemCode, String Remarks){
         detailDao.updateCollectionDetailInfo(EntryNox, RemCode, Remarks, new AppConstants().DATE_MODIFIED);
     }
