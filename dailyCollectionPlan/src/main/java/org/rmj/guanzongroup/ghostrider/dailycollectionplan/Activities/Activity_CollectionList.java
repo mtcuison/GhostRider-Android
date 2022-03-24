@@ -422,29 +422,10 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         }else if(requestCode == PICK_TEXT_FILE && resultCode == RESULT_OK){
             Uri uri = data.getData();
             importDataFromFile(uri);
-        }else if(requestCode == EXPORT_TEXT_FILE){
-            if(mViewModel.isExportedDCP() && resultCode == RESULT_OK) {
-                Uri uri = data.getData();
-                exportCollectionList(uri, poDcpData);
-                mViewModel.setExportedDCP(false);
-            } else if(mViewModel.isExportedDCP() && resultCode == RESULT_CANCELED){
-                poDialogx.dismiss();
-                poMessage.initDialog();
-                poMessage.setTitle("Daily Collection Plan");
-                poMessage.setMessage("Exporting DCP file for posting has been canceled. Please export your collection file for your collection today.");
-                poMessage.setPositiveButton("Export", (view, dialog) -> {
-                    dialog.dismiss();
-                    startIntentExportDCPPost();
-                });
-                poMessage.show();
-            } else if(!mViewModel.isExportedDCP() && resultCode == RESULT_CANCELED){
-                poDialogx.dismiss();
-                poMessage.initDialog();
-                poMessage.setTitle("Daily Collection Plan");
-                poMessage.setMessage("Exporting DCP file for posting has been canceled.");
-                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                poMessage.show();
-            }
+        }else if(requestCode == EXPORT_TEXT_FILE && resultCode == RESULT_OK){
+            Uri uri = data.getData();
+            exportCollectionList(uri, poDcpData);
+            mViewModel.setExportedDCP(false);
         }
     }
 
@@ -727,9 +708,10 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                                     poMessage.initDialog();
                                     poMessage.setTitle("Daily Collection Plan");
                                     poMessage.setMessage(fsMessage);
-                                    poMessage.setPositiveButton("Export", (view, dialog) -> {
+                                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
                                         dialog.dismiss();
                                     });
+                                    poMessage.show();
                                 }
 
                                 @Override
@@ -738,9 +720,10 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                                     poMessage.initDialog();
                                     poMessage.setTitle("Daily Collection Plan");
                                     poMessage.setMessage(fsMessage);
-                                    poMessage.setPositiveButton("Export", (view, dialog) -> {
+                                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
                                         dialog.dismiss();
                                     });
+                                    poMessage.show();
                                 }
                             });
                 } catch (Exception e){
@@ -892,8 +875,6 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         // the system file picker when your app creates the document.
         Uri loDocs = Uri.parse(String.valueOf(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)));
         intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, loDocs);
-        if(mViewModel.isExportedDCP()) {
-            startActivityForResult(intent, EXPORT_TEXT_FILE);
-        }
+        startActivityForResult(intent, EXPORT_TEXT_FILE);
     }
 }
