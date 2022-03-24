@@ -303,12 +303,6 @@ public class DcpManager {
 
             EImageInfo loImage;
             switch (lsRemCode){
-                case "":
-                case "NV":
-                    loData.put("sRemarksx", loDcp.getRemarksx());
-                    loJson.put("sRemCodex", "NV");
-                    loJson.put("dModified", new AppConstants().DATE_MODIFIED);
-                    break;
                 case "PAY":
                     loData.put("sPRNoxxxx", loDcp.getPRNoxxxx());
                     loData.put("nTranAmtx", loDcp.getTranAmtx());
@@ -411,6 +405,9 @@ public class DcpManager {
                     break;
 
                 default:
+                    loData.put("sRemarksx", loDcp.getRemarksx());
+                    loJson.put("sRemCodex", "NV");
+                    loJson.put("dModified", new AppConstants().DATE_MODIFIED);
                     if(!poConfig.getTestStatus()) {
                         loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
                         loData.put("sImageNme", loImage.getImageNme());
@@ -553,12 +550,6 @@ public class DcpManager {
 
                     EImageInfo loImage;
                     switch (lsRemCode){
-                        case "":
-                        case "NV":
-                            loData.put("sRemarksx", loDcp.getRemarksx());
-                            loJson.put("sRemCodex", "NV");
-                            loJson.put("dModified", new AppConstants().DATE_MODIFIED);
-                            break;
                         case "PAY":
                             loData.put("sPRNoxxxx", loDcp.getPRNoxxxx());
                             loData.put("nTranAmtx", loDcp.getTranAmtx());
@@ -661,6 +652,9 @@ public class DcpManager {
                             break;
 
                         default:
+                            loData.put("sRemarksx", loDcp.getRemarksx());
+                            loJson.put("sRemCodex", loDcp.getRemCodex());
+                            loJson.put("dModified", new AppConstants().DATE_MODIFIED);
                             if(!poConfig.getTestStatus()) {
                                 loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
                                 loData.put("sImageNme", loImage.getImageNme());
