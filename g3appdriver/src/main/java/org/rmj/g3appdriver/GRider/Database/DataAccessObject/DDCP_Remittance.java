@@ -96,6 +96,10 @@ public interface DDCP_Remittance {
             "AND cPaymForm ='0'")
     String getRemittedCash(String dTransact);
 
+    @Query("SELECT * FROM LR_DCP_Remittance WHERE sTransNox = (" +
+            "SELECT sTransNox FROM LR_DCP_Collection_Master WHERE cSendStat != '1')")
+    EDCP_Remittance getDCPRemittance();
+
     @Query("INSERT INTO LR_DCP_Remittance(" +
             "sTransNox, " +
             "nEntryNox, " +
@@ -109,6 +113,15 @@ public interface DDCP_Remittance {
             "'0', " +
             "'0')")
     void initializeCurrentDayRemittanceField(String dTransact);
+
+    @Query("SELECT SUM(nAmountxx) FROM LR_DCP_Remittance WHERE sTransNox = (" +
+            "SELECT sTransNox FROM LR_DCP_Collection_Master WHERE cSendStat != '1')")
+    double getRemittedCollection();
+
+    @Query("SELECT SUM(nTranTotl) FROM LR_DCP_Collection_Detail WHERE sTransNox = (" +
+            "SELECT sTransNox FROM LR_DCP_Collection_Master WHERE cSendStat != '1') " +
+            "AND sRemCodex = 'PAY'")
+    double getCollectedPayments();
 
     @Query("SELECT sTransNox FROM LR_DCP_Remittance " +
             "WHERE sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master WHERE dReferDte =:dTransact)")
