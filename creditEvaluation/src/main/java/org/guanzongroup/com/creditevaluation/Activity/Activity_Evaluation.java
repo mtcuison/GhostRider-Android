@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +49,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
@@ -64,9 +66,10 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
     private static final String TAG = Activity_Evaluation.class.getSimpleName();
     private VMEvaluation mViewModel;
     private CardView cvForEvaluation;
-//    private ExpandableListView listView;
+    //    private ExpandableListView listView;
     private NoScrollExListView listView;
     private RadioGroup rgEval;
+    private RadioButton rbNoRecord, rbYesRecord;
     private oChildFndg loChild;
     private ExpandableListAdapter adapter;
     private TextInputEditText txtRecordRemarks,txtPersonnel, txtPosition, txtMobileNo;
@@ -76,12 +79,13 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
     private TextView lblTransNox,lblClientName,lblDTransact, lblBranch;
     private MaterialButton btnSaveAsstPersonnel, btnSaveAsstPosition,btnSaveAsstPhoneNo;
     private MaterialButton btnSaveNeighbor1, btnSaveNeighbor2,btnSaveNeighbor3,btnSaveRecord;
-    private Button btnSave;
+    private Button btnSave,btnUpload;
 
     private final List<oParentFndg> poParentLst = new ArrayList<>();
     private List<oChildFndg> poChildLst;
     private final HashMap<oParentFndg, List<oChildFndg>> poChild = new HashMap<>();
     private AdditionalInfoModel infoModel;
+    private LoadDialog poDialogx;
     private MessageBox poMessage;
     private oParentFndg parent;
     private oChildFndg child;
@@ -121,21 +125,26 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                     txtNeighbor3.setText(ci.getNeighBr3());
                 }
                 if (ci.getRcmdtnc1() != null) {
-                    infoModel.setTranstat(ci.getRcmdtnc1());
+                    infoModel.setcRcmdtnx1(ci.getRcmdtnc1());
+
+                }
+                if (ci.getRcmdtns1() != null) {
+                    infoModel.setsRcmdtnx1(ci.getRcmdtns1());
                 }
                 if (ci.getHasRecrd() != null) {
                     infoModel.setHasRecrd(ci.getHasRecrd());
+                    if(ci.getHasRecrd().equalsIgnoreCase("0")){
+                        rgHasRecord.check(R.id.rb_ci_noRecord);
+                    }else{
+                        rgHasRecord.check(R.id.rb_ci_withRecord);
+                    }
                 }
                 if (ci.getRecrdRem() != null) {
-                    infoModel.setRemRecrd(ci.getRcmdtnc1());
+                    infoModel.setRemRecrd(ci.getRecrdRem());
                     if(ci.getHasRecrd().equalsIgnoreCase("1")){
                         tilRecordRemarks.setVisibility(View.VISIBLE);
                         txtRecordRemarks.setText(ci.getRecrdRem());
                     }
-                }
-                if (ci.getRcmdtns1() != null) {
-                    infoModel.setsRemarks(ci.getRcmdtns1());
-                    txtRecordRemarks.setText(ci.getRcmdtns1());
                 }
 
             });
@@ -168,9 +177,9 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                                 parent = foParent;
                                 child = foChild;
                                 if(foParent.getParentDescript().equalsIgnoreCase("Present Address")){
-                                    showDialogImg();
+                                    showDialogImg(foParent, foChild);
                                 }else if(foParent.getParentDescript().equalsIgnoreCase("Primary Address")){
-                                    showDialogImg();
+                                    showDialogImg(foParent, foChild);
                                 }else{
                                     mViewModel.saveDataEvaluation(foParent,foChild, Activity_Evaluation.this);
                                 }
@@ -188,6 +197,14 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                 }
             });
             rgHasRecord.setOnCheckedChangeListener(new ONCIHasRecord(rgHasRecord,mViewModel));
+            btnSaveAsstPersonnel.setOnClickListener(v -> {
+                infoModel.setAsstPersonnel(txtPersonnel.getText().toString());
+                mViewModel.saveAdditionalInfo(infoModel,"Personnel", Activity_Evaluation.this);
+            });
+            btnSaveAsstPosition.setOnClickListener(v -> {
+                infoModel.setAsstPosition(txtPosition.getText().toString());
+                mViewModel.saveAdditionalInfo(infoModel,"Position", Activity_Evaluation.this);
+            });
             btnSaveAsstPhoneNo.setOnClickListener(v -> {
                 infoModel.setMobileNo(txtMobileNo.getText().toString());
                 mViewModel.saveAdditionalInfo(infoModel,"PhoneNo", Activity_Evaluation.this);
@@ -216,7 +233,14 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                 if(!infoModel.isValidEvaluation()){
                     errorMessage(infoModel.getMessage());
                 }else{
-                     initDialog();
+                    initDialog();
+                }
+            });
+            btnUpload.setOnClickListener(v ->  {
+                if(!infoModel.isValidEvaluation()){
+                    errorMessage(infoModel.getMessage());
+                }else{
+                    mViewModel.UploadEvaluationResult(Activity_Evaluation.this);
                 }
             });
         }catch (NullPointerException e){
@@ -238,6 +262,8 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
 
         poLocation = new ImageFileCreator(this, SUB_FOLDER_CI_ADDRESS, getIntent().getStringExtra("transno"));
         infoModel = new AdditionalInfoModel();
+
+        poDialogx = new LoadDialog(Activity_Evaluation.this);
         poMessage = new MessageBox(Activity_Evaluation.this);
         listView = findViewById(R.id.expListview);
         txtPersonnel = findViewById(R.id.tie_ci_asstPersonel);
@@ -261,6 +287,10 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
         btnSaveNeighbor1 = findViewById(R.id.btnSaveNeighbor1);
         btnSaveNeighbor2 = findViewById(R.id.btnSaveNeighbor2);
         btnSaveNeighbor3 = findViewById(R.id.btnSaveNeighbor3);
+        btnUpload = findViewById(R.id.btnUpload);
+
+        rbNoRecord = findViewById(R.id.rb_ci_noRecord);
+        rbYesRecord = findViewById(R.id.rb_ci_withRecord);
         btnSave = findViewById(R.id.btnSave);
 
     }
@@ -290,15 +320,15 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                         parent = foParent;
                         child = foChild;
                         if(foParent.getParentDescript().equalsIgnoreCase("Present Address")){
-                            showDialogImg();
+                            showDialogImg(foParent,foChild);
                         }else if(foParent.getParentDescript().equalsIgnoreCase("Primary Address")){
-                            showDialogImg();
+                            showDialogImg(foParent,foChild);
                         }else{
                             mViewModel.saveDataEvaluation(foParent,foChild, Activity_Evaluation.this);
                         }
                     }
                 }));
-
+                listView.setHeightWrapContent();
             }else {
                 cvForEvaluation.setVisibility(View.GONE);
             }
@@ -313,7 +343,15 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
 
 
     @Override
+    public void OnUpload() {
+        poDialogx.initDialog("CI Evaluation", "Uploading latest data. Please wait...", false);
+        poDialogx.show();
+    }
+
+    @Override
     public void OnSuccessResult(String args,String message) {
+
+        poDialogx.dismiss();
         GToast.CreateMessage(this,message,GToast.INFORMATION).show();
         if(args.equalsIgnoreCase("Approval")){
             new Handler().postDelayed(new Runnable() {
@@ -327,6 +365,7 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
 
     @Override
     public void OnFailedResult(String message) {
+        poDialogx.dismiss();
         errorMessage(message);
     }
 
@@ -359,7 +398,7 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
 
     @Override
     public void onRetrieveSuccess(HashMap<oParentFndg, List<oChildFndg>> foEvaluate, ECreditOnlineApplicationCI foData) {
-        Log.e("hash map ", foEvaluate.toString());
+
 
         initRecyclerData(foEvaluate,foData);
     }
@@ -389,7 +428,10 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
         poMessage.show();
     }
 
-    public void showDialogImg(){
+    public void showDialogImg(oParentFndg foParent, oChildFndg foChild){
+
+        parent = foParent;
+        child = foChild;
         poMessage.initDialog();
         poMessage.setTitle("Residence Info");
         poMessage.setMessage("Please take applicant residence picture. \n");
@@ -397,8 +439,6 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
             dialog.dismiss();
             poLocation.setTransNox(mViewModel.getTransNox());
             poLocation.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-//                residenceInfo.setLatitude(String.valueOf(latitude));
-//                residenceInfo.setLongitud(String.valueOf(longitude));
                 poImageInfo = new EImageInfo();
                 poImageInfo.setDtlSrcNo(mViewModel.getTransNox());
                 poImageInfo.setSourceNo(mViewModel.getTransNox());
@@ -425,10 +465,8 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }else {
-//                residenceInfo.setLongitud("");
-//                residenceInfo.setLatitude("");
             }
         }
     }
+
 }

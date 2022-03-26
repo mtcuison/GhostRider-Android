@@ -133,6 +133,7 @@ public class EvaluatorManager {
         return poCI.getApplications(TransNox);
     }
 
+
     public HashMap<oParentFndg, List<oChildFndg>> parseToEvaluationData(ECreditOnlineApplicationCI foDetail) throws Exception{
         HashMap<oParentFndg, List<oChildFndg>> loForEval = new HashMap<>();
 
@@ -146,6 +147,28 @@ public class EvaluatorManager {
     public LiveData<ECreditOnlineApplicationCI> RetrieveApplicationData(String TransNox){
         return poCI.RetrieveApplicationData(TransNox);
     }
+
+
+//    public void RetrieveApplicationData(String TransNox, OnRetrieveDataCallback callback){
+//        try{
+//            HashMap<oParentFndg, List<oChildFndg>> loForEval = new HashMap<>();
+//            ECreditOnlineApplicationCI loApp = poCI.getApplication(TransNox);
+//            if(loApp == null){
+//                callback.OnFailed("No application record found.");
+//            } else {
+//                loForEval.putAll(FindingsParser.getForEvaluation(oChildFndg.FIELDS.ADDRESS, loApp.getAddressx(), loApp.getAddrFndg()));
+//                loForEval.putAll(FindingsParser.getForEvaluation(oChildFndg.FIELDS.MEANS, loApp.getIncomexx(), loApp.getIncmFndg()));
+//                loForEval.putAll(FindingsParser.getForEvaluation(oChildFndg.FIELDS.ASSETS, loApp.getAssetsxx(), loApp.getAsstFndg()));
+//
+//                callback.OnRetrieve(loForEval, loApp);
+//            }
+//
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            Log.e(TAG, e.getMessage());
+//            callback.OnFailed(e.getMessage());
+//        }
+//    }
 
     public void UpdateRecordInfo(String TransNox, String val){
         poCI.UpdateRecordInfo(TransNox, val);

@@ -207,12 +207,6 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
                         loan.sBranchNm = (ciList.get(x).sBranchNm);
                         loan.sRecrdRem = (ciList.get(x).sRecrdRem);
                         loan.sRcmdtnx1 = (ciList.get(x).sRcmdtnx1);
-
-                        Log.e("sBranchNm ", loan.sBranchNm);
-                        Log.e("sTransNox ", loan.sTransNox);
-                        Log.e("sClientNm ", loan.sClientNm);
-//                        Log.e("nAcctTerm ",loan.nAcctTerm);
-                        Log.e("nDownPaym ", loan.nDownPaym);
                         ciEvaluationList.add(loan);
                         continue;
                     }
