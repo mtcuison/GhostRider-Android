@@ -214,7 +214,7 @@ public class EvaluatorManager {
 
     public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks, OnActionCallback callback){
         try{
-            poCI.SaveCIApproval(TransNox, fsResult, fsRemarks);
+            poCI.SaveCIApproval(TransNox, fsResult, fsRemarks, new AppConstants().DATE_MODIFIED);
             callback.OnSuccess("");
         } catch (Exception e){
             e.printStackTrace();
@@ -224,7 +224,7 @@ public class EvaluatorManager {
 
     public void SaveBHApproval(String TransNox, String fsResult, String fsRemarks, OnActionCallback callback){
         try{
-            poCI.SaveCIApproval(TransNox, fsResult, fsRemarks);
+            poCI.SaveCIApproval(TransNox, fsResult, fsRemarks, new AppConstants().DATE_MODIFIED);
             callback.OnSuccess("");
         } catch (Exception e){
             e.printStackTrace();
@@ -308,6 +308,15 @@ public class EvaluatorManager {
                 } else if(lsAccess.isEmpty()){
                     Log.e(TAG, "Unable to upload CI selfie image. Access token na generated.");
                 } else {
+
+                    String ProdctID, ClientID,UserIDxx;
+                    ProdctID = poConfig.ProducID();
+                    ClientID = poSession.getClientId();
+                    UserIDxx = poSession.getUserID();
+
+                    lsClient = WebFileServer.RequestClientToken(ProdctID, ClientID, UserIDxx);
+                    lsAccess = WebFileServer.RequestAccessToken(lsClient);
+
                     EImageInfo loImage = poImage.getCIImageForPosting(loDetail.getTransNox());
 
                     org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
@@ -350,6 +359,8 @@ public class EvaluatorManager {
             params.put("dRcmdtnx1", loDetail.getRcmdtnx1());
             params.put("cRcmdtnx1", loDetail.getRcmdtnc1());
             params.put("sRcmdtnx1", loDetail.getRcmdtns1());
+            params.put("sApproved", loDetail.getApproved());
+            params.put("dApproved", loDetail.getDapprovd());
             String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitResult(), params.toString(), poHeaders.getHeaders());
             if (lsResponse == null) {
                 callback.OnFailed("Server no response.");

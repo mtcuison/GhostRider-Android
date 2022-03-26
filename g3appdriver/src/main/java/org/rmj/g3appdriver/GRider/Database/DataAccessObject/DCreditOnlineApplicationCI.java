@@ -76,9 +76,11 @@ public interface DCreditOnlineApplicationCI {
     @Query("UPDATE Credit_Online_Application_CI SET " +
             "cRcmdtnx1 =:fsResult, " +
             "sRcmdtnx1 =:fsRemarks, " +
-            "cSendStat = '0' " +
+            "cSendStat = '0', " +
+            "sApproved = (SELECT sEmployID FROM User_Info_Master), " +
+            "dApproved =:DateApp " +
             "WHERE sTransNox =:TransNox")
-    public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks);
+    public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks, String DateApp);
 
     @Query("UPDATE Credit_Online_Application_CI SET " +
             "cRcmdtnx2 =:fsResult, " +
