@@ -37,7 +37,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Core.SelfieLog;
+import org.rmj.g3appdriver.lib.PET.SelfieLog;
 
 import java.util.List;
 

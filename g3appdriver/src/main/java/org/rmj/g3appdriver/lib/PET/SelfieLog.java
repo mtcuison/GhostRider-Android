@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.ghostrider.ahmonitoring.Core;
+package org.rmj.g3appdriver.lib.PET;
 
 import android.app.Application;
 import android.util.Log;
@@ -19,6 +19,7 @@ import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.DeptCode;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.utils.WebApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class SelfieLog {
     private final RLogSelfie poLog;
     private final SessionManager poSession;
     private final AppConfigPreference poConfig;
-    private final AHAPIs poApis;
+    private final WebApi poApis;
     private final HttpHeaders poHeaders;
 
     private EImageInfo poImgInfo;
@@ -49,7 +50,7 @@ public class SelfieLog {
         this.poLog = new RLogSelfie(instance);
         this.poSession = new SessionManager(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApis = new AHAPIs(poConfig.isTesting_Phase());
+        this.poApis = new WebApi(poConfig.isTesting_Phase());
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
 
@@ -114,7 +115,7 @@ public class SelfieLog {
 
                 Thread.sleep(1000);
 
-                String lsResponse = WebClient.sendRequest(poApis.getUrlPostSelfieLog(), loJson.toString(), poHeaders.getHeaders());
+                String lsResponse = WebClient.sendRequest(poApis.getUrlPostSelfielog(), loJson.toString(), poHeaders.getHeaders());
 
                 if(lsResponse == null){
                     callback.OnFailed("Unable to save selfie log. Server no response.");
@@ -151,7 +152,7 @@ public class SelfieLog {
                 } else {
                     params.put("branchcd", fsBranch);
                 }
-                String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadInventory(), params.toString(), poHeaders.getHeaders());
+                String lsResponse = WebClient.sendRequest(poApis.getUrlRequestRandomStockInventory(), params.toString(), poHeaders.getHeaders());
                 if (lsResponse == null) {
                     callback.OnFailed("Server no response");
                 } else {

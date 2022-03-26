@@ -91,6 +91,16 @@ public class REmployeeLeave implements DEmployeeLeave {
     }
 
     @Override
+    public EEmployeeLeave getLeaveForPosting(String TransNox) {
+        return employeeDao.getLeaveForPosting(TransNox);
+    }
+
+    @Override
+    public EEmployeeLeave getLeaveForApproval(String TransNox) {
+        return employeeDao.getLeaveForApproval(TransNox);
+    }
+
+    @Override
     public List<EEmployeeLeave> getUnsentEmployeeLeave() {
         return employeeDao.getUnsentEmployeeLeave();
     }

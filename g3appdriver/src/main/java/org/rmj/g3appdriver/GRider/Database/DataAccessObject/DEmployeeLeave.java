@@ -66,6 +66,12 @@ public interface DEmployeeLeave {
             "WHERE sEntryByx = (SELECT sEmployID FROM User_Info_Master)")
     LiveData<List<EEmployeeLeave>> getEmployeeLeaveList();
 
+    @Query("SELECT * FROM Employee_Leave WHERE sTransNox =:TransNox AND cSentStat <> '1'")
+    EEmployeeLeave getLeaveForPosting(String TransNox);
+
+    @Query("SELECT * FROM Employee_Leave WHERE sTransNox =:TransNox AND sApproved IS NULL AND dApproved IS NULL")
+    EEmployeeLeave getLeaveForApproval(String TransNox);
+
     class LeaveOBApplication {
         public String sTransNox;
         public String dTransact;

@@ -139,7 +139,7 @@ public class DownloadPostDCPWithoutRemCodeTest {
         assertTrue(isSuccess);
     }
 
-    @Test
+//    @Test
     public void test03ValidatePostCollection() throws Exception{
         poDcp.ValidatePostCollection(new DcpManager.OnValidateCallback() {
             @Override
@@ -159,7 +159,7 @@ public class DownloadPostDCPWithoutRemCodeTest {
         assertTrue(isSuccess);
     }
 
-    @Test
+//    @Test
     public void test04PostLRDCPCollectionWithoutRemCode() throws Exception{
         poDcp.PostLRDCPCollection(new DcpManager.OnActionCallback() {
             @Override
@@ -175,7 +175,7 @@ public class DownloadPostDCPWithoutRemCodeTest {
         assertTrue(isSuccess);
     }
 
-    @Test
+//    @Test
     public void test05PostDcpMaster() throws Exception{
         poDcp.PostDcpMaster(new DcpManager.OnActionCallback() {
             @Override

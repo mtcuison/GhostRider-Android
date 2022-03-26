@@ -20,6 +20,7 @@ import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.lib.PET.SelfieLog;
 import org.rmj.g3appdriver.utils.WebClient;
 
 public class SelfieLogTest {
