@@ -125,7 +125,7 @@ public class DownloadPostDCPWithoutRemCodeTest {
 
     @Test
     public void test02DownloadDCP() throws Exception{
-        poDcp.ImportDcpMaster("M00119001357", "2022-02-22", new DcpManager.OnActionCallback() {
+        poDcp.ImportDcpMaster("M00117001404", "2022-02-22", new DcpManager.OnActionCallback() {
             @Override
             public void OnSuccess(String args) {
                 isSuccess = true;

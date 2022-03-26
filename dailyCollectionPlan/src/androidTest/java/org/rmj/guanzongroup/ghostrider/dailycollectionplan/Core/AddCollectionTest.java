@@ -123,7 +123,7 @@ public class AddCollectionTest {
 
     @Test
     public void test02SearchList() throws Exception{
-        poDcp.getSearchList("Bautista", new DcpManager.OnSearchCallback() {
+        poDcp.getSearchList("Bautista, Vio", new DcpManager.OnSearchCallback() {
             @Override
             public void OnSuccess(List<EDCPCollectionDetail> foDetail) {
                 isSuccess = true;

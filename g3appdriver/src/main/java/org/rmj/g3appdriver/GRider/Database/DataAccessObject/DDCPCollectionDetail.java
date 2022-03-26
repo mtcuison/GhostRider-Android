@@ -21,6 +21,7 @@ import androidx.room.Update;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 
 import java.util.List;
 
@@ -205,6 +206,11 @@ public interface DDCPCollectionDetail {
             "(SELECT sTransNox FROM LR_DCP_Collection_Master " +
             "WHERE dReferDte =:dTransact))")
     Integer getDCPStatus(String dTransact);
+
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox=(" +
+            "SELECT sTransNox FROM LR_DCP_Collection_Master WHERE cSendStat != '1') " +
+            "AND sRemCodex = 'PAY'")
+    List<EDCPCollectionDetail> checkDCPPAYTransaction();
 
     @Query("SELECT a.sTransNox, " +
             "a.nEntryNox, " +

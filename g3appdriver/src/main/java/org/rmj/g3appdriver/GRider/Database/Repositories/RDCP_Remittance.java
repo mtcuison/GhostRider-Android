@@ -22,8 +22,6 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 
-import java.util.List;
-
 public class RDCP_Remittance {
     private static final String TAG = RDCP_Remittance.class.getSimpleName();
 
@@ -47,6 +45,10 @@ public class RDCP_Remittance {
 
     public String getTransnoxMaster(String dTransact){
         return remitDao.getMasterTransNox(dTransact);
+    }
+
+    public EDCP_Remittance getDCPRemittance(){
+        return remitDao.getDCPRemittance();
     }
 
     public String getRemittanceEntry(String dTransact){
@@ -95,6 +97,14 @@ public class RDCP_Remittance {
 
     public LiveData<String> getCashOnHand(String dTransact){
         return remitDao.getCashOnHand(dTransact);
+    }
+
+    public double getCollectedForRemittance(){
+        return remitDao.getRemittedCollection();
+    }
+
+    public double getCollectedPayments(){
+        return remitDao.getCollectedPayments();
     }
 
     public void Calculate_COH_Remitted(String dTransact, OnCalculateCallback callback){
