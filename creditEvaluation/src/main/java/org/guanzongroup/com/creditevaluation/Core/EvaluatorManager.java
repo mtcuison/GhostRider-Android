@@ -228,7 +228,7 @@ public class EvaluatorManager {
     public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks, OnActionCallback callback){
         try{
             poCI.SaveCIApproval(TransNox, fsResult, fsRemarks);
-            callback.OnSuccess("");
+            callback.OnSuccess("save approval");
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailed(e.getMessage());
@@ -262,6 +262,7 @@ public class EvaluatorManager {
             params.put("sNeighBr1", loDetail.getNeighBr1());
             params.put("sNeighBr2", loDetail.getNeighBr2());
             params.put("sNeighBr3", loDetail.getNeighBr3());
+            Log.d("params", String.valueOf(params));
             String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitResult(), params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Server no response.");

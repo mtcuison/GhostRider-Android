@@ -13,12 +13,18 @@ import org.guanzongroup.com.creditevaluation.Core.EvaluatorManager;
 import org.guanzongroup.com.creditevaluation.Core.oChildFndg;
 import org.guanzongroup.com.creditevaluation.Core.oParentFndg;
 import org.guanzongroup.com.creditevaluation.Model.AdditionalInfoModel;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCIEvaluation;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,6 +70,7 @@ public class VMEvaluation extends AndroidViewModel {
         return this.TransNox.getValue();
     }
     public interface onSaveAdditionalInfo {
+        void OnUpload();
         void OnSuccessResult(String args,String message);
         void OnFailedResult(String message);
     }
@@ -81,7 +88,7 @@ public class VMEvaluation extends AndroidViewModel {
     public LiveData<HashMap<oParentFndg, List<oChildFndg>>> getParsedEvaluationData(){
         return foEvaluate;
     }
-//    public HashMap<oParentFndg, List<oChildFndg>> parseToEvaluationData(ECreditOnlineApplicationCI eCI){
+    //    public HashMap<oParentFndg, List<oChildFndg>> parseToEvaluationData(ECreditOnlineApplicationCI eCI){
 //        try {
 //            return foManager.parseToEvaluationData(eCI);
 //        } catch (Exception e) {
@@ -120,84 +127,121 @@ public class VMEvaluation extends AndroidViewModel {
     }
 
     public void saveAdditionalInfo(AdditionalInfoModel infoModel,String value, onSaveAdditionalInfo callback){
-        new UpdateTask(foManager,infoModel,value, callback).execute(TransNox.getValue());
+        new UpdateTask(app,foManager,infoModel,value, callback).execute(TransNox.getValue());
+    }
+
+    public void UploadEvaluationResult(onSaveAdditionalInfo callback){
+        new  UploadEvaluationResultTask(app,foManager, callback).execute(TransNox.getValue());
     }
 
     public void saveDataEvaluation(oParentFndg parentFndg,oChildFndg childFndg, onSaveAdditionalInfo callback){
-        new UpdateDataEvaluationTask(foManager,parentFndg,childFndg, callback).execute(TransNox.getValue());
+        new UpdateDataEvaluationTask(app,foManager,parentFndg,childFndg, callback).execute(TransNox.getValue());
     }
+//    public void postCIEvaluation( onSaveAdditionalInfo callback){
+//        new  OnPostEvaluationResultTask(app,foManager, callback).execute(TransNox.getValue());
+//    }
     private  class UpdateTask extends AsyncTask<String, Void, String> {
         private final EvaluatorManager poCIEvaluation;
         private final AdditionalInfoModel infoModel;
         private final onSaveAdditionalInfo callback;
         private final String btnText;
-
-        public UpdateTask(EvaluatorManager poCIEvaluation, AdditionalInfoModel infoModel,String btnText,onSaveAdditionalInfo callback) {
+        private final ConnectionUtil poConn;
+        public UpdateTask(Application app,EvaluatorManager poCIEvaluation, AdditionalInfoModel infoModel,String btnText,onSaveAdditionalInfo callback) {
             this.poCIEvaluation = poCIEvaluation;
             this.infoModel = infoModel;
             this.callback = callback;
             this.btnText = btnText;
+            this.poConn = new ConnectionUtil(app);
         }
 
         @Override
         protected String doInBackground(String... transNox) {
             try {
+                final String[] response = {""};
                 if(btnText.equalsIgnoreCase("Neighbor1")){
                     if (!infoModel.isNeighbr1()) {
-                        return infoModel.getMessage();
+                        response[0] = infoModel.getMessage();
                     } else {
                         poCIEvaluation.UpdateNeighbor1(transNox[0],infoModel.getNeighbr1());
+                        response[0] = infoModel.getMessage();
                     }
                 }else if(btnText.equalsIgnoreCase("Neighbor2")){
                     if (!infoModel.isNeighbr2()) {
-                        return infoModel.getMessage();
+                        response[0] = infoModel.getMessage();
                     } else {
                         poCIEvaluation.UpdateNeighbor2(transNox[0],infoModel.getNeighbr2());
+                        response[0] = infoModel.getMessage();
                     }
                 }else if(btnText.equalsIgnoreCase("Neighbor3")){
                     if (!infoModel.isNeighbr3()) {
-                        return infoModel.getMessage();
+                        response[0] = infoModel.getMessage();
                     } else {
                         poCIEvaluation.UpdateNeighbor3(transNox[0],infoModel.getNeighbr3());
+                        response[0] = infoModel.getMessage();
                     }
                 }
                 else if(btnText.equalsIgnoreCase("Personnel")){
+                    response[0] = infoModel.getMessage();
                     poCIEvaluation.UpdatePresentBarangay(transNox[0],infoModel.getAsstPersonnel());
 
                 }
                 else if(btnText.equalsIgnoreCase("Position")){
+                    response[0] = infoModel.getMessage();
                     poCIEvaluation.UpdatePosition(transNox[0],infoModel.getAsstPosition());
-
                 }
                 else if(btnText.equalsIgnoreCase("PhoneNo")){
                     if (!infoModel.isMobileNo()){
-                        return infoModel.getMessage();
+                        response[0] = infoModel.getMessage();
                     }else {
+                        response[0] = infoModel.getMessage();
                         poCIEvaluation.UpdateContact(transNox[0],infoModel.getMobileNo());
                     }
                 }
                 else if(btnText.equalsIgnoreCase("Record")){
                     if (!infoModel.isHasRecord()){
-                        return infoModel.getMessage();
+                        response[0] = infoModel.getMessage();
                     }else {
+                        response[0] = infoModel.getMessage();
                         poCIEvaluation.UpdateRecordInfo(transNox[0],infoModel.getHasRecrd());
                         poCIEvaluation.UpdateRecordRemarks(transNox[0],infoModel.getRemRecrd());
+
                     }
                 }
                 else if(btnText.equalsIgnoreCase("Approval")){
                     poCIEvaluation.SaveCIApproval(transNox[0], infoModel.getTranstat(), infoModel.getsRemarks(), new EvaluatorManager.OnActionCallback() {
                         @Override
                         public void OnSuccess(String args) {
-//                                callback.OnSuccessResult("CI approval/disapproval successfully saved.");
+                            response[0] = args;
                         }
 
                         @Override
                         public void OnFailed(String message) {
-//                                callback.OnFailedResult(message);
+                            response[0] = message;
                         }
                     });
+                    Thread.sleep(1000);
+                    if (!poConn.isDeviceConnected()) {
+                        response[0] = AppConstants.NO_INTERNET();
+                    } else {
+                        poCIEvaluation.PostCIApproval(transNox[0], new EvaluatorManager.OnActionCallback() {
+                            @Override
+                            public void OnSuccess(String args) {
+                                response[0] = args;
+                                Log.e("upload success upload", args);
+                            }
+
+                            @Override
+                            public void OnFailed(String message) {
+                                response[0] =  message;
+                                Log.e("upload failed upload", message);
+                            }
+                        });
+
+                    }
+
+
                 }
-                return "success";
+                return response[0];
 
             } catch (NullPointerException e){
                 e.printStackTrace();
@@ -224,30 +268,91 @@ public class VMEvaluation extends AndroidViewModel {
         private final oParentFndg parentFndg;
         private final onSaveAdditionalInfo callback;
         private final oChildFndg childFndg;
-
-        public UpdateDataEvaluationTask(EvaluatorManager poCIEvaluation, oParentFndg parentFndg,oChildFndg childFndg,onSaveAdditionalInfo callback) {
+        private final ConnectionUtil poConn;
+        public UpdateDataEvaluationTask(Application app, EvaluatorManager poCIEvaluation, oParentFndg parentFndg,oChildFndg childFndg,onSaveAdditionalInfo callback) {
             this.poCIEvaluation = poCIEvaluation;
             this.parentFndg = parentFndg;
             this.callback = callback;
             this.childFndg = childFndg;
+            this.poConn = new ConnectionUtil(app);
         }
 
         @Override
         protected String doInBackground(String... transNox) {
             try {
+                final String[] response = {""};
                 poCIEvaluation.UpdateConfirmInfos(transNox[0], parentFndg, childFndg, new EvaluatorManager.OnActionCallback() {
                     @Override
                     public void OnSuccess(String args) {
+                        response[0] = args;
                         Log.e("save success", args);
                     }
 
                     @Override
                     public void OnFailed(String message) {
+                        response[0] = message;
                         Log.e("save failed", message);
 
                     }
                 });
-                return "success";
+
+                return response[0];
+
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                return e.getMessage();
+            }catch (Exception e){
+                e.printStackTrace();
+                return e.getMessage();
+            }
+        }
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s.equalsIgnoreCase("success")){
+                callback.OnSuccessResult(s,s);
+            } else {
+                callback.OnFailedResult(s);
+            }
+        }
+    }
+
+    private  class UploadEvaluationResultTask extends AsyncTask<String, Void, String> {
+        private final EvaluatorManager poCIEvaluation;
+        private final onSaveAdditionalInfo callback;
+        private final ConnectionUtil poConn;
+        public UploadEvaluationResultTask(Application app, EvaluatorManager poCIEvaluation,onSaveAdditionalInfo callback) {
+            this.poCIEvaluation = poCIEvaluation;
+            this.callback = callback;
+            this.poConn = new ConnectionUtil(app);
+        }
+
+        @Override
+        protected String doInBackground(String... transNox) {
+            try {
+                final String[] response = {""};
+                if (!poConn.isDeviceConnected()) {
+                    response[0] = AppConstants.NO_INTERNET();
+                } else {
+                    poCIEvaluation.UploadEvaluationResult(transNox[0], new EvaluatorManager.OnActionCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            response[0] = args;
+                            Log.e("upload success upload", args);
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            response[0] =  message;
+                            Log.e("upload failed upload", message);
+                        }
+                    });
+
+                }
+                Thread.sleep(1000);
+                return response[0];
 
             } catch (NullPointerException e){
                 e.printStackTrace();
