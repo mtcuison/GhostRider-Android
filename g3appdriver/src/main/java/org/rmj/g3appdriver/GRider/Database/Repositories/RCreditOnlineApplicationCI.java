@@ -126,8 +126,8 @@ public class RCreditOnlineApplicationCI implements DCreditOnlineApplicationCI {
     }
 
     @Override
-    public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks) {
-        poDao.SaveCIApproval(TransNox, fsResult, fsRemarks);
+    public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks, String DateApp) {
+        poDao.SaveCIApproval(TransNox, fsResult, fsRemarks, DateApp);
     }
 
     @Override
