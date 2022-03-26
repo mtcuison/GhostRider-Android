@@ -66,6 +66,20 @@ public class EvaluatorManager {
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
+                    JSONArray loDetail = loResponse.getJSONArray("detail");
+                    for(int x= 0 ; x < loDetail.length(); x++) {
+                        JSONObject loJson = loDetail.getJSONObject(x);
+                        ECreditOnlineApplicationCI loApp = new ECreditOnlineApplicationCI();
+                        loApp.setTransNox(loJson.getString("sTransNox"));
+                        loApp.setCredInvx(loJson.getString("sCredInvx"));
+                        loApp.setAddressx(loJson.getString("sAddressx"));
+                        loApp.setAddrFndg(loJson.getString("sAddrFndg"));
+                        loApp.setAssetsxx(loJson.getString("sAssetsxx"));
+                        loApp.setAsstFndg(loJson.getString("sAsstFndg"));
+                        loApp.setIncomexx(loJson.getString("sIncomexx"));
+                        loApp.setIncmFndg(loJson.getString("sIncmFndg"));
+                        poCI.SaveApplicationInfo(loApp);
+                    }
                     callback.OnSuccess(loResponse.toString());
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
