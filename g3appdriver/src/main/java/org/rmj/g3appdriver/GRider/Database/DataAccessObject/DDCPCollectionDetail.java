@@ -319,7 +319,8 @@ public interface DDCPCollectionDetail {
     @Query("UPDATE LR_DCP_Collection_Detail SET sRemCodex = 'NV', " +
             "sRemarksx =:Remarks, " +
             "dModified =:dModfied " +
-            "WHERE sTransNox =:TransNox")
+            "WHERE sTransNox =:TransNox " +
+            "AND sRemCodex = ''")
     void updateNotVisitedCollections(String Remarks, String TransNox, String dModfied);
 
     class CollectionDetail{
