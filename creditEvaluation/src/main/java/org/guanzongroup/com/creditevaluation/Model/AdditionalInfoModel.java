@@ -35,12 +35,34 @@ public class AdditionalInfoModel {
     public String getMessage() { return message; }
 
     public boolean isValidEvaluation(){
-        return isHasRecord() &&
+        return isPersonnel() &&
+                isPosition() &&
+                isHasRecord() &&
                 isMobileNo() &&
                 isNeighbr1() &&
                 isNeighbr2() &&
                 isNeighbr3();
     }
+    public boolean isPersonnel(){
+        if (this.AsstPersonnel == null || this.AsstPersonnel.trim().isEmpty()){
+            message = "Please enter brgy. personnel's fullname.";
+            return false;
+        }else{
+            message = "Brgy. personnel's fullname successfully saved.";
+        }
+        return true;
+    }
+
+    public boolean isPosition(){
+        if (this.AsstPosition == null || this.AsstPosition.trim().isEmpty()){
+            message = "Please enter personnel position.";
+            return false;
+        }else{
+            message = "Personnel position successfully saved.";
+        }
+        return true;
+    }
+
     //    NEIGHBOR 1
     public boolean isNeighbr1(){
         if (this.Neighbr1 == null || this.Neighbr1.trim().isEmpty()){

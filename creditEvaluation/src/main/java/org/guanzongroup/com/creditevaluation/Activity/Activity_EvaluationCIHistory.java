@@ -125,7 +125,7 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
     }
 
     public void initData() {
-        mViewModel.getForEvaluationListData().observe(Activity_EvaluationCIHistory.this, ciList -> {
+        mViewModel.getForEvaluationListDataPreview().observe(Activity_EvaluationCIHistory.this, ciList -> {
             Log.e("size", String.valueOf(ciList.size()));
             try {
                 if (ciList.size() > 0) {
@@ -149,11 +149,7 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
                         loan.sRecrdRem = (ciList.get(x).sRecrdRem);
                         loan.sRcmdtnx1 = (ciList.get(x).sRcmdtnx1);
 
-                        Log.e("sBranchNm ", loan.sBranchNm);
-                        Log.e("sTransNox ", loan.sTransNox);
-                        Log.e("sClientNm ", loan.sClientNm);
-//                        Log.e("nAcctTerm ",loan.nAcctTerm);
-                        Log.e("nDownPaym ", loan.nDownPaym);
+                        Log.e("sRcmdtnx1 ", ciList.get(x).sRcmdtnx1);
                         ciEvaluationList.add(loan);
                         continue;
                     }
@@ -164,17 +160,19 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
                     adapter = new CreditEvaluationListAdapter(ciEvaluationList, "CI Evaluation History", new CreditEvaluationListAdapter.OnApplicationClickListener() {
                         @Override
                         public void OnClick(int position, List<DCreditOnlineApplicationCI.oDataEvaluationInfo> ciEvaluationLists) {
-                            poMessage.initDialog();
-                            poMessage.setTitle("CI Evaluation History");
-                            poMessage.setMessage("No corresponding feature has been set.");
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                            poMessage.show();
-//                            Intent loIntent = new Intent(Activity_EvaluationCIHistory.this, Activity_Evaluation.class);
-//                            loIntent.putExtra("transno", ciEvaluationLists.get(position).sTransNox);
-//                            loIntent.putExtra("ClientNm", ciEvaluationLists.get(position).sClientNm);
-//                            loIntent.putExtra("dTransact", ciEvaluationLists.get(position).dTransact);
-//                            loIntent.putExtra("Branch", ciEvaluationLists.get(position).sBranchNm);
-//                            startActivity(loIntent);
+//                            poMessage.initDialog();
+//                            poMessage.setTitle("CI Evaluation History");
+//                            poMessage.setMessage("No corresponding feature has been set.");
+//                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+//                            poMessage.show();
+//
+                            Intent loIntent = new Intent(Activity_EvaluationCIHistory.this, Activity_CIHistoryPreview.class);
+                            loIntent.putExtra("transno", ciEvaluationLists.get(position).sTransNox);
+                            loIntent.putExtra("ClientNm", ciEvaluationLists.get(position).sClientNm);
+                            loIntent.putExtra("dTransact", ciEvaluationLists.get(position).dTransact);
+                            loIntent.putExtra("Branch", ciEvaluationLists.get(position).sBranchNm);
+                            startActivity(loIntent);
+
 
                         }
 
