@@ -3,6 +3,7 @@ package org.guanzongroup.com.creditevaluation.Activity;
 import static org.rmj.g3appdriver.GRider.Constants.AppConstants.SUB_FOLDER_CI_ADDRESS;
 import static org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder.APP_SYNC_DATA;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -61,7 +63,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class Activity_Evaluation extends AppCompatActivity implements VMEvaluation.ORetrieveCallBack, VMEvaluation.onSaveAdditionalInfo{
+public class Activity_Evaluation extends AppCompatActivity implements VMEvaluation.onSaveAdditionalInfo{
 
     private static final String TAG = Activity_Evaluation.class.getSimpleName();
     private VMEvaluation mViewModel;
@@ -71,7 +73,7 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
     private RadioGroup rgEval;
     private RadioButton rbNoRecord, rbYesRecord;
     private oChildFndg loChild;
-    private ExpandableListAdapter adapter;
+    private EvaluationAdapter adapter;
     private TextInputEditText txtRecordRemarks,txtPersonnel, txtPosition, txtMobileNo;
     private TextInputEditText txtNeighbor1, txtNeighbor2, txtNeighbor3;
     private TextInputLayout tilRecordRemarks;
@@ -107,6 +109,14 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                     mViewModel.parseToEvaluationData(ci);
                 } catch (Exception e) {
                     e.printStackTrace();
+                }
+                if(ci.getPrsnBrgy() != null){
+                    txtPersonnel.setText(ci.getPrsnBrgy());
+                    infoModel.setAsstPersonnel(ci.getPrsnBrgy());
+                }
+                if(ci.getPrsnPstn() != null){
+                    txtPosition.setText(ci.getPrsnPstn());
+                    infoModel.setAsstPosition(ci.getPrsnPstn());
                 }
                 if(ci.getPrsnNmbr() != null){
                     txtMobileNo.setText(ci.getPrsnNmbr());
@@ -167,8 +177,7 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                         if(poChild.size() <= 0){
                             cvForEvaluation.setVisibility(View.GONE);
                         }
-
-                        listView.setAdapter(new EvaluationAdapter(Activity_Evaluation.this, poParentLst, poChild, new EvaluationAdapter.OnConfirmInfoListener() {
+                        adapter = new EvaluationAdapter(Activity_Evaluation.this, poParentLst, poChild, new EvaluationAdapter.OnConfirmInfoListener() {
                             @Override
                             public void OnConfirm(oParentFndg foParent, oChildFndg foChild) {
                                 Log.e(TAG, "Parent : " + foParent.getParentDescript() +
@@ -184,7 +193,8 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                                     mViewModel.saveDataEvaluation(foParent,foChild, Activity_Evaluation.this);
                                 }
                             }
-                        }));
+                        });
+                        listView.setAdapter(adapter);
 
                     }else {
                         cvForEvaluation.setVisibility(View.GONE);
@@ -230,17 +240,55 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
 
             });
             btnSave.setOnClickListener(v ->  {
-                if(!infoModel.isValidEvaluation()){
-                    errorMessage(infoModel.getMessage());
+               if(!infoModel.isValidEvaluation()){
+                   errorMessage(infoModel.getMessage());
                 }else{
-                    initDialog();
-                }
+                   if (infoModel.getcRcmdtnx1() != null && infoModel.getsRcmdtnx1() != null){
+                       sendCIEvaluation();
+                   }else{
+                        initDialog();
+                   }
+               }
+
             });
             btnUpload.setOnClickListener(v ->  {
+                Log.e("sizes", String.valueOf(poChild.size()));
+                if(poChild.size() > 0){
+                    errorMessage("Please finish all required findings.");
+                }else{
                 if(!infoModel.isValidEvaluation()){
                     errorMessage(infoModel.getMessage());
-                }else{
-                    mViewModel.UploadEvaluationResult(Activity_Evaluation.this);
+                }else {
+                    mViewModel.UploadEvaluationResult(new VMEvaluation.onPostCIEvaluation() {
+                        @Override
+                        public void OnPost() {
+                            poDialogx.initDialog("CI Evaluation", "Uploading latest data. Please wait...", false);
+                            poDialogx.show();
+                        }
+
+                        @Override
+                        public void OnSuccessPost(String args) {
+                            Log.e("args", args);
+                            poDialogx.dismiss();
+                            poMessage.initDialog();
+                            poMessage.setTitle("CI Evaluation");
+                            poMessage.setMessage(args);
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                                dialog.dismiss();
+                            });
+                            poMessage.show();
+                            btnSave.setEnabled(true);
+
+                        }
+
+                        @Override
+                        public void OnFailedPost(String message) {
+                            Log.e("message", message);
+                            poDialogx.dismiss();
+                            errorMessage(message);
+                        }
+                    });
+                }
                 }
             });
         }catch (NullPointerException e){
@@ -294,6 +342,14 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
         btnSave = findViewById(R.id.btnSave);
 
     }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @SuppressLint("NewApi")
     private void initRecyclerData(HashMap<oParentFndg, List<oChildFndg>> foEvaluate, ECreditOnlineApplicationCI loData){
         try{
@@ -343,29 +399,20 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
 
 
     @Override
-    public void OnUpload() {
-        poDialogx.initDialog("CI Evaluation", "Uploading latest data. Please wait...", false);
-        poDialogx.show();
-    }
-
-    @Override
     public void OnSuccessResult(String args,String message) {
-
-        poDialogx.dismiss();
         GToast.CreateMessage(this,message,GToast.INFORMATION).show();
         if(args.equalsIgnoreCase("Approval")){
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    finish();
+                    sendCIEvaluation();
                 }
-            }, 2000);
+            }, 2000); // wait for 5 seconds
         }
     }
 
     @Override
     public void OnFailedResult(String message) {
-        poDialogx.dismiss();
         errorMessage(message);
     }
 
@@ -396,17 +443,15 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
         }
     }
 
-    @Override
-    public void onRetrieveSuccess(HashMap<oParentFndg, List<oChildFndg>> foEvaluate, ECreditOnlineApplicationCI foData) {
-
-
-        initRecyclerData(foEvaluate,foData);
-    }
-
-    @Override
-    public void onRetrieveFailed(String message) {
-
-    }
+//    @Override
+//    public void onRetrieveSuccess(HashMap<oParentFndg, List<oChildFndg>> foEvaluate, ECreditOnlineApplicationCI foData) {
+//        initRecyclerData(foEvaluate,foData);
+//    }
+//
+//    @Override
+//    public void onRetrieveFailed(String message) {
+//
+//    }
 
     public void initDialog(){
         DialogCIReason loDialog = new DialogCIReason(Activity_Evaluation.this);
@@ -415,6 +460,7 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
             infoModel.setsRemarks(reason);
             dialog.dismiss();
             if(infoModel.isApproved()){
+
                 mViewModel.saveAdditionalInfo(infoModel, "Approval",Activity_Evaluation.this);
             }
         });
@@ -467,6 +513,34 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                 }
             }
         }
+    }
+    private void sendCIEvaluation(){
+        mViewModel.postCIEvaluation(new VMEvaluation.onPostCIEvaluation() {
+            @Override
+            public void OnPost() {
+                poDialogx.initDialog("CI Evaluation", "Sending approval to server. Please wait...", false);
+                poDialogx.show();
+            }
+
+            @Override
+            public void OnSuccessPost(String args) {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("CI Evaluation List");
+                poMessage.setMessage(args);
+                poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                    finish();
+                });
+                poMessage.show();
+            }
+
+            @Override
+            public void OnFailedPost(String message) {
+                poDialogx.dismiss();
+                errorMessage(message);
+            }
+        });
     }
 
 }

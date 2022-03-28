@@ -35,7 +35,7 @@ public class NoScrollExListView extends  ExpandableListView  {
         int heightMeasureSpec_custom = MeasureSpec.makeMeasureSpec(
                 Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
         setHeightWrapContent();
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec_custom);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 //        ViewGroup.LayoutParams params = getLayoutParams();
 //        params.height = getMeasuredHeight();
     }
@@ -54,7 +54,7 @@ public class NoScrollExListView extends  ExpandableListView  {
         ViewGroup.LayoutParams params = this.getLayoutParams();
 
         params.height = totalHeight
-                + (this.getDividerHeight() * (listAdapter.getCount() - 1));
+                + (this.getDividerHeight() * (listAdapter.getCount() - 1) + 1);
         this.setLayoutParams(params);
     }
 }

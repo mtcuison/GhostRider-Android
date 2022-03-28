@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.creditEvaluation
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 3/28/22, 8:50 AM
+  ~ project file last modified : 3/28/22, 8:49 AM
+  -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,7 +18,7 @@
     android:orientation="vertical"
     android:theme="@style/GhostRiderMaterialTheme"
     android:background="@drawable/bg_gradient_light"
-    tools:context=".Activity.Activity_Evaluation">
+    tools:context=".Activity.Activity_CIHistoryPreview">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,7 +88,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="15dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -214,12 +226,12 @@
                             android:scrollbars="none"
                             android:groupIndicator="@null"
                             />
-<!--                        <ExpandableListView-->
-<!--                            android:id="@+id/expListview"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:groupIndicator="@null"-->
-<!--                            android:nestedScrollingEnabled="true"/>-->
+                        <!--                        <ExpandableListView-->
+                        <!--                            android:id="@+id/expListview"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="match_parent"-->
+                        <!--                            android:groupIndicator="@null"-->
+                        <!--                            android:nestedScrollingEnabled="true"/>-->
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <!-- END ADDRESS-->
@@ -293,22 +305,6 @@
                                             tools:targetApi="jelly_bean"
                                             android:buttonTint="@color/guanzon_digital_orange"/>
                                     </RadioGroup>
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="fill_parent"
-                                        android:layout_weight="1.65"
-                                        android:orientation="horizontal">
-
-                                        <com.google.android.material.button.MaterialButton
-                                            android:id="@+id/btnSaveRecord"
-                                            android:layout_width="fill_parent"
-                                            android:layout_height="fill_parent"
-                                            android:layout_gravity="center_horizontal|center|center_vertical"
-                                            app:icon="@android:drawable/ic_menu_save"
-                                            app:iconTint="@color/guanzon_digital_orange"
-                                            app:iconGravity="textStart"
-                                            app:iconPadding="0dp" />
-                                    </LinearLayout>
                                 </LinearLayout>
 
                                 <com.google.android.material.textfield.TextInputLayout
@@ -354,18 +350,10 @@
                                             android:imeOptions="actionNext"
                                             android:nextFocusForward="@id/tie_ci_asstPosition"
                                             android:textColor="@color/material_black"
-                                            android:maxLength="50" />
+                                            android:maxLength="50"
+                                            android:enabled="false"/>
                                     </com.google.android.material.textfield.TextInputLayout>
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/btnSaveAsstPersonnel"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="fill_parent"
-                                        android:layout_weight="1.5"
-                                        android:layout_gravity="center_horizontal|center|center_vertical"
-                                        app:icon="@android:drawable/ic_menu_save"
-                                        app:iconTint="@color/guanzon_digital_orange"
-                                        app:iconGravity="textStart"
-                                        app:iconPadding="0dp" />
+
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -387,18 +375,10 @@
                                             android:imeOptions="actionNext"
                                             android:nextFocusForward="@id/tie_ci_asstPhoneNo"
                                             android:textColor="@color/material_black"
-                                            android:maxLength="50" />
+                                            android:maxLength="50"
+                                            android:enabled="false" />
                                     </com.google.android.material.textfield.TextInputLayout>
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/btnSaveAsstPosition"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="fill_parent"
-                                        android:layout_weight="1.5"
-                                        android:layout_gravity="center_horizontal|center|center_vertical"
-                                        app:icon="@android:drawable/ic_menu_save"
-                                        app:iconTint="@color/guanzon_digital_orange"
-                                        app:iconGravity="textStart"
-                                        app:iconPadding="0dp" />
+
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -406,24 +386,6 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
                                     android:layout_gravity="center_vertical|center_horizontal">
-<!--                                    <com.google.android.material.textfield.TextInputLayout-->
-<!--                                        android:layout_width="fill_parent"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:hint="Brgy. Personnel Mobile No."-->
-<!--                                        style="@style/TextInputStyle"-->
-<!--                                        android:layout_weight="05">-->
-
-<!--                                        <com.google.android.material.textfield.TextInputEditText-->
-<!--                                            android:id="@+id/tie_ci_asstPhoneNo"-->
-<!--                                            android:layout_width="match_parent"-->
-<!--                                            android:layout_height="wrap_content"-->
-<!--                                            android:inputType="textCapWords"-->
-<!--                                            android:imeOptions="actionNext"-->
-<!--                                            android:nextFocusForward="@id/tie_ci_neighborName1"-->
-<!--                                            android:textColor="@color/material_black"-->
-<!--                                            android:maxLength="50" />-->
-<!--                                    </com.google.android.material.textfield.TextInputLayout>-->
-
                                     <com.google.android.material.textfield.TextInputLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -439,20 +401,12 @@
                                             android:maxLength="11"
                                             android:inputType="number|none"
                                             android:imeOptions="actionNext"
-                                            android:nextFocusForward="@id/tie_ci_neighborName1"/>
+                                            android:nextFocusForward="@id/tie_ci_neighborName1"
+                                            android:textColor="@color/material_black"
+                                            android:enabled="false"/>
 
                                     </com.google.android.material.textfield.TextInputLayout>
 
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/btnSaveAsstPhoneNo"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="fill_parent"
-                                        android:layout_weight="1.5"
-                                        android:layout_gravity="center_horizontal|center|center_vertical"
-                                        app:icon="@android:drawable/ic_menu_save"
-                                        app:iconTint="@color/guanzon_digital_orange"
-                                        app:iconGravity="textStart"
-                                        app:iconPadding="0dp" />
                                 </LinearLayout>
 
                             </LinearLayout>
@@ -489,18 +443,10 @@
                                             android:imeOptions="actionNext"
                                             android:nextFocusForward="@id/tie_ci_neighborName2"
                                             android:textColor="@color/material_black"
-                                            android:maxLength="50" />
+                                            android:maxLength="50"
+                                            android:enabled="false"/>
                                     </com.google.android.material.textfield.TextInputLayout>
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/btnSaveNeighbor1"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="fill_parent"
-                                        android:layout_weight="1.5"
-                                        android:layout_gravity="center_horizontal|center|center_vertical"
-                                        app:icon="@android:drawable/ic_menu_save"
-                                        app:iconTint="@color/guanzon_digital_orange"
-                                        app:iconGravity="textStart"
-                                        app:iconPadding="0dp" />
+
                                 </LinearLayout>
                             </LinearLayout>
                             <!--    Neighbor 2-->
@@ -537,18 +483,9 @@
                                             android:imeOptions="actionNext"
                                             android:nextFocusForward="@id/tie_ci_neighborName3"
                                             android:textColor="@color/material_black"
-                                            android:maxLength="50" />
+                                            android:maxLength="50"
+                                            android:enabled="false"/>
                                     </com.google.android.material.textfield.TextInputLayout>
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/btnSaveNeighbor2"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="fill_parent"
-                                        android:layout_weight="1.5"
-                                        android:layout_gravity="center_horizontal|center|center_vertical"
-                                        app:icon="@android:drawable/ic_menu_save"
-                                        app:iconTint="@color/guanzon_digital_orange"
-                                        app:iconGravity="textStart"
-                                        app:iconPadding="0dp" />
                                 </LinearLayout>
 
                             </LinearLayout>
@@ -585,65 +522,14 @@
                                             android:inputType="textCapWords"
                                             android:imeOptions="actionNext"
                                             android:textColor="@color/material_black"
-                                            android:maxLength="50" />
-<!--                                        android:nextFocusForward="@id/tie_ci_neighborName2"-->
+                                            android:maxLength="50"
+                                            android:enabled="false" />
+                                        <!--                                        android:nextFocusForward="@id/tie_ci_neighborName2"-->
 
                                     </com.google.android.material.textfield.TextInputLayout>
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/btnSaveNeighbor3"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="fill_parent"
-                                        android:layout_weight="1.5"
-                                        android:layout_gravity="center_horizontal|center|center_vertical"
-                                        app:icon="@android:drawable/ic_menu_save"
-                                        app:iconTint="@color/guanzon_digital_orange"
-                                        app:iconGravity="textStart"
-                                        app:iconPadding="0dp" />
+                                    
                                 </LinearLayout>
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginRight="5dp"
-                                android:layout_marginLeft="5dp">
-                                <LinearLayout
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    android:layout_weight="1"
-                                    android:padding="5dp">
-                                    <Button
-                                        android:id="@+id/btnUpload"
-                                        android:layout_width="fill_parent"
-                                        android:layout_height="fill_parent"
-                                        android:text="Upload"
-                                        style="@style/GhostRider_Button"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_alignParentRight="true"
-                                        android:layout_centerVertical="true"
-                                        tools:ignore="RelativeOverlap" />
-
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_weight="1"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    android:padding="5dp">
-                                    <Button
-                                        android:id="@+id/btnSave"
-                                        android:layout_width="fill_parent"
-                                        android:layout_height="fill_parent"
-                                        android:text="Approval"
-                                        style="@style/GhostRider_Button"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_alignParentRight="true"
-                                        android:layout_centerVertical="true"
-                                        tools:ignore="RelativeOverlap" />
-                                </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>

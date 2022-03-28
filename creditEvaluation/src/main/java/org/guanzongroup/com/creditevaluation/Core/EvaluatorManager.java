@@ -66,7 +66,22 @@ public class EvaluatorManager {
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccess(loResponse.toString());
+                    JSONArray loDetail = loResponse.getJSONArray("detail");
+                    for(int x= 0 ; x < loDetail.length(); x++){
+                        JSONObject loJson = loDetail.getJSONObject(x);
+                        ECreditOnlineApplicationCI loApp = new ECreditOnlineApplicationCI();
+                        loApp.setTransNox(loJson.getString("sTransNox"));
+                        loApp.setCredInvx(loJson.getString("sCredInvx"));
+                        loApp.setAddressx(loJson.getString("sAddressx"));
+                        loApp.setAddrFndg(loJson.getString("sAddrFndg"));
+                        loApp.setAssetsxx(loJson.getString("sAssetsxx"));
+                        loApp.setAsstFndg(loJson.getString("sAsstFndg"));
+                        loApp.setIncomexx(loJson.getString("sIncomexx"));
+                        loApp.setIncmFndg(loJson.getString("sIncmFndg"));
+                        loApp.setRcmdRcd1(new AppConstants().DATE_MODIFIED);
+                        poCI.SaveApplicationInfo(loApp);
+                    }
+                    callback.OnSuccess("success");
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
                     String lsMessage = loError.getString("message");
@@ -102,6 +117,7 @@ public class EvaluatorManager {
                         loApp.setAsstFndg(loJson.getString("sAsstFndg"));
                         loApp.setIncomexx(loJson.getString("sIncomexx"));
                         loApp.setIncmFndg(loJson.getString("sIncmFndg"));
+                        loApp.setRcmdRcd1(new AppConstants().DATE_MODIFIED);
                         poCI.SaveApplicationInfo(loApp);
                     }
                     callback.OnSuccess(loResponse.toString());
@@ -124,6 +140,9 @@ public class EvaluatorManager {
     public LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListData(){
         return poCI.getForEvaluationListData();
     }
+    public LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListDataPreview(){
+        return poCI.getForEvaluationListDataPreview();
+    }
 
     public LiveData<DCreditOnlineApplicationCI.oDataEvaluationInfo> getForEvaluationInfo(String TransNox) {
         return poCI.getForEvaluateInfo(TransNox);
@@ -140,6 +159,16 @@ public class EvaluatorManager {
         loForEval.putAll(FindingsParser.getForEvaluation(oChildFndg.FIELDS.ADDRESS, foDetail.getAddressx(), foDetail.getAddrFndg()));
         loForEval.putAll(FindingsParser.getForEvaluation(oChildFndg.FIELDS.MEANS, foDetail.getIncomexx(), foDetail.getIncmFndg()));
         loForEval.putAll(FindingsParser.getForEvaluation(oChildFndg.FIELDS.ASSETS, foDetail.getAssetsxx(), foDetail.getAsstFndg()));
+
+        return loForEval;
+    }
+
+    public HashMap<oParentFndg, List<oChildFndg>> parseToEvaluationPreviewData(ECreditOnlineApplicationCI foDetail) throws Exception{
+        HashMap<oParentFndg, List<oChildFndg>> loForEval = new HashMap<>();
+
+        loForEval.putAll(PreviewParser.getForEvaluation(oChildFndg.FIELDS.ADDRESS, foDetail.getAddressx(), foDetail.getAddrFndg()));
+        loForEval.putAll(PreviewParser.getForEvaluation(oChildFndg.FIELDS.MEANS, foDetail.getIncomexx(), foDetail.getIncmFndg()));
+        loForEval.putAll(PreviewParser.getForEvaluation(oChildFndg.FIELDS.ASSETS, foDetail.getAssetsxx(), foDetail.getAsstFndg()));
 
         return loForEval;
     }
@@ -238,7 +267,7 @@ public class EvaluatorManager {
     public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks, OnActionCallback callback){
         try{
             poCI.SaveCIApproval(TransNox, fsResult, fsRemarks, new AppConstants().DATE_MODIFIED);
-            callback.OnSuccess("");
+            callback.OnSuccess("success");
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailed(e.getMessage());
@@ -308,6 +337,7 @@ public class EvaluatorManager {
             params.put("sNeighBr2", loDetail.getNeighBr2());
             params.put("sNeighBr3", loDetail.getNeighBr3());
             String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitResult(), params.toString(), poHeaders.getHeaders());
+            Log.d("response", lsResponse);
             if(lsResponse == null){
                 callback.OnFailed("Server no response.");
             } else {
@@ -378,13 +408,15 @@ public class EvaluatorManager {
             ECreditOnlineApplicationCI loDetail = poCI.getApplication(TransNox);
             JSONObject params = new JSONObject();
             params.put("sTransNox", loDetail.getTransNox());
-            params.put("dRcmdRcd1", loDetail.getRcmdRcd1());
+            params.put("dRcmdRcv1", loDetail.getRcmdRcd1());
             params.put("dRcmdtnx1", loDetail.getRcmdtnx1());
             params.put("cRcmdtnx1", loDetail.getRcmdtnc1());
             params.put("sRcmdtnx1", loDetail.getRcmdtns1());
             params.put("sApproved", loDetail.getApproved());
             params.put("dApproved", loDetail.getDapprovd());
-            String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitResult(), params.toString(), poHeaders.getHeaders());
+            Log.d("params", String.valueOf(params));
+            String lsResponse = WebClient.sendRequest(poApis.getUrlPostCiApproval(), params.toString(), poHeaders.getHeaders());
+            Log.d("response", lsResponse);
             if (lsResponse == null) {
                 callback.OnFailed("Server no response.");
             } else {
@@ -392,7 +424,7 @@ public class EvaluatorManager {
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
                     poCI.UpdateTransactionSendStat(TransNox);
-                    callback.OnSuccess("Approval sent.");
+                    callback.OnSuccess("Approval sent successfully.");
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
                     String lsMessage = loError.getString("message");
