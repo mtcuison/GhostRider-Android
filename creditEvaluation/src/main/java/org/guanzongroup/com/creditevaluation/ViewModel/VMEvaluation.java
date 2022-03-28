@@ -70,10 +70,15 @@ public class VMEvaluation extends AndroidViewModel {
         return this.TransNox.getValue();
     }
     public interface onSaveAdditionalInfo {
-        void OnUpload();
         void OnSuccessResult(String args,String message);
         void OnFailedResult(String message);
     }
+    public interface onPostCIEvaluation {
+        void OnPost();
+        void OnSuccessPost(String args);
+        void OnFailedPost(String message);
+    }
+
     public LiveData<ECreditOnlineApplicationCI> getCIEvaluation(String transNox){
         return foManager.getApplications(transNox);
     }
@@ -130,16 +135,16 @@ public class VMEvaluation extends AndroidViewModel {
         new UpdateTask(app,foManager,infoModel,value, callback).execute(TransNox.getValue());
     }
 
-    public void UploadEvaluationResult(onSaveAdditionalInfo callback){
+    public void UploadEvaluationResult(onPostCIEvaluation callback){
         new  UploadEvaluationResultTask(app,foManager, callback).execute(TransNox.getValue());
     }
 
     public void saveDataEvaluation(oParentFndg parentFndg,oChildFndg childFndg, onSaveAdditionalInfo callback){
         new UpdateDataEvaluationTask(app,foManager,parentFndg,childFndg, callback).execute(TransNox.getValue());
     }
-//    public void postCIEvaluation( onSaveAdditionalInfo callback){
-//        new  OnPostEvaluationResultTask(app,foManager, callback).execute(TransNox.getValue());
-//    }
+    public void postCIEvaluation(onPostCIEvaluation callback){
+        new  PostEvaluationResultTask(app,foManager, callback).execute(TransNox.getValue());
+    }
     private  class UpdateTask extends AsyncTask<String, Void, String> {
         private final EvaluatorManager poCIEvaluation;
         private final AdditionalInfoModel infoModel;
@@ -181,13 +186,20 @@ public class VMEvaluation extends AndroidViewModel {
                     }
                 }
                 else if(btnText.equalsIgnoreCase("Personnel")){
+                    if (!infoModel.isPersonnel()){
                     response[0] = infoModel.getMessage();
-                    poCIEvaluation.UpdatePresentBarangay(transNox[0],infoModel.getAsstPersonnel());
-
+                    }else {
+                        response[0] = infoModel.getMessage();
+                        poCIEvaluation.UpdatePresentBarangay(transNox[0],infoModel.getAsstPersonnel());
+                    }
                 }
                 else if(btnText.equalsIgnoreCase("Position")){
-                    response[0] = infoModel.getMessage();
-                    poCIEvaluation.UpdatePosition(transNox[0],infoModel.getAsstPosition());
+                    if (!infoModel.isPosition()){
+                        response[0] = infoModel.getMessage();
+                    }else {
+                        response[0] = infoModel.getMessage();
+                        poCIEvaluation.UpdatePosition(transNox[0],infoModel.getAsstPosition());
+                    }
                 }
                 else if(btnText.equalsIgnoreCase("PhoneNo")){
                     if (!infoModel.isMobileNo()){
@@ -211,7 +223,8 @@ public class VMEvaluation extends AndroidViewModel {
                     poCIEvaluation.SaveCIApproval(transNox[0], infoModel.getTranstat(), infoModel.getsRemarks(), new EvaluatorManager.OnActionCallback() {
                         @Override
                         public void OnSuccess(String args) {
-                            response[0] = args;
+
+                            response[0] = "success";
                         }
 
                         @Override
@@ -220,25 +233,6 @@ public class VMEvaluation extends AndroidViewModel {
                         }
                     });
                     Thread.sleep(1000);
-                    if (!poConn.isDeviceConnected()) {
-                        response[0] = AppConstants.NO_INTERNET();
-                    } else {
-                        poCIEvaluation.PostCIApproval(transNox[0], new EvaluatorManager.OnActionCallback() {
-                            @Override
-                            public void OnSuccess(String args) {
-                                response[0] = args;
-                                Log.e("upload success upload", args);
-                            }
-
-                            @Override
-                            public void OnFailed(String message) {
-                                response[0] =  message;
-                                Log.e("upload failed upload", message);
-                            }
-                        });
-
-                    }
-
 
                 }
                 return response[0];
@@ -284,7 +278,7 @@ public class VMEvaluation extends AndroidViewModel {
                 poCIEvaluation.UpdateConfirmInfos(transNox[0], parentFndg, childFndg, new EvaluatorManager.OnActionCallback() {
                     @Override
                     public void OnSuccess(String args) {
-                        response[0] = args;
+                        response[0] = "success";
                         Log.e("save success", args);
                     }
 
@@ -321,14 +315,19 @@ public class VMEvaluation extends AndroidViewModel {
 
     private  class UploadEvaluationResultTask extends AsyncTask<String, Void, String> {
         private final EvaluatorManager poCIEvaluation;
-        private final onSaveAdditionalInfo callback;
+        private final onPostCIEvaluation callback;
         private final ConnectionUtil poConn;
-        public UploadEvaluationResultTask(Application app, EvaluatorManager poCIEvaluation,onSaveAdditionalInfo callback) {
+        public UploadEvaluationResultTask(Application app, EvaluatorManager poCIEvaluation,onPostCIEvaluation callback) {
             this.poCIEvaluation = poCIEvaluation;
             this.callback = callback;
             this.poConn = new ConnectionUtil(app);
         }
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnPost();
+        }
         @Override
         protected String doInBackground(String... transNox) {
             try {
@@ -339,7 +338,7 @@ public class VMEvaluation extends AndroidViewModel {
                     poCIEvaluation.UploadEvaluationResult(transNox[0], new EvaluatorManager.OnActionCallback() {
                         @Override
                         public void OnSuccess(String args) {
-                            response[0] = args;
+                            response[0] = "success";
                             Log.e("upload success upload", args);
                         }
 
@@ -368,9 +367,70 @@ public class VMEvaluation extends AndroidViewModel {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if(s.equalsIgnoreCase("success")){
-                callback.OnSuccessResult(s,s);
+                callback.OnSuccessPost("Credit evaluation has been posted successfully");
             } else {
-                callback.OnFailedResult(s);
+                callback.OnFailedPost(s);
+            }
+        }
+    }
+
+    private  class PostEvaluationResultTask extends AsyncTask<String, Void, String> {
+        private final EvaluatorManager poCIEvaluation;
+        private final onPostCIEvaluation callback;
+        private final ConnectionUtil poConn;
+        public PostEvaluationResultTask(Application app, EvaluatorManager poCIEvaluation,onPostCIEvaluation callback) {
+            this.poCIEvaluation = poCIEvaluation;
+            this.callback = callback;
+            this.poConn = new ConnectionUtil(app);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnPost();
+        }
+        @Override
+        protected String doInBackground(String... transNox) {
+            try {
+                final String[] response = {""};
+                if (!poConn.isDeviceConnected()) {
+                    response[0] = AppConstants.NO_INTERNET();
+                } else {
+                    poCIEvaluation.PostCIApproval(transNox[0], new EvaluatorManager.OnActionCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            response[0] = "success";
+                            Log.e("upload success upload", args);
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            response[0] =  message;
+                            Log.e("upload failed upload", message);
+                        }
+                    });
+
+                }
+                Thread.sleep(1000);
+                return response[0];
+
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                return e.getMessage();
+            }catch (Exception e){
+                e.printStackTrace();
+                return e.getMessage();
+            }
+        }
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s.equalsIgnoreCase("success")){
+                callback.OnSuccessPost("Approval sent successfully.");
+            } else {
+                callback.OnFailedPost(s);
             }
         }
     }

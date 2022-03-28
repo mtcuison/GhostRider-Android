@@ -1,5 +1,7 @@
 package org.guanzongroup.com.creditevaluation.Core;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -74,14 +76,38 @@ public class PreviewParser {
                     JSONArray laChild = loParent.names();
 
                     for (int i = 0; i < laChild.length(); i++) {
+
                         //Get all value which has negative 1
-                        if (loParent.getString(laChild.getString(i)).equalsIgnoreCase("1") ||
-                                loParent.getString(laChild.getString(i)).equalsIgnoreCase("0")) {
-                            oChildFndg loChild = new oChildFndg(poChlLabel.get(i),
-                                    laChild.getString(i),
-                                    loParent.getString(laChild.getString(i)));
-                            poChlFndng.add(loChild);
+//                        if (loParent.getString(laChild.getString(i)).equalsIgnoreCase("1") ||
+////                                    loParent.getString(laChild.getString(i)).equalsIgnoreCase("0") ||
+////                                    Double.parseDouble(loParent.getString(laChild.getString(x)))>=0) {
+////                                oChildFndg loChild = new oChildFndg(poChlLabel.get(i),
+////                                        laChild.getString(i),
+////                                        loParent.getString(laChild.getString(i)));
+////                                poChlFndng.add(loChild);
+////                            }
+                        if(!poChlLabel.get(i).isEmpty()){
+                            if(isNumericSpace(poChlLabel.get(i))){
+                                if (loParent.getString(laChild.getString(i)).equalsIgnoreCase("1") ||
+                                        loParent.getString(laChild.getString(i)).equalsIgnoreCase("0") ||
+                                        Double.parseDouble(poChlLabel.get(i)) > 0) {
+                                    oChildFndg loChild = new oChildFndg(poChlLabel.get(i),
+                                            laChild.getString(i),
+                                            loParent.getString(laChild.getString(i)));
+                                    poChlFndng.add(loChild);
+                                }
+                            }else{
+                                if (loParent.getString(laChild.getString(i)).equalsIgnoreCase("1") ||
+                                        loParent.getString(laChild.getString(i)).equalsIgnoreCase("0")) {
+                                    oChildFndg loChild = new oChildFndg(poChlLabel.get(i),
+                                            laChild.getString(i),
+                                            loParent.getString(laChild.getString(i)));
+                                    poChlFndng.add(loChild);
+                                }
+                            }
+
                         }
+
                         poChild.put(loPrntObj, poChlFndng);
                     }
                 }
@@ -110,7 +136,7 @@ public class PreviewParser {
             poChlFndng = new ArrayList<>();
             oParentFndg loPrntObj = new oParentFndg(Field, null);
             if (loForEval.getString(laParent.getString(x)).equalsIgnoreCase("1") ||
-                    loForEval.getString(laParent.getString(x)).equalsIgnoreCase("0")) {
+                loForEval.getString(laParent.getString(x)).equalsIgnoreCase("0")) {
                 oChildFndg loChild = new oChildFndg(poChlLabel.get(x),
                         laParent.getString(x),
                         loForEval.getString(laParent.getString(x)));
@@ -118,7 +144,16 @@ public class PreviewParser {
 
                 poChild.put(loPrntObj, poChlFndng);
             }
+
         }
         return poChild;
+    }
+    static boolean isNumericSpace(String str){
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
     }
 }
