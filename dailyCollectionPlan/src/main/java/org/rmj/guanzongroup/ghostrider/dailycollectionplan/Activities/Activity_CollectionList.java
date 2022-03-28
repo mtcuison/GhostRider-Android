@@ -188,14 +188,14 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             CollectionAdapter loAdapter = new CollectionAdapter(collectionDetails, new CollectionAdapter.OnItemClickListener() {
                 @Override
                 public void OnClick(int position) {
-                    if (!AppAssistantConfig.getInstance(Activity_CollectionList.this).getASSIST_DCP_TRANSACTION()){
-                        Intent intent = new Intent(Activity_CollectionList.this, Activity_Help.class);
-                        intent.putExtra("help", AppConstants.INTENT_TRANSACTION_DCP);
-                        startActivityForResult(intent, AppConstants.INTENT_TRANSACTION_DCP);
-                        DCP_Constants.collectionPos = position;
-                    }else{
-                        showTransaction(position,collectionDetails);
-                    }
+                    showTransaction(position,collectionDetails);
+//                    if (!AppAssistantConfig.getInstance(Activity_CollectionList.this).getASSIST_DCP_TRANSACTION()){
+//                        Intent intent = new Intent(Activity_CollectionList.this, Activity_Help.class);
+//                        intent.putExtra("help", AppConstants.INTENT_TRANSACTION_DCP);
+//                        startActivityForResult(intent, AppConstants.INTENT_TRANSACTION_DCP);
+//                        DCP_Constants.collectionPos = position;
+//                    }else{
+//                    }
 
                 }
 
