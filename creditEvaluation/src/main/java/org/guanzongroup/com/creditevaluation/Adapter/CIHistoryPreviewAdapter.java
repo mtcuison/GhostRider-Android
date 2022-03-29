@@ -1,22 +1,16 @@
 package org.guanzongroup.com.creditevaluation.Adapter;
 
 import android.content.Context;
-import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import org.guanzongroup.com.creditevaluation.Activity.Activity_ApplicationList;
-import org.guanzongroup.com.creditevaluation.Activity.Activity_Evaluation;
 import org.guanzongroup.com.creditevaluation.Core.oChildFndg;
 import org.guanzongroup.com.creditevaluation.Core.oParentFndg;
 import org.guanzongroup.com.creditevaluation.R;
@@ -25,26 +19,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class EvaluationAdapter extends BaseExpandableListAdapter {
+public class CIHistoryPreviewAdapter extends BaseExpandableListAdapter {
     private final Context mContext;
 
     private List<oChildFndg> poChildLst;
     private final List<oParentFndg> poParentLst;
     private final HashMap<oParentFndg, List<oChildFndg>> poChild;
-    private final OnConfirmInfoListener mListener;
 
-    public interface OnConfirmInfoListener{
-        void OnConfirm(oParentFndg foParent, oChildFndg foChild);
-    }
 
-    public EvaluationAdapter(Context mContext,
-                             List<oParentFndg> poParentLst,
-                             HashMap<oParentFndg, List<oChildFndg>> poChild,
-                             OnConfirmInfoListener listener) {
+    public CIHistoryPreviewAdapter(Context mContext,
+                                   List<oParentFndg> poParentLst,
+                                   HashMap<oParentFndg, List<oChildFndg>> poChild) {
         this.mContext = mContext;
         this.poParentLst = poParentLst;
         this.poChild = poChild;
-        this.mListener = listener;
     }
 
 
@@ -105,10 +93,6 @@ public class EvaluationAdapter extends BaseExpandableListAdapter {
         TextView lblTitle = view.findViewById(R.id.lbl_evalTitle);
         lblField.setText(loParent.getTitle());
         lblTitle.setText(loParent.getParentDescript());
-//        if(loParent.getParentDescript().isEmpty()){
-//            lblTitle.setVisibility(View.GONE);
-//        }
-//
         lblField.setVisibility(View.GONE);
         lblTitle.setVisibility(View.GONE);
 
@@ -130,46 +114,57 @@ public class EvaluationAdapter extends BaseExpandableListAdapter {
         lblTitle.setVisibility(View.GONE);
         TextView txtListChild = view.findViewById(R.id.lbl_evalLabel);
         RadioGroup rgEval = view.findViewById(R.id.rg_evaluator);
+        RadioButton rb_correct = view.findViewById(R.id.rb_correct);
+        RadioButton rb_incorrect = view.findViewById(R.id.rb_incorrect);
+        rb_incorrect.setClickable(false);
+        rb_correct.setClickable(false);
         txtListChild.setText(lsLabel);
+
         if(txtListChild.getVisibility() == View.GONE){
             lblField.setVisibility(View.GONE);
             lblTitle.setVisibility(View.GONE);
         }else{
+
+            if(loChild.getValue().equalsIgnoreCase("0")){
+                rb_incorrect.setChecked(true);
+            }else if(loChild.getValue().equalsIgnoreCase("1")){
+                rb_correct.setChecked(true);
+            }
             if(loParent.getParentDescript().isEmpty()){
                 lblTitle.setVisibility(View.GONE);
             }else{
                 lblField.setText(loParent.getTitle());
                 lblTitle.setText(loParent.getParentDescript());
-                lblTitle.setVisibility(View.VISIBLE);
-                lblField.setVisibility(View.VISIBLE);
+
+                if(loChild.getKey().equalsIgnoreCase("nLenServc") ||
+                        loChild.getKey().equalsIgnoreCase("nSalaryxx") ||
+                        loChild.getKey().equalsIgnoreCase("nBusLenxx")||
+                        loChild.getKey().equalsIgnoreCase("nBusIncom")||
+                        loChild.getKey().equalsIgnoreCase("nMonExpns")||
+                        loChild.getKey().equalsIgnoreCase("nEstIncme")||
+                        loChild.getKey().equalsIgnoreCase("nPensionx")){
+                    if(!loChild.getValue().equalsIgnoreCase(loChild.getLabel())){
+                        Log.e("not equal",loChild.getValue());
+                        rb_incorrect.setChecked(true);
+                    }else if(loChild.getValue().equalsIgnoreCase(loChild.getLabel())){
+                        Log.e("equal",loChild.getValue());
+                        rb_correct.setChecked(true);
+                    }
+                }
+                if(loChild.getKey().equalsIgnoreCase("nLatitude") ||
+                        loChild.getKey().equalsIgnoreCase("nLongitud") ||
+                        !rb_incorrect.isChecked() && !rb_correct.isChecked()){
+                    rgEval.setVisibility(View.GONE);
+                    lblTitle.setVisibility(View.GONE);
+                    lblField.setVisibility(View.GONE);
+                    txtListChild.setVisibility(View.GONE);
+                }else{
+                    lblTitle.setVisibility(View.VISIBLE);
+                    lblField.setVisibility(View.VISIBLE);
+                }
             }
         }
 
-        rgEval.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if (i == R.id.rb_correct){
-                    if(loChild.getKey().equalsIgnoreCase("nLenServc") ||
-                            loChild.getKey().equalsIgnoreCase("nSalaryxx") ||
-                            loChild.getKey().equalsIgnoreCase("nBusLenxx")||
-                            loChild.getKey().equalsIgnoreCase("nBusIncom")||
-                            loChild.getKey().equalsIgnoreCase("nMonExpns")||
-                            loChild.getKey().equalsIgnoreCase("nEstIncme")||
-                            loChild.getKey().equalsIgnoreCase("nPensionx")){
-                        loChild.setsValue(loChild.getLabel());
-                    }else {
-                        loChild.setsValue("1");
-                    }
-                } else {
-                    if(loChild.getKey().equalsIgnoreCase("nLenServc") || loChild.getKey().equalsIgnoreCase("nSalaryxx")){
-                        loChild.setsValue("-"+loChild.getLabel());
-                    }else {
-                        loChild.setsValue("0");
-                    }
-                }
-                mListener.OnConfirm(loParent,loChild);
-            }
-        });
         return view;
     }
 
@@ -177,5 +172,7 @@ public class EvaluationAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int i, int i1) {
         return false;
     }
+    void hiddenLayout(){
 
+    }
 }

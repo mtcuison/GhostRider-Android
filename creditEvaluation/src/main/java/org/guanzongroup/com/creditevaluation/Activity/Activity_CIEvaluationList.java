@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -33,8 +34,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
 import org.guanzongroup.com.creditevaluation.Adapter.CreditEvaluationListAdapter;
+import org.guanzongroup.com.creditevaluation.Dialog.DialogAddApplication;
 import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationList;
+import org.guanzongroup.com.creditevaluation.ViewModel.ViewModelCallback;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -64,7 +67,7 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
         setContentView(R.layout.activity_cievaluation_list);
         initWidgets();
         mViewModel = new ViewModelProvider(Activity_CIEvaluationList.this).get(VMEvaluationList.class);
-        mViewModel.importApplicationInfo(Activity_CIEvaluationList.this);
+        mViewModel.DownloadCreditApplications(Activity_CIEvaluationList.this);
         mViewModel.getUserBranch().observe(this, eBranchInfo -> {
             try {
                 lblBranch.setText(eBranchInfo.getBranchNm());
@@ -135,50 +138,50 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
             poMessage.setMessage("No corresponding feature has been set.");
             poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
             poMessage.show();
-//            try {
-//                DialogAddApplication loDialog = new DialogAddApplication(Activity_CIEvaluationList.this);
-//                loDialog.initDialog(new DialogAddApplication.OnDialogButtonClickListener() {
-//                    @Override
-//                    public void OnDownloadClick(Dialog Dialog, String args) {
-//                        mViewModel.importApplicationInfo(args, new ViewModelCallback() {
-//                            @Override
-//                            public void OnStartSaving() {
-//                                poDialogx.initDialog("Add Application", "Downloading client info. Please wait...", false);
-//                                poDialogx.show();
-//                            }
-//
-//                            @Override
-//                            public void OnSuccessResult() {
-//                                Dialog.dismiss();
-//                                poDialogx.dismiss();
-//                                poMessage.initDialog();
-//                                poMessage.setTitle("Add Application");
-//                                poMessage.setMessage("Credit Application saved successfully");
-//                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-//                                poMessage.show();
-//                            }
-//
-//                            @Override
-//                            public void OnFailedResult(String message) {
-//                                poDialogx.dismiss();
-//                                poMessage.initDialog();
-//                                poMessage.setTitle("Add Application");
-//                                poMessage.setMessage(message);
-//                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-//                                poMessage.show();
-//                            }
-//                        });
-//                    }
-//
-//                    @Override
-//                    public void OnCancel(Dialog Dialog) {
-//                        Dialog.dismiss();
-//                    }
-//                });
-//                loDialog.show();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
+            try {
+                DialogAddApplication loDialog = new DialogAddApplication(Activity_CIEvaluationList.this);
+                loDialog.initDialog(new DialogAddApplication.OnDialogButtonClickListener() {
+                    @Override
+                    public void OnDownloadClick(Dialog Dialog, String args) {
+                        mViewModel.importApplicationInfo(args, new ViewModelCallback() {
+                            @Override
+                            public void OnStartSaving() {
+                                poDialogx.initDialog("Add Application", "Downloading client info. Please wait...", false);
+                                poDialogx.show();
+                            }
+
+                            @Override
+                            public void OnSuccessResult() {
+                                Dialog.dismiss();
+                                poDialogx.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Add Application");
+                                poMessage.setMessage("Credit Application saved successfully");
+                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
+
+                            @Override
+                            public void OnFailedResult(String message) {
+                                poDialogx.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Add Application");
+                                poMessage.setMessage(message);
+                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void OnCancel(Dialog Dialog) {
+                        Dialog.dismiss();
+                    }
+                });
+                loDialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
