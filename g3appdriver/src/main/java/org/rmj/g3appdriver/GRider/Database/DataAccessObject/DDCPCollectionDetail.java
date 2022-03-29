@@ -208,9 +208,14 @@ public interface DDCPCollectionDetail {
     Integer getDCPStatus(String dTransact);
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox=(" +
-            "SELECT sTransNox FROM LR_DCP_Collection_Master WHERE cSendStat != '1') " +
+            "SELECT sTransNox FROM LR_DCP_Collection_Master WHERE cSendStat IS NULL) " +
             "AND sRemCodex = 'PAY'")
     List<EDCPCollectionDetail> checkDCPPAYTransaction();
+
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox = " +
+            "(SELECT sTransNox FROM LR_DCP_Collection_Master WHERE cSendStat IS NULL) " +
+            "AND sRemCodex <> ''")
+    List<EDCPCollectionDetail> checkCollectionRemarksCode();
 
     @Query("SELECT a.sTransNox, " +
             "a.nEntryNox, " +
@@ -275,7 +280,7 @@ public interface DDCPCollectionDetail {
             "ON a.sClientID = d.sClientID " +
             "LEFT JOIN MOBILE_UPDATE_REQUEST e " +
             "ON a.sClientID = e.sClientID " +
-            "WHERE a.cSendStat <> '1'")
+            "WHERE a.cSendStat IS NULL")
     LiveData<List<CollectionDetail>> getCollectionDetailForPosting();
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +
