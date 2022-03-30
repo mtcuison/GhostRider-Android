@@ -217,6 +217,14 @@ public class RDailyCollectionPlan {
         return detailDao.getDCPStatus(new AppConstants().CURRENT_DATE);
     }
 
+    public List<EDCPCollectionDetail> checkCollectionRemarksCode(){
+        return detailDao.checkCollectionRemarksCode();
+    }
+
+    public EDCPCollectionMaster getLastCollectionMaster(){
+        return masterDao.getLastCollectionMaster();
+    }
+
     private class InsertCollectionDetailTask extends AsyncTask<EDCPCollectionDetail, Void, String>{
         private OnClientAccNoxInserted mListener;
 
