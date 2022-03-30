@@ -709,6 +709,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
                                     poMessage.setTitle("Daily Collection Plan");
                                     poMessage.setMessage(fsMessage);
                                     poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                                        startService(new Intent(Activity_CollectionList.this, GLocatorService.class));
                                         dialog.dismiss();
                                     });
                                     poMessage.show();
