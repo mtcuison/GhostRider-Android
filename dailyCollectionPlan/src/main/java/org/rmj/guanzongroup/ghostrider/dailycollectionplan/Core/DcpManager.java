@@ -791,16 +791,21 @@ public class DcpManager {
 
     public void CheckDCP(OnCheckDcpCallback callback){
         try {
+            //Check for unposted collection
             if(poDcp.CheckIfHasCollection() == null){
                 callback.NoDCPCreated();
             } else if(poDcp.CheckIfHasCollection() != null){
+                //Check for accounts which was not visited yet.
+                //this condition checks if accounts under collection list have no remarks code yet.
                 if(poDcp.checkCollectionRemarksCode().size() > 0){
                     callback.HasCollection();
                 } else if(poDcp.CheckIfHasCollection().getSendStat() == null){
                     callback.DCPForPosting();
-                } else if(poDcp.CheckIfHasCollection().getSendStat() != null &&
-                        poDcp.CheckIfHasCollection().getSendStat().equalsIgnoreCase("1")){
+                } else if(poDcp.getLastCollectionMaster().getReferDte().equalsIgnoreCase(AppConstants.CURRENT_DATE) &&
+                        poDcp.getLastCollectionMaster().getSendStat() != null){
                     callback.DCPPosted();
+                } else {
+                    callback.NoDCPCreated();
                 }
             }
         } catch (Exception e){
