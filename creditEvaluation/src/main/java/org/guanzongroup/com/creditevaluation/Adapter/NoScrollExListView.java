@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ListAdapter;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -33,8 +34,27 @@ public class NoScrollExListView extends  ExpandableListView  {
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int heightMeasureSpec_custom = MeasureSpec.makeMeasureSpec(
                 Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec_custom);
-        ViewGroup.LayoutParams params = getLayoutParams();
-        params.height = getMeasuredHeight();
+        setHeightWrapContent();
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//        ViewGroup.LayoutParams params = getLayoutParams();
+//        params.height = getMeasuredHeight();
+    }
+    public void setHeightWrapContent() {
+        ListAdapter listAdapter = getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, this);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = this.getLayoutParams();
+
+        params.height = totalHeight
+                + (this.getDividerHeight() * (listAdapter.getCount() - 1) + 1);
+        this.setLayoutParams(params);
     }
 }

@@ -11,6 +11,7 @@
 
 package org.guanzongroup.com.creditevaluation.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,18 +64,23 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
 
     @Override
     public void onBindViewHolder(@NonNull CreditEvaluationViewHolder holder, int position) {
-        DCreditOnlineApplicationCI.oDataEvaluationInfo poLoan = plLoanApp.get(position);
-
-        holder.lblTransNoxxx.setText("Transaction No.: " + poLoan.sTransNox);
-        holder.lblClientName.setText(poLoan.sClientNm);
-        holder.lblAppltnDate.setText(poLoan.dTransact);
-        holder.lblBranch.setText(poLoan.sBranchNm);
-        holder.lnRcmdtnx1.setVisibility(View.GONE);
-        if (evaluation.equalsIgnoreCase("CI Evaluation History")){
-            holder.lnRcmdtnx1.setVisibility(View.VISIBLE);
-            if(poLoan.sRcmdtnx1 != null){
+        try {
+            DCreditOnlineApplicationCI.oDataEvaluationInfo poLoan = plLoanApp.get(position);
+            holder.lblTransNoxxx.setText("Transaction No.: " + poLoan.sTransNox);
+            holder.lblClientName.setText(poLoan.sClientNm);
+            holder.lblAppltnDate.setText(poLoan.dTransact);
+            holder.lblBranch.setText(poLoan.sBranchNm);
+            holder.lnRcmdtnx1.setVisibility(View.GONE);
+            if (evaluation.equalsIgnoreCase("CI Evaluation History")) {
+                holder.lnRcmdtnx1.setVisibility(View.VISIBLE);
                 holder.lblRcmdtnx1.setText(poLoan.sRcmdtnx1);
+                Log.e("sRcmdtnx1", poLoan.sRcmdtnx1);
             }
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
 
     }

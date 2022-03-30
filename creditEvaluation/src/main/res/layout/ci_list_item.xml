@@ -50,7 +50,7 @@
                 android:gravity="end"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
-                android:text="@string/sLblApproved"
+                android:text="Approved"
                 android:textColor="@color/success_green"
                 android:textSize="14sp"
                 android:visibility="gone"/>
@@ -62,7 +62,7 @@
                 android:gravity="end"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_medium"
-                android:text="@string/sLblDisapproved"
+                android:text="Disapproved"
                 android:textColor="@color/error_red"
                 android:textSize="14sp"
                 android:visibility="gone"/>

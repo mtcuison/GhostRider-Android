@@ -74,8 +74,8 @@ public class VMEvaluationHistory extends AndroidViewModel {
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return RBranch.getUserBranchInfo();
     }
-    public LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListData() {
-        return poManager.getForEvaluationListData();
+    public LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListDataPreview() {
+        return poManager.getForEvaluationListDataPreview();
     }
     public void importApplicationInfo(OnImportCallBack callback) {
         try{

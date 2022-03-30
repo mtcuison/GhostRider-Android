@@ -6,6 +6,8 @@ import static junit.framework.TestCase.assertTrue;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.UiThread;
+import androidx.lifecycle.Observer;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -18,7 +20,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -74,20 +78,20 @@ public class EvaluationCoreTest {
 //        assertTrue(isSuccess);
     }
 
-    @Test
+    @Test @UiThread
     public void test03TestUpdateCI() throws Exception{
-//        poSystem.RetrieveApplicationData("CI5UV2200018", new EvaluatorManager.OnRetrieveDataCallback() {
-//            @Override
-//            public void OnRetrieve(HashMap<oParentFndg, List<oChildFndg>> foEvaluate, ECreditOnlineApplicationCI foData) {
-//                poEvaluate = foEvaluate;
-//                isSuccess = true;
-//            }
-//
-//            @Override
-//            public void OnFailed(String message) {
-//                isSuccess = false;
-//            }
-//        });
+        poSystem.RetrieveApplicationData("CI5UV2200018").observeForever(new Observer<ECreditOnlineApplicationCI>() {
+            @Override
+            public void onChanged(ECreditOnlineApplicationCI eCreditOnlineApplicationCI) {
+                try{
+                    poEvaluate = poSystem.parseToEvaluationData(eCreditOnlineApplicationCI);
+                    isSuccess = true;
+                } catch (Exception e){
+                    e.printStackTrace();
+                    isSuccess = false;
+                }
+            }
+        });
 
         poEvaluate.forEach((oParent, oChild) -> {
             if(oChild.size() > 0) {
@@ -110,6 +114,22 @@ public class EvaluationCoreTest {
                 }
             } else {
                 isSuccess = false;
+            }
+        });
+
+        EImageInfo loImage = new EImageInfo();
+        loImage.setLatitude("0.0");
+        loImage.setLongitud("0.0");
+
+        poSystem.SaveSelfieImage("CI5UV2200018", loImage, true, new EvaluatorManager.OnActionCallback() {
+            @Override
+            public void OnSuccess(String args) {
+
+            }
+
+            @Override
+            public void OnFailed(String message) {
+
             }
         });
 

@@ -2,7 +2,6 @@ package org.guanzongroup.com.creditevaluation.Adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.guanzongroup.com.creditevaluation.Activity.Activity_ApplicationList;
 import org.guanzongroup.com.creditevaluation.Activity.Activity_Evaluation;
@@ -143,15 +144,29 @@ public class EvaluationAdapter extends BaseExpandableListAdapter {
                 lblField.setVisibility(View.VISIBLE);
             }
         }
+
         rgEval.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == R.id.rb_correct){
-                    loChild.setsValue("1");
+                    if(loChild.getKey().equalsIgnoreCase("nLenServc") ||
+                            loChild.getKey().equalsIgnoreCase("nSalaryxx") ||
+                            loChild.getKey().equalsIgnoreCase("nBusLenxx")||
+                            loChild.getKey().equalsIgnoreCase("nBusIncom")||
+                            loChild.getKey().equalsIgnoreCase("nMonExpns")||
+                            loChild.getKey().equalsIgnoreCase("nEstIncme")||
+                            loChild.getKey().equalsIgnoreCase("nPensionx")){
+                        loChild.setsValue(loChild.getLabel());
+                    }else {
+                        loChild.setsValue("1");
+                    }
                 } else {
-                    loChild.setsValue("0");
+                    if(loChild.getKey().equalsIgnoreCase("nLenServc") || loChild.getKey().equalsIgnoreCase("nSalaryxx")){
+                        loChild.setsValue("-"+loChild.getLabel());
+                    }else {
+                        loChild.setsValue("0");
+                    }
                 }
-
                 mListener.OnConfirm(loParent,loChild);
             }
         });
