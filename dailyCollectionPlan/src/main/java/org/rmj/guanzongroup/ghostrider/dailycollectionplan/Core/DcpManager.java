@@ -71,6 +71,14 @@ public class DcpManager {
         void OnFailed(String message);
     }
 
+    public interface OnCheckDcpCallback{
+        void NoDCPCreated();
+        void HasCollection();
+        void DCPForPosting();
+        void DCPPosted();
+        void OnError(String message);
+    }
+
     public DcpManager(Application application) {
         this.instance = application;
         this.poDcp = new RDailyCollectionPlan(instance);
@@ -120,7 +128,7 @@ public class DcpManager {
                         JSONObject loMaster = loResponse.getJSONObject("master");
                         String lsTransNox = loMaster.getString("sTransNox");
 
-                        if(poDcp.getCollectionMasterIfExist(lsTransNox).size() > 0){
+                        if(poDcp.getCollectionMasterIfExist(lsTransNox).size() >= 1){
                             callback.OnFailed("Record already exist on local data.");
                         } else {
                             EDCPCollectionMaster collectionMaster = new EDCPCollectionMaster();
@@ -136,11 +144,7 @@ public class DcpManager {
                             collectionMaster.setBranchNm(loMaster.getString("sBranchNm"));
                             collectionMaster.setCollctID(loMaster.getString("sCollctID"));
                             poDcp.insertMasterData(collectionMaster);
-                        }
 
-                        if(poDcp.getCollectionMasterIfExist(lsTransNox).size() > 0){
-                            callback.OnFailed("Record already exist on local data.");
-                        } else {
                             JSONArray laJson = loResponse.getJSONArray("detail");
                             List<EDCPCollectionDetail> collectionDetails = new ArrayList<>();
                             for(int x = 0; x < laJson.length(); x++){
@@ -173,8 +177,9 @@ public class DcpManager {
                                 collectionDetails.add(collectionDetail);
                             }
                             poDcp.insertDetailBulkData(collectionDetails);
+
+                            callback.OnSuccess("Collection for today has been imported successfully");
                         }
-                        callback.OnSuccess("Collection for today has been imported successfully");
                     }
                 }
             }
@@ -502,6 +507,14 @@ public class DcpManager {
                 double lnCollectd = poRemit.getCollectedPayments();
                 if(lnRemitted < lnCollectd){
                     callback.OnFailed("The total payments collected have not yet been remit.");
+                } else {
+                    EDCPCollectionMaster loMaster = poDcp.CheckIfHasCollection();
+                    if("1".equalsIgnoreCase(loMaster.getSendStat())){
+                        callback.OnFailed("Collection for today was already posted.");
+                    } else {
+                        callback.OnSuccess(poDcp.CheckCollectionDetailNoRemCode(loMaster.getTransNox()).size() > 0,"Continue posting DCP transactions? \n" +
+                                "NOTE: Once posted records are unable to update.");
+                    }
                 }
             } else {
                 EDCPCollectionMaster loMaster = poDcp.CheckIfHasCollection();
@@ -514,6 +527,7 @@ public class DcpManager {
             }
         }catch (Exception e){
             e.printStackTrace();
+            callback.OnFailed(e.getMessage());
         }
     }
 
@@ -775,4 +789,28 @@ public class DcpManager {
         return poImage.getDCPUnpostedImageList();
     }
 
+    public void CheckDCP(OnCheckDcpCallback callback){
+        try {
+            //Check for unposted collection
+            if(poDcp.CheckIfHasCollection() == null){
+                callback.NoDCPCreated();
+            } else if(poDcp.CheckIfHasCollection() != null){
+                //Check for accounts which was not visited yet.
+                //this condition checks if accounts under collection list have no remarks code yet.
+                if(poDcp.checkCollectionRemarksCode().size() > 0){
+                    callback.HasCollection();
+                } else if(poDcp.CheckIfHasCollection().getSendStat() == null){
+                    callback.DCPForPosting();
+                } else if(poDcp.getLastCollectionMaster().getReferDte().equalsIgnoreCase(AppConstants.CURRENT_DATE) &&
+                        poDcp.getLastCollectionMaster().getSendStat() != null){
+                    callback.DCPPosted();
+                } else {
+                    callback.NoDCPCreated();
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnError(e.getMessage());
+        }
+    }
 }
