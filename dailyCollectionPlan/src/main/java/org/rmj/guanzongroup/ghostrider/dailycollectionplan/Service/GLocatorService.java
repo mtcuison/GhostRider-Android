@@ -78,7 +78,7 @@ public class GLocatorService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         createServiceNotification();
         Intent loIntent = new Intent(GLocatorService.this, Activity_CollectionList.class);
-        PendingIntent loPending  = PendingIntent.getActivities(GLocatorService.this, 34, new Intent[]{loIntent}, 0);
+        PendingIntent loPending  = PendingIntent.getActivities(GLocatorService.this, 34, new Intent[]{loIntent}, PendingIntent.FLAG_IMMUTABLE);
         poConfig = new RSysConfig(getApplication());
         loNotif = new NotificationCompat.Builder(GLocatorService.this, "gRiderLocator");
         loNotif.setContentTitle("Daily Collection Plan");

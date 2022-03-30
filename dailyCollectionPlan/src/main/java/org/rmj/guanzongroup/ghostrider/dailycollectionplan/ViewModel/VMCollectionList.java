@@ -1420,7 +1420,7 @@ public class VMCollectionList extends AndroidViewModel {
 
                     });
                 } else {
-                    lsResultx[0] = AppConstants.SERVER_NO_RESPONSE();
+                    lsResultx[0] = "Unable to connect.";
                 }
             } catch (Exception e) {
                 e.printStackTrace();
