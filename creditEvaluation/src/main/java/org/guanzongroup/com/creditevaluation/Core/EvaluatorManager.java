@@ -286,15 +286,18 @@ public class EvaluatorManager {
 
     public void SaveImageInfo(String TransNox, EImageInfo foImage, boolean isPrimary, OnActionCallback callback){
         try {
-            foImage.setTransNox(poImage.getImageNextCode());
-            foImage.setCaptured(new AppConstants().DATE_MODIFIED);
-            foImage.setSourceCD("COAD");
-            foImage.setFileCode("CI001");
-            foImage.setDtlSrcNo(TransNox);
-            foImage.setMD5Hashx(WebFileServer.createMD5Hash(foImage.getFileLoct()));
-            poImage.insertImageInfo(foImage);
-
-            callback.OnSuccess("Image info Save!");
+            if(poImage.CheckImageForCIExist(foImage.getSourceNo(), foImage.getDtlSrcNo()) == null) {
+                foImage.setTransNox(poImage.getImageNextCode());
+                foImage.setCaptured(new AppConstants().DATE_MODIFIED);
+                foImage.setSourceCD("COAD");
+                foImage.setFileCode("CI001");
+                foImage.setDtlSrcNo(TransNox);
+                foImage.setMD5Hashx(WebFileServer.createMD5Hash(foImage.getFileLoct()));
+                poImage.insertImageInfo(foImage);
+            } else {
+                EImageInfo loImage = poImage.CheckImageForCIExist(foImage.getSourceNo(), foImage.getDtlSrcNo());
+                poImage.UpdateImageInfoForCI(loImage);
+            }
 
             String lsFindings = poCI.getAddressForEvaluation(TransNox);
             JSONObject loFndng = new JSONObject(lsFindings);
@@ -313,6 +316,8 @@ public class EvaluatorManager {
             }
 
             poCI.updateAddressEvaluation(TransNox, loFndng.toString());
+
+            callback.OnSuccess("success");
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailed(e.getMessage());

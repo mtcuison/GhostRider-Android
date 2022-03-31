@@ -251,6 +251,7 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                }
 
             });
+
             btnUpload.setOnClickListener(v ->  {
                 Log.e("sizes", String.valueOf(poChild.size()));
                 if(poChild.size() > 0){
@@ -508,6 +509,7 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                     poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(poImageInfo.getFileLoct()));
                     mViewModel.saveResidenceImageInfo(poImageInfo);
                     mViewModel.saveDataEvaluation(parent,child, Activity_Evaluation.this);
+                    mViewModel.SaveImageInfo();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
