@@ -64,4 +64,10 @@ public interface DEmployeeBusinessTrip {
 
     @Query("SELECT * FROM Employee_Business_Trip WHERE cSendStat <> '1'")
     List<EEmployeeBusinessTrip> getUnsentEmployeeOB();
+
+    @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
+    EEmployeeBusinessTrip getBusinessTripForPosting(String TransNox);
+
+    @Query("SELECT * FROM Employee_Business_Trip WHERE cSendStat IS NULL")
+    List<EEmployeeBusinessTrip> getOBListForUpload();
 }

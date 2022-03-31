@@ -51,6 +51,10 @@ public class AccountAuthentication {
                         params.toString(),
                         HttpHeaders.getInstance(instance).getHeaders());
 
+                if(AppConfigPreference.getInstance(instance).getTestStatus()){
+                    Log.d(TAG, loApi.getUrlAuthEmployee());
+                }
+
                 if(lsResponse == null){
                     Log.d(TAG, "Account authentication error. Message : Server no Response.");
                     callback.OnFailed("Unable to login account. Server no Response.");
@@ -96,6 +100,7 @@ public class AccountAuthentication {
                         String lsPostIDx = loResponse.getString("sPositnID");
                         String lsEmpLvlx = loResponse.getString("sEmpLevID");
                         loSession.initUserSession(lsUserIDx, lsClientx, lsLogNoxx, lsBranchx, lsBranchN, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
+                        callback.OnSuccess("Login success");
                     }
                 }
             }

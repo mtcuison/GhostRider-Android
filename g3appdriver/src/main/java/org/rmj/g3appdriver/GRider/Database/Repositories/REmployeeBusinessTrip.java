@@ -101,6 +101,16 @@ public class REmployeeBusinessTrip implements DEmployeeBusinessTrip {
         return employeeBusinessTripDao.getUnsentEmployeeOB();
     }
 
+    @Override
+    public EEmployeeBusinessTrip getBusinessTripForPosting(String TransNox) {
+        return employeeBusinessTripDao.getBusinessTripForPosting(TransNox);
+    }
+
+    @Override
+    public List<EEmployeeBusinessTrip> getOBListForUpload() {
+        return employeeBusinessTripDao.getOBListForUpload();
+    }
+
     public String getOBLeaveNextCode(){
         String lsTransNox = "";
         GConnection loConn = DbConnection.doConnect(app);

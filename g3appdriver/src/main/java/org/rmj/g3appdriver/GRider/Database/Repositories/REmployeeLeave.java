@@ -12,7 +12,9 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
@@ -25,6 +27,8 @@ import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.utils.GenerateID;
 
 import java.sql.ResultSet;
 import java.util.Date;
@@ -105,14 +109,16 @@ public class REmployeeLeave implements DEmployeeLeave {
         return employeeDao.getUnsentEmployeeLeave();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public String getNextLeaveCode(){
-        String lsNextCode = "";
-        try{
+        if(AppConfigPreference.getInstance(instance).getTestStatus()){
+            return GenerateID.GetRandomID();
+        } else {
+            String lsNextCode = "";
             GConnection loConn = DbConnection.doConnect(instance);
             lsNextCode = MiscUtil.getNextCode("Employee_Leave", "sTransNox", true, loConn.getConnection(), "", 12, false);
-        } catch (Exception e){
-            e.printStackTrace();
+
+            return lsNextCode;
         }
-        return lsNextCode;
     }
 }

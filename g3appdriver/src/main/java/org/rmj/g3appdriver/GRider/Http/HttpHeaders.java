@@ -35,6 +35,12 @@ public class HttpHeaders {
         this.poTlphony = new Telephony(application);
         this.poConfigx = AppConfigPreference.getInstance(application);
         this.poSession = new SessionManager(application);
+
+        if(poConfigx.getTestStatus()){
+            poConfigx.setMobileNo("09171870011");
+            poConfigx.setTemp_ProductID("gRider");
+            poConfigx.setAppToken("f7qNSw8TRPWHSCga0g8YFF:APA91bG3i_lBPPWv9bbRasNzRH1XX1y0vzp6Ct8S_a-yMPDvSmud8FEVPMr26zZtBPHq2CmaIw9Rx0MZmf3sbuK44q3vQemUBoPPS4Meybw8pnTpcs3p0VbiTuoLHJtdncC6BgirJxt3");
+        }
     }
 
     private static HttpHeaders mHeaders;
