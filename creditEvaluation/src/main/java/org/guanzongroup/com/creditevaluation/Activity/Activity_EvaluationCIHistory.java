@@ -181,11 +181,6 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
                     recyclerViewClient.setAdapter(adapter);
                     recyclerViewClient.setLayoutManager(layoutManager);
                     adapter.notifyDataSetChanged();
-                    if (adapter.getItemCount() == 0) {
-                        layoutNoRecord.setVisibility(View.VISIBLE);
-                    } else {
-                        layoutNoRecord.setVisibility(View.GONE);
-                    }
                     txtSearch.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -197,12 +192,12 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
                             try {
 
                                 adapter.getFilter().filter(s.toString());
-                                adapter.notifyDataSetChanged();
                                 if (adapter.getItemCount() == 0) {
                                     layoutNoRecord.setVisibility(View.VISIBLE);
                                 } else {
                                     layoutNoRecord.setVisibility(View.GONE);
                                 }
+                                adapter.notifyDataSetChanged();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -210,7 +205,12 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
 
                         @Override
                         public void afterTextChanged(Editable s) {
-
+                            if (adapter.getItemCount() == 0) {
+                                layoutNoRecord.setVisibility(View.VISIBLE);
+                            } else {
+                                layoutNoRecord.setVisibility(View.GONE);
+                            }
+                            adapter.notifyDataSetChanged();
                         }
                     });
                 } else {
