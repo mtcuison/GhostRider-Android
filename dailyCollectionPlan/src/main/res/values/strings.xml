@@ -147,5 +147,6 @@
     <string name="sContent_NoDCP">Empty_DCP</string>
     <string name="sHint_SearchDCp">Search Customer\'s name</string>
     <string name="sBtn_Download">Download</string>
+    <string name="sBtn_PostCollection">Post Collection</string>
 
 </resources>
