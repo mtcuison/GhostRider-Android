@@ -66,7 +66,22 @@ public class EvaluatorManager {
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccess(loResponse.toString());
+                    JSONArray loDetail = loResponse.getJSONArray("detail");
+                    for(int x= 0 ; x < loDetail.length(); x++){
+                        JSONObject loJson = loDetail.getJSONObject(x);
+                        ECreditOnlineApplicationCI loApp = new ECreditOnlineApplicationCI();
+                        loApp.setTransNox(loJson.getString("sTransNox"));
+                        loApp.setCredInvx(loJson.getString("sCredInvx"));
+                        loApp.setAddressx(loJson.getString("sAddressx"));
+                        loApp.setAddrFndg(loJson.getString("sAddrFndg"));
+                        loApp.setAssetsxx(loJson.getString("sAssetsxx"));
+                        loApp.setAsstFndg(loJson.getString("sAsstFndg"));
+                        loApp.setIncomexx(loJson.getString("sIncomexx"));
+                        loApp.setIncmFndg(loJson.getString("sIncmFndg"));
+                        loApp.setRcmdRcd1(new AppConstants().DATE_MODIFIED);
+                        poCI.SaveApplicationInfo(loApp);
+                    }
+                    callback.OnSuccess("success");
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
                     String lsMessage = loError.getString("message");
@@ -102,6 +117,7 @@ public class EvaluatorManager {
                         loApp.setAsstFndg(loJson.getString("sAsstFndg"));
                         loApp.setIncomexx(loJson.getString("sIncomexx"));
                         loApp.setIncmFndg(loJson.getString("sIncmFndg"));
+                        loApp.setRcmdRcd1(new AppConstants().DATE_MODIFIED);
                         poCI.SaveApplicationInfo(loApp);
                     }
                     callback.OnSuccess(loResponse.toString());
@@ -268,7 +284,7 @@ public class EvaluatorManager {
         }
     }
 
-    public void SaveSelfieImage(String TransNox, EImageInfo foImage, boolean isPrimary, OnActionCallback callback){
+    public void SaveImageInfo(String TransNox, EImageInfo foImage, boolean isPrimary, OnActionCallback callback){
         try {
             foImage.setTransNox(poImage.getImageNextCode());
             foImage.setCaptured(new AppConstants().DATE_MODIFIED);
@@ -309,9 +325,9 @@ public class EvaluatorManager {
             JSONObject params = new JSONObject();
             params.put("sTransNox", loDetail.getTransNox());
             params.put("sAddressx", loDetail.getAddressx());
-            params.put("sAddrFndg", loDetail.getAddrFndg());
-            params.put("sAsstFndg", loDetail.getAsstFndg());
-            params.put("sIncmFndg", loDetail.getIncmFndg());
+            params.put("sAddrFndg", new JSONObject(loDetail.getAddrFndg()));
+            params.put("sAsstFndg", new JSONObject(loDetail.getAsstFndg()));
+            params.put("sIncmFndg", new JSONObject(loDetail.getIncmFndg()));
             params.put("cHasRecrd", loDetail.getHasRecrd());
             params.put("sRecrdRem", loDetail.getRecrdRem());
             params.put("sPrsnBrgy", loDetail.getPrsnBrgy());
