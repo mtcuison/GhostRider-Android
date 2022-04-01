@@ -44,6 +44,16 @@ public interface DDCPCollectionDetail {
             "AND sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master ORDER BY dReferDte DESC LIMIT 1)")
     String getClientDuplicateSerialNox(String SerialNox);
 
+    @Query("UPDATE LR_DCP_Collection_Detail SET " +
+            "sRemCodex = 'CNA', " +
+            "sRemarksx =:Remarks, " +
+            "cTranStat = '1'," +
+            "dModified =:DateTime " +
+            "WHERE sTransNox =(SELECT sTransNox FROM LR_DCP_Collection_Master WHERE cSendStat IS NULL) " +
+            "AND sAcctNmbr =:AccNmbr " +
+            "AND nEntryNox =:EntryNo")
+    void UpdateCNADetails(String AccNmbr, int EntryNo, String Remarks, String DateTime);
+
     /**
      *
      * @param EntryNox specific entry number of collection detail
@@ -74,7 +84,8 @@ public interface DDCPCollectionDetail {
     @Query("UPDATE LR_DCP_Collection_Detail " +
             "SET cSendStat='1', " +
             "cTranstat = '2', " +
-            "dModified=:DateEntry " +
+            "dSendDate =:DateEntry, " +
+            "dModified =:DateEntry " +
             "WHERE sTransNox =:TransNox " +
             "AND nEntryNox =:EntryNox")
     void updateCollectionDetailStatus(String TransNox, int EntryNox, String DateEntry);

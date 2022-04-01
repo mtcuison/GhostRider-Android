@@ -13,7 +13,6 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -33,17 +32,13 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.AddressUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.MobileUpdate;
@@ -393,19 +388,17 @@ public class VMCustomerNotAround extends AndroidViewModel {
 
     private static class UpdateCollectionTask extends AsyncTask<EDCPCollectionDetail, Void, String> {
         private final RDailyCollectionPlan poDcp;
-        private final String RemarksCode;
+        private final String Remarksx;
 
         public UpdateCollectionTask(RDailyCollectionPlan poDcp, String Remarks){
             this.poDcp = poDcp;
-            this.RemarksCode = Remarks;
+            this.Remarksx = Remarks;
         }
 
         @Override
         protected String doInBackground(EDCPCollectionDetail... detail) {
-            Objects.requireNonNull(detail[0]).setRemCodex(RemarksCode);
-            detail[0].setTranStat("1");
-            detail[0].setModified(new AppConstants().DATE_MODIFIED);
-            poDcp.updateCollectionDetailInfo(detail[0]);
+            EDCPCollectionDetail loDetail = detail[0];
+            poDcp.updateCNADetail(loDetail.getAcctNmbr(), loDetail.getEntryNox(), Remarksx);
             return null;
         }
     }

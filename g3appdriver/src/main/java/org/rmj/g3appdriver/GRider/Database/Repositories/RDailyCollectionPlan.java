@@ -112,6 +112,10 @@ public class RDailyCollectionPlan {
         detailDao.update(collectionDetail);
     }
 
+    public void updateCNADetail(String AccNmbr, int EntryNo, String Remarks){
+        detailDao.UpdateCNADetails(AccNmbr, EntryNo, Remarks, new AppConstants().DATE_MODIFIED);
+    }
+
     public EDCPCollectionMaster CheckIfHasCollection(){
         return masterDao.CheckIfHasCollection();
     }

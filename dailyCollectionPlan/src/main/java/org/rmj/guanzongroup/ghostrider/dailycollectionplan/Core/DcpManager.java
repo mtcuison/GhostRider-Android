@@ -662,6 +662,9 @@ public class DcpManager {
                                 paramMobile.put("sRemarksx", loMobile.getRemarksx());
                                 loData.put("Mobile", paramMobile);
                             }
+                            loData.put("sRemarksx", loDcp.getRemarksx());
+                            loJson.put("sRemCodex", loDcp.getRemCodex());
+                            loJson.put("dModified", new AppConstants().DATE_MODIFIED);
 
                             break;
 
