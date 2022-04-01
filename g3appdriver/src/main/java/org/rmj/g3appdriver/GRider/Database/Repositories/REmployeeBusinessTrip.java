@@ -12,7 +12,9 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
@@ -27,6 +29,8 @@ import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.utils.GenerateID;
 
 import java.sql.ResultSet;
 import java.util.Date;
@@ -77,6 +81,11 @@ public class REmployeeBusinessTrip implements DEmployeeBusinessTrip {
     }
 
     @Override
+    public EEmployeeBusinessTrip getOBApplicationInfo(String TransNo) {
+        return employeeBusinessTripDao.getOBApplicationInfo(TransNo);
+    }
+
+    @Override
     public void updateOBSentStatus(String TransNox) {
         employeeBusinessTripDao.updateOBSentStatus(TransNox);
     }
@@ -111,17 +120,22 @@ public class REmployeeBusinessTrip implements DEmployeeBusinessTrip {
         return employeeBusinessTripDao.getOBListForUpload();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public String getOBLeaveNextCode(){
-        String lsTransNox = "";
-        GConnection loConn = DbConnection.doConnect(app);
-        try{
-            lsTransNox = MiscUtil.getNextCode("Employee_Business_Trip", "sTransNox", true, loConn.getConnection(), "", 12, false);
+        if(AppConfigPreference.getInstance(app).getTestStatus()){
+            return GenerateID.GetRandomID();
+        } else {
+            String lsTransNox = "";
+            GConnection loConn = DbConnection.doConnect(app);
+            try {
+                lsTransNox = MiscUtil.getNextCode("Employee_Business_Trip", "sTransNox", true, loConn.getConnection(), "", 12, false);
 
-        } catch (Exception e){
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            loConn = null;
+            return lsTransNox;
         }
-        loConn = null;
-        return lsTransNox;
     }
 
 }

@@ -114,6 +114,78 @@ public class PetManager {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void SaveOBApplication(EEmployeeBusinessTrip foBusTrip, OnActionCallback callback){
+        try{
+            if(foBusTrip.getDateFrom() == null ||
+                    foBusTrip.getDateFrom().trim().isEmpty()){
+                callback.OnFailed("Please select starting date of leave");
+            } else if(foBusTrip.getDateThru() == null ||
+                    foBusTrip.getDateThru().trim().isEmpty()){
+                callback.OnFailed("Please select ending date of leave");
+            } else if(foBusTrip.getRemarksx().trim().isEmpty()){
+                callback.OnFailed("Please provide your purpose on remarks area");
+            } else {
+                REmployeeBusinessTrip loBustrip = new REmployeeBusinessTrip(instance);
+                SessionManager loSession = new SessionManager(instance);
+                foBusTrip.setTransNox(loBustrip.getOBLeaveNextCode());
+                foBusTrip.setTransact(new AppConstants().DATE_MODIFIED);
+                foBusTrip.setEmployee(loSession.getEmployeeID());
+//                detail.setBranchNm(infoModel.getDestinat());
+//                detail.setDateFrom(infoModel.getDateFrom());
+//                detail.setDateThru(infoModel.getDateThru());
+//                detail.setRemarksx(infoModel.getRemarksx());
+//                detail.setDestinat(infoModel.getDestinat());
+                foBusTrip.setApproved(loSession.getUserID());
+                foBusTrip.setDapprove(AppConstants.CURRENT_DATE);
+                foBusTrip.setAppldFrx(null);
+                foBusTrip.setAppldTox(null);
+                foBusTrip.setTranStat("0");
+                foBusTrip.setSendStat("0");
+                loBustrip.insertNewOBLeave(foBusTrip);
+                callback.OnSuccess(foBusTrip.getTransNox());
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailed(e.getMessage());
+        }
+    }
+
+    public void PostOBApplication(String fsTransNo, OnActionCallback callback){
+        try{
+            REmployeeBusinessTrip loBustrip = new REmployeeBusinessTrip(instance);
+            if(loBustrip.getOBApplicationInfo(fsTransNo) == null){
+                callback.OnFailed("No business application found for posting.");
+            } else {
+                EEmployeeBusinessTrip loDetail = loBustrip.getOBApplicationInfo(fsTransNo);
+                WebApi loApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+
+                JSONObject loJson = new JSONObject();
+                loJson.put("sTransNox", loDetail.getTransNox());
+                loJson.put("sEmployID", loDetail.getEmployee());
+                loJson.put("dDateFrom", loDetail.getDateFrom());
+                loJson.put("dDateThru", loDetail.getDateThru());
+                loJson.put("sRemarksx", loDetail.getRemarksx());
+
+                String lsResponse = WebClient.sendRequest(loApi.getUrlSendObApplication(),
+                        loJson.toString(),
+                        HttpHeaders.getInstance(instance).getHeaders());
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    String lsMessage = loError.getString("message");
+                    callback.OnFailed(lsMessage);
+                } else {
+                    loBustrip.updateOBSentStatus(loJson.getString("sTransNox"));
+                }
+                Log.e(TAG, lsResponse);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public void SaveLeaveApproval(String fsTransNo, String fsTranStat, OnActionCallback callback){
         try{
             REmployeeLeave loLeave = new REmployeeLeave(instance);

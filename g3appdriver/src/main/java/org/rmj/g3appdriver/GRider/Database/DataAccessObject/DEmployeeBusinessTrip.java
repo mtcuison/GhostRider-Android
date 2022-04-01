@@ -45,6 +45,9 @@ public interface DEmployeeBusinessTrip {
     @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNox")
     LiveData<EEmployeeBusinessTrip> getBusinessTripInfo(String TransNox);
 
+    @Query("SELECT * FROM Employee_Business_Trip WHERE sTransNox =:TransNo")
+    EEmployeeBusinessTrip getOBApplicationInfo(String TransNo);
+
     @Query("UPDATE Employee_Business_Trip SET cSendStat = '1' WHERE sTransNox =:TransNox")
     void updateOBSentStatus(String TransNox);
 
