@@ -152,7 +152,8 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
                     for (DCreditOnlineApplicationCI.oDataEvaluationInfo row : plLoanApp1) {
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or category in match match
-                        if (row.sClientNm.toLowerCase().contains(charString.toLowerCase())) {
+                        if (row.sClientNm.toLowerCase().contains(charString.toLowerCase()) ||
+                                row.sTransNox.toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
 

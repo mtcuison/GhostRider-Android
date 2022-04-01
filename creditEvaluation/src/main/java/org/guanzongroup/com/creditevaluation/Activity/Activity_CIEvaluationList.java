@@ -216,30 +216,21 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
 
 
                     String json = new Gson().toJson(ciEvaluationList);
-
                     adapter = new CreditEvaluationListAdapter(ciEvaluationList, "CI Evaluation List", new CreditEvaluationListAdapter.OnApplicationClickListener() {
                         @Override
                         public void OnClick(int position, List<DCreditOnlineApplicationCI.oDataEvaluationInfo> ciEvaluationLists) {
-
                             Intent loIntent = new Intent(Activity_CIEvaluationList.this, Activity_Evaluation.class);
                             loIntent.putExtra("transno", ciEvaluationLists.get(position).sTransNox);
                             loIntent.putExtra("ClientNm", ciEvaluationLists.get(position).sClientNm);
                             loIntent.putExtra("dTransact", ciEvaluationLists.get(position).dTransact);
                             loIntent.putExtra("Branch", ciEvaluationLists.get(position).sBranchNm);
                             startActivity(loIntent);
-
                         }
-
                     });
                     LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_CIEvaluationList.this);
                     recyclerViewClient.setAdapter(adapter);
                     recyclerViewClient.setLayoutManager(layoutManager);
                     adapter.notifyDataSetChanged();
-                    if (adapter.getItemCount() == 0) {
-                        layoutNoRecord.setVisibility(View.VISIBLE);
-                    } else {
-                        layoutNoRecord.setVisibility(View.GONE);
-                    }
                     txtSearch.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -251,12 +242,12 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
                             try {
 
                                 adapter.getFilter().filter(s.toString());
-                                adapter.notifyDataSetChanged();
                                 if (adapter.getItemCount() == 0) {
                                     layoutNoRecord.setVisibility(View.VISIBLE);
                                 } else {
                                     layoutNoRecord.setVisibility(View.GONE);
                                 }
+                                adapter.notifyDataSetChanged();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -264,7 +255,12 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
 
                         @Override
                         public void afterTextChanged(Editable s) {
-
+                            if (adapter.getItemCount() == 0) {
+                                layoutNoRecord.setVisibility(View.VISIBLE);
+                            } else {
+                                layoutNoRecord.setVisibility(View.GONE);
+                            }
+                            adapter.notifyDataSetChanged();
                         }
                     });
                 } else {
