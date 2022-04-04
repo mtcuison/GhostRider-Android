@@ -32,6 +32,11 @@ public class RInventoryDetail implements DInventoryDetail {
     }
 
     @Override
+    public List<EInventoryDetail> getInventoryDetailForLastLog() {
+        return poDao.getInventoryDetailForLastLog();
+    }
+
+    @Override
     public LiveData<EInventoryDetail> getInventoryItemDetail(String TransNox, String PartID, String BarCode) {
         return poDao.getInventoryItemDetail(TransNox, PartID, BarCode);
     }
@@ -57,8 +62,8 @@ public class RInventoryDetail implements DInventoryDetail {
     }
 
     @Override
-    public void UpdateInventoryItemPostedStatus(String TransNox, String PartID) {
-        poDao.UpdateInventoryItemPostedStatus(TransNox, PartID);
+    public void UpdateInventoryItemPostedStatus(String TransNox) {
+        poDao.UpdateInventoryItemPostedStatus(TransNox);
     }
 
     @Override

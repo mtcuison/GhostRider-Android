@@ -34,6 +34,7 @@ import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class REmployeeLeave implements DEmployeeLeave {
     private final DEmployeeLeave employeeDao;
@@ -112,7 +113,7 @@ public class REmployeeLeave implements DEmployeeLeave {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public String getNextLeaveCode(){
         if(AppConfigPreference.getInstance(instance).getTestStatus()){
-            return GenerateID.GetRandomID();
+            return new GenerateID(12).nextString();
         } else {
             String lsNextCode = "";
             GConnection loConn = DbConnection.doConnect(instance);

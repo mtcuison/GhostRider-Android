@@ -24,6 +24,8 @@ import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DImageInfo;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.utils.GenerateID;
 
 import java.util.List;
 
@@ -156,13 +158,17 @@ public class RImageInfo {
     }
 
     public String getImageNextCode(){
-        String lsNextCode = "";
-        try{
-            GConnection loConn = DbConnection.doConnect(application);
-            lsNextCode = MiscUtil.getNextCode("Image_Information", "sTransNox", true, loConn.getConnection(), "", 12, false);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return lsNextCode;
+//        if(AppConfigPreference.getInstance(application).getTestStatus()){
+//            return String.valueOf(new GenerateID());
+//        } else {
+            String lsNextCode = "";
+            try {
+                GConnection loConn = DbConnection.doConnect(application);
+                lsNextCode = MiscUtil.getNextCode("Image_Information", "sTransNox", true, loConn.getConnection(), "", 12, false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return lsNextCode;
+//        }
     }
 }

@@ -301,7 +301,7 @@ public class VMInventory extends AndroidViewModel {
                             if(result.equalsIgnoreCase("success")){
                                 for (int x = 0; x < loDetail.size(); x++) {
                                     String lsPartID = loDetail.get(x).getPartsIDx();
-                                    poDetail.UpdateInventoryItemPostedStatus(lsTransNox, lsPartID);
+                                    poDetail.UpdateInventoryItemPostedStatus(lsTransNox);
                                 }
                                 poMaster.UpdateInventoryMasterPostedStatus(lsTransNox);
                             }

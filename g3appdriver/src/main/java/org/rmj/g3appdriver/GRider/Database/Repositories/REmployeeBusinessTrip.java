@@ -36,6 +36,7 @@ import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class REmployeeBusinessTrip implements DEmployeeBusinessTrip {
     private final DEmployeeBusinessTrip employeeBusinessTripDao;
@@ -120,10 +121,9 @@ public class REmployeeBusinessTrip implements DEmployeeBusinessTrip {
         return employeeBusinessTripDao.getOBListForUpload();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public String getOBLeaveNextCode(){
         if(AppConfigPreference.getInstance(app).getTestStatus()){
-            return GenerateID.GetRandomID();
+            return new GenerateID(12).nextString();
         } else {
             String lsTransNox = "";
             GConnection loConn = DbConnection.doConnect(app);

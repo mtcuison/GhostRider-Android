@@ -13,7 +13,9 @@ package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.appdriver.base.GConnection;
@@ -23,8 +25,11 @@ import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DLog_Selfie;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.utils.GenerateID;
 
 import java.util.List;
+import java.util.Random;
 
 public class RLogSelfie {
     private static final String TAG = RLogSelfie.class.getSimpleName();
@@ -73,6 +78,10 @@ public class RLogSelfie {
         return selfieDao.getLastSelfieLog();
     }
 
+    public ELog_Selfie getLastEmployeeLog(){
+        return selfieDao.getLastEmployeeLog();
+    }
+
     public void UpdateCashCountRequireStatus(){
         selfieDao.UpdateCashCountRequireStatus();
     }
@@ -81,14 +90,18 @@ public class RLogSelfie {
     }
 
     public String getLogNextCode(){
-        String lsNextCode = "";
-        try{
-            GConnection loConn = DbConnection.doConnect(instance);
-            lsNextCode = MiscUtil.getNextCode("Employee_Log_Selfie", "sTransNox", true, loConn.getConnection(), "", 12, false);
-        } catch (Exception e){
-            e.printStackTrace();
+        if(AppConfigPreference.getInstance(instance).getTestStatus()){
+            return new GenerateID(12).nextString();
+        } else {
+            String lsNextCode = "";
+            try {
+                GConnection loConn = DbConnection.doConnect(instance);
+                lsNextCode = MiscUtil.getNextCode("Employee_Log_Selfie", "sTransNox", true, loConn.getConnection(), "", 12, false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return lsNextCode;
         }
-        return lsNextCode;
     }
 
     private static class InsertSelfieTask extends AsyncTask<ELog_Selfie, Void, String>{
