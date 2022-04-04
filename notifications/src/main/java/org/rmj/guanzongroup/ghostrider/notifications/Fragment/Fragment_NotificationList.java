@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +44,14 @@ public class Fragment_NotificationList extends Fragment {
     private VMNotificationList mViewModel;
 
     private RecyclerView recyclerView;
+    private NotificationListAdapter poAdapter;
     private RelativeLayout rl_list;
     private LinearLayout ln_empty;
+    private boolean isLoading = false;
+    private List<NotificationItemList> notificationItemLists = new ArrayList<>();
+
+    /** Limit of displayaed list before load on fetch **/
+    private int pnLimitxx = 10;
 
     public static Fragment_NotificationList newInstance() {
         return new Fragment_NotificationList();
@@ -63,13 +70,13 @@ public class Fragment_NotificationList extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMNotificationList.class);
+        /** Call 1st batch of notifications / Request query for selecting notifs with limit - 2 params  **/
         mViewModel.getUserNotificationList().observe(getViewLifecycleOwner(), userNotificationInfos -> {
             try {
                 if (userNotificationInfos.size() > 0) {
                     rl_list.setVisibility(View.VISIBLE);
                     ln_empty.setVisibility(View.GONE);
 
-                    List<NotificationItemList> notificationItemLists = new ArrayList<>();
                     notificationItemLists.clear();
                     for (int x = 0; x < userNotificationInfos.size(); x++) {
                         NotificationItemList loItemList = new NotificationItemList();
@@ -83,10 +90,7 @@ public class Fragment_NotificationList extends Fragment {
                         notificationItemLists.add(loItemList);
                     }
 
-                    LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-                    manager.setOrientation(RecyclerView.VERTICAL);
-                    recyclerView.setLayoutManager(manager);
-                    recyclerView.setAdapter(new NotificationListAdapter(notificationItemLists, new NotificationListAdapter.OnItemClickListener() {
+                    poAdapter = new NotificationListAdapter(notificationItemLists, new NotificationListAdapter.OnItemClickListener() {
                         @Override
                         public void OnClick(String ID, String Title, String Message, String Sender, String Date, String Receipt) {
                             Intent loIntent = new Intent(getActivity(), Activity_Notifications.class);
@@ -105,7 +109,12 @@ public class Fragment_NotificationList extends Fragment {
                         public void OnActionButtonClick(String message) {
                             GToast.CreateMessage(getActivity(), message, GToast.INFORMATION).show();
                         }
-                    }));
+                    });
+                    poAdapter.notifyDataSetChanged();
+                    LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+                    manager.setOrientation(RecyclerView.VERTICAL);
+                    recyclerView.setLayoutManager(manager);
+                    recyclerView.setAdapter(poAdapter);
 
                 } else {
                     rl_list.setVisibility(View.GONE);
@@ -115,12 +124,69 @@ public class Fragment_NotificationList extends Fragment {
                 e.printStackTrace();
             }
         });
+
+        initScrollListener();
     }
 
     private void setupWidgets(View v) {
         recyclerView = v.findViewById(R.id.recyclerview_notifications);
         rl_list = v.findViewById(R.id.rl_list);
         ln_empty = v.findViewById(R.id.ln_empty);
+    }
+
+    private void initScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                if (!isLoading) {
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == notificationItemLists.size() - 1) {
+                        //bottom of list!
+                        loadMore();
+                        isLoading = true;
+                    }
+                }
+            }
+        });
+
+
+    }
+
+    private void loadMore() {
+        notificationItemLists.add(null);
+        poAdapter.notifyItemInserted(notificationItemLists.size() - 1);
+
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                notificationItemLists.remove(notificationItemLists.size() - 1);
+                int scrollPosition = notificationItemLists.size();
+                poAdapter.notifyItemRemoved(scrollPosition);
+                int currentSize = scrollPosition;
+
+                /** Call method that selects limited list to load
+                 *  (For second batch of list to display) **/
+//                while (currentSize - 1 < nextLimit) {
+////                    notificationItemLists.add("Item " + currentSize);
+//                    currentSize++;
+//                }
+
+                poAdapter.notifyDataSetChanged();
+                isLoading = false;
+            }
+        }, 2000);
+
+
     }
 
 }

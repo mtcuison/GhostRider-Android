@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,7 +28,10 @@ import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 import java.util.List;
 
-public class NotificationListAdapter extends RecyclerView.Adapter<NotificationListAdapter.ItemViewHolder> {
+public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
 
     private final List<NotificationItemList> notificationItemLists;
     private final OnItemClickListener mListener;
@@ -39,32 +43,41 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
 
     @NonNull
     @Override
-    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_list_item, parent, false);
-        return new ItemViewHolder(v);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_list_item, parent, false);
+            return new ItemViewHolder(v);
+        } else {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
+            return new LoadingViewHolder(v);
+        }
     }
 
     @SuppressLint("NewApi")
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        NotificationItemList message = notificationItemLists.get(position);
-        holder.message = message;
-        if(!message.getName().equalsIgnoreCase("null")) {
-            holder.lblSender.setText(message.getName());
-            holder.imgSendr.setImageResource(R.drawable.ic_user_profile);
-        } else {
-            holder.lblSender.setText("SYSTEM NOTIFICATION");
-            holder.imgSendr.setImageResource(R.drawable.ic_guanzon_logo);
-        }
-        holder.lblTitlex.setText(message.getTitle());
-        holder.lblBodyxx.setText(message.getMessage());
-        holder.lblDateTm.setText(message.getDateTime());
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ItemViewHolder) {
+            NotificationItemList message = notificationItemLists.get(position);
+            ((ItemViewHolder) holder).message = message;
+            if (!message.getName().equalsIgnoreCase("null")) {
+                ((ItemViewHolder) holder).lblSender.setText(message.getName());
+                ((ItemViewHolder) holder).imgSendr.setImageResource(R.drawable.ic_user_profile);
+            } else {
+                ((ItemViewHolder) holder).lblSender.setText("SYSTEM NOTIFICATION");
+                ((ItemViewHolder) holder).imgSendr.setImageResource(R.drawable.ic_guanzon_logo);
+            }
+            ((ItemViewHolder) holder).lblTitlex.setText(message.getTitle());
+            ((ItemViewHolder) holder).lblBodyxx.setText(message.getMessage());
+            ((ItemViewHolder) holder).lblDateTm.setText(message.getDateTime());
 
-        if(message.getStatus().equalsIgnoreCase("2")){
-            holder.lblSender.setTypeface(Typeface.DEFAULT_BOLD);
-            holder.lblTitlex.setTypeface(Typeface.DEFAULT_BOLD);
-            holder.lblBodyxx.setTypeface(Typeface.DEFAULT_BOLD);
-            holder.lblDateTm.setTypeface(Typeface.DEFAULT_BOLD);
+            if (message.getStatus().equalsIgnoreCase("2")) {
+                ((ItemViewHolder) holder).lblSender.setTypeface(Typeface.DEFAULT_BOLD);
+                ((ItemViewHolder) holder).lblTitlex.setTypeface(Typeface.DEFAULT_BOLD);
+                ((ItemViewHolder) holder).lblBodyxx.setTypeface(Typeface.DEFAULT_BOLD);
+                ((ItemViewHolder) holder).lblDateTm.setTypeface(Typeface.DEFAULT_BOLD);
+            }
+        } else if (holder instanceof LoadingViewHolder) {
+            showLoadingView((LoadingViewHolder) holder, position);
         }
     }
 
@@ -72,6 +85,12 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
     public int getItemCount() {
         return notificationItemLists.size();
     }
+
+    @Override
+    public int getItemViewType(int position) {
+        return notificationItemLists.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+    }
+
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{
 
@@ -98,6 +117,21 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
                 }
             });
         }
+    }
+
+    private class LoadingViewHolder extends RecyclerView.ViewHolder {
+
+        ProgressBar progressBar;
+
+        public LoadingViewHolder(@NonNull View itemView) {
+            super(itemView);
+            progressBar = itemView.findViewById(R.id.progressBar);
+        }
+    }
+
+    private void showLoadingView(LoadingViewHolder viewHolder, int position) {
+        //ProgressBar would be displayed
+
     }
 
     public interface OnItemClickListener{
