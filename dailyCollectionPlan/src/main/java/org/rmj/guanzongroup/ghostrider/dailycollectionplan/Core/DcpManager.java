@@ -571,17 +571,12 @@ public class DcpManager {
                             loData.put("nOthersxx", loDcp.getOthersxx());
                             loData.put("cTranType", loDcp.getTranType());
                             loData.put("nTranTotl", loDcp.getTranTotl());
-                            loData.put("sRemarksx", loDcp.getRemarksx());
-                            loJson.put("sRemCodex", loDcp.getRemCodex());
-                            loJson.put("dModified", loDcp.getModified());
                             break;
                         case "PTP":
                             //Required parameters for Promise to pay..
                             loData.put("cApntUnit", loDcp.getApntUnit());
                             loData.put("sBranchCd", loDcp.getBranchCd());
                             loData.put("dPromised", loDcp.getPromised());
-                            loJson.put("sRemCodex", loDcp.getRemCodex());
-                            loJson.put("dModified", loDcp.getModified());
 
                             if(!poConfig.getTestStatus()) {
                                 loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
@@ -619,8 +614,6 @@ public class DcpManager {
                                 loData.put("sSourceCD", loImage.getSourceCD());
                                 loData.put("nLongitud", loImage.getLongitud());
                                 loData.put("nLatitude", loImage.getLatitude());
-                                loJson.put("sRemCodex", loDcp.getRemCodex());
-                                loJson.put("dModified", loDcp.getModified());
                             }
                             break;
 
@@ -666,9 +659,6 @@ public class DcpManager {
                             break;
 
                         default:
-                            loData.put("sRemarksx", loDcp.getRemarksx());
-                            loJson.put("sRemCodex", loDcp.getRemCodex());
-                            loJson.put("dModified", new AppConstants().DATE_MODIFIED);
                             if(!poConfig.getTestStatus()) {
                                 loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
                                 loData.put("sImageNme", loImage.getImageNme());
@@ -677,6 +667,9 @@ public class DcpManager {
                                 loData.put("nLatitude", loImage.getLatitude());
                             }
                     }
+                    loData.put("sRemarksx", loDcp.getRemarksx());
+                    loJson.put("sRemCodex", loDcp.getRemCodex());
+                    loJson.put("dModified", loDcp.getModified());
 
                     loJson.put("sTransNox", loDcp.getTransNox());
                     loJson.put("nEntryNox", loDcp.getEntryNox());
