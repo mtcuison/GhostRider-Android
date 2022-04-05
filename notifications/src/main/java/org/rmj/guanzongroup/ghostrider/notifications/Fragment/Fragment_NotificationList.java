@@ -45,6 +45,7 @@ public class Fragment_NotificationList extends Fragment {
 
     private RecyclerView recyclerView;
     private NotificationListAdapter poAdapter;
+    private LinearLayoutManager manager;
     private RelativeLayout rl_list;
     private LinearLayout ln_empty;
     private boolean isLoading = false;
@@ -111,7 +112,7 @@ public class Fragment_NotificationList extends Fragment {
                         }
                     });
                     poAdapter.notifyDataSetChanged();
-                    LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+                    manager = new LinearLayoutManager(getActivity());
                     manager.setOrientation(RecyclerView.VERTICAL);
                     recyclerView.setLayoutManager(manager);
                     recyclerView.setAdapter(poAdapter);
@@ -144,11 +145,8 @@ public class Fragment_NotificationList extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-
                 if (!isLoading) {
-                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == notificationItemLists.size() - 1) {
+                    if (manager != null && manager.findLastCompletelyVisibleItemPosition() == notificationItemLists.size() - 1) {
                         //bottom of list!
                         loadMore();
                         isLoading = true;
@@ -176,13 +174,13 @@ public class Fragment_NotificationList extends Fragment {
 
                 /** Call method that selects limited list to load
                  *  (For second batch of list to display) **/
-//                while (currentSize - 1 < nextLimit) {
-////                    notificationItemLists.add("Item " + currentSize);
-//                    currentSize++;
+
+//                callTheMethod(currentSize, pnLimitxx) {
+//                    notificationItemLists.addAll(list);
+//                    poAdapter.notifyDataSetChanged();
+//                    isLoading = false;
 //                }
 
-                poAdapter.notifyDataSetChanged();
-                isLoading = false;
             }
         }, 2000);
 
