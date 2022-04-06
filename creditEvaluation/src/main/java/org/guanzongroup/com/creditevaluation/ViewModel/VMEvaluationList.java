@@ -158,6 +158,7 @@ public class VMEvaluationList extends AndroidViewModel {
         private final SessionManager poUser;
         private final AppConfigPreference poConfig;
         private final OnImportCallBack callback;
+        private final WebApi poWebApi;
 
         public ImportDataTask(Application application, OnImportCallBack callback) {
             this.db = new RCreditApplication(application);
@@ -167,6 +168,7 @@ public class VMEvaluationList extends AndroidViewModel {
             this.poUser = new SessionManager(application);
             this.poConfig = AppConfigPreference.getInstance(application);
             this.callback = callback;
+            this.poWebApi = new WebApi(true);
         }
 
         @Override
@@ -180,7 +182,7 @@ public class VMEvaluationList extends AndroidViewModel {
             String response = "";
             try {
                 if (loConnectx.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(WebApi.URL_IMPORT_ONLINE_APPLICATIONS, jsonObjects[0].toString(), loHeaders.getHeaders());
+                    response = WebClient.httpsPostJSon(poWebApi.getUrlImportOnlineApplications(), jsonObjects[0].toString(), loHeaders.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");
@@ -276,6 +278,70 @@ public class VMEvaluationList extends AndroidViewModel {
                 JSONObject loJSon = faJson.getJSONObject(x);
                 String Transnox = loJSon.getString("sReferNox");
                 db.updateCustomerImageStat(Transnox);
+            }
+        }
+    }
+    public void DownloadCreditApplications(OnImportCallBack callBack){
+        try{
+            new DownloadCreditApplications(instance,poManager, callBack).execute();} catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    private  class DownloadCreditApplications extends AsyncTask<Void, Void, String> {
+        private final EvaluatorManager poCIEvaluation;
+        private final OnImportCallBack callback;
+        private final ConnectionUtil poConn;
+        public DownloadCreditApplications(Application app, EvaluatorManager poCIEvaluation, OnImportCallBack callback) {
+            this.poCIEvaluation = poCIEvaluation;
+            this.callback = callback;
+            this.poConn = new ConnectionUtil(app);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.onStartImport();
+        }
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                final String[] response = {""};
+                if (!poConn.isDeviceConnected()) {
+                    response[0] = AppConstants.NO_INTERNET();
+                } else {
+                    poCIEvaluation.DownloadCreditApplications(new EvaluatorManager.OnActionCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            response[0] = args;
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            response[0] = message;
+                        }
+                    });
+
+                }
+                Thread.sleep(1000);
+                return response[0];
+
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                return e.getMessage();
+            }catch (Exception e){
+                e.printStackTrace();
+                return e.getMessage();
+            }
+        }
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s.equalsIgnoreCase("success")){
+                callback.onSuccessImport();
+            } else {
+                callback.onImportFailed(s);
             }
         }
     }

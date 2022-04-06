@@ -139,8 +139,20 @@ public class RImageInfo {
         }
     }
 
+    public LiveData<List<EImageInfo>> getDCPUnpostedImageList(){
+        return imageDao.getDCPUnpostedImageList();
+    }
+
     public EImageInfo getDCPImageInfoForPosting(String TransNox, String AccntNo){
         return imageDao.getDCPImageInfoForPosting(TransNox, AccntNo);
+    }
+
+    public EImageInfo getCIImageForPosting(String TransNox){
+        return imageDao.getCIImageForPosting(TransNox);
+    }
+
+    public List<DImageInfo.DcpImageForPosting> getDCPUnpostedImageListForBackgroundSync(){
+        return imageDao.getDCPUnpostedImageListForBackgroundSync();
     }
 
     public String getImageNextCode(){

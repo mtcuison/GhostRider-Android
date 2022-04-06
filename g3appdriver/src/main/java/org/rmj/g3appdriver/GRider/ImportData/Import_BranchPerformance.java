@@ -26,7 +26,9 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.ArrayList;
@@ -34,8 +36,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
-
-import static org.rmj.g3appdriver.utils.WebApi.IMPORT_BRANCH_PERFORMANCE;
 
 public class Import_BranchPerformance implements ImportInstance {
     public static final String TAG = Import_BranchPerformance.class.getSimpleName();
@@ -69,13 +69,15 @@ public class Import_BranchPerformance implements ImportInstance {
         private final RBranchPerformance loDatabse;
         private final ConnectionUtil loConn;
         private final REmployee poUser;
+        private final WebApi poApi;
 
-        public ImportBranchTask(Application application, ImportDataCallback callback) {
+        public ImportBranchTask(Application instance, ImportDataCallback callback) {
             this.callback = callback;
-            this.loDatabse = new RBranchPerformance(application);
-            this.loConn = new ConnectionUtil(application);
-            this.loHeaders = HttpHeaders.getInstance(application);
-            this.poUser = new REmployee(application);
+            this.loDatabse = new RBranchPerformance(instance);
+            this.loConn = new ConnectionUtil(instance);
+            this.loHeaders = HttpHeaders.getInstance(instance);
+            this.poUser = new REmployee(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
@@ -88,7 +90,7 @@ public class Import_BranchPerformance implements ImportInstance {
                             JSONObject loJSon = new JSONObject();
                             loJSon.put("period", strings[0].get(x));
                             loJSon.put("areacd", poUser.getUserAreaCode());
-                            response = WebClient.httpsPostJSon(IMPORT_BRANCH_PERFORMANCE, loJSon.toString(), loHeaders.getHeaders());
+                            response = WebClient.httpsPostJSon(poApi.getImportBranchPerformance(), loJSon.toString(), loHeaders.getHeaders());
                             if(response == null){
                                 response = AppConstants.SERVER_NO_RESPONSE();
                             } else {

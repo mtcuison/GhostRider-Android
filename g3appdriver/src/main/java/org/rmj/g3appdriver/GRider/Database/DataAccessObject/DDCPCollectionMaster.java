@@ -54,4 +54,10 @@ public interface DDCPCollectionMaster {
 
     @Query("SELECT * FROM LR_DCP_Collection_Master WHERE sTransNox =:TransNox")
     List<EDCPCollectionMaster> getCollectionMasterIfExist(String TransNox);
+
+    @Query("SELECT * FROM LR_DCP_Collection_Master WHERE cSendStat IS NULL")
+    EDCPCollectionMaster CheckIfHasCollection();
+
+    @Query("SELECT * FROM LR_DCP_Collection_Master ORDER BY dReferDte DESC LIMIT 1")
+    EDCPCollectionMaster getLastCollectionMaster();
 }

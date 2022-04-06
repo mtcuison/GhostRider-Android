@@ -238,6 +238,7 @@ public class VMPaidTransaction extends AndroidViewModel {
         private final Telephony poDevID;
         private final SessionManager poUser;
         private final AppConfigPreference poConfig;
+        private final WebApi poApi;
 
         public PostPaidTransactionTask(EDCPCollectionDetail dcpDetail, PaidTransactionModel infoModel, Application instance, ViewModelCallback callback) {
             this.poDcpDetail = dcpDetail;
@@ -249,6 +250,7 @@ public class VMPaidTransaction extends AndroidViewModel {
             this.poDevID = new Telephony(instance);
             this.poUser = new SessionManager(instance);
             this.poConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(poConfig.getTestStatus());
         }
 
         @Override
@@ -320,7 +322,7 @@ public class VMPaidTransaction extends AndroidViewModel {
                         loJson.put("sUserIDxx", poUser.getUserID());
                         loJson.put("sDeviceID", poDevID.getDeviceID());
                         Log.e(TAG, loJson.toString());
-                        lsResponse = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
+                        lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(), loJson.toString(), poHeaders.getHeaders());
 
                         if(lsResponse == null){
                             lsResponse = AppConstants.SERVER_NO_RESPONSE();

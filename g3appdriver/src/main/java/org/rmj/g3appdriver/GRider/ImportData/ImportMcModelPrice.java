@@ -25,11 +25,10 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RMcModelPrice;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.Objects;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_MC_MODEL_PRICE;
 
 public class ImportMcModelPrice implements ImportInstance{
     public static final String TAG = ImportMcModelPrice.class.getSimpleName();
@@ -68,12 +67,14 @@ public class ImportMcModelPrice implements ImportInstance{
         private final HttpHeaders headers;
         private final RMcModelPrice repository;
         private final ConnectionUtil conn;
+        private final WebApi poApi;
 
         public ImportMcModelPriceTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
             this.headers = HttpHeaders.getInstance(instance);
             this.repository = new RMcModelPrice(instance);
             this.conn = new ConnectionUtil(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -82,7 +83,7 @@ public class ImportMcModelPrice implements ImportInstance{
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(URL_IMPORT_MC_MODEL_PRICE, jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportMcModelPrice(), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

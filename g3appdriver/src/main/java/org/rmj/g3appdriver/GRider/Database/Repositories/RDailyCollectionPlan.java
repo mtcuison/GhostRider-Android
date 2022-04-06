@@ -52,6 +52,10 @@ public class RDailyCollectionPlan {
         masterDao = GGCGriderDB.DcpMasterDao();
     }
 
+    public void AddCollectionAccount(EDCPCollectionDetail foDetail){
+        detailDao.insert(foDetail);
+    }
+
     public void insertDetailBulkData(List<EDCPCollectionDetail> collectionDetails){
         new InsertBulkDCPListAsyncTask(detailDao).execute(collectionDetails);
     }
@@ -84,6 +88,10 @@ public class RDailyCollectionPlan {
         return detailDao.getUnsentPaidCollection();
     }
 
+    public EDCPCollectionDetail CheckIFAccountExist(String AccNmbr){
+        return detailDao.CheckIFAccountExist(AppConstants.CURRENT_DATE, AccNmbr);
+    }
+
     public LiveData<List<EDCPCollectionMaster>> getCollectioMasterList(){
         return masterDao.getCollectionMasterList();
     }
@@ -104,6 +112,18 @@ public class RDailyCollectionPlan {
         detailDao.update(collectionDetail);
     }
 
+    public void updateCNADetail(String AccNmbr, int EntryNo, String Remarks){
+        detailDao.UpdateCNADetails(AccNmbr, EntryNo, Remarks, new AppConstants().DATE_MODIFIED);
+    }
+
+    public EDCPCollectionMaster CheckIfHasCollection(){
+        return masterDao.CheckIfHasCollection();
+    }
+
+    public List<EDCPCollectionDetail> checkDCPPAYTransaction(){
+        return detailDao.checkDCPPAYTransaction();
+    }
+
     public void updateCollectionDetail(int EntryNox, String RemCode, String Remarks){
         detailDao.updateCollectionDetailInfo(EntryNox, RemCode, Remarks, new AppConstants().DATE_MODIFIED);
     }
@@ -114,6 +134,10 @@ public class RDailyCollectionPlan {
 
     public void updateCollectionDetailStatus(String TransNox, int EntryNox){
         detailDao.updateCollectionDetailStatus(TransNox, EntryNox, new AppConstants().DATE_MODIFIED);
+    }
+
+    public List<EDCPCollectionDetail> CheckCollectionDetailNoRemCode(String TransNox){
+        return detailDao.CheckCollectionDetailNoRemCode(TransNox);
     }
 
     public void updateCollectionDetailStatusWithRemarks(String TransNox, int EntryNox, String Remarks){
@@ -195,6 +219,14 @@ public class RDailyCollectionPlan {
 
     public Integer getDCPStatus(){
         return detailDao.getDCPStatus(new AppConstants().CURRENT_DATE);
+    }
+
+    public List<EDCPCollectionDetail> checkCollectionRemarksCode(){
+        return detailDao.checkCollectionRemarksCode();
+    }
+
+    public EDCPCollectionMaster getLastCollectionMaster(){
+        return masterDao.getLastCollectionMaster();
     }
 
     private class InsertCollectionDetailTask extends AsyncTask<EDCPCollectionDetail, Void, String>{
@@ -418,6 +450,10 @@ public class RDailyCollectionPlan {
 
     public List<EDCPCollectionDetail> getLRDCPCollectionForPosting(){
         return detailDao.getLRDCPCollectionForPosting();
+    }
+
+    public List<EDCPCollectionDetail> getDetailCollection(String TransNox){
+        return detailDao.getDetailCollection(TransNox);
     }
 
     public LiveData<List<EDCPCollectionDetail>> getCollectionDetailLog() {

@@ -29,8 +29,6 @@ import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
-import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_MC_MODEL;
-
 import java.util.Objects;
 
 public class ImportBrandModel implements ImportInstance {
@@ -68,14 +66,14 @@ public class ImportBrandModel implements ImportInstance {
     private static class ImportDataTask extends AsyncTask<JSONObject, Void, String>{
         private final RMcModel repository;
         private final ConnectionUtil conn;
-        private final WebApi webApi;
+        private final WebApi poApi;
         private final HttpHeaders headers;
         private final ImportDataCallback callback;
 
         public ImportDataTask(Application instance, ImportDataCallback callback) {
             this.repository = new RMcModel(instance);
             this.conn = new ConnectionUtil(instance);
-            this.webApi = new WebApi(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.headers = HttpHeaders.getInstance(instance);
             this.callback = callback;
         }
@@ -86,7 +84,7 @@ public class ImportBrandModel implements ImportInstance {
             String response = "";
             try{
                 if(conn.isDeviceConnected()){
-                    response = WebClient.httpsPostJSon(URL_IMPORT_MC_MODEL, jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportMcModel(), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

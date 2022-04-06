@@ -49,6 +49,7 @@ import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.dev.GLocationManager;
 import org.rmj.g3appdriver.dev.Telephony;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
@@ -77,7 +78,7 @@ public class GLocatorService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         createServiceNotification();
         Intent loIntent = new Intent(GLocatorService.this, Activity_CollectionList.class);
-        PendingIntent loPending  = PendingIntent.getActivities(GLocatorService.this, 34, new Intent[]{loIntent}, 0);
+        PendingIntent loPending  = PendingIntent.getActivities(GLocatorService.this, 34, new Intent[]{loIntent}, PendingIntent.FLAG_IMMUTABLE);
         poConfig = new RSysConfig(getApplication());
         loNotif = new NotificationCompat.Builder(GLocatorService.this, "gRiderLocator");
         loNotif.setContentTitle("Daily Collection Plan");
@@ -171,6 +172,7 @@ public class GLocatorService extends Service {
         private final HttpHeaders poHeaders;
         private final RDailyCollectionPlan poDcp;
         private final String DateTime;
+        private final WebApi poApi;
 
         private boolean hasDcp = false;
 
@@ -183,6 +185,7 @@ public class GLocatorService extends Service {
             poHeaders = HttpHeaders.getInstance(instance);
             poDcp = new RDailyCollectionPlan(instance);
             this.DateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @SuppressLint("NewApi")
@@ -218,7 +221,7 @@ public class GLocatorService extends Service {
                         params.put("dTransact", loSysLog.getTransact());
                         params.put("nLatitude", loSysLog.getLatitude());
                         params.put("nLongitud", loSysLog.getLongitud());
-                        lsResult = WebClient.sendRequest(WebApi.URL_DCP_LOCATION_REPORT, params.toString(), poHeaders.getHeaders());
+                        lsResult = WebClient.sendRequest(poApi.getUrlDcpLocationReport(), params.toString(), poHeaders.getHeaders());
                         if (lsResult == null) {
                             lsResult = AppConstants.SERVER_NO_RESPONSE();
                         } else {

@@ -26,33 +26,27 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RAreaPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.BranchPerformancePeriod;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.rmj.g3appdriver.utils.WebApi.IMPORT_AREA_PERFORMANCE;
-
 public class Import_AreaPerformance implements ImportInstance {
     private static final String TAG = Import_AreaPerformance.class.getSimpleName();
     private final Application poApp;
-    private final RAreaPerformance poDataBse;
-    private final ConnectionUtil poConn;
-    private final HttpHeaders poHeaders;
 
     public Import_AreaPerformance(Application application) {
         this.poApp = application;
-        this.poDataBse = new RAreaPerformance(application);
-        this.poConn = new ConnectionUtil(application);
-        this.poHeaders = HttpHeaders.getInstance(application);
     }
 
     @Override
     public void ImportData(ImportDataCallback callback) {
         try{
-            new ImportAreaTask(poApp, callback, poHeaders, poDataBse, poConn).execute(BranchPerformancePeriod.getList());
+            new ImportAreaTask(poApp, callback).execute(BranchPerformancePeriod.getList());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -64,13 +58,15 @@ public class Import_AreaPerformance implements ImportInstance {
         private final RAreaPerformance loDatabse;
         private final ConnectionUtil loConn;
         private final REmployee poUser;
+        private final WebApi poApi;
 
-        public ImportAreaTask(Application foApp, ImportDataCallback callback, HttpHeaders loHeaders, RAreaPerformance loDatabse, ConnectionUtil loConn) {
+        public ImportAreaTask(Application instance, ImportDataCallback callback) {
             this.callback = callback;
-            this.loHeaders = loHeaders;
-            this.loDatabse = loDatabse;
-            this.loConn = loConn;
-            this.poUser = new REmployee(foApp);
+            this.loHeaders = HttpHeaders.getInstance(instance);
+            this.loDatabse = new RAreaPerformance(instance);
+            this.loConn = new ConnectionUtil(instance);
+            this.poUser = new REmployee(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -84,7 +80,7 @@ public class Import_AreaPerformance implements ImportInstance {
                             JSONObject loJSon = new JSONObject();
                             loJSon.put("period", arrayLists[0].get(x));
                             loJSon.put("areacd", poUser.getUserAreaCode());
-                            response = WebClient.httpsPostJSon(IMPORT_AREA_PERFORMANCE, loJSon.toString(), loHeaders.getHeaders());
+                            response = WebClient.httpsPostJSon(poApi.getImportAreaPerformance(), loJSon.toString(), loHeaders.getHeaders());
                             JSONObject loJson = new JSONObject(response);
                             Log.e(TAG, loJson.getString("result"));
                             String lsResult = loJson.getString("result");

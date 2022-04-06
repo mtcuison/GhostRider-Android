@@ -34,6 +34,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeLeave;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.LeaveApplication;
@@ -89,6 +90,7 @@ public class VMLeaveApplication extends AndroidViewModel {
         private final HttpHeaders poHeaders;
         private final REmployeeLeave poLeave;
         private final SessionManager poSession;
+        private final WebApi poApi;
 
         public SaveLeaveApplication(Application application, LeaveApplicationCallback callback) {
             this.instance = application;
@@ -97,6 +99,7 @@ public class VMLeaveApplication extends AndroidViewModel {
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poLeave = new REmployeeLeave(instance);
             this.poSession = new SessionManager(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @Override
@@ -152,7 +155,7 @@ public class VMLeaveApplication extends AndroidViewModel {
                 param.put("sModified", poSession.getEmployeeID());
 
                 if(poConn.isDeviceConnected()){
-                    lsResult = WebClient.sendRequest(WebApi.URL_SEND_LEAVE_APPLICATION, param.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(poApi.getUrlSendLeaveApplication(), param.toString(), poHeaders.getHeaders());
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     } else {

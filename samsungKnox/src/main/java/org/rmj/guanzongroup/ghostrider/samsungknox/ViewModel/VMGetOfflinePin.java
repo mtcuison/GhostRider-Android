@@ -26,6 +26,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.KnoxErrorCode;
@@ -37,9 +38,11 @@ public class VMGetOfflinePin extends AndroidViewModel {
     private final ConnectionUtil conn;
     private final HttpHeaders header;
     private final LoadDialog dialog;
+    private final Application instance;
 
     public VMGetOfflinePin(@NonNull Application application) {
         super(application);
+        this.instance = application;
         conn = new ConnectionUtil(application);
         header = HttpHeaders.getInstance(application);
         dialog = new LoadDialog(application);
@@ -47,7 +50,7 @@ public class VMGetOfflinePin extends AndroidViewModel {
 
     public void UnlockWithPasskey(PinModel model, ViewModelCallBack callBack){
         if(model.isParameterValid()){
-            new GetOfflinePINTask(conn, header, dialog, callBack).execute(model);
+            new GetOfflinePINTask(instance, callBack).execute(model);
         } else {
             callBack.OnRequestFailed(model.getPsMessage());
         }
@@ -58,12 +61,14 @@ public class VMGetOfflinePin extends AndroidViewModel {
         private final ConnectionUtil conn;
         private final HttpHeaders header;
         private final LoadDialog dialog;
+        private final WebApi poApi;
         private final ViewModelCallBack callBack;
 
-        public GetOfflinePINTask(ConnectionUtil conn, HttpHeaders header, LoadDialog dialog, ViewModelCallBack callBack) {
-            this.conn = conn;
-            this.header = header;
-            this.dialog = dialog;
+        public GetOfflinePINTask(Application instance, ViewModelCallBack callBack) {
+            this.conn = new ConnectionUtil(instance);
+            this.header = HttpHeaders.getInstance(instance);
+            this.dialog = new LoadDialog(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.callBack = callBack;
         }
 
@@ -86,7 +91,7 @@ public class VMGetOfflinePin extends AndroidViewModel {
                     loParam.put("request", AppConstants.OFFLINE_PIN_REQUEST);
                     loParam.put("param", loJSon.toString());
                     Log.e(TAG, loParam.toString());
-                    response = WebClient.sendRequest(WebApi.URL_KNOX, loParam.toString(), header.getHeaders());
+                    response = WebClient.sendRequest(poApi.getUrlKnox(), loParam.toString(), header.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }

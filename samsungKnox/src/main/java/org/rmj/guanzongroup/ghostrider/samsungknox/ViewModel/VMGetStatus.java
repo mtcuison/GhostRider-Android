@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.KnoxErrorCode;
@@ -34,16 +35,18 @@ public class VMGetStatus extends AndroidViewModel {
     public static final String TAG = VMGetStatus.class.getSimpleName();
     private final ConnectionUtil conn;
     private final HttpHeaders headers;
+    private final Application instance;
 
     public VMGetStatus(@NonNull Application application) {
         super(application);
+        this.instance = application;
         conn = new ConnectionUtil(application);
         headers = HttpHeaders.getInstance(application);
     }
 
     public void GetDeviceStatus(String DeviceID, ViewModelCallBack callBack){
         if(!DeviceID.trim().isEmpty()){
-            new GetDeviceStatusTask(conn, headers, callBack).execute(DeviceID);
+            new GetDeviceStatusTask(instance, callBack).execute(DeviceID);
         } else {
             callBack.OnRequestFailed("Please enter device id");
         }
@@ -52,11 +55,13 @@ public class VMGetStatus extends AndroidViewModel {
     private static class GetDeviceStatusTask extends AsyncTask<String, Void, String> {
         private final ConnectionUtil conn;
         private final HttpHeaders headers;
+        private final WebApi poApi;
         private final ViewModelCallBack callBack;
 
-        public GetDeviceStatusTask(ConnectionUtil conn, HttpHeaders headers, ViewModelCallBack callBack) {
-            this.conn = conn;
-            this.headers = headers;
+        public GetDeviceStatusTask(Application instance, ViewModelCallBack callBack) {
+            this.conn = new ConnectionUtil(instance);
+            this.headers = HttpHeaders.getInstance(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.callBack = callBack;
         }
 
@@ -80,7 +85,7 @@ public class VMGetStatus extends AndroidViewModel {
                     loParam.put("request", AppConstants.GET_DEVICE_LOG_REQUEST);
                     loParam.put("param", loJSon.toString());
                     Log.e(TAG, loParam.toString());
-                    response = WebClient.sendRequest(WebApi.URL_KNOX, loParam.toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(poApi.getUrlKnox(), loParam.toString(), headers.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }

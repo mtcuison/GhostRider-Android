@@ -57,6 +57,7 @@ public class DownloadPostDCPWithoutRemCodeTest {
         poDcp = new DcpManager(instance);
         poUser = new REmployee(instance);
         poTlphny = new Telephony(instance);
+        poConfig.setTestCase(true);
         poConfig.setMobileNo("09171870011");
         poConfig.setTemp_ProductID("gRider");
         poConfig.setAppToken("f7qNSw8TRPWHSCga0g8YFF:APA91bG3i_lBPPWv9bbRasNzRH1XX1y0vzp6Ct8S_a-yMPDvSmud8FEVPMr26zZtBPHq2CmaIw9Rx0MZmf3sbuK44q3vQemUBoPPS4Meybw8pnTpcs3p0VbiTuoLHJtdncC6BgirJxt3");
@@ -124,7 +125,7 @@ public class DownloadPostDCPWithoutRemCodeTest {
 
     @Test
     public void test02DownloadDCP() throws Exception{
-        poDcp.ImportDcpMaster(new DcpManager.OnActionCallback() {
+        poDcp.ImportDcpMaster("M00117001404", "2022-02-22", new DcpManager.OnActionCallback() {
             @Override
             public void OnSuccess(String args) {
                 isSuccess = true;
@@ -139,7 +140,27 @@ public class DownloadPostDCPWithoutRemCodeTest {
     }
 
     @Test
-    public void test03PostLRDCPCollectionWithoutRemCode() throws Exception{
+    public void test03ValidatePostCollection() throws Exception{
+        poDcp.ValidatePostCollection(new DcpManager.OnValidateCallback() {
+            @Override
+            public void OnSuccess(boolean hasNV, String args) {
+                if(hasNV){
+                    isSuccess = true;
+                } else {
+                    isSuccess = false;
+                }
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                isSuccess = false;
+            }
+        });
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test04PostLRDCPCollectionWithoutRemCode() throws Exception{
         poDcp.PostLRDCPCollection(new DcpManager.OnActionCallback() {
             @Override
             public void OnSuccess(String args) {
@@ -155,7 +176,7 @@ public class DownloadPostDCPWithoutRemCodeTest {
     }
 
     @Test
-    public void test04PostDcpMaster() throws Exception{
+    public void test05PostDcpMaster() throws Exception{
         poDcp.PostDcpMaster(new DcpManager.OnActionCallback() {
             @Override
             public void OnSuccess(String args) {

@@ -22,7 +22,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -30,18 +29,12 @@ import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_COUNTRY;
-
 public class ImportCountry implements ImportInstance {
     public static final String TAG = ImportBarangay.class.getSimpleName();
-    private final ConnectionUtil conn;
-    private final WebApi webApi;
-    private final HttpHeaders headers;
     private final Application instance;
+    private final ConnectionUtil conn;
+    private final WebApi poApi;
+    private final HttpHeaders headers;
     private final AppConfigPreference poConfig;
     private final RCountry poCountry;
     private String lsTimeStmp;
@@ -49,9 +42,9 @@ public class ImportCountry implements ImportInstance {
     public ImportCountry(Application application) {
         this.instance = application;
         conn = new ConnectionUtil(instance);
-        webApi = new WebApi(instance);
         headers = HttpHeaders.getInstance(instance);
         poConfig = AppConfigPreference.getInstance(instance);
+        poApi = new WebApi(poConfig.getTestStatus());
         poCountry = new RCountry(instance);
     }
 
@@ -68,7 +61,7 @@ public class ImportCountry implements ImportInstance {
                 lsTimeStmp = poCountry.getLatestDataTime();
                 loJson.put("dTimeStmp", lsTimeStmp);
             }
-            new ImportDataTask(instance, conn, webApi, headers, callback).execute(loJson);
+            new ImportDataTask(instance, callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -76,15 +69,15 @@ public class ImportCountry implements ImportInstance {
 
     private static class ImportDataTask extends AsyncTask<JSONObject, Void, String>{
         private final ConnectionUtil conn;
-        private final WebApi webApi;
+        private final WebApi poApi;
         private final HttpHeaders headers;
         private final ImportDataCallback callback;
         private final RCountry poCountryRp;
 
-        public ImportDataTask(Application instance, ConnectionUtil conn, WebApi webApi, HttpHeaders headers, ImportDataCallback callback) {
-            this.conn = conn;
-            this.webApi = webApi;
-            this.headers = headers;
+        public ImportDataTask(Application instance, ImportDataCallback callback) {
+            this.conn = new ConnectionUtil(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.headers = HttpHeaders.getInstance(instance);
             this.callback = callback;
             this.poCountryRp = new RCountry(instance);
         }
@@ -95,7 +88,7 @@ public class ImportCountry implements ImportInstance {
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(URL_IMPORT_COUNTRY, jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportCountry(), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

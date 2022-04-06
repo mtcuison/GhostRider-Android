@@ -25,6 +25,7 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.KnoxErrorCode;
@@ -36,9 +37,11 @@ public class VMActivate extends AndroidViewModel {
     private final ConnectionUtil conn;
     private final HttpHeaders headers;
     private final LoadDialog dialog;
+    private final Application instance;
 
     public VMActivate(@NonNull Application application) {
         super(application);
+        this.instance = application;
         conn = new ConnectionUtil(application);
         headers = HttpHeaders.getInstance(application);
         dialog = new LoadDialog(application);
@@ -46,7 +49,7 @@ public class VMActivate extends AndroidViewModel {
 
     public void ActivateDevice(ActivationModel model, ViewModelCallBack callBack){
         if(model.isDeviceValid()) {
-            new ActivationTask(conn, headers, dialog, callBack).execute(model);
+            new ActivationTask(instance, callBack).execute(model);
         } else {
             callBack.OnRequestFailed(model.getPsMessage());
         }
@@ -56,12 +59,14 @@ public class VMActivate extends AndroidViewModel {
         private final ConnectionUtil conn;
         private final HttpHeaders headers;
         private final LoadDialog dialog;
+        private final WebApi poApi;
         private final ViewModelCallBack callBack;
 
-        public ActivationTask(ConnectionUtil conn, HttpHeaders headers, LoadDialog dialog, ViewModelCallBack callBack) {
-            this.conn = conn;
-            this.headers = headers;
-            this.dialog = dialog;
+        public ActivationTask(Application instance, ViewModelCallBack callBack) {
+            this.conn = new ConnectionUtil(instance);
+            this.headers = HttpHeaders.getInstance(instance);
+            this.dialog = new LoadDialog(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.callBack = callBack;
         }
 
@@ -84,7 +89,7 @@ public class VMActivate extends AndroidViewModel {
                     loParam.put("request", AppConstants.ACTIVATE_REQUEST);
                     loParam.put("param", loJSon.toString());
                     Log.e(TAG, loParam.toString());
-                    response = WebClient.sendRequest(WebApi.URL_KNOX, loParam.toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(poApi.getUrlKnox(), loParam.toString(), headers.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }

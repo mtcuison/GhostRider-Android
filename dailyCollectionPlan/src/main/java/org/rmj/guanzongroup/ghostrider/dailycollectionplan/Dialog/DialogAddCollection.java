@@ -55,14 +55,19 @@ public class DialogAddCollection {
         RadioButton rbInsrnce = view.findViewById(R.id.rb_insurance_client);
         rgColllect.setOnCheckedChangeListener(new OnRadioButtonSelectListener());
 
+        /** Hide radio button to use DCPManager class **/
+        rgColllect.setVisibility(View.GONE);
+
         Button btnDownLoad = view.findViewById(R.id.btn_dcpDownload);
         Button btnCancel = view.findViewById(R.id.btn_cancel);
 
         btnDownLoad.setOnClickListener(view1 -> {
-            if(!rbArClient.isChecked() && !rbInsrnce.isChecked()) {
-                GToast.CreateMessage(context,"Please select a collection type.", GToast.WARNING).show();
-            }
-            else if(Objects.requireNonNull(txtAccntNo.getText()).toString().trim().isEmpty()) {
+            /** Hide radio button to use DCPManager class **/
+//            if(!rbArClient.isChecked() && !rbInsrnce.isChecked()) {
+//                GToast.CreateMessage(context,"Please select a collection type.", GToast.WARNING).show();
+//            }
+//            else
+            if(Objects.requireNonNull(txtAccntNo.getText()).toString().trim().isEmpty()) {
                 GToast.CreateMessage(context,
                         "Please enter client name.",
                         GToast.WARNING).show();

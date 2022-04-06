@@ -11,8 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
-import static org.rmj.g3appdriver.utils.WebApi.URL_SUBMIT_RANDOM_STOCK_INVENTORY;
-
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -33,6 +31,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RInventoryDetail;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RInventoryMaster;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -117,6 +116,7 @@ public class VMInventory extends AndroidViewModel {
         private final HttpHeaders poHeaders;
         private final RInventoryDetail poDetail;
         private final RInventoryMaster poMaster;
+        private final WebApi poApi;
         private final OnRequestInventoryCallback poCallback;
 
         public RequestInventoryTask(Application instance, OnRequestInventoryCallback poCallback) {
@@ -126,6 +126,7 @@ public class VMInventory extends AndroidViewModel {
             this.poDetail = new RInventoryDetail(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poMaster = new RInventoryMaster(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @Override
@@ -144,7 +145,7 @@ public class VMInventory extends AndroidViewModel {
                 } else {
                     JSONObject loJson = new JSONObject();
                     loJson.put("branchcd", strings[0]);
-                    lsResult = WebClient.httpsPostJSon(WebApi.URL_REQUEST_RANDOM_STOCK_INVENTORY, loJson.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.httpsPostJSon(poApi.getUrlRequestRandomStockInventory(), loJson.toString(), poHeaders.getHeaders());
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     } else {
@@ -238,6 +239,7 @@ public class VMInventory extends AndroidViewModel {
         private final RInventoryDetail poDetail;
         private final RInventoryMaster poMaster;
         private final String Remarksx;
+        private final WebApi poApi;
         private final OnRequestInventoryCallback callback;
 
         public PostInventoryTask(Application instance, String Remarks, OnRequestInventoryCallback callback){
@@ -245,6 +247,7 @@ public class VMInventory extends AndroidViewModel {
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.Remarksx = Remarks;
             this.callback = callback;
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.poDetail = new RInventoryDetail(instance);
             this.poMaster = new RInventoryMaster(instance);
         }
@@ -288,7 +291,7 @@ public class VMInventory extends AndroidViewModel {
                         }
                         master.put("master", joMaster);
                         master.put("detail", jaDetail);
-                        String response = WebClient.httpsPostJSon(URL_SUBMIT_RANDOM_STOCK_INVENTORY, master.toString(), poHeaders.getHeaders());
+                        String response = WebClient.httpsPostJSon(poApi.getUrlSubmitRandomStockInventory(), master.toString(), poHeaders.getHeaders());
 //                        String response = AppConstants.APPROVAL_CODE_GENERATED("sample");
                         if(response == null){
                             lsResult = AppConstants.SERVER_NO_RESPONSE();

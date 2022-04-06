@@ -24,14 +24,14 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ESysConfig;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RSysConfig;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_SYS_CONFIG;
 
 public class Import_SysConfig implements ImportInstance{
     private static final String TAG = Import_SysConfig.class.getSimpleName();
@@ -59,12 +59,14 @@ public class Import_SysConfig implements ImportInstance{
         private final RSysConfig poDataBse;
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
+        private final WebApi poApi;
 
         public ImportConfigTask(Application instance, ImportDataCallback callback){
             this.callback = callback;
             this.poDataBse = new RSysConfig(instance);
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -73,7 +75,7 @@ public class Import_SysConfig implements ImportInstance{
             String response = "";
             try {
                 if(poConn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(URL_IMPORT_SYS_CONFIG, jsonObjects[0].toString(), poHeaders.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportSysConfig(), jsonObjects[0].toString(), poHeaders.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

@@ -22,8 +22,6 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 
-import java.util.List;
-
 public class RDCP_Remittance {
     private static final String TAG = RDCP_Remittance.class.getSimpleName();
 
@@ -46,11 +44,15 @@ public class RDCP_Remittance {
     }
 
     public String getTransnoxMaster(String dTransact){
-        return remitDao.getMasterTransNox(dTransact);
+        return remitDao.getMasterTransNox();
+    }
+
+    public EDCP_Remittance getDCPRemittance(){
+        return remitDao.getDCPRemittance();
     }
 
     public String getRemittanceEntry(String dTransact){
-        return remitDao.getRemittanceEntry(dTransact);
+        return remitDao.getRemittanceEntry();
     }
 
     public void updateSendStat(String TransNox, String EntryNox){
@@ -58,43 +60,51 @@ public class RDCP_Remittance {
     }
 
     public LiveData<String> getTotalRemittedCollection(String dTransact){
-        return remitDao.getTotalRemittedCollection(dTransact);
+        return remitDao.getTotalRemittedCollection();
     }
 
     public LiveData<String> getTotalCashRemittedCollection(String dTransact){
-        return remitDao.getTotalCashRemittedCollection(dTransact);
+        return remitDao.getTotalCashRemittedCollection();
     }
 
     public LiveData<String> getTotalCheckRemittedCollection(String dTransact){
-        return remitDao.getTotalCheckRemittedCollection(dTransact);
+        return remitDao.getTotalCheckRemittedCollection();
     }
 
     public LiveData<String> getTotalBranchRemittedCollection(String dTransact){
-        return remitDao.getTotalBranchRemittedCollection(dTransact);
+        return remitDao.getTotalBranchRemittedCollection();
     }
 
     public LiveData<String> getTotalBankRemittedCollection(String dTransact){
-        return remitDao.getTotalBankRemittedCollection(dTransact);
+        return remitDao.getTotalBankRemittedCollection();
     }
 
     public LiveData<String> getTotalOtherRemittedCollection(String dTransact){
-        return remitDao.getTotalOtherRemittedCollection(dTransact);
+        return remitDao.getTotalOtherRemittedCollection();
     }
 
     public LiveData<String> getTotalCollectedCash(String dTransact){
-        return remitDao.getTotalCollectedCash(dTransact);
+        return remitDao.getTotalCollectedCash();
     }
 
     public LiveData<String> getTotalCollectedCheck(String dTransact){
-        return remitDao.getTotalCollectedCheck(dTransact);
+        return remitDao.getTotalCollectedCheck();
     }
 
     public LiveData<String> getCheckOnHand(String dTransact){
-        return remitDao.getCheckOnHand(dTransact);
+        return remitDao.getCheckOnHand();
     }
 
     public LiveData<String> getCashOnHand(String dTransact){
-        return remitDao.getCashOnHand(dTransact);
+        return remitDao.getCashOnHand();
+    }
+
+    public double getCollectedForRemittance(){
+        return remitDao.getRemittedCollection();
+    }
+
+    public double getCollectedPayments(){
+        return remitDao.getCollectedPayments();
     }
 
     public void Calculate_COH_Remitted(String dTransact, OnCalculateCallback callback){
@@ -111,7 +121,7 @@ public class RDCP_Remittance {
         @Override
         protected String doInBackground(String... strings) {
             String dTransact = strings[0];
-            if(remitDao.checkRemittanceExist(dTransact) == null){
+            if(remitDao.checkRemittanceExist() == null){
                 remitDao.initializeCurrentDayRemittanceField(dTransact);
             }
             return null;
@@ -132,13 +142,13 @@ public class RDCP_Remittance {
             String lsResultx = "0";
             try {
                 double lnCashOHx = 0;
-                String lsCashOHx = remitDao.getCollectedCash(dTransact);
+                String lsCashOHx = remitDao.getCollectedCash();
                 if(lsCashOHx != null) {
                     lnCashOHx = Integer.parseInt(lsCashOHx);
                 }
 
                 double lnRemittd = 0;
-                String lsRemittd = remitDao.getRemittedCash(dTransact);
+                String lsRemittd = remitDao.getRemittedCash();
                 if(lsRemittd != null){
                     lnRemittd = Double.parseDouble(lsRemittd);
                 }
@@ -173,13 +183,13 @@ public class RDCP_Remittance {
             String lsResultx = "0";
             try {
                 double lnCashOHx = 0;
-                String lsCashOHx = remitDao.getCollectedCheck(dTransact);
+                String lsCashOHx = remitDao.getCollectedCheck();
                 if(lsCashOHx != null) {
                     lnCashOHx = Integer.parseInt(lsCashOHx);
                 }
 
                 double lnRemittd = 0;
-                String lsRemittd = remitDao.getRemittedCheck(dTransact);
+                String lsRemittd = remitDao.getRemittedCheck();
                 if(lsRemittd != null){
                     lnRemittd = Double.parseDouble(lsRemittd);
                 }

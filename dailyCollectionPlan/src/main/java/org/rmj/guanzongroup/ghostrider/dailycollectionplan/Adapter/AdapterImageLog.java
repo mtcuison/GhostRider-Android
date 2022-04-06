@@ -22,69 +22,49 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.List;
 
-public class AdapterImageLog extends RecyclerView.Adapter<AdapterImageLog.ClientHolder> {
+public class AdapterImageLog extends RecyclerView.Adapter<AdapterImageLog.ImageInfoHolder> {
 
-    private final List<EDCPCollectionDetail> poColList;
-    private final OnPostDcpClick mListener;
+    private final List<EImageInfo> poImgList;
 
-    public AdapterImageLog(List<EDCPCollectionDetail> collectionDetails, OnPostDcpClick mListener) {
-        this.poColList = collectionDetails;
-        this.mListener = mListener;
+    public AdapterImageLog(List<EImageInfo> foImgList) {
+        this.poImgList = foImgList;
     }
 
     @NonNull
     @Override
-    public ClientHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ImageInfoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_image_log, parent, false);
-        return new ClientHolder(view, mListener);
+        return new ImageInfoHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull ClientHolder holder, int position) {
-        EDCPCollectionDetail loDetail = poColList.get(position);
-        holder.loDetail = loDetail;
-        if(!loDetail.getAcctNmbr().isEmpty()) {
-            holder.lblAccNox.setText("Account No. : " + loDetail.getAcctNmbr());
-        } else {
-            holder.lblAccNox.setText("MC Serial No. : " + loDetail.getSerialNo());
-        }
-        holder.lblImgNme.setText(loDetail.getFullName());
-        holder.lblRemarks.setText(loDetail.getRemCodex());
+    public void onBindViewHolder(@NonNull ImageInfoHolder holder, int position) {
+        EImageInfo loImgDetl = poImgList.get(position);
+        holder.lblTransN.setText(loImgDetl.getTransNox());
+        holder.lblImgNme.setText(loImgDetl.getImageNme());
     }
 
     @Override
     public int getItemCount() {
-        return poColList.size();
+        return poImgList.size();
     }
 
-    public static class ClientHolder extends RecyclerView.ViewHolder{
+    public static class ImageInfoHolder extends RecyclerView.ViewHolder{
 
-        EDCPCollectionDetail loDetail;
-        ImageView icUpload;
-        TextView lblAccNox, lblImgNme, lblRemarks;
+        TextView lblTransN, lblImgNme;
 
-        public ClientHolder(@NonNull View itemView, OnPostDcpClick mListener) {
+        public ImageInfoHolder(@NonNull View itemView) {
             super(itemView);
-            icUpload = itemView.findViewById(R.id.ic_upload);
-            lblAccNox = itemView.findViewById(R.id.lbl_AccountNo);
-            lblImgNme= itemView.findViewById(R.id.lbl_imgName);
-            lblRemarks = itemView.findViewById(R.id.lbl_dcpRemarks);
-
-            icUpload.setOnClickListener(v -> {
-                if(getAdapterPosition() != RecyclerView.NO_POSITION){
-                    mListener.onClick(loDetail);
-                }
-            });
+            lblTransN = itemView.findViewById(R.id.lbl_transNo);
+            lblImgNme = itemView.findViewById(R.id.lbl_imgName);
         }
-    }
 
-    public interface OnPostDcpClick {
-        void onClick(EDCPCollectionDetail dcpDetail);
     }
 
 }

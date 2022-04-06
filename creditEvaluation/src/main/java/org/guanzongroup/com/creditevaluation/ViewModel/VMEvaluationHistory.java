@@ -74,8 +74,8 @@ public class VMEvaluationHistory extends AndroidViewModel {
     public LiveData<EBranchInfo> getUserBranchInfo(){
         return RBranch.getUserBranchInfo();
     }
-    public LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListData() {
-        return poManager.getForEvaluationListData();
+    public LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListDataPreview() {
+        return poManager.getForEvaluationListDataPreview();
     }
     public void importApplicationInfo(OnImportCallBack callback) {
         try{
@@ -93,6 +93,7 @@ public class VMEvaluationHistory extends AndroidViewModel {
         private final SessionManager poUser;
         private final AppConfigPreference poConfig;
         private final OnImportCallBack callback;
+        private final WebApi poWebApi;
 
         public ImportDataTask(Application application, OnImportCallBack callback) {
             this.db = new RCreditApplication(application);
@@ -102,6 +103,7 @@ public class VMEvaluationHistory extends AndroidViewModel {
             this.poUser = new SessionManager(application);
             this.poConfig = AppConfigPreference.getInstance(application);
             this.callback = callback;
+            this.poWebApi = new WebApi(true);
         }
 
         @Override
@@ -115,7 +117,7 @@ public class VMEvaluationHistory extends AndroidViewModel {
             String response = "";
             try {
                 if (loConnectx.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(WebApi.URL_IMPORT_ONLINE_APPLICATIONS, jsonObjects[0].toString(), loHeaders.getHeaders());
+                    response = WebClient.httpsPostJSon(poWebApi.getUrlImportOnlineApplications(), jsonObjects[0].toString(), loHeaders.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

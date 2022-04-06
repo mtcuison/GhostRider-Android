@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.KnoxErrorCode;
@@ -33,16 +34,18 @@ public class VMUnlock extends AndroidViewModel {
     public static final String TAG = VMUnlock.class.getSimpleName();
     private final ConnectionUtil conn;
     private final HttpHeaders headers;
+    private final Application instance;
 
     public VMUnlock(@NonNull Application application) {
         super(application);
+        this.instance = application;
         this.conn = new ConnectionUtil(application);
         this.headers = HttpHeaders.getInstance(application);
     }
 
     public void UnlockDevice(String DeviceID, ViewModelCallBack callBack){
         if(!DeviceID.trim().isEmpty()) {
-            new UnlockRequestTask(conn, headers, callBack).execute(DeviceID);
+            new UnlockRequestTask(instance, callBack).execute(DeviceID);
         } else {
             callBack.OnRequestFailed("Please enter device id");
         }
@@ -51,11 +54,13 @@ public class VMUnlock extends AndroidViewModel {
     private static class UnlockRequestTask extends AsyncTask<String, Void, String> {
         private final ConnectionUtil conn;
         private final HttpHeaders headers;
+        private final WebApi poApi;
         private final ViewModelCallBack callBack;
 
-        public UnlockRequestTask(ConnectionUtil conn, HttpHeaders headers, ViewModelCallBack callBack) {
-            this.conn = conn;
-            this.headers = headers;
+        public UnlockRequestTask(Application instance, ViewModelCallBack callBack) {
+            this.conn = new ConnectionUtil(instance);
+            this.headers = HttpHeaders.getInstance(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.callBack = callBack;
         }
 
@@ -76,7 +81,7 @@ public class VMUnlock extends AndroidViewModel {
                     loJSon.put("deviceUid", string[0]);
                     loParam.put("request", AppConstants.UNLOCK_REQUEST);
                     loParam.put("param", loJSon.toString());
-                    response = WebClient.sendRequest(WebApi.URL_KNOX, loParam.toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(poApi.getUrlKnox(), loParam.toString(), headers.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }

@@ -17,214 +17,495 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 
 public class WebApi {
 
-    /**Main URL
-     * WEB SERVER*/
+    private boolean isUnitTest = false;
 
-    //TODO: create a function that will change the server for testing phase.
-    private static String URL_MAIN;
-    private AppConfigPreference appConfigPreference;
+    private static final String LOCAL = "http://192.168.10.141/";
+    private static final String LIVE = "https://restgk.guanzongroup.com.ph/";
 
-    public WebApi(Context context){
-        this.appConfigPreference = AppConfigPreference.getInstance(context);
+    private static final String URL_AUTH_EMPLOYEE = "security/mlogin.php";
+    private static final String URL_CREATE_ACCOUNT = "security/signup.php";
+    private static final String URL_FORGOT_PASSWORD = "security/forgotpswd.php";
+    private static final String URL_CHANGE_PASSWORD = "security/acctupdate.php";
+    private static final String URL_KNOX = "samsung/knox.php";
+    private static final String IMPORT_BRANCH_PERFORMANCE = "integsys/bullseye/import_mc_branch_performance.php";
+    private static final String IMPORT_AREA_PERFORMANCE = "integsys/bullseye/import_mc_area_performance.php";
+    private static final String URL_IMPORT_BARANGAY = "integsys/param/download_barangay.php";
+    private static final String URL_IMPORT_TOWN = "integsys/param/download_town.php";
+    private static final String URL_IMPORT_PROVINCE = "integsys/param/download_province.php";
+    private static final String URL_IMPORT_COUNTRY = "integsys/param/download_country.php";
+    private static final String URL_IMPORT_MC_MODEL = "integsys/param/download_mc_model.php";
+    private static final String URL_IMPORT_MC_MODEL_PRICE = "integsys/param/download_mc_model_price.php";
+    private static final String URL_IMPORT_BRAND = "integsys/param/download_brand.php";
+    private static final String URL_IMPORT_MC_CATEGORY = "integsys/param/download_mc_category.php";
+    private static final String URL_IMPORT_TERM_CATEGORY = "integsys/param/download_mc_term_category.php";
+    private static final String URL_IMPORT_BRANCHES = "integsys/param/download_branch.php";
+    private static final String URL_IMPORT_FILE_CODE = "integsys/param/download_edoc_file_type.php";
+    private static final String URL_IMPORT_OCCUPATIONS = "integsys/param/download_occupation.php";
+    private static final String URL_SUBMIT_ONLINE_APPLICATION = "integsys/gocas/gocas_save.php";
+    private static final String URL_IMPORT_RAFFLE_BASIS = "promo/param/download_raffle_entry_basis_all.php";
+    private static final String URL_REQUEST_ONLINE_APPLICATIONS = "integsys/gocas/gocas_request_status.php";
+    private static final String URL_IMPORT_ONLINE_APPLICATIONS = "integsys/gocas/gocas_request_application.php";
+
+    private static final String URL_SUBMIT_CASHCOUNT = "integsys/cashcount/submit_cash_count.php";
+    private static final String URL_QUICK_SEARCH = "integsys/paramqry/cash_count_rqst_officer.php";
+
+    private static final String URL_SCA_REQUEST = "integsys/param/download_sca_request.php";
+    private static final String URL_SAVE_APPROVAL = "integsys/codeapproval/save_approval.php";
+    private static final String URL_LOAD_APPLICATION_APPROVAL = "integsys/codeapproval/code_load.php";
+    private static final String URL_APPLICATION_APPROVE = "integsys/codeapproval/code_decide.php";
+    private static final String URL_DOWNLOAD_DCP = "integsys/dcp/dcp_download.php";
+    private static final String URL_DCP_SUBMIT = "integsys/dcp/dcp_submit.php";
+    private static final String URL_POST_DCP_MASTER = "integsys/dcp/dcp_post.php";
+    private static final String URL_GET_AR_CLIENT = "query/client/get_ar_client.php";
+    private static final String URL_GET_REG_CLIENT = "query/client/get_reg_client.php";
+    private static final String URL_UPDATE_ADDRESS = "integsys/dcp/request_address_update.php";
+    private static final String URL_UPDATE_MOBILE = "integsys/dcp/request_mobile_update.php";
+    private static final String URL_DOWNLOAD_BANK_INFO = "integsys/param/download_banks.php";
+    private static final String URL_POST_SELFIELOG = "integsys/hcm/selfie_log.php";
+    private static final String URL_BRANCH_LOAN_APP = "integsys/param/download_credit_online_application_list.php";
+    private static final String URL_DCP_REMITTANCE = "integsys/dcp/dcp_remit.php";
+    private static final String URL_DCP_LOCATION_REPORT = "integsys/dcp/dcp_sumbit_coordinates.php";
+    private static final String URL_BRANCH_REMITTANCE_ACC = "integsys/param/download_branch_bank_account.php";
+    private static final String URL_IMPORT_SYS_CONFIG = "integsys/param/download_system_config.php";
+    private static final String URL_DOWNLOAD_CREDIT_ONLINE_APP = "integsys/param/download_credit_online_application_list.php";
+    private static final String URL_DOWNLOAD_RELATION = "integsys/param/download_relation.php";
+    private static final String URL_UPLOAD_CI_RESULT = "integsys/gocas/upload_ci_result.php";
+    private static final String URL_SEND_RESPONSE = "nmm/send_response.php";
+    private static final String URL_SEND_REQUEST = "nmm/send_request.php";
+    private static final String URL_KWIKSEARCH = "integsys/paramqry/cash_count_rqst_officer.php";
+    private static final String URL_SEND_LEAVE_APPLICATION = "petmgr/send_leave_application.php";
+    private static final String URL_GET_LEAVE_APPLICATION = "petmgr/get_leave_application.php";
+    private static final String URL_CONFIRM_LEAVE_APPLICATION = "petmgr/confirm_leave_application.php";
+    private static final String URL_SEND_OB_APPLICATION = "petmgr/send_ob_application.php";
+    private static final String URL_GET_OB_APPLICATION = "petmgr/get_ob_application.php";
+    private static final String URL_CONFIRM_OB_APPLICATION = "petmgr/confirm_ob_application.php";
+    private static final String URL_REQUEST_RANDOM_STOCK_INVENTORY = "integsys/bullseye/random_stock_inventory_request.php";
+    private static final String URL_SUBMIT_RANDOM_STOCK_INVENTORY = "bullseye/random_stock_inventory_submit.php";
+
+    private static final String REQUEST_USER_ACCESS = "security/request_android_object.php";
+
+    private static final String URL_DOWNLOAD_UPDATE = "";
+    private static final String URL_DOWNLOAD_TEST_UPDATE = "";
+
+    public WebApi(boolean isTestCase){
+        this.isUnitTest = isTestCase;
     }
 
-    /**GCARD MANAGEMENT*/
-    private static String URL_GCARD = "gcard/";
-
-    /**ACCOUNT SECURITY*/
-    private static String URL_SECURITY = "security/";
-
-    /**MS MANAGEMENT*/
-    private static String URL_MS = "ms/";
-
-    private static String URL_MX = "mx/";
-
-    public String URL_REGISTRATION(){
-        return appConfigPreference.getAppServer() + URL_SECURITY +"signup.php";
+    public String getUrlAuthEmployee() {
+        if(isUnitTest){
+            return LOCAL + URL_AUTH_EMPLOYEE;
+        }
+        return LIVE + URL_AUTH_EMPLOYEE;
     }
 
-    public String URL_AUTH_EMPLOYEE(){
-        return "https://restgk.guanzongroup.com.ph/security/mlogin.php";
-//        return "http://192.168.10.141/security/mlogin.php";
+    public String getUrlCreateAccount() {
+        if(isUnitTest){
+            return LOCAL + URL_CREATE_ACCOUNT;
+        }
+        return LIVE + URL_CREATE_ACCOUNT;
     }
 
-    public String URL_SIGN_IN_USER(){
-        return appConfigPreference.getAppServer() + URL_SECURITY + "signin.php";
+    public String getUrlForgotPassword() {
+        if(isUnitTest){
+            return LOCAL + URL_FORGOT_PASSWORD;
+        }
+        return LIVE + URL_FORGOT_PASSWORD;
     }
 
-    public String URL_FORGOTPASSWORD(){
-        return appConfigPreference.getAppServer() + URL_SECURITY + "forgotpswd.php";
+    public String getUrlKnox() {
+        if(isUnitTest){
+            return LOCAL + URL_KNOX;
+        }
+        return LIVE + URL_KNOX;
     }
 
-    /**FOR ADDING NEW GCARD NUMBER*/
-    public String URL_ADD_NEW_GCARD(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MS + "add_gcardnumber.php";
+    public String getUrlChangePassword() {
+        if(isUnitTest){
+            return LOCAL + URL_CHANGE_PASSWORD;
+        }
+        return LIVE + URL_CHANGE_PASSWORD;
     }
 
-    /**FOR IMPORTING PROMO LINKS AND IMAGES*/
-    public String URL_IMPORT_PROMOLINK(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MS + "import_promo_link.php";
+    public String getImportBranchPerformance() {
+        if(isUnitTest){
+            return LOCAL + IMPORT_BRANCH_PERFORMANCE;
+        }
+        return LIVE + IMPORT_BRANCH_PERFORMANCE;
     }
 
-    /**FOR IMPORTING PLACE ORDERS*/
-    public String URL_IMPORT_PLACE_ORDER(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MS + "import_placed_orders.php";
+    public String getImportAreaPerformance() {
+        if(isUnitTest){
+            return LOCAL + IMPORT_AREA_PERFORMANCE;
+        }
+        return LIVE + IMPORT_AREA_PERFORMANCE;
     }
 
-    /**FOR IMPORTING REDEEMABLES*/
-    public String URL_IMPORT_REDEEM_ITEMS(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MS + "import_redeem_item.php";
+    public String getUrlImportBarangay() {
+        if(isUnitTest){
+            return LOCAL + URL_IMPORT_BARANGAY;
+        }
+        return LIVE + URL_IMPORT_BARANGAY;
     }
 
-    /**FOR IMPORTING TRANSACTIONS OFFLINE*/
-    public String URL_IMPORT_TRANSACTIONS_OFFLINE(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MS + "import_trans_offline.php";
+    public String getUrlImportTown() {
+        if(isUnitTest){
+            return LOCAL + URL_IMPORT_TOWN;
+        }
+        return LIVE + URL_IMPORT_TOWN;
     }
 
-    /**FOR IMPORTING TRANSACTIONS ONLINE*/
-    public String URL_IMPORT_TRANSACTIONS_ONLINE(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MS + "import_trans_online.php";
+    public String getUrlImportProvince() {
+        if(isUnitTest){
+            return LOCAL + URL_IMPORT_PROVINCE;
+        }
+        return LIVE + URL_IMPORT_PROVINCE;
     }
 
-    /**FOR IMPORTING TRANSACTIONS PRE-ORDER*/
-    public String URL_IMPORT_TRANSACTIONS_PREORDER(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MS + "import_trans_preorder.php";
+    public String getUrlImportCountry() {
+        if(isUnitTest){
+            return LOCAL + URL_IMPORT_COUNTRY;
+        }
+        return LIVE + URL_IMPORT_COUNTRY;
     }
 
-    /**FOR IMPORTING TRANSACTIONS REDEMPTION*/
-    public String URL_IMPORT_TRANSACTIONS_REDEMPTION(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MS + "import_trans_redemption.php";
+    public String getUrlImportMcModel() {
+        if(isUnitTest){
+            return LOCAL + URL_IMPORT_MC_MODEL;
+        }
+        return LIVE + URL_IMPORT_MC_MODEL;
     }
 
-    /**FOR IMPORTING MC REGISTRATION NOTICE*/
-    public String URL_IMPORT_MC_REGISTRATION(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MX + "import_registration.php";
+    public String getUrlImportMcModelPrice() {
+        if(isUnitTest){
+            return LOCAL + URL_IMPORT_MC_MODEL_PRICE;
+        }
+        return LIVE + URL_IMPORT_MC_MODEL_PRICE;
     }
 
-    /**FOR REQUESTING MC SERVICE STATUS*/
-    public String URL_IMPORT_SERVICE(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MX + "import_service.php";
+    public String getUrlImportBrand() {
+        if(isUnitTest){
+            return LOCAL + URL_IMPORT_BRAND;
+        }
+        return LIVE + URL_IMPORT_BRAND;
     }
 
-    /**FOR IMPORTING GUANZON MC AND MP BRANCHES*/
-    public String URL_IMPORT_BRANCH(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MS + "import_branch.php";
+    public String getUrlImportMcCategory() {
+        if(isUnitTest){
+            return LOCAL + URL_IMPORT_MC_CATEGORY;
+        }
+        return LIVE + URL_IMPORT_MC_CATEGORY;
     }
 
-    /**FOR IMPORTING USER GCARD*/
-    public String URL_IMPORT_GCARD(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MS + "import_gcard.php";
+    public String getUrlImportTermCategory() {
+        if(isUnitTest){
+            return LOCAL + URL_IMPORT_TERM_CATEGORY;
+        }
+        return LIVE + URL_IMPORT_TERM_CATEGORY;
     }
 
-    /**FOR REQUESTING AVAILABLE POINTS*/
-    public String URL_REQUEST_AVAIL_POINTS(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MS + "request_avl_points.php";
+    public String getUrlImportBranches() {
+        if(isUnitTest){
+            return LOCAL + URL_IMPORT_BRANCHES;
+        }
+        return LIVE + URL_IMPORT_BRANCHES;
     }
 
-    /**FOR PLACING A PRE ORDER TRANSACTION*/
-    public String URL_PLACE_ODER(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MS + "place_order.php";
+    public String getUrlImportFileCode() {
+        if(isUnitTest){
+            return LOCAL + URL_IMPORT_FILE_CODE;
+        }
+        return LIVE + URL_IMPORT_FILE_CODE;
     }
 
-    /**FOR CANCELING PLACE ORDER*/
-    public String URL_CANCEL_ORDER(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MS + "cancel_order_item.php";
+    public String getUrlImportOccupations() {
+        if(isUnitTest){
+            return LOCAL + URL_IMPORT_OCCUPATIONS;
+        }
+        return LIVE + URL_IMPORT_OCCUPATIONS;
     }
 
-    /**FOR ACCOUNT SETTINGS CHANGING PASSWORD*/
-    public String URL_CHANGE_PASSWORD(){
-        return appConfigPreference.getAppServer() + URL_SECURITY + "/acctupdate.php";
+    public String getUrlSubmitOnlineApplication() {
+        if(isUnitTest){
+            return LOCAL + URL_SUBMIT_ONLINE_APPLICATION;
+        }
+        return LIVE + URL_SUBMIT_ONLINE_APPLICATION;
     }
 
-    /**FOR ACCOUNT SETTINGS REQUEST LOGIN DEVICES*/
-    public String URL_REQUEST_DEVICES(){
-        return appConfigPreference.getAppServer() + URL_SECURITY + "/acctdevice.php";
+    public String getUrlImportRaffleBasis() {
+        if(isUnitTest){
+            return LOCAL + URL_IMPORT_RAFFLE_BASIS;
+        }
+        return LIVE + URL_IMPORT_RAFFLE_BASIS;
     }
 
-    /** For importing events*/
-    public String URL_IMPORT_EVENTS(){
-        return appConfigPreference.getAppServer() + URL_GCARD + URL_MX + "import_events.php";
+    public String getUrlRequestOnlineApplications() {
+        if(isUnitTest){
+            return LOCAL + URL_REQUEST_ONLINE_APPLICATIONS;
+        }
+        return LIVE + URL_REQUEST_ONLINE_APPLICATIONS;
     }
 
-    public static String URL_KNOX = "https://restgk.guanzongroup.com.ph/samsung/knox.php";
+    public String getUrlImportOnlineApplications() {
+        if(isUnitTest){
+            return LOCAL + URL_IMPORT_ONLINE_APPLICATIONS;
+        }
+        return LIVE + URL_IMPORT_ONLINE_APPLICATIONS;
+    }
 
-    public static String IMPORT_BRANCH_PERFORMANCE = "https://restgk.guanzongroup.com.ph/integsys/bullseye/import_mc_branch_performance.php";
-    public static String IMPORT_AREA_PERFORMANCE = "https://restgk.guanzongroup.com.ph/integsys/bullseye/import_mc_area_performance.php";
+    public String getUrlSubmitCashcount() {
+        if(isUnitTest){
+            return LOCAL + URL_SUBMIT_CASHCOUNT;
+        }
+        return LIVE + URL_SUBMIT_CASHCOUNT;
+    }
 
-    public static String URL_IMPORT_BARANGAY = "https://restgk.guanzongroup.com.ph/integsys/param/download_barangay.php";
-    public static String URL_IMPORT_TOWN = "https://restgk.guanzongroup.com.ph/integsys/param/download_town.php";
-    public static String URL_IMPORT_PROVINCE = "https://restgk.guanzongroup.com.ph/integsys/param/download_province.php";
-    public static String URL_IMPORT_COUNTRY = "https://restgk.guanzongroup.com.ph/integsys/param/download_country.php";
-    public static String URL_IMPROT_RELIGION = "https://restgk.guanzongroup.com.ph/integsys/param/download_religion.php";
-    public static String URL_IMPORT_MC_MODEL = "https://restgk.guanzongroup.com.ph/integsys/param/download_mc_model.php";
-    public static String URL_IMPORT_MC_MODEL_PRICE = "https://restgk.guanzongroup.com.ph/integsys/param/download_mc_model_price.php";
-    public static String URL_IMPORT_BRAND = "https://restgk.guanzongroup.com.ph/integsys/param/download_brand.php";
-    public static String URL_IMPORT_MC_CATEGORY = "https://restgk.guanzongroup.com.ph/integsys/param/download_mc_category.php";
-    public static String URL_IMPORT_TERM_CATEGORY = "https://restgk.guanzongroup.com.ph/integsys/param/download_mc_term_category.php";
-    public static String URL_IMPORT_BRANCHES = "https://restgk.guanzongroup.com.ph/integsys/param/download_branch.php";
-    public static String URL_IMPORT_FILE_CODE = "https://restgk.guanzongroup.com.ph/integsys/param/download_edoc_file_type.php";
-    public static String URL_IMPORT_OCCUPATIONS = "https://restgk.guanzongroup.com.ph/integsys/param/download_occupation.php";
-    public static String URL_SUBMIT_ONLINE_APPLICATION = "https://restgk.guanzongroup.com.ph/integsys/gocas/gocas_save.php";
-    public static String URL_IMPORT_RAFFLE_BASIS = "https://restgk.guanzongroup.com.ph/promo/param/download_raffle_entry_basis_all.php";
-    public static String URL_REQUEST_ONLINE_APPLICATIONS = "https://restgk.guanzongroup.com.ph/integsys/gocas/gocas_request_status.php";
-    public static String URL_IMPORT_ONLINE_APPLICATIONS = "https://restgk.guanzongroup.com.ph/integsys/gocas/gocas_request_application.php";
-    public static String URL_IMPORT_C_I_APPLICATIONS = "https://restgk.guanzongroup.com.ph/integsys/";
+    public String getUrlQuickSearch() {
+        if(isUnitTest){
+            return LOCAL + URL_QUICK_SEARCH;
+        }
+        return LIVE + URL_QUICK_SEARCH;
+    }
 
-    public static String URL_REQUEST_ORCR_STATUS = "https://restgk.guanzongroup.com.ph/integsys/registration/reqst_orcr_status.php";
+    public String getUrlScaRequest() {
+        if(isUnitTest){
+            return LOCAL + URL_SCA_REQUEST;
+        }
+        return LIVE + URL_SCA_REQUEST;
+    }
 
-    public static String URL_SUBMIT_CASHCOUNT = "https://restgk.guanzongroup.com.ph/integsys/cashcount/submit_cash_count.php";
-//    public static String URL_SUBMIT_CASHCOUNT = "http://192.168.10.141/integsys/cashcount/submit_cash_count.php";
-    public static String URL_QUICK_SEARCH = "https://restgk.guanzongroup.com.ph/integsys/paramqry/cash_count_rqst_officer.php";
+    public String getUrlSaveApproval() {
+        if(isUnitTest){
+            return LOCAL + URL_SAVE_APPROVAL;
+        }
+        return LIVE + URL_SAVE_APPROVAL;
+    }
 
-    public static String URL_APPROVAL_USER_AUTH = "";
+    public String getUrlLoadApplicationApproval() {
+        if(isUnitTest){
+            return LOCAL + URL_LOAD_APPLICATION_APPROVAL;
+        }
+        return LIVE + URL_LOAD_APPLICATION_APPROVAL;
+    }
 
-    public static String URL_SCA_REQUEST = "https://restgk.guanzongroup.com.ph/integsys/param/download_sca_request.php";
-    public static String URL_SAVE_APPROVAL = "https://restgk.guanzongroup.com.ph/integsys/codeapproval/save_approval.php";
-    public static String URL_LOAD_APPLICATION_APPROVAL = "https://restgk.guanzongroup.com.ph/integsys/codeapproval/code_load.php";
-    public static String URL_APPLICATION_APPROVE = "https://restgk.guanzongroup.com.ph/integsys/codeapproval/code_decide.php";
+    public String getUrlApplicationApprove() {
+        if(isUnitTest){
+            return LOCAL + URL_APPLICATION_APPROVE;
+        }
+        return LIVE + URL_APPLICATION_APPROVE;
+    }
 
-//    public static String URL_DOWNLOAD_DCP = "http://192.168.10.141/integsys/dcp/dcp_download.php";
-//    public static String URL_DCP_SUBMIT = "http://192.168.10.141/integsys/dcp/dcp_submit.php";
+    public String getUrlDownloadDcp() {
+        if(isUnitTest){
+            return LOCAL + URL_DOWNLOAD_DCP;
+        }
+        return LIVE + URL_DOWNLOAD_DCP;
+    }
 
-    public static String URL_DOWNLOAD_DCP = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_download.php";
-    public static String URL_DCP_SUBMIT = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_submit.php";
-    public static String URL_POST_DCP_MASTER = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_post.php";
-    public static String URL_GET_AR_CLIENT = "https://restgk.guanzongroup.com.ph/query/client/get_ar_client.php";
-    public static String URL_GET_REG_CLIENT = "https://restgk.guanzongroup.com.ph/query/client/get_reg_client.php";
-    public static String URL_UPDATE_ADDRESS = "https://restgk.guanzongroup.com.ph/integsys/dcp/request_address_update.php";
-    public static String URL_UPDATE_MOBILE = "https://restgk.guanzongroup.com.ph/integsys/dcp/request_mobile_update.php";
-    public static String URL_DOWNLOAD_BANK_INFO = "https://restgk.guanzongroup.com.ph/integsys/param/download_banks.php";
-    public static String URL_POST_SELFIELOG = "https://restgk.guanzongroup.com.ph/integsys/hcm/selfie_log.php";
-    public static String URL_BRANCH_LOAN_APP = "https://restgk.guanzongroup.com.ph/integsys/param/download_credit_online_application_list.php";
-    public static String URL_DCP_REMITTANCE = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_remit.php";
-    public static String URL_DCP_LOCATION_REPORT = "https://restgk.guanzongroup.com.ph/integsys/dcp/dcp_sumbit_coordinates.php";
-    public static String URL_BRANCH_REMITTANCE_ACC = "https://restgk.guanzongroup.com.ph/integsys/param/download_branch_bank_account.php";
+    public String getUrlDcpSubmit() {
+        if(isUnitTest){
+            return LOCAL + URL_DCP_SUBMIT;
+        }
+        return LIVE + URL_DCP_SUBMIT;
+    }
 
-    public static String URL_IMPORT_SYS_CONFIG = "https://restgk.guanzongroup.com.ph/integsys/param/download_system_config.php";
-    public static String URL_DOWNLOAD_CREDIT_ONLINE_APP = "https://restgk.guanzongroup.com.ph/integsys/param/download_credit_online_application_list.php";
-    public static String URL_DOWNLOAD_RELATION = "https://restgk.guanzongroup.com.ph/integsys/param/download_relation.php";
-    public static String URL_UPLOAD_CI_RESULT = "https://restgk.guanzongroup.com.ph/integsys/gocas/upload_ci_result.php";
-    public static String URL_SEND_RESPONSE = "https://restgk.guanzongroup.com.ph/nmm/send_response.php";
-    public static String URL_SEND_REQUEST = "https://restgk.guanzongroup.com.ph/nmm/send_request.php";
-    public static String URL_KWIKSEARCH = "https://restgk.guanzongroup.com.ph/integsys/paramqry/cash_count_rqst_officer.php";
+    public String getUrlPostDcpMaster() {
+        if(isUnitTest){
+            return LOCAL + URL_POST_DCP_MASTER;
+        }
+        return LIVE + URL_POST_DCP_MASTER;
+    }
 
-    public static String URL_SEND_LEAVE_APPLICATION = "https://restgk.guanzongroup.com.ph/petmgr/send_leave_application.php";
-    public static String URL_GET_LEAVE_APPLICATION = "https://restgk.guanzongroup.com.ph/petmgr/get_leave_application.php";
-    public static String URL_CONFIRM_LEAVE_APPLICATION = "https://restgk.guanzongroup.com.ph/petmgr/confirm_leave_application.php";
+    public String getUrlGetArClient() {
+        if(isUnitTest){
+            return LOCAL + URL_GET_AR_CLIENT;
+        }
+        return LIVE + URL_GET_AR_CLIENT;
+    }
 
-    public static String URL_SEND_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/petmgr/send_ob_application.php";
-    public static String URL_GET_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/petmgr/get_ob_application.php";
-    public static String URL_CONFIRM_OB_APPLICATION = "https://restgk.guanzongroup.com.ph/petmgr/confirm_ob_application.php";
+    public String getUrlGetRegClient() {
+        if(isUnitTest){
+            return LOCAL + URL_GET_REG_CLIENT;
+        }
+        return LIVE + URL_GET_REG_CLIENT;
+    }
 
-    public static String URL_REQUEST_RANDOM_STOCK_INVENTORY = "https://restgk.guanzongroup.com.ph/integsys/bullseye/random_stock_inventory_request.php";
-    public static String URL_SUBMIT_RANDOM_STOCK_INVENTORY  = "https://restgk.guanzongroup.com.ph/integsys/bullseye/random_stock_inventory_submit.php";
+    public String getUrlUpdateAddress() {
+        if(isUnitTest){
+            return LOCAL + URL_UPDATE_ADDRESS;
+        }
+        return LIVE + URL_UPDATE_ADDRESS;
+    }
 
-    public static String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gRider.apk";
+    public String getUrlUpdateMobile() {
+        if(isUnitTest){
+            return LOCAL + URL_UPDATE_MOBILE;
+        }
+        return LIVE + URL_UPDATE_MOBILE;
+    }
 
-    public static String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
+    public String getUrlDownloadBankInfo() {
+        if(isUnitTest){
+            return LOCAL + URL_DOWNLOAD_BANK_INFO;
+        }
+        return LIVE + URL_DOWNLOAD_BANK_INFO;
+    }
 
-    public static String REQUEST_USER_ACCESS = "https://restgk.guanzongroup.com.ph/security/request_android_object.php";
-//    public static String REQUEST_USER_ACCESS = "http://192.168.10.141/security/request_android_object.php";
-//    public static String REQUEST_USER_ACCESS = "http://192.168.10.140/security/request_android_object.php";
-    public static String REQUEST_UPDATED_USER_ACCESS = "request_android_object_update.php";
+    public String getUrlPostSelfielog() {
+        if(isUnitTest){
+            return LOCAL + URL_POST_SELFIELOG;
+        }
+        return LIVE + URL_POST_SELFIELOG;
+    }
+
+    public String getUrlBranchLoanApp() {
+        if(isUnitTest){
+            return LOCAL + URL_BRANCH_LOAN_APP;
+        }
+        return LIVE + URL_BRANCH_LOAN_APP;
+    }
+
+    public String getUrlDcpRemittance() {
+        if(isUnitTest){
+            return LOCAL + URL_DCP_REMITTANCE;
+        }
+        return LIVE + URL_DCP_REMITTANCE;
+    }
+
+    public String getUrlDcpLocationReport() {
+        if(isUnitTest){
+            return LOCAL + URL_DCP_LOCATION_REPORT;
+        }
+        return LIVE + URL_DCP_LOCATION_REPORT;
+    }
+
+    public String getUrlBranchRemittanceAcc() {
+        if(isUnitTest){
+            return LOCAL + URL_BRANCH_REMITTANCE_ACC;
+        }
+        return LIVE + URL_BRANCH_REMITTANCE_ACC;
+    }
+
+    public String getUrlImportSysConfig() {
+        if(isUnitTest){
+            return LOCAL + URL_IMPORT_SYS_CONFIG;
+        }
+        return LIVE + URL_IMPORT_SYS_CONFIG;
+    }
+
+    public String getUrlDownloadCreditOnlineApp() {
+        if(isUnitTest){
+            return LOCAL + URL_DOWNLOAD_CREDIT_ONLINE_APP;
+        }
+        return LIVE + URL_DOWNLOAD_CREDIT_ONLINE_APP;
+    }
+
+    public String getUrlDownloadRelation() {
+        if(isUnitTest){
+            return LOCAL + URL_DOWNLOAD_RELATION;
+        }
+        return LIVE + URL_DOWNLOAD_RELATION;
+    }
+
+    public String getUrlUploadCiResult() {
+        if(isUnitTest){
+            return LOCAL + URL_UPLOAD_CI_RESULT;
+        }
+        return LIVE + URL_UPLOAD_CI_RESULT;
+    }
+
+    public String getUrlSendResponse() {
+        if(isUnitTest){
+            return LOCAL + URL_SEND_RESPONSE;
+        }
+        return LIVE + URL_SEND_RESPONSE;
+    }
+
+    public String getUrlSendRequest() {
+        if(isUnitTest){
+            return LOCAL + URL_SEND_REQUEST;
+        }
+        return LIVE + URL_SEND_REQUEST;
+    }
+
+    public String getUrlKwiksearch() {
+        if(isUnitTest){
+            return LOCAL + URL_KWIKSEARCH;
+        }
+        return LIVE + URL_KWIKSEARCH;
+    }
+
+    public String getUrlSendLeaveApplication() {
+        if(isUnitTest){
+            return LOCAL + URL_SEND_LEAVE_APPLICATION;
+        }
+        return LIVE + URL_SEND_LEAVE_APPLICATION;
+    }
+
+    public String getUrlGetLeaveApplication() {
+        if(isUnitTest){
+            return LOCAL + URL_GET_LEAVE_APPLICATION;
+        }
+        return LIVE + URL_GET_LEAVE_APPLICATION;
+    }
+
+    public String getUrlConfirmLeaveApplication() {
+        if(isUnitTest){
+            return LOCAL + URL_CONFIRM_LEAVE_APPLICATION;
+        }
+        return LIVE + URL_CONFIRM_LEAVE_APPLICATION;
+    }
+
+    public String getUrlSendObApplication() {
+        if(isUnitTest){
+            return LOCAL + URL_SEND_OB_APPLICATION;
+        }
+        return LIVE + URL_SEND_OB_APPLICATION;
+    }
+
+    public String getUrlGetObApplication() {
+        if(isUnitTest){
+            return LOCAL + URL_GET_OB_APPLICATION;
+        }
+        return LIVE + URL_GET_OB_APPLICATION;
+    }
+
+    public String getUrlConfirmObApplication() {
+        if(isUnitTest){
+            return LOCAL + URL_CONFIRM_OB_APPLICATION;
+        }
+        return LIVE + URL_CONFIRM_OB_APPLICATION;
+    }
+
+    public String getUrlRequestRandomStockInventory() {
+        if(isUnitTest){
+            return LOCAL + URL_REQUEST_RANDOM_STOCK_INVENTORY;
+        }
+        return LIVE + URL_REQUEST_RANDOM_STOCK_INVENTORY;
+    }
+
+    public String getUrlSubmitRandomStockInventory() {
+        if(isUnitTest){
+            return LOCAL + URL_SUBMIT_RANDOM_STOCK_INVENTORY;
+        }
+        return LIVE + URL_SUBMIT_RANDOM_STOCK_INVENTORY;
+    }
+
+    public String getRequestUserAccess() {
+        if(isUnitTest){
+            return LOCAL + REQUEST_USER_ACCESS;
+        }
+        return LIVE + REQUEST_USER_ACCESS;
+    }
+
+    public String getUrlDownloadUpdate() {
+        return URL_DOWNLOAD_UPDATE;
+    }
+
+    public String getUrlDownloadTestUpdate() {
+        return URL_DOWNLOAD_TEST_UPDATE;
+    }
+
+    public String getUrlCheckUpdate(){
+        return "";
+    }
 }

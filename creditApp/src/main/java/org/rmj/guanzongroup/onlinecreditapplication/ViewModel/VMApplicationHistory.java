@@ -361,6 +361,7 @@ public class VMApplicationHistory extends AndroidViewModel {
         private final ConnectionUtil loConnectx;
         private final HttpHeaders loHeaders;
         private final SessionManager poUser;
+        private final WebApi poApi;
         private final AppConfigPreference poConfig;
         private final OnImportCallBack callback;
 
@@ -370,6 +371,7 @@ public class VMApplicationHistory extends AndroidViewModel {
             this.loHeaders = HttpHeaders.getInstance(application);
             this.poUser = new SessionManager(application);
             this.poConfig = AppConfigPreference.getInstance(application);
+            this.poApi = new WebApi(poConfig.getTestStatus());
             this.callback = callback;
         }
 
@@ -385,7 +387,7 @@ public class VMApplicationHistory extends AndroidViewModel {
             String response = "";
             try {
                 if (loConnectx.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(WebApi.URL_IMPORT_ONLINE_APPLICATIONS, jsonObjects[0].toString(), loHeaders.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportOnlineApplications(), jsonObjects[0].toString(), loHeaders.getHeaders());
                     org.json.JSONObject loJson = new org.json.JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

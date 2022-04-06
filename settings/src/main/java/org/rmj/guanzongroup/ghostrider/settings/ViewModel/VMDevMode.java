@@ -39,8 +39,6 @@ import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static org.rmj.g3appdriver.utils.WebApi.URL_DOWNLOAD_TEST_UPDATE;
-
 public class VMDevMode extends AndroidViewModel {
 
     private final Application instance;
@@ -67,7 +65,7 @@ public class VMDevMode extends AndroidViewModel {
     }
 
     public void setDebugMode(boolean val){
-        poConfig.setIsTesting(val);
+        poConfig.setTestCase(val);
     }
 
     public boolean getIsDebugMode(){
@@ -141,7 +139,7 @@ public class VMDevMode extends AndroidViewModel {
             this.poConn = new ConnectionUtil(application);
             this.poHeaders = HttpHeaders.getInstance(application);
             PATH = application.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/";
-            this.poApi = new WebApi(application);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
         }
 
         @Override
@@ -156,7 +154,7 @@ public class VMDevMode extends AndroidViewModel {
             try {
                 if(poConn.isWifiConnected()) {
                     if (poConn.isDeviceConnected()) {
-                        URL url = new URL(URL_DOWNLOAD_TEST_UPDATE);
+                        URL url = new URL(poApi.getUrlDownloadTestUpdate());
                         HttpURLConnection c = (HttpURLConnection) url.openConnection();
                         c.setRequestMethod("GET");
                         c.setDoOutput(true);

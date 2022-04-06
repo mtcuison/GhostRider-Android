@@ -31,26 +31,19 @@ import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_BARANGAY;
 
 public class ImportBarangay implements ImportInstance{
     public static final String TAG = ImportBarangay.class.getSimpleName();
+    private final Application instance;
     private final RBarangay repository;
-    private final ConnectionUtil conn;
-    private final WebApi webApi;
-    private final HttpHeaders headers;
     private AppConfigPreference poConfig;
     private String lsTimeStmp;
 
     public ImportBarangay(Application application){
-        repository = new RBarangay(application);
-        conn = new ConnectionUtil(application);
-        webApi = new WebApi(application);
-        headers = HttpHeaders.getInstance(application);
-        poConfig = AppConfigPreference.getInstance(application);
+        this.instance = application;
+        this.repository = new RBarangay(application);
+        this.poConfig = AppConfigPreference.getInstance(instance);
     }
 
     @Override
@@ -66,7 +59,7 @@ public class ImportBarangay implements ImportInstance{
                 lsTimeStmp = repository.getLatestDataTime();
                 loJson.put("dTimeStmp", lsTimeStmp);
             }
-            new ImportDataTask(repository, conn, webApi, headers, callback).execute(loJson);
+            new ImportDataTask(instance, callback).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -75,15 +68,15 @@ public class ImportBarangay implements ImportInstance{
     private static class ImportDataTask extends AsyncTask<JSONObject, Void, String>{
         private final RBarangay repository;
         private final ConnectionUtil conn;
-        private final WebApi webApi;
+        private final WebApi poApi;
         private final HttpHeaders headers;
         private final ImportDataCallback callback;
 
-        public ImportDataTask(RBarangay repository, ConnectionUtil conn, WebApi webApi, HttpHeaders headers, ImportDataCallback callback) {
-            this.repository = repository;
-            this.conn = conn;
-            this.webApi = webApi;
-            this.headers = headers;
+        public ImportDataTask(Application instance, ImportDataCallback callback) {
+            this.repository = new RBarangay(instance);
+            this.conn = new ConnectionUtil(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.headers = HttpHeaders.getInstance(instance);
             this.callback = callback;
         }
 
@@ -93,7 +86,7 @@ public class ImportBarangay implements ImportInstance{
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(URL_IMPORT_BARANGAY, jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportBarangay(), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

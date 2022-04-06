@@ -119,4 +119,32 @@ public interface DImageInfo {
 
     @Query("SELECT * FROM Image_Information WHERE sSourceNo =:TransNox AND sDtlSrcNo=:AccntNo")
     EImageInfo getDCPImageInfoForPosting(String TransNox, String AccntNo);
+
+    @Query("SELECT * FROM Image_Information WHERE sSourceNo =:TransNox ORDER BY dCaptured DESC LIMIT 1")
+    EImageInfo getCIImageForPosting(String TransNox);
+
+    @Query("SELECT * FROM Image_Information WHERE sSourceCD = 'DCPa' AND cSendStat <> '1'")
+    LiveData<List<EImageInfo>> getDCPUnpostedImageList();
+
+    @Query("SELECT a.sTransNox AS sTransNox, " +
+            "b.sTransNox AS sImageIDx," +
+            "a.sAcctNmbr AS sAcctNmbr," +
+            "b.sFileLoct AS sFileLoct, " +
+            "b.sFileCode AS sFileCode, " +
+            "b.sImageNme AS sFileName," +
+            "b.sSourceCD AS sSourceCD " +
+            "FROM LR_DCP_Collection_Detail a " +
+            "LEFT JOIN Image_Information b " +
+            "WHERE b.cSendStat <> '1'")
+    List<DcpImageForPosting> getDCPUnpostedImageListForBackgroundSync();
+
+    public class DcpImageForPosting{
+        public String sTransNox;
+        public String sImageIDx;
+        public String sFileLoct;
+        public String sFileCode;
+        public String sFileName;
+        public String sAcctNmbr;
+        public String sSourceCD;
+    }
 }

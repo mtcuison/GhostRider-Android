@@ -1,21 +1,28 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core;
 
 import android.app.Application;
+import android.content.Intent;
 import android.util.Log;
+
+import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
@@ -27,6 +34,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.Cust
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.OthTransaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.Paid;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.Transaction.PromiseToPay;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,11 +45,10 @@ public class DcpManager {
     private final Application instance;
 
     private final RDailyCollectionPlan poDcp;
-    private final RBranch poBranch;
     private final AppConfigPreference poConfig;
     private final RCollectionUpdate poUpdate;
-    private final REmployee poEmploye;
-    private final DcpAPIs poApis;
+    private final RDCP_Remittance poRemit;
+    private final WebApi poApis;
     private final HttpHeaders poHeaders;
     private final SessionManager poUser;
     private final RImageInfo poImage;
@@ -54,13 +61,28 @@ public class DcpManager {
         void OnFailed(String message);
     }
 
+    public interface OnValidateCallback{
+        void OnSuccess(boolean hasNV, String args);
+        void OnFailed(String message);
+    }
+
+    public interface OnSearchCallback{
+        void OnSuccess(List<EDCPCollectionDetail> foDetail);
+        void OnFailed(String message);
+    }
+
+    public interface OnCheckDcpCallback{
+        void NoDCPCreated();
+        void HasCollection();
+        void DCPForPosting();
+        void DCPPosted();
+        void OnError(String message);
+    }
+
     public DcpManager(Application application) {
         this.instance = application;
         this.poDcp = new RDailyCollectionPlan(instance);
-        this.poBranch = new RBranch(instance);
         this.poUpdate = new RCollectionUpdate(instance);
-        this.poEmploye = new REmployee(instance);
-        this.poApis = new DcpAPIs(true);
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poUser = new SessionManager(instance);
@@ -68,19 +90,28 @@ public class DcpManager {
         this.poTlphny = new Telephony(instance);
         this.poClient = new RClientUpdate(instance);
         this.poDcpUpdte = new RCollectionUpdate(instance);
+        this.poRemit = new RDCP_Remittance(instance);
+        this.poApis = new WebApi(poConfig.getTestStatus());
     }
 
-    public void ImportDcpMaster(OnActionCallback callback) {
+    public void ImportDcpMaster(String EmployID, String ReferDte, OnActionCallback callback) {
         try{
-//            String lsEmployID = poEmploye.getEmployeeID();
-            String lsEmployID = "M00121000570";
+            String lsEmployID;
+            String lsReferDte;
+            if(poConfig.getTestStatus()) {
+                lsEmployID = EmployID;
+                lsReferDte = ReferDte;
+            } else {
+                lsEmployID = poUser.getEmployeeID();
+                lsReferDte = AppConstants.CURRENT_DATE;
+            }
+
             if(lsEmployID == null || lsEmployID.equalsIgnoreCase("")){
                 callback.OnFailed("Unable to download DCP. Please relogin your account and try again.");
             } else {
                 JSONObject loJson = new JSONObject();
                 loJson.put("sEmployID", lsEmployID);
-//                loJson.put("dTransact", AppConstants.CURRENT_DATE);
-                loJson.put("dTransact", "2022-02-22");
+                loJson.put("dTransact", lsReferDte);
                 loJson.put("cDCPTypex", "1");
 
                 String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadDcp(), loJson.toString(), poHeaders.getHeaders());
@@ -97,7 +128,7 @@ public class DcpManager {
                         JSONObject loMaster = loResponse.getJSONObject("master");
                         String lsTransNox = loMaster.getString("sTransNox");
 
-                        if(poDcp.getCollectionMasterIfExist(lsTransNox).size() > 0){
+                        if(poDcp.getCollectionMasterIfExist(lsTransNox).size() >= 1){
                             callback.OnFailed("Record already exist on local data.");
                         } else {
                             EDCPCollectionMaster collectionMaster = new EDCPCollectionMaster();
@@ -113,11 +144,7 @@ public class DcpManager {
                             collectionMaster.setBranchNm(loMaster.getString("sBranchNm"));
                             collectionMaster.setCollctID(loMaster.getString("sCollctID"));
                             poDcp.insertMasterData(collectionMaster);
-                        }
 
-                        if(poDcp.getCollectionMasterIfExist(lsTransNox).size() > 0){
-                            callback.OnFailed("Record already exist on local data.");
-                        } else {
                             JSONArray laJson = loResponse.getJSONArray("detail");
                             List<EDCPCollectionDetail> collectionDetails = new ArrayList<>();
                             for(int x = 0; x < laJson.length(); x++){
@@ -150,8 +177,9 @@ public class DcpManager {
                                 collectionDetails.add(collectionDetail);
                             }
                             poDcp.insertDetailBulkData(collectionDetails);
+
+                            callback.OnSuccess("Collection for today has been imported successfully");
                         }
-                        callback.OnSuccess("");
                     }
                 }
             }
@@ -159,6 +187,95 @@ public class DcpManager {
             e.printStackTrace();
             callback.OnFailed("ImportDcpMaster : " + e.getMessage());
             Log.d(TAG, "ImportDcpMaster : " + e.getMessage());
+        }
+    }
+
+    public void getSearchList(String fsClientNm, OnSearchCallback callback){
+        List<EDCPCollectionDetail> loSearch = new ArrayList<>();
+        try{
+            EDCPCollectionMaster loMaster = poDcp.CheckIfHasCollection();
+            if(loMaster == null){
+                callback.OnFailed("Unable to add collection. No DCP has been created for today.");
+            } else if("1".equalsIgnoreCase(loMaster.getSendStat())){
+                callback.OnFailed("Unable to add collection. DCP is already posted.");
+            } else {
+                JSONObject loJson = new JSONObject();
+                loJson.put("value", fsClientNm);
+                loJson.put("bycode", false);
+
+                int lnEntryNox = 1;
+                if(poDcp.getDetailCollection(loMaster.getTransNox()) != null){
+                    List<EDCPCollectionDetail> loDcp = poDcp.getDetailCollection(loMaster.getTransNox());
+                    if(loDcp.size() > 0) {
+                        int lnEntry = loDcp.get(0).getEntryNox();
+                        lnEntryNox = lnEntry + 1;
+                    }
+                }
+
+                String lsResponse = WebClient.sendRequest(poApis.getUrlGetRegClient(), loJson.toString(), poHeaders.getHeaders());
+                if(lsResponse == null){
+                    callback.OnFailed("Server no response");
+                } else {
+                    JSONObject loResponse = new JSONObject(lsResponse);
+                    String lsResult = loResponse.getString("result");
+                    if (!lsResult.equalsIgnoreCase("success")){
+                        JSONObject loError = loResponse.getJSONObject("error");
+                        String lsMessage = loError.getString("message");
+                        callback.OnFailed(lsMessage);
+                    } else {
+                        JSONArray laJson = loResponse.getJSONArray("data");
+                        for(int x = 0; x < laJson.length(); x++) {
+                            JSONObject loDetail = laJson.getJSONObject(x);
+                            EDCPCollectionDetail collectionDetail = new EDCPCollectionDetail();
+                            collectionDetail.setTransNox(loMaster.getTransNox());
+                            collectionDetail.setEntryNox(lnEntryNox);
+                            try {
+                                collectionDetail.setAcctNmbr(loDetail.getString("sAcctNmbr"));
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            collectionDetail.setFullName(loDetail.getString("xFullName"));
+                            collectionDetail.setIsDCPxxx("0");
+                            collectionDetail.setMobileNo(loDetail.getString("sMobileNo"));
+                            collectionDetail.setHouseNox(loDetail.getString("sHouseNox"));
+                            collectionDetail.setAddressx(loDetail.getString("sAddressx"));
+                            collectionDetail.setBrgyName(loDetail.getString("sBrgyName"));
+                            collectionDetail.setTownName(loDetail.getString("sTownName"));
+                            collectionDetail.setClientID(loDetail.getString("sClientID"));
+                            collectionDetail.setSerialID(loDetail.getString("sSerialID"));
+                            collectionDetail.setSerialNo(loDetail.getString("sSerialNo"));
+                            collectionDetail.setLongitud(loDetail.getString("nLongitud"));
+                            collectionDetail.setLatitude(loDetail.getString("nLatitude"));
+                            collectionDetail.setDueDatex(loDetail.getString("dDueDatex"));
+                            collectionDetail.setMonAmort(loDetail.getString("nMonAmort"));
+                            collectionDetail.setLastPaym(loDetail.getString("nLastPaym"));
+                            collectionDetail.setLastPaid(loDetail.getString("dLastPaym"));
+                            collectionDetail.setAmtDuexx(loDetail.getString("nAmtDuexx"));
+                            collectionDetail.setABalance(loDetail.getString("nABalance"));
+                            collectionDetail.setDelayAvg(loDetail.getString("nDelayAvg"));
+                            loSearch.add(collectionDetail);
+                        }
+                        callback.OnSuccess(loSearch);
+                    }
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailed(e.getMessage());
+        }
+    }
+
+    public void AddCollection(EDCPCollectionDetail foDetail, OnActionCallback callback){
+        try{
+            if(poDcp.CheckIFAccountExist(foDetail.getAcctNmbr()) == null) {
+                poDcp.AddCollectionAccount(foDetail);
+                callback.OnSuccess("Collection added successfully");
+            } else {
+                callback.OnFailed("Account already exist.");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailed(e.getMessage());
         }
     }
 
@@ -175,71 +292,254 @@ public class DcpManager {
         }
     }
 
-    public void PostLRDCPTransaction(String fsRemarks, String fsTransNo, String fsAccount, OnActionCallback callback){
+    public void PostLRDCPTransaction(String fsTransNo, String fsAccount, OnActionCallback callback){
         try{
             String lsProdtID = poConfig.ProducID();
             String lsClntIDx = poUser.getClientId();
             String lsUserIDx = poUser.getUserID();
 
-            EDCPCollectionDetail loDetail = poDcp.getCollectionDetail(fsTransNo, fsAccount);
+            EDCPCollectionDetail loDcp = poDcp.getCollectionDetail(fsTransNo, fsAccount);
+            JSONObject loData = new JSONObject();
+            JSONObject loJson = new JSONObject();
+            String lsRemCode = loDcp.getRemCodex();
 
-            String lsClient = WebFileServer.RequestClientToken(lsProdtID, lsClntIDx, lsUserIDx);
-            String lsAccess = WebFileServer.RequestAccessToken(lsClient);
+            String lsTransNo = loDcp.getTransNox();
+            String lsAccntNo = loDcp.getAcctNmbr();
 
-            if(loDetail == null){
-                callback.OnFailed("No account info found.");
-            } else if(loDetail.getRemCodex().isEmpty()){
-                JSONObject loData = new JSONObject();
-                JSONObject loJson = new JSONObject();
-                loData.put("sRemarksx", fsRemarks);
-                loJson.put("sTransNox", loDetail.getTransNox());
-                loJson.put("nEntryNox", loDetail.getEntryNox());
-                loJson.put("sAcctNmbr", loDetail.getAcctNmbr());
-                loJson.put("sRemCodex", "NV");
-                loJson.put("dModified", new AppConstants().DATE_MODIFIED);
-                loJson.put("sJsonData", loData);
-                loJson.put("dReceived", "");
-                loJson.put("sUserIDxx", poUser.getUserID());
-                loJson.put("sDeviceID", poTlphny.getDeviceID());
+            EImageInfo loImage;
+            switch (lsRemCode){
+                case "PAY":
+                    loData.put("sPRNoxxxx", loDcp.getPRNoxxxx());
+                    loData.put("nTranAmtx", loDcp.getTranAmtx());
+                    loData.put("nDiscount", loDcp.getDiscount());
+                    loData.put("nOthersxx", loDcp.getOthersxx());
+                    loData.put("cTranType", loDcp.getTranType());
+                    loData.put("nTranTotl", loDcp.getTranTotl());
+                    loData.put("sRemarksx", loDcp.getRemarksx());
+                    loJson.put("sRemCodex", loDcp.getRemCodex());
+                    loJson.put("dModified", loDcp.getModified());
+                    break;
+                case "PTP":
+                    //Required parameters for Promise to pay..
+                    loData.put("cApntUnit", loDcp.getApntUnit());
+                    loData.put("sBranchCd", loDcp.getBranchCd());
+                    loData.put("dPromised", loDcp.getPromised());
+                    loJson.put("sRemCodex", loDcp.getRemCodex());
+                    loJson.put("dModified", loDcp.getModified());
+
+                    if(!poConfig.getTestStatus()) {
+                        loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
+
+                        loData.put("sImageNme", loImage.getImageNme());
+                        loData.put("sSourceCD", loImage.getSourceCD());
+                        loData.put("nLongitud", loImage.getLongitud());
+                        loData.put("nLatitude", loImage.getLatitude());
+                    }
+                    break;
+                case "LUn":
+                case "TA":
+                case "FO":
+                    EClientUpdate loClient = poClient.getClientUpdateInfoForPosting(lsTransNo, lsAccntNo);
+                    //TODO: replace JSON parameters get the parameters which is being generated by RClientUpdate...
+                    loData.put("sLastName", loClient.getLastName());
+                    loData.put("sFrstName", loClient.getFrstName());
+                    loData.put("sMiddName", loClient.getMiddName());
+                    loData.put("sSuffixNm", loClient.getSuffixNm());
+                    loData.put("sHouseNox", loClient.getHouseNox());
+                    loData.put("sAddressx", loClient.getAddressx());
+                    loData.put("sTownIDxx", loClient.getTownIDxx());
+                    loData.put("cGenderxx", loClient.getGenderxx());
+                    loData.put("cCivlStat", loClient.getCivlStat());
+                    loData.put("dBirthDte", loClient.getBirthDte());
+                    loData.put("dBirthPlc", loClient.getBirthPlc());
+                    loData.put("sLandline", loClient.getLandline());
+                    loData.put("sMobileNo", loClient.getMobileNo());
+                    loData.put("sEmailAdd", loClient.getEmailAdd());
+
+                    if(!poConfig.getTestStatus()) {
+                        loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
+
+                        loData.put("sImageNme", loImage.getImageNme());
+                        loData.put("sSourceCD", loImage.getSourceCD());
+                        loData.put("nLongitud", loImage.getLongitud());
+                        loData.put("nLatitude", loImage.getLatitude());
+                        loJson.put("sRemCodex", loDcp.getRemCodex());
+                        loJson.put("dModified", loDcp.getModified());
+                    }
+                    break;
+
+                case "CNA":
+                    JSONObject paramAddress = new JSONObject();
+                    JSONObject paramMobile = new JSONObject();
+                    if(!poConfig.getTestStatus()) {
+                        loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
+                        paramAddress.put("nLatitude", Double.parseDouble(loImage.getLatitude()));
+                        paramAddress.put("nLongitud", Double.parseDouble(loImage.getLongitud()));
+                        paramAddress.put("sImageNme", loImage.getImageNme());
+                        paramMobile.put("sImageNme", loImage.getImageNme());
+                    } else {
+                        paramAddress.put("nLatitude", 0.0);
+                        paramAddress.put("nLongitud", 0.0);
+                        paramAddress.put("sImageNme", "testCase");
+                        paramMobile.put("sImageNme", "testCase");
+                    }
+                    String lsClientID = loDcp.getClientID();
+
+                    if(poUpdate.getAddressUpdateInfoForPosting(lsClientID) != null){
+                        EAddressUpdate loAddress = poUpdate.getAddressUpdateInfoForPosting(lsClientID);
+                        paramAddress.put("cReqstCDe", loAddress.getReqstCDe());
+                        paramAddress.put("cAddrssTp", loAddress.getAddrssTp());
+                        paramAddress.put("sHouseNox", loAddress.getHouseNox());
+                        paramAddress.put("sAddressx", loAddress.getAddressx());
+                        paramAddress.put("sTownIDxx", loAddress.getTownIDxx());
+                        paramAddress.put("sBrgyIDxx", loAddress.getBrgyIDxx());
+                        paramAddress.put("cPrimaryx", loAddress.getPrimaryx());
+                        paramAddress.put("sRemarksx", loAddress.getRemarksx());
+                        loData.put("Address", paramAddress);
+                    }
+
+                    if(poUpdate.getMobileUpdateInfoForPosting(lsClientID) != null){
+                        EMobileUpdate loMobile = poUpdate.getMobileUpdateInfoForPosting(lsClientID);
+                        paramMobile.put("cReqstCDe", loMobile.getReqstCDe());
+                        paramMobile.put("sMobileNo", loMobile.getMobileNo());
+                        paramMobile.put("cPrimaryx", loMobile.getPrimaryx());
+                        paramMobile.put("sRemarksx", loMobile.getRemarksx());
+                        loData.put("Mobile", paramMobile);
+                    }
+
+                    break;
+
+                default:
+                    loData.put("sRemarksx", loDcp.getRemarksx());
+                    loJson.put("sRemCodex", "NV");
+                    loJson.put("dModified", new AppConstants().DATE_MODIFIED);
+                    if(!poConfig.getTestStatus()) {
+                        loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
+                        loData.put("sImageNme", loImage.getImageNme());
+                        loData.put("sSourceCD", loImage.getSourceCD());
+                        loData.put("nLongitud", loImage.getLongitud());
+                        loData.put("nLatitude", loImage.getLatitude());
+                    }
+            }
+
+            loJson.put("sTransNox", loDcp.getTransNox());
+            loJson.put("nEntryNox", loDcp.getEntryNox());
+            loJson.put("sAcctNmbr", loDcp.getAcctNmbr());
+
+            loJson.put("sJsonData", loData);
+            loJson.put("dReceived", "");
+            loJson.put("sUserIDxx", poUser.getUserID());
+            loJson.put("sDeviceID", poTlphny.getDeviceID());
+
+            String lsResponse = WebClient.sendRequest(poApis.getUrlDcpSubmit(), loJson.toString(), poHeaders.getHeaders());
+
+            if(lsResponse == null) {
+                Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
+                Log.e(TAG, "Error : Server no response.");
+                callback.OnFailed("Server no response.");
             } else {
-                EImageInfo loImage = poImage.getDCPImageInfoForPosting(fsTransNo, fsAccount);
-                if(loImage == null){
-                     callback.OnFailed("Unable to upload collection detail image. No image info found");
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(lsResult.equalsIgnoreCase("success")){
+                    Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Success!");
+                    poDcp.updateCollectionDetailStatus(loDcp.getTransNox(), loDcp.getEntryNox());
                 } else {
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    String lsMessage = loError.getString("message");
+                    callback.OnFailed(lsMessage);
+                    Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
+                    Log.e(TAG, "Error : " + lsMessage);
+                }
+            }
+
+            if(!poConfig.getTestStatus()) {
+                if(!loDcp.getRemCodex().equalsIgnoreCase("PAY")) {
+                    String lsClient = WebFileServer.RequestClientToken(lsProdtID, lsClntIDx, lsUserIDx);
+                    String lsAccess = WebFileServer.RequestAccessToken(lsClient);
+
+                    loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
+
                     org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
                             loImage.getFileLoct(),
                             lsAccess,
                             loImage.getFileCode(),
-                            loDetail.getAcctNmbr(),
+                            loDcp.getAcctNmbr(),
                             loImage.getImageNme(),
                             poUser.getBranchCode(),
                             loImage.getSourceCD(),
-                            loDetail.getTransNox(),
+                            loDcp.getTransNox(),
                             "");
 
                     String lsResult = (String) loUpload.get("result");
-                    if(lsResult == null){
-                        callback.OnFailed("Unable to upload collection detail image. Server has no response.");
+                    if (lsResult == null) {
+                        Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
+                        Log.d(TAG, "Error : Server no response.");
                     } else {
-                        if(lsResult.equalsIgnoreCase("success")){
-                            String lsTransNo = (String) loUpload.get("sTransNox");
-                            poImage.updateImageInfo(lsTransNo, loImage.getTransNox());
-
+                        if (lsResult.equalsIgnoreCase("success")) {
+                            String lsImageID = (String) loUpload.get("sTransNox");
+                            poImage.updateImageInfo(lsImageID, loImage.getTransNox());
+                            Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Success!");
                         } else {
-
+                            JSONObject loError = new JSONObject((String) loUpload.get("error"));
+                            String lsMessage = loError.getString("message");
+                            Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
+                            Log.d(TAG, "Error : " + lsMessage);
                         }
                     }
                 }
             }
+            callback.OnSuccess("Collection posted successfully");
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailed("PostLRDCPTransaction " + e.getMessage());
         }
     }
 
+    public void ValidatePostCollection(OnValidateCallback callback){
+        try{
+            if(poDcp.CheckIfHasCollection() == null){
+                callback.OnFailed("No Collection to post.");
+            } else if(poRemit.getDCPRemittance() == null &&
+                    poDcp.checkDCPPAYTransaction().size() != 0){
+                callback.OnFailed("Collection is not remitted");
+            } else if(poRemit.getDCPRemittance() != null) {
+                double lnRemitted = poRemit.getCollectedForRemittance();
+                double lnCollectd = poRemit.getCollectedPayments();
+                if(lnRemitted < lnCollectd){
+                    callback.OnFailed("The total payments collected have not yet been remit.");
+                } else {
+                    EDCPCollectionMaster loMaster = poDcp.CheckIfHasCollection();
+                    if("1".equalsIgnoreCase(loMaster.getSendStat())){
+                        callback.OnFailed("Collection for today was already posted.");
+                    } else {
+                        callback.OnSuccess(poDcp.CheckCollectionDetailNoRemCode(loMaster.getTransNox()).size() > 0,"Continue posting DCP transactions? \n" +
+                                "NOTE: Once posted records are unable to update.");
+                    }
+                }
+            } else {
+                EDCPCollectionMaster loMaster = poDcp.CheckIfHasCollection();
+                if("1".equalsIgnoreCase(loMaster.getSendStat())){
+                    callback.OnFailed("Collection for today was already posted.");
+                } else {
+                    callback.OnSuccess(poDcp.CheckCollectionDetailNoRemCode(loMaster.getTransNox()).size() > 0,"Continue posting DCP transactions? \n" +
+                            "NOTE: Once posted records are unable to update.");
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailed(e.getMessage());
+        }
+    }
+
     public void UpdateNotVisitedCollections(String fsRemarks, OnActionCallback callback){
-        String lsTransNox = poDcp.getUnpostedDcpMaster();
-        poDcp.updateNotVisitedCollections(fsRemarks, lsTransNox);
+        try {
+            String lsTransNox = poDcp.getUnpostedDcpMaster();
+            poDcp.updateNotVisitedCollections(fsRemarks, lsTransNox);
+            callback.OnSuccess("");
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnFailed(e.getMessage());
+        }
     }
 
     public void PostLRDCPCollection(OnActionCallback callback){
@@ -249,9 +549,6 @@ public class DcpManager {
             String lsProdtID = poConfig.ProducID();
             String lsClntIDx = poUser.getClientId();
             String lsUserIDx = poUser.getUserID();
-
-            String lsClient = WebFileServer.RequestClientToken(lsProdtID, lsClntIDx, lsUserIDx);
-            String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
             if(loDcpList == null){
                 callback.OnFailed("No record for posting");
@@ -264,12 +561,9 @@ public class DcpManager {
 
                     String lsTransNo = loDcp.getTransNox();
                     String lsAccntNo = loDcp.getAcctNmbr();
+
+                    EImageInfo loImage;
                     switch (lsRemCode){
-                        case "":
-                            loData.put("sRemarksx", loDcp.getRemarksx());
-                            loJson.put("sRemCodex", "NV");
-                            loJson.put("dModified", new AppConstants().DATE_MODIFIED);
-                            break;
                         case "PAY":
                             loData.put("sPRNoxxxx", loDcp.getPRNoxxxx());
                             loData.put("nTranAmtx", loDcp.getTranAmtx());
@@ -277,24 +571,21 @@ public class DcpManager {
                             loData.put("nOthersxx", loDcp.getOthersxx());
                             loData.put("cTranType", loDcp.getTranType());
                             loData.put("nTranTotl", loDcp.getTranTotl());
-                            loData.put("sRemarksx", loDcp.getRemarksx());
-                            loJson.put("sRemCodex", loDcp.getRemCodex());
-                            loJson.put("dModified", loDcp.getModified());
                             break;
                         case "PTP":
                             //Required parameters for Promise to pay..
                             loData.put("cApntUnit", loDcp.getApntUnit());
                             loData.put("sBranchCd", loDcp.getBranchCd());
                             loData.put("dPromised", loDcp.getPromised());
-                            loJson.put("sRemCodex", loDcp.getRemCodex());
-                            loJson.put("dModified", loDcp.getModified());
 
-                            EImageInfo loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
+                            if(!poConfig.getTestStatus()) {
+                                loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
-                            loData.put("sImageNme", loImage.getImageNme());
-                            loData.put("sSourceCD", loImage.getSourceCD());
-                            loData.put("nLongitud", loImage.getLongitud());
-                            loData.put("nLatitude", loImage.getLatitude());
+                                loData.put("sImageNme", loImage.getImageNme());
+                                loData.put("sSourceCD", loImage.getSourceCD());
+                                loData.put("nLongitud", loImage.getLongitud());
+                                loData.put("nLatitude", loImage.getLatitude());
+                            }
                             break;
                         case "LUn":
                         case "TA":
@@ -316,22 +607,69 @@ public class DcpManager {
                             loData.put("sMobileNo", loClient.getMobileNo());
                             loData.put("sEmailAdd", loClient.getEmailAdd());
 
-                            loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
+                            if(!poConfig.getTestStatus()) {
+                                loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
-                            loData.put("sImageNme", loImage.getImageNme());
-                            loData.put("sSourceCD", loImage.getSourceCD());
-                            loData.put("nLongitud", loImage.getLongitud());
-                            loData.put("nLatitude", loImage.getLatitude());
-                            loJson.put("sRemCodex", loDcp.getRemCodex());
-                            loJson.put("dModified", loDcp.getModified());
+                                loData.put("sImageNme", loImage.getImageNme());
+                                loData.put("sSourceCD", loImage.getSourceCD());
+                                loData.put("nLongitud", loImage.getLongitud());
+                                loData.put("nLatitude", loImage.getLatitude());
+                            }
                             break;
+
+                        case "CNA":
+                            JSONObject paramAddress = new JSONObject();
+                            JSONObject paramMobile = new JSONObject();
+                            if(!poConfig.getTestStatus()) {
+                                loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
+                                paramAddress.put("nLatitude", Double.parseDouble(loImage.getLatitude()));
+                                paramAddress.put("nLongitud", Double.parseDouble(loImage.getLongitud()));
+                                paramAddress.put("sImageNme", loImage.getImageNme());
+                                paramMobile.put("sImageNme", loImage.getImageNme());
+                            } else {
+                                paramAddress.put("nLatitude", 0.0);
+                                paramAddress.put("nLongitud", 0.0);
+                                paramAddress.put("sImageNme", "testCase");
+                                paramMobile.put("sImageNme", "testCase");
+                            }
+                            String lsClientID = loDcp.getClientID();
+
+                            if(poUpdate.getAddressUpdateInfoForPosting(lsClientID) != null){
+                                EAddressUpdate loAddress = poUpdate.getAddressUpdateInfoForPosting(lsClientID);
+                                paramAddress.put("cReqstCDe", loAddress.getReqstCDe());
+                                paramAddress.put("cAddrssTp", loAddress.getAddrssTp());
+                                paramAddress.put("sHouseNox", loAddress.getHouseNox());
+                                paramAddress.put("sAddressx", loAddress.getAddressx());
+                                paramAddress.put("sTownIDxx", loAddress.getTownIDxx());
+                                paramAddress.put("sBrgyIDxx", loAddress.getBrgyIDxx());
+                                paramAddress.put("cPrimaryx", loAddress.getPrimaryx());
+                                paramAddress.put("sRemarksx", loAddress.getRemarksx());
+                                loData.put("Address", paramAddress);
+                            }
+
+                            if(poUpdate.getMobileUpdateInfoForPosting(lsClientID) != null){
+                                EMobileUpdate loMobile = poUpdate.getMobileUpdateInfoForPosting(lsClientID);
+                                paramMobile.put("cReqstCDe", loMobile.getReqstCDe());
+                                paramMobile.put("sMobileNo", loMobile.getMobileNo());
+                                paramMobile.put("cPrimaryx", loMobile.getPrimaryx());
+                                paramMobile.put("sRemarksx", loMobile.getRemarksx());
+                                loData.put("Mobile", paramMobile);
+                            }
+
+                            break;
+
                         default:
-                            loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
-                            loData.put("sImageNme", loImage.getImageNme());
-                            loData.put("sSourceCD", loImage.getSourceCD());
-                            loData.put("nLongitud", loImage.getLongitud());
-                            loData.put("nLatitude", loImage.getLatitude());
+                            if(!poConfig.getTestStatus()) {
+                                loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
+                                loData.put("sImageNme", loImage.getImageNme());
+                                loData.put("sSourceCD", loImage.getSourceCD());
+                                loData.put("nLongitud", loImage.getLongitud());
+                                loData.put("nLatitude", loImage.getLatitude());
+                            }
                     }
+                    loData.put("sRemarksx", loDcp.getRemarksx());
+                    loJson.put("sRemCodex", loDcp.getRemCodex());
+                    loJson.put("dModified", loDcp.getModified());
 
                     loJson.put("sTransNox", loDcp.getTransNox());
                     loJson.put("nEntryNox", loDcp.getEntryNox());
@@ -345,53 +683,67 @@ public class DcpManager {
                     String lsResponse = WebClient.sendRequest(poApis.getUrlDcpSubmit(), loJson.toString(), poHeaders.getHeaders());
 
                     if(lsResponse == null) {
-                        Log.d(TAG, "Posting LR DCP. Server no response.");
+                        Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
+                        Log.e(TAG, "Error : Server no response.");
                     } else {
                         JSONObject loResponse = new JSONObject(lsResponse);
                         String lsResult = loResponse.getString("result");
                         if(lsResult.equalsIgnoreCase("success")){
-                            Log.d(TAG, "Posting LR DCP. Detail has been submitted.");
+                            Log.d(TAG, "Posting collection with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Success!");
                             poDcp.updateCollectionDetailStatus(loDcp.getTransNox(), loDcp.getEntryNox());
                         } else {
                             JSONObject loError = loResponse.getJSONObject("error");
                             String lsMessage = loError.getString("message");
-                            Log.d(TAG, "Posting LR DCP " + lsMessage);
+                            Log.e(TAG, "Posting collection with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
+                            Log.e(TAG, "Error : " + lsMessage);
                         }
                     }
 
-                    EImageInfo loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
+                    if(!poConfig.getTestStatus()) {
+                        String lsClient = WebFileServer.RequestClientToken(lsProdtID, lsClntIDx, lsUserIDx);
+                        String lsAccess = WebFileServer.RequestAccessToken(lsClient);
 
-                    org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
-                            loImage.getFileLoct(),
-                            lsAccess,
-                            loImage.getFileCode(),
-                            loDcp.getAcctNmbr(),
-                            loImage.getImageNme(),
-                            poUser.getBranchCode(),
-                            loImage.getSourceCD(),
-                            loDcp.getTransNox(),
-                            "");
+                        loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
-                    String lsResult = (String) loUpload.get("result");
-                    if (lsResult == null) {
-                        callback.OnFailed("Unable to upload collection detail image. Server has no response.");
-                    } else {
-                        if (lsResult.equalsIgnoreCase("success")) {
+                        org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
+                                loImage.getFileLoct(),
+                                lsAccess,
+                                loImage.getFileCode(),
+                                loDcp.getAcctNmbr(),
+                                loImage.getImageNme(),
+                                poUser.getBranchCode(),
+                                loImage.getSourceCD(),
+                                loDcp.getTransNox(),
+                                "");
 
+                        String lsResult = (String) loUpload.get("result");
+                        if (lsResult == null) {
+                            Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
+                            Log.d(TAG, "Error : Server no response.");
                         } else {
-
+                            if (lsResult.equalsIgnoreCase("success")) {
+                                String lsImageID = (String) loUpload.get("sTransNox");
+                                poImage.updateImageInfo(lsImageID, loImage.getTransNox());
+                                Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Success!");
+                            } else {
+                                JSONObject loError = new JSONObject((String) loUpload.get("error"));
+                                String lsMessage = loError.getString("message");
+                                Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
+                                Log.d(TAG, "Error : " + lsMessage);
+                            }
                         }
                     }
 
                     Thread.sleep(1000);
                 }
-                callback.OnSuccess("");
+                callback.OnSuccess("DCP Transactions Posted Successfully.");
             }
 
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailed("PostLRDCPCollection " + e.getMessage());
         }
+
     }
 
     public void PostDcpMaster(OnActionCallback callback){
@@ -403,7 +755,7 @@ public class DcpManager {
                     lsStatus == null){
                 JSONObject loJson = new JSONObject();
                 loJson.put("sTransNox", lsTransNox);
-                String lsResponse = WebClient.sendRequest(poApis.getUrlPostDcp(), loJson.toString(), poHeaders.getHeaders());
+                String lsResponse = WebClient.sendRequest(poApis.getUrlPostDcpMaster(), loJson.toString(), poHeaders.getHeaders());
                 if (lsResponse == null) {
                     callback.OnFailed("Posting dcp master failed. Server no response");
                 } else {
@@ -412,6 +764,7 @@ public class DcpManager {
                     if (result.equalsIgnoreCase("success")) {
                         poDcp.updateSentPostedDCPMaster(lsTransNox);
                         callback.OnSuccess("Dcp for today has been posted.");
+                        instance.stopService(new Intent(instance, GLocatorService.class));
                     } else {
                         JSONObject loError = loResponse.getJSONObject("error");
                         String lsMessage = loError.getString("message");
@@ -422,6 +775,35 @@ public class DcpManager {
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailed("Posting dcp master failed. " + e.getMessage());
+        }
+    }
+
+    public LiveData<List<EImageInfo>> getDCPImageInfoList(){
+        return poImage.getDCPUnpostedImageList();
+    }
+
+    public void CheckDCP(OnCheckDcpCallback callback){
+        try {
+            //Check for unposted collection
+            if(poDcp.CheckIfHasCollection() == null){
+                callback.NoDCPCreated();
+            } else if(poDcp.CheckIfHasCollection() != null){
+                //Check for accounts which was not visited yet.
+                //this condition checks if accounts under collection list have no remarks code yet.
+                if(poDcp.checkCollectionRemarksCode().size() > 0){
+                    callback.HasCollection();
+                } else if(poDcp.CheckIfHasCollection().getSendStat() == null){
+                    callback.DCPForPosting();
+                } else if(poDcp.getLastCollectionMaster().getReferDte().equalsIgnoreCase(AppConstants.CURRENT_DATE) &&
+                        poDcp.getLastCollectionMaster().getSendStat() != null){
+                    callback.DCPPosted();
+                } else {
+                    callback.NoDCPCreated();
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            callback.OnError(e.getMessage());
         }
     }
 }

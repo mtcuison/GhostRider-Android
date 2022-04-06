@@ -37,6 +37,11 @@ public class RCreditOnlineApplicationCI implements DCreditOnlineApplicationCI {
     }
 
     @Override
+    public LiveData<List<oDataEvaluationInfo>> getForEvaluationListDataPreview() {
+        return poDao.getForEvaluationListDataPreview();
+    }
+
+    @Override
     public ECreditOnlineApplicationCI getApplication(String TransNox) {
         return poDao.getApplication(TransNox);
     }
@@ -126,8 +131,8 @@ public class RCreditOnlineApplicationCI implements DCreditOnlineApplicationCI {
     }
 
     @Override
-    public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks) {
-        poDao.SaveCIApproval(TransNox, fsResult, fsRemarks);
+    public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks, String DateApp) {
+        poDao.SaveCIApproval(TransNox, fsResult, fsRemarks, DateApp);
     }
 
     @Override

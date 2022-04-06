@@ -49,6 +49,7 @@ import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core.DcpManager;
 import org.rmj.guanzongroup.ghostrider.notifications.Function.GRiderErrorReport;
 
 import java.io.BufferedReader;
@@ -58,11 +59,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
 public class VMCollectionList extends AndroidViewModel {
     private static final String TAG = VMCollectionList.class.getSimpleName();
+    private static final String KEY_EMPLOYEE_ID = "sEmployId";
+    private static final String KEY_REFER_DATE = "sReferDte";
     private final Application instance;
     private final RDailyCollectionPlan poDCPRepo;
     private final RBranch poBranch;
@@ -70,6 +74,8 @@ public class VMCollectionList extends AndroidViewModel {
     private final REmployee poEmploye;
     private final LiveData<List<EDCPCollectionDetail>> collectionList;
     private final AppConfigPreference poConfig;
+    private final WebApi poApi;
+    private final DcpManager poDcp;
 
     private String psEmployeeID = "";
 
@@ -101,6 +107,8 @@ public class VMCollectionList extends AndroidViewModel {
         poUpdate = new RCollectionUpdate(application);
         poEmploye = new REmployee(application);
         poConfig = AppConfigPreference.getInstance(application);
+        poApi = new WebApi(poConfig.getTestStatus());
+        poDcp = new DcpManager(application);
         this.collectionList = poDCPRepo.getCollectionDetailList();
     }
 
@@ -114,6 +122,25 @@ public class VMCollectionList extends AndroidViewModel {
 
     public boolean isDebugMode(){
         return poConfig.isTesting_Phase();
+    }
+
+    public void UpdateNotVisitedCollections(String fsRemarks, OnTransactionCallback foCallBck) {
+        new UpdateNotVisitedCollectionsTask(instance, foCallBck).execute(fsRemarks);
+    }
+
+    public void ImportDcpMaster(String EmployID, String ReferDte, OnTransactionCallback foCallBck) {
+        HashMap<String, String> loDataMap = new HashMap<>();
+        loDataMap.put(KEY_EMPLOYEE_ID, EmployID);
+        loDataMap.put(KEY_REFER_DATE, ReferDte);
+        new ImportDcpMasterTask(instance, foCallBck).execute(loDataMap);
+    }
+
+    public void getSearchList(String fsClientNm, OnCollectionNameSearch foCallBck) {
+        new GetSearchListTask(instance, foCallBck).execute(fsClientNm);
+    }
+
+    public void AddCollection(EDCPCollectionDetail foDetail, OnTransactionCallback foCallBck) {
+        new AddCollectionTask(instance, foCallBck).execute(foDetail);
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -326,7 +353,6 @@ public class VMCollectionList extends AndroidViewModel {
 
     // TODO: Import DCP List --- END
 
-
     public void importInsuranceInfo(String clientName, OnDownloadClientList callback){
         try{
             List<EDCPCollectionDetail> laDetail = collectionList.getValue();
@@ -334,7 +360,7 @@ public class VMCollectionList extends AndroidViewModel {
                 JSONObject loJson = new JSONObject();
                 loJson.put("value", clientName);
                 loJson.put("bycode", false);
-                new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), WebApi.URL_GET_REG_CLIENT, callback).execute(loJson);
+                new ImportData(instance, psTransNox.getValue(), pnEntryNox.getValue(), poApi.getUrlGetRegClient(), callback).execute(loJson);
             } else {
                 callback.OnFailedDownload("Please download or import collection detail before adding.");
             }
@@ -366,7 +392,7 @@ public class VMCollectionList extends AndroidViewModel {
                 loJson.put("bycode", false);
                 String lsTransNox = psTransNox.getValue();
                 int lnEntryNox = pnEntryNox.getValue();
-                new ImportData(instance, lsTransNox, lnEntryNox, WebApi.URL_GET_AR_CLIENT, callback).execute(loJson);
+                new ImportData(instance, lsTransNox, lnEntryNox, poApi.getUrlGetRegClient(), callback).execute(loJson);
             } else {
                 callback.OnFailedDownload("Please download or import collection detail before adding.");
             }
@@ -492,7 +518,7 @@ public class VMCollectionList extends AndroidViewModel {
             this.headers = HttpHeaders.getInstance(instance);
             this.dcpRepo = new RDailyCollectionPlan(instance);
             this.conn = new ConnectionUtil(instance);
-            this.webApi = new WebApi(instance);
+            this.webApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
             this.masterList = masterList;
             this.callback = callback;
         }
@@ -509,7 +535,7 @@ public class VMCollectionList extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(WebApi.URL_DOWNLOAD_DCP, strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(webApi.getUrlDownloadDcp(), strings[0].toString(), headers.getHeaders());
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
@@ -619,9 +645,9 @@ public class VMCollectionList extends AndroidViewModel {
         return poDCPRepo.getCollectionDetailForPosting();
     }
 
-    public void PostLRCollectionDetail(String Remarks, ViewModelCallback callback){
-        new PostLRCollectionDetail(instance, Remarks,  plAddress.getValue(), plMobile.getValue(), callback).execute(plDetail.getValue());
-    }
+//    public void PostLRCollectionDetail(String Remarks, ViewModelCallback callback){
+//        new PostLRCollectionDetail(instance, Remarks,  plAddress.getValue(), plMobile.getValue(), callback).execute(plDetail.getValue());
+//    }
 
     public class PostLRCollectionDetail extends AsyncTask<List<DDCPCollectionDetail.CollectionDetail>, Void, String>{
         private final ConnectionUtil poConn;
@@ -806,7 +832,7 @@ public class VMCollectionList extends AndroidViewModel {
                                         loJson.put("sUserIDxx", poUser.getUserID());
                                         loJson.put("sDeviceID", poTelephony.getDeviceID());
                                         params[x] =loJson.toString() + " \n";
-                                        String lsResponse1 = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
+                                        String lsResponse1 = WebClient.sendRequest(poApi.getUrlDcpSubmit(), loJson.toString(), poHeaders.getHeaders());
                                         if (lsResponse1 == null) {
                                             loUnposted = new UnpostedDCP(loDetail.sAcctNmbr,
                                                     loDetail.sRemCodex,
@@ -859,7 +885,7 @@ public class VMCollectionList extends AndroidViewModel {
                                 } else if (UnPostedDcp == 0){
                                     JSONObject loJson = new JSONObject();
                                     loJson.put("sTransNox", lsTransNox);
-                                    String lsResponse1 = WebClient.sendRequest(WebApi.URL_POST_DCP_MASTER, loJson.toString(), poHeaders.getHeaders());
+                                    String lsResponse1 = WebClient.sendRequest(poApi.getUrlPostDcpMaster(), loJson.toString(), poHeaders.getHeaders());
                                     if (lsResponse1 == null) {
                                         lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response on posting DCP master detail. Tap 'Okay' to create dcp file for backup");
                                     } else {
@@ -949,7 +975,7 @@ public class VMCollectionList extends AndroidViewModel {
 
                     Log.e("Address JsonParam", param.toString());
 
-                    String lsAddressUpdtResponse = WebClient.sendRequest(WebApi.URL_UPDATE_ADDRESS, param.toString(), poHeaders.getHeaders());
+                    String lsAddressUpdtResponse = WebClient.sendRequest(poApi.getUrlUpdateAddress(), param.toString(), poHeaders.getHeaders());
 
                     if (lsAddressUpdtResponse == null) {
                         Log.e("Address Update Result:", "Server no Repsonse");
@@ -986,7 +1012,7 @@ public class VMCollectionList extends AndroidViewModel {
 
                     Log.e("Mobile JsonParam", param.toString());
 
-                    String lsMobileUpdtResponse = WebClient.sendRequest(WebApi.URL_UPDATE_MOBILE, param.toString(), poHeaders.getHeaders());
+                    String lsMobileUpdtResponse = WebClient.sendRequest(poApi.getUrlUpdateMobile(), param.toString(), poHeaders.getHeaders());
 
                     if (lsMobileUpdtResponse == null) {
                         Log.e("Mobile Update Result:", "Server no Repsonse");
@@ -1239,6 +1265,304 @@ public class VMCollectionList extends AndroidViewModel {
         }
     }
 
+    public void ValidatePostDCP(ValidateDCPTask.OnValidateCallback callback){
+        new ValidateDCPTask(instance, callback).execute();
+    }
+
+    public static class ValidateDCPTask extends AsyncTask<String, Void, Boolean>{
+
+        private final DcpManager poDcp;
+        private final OnValidateCallback callback;
+        private boolean isSuccess = true;
+        private boolean hasNV = false;
+        private String message;
+
+        public interface OnValidateCallback{
+            void OnSuccess(boolean hasNV, String args);
+            void OnFailed(String message);
+        }
+
+        public ValidateDCPTask(Application instance, OnValidateCallback callback){
+            poDcp = new DcpManager(instance);
+            this.callback = callback;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            poDcp.ValidatePostCollection(new DcpManager.OnValidateCallback() {
+                @Override
+                public void OnSuccess(boolean fbHasNV, String args) {
+                    isSuccess = true;
+                    hasNV = fbHasNV;
+                    message = args;
+                }
+
+                @Override
+                public void OnFailed(String fsMessage) {
+                    isSuccess = false;
+                    message = fsMessage;
+                }
+            });
+
+            return isSuccess;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean s) {
+            if(isSuccess){
+                callback.OnSuccess(hasNV, message);
+            } else {
+                callback.OnFailed(message);
+            }
+            super.onPostExecute(s);
+        }
+    }
+
+    private static class UpdateNotVisitedCollectionsTask extends AsyncTask<String, Void, String> {
+        private final ConnectionUtil poConnect;
+        private final DcpManager poDcpMngr;
+        private final OnTransactionCallback poCallBck;
+        private boolean isSuccess = false;
+
+        private UpdateNotVisitedCollectionsTask(Application foApp, OnTransactionCallback foCallBck) {
+            this.poConnect = new ConnectionUtil(foApp);
+            this.poDcpMngr = new DcpManager(foApp);
+            this.poCallBck = foCallBck;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            poCallBck.onLoading();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String lsRemarks = strings[0];
+            final String[] lsResultx = {""};
+            try {
+                if(poConnect.isDeviceConnected()) {
+                    poDcpMngr.UpdateNotVisitedCollections(lsRemarks, new DcpManager.OnActionCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            isSuccess = true;
+                            lsResultx[0] = args;
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            lsResultx[0] = message;
+                        }
+                    });
+                } else {
+                    lsResultx[0] = AppConstants.SERVER_NO_RESPONSE();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsResultx[0] = e.getMessage();
+            }
+
+
+            return lsResultx[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(isSuccess) {
+                poCallBck.onSuccess(s);
+            } else {
+                poCallBck.onFailed(s);
+            }
+        }
+    }
+
+    private static class ImportDcpMasterTask extends AsyncTask<HashMap<String, String>, Void, String> {
+        private final ConnectionUtil poConnect;
+        private final DcpManager poDcpMngr;
+        private final OnTransactionCallback poCallBck;
+        private boolean isSuccess = false;
+
+        private ImportDcpMasterTask(Application foApp, OnTransactionCallback foCallBck) {
+            this.poConnect = new ConnectionUtil(foApp);
+            this.poDcpMngr = new DcpManager(foApp);
+            this.poCallBck = foCallBck;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            poCallBck.onLoading();
+        }
+
+        @Override
+        protected String doInBackground(HashMap<String, String>... hashMaps) {
+            HashMap<String, String> loDataMap = hashMaps[0];
+            final String[] lsResultx = {""};
+
+            try {
+                if(poConnect.isDeviceConnected()) {
+                    poDcpMngr.ImportDcpMaster(
+                            loDataMap.get(KEY_EMPLOYEE_ID),
+                            loDataMap.get(KEY_REFER_DATE),
+                            new DcpManager.OnActionCallback() {
+
+                        @Override
+                        public void OnSuccess(String args) {
+                            isSuccess = true;
+                            lsResultx[0] = args;
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            lsResultx[0] = message;
+                        }
+
+                    });
+                } else {
+                    lsResultx[0] = "Unable to connect.";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsResultx[0] = e.getMessage();
+            }
+
+            return lsResultx[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(isSuccess) {
+                poCallBck.onSuccess(s);
+            } else {
+                poCallBck.onFailed(s);
+            }
+        }
+
+    }
+
+    private static class GetSearchListTask extends AsyncTask<String, Void, String> {
+        private final ConnectionUtil poConnect;
+        private final DcpManager poDcpMngr;
+        private final OnCollectionNameSearch poCallBck;
+        private List<EDCPCollectionDetail> poDetailx;
+        private boolean isSuccess = false;
+
+        private GetSearchListTask(Application foApp, OnCollectionNameSearch foCallBck) {
+            this.poConnect = new ConnectionUtil(foApp);
+            this.poDcpMngr = new DcpManager(foApp);
+            this.poCallBck = foCallBck;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            poCallBck.onLoading();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String lsClientN = strings[0];
+            final String[] lsResultx = {""};
+
+            try {
+                if(poConnect.isDeviceConnected()) {
+                    poDcpMngr.getSearchList(lsClientN, new DcpManager.OnSearchCallback() {
+                        @Override
+                        public void OnSuccess(List<EDCPCollectionDetail> foDetail) {
+                            isSuccess = true;
+                            poDetailx = foDetail;
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            lsResultx[0] = message;
+                        }
+                    });
+                } else {
+                    lsResultx[0] = AppConstants.SERVER_NO_RESPONSE();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsResultx[0] = e.getMessage();
+            }
+
+            return lsResultx[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(isSuccess) {
+                poCallBck.onSuccess(poDetailx);
+            } else {
+                poCallBck.onFailed(s);
+            }
+        }
+
+    }
+
+    private static class AddCollectionTask extends AsyncTask<EDCPCollectionDetail, Void, String> {
+        private final ConnectionUtil poConnect;
+        private final DcpManager poDcpMngr;
+        private final OnTransactionCallback poCallBck;
+        private boolean isSuccess = false;
+
+        private AddCollectionTask(Application foApp, OnTransactionCallback foCallBck) {
+            this.poConnect = new ConnectionUtil(foApp);
+            this.poDcpMngr = new DcpManager(foApp);
+            this.poCallBck = foCallBck;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            poCallBck.onLoading();
+        }
+
+        @Override
+        protected String doInBackground(EDCPCollectionDetail... edcpCollectionDetails) {
+            EDCPCollectionDetail loDetailx = edcpCollectionDetails[0];
+            final String[] lsResultx = {""};
+
+            try {
+                if(poConnect.isDeviceConnected()) {
+                    poDcpMngr.AddCollection(loDetailx, new DcpManager.OnActionCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            isSuccess = true;
+                            lsResultx[0] = args;
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            lsResultx[0] = message;
+                        }
+                    });
+                } else {
+                    lsResultx[0] = AppConstants.SERVER_NO_RESPONSE();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsResultx[0] = e.getMessage();
+            }
+
+            return lsResultx[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(isSuccess) {
+                poCallBck.onSuccess(s);
+            } else {
+                poCallBck.onFailed(s);
+            }
+        }
+
+    }
+
     public interface CheckImport {
         void OnCheck(boolean doesExist);
     }
@@ -1294,5 +1618,17 @@ public class VMCollectionList extends AndroidViewModel {
 
     public boolean isExportedDCP(){
         return poConfig.isExportedDcp();
+    }
+
+    public interface OnTransactionCallback {
+        void onLoading();
+        void onSuccess(String fsMessage);
+        void onFailed(String fsMessage);
+    }
+
+    public interface OnCollectionNameSearch {
+        void onLoading();
+        void onSuccess(List<EDCPCollectionDetail> foDetail);
+        void onFailed(String fsMessage);
     }
 }

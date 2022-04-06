@@ -26,11 +26,10 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.Objects;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_TOWN;
 
 public class ImportTown implements ImportInstance{
     public static final String TAG = ImportTown.class.getSimpleName();
@@ -69,12 +68,14 @@ public class ImportTown implements ImportInstance{
         private final HttpHeaders headers;
         private final RTown repository;
         private final ConnectionUtil conn;
+        private final WebApi poApi;
 
         public ImportTownTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
             this.headers = HttpHeaders.getInstance(instance);
             this.repository = new RTown(instance);
             this.conn = new ConnectionUtil(instance);
+            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -83,7 +84,7 @@ public class ImportTown implements ImportInstance{
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(URL_IMPORT_TOWN, jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportTown(), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");
