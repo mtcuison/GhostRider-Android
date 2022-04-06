@@ -11,6 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.Service;
 
+import android.annotation.SuppressLint;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.os.Build;
@@ -42,14 +43,16 @@ import org.rmj.g3appdriver.GRider.ImportData.Import_SCARequest;
 import org.rmj.g3appdriver.GRider.ImportData.Import_SysConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 
+@SuppressLint("SpecifyJobSchedulerIdRange")
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class DataImportService extends JobService {
     public static final String TAG = DataImportService.class.getSimpleName();
 
-    public DataImportService(){
-        Configuration.Builder loBuilder = new Configuration.Builder();
-        loBuilder.setJobSchedulerJobIdRange(1, 1000);
-    }
+//    public DataImportService(){
+//        Configuration.Builder loBuilder = new Configuration.Builder();
+//        loBuilder.setJobSchedulerJobIdRange(100, 1000);
+//    }
+
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
         try{
