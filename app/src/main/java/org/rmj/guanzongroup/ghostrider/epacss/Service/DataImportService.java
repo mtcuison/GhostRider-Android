@@ -17,6 +17,7 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
+import androidx.work.Configuration;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.ImportData.ImportBarangay;
@@ -45,6 +46,10 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 public class DataImportService extends JobService {
     public static final String TAG = DataImportService.class.getSimpleName();
 
+    public DataImportService(){
+        Configuration.Builder loBuilder = new Configuration.Builder();
+        loBuilder.setJobSchedulerJobIdRange(1, 1000);
+    }
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
         try{
