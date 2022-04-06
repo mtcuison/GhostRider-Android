@@ -143,8 +143,10 @@
     <string name="sTitle_DCP">Daily Collection Plan</string>
     <string name="sTitle_DCPImageLog">DCP Image Log</string>
     <string name="sLabel_NoDCP">No collection list available. \n Please select an option to retrieve the data.</string>
+    <string name="sLabel_PostedDCP">Collection list for today was already posted.</string>
     <string name="sContent_NoDCP">Empty_DCP</string>
     <string name="sHint_SearchDCp">Search Customer\'s name</string>
     <string name="sBtn_Download">Download</string>
+    <string name="sBtn_PostCollection">Post Collection</string>
 
 </resources>
