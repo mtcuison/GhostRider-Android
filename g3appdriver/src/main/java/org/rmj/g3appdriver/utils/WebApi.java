@@ -85,11 +85,11 @@ public class WebApi {
     private static final String URL_DOWNLOAD_BH_PREVIEW = "integsys/gocas/bh_request_evaluation_preview.php";
     private static final String URL_POST_BH_APPROVAL = "integsys/gocas/bh_submit_approval.php";
 
-
     private static final String REQUEST_USER_ACCESS = "security/request_android_object.php";
 
-    private static final String URL_DOWNLOAD_UPDATE = "";
-    private static final String URL_DOWNLOAD_TEST_UPDATE = "";
+    private static final String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gRider.apk";
+    private static final String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
+
 
     public WebApi(boolean isTestCase){
         this.isUnitTest = isTestCase;
