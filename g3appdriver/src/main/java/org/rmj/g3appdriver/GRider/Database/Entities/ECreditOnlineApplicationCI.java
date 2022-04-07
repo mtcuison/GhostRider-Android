@@ -14,6 +14,8 @@ public class ECreditOnlineApplicationCI {
     private String TransNox;
     @ColumnInfo(name = "sCredInvx")
     private String CredInvx;
+    @ColumnInfo(name = "sManagerx")
+    private String Managerx;
     @ColumnInfo(name = "sAddressx")
     private String Addressx;
     @ColumnInfo(name = "sAddrFndg")
@@ -93,6 +95,14 @@ public class ECreditOnlineApplicationCI {
      */
     public void setCredInvx(String credInvx) {
         CredInvx = credInvx;
+    }
+
+    public String getManagerx() {
+        return Managerx;
+    }
+
+    public void setManagerx(String managerx) {
+        Managerx = managerx;
     }
 
     /**

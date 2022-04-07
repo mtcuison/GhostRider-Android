@@ -17,14 +17,14 @@ public class CIAPIs {
         this.isUnitTest = isUnitTest;
     }
 
-    public String getUrlDownloadApplications() {
+    public String getUrlDownloadCIApplications() {
         if(isUnitTest){
             return LOCAL + URL_DOWNLOAD_APPLICATIONS;
         }
         return LOCAL + URL_DOWNLOAD_APPLICATIONS;
     }
 
-    public String getUrlSubmitResult() {
+    public String getUrlSubmitCIResult() {
         if(isUnitTest){
             return LOCAL + URL_SUBMIT_RESULT;
         }

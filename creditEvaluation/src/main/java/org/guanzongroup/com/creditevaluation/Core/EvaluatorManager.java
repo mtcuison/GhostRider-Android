@@ -11,14 +11,15 @@ import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
+import org.rmj.g3appdriver.utils.WebApi;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +33,10 @@ public class EvaluatorManager {
     private final SessionManager poSession;
     private final RCreditOnlineApplicationCI poCI;
     private final RImageInfo poImage;
-    private final CIAPIs poApis;
+    private final WebApi poApis;
     private final AppConfigPreference poConfig;
+
+    private String message;
 
     public interface OnActionCallback {
         void OnSuccess(String args);
@@ -52,14 +55,14 @@ public class EvaluatorManager {
         this.poCI = new RCreditOnlineApplicationCI(instance);
         this.poImage = new RImageInfo(instance);
         this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poApis = new CIAPIs(poConfig.getTestStatus());
+        this.poApis = new WebApi(poConfig.getTestStatus());
     }
 
     public void DownloadCreditApplications(OnActionCallback callback){
         try{
             JSONObject params = new JSONObject();
             params.put("sEmployID", poSession.getEmployeeID());
-            String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadApplications(), params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadCIApplications(), params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Server no response.");
             } else {
@@ -72,6 +75,7 @@ public class EvaluatorManager {
                         ECreditOnlineApplicationCI loApp = new ECreditOnlineApplicationCI();
                         loApp.setTransNox(loJson.getString("sTransNox"));
                         loApp.setCredInvx(loJson.getString("sCredInvx"));
+                        loApp.setCredInvx(loJson.getString("xMgrUsrID"));
                         loApp.setAddressx(loJson.getString("sAddressx"));
                         loApp.setAddrFndg(loJson.getString("sAddrFndg"));
                         loApp.setAssetsxx(loJson.getString("sAssetsxx"));
@@ -81,6 +85,13 @@ public class EvaluatorManager {
                         loApp.setRcmdRcd1(new AppConstants().DATE_MODIFIED);
                         poCI.SaveApplicationInfo(loApp);
                     }
+
+//                    Thread.sleep(1000);
+//                    if(DownloadBranchApplications()){
+//                        callback.OnSuccess("success");
+//                    } else {
+//                        callback.OnFailed(message);
+//                    }
                     callback.OnSuccess("success");
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
@@ -94,11 +105,42 @@ public class EvaluatorManager {
         }
     }
 
+    private boolean DownloadBranchApplications() {
+        try{
+            JSONObject params = new JSONObject();
+
+            String brnCD = poSession.getBranchCode();
+            params.put("bycode", true);
+            params.put("value", brnCD);
+
+            String lsAddress = poApis.getUrlBranchLoanApp();
+            String lsResponse = WebClient.sendRequest(lsAddress,
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if (lsResult.equalsIgnoreCase("success")) {
+                JSONArray laJson = loResponse.getJSONArray("detail");
+                return new RBranchLoanApplication(instance).insertBranchApplicationInfos(laJson);
+            } else {
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
     public void AddApplication(String TransNox, OnActionCallback callback){
         try{
             JSONObject params = new JSONObject();
             params.put("sTransNox", TransNox);
-            String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadApplications(), params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlAddForEvaluation(), params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Server no response.");
             } else {
@@ -111,6 +153,7 @@ public class EvaluatorManager {
                         ECreditOnlineApplicationCI loApp = new ECreditOnlineApplicationCI();
                         loApp.setTransNox(loJson.getString("sTransNox"));
                         loApp.setCredInvx(loJson.getString("sCredInvx"));
+                        loApp.setCredInvx(loJson.getString("xMgrUsrID"));
                         loApp.setAddressx(loJson.getString("sAddressx"));
                         loApp.setAddrFndg(loJson.getString("sAddrFndg"));
                         loApp.setAssetsxx(loJson.getString("sAssetsxx"));
@@ -120,7 +163,12 @@ public class EvaluatorManager {
                         loApp.setRcmdRcd1(new AppConstants().DATE_MODIFIED);
                         poCI.SaveApplicationInfo(loApp);
                     }
-                    callback.OnSuccess(loResponse.toString());
+                    JSONArray loCredxx = loResponse.getJSONArray("credit_online");
+                    if(new RBranchLoanApplication(instance).insertBranchApplicationInfos(loCredxx)){
+                        callback.OnSuccess("success");
+                    } else {
+                        callback.OnFailed("Failed saving credit application info.");
+                    }
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
                     String lsMessage = loError.getString("message");
@@ -176,28 +224,6 @@ public class EvaluatorManager {
     public LiveData<ECreditOnlineApplicationCI> RetrieveApplicationData(String TransNox){
         return poCI.RetrieveApplicationData(TransNox);
     }
-
-
-//    public void RetrieveApplicationData(String TransNox, OnRetrieveDataCallback callback){
-//        try{
-//            HashMap<oParentFndg, List<oChildFndg>> loForEval = new HashMap<>();
-//            ECreditOnlineApplicationCI loApp = poCI.getApplication(TransNox);
-//            if(loApp == null){
-//                callback.OnFailed("No application record found.");
-//            } else {
-//                loForEval.putAll(FindingsParser.getForEvaluation(oChildFndg.FIELDS.ADDRESS, loApp.getAddressx(), loApp.getAddrFndg()));
-//                loForEval.putAll(FindingsParser.getForEvaluation(oChildFndg.FIELDS.MEANS, loApp.getIncomexx(), loApp.getIncmFndg()));
-//                loForEval.putAll(FindingsParser.getForEvaluation(oChildFndg.FIELDS.ASSETS, loApp.getAssetsxx(), loApp.getAsstFndg()));
-//
-//                callback.OnRetrieve(loForEval, loApp);
-//            }
-//
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            Log.e(TAG, e.getMessage());
-//            callback.OnFailed(e.getMessage());
-//        }
-//    }
 
     public void UpdateRecordInfo(String TransNox, String val){
         poCI.UpdateRecordInfo(TransNox, val);
@@ -267,7 +293,7 @@ public class EvaluatorManager {
     public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks, OnActionCallback callback){
         try{
             poCI.SaveCIApproval(TransNox, fsResult, fsRemarks, new AppConstants().DATE_MODIFIED);
-            callback.OnSuccess("success");
+            callback.OnSuccess("");
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailed(e.getMessage());
@@ -284,17 +310,20 @@ public class EvaluatorManager {
         }
     }
 
-    public void SaveSelfieImage(String TransNox, EImageInfo foImage, boolean isPrimary, OnActionCallback callback){
+    public void SaveImageInfo(String TransNox, EImageInfo foImage, boolean isPrimary, OnActionCallback callback){
         try {
-            foImage.setTransNox(poImage.getImageNextCode());
-            foImage.setCaptured(new AppConstants().DATE_MODIFIED);
-            foImage.setSourceCD("COAD");
-            foImage.setFileCode("CI001");
-            foImage.setDtlSrcNo(TransNox);
-            foImage.setMD5Hashx(WebFileServer.createMD5Hash(foImage.getFileLoct()));
-            poImage.insertImageInfo(foImage);
-
-            callback.OnSuccess("Image info Save!");
+            if(poImage.CheckImageForCIExist(foImage.getSourceNo(), foImage.getDtlSrcNo()) == null) {
+                foImage.setTransNox(poImage.getImageNextCode());
+                foImage.setCaptured(new AppConstants().DATE_MODIFIED);
+                foImage.setSourceCD("COAD");
+                foImage.setFileCode("CI001");
+                foImage.setDtlSrcNo(TransNox);
+                foImage.setMD5Hashx(WebFileServer.createMD5Hash(foImage.getFileLoct()));
+                poImage.insertImageInfo(foImage);
+            } else {
+                EImageInfo loImage = poImage.CheckImageForCIExist(foImage.getSourceNo(), foImage.getDtlSrcNo());
+                poImage.UpdateImageInfoForCI(loImage);
+            }
 
             String lsFindings = poCI.getAddressForEvaluation(TransNox);
             JSONObject loFndng = new JSONObject(lsFindings);
@@ -313,6 +342,8 @@ public class EvaluatorManager {
             }
 
             poCI.updateAddressEvaluation(TransNox, loFndng.toString());
+
+            callback.OnSuccess("success");
         } catch (Exception e){
             e.printStackTrace();
             callback.OnFailed(e.getMessage());
@@ -325,9 +356,9 @@ public class EvaluatorManager {
             JSONObject params = new JSONObject();
             params.put("sTransNox", loDetail.getTransNox());
             params.put("sAddressx", loDetail.getAddressx());
-            params.put("sAddrFndg", loDetail.getAddrFndg());
-            params.put("sAsstFndg", loDetail.getAsstFndg());
-            params.put("sIncmFndg", loDetail.getIncmFndg());
+            params.put("sAddrFndg", new JSONObject(loDetail.getAddrFndg()));
+            params.put("sAsstFndg", new JSONObject(loDetail.getAsstFndg()));
+            params.put("sIncmFndg", new JSONObject(loDetail.getIncmFndg()));
             params.put("cHasRecrd", loDetail.getHasRecrd());
             params.put("sRecrdRem", loDetail.getRecrdRem());
             params.put("sPrsnBrgy", loDetail.getPrsnBrgy());
@@ -336,8 +367,7 @@ public class EvaluatorManager {
             params.put("sNeighBr1", loDetail.getNeighBr1());
             params.put("sNeighBr2", loDetail.getNeighBr2());
             params.put("sNeighBr3", loDetail.getNeighBr3());
-            String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitResult(), params.toString(), poHeaders.getHeaders());
-            Log.d("response", lsResponse);
+            String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitCIResult(), params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Server no response.");
             } else {
@@ -442,7 +472,7 @@ public class EvaluatorManager {
             JSONObject params = new JSONObject();
             params.put("sEmployID", "M00117000702");
 
-            String lsResponse = org.rmj.g3appdriver.utils.WebClient.httpPostJSon(poApis.getUrlDownloadBhPreview(),
+            String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadBhPreview(),
                     params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Sever no response.");
@@ -498,7 +528,7 @@ public class EvaluatorManager {
             params.put("dRcmdtnx2", loDetail.getRcmdtnx2());
             params.put("cRcmdtnx2", loDetail.getRcmdtnc2());
             params.put("sRcmdtnx2", loDetail.getRcmdtns2());
-            String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitResult(), params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitCIResult(), params.toString(), poHeaders.getHeaders());
             if (lsResponse == null) {
                 callback.OnFailed("Server no response.");
             } else {

@@ -97,7 +97,6 @@ public class VMBranchApplications extends AndroidViewModel {
         }catch (NullPointerException e) {
             e.printStackTrace();
         }
-
     }
 
 
