@@ -431,8 +431,12 @@ public class VMEvaluation extends AndroidViewModel {
         }
     }
 
-    public void SaveImageInfo(EvaluatorManager.OnActionCallback callback){
-        new SaveImageInfoTask(app, callback).execute();
+    public void SaveImageInfo(EImageInfo foImage, boolean isPrimary, EvaluatorManager.OnActionCallback callback){
+        SaveImageInfoTask loTask = new SaveImageInfoTask(app, callback);
+        loTask.setTransNox(TransNox.getValue());
+        loTask.setFoImage(foImage);
+        loTask.setPrimary(isPrimary);
+        loTask.execute();
     }
 
     private class SaveImageInfoTask extends AsyncTask<String, Void, String>{
@@ -442,6 +446,7 @@ public class VMEvaluation extends AndroidViewModel {
 
         private String TransNox;
         private EImageInfo foImage;
+        private String message;
         private boolean isPrimary;
 
         private SaveImageInfoTask(Application instance, EvaluatorManager.OnActionCallback callback) {
@@ -469,21 +474,21 @@ public class VMEvaluation extends AndroidViewModel {
                     isPrimary, new EvaluatorManager.OnActionCallback() {
                         @Override
                         public void OnSuccess(String args) {
-                            strings[0] = args;
+                            message = args;
                         }
 
                         @Override
                         public void OnFailed(String message) {
-                            strings[0] = message;
+                            message = message;
                         }
                     });
-            return strings[0];
+            return message;
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if(s.equalsIgnoreCase("success")){
+            if(message.equalsIgnoreCase("success")){
                 callback.OnSuccess("Approval sent successfully.");
             } else {
                 callback.OnSuccess(s);

@@ -9,11 +9,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
@@ -23,7 +21,6 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.WebApi;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -78,7 +75,7 @@ public class EvaluatorManager {
                         ECreditOnlineApplicationCI loApp = new ECreditOnlineApplicationCI();
                         loApp.setTransNox(loJson.getString("sTransNox"));
                         loApp.setCredInvx(loJson.getString("sCredInvx"));
-                        loApp.setCredInvx(loJson.getString("sManagerx"));
+                        loApp.setCredInvx(loJson.getString("xMgrUsrID"));
                         loApp.setAddressx(loJson.getString("sAddressx"));
                         loApp.setAddrFndg(loJson.getString("sAddrFndg"));
                         loApp.setAssetsxx(loJson.getString("sAssetsxx"));
@@ -156,7 +153,7 @@ public class EvaluatorManager {
                         ECreditOnlineApplicationCI loApp = new ECreditOnlineApplicationCI();
                         loApp.setTransNox(loJson.getString("sTransNox"));
                         loApp.setCredInvx(loJson.getString("sCredInvx"));
-                        loApp.setCredInvx(loJson.getString("sManagerx"));
+                        loApp.setCredInvx(loJson.getString("xMgrUsrID"));
                         loApp.setAddressx(loJson.getString("sAddressx"));
                         loApp.setAddrFndg(loJson.getString("sAddrFndg"));
                         loApp.setAssetsxx(loJson.getString("sAssetsxx"));

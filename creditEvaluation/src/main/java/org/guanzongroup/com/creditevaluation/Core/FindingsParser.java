@@ -76,8 +76,8 @@ public class FindingsParser {
                     for (int i = 0; i < laChild.length(); i++) {
                         //Get all value which has negative 1
                         String lsParVal = loParent.getString(laChild.getString(i));
-                        if (lsParVal.equalsIgnoreCase("-10") ||
-                                lsParVal.equalsIgnoreCase("-10.0")) {
+                        if (lsParVal.equalsIgnoreCase("-1") ||
+                                lsParVal.equalsIgnoreCase("-1.0")) {
                             oChildFndg loChild = new oChildFndg(poChlLabel.get(i),
                                     laChild.getString(i),
                                     loParent.getString(laChild.getString(i)));
@@ -111,8 +111,8 @@ public class FindingsParser {
             poChlFndng = new ArrayList<>();
             oParentFndg loPrntObj = new oParentFndg(Field, null);
             String lsParVal = loForEval.getString(laParent.getString(x));
-            if (lsParVal.equalsIgnoreCase("-10") ||
-                    lsParVal.equalsIgnoreCase("-10.0")) {
+            if (lsParVal.equalsIgnoreCase("-1") ||
+                    lsParVal.equalsIgnoreCase("-1.0")) {
                 oChildFndg loChild = new oChildFndg(poChlLabel.get(x),
                         laParent.getString(x),
                         loForEval.getString(laParent.getString(x)));
