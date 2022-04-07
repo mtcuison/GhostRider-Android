@@ -124,60 +124,59 @@
         android:layout_height="match_parent"
         android:visibility="gone"/>
 
-    <LinearLayout
-        android:id="@+id/ln_post_collection"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="150dp">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/ln_post_collection"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:layout_marginTop="150dp">-->
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_postCollection"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/guanzon_digital_orange"
-            android:fontFamily="@font/roboto_light"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:text="@string/sBtn_PostCollection"
-            android:layout_marginTop="30dp"
-            tools:ignore="UnusedAttribute" />
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/btn_postCollection"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:backgroundTint="@color/guanzon_digital_orange"-->
+<!--            android:fontFamily="@font/roboto_light"-->
+<!--            android:layout_width="210dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/sBtn_PostCollection"-->
+<!--            android:layout_marginTop="30dp"-->
+<!--            tools:ignore="UnusedAttribute" />-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
-    <LinearLayout
-        android:id="@+id/ln_posted"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:paddingTop="70dp">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/ln_posted"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:paddingTop="70dp">-->
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/sContent_NoDCP"
-            android:src="@drawable/ic_img_empty_list" />
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:contentDescription="@string/sContent_NoDCP"-->
+<!--            android:src="@drawable/ic_img_empty_list" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sLabel_PostedDCP"
-            android:gravity="center_horizontal"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/material_black"
-            android:textSize="15sp"/>
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/sLabel_PostedDCP"-->
+<!--            android:gravity="center_horizontal"-->
+<!--            android:fontFamily="@font/roboto"-->
+<!--            android:textColor="@color/material_black"-->
+<!--            android:textSize="15sp"/>-->
 
-    </LinearLayout>
-
+<!--    </LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/ln_import_panel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
-        android:layout_marginTop="20dp">
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="match_parent"
@@ -188,31 +187,31 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sLabel_NoDCP"
-            android:gravity="center_horizontal"
             android:fontFamily="@font/roboto"
+            android:gravity="center_horizontal"
+            android:text="@string/sLabel_NoDCP"
             android:textColor="@color/material_black"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_download"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/guanzon_digital_orange"
-            android:fontFamily="@font/roboto_light"
             android:layout_width="210dp"
             android:layout_height="wrap_content"
-            android:text="@string/sBtn_Download"
             android:layout_marginTop="30dp"
+            android:backgroundTint="@color/guanzon_digital_orange"
+            android:fontFamily="@font/roboto_light"
+            android:text="@string/sBtn_Download"
+            android:textColor="@color/white"
             tools:ignore="UnusedAttribute" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_import"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/guanzon_digital_orange"
-            android:fontFamily="@font/roboto_light"
             android:layout_width="210dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/guanzon_digital_orange"
+            android:fontFamily="@font/roboto_light"
             android:text="Import from File"
+            android:textColor="@color/white"
             tools:ignore="HardcodedText,UnusedAttribute" />
 
     </LinearLayout>
