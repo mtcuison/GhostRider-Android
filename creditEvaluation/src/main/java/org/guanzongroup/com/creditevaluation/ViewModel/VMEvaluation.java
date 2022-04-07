@@ -431,8 +431,8 @@ public class VMEvaluation extends AndroidViewModel {
         }
     }
 
-    public void SaveImageInfo(){
-
+    public void SaveImageInfo(EvaluatorManager.OnActionCallback callback){
+        new SaveImageInfoTask(app, callback).execute();
     }
 
     private class SaveImageInfoTask extends AsyncTask<String, Void, String>{
