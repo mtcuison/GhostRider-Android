@@ -11,8 +11,10 @@ public class oChildFndg {
      * @param Label Name of field to be update base on Local Database
      * @param KeyName Name of key to be update
      * @param Value Value of key
-     *              0 = false;
-     *              1 = true;
+     *              -1.00 Or -1 for checking
+     *              -10 Ignore
+     *              10 = false;
+     *              20 = true;
      */
     public oChildFndg(String Label,String KeyName, String Value) {
         this.sLabelx = Label;

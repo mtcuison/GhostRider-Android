@@ -11,10 +11,6 @@
 
 package org.rmj.g3appdriver.utils;
 
-import android.content.Context;
-
-import org.rmj.g3appdriver.etc.AppConfigPreference;
-
 public class WebApi {
 
     private boolean isUnitTest = false;
@@ -82,10 +78,18 @@ public class WebApi {
     private static final String URL_REQUEST_RANDOM_STOCK_INVENTORY = "integsys/bullseye/random_stock_inventory_request.php";
     private static final String URL_SUBMIT_RANDOM_STOCK_INVENTORY = "integsys/bullseye/random_stock_inventory_submit.php";
 
+    private static final String URL_REQUEST_FOR_EVALUATIONS = "integsys/gocas/ci_request_for_evaluations.php";
+    private static final String URL_ADD_FOR_EVALUATION = "integsys/gocas/ci_add_for_evaluation.php";
+    private static final String URL_SUBMIT_RESULT = "integsys/gocas/ci_submit_result.php";
+    private static final String URL_POST_CI_APPROVAL = "integsys/gocas/ci_submit_approval.php";
+    private static final String URL_DOWNLOAD_BH_PREVIEW = "integsys/gocas/bh_request_evaluation_preview.php";
+    private static final String URL_POST_BH_APPROVAL = "integsys/gocas/bh_submit_approval.php";
+
     private static final String REQUEST_USER_ACCESS = "security/request_android_object.php";
 
-    private static final String URL_DOWNLOAD_UPDATE = "";
-    private static final String URL_DOWNLOAD_TEST_UPDATE = "";
+    private static final String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gRider.apk";
+    private static final String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
+
 
     public WebApi(boolean isTestCase){
         this.isUnitTest = isTestCase;
@@ -507,5 +511,48 @@ public class WebApi {
 
     public String getUrlCheckUpdate(){
         return "";
+    }
+
+
+    public String getUrlDownloadCIApplications() {
+        if(isUnitTest){
+            return LOCAL + URL_REQUEST_FOR_EVALUATIONS;
+        }
+        return LOCAL + URL_REQUEST_FOR_EVALUATIONS;
+    }
+
+    public String getUrlSubmitCIResult() {
+        if(isUnitTest){
+            return LOCAL + URL_SUBMIT_RESULT;
+        }
+        return LIVE + URL_SUBMIT_RESULT;
+    }
+
+    public String getUrlPostCiApproval(){
+        if(isUnitTest) {
+            return LOCAL + URL_POST_CI_APPROVAL;
+        }
+        return LIVE + URL_POST_CI_APPROVAL;
+    }
+
+    public String getUrlPostBhApproval(){
+        if(isUnitTest) {
+            return LOCAL + URL_POST_BH_APPROVAL;
+        }
+        return LIVE + URL_POST_BH_APPROVAL;
+    }
+
+    public String getUrlDownloadBhPreview(){
+        if(isUnitTest) {
+            return LOCAL + URL_DOWNLOAD_BH_PREVIEW;
+        }
+        return LIVE + URL_DOWNLOAD_BH_PREVIEW;
+    }
+
+    public String getUrlAddForEvaluation() {
+        if(isUnitTest) {
+            return LOCAL + URL_ADD_FOR_EVALUATION;
+        }
+        return LIVE + URL_ADD_FOR_EVALUATION;
     }
 }

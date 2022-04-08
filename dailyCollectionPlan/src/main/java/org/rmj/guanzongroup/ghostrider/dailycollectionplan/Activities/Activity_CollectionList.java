@@ -97,7 +97,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
     private JSONArray expCollectDetl;
 
     private MaterialButton btnDownload, btnImport;
-    private LinearLayout lnImportPanel;
+    private LinearLayout lnImportPanel, lnPosted;
     private TextView lblNoName;
 
     private String FILENAME;
@@ -161,6 +161,8 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
             } else {
                 tilSearch.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
+
+//                if(pwede na magdownload) {
                 lnImportPanel.setVisibility(View.VISIBLE);
                 btnDownload.setOnClickListener(v -> {
                     showDownloadDcp();
@@ -180,6 +182,9 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
 
                     startActivityForResult(intent, PICK_TEXT_FILE);
                 });
+//                } else{
+//                        lnPosted.setVisibility(View.VISIBLE);
+//                    }
 
                 // Remove old files every monday (with confirmation)
                 deleteOldFileSchedule();
@@ -277,6 +282,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         btnDownload = findViewById(R.id.btn_download);
         btnImport = findViewById(R.id.btn_import);
         lnImportPanel = findViewById(R.id.ln_import_panel);
+//        lnPosted = findViewById(R.id.ln_posted);
         lblNoName = findViewById(R.id.txt_no_name);
 
         recyclerView = findViewById(R.id.recyclerview_collectionList);

@@ -88,8 +88,8 @@ public class PreviewParser {
 ////                            }
                         if(!poChlLabel.get(i).isEmpty()){
                             if(isNumericSpace(poChlLabel.get(i))){
-                                if (loParent.getString(laChild.getString(i)).equalsIgnoreCase("1") ||
-                                        loParent.getString(laChild.getString(i)).equalsIgnoreCase("0") ||
+                                if (loParent.getString(laChild.getString(i)).equalsIgnoreCase("20") ||
+                                        loParent.getString(laChild.getString(i)).equalsIgnoreCase("10") ||
                                         Double.parseDouble(poChlLabel.get(i)) > 0) {
                                     oChildFndg loChild = new oChildFndg(poChlLabel.get(i),
                                             laChild.getString(i),
@@ -97,15 +97,14 @@ public class PreviewParser {
                                     poChlFndng.add(loChild);
                                 }
                             }else{
-                                if (loParent.getString(laChild.getString(i)).equalsIgnoreCase("1") ||
-                                        loParent.getString(laChild.getString(i)).equalsIgnoreCase("0")) {
+                                if (loParent.getString(laChild.getString(i)).equalsIgnoreCase("20") ||
+                                        loParent.getString(laChild.getString(i)).equalsIgnoreCase("10")) {
                                     oChildFndg loChild = new oChildFndg(poChlLabel.get(i),
                                             laChild.getString(i),
                                             loParent.getString(laChild.getString(i)));
                                     poChlFndng.add(loChild);
                                 }
                             }
-
                         }
 
                         poChild.put(loPrntObj, poChlFndng);
@@ -135,8 +134,8 @@ public class PreviewParser {
         for(int x = 0; x < laParent.length(); x++) {
             poChlFndng = new ArrayList<>();
             oParentFndg loPrntObj = new oParentFndg(Field, null);
-            if (loForEval.getString(laParent.getString(x)).equalsIgnoreCase("1") ||
-                loForEval.getString(laParent.getString(x)).equalsIgnoreCase("0")) {
+            if (loForEval.getString(laParent.getString(x)).equalsIgnoreCase("20") ||
+                loForEval.getString(laParent.getString(x)).equalsIgnoreCase("10")) {
                 oChildFndg loChild = new oChildFndg(poChlLabel.get(x),
                         laParent.getString(x),
                         loForEval.getString(laParent.getString(x)));
@@ -156,4 +155,5 @@ public class PreviewParser {
             return false;
         }
     }
+
 }

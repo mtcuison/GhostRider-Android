@@ -71,6 +71,7 @@ public class RImageInfo {
     public void updateImageInfo(String TransNox, String oldTransNox){
         imageDao.updateImageInfo(TransNox, new AppConstants().DATE_MODIFIED, oldTransNox);
     }
+
     public void updateImageInfos(String TransNox, String sourceNo){
         imageDao.updateImageInfos(TransNox, new AppConstants().DATE_MODIFIED, sourceNo);
     }
@@ -102,6 +103,15 @@ public class RImageInfo {
     public LiveData<List<EImageInfo>> getImageListInfo(String transNox){
         return imageDao.getImageListInfo(transNox);
     }
+
+    public EImageInfo CheckImageForCIExist(String fsSource, String fsDetail){
+        return imageDao.CheckImageForCIExist(fsSource, fsDetail);
+    }
+
+    public void UpdateImageInfoForCI(EImageInfo foImage){
+        imageDao.update(foImage);
+    }
+
     public LiveData<EImageInfo> getImageLogPreview(String transNox){
         return imageDao.getImageLogPreview(transNox);
     }
