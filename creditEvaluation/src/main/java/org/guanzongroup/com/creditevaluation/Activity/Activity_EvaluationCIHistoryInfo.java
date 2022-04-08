@@ -119,10 +119,13 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
     }
 
-    private static class OnApproveListener implements View.OnClickListener {
+    private class OnApproveListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-
+            /** TODO:
+             * 1) Initialize Dialog
+             * 2) If confirmed, call this ~> mViewModel.PostBHApproval(psTransNo);
+             * */
         }
     }
 
