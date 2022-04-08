@@ -13,6 +13,11 @@
         <entry key="..\:/Projects/Android/GhostRider-Android/ahMonitoring/src/main/res/layout/fragment_area_performance_pie_chart.xml" value="0.12894736842105264" />
         <entry key="..\:/Projects/Android/GhostRider-Android/creditApp/src/main/res/layout/activity_mc_impound.xml" value="0.12631578947368421" />
         <entry key="..\:/Projects/Android/GhostRider-Android/creditApp/src/main/res/layout/fragment_spouse_employment_info.xml" value="0.12894736842105264" />
+        <entry key="..\:/Projects/Android/GhostRider-Android/creditApp/src/main/res/layout/list_item_loan_review.xml" value="0.12894736842105264" />
+        <entry key="..\:/Projects/Android/GhostRider-Android/creditEvaluation/src/main/res/layout/activity_cihistory_preview.xml" value="0.12894736842105264" />
+        <entry key="..\:/Projects/Android/GhostRider-Android/creditEvaluation/src/main/res/layout/activity_evaluation_ci_history_info.xml" value="0.12894736842105264" />
+        <entry key="..\:/Projects/Android/GhostRider-Android/creditEvaluation/src/main/res/layout/activity_evaluation_cihistory.xml" value="0.12894736842105264" />
+        <entry key="..\:/Projects/Android/GhostRider-Android/creditEvaluation/src/main/res/layout/list_evaluation_ci_history_info.xml" value="0.12894736842105264" />
         <entry key="..\:/Projects/Android/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/activity_post_dcp.xml" value="0.12894736842105264" />
         <entry key="..\:/Projects/Android/GhostRider-Android/dailyCollectionPlan/src/main/res/layout/dialog_confirm_post.xml" value="0.1287568306010929" />
         <entry key="..\:/Projects/Android/GhostRider-Android/notifications/src/main/res/layout/activity__notification_list.xml" value="0.12894736842105264" />
@@ -105,11 +110,9 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.1305" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/list_item_evaluation.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/activity_application_list.xml" value="0.15052083333333333" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/activity_evaluation.xml" value="0.16" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/ci_list_item.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/credit_app_list.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/list_item_evaluation.xml" value="0.25" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_list.xml" value="0.16" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_remittance.xml" value="0.18" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/menu/action_menu_dcp_list.xml" value="0.18" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/samsungKnox/src/main/res/layout/fragment_activate.xml" value="0.22" />
@@ -238,7 +241,7 @@
     </list>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
