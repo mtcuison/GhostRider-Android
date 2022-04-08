@@ -282,7 +282,7 @@ public class Activity_CollectionList extends AppCompatActivity implements ViewMo
         btnDownload = findViewById(R.id.btn_download);
         btnImport = findViewById(R.id.btn_import);
         lnImportPanel = findViewById(R.id.ln_import_panel);
-        lnPosted = findViewById(R.id.ln_posted);
+//        lnPosted = findViewById(R.id.ln_posted);
         lblNoName = findViewById(R.id.txt_no_name);
 
         recyclerView = findViewById(R.id.recyclerview_collectionList);

@@ -2,9 +2,6 @@ package org.guanzongroup.com.creditevaluation.APITest;
 
 import static org.junit.Assert.assertTrue;
 
-import android.app.Application;
-
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.guanzongroup.com.creditevaluation.Core.CIAPIs;
@@ -108,7 +105,7 @@ public class SubmitCIResult {
         params.put("sApproved", "M00117000702");
         params.put("dApproved", AppConstants.CURRENT_DATE);
 
-        String lsResponse = WebClient.httpPostJSon(poApis.getUrlSubmitResult(),
+        String lsResponse = WebClient.httpPostJSon(poApis.getUrlSubmitCIResult(),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;

@@ -13,18 +13,12 @@ import org.guanzongroup.com.creditevaluation.Core.EvaluatorManager;
 import org.guanzongroup.com.creditevaluation.Core.oChildFndg;
 import org.guanzongroup.com.creditevaluation.Core.oParentFndg;
 import org.guanzongroup.com.creditevaluation.Model.AdditionalInfoModel;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCIEvaluation;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,6 +95,7 @@ public class VMEvaluation extends AndroidViewModel {
 //        }
 //        return null;
 //    }
+
     public void saveResidenceImageInfo(EImageInfo foImage) {
         try {
             boolean isImgExist = false;
@@ -263,6 +258,7 @@ public class VMEvaluation extends AndroidViewModel {
         private final onSaveAdditionalInfo callback;
         private final oChildFndg childFndg;
         private final ConnectionUtil poConn;
+
         public UpdateDataEvaluationTask(Application app, EvaluatorManager poCIEvaluation, oParentFndg parentFndg,oChildFndg childFndg,onSaveAdditionalInfo callback) {
             this.poCIEvaluation = poCIEvaluation;
             this.parentFndg = parentFndg;
@@ -435,4 +431,68 @@ public class VMEvaluation extends AndroidViewModel {
         }
     }
 
+    public void SaveImageInfo(EImageInfo foImage, boolean isPrimary, EvaluatorManager.OnActionCallback callback){
+        SaveImageInfoTask loTask = new SaveImageInfoTask(app, callback);
+        loTask.setTransNox(TransNox.getValue());
+        loTask.setFoImage(foImage);
+        loTask.setPrimary(isPrimary);
+        loTask.execute();
+    }
+
+    private class SaveImageInfoTask extends AsyncTask<String, Void, String>{
+        private final Application instance;
+        private final EvaluatorManager poCIEvaluation;
+        private final EvaluatorManager.OnActionCallback callback;
+
+        private String TransNox;
+        private EImageInfo foImage;
+        private String message;
+        private boolean isPrimary;
+
+        private SaveImageInfoTask(Application instance, EvaluatorManager.OnActionCallback callback) {
+            this.instance = instance;
+            this.poCIEvaluation = new EvaluatorManager(instance);
+            this.callback = callback;
+        }
+
+        public void setTransNox(String transNox) {
+            TransNox = transNox;
+        }
+
+        public void setFoImage(EImageInfo foImage) {
+            this.foImage = foImage;
+        }
+
+        public void setPrimary(boolean primary) {
+            isPrimary = primary;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            poCIEvaluation.SaveImageInfo(TransNox,
+                    foImage,
+                    isPrimary, new EvaluatorManager.OnActionCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            message = args;
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            message = message;
+                        }
+                    });
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(message.equalsIgnoreCase("success")){
+                callback.OnSuccess("Approval sent successfully.");
+            } else {
+                callback.OnSuccess(s);
+            }
+        }
+    }
 }

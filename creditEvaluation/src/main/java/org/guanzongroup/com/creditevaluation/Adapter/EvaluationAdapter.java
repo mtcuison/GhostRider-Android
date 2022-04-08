@@ -158,13 +158,13 @@ public class EvaluationAdapter extends BaseExpandableListAdapter {
                             loChild.getKey().equalsIgnoreCase("nPensionx")){
                         loChild.setsValue(loChild.getLabel());
                     }else {
-                        loChild.setsValue("1");
+                        loChild.setsValue("20");
                     }
                 } else {
                     if(loChild.getKey().equalsIgnoreCase("nLenServc") || loChild.getKey().equalsIgnoreCase("nSalaryxx")){
                         loChild.setsValue("-"+loChild.getLabel());
                     }else {
-                        loChild.setsValue("0");
+                        loChild.setsValue("10");
                     }
                 }
                 mListener.OnConfirm(loParent,loChild);

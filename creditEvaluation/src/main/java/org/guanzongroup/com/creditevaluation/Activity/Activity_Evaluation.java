@@ -40,6 +40,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.guanzongroup.com.creditevaluation.Adapter.EvaluationAdapter;
 import org.guanzongroup.com.creditevaluation.Adapter.NoScrollExListView;
+import org.guanzongroup.com.creditevaluation.Core.EvaluatorManager;
 import org.guanzongroup.com.creditevaluation.Core.oChildFndg;
 import org.guanzongroup.com.creditevaluation.Core.oParentFndg;
 import org.guanzongroup.com.creditevaluation.Dialog.DialogCIReason;
@@ -251,6 +252,7 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                }
 
             });
+
             btnUpload.setOnClickListener(v ->  {
                 Log.e("sizes", String.valueOf(poChild.size()));
                 if(poChild.size() > 0){
@@ -488,10 +490,8 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                 poImageInfo = new EImageInfo();
                 poImageInfo.setDtlSrcNo(mViewModel.getTransNox());
                 poImageInfo.setSourceNo(mViewModel.getTransNox());
-                poImageInfo.setSourceCD("CI");
                 poImageInfo.setImageNme(FileName);
                 poImageInfo.setFileLoct(photPath);
-                poImageInfo.setFileCode("0102");
                 poImageInfo.setLatitude(String.valueOf(latitude));
                 poImageInfo.setLongitud(String.valueOf(longitude));
                 startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
@@ -506,8 +506,25 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
             if(resultCode == RESULT_OK) {
                 try {
                     poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(poImageInfo.getFileLoct()));
-                    mViewModel.saveResidenceImageInfo(poImageInfo);
+//                    mViewModel.saveResidenceImageInfo(poImageInfo);
                     mViewModel.saveDataEvaluation(parent,child, Activity_Evaluation.this);
+                    new LocationRetriever(Activity_Evaluation.this, Activity_Evaluation.this).getLocation(new LocationRetriever.LocationRetrieveCallback() {
+                        @Override
+                        public void OnRetrieve(String message, double latitude, double longitude) {
+                            boolean isPrimary = parent.getParentDescript().equalsIgnoreCase("Primary Address");
+                            mViewModel.SaveImageInfo(poImageInfo, isPrimary, new EvaluatorManager.OnActionCallback() {
+                                @Override
+                                public void OnSuccess(String args) {
+                                    Toast.makeText(Activity_Evaluation.this, "Image Save!", Toast.LENGTH_LONG).show();
+                                }
+
+                                @Override
+                                public void OnFailed(String message) {
+                                    Toast.makeText(Activity_Evaluation.this, "Failed saving image. " + message, Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
