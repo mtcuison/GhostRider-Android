@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -39,8 +40,12 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private MaterialButton btnApprove;
+    private TextView txtClient, txtTransD, txtBranch;
 
     private String psTransNo = "";
+    private String psClientN = "";
+    private String dTransact = "";
+    private String psBranchx = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,15 +79,22 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        txtClient = findViewById(R.id.txt_client_name);
+        txtTransD = findViewById(R.id.txt_transaction_date);
+        txtBranch = findViewById(R.id.txt_branch);
         recyclerView = findViewById(R.id.recyclerview);
         btnApprove = findViewById(R.id.btn_approve);
     }
 
     private void getExtras() {
         psTransNo = Objects.requireNonNull(getIntent().getStringExtra("sTransNox"));
+        psClientN = Objects.requireNonNull(getIntent().getStringExtra("sClientNm"));
+        dTransact = Objects.requireNonNull(getIntent().getStringExtra("dTransact"));
+        psBranchx = Objects.requireNonNull(getIntent().getStringExtra("sBranchxx"));
     }
 
     private void displayData() {
+        setHeaderData();
         mViewModel.RetrieveApplicationData(psTransNo).observe(Activity_EvaluationCIHistoryInfo.this, ciDetails -> {
             try {
                 if(ciDetails != null) {
@@ -92,6 +104,12 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
+    }
+
+    private void setHeaderData() {
+        txtClient.setText(psClientN);
+        txtTransD.setText(dTransact);
+        txtBranch.setText(psBranchx);
     }
 
     private void setAdapterValue(ECreditOnlineApplicationCI foCiDetlx) {
