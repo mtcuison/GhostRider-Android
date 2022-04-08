@@ -21,6 +21,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.utils.WebApi;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -188,6 +189,7 @@ public class EvaluatorManager {
     public LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListData(){
         return poCI.getForEvaluationListData();
     }
+
     public LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListDataPreview(){
         return poCI.getForEvaluationListDataPreview();
     }
@@ -198,6 +200,10 @@ public class EvaluatorManager {
 
     public LiveData<ECreditOnlineApplicationCI> getApplications(String TransNox) {
         return poCI.getApplications(TransNox);
+    }
+
+    public LiveData<List<ECreditOnlineApplicationCI>> getForPreviewResultList(){
+        return poCI.getForPreviewResultList();
     }
 
 
@@ -214,9 +220,9 @@ public class EvaluatorManager {
     public HashMap<oParentFndg, List<oChildFndg>> parseToEvaluationPreviewData(ECreditOnlineApplicationCI foDetail) throws Exception{
         HashMap<oParentFndg, List<oChildFndg>> loForEval = new HashMap<>();
 
-        loForEval.putAll(PreviewParser.getForEvaluation(oChildFndg.FIELDS.ADDRESS, foDetail.getAddressx(), foDetail.getAddrFndg()));
-        loForEval.putAll(PreviewParser.getForEvaluation(oChildFndg.FIELDS.MEANS, foDetail.getIncomexx(), foDetail.getIncmFndg()));
-        loForEval.putAll(PreviewParser.getForEvaluation(oChildFndg.FIELDS.ASSETS, foDetail.getAssetsxx(), foDetail.getAsstFndg()));
+//        loForEval.putAll(PreviewParser.getForPreviewResult(oChildFndg.FIELDS.ADDRESS, foDetail.getAddressx(), foDetail.getAddrFndg()));
+//        loForEval.putAll(PreviewParser.getForPreviewResult(oChildFndg.FIELDS.MEANS, foDetail.getIncomexx(), foDetail.getIncmFndg()));
+//        loForEval.putAll(PreviewParser.getForPreviewResult(oChildFndg.FIELDS.ASSETS, foDetail.getAssetsxx(), foDetail.getAsstFndg()));
 
         return loForEval;
     }

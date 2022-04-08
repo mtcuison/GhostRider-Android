@@ -32,6 +32,11 @@ public class RCreditOnlineApplicationCI implements DCreditOnlineApplicationCI {
     }
 
     @Override
+    public LiveData<List<ECreditOnlineApplicationCI>> getForPreviewResultList() {
+        return poDao.getForPreviewResultList();
+    }
+
+    @Override
     public LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListData() {
         return poDao.getForEvaluationListData();
     }
