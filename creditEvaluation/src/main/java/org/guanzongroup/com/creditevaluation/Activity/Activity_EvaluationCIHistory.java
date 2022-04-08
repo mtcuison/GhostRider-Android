@@ -166,11 +166,11 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
 //                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
 //                            poMessage.show();
 //
-                            Intent loIntent = new Intent(Activity_EvaluationCIHistory.this, Activity_CIHistoryPreview.class);
-                            loIntent.putExtra("transno", ciEvaluationLists.get(position).sTransNox);
-                            loIntent.putExtra("ClientNm", ciEvaluationLists.get(position).sClientNm);
+                            Intent loIntent = new Intent(Activity_EvaluationCIHistory.this, Activity_EvaluationCIHistoryInfo.class);
+                            loIntent.putExtra("sTransNox", ciEvaluationLists.get(position).sTransNox);
+                            loIntent.putExtra("sClientNm", ciEvaluationLists.get(position).sClientNm);
                             loIntent.putExtra("dTransact", ciEvaluationLists.get(position).dTransact);
-                            loIntent.putExtra("Branch", ciEvaluationLists.get(position).sBranchNm);
+                            loIntent.putExtra("sBranchxx", ciEvaluationLists.get(position).sBranchNm);
                             startActivity(loIntent);
 
 
