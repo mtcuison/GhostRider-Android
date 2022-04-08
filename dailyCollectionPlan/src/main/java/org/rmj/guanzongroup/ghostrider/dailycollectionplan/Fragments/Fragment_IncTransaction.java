@@ -80,7 +80,7 @@ public class Fragment_IncTransaction extends Fragment {
     }
 
     private void initWidgets(View v){
-        loMessage = new MessageBox(getActivity());
+        loMessage = new MessageBox(requireActivity());
 
         poImageInfo = new EImageInfo();
         lblFullNme = v.findViewById(R.id.lbl_customerName);
