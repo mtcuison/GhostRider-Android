@@ -1,5 +1,7 @@
 package org.guanzongroup.com.creditevaluation.Core;
 
+import android.view.View;
+
 public class oPreview {
 
     private final String psTitlex;
@@ -12,6 +14,20 @@ public class oPreview {
         this.psDescpt = fsDecript;
         this.psLabelx = fsLabel;
         this.psValuex = fsValue;
+    }
+
+    public int isHeader() {
+        if(!"".equalsIgnoreCase(psTitlex) && psTitlex != null) {
+            return View.VISIBLE;
+        }
+        return View.GONE;
+    }
+
+    public int isContent() {
+        if(!"".equalsIgnoreCase(psValuex) && psValuex != null) {
+            return View.VISIBLE;
+        }
+        return View.GONE;
     }
 
     public String getTitle() {

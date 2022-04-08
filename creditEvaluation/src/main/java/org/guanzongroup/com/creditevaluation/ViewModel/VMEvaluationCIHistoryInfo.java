@@ -16,34 +16,28 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
+import org.guanzongroup.com.creditevaluation.Core.EvaluatorManager;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
+
+import java.util.List;
 
 public class VMEvaluationCIHistoryInfo extends AndroidViewModel {
 
+    private final EvaluatorManager poHistory;
+
     public VMEvaluationCIHistoryInfo(@NonNull Application application) {
         super(application);
+        this.poHistory = new EvaluatorManager(application);
     }
 
-    private static class GetTask extends AsyncTask<Void, Void, String> {
+    public LiveData<List<ECreditOnlineApplicationCI>> getForPreviewResultList() {
+        return poHistory.getForPreviewResultList();
+    }
 
-        private boolean isSuccess = false;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            String lsResultx = "";
-
-            return lsResultx;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-        }
-
+    public LiveData<ECreditOnlineApplicationCI> RetrieveApplicationData(String TransNox) {
+        return poHistory.RetrieveApplicationData(TransNox);
     }
 
 }

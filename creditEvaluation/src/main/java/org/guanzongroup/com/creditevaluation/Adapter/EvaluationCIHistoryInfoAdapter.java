@@ -21,16 +21,18 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.guanzongroup.com.creditevaluation.Core.oPreview;
 import org.guanzongroup.com.creditevaluation.R;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class EvaluationCIHistoryInfoAdapter extends RecyclerView.Adapter<EvaluationCIHistoryInfoAdapter.EvaluationViewHolder> {
 
-    private final HashMap<String, String> poDetails;
+    private final List<oPreview> poDetails;
 
-    public EvaluationCIHistoryInfoAdapter(HashMap<String, String> foDetails) {
+    public EvaluationCIHistoryInfoAdapter(List<oPreview> foDetails) {
         this.poDetails = foDetails;
     }
 
@@ -39,18 +41,34 @@ public class EvaluationCIHistoryInfoAdapter extends RecyclerView.Adapter<Evaluat
     public EvaluationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_evaluation_ci_history_info, parent, false);
-
         return new EvaluationViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull EvaluationViewHolder holder, int position) {
-        /** Assign value based on hashmap structure **/
+        oPreview loDetail = poDetails.get(position);
+        holder.lnHeaderx.setVisibility(loDetail.isHeader());
+        holder.lnDataxxx.setVisibility(loDetail.isContent());
+
+        if(loDetail.isHeader() == View.VISIBLE) {
+            displayHeader(holder, loDetail);
+        } else {
+            displayData(holder, loDetail);
+        }
     }
 
     @Override
     public int getItemCount() {
         return poDetails.size();
+    }
+
+    private void displayHeader(EvaluationViewHolder foHolderx, oPreview foPreview) {
+        foHolderx.txtHeader.setText(foPreview.getTitle());
+    }
+
+    private void displayData(EvaluationViewHolder foHolderx, oPreview foPreview) {
+        foHolderx.txtLabelx.setText(foPreview.getLabel());
+        foHolderx.txtContnt.setText(foPreview.getValue());
     }
 
     public static class EvaluationViewHolder extends RecyclerView.ViewHolder{
@@ -65,7 +83,6 @@ public class EvaluationCIHistoryInfoAdapter extends RecyclerView.Adapter<Evaluat
             txtHeader = itemView.findViewById(R.id.txt_header);
             txtLabelx = itemView.findViewById(R.id.txt_label);
             txtContnt = itemView.findViewById(R.id.txt_content);
-
         }
 
     }

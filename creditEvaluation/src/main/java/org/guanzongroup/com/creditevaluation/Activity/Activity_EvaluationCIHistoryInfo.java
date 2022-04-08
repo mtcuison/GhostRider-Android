@@ -13,6 +13,7 @@ package org.guanzongroup.com.creditevaluation.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,8 +25,12 @@ import android.view.View;
 import com.google.android.material.button.MaterialButton;
 
 import org.guanzongroup.com.creditevaluation.Adapter.EvaluationCIHistoryInfoAdapter;
+import org.guanzongroup.com.creditevaluation.Core.PreviewParser;
 import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationCIHistoryInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
+
+import java.util.Objects;
 
 public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
 
@@ -34,6 +39,8 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private MaterialButton btnApprove;
+
+    private String psTransNo = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,16 +70,35 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(Activity_EvaluationCIHistoryInfo.this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
         recyclerView = findViewById(R.id.recyclerview);
         btnApprove = findViewById(R.id.btn_approve);
     }
 
     private void getExtras() {
-        // Get extras
+        psTransNo = Objects.requireNonNull(getIntent().getStringExtra("sTransNox"));
     }
 
     private void displayData() {
-        // Display data
+        mViewModel.RetrieveApplicationData(psTransNo).observe(Activity_EvaluationCIHistoryInfo.this, ciDetails -> {
+            try {
+                if(ciDetails != null) {
+                    setAdapterValue(ciDetails);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void setAdapterValue(ECreditOnlineApplicationCI foCiDetlx) {
+        poAdapter = new EvaluationCIHistoryInfoAdapter(PreviewParser.getCIResultPreview(foCiDetlx));
+        poAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(poAdapter);
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     private static class OnApproveListener implements View.OnClickListener {
