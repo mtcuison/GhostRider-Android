@@ -66,8 +66,6 @@ public class WebApi {
     private static final String URL_DOWNLOAD_CREDIT_ONLINE_APP = "integsys/param/download_credit_online_application_list.php";
     private static final String URL_DOWNLOAD_RELATION = "integsys/param/download_relation.php";
     private static final String URL_UPLOAD_CI_RESULT = "integsys/gocas/upload_ci_result.php";
-    private static final String URL_SEND_RESPONSE = "nmm/send_response.php";
-    private static final String URL_SEND_REQUEST = "nmm/send_request.php";
     private static final String URL_KWIKSEARCH = "integsys/paramqry/cash_count_rqst_officer.php";
     private static final String URL_SEND_LEAVE_APPLICATION = "petmgr/send_leave_application.php";
     private static final String URL_GET_LEAVE_APPLICATION = "petmgr/get_leave_application.php";
@@ -90,6 +88,9 @@ public class WebApi {
     private static final String URL_DOWNLOAD_UPDATE = "https://restgk.guanzongroup.com.ph/apk/gRider.apk";
     private static final String URL_DOWNLOAD_TEST_UPDATE = "https://restgk.guanzongroup.com.ph/apk/test/gRider.apk";
 
+    private static final String URL_SEND_RESPONSE = "nmm/send_response.php";
+    private static final String URL_SEND_REQUEST = "nmm/send_request.php";
+    private static final String URL_REQUEST_PREVIOUS_NOTIFICATIONS = "integsys/notification/request_previous_notifications.php";
 
     public WebApi(boolean isTestCase){
         this.isUnitTest = isTestCase;
@@ -554,5 +555,12 @@ public class WebApi {
             return LOCAL + URL_ADD_FOR_EVALUATION;
         }
         return LIVE + URL_ADD_FOR_EVALUATION;
+    }
+
+    public String getUrlRequestPreviousNotifications() {
+        if(isUnitTest) {
+            return LOCAL + URL_REQUEST_PREVIOUS_NOTIFICATIONS;
+        }
+        return LIVE + URL_REQUEST_PREVIOUS_NOTIFICATIONS;
     }
 }

@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import android.app.Application;
 
 import androidx.annotation.UiThread;
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.Observer;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.runner.AndroidJUnit4;
