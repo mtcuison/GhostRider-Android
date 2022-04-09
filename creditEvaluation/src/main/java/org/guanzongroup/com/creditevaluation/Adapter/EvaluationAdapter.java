@@ -156,15 +156,17 @@ public class EvaluationAdapter extends BaseExpandableListAdapter {
                             loChild.getKey().equalsIgnoreCase("nMonExpns")||
                             loChild.getKey().equalsIgnoreCase("nEstIncme")||
                             loChild.getKey().equalsIgnoreCase("nPensionx")){
-                        loChild.setsValue(loChild.getLabel());
-                    }else {
-                        loChild.setsValue("20");
-                    }
-                } else {
-                    if(loChild.getKey().equalsIgnoreCase("nLenServc") || loChild.getKey().equalsIgnoreCase("nSalaryxx")){
-                        loChild.setsValue("-"+loChild.getLabel());
+                        loChild.setsValue(loChild.getLabelValue());
                     }else {
                         loChild.setsValue("10");
+                    }
+                } else {
+                    if(loChild.getKey().equalsIgnoreCase("nLenServc") ||
+                            loChild.getKey().equalsIgnoreCase("nSalaryxx")){
+                        String lsLabel = loChild.getLabelValue();
+                        loChild.setsValue("-"+lsLabel);
+                    }else {
+                        loChild.setsValue("20");
                     }
                 }
                 mListener.OnConfirm(loParent,loChild);

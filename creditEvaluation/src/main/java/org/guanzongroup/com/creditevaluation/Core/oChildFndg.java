@@ -13,8 +13,8 @@ public class oChildFndg {
      * @param Value Value of key
      *              -1.00 Or -1 for checking
      *              -10 Ignore
-     *              10 = false;
-     *              20 = true;
+     *              10 = true;
+     *              20 = false;
      */
     public oChildFndg(String Label,String KeyName, String Value) {
         this.sLabelx = Label;
@@ -67,6 +67,10 @@ public class oChildFndg {
                 return sLabelx;
             }
         }
+    }
+
+    public String getLabelValue(){
+        return sLabelx;
     }
 
     public String getKey() {

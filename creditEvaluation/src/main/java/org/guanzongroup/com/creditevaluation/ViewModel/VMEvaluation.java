@@ -390,7 +390,7 @@ public class VMEvaluation extends AndroidViewModel {
             try {
                 final String[] response = {""};
                 if (!poConn.isDeviceConnected()) {
-                    response[0] = AppConstants.NO_INTERNET();
+                    response[0] = "No internet connection.";
                 } else {
                     poCIEvaluation.PostCIApproval(transNox[0], new EvaluatorManager.OnActionCallback() {
                         @Override
