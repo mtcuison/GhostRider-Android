@@ -64,7 +64,8 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
         setContentView(R.layout.activity_evaluation_cihistory);
         initWidgets();
         mViewModel = new ViewModelProvider(Activity_EvaluationCIHistory.this).get(VMEvaluationHistory.class);
-        mViewModel.importApplicationInfo(Activity_EvaluationCIHistory.this);
+//        mViewModel.importApplicationInfo(Activity_EvaluationCIHistory.this);
+        downloadApplicationsForBHApproval();
         mViewModel.getUserBranchInfo().observe(this, eBranchInfo -> {
             try {
                 lblBranch.setText(eBranchInfo.getBranchNm());
@@ -166,7 +167,7 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
 //                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
 //                            poMessage.show();
 //
-                            Intent loIntent = new Intent(Activity_EvaluationCIHistory.this, Activity_EvaluationCIHistoryInfo.class);
+                            Intent loIntent = new Intent(Activity_EvaluationCIHistory.this, Activity_CIHistoryPreview.class);
                             loIntent.putExtra("sTransNox", ciEvaluationLists.get(position).sTransNox);
                             loIntent.putExtra("sClientNm", ciEvaluationLists.get(position).sClientNm);
                             loIntent.putExtra("dTransact", ciEvaluationLists.get(position).dTransact);
@@ -231,4 +232,27 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
         super.finish();
         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
+
+    private void downloadApplicationsForBHApproval() {
+        LoadDialog loDialog = new LoadDialog(Activity_EvaluationCIHistory.this);
+        mViewModel.DownloadApplicationsForBHApproval(new VMEvaluationHistory.OnTransactionCallback() {
+            @Override
+            public void onSuccess(String message) {
+                loDialog.dismiss();
+            }
+
+            @Override
+            public void onFailed(String message) {
+                loDialog.dismiss();
+                Log.e(Activity_EvaluationCIHistory.class.getSimpleName(), message);
+            }
+
+            @Override
+            public void onLoad() {
+                loDialog.initDialog("CI Evaluation", "CI Evaluation downlading.. Please wait.", true);
+                loDialog.show();
+            }
+        });
+    }
+
 }
