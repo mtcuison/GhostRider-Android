@@ -24,6 +24,8 @@ public class PreviewParser {
         try{
             HashMap<oParentFndg, List<oChildFndg>> loDetail = parseToPreviewResult(foDetail);
             loDetail.forEach((loParent, loChild) ->{
+                String lsTitle = "";
+                String lsDecrpt= "";
                 for(int x = 0; x < loChild.size(); x++){
                     String lsValue = loChild.get(x).getValue();
                     if(lsValue.equalsIgnoreCase("10")){
@@ -31,10 +33,34 @@ public class PreviewParser {
                     } else {
                         lsValue = "Correct";
                     }
-                    loResult.add(new oPreview(loParent.getTitle(),
-                            loParent.getParentDescript(),
-                            loChild.get(x).getLabel(),
-                            lsValue));
+                    if(loResult.size() > 0) {
+                        for (int lnCtr = 0; lnCtr < loResult.size(); lnCtr++) {
+                            String lsExist = loResult.get(lnCtr).getTitle();
+                            lsTitle = loParent.getTitle();
+                            if (lsExist.equalsIgnoreCase(lsTitle)) {
+                                lsTitle = "";
+                                break;
+                            }
+                        }
+
+                        for (int lnCtr = 0; lnCtr < loResult.size(); lnCtr++) {
+                            String lsExist = loResult.get(lnCtr).getDescription();
+                            lsDecrpt = loParent.getParentDescript();
+                            if (lsExist.equalsIgnoreCase(lsDecrpt)) {
+                                lsDecrpt = "";
+                                break;
+                            }
+                        }
+                        loResult.add(new oPreview(lsTitle,
+                                lsDecrpt,
+                                loChild.get(x).getLabel(),
+                                lsValue));
+                    } else {
+                        loResult.add(new oPreview(loParent.getTitle(),
+                                loParent.getParentDescript(),
+                                loChild.get(x).getLabel(),
+                                lsValue));
+                    }
                 }
             });
             if(foDetail.getHasRecrd().equalsIgnoreCase("1")){

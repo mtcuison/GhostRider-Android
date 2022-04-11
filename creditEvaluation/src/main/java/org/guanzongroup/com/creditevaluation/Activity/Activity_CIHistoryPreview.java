@@ -97,7 +97,7 @@ public class Activity_CIHistoryPreview extends AppCompatActivity {
         try {
             initWidgets();
             initIntentData();
-            psTransNo = getIntent().getStringExtra("transno");
+            psTransNo = getIntent().getStringExtra("sTransNox");
             mViewModel = new ViewModelProvider(this).get(VMCIHistoryPreview.class);
             mViewModel.getCIEvaluation(psTransNo).observe(this, ci->{
                 try {

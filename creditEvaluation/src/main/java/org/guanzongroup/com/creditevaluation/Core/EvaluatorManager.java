@@ -510,6 +510,7 @@ public class EvaluatorManager {
                         loApp.setRcmdtnx1(loJson.getString("dRcmdtnx1"));
                         loApp.setRcmdtnc1(loJson.getString("cRcmdtnx1"));
                         loApp.setRcmdtns1(loJson.getString("sRcmdtnx1"));
+                        loApp.setRcmdRcd2(new AppConstants().DATE_MODIFIED);
                         loApp.setTranStat(loJson.getString("cTranStat"));
                         poCI.SaveApplicationInfo(loApp);
                     }
@@ -530,11 +531,11 @@ public class EvaluatorManager {
             ECreditOnlineApplicationCI loDetail = poCI.getApplication(TransNox);
             JSONObject params = new JSONObject();
             params.put("sTransNox", loDetail.getTransNox());
-            params.put("dRcmdRcd2", loDetail.getRcmdRcd2());
-            params.put("dRcmdtnx2", loDetail.getRcmdtnx2());
+            params.put("dRcmdRcv2", loDetail.getRcmdRcd2());
+            params.put("dRcmdtnx2", loDetail.getRcmdRcd2());
             params.put("cRcmdtnx2", loDetail.getRcmdtnc2());
             params.put("sRcmdtnx2", loDetail.getRcmdtns2());
-            String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitCIResult(), params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlPostBhApproval(), params.toString(), poHeaders.getHeaders());
             if (lsResponse == null) {
                 callback.OnFailed("Server no response.");
             } else {

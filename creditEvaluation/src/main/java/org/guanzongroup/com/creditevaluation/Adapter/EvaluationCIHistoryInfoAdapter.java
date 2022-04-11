@@ -11,6 +11,9 @@
 
 package org.guanzongroup.com.creditevaluation.Adapter;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,11 +52,21 @@ public class EvaluationCIHistoryInfoAdapter extends RecyclerView.Adapter<Evaluat
         oPreview loDetail = poDetails.get(position);
         holder.lnHeaderx.setVisibility(loDetail.isHeader());
         holder.lnDataxxx.setVisibility(loDetail.isContent());
-
-        if(loDetail.isHeader() == View.VISIBLE) {
-            displayHeader(holder, loDetail);
+        holder.txtHeader.setText(loDetail.getTitle());
+        holder.txtLabelx.setText(loDetail.getLabel());
+        holder.txtContnt.setText(loDetail.getValue());
+//        if(!loDetail.getValue().equalsIgnoreCase("Correct") && !loDetail.getValue().equalsIgnoreCase("Incorrect")) {
+//            holder.txtContnt.setTextColor(Color.parseColor("#FF0000"));
+//        } else if(loDetail.getValue().equalsIgnoreCase("Correct")) {
+//            holder.txtContnt.setTextColor(Color.parseColor("#009A17"));
+//        } else if(loDetail.getValue().equalsIgnoreCase("Incorrect")) {
+//            holder.txtContnt.setTextColor(Color.parseColor("#CD001A"));
+//        }
+        if(!"".equalsIgnoreCase(loDetail.getDescription())) {
+            holder.txtDescrp.setVisibility(View.VISIBLE);
+            holder.txtDescrp.setText(loDetail.getDescription());
         } else {
-            displayData(holder, loDetail);
+            holder.txtDescrp.setVisibility(View.GONE);
         }
     }
 
@@ -74,13 +87,14 @@ public class EvaluationCIHistoryInfoAdapter extends RecyclerView.Adapter<Evaluat
     public static class EvaluationViewHolder extends RecyclerView.ViewHolder{
 
         private LinearLayout lnHeaderx, lnDataxxx;
-        private TextView txtHeader, txtLabelx, txtContnt;
+        private TextView txtHeader, txtDescrp, txtLabelx, txtContnt;
 
         public EvaluationViewHolder(@NonNull View itemView) {
             super(itemView);
             lnHeaderx = itemView.findViewById(R.id.layout_header);
             lnDataxxx = itemView.findViewById(R.id.layout_data);
             txtHeader = itemView.findViewById(R.id.txt_header);
+            txtDescrp = itemView.findViewById(R.id.txt_description);
             txtLabelx = itemView.findViewById(R.id.txt_label);
             txtContnt = itemView.findViewById(R.id.txt_content);
         }
