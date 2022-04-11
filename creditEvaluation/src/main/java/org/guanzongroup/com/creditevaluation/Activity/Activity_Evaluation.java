@@ -492,8 +492,6 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                 poImageInfo.setSourceNo(mViewModel.getTransNox());
                 poImageInfo.setImageNme(FileName);
                 poImageInfo.setFileLoct(photPath);
-                poImageInfo.setLatitude(String.valueOf(latitude));
-                poImageInfo.setLongitud(String.valueOf(longitude));
                 startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
             });
         });
@@ -511,6 +509,8 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                     new LocationRetriever(Activity_Evaluation.this, Activity_Evaluation.this).getLocation(new LocationRetriever.LocationRetrieveCallback() {
                         @Override
                         public void OnRetrieve(String message, double latitude, double longitude) {
+                            poImageInfo.setLatitude(String.valueOf(latitude));
+                            poImageInfo.setLongitud(String.valueOf(longitude));
                             boolean isPrimary = parent.getParentDescript().equalsIgnoreCase("Primary Address");
                             mViewModel.SaveImageInfo(poImageInfo, isPrimary, new EvaluatorManager.OnActionCallback() {
                                 @Override
