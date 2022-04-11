@@ -1,9 +1,12 @@
 package org.guanzongroup.com.creditevaluation.Core;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +18,62 @@ public class PreviewParser {
     private List<oChildFndg> poChildLst;
     private final HashMap<oParentFndg, List<oChildFndg>> poChild = new HashMap<>();
 
-    public static HashMap<oParentFndg, List<oChildFndg>> getForEvaluation(String fsField, String fsLabel, String fsFindings) throws Exception{
+    @SuppressLint("NewApi")
+    public static List<oPreview> getCIResultPreview(ECreditOnlineApplicationCI foDetail){
+        List<oPreview> loResult = new ArrayList<>();
+        try{
+            HashMap<oParentFndg, List<oChildFndg>> loDetail = parseToPreviewResult(foDetail);
+            loDetail.forEach((loParent, loChild) ->{
+                for(int x = 0; x < loChild.size(); x++){
+                    String lsValue = loChild.get(x).getValue();
+                    if(lsValue.equalsIgnoreCase("10")){
+                        lsValue = "Incorrect";
+                    } else {
+                        lsValue = "Correct";
+                    }
+                    loResult.add(new oPreview(loParent.getTitle(),
+                            loParent.getParentDescript(),
+                            loChild.get(x).getLabel(),
+                            lsValue));
+                }
+            });
+            if(foDetail.getHasRecrd().equalsIgnoreCase("1")){
+                loResult.add(new oPreview("Additional Info", "Barangay Record", "Has Record", "YES"));
+                loResult.add(new oPreview("", "", "Record/Issue", foDetail.getRecrdRem()));
+            } else {
+                loResult.add(new oPreview("", "Barangay Record", "Has Record", "NO"));
+            }
+            loResult.add(new oPreview("", "Barangay Record", "Brgy Official Name", foDetail.getPrsnBrgy()));
+            loResult.add(new oPreview("", "Barangay Record", "Brgy Official Position", foDetail.getPrsnPstn()));
+            loResult.add(new oPreview("", "Barangay Record", "Brgy Official Contact", foDetail.getPrsnNmbr()));
+            loResult.add(new oPreview("", "Barangay Record", "Neighbor 1", foDetail.getNeighBr1()));
+            loResult.add(new oPreview("", "Barangay Record", "Neighbor 2", foDetail.getNeighBr2()));
+            loResult.add(new oPreview("", "Barangay Record", "Neighbor 3", foDetail.getNeighBr3()));
+            loResult.add(new oPreview("Evaluation Info", "", "Date Receive by CI", FormatUIText.formatGOCasBirthdate(foDetail.getRcmdRcd1())));
+            loResult.add(new oPreview("", "", "Evaluation Date", FormatUIText.formatGOCasBirthdate(foDetail.getRcmdtnx1())));
+            if(foDetail.getRcmdtnc1().equalsIgnoreCase("1")){
+                loResult.add(new oPreview("", "", "CI Recommendation", "Approve"));
+            } else {
+                loResult.add(new oPreview("", "", "CI Recommendation", "Disapproved"));
+            }
+            loResult.add(new oPreview("", "", "Approval/Disapproval Remarks", foDetail.getRcmdtns1()));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return loResult;
+    }
+
+    private static HashMap<oParentFndg, List<oChildFndg>> parseToPreviewResult(ECreditOnlineApplicationCI foDetail) throws Exception{
+        HashMap<oParentFndg, List<oChildFndg>> loForEval = new HashMap<>();
+
+        loForEval.putAll(PreviewParser.getForPreviewResult(oChildFndg.FIELDS.ADDRESS, foDetail.getAddressx(), foDetail.getAddrFndg()));
+        loForEval.putAll(PreviewParser.getForPreviewResult(oChildFndg.FIELDS.MEANS, foDetail.getIncomexx(), foDetail.getIncmFndg()));
+        loForEval.putAll(PreviewParser.getForPreviewResult(oChildFndg.FIELDS.ASSETS, foDetail.getAssetsxx(), foDetail.getAsstFndg()));
+
+        return loForEval;
+    }
+
+    private static HashMap<oParentFndg, List<oChildFndg>> getForPreviewResult(String fsField, String fsLabel, String fsFindings) throws Exception{
         switch (fsField){
             case oChildFndg.FIELDS.ADDRESS:
             case oChildFndg.FIELDS.MEANS:
@@ -147,7 +205,7 @@ public class PreviewParser {
         }
         return poChild;
     }
-    static boolean isNumericSpace(String str){
+    private static boolean isNumericSpace(String str){
         try {
             Double.parseDouble(str);
             return true;

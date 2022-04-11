@@ -49,7 +49,23 @@ public class oChildFndg {
             case "cWithACxx":
                 return "Has air condition : " + lsValue;
             default:
+            if(sKeyxxx.equalsIgnoreCase("nLenServc")) {
+                return "Length Of Service : " + sLabelx;
+            } if(sKeyxxx.equalsIgnoreCase("nSalaryxx")){
+                return "Salary : " + sLabelx;
+            } if(sKeyxxx.equalsIgnoreCase("nBusLenxx")){
+                return "Years of Business : " + sLabelx;
+            } if(sKeyxxx.equalsIgnoreCase("nBusIncom")){
+                return "Business Income : " + sLabelx;
+            } if(sKeyxxx.equalsIgnoreCase("nMonExpns")){
+                return "Monthly Expenses : " + sLabelx;
+            } if(sKeyxxx.equalsIgnoreCase("nEstIncme")){
+                return "Estimate Income : " + sLabelx;
+            } if(sKeyxxx.equalsIgnoreCase("nPensionx")){
+                return "Pension Amount : " + sLabelx;
+            } else {
                 return sLabelx;
+            }
         }
     }
 

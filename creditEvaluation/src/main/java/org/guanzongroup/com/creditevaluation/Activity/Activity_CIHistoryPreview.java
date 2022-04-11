@@ -49,6 +49,7 @@ import org.guanzongroup.com.creditevaluation.Model.AdditionalInfoModel;
 import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMCIHistoryPreview;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluation;
+import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationCIHistoryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.GToast;
@@ -77,7 +78,7 @@ public class Activity_CIHistoryPreview extends AppCompatActivity {
     private TextInputLayout tilRecordRemarks;
     private RadioGroup rgHasRecord;
     private TextView lblTransNox,lblClientName,lblDTransact, lblBranch;
-
+    private MaterialButton btnApprove;
     private final List<oParentFndg> poParentLst = new ArrayList<>();
     private List<oChildFndg> poChildLst;
     private final HashMap<oParentFndg, List<oChildFndg>> poChild = new HashMap<>();
@@ -86,6 +87,7 @@ public class Activity_CIHistoryPreview extends AppCompatActivity {
     private MessageBox poMessage;
     private oParentFndg parent;
     private oChildFndg child;
+    private String psTransNo = "";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -95,6 +97,7 @@ public class Activity_CIHistoryPreview extends AppCompatActivity {
         try {
             initWidgets();
             initIntentData();
+            psTransNo = getIntent().getStringExtra("transno");
             mViewModel = new ViewModelProvider(this).get(VMCIHistoryPreview.class);
             mViewModel.getCIEvaluation(getIntent().getStringExtra("transno")).observe(this, ci->{
                 try {
@@ -188,6 +191,7 @@ public class Activity_CIHistoryPreview extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+        btnApprove.setOnClickListener(new OnApproveListener());
     }
     private void initIntentData(){
         lblTransNox.setText("Transaction No.: " + getIntent().getStringExtra("transno"));
@@ -200,7 +204,7 @@ public class Activity_CIHistoryPreview extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         infoModel = new AdditionalInfoModel();
-
+        btnApprove = findViewById(R.id.btn_Approve);
         poDialogx = new LoadDialog(Activity_CIHistoryPreview.this);
         poMessage = new MessageBox(Activity_CIHistoryPreview.this);
         listView = findViewById(R.id.expListview);
@@ -265,6 +269,55 @@ public class Activity_CIHistoryPreview extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private class OnApproveListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            DialogCIReason loDialog = new DialogCIReason(Activity_CIHistoryPreview.this);
+            loDialog.initDialogCIReason((dialog, transtat, reason) -> {
+                infoModel.setTranstat(transtat);
+                infoModel.setsRemarks(reason);
+                dialog.dismiss();
+                if(infoModel.isApproved()){
+                    LoadDialog loading = new LoadDialog(Activity_CIHistoryPreview.this);
+                    mViewModel.PostBHApproval(psTransNo, infoModel.getTranstat(), infoModel.getsRemarks(), new VMEvaluationCIHistoryInfo.OnTransactionCallBack() {
+                        @Override
+                        public void onSuccess(String fsMessage) {
+                            loading.dismiss();
+                            MessageBox msgBox = new MessageBox(Activity_CIHistoryPreview.this);
+                            msgBox.initDialog();
+                            msgBox.setTitle("CI Evaluation");
+                            msgBox.setMessage(fsMessage);
+                            msgBox.setPositiveButton("Okay", (v, diags) -> {
+                                diags.dismiss();
+                            });
+                            msgBox.show();
+                        }
+
+                        @Override
+                        public void onFailed(String fsMessage) {
+                            loading.dismiss();
+                            MessageBox msgBox = new MessageBox(Activity_CIHistoryPreview.this);
+                            msgBox.initDialog();
+                            msgBox.setTitle("CI Evaluation");
+                            msgBox.setMessage(fsMessage);
+                            msgBox.setPositiveButton("Okay", (v, diags) -> {
+                                diags.dismiss();
+                            });
+                            msgBox.show();
+                        }
+
+                        @Override
+                        public void onLoad() {
+                            loading.initDialog("CI Evaluation", "CI Evalation Approval Processing...Please wait.", false);
+                            loading.show();
+                        }
+                    });
+                }
+            });
+            loDialog.show();
+        }
     }
 
 }

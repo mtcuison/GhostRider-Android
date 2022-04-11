@@ -5,8 +5,8 @@
  * Project name : GhostRider_Android
  * Module : GhostRider_Android.creditEvaluation
  * Electronic Personnel Access Control Security System
- * project file created : 3/28/22, 8:50 AM
- * project file last modified : 3/28/22, 8:50 AM
+ * project file created : 4/8/22, 11:35 AM
+ * project file last modified : 4/8/22, 11:35 AM
  */
 
 package org.guanzongroup.com.creditevaluation.ViewModel;
@@ -17,50 +17,35 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import org.guanzongroup.com.creditevaluation.Core.EvaluatorManager;
-import org.guanzongroup.com.creditevaluation.Core.oChildFndg;
-import org.guanzongroup.com.creditevaluation.Core.oParentFndg;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class VMCIHistoryPreview extends AndroidViewModel {
-    private static final String TAG = VMEvaluation.class.getSimpleName();
+public class VMEvaluationCIHistoryInfo extends AndroidViewModel {
+
     private final ConnectionUtil poConnect;
-    private final Application app;
-    private final REmployee poUser;
-    private final EvaluatorManager foManager;
-    private MutableLiveData<HashMap<oParentFndg, List<oChildFndg>>> foEvaluate = new MutableLiveData<>();
+    private final EvaluatorManager poHistory;
 
-    public VMCIHistoryPreview(@NonNull Application application) {
+    public VMEvaluationCIHistoryInfo(@NonNull Application application) {
         super(application);
-        this.app = application;
         this.poConnect = new ConnectionUtil(application);
-        this.poUser = new REmployee(application);
-        this.foManager = new EvaluatorManager(application);
-    }
-    public LiveData<ECreditOnlineApplicationCI> getCIEvaluation(String transNox){
-        return foManager.getApplications(transNox);
+        this.poHistory = new EvaluatorManager(application);
     }
 
-    public void parseToEvaluationPreviewData(ECreditOnlineApplicationCI eCI) throws Exception {
-        foEvaluate.setValue(foManager.parseToEvaluationPreviewData(eCI));
-    }
-    public LiveData<HashMap<oParentFndg, List<oChildFndg>>> getParsedEvaluationPreviewData(){
-        return foEvaluate;
+    public LiveData<List<ECreditOnlineApplicationCI>> getForPreviewResultList() {
+        return poHistory.getForPreviewResultList();
     }
 
-    public void PostBHApproval(String fsTransNo, String fsResultx, String fsRemarks, VMEvaluationCIHistoryInfo.OnTransactionCallBack foCallBck) {
-        new PostBHApprovalTask(poConnect, foManager, fsResultx, fsRemarks, foCallBck).execute(fsTransNo);
+    public LiveData<ECreditOnlineApplicationCI> RetrieveApplicationData(String TransNox) {
+        return poHistory.RetrieveApplicationData(TransNox);
+    }
+
+    public void PostBHApproval(String fsTransNo, String fsResultx, String fsRemarks, OnTransactionCallBack foCallBck) {
+        new PostBHApprovalTask(poConnect, poHistory, fsResultx, fsRemarks, foCallBck).execute(fsTransNo);
     }
 
     private static class PostBHApprovalTask extends AsyncTask<String, Void, String> {
@@ -69,10 +54,10 @@ public class VMCIHistoryPreview extends AndroidViewModel {
         private final EvaluatorManager loHistory;
         private final String lsResultx;
         private final String lsRemarks;
-        private final VMEvaluationCIHistoryInfo.OnTransactionCallBack loCallBck;
+        private final OnTransactionCallBack loCallBck;
         private boolean isSuccess = false;
 
-        private PostBHApprovalTask(ConnectionUtil foConnect, EvaluatorManager foHistory, String fsResultx, String fsRemarks, VMEvaluationCIHistoryInfo.OnTransactionCallBack foCallBck) {
+        private PostBHApprovalTask(ConnectionUtil foConnect, EvaluatorManager foHistory, String fsResultx, String fsRemarks, OnTransactionCallBack foCallBck) {
             this.loConnect = foConnect;
             this.loHistory = foHistory;
             this.lsResultx = fsResultx;

@@ -48,6 +48,7 @@ import java.util.List;
 
 public class VMEvaluationHistory extends AndroidViewModel {
     private static final String TAG = VMEvaluationHistory.class.getSimpleName();
+    private final ConnectionUtil poConnect;
     private final Application instance;
     private final EvaluatorManager poManager;
     private final SessionManager poSession;
@@ -59,6 +60,7 @@ public class VMEvaluationHistory extends AndroidViewModel {
     public VMEvaluationHistory(@NonNull Application application) {
         super(application);
         this.instance = application;
+        this.poConnect = new ConnectionUtil(application);
         this.poManager = new EvaluatorManager(application);
         this.poSession = new SessionManager(application);
         this.poEmploye = new REmployee(application);
@@ -77,6 +79,11 @@ public class VMEvaluationHistory extends AndroidViewModel {
     public LiveData<List<DCreditOnlineApplicationCI.oDataEvaluationInfo>> getForEvaluationListDataPreview() {
         return poManager.getForEvaluationListDataPreview();
     }
+
+    public void DownloadApplicationsForBHApproval(OnTransactionCallback callback) {
+        new DownloadApplicationsForBHApproval(poConnect, poManager, callback).execute();
+    }
+
     public void importApplicationInfo(OnImportCallBack callback) {
         try{
             JSONObject loJson = new JSONObject();
@@ -216,4 +223,72 @@ public class VMEvaluationHistory extends AndroidViewModel {
             }
         }
     }
+
+
+    private static class DownloadApplicationsForBHApproval extends AsyncTask<Void, Void, String> {
+
+        private final ConnectionUtil loConnect;
+        private final EvaluatorManager loManager;
+        private final OnTransactionCallback loCallBck;
+        private boolean isSuccess = false;
+
+        private DownloadApplicationsForBHApproval(ConnectionUtil foConnect, EvaluatorManager foManager, OnTransactionCallback foCallBck) {
+            this.loConnect = foConnect;
+            this.loManager = foManager;
+            this.loCallBck = foCallBck;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loCallBck.onLoad();
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            final String[] lsResultx = {""};
+
+            try {
+                if(loConnect.isDeviceConnected()) {
+                    loManager.DownloadApplicationsForBHApproval(new EvaluatorManager.OnActionCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            lsResultx[0] = args;
+                            isSuccess = true;
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            lsResultx[0] = message;
+                        }
+                    });
+                } else {
+                    lsResultx[0] = AppConstants.SERVER_NO_RESPONSE();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsResultx[0] = e.getMessage();
+            }
+
+            return lsResultx[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(isSuccess) {
+                loCallBck.onSuccess(s);
+            } else {
+                loCallBck.onFailed(s);
+            }
+        }
+
+    }
+
+    public interface OnTransactionCallback {
+        void onSuccess(String message);
+        void onFailed(String message);
+        void onLoad();
+    }
+
 }
