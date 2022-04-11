@@ -74,6 +74,7 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
                 e.printStackTrace();
             }
         });
+        initData();
 
     }
     private void initWidgets() {
@@ -104,7 +105,6 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
     @Override
     public void onSuccessImport() {
         poDialogx.dismiss();
-        initData();
     }
 
     @Override

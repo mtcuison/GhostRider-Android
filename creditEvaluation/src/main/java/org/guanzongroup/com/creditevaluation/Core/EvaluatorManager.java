@@ -503,7 +503,7 @@ public class EvaluatorManager {
                         loApp.setPrsnBrgy(loJson.getString("sPrsnBrgy"));
                         loApp.setPrsnPstn(loJson.getString("sPrsnPstn"));
                         loApp.setPrsnNmbr(loJson.getString("sPrsnNmbr"));
-                        loApp.setNeighBr1(loJson.getString("sNeighbr1"));
+                        loApp.setNeighBr1(loJson.getString("sNeighBr1"));
                         loApp.setNeighBr2(loJson.getString("sNeighBr2"));
                         loApp.setNeighBr3(loJson.getString("sNeighBr3"));
                         loApp.setRcmdRcd1(loJson.getString("dRcmdRcd1"));
