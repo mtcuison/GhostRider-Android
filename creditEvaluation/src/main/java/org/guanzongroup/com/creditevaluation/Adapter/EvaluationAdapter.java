@@ -1,22 +1,14 @@
 package org.guanzongroup.com.creditevaluation.Adapter;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import org.guanzongroup.com.creditevaluation.Activity.Activity_ApplicationList;
-import org.guanzongroup.com.creditevaluation.Activity.Activity_Evaluation;
 import org.guanzongroup.com.creditevaluation.Core.oChildFndg;
 import org.guanzongroup.com.creditevaluation.Core.oParentFndg;
 import org.guanzongroup.com.creditevaluation.R;
@@ -149,25 +141,9 @@ public class EvaluationAdapter extends BaseExpandableListAdapter {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == R.id.rb_correct){
-                    if(loChild.getKey().equalsIgnoreCase("nLenServc") ||
-                            loChild.getKey().equalsIgnoreCase("nSalaryxx") ||
-                            loChild.getKey().equalsIgnoreCase("nBusLenxx")||
-                            loChild.getKey().equalsIgnoreCase("nBusIncom")||
-                            loChild.getKey().equalsIgnoreCase("nMonExpns")||
-                            loChild.getKey().equalsIgnoreCase("nEstIncme")||
-                            loChild.getKey().equalsIgnoreCase("nPensionx")){
-                        loChild.setsValue(loChild.getLabelValue());
-                    }else {
-                        loChild.setsValue("10");
-                    }
+                    loChild.setsValue("10");
                 } else {
-                    if(loChild.getKey().equalsIgnoreCase("nLenServc") ||
-                            loChild.getKey().equalsIgnoreCase("nSalaryxx")){
-                        String lsLabel = loChild.getLabelValue();
-                        loChild.setsValue("-"+lsLabel);
-                    }else {
-                        loChild.setsValue("20");
-                    }
+                    loChild.setsValue("20");
                 }
                 mListener.OnConfirm(loParent,loChild);
             }

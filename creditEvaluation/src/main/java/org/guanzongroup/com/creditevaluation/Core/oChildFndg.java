@@ -69,10 +69,6 @@ public class oChildFndg {
         }
     }
 
-    public String getLabelValue(){
-        return sLabelx;
-    }
-
     public String getKey() {
         return sKeyxxx;
     }
