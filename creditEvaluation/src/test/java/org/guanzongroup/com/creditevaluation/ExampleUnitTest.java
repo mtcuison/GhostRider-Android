@@ -25,4 +25,18 @@ public class ExampleUnitTest {
         String lsResult = lsVal.replace("*", "0");
         assertEquals("0.0", lsResult);
     }
+
+    @Test
+    public void test02CheckDouble() {
+        double lsResult;
+        String sLabelx = "2.0";
+        double lnVal = Double.parseDouble(sLabelx);
+        if(lnVal % 1 == 0) {
+            lsResult =  lnVal;
+        } else {
+            lnVal = lnVal * 12;
+            lsResult = (double) Math.round(lnVal);
+        }
+        assertEquals(10.0, lsResult);
+    }
 }

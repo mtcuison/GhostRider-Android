@@ -1,5 +1,7 @@
 package org.guanzongroup.com.creditevaluation.Core;
 
+import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+
 public class oChildFndg {
 
     private final String sLabelx;
@@ -23,6 +25,8 @@ public class oChildFndg {
     }
 
     public String getLabel() {
+        double lsResult;
+        double lnVal;
         String lsValue;
         if(sLabelx.equalsIgnoreCase("1")){
             lsValue = "YES";
@@ -48,24 +52,38 @@ public class oChildFndg {
                 return "Has Television : " + lsValue;
             case "cWithACxx":
                 return "Has air condition : " + lsValue;
+            case "nLenServc":
+                lnVal = Double.parseDouble(sLabelx);
+                if(lnVal % 1 == 0) {
+                    lsValue = "Year/s";
+                    lsResult =  lnVal;
+                } else {
+                    lsValue = "Month/s";
+                    lnVal = lnVal * 12;
+                    lsResult = (double) Math.round(lnVal);
+                }
+                return "Length Of Service : " + lsResult + lsValue;
+            case "nBusLenxx":
+                lnVal = Double.parseDouble(sLabelx);
+                if(lnVal % 1 == 0) {
+                    lsResult =  lnVal;
+                } else {
+                    lnVal = lnVal * 12;
+                    lsResult = (double) Math.round(lnVal);
+                }
+                return "Years of Business : " + lsResult + lsValue;
+            case "nSalaryxx":
+                return "Salary : " + FormatUIText.getCurrencyUIFormat(sLabelx);
+            case "nBusIncom":
+                return "Business Income : " + FormatUIText.getCurrencyUIFormat(sLabelx);
+            case "nMonExpns":
+                return "Monthly Expenses : " + FormatUIText.getCurrencyUIFormat(sLabelx);
+            case "nEstIncme":
+                return "Estimate Income : " + FormatUIText.getCurrencyUIFormat(sLabelx);
+            case "nPensionx":
+                return "Pension Amount : " + FormatUIText.getCurrencyUIFormat(sLabelx);
             default:
-            if(sKeyxxx.equalsIgnoreCase("nLenServc")) {
-                return "Length Of Service : " + sLabelx;
-            } if(sKeyxxx.equalsIgnoreCase("nSalaryxx")){
-                return "Salary : " + sLabelx;
-            } if(sKeyxxx.equalsIgnoreCase("nBusLenxx")){
-                return "Years of Business : " + sLabelx;
-            } if(sKeyxxx.equalsIgnoreCase("nBusIncom")){
-                return "Business Income : " + sLabelx;
-            } if(sKeyxxx.equalsIgnoreCase("nMonExpns")){
-                return "Monthly Expenses : " + sLabelx;
-            } if(sKeyxxx.equalsIgnoreCase("nEstIncme")){
-                return "Estimate Income : " + sLabelx;
-            } if(sKeyxxx.equalsIgnoreCase("nPensionx")){
-                return "Pension Amount : " + sLabelx;
-            } else {
                 return sLabelx;
-            }
         }
     }
 

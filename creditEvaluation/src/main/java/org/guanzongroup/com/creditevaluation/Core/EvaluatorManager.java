@@ -308,7 +308,7 @@ public class EvaluatorManager {
 
     public void SaveBHApproval(String TransNox, String fsResult, String fsRemarks, OnActionCallback callback){
         try{
-            poCI.SaveCIApproval(TransNox, fsResult, fsRemarks, new AppConstants().DATE_MODIFIED);
+            poCI.SaveBHApproval(TransNox, fsResult, fsRemarks);
             callback.OnSuccess("");
         } catch (Exception e){
             e.printStackTrace();
@@ -511,6 +511,7 @@ public class EvaluatorManager {
                         loApp.setRcmdtnc1(loJson.getString("cRcmdtnx1"));
                         loApp.setRcmdtns1(loJson.getString("sRcmdtnx1"));
                         loApp.setRcmdRcd2(new AppConstants().DATE_MODIFIED);
+                        loApp.setRcmdtnx2(new AppConstants().DATE_MODIFIED);
                         loApp.setTranStat(loJson.getString("cTranStat"));
                         poCI.SaveApplicationInfo(loApp);
                     }
