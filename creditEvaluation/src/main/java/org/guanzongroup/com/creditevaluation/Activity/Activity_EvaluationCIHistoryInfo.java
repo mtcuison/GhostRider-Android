@@ -139,6 +139,7 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
                             msgBox.setMessage(fsMessage);
                             msgBox.setPositiveButton("Okay", (v, diags) -> {
                                 diags.dismiss();
+                                finish();
                             });
                             msgBox.show();
                         }
