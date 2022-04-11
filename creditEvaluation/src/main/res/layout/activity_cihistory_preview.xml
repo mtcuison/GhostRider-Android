@@ -532,6 +532,13 @@
 
                             </LinearLayout>
                         </LinearLayout>
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_Approve"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/GhostRider_Button"
+                            android:text="Approve Application"
+                            android:layout_marginTop="20dp"/>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>

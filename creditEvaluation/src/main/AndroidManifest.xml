@@ -4,6 +4,9 @@
 
     <application android:usesCleartextTraffic="true">
         <activity
+            android:name=".Activity.Activity_EvaluationCIHistoryInfo"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Activity_CIHistoryPreview"
             android:exported="false" />
         <activity

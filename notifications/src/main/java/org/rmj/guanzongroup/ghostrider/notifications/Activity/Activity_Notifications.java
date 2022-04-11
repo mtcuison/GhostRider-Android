@@ -110,7 +110,7 @@ public class Activity_Notifications extends AppCompatActivity {
     }
 
     private Fragment[] getFragment(String type){
-        if(type.equalsIgnoreCase("notification")){
+        if("notification".equalsIgnoreCase(type)){
             return new Fragment[]{new Fragment_ViewNotification()};
         } else {
             return new Fragment[]{new Fragment_ViewMessages()};
