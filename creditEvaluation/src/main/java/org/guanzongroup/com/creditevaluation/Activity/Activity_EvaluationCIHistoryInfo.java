@@ -27,9 +27,12 @@ import com.google.android.material.button.MaterialButton;
 
 import org.guanzongroup.com.creditevaluation.Adapter.EvaluationCIHistoryInfoAdapter;
 import org.guanzongroup.com.creditevaluation.Core.PreviewParser;
+import org.guanzongroup.com.creditevaluation.Dialog.DialogCIReason;
 import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationCIHistoryInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
+import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 
 import java.util.Objects;
 
@@ -88,9 +91,9 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
 
     private void getExtras() {
         psTransNo = Objects.requireNonNull(getIntent().getStringExtra("sTransNox"));
-        psClientN = Objects.requireNonNull(getIntent().getStringExtra("sClientNm"));
-        dTransact = Objects.requireNonNull(getIntent().getStringExtra("dTransact"));
-        psBranchx = Objects.requireNonNull(getIntent().getStringExtra("sBranchxx"));
+//        psClientN = Objects.requireNonNull(getIntent().getStringExtra("sClientNm"));
+//        dTransact = Objects.requireNonNull(getIntent().getStringExtra("dTransact"));
+//        psBranchx = Objects.requireNonNull(getIntent().getStringExtra("sBranchxx"));
     }
 
     private void displayData() {
@@ -122,10 +125,46 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
     private class OnApproveListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            /** TODO:
-             * 1) Initialize Dialog
-             * 2) If confirmed, call this ~> mViewModel.PostBHApproval(psTransNo);
-             * */
+            DialogCIReason loDialog = new DialogCIReason(Activity_EvaluationCIHistoryInfo.this);
+            loDialog.initDialogCIReason((dialog, transtat, reason) -> {
+                dialog.dismiss();
+                    LoadDialog loading = new LoadDialog(Activity_EvaluationCIHistoryInfo.this);
+                    mViewModel.PostBHApproval(psTransNo, transtat, reason, new VMEvaluationCIHistoryInfo.OnTransactionCallBack() {
+                        @Override
+                        public void onSuccess(String fsMessage) {
+                            loading.dismiss();
+                            MessageBox msgBox = new MessageBox(Activity_EvaluationCIHistoryInfo.this);
+                            msgBox.initDialog();
+                            msgBox.setTitle("CI Evaluation");
+                            msgBox.setMessage(fsMessage);
+                            msgBox.setPositiveButton("Okay", (v, diags) -> {
+                                diags.dismiss();
+                                finish();
+                            });
+                            msgBox.show();
+                        }
+
+                        @Override
+                        public void onFailed(String fsMessage) {
+                            loading.dismiss();
+                            MessageBox msgBox = new MessageBox(Activity_EvaluationCIHistoryInfo.this);
+                            msgBox.initDialog();
+                            msgBox.setTitle("CI Evaluation");
+                            msgBox.setMessage(fsMessage);
+                            msgBox.setPositiveButton("Okay", (v, diags) -> {
+                                diags.dismiss();
+                            });
+                            msgBox.show();
+                        }
+
+                        @Override
+                        public void onLoad() {
+                            loading.initDialog("CI Evaluation", "CI Evalation Approval Processing...Please wait.", false);
+                            loading.show();
+                        }
+                    });
+            });
+            loDialog.show();
         }
     }
 

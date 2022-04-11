@@ -23,16 +23,19 @@ public class PreviewParser {
         List<oPreview> loResult = new ArrayList<>();
         try{
             HashMap<oParentFndg, List<oChildFndg>> loDetail = parseToPreviewResult(foDetail);
+            loResult.add(new oPreview("CI Evaluation Result", "Information below are base on Credit App", "", ""));
             loDetail.forEach((loParent, loChild) ->{
+                String lsTitle = "";
+                String lsDecrpt = "";
                 for(int x = 0; x < loChild.size(); x++){
                     String lsValue = loChild.get(x).getValue();
-                    if(lsValue.equalsIgnoreCase("10")){
+                    if(lsValue.equalsIgnoreCase("20")){
                         lsValue = "Incorrect";
                     } else {
                         lsValue = "Correct";
                     }
-                    loResult.add(new oPreview(loParent.getTitle(),
-                            loParent.getParentDescript(),
+                    loResult.add(new oPreview("",
+                            "",
                             loChild.get(x).getLabel(),
                             lsValue));
                 }
@@ -43,12 +46,12 @@ public class PreviewParser {
             } else {
                 loResult.add(new oPreview("", "Barangay Record", "Has Record", "NO"));
             }
-            loResult.add(new oPreview("", "Barangay Record", "Brgy Official Name", foDetail.getPrsnBrgy()));
-            loResult.add(new oPreview("", "Barangay Record", "Brgy Official Position", foDetail.getPrsnPstn()));
-            loResult.add(new oPreview("", "Barangay Record", "Brgy Official Contact", foDetail.getPrsnNmbr()));
-            loResult.add(new oPreview("", "Barangay Record", "Neighbor 1", foDetail.getNeighBr1()));
-            loResult.add(new oPreview("", "Barangay Record", "Neighbor 2", foDetail.getNeighBr2()));
-            loResult.add(new oPreview("", "Barangay Record", "Neighbor 3", foDetail.getNeighBr3()));
+            loResult.add(new oPreview("", "", "Brgy Official Name", foDetail.getPrsnBrgy()));
+            loResult.add(new oPreview("", "", "Brgy Official Position", foDetail.getPrsnPstn()));
+            loResult.add(new oPreview("", "", "Brgy Official Contact", foDetail.getPrsnNmbr()));
+            loResult.add(new oPreview("", "Neighbor", "Neighbor 1", foDetail.getNeighBr1()));
+            loResult.add(new oPreview("", "", "Neighbor 2", foDetail.getNeighBr2()));
+            loResult.add(new oPreview("", "", "Neighbor 3", foDetail.getNeighBr3()));
             loResult.add(new oPreview("Evaluation Info", "", "Date Receive by CI", FormatUIText.formatGOCasBirthdate(foDetail.getRcmdRcd1())));
             loResult.add(new oPreview("", "", "Evaluation Date", FormatUIText.formatGOCasBirthdate(foDetail.getRcmdtnx1())));
             if(foDetail.getRcmdtnc1().equalsIgnoreCase("1")){
@@ -193,7 +196,7 @@ public class PreviewParser {
             poChlFndng = new ArrayList<>();
             oParentFndg loPrntObj = new oParentFndg(Field, null);
             if (loForEval.getString(laParent.getString(x)).equalsIgnoreCase("20") ||
-                loForEval.getString(laParent.getString(x)).equalsIgnoreCase("10")) {
+                    loForEval.getString(laParent.getString(x)).equalsIgnoreCase("10")) {
                 oChildFndg loChild = new oChildFndg(poChlLabel.get(x),
                         laParent.getString(x),
                         loForEval.getString(laParent.getString(x)));
@@ -213,5 +216,4 @@ public class PreviewParser {
             return false;
         }
     }
-
 }
