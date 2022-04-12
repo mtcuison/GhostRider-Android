@@ -55,7 +55,16 @@ public class EvaluationCIHistoryInfoAdapter extends RecyclerView.Adapter<Evaluat
         holder.txtHeader.setText(loDetail.getTitle());
         holder.txtLabelx.setText(loDetail.getLabel());
         holder.txtContnt.setText(loDetail.getValue());
-//        if(!loDetail.getValue().equalsIgnoreCase("Correct") && !loDetail.getValue().equalsIgnoreCase("Incorrect")) {
+        String lsValue = loDetail.getValue();
+        if(lsValue.equalsIgnoreCase("Correct")){
+            holder.txtContnt.setTextColor(Color.GREEN);
+        } else if(lsValue.equalsIgnoreCase("Incorrect")){
+            holder.txtContnt.setTextColor(Color.RED);
+        } else {
+            holder.txtContnt.setTextColor(Color.BLACK);
+        }
+//        if(!loDetail.getValue().equalsIgnoreCase("Correct") &&
+//                !loDetail.getValue().equalsIgnoreCase("Incorrect")) {
 //            holder.txtContnt.setTextColor(Color.parseColor("#FF0000"));
 //        } else if(loDetail.getValue().equalsIgnoreCase("Correct")) {
 //            holder.txtContnt.setTextColor(Color.parseColor("#009A17"));

@@ -120,6 +120,8 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
         poAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(poAdapter);
         recyclerView.setLayoutManager(layoutManager);
+
+        btnApprove.setEnabled(foCiDetlx.getRcmdtnc2() == null);
     }
 
     private class OnApproveListener implements View.OnClickListener {

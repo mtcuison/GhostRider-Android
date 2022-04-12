@@ -62,7 +62,8 @@ public class EvaluatorManager {
     public void DownloadCreditApplications(OnActionCallback callback){
         try{
             JSONObject params = new JSONObject();
-            params.put("sEmployID", poSession.getEmployeeID());
+//            params.put("sEmployID", poSession.getEmployeeID());
+            params.put("sEmployID", "M00115000623");
             String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadCIApplications(), params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Server no response.");
