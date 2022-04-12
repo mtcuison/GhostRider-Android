@@ -123,6 +123,13 @@ public class RNotificationInfo {
         notificationDao.updateMessageReadStatus(SenderID, new AppConstants().DATE_MODIFIED);
     }
 
+    public ENotificationMaster getNotificationMaster(String fsTransNo) {
+        return notificationDao.getNotificationMaster(fsTransNo);
+    }
+    public ENotificationRecipient getNotificationRecipient(String fsTransNo) {
+        return notificationDao.getNotificationRecipient(fsTransNo);
+    }
+
     public String getClientNextMasterCode(){
         String lsNextCode = "";
         GConnection loConn = DbConnection.doConnect(instance);

@@ -203,6 +203,12 @@ public interface DNotifications {
     @Query("SELECT dTimeStmp FROM Notification_Info_Recepient WHERE sTransNox =:MessageID")
     String getDeleteMessageTimeStamp(String MessageID);
 
+    @Query("SELECT * FROM Notification_Info_Master WHERE sTransNox=:TransNox")
+    ENotificationMaster getNotificationMaster(String TransNox);
+
+    @Query("SELECT * FROM Notification_Info_Recepient WHERE sTransNox=:TransNox")
+    ENotificationRecipient getNotificationRecipient(String TransNox);
+
     @Query("UPDATE Notification_Info_Recepient SET " +
             "dReadxxxx =:DateTime, " +
             "cMesgStat = '3', " +
