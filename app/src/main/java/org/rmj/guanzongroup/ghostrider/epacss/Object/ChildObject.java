@@ -80,10 +80,12 @@ public class ChildObject {
 
             case "ci evaluation history":
                 loIntent = new Intent(context, Activity_EvaluationCIHistory.class);
+                loIntent.putExtra("cIsPrview", true);
                 break;
 
             case "bh approval":
                 loIntent = new Intent(context, Activity_EvaluationCIHistory.class);
+                loIntent.putExtra("cIsPrview", false);
                 break;
 
             case "leave application":

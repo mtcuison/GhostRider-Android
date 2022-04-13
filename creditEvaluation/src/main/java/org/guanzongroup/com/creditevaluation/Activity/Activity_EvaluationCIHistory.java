@@ -169,6 +169,7 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
 //
                             Intent loIntent = new Intent(Activity_EvaluationCIHistory.this, Activity_EvaluationCIHistoryInfo.class);
                             loIntent.putExtra("sTransNox", ciEvaluationLists.get(position).sTransNox);
+                            loIntent.putExtra("cIsPrview", getIntent().getBooleanExtra("cIsPrview", true));
                             loIntent.putExtra("sClientNm", ciEvaluationLists.get(position).sClientNm);
                             loIntent.putExtra("dTransact", ciEvaluationLists.get(position).dTransact);
                             loIntent.putExtra("sBranchxx", ciEvaluationLists.get(position).sBranchNm);

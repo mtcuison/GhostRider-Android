@@ -121,7 +121,12 @@ public class Activity_EvaluationCIHistoryInfo extends AppCompatActivity {
         recyclerView.setAdapter(poAdapter);
         recyclerView.setLayoutManager(layoutManager);
 
-        btnApprove.setEnabled(foCiDetlx.getRcmdtnc2() == null);
+        boolean cIsPrview = getIntent().getBooleanExtra("cIsPrview", true);
+        if(!cIsPrview) {
+            btnApprove.setEnabled(foCiDetlx.getRcmdtnc2() == null);
+        } else {
+            btnApprove.setVisibility(View.GONE);
+        }
     }
 
     private class OnApproveListener implements View.OnClickListener {
