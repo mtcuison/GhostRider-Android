@@ -53,7 +53,6 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
     private LinearLayoutManager layoutManager;
     private CreditEvaluationListAdapter adapter;
     private LinearLayout loading;
-    private List<DCreditOnlineApplicationCI.oDataEvaluationInfo> ciEvaluationList;
     private LoadDialog poDialogx;
     private MessageBox poMessage;
     private String userBranch;
@@ -67,6 +66,7 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
         setContentView(R.layout.activity_cievaluation_list);
         initWidgets();
         mViewModel = new ViewModelProvider(Activity_CIEvaluationList.this).get(VMEvaluationList.class);
+        initData();
         mViewModel.DownloadCreditApplications(Activity_CIEvaluationList.this);
         mViewModel.getUserBranch().observe(this, eBranchInfo -> {
             try {
@@ -115,7 +115,6 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
     @Override
     public void onSuccessImport() {
         poDialogx.dismiss();
-        initData();
     }
 
     @Override
@@ -133,16 +132,12 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
         if (item.getItemId() == android.R.id.home) {
             finish();
         } else if (item.getItemId() == R.id.action_menu_add_application) {
-            poMessage.initDialog();
-            poMessage.setTitle("CI Evaluation");
-            poMessage.setMessage("No corresponding feature has been set.");
-            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-            poMessage.show();
             try {
                 DialogAddApplication loDialog = new DialogAddApplication(Activity_CIEvaluationList.this);
                 loDialog.initDialog(new DialogAddApplication.OnDialogButtonClickListener() {
                     @Override
                     public void OnDownloadClick(Dialog Dialog, String args) {
+                        Dialog.dismiss();
                         mViewModel.importApplicationInfo(args, new ViewModelCallback() {
                             @Override
                             public void OnStartSaving() {
@@ -152,7 +147,6 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
 
                             @Override
                             public void OnSuccessResult() {
-                                Dialog.dismiss();
                                 poDialogx.dismiss();
                                 poMessage.initDialog();
                                 poMessage.setTitle("Add Application");
@@ -192,31 +186,8 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
             try {
                 if (ciList.size() > 0) {
                     loading.setVisibility(View.GONE);
-                    ciEvaluationList = new ArrayList<>();
-                    for (int x = 0; x < ciList.size(); x++) {
-                        DCreditOnlineApplicationCI.oDataEvaluationInfo loan = new DCreditOnlineApplicationCI.oDataEvaluationInfo();
-                        loan.sTransNox = (ciList.get(x).sTransNox);
-                        loan.dTransact = (ciList.get(x).dTransact);
-                        loan.sCredInvx = (ciList.get(x).sCredInvx);
-                        loan.sClientNm = (ciList.get(x).sClientNm);
-                        loan.nAcctTerm = (ciList.get(x).nAcctTerm);
-                        loan.nDownPaym = (ciList.get(x).nDownPaym);
-                        loan.sAddressx = (ciList.get(x).sAddressx);
-                        loan.sAddrFndg = (ciList.get(x).sAddrFndg);
-                        loan.sAssetsxx = (ciList.get(x).sAssetsxx);
-                        loan.sAsstFndg = (ciList.get(x).sAsstFndg);
-                        loan.sIncomexx = (ciList.get(x).sIncmFndg);
-                        loan.cHasRecrd = (ciList.get(x).cHasRecrd);
-                        loan.sBranchNm = (ciList.get(x).sBranchNm);
-                        loan.sRecrdRem = (ciList.get(x).sRecrdRem);
-                        loan.sRcmdtnx1 = (ciList.get(x).sRcmdtnx1);
-                        ciEvaluationList.add(loan);
-                        continue;
-                    }
-
-
-                    String json = new Gson().toJson(ciEvaluationList);
-                    adapter = new CreditEvaluationListAdapter(ciEvaluationList, "CI Evaluation List", new CreditEvaluationListAdapter.OnApplicationClickListener() {
+                    String json = new Gson().toJson(ciList);
+                    adapter = new CreditEvaluationListAdapter(ciList, "CI Evaluation List", new CreditEvaluationListAdapter.OnApplicationClickListener() {
                         @Override
                         public void OnClick(int position, List<DCreditOnlineApplicationCI.oDataEvaluationInfo> ciEvaluationLists) {
                             Intent loIntent = new Intent(Activity_CIEvaluationList.this, Activity_Evaluation.class);

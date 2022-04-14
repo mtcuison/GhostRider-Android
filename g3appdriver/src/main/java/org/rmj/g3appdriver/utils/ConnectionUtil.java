@@ -17,6 +17,8 @@ import android.net.NetworkInfo;
 import android.os.NetworkOnMainThreadException;
 import android.os.StrictMode;
 
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -62,8 +64,14 @@ public class ConnectionUtil {
 
         try
         {
+            String lsAddress;
+            if(AppConfigPreference.getInstance(context).getTestStatus()){
+                lsAddress = "http://192.168.10.141/index.php";
+            } else {
+                lsAddress = "https://restgk.guanzongroup.com.ph/index.php";
+            }
             HttpURLConnection httpUrlConnection = (HttpURLConnection) new URL(
-                    "https://restgk.guanzongroup.com.ph/index.php").openConnection();
+                    lsAddress).openConnection();
             httpUrlConnection.setRequestProperty("Connection", "close");
             httpUrlConnection.setRequestMethod("HEAD");
             httpUrlConnection.setConnectTimeout(5000);

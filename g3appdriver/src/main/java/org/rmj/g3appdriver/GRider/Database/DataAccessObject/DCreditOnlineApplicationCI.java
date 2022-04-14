@@ -92,6 +92,7 @@ public interface DCreditOnlineApplicationCI {
             "cSendStat = '0' " +
             "WHERE sTransNox =:TransNox")
     public void SaveBHApproval(String TransNox, String fsResult, String fsRemarks);
+
     @Query("SELECT a.sTransNox, " +
             "a.sCredInvx, " +
             "a.sAddressx, " +

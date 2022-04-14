@@ -9,9 +9,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
@@ -165,12 +167,38 @@ public class EvaluatorManager {
                         loApp.setRcmdRcd1(new AppConstants().DATE_MODIFIED);
                         poCI.SaveApplicationInfo(loApp);
                     }
+                    List<ECreditApplication> loLoanApp = new ArrayList<>();
                     JSONArray loCredxx = loResponse.getJSONArray("credit_online");
-                    if(new RBranchLoanApplication(instance).insertBranchApplicationInfos(loCredxx)){
-                        callback.OnSuccess("success");
-                    } else {
-                        callback.OnFailed("Failed saving credit application info.");
+                    for(int x = 0; x < loCredxx.length(); x++) {
+                        JSONObject loJson = loCredxx.getJSONObject(x);
+                        ECreditApplication loApp = new ECreditApplication();
+                        loApp.setTransNox(loJson.getString("sTransNox"));
+                        loApp.setBranchCd(loJson.getString("sBranchCd"));
+                        loApp.setTransact(loJson.getString("dTransact"));
+                        loApp.setClientNm(loJson.getString("sClientNm"));
+                        loApp.setGOCASNox(loJson.getString("sGOCASNox"));
+                        //TODO : Unit Applied is default to 0 cuz empty String is return from Server upon request
+                        // this must be update when credit is available in Telecom
+                        loApp.setUnitAppl("0");
+                        loApp.setSourceCD(loJson.getString("sSourceCD"));
+                        loApp.setDetlInfo(loJson.getString("sDetlInfo"));
+                        loApp.setQMatchNo(loJson.getString("sQMatchNo"));
+                        loApp.setWithCIxx(loJson.getString("cWithCIxx"));
+                        loApp.setDownPaym(Double.parseDouble(loJson.getString("nDownPaym")));
+                        loApp.setRemarksx(loJson.getString("sRemarksx"));
+                        loApp.setCreatedx(loJson.getString("sCreatedx"));
+                        loApp.setDateCreatedx(loJson.getString("dCreatedx"));
+                        loApp.setSendStat("1");
+                        loApp.setVerified(loJson.getString("sVerified"));
+                        loApp.setDateVerified(loJson.getString("dVerified"));
+                        loApp.setTranStat(loJson.getString("cTranStat"));
+                        loApp.setDivision(loJson.getString("cDivision"));
+                        loApp.setReceived(loJson.getString("dReceived"));
+                        loApp.setCaptured("0");
+                        loLoanApp.add(loApp);
                     }
+                    new RCreditApplication(instance).insertBulkData(loLoanApp);
+                    callback.OnSuccess("success");
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
                     String lsMessage = loError.getString("message");

@@ -86,6 +86,7 @@ public class VMEvaluationList extends AndroidViewModel {
         private final ViewModelCallback callback;
         private final EvaluatorManager foManager;
         private final String foTransNox;
+        private String response = "";
 
         public AddApplicationInfoTask(Application application, String transNo,ViewModelCallback callback) {
             this.db = new RCreditApplication(application);
@@ -107,28 +108,38 @@ public class VMEvaluationList extends AndroidViewModel {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(JSONObject... jsonObjects) {
-            String response = "";
             try {
                 if (loConnectx.isDeviceConnected()) {
                     foManager.AddApplication(foTransNox, new EvaluatorManager.OnActionCallback() {
                         @Override
                         public void OnSuccess(String args) {
                             Log.e("Add Success", args);
+                            response = args;
                         }
 
                         @Override
                         public void OnFailed(String message) {
                             Log.e("Add Failed", message);
+                            response = message;
                         }
                     });
                 }else {
-                    response = AppConstants.NO_INTERNET();
+                    response = "Not connected to internet.";
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                e.getCause();
+                response = e.getMessage();
             }
             return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if(s.equalsIgnoreCase("success")){
+                callback.OnSuccessResult();
+            } else {
+                callback.OnFailedResult(s);
+            }
         }
     }
     public interface OnImportCallBack{
@@ -345,4 +356,5 @@ public class VMEvaluationList extends AndroidViewModel {
             }
         }
     }
+
 }
