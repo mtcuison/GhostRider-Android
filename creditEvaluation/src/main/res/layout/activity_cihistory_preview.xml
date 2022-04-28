@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.creditEvaluation
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 3/28/22, 8:50 AM
+  ~ project file last modified : 3/28/22, 8:49 AM
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme"
+    android:background="@drawable/bg_gradient_light"
+    tools:context=".Activity.Activity_CIHistoryPreview">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_ci_evaluation"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/material_tool_bar"
+            app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_samsungknox"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="Loan Applicant Evaluation"
+                android:textColor="@color/textColor_White"
+                android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_light"
+                android:text="GMC Dagupan - Honda"
+                android:textColor="@color/textColor_White"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:text="Guanzon Bldg., Perez Blvd., Dagupan City"
+                android:textColor="@color/textColor_White"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginBottom="15dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/lbl_ci_transNox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Garcia, Michael Permison"
+                        android:textSize="16sp"
+                        android:textColor="@color/textColor_Black"
+                        tools:ignore="HardcodedText"
+                        android:fontFamily="@font/roboto_medium"
+                        tools:targetApi="jelly_bean"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:padding="3dp"
+                        android:background="@color/guanzon_orange"/>
+
+                    <TextView
+                        android:id="@+id/lbl_ci_applicantName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Garcia, Michael Permison"
+                        android:textSize="16sp"
+                        android:textColor="@color/textColor_Black"
+                        tools:ignore="HardcodedText"
+                        android:fontFamily="@font/roboto_medium"
+                        tools:targetApi="jelly_bean"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:text="Date Applied :"
+                            android:textSize="16sp"
+                            android:textColor="@color/textColor_Black"
+                            android:gravity="start"
+                            tools:ignore="HardcodedText"
+                            android:fontFamily="@font/roboto_regular"
+                            tools:targetApi="jelly_bean"/>
+
+                        <TextView
+                            android:id="@+id/lbl_ci_applicationDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="December 12, 2019"
+                            android:textColor="@color/textColor_Black"
+                            android:gravity="end"
+                            tools:ignore="HardcodedText"
+                            android:fontFamily="@font/roboto_regular"
+                            tools:targetApi="jelly_bean"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:text="Branch :"
+                            android:textSize="16sp"
+                            android:textColor="@color/textColor_Black"
+                            android:gravity="start"
+                            tools:ignore="HardcodedText"
+                            android:fontFamily="@font/roboto_regular"
+                            tools:targetApi="jelly_bean"/>
+
+                        <TextView
+                            android:id="@+id/lbl_ci_branch"
+                            android:layout_width="0dp"
+                            android:layout_height="22dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_regular"
+                            android:gravity="end"
+                            android:text="December 12, 2019"
+                            android:textColor="@color/textColor_Black"
+                            tools:ignore="HardcodedText"
+                            tools:targetApi="jelly_bean" />
+
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="5dp"
+                        android:padding="3dp"
+                        android:background="@color/guanzon_orange"/>
+
+                </LinearLayout>
+                <!-- START ADDRESS-->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvForEvaluation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="@color/material_lightgrey"
+                    app:cardUseCompatPadding="true"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="3dp"
+                    android:background="@color/material_lightgrey"
+                    app:cardPreventCornerOverlap="true">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/HeaderLabelBlack"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="Data for Evaluation"/>
+                        <org.guanzongroup.com.creditevaluation.Adapter.NoScrollExListView
+                            android:id="@+id/expListview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="true"
+                            android:padding="5dp"
+                            android:scrollbars="none"
+                            android:groupIndicator="@null"
+                            />
+                        <!--                        <ExpandableListView-->
+                        <!--                            android:id="@+id/expListview"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="match_parent"-->
+                        <!--                            android:groupIndicator="@null"-->
+                        <!--                            android:nestedScrollingEnabled="true"/>-->
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+                <!-- END ADDRESS-->
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/material_lightgrey"
+                    app:cardUseCompatPadding="true"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="3dp"
+                    android:background="@color/material_lightgrey"
+                    app:cardPreventCornerOverlap="true">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/HeaderLabelBlack"
+                            android:text="Additional Info"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="10dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Barangay Record :"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:textColor="@color/material_black"
+                                    />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="fill_parent"
+                                    android:orientation="horizontal"
+                                    android:layout_gravity="center_vertical|center_horizontal">
+                                    <RadioGroup
+                                        android:id="@+id/rg_ci_brgyRecord"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="fill_parent"
+                                        android:layout_weight=".35"
+                                        android:padding="3dp"
+                                        android:orientation="horizontal"
+                                        android:layout_gravity="center_vertical|center_horizontal">
+
+                                        <RadioButton
+                                            android:id="@+id/rb_ci_noRecord"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="fill_parent"
+                                            android:fontFamily="@font/roboto_regular"
+                                            android:text="No Barangay Record"
+                                            android:layout_weight=".2"
+                                            tools:targetApi="jelly_bean"
+                                            android:buttonTint="@color/guanzon_digital_orange" />
+
+                                        <RadioButton
+                                            android:id="@+id/rb_ci_withRecord"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="fill_parent"
+                                            android:text="Has Barangay Record"
+                                            android:layout_weight=".2"
+                                            android:fontFamily="@font/roboto_regular"
+                                            tools:targetApi="jelly_bean"
+                                            android:buttonTint="@color/guanzon_digital_orange"/>
+                                    </RadioGroup>
+                                </LinearLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/til_ci_record"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Record"
+                                    android:layout_marginBottom="10dp"
+                                    android:visibility="gone"
+                                    style="@style/TextInputStyle">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/tie_ci_record"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="textCapWords"
+                                        android:textColor="@color/material_black"
+                                        android:maxLength="50"/>
+                                </com.google.android.material.textfield.TextInputLayout>
+                            </LinearLayout>
+                            <!--If Client is Brgy. Official visible-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_gravity="center_vertical|center_horizontal">
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="Assisting Brgy. Personnel"
+                                        style="@style/TextInputStyle"
+                                        android:layout_weight="05">
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/tie_ci_asstPersonel"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:inputType="textCapWords"
+                                            android:imeOptions="actionNext"
+                                            android:nextFocusForward="@id/tie_ci_asstPosition"
+                                            android:textColor="@color/material_black"
+                                            android:maxLength="50"
+                                            android:enabled="false"/>
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_gravity="center_vertical|center_horizontal">
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="Brgy. Personnel Position"
+                                        style="@style/TextInputStyle"
+                                        android:layout_weight="05">
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/tie_ci_asstPosition"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:inputType="textCapWords"
+                                            android:imeOptions="actionNext"
+                                            android:nextFocusForward="@id/tie_ci_asstPhoneNo"
+                                            android:textColor="@color/material_black"
+                                            android:maxLength="50"
+                                            android:enabled="false" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_gravity="center_vertical|center_horizontal">
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="05"
+                                        android:hint="Brgy. Personnel Mobile No."
+                                        style="@style/TextInputStyle"
+                                        android:orientation="horizontal">
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/tie_ci_asstPhoneNo"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:maxLength="11"
+                                            android:inputType="number|none"
+                                            android:imeOptions="actionNext"
+                                            android:nextFocusForward="@id/tie_ci_neighborName1"
+                                            android:textColor="@color/material_black"
+                                            android:enabled="false"/>
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+                            <!--    Neighbor 1-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Neighbor 1 :"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:textColor="@color/material_black"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_gravity="center_vertical|center_horizontal">
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="Full Name"
+                                        style="@style/TextInputStyle"
+                                        android:layout_weight="05">
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/tie_ci_neighborName1"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:inputType="textCapWords"
+                                            android:imeOptions="actionNext"
+                                            android:nextFocusForward="@id/tie_ci_neighborName2"
+                                            android:textColor="@color/material_black"
+                                            android:maxLength="50"
+                                            android:enabled="false"/>
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                </LinearLayout>
+                            </LinearLayout>
+                            <!--    Neighbor 2-->
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Neighbor 2 :"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:textColor="@color/material_black"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_gravity="center_vertical|center_horizontal">
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="Full Name"
+                                        style="@style/TextInputStyle"
+                                        android:layout_weight="05">
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/tie_ci_neighborName2"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:inputType="textCapWords"
+                                            android:imeOptions="actionNext"
+                                            android:nextFocusForward="@id/tie_ci_neighborName3"
+                                            android:textColor="@color/material_black"
+                                            android:maxLength="50"
+                                            android:enabled="false"/>
+                                    </com.google.android.material.textfield.TextInputLayout>
+                                </LinearLayout>
+
+                            </LinearLayout>
+                            <!--    Neighbor 3-->
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Neighbor 3 :"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:textColor="@color/material_black"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_gravity="center_vertical|center_horizontal">
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="Full Name"
+                                        style="@style/TextInputStyle"
+                                        android:layout_weight="05">
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/tie_ci_neighborName3"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:inputType="textCapWords"
+                                            android:imeOptions="actionNext"
+                                            android:textColor="@color/material_black"
+                                            android:maxLength="50"
+                                            android:enabled="false" />
+                                        <!--                                        android:nextFocusForward="@id/tie_ci_neighborName2"-->
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+                                    
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </LinearLayout>
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_Approve"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/GhostRider_Button"
+                            android:text="Approve Application"
+                            android:layout_marginTop="20dp"/>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

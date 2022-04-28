@@ -19,6 +19,9 @@ public interface DCreditOnlineApplicationCI {
     @Query("SELECT * FROM Credit_Online_Application_CI WHERE cTranStat = '0'")
     LiveData<List<ECreditOnlineApplicationCI>> getForEvaluationList();
 
+    @Query("SELECT * FROM Credit_Online_Application_CI WHERE cTranStat = '1' AND cRcmdtnx1 IS NOT NULL")
+    LiveData<List<ECreditOnlineApplicationCI>> getForPreviewResultList();
+
     @Query("SELECT * FROM Credit_Online_Application_CI WHERE sTransNox=:TransNox")
     ECreditOnlineApplicationCI getApplication(String TransNox);
 
@@ -76,9 +79,12 @@ public interface DCreditOnlineApplicationCI {
     @Query("UPDATE Credit_Online_Application_CI SET " +
             "cRcmdtnx1 =:fsResult, " +
             "sRcmdtnx1 =:fsRemarks, " +
-            "cSendStat = '0' " +
+            "cSendStat = '0', " +
+            "sApproved = (SELECT sEmployID FROM User_Info_Master), " +
+            "dApproved =:DateApp, " +
+            "dRcmdtnx1 =:DateApp " +
             "WHERE sTransNox =:TransNox")
-    public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks);
+    public void SaveCIApproval(String TransNox, String fsResult, String fsRemarks, String DateApp);
 
     @Query("UPDATE Credit_Online_Application_CI SET " +
             "cRcmdtnx2 =:fsResult, " +
@@ -99,13 +105,37 @@ public interface DCreditOnlineApplicationCI {
             "b.sClientNm, " +
             "b.dTransact, " +
             "c.sBranchNm, " +
-            "b.nDownPaym " +
+            "b.nDownPaym, " +
+            "a.sRcmdtnx1 " +
             "FROM CREDIT_ONLINE_APPLICATION_CI a " +
             "LEFT JOIN Credit_Online_Application b " +
             "ON a.sTransNox = b.sTransNox " +
             "LEFT JOIN Branch_Info c " +
-            "ON b.sBranchCd = c.sBranchCd ")
+            "ON b.sBranchCd = c.sBranchCd " +
+            "WHERE a.cRcmdtnx1 isNull")
     LiveData<List<oDataEvaluationInfo>> getForEvaluationListData();
+    @Query("SELECT a.sTransNox, " +
+            "a.sCredInvx, " +
+            "a.sAddressx, " +
+            "a.sAddrFndg, " +
+            "a.sAssetsxx, " +
+            "a.sAsstFndg, " +
+            "a.sIncomexx, " +
+            "a.sIncmFndg, " +
+            "a.cHasRecrd, " +
+            "a.sRecrdRem, " +
+            "b.sClientNm, " +
+            "b.dTransact, " +
+            "c.sBranchNm, " +
+            "b.nDownPaym, " +
+            "a.sRcmdtnx1 " +
+            "FROM CREDIT_ONLINE_APPLICATION_CI a " +
+            "LEFT JOIN Credit_Online_Application b " +
+            "ON a.sTransNox = b.sTransNox " +
+            "LEFT JOIN Branch_Info c " +
+            "ON b.sBranchCd = c.sBranchCd " +
+            "WHERE a.cRcmdtnx1 notNull")
+    LiveData<List<oDataEvaluationInfo>> getForEvaluationListDataPreview();
 
     @Query("SELECT a.sTransNox, " +
             "a.sCredInvx, " +

@@ -53,14 +53,14 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.3.5'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'com.google.firebase:firebase-inappmessaging-display:20.1.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    implementation 'com.google.firebase:firebase-inappmessaging-display:20.1.2'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.google.android.gms:play-services-location:18.0.0'
-    implementation 'com.google.android.gms:play-services-auth:19.2.0'
-    implementation 'com.google.firebase:firebase-crashlytics:18.2.1'
-    implementation 'com.google.firebase:firebase-analytics:19.0.1'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.9'
+    implementation 'com.google.firebase:firebase-analytics:20.1.2'
 //    implementation 'com.github.smarteist:autoimageslider:1.4.0'
 //    // Optional: Circle Indicator (To fix the xml preview "Missing classes" error)
 //    implementation 'me.relex:circleindicator:2.1.6'
@@ -80,13 +80,14 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.1'
 
 
-    implementation 'com.google.firebase:firebase-core:19.0.1'
+    implementation 'com.google.firebase:firebase-core:20.1.2'
     implementation platform('com.google.firebase:firebase-bom:26.8.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-messaging'
-    implementation 'com.google.firebase:firebase-core:19.0.1'
-    implementation("com.google.firebase:firebase-inappmessaging-display-ktx:20.1.0")
+    implementation 'com.google.firebase:firebase-core:20.1.2'
+    implementation("com.google.firebase:firebase-inappmessaging-display-ktx:20.1.2")
     implementation("io.grpc:grpc-okhttp:1.32.2")
+    implementation 'androidx.work:work-runtime:2.7.0-alpha05'
 
     implementation 'commons-io:commons-io:2.6'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'

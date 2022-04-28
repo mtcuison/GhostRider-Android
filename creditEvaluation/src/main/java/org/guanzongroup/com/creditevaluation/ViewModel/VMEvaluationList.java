@@ -281,4 +281,68 @@ public class VMEvaluationList extends AndroidViewModel {
             }
         }
     }
+    public void DownloadCreditApplications(OnImportCallBack callBack){
+        try{
+            new DownloadCreditApplications(instance,poManager, callBack).execute();} catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    private  class DownloadCreditApplications extends AsyncTask<Void, Void, String> {
+        private final EvaluatorManager poCIEvaluation;
+        private final OnImportCallBack callback;
+        private final ConnectionUtil poConn;
+        public DownloadCreditApplications(Application app, EvaluatorManager poCIEvaluation, OnImportCallBack callback) {
+            this.poCIEvaluation = poCIEvaluation;
+            this.callback = callback;
+            this.poConn = new ConnectionUtil(app);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.onStartImport();
+        }
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                final String[] response = {""};
+                if (!poConn.isDeviceConnected()) {
+                    response[0] = "Unable to connect.";
+                } else {
+                    poCIEvaluation.DownloadCreditApplications(new EvaluatorManager.OnActionCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            response[0] = args;
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            response[0] = message;
+                        }
+                    });
+
+                }
+                Thread.sleep(1000);
+                return response[0];
+
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                return e.getMessage();
+            }catch (Exception e){
+                e.printStackTrace();
+                return e.getMessage();
+            }
+        }
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s.equalsIgnoreCase("success")){
+                callback.onSuccessImport();
+            } else {
+                callback.onImportFailed(s);
+            }
+        }
+    }
 }

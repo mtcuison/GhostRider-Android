@@ -93,6 +93,9 @@ public interface DImageInfo {
     @Query("SELECT * FROM Image_Information WHERE sFileCode = '0021' AND cSendStat <> '1'")
     List<EImageInfo> getUnsentLoginImageInfo();
 
+    @Query("SELECT * FROM Image_Information WHERE sSourceNo =:fsSource AND sDtlSrcNo =:fsDetail")
+    EImageInfo CheckImageForCIExist(String fsSource, String fsDetail);
+
     /**
      *
      * @param oldTransNox pass the old SourceNo of Image_Information which is not sent to server
@@ -119,6 +122,9 @@ public interface DImageInfo {
 
     @Query("SELECT * FROM Image_Information WHERE sSourceNo =:TransNox AND sDtlSrcNo=:AccntNo")
     EImageInfo getDCPImageInfoForPosting(String TransNox, String AccntNo);
+
+    @Query("SELECT * FROM Image_Information WHERE sSourceNo =:TransNox ORDER BY dCaptured DESC LIMIT 1")
+    EImageInfo getCIImageForPosting(String TransNox);
 
     @Query("SELECT * FROM Image_Information WHERE sSourceCD = 'DCPa' AND cSendStat <> '1'")
     LiveData<List<EImageInfo>> getDCPUnpostedImageList();

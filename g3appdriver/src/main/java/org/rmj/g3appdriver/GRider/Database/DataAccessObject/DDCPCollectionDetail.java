@@ -21,6 +21,7 @@ import androidx.room.Update;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GRider.Database.Entities.EDCP_Remittance;
 
 import java.util.List;
 
@@ -42,6 +43,16 @@ public interface DDCPCollectionDetail {
             "WHERE sSerialNo =:SerialNox " +
             "AND sTransNox = (SELECT sTransNox FROM LR_DCP_Collection_Master ORDER BY dReferDte DESC LIMIT 1)")
     String getClientDuplicateSerialNox(String SerialNox);
+
+    @Query("UPDATE LR_DCP_Collection_Detail SET " +
+            "sRemCodex = 'CNA', " +
+            "sRemarksx =:Remarks, " +
+            "cTranStat = '1'," +
+            "dModified =:DateTime " +
+            "WHERE sTransNox =(SELECT sTransNox FROM LR_DCP_Collection_Master WHERE cSendStat IS NULL) " +
+            "AND sAcctNmbr =:AccNmbr " +
+            "AND nEntryNox =:EntryNo")
+    void UpdateCNADetails(String AccNmbr, int EntryNo, String Remarks, String DateTime);
 
     /**
      *
@@ -73,7 +84,8 @@ public interface DDCPCollectionDetail {
     @Query("UPDATE LR_DCP_Collection_Detail " +
             "SET cSendStat='1', " +
             "cTranstat = '2', " +
-            "dModified=:DateEntry " +
+            "dSendDate =:DateEntry, " +
+            "dModified =:DateEntry " +
             "WHERE sTransNox =:TransNox " +
             "AND nEntryNox =:EntryNox")
     void updateCollectionDetailStatus(String TransNox, int EntryNox, String DateEntry);
@@ -206,6 +218,16 @@ public interface DDCPCollectionDetail {
             "WHERE dReferDte =:dTransact))")
     Integer getDCPStatus(String dTransact);
 
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox=(" +
+            "SELECT sTransNox FROM LR_DCP_Collection_Master WHERE cSendStat IS NULL) " +
+            "AND sRemCodex = 'PAY'")
+    List<EDCPCollectionDetail> checkDCPPAYTransaction();
+
+    @Query("SELECT * FROM LR_DCP_Collection_Detail WHERE sTransNox = " +
+            "(SELECT sTransNox FROM LR_DCP_Collection_Master WHERE cSendStat IS NULL) " +
+            "AND sRemCodex <> ''")
+    List<EDCPCollectionDetail> checkCollectionRemarksCode();
+
     @Query("SELECT a.sTransNox, " +
             "a.nEntryNox, " +
             "a.sAcctNmbr, " +
@@ -269,7 +291,7 @@ public interface DDCPCollectionDetail {
             "ON a.sClientID = d.sClientID " +
             "LEFT JOIN MOBILE_UPDATE_REQUEST e " +
             "ON a.sClientID = e.sClientID " +
-            "WHERE a.cSendStat <> '1'")
+            "WHERE a.cSendStat IS NULL")
     LiveData<List<CollectionDetail>> getCollectionDetailForPosting();
 
     @Query("SELECT * FROM LR_DCP_Collection_Detail " +
@@ -313,7 +335,8 @@ public interface DDCPCollectionDetail {
     @Query("UPDATE LR_DCP_Collection_Detail SET sRemCodex = 'NV', " +
             "sRemarksx =:Remarks, " +
             "dModified =:dModfied " +
-            "WHERE sTransNox =:TransNox")
+            "WHERE sTransNox =:TransNox " +
+            "AND sRemCodex = ''")
     void updateNotVisitedCollections(String Remarks, String TransNox, String dModfied);
 
     class CollectionDetail{

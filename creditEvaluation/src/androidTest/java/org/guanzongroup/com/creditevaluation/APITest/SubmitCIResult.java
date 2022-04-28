@@ -2,9 +2,6 @@ package org.guanzongroup.com.creditevaluation.APITest;
 
 import static org.junit.Assert.assertTrue;
 
-import android.app.Application;
-
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.guanzongroup.com.creditevaluation.Core.CIAPIs;
@@ -92,11 +89,11 @@ public class SubmitCIResult {
         String lsAddressx = "{\"present_address\":{\"cAddrType\":null,\"sAddressx\":\"1\",\"sAddrImge\":null,\"nLatitude\":0.0,\"nLongitud\":0.0},\"primary_address\":{\"cAddrType\":null,\"sAddressx\":\"1\",\"sAddrImge\":null,\"nLatitude\":0.0,\"nLongitud\":0.0}}";
         String lsAssetsxx = "{\"sProprty1\":null,\"sProprty2\":null,\"sProprty3\":null,\"cWith4Whl\":null,\"cWith3Whl\":null,\"cWith2Whl\":null,\"cWithRefx\":\"1\",\"cWithTVxx\":\"1\",\"cWithACxx\":null}";
         String lsIncomexx = "{\"employed\":{\"sEmployer\":null,\"sWrkAddrx\":\"1\",\"sPosition\":null,\"nLenServc\":0.0,\"nSalaryxx\":-1.0},\"self_employed\":{\"sBusiness\":null,\"sBusAddrx\":null,\"nBusLenxx\":0.0,\"nBusIncom\":0.0,\"nMonExpns\":0.0},\"financed\":{\"sFinancer\":null,\"sReltnDsc\":null,\"sCntryNme\":null,\"nEstIncme\":0.0},\"pensioner\":{\"sPensionx\":null,\"nPensionx\":0.0}}";
-        params.put("sTransNox", "CI4K52200069");
+        params.put("sTransNox", "CI4K52200070");
         params.put("sAddrFndg", new JSONObject(lsAddressx));
         params.put("sAsstFndg", new JSONObject(lsAssetsxx));
         params.put("sIncmFndg", new JSONObject(lsIncomexx));
-        params.put("cHasRecrd", "1");
+        params.put("cHasRecrd", "0");
         params.put("sRecrdRem", "Barangay blotter due to unable to pay credits");
         params.put("sPrsnBrgy", "sample");
         params.put("sPrsnPstn", "sample");
@@ -108,7 +105,7 @@ public class SubmitCIResult {
         params.put("sApproved", "M00117000702");
         params.put("dApproved", AppConstants.CURRENT_DATE);
 
-        String lsResponse = WebClient.httpPostJSon(poApis.getUrlSubmitResult(),
+        String lsResponse = WebClient.httpPostJSon(poApis.getUrlSubmitCIResult(),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;
@@ -126,7 +123,7 @@ public class SubmitCIResult {
         assertTrue(isSuccess);
     }
 
-    @Test
+//    @Test
     public void test03DownloadCIList() throws Exception{
         JSONObject params = new JSONObject();
         params.put("sEmployID", "M00117000702");
@@ -159,6 +156,29 @@ public class SubmitCIResult {
         params.put("sRcmdtnx1", "sample");
 
         String lsResponse = WebClient.httpPostJSon(poApis.getUrlPostCiApproval(),
+                params.toString(), (HashMap<String, String>) headers);
+        if(lsResponse == null){
+            isSuccess = false;
+        } else {
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("success")){
+                isSuccess = true;
+            } else {
+                JSONObject loError = loResponse.getJSONObject("error");
+                String lsMessage = loError.getString("message");
+                isSuccess = false;
+            }
+        }
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test05DownloadBH() throws Exception{
+        JSONObject params = new JSONObject();
+        params.put("sEmployID", "sEmployID");
+
+        String lsResponse = WebClient.httpPostJSon(poApis.getUrlDownloadBhPreview(),
                 params.toString(), (HashMap<String, String>) headers);
         if(lsResponse == null){
             isSuccess = false;

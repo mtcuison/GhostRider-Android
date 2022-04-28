@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -33,8 +34,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
 import org.guanzongroup.com.creditevaluation.Adapter.CreditEvaluationListAdapter;
+import org.guanzongroup.com.creditevaluation.Dialog.DialogAddApplication;
 import org.guanzongroup.com.creditevaluation.R;
 import org.guanzongroup.com.creditevaluation.ViewModel.VMEvaluationList;
+import org.guanzongroup.com.creditevaluation.ViewModel.ViewModelCallback;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -64,7 +67,7 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
         setContentView(R.layout.activity_cievaluation_list);
         initWidgets();
         mViewModel = new ViewModelProvider(Activity_CIEvaluationList.this).get(VMEvaluationList.class);
-        mViewModel.importApplicationInfo(Activity_CIEvaluationList.this);
+        mViewModel.DownloadCreditApplications(Activity_CIEvaluationList.this);
         mViewModel.getUserBranch().observe(this, eBranchInfo -> {
             try {
                 lblBranch.setText(eBranchInfo.getBranchNm());
@@ -135,50 +138,50 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
             poMessage.setMessage("No corresponding feature has been set.");
             poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
             poMessage.show();
-//            try {
-//                DialogAddApplication loDialog = new DialogAddApplication(Activity_CIEvaluationList.this);
-//                loDialog.initDialog(new DialogAddApplication.OnDialogButtonClickListener() {
-//                    @Override
-//                    public void OnDownloadClick(Dialog Dialog, String args) {
-//                        mViewModel.importApplicationInfo(args, new ViewModelCallback() {
-//                            @Override
-//                            public void OnStartSaving() {
-//                                poDialogx.initDialog("Add Application", "Downloading client info. Please wait...", false);
-//                                poDialogx.show();
-//                            }
-//
-//                            @Override
-//                            public void OnSuccessResult() {
-//                                Dialog.dismiss();
-//                                poDialogx.dismiss();
-//                                poMessage.initDialog();
-//                                poMessage.setTitle("Add Application");
-//                                poMessage.setMessage("Credit Application saved successfully");
-//                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-//                                poMessage.show();
-//                            }
-//
-//                            @Override
-//                            public void OnFailedResult(String message) {
-//                                poDialogx.dismiss();
-//                                poMessage.initDialog();
-//                                poMessage.setTitle("Add Application");
-//                                poMessage.setMessage(message);
-//                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-//                                poMessage.show();
-//                            }
-//                        });
-//                    }
-//
-//                    @Override
-//                    public void OnCancel(Dialog Dialog) {
-//                        Dialog.dismiss();
-//                    }
-//                });
-//                loDialog.show();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
+            try {
+                DialogAddApplication loDialog = new DialogAddApplication(Activity_CIEvaluationList.this);
+                loDialog.initDialog(new DialogAddApplication.OnDialogButtonClickListener() {
+                    @Override
+                    public void OnDownloadClick(Dialog Dialog, String args) {
+                        mViewModel.importApplicationInfo(args, new ViewModelCallback() {
+                            @Override
+                            public void OnStartSaving() {
+                                poDialogx.initDialog("Add Application", "Downloading client info. Please wait...", false);
+                                poDialogx.show();
+                            }
+
+                            @Override
+                            public void OnSuccessResult() {
+                                Dialog.dismiss();
+                                poDialogx.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Add Application");
+                                poMessage.setMessage("Credit Application saved successfully");
+                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
+
+                            @Override
+                            public void OnFailedResult(String message) {
+                                poDialogx.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Add Application");
+                                poMessage.setMessage(message);
+                                poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void OnCancel(Dialog Dialog) {
+                        Dialog.dismiss();
+                    }
+                });
+                loDialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -207,42 +210,27 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
                         loan.sBranchNm = (ciList.get(x).sBranchNm);
                         loan.sRecrdRem = (ciList.get(x).sRecrdRem);
                         loan.sRcmdtnx1 = (ciList.get(x).sRcmdtnx1);
-
-                        Log.e("sBranchNm ", loan.sBranchNm);
-                        Log.e("sTransNox ", loan.sTransNox);
-                        Log.e("sClientNm ", loan.sClientNm);
-//                        Log.e("nAcctTerm ",loan.nAcctTerm);
-                        Log.e("nDownPaym ", loan.nDownPaym);
                         ciEvaluationList.add(loan);
                         continue;
                     }
 
 
                     String json = new Gson().toJson(ciEvaluationList);
-
                     adapter = new CreditEvaluationListAdapter(ciEvaluationList, "CI Evaluation List", new CreditEvaluationListAdapter.OnApplicationClickListener() {
                         @Override
                         public void OnClick(int position, List<DCreditOnlineApplicationCI.oDataEvaluationInfo> ciEvaluationLists) {
-
                             Intent loIntent = new Intent(Activity_CIEvaluationList.this, Activity_Evaluation.class);
                             loIntent.putExtra("transno", ciEvaluationLists.get(position).sTransNox);
                             loIntent.putExtra("ClientNm", ciEvaluationLists.get(position).sClientNm);
                             loIntent.putExtra("dTransact", ciEvaluationLists.get(position).dTransact);
                             loIntent.putExtra("Branch", ciEvaluationLists.get(position).sBranchNm);
                             startActivity(loIntent);
-
                         }
-
                     });
                     LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_CIEvaluationList.this);
                     recyclerViewClient.setAdapter(adapter);
                     recyclerViewClient.setLayoutManager(layoutManager);
                     adapter.notifyDataSetChanged();
-                    if (adapter.getItemCount() == 0) {
-                        layoutNoRecord.setVisibility(View.VISIBLE);
-                    } else {
-                        layoutNoRecord.setVisibility(View.GONE);
-                    }
                     txtSearch.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -254,12 +242,12 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
                             try {
 
                                 adapter.getFilter().filter(s.toString());
-                                adapter.notifyDataSetChanged();
                                 if (adapter.getItemCount() == 0) {
                                     layoutNoRecord.setVisibility(View.VISIBLE);
                                 } else {
                                     layoutNoRecord.setVisibility(View.GONE);
                                 }
+                                adapter.notifyDataSetChanged();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -267,7 +255,12 @@ public class Activity_CIEvaluationList extends AppCompatActivity  implements VME
 
                         @Override
                         public void afterTextChanged(Editable s) {
-
+                            if (adapter.getItemCount() == 0) {
+                                layoutNoRecord.setVisibility(View.VISIBLE);
+                            } else {
+                                layoutNoRecord.setVisibility(View.GONE);
+                            }
+                            adapter.notifyDataSetChanged();
                         }
                     });
                 } else {

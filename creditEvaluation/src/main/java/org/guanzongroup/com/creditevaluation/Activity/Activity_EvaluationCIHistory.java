@@ -64,7 +64,8 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
         setContentView(R.layout.activity_evaluation_cihistory);
         initWidgets();
         mViewModel = new ViewModelProvider(Activity_EvaluationCIHistory.this).get(VMEvaluationHistory.class);
-        mViewModel.importApplicationInfo(Activity_EvaluationCIHistory.this);
+//        mViewModel.importApplicationInfo(Activity_EvaluationCIHistory.this);
+        downloadApplicationsForBHApproval();
         mViewModel.getUserBranchInfo().observe(this, eBranchInfo -> {
             try {
                 lblBranch.setText(eBranchInfo.getBranchNm());
@@ -73,6 +74,7 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
                 e.printStackTrace();
             }
         });
+        initData();
 
     }
     private void initWidgets() {
@@ -103,7 +105,6 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
     @Override
     public void onSuccessImport() {
         poDialogx.dismiss();
-        initData();
     }
 
     @Override
@@ -125,7 +126,7 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
     }
 
     public void initData() {
-        mViewModel.getForEvaluationListData().observe(Activity_EvaluationCIHistory.this, ciList -> {
+        mViewModel.getForEvaluationListDataPreview().observe(Activity_EvaluationCIHistory.this, ciList -> {
             Log.e("size", String.valueOf(ciList.size()));
             try {
                 if (ciList.size() > 0) {
@@ -149,11 +150,7 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
                         loan.sRecrdRem = (ciList.get(x).sRecrdRem);
                         loan.sRcmdtnx1 = (ciList.get(x).sRcmdtnx1);
 
-                        Log.e("sBranchNm ", loan.sBranchNm);
-                        Log.e("sTransNox ", loan.sTransNox);
-                        Log.e("sClientNm ", loan.sClientNm);
-//                        Log.e("nAcctTerm ",loan.nAcctTerm);
-                        Log.e("nDownPaym ", loan.nDownPaym);
+                        Log.e("sRcmdtnx1 ", ciList.get(x).sRcmdtnx1);
                         ciEvaluationList.add(loan);
                         continue;
                     }
@@ -164,17 +161,19 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
                     adapter = new CreditEvaluationListAdapter(ciEvaluationList, "CI Evaluation History", new CreditEvaluationListAdapter.OnApplicationClickListener() {
                         @Override
                         public void OnClick(int position, List<DCreditOnlineApplicationCI.oDataEvaluationInfo> ciEvaluationLists) {
-                            poMessage.initDialog();
-                            poMessage.setTitle("CI Evaluation History");
-                            poMessage.setMessage("No corresponding feature has been set.");
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                            poMessage.show();
-//                            Intent loIntent = new Intent(Activity_EvaluationCIHistory.this, Activity_Evaluation.class);
-//                            loIntent.putExtra("transno", ciEvaluationLists.get(position).sTransNox);
-//                            loIntent.putExtra("ClientNm", ciEvaluationLists.get(position).sClientNm);
-//                            loIntent.putExtra("dTransact", ciEvaluationLists.get(position).dTransact);
-//                            loIntent.putExtra("Branch", ciEvaluationLists.get(position).sBranchNm);
-//                            startActivity(loIntent);
+//                            poMessage.initDialog();
+//                            poMessage.setTitle("CI Evaluation History");
+//                            poMessage.setMessage("No corresponding feature has been set.");
+//                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+//                            poMessage.show();
+//
+                            Intent loIntent = new Intent(Activity_EvaluationCIHistory.this, Activity_EvaluationCIHistoryInfo.class);
+                            loIntent.putExtra("sTransNox", ciEvaluationLists.get(position).sTransNox);
+                            loIntent.putExtra("sClientNm", ciEvaluationLists.get(position).sClientNm);
+                            loIntent.putExtra("dTransact", ciEvaluationLists.get(position).dTransact);
+                            loIntent.putExtra("sBranchxx", ciEvaluationLists.get(position).sBranchNm);
+                            startActivity(loIntent);
+
 
                         }
 
@@ -183,11 +182,6 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
                     recyclerViewClient.setAdapter(adapter);
                     recyclerViewClient.setLayoutManager(layoutManager);
                     adapter.notifyDataSetChanged();
-                    if (adapter.getItemCount() == 0) {
-                        layoutNoRecord.setVisibility(View.VISIBLE);
-                    } else {
-                        layoutNoRecord.setVisibility(View.GONE);
-                    }
                     txtSearch.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -199,12 +193,12 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
                             try {
 
                                 adapter.getFilter().filter(s.toString());
-                                adapter.notifyDataSetChanged();
                                 if (adapter.getItemCount() == 0) {
                                     layoutNoRecord.setVisibility(View.VISIBLE);
                                 } else {
                                     layoutNoRecord.setVisibility(View.GONE);
                                 }
+                                adapter.notifyDataSetChanged();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -212,7 +206,12 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
 
                         @Override
                         public void afterTextChanged(Editable s) {
-
+                            if (adapter.getItemCount() == 0) {
+                                layoutNoRecord.setVisibility(View.VISIBLE);
+                            } else {
+                                layoutNoRecord.setVisibility(View.GONE);
+                            }
+                            adapter.notifyDataSetChanged();
                         }
                     });
                 } else {
@@ -233,4 +232,27 @@ public class Activity_EvaluationCIHistory extends AppCompatActivity implements V
         super.finish();
         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
+
+    private void downloadApplicationsForBHApproval() {
+        LoadDialog loDialog = new LoadDialog(Activity_EvaluationCIHistory.this);
+        mViewModel.DownloadApplicationsForBHApproval(new VMEvaluationHistory.OnTransactionCallback() {
+            @Override
+            public void onSuccess(String message) {
+                loDialog.dismiss();
+            }
+
+            @Override
+            public void onFailed(String message) {
+                loDialog.dismiss();
+                Log.e(Activity_EvaluationCIHistory.class.getSimpleName(), message);
+            }
+
+            @Override
+            public void onLoad() {
+                loDialog.initDialog("CI Evaluation", "CI Evaluation downlading.. Please wait.", true);
+                loDialog.show();
+            }
+        });
+    }
+
 }

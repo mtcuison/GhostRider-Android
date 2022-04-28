@@ -112,8 +112,16 @@ public class RDailyCollectionPlan {
         detailDao.update(collectionDetail);
     }
 
+    public void updateCNADetail(String AccNmbr, int EntryNo, String Remarks){
+        detailDao.UpdateCNADetails(AccNmbr, EntryNo, Remarks, new AppConstants().DATE_MODIFIED);
+    }
+
     public EDCPCollectionMaster CheckIfHasCollection(){
         return masterDao.CheckIfHasCollection();
+    }
+
+    public List<EDCPCollectionDetail> checkDCPPAYTransaction(){
+        return detailDao.checkDCPPAYTransaction();
     }
 
     public void updateCollectionDetail(int EntryNox, String RemCode, String Remarks){
@@ -211,6 +219,14 @@ public class RDailyCollectionPlan {
 
     public Integer getDCPStatus(){
         return detailDao.getDCPStatus(new AppConstants().CURRENT_DATE);
+    }
+
+    public List<EDCPCollectionDetail> checkCollectionRemarksCode(){
+        return detailDao.checkCollectionRemarksCode();
+    }
+
+    public EDCPCollectionMaster getLastCollectionMaster(){
+        return masterDao.getLastCollectionMaster();
     }
 
     private class InsertCollectionDetailTask extends AsyncTask<EDCPCollectionDetail, Void, String>{

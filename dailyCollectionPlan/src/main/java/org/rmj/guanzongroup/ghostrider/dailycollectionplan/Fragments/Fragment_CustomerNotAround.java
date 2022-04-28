@@ -254,7 +254,8 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                 try{
                     poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
                     mViewModel.saveImageInfo(poImageInfo);
-                    mViewModel.updateCollectionDetail(DCP_Constants.getRemarksCode(Remarksx));
+
+                    mViewModel.updateCollectionDetail(txtRemarks.getText().toString());
                     Log.e("Fragment_CNA:", "Image Info Save");
                     OnSuccessResult(new String[]{"Customer Not Around Info has been saved."});
                 }catch (NullPointerException e){

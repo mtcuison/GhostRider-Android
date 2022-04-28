@@ -57,7 +57,7 @@ public class JSONParsingTest {
     @Test
     public void test03ForEvaluationWithNullChild() throws Exception{
         String lsFrLabel = "{\"employed\":{\"sEmployer\":\"United Phlp And Phper Inc.\",\"sWrkAddrx\":\"Km 48 Mc Arthur Hi-way Iba Este, Calumpit Bulacan\",\"sPosition\":\"M009680\",\"nLenServc\":23.0,\"nSalaryxx\":35000.0},\"self_employed\":null,\"financed\":null,\"pensioner\":null}";
-        String lsForEval = "{\"employed\":{\"sEmployer\":null,\"sWrkAddrx\":\"-1\",\"sPosition\":null,\"nLenServc\":0.0,\"nSalaryxx\":-1.0},\"self_employed\":{\"sBusiness\":null,\"sBusAddrx\":null,\"nBusLenxx\":0.0,\"nBusIncom\":0.0,\"nMonExpns\":0.0},\"financed\":{\"sFinancer\":null,\"sReltnDsc\":null,\"sCntryNme\":null,\"nEstIncme\":0.0},\"pensioner\":{\"sPensionx\":null,\"nPensionx\":0.0}}";
+        String lsForEval = "{\"employed\":{\"sEmployer\":\"NULL\",\"sWrkAddrx\":\"NULL\",\"sPosition\":\"NULL\",\"nLenServc\":-1.0,\"nSalaryxx\":-1.0},\"self_employed\":{\"sBusiness\":\"NULL\",\"sBusAddrx\":\"NULL\",\"nBusLenxx\":-1.0,\"nBusIncom\":-1.0,\"nMonExpns\":0.0},\"financed\":{\"sFinancer\":\"NULL\",\"sReltnDsc\":\"NULL\",\"sCntryNme\":\"NULL\",\"nEstIncme\":-1.0},\"pensioner\":{\"sPensionx\":\"NULL\",\"nPensionx\":-1.0}}";
 
         HashMap<oParentFndg, List<oChildFndg>> loForEval = FindingsParser.getForEvaluation(oChildFndg.FIELDS.MEANS, lsFrLabel, lsForEval);
 
