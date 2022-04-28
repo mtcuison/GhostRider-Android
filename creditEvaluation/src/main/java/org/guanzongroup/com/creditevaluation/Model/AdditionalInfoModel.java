@@ -35,9 +35,9 @@ public class AdditionalInfoModel {
     public String getMessage() { return message; }
 
     public boolean isValidEvaluation(){
-        return isPersonnel() &&
+        return isHasRecord() &&
+                isPersonnel() &&
                 isPosition() &&
-                isHasRecord() &&
                 isMobileNo() &&
                 isNeighbr1() &&
                 isNeighbr2() &&
@@ -47,8 +47,6 @@ public class AdditionalInfoModel {
         if (this.AsstPersonnel == null || this.AsstPersonnel.trim().isEmpty()){
             message = "Please enter brgy. personnel's fullname.";
             return false;
-        }else{
-            message = "Brgy. personnel's fullname successfully saved.";
         }
         return true;
     }
@@ -57,8 +55,6 @@ public class AdditionalInfoModel {
         if (this.AsstPosition == null || this.AsstPosition.trim().isEmpty()){
             message = "Please enter personnel position.";
             return false;
-        }else{
-            message = "Personnel position successfully saved.";
         }
         return true;
     }
@@ -68,8 +64,6 @@ public class AdditionalInfoModel {
         if (this.Neighbr1 == null || this.Neighbr1.trim().isEmpty()){
             message = "Please enter neighbor 1 fullname.";
             return false;
-        }else{
-            message = "Neighbor 1 fullname successfully saved.";
         }
         return true;
     }
@@ -78,8 +72,6 @@ public class AdditionalInfoModel {
         if (this.Neighbr2 == null || this.Neighbr2.trim().isEmpty()){
             message = "Please enter neighbor 2 fullname.";
             return false;
-        }else{
-            message = "Neighbor 2 fullname successfully saved.";
         }
         return true;
     }
@@ -89,22 +81,18 @@ public class AdditionalInfoModel {
         if (this.Neighbr3 == null || this.Neighbr3.trim().isEmpty()){
             message = "Please enter neighbor 3 fullname.";
             return false;
-        }else{
-            message = "Neighbor 3 fullname successfully saved.";
         }
         return true;
     }
 
     public boolean isMobileNo(){
-        if (MobileNo != null) {
+        if (this.MobileNo != null && !this.MobileNo.trim().isEmpty()) {
             if(!MobileNo.substring(0, 2).equalsIgnoreCase("09")){
                 message = "Contact number must start with '09'";
                 return false;
             }else if(MobileNo.length() != 11){
                 message = "Please enter primary contact info";
                 return false;
-            }else{
-                message = "Contact number successfully saved.";
             }
         }else {
             message = "Please enter contact number.";
@@ -117,8 +105,6 @@ public class AdditionalInfoModel {
         if (this.HasRecrd == null || this.HasRecrd.trim().isEmpty()){
             message = "Please select applicant brgy. record.";
             return false;
-        }else{
-                message = "Barangay record successfully saved.";
         }
         if (this.HasRecrd.equalsIgnoreCase("1")){
             return isRemRecrd();
@@ -129,8 +115,6 @@ public class AdditionalInfoModel {
         if (this.RemRecrd == null || this.RemRecrd.trim().isEmpty()){
             message = "Please enter record remarks.";
             return false;
-        }else{
-            message = "Barangay record successfully saved.";
         }
         return true;
     }

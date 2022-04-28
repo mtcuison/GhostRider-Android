@@ -158,60 +158,20 @@ public class VMEvaluation extends AndroidViewModel {
         protected String doInBackground(String... transNox) {
             try {
                 final String[] response = {""};
-                if(btnText.equalsIgnoreCase("Neighbor1")){
-                    if (!infoModel.isNeighbr1()) {
-                        response[0] = infoModel.getMessage();
-                    } else {
-                        poCIEvaluation.UpdateNeighbor1(transNox[0],infoModel.getNeighbr1());
-                        response[0] = infoModel.getMessage();
-                    }
-                }else if(btnText.equalsIgnoreCase("Neighbor2")){
-                    if (!infoModel.isNeighbr2()) {
-                        response[0] = infoModel.getMessage();
-                    } else {
-                        poCIEvaluation.UpdateNeighbor2(transNox[0],infoModel.getNeighbr2());
-                        response[0] = infoModel.getMessage();
-                    }
-                }else if(btnText.equalsIgnoreCase("Neighbor3")){
-                    if (!infoModel.isNeighbr3()) {
-                        response[0] = infoModel.getMessage();
-                    } else {
-                        poCIEvaluation.UpdateNeighbor3(transNox[0],infoModel.getNeighbr3());
-                        response[0] = infoModel.getMessage();
-                    }
-                }
-                else if(btnText.equalsIgnoreCase("Personnel")){
-                    if (!infoModel.isPersonnel()){
-                    response[0] = infoModel.getMessage();
-                    }else {
-                        response[0] = infoModel.getMessage();
-                        poCIEvaluation.UpdatePresentBarangay(transNox[0],infoModel.getAsstPersonnel());
-                    }
-                }
-                else if(btnText.equalsIgnoreCase("Position")){
-                    if (!infoModel.isPosition()){
-                        response[0] = infoModel.getMessage();
-                    }else {
-                        response[0] = infoModel.getMessage();
-                        poCIEvaluation.UpdatePosition(transNox[0],infoModel.getAsstPosition());
-                    }
-                }
-                else if(btnText.equalsIgnoreCase("PhoneNo")){
-                    if (!infoModel.isMobileNo()){
-                        response[0] = infoModel.getMessage();
-                    }else {
-                        response[0] = infoModel.getMessage();
-                        poCIEvaluation.UpdateContact(transNox[0],infoModel.getMobileNo());
-                    }
-                }
-                else if(btnText.equalsIgnoreCase("Record")){
-                    if (!infoModel.isHasRecord()){
-                        response[0] = infoModel.getMessage();
-                    }else {
-                        response[0] = infoModel.getMessage();
+                if(btnText.equalsIgnoreCase("Additional")){
+                    if(infoModel.isValidEvaluation()){
                         poCIEvaluation.UpdateRecordInfo(transNox[0],infoModel.getHasRecrd());
                         poCIEvaluation.UpdateRecordRemarks(transNox[0],infoModel.getRemRecrd());
 
+                        poCIEvaluation.UpdatePresentBarangay(transNox[0],infoModel.getNeighbr1());
+                        poCIEvaluation.UpdatePosition(transNox[0],infoModel.getNeighbr1());
+                        poCIEvaluation.UpdateContact(transNox[0],infoModel.getNeighbr1());
+                        poCIEvaluation.UpdateNeighbor1(transNox[0],infoModel.getNeighbr1());
+                        poCIEvaluation.UpdateNeighbor2(transNox[0],infoModel.getNeighbr1());
+                        poCIEvaluation.UpdateNeighbor3(transNox[0],infoModel.getNeighbr1());
+                        response[0] = "Additional Info successfully saved.";
+                    }else{
+                        response[0] = infoModel.getMessage();
                     }
                 }
                 else if(btnText.equalsIgnoreCase("Approval")){
@@ -230,6 +190,78 @@ public class VMEvaluation extends AndroidViewModel {
                     Thread.sleep(1000);
 
                 }
+//                if(btnText.equalsIgnoreCase("Neighbor1")){
+//                    if (!infoModel.isNeighbr1()) {
+//                        response[0] = infoModel.getMessage();
+//                    } else {
+//                        poCIEvaluation.UpdateNeighbor1(transNox[0],infoModel.getNeighbr1());
+//                        response[0] = infoModel.getMessage();
+//                    }
+//                }else if(btnText.equalsIgnoreCase("Neighbor2")){
+//                    if (!infoModel.isNeighbr2()) {
+//                        response[0] = infoModel.getMessage();
+//                    } else {
+//                        poCIEvaluation.UpdateNeighbor2(transNox[0],infoModel.getNeighbr2());
+//                        response[0] = infoModel.getMessage();
+//                    }
+//                }else if(btnText.equalsIgnoreCase("Neighbor3")){
+//                    if (!infoModel.isNeighbr3()) {
+//                        response[0] = infoModel.getMessage();
+//                    } else {
+//                        poCIEvaluation.UpdateNeighbor3(transNox[0],infoModel.getNeighbr3());
+//                        response[0] = infoModel.getMessage();
+//                    }
+//                }
+//                else if(btnText.equalsIgnoreCase("Personnel")){
+//                    if (!infoModel.isPersonnel()){
+//                    response[0] = infoModel.getMessage();
+//                    }else {
+//                        response[0] = infoModel.getMessage();
+//                        poCIEvaluation.UpdatePresentBarangay(transNox[0],infoModel.getAsstPersonnel());
+//                    }
+//                }
+//                else if(btnText.equalsIgnoreCase("Position")){
+//                    if (!infoModel.isPosition()){
+//                        response[0] = infoModel.getMessage();
+//                    }else {
+//                        response[0] = infoModel.getMessage();
+//                        poCIEvaluation.UpdatePosition(transNox[0],infoModel.getAsstPosition());
+//                    }
+//                }
+//                else if(btnText.equalsIgnoreCase("PhoneNo")){
+//                    if (!infoModel.isMobileNo()){
+//                        response[0] = infoModel.getMessage();
+//                    }else {
+//                        response[0] = infoModel.getMessage();
+//                        poCIEvaluation.UpdateContact(transNox[0],infoModel.getMobileNo());
+//                    }
+//                }
+//                else if(btnText.equalsIgnoreCase("Record")){
+//                    if (!infoModel.isHasRecord()){
+//                        response[0] = infoModel.getMessage();
+//                    }else {
+//                        response[0] = infoModel.getMessage();
+//                        poCIEvaluation.UpdateRecordInfo(transNox[0],infoModel.getHasRecrd());
+//                        poCIEvaluation.UpdateRecordRemarks(transNox[0],infoModel.getRemRecrd());
+//
+//                    }
+//                }
+//                else if(btnText.equalsIgnoreCase("Approval")){
+//                    poCIEvaluation.SaveCIApproval(transNox[0], infoModel.getTranstat(), infoModel.getsRemarks(), new EvaluatorManager.OnActionCallback() {
+//                        @Override
+//                        public void OnSuccess(String args) {
+//
+//                            response[0] = "success";
+//                        }
+//
+//                        @Override
+//                        public void OnFailed(String message) {
+//                            response[0] = message;
+//                        }
+//                    });
+//                    Thread.sleep(1000);
+//
+//                }
                 return response[0];
 
             } catch (NullPointerException e){

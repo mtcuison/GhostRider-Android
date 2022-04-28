@@ -82,7 +82,7 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
     private TextView lblTransNox,lblClientName,lblDTransact, lblBranch;
     private MaterialButton btnSaveAsstPersonnel, btnSaveAsstPosition,btnSaveAsstPhoneNo;
     private MaterialButton btnSaveNeighbor1, btnSaveNeighbor2,btnSaveNeighbor3,btnSaveRecord;
-    private Button btnSave,btnUpload;
+    private Button btnSave,btnUpload,btnSaveAdditional;
 
     private final List<oParentFndg> poParentLst = new ArrayList<>();
     private List<oChildFndg> poChildLst;
@@ -208,38 +208,50 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                 }
             });
             rgHasRecord.setOnCheckedChangeListener(new ONCIHasRecord(rgHasRecord,mViewModel));
-            btnSaveAsstPersonnel.setOnClickListener(v -> {
-                infoModel.setAsstPersonnel(txtPersonnel.getText().toString());
-                mViewModel.saveAdditionalInfo(infoModel,"Personnel", Activity_Evaluation.this);
-            });
-            btnSaveAsstPosition.setOnClickListener(v -> {
-                infoModel.setAsstPosition(txtPosition.getText().toString());
-                mViewModel.saveAdditionalInfo(infoModel,"Position", Activity_Evaluation.this);
-            });
-            btnSaveAsstPhoneNo.setOnClickListener(v -> {
-                infoModel.setMobileNo(txtMobileNo.getText().toString());
-                mViewModel.saveAdditionalInfo(infoModel,"PhoneNo", Activity_Evaluation.this);
-            });
-            btnSaveNeighbor1.setOnClickListener(v -> {
-                infoModel.setNeighbr1(txtNeighbor1.getText().toString());
-                mViewModel.saveAdditionalInfo(infoModel,"Neighbor1", Activity_Evaluation.this);
-            });
-            btnSaveNeighbor2.setOnClickListener(v -> {
-                infoModel.setNeighbr2(txtNeighbor2.getText().toString());
-                mViewModel.saveAdditionalInfo(infoModel,"Neighbor2", Activity_Evaluation.this);
+            btnSaveAdditional.setOnClickListener(v -> {
 
-            });
-            btnSaveNeighbor3.setOnClickListener(v -> {
-                infoModel.setNeighbr3(txtNeighbor3.getText().toString());
-                mViewModel.saveAdditionalInfo(infoModel,"Neighbor3", Activity_Evaluation.this);
-
-            });
-
-            btnSaveRecord.setOnClickListener(v -> {
                 infoModel.setRemRecrd(txtRecordRemarks.getText().toString());
-                mViewModel.saveAdditionalInfo(infoModel,"Record", Activity_Evaluation.this);
+                infoModel.setAsstPersonnel(txtPersonnel.getText().toString());
+                infoModel.setAsstPosition(txtPosition.getText().toString());
+                infoModel.setMobileNo(txtMobileNo.getText().toString());
+                infoModel.setNeighbr1(txtNeighbor1.getText().toString());
+                infoModel.setNeighbr2(txtNeighbor2.getText().toString());
+                infoModel.setNeighbr3(txtNeighbor3.getText().toString());
+                mViewModel.saveAdditionalInfo(infoModel,"Additional", Activity_Evaluation.this);
 
             });
+//            btnSaveAsstPersonnel.setOnClickListener(v -> {
+//                infoModel.setAsstPersonnel(txtPersonnel.getText().toString());
+//                mViewModel.saveAdditionalInfo(infoModel,"Personnel", Activity_Evaluation.this);
+//            });
+//            btnSaveAsstPosition.setOnClickListener(v -> {
+//                infoModel.setAsstPosition(txtPosition.getText().toString());
+//                mViewModel.saveAdditionalInfo(infoModel,"Position", Activity_Evaluation.this);
+//            });
+//            btnSaveAsstPhoneNo.setOnClickListener(v -> {
+//                infoModel.setMobileNo(txtMobileNo.getText().toString());
+//                mViewModel.saveAdditionalInfo(infoModel,"PhoneNo", Activity_Evaluation.this);
+//            });
+//            btnSaveNeighbor1.setOnClickListener(v -> {
+//                infoModel.setNeighbr1(txtNeighbor1.getText().toString());
+//                mViewModel.saveAdditionalInfo(infoModel,"Neighbor1", Activity_Evaluation.this);
+//            });
+//            btnSaveNeighbor2.setOnClickListener(v -> {
+//                infoModel.setNeighbr2(txtNeighbor2.getText().toString());
+//                mViewModel.saveAdditionalInfo(infoModel,"Neighbor2", Activity_Evaluation.this);
+//
+//            });
+//            btnSaveNeighbor3.setOnClickListener(v -> {
+//                infoModel.setNeighbr3(txtNeighbor3.getText().toString());
+//                mViewModel.saveAdditionalInfo(infoModel,"Neighbor3", Activity_Evaluation.this);
+//
+//            });
+//
+//            btnSaveRecord.setOnClickListener(v -> {
+//                infoModel.setRemRecrd(txtRecordRemarks.getText().toString());
+//                mViewModel.saveAdditionalInfo(infoModel,"Record", Activity_Evaluation.this);
+//
+//            });
             btnSave.setOnClickListener(v ->  {
                if(!infoModel.isValidEvaluation()){
                    errorMessage(infoModel.getMessage());
@@ -318,7 +330,7 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
         listView = findViewById(R.id.expListview);
         txtPersonnel = findViewById(R.id.tie_ci_asstPersonel);
         txtPosition = findViewById(R.id.tie_ci_asstPosition);
-        txtMobileNo = findViewById(R.id.tie_ci_asstPhoneNo);
+        txtMobileNo = findViewById(R.id.tie_ci_asstPhoneNumber);
         cvForEvaluation = findViewById(R.id.cvForEvaluation);
         txtNeighbor1 = findViewById(R.id.tie_ci_neighborName1);
         txtNeighbor2 = findViewById(R.id.tie_ci_neighborName2);
@@ -330,13 +342,15 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
         lblClientName = findViewById(R.id.lbl_ci_applicantName);
         lblDTransact = findViewById(R.id.lbl_ci_applicationDate);
         lblBranch = findViewById(R.id.lbl_ci_branch);
-        btnSaveRecord = findViewById(R.id.btnSaveRecord);
-        btnSaveAsstPersonnel = findViewById(R.id.btnSaveAsstPersonnel);
-        btnSaveAsstPosition = findViewById(R.id.btnSaveAsstPosition);
-        btnSaveAsstPhoneNo = findViewById(R.id.btnSaveAsstPhoneNo);
-        btnSaveNeighbor1 = findViewById(R.id.btnSaveNeighbor1);
-        btnSaveNeighbor2 = findViewById(R.id.btnSaveNeighbor2);
-        btnSaveNeighbor3 = findViewById(R.id.btnSaveNeighbor3);
+//        btnSaveRecord = findViewById(R.id.btnSaveRecord);
+//        btnSaveAsstPersonnel = findViewById(R.id.btnSaveAsstPersonnel);
+//        btnSaveAsstPosition = findViewById(R.id.btnSaveAsstPosition);
+//        btnSaveAsstPhoneNo = findViewById(R.id.btnSaveAsstPhoneNo);
+//        btnSaveNeighbor1 = findViewById(R.id.btnSaveNeighbor1);
+//        btnSaveNeighbor2 = findViewById(R.id.btnSaveNeighbor2);
+//        btnSaveNeighbor3 = findViewById(R.id.btnSaveNeighbor3);
+        btnSaveAdditional = findViewById(R.id.btnSaveAdditional);
+
         btnUpload = findViewById(R.id.btnUpload);
 
         rbNoRecord = findViewById(R.id.rb_ci_noRecord);
