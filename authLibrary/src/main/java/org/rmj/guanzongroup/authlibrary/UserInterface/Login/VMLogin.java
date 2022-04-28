@@ -56,6 +56,7 @@ public class VMLogin extends AndroidViewModel {
         headers = HttpHeaders.getInstance(application);
         session = new SessionManager(application);
         poConfig = AppConfigPreference.getInstance(application);
+        poConfig.setTestCase(true);
         webApi = new WebApi(poConfig.getTestStatus());
         poTlphony = new Telephony(application);
     }
@@ -220,6 +221,7 @@ public class VMLogin extends AndroidViewModel {
             employeeInfo.setEmailAdd(jsonInfo.getString("sEmailAdd"));
             employeeInfo.setUserName(jsonInfo.getString("sUserName"));
             employeeInfo.setUserLevl(jsonInfo.getString("nUserLevl"));
+            employeeInfo.setSlfieLog(jsonInfo.getString("cSlfieLog"));
             employeeInfo.setDeptIDxx(jsonInfo.getString("sDeptIDxx"));
             employeeInfo.setPositnID(jsonInfo.getString("sPositnID"));
             employeeInfo.setEmpLevID(jsonInfo.getString("sEmpLevID"));
@@ -243,6 +245,5 @@ public class VMLogin extends AndroidViewModel {
             String lsEmpLvlx = jsonInfo.getString("sEmpLevID");
             sessionManager.initUserSession(lsUserIDx, lsClientx, lsLogNoxx, lsBranchx, lsBranchN, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
         }
-
     }
 }

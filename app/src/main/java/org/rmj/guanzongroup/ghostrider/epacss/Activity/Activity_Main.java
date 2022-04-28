@@ -64,6 +64,7 @@ import org.rmj.guanzongroup.ghostrider.epacss.ui.etc.AppDeptIcon;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class Activity_Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = Activity_Main.class.getSimpleName();
@@ -76,6 +77,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     private LoadDialog poDialog;
     private SessionManager poSession;
     private Intent loIntent;
+    private boolean cSlfiex;
 
     private ImageView imgDept;
     private TextView lblDept;
@@ -101,6 +103,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
             try{
                 imgDept.setImageResource(AppDeptIcon.getIcon(eEmployeeInfo.getDeptIDxx()));
                 lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+                cSlfiex = eEmployeeInfo.getSlfieLog().equalsIgnoreCase("1");
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -123,6 +126,17 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                                 ChildObject loCMenu = new ChildObject(loChild.getObjectNm());
                                 poChildLst.add(loCMenu);
                                 poChild.put(loParent, poChildLst);
+//                                if("selfie log".equalsIgnoreCase(loChild.getObjectNm().toLowerCase(Locale.ROOT))) {
+//                                    if(cSlfiex || loChild.getRecdStat().equalsIgnoreCase("1")) {
+//                                        ChildObject loCMenu = new ChildObject(loChild.getObjectNm());
+//                                        poChildLst.add(loCMenu);
+//                                        poChild.put(loParent, poChildLst);
+//                                    }
+//                                } else {
+//                                    ChildObject loCMenu = new ChildObject(loChild.getObjectNm());
+//                                    poChildLst.add(loCMenu);
+//                                    poChild.put(loParent, poChildLst);
+//                                }
                             }
                         }
                     }

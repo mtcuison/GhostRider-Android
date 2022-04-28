@@ -82,7 +82,6 @@ public class Fragment_SelfieLogin extends Fragment {
     private static String psFileNamex = "";
 
     private static boolean isDialogShown;
-    private boolean isLoginToday = false;
 
     private List<EBranchInfo> paBranch = new ArrayList<>();
     private String psEmpLvl;
@@ -124,54 +123,55 @@ public class Fragment_SelfieLogin extends Fragment {
         mViewModel.getAreaBranchList().observe(getViewLifecycleOwner(), eBranchInfos -> {
             try {
                 paBranch = eBranchInfos;
-                if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
-                    lblNotice.setVisibility(View.GONE);
-                    btnBranch.setVisibility(View.VISIBLE);
-                    if(sSlectBranch.isEmpty()) {
-                        new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
-                            @Override
-                            public void OnSelect(String BranchCode, AlertDialog dialog) {
-                                mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
-                                    @Override
-                                    public void OnLoad() {
+                lblNotice.setVisibility(View.GONE);
+                btnBranch.setVisibility(View.VISIBLE);
+                if(sSlectBranch.isEmpty()) {
+                    new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
+                        @Override
+                        public void OnSelect(String BranchCode, AlertDialog dialog) {
+                            mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
+                                @Override
+                                public void OnLoad() {
 
-                                    }
+                                }
 
-                                    @Override
-                                    public void OnSuccess() {
-                                        sSlectBranch = BranchCode;
-                                        mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
-                                            try{
-                                                lblBranch.setText(eBranchInfo.getBranchNm());
-                                                mViewModel.importInventoryTask(BranchCode);
-                                            } catch (Exception e){
-                                                e.printStackTrace();
-                                            }
-                                        });
-                                    }
+                                @Override
+                                public void OnSuccess() {
+                                    sSlectBranch = BranchCode;
+                                    mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
+                                        try{
+                                            lblBranch.setText(eBranchInfo.getBranchNm());
+                                            mViewModel.importInventoryTask(BranchCode);
+                                        } catch (Exception e){
+                                            e.printStackTrace();
+                                        }
+                                    });
+                                }
 
-                                    @Override
-                                    public void OnFailed(String message) {
-                                        poMessage.initDialog();
-                                        poMessage.setTitle("Selfie Login");
-                                        poMessage.setMessage(message);
-                                        poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                                        poMessage.show();
-                                    }
-                                });
-                                dialog.dismiss();
-                            }
+                                @Override
+                                public void OnFailed(String message) {
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Selfie Login");
+                                    poMessage.setMessage(message);
+                                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                                    poMessage.show();
+                                }
+                            });
+                            dialog.dismiss();
+                        }
 
-                            @Override
-                            public void OnCancel() {
+                        @Override
+                        public void OnCancel() {
 //                                requireActivity().finish();
-                            }
-                        });
-                    }
-                } else {
-                    lblNotice.setVisibility(View.VISIBLE);
-                    btnBranch.setVisibility(View.GONE);
+                        }
+                    });
                 }
+//                if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
+//
+//                } else {
+//                    lblNotice.setVisibility(View.VISIBLE);
+//                    btnBranch.setVisibility(View.GONE);
+//                }
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -187,24 +187,14 @@ public class Fragment_SelfieLogin extends Fragment {
             }
         });
 
-        if(!psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
-            mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
-                try {
-                    lblBranch.setText(eBranchInfo.getBranchNm());
-                    sSlectBranch = eBranchInfo.getBranchCd();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-        } else {
-            mViewModel.getBranchInfo(sSlectBranch).observe(getViewLifecycleOwner(), eBranchInfo -> {
-                try {
-                    lblBranch.setText(eBranchInfo.getBranchNm());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-        }
+        mViewModel.getUserBranchInfo().observe(getViewLifecycleOwner(), eBranchInfo -> {
+            try {
+                lblBranch.setText(eBranchInfo.getBranchNm());
+                sSlectBranch = eBranchInfo.getBranchCd();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
         mViewModel.getAllEmployeeTimeLog().observe(getViewLifecycleOwner(), eLog_selfies -> {
             TimeLogAdapter logAdapter = new TimeLogAdapter(eLog_selfies, sTransNox -> {
@@ -215,16 +205,6 @@ public class Fragment_SelfieLogin extends Fragment {
             recyclerView.setLayoutManager(loManager);
             recyclerView.setAdapter(logAdapter);
 
-        });
-
-        mViewModel.getCurrentTimeLog().observe(getViewLifecycleOwner(), currentLog ->{
-            try {
-                if (currentLog.size() >= 2) {
-                    isLoginToday = true;
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
         });
 
         btnBranch.setOnClickListener(v -> new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
@@ -336,21 +316,13 @@ public class Fragment_SelfieLogin extends Fragment {
                     });
                 }
             } else {
-                if (isLoginToday) {
-                    poMessage.initDialog();
-                    poMessage.setTitle("Selfie Login");
-                    poMessage.setMessage("You already login today.");
-                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                } else {
-                    mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
-                        if (!isGranted) {
-                            mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
-                        } else {
-                            initCamera();
-                        }
-                    });
-                }
+                mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
+                    if (!isGranted) {
+                        mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
+                    } else {
+                        initCamera();
+                    }
+                });
             }
         });
     }
@@ -392,7 +364,6 @@ public class Fragment_SelfieLogin extends Fragment {
                         } catch (Exception e){
                             e.printStackTrace();
                         }
-                        sSlectBranch = "";
                         psPhotoPath = "";
                         pnLatittude = "";
                         pnLongitude = "";
