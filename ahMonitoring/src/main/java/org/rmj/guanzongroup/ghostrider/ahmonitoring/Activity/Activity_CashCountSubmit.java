@@ -75,6 +75,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
 
     private String BranchCd = "";
     private String EmployID = ""; //EmployeeID of requesting employee
+    private boolean cIsMobile = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +89,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
                 lblBranch.setText(eBranchInfo.getBranchNm());
                 lblAddxx.setText(eBranchInfo.getAddressx());
                 BranchCd = eBranchInfo.getBranchCd();
+                cIsMobile = BranchCd.startsWith("C");
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -274,7 +276,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
     }
 
     private void checkEmployeeLevelForInventory(){
-        if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
+        if(!cIsMobile && mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
             mViewModel.CheckConnectivity(isDeviceConnected -> {
                 if (!isDeviceConnected) {
                     Activity_CashCounter.getInstance().finish();

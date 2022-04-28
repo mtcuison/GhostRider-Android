@@ -123,20 +123,20 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                             EEmployeeRole loChild = childMenus.get(i);
                             String lsParent = loRole.getObjectNm();
                             if(lsParent.equalsIgnoreCase(loChild.getParentxx())){
-                                ChildObject loCMenu = new ChildObject(loChild.getObjectNm());
-                                poChildLst.add(loCMenu);
-                                poChild.put(loParent, poChildLst);
-//                                if("selfie log".equalsIgnoreCase(loChild.getObjectNm().toLowerCase(Locale.ROOT))) {
-//                                    if(cSlfiex || loChild.getRecdStat().equalsIgnoreCase("1")) {
-//                                        ChildObject loCMenu = new ChildObject(loChild.getObjectNm());
-//                                        poChildLst.add(loCMenu);
-//                                        poChild.put(loParent, poChildLst);
-//                                    }
-//                                } else {
-//                                    ChildObject loCMenu = new ChildObject(loChild.getObjectNm());
-//                                    poChildLst.add(loCMenu);
-//                                    poChild.put(loParent, poChildLst);
-//                                }
+//                                ChildObject loCMenu = new ChildObject(loChild.getObjectNm());
+//                                poChildLst.add(loCMenu);
+//                                poChild.put(loParent, poChildLst);
+                                if("selfie log".equalsIgnoreCase(loChild.getObjectNm().toLowerCase(Locale.ROOT))) {
+                                    if(cSlfiex || loChild.getRecdStat().equalsIgnoreCase("1")) {
+                                        ChildObject loCMenu = new ChildObject(loChild.getObjectNm());
+                                        poChildLst.add(loCMenu);
+                                        poChild.put(loParent, poChildLst);
+                                    }
+                                } else {
+                                    ChildObject loCMenu = new ChildObject(loChild.getObjectNm());
+                                    poChildLst.add(loCMenu);
+                                    poChild.put(loParent, poChildLst);
+                                }
                             }
                         }
                     }
