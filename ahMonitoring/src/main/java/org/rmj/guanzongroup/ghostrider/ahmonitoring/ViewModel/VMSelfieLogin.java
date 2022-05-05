@@ -150,8 +150,8 @@ public class VMSelfieLogin extends AndroidViewModel {
         @Override
         protected String doInBackground(String... strings) {
             String BranchCD = strings[0];
-            if(poLog.checkBranchCodeIfExist(BranchCD, AppConstants.CURRENT_DATE) > 0){
-                return AppConstants.LOCAL_EXCEPTION_ERROR("You already log in this branch.");
+            if(poLog.checkBranchCodeIfExist(BranchCD, AppConstants.CURRENT_DATE) == 2){
+                return AppConstants.LOCAL_EXCEPTION_ERROR("Only 2 Selfie log per branch is allowed.");
             } else {
                 try {
                     return AppConstants.APPROVAL_CODE_GENERATED("Branch selected.");

@@ -24,6 +24,7 @@ import androidx.lifecycle.MutableLiveData;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchOpeningMonitor;
 import org.rmj.g3appdriver.GRider.Database.Entities.EAreaPerformance;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchOpenMonitor;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
@@ -91,6 +92,10 @@ public class VMHome extends AndroidViewModel {
 
     public LiveData<List<EAreaPerformance>> getAreaPerformanceDashboard(){
         return poDatabse.getAreaPerformanceDashboard();
+    }
+
+    public LiveData<EBranchInfo> GetUserBranchInfo(){
+        return poBrInfo.getUserBranchInfo();
     }
 
     public void setIntUserLvl(int userLvl){

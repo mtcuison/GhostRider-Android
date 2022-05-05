@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,6 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
@@ -78,7 +80,7 @@ public class Fragment_Home extends Fragment {
             lblUserLvl,
             lblDept,
             lblAreaNme,
-            lblBranch;
+            lblSyncStat;
     private String photoPath;
     private double latitude, longitude;
     private List<NewsEventsModel> newsList;
@@ -103,7 +105,7 @@ public class Fragment_Home extends Fragment {
         lblEmail = view.findViewById(R.id.lbl_userEmail);
         lblUserLvl = view.findViewById(R.id.lbl_userLevel);
         lblDept = view.findViewById(R.id.lbl_userDepartment);
-        lblBranch = view.findViewById(R.id.lbl_userBranch);
+        lblSyncStat = view.findViewById(R.id.lbl_syncStatus);
         lblAreaNme = view.findViewById(R.id.lbl_areaName);
         recyclerView = view.findViewById(R.id.recyclerview_monitoring);
         recyclerViewOpening = view.findViewById(R.id.recyclerview_openings);
@@ -155,6 +157,21 @@ public class Fragment_Home extends Fragment {
 
             } catch (Exception e){
                 e.printStackTrace();
+            }
+        });
+
+        mViewModel.GetUserBranchInfo().observe(getViewLifecycleOwner(), new Observer<EBranchInfo>() {
+            @Override
+            public void onChanged(EBranchInfo eBranchInfo) {
+                try{
+                    if(eBranchInfo == null){
+                        lblSyncStat.setVisibility(View.VISIBLE);
+                    } else {
+                        lblSyncStat.setVisibility(View.GONE);
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 

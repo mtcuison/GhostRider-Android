@@ -97,6 +97,15 @@
                                 android:gravity="center_horizontal"
                                 android:textColor="@color/material_black" />
 
+                            <TextView
+                                android:id="@+id/lbl_syncStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:text= "Downloading Data. Please wait..."
+                                android:fontFamily="@font/roboto_regular"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/error_red" />
 
                         </LinearLayout>
 

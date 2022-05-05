@@ -263,6 +263,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:visibility="gone"
                                 android:hint="Quantity On Hand"
                                 android:weightSum="1">
 
@@ -285,7 +286,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Actual Quantity"
+                                android:hint="Quantity"
                                 android:weightSum="1">
 
                                 <com.google.android.material.textfield.TextInputEditText

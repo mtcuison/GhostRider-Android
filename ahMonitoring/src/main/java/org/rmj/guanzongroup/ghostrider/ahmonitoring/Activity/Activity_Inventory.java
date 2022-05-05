@@ -264,7 +264,14 @@ public class Activity_Inventory extends AppCompatActivity {
                 @Override
                 public void OnSuccessResult(String message) {
                     poDialog.dismiss();
-                    showPostingMessage(message);
+                    poMessage.initDialog();
+                    poMessage.setTitle("Random Stock Inventory");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                        dialog.dismiss();
+                        finish();
+                    });
+                    poMessage.show();
                 }
 
                 @Override

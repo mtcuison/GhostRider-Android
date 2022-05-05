@@ -104,8 +104,8 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_cash_count_submit.xml" value="0.18" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_cash_counter.xml" value="0.2" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_employee_applications.xml" value="0.22" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_inventory.xml" value="0.2" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_inventory_entry.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_inventory.xml" value="0.12" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_inventory_entry.xml" value="0.2" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/cash_count_list_info.xml" value="0.18" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/dialog_inventory_branch_selection.xml" value="0.13645833333333332" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/fragment_inventory.xml" value="0.2" />
@@ -121,6 +121,8 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/drawable/ic_menu_camera.xml" value="0.1235" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.1305" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/fragment_application.xml" value="0.14" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/fragment_dashboard.xml" value="0.10816588285592134" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/list_item_evaluation.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/authLibrary/src/main/res/layout/fragment_create_account.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/authLibrary/src/main/res/layout/fragment_login.xml" value="0.11073108165882856" />

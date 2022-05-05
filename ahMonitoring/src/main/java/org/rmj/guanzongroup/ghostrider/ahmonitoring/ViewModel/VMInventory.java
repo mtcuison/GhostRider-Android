@@ -323,7 +323,7 @@ public class VMInventory extends AndroidViewModel {
                 JSONObject loJson = new JSONObject(s);
                 String result = loJson.getString("result");
                 if(result.equalsIgnoreCase("success")){
-                    callback.OnSuccessResult("Random stock inventory has been posted.");
+                    callback.OnSuccessResult("Random stock inventory has been posted. Tap the back button on upper left corner to return dashboard.");
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     String message = loError.getString("message");
