@@ -13,12 +13,12 @@
     <string name="app_name">Guanzon Group EPACS</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Guanzon Group EPACS</string>
+    <string name="nav_header_title">Guanzon Group EPACSS</string>
     <string name="nav_header_subtitle">Electronic Personnel Access, \n Control and Security</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">GhostRider Android</string>
+    <string name="menu_home">Guanzon Group EPACSS</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_samsungKnox">Samsung Knox</string>

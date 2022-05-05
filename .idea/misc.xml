@@ -99,12 +99,31 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/notifications/src/main/res/drawable/ic_user_profile.xml" value="0.12192982456140351" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/notifications/src/main/res/layout/fragment_notification_list.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/GhostRider-Android/settings/src/main/res/layout/activity_digital_gcard.xml" value="0.11008771929824561" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_cash_count_log.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_cash_count_log_details.xml" value="0.18" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_cash_count_submit.xml" value="0.18" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_cash_counter.xml" value="0.2" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_employee_applications.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_inventory.xml" value="0.2" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/activity_inventory_entry.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/cash_count_list_info.xml" value="0.18" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/dialog_inventory_branch_selection.xml" value="0.13645833333333332" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/fragment_selfie_login.xml" value="0.10175288584865327" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/fragment_inventory.xml" value="0.2" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/fragment_leave_application.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/fragment_leave_approval.xml" value="0.14" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/fragment_leave_list.xml" value="0.11500641299700727" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/fragment_mc_sales.xml" value="0.11500641299700727" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/fragment_ob_application.xml" value="0.2" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/fragment_reimbursement.xml" value="0.12" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/fragment_selfie_login.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/fragment_sp_sales.xml" value="0.11500641299700727" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/ahMonitoring/src/main/res/layout/list_item_area_performance_layout.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/drawable/ic_menu_camera.xml" value="0.1235" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.1305" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/fragment_application.xml" value="0.14" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/list_item_evaluation.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/authLibrary/src/main/res/layout/fragment_create_account.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/authLibrary/src/main/res/layout/fragment_login.xml" value="0.11073108165882856" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditApp/src/main/res/layout/fragment_personal_info.xml" value="0.14" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/activity_application_list.xml" value="0.15052083333333333" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/activity_evaluation.xml" value="0.25" />
@@ -112,8 +131,21 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/ci_list_item.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/credit_app_list.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/list_item_evaluation.xml" value="0.25" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_list.xml" value="0.16" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_list.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_log.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_remittance.xml" value="0.18" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_post_dcp.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_transaction.xml" value="0.11500641299700727" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_transactionlog.xml" value="0.11500641299700727" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/dialog_account_detail.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/dialog_check_payment.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/dialog_client_search_list.xml" value="0.25" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/dialog_collected_payment.xml" value="0.11500641299700727" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/fragment_customer_not_around_fragment.xml" value="0.2" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/fragment_customer_not_around_log.xml" value="0.11500641299700727" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/fragment_inc_transaction.xml" value="0.11500641299700727" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/fragment_promise_to_pay.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/fragment_promise_to_pay_log.xml" value="0.11500641299700727" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/menu/action_menu_dcp_list.xml" value="0.18" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/samsungKnox/src/main/res/layout/fragment_activate.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/samsungKnox/src/main/res/layout/fragment_get_offline_pin.xml" value="0.1" />
@@ -228,9 +260,8 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/settings/src/main/res/layout/help_list_item.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/settings/src/main/res/xml/preferences.xml" value="0.1" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/creditEvaluation/src/main/res/layout/activity_cihistory_preview.xml" value="0.19" />
-        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/creditEvaluation/src/main/res/layout/activity_evaluation.xml" value="0.25" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/creditEvaluation/src/main/res/layout/activity_evaluation.xml" value="0.22" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/creditEvaluation/src/main/res/layout/ci_list_item.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/creditEvaluation/src/main/res/layout/layout_ci_items.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/creditEvaluation/src/main/res/layout/list_item_evaluation.xml" value="0.22" />
       </map>
     </option>
@@ -242,7 +273,7 @@
     </list>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

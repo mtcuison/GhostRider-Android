@@ -56,7 +56,6 @@ public class VMLogin extends AndroidViewModel {
         headers = HttpHeaders.getInstance(application);
         session = new SessionManager(application);
         poConfig = AppConfigPreference.getInstance(application);
-        poConfig.setTestCase(true);
         webApi = new WebApi(poConfig.getTestStatus());
         poTlphony = new Telephony(application);
     }

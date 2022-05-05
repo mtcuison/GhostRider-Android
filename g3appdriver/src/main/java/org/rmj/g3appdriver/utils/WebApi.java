@@ -76,7 +76,7 @@ public class WebApi {
     private static final String URL_GET_OB_APPLICATION = "petmgr/get_ob_application.php";
     private static final String URL_CONFIRM_OB_APPLICATION = "petmgr/confirm_ob_application.php";
     private static final String URL_REQUEST_RANDOM_STOCK_INVENTORY = "integsys/bullseye/random_stock_inventory_request.php";
-    private static final String URL_SUBMIT_RANDOM_STOCK_INVENTORY = "bullseye/random_stock_inventory_submit.php";
+    private static final String URL_SUBMIT_RANDOM_STOCK_INVENTORY = "integsys/bullseye/random_stock_inventory_submit.php";
 
     private static final String URL_REQUEST_FOR_EVALUATIONS = "integsys/gocas/ci_request_for_evaluations.php";
     private static final String URL_ADD_FOR_EVALUATION = "integsys/gocas/ci_add_for_evaluation.php";
