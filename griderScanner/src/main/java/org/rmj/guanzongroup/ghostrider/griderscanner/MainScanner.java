@@ -63,14 +63,14 @@ public class MainScanner extends AppCompatActivity implements VMMainScanner.OnIm
         mViewModel.ImportRBranchApplications(MainScanner.this);
         initData();
 
-    }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
-            finish();
         }
-        return super.onOptionsItemSelected(item);
-    }
+        @Override
+        public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+            if(item.getItemId() == android.R.id.home){
+                finish();
+            }
+            return super.onOptionsItemSelected(item);
+        }
 
 
 

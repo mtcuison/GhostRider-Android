@@ -225,11 +225,37 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/settings/src/main/res/layout/help_list_header.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/settings/src/main/res/layout/help_list_item.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/gRider/settings/src/main/res/xml/preferences.xml" value="0.1" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/CreditEvaluator/src/main/res/layout/fragment_ci_barangay_record.xml" value="0.11277173913043478" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/CreditEvaluator/src/main/res/layout/layout_ci_header.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/CreditEvaluator/src/main/res/layout/list_item_ci_history_info.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/CreditEvaluator/src/main/res/layout/list_item_ci_special_info.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/ahMonitoring/src/main/res/layout/activity_browser.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/ahMonitoring/src/main/res/layout/list_item_inventory.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/ahMonitoring/src/main/res/layout/list_item_time_log.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/app/src/main/res/layout/activity_data_manager.xml" value="0.11277173913043478" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/app/src/main/res/layout/activity_main.xml" value="0.11277173913043478" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/app/src/main/res/layout/app_bar_main.xml" value="0.11277173913043478" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/app/src/main/res/layout/content_main.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/creditEvaluation/src/main/res/layout/activity_cihistory_preview.xml" value="0.19" />
-        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/creditEvaluation/src/main/res/layout/activity_evaluation.xml" value="0.25" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/creditEvaluation/src/main/res/layout/activity_evaluation.xml" value="0.22" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/creditEvaluation/src/main/res/layout/ci_list_item.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/creditEvaluation/src/main/res/layout/layout_ci_items.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/creditEvaluation/src/main/res/layout/list_item_evaluation.xml" value="0.22" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/dailyCollectionPlan/src/main/res/layout/activity_collection_log.xml" value="0.11277173913043478" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/dailyCollectionPlan/src/main/res/layout/fragment_loan_unit.xml" value="0.11277173913043478" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/dailyCollectionPlan/src/main/res/layout/list_item_address_log.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/dailyCollectionPlan/src/main/res/layout/list_item_mobile_log.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/dailyCollectionPlan/src/main/res/layout/list_item_update_request.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/g3appdriver/src/main/res/drawable/ic_img_empty_list.xml" value="0.2115" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/g3appdriver/src/main/res/layout/dialog_toast.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/notifications/src/main/res/drawable/ic_head_messaging.xml" value="0.1475" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/notifications/src/main/res/drawable/ic_head_notification.xml" value="0.1475" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/notifications/src/main/res/drawable/ic_item_more.xml" value="0.1475" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/notifications/src/main/res/drawable/ic_message_create.xml" value="0.1475" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/notifications/src/main/res/drawable/ic_message_delete.xml" value="0.1475" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/notifications/src/main/res/drawable/ic_message_reply.xml" value="0.1475" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/notifications/src/main/res/drawable/ic_user_profile.xml" value="0.1475" />
+        <entry key="..\:/Users/User/Guanzon/github/GhostRider-Android-03-25-2022/notifications/src/main/res/drawable/message_info_bg.xml" value="0.1475" />
       </map>
     </option>
   </component>
