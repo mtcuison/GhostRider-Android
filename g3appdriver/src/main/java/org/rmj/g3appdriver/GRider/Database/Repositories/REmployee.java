@@ -16,18 +16,22 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeRole;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 
 public class REmployee {
+
+    private final Application instance;
+
     private final DEmployeeInfo employeeDao;
     private final LiveData<EEmployeeInfo> employeeInfo;
     private final SessionManager poSession;
 
-
     public REmployee(Application application){
+        instance = application;
         GGC_GriderDB database = GGC_GriderDB.getInstance(application);
         employeeDao = database.EmployeeDao();
         employeeInfo = employeeDao.getEmployeeInfo();
@@ -113,19 +117,22 @@ public class REmployee {
 
     public void LogoutUserSession(){
         poSession.initUserLogout();
-        new DeleteUserTask(employeeDao).execute();
+        new DeleteUserTask(instance).execute();
     }
 
     public static class DeleteUserTask extends AsyncTask<Void, Void, Void>{
         private DEmployeeInfo employeeDao;
+        private DEmployeeRole empRoleDao;
 
-        public DeleteUserTask(DEmployeeInfo employeeDao) {
-            this.employeeDao = employeeDao;
+        public DeleteUserTask(Application instance) {
+            this.employeeDao =  GGC_GriderDB.getInstance(instance).EmployeeDao();
+            this.empRoleDao = GGC_GriderDB.getInstance(instance).employeeRoleDao();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
             employeeDao.deleteAllEmployeeInfo();
+            empRoleDao.DeleteEmployeeRole();
             return null;
         }
     }

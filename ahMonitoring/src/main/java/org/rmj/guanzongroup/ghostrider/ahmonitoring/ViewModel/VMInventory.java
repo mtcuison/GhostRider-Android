@@ -292,7 +292,6 @@ public class VMInventory extends AndroidViewModel {
                         master.put("master", joMaster);
                         master.put("detail", jaDetail);
                         String response = WebClient.httpsPostJSon(poApi.getUrlSubmitRandomStockInventory(), master.toString(), poHeaders.getHeaders());
-//                        String response = AppConstants.APPROVAL_CODE_GENERATED("sample");
                         if(response == null){
                             lsResult = AppConstants.SERVER_NO_RESPONSE();
                         } else {

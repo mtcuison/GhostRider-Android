@@ -27,8 +27,8 @@ public interface DEmployeeRole {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void InsertEmployeeRole(EEmployeeRole role);
 
-    @Query("DELETE FROM xxxAOEmpRole WHERE sObjectNm=:Object")
-    void DeleteEmployeeRole(String Object);
+    @Query("DELETE FROM xxxAOEmpRole")
+    void DeleteEmployeeRole();
 
     @Query("SELECT * FROM xxxAOEmpRole " +
             "WHERE cRecdStat = '1' AND sParentxx = '' " +
@@ -36,7 +36,7 @@ public interface DEmployeeRole {
     LiveData<List<EEmployeeRole>> getEmployeeRoles();
 
     @Query("SELECT * FROM xxxAOEmpRole " +
-            "WHERE cRecdStat = '1' AND sParentxx != '' " +
+            "WHERE sParentxx != '' " +
             "ORDER BY sSeqnceCd ASC")
     LiveData<List<EEmployeeRole>> getChildRoles();
 

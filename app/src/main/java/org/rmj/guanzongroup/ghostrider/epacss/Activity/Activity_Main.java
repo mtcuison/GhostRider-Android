@@ -132,7 +132,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                                         poChildLst.add(loCMenu);
                                         poChild.put(loParent, poChildLst);
                                     }
-                                } else {
+                                } else if (loChild.getRecdStat().equalsIgnoreCase("1")){
                                     ChildObject loCMenu = new ChildObject(loChild.getObjectNm());
                                     poChildLst.add(loCMenu);
                                     poChild.put(loParent, poChildLst);
