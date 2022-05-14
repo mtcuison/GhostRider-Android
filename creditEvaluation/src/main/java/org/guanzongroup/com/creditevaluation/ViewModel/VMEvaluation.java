@@ -163,13 +163,13 @@ public class VMEvaluation extends AndroidViewModel {
                         poCIEvaluation.UpdateRecordInfo(transNox[0],infoModel.getHasRecrd());
                         poCIEvaluation.UpdateRecordRemarks(transNox[0],infoModel.getRemRecrd());
 
-                        poCIEvaluation.UpdatePresentBarangay(transNox[0],infoModel.getNeighbr1());
-                        poCIEvaluation.UpdatePosition(transNox[0],infoModel.getNeighbr1());
-                        poCIEvaluation.UpdateContact(transNox[0],infoModel.getNeighbr1());
-                        poCIEvaluation.UpdateNeighbor1(transNox[0],infoModel.getNeighbr1());
-                        poCIEvaluation.UpdateNeighbor2(transNox[0],infoModel.getNeighbr1());
-                        poCIEvaluation.UpdateNeighbor3(transNox[0],infoModel.getNeighbr1());
-                        response[0] = "Additional Info successfully saved.";
+                        poCIEvaluation.UpdatePresentBarangay(transNox[0],infoModel.getAsstPersonnel());
+                        poCIEvaluation.UpdatePosition(transNox[0],infoModel.getAsstPosition());
+                        poCIEvaluation.UpdateContact(transNox[0],infoModel.getMobileNo());
+//                        poCIEvaluation.UpdateNeighbor1(transNox[0],infoModel.getNeighbr1());
+//                        poCIEvaluation.UpdateNeighbor2(transNox[0],infoModel.getNeighbr1());
+//                        poCIEvaluation.UpdateNeighbor3(transNox[0],infoModel.getNeighbr1());
+                        response[0] = "Barangay Records and Personnel Info successfully saved.";
                     }else{
                         response[0] = infoModel.getMessage();
                     }
@@ -190,28 +190,28 @@ public class VMEvaluation extends AndroidViewModel {
                     Thread.sleep(1000);
 
                 }
-//                if(btnText.equalsIgnoreCase("Neighbor1")){
-//                    if (!infoModel.isNeighbr1()) {
-//                        response[0] = infoModel.getMessage();
-//                    } else {
-//                        poCIEvaluation.UpdateNeighbor1(transNox[0],infoModel.getNeighbr1());
-//                        response[0] = infoModel.getMessage();
-//                    }
-//                }else if(btnText.equalsIgnoreCase("Neighbor2")){
-//                    if (!infoModel.isNeighbr2()) {
-//                        response[0] = infoModel.getMessage();
-//                    } else {
-//                        poCIEvaluation.UpdateNeighbor2(transNox[0],infoModel.getNeighbr2());
-//                        response[0] = infoModel.getMessage();
-//                    }
-//                }else if(btnText.equalsIgnoreCase("Neighbor3")){
-//                    if (!infoModel.isNeighbr3()) {
-//                        response[0] = infoModel.getMessage();
-//                    } else {
-//                        poCIEvaluation.UpdateNeighbor3(transNox[0],infoModel.getNeighbr3());
-//                        response[0] = infoModel.getMessage();
-//                    }
-//                }
+                else if(btnText.equalsIgnoreCase("Neighbor1")){
+                    if (!infoModel.isNeighbr1()) {
+                        response[0] = infoModel.getMessage();
+                    } else {
+                        poCIEvaluation.UpdateNeighbor1(transNox[0],infoModel.getNeighbr1());
+                        response[0] = "Neighbor 1 Info successfully saved.";
+                    }
+                }else if(btnText.equalsIgnoreCase("Neighbor2")){
+                    if (!infoModel.isNeighbr2()) {
+                        response[0] = infoModel.getMessage();
+                    } else {
+                        poCIEvaluation.UpdateNeighbor2(transNox[0],infoModel.getNeighbr2());
+                        response[0] = "Neighbor 2 Info successfully saved.";
+                    }
+                }else if(btnText.equalsIgnoreCase("Neighbor3")){
+                    if (!infoModel.isNeighbr3()) {
+                        response[0] = infoModel.getMessage();
+                    } else {
+                        poCIEvaluation.UpdateNeighbor3(transNox[0],infoModel.getNeighbr3());
+                        response[0] = "Neighbor 3 Info successfully saved.";
+                    }
+                }
 //                else if(btnText.equalsIgnoreCase("Personnel")){
 //                    if (!infoModel.isPersonnel()){
 //                    response[0] = infoModel.getMessage();

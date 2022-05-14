@@ -214,9 +214,9 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
                 infoModel.setAsstPersonnel(txtPersonnel.getText().toString());
                 infoModel.setAsstPosition(txtPosition.getText().toString());
                 infoModel.setMobileNo(txtMobileNo.getText().toString());
-                infoModel.setNeighbr1(txtNeighbor1.getText().toString());
-                infoModel.setNeighbr2(txtNeighbor2.getText().toString());
-                infoModel.setNeighbr3(txtNeighbor3.getText().toString());
+//                infoModel.setNeighbr1(txtNeighbor1.getText().toString());
+//                infoModel.setNeighbr2(txtNeighbor2.getText().toString());
+//                infoModel.setNeighbr3(txtNeighbor3.getText().toString());
                 mViewModel.saveAdditionalInfo(infoModel,"Additional", Activity_Evaluation.this);
 
             });
@@ -232,20 +232,20 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
 //                infoModel.setMobileNo(txtMobileNo.getText().toString());
 //                mViewModel.saveAdditionalInfo(infoModel,"PhoneNo", Activity_Evaluation.this);
 //            });
-//            btnSaveNeighbor1.setOnClickListener(v -> {
-//                infoModel.setNeighbr1(txtNeighbor1.getText().toString());
-//                mViewModel.saveAdditionalInfo(infoModel,"Neighbor1", Activity_Evaluation.this);
-//            });
-//            btnSaveNeighbor2.setOnClickListener(v -> {
-//                infoModel.setNeighbr2(txtNeighbor2.getText().toString());
-//                mViewModel.saveAdditionalInfo(infoModel,"Neighbor2", Activity_Evaluation.this);
-//
-//            });
-//            btnSaveNeighbor3.setOnClickListener(v -> {
-//                infoModel.setNeighbr3(txtNeighbor3.getText().toString());
-//                mViewModel.saveAdditionalInfo(infoModel,"Neighbor3", Activity_Evaluation.this);
-//
-//            });
+            btnSaveNeighbor1.setOnClickListener(v -> {
+                infoModel.setNeighbr1(txtNeighbor1.getText().toString());
+                mViewModel.saveAdditionalInfo(infoModel,"Neighbor1", Activity_Evaluation.this);
+            });
+            btnSaveNeighbor2.setOnClickListener(v -> {
+                infoModel.setNeighbr2(txtNeighbor2.getText().toString());
+                mViewModel.saveAdditionalInfo(infoModel,"Neighbor2", Activity_Evaluation.this);
+
+            });
+            btnSaveNeighbor3.setOnClickListener(v -> {
+                infoModel.setNeighbr3(txtNeighbor3.getText().toString());
+                mViewModel.saveAdditionalInfo(infoModel,"Neighbor3", Activity_Evaluation.this);
+
+            });
 //
 //            btnSaveRecord.setOnClickListener(v -> {
 //                infoModel.setRemRecrd(txtRecordRemarks.getText().toString());
@@ -346,9 +346,9 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
 //        btnSaveAsstPersonnel = findViewById(R.id.btnSaveAsstPersonnel);
 //        btnSaveAsstPosition = findViewById(R.id.btnSaveAsstPosition);
 //        btnSaveAsstPhoneNo = findViewById(R.id.btnSaveAsstPhoneNo);
-//        btnSaveNeighbor1 = findViewById(R.id.btnSaveNeighbor1);
-//        btnSaveNeighbor2 = findViewById(R.id.btnSaveNeighbor2);
-//        btnSaveNeighbor3 = findViewById(R.id.btnSaveNeighbor3);
+        btnSaveNeighbor1 = findViewById(R.id.btnSaveNeighbor1);
+        btnSaveNeighbor2 = findViewById(R.id.btnSaveNeighbor2);
+        btnSaveNeighbor3 = findViewById(R.id.btnSaveNeighbor3);
         btnSaveAdditional = findViewById(R.id.btnSaveAdditional);
 
         btnUpload = findViewById(R.id.btnUpload);

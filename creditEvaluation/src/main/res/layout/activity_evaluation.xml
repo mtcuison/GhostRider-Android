@@ -249,18 +249,6 @@
                                 style="@style/HeaderLabelBlack"
                                 android:layout_weight="1"
                                 android:text="Additional Info"/>
-                            <Button
-                                android:id="@+id/btnSaveAdditional"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Save"
-                                android:layout_weight=".5"
-                                android:layout_marginLeft="10dp"
-                                style="@style/GhostRider_Button"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                tools:ignore="RelativeOverlap" />
 
                         </LinearLayout>
 
@@ -476,7 +464,28 @@
 <!--                                        app:iconGravity="textStart"-->
 <!--                                        app:iconPadding="0dp" />-->
                                 </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_margin="10dp"
+                                    >
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:layout_weight="1.5"
+                                        />
+                                    <Button
+                                        android:id="@+id/btnSaveAdditional"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Save"
+                                        android:layout_weight=".5"
+                                        android:layout_marginLeft="10dp"
+                                        style="@style/GhostRider_Button"/>
 
+                                </LinearLayout>
                             </LinearLayout>
                             <!--    Neighbor 1-->
                             <LinearLayout
@@ -513,16 +522,16 @@
                                             android:textColor="@color/material_black"
                                             android:maxLength="50" />
                                     </com.google.android.material.textfield.TextInputLayout>
-<!--                                    <com.google.android.material.button.MaterialButton-->
-<!--                                        android:id="@+id/btnSaveNeighbor1"-->
-<!--                                        android:layout_width="wrap_content"-->
-<!--                                        android:layout_height="fill_parent"-->
-<!--                                        android:layout_weight="1.5"-->
-<!--                                        android:layout_gravity="center_horizontal|center|center_vertical"-->
-<!--                                        app:icon="@android:drawable/ic_menu_save"-->
-<!--                                        app:iconTint="@color/guanzon_digital_orange"-->
-<!--                                        app:iconGravity="textStart"-->
-<!--                                        app:iconPadding="0dp" />-->
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btnSaveNeighbor1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_weight="1.5"
+                                        android:layout_gravity="center_horizontal|center|center_vertical"
+                                        app:icon="@android:drawable/ic_menu_save"
+                                        app:iconTint="@color/guanzon_digital_orange"
+                                        app:iconGravity="textStart"
+                                        app:iconPadding="0dp" />
                                 </LinearLayout>
                             </LinearLayout>
                             <!--    Neighbor 2-->
@@ -561,16 +570,16 @@
                                             android:textColor="@color/material_black"
                                             android:maxLength="50" />
                                     </com.google.android.material.textfield.TextInputLayout>
-<!--                                    <com.google.android.material.button.MaterialButton-->
-<!--                                        android:id="@+id/btnSaveNeighbor2"-->
-<!--                                        android:layout_width="wrap_content"-->
-<!--                                        android:layout_height="fill_parent"-->
-<!--                                        android:layout_weight="1.5"-->
-<!--                                        android:layout_gravity="center_horizontal|center|center_vertical"-->
-<!--                                        app:icon="@android:drawable/ic_menu_save"-->
-<!--                                        app:iconTint="@color/guanzon_digital_orange"-->
-<!--                                        app:iconGravity="textStart"-->
-<!--                                        app:iconPadding="0dp" />-->
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btnSaveNeighbor2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_weight="1.5"
+                                        android:layout_gravity="center_horizontal|center|center_vertical"
+                                        app:icon="@android:drawable/ic_menu_save"
+                                        app:iconTint="@color/guanzon_digital_orange"
+                                        app:iconGravity="textStart"
+                                        app:iconPadding="0dp" />
                                 </LinearLayout>
 
                             </LinearLayout>
@@ -611,16 +620,16 @@
 <!--                                        android:nextFocusForward="@id/tie_ci_neighborName2"-->
 
                                     </com.google.android.material.textfield.TextInputLayout>
-<!--                                    <com.google.android.material.button.MaterialButton-->
-<!--                                        android:id="@+id/btnSaveNeighbor3"-->
-<!--                                        android:layout_width="wrap_content"-->
-<!--                                        android:layout_height="fill_parent"-->
-<!--                                        android:layout_weight="1.5"-->
-<!--                                        android:layout_gravity="center_horizontal|center|center_vertical"-->
-<!--                                        app:icon="@android:drawable/ic_menu_save"-->
-<!--                                        app:iconTint="@color/guanzon_digital_orange"-->
-<!--                                        app:iconGravity="textStart"-->
-<!--                                        app:iconPadding="0dp" />-->
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btnSaveNeighbor3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_weight="1.5"
+                                        android:layout_gravity="center_horizontal|center|center_vertical"
+                                        app:icon="@android:drawable/ic_menu_save"
+                                        app:iconTint="@color/guanzon_digital_orange"
+                                        app:iconGravity="textStart"
+                                        app:iconPadding="0dp" />
                                 </LinearLayout>
                             </LinearLayout>
                             <LinearLayout
