@@ -21,8 +21,37 @@ import static org.junit.Assert.assertEquals;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+
+    private boolean isSuccess = false;
+
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
+    }
+
+
+    @Test
+    public void testConnectionLogic(){
+        boolean isBackUp = false;
+        String lsAddress1 = "address1";
+        String lsAddress2 = "address2";
+
+        if(isBackUp){
+            if(isReachable(lsAddress1)){
+                isSuccess = true;
+            } else {
+                if(isReachable(lsAddress2)){
+                    isSuccess = true;
+                } else {
+
+                }
+            }
+        } else {
+
+        }
+    }
+
+    private boolean isReachable(String fsVal){
+        return fsVal.equalsIgnoreCase("address1");
     }
 }

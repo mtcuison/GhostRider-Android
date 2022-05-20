@@ -134,7 +134,8 @@ public class VMLeaveApproval extends AndroidViewModel {
             this.conn = new ConnectionUtil(instance);
             this.poLeave = new REmployeeLeave(instance);
             this.callback = callback;
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override
@@ -232,7 +233,8 @@ public class VMLeaveApproval extends AndroidViewModel {
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
             this.poLeave = new REmployeeLeave(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)

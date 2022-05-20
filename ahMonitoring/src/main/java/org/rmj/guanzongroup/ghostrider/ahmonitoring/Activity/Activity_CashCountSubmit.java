@@ -120,9 +120,9 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
             this.isTapSubmit = true;
             JSONObject parameters = getParameters();
             try{
-                int lnPetty = 0;
-                if(!txtPettyCashxxx.getText().toString().isEmpty()){
-                    lnPetty = Integer.parseInt(Objects.requireNonNull(txtPettyCashxxx.getText()).toString().replace(",", ""));
+                double lnPetty = 0.0;
+                if(!txtPettyCashxxx.getText().toString().trim().isEmpty()){
+                    lnPetty = Double.parseDouble(Objects.requireNonNull(txtPettyCashxxx.getText()).toString().replace(",", ""));
                 }
                 parameters.put("sTransNox", Objects.requireNonNull(txtTransNox.getText()).toString());
                 parameters.put("sBranchCd", BranchCd);

@@ -32,6 +32,7 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.InventoryItemAdapter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogBranchSelection;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogPostInventory;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMInventory;
@@ -72,8 +73,19 @@ public class Activity_Inventory extends AppCompatActivity {
                     lblStatus.setText("No branch detected on selfie log. Please take a selfie login to request random inventory items");
                     mViewModel.getAreaBranchList().observe(Activity_Inventory.this, eBranchInfos -> {
                         try{
-//                            DialogBranchSelection loSelect = new DialogBranchSelection(Activity_Inventory.this, eBranchInfos);
-//                            loSelect.initDialog(false, BranchCode -> mViewModel.setBranchCde(BranchCode));
+                            DialogBranchSelection loSelect = new DialogBranchSelection(Activity_Inventory.this, eBranchInfos);
+                            loSelect.initDialog(false, new DialogBranchSelection.OnBranchSelectedCallback() {
+                                @Override
+                                public void OnSelect(String BranchCode, AlertDialog dialog) {
+                                    mViewModel.setBranchCde(BranchCode);
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void OnCancel() {
+
+                                }
+                            });
                         } catch (Exception e){
                             e.printStackTrace();
                         }

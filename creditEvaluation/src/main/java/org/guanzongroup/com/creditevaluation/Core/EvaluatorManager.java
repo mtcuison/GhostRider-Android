@@ -87,12 +87,12 @@ public class EvaluatorManager {
                         poCI.SaveApplicationInfo(loApp);
                     }
 
-//                    Thread.sleep(1000);
-//                    if(DownloadBranchApplications()){
-//                        callback.OnSuccess("success");
-//                    } else {
-//                        callback.OnFailed(message);
-//                    }
+                    Thread.sleep(1000);
+                    if(DownloadBranchApplications()){
+                        callback.OnSuccess("success");
+                    } else {
+                        callback.OnFailed(message);
+                    }
                     callback.OnSuccess("success");
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");

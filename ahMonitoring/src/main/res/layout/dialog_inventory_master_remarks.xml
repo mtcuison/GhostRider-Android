@@ -54,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:maxLength="500"
+                android:digits="@string/free_text_restriction"
                 android:autofillHints="Business trip destination and purpose."
                 android:inputType="textMultiLine"
                 android:lines="3" />

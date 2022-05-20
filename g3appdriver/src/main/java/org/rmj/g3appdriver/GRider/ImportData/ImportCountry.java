@@ -76,7 +76,8 @@ public class ImportCountry implements ImportInstance {
 
         public ImportDataTask(Application instance, ImportDataCallback callback) {
             this.conn = new ConnectionUtil(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.headers = HttpHeaders.getInstance(instance);
             this.callback = callback;
             this.poCountryRp = new RCountry(instance);

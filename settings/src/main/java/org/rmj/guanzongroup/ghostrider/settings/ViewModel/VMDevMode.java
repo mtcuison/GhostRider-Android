@@ -139,7 +139,8 @@ public class VMDevMode extends AndroidViewModel {
             this.poConn = new ConnectionUtil(application);
             this.poHeaders = HttpHeaders.getInstance(application);
             PATH = application.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/";
-            this.poApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override

@@ -99,7 +99,8 @@ public class VMMainScanner extends AndroidViewModel {
             this.headers = HttpHeaders.getInstance(instance);
             this.brnRepo = new RBranchLoanApplication(instance);
             this.conn = new ConnectionUtil(instance);
-            this.webApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.webApi = new WebApi(loConfig.getTestStatus());
             this.callback = callback;
         }
 

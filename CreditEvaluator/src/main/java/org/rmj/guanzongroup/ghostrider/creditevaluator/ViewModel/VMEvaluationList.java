@@ -102,7 +102,9 @@ public class VMEvaluationList extends AndroidViewModel {
             JSONObject param = new JSONObject();
             param.put("value", fsTransno.trim());
             param.put("bsearch", true);
-            new ImportApplicationInfoTask(instance,  new WebApi(AppConfigPreference.getInstance(instance).getTestStatus()).getUrlDownloadCreditOnlineApp(), callback).execute(param);
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            WebApi poApi = new WebApi(loConfig.getTestStatus());
+            new ImportApplicationInfoTask(instance,  poApi.getUrlDownloadCreditOnlineApp(), callback).execute(param);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -121,7 +123,8 @@ public class VMEvaluationList extends AndroidViewModel {
             this.brnRepo = new RBranchLoanApplication(instance);
             this.poCreditApp = new RBranchLoanApplication(instance);
             this.conn = new ConnectionUtil(instance);
-            this.webApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.webApi = new WebApi(loConfig.getTestStatus());
             this.callback = callback;
         }
 

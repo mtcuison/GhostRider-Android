@@ -80,7 +80,8 @@ public class AndroidNotificationManager {
             this.loDbConn = DbConnection.doConnect(instance);
             this.poOpening = new RBranchOpeningMonitor(instance);
             this.poBranch = new RBranch(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @SuppressLint("NewApi")

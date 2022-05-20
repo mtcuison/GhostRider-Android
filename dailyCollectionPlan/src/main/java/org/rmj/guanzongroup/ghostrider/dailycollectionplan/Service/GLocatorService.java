@@ -185,7 +185,8 @@ public class GLocatorService extends Service {
             poHeaders = HttpHeaders.getInstance(instance);
             poDcp = new RDailyCollectionPlan(instance);
             this.DateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @SuppressLint("NewApi")

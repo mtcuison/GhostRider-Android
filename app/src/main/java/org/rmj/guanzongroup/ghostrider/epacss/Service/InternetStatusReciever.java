@@ -134,7 +134,8 @@ public class InternetStatusReciever extends BroadcastReceiver {
             this.poConfig = AppConfigPreference.getInstance(instance);
             this.poSync = new BackgroundSync(instance);
             this.poCashCount = new RCashCount(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override

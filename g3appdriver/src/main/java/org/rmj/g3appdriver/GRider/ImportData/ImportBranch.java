@@ -73,7 +73,8 @@ public class ImportBranch implements ImportInstance{
         public ImportBranchTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
             this.headers = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.conn = new ConnectionUtil(instance);
             this.repository = new RBranch(instance);
 

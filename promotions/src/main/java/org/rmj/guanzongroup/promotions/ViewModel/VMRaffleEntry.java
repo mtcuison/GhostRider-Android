@@ -111,7 +111,8 @@ public class VMRaffleEntry extends AndroidViewModel {
         public ImportDocumentType(Application instance){
             this.headers = HttpHeaders.getInstance(instance);
             this.raffleRepo = new RRaffleInfo(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)

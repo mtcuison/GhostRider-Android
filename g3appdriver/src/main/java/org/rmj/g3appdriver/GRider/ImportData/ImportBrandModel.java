@@ -73,7 +73,8 @@ public class ImportBrandModel implements ImportInstance {
         public ImportDataTask(Application instance, ImportDataCallback callback) {
             this.repository = new RMcModel(instance);
             this.conn = new ConnectionUtil(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.headers = HttpHeaders.getInstance(instance);
             this.callback = callback;
         }

@@ -105,7 +105,8 @@ public class PerformanceImportService extends JobService {
             this.poConn = new ConnectionUtil(instance);
             this.poUser = new REmployee(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override

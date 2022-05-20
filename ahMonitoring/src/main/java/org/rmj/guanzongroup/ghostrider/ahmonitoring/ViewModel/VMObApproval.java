@@ -103,7 +103,8 @@ public class VMObApproval extends AndroidViewModel {
             this.poBusTrip = new REmployeeBusinessTrip(instance);
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.TransNox = TransNox;
             this.callback = callback;
         }
@@ -196,7 +197,8 @@ public class VMObApproval extends AndroidViewModel {
         public ConfirmApplicationTask(Application instance, OnConfirmApplicationCallback callback){
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.callback = callback;
             this.poBusTrip = new REmployeeBusinessTrip(instance);
         }

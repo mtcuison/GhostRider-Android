@@ -87,7 +87,8 @@ public class VMLocalData extends AndroidViewModel {
         super(application);
         this.instance = application;
         this.poData = new RRawData(application);
-        this.poApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
+        AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new WebApi(loConfig.getTestStatus());
     }
 
     public LiveData<DRawDao.AppLocalData> getAppLocalData(){

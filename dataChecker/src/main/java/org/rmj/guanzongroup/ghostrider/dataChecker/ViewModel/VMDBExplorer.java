@@ -416,7 +416,8 @@ public class VMDBExplorer extends AndroidViewModel {
             this.poDcp = foDcp;
             this.poUser = foUser;
             this.mListener = listener;
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override

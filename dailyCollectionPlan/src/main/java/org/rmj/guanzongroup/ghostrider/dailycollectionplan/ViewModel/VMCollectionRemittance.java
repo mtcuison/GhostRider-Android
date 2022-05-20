@@ -81,7 +81,8 @@ public class VMCollectionRemittance extends AndroidViewModel {
         this.poConn = new ConnectionUtil(application);
         this.poHeaders = HttpHeaders.getInstance(application);
         this.poRemittance = new RRemittanceAccount(application);
-        this.poApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
+        AppConfigPreference loConfig = AppConfigPreference.getInstance(application);
+        this.poApi = new WebApi(loConfig.getTestStatus());
     }
     public void setCltCashx(String psCltCashx) {
         this.psCltCashx = psCltCashx;

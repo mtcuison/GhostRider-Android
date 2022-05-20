@@ -335,6 +335,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:inputType="textCapWords"
+                                        android:digits="@string/free_text_restriction"
                                         android:textColor="@color/material_black"
                                         android:maxLength="50"/>
                                 </com.google.android.material.textfield.TextInputLayout>
@@ -362,6 +363,7 @@
                                             android:layout_height="wrap_content"
                                             android:inputType="textCapWords"
                                             android:imeOptions="actionNext"
+                                            android:digits="@string/free_text_restriction"
                                             android:nextFocusForward="@id/tie_ci_asstPosition"
                                             android:textColor="@color/material_black"
                                             android:maxLength="50" />
@@ -394,6 +396,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:inputType="textCapWords"
+                                            android:digits="@string/free_text_restriction"
                                             android:imeOptions="actionNext"
                                             android:nextFocusForward="@id/tie_ci_asstPhoneNo"
                                             android:textColor="@color/material_black"
@@ -447,6 +450,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:maxLength="11"
+                                            android:digits="@string/free_text_restriction"
                                             android:inputType="number|none"
                                             android:imeOptions="actionNext"
                                             android:nextFocusForward="@id/tie_ci_neighborName1"/>
@@ -517,6 +521,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:inputType="textCapWords"
+                                            android:digits="@string/free_text_restriction"
                                             android:imeOptions="actionNext"
                                             android:nextFocusForward="@id/tie_ci_neighborName2"
                                             android:textColor="@color/material_black"
@@ -565,6 +570,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:inputType="textCapWords"
+                                            android:digits="@string/free_text_restriction"
                                             android:imeOptions="actionNext"
                                             android:nextFocusForward="@id/tie_ci_neighborName3"
                                             android:textColor="@color/material_black"
@@ -614,6 +620,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:inputType="textCapWords"
+                                            android:digits="@string/free_text_restriction"
                                             android:imeOptions="actionNext"
                                             android:textColor="@color/material_black"
                                             android:maxLength="50" />

@@ -84,7 +84,8 @@ public class VMEmployeeApplications extends AndroidViewModel {
             this.loConn = new ConnectionUtil(instance);
             this.loHeaders = HttpHeaders.getInstance(instance);
             this.poBusTrip = new REmployeeBusinessTrip(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.mListener = listener;
         }
 

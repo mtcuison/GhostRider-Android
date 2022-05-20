@@ -55,7 +55,8 @@ public class VMUpload extends AndroidViewModel {
         public UploadTask(Application instance, ViewModelCallBack callBack) {
             this.conn = new ConnectionUtil(instance);
             this.headers = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.callBack = callBack;
         }
 

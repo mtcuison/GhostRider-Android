@@ -99,7 +99,8 @@ public class VMLeaveApplication extends AndroidViewModel {
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poLeave = new REmployeeLeave(instance);
             this.poSession = new SessionManager(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override

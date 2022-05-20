@@ -77,7 +77,8 @@ public class Import_BranchPerformance implements ImportInstance {
             this.loConn = new ConnectionUtil(instance);
             this.loHeaders = HttpHeaders.getInstance(instance);
             this.poUser = new REmployee(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override

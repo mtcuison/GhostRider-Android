@@ -40,7 +40,8 @@ public class VMForgotPassword extends AndroidViewModel {
 
     public VMForgotPassword(@NonNull Application application) {
         super(application);
-        webApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
+        AppConfigPreference loConfig = AppConfigPreference.getInstance(application);
+        this.webApi = new WebApi(loConfig.getTestStatus());
         headers = HttpHeaders.getInstance(application);
         conn = new ConnectionUtil(application);
     }

@@ -159,7 +159,7 @@ public class VMEvaluation extends AndroidViewModel {
             try {
                 final String[] response = {""};
                 if(btnText.equalsIgnoreCase("Additional")){
-                    if(infoModel.isValidEvaluation()){
+                    if(infoModel.isBrgyRecordValid()){
                         poCIEvaluation.UpdateRecordInfo(transNox[0],infoModel.getHasRecrd());
                         poCIEvaluation.UpdateRecordRemarks(transNox[0],infoModel.getRemRecrd());
 

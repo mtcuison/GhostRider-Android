@@ -33,7 +33,8 @@ public class GRiderErrorReport {
     public GRiderErrorReport(Application application) {
         this.instance = application;
         this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
+        AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new WebApi(loConfig.getTestStatus());
     }
 
     public String getMessage() {

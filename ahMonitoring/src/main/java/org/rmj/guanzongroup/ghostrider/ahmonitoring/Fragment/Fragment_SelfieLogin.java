@@ -125,7 +125,7 @@ public class Fragment_SelfieLogin extends Fragment {
                 paBranch = eBranchInfos;
                 lblNotice.setVisibility(View.GONE);
                 btnBranch.setVisibility(View.VISIBLE);
-                if(sSlectBranch.isEmpty()) {
+                if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
                     new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
                         @Override
                         public void OnSelect(String BranchCode, AlertDialog dialog) {
@@ -166,12 +166,6 @@ public class Fragment_SelfieLogin extends Fragment {
                         }
                     });
                 }
-//                if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
-//
-//                } else {
-//                    lblNotice.setVisibility(View.VISIBLE);
-//                    btnBranch.setVisibility(View.GONE);
-//                }
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -252,78 +246,78 @@ public class Fragment_SelfieLogin extends Fragment {
         }));
 
         btnCamera.setOnClickListener(view -> {
-            if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
-                if(sSlectBranch.isEmpty()){
-                    if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))
-                            && sSlectBranch.isEmpty()) {
-                        lblNotice.setVisibility(View.GONE);
-                        new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
-                            @Override
-                            public void OnSelect(String BranchCode, AlertDialog dialog) {
-                                mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
-                                    @Override
-                                    public void OnLoad() {
-
-                                    }
-
-                                    @Override
-                                    public void OnSuccess() {
-                                        sSlectBranch = BranchCode;
-                                        mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
-                                            try{
-                                                lblBranch.setText(eBranchInfo.getBranchNm());
-                                                mViewModel.importInventoryTask(BranchCode);
-                                            } catch (Exception e){
-                                                e.printStackTrace();
-                                            }
-                                        });
-                                        mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
-                                            if (!isGranted) {
-                                                mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
-                                            } else {
-                                                initCamera();
-                                            }
-                                        });
-                                        dialog.dismiss();
-                                    }
-
-                                    @Override
-                                    public void OnFailed(String message) {
-                                        poMessage.initDialog();
-                                        poMessage.setTitle("Selfie Login");
-                                        poMessage.setMessage(message);
-                                        poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                                        poMessage.show();
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void OnCancel() {
-//                                requireActivity().finish();
-                            }
-                        });
-                    } else {
-                        lblNotice.setVisibility(View.VISIBLE);
-                    }
+//            if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
+//                if(sSlectBranch.isEmpty()){
+//                    if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))
+//                            && sSlectBranch.isEmpty()) {
+//                        lblNotice.setVisibility(View.GONE);
+//                        new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
+//                            @Override
+//                            public void OnSelect(String BranchCode, AlertDialog dialog) {
+//                                mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
+//                                    @Override
+//                                    public void OnLoad() {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void OnSuccess() {
+//                                        sSlectBranch = BranchCode;
+//                                        mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
+//                                            try{
+//                                                lblBranch.setText(eBranchInfo.getBranchNm());
+//                                                mViewModel.importInventoryTask(BranchCode);
+//                                            } catch (Exception e){
+//                                                e.printStackTrace();
+//                                            }
+//                                        });
+//                                        mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
+//                                            if (!isGranted) {
+//                                                mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
+//                                            } else {
+//                                                initCamera();
+//                                            }
+//                                        });
+//                                        dialog.dismiss();
+//                                    }
+//
+//                                    @Override
+//                                    public void OnFailed(String message) {
+//                                        poMessage.initDialog();
+//                                        poMessage.setTitle("Selfie Login");
+//                                        poMessage.setMessage(message);
+//                                        poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+//                                        poMessage.show();
+//                                    }
+//                                });
+//                            }
+//
+//                            @Override
+//                            public void OnCancel() {
+////                                requireActivity().finish();
+//                            }
+//                        });
+//                    } else {
+//                        lblNotice.setVisibility(View.VISIBLE);
+//                    }
+//                } else {
+//                    mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
+//                        if (!isGranted) {
+//                            mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
+//                        } else {
+//                            initCamera();
+//                        }
+//                    });
+//                }
+//            } else {
+            mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
+                if (!isGranted) {
+                    mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
                 } else {
-                    mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
-                        if (!isGranted) {
-                            mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
-                        } else {
-                            initCamera();
-                        }
-                    });
+                    initCamera();
                 }
-            } else {
-                mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
-                    if (!isGranted) {
-                        mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
-                    } else {
-                        initCamera();
-                    }
-                });
-            }
+            });
+//            }
         });
     }
 

@@ -28,7 +28,8 @@ public class Paid implements iDCPTransaction {
     public Paid(Application application) {
         this.instance = application;
         this.poDcp = new RDailyCollectionPlan(instance);
-        this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+        AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new WebApi(loConfig.getTestStatus());
     }
 
     @Override

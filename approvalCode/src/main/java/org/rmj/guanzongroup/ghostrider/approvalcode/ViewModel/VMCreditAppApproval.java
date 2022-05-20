@@ -61,7 +61,8 @@ public class VMCreditAppApproval extends AndroidViewModel {
         public LoadApplicationTask(Application instance, OnLoadApplicationListener listener) {
             this.loConn = new ConnectionUtil(instance);
             this.loHeaders = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.listener = listener;
         }
 
@@ -137,7 +138,8 @@ public class VMCreditAppApproval extends AndroidViewModel {
         public ApproveRequestTask(Application instance, ViewModelCallback listener) {
             this.loConn = new ConnectionUtil(instance);
             this.loHeaders = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.listener = listener;
         }
 

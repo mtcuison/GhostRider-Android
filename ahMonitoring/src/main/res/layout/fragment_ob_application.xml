@@ -212,6 +212,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
+                android:digits="@string/free_text_restriction"
                 android:lines="3"
                 style="@style/TextInputStyle.Edittext"
                 android:autofillHints="Business trip destination and purpose."

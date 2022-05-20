@@ -77,6 +77,7 @@ public class VMInventory extends AndroidViewModel {
         return psBranchCd;
     }
 
+
     public LiveData<String> getBranchName(String BranchCd){
         return poBranch.getBranchName(BranchCd);
     }
@@ -126,7 +127,8 @@ public class VMInventory extends AndroidViewModel {
             this.poDetail = new RInventoryDetail(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poMaster = new RInventoryMaster(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override
@@ -247,7 +249,8 @@ public class VMInventory extends AndroidViewModel {
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.Remarksx = Remarks;
             this.callback = callback;
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.poDetail = new RInventoryDetail(instance);
             this.poMaster = new RInventoryMaster(instance);
         }
