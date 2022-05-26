@@ -78,13 +78,14 @@ public class VMEmployeeApplications extends AndroidViewModel {
         private final REmployeeBusinessTrip poBusTrip;
         private final WebApi poApi;
         private final OnDownloadApplicationListener mListener;
+        private final AppConfigPreference loConfig;
 
         public DownloadLeaveTask(Application instance, OnDownloadApplicationListener listener){
             this.loLeave = new REmployeeLeave(instance);
             this.loConn = new ConnectionUtil(instance);
             this.loHeaders = HttpHeaders.getInstance(instance);
             this.poBusTrip = new REmployeeBusinessTrip(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
             this.mListener = listener;
         }
@@ -105,7 +106,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
                 if (!loConn.isDeviceConnected()) {
                     response = AppConstants.NO_INTERNET();
                 } else{
-                    String lvResponse = WebClient.httpsPostJSon(poApi.getUrlGetLeaveApplication(), new JSONObject().toString(), loHeaders.getHeaders());
+                    String lvResponse = WebClient.httpsPostJSon(poApi.getUrlGetLeaveApplication(loConfig.isBackUpServer()), new JSONObject().toString(), loHeaders.getHeaders());
 //                    String lvResponse = AppConstants.LOCAL_EXCEPTION_ERROR("unknown error occurred");
                     if(lvResponse == null){
                         message = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response while downloading leave applications");
@@ -145,7 +146,7 @@ public class VMEmployeeApplications extends AndroidViewModel {
 
                     Thread.sleep(1000);
 
-                    String obResponse = WebClient.httpsPostJSon(poApi.getUrlGetObApplication(), new JSONObject().toString(), loHeaders.getHeaders());
+                    String obResponse = WebClient.httpsPostJSon(poApi.getUrlGetObApplication(loConfig.isBackUpServer()), new JSONObject().toString(), loHeaders.getHeaders());
                     if (obResponse == null) {
                         if(message != null){
                             message = message + "\n" + "Server no response while downloading business trip applications";

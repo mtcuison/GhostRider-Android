@@ -182,7 +182,7 @@ public class VMEvaluationList extends AndroidViewModel {
             String response = "";
             try {
                 if (loConnectx.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poWebApi.getUrlImportOnlineApplications(), jsonObjects[0].toString(), loHeaders.getHeaders());
+                    response = WebClient.httpsPostJSon(poWebApi.getUrlImportOnlineApplications(poConfig.isBackUpServer()), jsonObjects[0].toString(), loHeaders.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

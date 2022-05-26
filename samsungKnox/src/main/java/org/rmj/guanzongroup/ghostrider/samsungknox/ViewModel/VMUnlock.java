@@ -55,12 +55,13 @@ public class VMUnlock extends AndroidViewModel {
         private final ConnectionUtil conn;
         private final HttpHeaders headers;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
         private final ViewModelCallBack callBack;
 
         public UnlockRequestTask(Application instance, ViewModelCallBack callBack) {
             this.conn = new ConnectionUtil(instance);
             this.headers = HttpHeaders.getInstance(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
             this.callBack = callBack;
         }
@@ -82,7 +83,7 @@ public class VMUnlock extends AndroidViewModel {
                     loJSon.put("deviceUid", string[0]);
                     loParam.put("request", AppConstants.UNLOCK_REQUEST);
                     loParam.put("param", loJSon.toString());
-                    response = WebClient.sendRequest(poApi.getUrlKnox(), loParam.toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(poApi.getUrlKnox(loConfig.isBackUpServer()), loParam.toString(), headers.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }

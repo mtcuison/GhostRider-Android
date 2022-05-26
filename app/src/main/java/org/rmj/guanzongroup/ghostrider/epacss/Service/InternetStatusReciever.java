@@ -305,7 +305,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                         loJson.put("nLatitude", selfieLog.getLatitude());
                         loJson.put("nLongitud", selfieLog.getLongitud());
 
-                        String lsResponse = WebClient.sendRequest(poApi.getUrlPostSelfielog(), loJson.toString(), poHeaders.getHeaders());
+                        String lsResponse = WebClient.sendRequest(poApi.getUrlPostSelfielog(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
 
                         if (lsResponse == null) {
                             Log.e(TAG, "Sending selfie log info. Server no response");
@@ -382,7 +382,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                         loJson.put("sUserIDxx", poSession.getUserID());
                         loJson.put("sDeviceID", poDevice.getDeviceID());
                         Log.e(TAG, loJson.toString());
-                        String lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(), loJson.toString(), poHeaders.getHeaders());
+                        String lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
 
                         if (lsResponse == null) {
                             Log.e(TAG, "Sending selfie log info. Server no response");
@@ -430,7 +430,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                         JSONObject params = new JSONObject(loLoan.getDetlInfo());
                         params.put("dCreatedx", loLoan.getCreatedx());
 
-                        String lsResponse = WebClient.sendRequest(poApi.getUrlSubmitOnlineApplication(), params.toString(), poHeaders.getHeaders());
+                        String lsResponse = WebClient.sendRequest(poApi.getUrlSubmitOnlineApplication(poConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
                         if(lsResponse != null) {
                             JSONObject loResponse = new JSONObject(lsResponse);
 
@@ -566,7 +566,7 @@ public class InternetStatusReciever extends BroadcastReceiver {
                 params.put("nNte0500p", loCC.getNte0500p());
                 params.put("nNte1000p", loCC.getNte1000p());
 
-                String lsResponse = WebClient.sendRequest(poApi.getUrlSubmitCashcount(), params.toString(), poHeaders.getHeaders());
+                String lsResponse = WebClient.sendRequest(poApi.getUrlSubmitCashcount(poConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
 
                 if(lsResponse == null){
                     lsResponse = AppConstants.SERVER_NO_RESPONSE();

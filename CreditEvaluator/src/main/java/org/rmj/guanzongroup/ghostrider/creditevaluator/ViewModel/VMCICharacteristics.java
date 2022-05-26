@@ -101,12 +101,13 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CharacterTraitsInfo
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
         public UpdateTask(Application instance,RCIEvaluation poCIEvaluation, CharacterTraitsInfoModel infoModel, OnPostCallBack callback) {
             this.poCIEvaluation = poCIEvaluation;
             this.infoModel = infoModel;
             this.callback = callback;
             this.poHeaders = HttpHeaders.getInstance(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
             this.poConn = new ConnectionUtil(instance);
         }
@@ -193,7 +194,7 @@ import org.rmj.guanzongroup.ghostrider.creditevaluator.Model.CharacterTraitsInfo
                         loJSON.put("dApproved", loDetail.getApproved());
                         poCIEvaluation.updaCharacterTraits(loDetail);
                         Log.e(TAG, loJSON.toString());
-                        String lsResponse1 = WebClient.sendRequest(poApi.getUrlUploadCiResult(), loJSON.toString(), poHeaders.getHeaders());
+                        String lsResponse1 = WebClient.sendRequest(poApi.getUrlUploadCiResult(loConfig.isBackUpServer()), loJSON.toString(), poHeaders.getHeaders());
                         if (lsResponse1 == null) {
                             response = "Server no response.";
                         } else {

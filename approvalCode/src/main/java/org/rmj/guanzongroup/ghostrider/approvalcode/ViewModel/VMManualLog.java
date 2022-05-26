@@ -90,6 +90,7 @@ public class VMManualLog extends AndroidViewModel {
         private final ConnectionUtil poConn;
         private final RApprovalCode loApproval;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public CreateCodeTask(Application instance,
                               SessionManager foSession,
@@ -101,7 +102,7 @@ public class VMManualLog extends AndroidViewModel {
             this.loHeaders = HttpHeaders.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
             this.loApproval = new RApprovalCode(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
@@ -157,7 +158,7 @@ public class VMManualLog extends AndroidViewModel {
                                 param.put("sReqstdTo", detail.getReqstdTo() == null ? "" : detail.getReqstdTo());
                                 param.put("cTranStat", detail.getTranStat());
 
-                                String response = WebClient.httpsPostJSon(poApi.getUrlSaveApproval(), param.toString(), loHeaders.getHeaders());
+                                String response = WebClient.httpsPostJSon(poApi.getUrlSaveApproval(loConfig.isBackUpServer()), param.toString(), loHeaders.getHeaders());
                                 if (response == null) {
                                     Log.d(TAG, "Server no response");
                                 } else {

@@ -104,7 +104,7 @@ public class VMEvaluationList extends AndroidViewModel {
             param.put("bsearch", true);
             AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
             WebApi poApi = new WebApi(loConfig.getTestStatus());
-            new ImportApplicationInfoTask(instance,  poApi.getUrlDownloadCreditOnlineApp(), callback).execute(param);
+            new ImportApplicationInfoTask(instance,  poApi.getUrlDownloadCreditOnlineApp(loConfig.isBackUpServer()), callback).execute(param);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -118,12 +118,13 @@ public class VMEvaluationList extends AndroidViewModel {
         private final WebApi webApi;
         private final OnImportCallBack callback;
         private final RBranchLoanApplication poCreditApp;
+        private final AppConfigPreference loConfig;
         public ImportCIApplications(Application instance,  OnImportCallBack callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.brnRepo = new RBranchLoanApplication(instance);
             this.poCreditApp = new RBranchLoanApplication(instance);
             this.conn = new ConnectionUtil(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.webApi = new WebApi(loConfig.getTestStatus());
             this.callback = callback;
         }
@@ -140,7 +141,7 @@ public class VMEvaluationList extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(webApi.getUrlBranchLoanApp(), strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(webApi.getUrlBranchLoanApp(loConfig.isBackUpServer()), strings[0].toString(), headers.getHeaders());
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {

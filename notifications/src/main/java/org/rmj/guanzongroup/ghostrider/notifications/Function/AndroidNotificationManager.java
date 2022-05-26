@@ -64,6 +64,7 @@ public class AndroidNotificationManager {
         private final RNotificationInfo poNotification;
         private final GConnection loDbConn;
         private final RBranchOpeningMonitor poOpening;
+        private final AppConfigPreference loConfig;
         private final RBranch poBranch;
         private final WebApi poApi;
         private boolean pbSpecial = false;
@@ -80,7 +81,7 @@ public class AndroidNotificationManager {
             this.loDbConn = DbConnection.doConnect(instance);
             this.poOpening = new RBranchOpeningMonitor(instance);
             this.poBranch = new RBranch(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
@@ -162,7 +163,7 @@ public class AndroidNotificationManager {
                         params.put("stamp", new AppConstants().DATE_MODIFIED);
                         params.put("infox", "");
 
-                        String response = WebClient.httpsPostJSon(poApi.getUrlSendResponse(), params.toString(), poHeaders.getHeaders());
+                        String response = WebClient.httpsPostJSon(poApi.getUrlSendResponse(loConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
                         JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                         Log.e(TAG, loJson.getString("result"));
                         String lsResult = loJson.getString("result");

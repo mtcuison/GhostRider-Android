@@ -84,6 +84,7 @@ public class VMApprovalEntry extends AndroidViewModel {
         private final HttpHeaders poHeaders;
         private final RApprovalCode poApproval;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
         private final CodeApprovalCreatedListener listener;
 
         public CreateCodeTask(Application instance, String lsPackage, CodeApprovalCreatedListener listener) {
@@ -93,7 +94,7 @@ public class VMApprovalEntry extends AndroidViewModel {
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poApproval = new RApprovalCode(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
@@ -143,7 +144,7 @@ public class VMApprovalEntry extends AndroidViewModel {
                                 param.put("sReqstdTo", detail.getReqstdTo() == null ? "" : detail.getReqstdTo());
                                 param.put("cTranStat", detail.getTranStat());
 
-                                String response = WebClient.httpsPostJSon(poApi.getUrlSaveApproval(), param.toString(), poHeaders.getHeaders());
+                                String response = WebClient.httpsPostJSon(poApi.getUrlSaveApproval(loConfig.isBackUpServer()), param.toString(), poHeaders.getHeaders());
                                 if (response == null) {
                                     Log.d(TAG, "Server no response");
                                 } else {

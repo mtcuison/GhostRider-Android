@@ -68,13 +68,14 @@ public class Import_CreditAppList implements ImportInstance{
         private final ConnectionUtil conn;
         private final RBranchLoanApplication poLoan;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public ImportDataTask(Application instance, ImportDataCallback callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poLoan = new RBranchLoanApplication(instance);
             this.callback = callback;
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
@@ -84,7 +85,7 @@ public class Import_CreditAppList implements ImportInstance{
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poApi.getUrlDownloadCreditOnlineApp(), jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlDownloadCreditOnlineApp(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

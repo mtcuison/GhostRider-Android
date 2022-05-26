@@ -16,7 +16,10 @@ public class WebApi {
     private boolean isUnitTest = false;
 
     private static final String LOCAL = "http://192.168.10.141/";
-    private static final String LIVE = "https://restgk.guanzongroup.com.ph/";
+    private String LIVE = "";
+
+    private static final String PRIMARY_LIVE = "https://restgk.guanzongroup.com.ph/";
+    private static final String SECONDARY_LIVE = "https://restgk.guanzongroup.com.ph/";
 
     private static final String URL_AUTH_EMPLOYEE = "security/mlogin.php";
     private static final String URL_CREATE_ACCOUNT = "security/signup.php";
@@ -95,408 +98,640 @@ public class WebApi {
         this.isUnitTest = isTestCase;
     }
 
-    public String getUrlAuthEmployee() {
+    public String getUrlAuthEmployee(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_AUTH_EMPLOYEE;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_AUTH_EMPLOYEE;
     }
 
-    public String getUrlCreateAccount() {
+    public String getUrlCreateAccount(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_CREATE_ACCOUNT;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_CREATE_ACCOUNT;
     }
 
-    public String getUrlForgotPassword() {
+    public String getUrlForgotPassword(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_FORGOT_PASSWORD;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_FORGOT_PASSWORD;
     }
 
-    public String getUrlKnox() {
+    public String getUrlKnox(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_KNOX;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_KNOX;
     }
 
-    public String getUrlChangePassword() {
+    public String getUrlChangePassword(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_CHANGE_PASSWORD;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_CHANGE_PASSWORD;
     }
 
-    public String getImportBranchPerformance() {
+    public String getImportBranchPerformance(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + IMPORT_BRANCH_PERFORMANCE;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + IMPORT_BRANCH_PERFORMANCE;
     }
 
-    public String getImportAreaPerformance() {
+    public String getImportAreaPerformance(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + IMPORT_AREA_PERFORMANCE;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + IMPORT_AREA_PERFORMANCE;
     }
 
-    public String getUrlImportBarangay() {
+    public String getUrlImportBarangay(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_BARANGAY;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_IMPORT_BARANGAY;
     }
 
-    public String getUrlImportTown() {
+    public String getUrlImportTown(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_TOWN;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_IMPORT_TOWN;
     }
 
-    public String getUrlImportProvince() {
+    public String getUrlImportProvince(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_PROVINCE;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_IMPORT_PROVINCE;
     }
 
-    public String getUrlImportCountry() {
+    public String getUrlImportCountry(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_COUNTRY;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_IMPORT_COUNTRY;
     }
 
-    public String getUrlImportMcModel() {
+    public String getUrlImportMcModel(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_MC_MODEL;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_IMPORT_MC_MODEL;
     }
 
-    public String getUrlImportMcModelPrice() {
+    public String getUrlImportMcModelPrice(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_MC_MODEL_PRICE;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_IMPORT_MC_MODEL_PRICE;
     }
 
-    public String getUrlImportBrand() {
+    public String getUrlImportBrand(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_BRAND;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_IMPORT_BRAND;
     }
 
-    public String getUrlImportMcCategory() {
+    public String getUrlImportMcCategory(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_MC_CATEGORY;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_IMPORT_MC_CATEGORY;
     }
 
-    public String getUrlImportTermCategory() {
+    public String getUrlImportTermCategory(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_TERM_CATEGORY;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_IMPORT_TERM_CATEGORY;
     }
 
-    public String getUrlImportBranches() {
+    public String getUrlImportBranches(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_BRANCHES;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_IMPORT_BRANCHES;
     }
 
-    public String getUrlImportFileCode() {
+    public String getUrlImportFileCode(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_FILE_CODE;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_IMPORT_FILE_CODE;
     }
 
-    public String getUrlImportOccupations() {
+    public String getUrlImportOccupations(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_OCCUPATIONS;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_IMPORT_OCCUPATIONS;
     }
 
-    public String getUrlSubmitOnlineApplication() {
+    public String getUrlSubmitOnlineApplication(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_SUBMIT_ONLINE_APPLICATION;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_SUBMIT_ONLINE_APPLICATION;
     }
 
-    public String getUrlImportRaffleBasis() {
+    public String getUrlImportRaffleBasis(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_RAFFLE_BASIS;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_IMPORT_RAFFLE_BASIS;
     }
 
-    public String getUrlRequestOnlineApplications() {
+    public String getUrlRequestOnlineApplications(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_REQUEST_ONLINE_APPLICATIONS;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_REQUEST_ONLINE_APPLICATIONS;
     }
 
-    public String getUrlImportOnlineApplications() {
+    public String getUrlImportOnlineApplications(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_ONLINE_APPLICATIONS;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_IMPORT_ONLINE_APPLICATIONS;
     }
 
-    public String getUrlSubmitCashcount() {
+    public String getUrlSubmitCashcount(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_SUBMIT_CASHCOUNT;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_SUBMIT_CASHCOUNT;
     }
 
-    public String getUrlQuickSearch() {
+    public String getUrlQuickSearch(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_QUICK_SEARCH;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_QUICK_SEARCH;
     }
 
-    public String getUrlScaRequest() {
+    public String getUrlScaRequest(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_SCA_REQUEST;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_SCA_REQUEST;
     }
 
-    public String getUrlSaveApproval() {
+    public String getUrlSaveApproval(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_SAVE_APPROVAL;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_SAVE_APPROVAL;
     }
 
-    public String getUrlLoadApplicationApproval() {
+    public String getUrlLoadApplicationApproval(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_LOAD_APPLICATION_APPROVAL;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_LOAD_APPLICATION_APPROVAL;
     }
 
-    public String getUrlApplicationApprove() {
+    public String getUrlApplicationApprove(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_APPLICATION_APPROVE;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_APPLICATION_APPROVE;
     }
 
-    public String getUrlDownloadDcp() {
+    public String getUrlDownloadDcp(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_DOWNLOAD_DCP;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_DOWNLOAD_DCP;
     }
 
-    public String getUrlDcpSubmit() {
+    public String getUrlDcpSubmit(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_DCP_SUBMIT;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_DCP_SUBMIT;
     }
 
-    public String getUrlPostDcpMaster() {
+    public String getUrlPostDcpMaster(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_POST_DCP_MASTER;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_POST_DCP_MASTER;
     }
 
-    public String getUrlGetArClient() {
+    public String getUrlGetArClient(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_GET_AR_CLIENT;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_GET_AR_CLIENT;
     }
 
-    public String getUrlGetRegClient() {
+    public String getUrlGetRegClient(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_GET_REG_CLIENT;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_GET_REG_CLIENT;
     }
 
-    public String getUrlUpdateAddress() {
+    public String getUrlUpdateAddress(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_UPDATE_ADDRESS;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_UPDATE_ADDRESS;
     }
 
-    public String getUrlUpdateMobile() {
+    public String getUrlUpdateMobile(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_UPDATE_MOBILE;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_UPDATE_MOBILE;
     }
 
-    public String getUrlDownloadBankInfo() {
+    public String getUrlDownloadBankInfo(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_DOWNLOAD_BANK_INFO;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_DOWNLOAD_BANK_INFO;
     }
 
-    public String getUrlPostSelfielog() {
+    public String getUrlPostSelfielog(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_POST_SELFIELOG;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_POST_SELFIELOG;
     }
 
-    public String getUrlBranchLoanApp() {
+    public String getUrlBranchLoanApp(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_BRANCH_LOAN_APP;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_BRANCH_LOAN_APP;
     }
 
-    public String getUrlDcpRemittance() {
+    public String getUrlDcpRemittance(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_DCP_REMITTANCE;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_DCP_REMITTANCE;
     }
 
-    public String getUrlDcpLocationReport() {
+    public String getUrlDcpLocationReport(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_DCP_LOCATION_REPORT;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_DCP_LOCATION_REPORT;
     }
 
-    public String getUrlBranchRemittanceAcc() {
+    public String getUrlBranchRemittanceAcc(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_BRANCH_REMITTANCE_ACC;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_BRANCH_REMITTANCE_ACC;
     }
 
-    public String getUrlImportSysConfig() {
+    public String getUrlImportSysConfig(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_IMPORT_SYS_CONFIG;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_IMPORT_SYS_CONFIG;
     }
 
-    public String getUrlDownloadCreditOnlineApp() {
+    public String getUrlDownloadCreditOnlineApp(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_DOWNLOAD_CREDIT_ONLINE_APP;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_DOWNLOAD_CREDIT_ONLINE_APP;
     }
 
-    public String getUrlDownloadRelation() {
+    public String getUrlDownloadRelation(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_DOWNLOAD_RELATION;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_DOWNLOAD_RELATION;
     }
 
-    public String getUrlUploadCiResult() {
+    public String getUrlUploadCiResult(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_UPLOAD_CI_RESULT;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_UPLOAD_CI_RESULT;
     }
 
-    public String getUrlSendResponse() {
+    public String getUrlSendResponse(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_SEND_RESPONSE;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_SEND_RESPONSE;
     }
 
-    public String getUrlSendRequest() {
+    public String getUrlSendRequest(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_SEND_REQUEST;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_SEND_REQUEST;
     }
 
-    public String getUrlKwiksearch() {
+    public String getUrlKwiksearch(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_KWIKSEARCH;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_KWIKSEARCH;
     }
 
-    public String getUrlSendLeaveApplication() {
+    public String getUrlSendLeaveApplication(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_SEND_LEAVE_APPLICATION;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_SEND_LEAVE_APPLICATION;
     }
 
-    public String getUrlGetLeaveApplication() {
+    public String getUrlGetLeaveApplication(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_GET_LEAVE_APPLICATION;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_GET_LEAVE_APPLICATION;
     }
 
-    public String getUrlConfirmLeaveApplication() {
+    public String getUrlConfirmLeaveApplication(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_CONFIRM_LEAVE_APPLICATION;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_CONFIRM_LEAVE_APPLICATION;
     }
 
-    public String getUrlSendObApplication() {
+    public String getUrlSendObApplication(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_SEND_OB_APPLICATION;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_SEND_OB_APPLICATION;
     }
 
-    public String getUrlGetObApplication() {
+    public String getUrlGetObApplication(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_GET_OB_APPLICATION;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_GET_OB_APPLICATION;
     }
 
-    public String getUrlConfirmObApplication() {
+    public String getUrlConfirmObApplication(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_CONFIRM_OB_APPLICATION;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_CONFIRM_OB_APPLICATION;
     }
 
-    public String getUrlRequestRandomStockInventory() {
+    public String getUrlRequestRandomStockInventory(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_REQUEST_RANDOM_STOCK_INVENTORY;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_REQUEST_RANDOM_STOCK_INVENTORY;
     }
 
-    public String getUrlSubmitRandomStockInventory() {
+    public String getUrlSubmitRandomStockInventory(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_SUBMIT_RANDOM_STOCK_INVENTORY;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_SUBMIT_RANDOM_STOCK_INVENTORY;
     }
 
-    public String getRequestUserAccess() {
+    public String getRequestUserAccess(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + REQUEST_USER_ACCESS;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + REQUEST_USER_ACCESS;
     }
@@ -508,50 +743,94 @@ public class WebApi {
     public String getUrlDownloadTestUpdate() {
         return URL_DOWNLOAD_TEST_UPDATE;
     }
+//    public String getUrlDownloadUpdate(boolean isBackUp) {
+//        return URL_DOWNLOAD_UPDATE;
+//    }
+// else if(isBackUp){
+//     LIVE = SECONDARY_LIVE;
+//      else {
+//          pLIVE = PRIMARY_LIVE;
+//        }
+//    }
+//    public String getUrlDownloadTestUpdate(boolean isBackUp) {
+//        return URL_DOWNLOAD_TEST_UPDATE;
+//    }
+// else if(isBackUp){
+//     LIVE = SECONDARY_LIVE;
+//      else {
+//          public String getLIVE = PRIMARY_LIVE;UrlCheckU
+//        }
+//    }pdate(boolean isBackUp){
+//        return "";
+//    }
+// else if(isBackUp){
+//LIVE = SECONDARY_LIVE;
+//    } else {
+//     LIVE = PRIMARY_LIVE;
+//    }
 
-    public String getUrlCheckUpdate(){
-        return "";
-    }
-
-
-    public String getUrlDownloadCIApplications() {
+    public String getUrlDownloadCIApplications(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_REQUEST_FOR_EVALUATIONS;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LOCAL + URL_REQUEST_FOR_EVALUATIONS;
     }
 
-    public String getUrlSubmitCIResult() {
+    public String getUrlSubmitCIResult(boolean isBackUp) {
         if(isUnitTest){
             return LOCAL + URL_SUBMIT_RESULT;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_SUBMIT_RESULT;
     }
 
-    public String getUrlPostCiApproval(){
+    public String getUrlPostCiApproval(boolean isBackUp){
         if(isUnitTest) {
             return LOCAL + URL_POST_CI_APPROVAL;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_POST_CI_APPROVAL;
     }
 
-    public String getUrlPostBhApproval(){
+    public String getUrlPostBhApproval(boolean isBackUp){
         if(isUnitTest) {
             return LOCAL + URL_POST_BH_APPROVAL;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_POST_BH_APPROVAL;
     }
 
-    public String getUrlDownloadBhPreview(){
+    public String getUrlDownloadBhPreview(boolean isBackUp){
         if(isUnitTest) {
             return LOCAL + URL_DOWNLOAD_BH_PREVIEW;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_DOWNLOAD_BH_PREVIEW;
     }
 
-    public String getUrlAddForEvaluation() {
+    public String getUrlAddForEvaluation(boolean isBackUp) {
         if(isUnitTest) {
             return LOCAL + URL_ADD_FOR_EVALUATION;
+        } else if(isBackUp){
+            LIVE = SECONDARY_LIVE;
+        } else {
+            LIVE = PRIMARY_LIVE;
         }
         return LIVE + URL_ADD_FOR_EVALUATION;
     }

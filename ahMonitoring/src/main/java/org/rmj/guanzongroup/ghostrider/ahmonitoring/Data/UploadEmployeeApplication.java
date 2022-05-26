@@ -43,6 +43,7 @@ public class UploadEmployeeApplication {
         private final REmployeeLeave poLeave;
         private final REmployeeBusinessTrip poBusTrp;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public UploadTask(Application instance) {
             this.poLeave = new REmployeeLeave(instance);
@@ -50,7 +51,7 @@ public class UploadEmployeeApplication {
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poSession = new SessionManager(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
@@ -111,7 +112,7 @@ public class UploadEmployeeApplication {
                         param.put("cTranStat", "1");
                         param.put("sModified", leave.getEmployID());
 
-                        lsResult = WebClient.sendRequest(poApi.getUrlSendLeaveApplication(), param.toString(), poHeaders.getHeaders());
+                        lsResult = WebClient.sendRequest(poApi.getUrlSendLeaveApplication(loConfig.isBackUpServer()), param.toString(), poHeaders.getHeaders());
                         if(lsResult == null){
                             Log.d(TAG, "Sending employee leave. server no response");
                         } else {
@@ -159,7 +160,7 @@ public class UploadEmployeeApplication {
                         loJson.put("sModified", poSession.getUserID());
                         loJson.put("dModified", AppConstants.CURRENT_DATE);
 
-                        lsResult = WebClient.sendRequest(poApi.getUrlSendObApplication(), loJson.toString(), poHeaders.getHeaders());
+                        lsResult = WebClient.sendRequest(poApi.getUrlSendObApplication(loConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
                         if(lsResult == null){
                             Log.d(TAG, "Server no response while posting business trip.");
                         } else {

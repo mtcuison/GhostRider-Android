@@ -16,6 +16,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.NetworkOnMainThreadException;
 import android.os.StrictMode;
+import android.util.Log;
+
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -35,15 +38,76 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 public class ConnectionUtil {
+    private static final String TAG = ConnectionUtil.class.getSimpleName();
 
     private final Context context;
+    private String message;
+
+    private static final String LOCAL = "http://192.168.10.141/";
+    private static final String PRIMARY_LIVE = "https://restgk.guanzongroup.com.ph/";
+    private static final String SECONDARY_LIVE = "https://restgk.guanzongroup.com.ph/";
 
     public ConnectionUtil(Context context){
         this.context = context;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
     public boolean isDeviceConnected(){
-        return deviceConnected() && isReachable();
+        if(!deviceConnected()){
+            message = "Please enable wifi or data to connect.";
+            return false;
+        } else {
+            String lsAddress = "";
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(context);
+            boolean isTestCase = loConfig.getTestStatus();
+            if(isTestCase){
+                lsAddress = LOCAL;
+                if(!isReachable(lsAddress)){
+                    message = "Unable to reach local server.";
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                boolean isBackUp = loConfig.isBackUpServer();
+                if(isBackUp){
+                    lsAddress = SECONDARY_LIVE;
+                    if(!isReachable(lsAddress)){
+                        Log.e(TAG, "Unable to connect to secondary server.");
+                        lsAddress = PRIMARY_LIVE;
+                        if(isReachable(lsAddress)){
+                            Log.d(TAG, "Primary server is reachable.");
+                            loConfig.setIfBackUpServer(false);
+                            return true;
+                        } else {
+                            message = "Unable to connect to our servers.";
+                            return false;
+                        }
+                    } else {
+                        return true;
+                    }
+                } else {
+                    lsAddress = PRIMARY_LIVE;
+                    if(!isReachable(lsAddress)){
+                        Log.e(TAG, "Unable to connect to primary server.");
+                        lsAddress = SECONDARY_LIVE;
+                        if(isReachable(lsAddress)){
+                            Log.d(TAG, "Secondary server is reachable.");
+                            loConfig.setIfBackUpServer(true);
+                            return true;
+                        } else {
+                            message = "Unable to connect to our servers.";
+                            return false;
+                        }
+                    } else {
+                        return true;
+                    }
+                }
+            }
+        }
     }
 
     private boolean deviceConnected(){
@@ -53,7 +117,7 @@ public class ConnectionUtil {
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
-    private boolean isReachable()
+    private boolean isReachable(String lsAddress)
     {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -63,7 +127,7 @@ public class ConnectionUtil {
         try
         {
             HttpURLConnection httpUrlConnection = (HttpURLConnection) new URL(
-                    "https://restgk.guanzongroup.com.ph/index.php").openConnection();
+                    lsAddress).openConnection();
             httpUrlConnection.setRequestProperty("Connection", "close");
             httpUrlConnection.setRequestMethod("HEAD");
             httpUrlConnection.setConnectTimeout(5000);

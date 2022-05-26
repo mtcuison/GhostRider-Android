@@ -69,11 +69,12 @@ public class ImportBrandModel implements ImportInstance {
         private final WebApi poApi;
         private final HttpHeaders headers;
         private final ImportDataCallback callback;
+        private final AppConfigPreference loConfig;
 
         public ImportDataTask(Application instance, ImportDataCallback callback) {
             this.repository = new RMcModel(instance);
             this.conn = new ConnectionUtil(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
             this.headers = HttpHeaders.getInstance(instance);
             this.callback = callback;
@@ -85,7 +86,7 @@ public class ImportBrandModel implements ImportInstance {
             String response = "";
             try{
                 if(conn.isDeviceConnected()){
-                    response = WebClient.httpsPostJSon(poApi.getUrlImportMcModel(), jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportMcModel(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

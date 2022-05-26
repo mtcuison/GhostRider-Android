@@ -91,6 +91,7 @@ public class VMLeaveApplication extends AndroidViewModel {
         private final REmployeeLeave poLeave;
         private final SessionManager poSession;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public SaveLeaveApplication(Application application, LeaveApplicationCallback callback) {
             this.instance = application;
@@ -99,7 +100,7 @@ public class VMLeaveApplication extends AndroidViewModel {
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poLeave = new REmployeeLeave(instance);
             this.poSession = new SessionManager(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
@@ -156,7 +157,7 @@ public class VMLeaveApplication extends AndroidViewModel {
                 param.put("sModified", poSession.getEmployeeID());
 
                 if(poConn.isDeviceConnected()){
-                    lsResult = WebClient.sendRequest(poApi.getUrlSendLeaveApplication(), param.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.sendRequest(poApi.getUrlSendLeaveApplication(loConfig.isBackUpServer()), param.toString(), poHeaders.getHeaders());
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     } else {

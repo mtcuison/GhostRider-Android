@@ -148,7 +148,7 @@ public class VMObApplication extends AndroidViewModel {
                     loJson.put("dModified", AppConstants.CURRENT_DATE);
 
                     if(poConn.isDeviceConnected()) {
-                        lsResponse = WebClient.sendRequest(poApi.getUrlSendObApplication(), loJson.toString(), poHeaders.getHeaders());
+                        lsResponse = WebClient.sendRequest(poApi.getUrlSendObApplication(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
                         JSONObject jsonResponse = new JSONObject(lsResponse);
                         String lsResult = jsonResponse.getString("result");
                         if(lsResult.equalsIgnoreCase("success")){

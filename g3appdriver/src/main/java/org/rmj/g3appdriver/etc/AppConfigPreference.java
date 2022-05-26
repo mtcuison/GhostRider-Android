@@ -26,6 +26,7 @@ public class AppConfigPreference {
     private static final String isAppFirstLaunch = "AppFirstLaunch";
     private static final String isLocalHostChange = "ChangeLocalHost";
     private static final String isTestingPhase = "gRider_TestingPhase";
+    private static final String isServerBackUp = "gRider_SecondaryLive";
     private static final String AppServer = "ApplicationServer";
     private static final String CONFIG_NAME = "GGC_AndroidLocalConfig";
     private static final String APP_PRODUCT_ID = "gRider_ProductID";
@@ -147,8 +148,18 @@ public class AppConfigPreference {
     }
 
     public String getDCP_CustomerRebate(){
-        return pref.getString(DCP_CustomerRebate, "100.00");
+        return pref.getString(DCP_CustomerRebate, "");
     }
+
+    public void setIfBackUpServer(boolean fbval){
+        editor.putBoolean(isServerBackUp, fbval);
+        editor.commit();
+    }
+
+    public boolean isBackUpServer(){
+        return pref.getBoolean(isServerBackUp, false);
+    }
+
 
     public void setDCP_PRNox(String fnPrNox){
         editor.putInt(DCP_PRNox, Integer.parseInt(fnPrNox));

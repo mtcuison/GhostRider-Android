@@ -94,13 +94,14 @@ public class VMEvaluationHistory extends AndroidViewModel {
         private final RBranchLoanApplication brnRepo;
         private final ConnectionUtil conn;
         private final WebApi webApi;
+        private final AppConfigPreference loConfig;
         private final VMEvaluationHistory.OnImportCallBack callback;
 
         public ImportBranchApplications(Application instance,  OnImportCallBack callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.brnRepo = new RBranchLoanApplication(instance);
             this.conn = new ConnectionUtil(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.webApi = new WebApi(loConfig.getTestStatus());
             this.callback = callback;
         }
@@ -117,7 +118,7 @@ public class VMEvaluationHistory extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(webApi.getUrlBranchLoanApp(), strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(webApi.getUrlBranchLoanApp(loConfig.isBackUpServer()), strings[0].toString(), headers.getHeaders());
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {

@@ -83,13 +83,14 @@ public class VMViewNotification extends AndroidViewModel {
         private final HttpHeaders poHeaders;
         private final RNotificationInfo poNotif;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public UpdateToReadTask(Application application) {
             this.instance = application;
             this.loConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poNotif = new RNotificationInfo(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
@@ -109,7 +110,7 @@ public class VMViewNotification extends AndroidViewModel {
                     params.put("stamp", lsDateReadx);
                     params.put("infox", "");
 
-                    String response = WebClient.httpsPostJSon(poApi.getUrlSendResponse(), params.toString(), poHeaders.getHeaders());
+                    String response = WebClient.httpsPostJSon(poApi.getUrlSendResponse(loConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     String result = loJson.getString("result");
                     if (result.equalsIgnoreCase("success")) {

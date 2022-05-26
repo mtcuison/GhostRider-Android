@@ -32,12 +32,14 @@ import java.util.HashMap;
 
 public class VMCreateAccount extends AndroidViewModel{
     public static final String TAG = VMCreateAccount.class.getSimpleName();
+    private final Application instance;
     private WebApi webApi;
     private HttpHeaders headers;
     private ConnectionUtil conn;
 
     public VMCreateAccount(@NonNull Application application) {
         super(application);
+        this.instance = application;
         AppConfigPreference loConfig = AppConfigPreference.getInstance(application);
         this.webApi = new WebApi(loConfig.getTestStatus());
         headers = HttpHeaders.getInstance(application);
@@ -57,7 +59,7 @@ public class VMCreateAccount extends AndroidViewModel{
             }
 
             if (conn.isDeviceConnected()) {
-                new CreateAccountTask(webApi, headers, callBack).execute(params);
+                new CreateAccountTask(instance, callBack).execute(params);
             } else {
                 callBack.OnFailedRegistration("Unable to connect. Please check your internet connection.");
             }
@@ -67,11 +69,13 @@ public class VMCreateAccount extends AndroidViewModel{
     }
 
     private static class CreateAccountTask extends AsyncTask<JSONObject, Void, String>{
+        private final Application instance;
         private WebApi webApi;
         private HttpHeaders headers;
         private CreateAccountCallBack callBack;
 
-        public CreateAccountTask(WebApi webApi, HttpHeaders headers, CreateAccountCallBack callBack){
+        public CreateAccountTask(Application instance, CreateAccountCallBack callBack){
+            this.instance = instance;
             this.webApi = webApi;
             this.headers = headers;
             this.callBack = callBack;
@@ -88,7 +92,8 @@ public class VMCreateAccount extends AndroidViewModel{
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";
             try {
-                response = WebClient.httpsPostJSon(webApi.getUrlCreateAccount(), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
+                AppConfigPreference poConfig = AppConfigPreference.getInstance(instance);
+                response = WebClient.httpsPostJSon(webApi.getUrlCreateAccount(poConfig.isBackUpServer()), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
                 Log.e(TAG, response);
             } catch (IOException e) {
                 e.printStackTrace();

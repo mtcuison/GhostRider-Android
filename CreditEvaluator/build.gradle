@@ -39,6 +39,7 @@ android {
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources = true
     }
+    namespace 'org.rmj.guanzongroup.ghostrider.creditevaluator'
 }
 
 dependencies {

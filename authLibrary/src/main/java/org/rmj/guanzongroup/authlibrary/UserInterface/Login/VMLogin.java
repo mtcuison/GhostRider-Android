@@ -138,7 +138,7 @@ public class VMLogin extends AndroidViewModel {
             try {
                 if(poConfig.isAgreedOnTermsAndConditions()) {
                     if(poConn.isDeviceConnected()) {
-                        String lsResponse = WebClient.httpsPostJSon(webApi.getUrlAuthEmployee(), authInfo[0].toString(), headers.getHeaders());
+                        String lsResponse = WebClient.httpsPostJSon(webApi.getUrlAuthEmployee(poConfig.isBackUpServer()), authInfo[0].toString(), headers.getHeaders());
                         if(lsResponse == null){
                             response = AppConstants.SERVER_NO_RESPONSE();
                         } else {
@@ -153,7 +153,7 @@ public class VMLogin extends AndroidViewModel {
                                 // M-> MENU
                                 // B-> Button
 //                            loMenu.put("obj_type", "M");
-                                String lsRole = WebClient.httpsPostJSon(webApi.getRequestUserAccess(), loMenu.toString(), headers.getHeaders());
+                                String lsRole = WebClient.httpsPostJSon(webApi.getRequestUserAccess(poConfig.isBackUpServer()), loMenu.toString(), headers.getHeaders());
                                 if (lsRole == null) {
                                     response = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response while downloading authorize features.");
                                 } else {

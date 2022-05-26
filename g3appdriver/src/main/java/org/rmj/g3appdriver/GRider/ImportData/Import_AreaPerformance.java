@@ -59,6 +59,7 @@ public class Import_AreaPerformance implements ImportInstance {
         private final ConnectionUtil loConn;
         private final REmployee poUser;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public ImportAreaTask(Application instance, ImportDataCallback callback) {
             this.callback = callback;
@@ -66,7 +67,7 @@ public class Import_AreaPerformance implements ImportInstance {
             this.loDatabse = new RAreaPerformance(instance);
             this.loConn = new ConnectionUtil(instance);
             this.poUser = new REmployee(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
@@ -81,7 +82,7 @@ public class Import_AreaPerformance implements ImportInstance {
                             JSONObject loJSon = new JSONObject();
                             loJSon.put("period", arrayLists[0].get(x));
                             loJSon.put("areacd", poUser.getUserAreaCode());
-                            response = WebClient.httpsPostJSon(poApi.getImportAreaPerformance(), loJSon.toString(), loHeaders.getHeaders());
+                            response = WebClient.httpsPostJSon(poApi.getImportAreaPerformance(loConfig.isBackUpServer()), loJSon.toString(), loHeaders.getHeaders());
                             JSONObject loJson = new JSONObject(response);
                             Log.e(TAG, loJson.getString("result"));
                             String lsResult = loJson.getString("result");

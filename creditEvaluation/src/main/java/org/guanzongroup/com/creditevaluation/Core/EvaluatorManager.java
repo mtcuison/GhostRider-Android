@@ -63,7 +63,7 @@ public class EvaluatorManager {
         try{
             JSONObject params = new JSONObject();
             params.put("sEmployID", poSession.getEmployeeID());
-            String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadCIApplications(), params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadCIApplications(poConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Server no response.");
             } else {
@@ -114,7 +114,7 @@ public class EvaluatorManager {
             params.put("bycode", true);
             params.put("value", brnCD);
 
-            String lsAddress = poApis.getUrlBranchLoanApp();
+            String lsAddress = poApis.getUrlBranchLoanApp(poConfig.isBackUpServer());
             String lsResponse = WebClient.sendRequest(lsAddress,
                     params.toString(),
                     poHeaders.getHeaders());
@@ -141,7 +141,7 @@ public class EvaluatorManager {
         try{
             JSONObject params = new JSONObject();
             params.put("sTransNox", TransNox);
-            String lsResponse = WebClient.sendRequest(poApis.getUrlAddForEvaluation(), params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlAddForEvaluation(poConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Server no response.");
             } else {
@@ -373,7 +373,7 @@ public class EvaluatorManager {
             params.put("sNeighBr1", loDetail.getNeighBr1());
             params.put("sNeighBr2", loDetail.getNeighBr2());
             params.put("sNeighBr3", loDetail.getNeighBr3());
-            String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitCIResult(), params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlSubmitCIResult(poConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Server no response.");
             } else {
@@ -451,7 +451,7 @@ public class EvaluatorManager {
             params.put("sApproved", loDetail.getApproved());
             params.put("dApproved", loDetail.getDapprovd());
             Log.d("params", String.valueOf(params));
-            String lsResponse = WebClient.sendRequest(poApis.getUrlPostCiApproval(), params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlPostCiApproval(poConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
             Log.d("response", lsResponse);
             if (lsResponse == null) {
                 callback.OnFailed("Server no response.");
@@ -478,7 +478,7 @@ public class EvaluatorManager {
             JSONObject params = new JSONObject();
             params.put("sEmployID", "M00117000702");
 
-            String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadBhPreview(),
+            String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadBhPreview(poConfig.isBackUpServer()),
                     params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Sever no response.");
@@ -536,7 +536,7 @@ public class EvaluatorManager {
             params.put("dRcmdtnx2", loDetail.getRcmdRcd2());
             params.put("cRcmdtnx2", loDetail.getRcmdtnc2());
             params.put("sRcmdtnx2", loDetail.getRcmdtns2());
-            String lsResponse = WebClient.sendRequest(poApis.getUrlPostBhApproval(), params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlPostBhApproval(poConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
             if (lsResponse == null) {
                 callback.OnFailed("Server no response.");
             } else {

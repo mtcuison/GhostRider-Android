@@ -123,6 +123,7 @@ public class VMLeaveApproval extends AndroidViewModel {
         private final OnDownloadLeaveAppInfo callback;
         private String TransNox;
         private WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         @Override
         protected void onProgressUpdate(Void... values) {
@@ -134,7 +135,7 @@ public class VMLeaveApproval extends AndroidViewModel {
             this.conn = new ConnectionUtil(instance);
             this.poLeave = new REmployeeLeave(instance);
             this.callback = callback;
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
@@ -150,7 +151,7 @@ public class VMLeaveApproval extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(poApi.getUrlGetLeaveApplication(), strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(poApi.getUrlGetLeaveApplication(loConfig.isBackUpServer()), strings[0].toString(), headers.getHeaders());
                     JSONObject loResponse = new JSONObject(response);
                     String lsResult = loResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {
@@ -226,6 +227,7 @@ public class VMLeaveApproval extends AndroidViewModel {
         private final ConnectionUtil poConn;
         private final REmployeeLeave poLeave;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public ConfirmLeaveTask(LeaveApprovalInfo infoModel, Application instance, OnConfirmLeaveAppCallback callback) {
             this.infoModel = infoModel;
@@ -233,7 +235,7 @@ public class VMLeaveApproval extends AndroidViewModel {
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
             this.poLeave = new REmployeeLeave(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
@@ -254,7 +256,7 @@ public class VMLeaveApproval extends AndroidViewModel {
                 loJson.put("dApproved", infoModel.getApproved());
 
                 if(poConn.isDeviceConnected()) {
-                    lsResponse = WebClient.sendRequest(poApi.getUrlConfirmLeaveApplication(), loJson.toString(), poHeaders.getHeaders());
+                    lsResponse = WebClient.sendRequest(poApi.getUrlConfirmLeaveApplication(loConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
                     if(lsResponse == null) {
                         lsResponse = AppConstants.SERVER_NO_RESPONSE();
                     } else {

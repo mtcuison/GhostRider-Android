@@ -60,13 +60,14 @@ public class VMActivate extends AndroidViewModel {
         private final HttpHeaders headers;
         private final LoadDialog dialog;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
         private final ViewModelCallBack callBack;
 
         public ActivationTask(Application instance, ViewModelCallBack callBack) {
             this.conn = new ConnectionUtil(instance);
             this.headers = HttpHeaders.getInstance(instance);
             this.dialog = new LoadDialog(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
             this.callBack = callBack;
         }
@@ -90,7 +91,7 @@ public class VMActivate extends AndroidViewModel {
                     loParam.put("request", AppConstants.ACTIVATE_REQUEST);
                     loParam.put("param", loJSon.toString());
                     Log.e(TAG, loParam.toString());
-                    response = WebClient.sendRequest(poApi.getUrlKnox(), loParam.toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(poApi.getUrlKnox(loConfig.isBackUpServer()), loParam.toString(), headers.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }

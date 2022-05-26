@@ -40,6 +40,7 @@ android {
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources = true
     }
+    namespace 'org.rmj.guanzongroup.ghostrider.griderscanner'
 }
 
 dependencies {

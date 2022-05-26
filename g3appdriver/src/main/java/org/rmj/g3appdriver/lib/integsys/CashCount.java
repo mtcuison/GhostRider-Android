@@ -18,6 +18,7 @@ public class CashCount {
     private final Context mContext;
     private final Application instance;
     private final WebApi poApi;
+    private final AppConfigPreference loConfig;
 
     private final HttpHeaders poHeaders;
 
@@ -30,14 +31,14 @@ public class CashCount {
         this.mContext = mContext;
         this.instance = instance;
         this.poHeaders = HttpHeaders.getInstance(instance);
-        AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+        this.loConfig = AppConfigPreference.getInstance(instance);
         this.poApi = new WebApi(loConfig.getTestStatus());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void SubmitCashCount(JSONObject foJson, SubmitCashCountCallback callback){
         try {
-            String lsResponse = WebClient.httpPostJSon(poApi.getUrlSubmitCashcount(), foJson.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.httpPostJSon(poApi.getUrlSubmitCashcount(loConfig.isBackUpServer()), foJson.toString(), poHeaders.getHeaders());
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("success")){

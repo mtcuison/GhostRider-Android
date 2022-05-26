@@ -114,7 +114,7 @@ public class DcpManager {
                 loJson.put("dTransact", lsReferDte);
                 loJson.put("cDCPTypex", "1");
 
-                String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadDcp(), loJson.toString(), poHeaders.getHeaders());
+                String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadDcp(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
                 if(lsResponse == null){
                     callback.OnSuccess("Server no response");
                 } else {
@@ -212,7 +212,7 @@ public class DcpManager {
                     }
                 }
 
-                String lsResponse = WebClient.sendRequest(poApis.getUrlGetRegClient(), loJson.toString(), poHeaders.getHeaders());
+                String lsResponse = WebClient.sendRequest(poApis.getUrlGetRegClient(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
                 if(lsResponse == null){
                     callback.OnFailed("Server no response");
                 } else {
@@ -431,7 +431,7 @@ public class DcpManager {
             loJson.put("sUserIDxx", poUser.getUserID());
             loJson.put("sDeviceID", poTlphny.getDeviceID());
 
-            String lsResponse = WebClient.sendRequest(poApis.getUrlDcpSubmit(), loJson.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlDcpSubmit(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
 
             if(lsResponse == null) {
                 Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
@@ -680,7 +680,7 @@ public class DcpManager {
                     loJson.put("sUserIDxx", poUser.getUserID());
                     loJson.put("sDeviceID", poTlphny.getDeviceID());
 
-                    String lsResponse = WebClient.sendRequest(poApis.getUrlDcpSubmit(), loJson.toString(), poHeaders.getHeaders());
+                    String lsResponse = WebClient.sendRequest(poApis.getUrlDcpSubmit(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
 
                     if(lsResponse == null) {
                         Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
@@ -755,7 +755,7 @@ public class DcpManager {
                     lsStatus == null){
                 JSONObject loJson = new JSONObject();
                 loJson.put("sTransNox", lsTransNox);
-                String lsResponse = WebClient.sendRequest(poApis.getUrlPostDcpMaster(), loJson.toString(), poHeaders.getHeaders());
+                String lsResponse = WebClient.sendRequest(poApis.getUrlPostDcpMaster(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
                 if (lsResponse == null) {
                     callback.OnFailed("Posting dcp master failed. Server no response");
                 } else {

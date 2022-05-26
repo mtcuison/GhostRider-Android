@@ -95,7 +95,7 @@ public class Paid implements iDCPTransaction {
             loJson.put("sUserIDxx", loUser.getUserID());
             loJson.put("sDeviceID", loTlphny.getDeviceID());
 
-            String lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(), loJson.toString(), loHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(loConfig.isBackUpServer()), loJson.toString(), loHeaders.getHeaders());
 
             if(lsResponse == null){
                 callback.OnFailed("Server no response");

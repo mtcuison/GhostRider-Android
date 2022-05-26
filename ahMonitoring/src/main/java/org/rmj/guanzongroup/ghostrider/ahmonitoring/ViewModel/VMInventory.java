@@ -119,6 +119,7 @@ public class VMInventory extends AndroidViewModel {
         private final RInventoryMaster poMaster;
         private final WebApi poApi;
         private final OnRequestInventoryCallback poCallback;
+        private final AppConfigPreference loConfig;
 
         public RequestInventoryTask(Application instance, OnRequestInventoryCallback poCallback) {
             this.instance = instance;
@@ -127,7 +128,7 @@ public class VMInventory extends AndroidViewModel {
             this.poDetail = new RInventoryDetail(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poMaster = new RInventoryMaster(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
@@ -147,7 +148,7 @@ public class VMInventory extends AndroidViewModel {
                 } else {
                     JSONObject loJson = new JSONObject();
                     loJson.put("branchcd", strings[0]);
-                    lsResult = WebClient.httpsPostJSon(poApi.getUrlRequestRandomStockInventory(), loJson.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.httpsPostJSon(poApi.getUrlRequestRandomStockInventory(loConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     } else {
@@ -242,6 +243,7 @@ public class VMInventory extends AndroidViewModel {
         private final RInventoryMaster poMaster;
         private final String Remarksx;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
         private final OnRequestInventoryCallback callback;
 
         public PostInventoryTask(Application instance, String Remarks, OnRequestInventoryCallback callback){
@@ -249,7 +251,7 @@ public class VMInventory extends AndroidViewModel {
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.Remarksx = Remarks;
             this.callback = callback;
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
             this.poDetail = new RInventoryDetail(instance);
             this.poMaster = new RInventoryMaster(instance);
@@ -294,7 +296,7 @@ public class VMInventory extends AndroidViewModel {
                         }
                         master.put("master", joMaster);
                         master.put("detail", jaDetail);
-                        String response = WebClient.httpsPostJSon(poApi.getUrlSubmitRandomStockInventory(), master.toString(), poHeaders.getHeaders());
+                        String response = WebClient.httpsPostJSon(poApi.getUrlSubmitRandomStockInventory(loConfig.isBackUpServer()), master.toString(), poHeaders.getHeaders());
                         if(response == null){
                             lsResult = AppConstants.SERVER_NO_RESPONSE();
                         } else {

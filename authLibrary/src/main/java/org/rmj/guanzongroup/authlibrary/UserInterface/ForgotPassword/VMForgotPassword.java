@@ -37,9 +37,11 @@ public class VMForgotPassword extends AndroidViewModel {
     private WebApi webApi;
     private HttpHeaders headers;
     private ConnectionUtil conn;
+    private Application instance;
 
     public VMForgotPassword(@NonNull Application application) {
         super(application);
+        this.instance = application;
         AppConfigPreference loConfig = AppConfigPreference.getInstance(application);
         this.webApi = new WebApi(loConfig.getTestStatus());
         headers = HttpHeaders.getInstance(application);
@@ -58,7 +60,7 @@ public class VMForgotPassword extends AndroidViewModel {
             try{
                 JSONObject params = new JSONObject();
                 params.put("email", Email);
-                new RequestPasswordTask(webApi, headers, callback).execute(params);
+                new RequestPasswordTask(instance, callback).execute(params);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -72,11 +74,13 @@ public class VMForgotPassword extends AndroidViewModel {
     public static class RequestPasswordTask extends AsyncTask<JSONObject, Void, String>{
         private WebApi webApi;
         private HttpHeaders headers;
+        private final AppConfigPreference loConfig;
         private RequestPasswordCallback callBack;
 
-        public RequestPasswordTask(WebApi webApi, HttpHeaders headers, RequestPasswordCallback callBack){
-            this.webApi = webApi;
-            this.headers = headers;
+        public RequestPasswordTask(Application instance, RequestPasswordCallback callBack){
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.webApi = new WebApi(loConfig.getTestStatus());
+            this.headers = HttpHeaders.getInstance(instance);
             this.callBack = callBack;
         }
 
@@ -91,7 +95,7 @@ public class VMForgotPassword extends AndroidViewModel {
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";
             try {
-                response = WebClient.httpsPostJSon(webApi.getUrlForgotPassword(), jsonObjects[0].toString(), headers.getHeaders());
+                response = WebClient.httpsPostJSon(webApi.getUrlForgotPassword(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
                 Log.e(TAG, response);
             } catch (IOException e) {
                 e.printStackTrace();

@@ -70,12 +70,13 @@ public class ImportBarangay implements ImportInstance{
         private final ConnectionUtil conn;
         private final WebApi poApi;
         private final HttpHeaders headers;
+        AppConfigPreference loConfig;
         private final ImportDataCallback callback;
 
         public ImportDataTask(Application instance, ImportDataCallback callback) {
             this.repository = new RBarangay(instance);
             this.conn = new ConnectionUtil(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
             this.headers = HttpHeaders.getInstance(instance);
             this.callback = callback;
@@ -87,7 +88,7 @@ public class ImportBarangay implements ImportInstance{
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poApi.getUrlImportBarangay(), jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportBarangay(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

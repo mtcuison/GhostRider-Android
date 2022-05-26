@@ -56,12 +56,13 @@ public class VMCreditAppApproval extends AndroidViewModel {
         private final ConnectionUtil loConn;
         private final HttpHeaders loHeaders;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
         private final OnLoadApplicationListener listener;
 
         public LoadApplicationTask(Application instance, OnLoadApplicationListener listener) {
             this.loConn = new ConnectionUtil(instance);
             this.loHeaders = HttpHeaders.getInstance(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
             this.listener = listener;
         }
@@ -83,7 +84,7 @@ public class VMCreditAppApproval extends AndroidViewModel {
                         loJson.put("systemcd", CreditApp[0].getSystemCD());
                         loJson.put("branchcd", CreditApp[0].getBranchCD());
                         loJson.put("transnox", CreditApp[0].getTransNox());
-                        lsResponse = WebClient.sendRequest(poApi.getUrlLoadApplicationApproval(), loJson.toString(), loHeaders.getHeaders());
+                        lsResponse = WebClient.sendRequest(poApi.getUrlLoadApplicationApproval(loConfig.isBackUpServer()), loJson.toString(), loHeaders.getHeaders());
                         if(lsResponse == null){
                             lsResponse = AppConstants.SERVER_NO_RESPONSE();
                         }
@@ -133,12 +134,13 @@ public class VMCreditAppApproval extends AndroidViewModel {
         private final ConnectionUtil loConn;
         private final HttpHeaders loHeaders;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
         private final ViewModelCallback listener;
 
         public ApproveRequestTask(Application instance, ViewModelCallback listener) {
             this.loConn = new ConnectionUtil(instance);
             this.loHeaders = HttpHeaders.getInstance(instance);
-            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
             this.poApi = new WebApi(loConfig.getTestStatus());
             this.listener = listener;
         }
@@ -160,7 +162,7 @@ public class VMCreditAppApproval extends AndroidViewModel {
                             loJson.put("transnox", params[0].getTransNox());
                             loJson.put("reasonxx", params[0].getReasonxx());
                             loJson.put("approved", params[0].getApproved());
-                            lsResponse = WebClient.sendRequest(poApi.getUrlApplicationApprove(), loJson.toString(), loHeaders.getHeaders());
+                            lsResponse = WebClient.sendRequest(poApi.getUrlApplicationApprove(loConfig.isBackUpServer()), loJson.toString(), loHeaders.getHeaders());
                             if(lsResponse == null){
                                 lsResponse = AppConstants.SERVER_NO_RESPONSE();
                             }

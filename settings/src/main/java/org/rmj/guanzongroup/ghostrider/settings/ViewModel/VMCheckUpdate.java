@@ -107,7 +107,8 @@ public class VMCheckUpdate extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()){
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    lsResult = WebClient.sendRequest(poApi.getUrlCheckUpdate(), param.toString(), poHeaders.getHeaders());
+//                    lsResult = WebClient.sendRequest(poApi.getUrlCheckUpdate(), param.toString(), poHeaders.getHeaders());
+                    lsResult = "";
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }
