@@ -152,6 +152,11 @@ public class AppConfigPreference {
     }
 
     public void setIfBackUpServer(boolean fbval){
+        if(fbval){
+            Log.e(TAG, "Backup server set as active");
+        } else {
+            Log.e(TAG, "Live server set as active");
+        }
         editor.putBoolean(isServerBackUp, fbval);
         editor.commit();
     }

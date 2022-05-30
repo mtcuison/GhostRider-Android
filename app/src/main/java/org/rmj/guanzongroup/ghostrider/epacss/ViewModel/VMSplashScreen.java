@@ -16,7 +16,9 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -29,12 +31,11 @@ import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.AppTokenManager;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCashCount;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 
@@ -93,6 +94,7 @@ public class VMSplashScreen extends AndroidViewModel {
         pbGranted.setValue(hasPermissions(application.getApplicationContext(), paPermisions.getValue()));
         this.psVersion.setValue(poConfigx.getVersionInfo());
         this.poLocator = poDcp.getDCP_COH_StatusForTracking();
+        new CheckConnectionTask(application).execute();
     }
 
     public LiveData<String> getVersionInfo(){
@@ -165,5 +167,38 @@ public class VMSplashScreen extends AndroidViewModel {
             }
         }
         return true;
+    }
+
+    private static class CheckConnectionTask extends AsyncTask<String, Void, String>{
+        private final Application instance;
+
+        private String message;
+        private boolean isConnected = false;
+
+        public CheckConnectionTask(Application instance) {
+            this.instance = instance;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            ConnectionUtil loConn = new ConnectionUtil(instance);
+            if(loConn.isDeviceConnected()){
+                isConnected = true;
+            } else {
+                isConnected = false;
+                message = loConn.getMessage();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(isConnected){
+                Toast.makeText(instance, "Device connected", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(instance, message, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

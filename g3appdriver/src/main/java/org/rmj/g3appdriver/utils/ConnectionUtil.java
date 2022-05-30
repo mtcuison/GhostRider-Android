@@ -45,7 +45,7 @@ public class ConnectionUtil {
 
     private static final String LOCAL = "http://192.168.10.141/";
     private static final String PRIMARY_LIVE = "https://restgk.guanzongroup.com.ph/";
-    private static final String SECONDARY_LIVE = "https://restgk.guanzongroup.com.ph/";
+    private static final String SECONDARY_LIVE = "https://restgk1.guanzongroup.com.ph/";
 
     public ConnectionUtil(Context context){
         this.context = context;

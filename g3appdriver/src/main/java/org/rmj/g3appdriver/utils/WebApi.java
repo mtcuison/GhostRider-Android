@@ -19,7 +19,7 @@ public class WebApi {
     private String LIVE = "";
 
     private static final String PRIMARY_LIVE = "https://restgk.guanzongroup.com.ph/";
-    private static final String SECONDARY_LIVE = "https://restgk.guanzongroup.com.ph/";
+    private static final String SECONDARY_LIVE = "https://restgk1.guanzongroup.com.ph/";
 
     private static final String URL_AUTH_EMPLOYEE = "security/mlogin.php";
     private static final String URL_CREATE_ACCOUNT = "security/signup.php";

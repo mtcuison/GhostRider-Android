@@ -54,7 +54,8 @@ public class Fragment_Associate_Dashboard extends Fragment {
             lblDept,
             lblBranch,
             lblAddx,
-            lblVersion;
+            lblVersion,
+            lblServerStat;
     private LinearLayout lnDevMode;
     private SwitchMaterial poSwitch;
     private AppConfigPreference poConfig;
@@ -65,6 +66,7 @@ public class Fragment_Associate_Dashboard extends Fragment {
     public static Fragment_Associate_Dashboard newInstance() {
         return new Fragment_Associate_Dashboard();
     }
+
 
     @SuppressLint("NewApi")
     @Override
@@ -80,12 +82,18 @@ public class Fragment_Associate_Dashboard extends Fragment {
         lblAddx = view.findViewById(R.id.lbl_userAddress);
         lnDevMode = view.findViewById(R.id.ln_devMode);
         poSwitch = view.findViewById(R.id.sm_dcpTest);
+        lblServerStat = view.findViewById(R.id.lbl_serverStatus);
 //        imgUser = view.findViewById(R.id.img_userLogo);
         lblVersion = view.findViewById(R.id.lbl_versionInfo);
         btnLogout = view.findViewById(R.id.btn_logout);
         btnSettings = view.findViewById(R.id.btn_settings);
 
         poSwitch.setChecked(poConfig.getTestStatus());
+        if(!poConfig.isBackUpServer()) {
+            lblServerStat.setText("Connection : Live");
+        } else {
+            lblServerStat.setText("Connection : Back Up");
+        }
 
         poSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

@@ -225,6 +225,16 @@
                                 </LinearLayout>
 
                                 <TextView
+                                    android:id="@+id/lbl_serverStatus"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="3dp"
+                                    android:fontFamily="@font/roboto_black"
+                                    android:text="Connection : Live"
+                                    android:textColor="@color/light_red"
+                                    android:layout_marginTop="10dp"/>
+
+                                <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="3dp"
