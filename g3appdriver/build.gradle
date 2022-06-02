@@ -39,6 +39,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.room:room-runtime:2.4.2'
     implementation 'androidx.sqlite:sqlite:2.2.0'
+    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/appdriver.jar')
+    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/json-simple-1.1.1.jar')
+    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/commons-codec-1.11.jar')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -58,6 +61,6 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:4.5.1'
 
     //implement GhostRider Application Driver
-    implementation project(':json-simple-1.1.1') //implement json simple
-    implementation project(':commons-codec-1.11') //implement commons codec
+    //implement json simple
+    //implement commons codec
 }

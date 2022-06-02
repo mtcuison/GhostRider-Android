@@ -21,6 +21,7 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
@@ -57,12 +58,7 @@ public class VMCreateAccount extends AndroidViewModel{
             } catch (Exception e){
                 e.printStackTrace();
             }
-
-            if (conn.isDeviceConnected()) {
-                new CreateAccountTask(instance, callBack).execute(params);
-            } else {
-                callBack.OnFailedRegistration("Unable to connect. Please check your internet connection.");
-            }
+            new CreateAccountTask(instance, callBack).execute(params);
         } else {
             callBack.OnFailedRegistration(accountInfo.getMessage());
         }
@@ -72,13 +68,13 @@ public class VMCreateAccount extends AndroidViewModel{
         private final Application instance;
         private WebApi webApi;
         private HttpHeaders headers;
+        private ConnectionUtil poConn;
         private CreateAccountCallBack callBack;
 
         public CreateAccountTask(Application instance, CreateAccountCallBack callBack){
             this.instance = instance;
-            this.webApi = webApi;
-            this.headers = headers;
             this.callBack = callBack;
+            this.poConn = new ConnectionUtil(instance);
         }
 
         @Override
@@ -93,8 +89,13 @@ public class VMCreateAccount extends AndroidViewModel{
             String response = "";
             try {
                 AppConfigPreference poConfig = AppConfigPreference.getInstance(instance);
-                response = WebClient.httpsPostJSon(webApi.getUrlCreateAccount(poConfig.isBackUpServer()), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
-                Log.e(TAG, response);
+                webApi = new WebApi(poConfig.getTestStatus());
+                headers = HttpHeaders.getInstance(instance);
+                if (poConn.isDeviceConnected()) {response = WebClient.httpsPostJSon(webApi.getUrlCreateAccount(poConfig.isBackUpServer()), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
+                    Log.e(TAG, response);
+                } else {
+                    callBack.OnFailedRegistration(AppConstants.LOCAL_EXCEPTION_ERROR("Unable to connect. Please check your internet connection."));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

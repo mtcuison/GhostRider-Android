@@ -78,10 +78,13 @@ dependencies {
 
     implementation project(':g3appdriver')
     implementation project(':dataChecker')
-    implementation project(':appdriver') //implement GhostRider Application Driver
+//    implementation project(':appdriver') //implement GhostRider Application Driver
     implementation project(':notifications')
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation platform('com.google.firebase:firebase-bom:29.0.0')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/appdriver.jar')
+    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/json-simple-1.1.1.jar')
+    implementation files('C:/Users/User/Documents/AndroidStudio/_GRider/commons-codec-1.11.jar')
 }
