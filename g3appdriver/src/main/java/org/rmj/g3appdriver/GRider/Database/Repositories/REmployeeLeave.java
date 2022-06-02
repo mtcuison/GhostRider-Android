@@ -15,21 +15,14 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
-import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 
-import java.sql.ResultSet;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class REmployeeLeave implements DEmployeeLeave {
     private final DEmployeeLeave employeeDao;
@@ -88,6 +81,11 @@ public class REmployeeLeave implements DEmployeeLeave {
     @Override
     public LiveData<List<EEmployeeLeave>> getEmployeeLeaveList() {
         return employeeDao.getEmployeeLeaveList();
+    }
+
+    @Override
+    public LiveData<List<EEmployeeLeave>> getApproveLeaveList() {
+        return employeeDao.getApproveLeaveList();
     }
 
     @Override

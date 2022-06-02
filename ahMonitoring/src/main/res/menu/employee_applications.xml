@@ -21,4 +21,9 @@
         android:id="@+id/action_menu_search_ob"
         app:showAsAction="withText"
         android:title="Search Business Trip"/>
+
+    <item
+        android:id="@+id/action_menu_approval_list"
+        app:showAsAction="withText"
+        android:title="Approval History"/>
 </menu>

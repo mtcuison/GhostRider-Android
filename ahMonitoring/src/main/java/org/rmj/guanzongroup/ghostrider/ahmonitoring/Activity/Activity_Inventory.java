@@ -11,14 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,9 +18,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.InventoryItemAdapter;
@@ -74,7 +72,7 @@ public class Activity_Inventory extends AppCompatActivity {
                     mViewModel.getAreaBranchList().observe(Activity_Inventory.this, eBranchInfos -> {
                         try{
                             DialogBranchSelection loSelect = new DialogBranchSelection(Activity_Inventory.this, eBranchInfos);
-                            loSelect.initDialog(false, new DialogBranchSelection.OnBranchSelectedCallback() {
+                            loSelect.initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
                                 @Override
                                 public void OnSelect(String BranchCode, AlertDialog dialog) {
                                     mViewModel.setBranchCde(BranchCode);

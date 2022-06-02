@@ -19,9 +19,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
@@ -43,7 +43,10 @@ public class VMEmployeeApplications extends AndroidViewModel {
 
     private final Application instance;
     private final REmployeeLeave poLeave;
+    private final REmployeeBusinessTrip poBuss;
     private final RBranch poBranch;
+
+    private final MutableLiveData<Integer> pnLeave = new MutableLiveData<>();
 
     public interface OnDownloadApplicationListener {
         void OnDownload(String Title, String message);
@@ -56,6 +59,24 @@ public class VMEmployeeApplications extends AndroidViewModel {
         this.instance = application;
         this.poLeave = new REmployeeLeave(instance);
         this.poBranch = new RBranch(instance);
+        this.poBuss = new REmployeeBusinessTrip(instance);
+        this.pnLeave.setValue(0);
+    }
+
+    public void setApplicationType(int fnVal){
+        pnLeave.setValue(fnVal);
+    }
+
+    public LiveData<Integer> GetApplicationType(){
+        return pnLeave;
+    }
+
+    public LiveData<List<EEmployeeLeave>> getApproveLeaveList(){
+        return poLeave.getApproveLeaveList();
+    }
+
+    public LiveData<List<EEmployeeBusinessTrip>> GetApproveBusTrip(){
+        return poBuss.GetApproveBusTrip();
     }
 
     public LiveData<List<EEmployeeLeave>> getEmployeeLeaveForApprovalList(){

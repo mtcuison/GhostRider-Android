@@ -12,16 +12,13 @@
 package org.rmj.g3appdriver.GRider.Database.DataAccessObject;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.ColumnInfo;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
-import org.rmj.g3appdriver.utils.LiveDataTestUtil;
 
 import java.util.List;
 
@@ -65,6 +62,9 @@ public interface DEmployeeLeave {
     @Query("SELECT * FROM Employee_Leave " +
             "WHERE sEntryByx = (SELECT sEmployID FROM User_Info_Master)")
     LiveData<List<EEmployeeLeave>> getEmployeeLeaveList();
+
+    @Query("SELECT * FROM Employee_Leave WHERE cTranStat <> '0'")
+    LiveData<List<EEmployeeLeave>> getApproveLeaveList();
 
     class LeaveOBApplication {
         public String sTransNox;

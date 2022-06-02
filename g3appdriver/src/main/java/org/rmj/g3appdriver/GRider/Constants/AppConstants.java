@@ -125,6 +125,8 @@ public class AppConstants {
 
     public static int INTENT_OB_APPROVAL = 118;
 
+    public static int INTENT_APPROVAL_HISTORY = 119;
+
     public static int INTENT_SELFIE_LOGIN = 103;
     // ADD FOR HELP PURPOSE
     public static int INTENT_DOWNLOAD_DCP = 108;
@@ -191,7 +193,7 @@ public class AppConstants {
                 return "OPEN";
             case "1":
             case "2":
-                return "APPROVE";
+                return "APPROVE/POSTED";
         }
         return "CANCELED";
     }

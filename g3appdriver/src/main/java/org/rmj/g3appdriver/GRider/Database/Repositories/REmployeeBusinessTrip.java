@@ -15,23 +15,14 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
-import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeLeave;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 
-import java.sql.ResultSet;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class REmployeeBusinessTrip implements DEmployeeBusinessTrip {
     private final DEmployeeBusinessTrip employeeBusinessTripDao;
@@ -99,6 +90,11 @@ public class REmployeeBusinessTrip implements DEmployeeBusinessTrip {
     @Override
     public List<EEmployeeBusinessTrip> getUnsentEmployeeOB() {
         return employeeBusinessTripDao.getUnsentEmployeeOB();
+    }
+
+    @Override
+    public LiveData<List<EEmployeeBusinessTrip>> GetApproveBusTrip() {
+        return employeeBusinessTripDao.GetApproveBusTrip();
     }
 
     public String getOBLeaveNextCode(){

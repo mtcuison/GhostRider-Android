@@ -75,10 +75,19 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:padding="10dp"
-                    android:text=""
+                    android:text="Descript"
                     android:textColor="@color/material_black"
                     android:textSize="20sp" />
 
+                <TextView
+                    android:id="@+id/lbl_itemBarcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:padding="10dp"
+                    android:text="Barcode"
+                    android:textColor="@color/material_black"
+                    android:textSize="20sp" />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
