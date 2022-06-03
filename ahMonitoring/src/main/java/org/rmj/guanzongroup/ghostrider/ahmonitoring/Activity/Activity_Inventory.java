@@ -11,7 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -30,7 +29,6 @@ import com.google.android.material.button.MaterialButton;
 import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.InventoryItemAdapter;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogBranchSelection;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogPostInventory;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMInventory;
@@ -67,28 +65,28 @@ public class Activity_Inventory extends AppCompatActivity {
         });
         mViewModel.getBranchCode().observe(Activity_Inventory.this, fsBranchCde -> {
             try {
-                if (fsBranchCde.isEmpty()) {
-                    lblStatus.setText("No branch detected on selfie log. Please take a selfie login to request random inventory items");
-                    mViewModel.getAreaBranchList().observe(Activity_Inventory.this, eBranchInfos -> {
-                        try{
-                            DialogBranchSelection loSelect = new DialogBranchSelection(Activity_Inventory.this, eBranchInfos);
-                            loSelect.initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
-                                @Override
-                                public void OnSelect(String BranchCode, AlertDialog dialog) {
-                                    mViewModel.setBranchCde(BranchCode);
-                                    dialog.dismiss();
-                                }
-
-                                @Override
-                                public void OnCancel() {
-
-                                }
-                            });
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
-                } else {
+//                if (fsBranchCde.isEmpty()) {
+//                    lblStatus.setText("No branch detected on selfie log. Please take a selfie login to request random inventory items");
+//                    mViewModel.getAreaBranchList().observe(Activity_Inventory.this, eBranchInfos -> {
+//                        try{
+//                            DialogBranchSelection loSelect = new DialogBranchSelection(Activity_Inventory.this, eBranchInfos);
+//                            loSelect.initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
+//                                @Override
+//                                public void OnSelect(String BranchCode, AlertDialog dialog) {
+//                                    mViewModel.setBranchCde(BranchCode);
+//                                    dialog.dismiss();
+//                                }
+//
+//                                @Override
+//                                public void OnCancel() {
+//
+//                                }
+//                            });
+//                        } catch (Exception e){
+//                            e.printStackTrace();
+//                        }
+//                    });
+//                } else {
                     mViewModel.getBranchName(fsBranchCde).observe(Activity_Inventory.this, s -> {
                         try {
                             lblBranchNm.setText(s);
@@ -102,46 +100,46 @@ public class Activity_Inventory extends AppCompatActivity {
                             recyclerView.setVisibility(View.GONE);
                             lblStatus.setVisibility(View.VISIBLE);
                             lblStatus.setText("No inventory items found. Tap here to retry downloading items.");
-                            mViewModel.RequestRandomStockInventory(fsBranchCde, new VMInventory.OnRequestInventoryCallback() {
-                                @Override
-                                public void OnRequest(String title, String message) {
-                                    poDialog.initDialog(title, message, false);
-                                    poDialog.show();
-                                }
-
-                                @Override
-                                public void OnSuccessResult(String message) {
-                                    poDialog.dismiss();
-                                    poMessage.initDialog();
-                                    poMessage.setTitle("Random Stock Inventory");
-                                    poMessage.setMessage(message);
-                                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                    poMessage.show();
-                                }
-
-                                @Override
-                                public void OnNoStockRetrieve(String message) {
-                                    poDialog.dismiss();
-                                    poMessage.initDialog();
-                                    poMessage.setTitle("Random Stock Inventory");
-                                    poMessage.setMessage(message);
-                                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                                        dialog.dismiss();
-                                        finish();
-                                    });
-                                    poMessage.show();
-                                }
-
-                                @Override
-                                public void OnFaileResult(String message) {
-                                    poDialog.dismiss();
-                                    poMessage.initDialog();
-                                    poMessage.setTitle("Random Stock Inventory");
-                                    poMessage.setMessage(message);
-                                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                    poMessage.show();
-                                }
-                            });
+//                            mViewModel.RequestRandomStockInventory(fsBranchCde, new VMInventory.OnRequestInventoryCallback() {
+//                                @Override
+//                                public void OnRequest(String title, String message) {
+//                                    poDialog.initDialog(title, message, false);
+//                                    poDialog.show();
+//                                }
+//
+//                                @Override
+//                                public void OnSuccessResult(String message) {
+//                                    poDialog.dismiss();
+//                                    poMessage.initDialog();
+//                                    poMessage.setTitle("Random Stock Inventory");
+//                                    poMessage.setMessage(message);
+//                                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+//                                    poMessage.show();
+//                                }
+//
+//                                @Override
+//                                public void OnNoStockRetrieve(String message) {
+//                                    poDialog.dismiss();
+//                                    poMessage.initDialog();
+//                                    poMessage.setTitle("Random Stock Inventory");
+//                                    poMessage.setMessage(message);
+//                                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
+//                                        dialog.dismiss();
+//                                        finish();
+//                                    });
+//                                    poMessage.show();
+//                                }
+//
+//                                @Override
+//                                public void OnFaileResult(String message) {
+//                                    poDialog.dismiss();
+//                                    poMessage.initDialog();
+//                                    poMessage.setTitle("Random Stock Inventory");
+//                                    poMessage.setMessage(message);
+//                                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+//                                    poMessage.show();
+//                                }
+//                            });
                         } else if(!inventoryMaster.getTranStat().equalsIgnoreCase("2")){
                             cancelable = false;
                             recyclerView.setVisibility(View.VISIBLE);
@@ -196,62 +194,63 @@ public class Activity_Inventory extends AppCompatActivity {
                             btnPost.setEnabled(false);
                         }
                     });
-                }
+//                }
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
 
         lblStatus.setOnClickListener(v ->{
-                if(!BranchCde.isEmpty()) {
-                    mViewModel.RequestRandomStockInventory(BranchCde, new VMInventory.OnRequestInventoryCallback() {
-                        @Override
-                        public void OnRequest(String title, String message) {
-                            poDialog.initDialog(title, message, false);
-                            poDialog.show();
-                        }
+            mViewModel.RequestRandomStockInventory(BranchCde, new VMInventory.OnRequestInventoryCallback() {
+                @Override
+                public void OnRequest(String title, String message) {
+                    poDialog.initDialog(title, message, false);
+                    poDialog.show();
+                }
 
-                        @Override
-                        public void OnSuccessResult(String message) {
-                            poDialog.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Random Stock Inventory");
-                            poMessage.setMessage(message);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                            poMessage.show();
-                        }
-
-                        @Override
-                        public void OnNoStockRetrieve(String message) {
-                            poDialog.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Random Stock Inventory");
-                            poMessage.setMessage(message);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                                dialog.dismiss();
-                                finish();
-                            });
-                            poMessage.show();
-                        }
-
-                        @Override
-                        public void OnFaileResult(String message) {
-                            poDialog.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Random Stock Inventory");
-                            poMessage.setMessage(message);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                            poMessage.show();
-                        }
-                    });
-                } else {
+                @Override
+                public void OnSuccessResult(String message) {
                     poDialog.dismiss();
                     poMessage.initDialog();
                     poMessage.setTitle("Random Stock Inventory");
-                    poMessage.setMessage("Unable to download random stock inventory. No branch provided to download inventory details.");
+                    poMessage.setMessage(message);
                     poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
                     poMessage.show();
                 }
+
+                @Override
+                public void OnNoStockRetrieve(String message) {
+                    poDialog.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Random Stock Inventory");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                        dialog.dismiss();
+                        finish();
+                    });
+                    poMessage.show();
+                }
+
+                @Override
+                public void OnFaileResult(String message) {
+                    poDialog.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Random Stock Inventory");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+            });
+//                if(!BranchCde.isEmpty()) {
+//
+//                } else {
+//                    poDialog.dismiss();
+//                    poMessage.initDialog();
+//                    poMessage.setTitle("Random Stock Inventory");
+//                    poMessage.setMessage("Unable to download random stock inventory. No branch provided to download inventory details.");
+//                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+//                    poMessage.show();
+//                }
                 });
 
         btnSelect.setOnClickListener(v -> mViewModel.getAreaBranchList().observe(Activity_Inventory.this, eBranchInfos -> {

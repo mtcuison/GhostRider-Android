@@ -82,9 +82,9 @@ public class Activity_InventoryEntry extends AppCompatActivity {
             }
         });
         btnSave.setOnClickListener(v -> {
-            if(!txtActualQty.getText().toString().isEmpty()) {
+            if(!Objects.requireNonNull(txtActualQty.getText()).toString().isEmpty()) {
                 poItem.setItemQtyx(Integer.parseInt(txtActualQty.getText().toString()));
-                poItem.setRemarksx(txtRemarks1.getText().toString());
+                poItem.setRemarksx(Objects.requireNonNull(txtRemarks1.getText()).toString());
                 mViewModel.saveInventoryUpdate(poItem, new VMInventoryEntry.OnInventoryUpdateCallBack() {
                     @Override
                     public void OnUpdate(String message) {

@@ -147,7 +147,13 @@ public class VMInventory extends AndroidViewModel {
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
                     JSONObject loJson = new JSONObject();
-                    loJson.put("branchcd", strings[0]);
+                    if(strings[0] == null){
+                        loJson.put("branchcd", poDetail.GetLatestBranchCode());
+                    } else if(strings[0].isEmpty()){
+                        loJson.put("branchcd", poDetail.GetLatestBranchCode());
+                    } else {
+                        loJson.put("branchcd", strings[0]);
+                    }
                     lsResult = WebClient.httpsPostJSon(poApi.getUrlRequestRandomStockInventory(loConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
@@ -219,7 +225,8 @@ public class VMInventory extends AndroidViewModel {
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     String lsMessage = loError.getString("message");
-                    if(lsMessage.equalsIgnoreCase("No record found.")){
+                    if(lsMessage.equalsIgnoreCase("No record found.") ||
+                            lsMessage.equalsIgnoreCase("No stocks to count.")){
                         poCallback.OnNoStockRetrieve("No inventory items available.");
                     } else {
                         poCallback.OnFaileResult(loError.getString("message"));
