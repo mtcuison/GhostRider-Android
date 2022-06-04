@@ -11,21 +11,19 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -173,7 +171,12 @@ public class Fragment_LeaveApplication extends Fragment {
             poLeave.setLeaveType(String.valueOf(spnType.getSelectedItemPosition()));
             poLeave.setDateFromx(Objects.requireNonNull(txtDateFrom.getText()).toString());
             poLeave.setDateThrux(Objects.requireNonNull(txtDateTo.getText()).toString());
-            poLeave.setNoOfDaysx(Integer.parseInt(Objects.requireNonNull(txtNoDays.getText()).toString()));
+            String lsNoDays = Objects.requireNonNull(txtNoDays.getText()).toString();
+            int lnNoDays = 0;
+            if (!lsNoDays.trim().isEmpty()){
+                lnNoDays = Integer.parseInt(lsNoDays);
+            }
+            poLeave.setNoOfDaysx(lnNoDays);
             poLeave.setRemarksxx(Objects.requireNonNull(txtRemarks.getText()).toString());
             mViewModel.SaveApplication(poLeave, new VMLeaveApplication.LeaveApplicationCallback() {
                 @Override
