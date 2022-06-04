@@ -107,11 +107,13 @@ public class VMRaffleEntry extends AndroidViewModel {
         private final HttpHeaders headers;
         private final RRaffleInfo raffleRepo;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public ImportDocumentType(Application instance){
             this.headers = HttpHeaders.getInstance(instance);
             this.raffleRepo = new RRaffleInfo(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -120,7 +122,7 @@ public class VMRaffleEntry extends AndroidViewModel {
             String response = "";
             try {
                 JSONObject loJson = new JSONObject();
-                response = WebClient.httpsPostJSon(poApi.getUrlImportRaffleBasis(), loJson.toString(), headers.getHeaders());
+                response = WebClient.httpsPostJSon(poApi.getUrlImportRaffleBasis(loConfig.isBackUpServer()), loJson.toString(), headers.getHeaders());
                 Log.e(TAG, response);
                 JSONObject jsonResponse = new JSONObject(response);
                 String lsResult = jsonResponse.getString("result");

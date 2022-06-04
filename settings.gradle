@@ -11,9 +11,7 @@
 include ':imageMap'
 include ':map'
 
-include ':commons-codec-1.11'
 include ':settings'
-include ':json-simple-1.1.1'
 include ':dailyCollectionPlan'
 include ':griderScanner'
 include ':openCVLibrary341'
@@ -30,7 +28,6 @@ include ':creditApp'
 include ':authLibrary'
 include ':g3appdriver'
 include ':app'
-include ':appdriver'
 rootProject.name = "GhostRider_Android"
 include ':dataChecker'
 include ':creditEvaluation'

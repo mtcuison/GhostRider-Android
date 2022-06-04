@@ -45,8 +45,8 @@ public class REmployeeRole implements DEmployeeRole {
     }
 
     @Override
-    public void DeleteEmployeeRole(String Object) {
-        roleDao.DeleteEmployeeRole(Object);
+    public void DeleteEmployeeRole() {
+        roleDao.DeleteEmployeeRole();
     }
 
     @Override
@@ -91,20 +91,17 @@ public class REmployeeRole implements DEmployeeRole {
             lsSQL = "";
             //record does not exists
             if (!loRS.next()){
-                //check if the record is active
-                if ("1".equals((String) loJson.get("cRecdStat"))){
-                    //create insert statement
-                    EEmployeeRole loRole = new EEmployeeRole();
-                    loRole.setObjectNm(loJson.getString("sObjectNm"));
-                    loRole.setObjectDs(loJson.getString("sObjectDs"));
-                    loRole.setObjectTP(loJson.getString("cObjectTP"));
-                    loRole.setParentxx(loJson.getString("sParentxx"));
-                    loRole.setHasChild(loJson.getString("cHasChild"));
-                    loRole.setSeqnceCd(loJson.getString("sSeqnceCD"));
-                    loRole.setRecdStat(loJson.getString("cRecdStat"));
-                    loRole.setTimeStmp(loJson.getString("dTimeStmp"));
-                    roleDao.InsertEmployeeRole(loRole);
-                }
+                //create insert statement
+                EEmployeeRole loRole = new EEmployeeRole();
+                loRole.setObjectNm(loJson.getString("sObjectNm"));
+                loRole.setObjectDs(loJson.getString("sObjectDs"));
+                loRole.setObjectTP(loJson.getString("cObjectTP"));
+                loRole.setParentxx(loJson.getString("sParentxx"));
+                loRole.setHasChild(loJson.getString("cHasChild"));
+                loRole.setSeqnceCd(loJson.getString("sSeqnceCD"));
+                loRole.setRecdStat(loJson.getString("cRecdStat"));
+                loRole.setTimeStmp(loJson.getString("dTimeStmp"));
+                roleDao.InsertEmployeeRole(loRole);
             } else { //record already exists
                 Date ldDate1 = SQLUtil.toDate(loRS.getString("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
                 Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);

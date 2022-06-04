@@ -76,7 +76,7 @@ public class SelfieLog {
                 loJson.put("dLogTimex", poSelfiex.getLogTimex());
                 loJson.put("nLatitude", poSelfiex.getLatitude());
                 loJson.put("nLongitud", poSelfiex.getLongitud());
-                loJson.put("sBranchCD", poSelfiex.getBranchCd());
+                loJson.put("sBranchCd", poSelfiex.getBranchCd());
 
                 if(!poConfig.getTestStatus()) {
                     String lsClient = WebFileServer.RequestClientToken(poConfig.ProducID(),

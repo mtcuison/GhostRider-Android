@@ -135,7 +135,7 @@ public class BackgroundSync {
                     loJson.put("nLatitude", selfieLog.getLatitude());
                     loJson.put("nLongitud", selfieLog.getLongitud());
 
-                    String lsResponse = WebClient.sendRequest(poApi.getUrlPostSelfielog(), loJson.toString(), poHeaders.getHeaders());
+                    String lsResponse = WebClient.sendRequest(poApi.getUrlPostSelfielog(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
 
                     if (lsResponse == null) {
                         Log.e(TAG, "Sending selfie log info. Server no response");
@@ -210,7 +210,7 @@ public class BackgroundSync {
                     loJson.put("sUserIDxx", poSession.getUserID());
                     loJson.put("sDeviceID", poDevice.getDeviceID());
                     Log.e(TAG, loJson.toString());
-                    String lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(), loJson.toString(), poHeaders.getHeaders());
+                    String lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
 
                     if (lsResponse == null) {
                         Log.e(TAG, "Sending selfie log info. Server no response");

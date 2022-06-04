@@ -66,12 +66,14 @@ public class ImportMcTermCategory implements ImportInstance{
         private final ConnectionUtil conn;
         private final WebApi poApi;
         private final HttpHeaders headers;
+        private final AppConfigPreference loConfig;
         private final ImportDataCallback callback;
 
         public ImportDataTask(Application instance, ImportDataCallback callback) {
             this.repository = new RMcTermCategory(instance);
             this.conn = new ConnectionUtil(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.headers = HttpHeaders.getInstance(instance);
             this.callback = callback;
         }
@@ -82,7 +84,7 @@ public class ImportMcTermCategory implements ImportInstance{
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poApi.getUrlImportTermCategory(), jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportTermCategory(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

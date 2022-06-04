@@ -109,9 +109,14 @@ public class GNotifBuilder {
             notifyIntent.putExtra("type", "notification");
         }
         // Create the PendingIntent
-        PendingIntent notifyPendingIntent = PendingIntent.getActivity(
-                context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT
-        );
+        PendingIntent notifyPendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            notifyPendingIntent = PendingIntent.getActivity(
+                    context, 0, notifyIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            notifyPendingIntent = PendingIntent.getActivity(
+                    context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         return new NotificationCompat.Builder(context)
                 .setContentIntent(notifyPendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

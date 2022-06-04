@@ -60,13 +60,15 @@ public class Import_SysConfig implements ImportInstance{
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public ImportConfigTask(Application instance, ImportDataCallback callback){
             this.callback = callback;
             this.poDataBse = new RSysConfig(instance);
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -75,7 +77,7 @@ public class Import_SysConfig implements ImportInstance{
             String response = "";
             try {
                 if(poConn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poApi.getUrlImportSysConfig(), jsonObjects[0].toString(), poHeaders.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportSysConfig(loConfig.isBackUpServer()), jsonObjects[0].toString(), poHeaders.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

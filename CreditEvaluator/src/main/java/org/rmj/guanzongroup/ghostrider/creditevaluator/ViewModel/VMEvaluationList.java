@@ -102,7 +102,9 @@ public class VMEvaluationList extends AndroidViewModel {
             JSONObject param = new JSONObject();
             param.put("value", fsTransno.trim());
             param.put("bsearch", true);
-            new ImportApplicationInfoTask(instance,  new WebApi(AppConfigPreference.getInstance(instance).getTestStatus()).getUrlDownloadCreditOnlineApp(), callback).execute(param);
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            WebApi poApi = new WebApi(loConfig.getTestStatus());
+            new ImportApplicationInfoTask(instance,  poApi.getUrlDownloadCreditOnlineApp(loConfig.isBackUpServer()), callback).execute(param);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -116,12 +118,14 @@ public class VMEvaluationList extends AndroidViewModel {
         private final WebApi webApi;
         private final OnImportCallBack callback;
         private final RBranchLoanApplication poCreditApp;
+        private final AppConfigPreference loConfig;
         public ImportCIApplications(Application instance,  OnImportCallBack callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.brnRepo = new RBranchLoanApplication(instance);
             this.poCreditApp = new RBranchLoanApplication(instance);
             this.conn = new ConnectionUtil(instance);
-            this.webApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.webApi = new WebApi(loConfig.getTestStatus());
             this.callback = callback;
         }
 
@@ -137,7 +141,7 @@ public class VMEvaluationList extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(webApi.getUrlBranchLoanApp(), strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(webApi.getUrlBranchLoanApp(loConfig.isBackUpServer()), strings[0].toString(), headers.getHeaders());
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {

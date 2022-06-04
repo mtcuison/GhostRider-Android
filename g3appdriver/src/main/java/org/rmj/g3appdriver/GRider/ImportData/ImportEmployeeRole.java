@@ -40,6 +40,7 @@ public class ImportEmployeeRole {
         private final REmployeeRole poRole;
         private final HttpHeaders poHeaders;
         private final ConnectionUtil poConn;
+        private final AppConfigPreference loConfig;
         private final WebApi poApi;
         private final OnImportEmployeeRoleCallback callback;
 
@@ -47,7 +48,8 @@ public class ImportEmployeeRole {
             this.poRole = new REmployeeRole(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poConn = new ConnectionUtil(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.callback =  callback;
         }
 
@@ -62,7 +64,7 @@ public class ImportEmployeeRole {
         protected String doInBackground(String... strings) {
             String lsResult;
             try{
-                lsResult = WebClient.httpsPostJSon(poApi.getRequestUserAccess(), new JSONObject().toString(), poHeaders.getHeaders());
+                lsResult = WebClient.httpsPostJSon(poApi.getRequestUserAccess(loConfig.isBackUpServer()), new JSONObject().toString(), poHeaders.getHeaders());
                 if (lsResult == null) {
                     lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response while downloading authorize features.");
                 } else {

@@ -411,12 +411,14 @@ public class VMDBExplorer extends AndroidViewModel {
         private final List<DCPData> poDcp;
         private final UserInfo poUser;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public PostCollectionTask(List<DCPData> foDcp, UserInfo foUser, OnPostCollectionListener listener) {
             this.poDcp = foDcp;
             this.poUser = foUser;
             this.mListener = listener;
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override
@@ -522,7 +524,7 @@ public class VMDBExplorer extends AndroidViewModel {
 //                        loJson.put("sUserIDxx", poUser.UserID);
                         loJson.put("sDeviceID", "355d1cbe24df1e1d");
 //                        params[x] = loJson.toString() + " \n";
-                        String lsResponse1 = WebClient.sendRequest(poApi.getUrlDcpSubmit(), loJson.toString(), HttpHeaders.getInstance(instance).getHeaders());
+                        String lsResponse1 = WebClient.sendRequest(poApi.getUrlDcpSubmit(loConfig.isBackUpServer()), loJson.toString(), HttpHeaders.getInstance(instance).getHeaders());
                         if (lsResponse1 == null) {
                             reason[x] = "Server no response \n";
                             isDataSent[x] = false;
@@ -556,7 +558,7 @@ public class VMDBExplorer extends AndroidViewModel {
                         if (allDataSent) {
                             JSONObject loparam = new JSONObject();
                             loparam.put("sTransNox", poDcp.get(0).sTransNox);
-                            String lsResponse2 = WebClient.sendRequest(poApi.getUrlPostDcpMaster(), loparam.toString(), HttpHeaders.getInstance(instance).getHeaders());
+                            String lsResponse2 = WebClient.sendRequest(poApi.getUrlPostDcpMaster(loConfig.isBackUpServer()), loparam.toString(), HttpHeaders.getInstance(instance).getHeaders());
                             if (lsResponse2 == null) {
 //                                lsResult = AppConstants.LOCAL_EXCEPTION_ERROR("Server no response on posting DCP master detail. Tap 'Okay' to create dcp file for backup");
                             } else {

@@ -77,6 +77,7 @@ public class VMInventory extends AndroidViewModel {
         return psBranchCd;
     }
 
+
     public LiveData<String> getBranchName(String BranchCd){
         return poBranch.getBranchName(BranchCd);
     }
@@ -118,6 +119,7 @@ public class VMInventory extends AndroidViewModel {
         private final RInventoryMaster poMaster;
         private final WebApi poApi;
         private final OnRequestInventoryCallback poCallback;
+        private final AppConfigPreference loConfig;
 
         public RequestInventoryTask(Application instance, OnRequestInventoryCallback poCallback) {
             this.instance = instance;
@@ -126,7 +128,8 @@ public class VMInventory extends AndroidViewModel {
             this.poDetail = new RInventoryDetail(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.poMaster = new RInventoryMaster(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override
@@ -144,8 +147,14 @@ public class VMInventory extends AndroidViewModel {
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
                     JSONObject loJson = new JSONObject();
-                    loJson.put("branchcd", strings[0]);
-                    lsResult = WebClient.httpsPostJSon(poApi.getUrlRequestRandomStockInventory(), loJson.toString(), poHeaders.getHeaders());
+                    if(strings[0] == null){
+                        loJson.put("branchcd", poDetail.GetLatestBranchCode());
+                    } else if(strings[0].isEmpty()){
+                        loJson.put("branchcd", poDetail.GetLatestBranchCode());
+                    } else {
+                        loJson.put("branchcd", strings[0]);
+                    }
+                    lsResult = WebClient.httpsPostJSon(poApi.getUrlRequestRandomStockInventory(loConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     } else {
@@ -216,7 +225,8 @@ public class VMInventory extends AndroidViewModel {
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     String lsMessage = loError.getString("message");
-                    if(lsMessage.equalsIgnoreCase("No record found.")){
+                    if(lsMessage.equalsIgnoreCase("No record found.") ||
+                            lsMessage.equalsIgnoreCase("No stocks to count.")){
                         poCallback.OnNoStockRetrieve("No inventory items available.");
                     } else {
                         poCallback.OnFaileResult(loError.getString("message"));
@@ -240,6 +250,7 @@ public class VMInventory extends AndroidViewModel {
         private final RInventoryMaster poMaster;
         private final String Remarksx;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
         private final OnRequestInventoryCallback callback;
 
         public PostInventoryTask(Application instance, String Remarks, OnRequestInventoryCallback callback){
@@ -247,7 +258,8 @@ public class VMInventory extends AndroidViewModel {
             this.poHeaders = HttpHeaders.getInstance(instance);
             this.Remarksx = Remarks;
             this.callback = callback;
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.poDetail = new RInventoryDetail(instance);
             this.poMaster = new RInventoryMaster(instance);
         }
@@ -291,8 +303,7 @@ public class VMInventory extends AndroidViewModel {
                         }
                         master.put("master", joMaster);
                         master.put("detail", jaDetail);
-                        String response = WebClient.httpsPostJSon(poApi.getUrlSubmitRandomStockInventory(), master.toString(), poHeaders.getHeaders());
-//                        String response = AppConstants.APPROVAL_CODE_GENERATED("sample");
+                        String response = WebClient.httpsPostJSon(poApi.getUrlSubmitRandomStockInventory(loConfig.isBackUpServer()), master.toString(), poHeaders.getHeaders());
                         if(response == null){
                             lsResult = AppConstants.SERVER_NO_RESPONSE();
                         } else {

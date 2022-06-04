@@ -11,6 +11,12 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,12 +25,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -136,6 +136,11 @@ public class Activity_Employee_Applications extends AppCompatActivity implements
         } else if(item.getItemId() == R.id.action_menu_search_ob){
             loIntent = new Intent(Activity_Employee_Applications.this, Activity_Application.class);
             loIntent.putExtra("app", AppConstants.INTENT_OB_APPROVAL);
+            loIntent.putExtra("sTransNox", "");
+            startActivity(loIntent);
+        } else {
+            loIntent = new Intent(Activity_Employee_Applications.this, Activity_Application.class);
+            loIntent.putExtra("app", AppConstants.INTENT_APPROVAL_HISTORY);
             loIntent.putExtra("sTransNox", "");
             startActivity(loIntent);
         }

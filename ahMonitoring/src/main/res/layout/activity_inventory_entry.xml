@@ -75,10 +75,19 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:padding="10dp"
-                    android:text=""
+                    android:text="Descript"
                     android:textColor="@color/material_black"
                     android:textSize="20sp" />
 
+                <TextView
+                    android:id="@+id/lbl_itemBarcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:padding="10dp"
+                    android:text="Barcode"
+                    android:textColor="@color/material_black"
+                    android:textSize="20sp" />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -263,6 +272,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:visibility="gone"
                                 android:hint="Quantity On Hand"
                                 android:weightSum="1">
 
@@ -285,7 +295,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Actual Quantity"
+                                android:hint="Quantity"
                                 android:weightSum="1">
 
                                 <com.google.android.material.textfield.TextInputEditText
@@ -313,6 +323,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
+                                android:digits="@string/free_text_restriction"
                                 android:autofillHints="Business trip destination and purpose."
                                 android:inputType="textMultiLine"
                                 android:lines="3"

@@ -43,6 +43,8 @@ public class EEmployeeInfo {
     private String PositnID;
     @ColumnInfo(name = "sEmpLevID")
     private String EmpLevID;
+    @ColumnInfo(name = "cSlfieLog")
+    private String SlfieLog;
     @ColumnInfo(name = "cAllowUpd")
     private String AllowUpd;
     @ColumnInfo(name = "dLoginxxx")
@@ -215,5 +217,13 @@ public class EEmployeeInfo {
 
     public void setModelIDx(String modelIDx) {
         ModelIDx = modelIDx;
+    }
+
+    public String getSlfieLog() {
+        return SlfieLog;
+    }
+
+    public void setSlfieLog(String slfieLog) {
+        SlfieLog = slfieLog;
     }
 }

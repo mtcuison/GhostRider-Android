@@ -53,6 +53,8 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
     private TextInputLayout tilPrvnlRcpt;
     private TextInputLayout tilCllctRcpt;
 
+    private boolean isTapSubmit = false;
+
     private TextInputEditText txtCurr_DateTime,
             txtRequestID,
             txtOfficialReceipt,
@@ -75,6 +77,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
 
     private String BranchCd = "";
     private String EmployID = ""; //EmployeeID of requesting employee
+    private boolean cIsMobile = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
                 lblBranch.setText(eBranchInfo.getBranchNm());
                 lblAddxx.setText(eBranchInfo.getAddressx());
                 BranchCd = eBranchInfo.getBranchCd();
+                cIsMobile = BranchCd.startsWith("C");
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -110,11 +114,19 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
             }
         });
         btnSendToServer.setOnClickListener(v->{
+            if (isTapSubmit) {
+                return;
+            }
+            this.isTapSubmit = true;
             JSONObject parameters = getParameters();
             try{
+                double lnPetty = 0.0;
+                if(!txtPettyCashxxx.getText().toString().trim().isEmpty()){
+                    lnPetty = Double.parseDouble(Objects.requireNonNull(txtPettyCashxxx.getText()).toString().replace(",", ""));
+                }
                 parameters.put("sTransNox", Objects.requireNonNull(txtTransNox.getText()).toString());
                 parameters.put("sBranchCd", BranchCd);
-                parameters.put("nPettyAmt", Objects.requireNonNull(txtPettyCashxxx.getText()).toString().replace(",", ""));
+                parameters.put("nPettyAmt", lnPetty);
                 parameters.put("sORNoxxxx", Objects.requireNonNull(txtOfficialReceipt.getText()).toString());
                 parameters.put("sSINoxxxx", Objects.requireNonNull(txtSalesInvoice.getText()).toString());
                 parameters.put("sPRNoxxxx", Objects.requireNonNull(txtProvisionalReceipt.getText()).toString());
@@ -244,6 +256,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
 
     @Override
     public void onSuccessSaveCashCount() {
+        isTapSubmit = false;
         poMessage.initDialog();
         poMessage.setTitle("Cast Count");
         poMessage.setMessage("Cash count has been saved successfully.");
@@ -257,6 +270,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
     @Override
     public void onSaveCashCountFailed(String message) {
         initDialog("Cash Count",message);
+        isTapSubmit = false;
 //        checkEmployeeLevelForInventory();
     }
 
@@ -274,7 +288,7 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
     }
 
     private void checkEmployeeLevelForInventory(){
-        if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
+        if(!cIsMobile && mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
             mViewModel.CheckConnectivity(isDeviceConnected -> {
                 if (!isDeviceConnected) {
                     Activity_CashCounter.getInstance().finish();

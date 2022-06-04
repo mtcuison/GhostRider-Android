@@ -77,7 +77,7 @@
                 android:id="@+id/lbl_userBranch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="LGK Pozorrubio - Honda"
+                android:text="Local data is not sync"
                 android:scrollHorizontally="false"
                 android:fontFamily="@font/roboto_light"
                 android:textColor="@color/white"

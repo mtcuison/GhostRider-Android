@@ -322,7 +322,7 @@ public class VMPaidTransaction extends AndroidViewModel {
                         loJson.put("sUserIDxx", poUser.getUserID());
                         loJson.put("sDeviceID", poDevID.getDeviceID());
                         Log.e(TAG, loJson.toString());
-                        lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(), loJson.toString(), poHeaders.getHeaders());
+                        lsResponse = WebClient.sendRequest(poApi.getUrlDcpSubmit(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
 
                         if(lsResponse == null){
                             lsResponse = AppConstants.SERVER_NO_RESPONSE();

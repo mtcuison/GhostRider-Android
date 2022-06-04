@@ -34,6 +34,13 @@ public class AdditionalInfoModel {
 
     public String getMessage() { return message; }
 
+    public boolean isBrgyRecordValid(){
+        return isHasRecord() &&
+                isPersonnel() &&
+                isPosition() &&
+                isMobileNo();
+    }
+
     public boolean isValidEvaluation(){
         return isHasRecord() &&
                 isPersonnel() &&

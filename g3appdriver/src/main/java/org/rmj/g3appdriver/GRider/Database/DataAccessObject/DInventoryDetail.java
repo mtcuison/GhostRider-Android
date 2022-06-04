@@ -48,5 +48,6 @@ public interface DInventoryDetail {
     @Query("SELECT COUNT(*) FROM Inventory_Count_Detail WHERE sTransNox=:TransNox AND cTranStat = '1'")
     Integer checkForUnpostedInventoryDetail(String TransNox);
 
-
+    @Query("SELECT sBranchCD FROM Employee_Log_Selfie ORDER BY dLogTimex DESC LIMIT 1")
+    String GetLatestBranchCode();
 }

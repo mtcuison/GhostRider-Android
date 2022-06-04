@@ -114,7 +114,7 @@ public class UploadCreditApp {
                     JSONObject params = new JSONObject(poInfo.getDetlInfo());
                     params.put("dCreatedx", poInfo.getCreatedx());
 
-                    String lsResponse = WebClient.sendRequest(poApi.getUrlSubmitOnlineApplication(), params.toString(), poHeaders.getHeaders());
+                    String lsResponse = WebClient.sendRequest(poApi.getUrlSubmitOnlineApplication(poConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
                     if(lsResponse != null) {
                         JSONObject loResponse = new JSONObject(lsResponse);
 

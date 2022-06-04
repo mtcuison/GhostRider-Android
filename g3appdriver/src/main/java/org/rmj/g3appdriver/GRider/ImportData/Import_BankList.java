@@ -62,12 +62,14 @@ public class Import_BankList implements ImportInstance{
         private final ConnectionUtil conn;
         private final RBankInfo poBank;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public ImportBankListTask(Application instance, ImportDataCallback callback){
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poBank = new RBankInfo(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.callback = callback;
         }
 
@@ -78,7 +80,7 @@ public class Import_BankList implements ImportInstance{
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poApi.getUrlDownloadBankInfo(), jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlDownloadBankInfo(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     String lsResult = loJson.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {

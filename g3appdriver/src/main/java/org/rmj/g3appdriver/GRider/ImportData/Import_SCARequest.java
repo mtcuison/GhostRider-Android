@@ -58,13 +58,15 @@ public class Import_SCARequest implements ImportInstance{
         private final ConnectionUtil loConnectx;
         private final HttpHeaders loHeaders;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
         private final ImportDataCallback callback;
 
         public ImportDataTask(Application instance, ImportDataCallback callback) {
             this.db = new RApprovalCode(instance);
             this.loConnectx = new ConnectionUtil(instance);
             this.loHeaders = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.callback = callback;
         }
 
@@ -74,7 +76,7 @@ public class Import_SCARequest implements ImportInstance{
             String response = "";
             try {
                 if (loConnectx.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poApi.getUrlScaRequest(), jsonObjects[0].toString(), loHeaders.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlScaRequest(loConfig.isBackUpServer()), jsonObjects[0].toString(), loHeaders.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

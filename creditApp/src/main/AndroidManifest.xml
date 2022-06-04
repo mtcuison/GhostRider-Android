@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.rmj.guanzongroup.onlinecreditapplication">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application>
-        <activity android:name=".Activity.Activity_CreditAppHome"></activity>
+        <activity android:name=".Activity.Activity_CreditAppHome"/>
         <activity
             android:name=".Activity.Activity_PendingLoanApplications"
             android:label="Credit Online Application"

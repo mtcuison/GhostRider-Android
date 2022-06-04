@@ -62,13 +62,15 @@ public class VMGetOfflinePin extends AndroidViewModel {
         private final HttpHeaders header;
         private final LoadDialog dialog;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
         private final ViewModelCallBack callBack;
 
         public GetOfflinePINTask(Application instance, ViewModelCallBack callBack) {
             this.conn = new ConnectionUtil(instance);
             this.header = HttpHeaders.getInstance(instance);
             this.dialog = new LoadDialog(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.callBack = callBack;
         }
 
@@ -91,7 +93,7 @@ public class VMGetOfflinePin extends AndroidViewModel {
                     loParam.put("request", AppConstants.OFFLINE_PIN_REQUEST);
                     loParam.put("param", loJSon.toString());
                     Log.e(TAG, loParam.toString());
-                    response = WebClient.sendRequest(poApi.getUrlKnox(), loParam.toString(), header.getHeaders());
+                    response = WebClient.sendRequest(poApi.getUrlKnox(loConfig.isBackUpServer()), loParam.toString(), header.getHeaders());
                 } else {
                     response = AppConstants.NO_INTERNET();
                 }

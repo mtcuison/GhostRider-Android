@@ -252,6 +252,7 @@ public class Activity_Evaluation extends AppCompatActivity implements VMEvaluati
 //                mViewModel.saveAdditionalInfo(infoModel,"Record", Activity_Evaluation.this);
 //
 //            });
+
             btnSave.setOnClickListener(v ->  {
                if(!infoModel.isValidEvaluation()){
                    errorMessage(infoModel.getMessage());

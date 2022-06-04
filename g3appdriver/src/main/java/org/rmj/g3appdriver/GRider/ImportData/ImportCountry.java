@@ -73,10 +73,12 @@ public class ImportCountry implements ImportInstance {
         private final HttpHeaders headers;
         private final ImportDataCallback callback;
         private final RCountry poCountryRp;
+        private final AppConfigPreference loConfig;
 
         public ImportDataTask(Application instance, ImportDataCallback callback) {
             this.conn = new ConnectionUtil(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.headers = HttpHeaders.getInstance(instance);
             this.callback = callback;
             this.poCountryRp = new RCountry(instance);
@@ -88,7 +90,7 @@ public class ImportCountry implements ImportInstance {
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poApi.getUrlImportCountry(), jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportCountry(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

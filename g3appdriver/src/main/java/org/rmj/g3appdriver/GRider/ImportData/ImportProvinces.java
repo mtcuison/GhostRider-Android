@@ -75,13 +75,15 @@ public class ImportProvinces implements ImportInstance{
         private final RProvince repository;
         private final ConnectionUtil conn;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public ImportProvinceTask(Application instance, ImportDataCallback callback) {
             this.callback = callback;
             this.headers = HttpHeaders.getInstance(instance);
             this.repository = new RProvince(instance);
             this.conn = new ConnectionUtil(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -90,7 +92,7 @@ public class ImportProvinces implements ImportInstance{
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poApi.getUrlImportProvince(), jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportProvince(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(response);
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

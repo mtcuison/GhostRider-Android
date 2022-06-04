@@ -68,13 +68,15 @@ public class ImportMcModelPrice implements ImportInstance{
         private final RMcModelPrice repository;
         private final ConnectionUtil conn;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public ImportMcModelPriceTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
             this.headers = HttpHeaders.getInstance(instance);
             this.repository = new RMcModelPrice(instance);
             this.conn = new ConnectionUtil(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -83,7 +85,7 @@ public class ImportMcModelPrice implements ImportInstance{
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poApi.getUrlImportMcModelPrice(), jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poApi.getUrlImportMcModelPrice(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

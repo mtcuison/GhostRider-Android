@@ -70,6 +70,7 @@ public class Import_BranchPerformance implements ImportInstance {
         private final ConnectionUtil loConn;
         private final REmployee poUser;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public ImportBranchTask(Application instance, ImportDataCallback callback) {
             this.callback = callback;
@@ -77,7 +78,8 @@ public class Import_BranchPerformance implements ImportInstance {
             this.loConn = new ConnectionUtil(instance);
             this.loHeaders = HttpHeaders.getInstance(instance);
             this.poUser = new REmployee(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
@@ -90,7 +92,7 @@ public class Import_BranchPerformance implements ImportInstance {
                             JSONObject loJSon = new JSONObject();
                             loJSon.put("period", strings[0].get(x));
                             loJSon.put("areacd", poUser.getUserAreaCode());
-                            response = WebClient.httpsPostJSon(poApi.getImportBranchPerformance(), loJSon.toString(), loHeaders.getHeaders());
+                            response = WebClient.httpsPostJSon(poApi.getImportBranchPerformance(loConfig.isBackUpServer()), loJSon.toString(), loHeaders.getHeaders());
                             if(response == null){
                                 response = AppConstants.SERVER_NO_RESPONSE();
                             } else {

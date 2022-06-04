@@ -108,11 +108,13 @@ public class VMBranchApplications extends AndroidViewModel {
         private final OnImportCallBack callback;
         private final List<ECreditApplication> eCreditApplications;
         private final RCreditApplication rCreditApps;
+        private final AppConfigPreference loConfig;
         public ImportBranchApplications(Application instance,  OnImportCallBack callback) {
             this.headers = HttpHeaders.getInstance(instance);
             this.brnRepo = new RBranchLoanApplication(instance);
             this.conn = new ConnectionUtil(instance);
-            this.webApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.webApi = new WebApi(loConfig.getTestStatus());
             this.callback = callback;
             this.rCreditApps = new RCreditApplication(instance);
             this.eCreditApplications = rCreditApps.getAllCreditOnlineApplication().getValue();
@@ -130,7 +132,7 @@ public class VMBranchApplications extends AndroidViewModel {
             String response = "";
             try{
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.sendRequest(webApi.getUrlBranchLoanApp(), strings[0].toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(webApi.getUrlBranchLoanApp(loConfig.isBackUpServer()), strings[0].toString(), headers.getHeaders());
                     JSONObject jsonResponse = new JSONObject(response);
                     String lsResult = jsonResponse.getString("result");
                     if (lsResult.equalsIgnoreCase("success")) {

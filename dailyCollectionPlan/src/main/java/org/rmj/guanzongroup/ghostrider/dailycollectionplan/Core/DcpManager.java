@@ -15,14 +15,11 @@ import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
 import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RClientUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.GRider.Http.WebClient;
@@ -114,7 +111,7 @@ public class DcpManager {
                 loJson.put("dTransact", lsReferDte);
                 loJson.put("cDCPTypex", "1");
 
-                String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadDcp(), loJson.toString(), poHeaders.getHeaders());
+                String lsResponse = WebClient.sendRequest(poApis.getUrlDownloadDcp(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
                 if(lsResponse == null){
                     callback.OnSuccess("Server no response");
                 } else {
@@ -212,7 +209,7 @@ public class DcpManager {
                     }
                 }
 
-                String lsResponse = WebClient.sendRequest(poApis.getUrlGetRegClient(), loJson.toString(), poHeaders.getHeaders());
+                String lsResponse = WebClient.sendRequest(poApis.getUrlGetRegClient(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
                 if(lsResponse == null){
                     callback.OnFailed("Server no response");
                 } else {
@@ -330,10 +327,12 @@ public class DcpManager {
                     if(!poConfig.getTestStatus()) {
                         loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
-                        loData.put("sImageNme", loImage.getImageNme());
-                        loData.put("sSourceCD", loImage.getSourceCD());
-                        loData.put("nLongitud", loImage.getLongitud());
-                        loData.put("nLatitude", loImage.getLatitude());
+                        if(loImage != null) {
+                            loData.put("sImageNme", loImage.getImageNme());
+                            loData.put("sSourceCD", loImage.getSourceCD());
+                            loData.put("nLongitud", loImage.getLongitud());
+                            loData.put("nLatitude", loImage.getLatitude());
+                        }
                     }
                     break;
                 case "LUn":
@@ -359,12 +358,14 @@ public class DcpManager {
                     if(!poConfig.getTestStatus()) {
                         loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
-                        loData.put("sImageNme", loImage.getImageNme());
-                        loData.put("sSourceCD", loImage.getSourceCD());
-                        loData.put("nLongitud", loImage.getLongitud());
-                        loData.put("nLatitude", loImage.getLatitude());
-                        loJson.put("sRemCodex", loDcp.getRemCodex());
-                        loJson.put("dModified", loDcp.getModified());
+                        if(loImage != null) {
+                            loData.put("sImageNme", loImage.getImageNme());
+                            loData.put("sSourceCD", loImage.getSourceCD());
+                            loData.put("nLongitud", loImage.getLongitud());
+                            loData.put("nLatitude", loImage.getLatitude());
+                            loJson.put("sRemCodex", loDcp.getRemCodex());
+                            loJson.put("dModified", loDcp.getModified());
+                        }
                     }
                     break;
 
@@ -373,10 +374,13 @@ public class DcpManager {
                     JSONObject paramMobile = new JSONObject();
                     if(!poConfig.getTestStatus()) {
                         loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
-                        paramAddress.put("nLatitude", Double.parseDouble(loImage.getLatitude()));
-                        paramAddress.put("nLongitud", Double.parseDouble(loImage.getLongitud()));
-                        paramAddress.put("sImageNme", loImage.getImageNme());
-                        paramMobile.put("sImageNme", loImage.getImageNme());
+
+                        if(loImage != null) {
+                            paramAddress.put("nLatitude", Double.parseDouble(loImage.getLatitude()));
+                            paramAddress.put("nLongitud", Double.parseDouble(loImage.getLongitud()));
+                            paramAddress.put("sImageNme", loImage.getImageNme());
+                            paramMobile.put("sImageNme", loImage.getImageNme());
+                        }
                     } else {
                         paramAddress.put("nLatitude", 0.0);
                         paramAddress.put("nLongitud", 0.0);
@@ -415,10 +419,13 @@ public class DcpManager {
                     loJson.put("dModified", new AppConstants().DATE_MODIFIED);
                     if(!poConfig.getTestStatus()) {
                         loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
-                        loData.put("sImageNme", loImage.getImageNme());
-                        loData.put("sSourceCD", loImage.getSourceCD());
-                        loData.put("nLongitud", loImage.getLongitud());
-                        loData.put("nLatitude", loImage.getLatitude());
+
+                        if(loImage != null) {
+                            loData.put("sImageNme", loImage.getImageNme());
+                            loData.put("sSourceCD", loImage.getSourceCD());
+                            loData.put("nLongitud", loImage.getLongitud());
+                            loData.put("nLatitude", loImage.getLatitude());
+                        }
                     }
             }
 
@@ -431,7 +438,7 @@ public class DcpManager {
             loJson.put("sUserIDxx", poUser.getUserID());
             loJson.put("sDeviceID", poTlphny.getDeviceID());
 
-            String lsResponse = WebClient.sendRequest(poApis.getUrlDcpSubmit(), loJson.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.sendRequest(poApis.getUrlDcpSubmit(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
 
             if(lsResponse == null) {
                 Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
@@ -680,7 +687,7 @@ public class DcpManager {
                     loJson.put("sUserIDxx", poUser.getUserID());
                     loJson.put("sDeviceID", poTlphny.getDeviceID());
 
-                    String lsResponse = WebClient.sendRequest(poApis.getUrlDcpSubmit(), loJson.toString(), poHeaders.getHeaders());
+                    String lsResponse = WebClient.sendRequest(poApis.getUrlDcpSubmit(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
 
                     if(lsResponse == null) {
                         Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
@@ -755,7 +762,7 @@ public class DcpManager {
                     lsStatus == null){
                 JSONObject loJson = new JSONObject();
                 loJson.put("sTransNox", lsTransNox);
-                String lsResponse = WebClient.sendRequest(poApis.getUrlPostDcpMaster(), loJson.toString(), poHeaders.getHeaders());
+                String lsResponse = WebClient.sendRequest(poApis.getUrlPostDcpMaster(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
                 if (lsResponse == null) {
                     callback.OnFailed("Posting dcp master failed. Server no response");
                 } else {

@@ -173,6 +173,7 @@ public class GLocatorService extends Service {
         private final RDailyCollectionPlan poDcp;
         private final String DateTime;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         private boolean hasDcp = false;
 
@@ -185,7 +186,8 @@ public class GLocatorService extends Service {
             poHeaders = HttpHeaders.getInstance(instance);
             poDcp = new RDailyCollectionPlan(instance);
             this.DateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @SuppressLint("NewApi")
@@ -221,7 +223,7 @@ public class GLocatorService extends Service {
                         params.put("dTransact", loSysLog.getTransact());
                         params.put("nLatitude", loSysLog.getLatitude());
                         params.put("nLongitud", loSysLog.getLongitud());
-                        lsResult = WebClient.sendRequest(poApi.getUrlDcpLocationReport(), params.toString(), poHeaders.getHeaders());
+                        lsResult = WebClient.sendRequest(poApi.getUrlDcpLocationReport(loConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
                         if (lsResult == null) {
                             lsResult = AppConstants.SERVER_NO_RESPONSE();
                         } else {

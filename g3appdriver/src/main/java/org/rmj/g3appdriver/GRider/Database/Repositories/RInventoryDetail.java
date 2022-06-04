@@ -65,4 +65,10 @@ public class RInventoryDetail implements DInventoryDetail {
     public Integer checkForUnpostedInventoryDetail(String TransNox) {
         return poDao.checkForUnpostedInventoryDetail(TransNox);
     }
+
+    @Override
+    public String GetLatestBranchCode() {
+        return poDao.GetLatestBranchCode();
+    }
+
 }

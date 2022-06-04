@@ -97,13 +97,15 @@ public class VMObApproval extends AndroidViewModel {
         private final HttpHeaders poHeaders;
         private final String TransNox;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
         private final OnDownloadBusinessTripCallback callback;
 
         public DownloadBusinessTripTask(Application instance, String TransNox, OnDownloadBusinessTripCallback callback) {
             this.poBusTrip = new REmployeeBusinessTrip(instance);
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.TransNox = TransNox;
             this.callback = callback;
         }
@@ -124,7 +126,7 @@ public class VMObApproval extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()){
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    lsResult = WebClient.httpsPostJSon(poApi.getUrlGetObApplication(), params.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.httpsPostJSon(poApi.getUrlGetObApplication(loConfig.isBackUpServer()), params.toString(), poHeaders.getHeaders());
                     if (lsResult == null) {
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     } else {
@@ -191,12 +193,14 @@ public class VMObApproval extends AndroidViewModel {
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
         private final OnConfirmApplicationCallback callback;
 
         public ConfirmApplicationTask(Application instance, OnConfirmApplicationCallback callback){
             this.poConn = new ConnectionUtil(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
             this.callback = callback;
             this.poBusTrip = new REmployeeBusinessTrip(instance);
         }
@@ -223,7 +227,7 @@ public class VMObApproval extends AndroidViewModel {
                     param.put("sApproved", loApp.getApproved());
                     param.put("dApproved", loApp.getDateAppv());
                     param.put("cTranStat", loApp.getTranStat());
-                    lsResult = WebClient.httpsPostJSon(poApi.getUrlConfirmObApplication(), param.toString(), poHeaders.getHeaders());
+                    lsResult = WebClient.httpsPostJSon(poApi.getUrlConfirmObApplication(loConfig.isBackUpServer()), param.toString(), poHeaders.getHeaders());
                     if (lsResult != null) {
                         JSONObject jsonResponse = new JSONObject(lsResult);
                         String result = jsonResponse.getString("result");

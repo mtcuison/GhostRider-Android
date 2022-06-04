@@ -50,6 +50,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
     private final ConnectionUtil poConn;
     private final HttpHeaders poHeaders;
     private final WebApi poApi;
+    private final AppConfigPreference loConfig;
 
     private String dTransact;
     private double nTotRCash = 0;
@@ -81,7 +82,8 @@ public class VMCollectionRemittance extends AndroidViewModel {
         this.poConn = new ConnectionUtil(application);
         this.poHeaders = HttpHeaders.getInstance(application);
         this.poRemittance = new RRemittanceAccount(application);
-        this.poApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
+        this.loConfig = AppConfigPreference.getInstance(application);
+        this.poApi = new WebApi(loConfig.getTestStatus());
     }
     public void setCltCashx(String psCltCashx) {
         this.psCltCashx = psCltCashx;
@@ -238,7 +240,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
                     param.put("cPaymType", loRemit.getPaymForm());
                     param.put("nAmountxx", Double.parseDouble(loRemit.getAmountxx()));
 
-                    String lsResponse = WebClient.sendRequest(poApi.getUrlDcpRemittance(), param.toString(), poHeaders.getHeaders());
+                    String lsResponse = WebClient.sendRequest(poApi.getUrlDcpRemittance(loConfig.isBackUpServer()), param.toString(), poHeaders.getHeaders());
                     JSONObject loJson;
                     if (lsResponse != null) {
                         loJson = new JSONObject(lsResponse);
@@ -304,7 +306,7 @@ public class VMCollectionRemittance extends AndroidViewModel {
                         JSONObject param = new JSONObject();
                         param.put("bsearch", true);
                         param.put("descript", "all");
-                        String lsResponse = WebClient.sendRequest(poApi.getUrlBranchRemittanceAcc(), param.toString(), poHeaders.getHeaders());
+                        String lsResponse = WebClient.sendRequest(poApi.getUrlBranchRemittanceAcc(loConfig.isBackUpServer()), param.toString(), poHeaders.getHeaders());
                         JSONObject loResult = new JSONObject(lsResponse);
                         if(loResult.getString("result").equalsIgnoreCase("success")){
                             JSONArray loDetail = loResult.getJSONArray("detail");

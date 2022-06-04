@@ -27,13 +27,15 @@ public class GRiderErrorReport {
 
     private final HttpHeaders poHeaders;
     private final WebApi poApi;
+    private final AppConfigPreference loConfig;
 
     private String Message;
 
     public GRiderErrorReport(Application application) {
         this.instance = application;
         this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poApi = new WebApi(AppConfigPreference.getInstance(application).getTestStatus());
+        this.loConfig = AppConfigPreference.getInstance(instance);
+        this.poApi = new WebApi(loConfig.getTestStatus());
     }
 
     public String getMessage() {
@@ -68,7 +70,7 @@ public class GRiderErrorReport {
 
             JSONObject json_obj = null;
 
-            String response = WebClient.sendHTTP(poApi.getUrlSendRequest(), param.toString(), poHeaders.getHeaders());
+            String response = WebClient.sendHTTP(poApi.getUrlSendRequest(loConfig.isBackUpServer()), param.toString(), poHeaders.getHeaders());
             if(response == null) {
                 Message = "No server response";
                 return false;

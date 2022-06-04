@@ -19,7 +19,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
 
 import java.util.List;
@@ -64,4 +63,7 @@ public interface DEmployeeBusinessTrip {
 
     @Query("SELECT * FROM Employee_Business_Trip WHERE cSendStat <> '1'")
     List<EEmployeeBusinessTrip> getUnsentEmployeeOB();
+
+    @Query("SELECT * FROM Employee_Business_Trip WHERE cTranStat <> '0'")
+    LiveData<List<EEmployeeBusinessTrip>> GetApproveBusTrip();
 }

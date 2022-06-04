@@ -98,6 +98,7 @@ public class PerformanceImportService extends JobService {
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
         private final WebApi poApi;
+        private final AppConfigPreference loConfig;
 
         public DownloadAreaBranchesPerformanceTask(Application instance) {
             this.poArea = new RAreaPerformance(instance);
@@ -105,7 +106,8 @@ public class PerformanceImportService extends JobService {
             this.poConn = new ConnectionUtil(instance);
             this.poUser = new REmployee(instance);
             this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poApi = new WebApi(AppConfigPreference.getInstance(instance).getTestStatus());
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new WebApi(loConfig.getTestStatus());
         }
 
         @Override
@@ -125,7 +127,7 @@ public class PerformanceImportService extends JobService {
                             JSONObject loJSon = new JSONObject();
                             loJSon.put("period", lsPeriod.get(x));
                             loJSon.put("areacd", poUser.getUserAreaCode());
-                            response = WebClient.httpsPostJSon(poApi.getImportAreaPerformance(), loJSon.toString(), poHeaders.getHeaders());
+                            response = WebClient.httpsPostJSon(poApi.getImportAreaPerformance(loConfig.isBackUpServer()), loJSon.toString(), poHeaders.getHeaders());
                             JSONObject loJson = new JSONObject(response);
                             Log.e(TAG, loJson.getString("result"));
                             String lsResult = loJson.getString("result");
