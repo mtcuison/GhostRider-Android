@@ -14,6 +14,7 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -23,11 +24,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
@@ -66,6 +67,8 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
     private MaterialButton btnConfirm;
 
     private String psMonthAmt, psRBalance, psAmntDue;
+
+    private long mLastClickTime = 0;
 
     public static Fragment_PaidTransaction newInstance() {
         return new Fragment_PaidTransaction();
@@ -250,15 +253,21 @@ public class Fragment_PaidTransaction extends Fragment implements ViewModelCallb
         });
 
         btnConfirm.setOnClickListener(view -> {
-            infoModel.setRemarksCode(Remarksx);
-            infoModel.setPayment(String.valueOf(spnType.getSelectedItemPosition()));
-            infoModel.setPrNoxxx(Objects.requireNonNull(txtPrNoxx.getText()).toString());
-            infoModel.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
-            infoModel.setAmountx(Objects.requireNonNull(txtAmount.getText()).toString());
-            infoModel.setDscount(Objects.requireNonNull(txtDiscount.getText()).toString());
-            infoModel.setOthersx(Objects.requireNonNull(txtOthers.getText()).toString());
-            infoModel.setTotAmnt(Objects.requireNonNull(txtTotAmnt.getText()).toString());
-            mViewModel.savePaidInfo(infoModel, Fragment_PaidTransaction.this);
+            long time = SystemClock.elapsedRealtime() - mLastClickTime;
+            if(time < 5000){
+                Toast.makeText(requireContext(), "Please wait...", Toast.LENGTH_LONG).show();
+            } else {
+                mLastClickTime = SystemClock.elapsedRealtime();
+                infoModel.setRemarksCode(Remarksx);
+                infoModel.setPayment(String.valueOf(spnType.getSelectedItemPosition()));
+                infoModel.setPrNoxxx(Objects.requireNonNull(txtPrNoxx.getText()).toString());
+                infoModel.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
+                infoModel.setAmountx(Objects.requireNonNull(txtAmount.getText()).toString());
+                infoModel.setDscount(Objects.requireNonNull(txtDiscount.getText()).toString());
+                infoModel.setOthersx(Objects.requireNonNull(txtOthers.getText()).toString());
+                infoModel.setTotAmnt(Objects.requireNonNull(txtTotAmnt.getText()).toString());
+                mViewModel.savePaidInfo(infoModel, Fragment_PaidTransaction.this);
+            }
         });
     }
 

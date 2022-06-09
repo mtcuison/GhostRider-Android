@@ -13,9 +13,11 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,6 +51,8 @@ public class Activity_Inventory extends AppCompatActivity {
 
     private String BranchCde = "";
     private boolean cancelable = true;
+
+    private long mLastClickTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -262,47 +266,53 @@ public class Activity_Inventory extends AppCompatActivity {
             }
         }));
 
-        btnPost.setOnClickListener(v -> new DialogPostInventory(Activity_Inventory.this).initDialog(Remarks -> {
-            mViewModel.PostInventory(Transnox, Remarks, new VMInventory.OnRequestInventoryCallback() {
-                @Override
-                public void OnRequest(String title, String message) {
-                    poDialog.initDialog(title, message, false);
-                    poDialog.show();
-                }
+        btnPost.setOnClickListener(v -> {
+            long time = SystemClock.elapsedRealtime() - mLastClickTime;
+            if(time < 5000){
+                Toast.makeText(Activity_Inventory.this, "Please wait...", Toast.LENGTH_LONG).show();
+            } else {
+                mLastClickTime = SystemClock.elapsedRealtime();
+                new DialogPostInventory(Activity_Inventory.this).initDialog(Remarks -> mViewModel.PostInventory(Transnox, Remarks, new VMInventory.OnRequestInventoryCallback() {
+                    @Override
+                    public void OnRequest(String title, String message) {
+                        poDialog.initDialog(title, message, false);
+                        poDialog.show();
+                    }
 
-                @Override
-                public void OnSuccessResult(String message) {
-                    poDialog.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Random Stock Inventory");
-                    poMessage.setMessage(message);
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                        dialog.dismiss();
-                        finish();
-                    });
-                    poMessage.show();
-                }
+                    @Override
+                    public void OnSuccessResult(String message) {
+                        poDialog.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Random Stock Inventory");
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                            dialog.dismiss();
+                            finish();
+                        });
+                        poMessage.show();
+                    }
 
-                @Override
-                public void OnNoStockRetrieve(String message) {
-                    poDialog.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Random Stock Inventory");
-                    poMessage.setMessage(message);
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                        dialog.dismiss();
-                        finish();
-                    });
-                    poMessage.show();
-                }
+                    @Override
+                    public void OnNoStockRetrieve(String message) {
+                        poDialog.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Random Stock Inventory");
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                            dialog.dismiss();
+                            finish();
+                        });
+                        poMessage.show();
+                    }
 
-                @Override
-                public void OnFaileResult(String message) {
-                    poDialog.dismiss();
-                    showPostingMessage(message);
-                }
-            });
-        }));
+                    @Override
+                    public void OnFaileResult(String message) {
+                        poDialog.dismiss();
+                        showPostingMessage(message);
+                    }
+                }));
+            };
+        });
     }
 
     @Override

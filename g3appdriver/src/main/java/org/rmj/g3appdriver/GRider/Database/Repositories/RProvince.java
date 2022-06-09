@@ -12,14 +12,13 @@
 package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DProvinceInfo;
 import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 
 import java.util.List;
 
@@ -35,10 +34,6 @@ public class RProvince {
         provinceDao = GGCGriderDB.ProvinceDao();
         allProvinceInfo = provinceDao.getAllProvinceInfo();
         allProvinceNames = provinceDao.getAllProvinceNames();
-    }
-
-    public void insert(EProvinceInfo provinceInfo){
-        new InsertToProvince(provinceDao).execute(provinceInfo);
     }
 
     public void insertBulkInfo(List<EProvinceInfo> provinceInfoList){
@@ -57,21 +52,14 @@ public class RProvince {
         return allProvinceNames;
     }
 
-        public LiveData<String> getProvinceNameFromProvID(String provID) {
-            return provinceDao.getProvinceNameFromProvID(provID);
-        }
+    public LiveData<String> getProvinceNameFromProvID(String provID) {
+        return provinceDao.getProvinceNameFromProvID(provID);
+    }
 
-        public static class InsertToProvince extends AsyncTask<EProvinceInfo, Void, Void> {
-            private DProvinceInfo provinceInfo;
-
-        public InsertToProvince(DProvinceInfo provinceInfo) {
-            this.provinceInfo = provinceInfo;
-        }
-
-        @Override
-        protected Void doInBackground(EProvinceInfo... EProvinceInfos) {
-            provinceInfo.insert(EProvinceInfos[0]);
-            return null;
-        }
+    public Integer GetProvinceRecordsCount(){
+        return provinceDao.GetProvinceRecordsCount();
+    }
+    public EProvinceInfo CheckIfExist(String fsVal){
+        return provinceDao.CheckIfExist(fsVal);
     }
 }

@@ -56,4 +56,11 @@ public class ROccupation {
     public LiveData<String> getLiveOccupationName(String ID) {
         return OccupationDao.getLiveOccupationName(ID);
     }
+
+    public Integer GetOccupationRecordsCount(){
+        return OccupationDao.GetOccupationRecordsCount();
+    }
+    public EOccupationInfo CheckIfExist(String fsVal){
+        return OccupationDao.CheckIfExist(fsVal);
+    }
 }

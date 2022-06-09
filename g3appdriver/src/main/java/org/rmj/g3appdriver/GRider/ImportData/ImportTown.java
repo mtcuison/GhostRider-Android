@@ -85,17 +85,21 @@ public class ImportTown implements ImportInstance{
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";
             try {
-                if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poApi.getUrlImportTown(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
-                    JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
-                    Log.e(TAG, loJson.getString("result"));
-                    String lsResult = loJson.getString("result");
-                    if(lsResult.equalsIgnoreCase("success")){
-                        JSONArray laJson = loJson.getJSONArray("detail");
-                        repository.saveTownInfo(laJson);
+                if(repository.GetTownRecordsCount() == 0) {
+                    if (conn.isDeviceConnected()) {
+                        response = WebClient.httpsPostJSon(poApi.getUrlImportTown(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
+                        JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
+                        Log.e(TAG, loJson.getString("result"));
+                        String lsResult = loJson.getString("result");
+                        if (lsResult.equalsIgnoreCase("success")) {
+                            JSONArray laJson = loJson.getJSONArray("detail");
+                            repository.saveTownInfo(laJson);
+                        }
+                    } else {
+                        response = AppConstants.NO_INTERNET();
                     }
                 } else {
-                    response = AppConstants.NO_INTERNET();
+                    response = AppConstants.LOCAL_EXCEPTION_ERROR("Records exists.");
                 }
 
             } catch (Exception e) {

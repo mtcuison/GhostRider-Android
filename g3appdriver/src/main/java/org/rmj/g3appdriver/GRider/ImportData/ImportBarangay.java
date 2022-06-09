@@ -87,17 +87,21 @@ public class ImportBarangay implements ImportInstance{
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";
             try {
-                if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poApi.getUrlImportBarangay(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
-                    JSONObject loJson = new JSONObject(response);
-                    Log.e(TAG, loJson.getString("result"));
-                    String lsResult = loJson.getString("result");
-                    if(lsResult.equalsIgnoreCase("success")){
-                        JSONArray laJson = loJson.getJSONArray("detail");
-                        saveDataToLocal(laJson);
+                if(repository.GetBarangayRecordCount() == 0) {
+                    if (conn.isDeviceConnected()) {
+                        response = WebClient.httpsPostJSon(poApi.getUrlImportBarangay(loConfig.isBackUpServer()), jsonObjects[0].toString(), headers.getHeaders());
+                        JSONObject loJson = new JSONObject(response);
+                        Log.e(TAG, loJson.getString("result"));
+                        String lsResult = loJson.getString("result");
+                        if (lsResult.equalsIgnoreCase("success")) {
+                            JSONArray laJson = loJson.getJSONArray("detail");
+                            saveDataToLocal(laJson);
+                        }
+                    } else {
+                        response = AppConstants.NO_INTERNET();
                     }
                 } else {
-                    response = AppConstants.NO_INTERNET();
+                    response = AppConstants.LOCAL_EXCEPTION_ERROR("Records exists.");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -132,15 +136,17 @@ public class ImportBarangay implements ImportInstance{
             List<EBarangayInfo> barangayInfos = new ArrayList<>();
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = laJson.getJSONObject(x);
-                EBarangayInfo info = new EBarangayInfo();
-                info.setBrgyIDxx(loJson.getString("sBrgyIDxx"));
-                info.setBrgyName(loJson.getString("sBrgyName"));
-                info.setTownIDxx(loJson.getString("sTownIDxx"));
-                info.setHasRoute(loJson.getString("cHasRoute"));
-                info.setBlackLst(loJson.getString("cBlackLst"));
-                info.setRecdStat(loJson.getString("cRecdStat"));
-                info.setTimeStmp(loJson.getString("dTimeStmp"));
-                barangayInfos.add(info);
+                if(repository.CheckIfExist(loJson.getString("sBrgyIDxx")) == null) {
+                    EBarangayInfo info = new EBarangayInfo();
+                    info.setBrgyIDxx(loJson.getString("sBrgyIDxx"));
+                    info.setBrgyName(loJson.getString("sBrgyName"));
+                    info.setTownIDxx(loJson.getString("sTownIDxx"));
+                    info.setHasRoute(loJson.getString("cHasRoute"));
+                    info.setBlackLst(loJson.getString("cBlackLst"));
+                    info.setRecdStat(loJson.getString("cRecdStat"));
+                    info.setTimeStmp(loJson.getString("dTimeStmp"));
+                    barangayInfos.add(info);
+                }
             }
             repository.insertBulkData(barangayInfos);
         }

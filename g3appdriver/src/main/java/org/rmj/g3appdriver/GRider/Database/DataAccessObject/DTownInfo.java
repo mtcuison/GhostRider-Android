@@ -15,7 +15,6 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.RoomWarnings;
 import androidx.room.Update;
@@ -30,7 +29,7 @@ public interface DTownInfo {
     @Insert
     void insert(ETownInfo townInfo);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insertBulkData(List<ETownInfo> townInfoList);
 
     @Update
@@ -38,6 +37,12 @@ public interface DTownInfo {
 
     @Delete
     void delete(ETownInfo townInfo);
+
+    @Query("SELECT COUNT(*) FROM Town_Info")
+    Integer GetTownRecordsCount();
+
+    @Query("SELECT * FROM Town_Info WHERE sTownIDxx =:fsVal")
+    ETownInfo CheckIfExist(String fsVal);
 
     @Query("SELECT * FROM Town_Info")
     LiveData<List<ETownInfo>> getAllTownInfo();

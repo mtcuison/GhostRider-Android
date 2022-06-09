@@ -11,26 +11,28 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Fragment;
 
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.ViewModelProvider;
+import static android.app.Activity.RESULT_OK;
 
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -52,8 +54,6 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogBranchSelection
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLogin;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
-
-import static android.app.Activity.RESULT_OK;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +85,8 @@ public class Fragment_SelfieLogin extends Fragment {
 
     private List<EBranchInfo> paBranch = new ArrayList<>();
     private String psEmpLvl;
+
+    private long mLastClickTime = 0;
 
     public static Fragment_SelfieLogin newInstance() {
         return new Fragment_SelfieLogin();
@@ -310,13 +312,19 @@ public class Fragment_SelfieLogin extends Fragment {
 //                    });
 //                }
 //            } else {
-            mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
-                if (!isGranted) {
-                    mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
-                } else {
-                    initCamera();
-                }
-            });
+            long time = SystemClock.elapsedRealtime() - mLastClickTime;
+            if(time < 5000){
+                Toast.makeText(requireActivity(), "Please wait...", Toast.LENGTH_LONG).show();
+            } else {
+                mLastClickTime = SystemClock.elapsedRealtime();
+                mViewModel.isPermissionsGranted().observe(getViewLifecycleOwner(), isGranted -> {
+                    if (!isGranted) {
+                        mViewModel.getPermisions().observe(getViewLifecycleOwner(), strings -> ActivityCompat.requestPermissions(requireActivity(), strings, AppConstants.PERMISION_REQUEST_CODE));
+                    } else {
+                        initCamera();
+                    }
+                });
+            }
 //            }
         });
     }

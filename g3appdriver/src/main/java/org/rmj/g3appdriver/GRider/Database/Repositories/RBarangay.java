@@ -71,4 +71,11 @@ public class RBarangay {
     public String getLatestDataTime(){
         return barangayDao.getLatestDataTime();
     }
+
+    public Integer GetBarangayRecordCount(){
+        return barangayDao.GetBarangayRecordCount();
+    }
+    public EBarangayInfo CheckIfExist(String fsVal){
+        return barangayDao.CheckIfExist(fsVal);
+    }
 }
