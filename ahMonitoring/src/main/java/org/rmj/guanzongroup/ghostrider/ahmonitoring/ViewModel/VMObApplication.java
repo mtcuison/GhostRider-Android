@@ -13,11 +13,9 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
@@ -25,11 +23,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployeeBusinessTrip;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
@@ -106,7 +102,6 @@ public class VMObApplication extends AndroidViewModel {
             this.poApi = new WebApi(poConfig.getTestStatus());
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(Void... voids) {
             String lsResponse = "";
@@ -152,7 +147,7 @@ public class VMObApplication extends AndroidViewModel {
                         JSONObject jsonResponse = new JSONObject(lsResponse);
                         String lsResult = jsonResponse.getString("result");
                         if(lsResult.equalsIgnoreCase("success")){
-                            poOBLeave.updateOBSentStatus(loJson.getString("sTransNox"));
+                            poOBLeave.updateOBSentStatus(loJson.getString("sTransNox"), jsonResponse.getString("sTransNox"));
                         }
                         Log.e(TAG, lsResponse);
                     } else {

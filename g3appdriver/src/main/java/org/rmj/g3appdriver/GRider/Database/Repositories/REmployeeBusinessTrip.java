@@ -68,8 +68,8 @@ public class REmployeeBusinessTrip implements DEmployeeBusinessTrip {
     }
 
     @Override
-    public void updateOBSentStatus(String TransNox) {
-        employeeBusinessTripDao.updateOBSentStatus(TransNox);
+    public void updateOBSentStatus(String TransNox, String newTransNox) {
+        employeeBusinessTripDao.updateOBSentStatus(TransNox, newTransNox);
     }
 
     @Override

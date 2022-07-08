@@ -203,7 +203,7 @@ public class Fragment_ObApplication extends Fragment {
                     public void onSuccess() {
                         poProgress.dismiss();
                         loMessage.initDialog();
-                        loMessage.setPositiveButton("Okay", (v, dialog) ->{
+                        loMessage.setPositiveButton("Okay", (v, dialog) -> {
                             dialog.dismiss();
                             txtBranchDestination.setText("");
                             txtDateFrom.setText("");
