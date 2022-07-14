@@ -13,7 +13,6 @@ package org.rmj.g3appdriver.GRider.Database.Repositories;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -21,10 +20,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.SQLUtil;
-import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchInfo;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 
 import java.sql.ResultSet;
 import java.util.Date;
@@ -65,6 +64,13 @@ public class RBranch {
 
     public LiveData<List<EBranchInfo>> getAreaBranchList(){
         return branchInfoDao.getAreaBranchList();
+    }
+
+    public List<EBranchInfo> getBranchList(){
+        return branchInfoDao.getBranchList();
+    }
+    public List<EBranchInfo> getAreaBranchesList(){
+        return branchInfoDao.getAreaBranchesList();
     }
 
     @SuppressLint("NewApi")

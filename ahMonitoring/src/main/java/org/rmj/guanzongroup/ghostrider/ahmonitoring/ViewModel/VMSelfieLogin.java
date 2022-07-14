@@ -130,6 +130,57 @@ public class VMSelfieLogin extends AndroidViewModel {
         return pobranch.getAreaBranchList();
     }
 
+    public interface OnBranchCheckListener{
+        void OnCheck(List<EBranchInfo> area, List<EBranchInfo> all);
+        void OnFailed(String message);
+    }
+
+    public void CheckBranchList(OnBranchCheckListener listener){
+        new CheckBranchListTask(pobranch, listener).execute();
+    }
+
+    private static class CheckBranchListTask extends AsyncTask<String, Void, Boolean>{
+
+        private final RBranch poBranch;
+        private final OnBranchCheckListener mListener;
+
+        private List<EBranchInfo> area, all;
+        private String message;
+
+        public CheckBranchListTask(RBranch poBranch, OnBranchCheckListener mListener) {
+            this.poBranch = poBranch;
+            this.mListener = mListener;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try{
+                area = poBranch.getAreaBranchesList();
+                all = poBranch.getBranchList();
+                if(all.size() > 0){
+                    return true;
+                } else {
+                    message = "No branch list retrieve from local. Please sync device records";
+                    return false;
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+                mListener.OnCheck(area, all);
+            } else {
+                mListener.OnFailed(message);
+            }
+        }
+    }
+
     public void checkIfAlreadyLog(String BranchCde, OnBranchSelectedCallback callback){
         new OnBranchCheckTask(instance, callback).execute(BranchCde);
     }

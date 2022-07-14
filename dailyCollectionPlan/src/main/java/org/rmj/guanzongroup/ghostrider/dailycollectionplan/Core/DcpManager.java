@@ -326,7 +326,7 @@ public class DcpManager {
 
                     loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
-                    if(loImage != null) {
+                    if(loImage != null || loImage.getImageNme() != null) {
                         if(!poConfig.getTestStatus()) {
                         loData.put("sImageNme", loImage.getImageNme());
                         loData.put("sSourceCD", loImage.getSourceCD());
@@ -357,7 +357,7 @@ public class DcpManager {
 
                     loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
-                    if(loImage != null) {
+                    if(loImage != null || loImage.getImageNme() != null) {
                         if(!poConfig.getTestStatus()) {
                         loData.put("sImageNme", loImage.getImageNme());
                         loData.put("sSourceCD", loImage.getSourceCD());
@@ -374,7 +374,7 @@ public class DcpManager {
                     JSONObject paramMobile = new JSONObject();
                     loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
-                    if(loImage != null) {
+                    if(loImage != null || loImage.getImageNme() != null) {
                         if(!poConfig.getTestStatus()) {
                         paramAddress.put("nLatitude", Double.parseDouble(loImage.getLatitude()));
                         paramAddress.put("nLongitud", Double.parseDouble(loImage.getLongitud()));
@@ -419,7 +419,7 @@ public class DcpManager {
                     loJson.put("dModified", new AppConstants().DATE_MODIFIED);
                     loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
-                    if(loImage != null) {
+                    if(loImage != null || loImage.getImageNme() != null) {
                         if(!poConfig.getTestStatus()) {
                         loData.put("sImageNme", loImage.getImageNme());
                         loData.put("sSourceCD", loImage.getSourceCD());
@@ -586,7 +586,7 @@ public class DcpManager {
                             loData.put("dPromised", loDcp.getPromised());
                             loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
-                            if(loImage != null) {
+                            if(loImage != null || loImage.getImageNme() != null) {
                                 if(!poConfig.getTestStatus()) {
                                     loData.put("sImageNme", loImage.getImageNme());
                                     loData.put("sSourceCD", loImage.getSourceCD());
@@ -616,7 +616,7 @@ public class DcpManager {
                             loData.put("sEmailAdd", loClient.getEmailAdd());
 
                             loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
-                            if(loImage != null) {
+                            if(loImage != null || loImage.getImageNme() != null) {
                                 if(!poConfig.getTestStatus()) {
                                     loData.put("sImageNme", loImage.getImageNme());
                                     loData.put("sSourceCD", loImage.getSourceCD());
@@ -631,7 +631,7 @@ public class DcpManager {
                             JSONObject paramMobile = new JSONObject();
                             if(!poConfig.getTestStatus()) {
                                 loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
-                                if(loImage != null) {
+                                if(loImage != null || loImage.getImageNme() != null) {
                                     if(!poConfig.getTestStatus()) {
                                         loData.put("sImageNme", loImage.getImageNme());
                                         loData.put("sSourceCD", loImage.getSourceCD());
@@ -673,7 +673,7 @@ public class DcpManager {
 
                         default:
                             loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
-                            if(loImage != null) {
+                            if(loImage != null || loImage.getImageNme() != null) {
                                 if(!poConfig.getTestStatus()) {
                                     loData.put("sImageNme", loImage.getImageNme());
                                     loData.put("sSourceCD", loImage.getSourceCD());

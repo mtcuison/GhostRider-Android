@@ -55,7 +55,6 @@ import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMSelfieLogin;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment_SelfieLogin extends Fragment {
@@ -83,7 +82,6 @@ public class Fragment_SelfieLogin extends Fragment {
 
     private static boolean isDialogShown;
 
-    private List<EBranchInfo> paBranch = new ArrayList<>();
     private String psEmpLvl;
 
     private long mLastClickTime = 0;
@@ -122,56 +120,57 @@ public class Fragment_SelfieLogin extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMSelfieLogin.class);
         psEmpLvl = mViewModel.getEmployeeLevel();
 
-        mViewModel.getAreaBranchList().observe(getViewLifecycleOwner(), eBranchInfos -> {
-            try {
-                paBranch = eBranchInfos;
+//        mViewModel.getAreaBranchList().observe(getViewLifecycleOwner(), eBranchInfos -> {
+//            try {
+//                paBranch = eBranchInfos;
                 lblNotice.setVisibility(View.GONE);
                 btnBranch.setVisibility(View.VISIBLE);
                 if (psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
-                    new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
-                        @Override
-                        public void OnSelect(String BranchCode, AlertDialog dialog) {
-                            mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
-                                @Override
-                                public void OnLoad() {
-
-                                }
-
-                                @Override
-                                public void OnSuccess() {
-                                    sSlectBranch = BranchCode;
-                                    mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
-                                        try{
-                                            lblBranch.setText(eBranchInfo.getBranchNm());
-                                            mViewModel.importInventoryTask(BranchCode);
-                                        } catch (Exception e){
-                                            e.printStackTrace();
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void OnFailed(String message) {
-                                    poMessage.initDialog();
-                                    poMessage.setTitle("Selfie Login");
-                                    poMessage.setMessage(message);
-                                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                                    poMessage.show();
-                                }
-                            });
-                            dialog.dismiss();
-                        }
-
-                        @Override
-                        public void OnCancel() {
-//                                requireActivity().finish();
-                        }
-                    });
+                    SetupDialogForBranchList();
+//                    new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
+//                        @Override
+//                        public void OnSelect(String BranchCode, AlertDialog dialog) {
+//                            mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
+//                                @Override
+//                                public void OnLoad() {
+//
+//                                }
+//
+//                                @Override
+//                                public void OnSuccess() {
+//                                    sSlectBranch = BranchCode;
+//                                    mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
+//                                        try{
+//                                            lblBranch.setText(eBranchInfo.getBranchNm());
+//                                            mViewModel.importInventoryTask(BranchCode);
+//                                        } catch (Exception e){
+//                                            e.printStackTrace();
+//                                        }
+//                                    });
+//                                }
+//
+//                                @Override
+//                                public void OnFailed(String message) {
+//                                    poMessage.initDialog();
+//                                    poMessage.setTitle("Selfie Login");
+//                                    poMessage.setMessage(message);
+//                                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+//                                    poMessage.show();
+//                                }
+//                            });
+//                            dialog.dismiss();
+//                        }
+//
+//                        @Override
+//                        public void OnCancel() {
+////                                requireActivity().finish();
+//                        }
+//                    });
                 }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
 
         mViewModel.getUserInfo().observe(getViewLifecycleOwner(), eEmployeeInfo -> {
             try {
@@ -203,49 +202,61 @@ public class Fragment_SelfieLogin extends Fragment {
 
         });
 
-        btnBranch.setOnClickListener(v -> new DialogBranchSelection(requireActivity(), paBranch).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
-            @Override
-            public void OnSelect(String BranchCode, AlertDialog dialog) {
-                sSlectBranch = BranchCode;
-                mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
-                    @Override
-                    public void OnLoad() {
-                        poLoad.initDialog("Selfie Log", "Validating branch. Please wait...", false);
-                        poLoad.show();
-                    }
+        btnBranch.setOnClickListener(v -> {
+            mViewModel.CheckBranchList(new VMSelfieLogin.OnBranchCheckListener() {
+                @Override
+                public void OnCheck(List<EBranchInfo> area, List<EBranchInfo> all) {
+                    new DialogBranchSelection(requireActivity(), area, all).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
+                        @Override
+                        public void OnSelect(String BranchCode, AlertDialog dialog) {
+                            sSlectBranch = BranchCode;
+                            mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
+                                @Override
+                                public void OnLoad() {
+                                    poLoad.initDialog("Selfie Log", "Validating branch. Please wait...", false);
+                                    poLoad.show();
+                                }
 
-                    @Override
-                    public void OnSuccess() {
-                        poLoad.dismiss();
-                        sSlectBranch = BranchCode;
-                        mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
-                            try{
-                                lblBranch.setText(eBranchInfo.getBranchNm());
-                                mViewModel.importInventoryTask(BranchCode);
-                            } catch (Exception e){
-                                e.printStackTrace();
-                            }
-                        });
-                    }
+                                @Override
+                                public void OnSuccess() {
+                                    poLoad.dismiss();
+                                    sSlectBranch = BranchCode;
+                                    mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
+                                        try{
+                                            lblBranch.setText(eBranchInfo.getBranchNm());
+                                            mViewModel.importInventoryTask(BranchCode);
+                                        } catch (Exception e){
+                                            e.printStackTrace();
+                                        }
+                                    });
+                                }
 
-                    @Override
-                    public void OnFailed(String message) {
-                        poLoad.dismiss();
-                        poMessage.initDialog();
-                        poMessage.setTitle("Selfie Login");
-                        poMessage.setMessage(message);
-                        poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                        poMessage.show();
-                    }
-                });
-                dialog.dismiss();
-            }
+                                @Override
+                                public void OnFailed(String message) {
+                                    poLoad.dismiss();
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Selfie Login");
+                                    poMessage.setMessage(message);
+                                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                                    poMessage.show();
+                                }
+                            });
+                            dialog.dismiss();
+                        }
 
-            @Override
-            public void OnCancel() {
+                        @Override
+                        public void OnCancel() {
 //                        requireActivity().finish();
-            }
-        }));
+                        }
+                    });
+                }
+
+                @Override
+                public void OnFailed(String message) {
+
+                }
+            });
+        });
 
         btnCamera.setOnClickListener(view -> {
 //            if(psEmpLvl.equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))){
@@ -453,5 +464,61 @@ public class Fragment_SelfieLogin extends Fragment {
             requireActivity().startActivity(loIntent);
             requireActivity().finish();
         }
+    }
+
+    private void SetupDialogForBranchList(){
+        mViewModel.CheckBranchList(new VMSelfieLogin.OnBranchCheckListener() {
+            @Override
+            public void OnCheck(List<EBranchInfo> area, List<EBranchInfo> all) {
+                new DialogBranchSelection(requireActivity(), area, all).initDialog(true, new DialogBranchSelection.OnBranchSelectedCallback() {
+                    @Override
+                    public void OnSelect(String BranchCode, AlertDialog dialog) {
+                        sSlectBranch = BranchCode;
+                        mViewModel.checkIfAlreadyLog(BranchCode, new VMSelfieLogin.OnBranchSelectedCallback() {
+                            @Override
+                            public void OnLoad() {
+                                poLoad.initDialog("Selfie Log", "Validating branch. Please wait...", false);
+                                poLoad.show();
+                            }
+
+                            @Override
+                            public void OnSuccess() {
+                                poLoad.dismiss();
+                                sSlectBranch = BranchCode;
+                                mViewModel.getBranchInfo(BranchCode).observe(getViewLifecycleOwner(), eBranchInfo -> {
+                                    try{
+                                        lblBranch.setText(eBranchInfo.getBranchNm());
+                                        mViewModel.importInventoryTask(BranchCode);
+                                    } catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void OnFailed(String message) {
+                                poLoad.dismiss();
+                                poMessage.initDialog();
+                                poMessage.setTitle("Selfie Login");
+                                poMessage.setMessage(message);
+                                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
+                        });
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void OnCancel() {
+//                        requireActivity().finish();
+                    }
+                });
+            }
+
+            @Override
+            public void OnFailed(String message) {
+
+            }
+        });
     }
 }
