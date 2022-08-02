@@ -192,7 +192,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/TextInputStyle.Edittext"
-                    android:inputType="number|none"
+                    android:inputType="numberDecimal"
                     android:maxLength="10"
                     android:maxLines="1"
                     android:imeOptions="actionNext"

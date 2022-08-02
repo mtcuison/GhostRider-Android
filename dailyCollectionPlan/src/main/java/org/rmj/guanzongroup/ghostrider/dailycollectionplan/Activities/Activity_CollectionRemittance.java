@@ -11,11 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +22,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -75,13 +75,13 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(VMCollectionRemittance.class);
         setContentView(R.layout.activity_collection_remittance);
         poDialogx = new LoadDialog(Activity_CollectionRemittance.this);
         poMessage = new MessageBox(Activity_CollectionRemittance.this);
         poRemit = new EDCP_Remittance();
         infoModel =  new CollectionRemittanceInfoModel();
         initWidgets();
-        mViewModel = new ViewModelProvider(this).get(VMCollectionRemittance.class);
         mViewModel.setTransact(getIntent().getStringExtra("dTransact"));
 
         mViewModel.InitializeBranchAccountNox(new VMCollectionRemittance.OnInitializeBranchAccountCallback() {
@@ -342,6 +342,7 @@ public class Activity_CollectionRemittance extends AppCompatActivity {
                     poRemit.setReferNox(Objects.requireNonNull(txtRefNox.getText()).toString());
                     break;
             }
+
             poRemit.setAmountxx(Objects.requireNonNull(txtAmount.getText()).toString().replace(",", ""));
             poRemit.setTimeStmp(new AppConstants().DATE_MODIFIED);
             infoModel.setTimeStmp(new AppConstants().DATE_MODIFIED);

@@ -18,9 +18,19 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/activity_splash_screen.xml" value="0.20615384615384616" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/app/src/main/res/layout/fragment_home.xml" value="0.18" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/approvalCode/src/main/res/layout/fragment_approval_entry.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/creditEvaluation/src/main/res/layout/activity_evaluation.xml" value="0.18" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_list.xml" value="0.209375" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_collection_remittance.xml" value="0.14" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/activity_transactionlog.xml" value="0.13802083333333334" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/fragment_customer_not_around_fragment.xml" value="0.2" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/fragment_paid_transaction.xml" value="0.209375" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/fragment_paid_transaction.xml" value="0.2" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/dailyCollectionPlan/src/main/res/layout/fragment_promise_to_pay_log.xml" value="0.13802083333333334" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/griderScanner/src/main/res/layout/activity_image_crop.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/griderScanner/src/main/res/layout/activity_main_scanner.xml" value="0.16" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/notifications/src/main/res/layout/item_loading.xml" value="0.209375" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/notifications/src/main/res/layout/list_item_messages.xml" value="0.209375" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/notifications/src/main/res/layout/messages_list_item.xml" value="0.209375" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GRider/notifications/src/main/res/layout/notification_list_item.xml" value="0.209375" />
       </map>
     </option>
   </component>

@@ -11,8 +11,6 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.Service;
 
-import android.annotation.SuppressLint;
-
 import androidx.annotation.NonNull;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -36,7 +34,6 @@ public class GMessagingService extends FirebaseMessagingService {
         AppConfigPreference.getInstance(GMessagingService.this).setAppToken(s);
     }
 
-    @SuppressLint("WrongThread")
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);

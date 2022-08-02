@@ -11,13 +11,12 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,38 +24,32 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.etc.OnDateSetListener;
-import org.rmj.g3appdriver.etc.WebFileServer;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.GRider.Constants.AppConstants;
+import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
+import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.OnDateSetListener;
+import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.LoanUnitModel;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLoanUnit;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
-
-import java.io.File;
-import java.io.IOException;
-
-import static android.app.Activity.RESULT_OK;
-import static org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants.CIVIL_STATUS;
+import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
 
@@ -85,6 +78,21 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
     private String TransNox, Remarksx, AccntNox;
     int EntryNox;
     private EImageInfo poImageInfo;
+
+    private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if(result.getResultCode() == RESULT_OK) {
+            try {
+                poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(poImageInfo.getFileLoct()));
+                mViewModel.saveLUnImageInfo(poImageInfo);
+                submitLUn(Remarksx);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else {
+            infoModel.setLuImgPath("");
+        }
+    });
+
     public static Fragment_LoanUnit newInstance() {
         return new Fragment_LoanUnit();
     }
@@ -92,65 +100,17 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMLoanUnit.class);
         View view = inflater.inflate(R.layout.fragment_loan_unit, container, false);
         poMessage = new MessageBox(getActivity());
         infoModel = new LoanUnitModel();
-        initWidgets(view);
-        return view;
-    }
-
-    private void initWidgets(View v) {
-
-        lblBranch = v.findViewById(R.id.lbl_headerBranch);
-        lblAddress = v.findViewById(R.id.lbl_headerAddress);
-        lblAccNo = v.findViewById(R.id.tvAccountNo);
-        lblClientNm = v.findViewById(R.id.tvClientname);
-        lblTransNo = v.findViewById(R.id.lbl_dcpTransNo);
-        lblRemCode = v.findViewById(R.id.lblRemCode);
-//        Full Name
-        tieLName = v.findViewById(R.id.tie_lun_lName);
-        tieFName = v.findViewById(R.id.tie_lun_fName);
-        tieMName = v.findViewById(R.id.tie_lun_middName);
-        tieSuffix = v.findViewById(R.id.tie_lun_suffix);
-//        Address
-        tieHouseNo = v.findViewById(R.id.tie_lun_houseNo);
-        tieStreet = v.findViewById(R.id.tie_lun_street);
-        tieTown = v.findViewById(R.id.tie_lun_town);
-        tieBrgy = v.findViewById(R.id.tie_lun_brgy);
-//        Gender
-        rgGender = v.findViewById(R.id.rg_dcp_gender);
-//        Other Info
-        spnCivilStats = v.findViewById(R.id.spn_lun_cstatus);
-
-        tieBDate = v.findViewById(R.id.tie_lun_bdate);
-        tieBPlace = v.findViewById(R.id.tie_lun_bplace);
-        tiePhone = v.findViewById(R.id.tie_lun_phone);
-        tieMobileNo = v.findViewById(R.id.tie_lun_mobileNp);
-        tieEmailAdd = v.findViewById(R.id.tie_lun_email);
-        tieRemarks = v.findViewById(R.id.tie_lun_Remarks);
-        btnLUSubmit = v.findViewById(R.id.btn_dcpSubmit);
-
-        btnLUSubmit.setOnClickListener(view -> {
-            try {
-                submitLUn(Remarksx);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-
-    }
-
-    @SuppressLint({"NewApi", "ResourceType"})
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        //Initialize Parameters...
         Remarksx = Activity_Transaction.getInstance().getRemarksCode();
         TransNox = Activity_Transaction.getInstance().getTransNox();
         EntryNox = Activity_Transaction.getInstance().getEntryNox();
         AccntNox = Activity_Transaction.getInstance().getAccntNox();
+        initWidgets(view);
 
-        mViewModel = new ViewModelProvider(this).get(VMLoanUnit.class);
+
         mViewModel.setParameter(TransNox, EntryNox, Remarksx);
         Log.e("", "TransNox = " + TransNox + " EntryNox = " + EntryNox + " Remarks = " + Remarksx);
         mViewModel.getSpnCivilStats().observe(getViewLifecycleOwner(), stringArrayAdapter ->{
@@ -201,7 +161,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
             tieTown.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
             tieBPlace.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
         });
-        tieTown.setOnItemClickListener((adapterView, view, i, l) -> {
+        tieTown.setOnItemClickListener((adapterView, v, i, l) -> {
             String lsTown = tieTown.getText().toString();
             String[] town = lsTown.split(", ");
             mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
@@ -222,7 +182,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
             });
         });
 
-        tieBrgy.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getBarangayInfoList().observe(getViewLifecycleOwner(), eBarangayInfos -> {
+        tieBrgy.setOnItemClickListener((adapterView, v, i, l) -> mViewModel.getBarangayInfoList().observe(getViewLifecycleOwner(), eBarangayInfos -> {
             for(int x = 0; x < eBarangayInfos.size(); x++){
                 if(tieBrgy.getText().toString().equalsIgnoreCase(eBarangayInfos.get(x).getBrgyName())){
                     mViewModel.setBrgyID(eBarangayInfos.get(x).getBrgyIDxx());
@@ -233,7 +193,7 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
         }));
 
 
-        tieBPlace.setOnItemClickListener((adapterView, view, i, l) -> {
+        tieBPlace.setOnItemClickListener((adapterView, v, i, l) -> {
             String lsTown = tieTown.getText().toString();
             String[] town = lsTown.split(", ");
             mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
@@ -273,28 +233,49 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
                 mViewModel.setGender("2");
             }
         });
+        return view;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.e("REQUEST CODE", String.valueOf(requestCode));
-        Log.e("RESULT CODE", String.valueOf(resultCode));
-        if(requestCode == ImageFileCreator.GCAMERA){
-            if(resultCode == RESULT_OK) {
-                try {
-                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(poImageInfo.getFileLoct()));
-                    mViewModel.saveLUnImageInfo(poImageInfo);
-                    submitLUn(Remarksx);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else {
-                infoModel.setLuImgPath("");
+    private void initWidgets(View v) {
+
+        lblBranch = v.findViewById(R.id.lbl_headerBranch);
+        lblAddress = v.findViewById(R.id.lbl_headerAddress);
+        lblAccNo = v.findViewById(R.id.tvAccountNo);
+        lblClientNm = v.findViewById(R.id.tvClientname);
+        lblTransNo = v.findViewById(R.id.lbl_dcpTransNo);
+        lblRemCode = v.findViewById(R.id.lblRemCode);
+//        Full Name
+        tieLName = v.findViewById(R.id.tie_lun_lName);
+        tieFName = v.findViewById(R.id.tie_lun_fName);
+        tieMName = v.findViewById(R.id.tie_lun_middName);
+        tieSuffix = v.findViewById(R.id.tie_lun_suffix);
+//        Address
+        tieHouseNo = v.findViewById(R.id.tie_lun_houseNo);
+        tieStreet = v.findViewById(R.id.tie_lun_street);
+        tieTown = v.findViewById(R.id.tie_lun_town);
+        tieBrgy = v.findViewById(R.id.tie_lun_brgy);
+//        Gender
+        rgGender = v.findViewById(R.id.rg_dcp_gender);
+//        Other Info
+        spnCivilStats = v.findViewById(R.id.spn_lun_cstatus);
+
+        tieBDate = v.findViewById(R.id.tie_lun_bdate);
+        tieBPlace = v.findViewById(R.id.tie_lun_bplace);
+        tiePhone = v.findViewById(R.id.tie_lun_phone);
+        tieMobileNo = v.findViewById(R.id.tie_lun_mobileNp);
+        tieEmailAdd = v.findViewById(R.id.tie_lun_email);
+        tieRemarks = v.findViewById(R.id.tie_lun_Remarks);
+        btnLUSubmit = v.findViewById(R.id.btn_dcpSubmit);
+
+        btnLUSubmit.setOnClickListener(view -> {
+            try {
+                submitLUn(Remarksx);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }
-    }
+        });
 
+    }
 
     @Override
     public void OnStartSaving() {
@@ -379,7 +360,8 @@ public class Fragment_LoanUnit extends Fragment implements ViewModelCallback {
                 mViewModel.setLatitude(String.valueOf(latitude));
                 mViewModel.setLongitude(String.valueOf(longitude));
                 mViewModel.setImgName(FileName);
-                startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+                poCamera.launch(openCamera);
             });
         });
         poMessage.setNegativeButton("Cancel", (view, dialog) -> {

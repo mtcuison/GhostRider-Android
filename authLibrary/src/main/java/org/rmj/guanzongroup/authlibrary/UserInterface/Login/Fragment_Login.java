@@ -11,25 +11,21 @@
 
 package org.rmj.guanzongroup.authlibrary.UserInterface.Login;
 
-import androidx.lifecycle.ViewModelProvider;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -63,10 +59,11 @@ public class Fragment_Login extends Fragment implements LoginCallback{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMLogin.class);
         View v = inflater.inflate(R.layout.fragment_login, container, false);
-        dialog = new LoadDialog(getActivity());
-        poConfigx = AppConfigPreference.getInstance(getActivity());
-        navController = Navigation.findNavController(getActivity(), R.id.fragment_auth_container);
+        dialog = new LoadDialog(requireActivity());
+        poConfigx = AppConfigPreference.getInstance(requireActivity());
+        navController = Navigation.findNavController(requireActivity(), R.id.fragment_auth_container);
         tieEmail = v.findViewById(R.id.tie_loginEmail);
         tiePassword = v.findViewById(R.id.tie_loginPassword);
         tieMobileNo = v.findViewById(R.id.tie_loginMobileNo);
@@ -77,14 +74,6 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         lblVersion = v.findViewById(R.id.lbl_versionInfo);
         cbAgree = v.findViewById(R.id.cbAgree);
         btnLogin = v.findViewById(R.id.btn_login);
-        return v;
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMLogin.class);
 
         tieMobileNo.setText(mViewModel.getMobileNo());
         tilMobileNo.setVisibility(mViewModel.hasMobileNo());
@@ -105,6 +94,7 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         tvCreateAccount.setOnClickListener(view -> navController.navigate(R.id.action_fragment_Login_to_fragment_CreateAccount));
         tvTerms.setOnClickListener(view -> navController.navigate(R.id.action_fragment_Login_to_fragment_TermsAndConditions));
         tvForgotPassword.setOnClickListener(view -> navController.navigate(R.id.action_fragment_Login_to_fragment_ForgotPassword));
+        return v;
     }
 
     @Override
@@ -116,14 +106,15 @@ public class Fragment_Login extends Fragment implements LoginCallback{
     @Override
     public void OnSuccessLoginResult() {
         dialog.dismiss();
-        getActivity().setResult(Activity.RESULT_OK);
-        getActivity().finish();
+        Intent loIntent = new Intent();
+        requireActivity().setResult(Activity.RESULT_OK, loIntent);
+        requireActivity().finish();
     }
 
     @Override
     public void OnFailedLoginResult(String message) {
         dialog.dismiss();
-        MessageBox loMessage = new MessageBox(getActivity());
+        MessageBox loMessage = new MessageBox(requireActivity());
         loMessage.initDialog();
         loMessage.setTitle("GhostRider");
         loMessage.setMessage(message);

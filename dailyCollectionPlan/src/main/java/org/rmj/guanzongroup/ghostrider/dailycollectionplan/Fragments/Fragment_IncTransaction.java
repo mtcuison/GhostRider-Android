@@ -11,21 +11,23 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
-import androidx.lifecycle.ViewModelProvider;
+import static android.app.Activity.RESULT_OK;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -37,14 +39,11 @@ import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
 import org.rmj.g3appdriver.GRider.Etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMIncompleteTransaction;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
 import java.util.Objects;
-
-import static android.app.Activity.RESULT_OK;
 
 public class Fragment_IncTransaction extends Fragment {
     private static final String TAG = Fragment_IncTransaction.class.getSimpleName();
@@ -65,101 +64,10 @@ public class Fragment_IncTransaction extends Fragment {
 
     private MessageBox loMessage;
 
-    public static Fragment_IncTransaction newInstance() {
-        return new Fragment_IncTransaction();
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_inc_transaction, container, false);
-
-        initWidgets(view);
-
-        return view;
-    }
-
-    private void initWidgets(View v){
-        loMessage = new MessageBox(requireActivity());
-
-        poImageInfo = new EImageInfo();
-        lblFullNme = v.findViewById(R.id.lbl_customerName);
-        lblAccount = v.findViewById(R.id.lbl_AccountNo);
-        lblTransact = v.findViewById(R.id.lbl_transaction);
-
-        txtRemarks = v.findViewById(R.id.txt_dcpRemarks);
-
-        btnPost = v.findViewById(R.id.btn_dcpConfirm);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMIncompleteTransaction.class);
-
-        TransNox = Activity_Transaction.getInstance().getTransNox();
-        EntryNox = Activity_Transaction.getInstance().getEntryNox();
-        AccntNox = Activity_Transaction.getInstance().getAccntNox();
-        Remarksx = Activity_Transaction.getInstance().getRemarksCode();
-
-        poImage = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_DCP, TransNox);
-
-        mViewModel.setParameter(TransNox, EntryNox, Remarksx);
-        mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
-            try {
-                mViewModel.setAccountNo(collectionDetail.getAcctNmbr());
-                lblFullNme.setText(collectionDetail.getFullName());
-                lblAccount.setText(collectionDetail.getAcctNmbr());
-                lblTransact.setText(Activity_Transaction.getInstance().getRemarksCode());
-                mViewModel.setCollectioNDetail(collectionDetail);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
-        btnPost.setOnClickListener(v -> {
-            if(!Objects.requireNonNull(txtRemarks.getText()).toString().trim().isEmpty()) {
-                mViewModel.setRemarks(txtRemarks.getText().toString());
-                loMessage.initDialog();
-                loMessage.setTitle(Remarksx);
-                if (Remarksx.equalsIgnoreCase("Not Visited")) {
-                    loMessage.setMessage("Please take a selfie on your current place if customer is not visited.");
-                } else {
-                    loMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction.");
-                }
-                loMessage.setPositiveButton("Okay", (view, dialog) -> {
-                    dialog.dismiss();
-                    poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                        new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude1, longitude1) -> {
-                            psPhotox = photPath;
-                            poImageInfo.setSourceNo(TransNox);
-                            poImageInfo.setSourceCD("DCPa");
-                            poImageInfo.setImageNme(FileName);
-                            poImageInfo.setFileLoct(photPath);
-                            poImageInfo.setFileCode("0020");
-                            poImageInfo.setLatitude(String.valueOf(latitude1));
-                            poImageInfo.setLongitud(String.valueOf(longitude1));
-                            mViewModel.setImagePath(photPath);
-                            startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
-                        });
-                    });
-                });
-                loMessage.setNegativeButton("Cancel", (view, dialog) -> {
-                    dialog.dismiss();
-                    requireActivity().finish();
-                });
-                loMessage.show();
-            } else {
-                GToast.CreateMessage(getActivity(), "Please enter remarks", GToast.ERROR).show();
-            }
-        });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == ImageFileCreator.GCAMERA){
-            if(resultCode == RESULT_OK){
+    private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result.getResultCode() == RESULT_OK){
                 if(!Remarksx.equalsIgnoreCase("")) {
                     try {
                         poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
@@ -195,5 +103,88 @@ public class Fragment_IncTransaction extends Fragment {
                 requireActivity().finish();
             }
         }
+    });
+
+    public static Fragment_IncTransaction newInstance() {
+        return new Fragment_IncTransaction();
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMIncompleteTransaction.class);
+        View view = inflater.inflate(R.layout.fragment_inc_transaction, container, false);
+        initWidgets(view);
+
+        TransNox = Activity_Transaction.getInstance().getTransNox();
+        EntryNox = Activity_Transaction.getInstance().getEntryNox();
+        AccntNox = Activity_Transaction.getInstance().getAccntNox();
+        Remarksx = Activity_Transaction.getInstance().getRemarksCode();
+
+        poImage = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_DCP, TransNox);
+
+        mViewModel.setParameter(TransNox, EntryNox, Remarksx);
+        mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
+            try {
+                mViewModel.setAccountNo(collectionDetail.getAcctNmbr());
+                lblFullNme.setText(collectionDetail.getFullName());
+                lblAccount.setText(collectionDetail.getAcctNmbr());
+                lblTransact.setText(Activity_Transaction.getInstance().getRemarksCode());
+                mViewModel.setCollectioNDetail(collectionDetail);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        btnPost.setOnClickListener(v -> {
+            if(!Objects.requireNonNull(txtRemarks.getText()).toString().trim().isEmpty()) {
+                mViewModel.setRemarks(txtRemarks.getText().toString());
+                loMessage.initDialog();
+                loMessage.setTitle(Remarksx);
+                if (Remarksx.equalsIgnoreCase("Not Visited")) {
+                    loMessage.setMessage("Please take a selfie on your current place if customer is not visited.");
+                } else {
+                    loMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction.");
+                }
+                loMessage.setPositiveButton("Okay", (view1, dialog) -> {
+                    dialog.dismiss();
+                    poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude1, longitude1) -> {
+                        psPhotox = photPath;
+                        poImageInfo.setSourceNo(TransNox);
+                        poImageInfo.setSourceCD("DCPa");
+                        poImageInfo.setImageNme(FileName);
+                        poImageInfo.setFileLoct(photPath);
+                        poImageInfo.setFileCode("0020");
+                        poImageInfo.setLatitude(String.valueOf(latitude1));
+                        poImageInfo.setLongitud(String.valueOf(longitude1));
+                        mViewModel.setImagePath(photPath);
+                        openCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+                        poCamera.launch(openCamera);
+                    }));
+                });
+                loMessage.setNegativeButton("Cancel", (view1, dialog) -> {
+                    dialog.dismiss();
+                    requireActivity().finish();
+                });
+                loMessage.show();
+            } else {
+                GToast.CreateMessage(getActivity(), "Please enter remarks", GToast.ERROR).show();
+            }
+        });
+
+        return view;
+    }
+
+    private void initWidgets(View v){
+        loMessage = new MessageBox(requireActivity());
+
+        poImageInfo = new EImageInfo();
+        lblFullNme = v.findViewById(R.id.lbl_customerName);
+        lblAccount = v.findViewById(R.id.lbl_AccountNo);
+        lblTransact = v.findViewById(R.id.lbl_transaction);
+
+        txtRemarks = v.findViewById(R.id.txt_dcpRemarks);
+
+        btnPost = v.findViewById(R.id.btn_dcpConfirm);
     }
 }

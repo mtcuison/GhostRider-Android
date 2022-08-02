@@ -104,7 +104,7 @@ public class DcpManager {
             }
 
             if(lsEmployID == null || lsEmployID.equalsIgnoreCase("")){
-                callback.OnFailed("Unable to download DCP. Please relogin your account and try again.");
+                callback.OnFailed("Unable to download DCP. Please re-login your account and try again.");
             } else {
                 JSONObject loJson = new JSONObject();
                 loJson.put("sEmployID", lsEmployID);
@@ -410,7 +410,6 @@ public class DcpManager {
                         paramMobile.put("sRemarksx", loMobile.getRemarksx());
                         loData.put("Mobile", paramMobile);
                     }
-
                     break;
 
                 default:
@@ -437,6 +436,7 @@ public class DcpManager {
             loJson.put("dReceived", "");
             loJson.put("sUserIDxx", poUser.getUserID());
             loJson.put("sDeviceID", poTlphny.getDeviceID());
+            Log.d(TAG, "DCP posting data: " + loJson.toString());
 
             String lsResponse = WebClient.sendRequest(poApis.getUrlDcpSubmit(poConfig.isBackUpServer()), loJson.toString(), poHeaders.getHeaders());
 
@@ -466,32 +466,36 @@ public class DcpManager {
 
                     loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
 
-                    org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
-                            loImage.getFileLoct(),
-                            lsAccess,
-                            loImage.getFileCode(),
-                            loDcp.getAcctNmbr(),
-                            loImage.getImageNme(),
-                            poUser.getBranchCode(),
-                            loImage.getSourceCD(),
-                            loDcp.getTransNox(),
-                            "");
+                    if (loImage != null) {
+                        org.json.simple.JSONObject loUpload = WebFileServer.UploadFile(
+                                loImage.getFileLoct(),
+                                lsAccess,
+                                loImage.getFileCode(),
+                                loDcp.getAcctNmbr(),
+                                loImage.getImageNme(),
+                                poUser.getBranchCode(),
+                                loImage.getSourceCD(),
+                                loDcp.getTransNox(),
+                                "");
 
-                    String lsResult = (String) loUpload.get("result");
-                    if (lsResult == null) {
-                        Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
-                        Log.d(TAG, "Error : Server no response.");
-                    } else {
-                        if (lsResult.equalsIgnoreCase("success")) {
-                            String lsImageID = (String) loUpload.get("sTransNox");
-                            poImage.updateImageInfo(lsImageID, loImage.getTransNox());
-                            Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Success!");
+                        String lsResult = (String) loUpload.get("result");
+                        if (lsResult == null) {
+                            Log.e(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
+                            Log.d(TAG, "Error : Server no response.");
                         } else {
-                            JSONObject loError = new JSONObject((String) loUpload.get("error"));
-                            String lsMessage = loError.getString("message");
-                            Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
-                            Log.d(TAG, "Error : " + lsMessage);
+                            if (lsResult.equalsIgnoreCase("success")) {
+                                String lsImageID = (String) loUpload.get("sTransNox");
+                                poImage.updateImageInfo(lsImageID, loImage.getTransNox());
+                                Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Success!");
+                            } else {
+                                JSONObject loError = new JSONObject((String) loUpload.get("error"));
+                                String lsMessage = loError.getString("message");
+                                Log.d(TAG, "Posting collection Image with account no. :" + loDcp.getAcctNmbr() + ", " + loDcp.getRemCodex() + "Failed!");
+                                Log.d(TAG, "Error : " + lsMessage);
+                            }
                         }
+                    }else {
+                        Log.d(TAG, "No DCP image found for remarks code: " + lsRemCode);
                     }
                 }
             }
@@ -568,6 +572,9 @@ public class DcpManager {
 
                     String lsTransNo = loDcp.getTransNox();
                     String lsAccntNo = loDcp.getAcctNmbr();
+                    Log.d(TAG, "DCP transaction number: " + lsTransNo);
+                    Log.d(TAG, "DCP client account number: " + lsAccntNo);
+                    Log.d(TAG, "DCP transaction remarks code: " + lsRemCode);
 
                     EImageInfo loImage;
                     switch (lsRemCode){
@@ -670,17 +677,6 @@ public class DcpManager {
                             }
 
                             break;
-
-                        default:
-                            loImage = poImage.getDCPImageInfoForPosting(lsTransNo, lsAccntNo);
-                            if(loImage != null || loImage.getImageNme() != null) {
-                                if(!poConfig.getTestStatus()) {
-                                    loData.put("sImageNme", loImage.getImageNme());
-                                    loData.put("sSourceCD", loImage.getSourceCD());
-                                    loData.put("nLongitud", loImage.getLongitud());
-                                    loData.put("nLatitude", loImage.getLatitude());
-                                }
-                            }
                     }
                     loData.put("sRemarksx", loDcp.getRemarksx());
                     loJson.put("sRemCodex", loDcp.getRemCodex());

@@ -59,8 +59,4 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:19.0.1'
 
     testImplementation 'org.mockito:mockito-core:4.5.1'
-
-    //implement GhostRider Application Driver
-    //implement json simple
-    //implement commons codec
 }

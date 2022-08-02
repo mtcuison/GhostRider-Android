@@ -148,7 +148,7 @@ public class AppConfigPreference {
     }
 
     public String getDCP_CustomerRebate(){
-        return pref.getString(DCP_CustomerRebate, "");
+        return pref.getString(DCP_CustomerRebate, "100");
     }
 
     public void setIfBackUpServer(boolean fbval){
@@ -294,4 +294,7 @@ public class AppConfigPreference {
     public boolean hasInventory(){
         return pref.getBoolean(INVENTORY_COUNT, true);
     }
+
+
+
 }
