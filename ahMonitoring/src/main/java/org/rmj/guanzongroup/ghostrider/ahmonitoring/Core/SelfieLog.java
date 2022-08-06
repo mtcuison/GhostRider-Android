@@ -99,8 +99,8 @@ public class SelfieLog {
                                 "");
 
                         if (loUpload != null) {
+                            Log.d(TAG, loUpload.toJSONString());
                             String lsImgResult = (String) loUpload.get("result");
-
                             if (lsImgResult.equalsIgnoreCase("success")) {
                                 String lsTransnox = (String) loUpload.get("sTransNox");
                                 poImage.updateImageInfo(lsTransnox, poImgInfo.getTransNox());

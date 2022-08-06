@@ -29,6 +29,7 @@ import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_C
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Activity_Knox;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_ApplicationHistory;
+import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_BranchApplications;
 import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_IntroductoryQuestion;
 
 public class ChildObject {
@@ -64,9 +65,9 @@ public class ChildObject {
 //                loIntent.putExtra("app", AppConstants.INTENT_OB_APPLICATION);
                 break;
 
-//            case "branch application list":
-//                loIntent = new Intent(context, Activity_BranchApplications.class);
-//                break;
+            case "branch application list":
+                loIntent = new Intent(context, Activity_BranchApplications.class);
+                break;
 //            case "document scanner":
 //                loIntent = new Intent(context, MainScanner.class);
 //                break;

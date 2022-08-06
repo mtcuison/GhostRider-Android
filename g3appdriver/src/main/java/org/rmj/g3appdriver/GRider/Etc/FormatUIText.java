@@ -252,6 +252,7 @@ public class FormatUIText {
         return "";
     }
 
+
     public static class CurrencyFormat implements TextWatcher{
 
         private TextInputEditText textInputEditText;
