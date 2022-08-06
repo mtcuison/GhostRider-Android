@@ -282,7 +282,6 @@ public class FormatUIText {
                 txt.removeTextChangedListener(this);
                 String value = txt.getText().toString();
 
-
                 if (!value.equals(""))
                 {
 
