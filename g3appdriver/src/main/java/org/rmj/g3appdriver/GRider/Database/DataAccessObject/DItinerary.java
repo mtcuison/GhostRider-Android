@@ -21,8 +21,8 @@ public interface DItinerary {
     @Query("SELECT COUNT (*) FROM Employee_Itinerary")
     int GetRowsCountForID();
 
-    @Query("UPDATE Employee_Itinerary SET cSendStat = 1 WHERE sTransNox =:TransNox")
-    void UpdateSentItinerary(String TransNox);
+    @Query("UPDATE Employee_Itinerary SET cSendStat = 1, sTransNox =:TransNo1 WHERE sTransNox =:TransNox")
+    void UpdateSentItinerary(String TransNox, String TransNo1);
 
     @Query("UPDATE Employee_Itinerary SET cSendStat = 2 WHERE sTransNox =:TransNox")
     void UpdateItineraryStatus(String TransNox);
@@ -35,4 +35,7 @@ public interface DItinerary {
 
     @Query("SELECT * FROM Employee_Itinerary WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) ORDER BY dTransact DESC")
     LiveData<List<EItinerary>> GetItineraryList();
+
+    @Query("SELECT * FROM Employee_Itinerary WHERE sEmployID = (SELECT sEmployID FROM User_Info_Master) AND cSendStat == '0' ORDER BY dTransact DESC")
+    List<EItinerary> GetUnsentItinerary();
 }

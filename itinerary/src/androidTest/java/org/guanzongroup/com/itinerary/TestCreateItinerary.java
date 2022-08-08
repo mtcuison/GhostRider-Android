@@ -1,5 +1,6 @@
 package org.guanzongroup.com.itinerary;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import android.app.Application;
@@ -19,6 +20,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.GRider.Database.Entities.EItinerary;
 import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RItinerary;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
@@ -26,6 +28,9 @@ import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.utils.WebClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -113,15 +118,16 @@ public class TestCreateItinerary {
                 isSuccess = false;
             }
         }
+        assertTrue(isSuccess);
     }
 
     @Test
     public void test02CreateItinerary() throws Exception{
         RItinerary.Itinerary loDetail = new RItinerary.Itinerary();
-        loDetail.setdTimeStrt("2022-08-06 10:53:56");
-        loDetail.setdTimeEndx("2022-08-06 01:53:56");
-        loDetail.setsLocation("Pedritos Tapuac");
-        loDetail.setsRemarksx("Sample Entry");
+        loDetail.setTimeStrt("2022-08-06 10:53:56");
+        loDetail.setTimeEndx("2022-08-06 01:53:56");
+        loDetail.setLocation("Pedritos Tapuac");
+        loDetail.setRemarksx("Sample Entry");
         boolean isSuccess = poSystem.SaveItinerary(loDetail);
         if(isSuccess){
             TransNox = poSystem.getTransNox();
@@ -142,7 +148,7 @@ public class TestCreateItinerary {
         assertTrue(isSuccess);
     }
 
-    @Test
+//    @Test
     public void test04UploadItinerary() throws Exception{
         boolean isSuccess = poSystem.DownloadItinerary();
         if(isSuccess){
@@ -154,12 +160,15 @@ public class TestCreateItinerary {
     }
 
 
-    @Test
+//    @Test
     public void test05UploadItinerary() throws Exception{
+        List<EItinerary> loList = new ArrayList<>();
         poSystem.GetItineraryList().observeForever(eItineraries -> {
+            loList.addAll(eItineraries);
            for(int x = 0; x < eItineraries.size(); x++){
                Log.d(TAG, eItineraries.get(x).getTransNox());
            }
         });
+        assertNotNull(loList);
     }
 }

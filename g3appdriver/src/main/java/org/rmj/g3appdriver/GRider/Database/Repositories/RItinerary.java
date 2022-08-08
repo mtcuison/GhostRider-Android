@@ -63,10 +63,10 @@ public class RItinerary {
                 loDetail.setTransNox(lsTransno);
                 loDetail.setEmployID(lsEmployID);
                 loDetail.setTransact(new AppConstants().DATE_MODIFIED);
-                loDetail.setTimeFrom(foVal.getdTimeStrt());
-                loDetail.setTimeThru(foVal.getdTimeEndx());
-                loDetail.setLocation(foVal.getsLocation());
-                loDetail.setRemarksx(foVal.getsRemarksx());
+                loDetail.setTimeFrom(foVal.getTimeStrt());
+                loDetail.setTimeThru(foVal.getTimeEndx());
+                loDetail.setLocation(foVal.getLocation());
+                loDetail.setRemarksx(foVal.getRemarksx());
                 poDao.Save(loDetail);
                 sTransNox = lsTransno;
                 return true;
@@ -114,10 +114,34 @@ public class RItinerary {
                     message = loError.getString("message");
                     return false;
                 } else {
-                    poDao.UpdateSentItinerary(TransNox);
+                    String lsTransNox = loResponse.getString("sTransNox");
+                    Log.d(TAG, "Upload success new transaction no. : " + lsTransNox);
+                    poDao.UpdateSentItinerary(TransNox, lsTransNox);
                     return true;
                 }
             }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean UploadUnsentItinerary(){
+        try{
+            List<EItinerary> loList = poDao.GetUnsentItinerary();
+            if(loList.size() > 0){
+                for(int x = 0; x < loList.size(); x++) {
+                    if(!UploadItinerary(loList.get(x).getTransNox())){
+                        Log.e(TAG, "Unable to upload entry. Message: " + getMessage());
+                    } else {
+                        Log.d(TAG, "Itinerary entry has been uploaded successfully.");
+                    }
+                }
+            } else {
+                Log.d(TAG, "No entries to upload.");
+            }
+            return true;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
@@ -220,35 +244,35 @@ public class RItinerary {
             return message;
         }
 
-        public String getdTimeStrt() {
+        public String getTimeStrt() {
             return dTimeStrt;
         }
 
-        public void setdTimeStrt(String dTimeStrt) {
+        public void setTimeStrt(String dTimeStrt) {
             this.dTimeStrt = dTimeStrt;
         }
 
-        public String getdTimeEndx() {
+        public String getTimeEndx() {
             return dTimeEndx;
         }
 
-        public void setdTimeEndx(String dTimeEndx) {
+        public void setTimeEndx(String dTimeEndx) {
             this.dTimeEndx = dTimeEndx;
         }
 
-        public String getsLocation() {
+        public String getLocation() {
             return sLocation;
         }
 
-        public void setsLocation(String sLocation) {
+        public void setLocation(String sLocation) {
             this.sLocation = sLocation;
         }
 
-        public String getsRemarksx() {
+        public String getRemarksx() {
             return sRemarksx;
         }
 
-        public void setsRemarksx(String sRemarksx) {
+        public void setRemarksx(String sRemarksx) {
             this.sRemarksx = sRemarksx;
         }
 

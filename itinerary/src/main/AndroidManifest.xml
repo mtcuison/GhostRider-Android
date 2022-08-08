@@ -5,10 +5,12 @@
     <application>
         <activity
             android:name=".Activity_ItineraryLog"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="userPortrait"/>
         <activity
             android:name=".Activity_ItineraryEntry"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="userPortrait"/>
     </application>
 
 </manifest>

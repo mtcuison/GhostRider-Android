@@ -42,6 +42,7 @@ import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocume
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDCP_Remittance;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GRider.Database.Repositories.RItinerary;
 import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
 import org.rmj.g3appdriver.GRider.Etc.SessionManager;
 import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
@@ -145,7 +146,6 @@ public class InternetStatusReciever extends BroadcastReceiver {
             super.onPreExecute();
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(Void... voids) {
             Message = "Local data and server is updated.";
@@ -221,6 +221,8 @@ public class InternetStatusReciever extends BroadcastReceiver {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                new RItinerary(instance).UploadUnsentItinerary();
             }
             return Message;
         }
