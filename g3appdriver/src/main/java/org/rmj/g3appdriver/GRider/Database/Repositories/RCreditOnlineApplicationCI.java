@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 
@@ -148,5 +149,20 @@ public class RCreditOnlineApplicationCI implements DCreditOnlineApplicationCI {
     @Override
     public LiveData<oDataEvaluationInfo> getForEvaluateInfo(String TransNox) {
         return poDao.getForEvaluateInfo(TransNox);
+    }
+
+    @Override
+    public void SaveNewRecord(EBranchLoanApplication foVal) {
+        poDao.SaveNewRecord(foVal);
+    }
+
+    @Override
+    public EBranchLoanApplication CheckIFExist(String TransNox) {
+        return poDao.CheckIFExist(TransNox);
+    }
+
+    @Override
+    public void UpdateExistingRecord(EBranchLoanApplication foVal) {
+        poDao.UpdateExistingRecord(foVal);
     }
 }

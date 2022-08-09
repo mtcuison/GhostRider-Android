@@ -93,14 +93,15 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
 //    public SearchFilter getSearchFilter(){
 //        return poSearch;
 //    }
+
     public class CreditEvaluationViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView lblTransNoxxx;
-        private TextView lblClientName;
-        private TextView lblAppltnDate;
-        private TextView lblBranch;
-        private TextView lblRcmdtnx1;
-        private LinearLayout lnRcmdtnx1;
+        private final TextView lblTransNoxxx;
+        private final TextView lblClientName;
+        private final TextView lblAppltnDate;
+        private final TextView lblBranch;
+        private final TextView lblRcmdtnx1;
+        private final LinearLayout lnRcmdtnx1;
 
         public CreditEvaluationViewHolder(@NonNull View itemView, OnApplicationClickListener onApplicationClickListener) {
             super(itemView);

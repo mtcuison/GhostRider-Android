@@ -14,23 +14,17 @@ package org.rmj.g3appdriver.GRider.Database.Repositories;
 import android.app.Application;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
-import android.util.Log;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.apprdiver.util.MiscUtil;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCIEvaluation;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECIEvaluation;
-import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.DbConnection;
 import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
+import org.rmj.g3appdriver.GRider.Database.GGC_GriderDB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +54,7 @@ public class RBranchLoanApplication {
             return false;
         }
     }
+
     public boolean insertCBulkiApplication(List<EBranchLoanApplication> ciApplication){
         try {
             docsDao.insertBulkData(ciApplication);

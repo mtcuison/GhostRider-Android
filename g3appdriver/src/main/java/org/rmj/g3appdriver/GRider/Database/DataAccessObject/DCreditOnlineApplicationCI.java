@@ -5,7 +5,9 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
+import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
 import org.rmj.g3appdriver.GRider.Database.Entities.ECreditOnlineApplicationCI;
 
 import java.util.List;
@@ -102,18 +104,19 @@ public interface DCreditOnlineApplicationCI {
             "a.sIncmFndg, " +
             "a.cHasRecrd, " +
             "a.sRecrdRem, " +
-            "b.sClientNm, " +
+            "b.sCompnyNm AS sClientNm, " +
             "b.dTransact, " +
             "c.sBranchNm, " +
             "b.nDownPaym, " +
             "a.sRcmdtnx1 " +
             "FROM CREDIT_ONLINE_APPLICATION_CI a " +
-            "LEFT JOIN Credit_Online_Application b " +
+            "LEFT JOIN Credit_Online_Application_List b " +
             "ON a.sTransNox = b.sTransNox " +
             "LEFT JOIN Branch_Info c " +
             "ON b.sBranchCd = c.sBranchCd " +
             "WHERE a.cRcmdtnx1 isNull")
     LiveData<List<oDataEvaluationInfo>> getForEvaluationListData();
+
     @Query("SELECT a.sTransNox, " +
             "a.sCredInvx, " +
             "a.sAddressx, " +
@@ -124,13 +127,13 @@ public interface DCreditOnlineApplicationCI {
             "a.sIncmFndg, " +
             "a.cHasRecrd, " +
             "a.sRecrdRem, " +
-            "b.sClientNm, " +
+            "b.sCompnyNm AS sClientNm, " +
             "b.dTransact, " +
             "c.sBranchNm, " +
             "b.nDownPaym, " +
             "a.sRcmdtnx1 " +
             "FROM CREDIT_ONLINE_APPLICATION_CI a " +
-            "LEFT JOIN Credit_Online_Application b " +
+            "LEFT JOIN Credit_Online_Application_List b " +
             "ON a.sTransNox = b.sTransNox " +
             "LEFT JOIN Branch_Info c " +
             "ON b.sBranchCd = c.sBranchCd " +
@@ -147,18 +150,27 @@ public interface DCreditOnlineApplicationCI {
             "a.sIncmFndg, " +
             "a.cHasRecrd, " +
             "a.sRecrdRem, " +
-            "b.sClientNm, " +
+            "b.sCompnyNm AS sClientNm, " +
             "b.dTransact, " +
             "c.sBranchNm, " +
             "b.nDownPaym, " +
             "a.sRcmdtnx1 " +
             "FROM CREDIT_ONLINE_APPLICATION_CI a " +
-            "LEFT JOIN Credit_Online_Application b " +
+            "LEFT JOIN Credit_Online_Application_List b " +
             "ON a.sTransNox = b.sTransNox " +
             "LEFT JOIN Branch_Info c " +
             "ON b.sBranchCd = c.sBranchCd " +
             "WHERE a.sTransNox=:TransNox")
     LiveData<oDataEvaluationInfo> getForEvaluateInfo(String TransNox);
+
+    @Insert
+    void SaveNewRecord(EBranchLoanApplication foVal);
+
+    @Query("SELECT * FROM Credit_Online_Application_List WHERE sTransNox =:TransNox")
+    EBranchLoanApplication CheckIFExist(String TransNox);
+
+    @Update
+    void UpdateExistingRecord(EBranchLoanApplication foVal);
 
     public class oDataEvaluationInfo {
         public String sTransNox;
